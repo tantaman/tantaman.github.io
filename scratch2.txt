@@ -1,0 +1,6 @@
+(div {class: ["projects"]}
+	(ul
+		(map #(li (span {class: "title"} %1.title) (span %1.type)) data.projects))
+)
+
+etc...

@@ -1,0 +1,74 @@
+// TODO: remove the need for colons in maps.
+// TODO: Create a ms macro that will call out what sections of code are being executed.
+// the macro takes in an s-expression that represents a program
+// and then traverses it, making note of what s-exp has been descended into.
+// it then inserts code that publishes an event with the path to the node when that
+// node is executed.
+
+
+// how can we insert the arbitrary call outs?
+// (let (x 1) (+ x 2))
+// We'd have to be smart about it an insert them at appropriate places with dos
+// or just extra expressions.
+
+// template will need to stream results somewhere....
+// so we can write while processing.
+
+// also we could use runners to run the compiler in a worker?
+{
+	subject {
+		name "Matt Crinklaw-Vogt"
+		alias "Tantaman"
+	}
+
+	projects [
+		{
+			name "Mocha-Script"
+			type "Compiler"
+		}
+		{
+			name "Runners.js"
+			type "Task Management"
+		}
+		{
+			name "Tantaman-Commons"
+			type "Java Concurrency"
+		}
+		{
+			name "Strut"
+			type "Presentations"
+		}
+		{
+			name "Pipeline.js"
+			type "Application Architecture"
+		}
+		{
+			name "ServiceRegistry.js"
+			type "Application Architecture"
+		}
+		{
+			name "DatsDap"
+			type "LDAP"
+		}
+		{
+			name "jQuery Gradient Picker"
+			type "Widgets"
+		}
+		{
+			name "Yabbe"
+			type "Application Architecture"
+		}
+		{
+			name "Lexed"
+			type "Lexer"
+		}
+		{
+			name "Paperjs Video Clipping"
+			type "Toy"
+		}
+		{
+			name "Project Ferox"
+			type "Networking"
+		}
+	]
+}
