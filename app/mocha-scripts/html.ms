@@ -1,7 +1,6 @@
 (define ["nm/overload.js/overload"] (fn (overload)
 	(defmacro elemOverload (syms)
 	)
-	
 	(obj
 		(div (overload ; create a macro for what will be these redundant overloads
 			[Object [Array String]] (fn (attrs content))
