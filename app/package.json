@@ -1,0 +1,8 @@
+{
+	"name": "tantaman.github.io.app",
+	"version": "0.0.1",
+	"dependencies": {
+		"mocha-script": "git://github.com/tantaman/mocha-script.git#release",
+		"overload.js": "git://github.com/tantaman/overload.js.git#release"
+	}
+}
