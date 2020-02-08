@@ -2,15 +2,13 @@
   "version": 3,
   "file": "bundle.css",
   "sources": [
-    "..\\..\\App.svelte",
     "..\\..\\Home.svelte",
     "..\\..\\ProceduralBG.svelte"
   ],
   "sourcesContent": [
-    "<script>\n  import { Router, Link, Route } from \"svelte-routing\";\n  import Home from \"./Home.svelte\";\n\n  export let url = \"\";\n</script>\n\n<style>\n  main {\n    text-align: center;\n    padding: 1em;\n    max-width: 240px;\n    margin: 0 auto;\n  }\n\n  h1 {\n    color: #ff3e00;\n    text-transform: uppercase;\n    font-size: 4em;\n    font-weight: 100;\n  }\n\n  @media (min-width: 640px) {\n    main {\n      max-width: none;\n    }\n  }\n</style>\n\n<Router {url}>\n  <Route path=\"/\">\n    <Home />\n  </Route>\n</Router>\n",
     "<style>\r\n  main {\r\n    text-align: center;\r\n    padding: 1em;\r\n    max-width: 240px;\r\n    margin: 0 auto;\r\n  }\r\n\r\n  h1 {\r\n    color: #ff3e00;\r\n    text-transform: uppercase;\r\n    font-size: 4em;\r\n    font-weight: 100;\r\n  }\r\n\r\n  @media (min-width: 640px) {\r\n    main {\r\n      max-width: none;\r\n    }\r\n  }\r\n</style>\r\n\r\n<main>\r\n  <h1>Tantamanlands</h1>\r\n</main>\r\n",
     "<script>\r\n  import { onMount } from \"svelte\";\r\n  let canvas;\r\n\r\n  onMount(() => {\r\n    canvas.width = window.innerWidth;\r\n    canvas.height = window.innerHeight;\r\n\r\n    // bind to scroll events so we know what we should be drawing onto the canvas (i.e. what the x pos is)\r\n  });\r\n</script>\r\n\r\n<style>\r\n  canvas {\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n  }\r\n</style>\r\n\r\n<canvas bind:this={canvas} />\r\n"
   ],
   "names": [],
-  "mappings": "AAsBE,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAI3B,CAAC;ACzBD,IAAI,cAAC,CAAC,AACJ,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,GAAG,CACZ,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,CAAC,CAAC,IAAI,AAChB,CAAC,AAED,EAAE,cAAC,CAAC,AACF,KAAK,CAAE,OAAO,CACd,cAAc,CAAE,SAAS,CACzB,SAAS,CAAE,GAAG,CACd,WAAW,CAAE,GAAG,AAClB,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,IAAI,cAAC,CAAC,AACJ,SAAS,CAAE,IAAI,AACjB,CAAC,AACH,CAAC;ACND,MAAM,eAAC,CAAC,AACN,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,AACT,CAAC"
+  "mappings": "AACE,IAAI,cAAC,CAAC,AACJ,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,GAAG,CACZ,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,CAAC,CAAC,IAAI,AAChB,CAAC,AAED,EAAE,cAAC,CAAC,AACF,KAAK,CAAE,OAAO,CACd,cAAc,CAAE,SAAS,CACzB,SAAS,CAAE,GAAG,CACd,WAAW,CAAE,GAAG,AAClB,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,IAAI,cAAC,CAAC,AACJ,SAAS,CAAE,IAAI,AACjB,CAAC,AACH,CAAC;ACND,MAAM,eAAC,CAAC,AACN,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,AACT,CAAC"
 }

@@ -60,7 +60,10 @@ function generator(viewport, stripList) {
     return generate(viewport, stripList);
 }
 
-function getUngeneratedViewport(viewport, stripList) {}
+function getUngeneratedViewport(viewport, stripList) {
+    const leftIndex = Math.floor(viewport.left() / tileSize);
+    const rightIndex = Math.floor(viewport.right());
+}
 
 function generate(viewport, stripList) {
     return strpiList;
