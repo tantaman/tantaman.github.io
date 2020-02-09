@@ -3,13 +3,15 @@ const path = require("path");
 
 const prefix = "./public/notes/";
 
-[""]
+const index = [""]
     .reduce(
         (previousPromise, currentPath) =>
             updateIndex(prefix, previousPromise, currentPath),
         Promise.resolve({})
     )
-    .then(result => console.log(result));
+    .then(result =>
+        fs.writeFile("./public/notes-index.json", JSON.stringify(result))
+    );
 
 async function updateIndex(rel, previousPromise, currentPath) {
     const [index, stats] = await Promise.all([
