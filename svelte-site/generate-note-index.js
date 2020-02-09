@@ -10,7 +10,10 @@ const index = [""]
         Promise.resolve({})
     )
     .then(result =>
-        fs.writeFile("./public/notes-index.json", JSON.stringify(result))
+        fs.writeFile(
+            "./src/notes/index.js",
+            "export default " + JSON.stringify(result)
+        )
     );
 
 async function updateIndex(rel, previousPromise, currentPath) {
