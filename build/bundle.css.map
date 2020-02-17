@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "..\\App.svelte",
+    "..\\Nav.svelte",
+    "..\\ProceduralBG.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n  import { Router, Route } from \"svelte-routing\";\n  import Home from \"./Home.svelte\";\n  import Nav from \"./Nav.svelte\";\n  import ProceduarlBG from \"./ProceduralBG.svelte\";\n\n  export let url = \"\";\n</script>\n\n<style>\n  main {\n    text-align: center;\n    padding: 0;\n    margin: 0;\n  }\n\n  h1 {\n    color: #ff3e00;\n    text-transform: uppercase;\n    font-size: 4em;\n    font-weight: 100;\n    margin-bottom: 0;\n    margin-top: 0;\n  }\n\n  @media (min-width: 640px) {\n    main {\n      max-width: none;\n    }\n  }\n\n  .header {\n    border-bottom: 12px solid #ffa500;\n  }\n</style>\n\n<main>\n  <div class=\"header\">\n    <h1>Tantamanlands</h1>\n    <Nav />\n  </div>\n  <ProceduarlBG />\n  <Router {url}>\n    <Route path=\"/\">\n      <Home />\n    </Route>\n  </Router>\n</main>\n",
+    "<style>\r\n  li {\r\n    display: inline-block;\r\n    color: #00b8ff;\r\n    font-size: 1.3em;\r\n    width: 33%;\r\n  }\r\n</style>\r\n\r\n<ul>\r\n  <li>Home</li>\r\n  <li>Notes</li>\r\n  <li>Projects</li>\r\n</ul>\r\n",
+    "<script>\r\n  import { onMount } from \"svelte\";\r\n  let canvas;\r\n\r\n  onMount(() => {\r\n    canvas.width = window.innerWidth;\r\n    canvas.height = window.innerHeight;\r\n\r\n    // bind to scroll events so we know what we should be drawing onto the canvas (i.e. what the x pos is)\r\n  });\r\n</script>\r\n\r\n<style>\r\n  canvas {\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n  }\r\n</style>\r\n\r\n<canvas bind:this={canvas} />\r\n"
+  ],
+  "names": [],
+  "mappings": "AAUE,IAAI,eAAC,CAAC,AACJ,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,CAAC,AACX,CAAC,AAED,EAAE,eAAC,CAAC,AACF,KAAK,CAAE,OAAO,CACd,cAAc,CAAE,SAAS,CACzB,SAAS,CAAE,GAAG,CACd,WAAW,CAAE,GAAG,CAChB,aAAa,CAAE,CAAC,CAChB,UAAU,CAAE,CAAC,AACf,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,IAAI,eAAC,CAAC,AACJ,SAAS,CAAE,IAAI,AACjB,CAAC,AACH,CAAC,AAED,OAAO,eAAC,CAAC,AACP,aAAa,CAAE,IAAI,CAAC,KAAK,CAAC,OAAO,AACnC,CAAC;AChCD,EAAE,cAAC,CAAC,AACF,OAAO,CAAE,YAAY,CACrB,KAAK,CAAE,OAAO,CACd,SAAS,CAAE,KAAK,CAChB,KAAK,CAAE,GAAG,AACZ,CAAC;ACOD,MAAM,eAAC,CAAC,AACN,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,AACT,CAAC"
+}
