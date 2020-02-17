@@ -1,10 +1,10 @@
 <script>
-  import { Router, Route } from "svelte-routing";
-  import Home from "./Home.svelte";
-  import Nav from "./Nav.svelte";
-  import ProceduarlBG from "./ProceduralBG.svelte";
+  import { Router, Route } from 'svelte-routing';
+  import Home from './Home.svelte';
+  import Nav from './Nav.svelte';
+  import ProceduarlBG from './ProceduralBG.svelte';
 
-  export let url = "";
+  export let url = '';
 </script>
 
 <style>
@@ -15,7 +15,7 @@
   }
 
   h1 {
-    color: #ff3e00;
+    color: #ffc7b5;
     text-transform: uppercase;
     font-size: 4em;
     font-weight: 100;
@@ -30,7 +30,7 @@
   }
 
   .header {
-    border-bottom: 12px solid #ffa500;
+    border-bottom: 12px solid #ffd78f;
   }
 </style>
 

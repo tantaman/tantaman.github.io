@@ -1,7 +1,7 @@
 <style>
   li {
     display: inline-block;
-    color: #00b8ff;
+    color: #868686;
     font-size: 1.3em;
     width: 33%;
   }
