@@ -40,8 +40,6 @@ getPosts(id: int): List<int>;
 getComments(id: int): List<int>;
 ```
 
-And the compiler will tell you when you've mismatched your IDs or accidentally merged incompatible IDs into the same collection and so on.
-
 ## For another day:
 
 * A new issue here is the `List` type. It is completely the wrong type to use to represent potentially unbounded collections.
