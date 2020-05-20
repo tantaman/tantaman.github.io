@@ -4,10 +4,13 @@ title:  "The Great Questions"
 categories: life philospohy questions
 ---
 
-Questions and answers I've worked out over the years. This is a living document. The post date will be updated whenever an edit is made.
-History of the evolution of this doc is available here: https://github.com/tantaman/tantaman.github.io/commits/master/_posts/2020-05-20-The-Great-Questions.markdown
+Questions and answers I've worked out over the years.
 
-# The Great Questions
+This is a living document.
+
+The post date will be updated whenever an edit is made.
+
+History and evolution of this doc is available [here](https://github.com/tantaman/tantaman.github.io/commits/master/_posts/2020-05-20-The-Great-Questions.markdown).
 
 # What is God?
 
