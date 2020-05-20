@@ -62,3 +62,4 @@ A wide door that nobody can miss but few can pass through.
 
 # Is there truth with a capital T?
 
+# There is physical inertia, is there psychological inertia?
