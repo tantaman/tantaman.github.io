@@ -1,0 +1,6 @@
+{
+	"name": "prototype",
+	"scripts": {
+		"build": "browserify main.js -o bundle.js"
+	}
+}
