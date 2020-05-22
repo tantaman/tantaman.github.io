@@ -54,7 +54,20 @@ function makeNav() {
   document.getElementById('nav').append(svgNode);
   
   const svgSelection = d3.select(svgNode);
-  const defs = svgSelection.append('defs'); // For gradients
+  const defs = svgSelection.append('defs');
+  defs
+    .append('marker')
+    .attr("id", "arrow")
+    .attr("refX", 6)
+    .attr("refY", 6)
+    .attr("markerWidth", 30)
+    .attr("markerHeight", 30)
+    .attr("markerUnits","userSpaceOnUse")
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M 0 0 12 6 0 12 3 6")
+    .style("fill", "black");
+    
   
   // Use computed layout
   layout(dag);
@@ -81,7 +94,8 @@ function makeNav() {
     .attr('d', ({ data }) => line(data.points))
     .attr('fill', 'none')
     .attr('stroke-width', 2)
-    .attr('stroke', '#666666');
+    .attr('stroke', '#666666')
+    .attr('marker-end', 'url(#arrow)');
   
   // Select nodes
   const nodes = svgSelection.append('g')
@@ -92,9 +106,9 @@ function makeNav() {
     .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
   
   // Plot node circles
-  nodes.append('circle')
-    .attr('r', 20)
-    .attr('fill', n => colorMap[n.id]);
+  // nodes.append('circle')
+  //   .attr('r', 20)
+  //   .attr('fill', n => colorMap[n.id]);
 
   // Add text to nodes
   nodes.append('text')
