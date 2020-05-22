@@ -86,36 +86,52 @@ function makeNav() {
     .curve(d3.curveCatmullRom)
     .x(d => d.x)
     .y(d => d.y);
-    
-  // Plot edges
-  svgSelection.append('g')
-    .selectAll('path')
-    .data(dag.links())
-    .enter()
-    .append('path')
-    .attr('d', ({ data }) => {
-    	const [start, end] = data.points;
-    	// Should technically shift the X as well so we retain
-    	// the original slop of the line.
-    	return line([start, {x: end.x, y: end.y - 10}]);
-    })
-    .attr('fill', 'none')
-    .attr('stroke-width', 2)
-    .attr('stroke', '#666666')
-    .attr('marker-end', 'url(#arrow)');
-  
-  // Select nodes
-  const nodes = svgSelection.append('g')
-    .selectAll('g')
-    .data(dag.descendants())
-    .enter()
-    .append('g')
-    .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
-  
-  // Plot node circles
-  // nodes.append('circle')
-  //   .attr('r', 20)
-  //   .attr('fill', n => colorMap[n.id]);
+
+  function plotEdges(dag) {
+    svgSelection.append('g')
+	    .selectAll('path')
+	    .data(dag.links())
+	    .enter()
+	    .append('path')
+	    .attr('d', ({ data }) => {
+	    	const [start, end] = data.points;
+	    	// Should technically shift the X as well so we retain
+	    	// the original slop of the line.
+	    	return line([start, {x: end.x, y: end.y - 10}]);
+	    })
+	    .attr('fill', 'none')
+	    .attr('stroke-width', 2)
+	    .attr('stroke', '#666666')
+	    .attr('marker-end', 'url(#arrow)');
+  }
+
+  function plotNodes() {
+ 	  const nodes = svgSelection.append('g')
+      .selectAll('g')
+      .data(dag.descendants())
+      .enter()
+      .append('g')
+      .attr('transform', ({x, y}) => `translate(${x}, ${y})`);
+
+    nodes.append('text')
+      .text(d => d.id)
+	    .attr('class', 'node-label')
+	    .attr('font-weight', 'bold')
+	    .attr('font-family', 'sans-serif')
+	    .attr('text-anchor', 'middle')
+	    .attr('alignment-baseline', 'middle')
+	    .attr('fill', textFill)
+	    .attr('fill-opacity', 1)
+	    .attr('stroke', '#000000')
+	    .attr('stroke-width', 0.5)
+	    .attr('stroke-opacity', 1)
+	    .on('mouseover', onTextMouseOver)
+	    .on('mouseout', onTextMouseOut)
+	    .on('click', onTextClick);
+  }
+
+  plotEdges(dag);
+  plotNodes(dag);
 
   function onTextMouseOver() {
   	d3.select(this).attr('fill', textHighlightFill);
@@ -125,21 +141,9 @@ function makeNav() {
   	d3.select(this).attr('fill', textFill);	
   }
 
-  // Add text to nodes
-  nodes.append('text')
-    .text(d => d.id)
-    .attr('class', 'node-label')
-    .attr('font-weight', 'bold')
-    .attr('font-family', 'sans-serif')
-    .attr('text-anchor', 'middle')
-    .attr('alignment-baseline', 'middle')
-    .attr('fill', textFill)
-    .attr('fill-opacity', 1)
-    .attr('stroke', '#000000')
-    .attr('stroke-width', 0.5)
-    .attr('stroke-opacity', 1)
-    .on('mouseover', onTextMouseOver)
-    .on('mouseout', onTextMouseOut)
+  function onTextClick() {
+  	console.log('add some data');
+  }
 }
 
 makeNav();
