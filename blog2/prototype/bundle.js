@@ -38,6 +38,8 @@ function htmlToElement(html) {
 }
 
 function makeNav() {
+	const textFill = '#CCCCCC';
+	const textHighlightFill = 'orange';
 	const reader = d3.dagStratify();
 	const dag = reader(data);
 
@@ -94,6 +96,8 @@ function makeNav() {
     .append('path')
     .attr('d', ({ data }) => {
     	const [start, end] = data.points;
+    	// Should technically shift the X as well so we retain
+    	// the original slop of the line.
     	return line([start, {x: end.x, y: end.y - 10}]);
     })
     .attr('fill', 'none')
@@ -114,18 +118,29 @@ function makeNav() {
   //   .attr('r', 20)
   //   .attr('fill', n => colorMap[n.id]);
 
+  function onTextMouseOver() {
+  	d3.select(this).attr('fill', textHighlightFill);
+  }
+
+  function onTextMouseOut() {
+  	d3.select(this).attr('fill', textFill);	
+  }
+
   // Add text to nodes
   nodes.append('text')
     .text(d => d.id)
+    .attr('class', 'node-label')
     .attr('font-weight', 'bold')
     .attr('font-family', 'sans-serif')
     .attr('text-anchor', 'middle')
     .attr('alignment-baseline', 'middle')
-    .attr('fill', '#CCCCCC')
+    .attr('fill', textFill)
     .attr('fill-opacity', 1)
     .attr('stroke', '#000000')
     .attr('stroke-width', 0.5)
-    .attr('stroke-opacity', 1);
+    .attr('stroke-opacity', 1)
+    .on('mouseover', onTextMouseOver)
+    .on('mouseout', onTextMouseOut)
 }
 
 makeNav();
