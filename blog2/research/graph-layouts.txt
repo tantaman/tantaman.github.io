@@ -1,4 +1,0 @@
-https://observablehq.com/@erikbrinkman/d3-dag-sugiyama
-https://github.com/erikbrinkman/d3-dag
-https://github.com/dagrejs/dagre
-https://stackoverflow.com/questions/11337732/layered-graphs-in-d3-js
