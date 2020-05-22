@@ -67,7 +67,7 @@ function makeNav() {
     .attr("orient", "auto")
     .append("path")
     .attr("d", "M 0 0 12 6 0 12 3 6")
-    .style("fill", "black");
+    .style("fill", "#666666");
     
   
   // Use computed layout
@@ -92,7 +92,10 @@ function makeNav() {
     .data(dag.links())
     .enter()
     .append('path')
-    .attr('d', ({ data }) => line(data.points))
+    .attr('d', ({ data }) => {
+    	const [start, end] = data.points;
+    	return line([start, {x: end.x, y: end.y - 10}]);
+    })
     .attr('fill', 'none')
     .attr('stroke-width', 2)
     .attr('stroke', '#666666')

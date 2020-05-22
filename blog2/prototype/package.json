@@ -1,6 +1,15 @@
 {
 	"name": "prototype",
 	"scripts": {
-		"build": "browserify main.js -o bundle.js"
+		"build": "browserify main.js -o bundle.js",
+		"watch": "npm-watch"
+	},
+	"dependencies": {
+		"d3": "^5.16.0",
+		"d3-dag": "^0.3.5",
+		"npm-watch": "^0.6.0"
+	},
+	"watch": {
+		"build": "main.js"
 	}
 }
