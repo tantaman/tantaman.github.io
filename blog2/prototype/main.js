@@ -70,20 +70,8 @@ function makeNav() {
     .append('path')
     .attr('d', ({ data }) => line(data.points))
     .attr('fill', 'none')
-    .attr('stroke-width', 3)
-    .attr('stroke', ({source, target}) => {
-      const gradId = `${source.id}-${target.id}`;
-      const grad = defs.append('linearGradient')
-        .attr('id', gradId)
-        .attr('gradientUnits', 'userSpaceOnUse')
-        .attr('x1', source.x)
-        .attr('x2', target.x)
-        .attr('y1', source.y)
-        .attr('y2', target.y);
-      grad.append('stop').attr('offset', '0%').attr('stop-color', colorMap[source.id]);
-      grad.append('stop').attr('offset', '100%').attr('stop-color', colorMap[target.id]);
-      return `url(#${gradId})`;
-    });
+    .attr('stroke-width', 2)
+    .attr('stroke', '#666666');
   
   // Select nodes
   const nodes = svgSelection.append('g')
@@ -105,7 +93,11 @@ function makeNav() {
     .attr('font-family', 'sans-serif')
     .attr('text-anchor', 'middle')
     .attr('alignment-baseline', 'middle')
-    .attr('fill', 'white');
+    .attr('fill', '#CCCCCC')
+    .attr('fill-opacity', 1)
+    .attr('stroke', '#000000')
+    .attr('stroke-width', 1)
+    .attr('stroke-opacity', 1);
 }
 
 makeNav();
