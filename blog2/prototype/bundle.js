@@ -30,6 +30,13 @@ const data = [
 	}
 ];
 
+function htmlToElement(html) {
+  const template = document.createElement('template');
+  html = html.trim(); // Never return a text node of whitespace as the result
+	template.innerHTML = html;
+  return template.content.firstChild;
+}
+
 function makeNav() {
 	const reader = d3.dagStratify();
 	const dag = reader(data);
@@ -42,7 +49,10 @@ function makeNav() {
 
 	// This code only handles rendering
   const nodeRadius = 20;
-  const svgNode = document.getElementById('nav');
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const svgNode = htmlToElement(`<svg width=${width} height=${height} viewbox="${-nodeRadius} ${-nodeRadius} ${width + 2 * nodeRadius} ${height + 2 * nodeRadius}"></svg>`)
+  document.getElementById('nav').append(svgNode);
   
   const svgSelection = d3.select(svgNode);
   const defs = svgSelection.append('defs'); // For gradients
@@ -51,7 +61,7 @@ function makeNav() {
   layout(dag);
   
   const steps = dag.size();
-  const interp = d3.interpolateRainbow;
+  const interp = d3.interpolateRgb('#666666', '#AAAAAA');
   const colorMap = {};
   dag.each((node, i) => {
     colorMap[node.id] = interp(i / steps);
@@ -97,7 +107,7 @@ function makeNav() {
     .attr('fill', '#CCCCCC')
     .attr('fill-opacity', 1)
     .attr('stroke', '#000000')
-    .attr('stroke-width', 1)
+    .attr('stroke-width', 0.5)
     .attr('stroke-opacity', 1);
 }
 
