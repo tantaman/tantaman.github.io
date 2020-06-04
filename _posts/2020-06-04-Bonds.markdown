@@ -1,0 +1,5 @@
+---
+layout: post
+title:  "Bonds"
+categories: bond justice racial
+---
