@@ -18,6 +18,8 @@ Bail is insurance. Insurance that the person who paid it will return to custody 
 
 Bail needs to take into account the ability of the person to pay it. If we believe that individuals should be able to be released from custody prior to trial and that everyone is equal in the eyes of the law, then why should that barrier be easy to pass for wealthy individuals and hard to pass for poor individuals? It should be just as difficult for both. Bail should be a percentage of yearly income so it puts equal pressure on the rich and poor alike.
 
+pretrial: https://www.prisonpolicy.org/blog/2019/10/09/pretrial_race/
+
 
 # Removing Mandatory Sentences
 
@@ -38,3 +40,13 @@ Examples:
 4. Redlining by gov't housing organizations https://en.wikipedia.org/wiki/Redlining#:~:text=In%20the%20United%20States%20and,the%20selective%20raising%20of%20prices.
 
 The problems of the market arise when the market is strictly in response to demand without moral considerations.
+
+# College for Inmates
+
+# Maximum time prior to trial
+
+# Racially charged laws?
+
+# No law shall disadvantage another?
+
+# Jury Selection Laws
