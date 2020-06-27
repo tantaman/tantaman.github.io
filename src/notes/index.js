@@ -1,1 +1,0 @@
-export default {"":{"languages":{"test.md":"test.md"},"test.md":"test.md"}}

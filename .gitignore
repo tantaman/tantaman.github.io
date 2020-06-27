@@ -1,8 +1,5 @@
-node_modules
-dist
-.tmp
+_site
 .sass-cache
-app/bower_components
-/node_modules/
-
-.DS_Store
+.jekyll-cache
+.jekyll-metadata
+vendor
