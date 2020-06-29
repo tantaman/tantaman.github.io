@@ -63,3 +63,21 @@ A wide door that nobody can miss but few can pass through.
 # Is there truth with a capital T?
 
 # There is physical inertia, is there psychological inertia?
+
+# Everything happens for a reason.
+
+Really? Does it?
+
+Why do you seek a purpose for things?
+
+# Is the soul incorporeal?
+
+Why does it matter? Why is matter, material, not amazing and wonderful enough for you? Why do you seek something outside matter? How would it diminish your conception of a soul if the soul was made of matter?
+
+If something is not of matter, how would it influence that which is of matter? Wouldn't it being able to influence matter suddenly bring it into the realm of matter? As it is perceived by matter.
+
+# How does matter perceive?
+
+By being affected by. Matter, when affected, changes. The change wrought on a thing is the thing's perception of that which wrought the change. I.e., the change is the lasting impression of the thing that caused the change.
+
+The change in a rock is the lasting impression of the hammer that hit the rock. If the hammer hits twice, it is the lasting impression of two consecutive blows. It is how the rock perceived the hammer.
