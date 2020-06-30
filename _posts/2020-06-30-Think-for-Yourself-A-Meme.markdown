@@ -8,15 +8,15 @@ categories: thought education politics
 
 It is an amazing example of the fragility and blindness of the human mind.
 
+In the examples below, "Think for yourself" is an emotional response and used as a way to end discussion without further thought.
+
 "Think for yourself" -- Trump supporter
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NzDhm808oU4?start=697" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 "Think for yourself" -- Anti-Masker
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Take your <a href="https://twitter.com/hashtag/coronavirus?src=hash&amp;ref_src=twsrc%5Etfw">#coronavirus</a> mask &amp; stick it where the sun don’t shine. <a href="https://t.co/iJt4cNidlj">pic.twitter.com/iJt4cNidlj</a></p>&mdash; Aubrey Huff (@aubrey_huff) <a href="https://twitter.com/aubrey_huff/status/1273018665391099904?ref_src=twsrc%5Etfw">June 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-In the two prior examples, "Think for yourself" is used as an emotional response and a way to end discussion without further thought.
-
-In the video above --
+In the anti-masker video --
 
 * The argument is that masking is living in fear?
   * That would assume you know how everyone wearing a mask feels. That they aren't doing it out of respect for others. That they aren't doing it with a sense of joyous duty of protecting their fellow man.
