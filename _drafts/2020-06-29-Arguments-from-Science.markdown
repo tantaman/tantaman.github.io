@@ -6,6 +6,9 @@ That and correct interpretation of the results of the scientific method.
 
 Science is plagued by incomplete information and unperceived (by the human being) factors that influence their experimentation.
 
+These problems are compounded by the fact that many statements that are taken as "scientific truths" by the lay person are actually just conjectures and theories that, while not disproven, are not proven either. In other words,
+an intelligent person or a person with debate skills can always find a hypothetical refutations of a "scientific truth."
+
 I tell someone that science has proved that we are not at the center of the universe.
 
 What does that mean to them? Based on a basic understanding of space they can rebut:
