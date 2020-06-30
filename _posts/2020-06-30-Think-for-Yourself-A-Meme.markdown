@@ -27,4 +27,4 @@ In the anti-masker video --
 * The argument is that we're breathing in CO2?
   * Have you gotten light headed from wearing a mask? All of the people that have worn masks on the job prior to coronavirus (doctors, construction workers while doing things such as insulating or painting), have they complained of CO2 poisoning?
 
-Maybe I'm wrong on points above. Maybe you're wrong on anti-masking. Lets allow either to be true and engage in understanding.
+Maybe I'm wrong on points above. Maybe you're wrong on anti-masking. Lets be brave enough to allow either to be true and brave enough engage in understanding.
