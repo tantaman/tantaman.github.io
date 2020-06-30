@@ -23,8 +23,8 @@ In the anti-masker video --
 * The argument is that high risk individuals should all stay home?
   * That's assuming they _can_ all stay home. That they don't ever have to go out do things like acquire food. It's also assuming they have no right to a normal life. That imprisoning them in home is more valulable than inconveniencing ourselves for a few minutes a day with a mask while we're indoors in public places.
 * The argument is that people are sad because they're in masks?
-  * I guess the two people he saw. Are two checkout ladies are definitely a representative sample of the world?
+  * I guess the two people he saw. Are two checkout ladies a representative sample of the world?
 * The argument is that we're breathing in CO2?
   * Have you gotten light headed from wearing a mask? All of the people that have worn masks on the job prior to coronavirus (doctors, construction workers while doing things such as insulating or painting), have they complained of CO2 poisoning?
 
-Why do we go into tirades rather than engaging eachother in understanding?
+Maybe I'm wrong on points above. Maybe you're wrong on anti-masking. Lets allow either to be true and engage in understanding.
