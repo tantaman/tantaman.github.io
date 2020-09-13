@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Option / Maybe'
+title: 'Option / Maybe<$500,000,000>'
 categories: software design api-design oo functional algebraic-types
 ---
 
