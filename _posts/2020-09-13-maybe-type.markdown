@@ -4,9 +4,17 @@ title: 'Option / Maybe'
 categories: software design api-design oo functional algebraic-types
 ---
 
-While not as bad a untyped null references,
+This is a re-hash of portions of Rich Hickey's talk here: https://www.youtube.com/watch?v=YR5WdGrpoug
 
-## Option and Maybe types are a 500 million dollar mistake
+I'm writing it down as I've had to explain this argument a few times and this format is easier to consumer than a hour long video.
+
+
+---
+I'm sure everyone has heard this from [Tony Hoare](https://en.wikipedia.org/wiki/Tony_Hoare):
+
+> I call it my billion-dollar mistake. It was the invention of the null reference in 1965.
+
+And languages and users have gone about trying to solve this billion dollar mistake. However, one of those solutions (the `Option` / `Maybe` type) while not as bad as null references is still a 500 million dollar mistake.
 
 ### Starting at the beginning
 
@@ -129,3 +137,7 @@ function foo(x: ?string): string {...}
 ```
 
 `?string` is a supertype of `string` and thus no existing callers break. I can release an update to my library and not break any of its consumers.
+
+
+
+(this is also a problem of the rust error type. If I no longer return errors from a function I've broken callers that were handling errors)
