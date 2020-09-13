@@ -4,7 +4,7 @@ title: 'Option / Maybe<$500,000,000>'
 categories: software design api-design oo functional algebraic-types
 ---
 
-This is a re-hash of portions of Rich Hickey's talk here: https://www.youtube.com/watch?v=YR5WdGrpoug
+This is a re-hash of portions of Rich Hickey's talk [here](https://www.youtube.com/watch?v=YR5WdGrpoug).
 
 I'm writing it down as I've had to explain this argument a few times and this format is easier to consumer than a hour long video.
 
