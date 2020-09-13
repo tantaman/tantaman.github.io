@@ -6,11 +6,11 @@ categories: software design api-design oo functional algebraic-types
 
 This is a re-hash of portions of Rich Hickey's talk [here](https://www.youtube.com/watch?v=YR5WdGrpoug).
 
-I'm writing it down as I've had to explain this argument a few times and this format is easier to consumer than a hour long video.
+I'm writing it down as I've had to explain this argument a few times and this format is easier to consume than a hour long video.
 
 
 ---
-I'm sure everyone has heard this from [Tony Hoare](https://en.wikipedia.org/wiki/Tony_Hoare):
+I'm sure everyone has heard this quote by [Tony Hoare](https://en.wikipedia.org/wiki/Tony_Hoare):
 
 > I call it my billion-dollar mistake. It was the invention of the null reference in 1965.
 
