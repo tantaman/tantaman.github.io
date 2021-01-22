@@ -7,14 +7,10 @@
   height: 400px;
   border: 1px solid #f9f1f1;
   background: #fffaf1;
-}
 
-.person {
-  display: inline-block;
-  width: 20px;
-  height: 30px;
-  margin: 2px;
-  position: relative;
+  color: #826767;
+  font-size: 0.75em;
+  font-weight: bold;
 }
 
 .top-bar {
@@ -57,6 +53,20 @@
   background: black;
 }
 
+.infected-tree {
+  width: 25%;
+  border-top: 1px solid black;
+  margin-left: 12.5%;
+  display: inline-block;
+}
+
+.healthy-tree {
+  width: 25%;
+  border-top: 1px solid black;
+  display: inline-block;
+  margin-left: 25%;
+}
+
 .left {
   float: left;
 }
@@ -65,21 +75,29 @@
   float: right;
 }
 
-.person > .head {
+.person {
+  display: inline-block;
   width: 15px;
-  height: 15px;
+  height: 25px;
+  margin: 2px;
+  position: relative;
+}
+
+.person > .head {
+  width: 12px;
+  height: 12px;
   margin-left: auto;
   margin-right: auto;
   background: #d2d0d0;
-  border-radius: 15px
+  border-radius: 12px
 }
 
 .person > .body {
-  width: 20px;
-  height: 15px;
+  width: 15px;
+  height: 13px;
   background: #d2d0d0;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
 
 .person > .left-arm-divider {
@@ -88,7 +106,7 @@
   height: 10px;
   background: #999;
   bottom: 0px;
-  left: 5px;
+  left: 3px;
 }
 
 .person > .right-arm-divider {
@@ -97,7 +115,7 @@
   height: 10px;
   background: #999;
   bottom: 0px;
-  right: 5px;
+  right: 3px;
 }
 
 .dialogue {
