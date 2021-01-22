@@ -24,14 +24,30 @@
   margin-right: var(--have-not-have-margin);
 }
 
-.prevalence > .readout {
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.outcomes-block {
+  width: 100%;
+}
+
+.right > .readout {
+  margin-right: -100%;
+  text-align: center;
+}
+
+.left > .readout {
   margin-left: -100%;
   text-align: center;
 }
 
-.not-have > .readout {
-  margin-right: -100%;
-  text-align: center;
+.right > .vertical-bar {
+  float: right;
 }
 
 .clear {
@@ -67,19 +83,11 @@
   margin-left: 25%;
 }
 
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
-}
-
 .person {
   display: inline-block;
   width: 15px;
   height: 25px;
-  margin: 2px;
+  margin: 1px;
   position: relative;
 }
 
