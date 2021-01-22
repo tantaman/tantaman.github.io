@@ -42,12 +42,32 @@ In other words, a false positive rate of 10% under these conditions will still r
 
 
 
+
 <div class="full-info-box">
-  <span class="person">
-    <div class="head"></div>
-    <div class="body"></div>
-    <div class="arm-divider"></div>
-  </span>
+  <center class="pop-readout">
+    <span>
+      <span class="pop-num">
+      1,000
+      </span>
+      <span class="person">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="left-arm-divider"></div>
+        <div class="right-arm-divider"></div>
+      </span>
+    </span>
+  </center>
+  <center>
+    <div class="vertical-bar"></div>
+  </center>
+  <div>
+    <span class="person">
+      <div class="head"></div>
+      <div class="body"></div>
+      <div class="left-arm-divider"></div>
+      <div class="right-arm-divider"></div>
+    </span>
+  </div>
 </div>
 
 

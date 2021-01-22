@@ -10,6 +10,22 @@
   width: 20px;
   height: 30px;
   margin: 2px;
+  position: relative;
+}
+
+.pop-readout > span {
+  vertical-align: middle;
+}
+
+.pop-num {
+  height: 30px;
+  vertical-align: top;
+}
+
+.vertical-bar {
+  width: 1px;
+  height: 20px;
+  background: black;
 }
 
 .person > .head {
@@ -17,16 +33,34 @@
   height: 15px;
   margin-left: auto;
   margin-right: auto;
-  background: grey;
+  background: #d2d0d0;
   border-radius: 15px
 }
 
 .person > .body {
   width: 20px;
   height: 15px;
-  background: grey;
+  background: #d2d0d0;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+}
+
+.person > .left-arm-divider {
+  position: absolute;
+  width: 1px;
+  height: 10px;
+  background: #999;
+  bottom: 0px;
+  left: 5px;
+}
+
+.person > .right-arm-divider {
+  position: absolute;
+  width: 1px;
+  height: 10px;
+  background: #999;
+  bottom: 0px;
+  right: 5px;
 }
 
 .dialogue {
