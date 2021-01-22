@@ -81,6 +81,18 @@ In other words, a false positive rate of 10% under these conditions will still r
     </div>
     <div class="clear"></div>
   </div>
+  <div class="outcomes-block">
+    <div class="infected-tree">
+      <div class="vertical-bar left"></div>
+      <div class="vertical-bar right"></div>
+      <div class="clear"></div>
+    </div>
+    <div class="healthy-tree">
+      <div class="vertical-bar left"></div>
+      <div class="vertical-bar right"></div>
+      <div class="clear"></div>
+    </div>
+  </div>
   <div>
     <span class="person">
       <div class="head"></div>
