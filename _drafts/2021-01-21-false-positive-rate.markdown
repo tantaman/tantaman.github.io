@@ -40,7 +40,11 @@ In other words, a false positive rate of 10% under these conditions will still r
 
 ## Prior Probability
 
-
+<form>
+  <label for="population">Population Size</label>
+  <input type="number" id="population" size="5" max="10000" min="1" value="1000">
+  <label for="fp-rate">False Positive Rate</labe>
+</form>
 
 
 <div class="full-info-box">
@@ -65,7 +69,7 @@ In other words, a false positive rate of 10% under these conditions will still r
       <div class="vertical-bar"></div>
       <div class="readout">1% Prevalence</div>
       <div class="vertical-bar"></div>
-      <div class="readout">n Infected</div>
+      <div class="readout">n have COVID</div>
       <div class="vertical-bar"></div>
     </div>
     <div class="not-have right">
@@ -73,7 +77,7 @@ In other words, a false positive rate of 10% under these conditions will still r
       <div class="clear"></div>
       <div class="vertical-bar"></div>
       <div class="clear"></div>
-      <div class="readout">m Healthy</div>
+      <div class="readout">m do not have COVID</div>
       <div class="vertical-bar"></div>
       <div class="clear"></div>
       <div class="vertical-bar"></div>
@@ -85,12 +89,14 @@ In other words, a false positive rate of 10% under these conditions will still r
     <div class="infected-tree">
       <div class="left">
         <div class="vertical-bar"></div>
-        <div class="readout">x True +</div>
+        <div class="readout">x</div>
+        <div class="readout">tested -</div>
       </div>
       <div class="right">
         <div class="vertical-bar"></div>
         <div class="clear"></div>
-        <div class="readout">y False -</div>
+        <div class="readout">y</div>
+        <div class="readout">tested +</div>
         <div class="clear"></div>
       </div>
       <div class="clear"></div>
@@ -98,12 +104,14 @@ In other words, a false positive rate of 10% under these conditions will still r
     <div class="healthy-tree">
       <div class="left">
         <div class="vertical-bar"></div>
-        <div class="readout">z True -</div>
+        <div class="readout">z</div>
+        <div class="readout">tested -</div>
       </div>
       <div class="right">
         <div class="vertical-bar"></div>
         <div class="clear"></div>
-        <div class="readout">w False +</div>
+        <div class="readout">w</div>
+        <div class="readout">tested +</div>
         <div class="clear"></div>
       </div>
     </div>
