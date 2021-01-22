@@ -1,0 +1,23 @@
+.full-info-box {
+  width: 720px;
+  height: 400px;
+  border: 1px solid #f9f1f1;
+  background: ##fffaf1;
+}
+
+.person {
+  width:
+}
+
+.dialogue {
+  list-style-type: none;
+}
+
+.dialogue > li {
+  margin-bottom: 2px;
+}
+
+q {
+  font-style: italic;
+  color: #808080;
+}
