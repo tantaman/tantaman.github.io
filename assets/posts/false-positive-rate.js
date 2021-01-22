@@ -29,3 +29,12 @@ function pop_readout(size) {
     </center>`
   );
 }
+
+function render_people(num) {
+  return Array(num).fill(0).map(
+    _ => person(),
+  ).join('');
+}
+
+// const people_el = document.getElementById('people');
+// people_el.innerHTML = render_people(100);

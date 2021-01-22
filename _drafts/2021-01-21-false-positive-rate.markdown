@@ -69,38 +69,55 @@ In other words, a false positive rate of 10% under these conditions will still r
       <div class="vertical-bar"></div>
     </div>
     <div class="not-have right">
-      <div class="vertical-bar right"></div>
+      <div class="vertical-bar"></div>
       <div class="clear"></div>
-      <div class="vertical-bar right"></div>
+      <div class="vertical-bar"></div>
       <div class="clear"></div>
       <div class="readout">m Healthy</div>
-      <div class="vertical-bar right"></div>
+      <div class="vertical-bar"></div>
       <div class="clear"></div>
-      <div class="vertical-bar right"></div>
+      <div class="vertical-bar"></div>
       <div class="clear"></div>
     </div>
     <div class="clear"></div>
   </div>
-  <div class="outcomes-block">
+  <div class="pos-neg">
     <div class="infected-tree">
-      <div class="vertical-bar left"></div>
-      <div class="vertical-bar right"></div>
+      <div class="left">
+        <div class="vertical-bar"></div>
+        <div class="readout">x True +</div>
+      </div>
+      <div class="right">
+        <div class="vertical-bar"></div>
+        <div class="clear"></div>
+        <div class="readout">y False -</div>
+        <div class="clear"></div>
+      </div>
       <div class="clear"></div>
     </div>
     <div class="healthy-tree">
-      <div class="vertical-bar left"></div>
-      <div class="vertical-bar right"></div>
-      <div class="clear"></div>
+      <div class="left">
+        <div class="vertical-bar"></div>
+        <div class="readout">z True -</div>
+      </div>
+      <div class="right">
+        <div class="vertical-bar"></div>
+        <div class="clear"></div>
+        <div class="readout">w False +</div>
+        <div class="clear"></div>
+      </div>
     </div>
   </div>
-  <div>
-    <span class="person">
-      <div class="head"></div>
-      <div class="body"></div>
-      <div class="left-arm-divider"></div>
-      <div class="right-arm-divider"></div>
-    </span>
-  </div>
+  <table class="outcomes-block">
+    <tbody>
+      <tr>
+        <td id="true-pos"></td>
+        <td id="false-neg"></td>
+        <td id="true-neg"></td>
+        <td id="false-pos"></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 
