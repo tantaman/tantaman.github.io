@@ -1,9 +1,9 @@
 const PersonStates = {
-  DEFAULT = 'DEFAULT',
-  FALSE_POSITIVE = 'false_positive',
-  TRUE_POSITIVE = 'true_positive',
-  FALSE_NEGATIVE = 'false_negative',
-  TRUE_NEGATIVE = 'true_negative',
+  DEFAULT: 'DEFAULT',
+  FALSE_POSITIVE: 'false_positive',
+  TRUE_POSITIVE: 'true_positive',
+  FALSE_NEGATIVE: 'false_negative',
+  TRUE_NEGATIVE: 'true_negative',
 };
 
 function person(state) {

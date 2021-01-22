@@ -1,3 +1,7 @@
+:root {
+  --have-not-have-margin: 25%;
+}
+
 .full-info-box {
   width: 720px;
   height: 400px;
@@ -13,6 +17,31 @@
   position: relative;
 }
 
+.top-bar {
+  border-bottom: 1px solid black;
+  margin-left: var(--have-not-have-margin);
+  margin-right: var(--have-not-have-margin);
+}
+
+.have-not-have {
+  margin-left: var(--have-not-have-margin);
+  margin-right: var(--have-not-have-margin);
+}
+
+.prevalence > .readout {
+  margin-left: -100%;
+  text-align: center;
+}
+
+.not-have > .readout {
+  margin-right: -100%;
+  text-align: center;
+}
+
+.clear {
+  clear: both;
+}
+
 .pop-readout > span {
   vertical-align: middle;
 }
@@ -24,8 +53,16 @@
 
 .vertical-bar {
   width: 1px;
-  height: 20px;
+  height: 1.5em;
   background: black;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }
 
 .person > .head {

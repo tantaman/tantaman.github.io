@@ -57,9 +57,30 @@ In other words, a false positive rate of 10% under these conditions will still r
       </span>
     </span>
   </center>
-  <center>
+  <center class="top-bar">
     <div class="vertical-bar"></div>
   </center>
+  <div class="have-not-have">
+    <div class="prevalence left">
+      <div class="vertical-bar"></div>
+      <div class="readout">1% Prevalence</div>
+      <div class="vertical-bar"></div>
+      <div class="readout">n Infected</div>
+      <div class="vertical-bar"></div>
+    </div>
+    <div class="not-have right">
+      <div class="vertical-bar right"></div>
+      <div class="clear"></div>
+      <div class="vertical-bar right"></div>
+      <div class="clear"></div>
+      <div class="readout">m Healthy</div>
+      <div class="vertical-bar right"></div>
+      <div class="clear"></div>
+      <div class="vertical-bar right"></div>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
   <div>
     <span class="person">
       <div class="head"></div>
