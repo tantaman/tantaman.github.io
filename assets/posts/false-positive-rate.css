@@ -2,25 +2,36 @@
   --have-not-have-margin: 25%;
 }
 
+#positive-wrong-value {
+  color: red;
+  font-weight: bold;
+}
+
+#negative-wrong-value {
+  font-weight: bold;
+  color: orange;
+}
+
 .full-info-box {
   width: 100%;
-  min-width: 500px;
+  min-width: 550px;
   border: 1px solid #f9f1f1;
   background: #fffaf1;
 
   color: #826767;
-  font-size: 0.75em;
+  /* font-size: 0.75em; */
   font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-.full-info-box > .demo-controls {
-  font-weight: normal;
-  margin-bottom: 20px;
+.demo-controls {
+  width: 100%;
+  font-size: 1em;
 }
 
-.full-info-box > .final-stats {
-  font-weight: normal;
-  margin-top: 20px;
+.final-stats {
+  width: 100%;
 }
 
 .top-bar {

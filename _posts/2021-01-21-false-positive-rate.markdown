@@ -46,46 +46,43 @@ Below you can modify the prevalence of the disease (prior probability), false po
 
 The other thing highlighted in the demo below is how false negative rate also impacts the amount of positive test results that can be in error.
 
+<table class="demo-controls">
+    <tbody>
+      <tr>
+      <td>
+        <label for="pop-ctrl">Population Size (<span id="pop-legend">10,000</span>)</label>
+      </td>
+      <td>
+        <input type="range" id="pop-ctrl" min="1000" max="100000" value="10000" step="1000">
+      </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="prevalence-ctrl">Prevalence (<span id="prevalence-legend">1</span>%)</label>
+        </td>
+        <td>
+          <input type="range" id="prevalence-ctrl" min="0" max="100" value="1">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="fp-rate-ctrl">False Positive Rate (<span id="fp-rate-legend">0.5</span>%)</label>
+        </td>
+        <td>
+          <input type="range" id="fp-rate-ctrl" max="100" min="0" value="0.5" step="0.5">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="fn-rate-ctrl">False Negative Rate (<span id="fn-rate-legend">25</span>%)</label>
+        </td>
+        <td>
+          <input type="range" id="fn-rate-ctrl" max="100" min="0" value="25" step="1">
+        </td>
+      </tr>
+    </tbody>
+  </table>
 <div class="full-info-box">
-  <form class="demo-controls">
-    <table class="right">
-      <tbody>
-        <tr>
-        <td>
-          <label for="pop-ctrl">Population Size (<span id="pop-legend">10,000</span>)</label>
-        </td>
-        <td>
-          <input type="range" id="pop-ctrl" min="1000" max="100000" value="10000" step="1000">
-        </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="prevalence-ctrl">Prevalence (<span id="prevalence-legend">1</span>%)</label>
-          </td>
-          <td>
-            <input type="range" id="prevalence-ctrl" min="0" max="100" value="1">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="fp-rate-ctrl">False Positive Rate (<span id="fp-rate-legend">0.5</span>%)</label>
-          </td>
-          <td>
-            <input type="range" id="fp-rate-ctrl" max="100" min="0" value="0.5" step="0.5">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="fn-rate-ctrl">False Negative Rate (<span id="fn-rate-legend">25</span>%)</label>
-          </td>
-          <td>
-            <input type="range" id="fn-rate-ctrl" max="100" min="0" value="25" step="1">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="clear"></div>
-  </form>
   <center class="pop-readout">
     <span>
       <span class="pop-num" id="pop-value">
@@ -160,19 +157,19 @@ The other thing highlighted in the demo below is how false negative rate also im
       </tr>
     </tbody>
   </table> -->
-  <table class="final-stats">
-      <tbody>
-        <tr>
-          <td>Negative results that are wrong </td>
-          <td><span id="negative-wrong-value"></span>%</td>
-        </tr>
-        <tr>
-          <td>Positive results that are wrong </td>
-          <td><span id="positive-wrong-value">y</span>%</td>
-        </tr>
-      </tbody>
-    </table>
 </div>
+<table class="final-stats">
+  <tbody>
+    <tr>
+      <td>Negative results that are wrong </td>
+      <td><span id="negative-wrong-value"></span>%</td>
+    </tr>
+    <tr>
+      <td>Positive results that are wrong </td>
+      <td><span id="positive-wrong-value">y</span>%</td>
+    </tr>
+  </tbody>
+</table>
 <br/>
 ## On Case Numbers
 
