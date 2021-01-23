@@ -40,17 +40,45 @@ In other words, a false positive rate of 10% under these conditions will still r
 
 ## Prior Probability
 
-<form>
-  <label for="population">Population Size</label>
-  <input type="number" id="population" size="5" max="10000" min="1" value="1000">
-  <label for="fp-rate">False Positive Rate</labe>
-</form>
+What is going on is that the prior probability of having a disease impacts the amount of positive test results that are in error. If 100% of the population has the disease then the chance of having the disease given a positive test would match the test's false positive rate. If 0% of the population has the disease then 100% of positive test results are incorrect.
 
+I've put together an example below where you can modify the prevalence of the disease (prior probability), false positive rate of the test and population size to see the various outcomes.
 
 <div class="full-info-box">
+  <form class="demo-controls">
+    <table class="right">
+      <tbody>
+        <tr>
+        <td>
+          <label for="pop-ctrl">Population Size (<span id="pop-legend">1,000</span>)</label>
+        </td>
+        <td>
+          <input type="range" id="pop-ctrl" min="100" max="5000" value="1000" step="100">
+        </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="prevalence-ctrl">Prevalence (<span id="prevalence-legend">1</span>%)</label>
+          </td>
+          <td>
+            <input type="range" id="prevalence-ctrl" min="0" max="100" value="1">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="fp-rate-ctrl">False Positive Rate (<span id="fp-rate-legend">0.5</span>%)</label>
+          </td>
+          <td>
+            <input type="range" id="fp-rate-ctrl" max="100" min="0" value="0.5" step="0.5">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="clear"></div>
+  </form>
   <center class="pop-readout">
     <span>
-      <span class="pop-num">
+      <span class="pop-num" id="pop-value">
       1,000
       </span>
       <span class="person">
@@ -67,7 +95,7 @@ In other words, a false positive rate of 10% under these conditions will still r
   <div class="have-not-have">
     <div class="prevalence left">
       <div class="vertical-bar"></div>
-      <div class="readout">1% Prevalence</div>
+      <div class="readout"><span id="prevalence-value">1</span>% Prevalence</div>
       <div class="vertical-bar"></div>
       <div class="readout">n have COVID</div>
       <div class="vertical-bar"></div>
