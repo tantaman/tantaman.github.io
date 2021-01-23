@@ -29,13 +29,13 @@ function calculate(
   prevalence,
   fn_rate,
 ) {
-  const have_covid = Math.max(population * prevalence);
+  const have_covid = Math.ceil(population * prevalence);
   const healthy = population - have_covid;
 
-  const false_negatives = Math.max(have_covid * fn_rate);
+  const false_negatives = Math.ceil(have_covid * fn_rate);
   const true_positives = have_covid - false_negatives;
 
-  const false_positives = Math.max(healthy * fp_rate);
+  const false_positives = Math.ceil(healthy * fp_rate);
   const true_negatives = healthy - false_positives;
 
   return {
@@ -59,24 +59,44 @@ const display = {
   prevalence_legend: document.getElementById('prevalence-legend'),
 
   fp_rate_legend: document.getElementById('fp-rate-legend'),
+
+  infected_value: document.getElementById('infected-value'),
+  healthy_value: document.getElementById('healthy-value'),
+
+  // have
+  false_neg_value: document.getElementById('false-neg-value'),
+  true_pos_value: document.getElementById('true-pos-value'),
+
+  // healthy
+  false_pos_value: document.getElementById('false-pos-value'),
+  true_neg_value: document.getElementById('true-neg-value'),
 };
 
 let state = {
   population: 1000,
-  fp_rate: 0.5,
-  prevalence: 1,
+  fp_rate: 0.5 / 100.0,
+  prevalence: 1 / 100.0,
   fn_rate: 0,
 };
 
 set_state(state);
 
-function render() {
+function render(state) {
   display.pop_legend.innerText =
     display.pop_value.innerText = state.population.toLocaleString();
   display.prevalence_legend.innerText =
-    display.prevalence_value.innerText = state.prevalence;
+    display.prevalence_value.innerText = Math.round(state.prevalence * 100);
 
-  display.fp_rate_legend.innerText = state.fp_rate.toFixed(1).toLocaleString();
+  display.fp_rate_legend.innerText = (state.fp_rate * 100).toFixed(1).toLocaleString();
+
+  display.infected_value.innerText = state.calculations.have_covid.toLocaleString();
+  display.healthy_value.innerText = state.calculations.healthy.toLocaleString();
+
+  display.false_neg_value.innerText = state.calculations.false_negatives.toLocaleString();
+  display.true_pos_value.innerText = state.calculations.true_positives.toLocaleString();
+
+  display.true_neg_value.innerText = state.calculations.true_negatives.toLocaleString();
+  display.false_pos_value.innerText = state.calculations.false_positives.toLocaleString();
 }
 
 function bind() {
@@ -86,11 +106,11 @@ function bind() {
     });
   document.getElementById('prevalence-ctrl').oninput = (e) =>
     set_state({
-      prevalence: parseInt(e.target.value),
+      prevalence: parseInt(e.target.value) / 100.0,
     });
   document.getElementById('fp-rate-ctrl').oninput = (e) =>
     set_state({
-      fp_rate: parseFloat(e.target.value),
+      fp_rate: parseFloat(e.target.value) / 100.0,
     });
 }
 
@@ -98,15 +118,16 @@ function set_state(next_state) {
   state = {
     ...state,
     ...next_state,
-    calculations: calculate(
-      state.population,
-      state.fp_rate,
-      state.prevalence,
-      state.fn_rate,
-    ),
   };
 
-  render();
+  state.calculations = calculate(
+    state.population,
+    state.fp_rate,
+    state.prevalence,
+    state.fn_rate,
+  );
+
+  render(state);
 }
 
 bind();
