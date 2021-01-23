@@ -44,7 +44,7 @@ What is going on is that the prior probability of having a disease impacts the a
 
 Below you can modify the prevalence of the disease (prior probability), false positive rate of the test and population size to see the various outcomes.
 
-One thing that becomes very obvious when playing with the demo below is how important it is for a false positive rate to be as close to 0 as possible. Getting above 1% quickly results in unreliable outcomes.
+The other thing highlighted in the demo below is how false negative rate also impacts the amount of positive test results that can be in error.
 
 <div class="full-info-box">
   <form class="demo-controls">
@@ -52,10 +52,10 @@ One thing that becomes very obvious when playing with the demo below is how impo
       <tbody>
         <tr>
         <td>
-          <label for="pop-ctrl">Population Size (<span id="pop-legend">1,000</span>)</label>
+          <label for="pop-ctrl">Population Size (<span id="pop-legend">10,000</span>)</label>
         </td>
         <td>
-          <input type="range" id="pop-ctrl" min="100" max="5000" value="1000" step="100">
+          <input type="range" id="pop-ctrl" min="1000" max="100000" value="10000" step="1000">
         </td>
         </tr>
         <tr>
@@ -72,6 +72,14 @@ One thing that becomes very obvious when playing with the demo below is how impo
           </td>
           <td>
             <input type="range" id="fp-rate-ctrl" max="100" min="0" value="0.5" step="0.5">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="fn-rate-ctrl">False Negative Rate (<span id="fn-rate-legend">25</span>%)</label>
+          </td>
+          <td>
+            <input type="range" id="fn-rate-ctrl" max="100" min="0" value="25" step="1">
           </td>
         </tr>
       </tbody>
@@ -165,20 +173,12 @@ One thing that becomes very obvious when playing with the demo below is how impo
       </tbody>
     </table>
 </div>
+<br/>
+## On Case Numbers
 
+All of this sheds a different light on case numbers. Are reported numbers only based on testing, or are they compensating for the number of incorrect test results?
+
+To compensate for incorrect test results, you can calculate test positivity. Test positivity represents the fraction of people tested that had a positive result. If you have high test positivity then you will have many fewer positive results that are incorrect.
 
 **References:**<br/>
 https://www.icd10monitor.com/false-positives-in-pcr-tests-for-covid-19<br/>
-The Science of Why
-
-Follow ups:
-- Prevalence here is really "prior probability"
-- We were denied tests due to unknown prior probability and capacity for blanket testing to incur a false pandemic
-- Case number reporting
-  - Still no good (due to unk prevalence)
-  - We should have % positive of population tested
-    - removes false positive rate concerns
-    - but of course the population tested is self-selecting and has a higher prior probability of infection
-    - So what's the actual prevalence among the population at large?
-- Deaths... deaths and hospitalizations w/ covid we can be more confident about due to
-  higher prior probability of having covid
