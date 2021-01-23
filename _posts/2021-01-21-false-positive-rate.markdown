@@ -180,8 +180,8 @@ To compensate for incorrect test results, you can calculate test positivity. Tes
 ### TODO:
 * More stuff for me to write:
   * Explain Bayes theorem
-  * Editorialize
   * Interactive plot of positivity vs false positives
+  * On editorializing
 
 **References:**<br/>
 https://www.icd10monitor.com/false-positives-in-pcr-tests-for-covid-19<br/>
