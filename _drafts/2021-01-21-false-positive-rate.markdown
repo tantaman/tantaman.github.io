@@ -97,7 +97,7 @@ I've put together an example below where you can modify the prevalence of the di
       <div class="vertical-bar"></div>
       <div class="readout"><span id="prevalence-value">1</span>% Prevalence</div>
       <div class="vertical-bar"></div>
-      <div class="readout">n have COVID</div>
+      <div class="readout"><span id="infected-value"></span> have COVID</div>
       <div class="vertical-bar"></div>
     </div>
     <div class="not-have right">
@@ -105,7 +105,7 @@ I've put together an example below where you can modify the prevalence of the di
       <div class="clear"></div>
       <div class="vertical-bar"></div>
       <div class="clear"></div>
-      <div class="readout">m do not have COVID</div>
+      <div class="readout"><span id="healthy-value"></span> do not have COVID</div>
       <div class="vertical-bar"></div>
       <div class="clear"></div>
       <div class="vertical-bar"></div>
@@ -117,13 +117,13 @@ I've put together an example below where you can modify the prevalence of the di
     <div class="infected-tree">
       <div class="left">
         <div class="vertical-bar"></div>
-        <div class="readout">x</div>
+        <div class="readout"><span id="false-neg-value"></span></div>
         <div class="readout">tested -</div>
       </div>
       <div class="right">
         <div class="vertical-bar"></div>
         <div class="clear"></div>
-        <div class="readout">y</div>
+        <div class="readout"><span id="true-pos-value"></span></div>
         <div class="readout">tested +</div>
         <div class="clear"></div>
       </div>
@@ -132,13 +132,13 @@ I've put together an example below where you can modify the prevalence of the di
     <div class="healthy-tree">
       <div class="left">
         <div class="vertical-bar"></div>
-        <div class="readout">z</div>
+        <div class="readout"><span id="true-neg-value"></span></div>
         <div class="readout">tested -</div>
       </div>
       <div class="right">
         <div class="vertical-bar"></div>
         <div class="clear"></div>
-        <div class="readout">w</div>
+        <div class="readout"><span id="false-pos-value"></span></div>
         <div class="readout">tested +</div>
         <div class="clear"></div>
       </div>
