@@ -97,8 +97,6 @@ One thing that becomes very obvious when playing with the demo below is how impo
   <div class="have-not-have">
     <div class="prevalence left">
       <div class="vertical-bar"></div>
-      <div class="readout"><span id="prevalence-value">1</span>% Prevalence</div>
-      <div class="vertical-bar"></div>
       <div class="readout"><span id="infected-value"></span> have COVID</div>
       <div class="vertical-bar"></div>
     </div>
