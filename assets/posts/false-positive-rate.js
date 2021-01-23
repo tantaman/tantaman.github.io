@@ -48,6 +48,10 @@ function calculate(
     healthy,
     false_positives,
     true_negatives,
+
+    //
+    neg_wrong: false_negatives / (true_negatives + false_negatives),
+    pos_wrong: false_positives / (true_positives + false_positives),
   };
 }
 
@@ -67,9 +71,19 @@ const display = {
   false_neg_value: document.getElementById('false-neg-value'),
   true_pos_value: document.getElementById('true-pos-value'),
 
+  false_neg_ppl: document.getElementById('false-neg-ppl'),
+  true_pos_ppl: document.getElementById('true-pos-ppl'),
+
   // healthy
-  false_pos_value: document.getElementById('false-pos-value'),
   true_neg_value: document.getElementById('true-neg-value'),
+  false_pos_value: document.getElementById('false-pos-value'),
+
+  true_neg_ppl: document.getElementById('true-neg-ppl'),
+  false_pos_ppl: document.getElementById('false-pos-ppl'),
+
+  //
+  neg_wrong_value: document.getElementById('negative-wrong-value'),
+  pos_wrong_value: document.getElementById('positive-wrong-value'),
 };
 
 let state = {
@@ -97,6 +111,22 @@ function render(state) {
 
   display.true_neg_value.innerText = state.calculations.true_negatives.toLocaleString();
   display.false_pos_value.innerText = state.calculations.false_positives.toLocaleString();
+
+  display.neg_wrong_value.innerText = state.calculations.neg_wrong.toFixed(2) * 100;
+  display.pos_wrong_value.innerText = state.calculations.pos_wrong.toFixed(2) * 100;
+
+  // display.false_neg_ppl.innerHTML = render_people(
+  //   state.calculations.false_negatives,
+  // );
+  // display.true_pos_ppl.innerHTML = render_people(
+  //   state.calculations.true_positives,
+  // );
+  // display.true_neg_ppl.innerHTML = render_people(
+  //   state.calculations.true_negatives,
+  // );
+  // display.false_pos_ppl.innerHTML = render_people(
+  //   state.calculations.false_positives,
+  // );
 }
 
 function bind() {
