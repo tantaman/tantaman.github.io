@@ -32,19 +32,17 @@ To cut to the chase, you can actually have a false positive rate of 0.5% but sti
 
 Imagine you have a population of 1,000 people and we know for a fact that only one of them has COVID but we don't know which one. Someone devises a test to try to find the sick person. That test has a 10% false positive rate and 0% false negative rate.
 
-We run that test against all 1,000 people. After testing the entire population we will have 100 people test positive for COVID.
+We run that test against all 1,000 people. After testing the entire population we will have 100 people test positive for COVID. 1 person that actually has the disease and 99 (10% of 999) that are false positives.
 
-1 person that actually has the disease and 99 (10% of 999) that are false positives. What this means is that given a positive test result, you still only have a 1/100 chance of having COVID.
+What the above means is that given a positive test result, you still only have a 1/100 chance of having COVID.
 
 In other words, a false positive rate of 10% under these conditions will still result in 99% of positive tests being incorrect.
 
 ## Prior Probability
 
-What is going on is that the prior probability of having a disease impacts the amount of positive test results that are in error. If 100% of the population has the disease then the chance of having the disease given a positive test would match the test's false positive rate. If 0% of the population has the disease then 100% of positive test results are incorrect.
+What is going on is that the prior probability of having a disease impacts the amount of positive test results that are in error. If 100% of the population has the disease then the number of tests in error would match the test's false positive rate. If 0% of the population has the disease then 100% of positive test results are incorrect.
 
-Below you can modify the prevalence of the disease (prior probability), false positive rate of the test and population size to see the various outcomes.
-
-The other thing highlighted in the demo below is how false negative rate also impacts the amount of positive test results that can be in error.
+To get a feel for how the different variables impact testing, you can modify the prevalence, false positive and false negative rates below to see the various outcomes.
 
 <table class="demo-controls">
     <tbody>
