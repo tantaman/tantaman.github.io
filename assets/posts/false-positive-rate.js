@@ -62,6 +62,7 @@ const display = {
   prevalence_legend: document.getElementById('prevalence-legend'),
 
   fp_rate_legend: document.getElementById('fp-rate-legend'),
+  fn_rate_legend: document.getElementById('fn-rate-legend'),
 
   infected_value: document.getElementById('infected-value'),
   healthy_value: document.getElementById('healthy-value'),
@@ -86,10 +87,10 @@ const display = {
 };
 
 let state = {
-  population: 1000,
+  population: 10000,
   fp_rate: 0.5 / 100.0,
   prevalence: 1 / 100.0,
-  fn_rate: 0,
+  fn_rate: 25 / 100.0,
 };
 
 set_state(state);
@@ -113,6 +114,8 @@ function render(state) {
   display.neg_wrong_value.innerText = Math.round(state.calculations.neg_wrong * 100);
   display.pos_wrong_value.innerText = Math.round(state.calculations.pos_wrong * 100);
 
+  display.fn_rate_legend.innerText = Math.round(state.fn_rate * 100).toLocaleString();
+
   // display.false_neg_ppl.innerHTML = render_people(
   //   state.calculations.false_negatives,
   // );
@@ -128,18 +131,32 @@ function render(state) {
 }
 
 function bind() {
-  document.getElementById('pop-ctrl').oninput = (e) =>
+  const pop_ctrl = document.getElementById('pop-ctrl');
+  const prev_ctrl = document.getElementById('prevalence-ctrl');
+  const fp_rate_ctrl = document.getElementById('fp-rate-ctrl');
+  const fn_rate_ctrl = document.getElementById('fn-rate-ctrl');
+
+  pop_ctrl.oninput = (e) =>
     set_state({
       population: parseInt(e.target.value),
     });
-  document.getElementById('prevalence-ctrl').oninput = (e) =>
+  prev_ctrl.oninput = (e) =>
     set_state({
       prevalence: parseInt(e.target.value) / 100.0,
     });
-  document.getElementById('fp-rate-ctrl').oninput = (e) =>
+  fp_rate_ctrl.oninput = (e) =>
     set_state({
       fp_rate: parseFloat(e.target.value) / 100.0,
     });
+  fn_rate_ctrl.oninput = (e) =>
+    set_state({
+      fn_rate: parseFloat(e.target.value) / 100.0,
+    });
+
+  pop_ctrl.value = state.population;
+  prev_ctrl.value = state.prevalence * 100;
+  fp_rate_ctrl.value = state.fp_rate * 100;
+  fn_rate_ctrl.value = state.fn_rate * 100;
 }
 
 function set_state(next_state) {
