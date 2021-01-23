@@ -112,8 +112,8 @@ function render(state) {
   display.true_neg_value.innerText = state.calculations.true_negatives.toLocaleString();
   display.false_pos_value.innerText = state.calculations.false_positives.toLocaleString();
 
-  display.neg_wrong_value.innerText = state.calculations.neg_wrong.toFixed(2) * 100;
-  display.pos_wrong_value.innerText = state.calculations.pos_wrong.toFixed(2) * 100;
+  display.neg_wrong_value.innerText = Math.round(state.calculations.neg_wrong * 100);
+  display.pos_wrong_value.innerText = Math.round(state.calculations.pos_wrong * 100);
 
   // display.false_neg_ppl.innerHTML = render_people(
   //   state.calculations.false_negatives,
