@@ -18,7 +18,7 @@ Speaking with friends and family, the conversation around the chances of having 
 
 <ul class="dialogue">
 <li><strong>Me:</strong> <q>What do you think the chances are of having COVID if you test positive for COVID?</q></li>
-<li><strong>Friend/Family:</strong> <q>Do you know the false positive rate of the test?</q></li>
+<li><strong>Friend/Family:</strong> <q>What's the false positive rate of the test?</q></li>
 <li><strong>Me:</strong> <q>0.5%</q></li>
 <li><strong>F/F:</strong> <q>Then there's a 99.5% chance that you do have COVID.</q></li>
 <li><strong>Me:</strong> <q>That's actually not how false positive rate works. You have to account for prevalence of the disease.</q></li>
@@ -30,9 +30,9 @@ To cut to the chase, you can actually have a false positive rate of 0.5% but sti
 
 ## Example:
 
-Imagine you have a population of 1000 people and we know for a fact that only one of them has COVID but we don't know which one. Someone devises a test to try to find the sick person. That test has a 10% false positive rate and 0% false negative rate.
+Imagine you have a population of 1,000 people and we know for a fact that only one of them has COVID but we don't know which one. Someone devises a test to try to find the sick person. That test has a 10% false positive rate and 0% false negative rate.
 
-We run that test against all 1000 people. After testing the entire population we will have 100 people test positive for COVID.
+We run that test against all 1,000 people. After testing the entire population we will have 100 people test positive for COVID.
 
 1 person that actually has the disease and 99 (10% of 999) that are false positives. What this means is that given a positive test result, you still only have a 1/100 chance of having COVID.
 
@@ -179,6 +179,12 @@ The other thing highlighted in the demo below is how false negative rate also im
 All of this sheds a different light on case numbers. Are reported numbers only based on testing, or are they compensating for the number of incorrect test results?
 
 To compensate for incorrect test results, you can calculate test positivity. Test positivity represents the fraction of people tested that had a positive result. If you have high test positivity then you will have many fewer positive results that are incorrect.
+
+### TODO:
+* More stuff for me to write:
+  * Explain Bayes theorem
+  * Editorialize
+  * Interactive plot of positivity vs false positives
 
 **References:**<br/>
 https://www.icd10monitor.com/false-positives-in-pcr-tests-for-covid-19<br/>
