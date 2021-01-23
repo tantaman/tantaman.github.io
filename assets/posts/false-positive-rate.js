@@ -51,28 +51,62 @@ function calculate(
   };
 }
 
+const display = {
+  pop_value: document.getElementById('pop-value'),
+  pop_legend: document.getElementById('pop-legend'),
+
+  prevalence_value: document.getElementById('prevalence-value'),
+  prevalence_legend: document.getElementById('prevalence-legend'),
+
+  fp_rate_legend: document.getElementById('fp-rate-legend'),
+};
+
+let state = {
+  population: 1000,
+  fp_rate: 0.5,
+  prevalence: 1,
+  fn_rate: 0,
+};
+
+set_state(state);
+
+function render() {
+  display.pop_legend.innerText =
+    display.pop_value.innerText = state.population.toLocaleString();
+  display.prevalence_legend.innerText =
+    display.prevalence_value.innerText = state.prevalence;
+
+  display.fp_rate_legend.innerText = state.fp_rate.toFixed(1).toLocaleString();
+}
+
 function bind() {
-  const pop_value = document.getElementById('pop-value');
-  const pop_legend = document.getElementById('pop-legend');
-  document.getElementById('pop-ctrl').oninput = (e) => {
-    pop_legend.innerText = pop_value.innerText = parseInt(e.target.value).toLocaleString();
-    recalculate();
-  };
-  const prevalence_value = document.getElementById('prevalence-value');
-  const prevalence_legend = document.getElementById('prevalence-legend');
-  document.getElementById('prevalence-ctrl').oninput = (e) => {
-    prevalence_legend.innerText = prevalence_value.innerText = e.target.value.toLocaleString();
-    recalculate();
-  };
-  const fp_rate_legend = document.getElementById('fp-rate-legend');
-  document.getElementById('fp-rate-ctrl').oninput = (e) => {
-    fp_rate_legend.innerText = e.target.value.toLocaleString();
-    recalculate();
-  };
+  document.getElementById('pop-ctrl').oninput = (e) =>
+    set_state({
+      population: parseInt(e.target.value),
+    });
+  document.getElementById('prevalence-ctrl').oninput = (e) =>
+    set_state({
+      prevalence: parseInt(e.target.value),
+    });
+  document.getElementById('fp-rate-ctrl').oninput = (e) =>
+    set_state({
+      fp_rate: parseFloat(e.target.value),
+    });
 }
 
 function set_state(next_state) {
+  state = {
+    ...state,
+    ...next_state,
+    calculations: calculate(
+      state.population,
+      state.fp_rate,
+      state.prevalence,
+      state.fn_rate,
+    ),
+  };
 
+  render();
 }
 
 bind();
