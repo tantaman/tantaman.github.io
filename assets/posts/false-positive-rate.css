@@ -4,6 +4,7 @@
 
 .full-info-box {
   width: 100%;
+  min-width: 408px;
   border: 1px solid #f9f1f1;
   background: #fffaf1;
 

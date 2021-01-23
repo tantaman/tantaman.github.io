@@ -59,7 +59,6 @@ const display = {
   pop_value: document.getElementById('pop-value'),
   pop_legend: document.getElementById('pop-legend'),
 
-  prevalence_value: document.getElementById('prevalence-value'),
   prevalence_legend: document.getElementById('prevalence-legend'),
 
   fp_rate_legend: document.getElementById('fp-rate-legend'),
@@ -98,8 +97,7 @@ set_state(state);
 function render(state) {
   display.pop_legend.innerText =
     display.pop_value.innerText = state.population.toLocaleString();
-  display.prevalence_legend.innerText =
-    display.prevalence_value.innerText = Math.round(state.prevalence * 100);
+  display.prevalence_legend.innerText = Math.round(state.prevalence * 100);
 
   display.fp_rate_legend.innerText = (state.fp_rate * 100).toFixed(1).toLocaleString();
 
