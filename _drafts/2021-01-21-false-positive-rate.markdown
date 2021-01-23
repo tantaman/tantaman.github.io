@@ -144,16 +144,28 @@ I've put together an example below where you can modify the prevalence of the di
       </div>
     </div>
   </div>
-  <table class="outcomes-block">
+  <!-- <table class="outcomes-block">
     <tbody>
       <tr>
-        <td id="true-pos"></td>
-        <td id="false-neg"></td>
-        <td id="true-neg"></td>
-        <td id="false-pos"></td>
+        <td id="false-neg-ppl"></td>
+        <td id="true-pos-ppl"></td>
+        <td id="true-neg-ppl"></td>
+        <td id="false-pos-ppl"></td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
+  <table class="final-stats">
+      <tbody>
+        <tr>
+          <td>Negative results that are wrong </td>
+          <td><span id="negative-wrong-value"></span>%</td>
+        </tr>
+        <tr>
+          <td>Positive results that are wrong </td>
+          <td><span id="positive-wrong-value">y</span>%</td>
+        </tr>
+      </tbody>
+    </table>
 </div>
 
 
