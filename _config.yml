@@ -22,8 +22,8 @@ title: Tantamanlands
 email: matthew dot wonlaw at hey.com
 description: >- # this means to ignore newlines until "baseurl:"
   Tantamanlands
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "https://tantaman.com" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  tantaman
 twitter_username: tantaman
 
@@ -46,7 +46,7 @@ share-links-active:
   vk: false
 
 social-network-links:
-  email: "matthew.wonlaw@hey.com"
+  email: "matt.wonlaw@gmail.com"
   github: tantaman
   twitter: tantaman
   rss: true
