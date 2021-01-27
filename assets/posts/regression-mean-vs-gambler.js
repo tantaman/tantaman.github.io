@@ -25,7 +25,7 @@ function find_runs(coins) {
   return coins.reduceRight(
     (accumulator, coin) => {
       accumulator.push({
-        sid,
+        side: coin,
         run: sum_back(coin, accumulator),
       });
       return accumulator;
@@ -35,18 +35,37 @@ function find_runs(coins) {
 }
 
 function render_coins(coins) {
-  return coins.map(
-    coin => `<span class="side-${coin.side}" />`
-  ).join('');
-  // const ret = [];
-  // for (let i = 0; i < coins.length; ++i) {
-  //   const entry = coins[i];
-  //   if (entry.run >= 4) {
-  //     ret.push()
-  //   }
-  // }
+  // return coins.map(
+  //   coin => `<span class="side-${coin.side} coin"></span>`
+  // ).join('');
+
+  const ret = [];
+  for (let i = 0; i < coins.length;) {
+    const coin = coins[i];
+    if (coin.run >= 4) {
+      render_run(
+        coin.run,
+        coins,
+        i,
+        ret,
+      );
+      i += coin.run;
+    } else {
+      ret.push(`<span class="side-${coin.side} coin"></span>`);
+      ++i;
+    }
+  }
+
+  return ret.join('');
 }
 
-console.log(find_runs(generate_coins(NUM_COINS)));
+function render_run(run, coins, offset, ret) {
+  for (let i = offset; i < offset + run; ++i) {
+    const coin = coins[i];
+    ret.push(`<span class="side-${coin.side} coin run"></span>`);
+  }
+}
 
 const run_chart = document.getElementById('run-chart');
+
+run_chart.innerHTML = render_coins(find_runs(generate_coins(NUM_COINS)));
