@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Regression to the Mean & the Gambler's Fallacy - Simulated"
+categories: statistics paradoxical
+customjs:
+  - /assets/posts/regression-mean-vs-gambler.js
+---
+
+[Jump to the simulation](#!)
+
+There are two seemingly contradictory findings in statistics which apply to independent events:
+
+1. Regression to the Mean
+2. The Gambler's Fallacy
+
+**Regression to the mean** is defined as:
+
+> The phenomenon that arises if a sample point of a random variable is extreme (nearly an outlier), a future point will be closer to the mean or average on further measurements. - [Wikipedia](https://en.wikipedia.org/wiki/Regression_toward_the_mean#:~:text=In%20statistics%2C%20regression%20toward%20the,or%20average%20on%20further%20measurements.)
+
+**Example:** If 4 coin tosses produced 4 heads, the next 4 coin tosses are more likely to produce 2 heads and 2 tails.
+
+Whereas the **Gambler's Fallacy** is defined as:
+
+> The erroneous belief that if a particular event occurs more frequently than normal during the past it is less likely to happen in the future. - [Wikipedia](https://en.wikipedia.org/wiki/Gambler%27s_fallacy)
+
+**Example:** If you toss a coin 4 times and each toss is heads, the next toss is neither more nor less likely to be tails.
+
+These two principles seem to be contradictory.
+
+In the first, we hear that after observing an outlier, the variable is more likley be closer to it's mean on the next observation.
+
+In the second, we hear that the past doesn't influence the future for independent events like coin tosses or dice rolls.
+
+# Prior Work
+
+Googling "Regression to the Mean vs Gambler's Fallacy" brings up a number of times where people have sought to remedy this confusion for themselves:
+
+* [stats.stackexchange - Regression to the mean vs gambler's fallacy](https://stats.stackexchange.com/questions/204397/regression-to-the-mean-vs-gamblers-fallacy)
+* [math.stackexchange - Regression towards the mean v/s the Gambler's fallacy](https://math.stackexchange.com/questions/433492/regression-towards-the-mean-v-s-the-gamblers-fallacy)
+* [quora - What's the difference between regression to the mean and the gambler's fallacy?](https://www.quora.com/Whats-the-difference-between-regression-to-the-mean-and-the-gamblers-fallacy)
+* [r/askscience - Do the Gamblers Fallacy and regression toward the mean contradict each other?](https://www.reddit.com/r/askscience/comments/340ulx/do_the_gamblers_fallacy_and_regression_toward_the/)
+* [financial wisdom - Coin Tossing ... and Reversion to the Mean](https://www.financialwisdomforum.org/gummy-stuff/coin-tossing.htm)
+* [medium - Gambler’s fallacy & Regression towards the means](https://medium.com/@sundaykuloksun/gamblers-fallacy-regression-towards-the-means-ae538ace8318)
+
+I find the [medium article]([medium](https://medium.com/@sundaykuloksun/gamblers-fallacy-regression-towards-the-means-ae538ace8318)) by Ku Lok Sun the most succint and accessible explination of the difference between the two, but none of the sources above provide a simulation of the phenomenon.
+
+# Simulating both principles
+
+To get a practical sense that the principles are in fact not contradictory, lets perform a test.
+
+<div id="run-chart"></div>
