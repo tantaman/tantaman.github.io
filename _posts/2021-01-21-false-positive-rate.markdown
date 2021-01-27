@@ -8,6 +8,8 @@ css:
   - /assets/posts/false-positive-rate.css
 ---
 
+[Jump to the simulation](#prior-probability)
+
 Throughout the Coronavirus pandemic, the most distressing thing has been the cherry picking of statistics.
 
 Things have gotten better. Cases, deaths, and hospitalizations are often reported per 100k, rather than being without context. We're also getting information about the percentage of people that test positive out of all the people that were tested.
