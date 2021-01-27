@@ -1,0 +1,30 @@
+#run-chart {
+  overflow-wrap: break-word;
+  line-height: 0px;
+
+  margin-bottom: 20px;
+}
+
+.coin {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+
+  outline: 1px solid black;
+}
+
+.side-H {
+  /* #cdcdf7 */
+  background-color: #cdcdf7;
+}
+.side-H.run {
+  background: #7474c5;
+}
+
+.side-T {
+  /* efc3c3 */
+  background-color: #efc3c3;
+}
+.side-T.run {
+  background: #dc6868;
+}

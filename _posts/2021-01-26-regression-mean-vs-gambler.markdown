@@ -4,6 +4,8 @@ title: "Regression to the Mean & the Gambler's Fallacy - Simulated"
 categories: statistics paradoxical
 customjs:
   - /assets/posts/regression-mean-vs-gambler.js
+css:
+  - /assets/posts/regression-mean-vs-gambler.css
 ---
 
 [Jump to the simulation](#!)
