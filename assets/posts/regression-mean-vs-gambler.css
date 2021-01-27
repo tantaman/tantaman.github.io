@@ -14,7 +14,6 @@
 }
 
 .side-H {
-  /* #cdcdf7 */
   background-color: #cdcdf7;
 }
 .side-H.run {
@@ -22,9 +21,14 @@
 }
 
 .side-T {
-  /* efc3c3 */
   background-color: #efc3c3;
 }
 .side-T.run {
   background: #dc6868;
+}
+
+.run {
+  transition-property: background;
+  transition-duration: 4s;
+  transition-delay: 2s;
 }
