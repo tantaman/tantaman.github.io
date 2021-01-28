@@ -103,13 +103,26 @@ We're interseted in (3) so we can verify that a series of flips immediately afte
   </tfoot>
 </table>
 
-Gambler's Fallacy - As we can see from above, the probability of getting heads on a coin flip immediately after a streak is nearly 50/50, same with the probability of getting tails.
+**Gambler's Fallacy** - In the second column above, the probability of flipping heads or tails immediately after a streak is still 50/50. The prior streak doesn't impact the next flip.
 
-The sequence of <i data-bind="run_length"></i> flips immediately after the runs also has an even distribution of heads and tails.
+<i data-bind="after_run_heads"></i> / <i data-bind="num_runs"></i> * 100 =
+<i data-bind="after_run_heads_pct"></i>% <span class="coin side-H"></span>
+<br/>
+<i data-bind="after_run_tails"></i> / <i data-bind="num_runs"></i> * 100 =
+<i data-bind="after_run_tails_pct"></i>% <span class="coin side-T"></span>
 
-Regression to the mean - And finally, in the last column, nearly all of the sequences of flips immediatelly following a run are closer to the mean (i.e., have nearly even heads and tails).
+**Regression to the mean** - The last column is a tally of column 3 where heads = -1 and tails = 1. A magnitude < 4 mean that we're closer to the mean. In the last column, nearly all of the sequences of flips immediatelly following a streak are closer to the mean (i.e., have nearly even numbers of heads and tails).
 
-But to be sure, let's re-do the analysis above but for streaks of heads only.
+This confirms regression to the mean: after seeing an outlier the next measurement is more likely to be closer to the mean.
+
+<i data-bind="num_seq_closer_to_mean"></i> / <i data-bind="num_runs"></i> * 100 =
+<i data-bind="num_seq_closer_to_mean_pct"></i>% of runs are **closer to the mean.**
+
+But we're taking into consideration both heads streaks and tails streaks. Could they by evening one another out?
+
+### Heads Only
+
+To be sure, let's re-do the analysis above but for streaks of heads only.
 
 <table class="run-list">
   <thead>
@@ -120,22 +133,45 @@ But to be sure, let's re-do the analysis above but for streaks of heads only.
       <td><i data-bind="run_length"></i> Flips Sum</td>
     </tr>
   </thead>
-  <tbody data-bind="run_list">
+  <tbody data-bind="heads_run_list">
   </tbody>
   <tfoot>
     <tr>
       <td><i data-bind="heads_num_runs"></i> Streaks</td>
       <td>
         <i data-bind="heads_after_run_heads"></i> <span class="coin side-H"></span> /
-        <i data-bind="after_run_tails"></i> <span class="coin side-T"></span>
+        <i data-bind="heads_after_run_tails"></i> <span class="coin side-T"></span>
       </td>
       <td>
-        <i data-bind="seq_after_run_heads"></i> <span class="coin side-H"></span> /
-        <i data-bind="seq_after_run_tails"></i> <span class="coin side-T"></span>
+        <i data-bind="heads_seq_after_run_heads"></i> <span class="coin side-H"></span> /
+        <i data-bind="heads_seq_after_run_tails"></i> <span class="coin side-T"></span>
       </td>
       <td>
-        <i data-bind="num_seq_closer_to_mean"></i> of <i data-bind="num_runs"></i> Closer to mean
+        <i data-bind="heads_num_seq_closer_to_mean"></i> of <i data-bind="heads_num_runs"></i> Closer to mean
       </td>
     </tr>
   </tfoot>
 </table>
+
+**Gambler's Fallacy:**
+
+<i data-bind="heads_after_run_heads"></i> / <i data-bind="heads_num_runs"></i> * 100 =
+<i data-bind="heads_after_run_heads_pct"></i>% <span class="coin side-H"></span>
+<br/>
+<i data-bind="heads_after_run_tails"></i> / <i data-bind="heads_num_runs"></i> * 100 =
+<i data-bind="heads_after_run_tails_pct"></i>% <span class="coin side-T"></span>
+
+**Regression to the Mean:**
+
+<i data-bind="heads_num_seq_closer_to_mean"></i> / <i data-bind="heads_num_runs"></i> * 100 =
+<i data-bind="heads_num_seq_closer_to_mean_pct"></i>% of runs are **closer to the mean.**
+
+The findings are in line with the original set.
+
+## Conclusion
+
+In accord with the gambler's fallacy, every flip is 50/50, regardless of the streak proceeding the flip.
+
+Since every flip is 50/50, a streak of heads or tails is a deviation from the mean and an outlier. By definition, flips after a streak (an outlier) are more likely be closer to the mean.
+
+Regression to the mean, rather than being contrary to the gambler's fallacy, is really a restatement of it. A sequence of random events will always tend towards the mean. The chance of getting heads or tails on any given flip is the mean. 50/50.

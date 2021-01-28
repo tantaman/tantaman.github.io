@@ -126,9 +126,44 @@ function bindit(exported_data) {
   }
 }
 
+function seq_after_run(run_list, side) {
+  return run_list.reduce(
+    (acc, r) =>
+      acc + r.next_coins.reduce(
+        (acc, c) => acc + (c.side === 'H' ? 1 : 0),
+        0,
+      ),
+    0,
+  );
+}
+
+function calc_num_seq_closer_to_mean(run_list) {
+  return run_list.reduce(
+    (acc, r) =>
+      acc + (Math.abs(r.next_coins.reduce(sum_coins, 0)) < RUN_LENGTH ? 1 : 0),
+    0,
+  );
+}
+
+function count_side_after_runs(run_list, side) {
+  return run_list.reduce(
+    (acc, r) => acc + (r.next_coin && r.next_coin.side === side ? 1 : 0),
+    0
+  );
+}
+
 const coins = find_runs(generate_coins(NUM_COINS));
 const runs = extract_runs(coins);
 const run_list = build_run_list(coins, runs);
+const heads_run_list = run_list.filter(r => r.type === 'H');
+
+const after_run_heads = count_side_after_runs(run_list, 'H');
+const after_run_tails = count_side_after_runs(run_list, 'T');
+const num_seq_closer_to_mean = calc_num_seq_closer_to_mean(run_list);
+
+const heads_after_run_heads = count_side_after_runs(heads_run_list, 'H');
+const heads_after_run_tails = count_side_after_runs(heads_run_list, 'T');
+const heads_num_seq_closer_to_mean = calc_num_seq_closer_to_mean(heads_run_list);
 
 const exported_data = {
   num_coins: NUM_COINS.toLocaleString(),
@@ -137,48 +172,31 @@ const exported_data = {
   ).join(''),
   run_chart: render_runs(coins),
   run_length: RUN_LENGTH,
-  run_list: render_run_list(
-    coins,
-    run_list,
-  ),
-  after_run_heads: runs.reduce(
-    (acc, r) => acc + (coins[r + RUN_LENGTH] && coins[r + RUN_LENGTH].side === 'H' ? 1 : 0),
-    0
-  ),
-  after_run_tails: runs.reduce(
-    (acc, r) => acc + (coins[r + RUN_LENGTH] && coins[r + RUN_LENGTH].side === 'T' ? 1 : 0),
-    0
-  ),
-  num_runs: runs.length,
+  run_list: render_run_list(coins, run_list),
+  after_run_heads,
+  after_run_tails,
+  num_runs: run_list.length,
 
-  seq_after_run_heads: run_list.reduce(
-    (acc, r) =>
-      acc + r.next_coins.reduce(
-        (acc, c) => acc + (c.side === 'H' ? 1 : 0),
-        0,
-      ),
-    0,
-  ),
-  seq_after_run_tails: run_list.reduce(
-    (acc, r) =>
-      acc + r.next_coins.reduce(
-        (acc, c) => acc + (c.side === 'T' ? 1 : 0),
-        0,
-      ),
-    0,
-  ),
-  num_seq_closer_to_mean: run_list.reduce(
-    (acc, r) =>
-      acc + (Math.abs(r.next_coins.reduce(sum_coins, 0)) < RUN_LENGTH ? 1 : 0),
-    0,
-  ),
+  after_run_heads_pct: ((after_run_heads / run_list.length) * 100).toFixed(2),
+  after_run_tails_pct: ((after_run_tails / run_list.length) * 100).toFixed(2),
 
-  heads_num_runs: run_list.reduce(
-    (acc, r) =>
-      acc + (r.type === 'H' ? 1 : 0),
-      0,
-  ),
-  heads_after_run_heads: 0,
-  heads_after_run_tails: 0,
+  seq_after_run_heads: seq_after_run(run_list, 'H'),
+  seq_after_run_tails: seq_after_run(run_list, 'T'),
+  num_seq_closer_to_mean,
+  num_seq_closer_to_mean_pct: ((num_seq_closer_to_mean / run_list.length) * 100).toFixed(2),
+
+  // TODO: we could dry this out by componentizing the run list view.
+  heads_run_list: render_run_list(coins, heads_run_list),
+  heads_after_run_heads: count_side_after_runs(heads_run_list, 'H'),
+  heads_after_run_tails: count_side_after_runs(heads_run_list, 'T'),
+  heads_num_runs: heads_run_list.length,
+
+  heads_seq_after_run_heads: seq_after_run(heads_run_list, 'H'),
+  heads_seq_after_run_tails: seq_after_run(heads_run_list, 'T'),
+  heads_num_seq_closer_to_mean,
+
+  heads_after_run_heads_pct: ((heads_after_run_heads / heads_run_list.length) * 100).toFixed(2),
+  heads_after_run_tails_pct: ((heads_after_run_tails / heads_run_list.length) * 100).toFixed(2),
+  heads_num_seq_closer_to_mean_pct: ((heads_num_seq_closer_to_mean / heads_run_list.length) * 100).toFixed(2),
 };
 bindit(exported_data);
