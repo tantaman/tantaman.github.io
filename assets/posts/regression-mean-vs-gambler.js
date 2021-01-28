@@ -169,8 +169,16 @@ const exported_data = {
   ),
   num_seq_closer_to_mean: run_list.reduce(
     (acc, r) =>
-      acc + (Math.abs(r.next_coins.reduce(sum_coins, 0)) < 4 ? 1 : 0),
+      acc + (Math.abs(r.next_coins.reduce(sum_coins, 0)) < RUN_LENGTH ? 1 : 0),
     0,
   ),
+
+  heads_num_runs: run_list.reduce(
+    (acc, r) =>
+      acc + (r.type === 'H' ? 1 : 0),
+      0,
+  ),
+  heads_after_run_heads: 0,
+  heads_after_run_tails: 0,
 };
 bindit(exported_data);
