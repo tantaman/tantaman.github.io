@@ -8,7 +8,7 @@ css:
   - /assets/posts/regression-mean-vs-gambler.css
 ---
 
-[Jump to the simulation](#!)
+[Jump to the simulation](#simulating-both-principles)
 
 There are two seemingly contradictory findings in statistics which apply to independent events:
 
@@ -66,6 +66,7 @@ Heads streaks ><i data-bind="run_length"></i> are highlighted as <span class="co
 To explore regression to the mean and the gambler's fallacy, we're interested in knowing what happens immediately after a streak of <i data-bind="run_length"></i>. So lets pull out:
 
 1. Streaks of <i data-bind="run_length"></i>
+   1. Streaks greater than <i data-bind="run_length"></i> will be split into (streak length) / <i data-bind="run_length"></i> parts.
 2. The coin flip immediately after the streak
 3. The set of <i data-bind="run_length"></i> flips immediately after the streak of <i data-bind="run_length"></i>.
 
@@ -73,4 +74,31 @@ We're interested in (2) so we can verify that the chances of heads/tails after a
 
 We're interseted in (3) so we can verify that a series of flips immediately after an outlier (the streak) is, on average, closer to the mean (regression to the mean).
 
-<ul class="streak-list" data-bind="streak_list"></ul>
+<table class="run-list">
+  <thead>
+    <tr>
+      <td>Streak</td>
+      <td>Next Flip</td>
+      <td><i data-bind="run_length"></i> Flips After</td>
+      <td><i data-bind="run_length"></i> Flips Sum</td>
+    </tr>
+  </thead>
+  <tbody data-bind="run_list">
+  </tbody>
+  <tfoot>
+    <tr>
+      <td><i data-bind="num_runs"></i> Streaks</td>
+      <td>
+        <i data-bind="after_run_heads"></i> <span class="coin side-H"></span> /
+        <i data-bind="after_run_tails"></i> <span class="coin side-T"></span>
+      </td>
+      <td>
+        <i data-bind="seq_after_run_heads"></i> <span class="coin side-H"></span> /
+        <i data-bind="seq_after_run_tails"></i> <span class="coin side-T"></span>
+      </td>
+      <td>
+        <i data-bind="num_seq_closer_to_mean"></i> Closer to mean
+      </td>
+    </tr>
+  </tfoot>
+</table>

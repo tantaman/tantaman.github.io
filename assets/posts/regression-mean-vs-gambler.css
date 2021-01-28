@@ -48,7 +48,15 @@
 }
 
 .coin-chart > .run {
-  animation-duration: 4s;
+  /* animation-duration: 4s;
   animation-iteration-count: infinite;
-  animation-direction: alternate;
+  animation-direction: alternate; */
+}
+
+.run-list {
+  margin-bottom: 20px;
+}
+
+.run-list td {
+  text-align: center;
 }
