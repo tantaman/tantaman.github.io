@@ -1,4 +1,4 @@
-#run-chart {
+.coin-chart {
   overflow-wrap: break-word;
   line-height: 0px;
 
@@ -13,22 +13,42 @@
   outline: 1px solid black;
 }
 
+:root {
+  --h-bg-color: #cdcdf7;
+  --t-bg-color: #efc3c3;
+
+  --h-run-bg-color: #7474c5;
+  --t-run-bg-color: #dc6868;
+}
+
+@keyframes h-run {
+  from {background-color: var(--h-bg-color);}
+  to {background-color: var(--h-run-bg-color);}
+}
+
+@keyframes t-run {
+  from {background-color: var(--t-bg-color);}
+  to {background-color: var(--t-run-bg-color);}
+}
+
 .side-H {
-  background-color: #cdcdf7;
+  background-color: var(--h-bg-color);
 }
 .side-H.run {
-  background: #7474c5;
+  background: var(--h-run-bg-color);
+  animation-name: h-run;
 }
 
 .side-T {
-  background-color: #efc3c3;
+  background-color: var(--t-bg-color);
 }
 .side-T.run {
-  background: #dc6868;
+  background: var(--t-run-bg-color);
+  animation-name: t-run;
 }
 
-.run {
-  transition-property: background;
-  transition-duration: 4s;
-  transition-delay: 2s;
+.coin-chart > .run {
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
