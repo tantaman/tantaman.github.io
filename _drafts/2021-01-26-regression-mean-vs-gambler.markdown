@@ -50,4 +50,15 @@ I find the [medium article]([medium](https://medium.com/@sundaykuloksun/gamblers
 
 To get a practical sense that the principles are in fact not contradictory, lets perform a test.
 
-<div id="run-chart"></div>
+First we'll flip <i data-bind="num_coins"></i> coins and plot the results.
+
+<span class="coin side-H"></span> will repersent heads.<br/>
+<span class="coin side-T"></span> will represent tails.
+
+<div class="coin-chart" data-bind="coin_chart"></div>
+
+Now lets take a look at streaks of 4 or more heads in a row as well as streaks of 4 or more tails in a row.
+
+Heads streaks >4 are highlighted as <span class="coin side-H run"></span><br/>Tails streaks >4 are highlighted as <span class="coin side-T run"></span>
+
+<div class="coin-chart" data-bind="run_chart"></div>

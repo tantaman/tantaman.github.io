@@ -34,11 +34,7 @@ function find_runs(coins) {
   ).reverse();
 }
 
-function render_coins(coins) {
-  // return coins.map(
-  //   coin => `<span class="side-${coin.side} coin"></span>`
-  // ).join('');
-
+function render_runs(coins) {
   const ret = [];
   for (let i = 0; i < coins.length;) {
     const coin = coins[i];
@@ -66,6 +62,21 @@ function render_run(run, coins, offset, ret) {
   }
 }
 
-const run_chart = document.getElementById('run-chart');
+function bindit(exported_data) {
+  const to_bind = document.querySelectorAll('[data-bind]');
+  for (e of to_bind) {
+    const x = e.dataset.bind;
+    e.innerHTML = exported_data[x];
+  }
+}
 
-run_chart.innerHTML = render_coins(find_runs(generate_coins(NUM_COINS)));
+const coins = find_runs(generate_coins(NUM_COINS));
+
+const exported_data = {
+  num_coins: NUM_COINS.toLocaleString(),
+  coin_chart: coins.map(
+    coin => `<span class="side-${coin.side} coin"></span>`
+  ).join(''),
+  run_chart: render_runs(coins),
+};
+bindit(exported_data);
