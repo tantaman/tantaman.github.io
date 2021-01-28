@@ -97,7 +97,7 @@ We're interseted in (3) so we can verify that a series of flips immediately afte
         <i data-bind="seq_after_run_tails"></i> <span class="coin side-T"></span>
       </td>
       <td>
-        <i data-bind="num_seq_closer_to_mean"></i> Closer to mean
+        <i data-bind="num_seq_closer_to_mean"></i> of <i data-bind="num_runs"></i> Closer to mean
       </td>
     </tr>
   </tfoot>

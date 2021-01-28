@@ -97,11 +97,13 @@ function build_run_list(coins, runs) {
       next_coin: coins[r + RUN_LENGTH],
       next_coins: Array(RUN_LENGTH).fill(0).map(
         (_, i) => coins[r + RUN_LENGTH + i],
-      ),
+      ).filter(c => !!c),
       type: coins[r].side,
     }),
   );
 }
+
+const sum_coins = (acc, c) => acc + (c.side === 'H' ? -1 : 1);
 
 function render_run_list(coins, run_list) {
   return run_list.map(
@@ -110,7 +112,7 @@ function render_run_list(coins, run_list) {
         <td>${render_run(RUN_LENGTH, coins, r.offset).join('')}</td>
         <td>${render_coin(r.next_coin)}</td>
         <td>${r.next_coins.map(c => render_coin(c)).join('')}</td>
-        <td>${r.next_coins.reduce((acc, c) => acc + (c.side === 'H' ? -1 : 1), 0)}</td>
+        <td>${r.next_coins.reduce(sum_coins, 0)}</td>
       </tr>
     `,
   ).join('');
@@ -140,11 +142,11 @@ const exported_data = {
     run_list,
   ),
   after_run_heads: runs.reduce(
-    (acc, r) => acc + (coins[r + RUN_LENGTH].side === 'H' ? 1 : 0),
+    (acc, r) => acc + (coins[r + RUN_LENGTH] && coins[r + RUN_LENGTH].side === 'H' ? 1 : 0),
     0
   ),
   after_run_tails: runs.reduce(
-    (acc, r) => acc + (coins[r + RUN_LENGTH].side === 'T' ? 1 : 0),
+    (acc, r) => acc + (coins[r + RUN_LENGTH] && coins[r + RUN_LENGTH].side === 'T' ? 1 : 0),
     0
   ),
   num_runs: runs.length,
@@ -165,6 +167,10 @@ const exported_data = {
       ),
     0,
   ),
-  num_seq_closer_to_mean: 0,
+  num_seq_closer_to_mean: run_list.reduce(
+    (acc, r) =>
+      acc + (Math.abs(r.next_coins.reduce(sum_coins, 0)) < 4 ? 1 : 0),
+    0,
+  ),
 };
 bindit(exported_data);
