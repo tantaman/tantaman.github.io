@@ -57,8 +57,20 @@ First we'll flip <i data-bind="num_coins"></i> coins and plot the results.
 
 <div class="coin-chart" data-bind="coin_chart"></div>
 
-Now lets take a look at streaks of 4 or more heads in a row as well as streaks of 4 or more tails in a row.
+Now lets take a look at streaks of <i data-bind="run_length"></i> or more heads in a row as well as streaks of <i data-bind="run_length"></i> or more tails in a row.
 
-Heads streaks >4 are highlighted as <span class="coin side-H run"></span><br/>Tails streaks >4 are highlighted as <span class="coin side-T run"></span>
+Heads streaks ><i data-bind="run_length"></i> are highlighted as <span class="coin side-H run"></span><br/>Tails streaks ><i data-bind="run_length"></i> are highlighted as <span class="coin side-T run"></span>
 
 <div class="coin-chart" data-bind="run_chart"></div>
+
+To explore regression to the mean and the gambler's fallacy, we're interested in knowing what happens immediately after a streak of <i data-bind="run_length"></i>. So lets pull out:
+
+1. Streaks of <i data-bind="run_length"></i>
+2. The coin flip immediately after the streak
+3. The set of <i data-bind="run_length"></i> flips immediately after the streak of <i data-bind="run_length"></i>.
+
+We're interested in (2) so we can verify that the chances of heads/tails after a streak is still 50/50 (gambler's fallacy).
+
+We're interseted in (3) so we can verify that a series of flips immediately after an outlier (the streak) is, on average, closer to the mean (regression to the mean).
+
+<ul class="streak-list" data-bind="streak_list"></ul>

@@ -1,4 +1,5 @@
 const NUM_COINS = 1000;
+const RUN_LENGTH = 4;
 
 function last(a) {
   return a[a.length - 1];
@@ -38,7 +39,7 @@ function render_runs(coins) {
   const ret = [];
   for (let i = 0; i < coins.length;) {
     const coin = coins[i];
-    if (coin.run >= 4) {
+    if (coin.run >= RUN_LENGTH) {
       render_run(
         coin.run,
         coins,
@@ -62,6 +63,18 @@ function render_run(run, coins, offset, ret) {
   }
 }
 
+function extract_runs(coins) {
+  const ret = [];
+  for (let i = 0; i < coins.length;) {
+    if (coins.run < RUN_LENGTH) {
+      ++i;
+      continue;
+    }
+
+    ret.push();
+  }
+}
+
 function bindit(exported_data) {
   const to_bind = document.querySelectorAll('[data-bind]');
   for (e of to_bind) {
@@ -78,5 +91,6 @@ const exported_data = {
     coin => `<span class="side-${coin.side} coin"></span>`
   ).join(''),
   run_chart: render_runs(coins),
+  run_length: RUN_LENGTH,
 };
 bindit(exported_data);
