@@ -48,7 +48,7 @@ function render_runs(coins) {
       );
       i += coin.run;
     } else {
-      ret.push(`<span class="side-${coin.side} coin"></span>`);
+      ret.push(render_coin(coin));
       ++i;
     }
   }
@@ -56,23 +56,64 @@ function render_runs(coins) {
   return ret.join('');
 }
 
-function render_run(run, coins, offset, ret) {
-  for (let i = offset; i < offset + run; ++i) {
+function render_run(length, coins, offset, ret) {
+  ret = ret || [];
+  for (let i = offset; i < offset + length; ++i) {
     const coin = coins[i];
-    ret.push(`<span class="side-${coin.side} coin run"></span>`);
+    ret.push(render_coin(coin, ['run']));
   }
+
+  return ret;
+}
+
+function render_coin(coin, classes = []) {
+  if (!coin) {
+    return '';
+  }
+  return `<span class="side-${coin.side} coin ${classes.join('')}"></span>`;
 }
 
 function extract_runs(coins) {
   const ret = [];
   for (let i = 0; i < coins.length;) {
-    if (coins.run < RUN_LENGTH) {
+    const coin = coins[i];
+    if (coin.run < RUN_LENGTH) {
       ++i;
       continue;
     }
 
-    ret.push();
+    ret.push(i);
+    i += RUN_LENGTH;
   }
+
+  return ret;
+}
+
+function build_run_list(coins, runs) {
+  return runs.map(
+    r => ({
+      offset: r,
+      len: RUN_LENGTH,
+      next_coin: coins[r + RUN_LENGTH],
+      next_coins: Array(RUN_LENGTH).fill(0).map(
+        (_, i) => coins[r + RUN_LENGTH + i],
+      ),
+      type: coins[r].side,
+    }),
+  );
+}
+
+function render_run_list(coins, run_list) {
+  return run_list.map(
+    r => `
+      <tr>
+        <td>${render_run(RUN_LENGTH, coins, r.offset).join('')}</td>
+        <td>${render_coin(r.next_coin)}</td>
+        <td>${r.next_coins.map(c => render_coin(c)).join('')}</td>
+        <td>${r.next_coins.reduce((acc, c) => acc + (c.side === 'H' ? -1 : 1), 0)}</td>
+      </tr>
+    `,
+  ).join('');
 }
 
 function bindit(exported_data) {
@@ -84,13 +125,46 @@ function bindit(exported_data) {
 }
 
 const coins = find_runs(generate_coins(NUM_COINS));
+const runs = extract_runs(coins);
+const run_list = build_run_list(coins, runs);
 
 const exported_data = {
   num_coins: NUM_COINS.toLocaleString(),
   coin_chart: coins.map(
-    coin => `<span class="side-${coin.side} coin"></span>`
+    coin => render_coin(coin),
   ).join(''),
   run_chart: render_runs(coins),
   run_length: RUN_LENGTH,
+  run_list: render_run_list(
+    coins,
+    run_list,
+  ),
+  after_run_heads: runs.reduce(
+    (acc, r) => acc + (coins[r + RUN_LENGTH].side === 'H' ? 1 : 0),
+    0
+  ),
+  after_run_tails: runs.reduce(
+    (acc, r) => acc + (coins[r + RUN_LENGTH].side === 'T' ? 1 : 0),
+    0
+  ),
+  num_runs: runs.length,
+
+  seq_after_run_heads: run_list.reduce(
+    (acc, r) =>
+      acc + r.next_coins.reduce(
+        (acc, c) => acc + (c.side === 'H' ? 1 : 0),
+        0,
+      ),
+    0,
+  ),
+  seq_after_run_tails: run_list.reduce(
+    (acc, r) =>
+      acc + r.next_coins.reduce(
+        (acc, c) => acc + (c.side === 'T' ? 1 : 0),
+        0,
+      ),
+    0,
+  ),
+  num_seq_closer_to_mean: 0,
 };
 bindit(exported_data);
