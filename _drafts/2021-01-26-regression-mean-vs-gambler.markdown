@@ -102,3 +102,40 @@ We're interseted in (3) so we can verify that a series of flips immediately afte
     </tr>
   </tfoot>
 </table>
+
+Gambler's Fallacy - As we can see from above, the probability of getting heads on a coin flip immediately after a streak is nearly 50/50, same with the probability of getting tails.
+
+The sequence of <i data-bind="run_length"></i> flips immediately after the runs also has an even distribution of heads and tails.
+
+Regression to the mean - And finally, in the last column, nearly all of the sequences of flips immediatelly following a run are closer to the mean (i.e., have nearly even heads and tails).
+
+But to be sure, let's re-do the analysis above but for streaks of heads only.
+
+<table class="run-list">
+  <thead>
+    <tr>
+      <td>Streak</td>
+      <td>Next Flip</td>
+      <td><i data-bind="run_length"></i> Flips After</td>
+      <td><i data-bind="run_length"></i> Flips Sum</td>
+    </tr>
+  </thead>
+  <tbody data-bind="run_list">
+  </tbody>
+  <tfoot>
+    <tr>
+      <td><i data-bind="heads_num_runs"></i> Streaks</td>
+      <td>
+        <i data-bind="heads_after_run_heads"></i> <span class="coin side-H"></span> /
+        <i data-bind="after_run_tails"></i> <span class="coin side-T"></span>
+      </td>
+      <td>
+        <i data-bind="seq_after_run_heads"></i> <span class="coin side-H"></span> /
+        <i data-bind="seq_after_run_tails"></i> <span class="coin side-T"></span>
+      </td>
+      <td>
+        <i data-bind="num_seq_closer_to_mean"></i> of <i data-bind="num_runs"></i> Closer to mean
+      </td>
+    </tr>
+  </tfoot>
+</table>
