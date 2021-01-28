@@ -169,7 +169,7 @@ To be sure, let's re-do the analysis above but for streaks of heads only.
 <i data-bind="heads_num_seq_closer_to_mean"></i> / <i data-bind="heads_num_runs"></i> * 100 =
 **<i data-bind="heads_num_seq_closer_to_mean_pct"></i>%** of runs are **closer to the mean.**
 
-The findings are in line with the original set.
+These findings corroborate our original findings.
 
 ## Conclusion
 
@@ -177,4 +177,9 @@ In accord with the gambler's fallacy, every flip is 50/50, regardless of the str
 
 Since every flip is 50/50, a streak of heads or tails is a deviation from the mean and an outlier. By definition, flips after a streak (an outlier) are more likely be closer to the mean.
 
-Regression to the mean, rather than being contrary to the gambler's fallacy, is really a restatement of it. A sequence of random events will always tend towards the mean. The chance of getting heads or tails on any given flip is the mean. 50/50.
+Regression to the mean, rather than being contrary to the gambler's fallacy, is really a restatement of it. A sequence of random events will always tend towards the mean. The chance of getting heads or tails on any given flip is the mean.
+
+Demo source:
+* [js](https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/regression-mean-vs-gambler.js)
+* [css](https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/regression-mean-vs-gambler.css)
+* [markdown/html](https://github.com/tantaman/tantaman.github.io/blob/master/_posts/2021-01-26-regression-mean-vs-gambler.markdown)
