@@ -1,6 +1,20 @@
+import marked from '/assets/js/marked.js';
+
 const lib = (el) => {
   function remove(a, x) {
     a.splice(a.indexOf(x), 1);
+  }
+
+  function identity(x) {
+    return x;
+  }
+
+  function invariant(pass, msg) {
+    if (pass) {
+      return;
+    }
+
+    throw new Error(msg);
   }
 
   const temp_el = document.createElement('div');
@@ -21,23 +35,33 @@ const lib = (el) => {
     let state = initial;
     let listeners = [];
 
+    function notify() {
+      listeners.forEach(l => l(state));
+    }
+
     return {
       merge(next) {
         state = {
           ...initial,
           ...next,
         };
+        notify();
       },
 
       set(next) {
         state = next;
+        notify();
       },
 
-      on(cb) {
+      get() {
+        return state;
+      },
+
+      bind(cb) {
         listeners.push(cb);
       },
 
-      off(cb) {
+      unbind(cb) {
         remove(listeners, cb);
       },
 
@@ -47,34 +71,70 @@ const lib = (el) => {
     };
   }
 
-  function render(
+  function _render(
+    content,
+    atom,
+    converter = identity,
+  ) {
+    if (typeof content === 'string') {
+      invariant(atom == null, 'You cannot use an atom with raw string content');
+      // render and append to doc
+      return append(converter(content));
+    }
+
+    const p = append(converter(content(atom?.get())));
+    if (atom != null) {
+      // bind to the atom
+      // re-render into el on atom updates
+      atom.bind((s) => {
+        p.innerHTML = converter(content(s));
+      });
+    }
+
+    return p;
+  }
+
+  function md(
     content,
     atom,
   ) {
-    if (typeof content === 'string') {
-      // render and append to doc
-      append(content);
-    }
+    _render(
+      content,
+      atom,
+      marked,
+    );
   }
 
   function append(rendered_content) {
     const p = document.createElement('p');
     p.innerHTML = rendered_content;
     el.append(p);
+
+    return p;
   }
 
   return {
-    render,
+    _render,
     atom,
+    md,
   };
 };
 
-/* css */`
-.class {
-  width: 10px;
-}
-`;
-
 const publisher = lib(document.getElementById('doc'));
 
-publisher.render('<b>Hello!</b>');
+const atom = publisher.atom(1);
+publisher.md(
+(state) =>
+/* md */`
+# Hello!
+there world!
+
+${state}
+`,
+atom,
+);
+
+setInterval(
+  () => atom.set(atom.get() + 1),
+  500,
+);

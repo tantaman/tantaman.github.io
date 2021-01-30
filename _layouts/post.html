@@ -72,3 +72,7 @@ layout: base
 {% for js in page.customjs %}
 <script async type="text/javascript" src="{{ js }}"></script>
 {% endfor %}
+
+{% for js in page.jsmodules %}
+<script type="module" src="{{ js }}"></script>
+{% endfor %}
