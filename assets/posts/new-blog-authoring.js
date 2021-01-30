@@ -3,6 +3,20 @@ const lib = (el) => {
     a.splice(a.indexOf(x), 1);
   }
 
+  const temp_el = document.createElement('div');
+  function sanitize(value) {
+    if (value) {
+      if (typeof value === 'object' && value.__html__) {
+        return value.__html__;
+      }
+      if (Array.isArray(value)) {
+        return value.map(sanitize).join('');
+      }
+    }
+    temp_el.textContent = value;
+    return temp_el.innerHTML;
+  }
+
   function atom(initial) {
     let state = initial;
     let listeners = [];
@@ -33,21 +47,24 @@ const lib = (el) => {
     };
   }
 
-  function md(
+  function render(
     content,
     atom,
   ) {
     if (typeof content === 'string') {
       // render and append to doc
+      append(content);
     }
   }
 
   function append(rendered_content) {
-    el.append(rendered_content);
+    const p = document.createElement('p');
+    p.innerHTML = rendered_content;
+    el.append(p);
   }
 
   return {
-    md,
+    render,
     atom,
   };
 };
@@ -58,4 +75,6 @@ const lib = (el) => {
 }
 `;
 
-console.log(lib(document.getElementById('doc')));
+const publisher = lib(document.getElementById('doc'));
+
+publisher.render('<b>Hello!</b>');
