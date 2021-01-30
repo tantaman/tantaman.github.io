@@ -5,3 +5,5 @@ categories: blog authoring jsmd
 customjs:
   - /assets/posts/new-blog-authoring.js
 ---
+
+<div id="doc"></div>
