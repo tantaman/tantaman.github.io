@@ -1,13 +1,13 @@
 import {publisher, atom} from '/assets/js/publisher.js';
 
-const {md} = publisher(document.getElementById('doc'));
+const {md, html} = publisher(document.getElementById('doc'));
 const consts_and_vars = atom({
   pi: Math.PI,
   variable: 'Variable',
   angle: 0,
 });
 
-md(`
+md(/*md*/`
 Welcome friends!
 
 To the wonderful new way to write javascript powered blog posts.
@@ -16,7 +16,7 @@ Do you write blog posts that contain interactive demos? Did you wish that there 
 an easier way to push updates from Javascript into your Markdown text?
 `);
 
-md((state) => `
+md((state) => /*md*/`
 Maybe you're writing a paper that refers to some constant \`(${state.pi})\` that will be
 repeated \`(${state.pi})\` numerous \`(${state.pi})\` times \`(${state.pi})\`.
 
@@ -25,15 +25,15 @@ Or maybe you have a fluctuating
 **${state.variable}**
 (\`${Math.sin(state.angle * (Math.PI / 180.0)).toFixed(2)}\`)
 to which you'd like to refer in the text of the post.
-`, consts_and_vars);
+`,
+consts_and_vars);
 
-md(`
-Or even generate tables and arbitrary HTML!
+md(/*md*/`
+Or even *generate* tables and **arbitrary** <code>HTML</code>!
 `);
 
 html(/*html*/`
 <div class="coin_chart">
-  ${render_coins()}
 </div>
 `);
 
