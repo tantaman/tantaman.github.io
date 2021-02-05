@@ -105,6 +105,16 @@ function publisher(el) {
     );
   }
 
+  function html(
+    content,
+    atom,
+  ) {
+    _render(
+      content,
+      atom,
+    );
+  }
+
   function append(rendered_content) {
     const p = document.createElement('p');
     p.innerHTML = rendered_content;
@@ -117,6 +127,7 @@ function publisher(el) {
     _render,
     atom,
     md,
+    html,
   };
 }
 
