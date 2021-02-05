@@ -42,29 +42,45 @@ Similar to how your bank keeps a ledger of debits and credits to your account, b
 * Decentralized means no one entity controls it, making it very nearly impossible to write false records. I.e., it is corruption resistant.
 * Immutable means once a record is recorded it can never be removed.
 
-## Problem 1 - Theft
+## Problem - Theft
 
 Taken together, all of the properties of blockchain prevent theft and fraud.
-1. Your bank or government can't seize your assets.
+1. Your government can't seize your assets.
 2. False transactions cannot be attributed to you.
 3. History can't be erased so entities can't lie or hide their transactions.
 4. Ownership of an asset can be looked up by anyone.
 
-## Problem 2 - Lending
+## Problem - Lending
 
 How do individuals lend to individuals today? It's really hard. You have to either lend through an institution or lend directly to someone you trust.
 
 Through blockchain enabled smart contracts, peer to peer lending is easy and viable. Its almost as simple as me sticking money in a box outside my house, allowing people to borrow it and being guaranteed that they'll put up collateral or pay me back with interest.
 
-## Problem 3 - Asset Transactions
+## Problem - Contracts
 
+## Problem - Asset Transfer
 
+NFTs
+
+## Problems - Fees
+
+If you've bought a home you know how incredibly painful and expensive it is -- in terms of fees. Origination fees, processing fees, credit report fee, underwriting fee, title insurance, etc. etc.
+
+You can easily end up paying between 5% of the loan amount. For a million dollar home you're spending 50k on fees.
+
+Blockchain, along withs its smart contracts and non fungible tokens (NFTs) allows for the seamless miniscule-fee transfer of assets from one part to another once a set of conditions has been met.
 
 1. Theft
 2. Fees
 3. Lending
 4. Asset transactions
 5. Smart contracts
+
+# Developers, Developers, Developers
+
+# What else is it?
+A storage platform
+A global computing platform / a distributed computer
 
 # What's Changed?
 
@@ -85,3 +101,10 @@ Avoid sanctions:
    * nigeria: https://qz.com/africa/1922466/how-bitcoin-powered-nigerias-endsars-protests/
 6. Big tech's attempted entrance
 7. Massive stimulus (m2 money supply?)
+
+
+Uniswap:
+https://uniswap.org/
+Compound:
+
+# Risks and Regulation
