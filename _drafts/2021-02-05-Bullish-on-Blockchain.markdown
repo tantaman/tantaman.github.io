@@ -5,8 +5,9 @@ categories: blockchain finance
 ---
 
 # Disclaimers & Bias
-* I got into Crypto/Blockhain in Nov. 2020. A comparatively low point to now.
-* The market is too hot for me right now to add more money. I feel that it needs to cool but will continue to re-asses.
+* After doubling my Crypto investment, I cashed out my principal. I'm playing with the "house's money" at this point.
+* I'm bearish on Bitcoin but bullish on Ether and other chains.
+* With all the recent publicity on Ether, it's too hot for me right now but I'm bullish on its long term future.
 
 # Resurgence
 Cypto currencies are having another resurgence. Over the last year the two most popular coins are way way up.
@@ -50,13 +51,22 @@ Taken together, all of the properties of blockchain prevent theft and fraud.
 3. History can't be erased so entities can't lie or hide their transactions.
 4. Ownership of an asset can be looked up by anyone.
 
+Of course this is in the long term. Cryptocurrency exchanges are currently plagued by theft due to not being distributed nor sending the funds to the wallets of the individual's buying them. Technologies like Uniswap can solve this going forward.
+
+## Problem - Contracts
+
+Today, contracts are enforced through the legal system. If a party violates their end of a contract, your recourse is to sue them and go through a lengthy and expensive legal battle.
+
+Blockchain enables "smart contracts." These are contracts that are saved on the blockchain and automatically execute when conditions of the contract are met.
+
+Take loans as an example.
+To take out a loan the borrower may be required to put up collateral. If the borrower does not repay the loan on time, the smart contract will execute an transfer ownership of the collateral to the lender.
+
 ## Problem - Lending
 
 How do individuals lend to individuals today? It's really hard. You have to either lend through an institution or lend directly to someone you trust.
 
-Through blockchain enabled smart contracts, peer to peer lending is easy and viable. Its almost as simple as me sticking money in a box outside my house, allowing people to borrow it and being guaranteed that they'll put up collateral or pay me back with interest.
-
-## Problem - Contracts
+Through blockchain enabled smart contracts, peer to peer lending is easy and viable. It's almost as simple as me sticking money in a box outside my house, allowing people to borrow it and being guaranteed that they'll put up collateral or pay me back with interest.
 
 ## Problem - Asset Transfer
 
@@ -77,6 +87,18 @@ Blockchain, along withs its smart contracts and non fungible tokens (NFTs) allow
 5. Smart contracts
 
 # Developers, Developers, Developers
+
+# Mainstream
+IBM Hyperledger
+AWS ether - Amazon Managed Blockchain
+Nestle on blockchain? https://aws.amazon.com/blockchain/ https://www.youtube.com/watch?v=0WBXkhgKpoE
+FB Libra
+Greyscale?
+Blackrock?
+Yale
+Harvard
+
+# Stable Coins
 
 # What else is it?
 A storage platform
@@ -108,3 +130,10 @@ https://uniswap.org/
 Compound:
 
 # Risks and Regulation
+
+
+# Other
+Token list - https://tokenlists.org/
+
+
+meta mask? https://metamask.io/
