@@ -20,13 +20,13 @@ The second example has very low volatility and so, by traditional anylsis, is co
 
 # You're just drawing shit!
 
-Yeah, I'm just drawing shit but the underlying principle holds. Volatility of an investment doesn't capture real world risk and doesn't matter if the overall trend is upwards. To drive this point home, lets look at Carnival Cruise's and Facebook's stocks. Carnival is a low volatility stock so by traditional analysis it would have been considered a safe bet. However, if you invested in Carnival anytime in the last 20 years you would have lost all of your money due to the coronavirus pandemic and its unclear when, if ever, you'll get it back. Carnival could go bankrupt before the pandemic is over.
+Yeah, I'm just drawing shit but the underlying principle holds. Volatility of an investment doesn't capture real world risk and doesn't matter if the overall trend is upwards. To drive this point home, lets look at Carnival Cruise's and Facebook's stocks. Carnival is a low volatility stock so by traditional analysis it would have been considered a safe bet. However, if you invested in Carnival anytime in the last 20 years you would have lost nearly all of your money due to the coronavirus pandemic and its unclear when, if ever, you'll get it back. Carnival could go bankrupt before the pandemic is over.
 
 {% include image.html url="/assets/posts/volatility-is-not-risk/carnival.png" description="Carnival" %}
 
 When investing you often hear "past performance does not guarantee future performance." Well volatility is a measure of past price swings. If we don't think past performance guarantees future performance, why do we think past price swings guarantee future price swings and risk?
 
-On the flip side we have Facebook. Facebook has been a volatile stock and, by proxy, considered risky.
+On the flip side we have Facebook. Facebook has been a volatile stock. Strictly based on volatility, FB would be considered risky. But any investment made in Facebook at any time sinces its inception on up to the end of 2020 would not have lost money to date.
 
 {% include image.html url="/assets/posts/volatility-is-not-risk/fb.png" description="Facebook" %}
 
@@ -42,6 +42,8 @@ All of this goes to show that you can't asses risk by analyzing historical trend
 
 So how do you assess risk? Risk is a subjective measure and is based on what you know about the company you are investing in.
 
+A basic risk framework could be something like:
+
 1. Does the company solve a real world problem?
 2. Does the company have a growing market?
 3. There will always be future crises. Has the company adapted well in the past?
@@ -52,3 +54,45 @@ So how do you assess risk? Risk is a subjective measure and is based on what you
    4. Cultural
    5. Technical
 5. How hyped is the company and has that hype translated into buying, driving up the price?
+
+This framework would change depending on the sector a company is in and how strongly the public, investors and regulators react to such changes.
+
+Tldr: invest in companies you believe in for the long term. If their price drops but you still believe in them, don't sell. Re-run your risk analysis of a company every quarter or year. The smaller the company the more you check up on them.
+
+# Risk In Practice
+
+From 2014 - 2018, almost my entire portfolio was invested in Facebook. People may think this is incredibly risky but I knew:
+
+1. FB solved real marketing problems for all businesses
+2. They had barely tapped their entire addressable market
+3. FB had handled all past crises well. E.g., mobile, buying out competitors (IG, Whatsapp) before they are an issue
+4. FB was:
+   1. The darling of legislators in that time period
+   2. The greenest of all tech companies
+   3. Had little to no competition
+   4. Garnered neutral sentiment from the global population
+   5. Had no major technical barriers that inhibited the core product
+5. The company has always been under-hyped, starting as far back as its [IPO debacle](https://www.theguardian.com/commentisfree/cifamerica/2012/may/23/facebook-ipo-debacle-greed-hubris-incompetence).
+
+To me, FB was a low risk investment for that time period and provided an [amazing (200%) return](https://finance.yahoo.com/chart/FB#eyJpbnRlcnZhbCI6IndlZWsiLCJwZXJpb2RpY2l0eSI6MSwiY2FuZGxlV2lkdGgiOjcuOTAyNDM5MDI0MzkwMjQ0LCJmbGlwcGVkIjpmYWxzZSwidm9sdW1lVW5kZXJsYXkiOnRydWUsImFkaiI6dHJ1ZSwiY3Jvc3NoYWlyIjp0cnVlLCJjaGFydFR5cGUiOiJsaW5lIiwiZXh0ZW5kZWQiOmZhbHNlLCJtYXJrZXRTZXNzaW9ucyI6e30sImFnZ3JlZ2F0aW9uVHlwZSI6Im9obGMiLCJjaGFydFNjYWxlIjoibGluZWFyIiwicGFuZWxzIjp7ImNoYXJ0Ijp7InBlcmNlbnQiOjEsImRpc3BsYXkiOiJGQiIsImNoYXJ0TmFtZSI6ImNoYXJ0IiwiaW5kZXgiOjAsInlBeGlzIjp7Im5hbWUiOiJjaGFydCIsInBvc2l0aW9uIjpudWxsfSwieWF4aXNMSFMiOltdLCJ5YXhpc1JIUyI6WyJjaGFydCIsIuKAjHZvbCB1bmRy4oCMIl19fSwibGluZVdpZHRoIjoyLCJzdHJpcGVkQmFja2dyb3VuZCI6dHJ1ZSwiZXZlbnRzIjp0cnVlLCJjb2xvciI6IiMwMDgxZjIiLCJzdHJpcGVkQmFja2dyb3VkIjp0cnVlLCJyYW5nZSI6eyJkdExlZnQiOiIyMDE0LTAzLTMxVDA0OjAwOjAwLjAwMFoiLCJkdFJpZ2h0IjoiMjAxOC0wMy0wMlQwNDo1OTowMC4wMDBaIiwicGVyaW9kaWNpdHkiOnsiaW50ZXJ2YWwiOiJ3ZWVrIiwicGVyaW9kIjoxfSwicGFkZGluZyI6MH0sImV2ZW50TWFwIjp7ImNvcnBvcmF0ZSI6eyJkaXZzIjp0cnVlLCJzcGxpdHMiOnRydWV9LCJzaWdEZXYiOnt9fSwiY3VzdG9tUmFuZ2UiOnsic3RhcnQiOjEzOTYyMzg0MDAwMDAsImVuZCI6MTUxOTYyMTIwMDAwMH0sInN5bWJvbHMiOlt7InN5bWJvbCI6IkZCIiwic3ltYm9sT2JqZWN0Ijp7InN5bWJvbCI6IkZCIiwicXVvdGVUeXBlIjoiRVFVSVRZIiwiZXhjaGFuZ2VUaW1lWm9uZSI6IkFtZXJpY2EvTmV3X1lvcmsifSwicGVyaW9kaWNpdHkiOjEsImludGVydmFsIjoid2VlayJ9XSwic3R1ZGllcyI6eyLigIx2b2wgdW5kcuKAjCI6eyJ0eXBlIjoidm9sIHVuZHIiLCJpbnB1dHMiOnsiaWQiOiLigIx2b2wgdW5kcuKAjCIsImRpc3BsYXkiOiLigIx2b2wgdW5kcuKAjCJ9LCJvdXRwdXRzIjp7IlVwIFZvbHVtZSI6IiMwMGIwNjEiLCJEb3duIFZvbHVtZSI6IiNmZjMzM2EifSwicGFuZWwiOiJjaGFydCIsInBhcmFtZXRlcnMiOnsid2lkdGhGYWN0b3IiOjAuNDUsImNoYXJ0TmFtZSI6ImNoYXJ0IiwicGFuZWxOYW1lIjoiY2hhcnQifX19fQ--).
+
+
+From Feb 2018 and onward, FB accounted for < 1% of my portfolio. My risk assessment for FB had changed. Their market was getting tapped out, I hadn't seen much innovation, regulators and public sentiment had turned on the company. FB is still doing well, having a 30% return from 2018-2021, but that's nowhere close to the 100% returns it posted every 2 years from 2014-2018.
+
+Which brings us to the other side of risk -- reward. If you're heavily invested in something, even if it has 0 risk, it comes at an opportunity cost. The opportunity of investing and getting better returns in other assets.
+
+**My current darlings are:**
+* [Air BNB](https://finance.yahoo.com/chart/ABNB#eyJpbnRlcnZhbCI6ImRheSIsInBlcmlvZGljaXR5IjoxLCJ0aW1lVW5pdCI6bnVsbCwiY2FuZGxlV2lkdGgiOjQyLjQyMTA1MjYzMTU3ODk0NSwiZmxpcHBlZCI6ZmFsc2UsInZvbHVtZVVuZGVybGF5Ijp0cnVlLCJhZGoiOnRydWUsImNyb3NzaGFpciI6dHJ1ZSwiY2hhcnRUeXBlIjoibGluZSIsImV4dGVuZGVkIjpmYWxzZSwibWFya2V0U2Vzc2lvbnMiOnt9LCJhZ2dyZWdhdGlvblR5cGUiOiJvaGxjIiwiY2hhcnRTY2FsZSI6ImxpbmVhciIsInBhbmVscyI6eyJjaGFydCI6eyJwZXJjZW50IjoxLCJkaXNwbGF5IjoiQUJOQiIsImNoYXJ0TmFtZSI6ImNoYXJ0IiwiaW5kZXgiOjAsInlBeGlzIjp7Im5hbWUiOiJjaGFydCIsInBvc2l0aW9uIjpudWxsfSwieWF4aXNMSFMiOltdLCJ5YXhpc1JIUyI6WyJjaGFydCIsIuKAjHZvbCB1bmRy4oCMIl19fSwibGluZVdpZHRoIjoyLCJzdHJpcGVkQmFja2dyb3VuZCI6dHJ1ZSwiZXZlbnRzIjp0cnVlLCJjb2xvciI6IiMwMDgxZjIiLCJzdHJpcGVkQmFja2dyb3VkIjp0cnVlLCJldmVudE1hcCI6eyJjb3Jwb3JhdGUiOnsiZGl2cyI6dHJ1ZSwic3BsaXRzIjp0cnVlfSwic2lnRGV2Ijp7fX0sImN1c3RvbVJhbmdlIjp7InN0YXJ0IjoxNjA3NTc2NDAwMDAwLCJlbmQiOjE2MTIzMjg0MDAwMDB9LCJzeW1ib2xzIjpbeyJzeW1ib2wiOiJBQk5CIiwic3ltYm9sT2JqZWN0Ijp7InN5bWJvbCI6IkFCTkIiLCJxdW90ZVR5cGUiOiJFUVVJVFkiLCJleGNoYW5nZVRpbWVab25lIjoiQW1lcmljYS9OZXdfWW9yayJ9LCJwZXJpb2RpY2l0eSI6MSwiaW50ZXJ2YWwiOiJkYXkiLCJ0aW1lVW5pdCI6bnVsbH1dLCJzdHVkaWVzIjp7IuKAjHZvbCB1bmRy4oCMIjp7InR5cGUiOiJ2b2wgdW5kciIsImlucHV0cyI6eyJpZCI6IuKAjHZvbCB1bmRy4oCMIiwiZGlzcGxheSI6IuKAjHZvbCB1bmRy4oCMIn0sIm91dHB1dHMiOnsiVXAgVm9sdW1lIjoiIzAwYjA2MSIsIkRvd24gVm9sdW1lIjoiI2ZmMzMzYSJ9LCJwYW5lbCI6ImNoYXJ0IiwicGFyYW1ldGVycyI6eyJ3aWR0aEZhY3RvciI6MC40NSwiY2hhcnROYW1lIjoiY2hhcnQiLCJwYW5lbE5hbWUiOiJjaGFydCJ9fX0sInJhbmdlIjp7ImR0TGVmdCI6IjIwMjAtMTItMDdUMDU6MDA6MDAuMDAwWiIsImR0UmlnaHQiOiIyMDIxLTAyLTA1VDA0OjU5OjAwLjAwMFoiLCJwZXJpb2RpY2l0eSI6eyJpbnRlcnZhbCI6ImRheSIsInBlcmlvZCI6MX0sInBhZGRpbmciOjB9fQ--) - +35% since IPO
+* [Unity](https://finance.yahoo.com/chart/U#eyJpbnRlcnZhbCI6ImRheSIsInBlcmlvZGljaXR5IjoxLCJ0aW1lVW5pdCI6bnVsbCwiY2FuZGxlV2lkdGgiOjE2LjYxODU1NjcwMTAzMDkzLCJmbGlwcGVkIjpmYWxzZSwidm9sdW1lVW5kZXJsYXkiOnRydWUsImFkaiI6dHJ1ZSwiY3Jvc3NoYWlyIjp0cnVlLCJjaGFydFR5cGUiOiJsaW5lIiwiZXh0ZW5kZWQiOmZhbHNlLCJtYXJrZXRTZXNzaW9ucyI6e30sImFnZ3JlZ2F0aW9uVHlwZSI6Im9obGMiLCJjaGFydFNjYWxlIjoibGluZWFyIiwicGFuZWxzIjp7ImNoYXJ0Ijp7InBlcmNlbnQiOjEsImRpc3BsYXkiOiJVIiwiY2hhcnROYW1lIjoiY2hhcnQiLCJpbmRleCI6MCwieUF4aXMiOnsibmFtZSI6ImNoYXJ0IiwicG9zaXRpb24iOm51bGx9LCJ5YXhpc0xIUyI6W10sInlheGlzUkhTIjpbImNoYXJ0Iiwi4oCMdm9sIHVuZHLigIwiXX19LCJsaW5lV2lkdGgiOjIsInN0cmlwZWRCYWNrZ3JvdW5kIjp0cnVlLCJldmVudHMiOnRydWUsImNvbG9yIjoiIzAwODFmMiIsInN0cmlwZWRCYWNrZ3JvdWQiOnRydWUsInJhbmdlIjp7ImR0TGVmdCI6IjIwMjAtMDgtMjBUMDQ6MDA6MDAuMDAwWiIsImR0UmlnaHQiOiIyMDIxLTAyLTA4VDA0OjU5OjAwLjAwMFoiLCJwZXJpb2RpY2l0eSI6eyJpbnRlcnZhbCI6ImRheSIsInBlcmlvZCI6MX0sInBhZGRpbmciOjB9LCJldmVudE1hcCI6eyJjb3Jwb3JhdGUiOnsiZGl2cyI6dHJ1ZSwic3BsaXRzIjp0cnVlfSwic2lnRGV2Ijp7fX0sImN1c3RvbVJhbmdlIjp7InN0YXJ0IjoxNjAwNDAxNjAwMDAwLCJlbmQiOjE2MTI0MTQ4MDAwMDB9LCJzeW1ib2xzIjpbeyJzeW1ib2wiOiJVIiwic3ltYm9sT2JqZWN0Ijp7InN5bWJvbCI6IlUiLCJxdW90ZVR5cGUiOiJFUVVJVFkiLCJleGNoYW5nZVRpbWVab25lIjoiQW1lcmljYS9OZXdfWW9yayJ9LCJwZXJpb2RpY2l0eSI6MSwiaW50ZXJ2YWwiOiJkYXkiLCJ0aW1lVW5pdCI6bnVsbH1dLCJzdHVkaWVzIjp7IuKAjHZvbCB1bmRy4oCMIjp7InR5cGUiOiJ2b2wgdW5kciIsImlucHV0cyI6eyJpZCI6IuKAjHZvbCB1bmRy4oCMIiwiZGlzcGxheSI6IuKAjHZvbCB1bmRy4oCMIn0sIm91dHB1dHMiOnsiVXAgVm9sdW1lIjoiIzAwYjA2MSIsIkRvd24gVm9sdW1lIjoiI2ZmMzMzYSJ9LCJwYW5lbCI6ImNoYXJ0IiwicGFyYW1ldGVycyI6eyJ3aWR0aEZhY3RvciI6MC40NSwiY2hhcnROYW1lIjoiY2hhcnQiLCJwYW5lbE5hbWUiOiJjaGFydCJ9fX19) - +120% since IPO
+* [Ethereum](https://finance.yahoo.com/chart/ETH-USD#eyJpbnRlcnZhbCI6IndlZWsiLCJwZXJpb2RpY2l0eSI6MSwidGltZVVuaXQiOm51bGwsImNhbmRsZVdpZHRoIjoxMywiZmxpcHBlZCI6ZmFsc2UsInZvbHVtZVVuZGVybGF5Ijp0cnVlLCJhZGoiOnRydWUsImNyb3NzaGFpciI6dHJ1ZSwiY2hhcnRUeXBlIjoibGluZSIsImV4dGVuZGVkIjpmYWxzZSwibWFya2V0U2Vzc2lvbnMiOnt9LCJhZ2dyZWdhdGlvblR5cGUiOiJvaGxjIiwiY2hhcnRTY2FsZSI6ImxpbmVhciIsInBhbmVscyI6eyJjaGFydCI6eyJwZXJjZW50IjoxLCJkaXNwbGF5IjoiRVRILVVTRCIsImNoYXJ0TmFtZSI6ImNoYXJ0IiwiaW5kZXgiOjAsInlBeGlzIjp7Im5hbWUiOiJjaGFydCIsInBvc2l0aW9uIjpudWxsfSwieWF4aXNMSFMiOltdLCJ5YXhpc1JIUyI6WyJjaGFydCIsIuKAjHZvbCB1bmRy4oCMIl19fSwibGluZVdpZHRoIjoyLCJzdHJpcGVkQmFja2dyb3VuZCI6dHJ1ZSwiZXZlbnRzIjp0cnVlLCJjb2xvciI6IiMwMDgxZjIiLCJzdHJpcGVkQmFja2dyb3VkIjp0cnVlLCJyYW5nZSI6eyJkdExlZnQiOiIyMDE4LTA5LTE4VDA0OjAwOjAwLjAwMFoiLCJkdFJpZ2h0IjoiMjAyMS0wMi0wNVQwNDo1OTowMC4wMDBaIiwicGVyaW9kaWNpdHkiOnsiaW50ZXJ2YWwiOiJ3ZWVrIiwicGVyaW9kIjoxfSwicGFkZGluZyI6MH0sImV2ZW50TWFwIjp7ImNvcnBvcmF0ZSI6eyJkaXZzIjp0cnVlLCJzcGxpdHMiOnRydWV9LCJzaWdEZXYiOnt9fSwiY3VzdG9tUmFuZ2UiOnsic3RhcnQiOjE1Mzc2NzUyMDAwMDAsImVuZCI6MTYxMTQ2NDQwMDAwMH0sInN5bWJvbHMiOlt7InN5bWJvbCI6IkVUSC1VU0QiLCJzeW1ib2xPYmplY3QiOnsic3ltYm9sIjoiRVRILVVTRCIsInF1b3RlVHlwZSI6IkNSWVBUT0NVUlJFTkNZIiwiZXhjaGFuZ2VUaW1lWm9uZSI6IkV1cm9wZS9Mb25kb24ifSwicGVyaW9kaWNpdHkiOjEsImludGVydmFsIjoid2VlayIsInRpbWVVbml0IjpudWxsfV0sInN0dWRpZXMiOnsi4oCMdm9sIHVuZHLigIwiOnsidHlwZSI6InZvbCB1bmRyIiwiaW5wdXRzIjp7ImlkIjoi4oCMdm9sIHVuZHLigIwiLCJkaXNwbGF5Ijoi4oCMdm9sIHVuZHLigIwifSwib3V0cHV0cyI6eyJVcCBWb2x1bWUiOiIjMDBiMDYxIiwiRG93biBWb2x1bWUiOiIjZmYzMzNhIn0sInBhbmVsIjoiY2hhcnQiLCJwYXJhbWV0ZXJzIjp7IndpZHRoRmFjdG9yIjowLjQ1LCJjaGFydE5hbWUiOiJjaGFydCIsInBhbmVsTmFtZSI6ImNoYXJ0In19fX0-) +600% since 2018 to now
+* [and all things China](https://finance.yahoo.com/chart/CHIQ#eyJpbnRlcnZhbCI6ImRheSIsInBlcmlvZGljaXR5IjoxLCJ0aW1lVW5pdCI6bnVsbCwiY2FuZGxlV2lkdGgiOjYuNTU4NzA0NDUzNDQxMjk2LCJmbGlwcGVkIjpmYWxzZSwidm9sdW1lVW5kZXJsYXkiOnRydWUsImFkaiI6dHJ1ZSwiY3Jvc3NoYWlyIjp0cnVlLCJjaGFydFR5cGUiOiJsaW5lIiwiZXh0ZW5kZWQiOmZhbHNlLCJtYXJrZXRTZXNzaW9ucyI6e30sImFnZ3JlZ2F0aW9uVHlwZSI6Im9obGMiLCJjaGFydFNjYWxlIjoibGluZWFyIiwicGFuZWxzIjp7ImNoYXJ0Ijp7InBlcmNlbnQiOjEsImRpc3BsYXkiOiJDSElRIiwiY2hhcnROYW1lIjoiY2hhcnQiLCJpbmRleCI6MCwieUF4aXMiOnsibmFtZSI6ImNoYXJ0IiwicG9zaXRpb24iOm51bGx9LCJ5YXhpc0xIUyI6W10sInlheGlzUkhTIjpbImNoYXJ0Iiwi4oCMdm9sIHVuZHLigIwiXX19LCJsaW5lV2lkdGgiOjIsInN0cmlwZWRCYWNrZ3JvdW5kIjp0cnVlLCJldmVudHMiOnRydWUsImNvbG9yIjoiIzAwODFmMiIsInN0cmlwZWRCYWNrZ3JvdWQiOnRydWUsImV2ZW50TWFwIjp7ImNvcnBvcmF0ZSI6eyJkaXZzIjp0cnVlLCJzcGxpdHMiOnRydWV9LCJzaWdEZXYiOnt9fSwiY3VzdG9tUmFuZ2UiOnsic3RhcnQiOjE1ODE2NTY0MDAwMDAsImVuZCI6MTYxMjQxNDgwMDAwMH0sInN5bWJvbHMiOlt7InN5bWJvbCI6IkNISVEiLCJzeW1ib2xPYmplY3QiOnsic3ltYm9sIjoiQ0hJUSIsInF1b3RlVHlwZSI6IkVURiIsImV4Y2hhbmdlVGltZVpvbmUiOiJBbWVyaWNhL05ld19Zb3JrIn0sInBlcmlvZGljaXR5IjoxLCJpbnRlcnZhbCI6ImRheSIsInRpbWVVbml0IjpudWxsfV0sInN0dWRpZXMiOnsi4oCMdm9sIHVuZHLigIwiOnsidHlwZSI6InZvbCB1bmRyIiwiaW5wdXRzIjp7ImlkIjoi4oCMdm9sIHVuZHLigIwiLCJkaXNwbGF5Ijoi4oCMdm9sIHVuZHLigIwifSwib3V0cHV0cyI6eyJVcCBWb2x1bWUiOiIjMDBiMDYxIiwiRG93biBWb2x1bWUiOiIjZmYzMzNhIn0sInBhbmVsIjoiY2hhcnQiLCJwYXJhbWV0ZXJzIjp7IndpZHRoRmFjdG9yIjowLjQ1LCJjaGFydE5hbWUiOiJjaGFydCIsInBhbmVsTmFtZSI6ImNoYXJ0In19fSwicmFuZ2UiOnsiZHRMZWZ0IjoiMjAyMC0wMi0xNFQwNTowMDowMC4wMDBaIiwiZHRSaWdodCI6IjIwMjEtMDItMDdUMDQ6NTk6MDAuMDAwWiIsInBlcmlvZGljaXR5Ijp7ImludGVydmFsIjoiZGF5IiwicGVyaW9kIjoxfSwicGFkZGluZyI6MH19) +114% since 2020 to now
+
+Of course none of this matters if you ever lose your head. I lost my head with meme stocks and took a bath on Gamestop and Nokia. So stay disciplined, understand the companies you're investing in and do your own risk and opportunity cost assesments.
+
+If you just want to grow your money without thinking, pick a 3-4 index fund mixed. You'll get 10-20% guranteed yearly returns.
+
+But when you retire, assume you'll only have a 4-5% yearly return. Imo this pessimistic outlook is the safest way to guarantee you won't run out of money.
+
+---
+I'm not an investment professional. For the "professional" advive on risk, see:
+[Common Measures of Risk](https://www.investopedia.com/ask/answers/041415/what-are-some-common-measures-risk-used-risk-management.asp)
