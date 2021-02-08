@@ -78,3 +78,9 @@ But when you retire, assume you'll only have a 4-5% yearly return. Imo this pess
 ---
 I'm not an investment professional. For the "professional" advive on risk, see:
 [Common Measures of Risk](https://www.investopedia.com/ask/answers/041415/what-are-some-common-measures-risk-used-risk-management.asp)
+
+
+
+The second example has very low volatility and so, by traditional anylsis, is considered "low risk." The price plummets at the end, however, because there was a risk in the underlying security that volatility couldn't account for.
+
+{% include image.html url="/assets/posts/volatility-is-not-risk/stable.svg" description="Stable but high risk" %}

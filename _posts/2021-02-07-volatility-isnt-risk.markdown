@@ -10,15 +10,11 @@ The biggest lie in investing is that volatiliy = risk.
 
 This is bogus. It misses the point of risk. Risk is about the chance of losing your principal in an investment. Volatility does not capture that whatsoever. What does it matter if the price of an investment swings wildly up and down, so long as the mean of those swings always trends upwards?
 
-# Examples
+# Example
 
-The first graph is a highly volatile investment but the trend of the volatility is always upwards. If we've done our own risk assessment then this sort of upwards volatility doesn't matter to us.
+The graph below is a highly volatile investment but the trend of the volatility is always upwards. If we've done our own risk assessment then this sort of upwards volatility doesn't matter to us.
 
 {% include image.html url="/assets/posts/volatility-is-not-risk/volatile.svg" description="Volatile but low risk" %}
-
-The second example has very low volatility and so, by traditional anylsis, is considered "low risk." The price plummets at the end, however, because there was a risk in the underlying security that volatility couldn't account for.
-
-{% include image.html url="/assets/posts/volatility-is-not-risk/stable.svg" description="Stable but high risk" %}
 
 # When do you buy, when do you sell?
 
@@ -33,7 +29,7 @@ In the above example, **<span class="blue">blue</span>** makes a killer return a
 
 **Dollar cost averaging** is the technique of spreading your total investment out over time. Rather than put `$200k` down all in one day on a volatile investment, put `$20k` down every month for the next 10 months regardless of asset price. This type of buying at a fixed interval moves your average price paid closer to the mean (dotted black line in the graph). Taking the same approach when selling will give you a return close to the mean.
 
-Dollar cost average is a very passive way of buying and selling. Something I'd recommend when buying into index funds or established companies. If you're buying into emerging companies you should be doing your own risk assessments which will further inform when you should buy and sell.
+Dollar cost average is a very passive way of buying and selling. Something I'd recommend when buying into index funds or established companies. If you're buying into emerging companies you should be doing your own price & risk assessments which will further inform when you should buy and sell.
 
 # Assessing Risk
 
