@@ -16,13 +16,15 @@ The graph below is a highly volatile investment but the trend of the volatility 
 
 {% include image.html url="/assets/posts/volatility-is-not-risk/volatile.svg" description="Volatile but low risk" %}
 
+An oft repeated mantra in investing is that “past performance doesn’t guarantee future performance.” If we know this then why do we think that past volatility can somehow predict future risk? One theory is that academics are searching for a way to quantify risk. Another is that figuring out when to buy and sell a volatile investment looks difficult and risky.
+
 # When do you buy, when do you sell?
 
-If a stock is extremely volatile, when do you buy in? You wouldn't want to end up buying at a peak and killing your returns if you sell in a dip.
+If a stock is extremely volatile, when do you buy in and when do you sell? You wouldn't want to end up buying at a peak and killing your returns if you sell in a dip.
 
 {% include image.html url="/assets/posts/volatility-is-not-risk/peak-trough.svg" description="Red - buys peak, sells future dip. Blue - buys dip, sells future peak" %}
 
-In the above example, **<span class="blue">blue</span>** makes a killer return and **<span class="red">red</span>** makes a shitty return even though they both hold the investment for nearly the same period of time. This problem of buying and selling volatile investments is why many investors end up equating volatility with risk. Howeverm, we can easily compensate for price swings through two techniques.
+In the above example, **<span class="blue">blue</span>** makes a killer return and **<span class="red">red</span>** makes a shitty return even though they both hold the investment for nearly the same period of time. This problem of buying and selling volatile investments is why many investors end up equating volatility with risk. We can easily compensate for price swings through two techniques, however.
 
 1. The time horizon for holding an investment should always be long term. If you don't believe in the investment enough to hold it for more than 5 years, you shouldn't buy it.
 2. Dollar cost averaging.
