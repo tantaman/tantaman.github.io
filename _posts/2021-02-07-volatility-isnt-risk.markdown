@@ -33,6 +33,8 @@ In the above example, **<span class="blue">blue</span>** makes a killer return a
 
 **Dollar cost averaging** is the technique of spreading your total investment out over time. Rather than put `$200k` down all in one day on a volatile investment, put `$20k` down every month for the next 10 months regardless of asset price. This type of buying at a fixed interval moves your average price paid closer to the mean (dotted black line in the graph). Taking the same approach when selling will give you a return close to the mean.
 
+Dollar cost average is a very passive way of buying and selling. Something I'd recommend when buying into index funds or established companies. If you're buying into emerging companies you should be doing your own risk assessments which will further inform when you should buy and sell.
+
 # Assessing Risk
 
 So how do you assess the risk of an investment? Stay tuned for the next post.
