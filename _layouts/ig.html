@@ -9,6 +9,9 @@
       {% for post in posts %}
       <div class="ig-post-preview">
         <a href="{{ post.url | relative_url }}">
+          {% if post.image %}
+          <img src="{{ post.image | relative_url }}" class="post-img">
+          {% else %}
           <h2 class="post-title">{{ post.title }}</h2>
 
           {% if post.subtitle %}
@@ -23,13 +26,6 @@
           </p>
 
           <div class="post-entry-container">
-            {% if post.image %}
-            <div class="post-image">
-              <a href="{{ post.url | relative_url }}">
-                <img src="{{ post.image | relative_url }}">
-              </a>
-            </div>
-            {% endif %}
             <div class="post-entry">
               {% assign excerpt_length = site.excerpt_length | default: 50 %}
               {{ post.excerpt | strip_html | xml_escape | truncatewords: excerpt_length }}
@@ -39,6 +35,7 @@
               {% endif %}
             </div>
           </div>
+          {% endif %}
         </a>
       </div>
       {% endfor %}
