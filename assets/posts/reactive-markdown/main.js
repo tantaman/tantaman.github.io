@@ -1,5 +1,9 @@
 import {publisher, atom} from '/assets/js/publisher.js';
 
+{
+const {md, html} = publisher(document.getElementById('rmd-example'));
+}
+
 const {md, html} = publisher(document.getElementById('doc'));
 const consts_and_vars = atom({
   pi: Math.PI,
