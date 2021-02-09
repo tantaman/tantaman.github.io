@@ -76,18 +76,46 @@ My latest iteration to make authoring interactive blog posts easier is `Reactive
 
 `Reactive Markdown` is the idea that your markdown can reference `JavaScript` variables and expressions. Whenever the underlying data being referenced changes, your `Markdown` document updates automtically to incorporate the new values or expressions.
 
+Simplified example -
+
 <div class="rmd-illustration">
+<table>
+  <thead>
+    <tr>
+      <td>
+        JS
+      </td>
+      <td>
+        Markdown
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
 <pre>
 setInterval(
   () => x += 1,
   250,
 );
 </pre>
+      </td>
+      <td>
 <pre>
 # the count is ${x}
 </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      </td>
+      <td>
+      </td>
+    </tr>
+  </tbody>
+</table>
 </div>
-
+<br/>
 ### v0.1
 
 The first version of `reactive markdown` is "JavaScript first." In other words, you author everything in a JS file. This made prototyping dead simple, but the ergonomics are still not ideal.
