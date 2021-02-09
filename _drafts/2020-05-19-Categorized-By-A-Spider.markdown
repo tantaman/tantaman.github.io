@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Categorized by a Spider"
-categories: dreams
+tags: dreams
 ---
 
 I was waiting in a line to go on an amusement park ride. While I was standing there, about to go through the gate, a spider dropped down from the ceiling (the ceiling being 100ft above my head) and caught me. She (he?) reeled my back up then jumped off into an abyss. We fell for what felt like minutes, me eventually learning how to breathe and remain calm as the fall continued.

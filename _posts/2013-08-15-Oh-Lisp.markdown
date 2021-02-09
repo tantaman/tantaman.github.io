@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Oh Lisp'
-categories: software functional oo lisp
+tags: software functional oo lisp
 ---
 
 If you ever tell someone you like Lisp and that Lisp is a more suitable language for the work you are doing most of the time you’ll get weird looks and comments like:

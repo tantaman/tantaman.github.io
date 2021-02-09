@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "These are not types"
-categories: programming software development types language design thinking
+tags: programming software development types language design thinking
 ---
 
 Is an **int** a type? A **float**? A **double**?

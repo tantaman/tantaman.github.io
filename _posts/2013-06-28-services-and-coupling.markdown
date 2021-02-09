@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Services and Coupling'
-categories: software design api-design oo services components
+tags: software design api-design oo services components
 ---
 
 Lines of code like:
