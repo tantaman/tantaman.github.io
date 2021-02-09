@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lora', 'Times New Roman', serif;
+  font-size: 1.125rem;
+  color: #404040;
+}
+
+.ig-post-list {
+  max-width: 960px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.ig-post-preview {
+  width: calc(100%/3);
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.post-title {
+
+}
+
+a {
+  color: black;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.post-meta {
+  margin-top: 0px;
+  font-style: italic;
+  color: #AAA;
+}
+
+.post-title {
+  margin-bottom: 0px;
+}
