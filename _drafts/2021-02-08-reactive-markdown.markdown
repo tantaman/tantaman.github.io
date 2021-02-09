@@ -3,7 +3,9 @@ layout: post
 title: "Reactive Markdown"
 categories: blog authoring jsmd
 jsmodules:
-  - /assets/posts/reactive-markdown.js
+  - /assets/posts/reactive-markdown/main.js
+css:
+  - /assets/posts/reactive-markdown/main.css
 ---
 
 Many of my blog posts contain interactive demos or content that is generated via `JavaScript`. The prose of my posts, however, is written in `Markdown`. Shuttling data back and forth from the `Markdown` side to the `JS` side can be annoying, especially when data from `JavaScript` needs to be displayed inline with the markdown and updated in real time.
@@ -15,7 +17,7 @@ One approach uses a `data-bind` attribute to bind an element to a JS variable. T
 ## Data-Bind Example
 
 In the [JS](https://github.com/tantaman/tantaman.github.io/blob/e11824ea7415f15a765d71aeedfdf6a688bffb75/assets/posts/regression-mean-vs-gambler.js#L168-L202) - export some vars from JS & bind them to the doc
-```
+```js
 // export vars
 const exported_data = {
   num_coins: NUM_COINS.toLocaleString(),
@@ -35,7 +37,7 @@ bindit(exported_data);
 ```
 
 In the [Markdown](https://raw.githubusercontent.com/tantaman/tantaman.github.io/master/_posts/2021-01-26-regression-mean-vs-gambler.markdown) - leave placeholders for where exported variables will be injected
-```
+```md
 If <i data-bind="run_length"></i> coin tosses produced <i data-bind="run_length"></i> heads,
 the next <i data-bind="run_length"></i> ...
 ```
@@ -46,7 +48,7 @@ The data bind approach has an incredibly simple implementation and is more than 
 
 **`data-bind` implementation:**
 
-```
+```js
 function bindit(exported_data) {
   const to_bind = document.querySelectorAll('[data-bind]');
   for (e of to_bind) {
@@ -64,12 +66,32 @@ The `data-bind` approach is super simple but:
 
 Given I'll be writing lots of blog posts, and thus spending lots of time writing the `<i data-bind"..."></i>` boilerplate as well as iterating on converting data to be "display ready", it makes sense to invest more into an ergonomic API.
 
-**Side note -** investing in software infrastructure is an optimization problem. Under ideal circumstances: the more you invest in infra, the faster the work on top of it goes. If there is a limited amount of work to be done on top of that infra, however, the infra investment should be bounded.
+**Side note -** investing in software infrastructure is an optimization problem. Under ideal circumstances: the more you invest in infra, the faster the work on top of it goes. If there is a limited amount of work to be done on top of that infra, however, the infra investment should be bounded. Once infra is "good enough", continued investments start producing diminishing returns (unless there is a paradigm shift. A post for another day.).
+
+{% include image.html url="/assets/posts/reactive-markdown/infra-invest.svg" description="More time spent writing infra -> less time required to write a blog entry. Continued infra investments will eventually produce little time savings." %}
 
 ## Reactive Markdown
 
-My latest iteration is "reactive markdown." A non-goal of the `reactive markdown` project is to re-write or extend an existing `Markdown` parser. My conclusion, however, is that for optimal ergonomics I'll end up needing to extend the Markdown language.
+My latest iteration to make authoring interactive blog posts easier is `Reactive Markdown`.
 
--- not quite spreadsheet semantics ala Svelte.
+`Reactive Markdown` is the idea that your markdown can reference `JavaScript` variables and expressions. Whenever the underlying data being referenced changes, your `Markdown` document updates automtically to incorporate the new values or expressions.
+
+<div class="rmd-illustration">
+<pre>
+setInterval(
+  () => x += 1,
+  250,
+);
+</pre>
+<pre>
+# the count is ${x}
+</pre>
+</div>
+
+### v0.1
+
+The first version of `reactive markdown` is "JavaScript first." In other words, you author everything in a JS file. This made prototyping dead simple, but the ergonomics are still not ideal.
+
+Lets look at some examples.
 
 <div id="doc"></div>
