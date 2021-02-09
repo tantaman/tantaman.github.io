@@ -6,6 +6,7 @@ jsmodules:
   - /assets/posts/reactive-markdown/main.js
 css:
   - /assets/posts/reactive-markdown/main.css
+image: /assets/posts/reactive-markdown/cover.svg
 ---
 
 Many of my blog posts contain interactive demos or content that is generated via `JavaScript`. The prose of my posts, however, is written in `Markdown`. Shuttling data back and forth from the `Markdown` side to the `JS` side can be annoying, especially when data from `JavaScript` needs to be displayed inline with the markdown and updated in real time.

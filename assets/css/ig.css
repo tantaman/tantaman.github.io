@@ -12,16 +12,21 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
+  border-left: 2px solid #e8e8e8;
+}
+
+.post-img {
+  width: 100%;
 }
 
 .ig-post-preview {
   width: calc(100%/3);
-  padding: 2px;
+  padding: 8px;
   box-sizing: border-box;
-}
-
-.post-title {
-
+  border: 2px solid #e8e8e8;
+  border-top: 0px;
+  border-left: 0px;
 }
 
 a {
@@ -46,6 +51,7 @@ a:active {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-top: 0px;
 }
 
 .post-meta {
