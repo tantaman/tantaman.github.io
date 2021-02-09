@@ -6,6 +6,7 @@ customjs:
   - /assets/posts/false-positive-rate.js
 css:
   - /assets/posts/false-positive-rate.css
+image: /assets/posts/understanding-fp-rate.svg
 ---
 
 [Jump to the simulation](#prior-probability)

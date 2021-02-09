@@ -6,6 +6,7 @@ customjs:
   - /assets/posts/regression-mean-vs-gambler.js
 css:
   - /assets/posts/regression-mean-vs-gambler.css
+image: /assets/posts/gambler-vs-mean.svg
 ---
 
 [Jump to the simulation](#simulating-both-findings)
