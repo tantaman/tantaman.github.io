@@ -2,6 +2,7 @@
 layout: post
 title: 'Filter, Map, etc. vs For Each & While'
 tags: programming declarative functional imperative
+image: /assets/posts/filter-map-reduce-vs.svg
 ---
 
 I've run into the occasional programmer that finds the functional way of transforming collections (`map`, `filter`, `reduce`, `zip`, `pull`, etc.)

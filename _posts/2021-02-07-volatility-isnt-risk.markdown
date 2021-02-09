@@ -4,6 +4,7 @@ title:  "Volatility isn't Risk"
 tags: investing finance volatility
 css:
   - /assets/posts/volatility-is-not-risk/style.css
+image: /assets/posts/volatility-is-not-risk/cover.svg
 ---
 
 The biggest lie in investing is that volatiliy = risk.
