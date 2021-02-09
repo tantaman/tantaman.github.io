@@ -15,7 +15,7 @@ setInterval(() => state.set(state.get() + 1), 500);
 function the_post() {
 
 // Select the root element to inject our document
-const {md, html} = publisher(document.getElementById('doc'));
+const {md} = publisher(document.getElementById('doc'));
 
 // Variables used by the markdown doc are stored in "atoms"
 const consts_and_vars = atom({
@@ -67,24 +67,38 @@ ${the_post.toString()}
 
 the_post();
 
-{
-  const {md, html} = publisher(document.getElementById('doc'));
-
-  md(
+const {md} = publisher(document.getElementById('doc'));
+function more_complex() {
+md(
 `# Moar
-We can do much more with \`Reactive.Markdown\` such as creating and re-using Markdown
-components as well as generating complex views.`
-  );
+We can do much more with \`Reactive.Markdown\` such as creating and re-using \`Markdown
+components\` as well as generating complex views.
+
+E.g.,
+
+${bullet_list([1,2,3,4])}
+
+**Source:**
+\`\`\`js
+${more_complex.toString()}
+\`\`\`
+`
+);
+
+// Markdown components can call one another, just like regular functions.
+function bullet_list(a) {
+  return a.map(x => `* ${bullet(x)}`).join("\n");
 }
 
-md(/*md*/`
-Or even generate tables and **arbitrary** <code>HTML</code>!
-`);
+// A function that returns a markdown string is a "markdown component"
+function bullet(n) {
+  const suffix = n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th';
+  return `This is the **${n}**${suffix} bullet.`;
+}
 
-html(/*html*/`
-<div class="coin_chart">
-</div>
-`);
+}
+
+more_complex();
 
 function move_letter(l, word) {
   const i = word.indexOf(l);
@@ -94,8 +108,4 @@ function move_letter(l, word) {
   }
 
   return word.substr(0, i) + word.substr(i + 1, 1) + l + word.substr(i + 2);
-}
-
-function coin_flip_table() {
-
 }

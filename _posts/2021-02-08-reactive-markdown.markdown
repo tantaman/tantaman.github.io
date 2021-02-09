@@ -126,3 +126,9 @@ Why? A javascript-first is slightly awkward due to having to stick markdown into
 Anyway, on to some actual reactive markdown!
 
 <div id="doc"></div>
+
+# Use It
+
+The library is currently called "publisher" and is available [here](https://github.com/tantaman/tantaman.github.io/blob/master/assets/js/publisher.js).
+
+If/when it matures I'll likely split it out into its own repo and publish to npm.
