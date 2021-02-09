@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "I am. You are?"
-categories: language philio wellbeing emotion
+tags: language philio wellbeing emotion
 ---
 When we describe how we're feeling we say "I am angry", "I am upset", "I am X"
 

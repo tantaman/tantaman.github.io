@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "All Things are Permitted"
-categories: philosophy religion
+tags: philosophy religion
 ---
 
 Its been said that _"if there is no God then all things are permitted."_

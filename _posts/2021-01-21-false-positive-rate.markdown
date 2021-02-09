@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Understanding False Positive Rate'
-categories: statistics causes reasoning bayes
+tags: statistics causes reasoning bayes
 customjs:
   - /assets/posts/false-positive-rate.js
 css:

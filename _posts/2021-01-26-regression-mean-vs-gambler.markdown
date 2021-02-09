@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Regression to the Mean & the Gambler's Fallacy - Simulated"
-categories: statistics paradoxical
+tags: statistics paradoxical
 customjs:
   - /assets/posts/regression-mean-vs-gambler.js
 css:

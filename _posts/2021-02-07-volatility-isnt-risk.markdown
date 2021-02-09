@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Volatility isn't Risk"
-categories: investing finance volatility
+tags: investing finance volatility
 css:
   - /assets/posts/volatility-is-not-risk/style.css
 ---

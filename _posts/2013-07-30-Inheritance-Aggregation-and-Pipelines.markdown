@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Inheritance, Aggregation, and Pipelines'
-categories: software design api-design oo functional
+tags: software design api-design oo functional
 ---
 
 How does one write software that can be extended?

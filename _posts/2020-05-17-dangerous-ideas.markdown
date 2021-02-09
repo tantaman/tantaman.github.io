@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Dangerous. Ideas."
-categories: ideas safety protection knowledge
+tags: ideas safety protection knowledge
 ---
 
 "A little bit of knowledge is a dangerous thing"
@@ -11,4 +11,3 @@ How do yo interpret that?
 * Or does it mean if you only know a little, rather than a lot, you are putting yourself in great peril?
 
 People understand that power tools, electrical sockets, gas stoves, fast moving water, etc. need to be treated with respect and handling them requires doing so within a specific framework that will maintain one's safety. Why do people not also understand that the same is true in relation to beliefs, ideas, disciplines, ways of thinking?
-
