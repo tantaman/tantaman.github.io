@@ -1,16 +1,16 @@
 // ## Create a temp element.
-// This temp element will be used to sanatize `HTML`.
+// This temp element will be used to sanatize strings that will be rendered as `HTML`.
 //
 // Why do we need to sanatize HTML? Because we'll need to render untrusted input
-// into the `DOM` when a user adsd a new TODO.
+// into the `DOM` when a user adds a new TODO.
 // If we don't sanitize the input, someone could exploit the user's browser.
 //
 // The attack vector is unlikely given the todos are only saved in
-// local storage but we should set a good example. Code often gets copy-pasted
-// into other developer's projects.
+// local storage but we should set a good example. Code online often gets copy-pasted
+// into other developer's projects and we don't want to spread bad practices.
 //
 // Using an off-screen `HTML` element allows us to leverage the browser to perform
-// sanitization.
+// sanitization rather than trying to do it ourselves.
 const tempEl = document.createElement("div");
 
 // ## Sanatize
@@ -19,20 +19,24 @@ const tempEl = document.createElement("div");
 // sanitize a string.
 const sanitize = (value) => {
 	if (value) {
-		// Here is an "escape-hatch" to allow developers (who know what they are doing)
-		// to inject raw, unescaped, `HTML`.
+		// ### Escape Hatch
+		// Below is an "escape-hatch" to allow developers (who know what they are doing)
+		// to inject raw, unsanitized, `HTML`.
 		//
 		// This is useful in cases where developers programatically create `HTML` strings.
-		// I've personally used this when I want to return an HTML string from the server
-		// (over a REST of GraphQL API) and then render it into the client.
+		// I've personally used this when I want to return an `HTML` string from the server
+		// (over a `REST` or `GraphQL API`) and then render it into the client.
 		// This happens in cases where some legacy rendering logic only exists on the server
-		// and we haven't had the resources to move it to client side rendering.
+		// and the juice isn't worth the squeeze to move it to client side rendering.
 		if (typeof value === "object" && value.__html__) {
 			return value.__html__;
 		}
 
-		// Check for array input as a convenience to allow developers to pass arrays of values
-		// in addition to single values.
+		// ### Convenience
+		// Check for array input. This allows developers to pass arrays of values
+		// in addition to single values. E.g., `sanitize(['a','b','c'])` and `sanitize('a')`.
+		// This is idiomatic JavaScript as JavaScript doesn't have a way to overload
+		// functions based on parameter types.
 		if (Array.isArray(value)) {
 			return value.map(sanitize).join("");
 		}
@@ -40,6 +44,7 @@ const sanitize = (value) => {
 	// ### Cool Trick
 	// `tempEl.textContent = value;`
 	// is a cool trick to sanitize the value using the browser's own sanitization logic.
+	// This reduces our total program maintenance costs.
 	// No need for us to maintain some silly regex's or string-replaces that might be missing some edge cases.
 	tempEl.textContent = value;
 	return tempEl.innerHTML;
@@ -48,9 +53,7 @@ const sanitize = (value) => {
 // ## Tagged Templates
 // ES6 Template Strings can be passed to a custom processor.
 // Here we are defining an `html` function which we will use to process template strings
-// that represent HTML.
-//
-// Why did we create an `html` function rather than allowing users to use raw literals?
+// that are intended to represent `HTML`.
 //
 // The `html` function will apply apply our sanitize method to any variables passed to the literal.
 //
@@ -58,6 +61,23 @@ const sanitize = (value) => {
 //
 // **Example output:** `{ __html__: '<p>some sanitized content</p>.' }`
 const html = (parts, ...values) => {
+	// We return an object with an `__html__` property so we can compose the results
+	// of `html` invocations. Remember earlier that `sanitize` ignores objects with
+	// an `__html__` property as they've already been processed or asserted to be
+	// safe by the developer.
+	//
+	// "asserted to be safe" is worth rabbitholing on. If a framework relies on assertions
+	// or "developers doing the right thing" it means one of two things:
+	// 1. The framework has a deficiency
+	// 2. The language has a deficiency
+	//
+	// Ideally the language's type system would always enforce that the right thing
+	// happens. There would be no need to trust developers to do the right thing
+	// and no need for runtime assertions. Runtime assertions (e.g., `assert(x is notnull)`,
+	// `assert(x > 0)`) are a symptom of a deficient type checker or a junior programmer
+	// writing bad framework code.
+	//
+	// If this all seems far-fetched, take a look at Idris and OCaml.
 	return {
 		__html__: parts
 			.map((part, i) => {
