@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Fk Your Frameworks"
+title:  "Language Accessibility"
 tags: programming frameworks js
 ---
 
