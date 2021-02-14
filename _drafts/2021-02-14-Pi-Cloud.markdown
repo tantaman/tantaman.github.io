@@ -1,0 +1,39 @@
+---
+layout: post
+title:  "Pi Cloud"
+tags: cloud architecture raspberry-pi
+---
+With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, coming up with and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn C and how to alloc & free.
+
+Well I don't think that those professors were wrong. You'll inevitbly have to face these low level problems at some point in your career. While I think Joel goes a bit overboard (we're surrounded by abstraction that rarely, if ever, leak) this line of thinking reminds me of his article on [leaky abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/). tldr: at some point something lower in the stack breaks (or bubbles up), requiring you to understand how it works so you can fix (or accomodate) it.
+
+The most absurd example I've seen of this in the workplace was a bug we had generating hashes of passwords. Developers in the `PHP` stack would call `hash_password` (when registering a user) or `check_pasword($user_input, $stored_hash)` when checking credentials. New accounts would get created, but the users could never log in. At the same time, the number of failed login attempts for previously registered users increased. Ultimately, the cause of the bug ended up being new servers we had installed which contained Intel chips that were generating incorrect SHA values. The abstraction leaked from the metal all the way up to application developers.
+
+All that being said, you don't know which part of the stack is going to end up breaking in your future but some part, deep down, will break. Given that, a good developer should have a passing familiarity with all levels of the stack.
+
+# Pi Cloud
+
+In this series I'll be setting up a full blown cloud, the likes of which you'd see deployed at Facebook, Google or Amazon (obviously scaled down -- I can't affort millions of servers :p) using Raspberry Pis.
+
+The princple we'll be using while developing this cloud is that nothing is done until it is fully monitored. We'll call this "monitoring driven development."
+
+# Components
+
+1. Load balancer
+2. Application servers
+3. Lambda tier
+4. Database tier
+5. Cache
+6. Middleware / Message bus
+7. Blob storage
+8. Real time metrics database
+9. Log collection
+10. Data warehouse
+11. Service registry
+12. Chaos Monkey
+13. Network separation
+14. Real time abuse protection
+15. Security
+16. Deployment
+
+# Diagram
