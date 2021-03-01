@@ -3,23 +3,23 @@ layout: post
 title:  "Pi Cloud"
 tags: cloud architecture raspberry-pi
 ---
-With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, coming up with and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and how to `alloc` & `free`.
+With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, creating and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and how to `alloc` & `free`.
 
-Well I don't think that those professors were wrong. You'll inevitbly have to face these low level problems at some point in your career. While I think Joel goes a bit overboard (we're surrounded by abstraction that rarely, if ever, leak) this line of thinking reminds me of his article on [leaky abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/). Tldr: at some point something lower in the stack breaks (or bubbles up), requiring you to understand how it works so you can fix (or accomodate) it.
+Well I don't think that those professors were entirely wrong. Of course you want to take advantage of all the abstractions available to you in the modern era but you'll inevitbly have to face low level problems at some point in your career. Joel Spolsky has some great writing on this topic. While I think Joel goes a bit overboard (we're surrounded by abstraction that rarely, if ever, leak) all of this reminds me of his article on [leaky abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/). Tldr: at some point something lower in the stack breaks (or bubbles up), requiring you to understand how it works so you can fix (or accomodate) it.
 
-The most absurd example I've seen of a leaky abstraction in the workplace was a bug we had generating hashes of passwords. Developers in the `PHP` stack would call `hash_password` (when registering a user) or `check_pasword($user_input, $stored_hash)` when checking credentials. New accounts would get created, but the users could never log in. At the same time, the number of failed login attempts for previously registered users increased. Ultimately, the cause of the bug ended up being new servers we had installed which contained Intel chips that were generating incorrect SHA values. The abstraction leaked from the metal all the way up to application developers.
+The most spectacular example I've seen of a leaky abstraction in production was a bug we had generating hashes of passwords. Developers in the `PHP` stack would call `hash_password` (when registering a user) or `check_pasword($user_input, $stored_hash)` when checking credentials. New accounts would get created, but the users could never log in. At the same time, the number of failed login attempts for previously registered users increased. Ultimately, the cause of the bug ended up being new servers we had installed which contained Intel chips that were generating incorrect SHA values. The abstraction leaked from the metal all the way up to application developers.
 
 All that being said, you don't know which part of the stack is going to end up breaking in your future but some part, deep down, will break. Given that, a good developer should have a passing familiarity with all levels of the stack.
 
 # Getting Started
 
-In this series I'll be setting up a full blown cloud, the likes of which you'd see deployed at Facebook, Google, Amazon or Microsoft but using Raspberry Pis (and scaled down -- I can't buy a million Pis).
+In this series I'll be setting up a full blown cloud, the likes of which you'd see deployed at Facebook, Google, Amazon or Microsoft. The cloud will be scaled down to tens of servers rather than tens of thousands of servers. The hardware we're using will also be exclusively Raspberry Pis.
 
 The princple we'll be using while developing this cloud is that nothing is done until it is fully monitored. We'll call this "monitoring driven development."
 
 # Components
 
-Before we can get started we need to understand what components we'll need. When taken together, the set of components should be capable of supporting a diverse and rich array of applications that could be hosted in our cloud.
+Before we can get started we need to understand what components we'll need. When taken together, the set of components should be capable of supporting a diverse and rich array of applications that would be hosted in our cloud.
 
 1. **Load balancer** - so we can spread the incoming requests across multiple servers
 2. **Application servers** - handle requests from the outside world. Could call these "API Servers"
@@ -46,7 +46,7 @@ We may also get into data governance as using user data appropriately (based on 
 
 # Relationships
 
-To understand how all of the components connect, it'll help to draw them out.
+To understand how all of the components connect, let's draw them out.
 
 Below is a high level diagram that shows how requests:
 1. Come in from the internet
@@ -71,7 +71,7 @@ And lastly we have log collection. This may seem unimportant to some but having 
 
 # Series Format
 
-We've roughly laid out the vision for this series. Future articles will do a deep dive into each component, what software we pick (or write) to run that component, how we integrate it into the system and then finally how we monitor and test that component.
+We've roughly laid out the vision for this series. Future posts will do a deep dive into each component, what software we pick (or write) to run that component, how we integrate it into the system and then finally how we monitor and test that component.
 
 We'll end up covering topics like:
 * error rates
