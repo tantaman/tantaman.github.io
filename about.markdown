@@ -12,9 +12,9 @@ And if you read blogs & social media you're no better off.
 
 Currently re-writing [Strut](http://strut.io) to be re-launched with a focus on rapid, non-linear presentation authoring and note taking.
 
-Also employed by Facebook, working to protect the community from harm online and otherwise.
+Also employed by [Facebook](https://about.fb.com), working to protect the community from harm [online and otherwise](https://about.fb.com/news/category/integrity-security/).
 
-Previously worked on Sonar and Periscope systems.
+Previously worked on [Sonar](https://en.wikipedia.org/wiki/Sonar) and [Periscope](https://en.wikipedia.org/wiki/Periscope) systems.
 
 
 [Github](https://github.com/tantaman/)
