@@ -39,7 +39,7 @@ Here is a taste of what I like to work on and think about as it relates to code.
   * 2021 - Present: Working on infrastructure to uphold commitments to user privacy
   * 2016-2021: Building & designing products to protect the community from harm. Both [online and offline](https://about.fb.com/news/category/integrity-security/).
   * 2015: Building infrastructure to ensure all copies of user data [are deleted when requested and in a timely manner](https://engineering.fb.com/2020/08/12/security/delf/)
-  * 2014-2016: Working to enable FB to respect the [laws of the countries in which it operates](https://transparency.facebook.com/government-data-requests)
+  * 2014-2016: Working to enable FB to respect the [laws of the countries in which it operates](https://transparency.facebook.com/)
 * 🚢  Lockheed Martin
   * 2012 - 2014: Reaserching, designing and prototyping the next generation of [Sonar](https://en.wikipedia.org/wiki/Sonar) and [Periscope](https://en.wikipedia.org/wiki/Periscope) systems.
   * 2008 - 2012: Building [Sonar](https://en.wikipedia.org/wiki/Sonar) and [Periscope](https://en.wikipedia.org/wiki/Periscope) systems.
