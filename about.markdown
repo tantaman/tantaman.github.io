@@ -38,6 +38,7 @@ Here is a taste of what I like to work on and think about as it relates to code.
 * ⓕ Facebook
   * 2021 - Present: Working on infrastructure to uphold commitments to user privacy
   * 2016-2021: Building & designing products to protect the community from harm. Both [online and offline](https://about.fb.com/news/category/integrity-security/).
+  * 2015: Briefly (6mo) maintained FB's [deletion framework](https://engineering.fb.com/2020/08/12/security/delf/) while it was homeless.
   * 2014-2016: Working to enable FB to respect the [laws of the countries in which it operates](https://transparency.facebook.com/)
 * 🚢  Lockheed Martin
   * 2012 - 2014: Reaserching, designing and prototyping the next generation of [Sonar](https://en.wikipedia.org/wiki/Sonar) and [Periscope](https://en.wikipedia.org/wiki/Periscope) systems.
