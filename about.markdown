@@ -41,8 +41,8 @@ Here is a taste of what I like to work on and think about as it relates to code.
   * 2015: Briefly (6mo) maintained FB's [deletion framework](https://engineering.fb.com/2020/08/12/security/delf/) while it was homeless.
   * 2014-2016: Working to enable FB to respect the [laws of the countries in which it operates](https://transparency.facebook.com/)
 * 🚢  Lockheed Martin
-  * 2012 - 2014: Reaserching, designing and prototyping the next generation of [Sonar](https://en.wikipedia.org/wiki/Sonar) and [Periscope](https://en.wikipedia.org/wiki/Periscope) systems.
-  * 2008 - 2012: Building [Sonar](https://en.wikipedia.org/wiki/Sonar) and [Periscope](https://en.wikipedia.org/wiki/Periscope) systems.
+  * 2012 - 2014: Researching, designing and prototyping the [next generation of Sonar and Periscope systems](https://www.lockheedmartin.com/en-us/news/features/2016/webt-navy-area-51.html).
+  * 2008 - 2012: Building [Sonar](https://en.wikipedia.org/wiki/Sonar) and [Periscope](://en.wikipedia.org/wiki/Periscope) systems.
 
 In my darker days (circa 2004), I created a website to book exotic dancers.
 
