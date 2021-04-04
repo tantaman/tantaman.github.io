@@ -4,6 +4,19 @@ title:  "The Lost Half of Domain Modeling in OO Languages"
 tags: programming software design
 ---
 
+What is domain modeling?
+
+Its the process of modeling a problem domain in code. Usually this is an object oriented process. The developer thinks of all the things in his domain and creates classes to represent them. This intuitively makes sense given we encounter and interact with objects in the world. Unfortunately, what intuitively makes sense doesn't necessarilly make for good code.
+
+The problem is that the set of objects is rarely stable. Objects are transient. Thinking in terms of objects obscures the things that do not change -- the relations and activities.
+
+So you make a game. In your game you have monsters and heros and dungeons and potions. Monsters hurt heros, Heros hurt monsters, potions make heros stronger and so on and so forth. The fact that monster hurt heros and heros hurts monsters and so on is incidental to those types, not a requirement of those types. What if we wany a friendly monster? Or to allow Heros to hurt one another? Or for things like tables and chairs to be able to inbue our heros with the affects of a potion?
+
+The things that don't change are taking damage, doing damage, building stats, losing stats -- in essence the activities don't change. Humans have forever wanted to get from point A to point B. The objects that have taken us there have changed and danced and paraded through our lives without ever changing the intent.
+
+For a domain model to be stable, it must be modeled not in terms of the transient objects that parade through life but in terms of the eternal activities of the domain. You want to model a communication system? Don't base that model on the phone, or the telegram, or radio or fiber-optics. These are part of the parade of objects that come into existence and fade away always in service of the fundamental activity being carried out.
+
+
 There are a ton of hurdles to creating good OO design, many of which are outlined here: https://wiki.c2.com/?ObjectOrientationIsDead. This posts assumes you've designed your code well but will show, that due to how we think of (or do not think of) mutations in an OO world, that your code is still terribly broken.
 
 Designing software in an object oriented language usually centers around modeling your domain.
@@ -30,7 +43,7 @@ This works up until the point that you have outside observers of your model.
 --> non observed model has transactions due to exception handling. If the mutation method completes then all mutations happened. If it throws, they did not.
 --> And if nobody can observe during mutations we're fine. But ppl can generally observe partial mutations during mutations due to data-binding or observers on models.
 
-Our domain accurately reflects a representation
+Our domain accurately reflects a representation at a snapshot in time.
 
 
 
