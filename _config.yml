@@ -19,7 +19,7 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Tantamanlands
-email: matthew dot wonlaw at hey.com
+email: hell at no dot com
 description: >- # this means to ignore newlines until "baseurl:"
   Tantamanlands
 baseurl: "/" # the subpath of your site, e.g. /blog
@@ -27,7 +27,7 @@ url: "https://tantaman.com" # the base hostname & protocol for your site, e.g. h
 github_username:  tantaman
 twitter_username: tantaman
 
-author: Matt Wonlaw
+author: Matt
 
 navbar-links:
   About Me: "about"
