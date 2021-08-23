@@ -74,3 +74,8 @@ function idempotentBarn(stock: Array<Animal>): Array<Animal>;
 ```
 
 But that would cause the caller to lose type information.
+
+
+TODO:
+https://www.stephanboyer.com/post/132/what-are-covariance-and-contravariance
+https://www.stephanboyer.com/
