@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The Shortest, Framework Free, TODO App"
-tags: programming literate project budget
+tags: software-engineering demo
 css:
   - /assets/posts/todo-mvc/base.css
   - /assets/posts/todo-mvc/todo.css
@@ -9,9 +9,15 @@ customjs:
   - /assets/posts/todo-mvc/todomvc.js
 ---
 
+
+**A TodoMVC App in ~200 lines of plain JavaScript and 0 dependencies.**
+<br/>
+<br/>
+<br/>
+
 <div id="container"></div>
 
-Source: [https://github.com/tantaman/fk-your-frameworks-todomvc](https://github.com/tantaman/fk-your-frameworks-todomvc)
+Source:
 ```js
 const tempEl = document.createElement("div");
 const sanitize = (value) => {
@@ -230,3 +236,4 @@ function turnTheCrank(refocus, cb) {
 const setItems = (window.onbeforeunload = () =>
 	window.localStorage.setItem("todos-vanilla-slim", JSON.stringify(state.items)));
 ```
+[https://github.com/tantaman/fk-your-frameworks-todomvc](https://github.com/tantaman/fk-your-frameworks-todomvc)

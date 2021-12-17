@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Practical Laziness in Programming'
-tags: laziness api-design programming
+tags: software-engineering
 ---
 
 When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder.

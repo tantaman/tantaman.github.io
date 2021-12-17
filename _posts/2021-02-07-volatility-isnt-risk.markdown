@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Volatility isn't Risk"
-tags: investing finance volatility
+tags: finance math
 css:
   - /assets/posts/volatility-is-not-risk/style.css
 image: /assets/posts/volatility-is-not-risk/cover.svg

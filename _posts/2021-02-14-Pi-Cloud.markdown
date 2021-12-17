@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Pi Cloud"
-tags: cloud architecture raspberry-pi
+tags: production-engineering
 ---
 With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, creating and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and how to `alloc` & `free`.
 

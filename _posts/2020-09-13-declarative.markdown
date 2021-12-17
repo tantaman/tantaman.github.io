@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Filter, Map, etc. vs For Each & While'
-tags: programming declarative functional imperative
+tags: software-engineering
 image: /assets/posts/filter-map-reduce-vs.svg
 ---
 
