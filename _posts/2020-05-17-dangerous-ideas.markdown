@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Dangerous. Ideas."
-tags: ideas safety protection knowledge
+tags: pontification
 ---
 
 "A little bit of knowledge is a dangerous thing"

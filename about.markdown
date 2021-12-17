@@ -33,11 +33,15 @@ Here is a taste of what I like to work on and think about as it relates to code.
 * [How](https://www.geoffreylitt.com/2021/03/05/bring-your-own-client.html) to [improve](https://plaintextaccounting.org/) software [interoperability](https://stratechery.com/2021/the-webs-missing-interoperability/)
 * [Counterfactuals in ML](https://www.amazon.com/Book-Why-Science-Cause-Effect/dp/1541698967/ref=asc_df_1541698967/?tag=hyprod-20&linkCode=df0&hvadid=459440273404&hvpos=&hvnetw=g&hvrand=6941749223415101727&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007770&hvtargid=pla-917887947980&psc=1)
 * [NFTs](https://en.wikipedia.org/wiki/Non-fungible_token) and their use in determining the [provenance](https://en.wikipedia.org/wiki/Provenance) of digital goods
+* Personal and collaborative knowledge management
+  * Improving the experience of document authoring and consumption
+  * Un-siloing everything you've ever saved or written
 
 # 👨🏻‍🔬 Employment
-* ⓕ Facebook
-  * 2021 - Present: Working on infrastructure to uphold commitments to user privacy
-  * 2016-2021: Building & designing products to protect the community from harm. Both [online and offline](https://about.fb.com/news/category/integrity-security/).
+* 2022 - Present: Full time [microfounder](https://microfounder.com/). Building and selling software independently.
+* ∞ Meta / ⓕ
+  * 2021 - 2022: Working on infrastructure to uphold commitments to user privacy
+  * 2016 - 2021: Building & designing products to protect the community from harm. Both [online and offline](https://about.fb.com/news/category/integrity-security/).
   * 2015: Briefly (6mo) maintained FB's [deletion framework](https://engineering.fb.com/2020/08/12/security/delf/) while it was homeless.
   * 2014-2016: Working to enable FB to respect the [laws of the countries in which it operates](https://transparency.facebook.com/)
 * 🚢  Lockheed Martin

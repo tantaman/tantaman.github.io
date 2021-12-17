@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Understanding Generics"
-tags: programming generics
+tags: software-engineering
 ---
 
 ```js

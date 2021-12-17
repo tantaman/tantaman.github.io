@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Reactive Markdown"
-tags: blog authoring reactive markdown
+tags: software-engineering demo
 jsmodules:
   - /assets/posts/reactive-markdown/main.js
 css:

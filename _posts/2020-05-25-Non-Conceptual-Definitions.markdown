@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Non Conceptual Definitions"
-tags: definition concept philosophy
+tags: pontification
 ---
 
 Philopsophers often question what is "art" or "love" or other words for humanity has never had a solid definition.

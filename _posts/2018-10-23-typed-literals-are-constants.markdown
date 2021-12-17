@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Typed Literals ARE Constants!'
-tags: programming software types
+tags: software-engineering
 ---
 
 ```
