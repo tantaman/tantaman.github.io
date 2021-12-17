@@ -144,7 +144,3 @@ commit(changesets, [persistLog, undoLog]);
 # Where to Commit?
 
 Where does one invoke a “commit” action, however? Commits should never be done within the domain model itself but only at points where the client code (e.g., UI code) interacts with the domain model as these points are “the top of the funnel” where interaction begins and all changes that would be made due to that interaction are returned to.
-
-# Changeset Framework
-
-Keep an eye on this post and my github for a release.
