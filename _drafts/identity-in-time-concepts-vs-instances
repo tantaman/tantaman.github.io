@@ -10,3 +10,13 @@ Programming is held back by not understanding the concept of identity.
 Wars of functional vs not, mutable vs not center around a misunderstanding of identity of data.
 
 Class identity.
+
+--
+Its no secret that I believe application development is more suited for philosophy majors than math or engineering majors.
+
+Why is that?
+- Perf is only a concern in a few hot spots in your application
+- Building the right thing and correctly modeling and understanding the problem being solved are the most important pieces of application development
+
+--
+How do I gather all the loose ends for Sebi?
