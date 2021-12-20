@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "No Impedence Mismatch"
-tags: programming data-structures databases relational pointers
+title: 'No Impedence Mismatch'
+tags: software-engineering
 ---
 
 There is no impedence mismatch!
