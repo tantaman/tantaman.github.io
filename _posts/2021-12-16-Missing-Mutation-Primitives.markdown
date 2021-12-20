@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Missing Mutation Primitives"
+title: 'Missing Mutation Primitives'
 tags: software-engineering
 ---
 
@@ -88,7 +88,7 @@ So how do you express a mutation?
 
 # Changesets
 
-In Strut2 (early alpha) I’ve introduced the concept of a `changeset` to express a mtuation or set of mutations.
+In Strut2 (early [alpha](https://strut2.pages.dev/present)) I’ve introduced the concept of a `changeset` to express a mtuation or set of mutations.
 
 A `changeset` represents all of the updates you’d like to make to the domain model without actually performing any of them. Changesets can be composed. If you call multiple methods that themselves return `changesets`, you can keep combining them until you decide it is time to commit the update.
 
@@ -99,10 +99,7 @@ class Deck {
   addNewYoutubeSlide(src): [Changeset<Deck>, ...Changeset<any>[]] {
     let slideCs = Slide.create();
     const componentCs = YoutubeEmbed.create(src);
-    slideCs = merge(
-      slideCs,
-      slideCs.deRef.addComponent(component),
-    );
+    slideCs = merge(slideCs, slideCs.deRef.addComponent(component));
     const deckCs = merge(
       this.addSlide(slideCs.deRef),
       this.setSelectedSlide(slideCs.deRef),
@@ -129,10 +126,7 @@ Getting a changeset that represents everything that would happen from a series o
 This is done through the process of committing a changeset.
 
 ```typescript
-function commit(
-  changeset: Changeset<Model>[],
-  log: TransactionLog[]
-)
+function commit(changeset: Changeset<Model>[], log: TransactionLog[]);
 ```
 
 The second important piece that goes along with a changeset is the set of transaction logs that should record the change. E.g., you can commit a changeset but omit it from your persistence layer by not providing the persistence log. Or commit and omit it from undo functionality by omitting the undo transaction log.
@@ -140,7 +134,10 @@ The second important piece that goes along with a changeset is the set of transa
 ```typescript
 commit(changesets, [persistLog, undoLog]);
 ```
+
 <br/>
 # Where to Commit?
 
 Where does one invoke a “commit” action, however? Commits should never be done within the domain model itself but only at points where the client code (e.g., UI code) interacts with the domain model as these points are “the top of the funnel” where interaction begins and all changes that would be made due to that interaction are returned to.
+
+Stay tuned for a release of the framework on [Github](https://github.com/tantaman).
