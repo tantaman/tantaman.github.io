@@ -2,6 +2,7 @@
 layout: post
 title: 'Missing Mutation Primitives'
 tags: software-engineering
+image: /assets/images/mutation.jpg
 ---
 
 I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.
