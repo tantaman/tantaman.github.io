@@ -1,0 +1,27 @@
+---
+layout: post
+title: 'American Spirit'
+tags: philosophy
+---
+
+> Note -- I just finished reading ["Beyond Good and Evil"](https://en.wikipedia.org/wiki/Beyond_Good_and_Evil) and was curious what something of that nature would read like if [Nietzsche](https://en.wikipedia.org/wiki/Friedrich_Nietzsche) wrote it today. Below is that reproduction and not an expression of my own views.
+
+---
+
+The spirit of the American is a worthless thing. It has been neutered and seeks to neuter all others. It no longer understands pain and the requirement of pain, the need for pain. That pain brings greatness. It only desires comfort. To be placated and catered to. That any pain it feels is an injustice wrought upon it by oppressors. Oppressors that are everywhere. In language, in capital, in technology, in laws, in the street, in the air, in the snow.
+
+The intolerance for pain is so high that the American can no longer stand to even be with himself. When he goes to the toilet to shit a fear wells up in him. A fear that he will have to sit in silence. A silence that would allow his inner thoughts to get through, to reveal the worm he has become. The American takes solace in his phone. His feeds. His notifications. These comfort him in all quiet moments when anything of merit could break through to him. They’re his forever drug, his forever inoculation against anything that dare to make him more.
+
+The American seeks to neuter all around him. To tell all around him that they too are a victim. That they can’t control their life. That they can’t create anything in life. That life is pre-destined by the institutions around oneself. That they have no individual identity. No identity from which to see oneself through time, a place from which one could cultivate something higher, a place from which to be grounded. To tell all that identity isn’t individual or possessed or controlled by oneself but is only found in a group. The identity of A queer. A straight. A trans. A black. A white. An oppressor or an oppressed.
+
+But what is the identity of a group but a legion of voices all speaking contrarily. It is a thing that tears the minds apart which identify with it. It blows left one day and right the next. Forever undoing anything that has been done and could serve as a foundation for further creation. Further refinement. Further self-knowledge.
+
+The coddled American believes everything to be a right. That if something must be worked for it is unfair. It is an oppression by the rich. An enslavement of their time. The American can never see this as an opportunity to forge themselves. With their fat couches and fatter televisions they spend every excess penny of their income that could “liberate” them (for they believe money to be the root of liberation) rather than self circumscribe their material world to something smaller but something greater. Something that requires discipline placed on oneself by oneself. It is no wonder they believe all their actions to be controlled by external forces.
+
+This is the culmination of western though. Western thought that seeks to understand itself by looking outside itself and now only sees outside itself and nothing of itself. Nothing in itself that can preside over that which is outside itself. That can transform experiences, calculate moves and goals and plans. Turn suffering into joy and be joyful in suffering for that suffering will bring them to the heights of freedom that none around them ever dare to attain. The American is more comfortable in stink. When he rises above the stink, he is chewed on by those around him. Required to sacrifice himself for daring to rise up. Required to be crucified. As if the blood of a great man spilled could ever actually do anything meaningful for those below him other than to placate them, make them drunk and make them happy in their shit. Happy as there is no more reminder of greatness and no more need to dream. Dreams have been proven folly by the downfall of the great and Godlike man.
+
+The American, so thoroughly hidden from himself, professes one thing — believes himself to be that thing in his entirety — while being altogether the opposite of that thing.
+
+The conservative professes a Christian faith and values while holding up the most self centered and immoral men left in their society. They profess that all is done according to the will of God but believe that all problems are the fault of the victim. All men should be self made. All people must pull themselves up by their bootstraps and not be helped in any way by one another.
+
+The liberal professes atheism and the end of the oppression created by organized religions while they themselves are, at their core, the embodiment of all religious values. They hold the group — or shall we say Church — in the highest esteem. They profess a socialism and equity and that all in the Church should be the same, should be equal. They sacrifice all individualism to the Church. Coexistence in their world is coexistence of groups — and only of those groups (those Churches) sanctified by them. The church of the queer, of the trans, of the woman, of the black, of the Asian, of anything other than the self made man. Self made men cannot exist in their world. One may only accomplish through their identity in the Church and the the will of circumstance, the will of birth, the will of history, the will of chance — in other words, the will of God — upon that Church.
