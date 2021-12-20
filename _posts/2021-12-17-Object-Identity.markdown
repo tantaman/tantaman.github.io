@@ -97,6 +97,13 @@ Where `appState` can be re-bound but everything inside it is immutable. In such 
 
 I'm not advocating abandoning immutable data types. I'd never do that. They're far too important and easy to reason about. Just pointing out where we've drawn a false analogy between reference equality and identity.
 
+1. That for mutable types, reference equality is nominal identity.
+2. That for immutable types, reference equality is a partial physical identity. I.e., if two immutable things are equal by reference they're guaranteed to be physically identical but two physically identitcal things are not guaranteed to be equal by reference.
+
+That we do not have a concept of nominal identity in software that is always guaranteed to hold.
+
+Nor do we have a concept of physical identity in software that is always guaranteed to hold. More on this in a separate post.
+
 # What Do?
 
 Intersetingly enough, we've solved this in the relational database world. IDs are our nomnial identities there. The thing behind the ID is almost always mutable with prior versions or records of it being stored separately. If the thing behind the ID always got a new ID on every update, well that'd make retrieving any information you've stored in the past exceedingly difficult for you in the future. That or require you to always pass a timestamp along with what you'd like to retrieve -- assuming time is the only variable that partitions the space of mutation.
