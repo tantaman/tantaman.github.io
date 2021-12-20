@@ -4,7 +4,7 @@ title: 'Missing Mutation Primitives'
 tags: software-engineering
 ---
 
-I’ve been developing apps for the past ~8 years that use immutable data models.
+I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.
 
 Immutable models solve endless numbers of problems but what I realized is that it isn’t mutation that is so bad. It is being unable to express, commit and record a mutation in one atomic move that is the problem.
 
