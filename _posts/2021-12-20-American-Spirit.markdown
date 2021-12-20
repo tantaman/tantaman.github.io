@@ -4,7 +4,7 @@ title: 'American Spirit'
 tags: philosophy
 ---
 
-> Note -- I just finished reading ["Beyond Good and Evil"](https://en.wikipedia.org/wiki/Beyond_Good_and_Evil) and was curious what something of that nature would read like if [Nietzsche](https://en.wikipedia.org/wiki/Friedrich_Nietzsche) wrote it today. Below is that reproduction and not an expression of my own views.
+> Note -- I just finished reading ["Beyond Good and Evil"](https://en.wikipedia.org/wiki/Beyond_Good_and_Evil) and was curious what something of that nature would read like if [Nietzsche](https://en.wikipedia.org/wiki/Friedrich_Nietzsche) wrote it today. Below is that reproduction of that (me channeling my conception of Nietzsche) and not an expression of my own views.
 
 ---
 
