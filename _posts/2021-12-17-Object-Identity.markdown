@@ -4,9 +4,11 @@ title: 'Reference Equality - What is it Really?'
 tags: software-engineering language
 ---
 
-In programming we're met with things that are completely new but familiar enough to grasp with existing concepts. This converting the new to something familiar (something pre-existing) helps us to understand and grasp things at one level but if the familiar does not perfectly match the new then it causes us to fall into error without ever being aware of it. We know something's wrong with what we're doing but we can't see why. We're blinded by a belief that we understand the nature of what we're working with. The familiar hides the new.
+In programming we're met with things that are completely new. Even though they're new, they're familiar enough to grasp with existing concepts. This converting the new to something familiar helps us to understand things at one level but if the familiar does not perfectly match the new then it causes us to fail to understand at another level.
 
-Reference equality is one of these things.
+When the familiar doesn't match the new, we're blinded by a belief that we understand the nature of what we're working with. The familiar hides the new.
+
+Reference equality being equated with identity is one of these things.
 
 Reference equality appears to mean identity. If two objects are equal by reference, they're the same object.
 
