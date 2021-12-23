@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Reacting Better. Intro: Anemic Models"
-tags: software-engineering
+title: 'Reacting Better. Intro: Anemic Models'
+tags: software-engineering react
 ---
 
 [React](https://reactjs.org/) eschews models that have any attached functionality. The “model” for a react app is usually [anemic](https://martinfowler.com/bliki/AnemicDomainModel.html) — just a bare set of properties with no methods attached.
@@ -42,22 +42,24 @@ When, however, do anemic models become a problem? A few things have to start to 
 Here’s an example where an anemic model could star to become problematic — when we want to start extending our presentation builder with new types of slides.
 
 ```typescript
-type Slide = {
-  type: "markdown_slide";
-  selected: boolean;
-  text: string;
-} | {
-  type: "standard_slide";
-  embed: Embed;
-  text: TextBox[];
-};
+type Slide =
+  | {
+      type: 'markdown_slide';
+      selected: boolean;
+      text: string;
+    }
+  | {
+      type: 'standard_slide';
+      embed: Embed;
+      text: TextBox[];
+    };
 
 function pullVideos(s: Slide) {
   switch (s.type) {
-    case "markdown_slide":
+    case 'markdown_slide':
       return pullVideosFromMarkdown(s);
-    case "standard_slide":
-      return s.embeds.filter(e => e.type === 'video');
+    case 'standard_slide':
+      return s.embeds.filter((e) => e.type === 'video');
   }
 }
 ```
