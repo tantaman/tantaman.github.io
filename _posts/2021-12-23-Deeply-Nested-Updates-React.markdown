@@ -6,11 +6,11 @@ tags: software-engineering react
 
 Something irks me about [React](https://reactjs.org/). It's how inefficiently it handles deeply nested updates.
 
-React apps, like any app, will have deeply nested components in the display hierarchy.
+React apps, like any app, will have a display hierarchy of deeply nested components. The root component being the entrypoint of the app, the leaves being the individual buttons, table rows and text rendered by the app.
 
 **Lets look at an example**
 
-We'll take a presentation editor (e.g., powerpoint / keynote or [strut.io](https://strut.io)) as an example.
+Let's take a presentation editor (e.g., powerpoint / keynote or [strut.io](https://strut.io)) as an example.
 
 The component hierarchy might look something like:
 
@@ -101,8 +101,10 @@ We only wanted to re-render the leaves -- `BlockOptions` and `MarkdownEditor` bu
 
 # What Do?
 
-Ultimately we need a different model for React components to subscribe to application state and for those state updates to propagate through the app, without sacraficing the pros of the [unidirectional data flow of react](https://reactjs.org/docs/thinking-in-react.html).
+We need a different model for React components to subscribe to application state and for those state updates to propagate through the app, without sacraficing the pros of the [unidirectional data flow of react](https://reactjs.org/docs/thinking-in-react.html).
 
-To do that I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework based on the work outlined in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}). I'll be intorducing and publishing this framework in a follow up post in the next week.
+To do that I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework based on the work outlined in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) and [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}).
+
+I'll be introducing and publishing this framework in a follow up post in the next week.
 
 <!-- TODO next post -->
