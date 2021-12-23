@@ -91,11 +91,11 @@ appState {
 
 All is well and good until we want to update our application's state.
 
-If `appState` is immutable, an update to a deeply nested property like `blockState` will cause a re-render cycle across our entire app. Now would be a good time to watch that [Svelte video](https://www.youtube.com/watch?v=AdNJ3fydeao) for another perspective on the same problem.
+If `appState` is immutable, an update to a deeply nested property like `blockState` will cause a re-render cycle across our entire app.
 
-`App` will get a re-render event due to it receiving a new reference. The `App` render method will visit `Header` which re-renders. `Header` re-renders since its child `StylingButtons` re-redners. `StylingButtons` re-renders since its child of `ParagraphStyle` re-renders. `ParagraphStyle` re-renders since its children of `BlockOptions` changes. Similar pattern goes for `SlideEditor` and `MarkdownEditor`.
+`App` will get re-render due to it receiving a new `appState` reference. The `App` render method will visit `Header` which re-renders. `Header` re-renders since its child `StylingButtons` re-renders. `StylingButtons` re-renders since its child `ParagraphStyle` re-renders. `ParagraphStyle` re-renders since its children `BlockOptions` actually change. Similar pattern goes for `SlideEditor` and `MarkdownEditor`.
 
-We only wanted to re-render `BlockOptions` and `MarkdownEditor` but we ended up re-rendering the entire component graph.
+We only wanted to re-render the leaves -- `BlockOptions` and `MarkdownEditor` but we ended up re-rendering the entire component graph.
 
 {% include image.html url="/assets/posts/deeply-nested-updates/deeply-nested-re-render.png" description="Everything in <font color='red'>red</font> re-renders, but we only needed to re-render the stuff in <font color='blue'>blue</font>" %}
 
