@@ -136,6 +136,8 @@ commit(changesets, [persistLog, undoLog]);
 
 More on the importance of separating out persistence and undo into transaction logs rather than direct observations of the domain model in a future post.
 
+<!-- TODO next post -->
+
 # Where to Commit?
 
 Where does one invoke a “commit” action, however? Commits should never be done within the domain model itself but only at points where the client code (e.g., UI code) interacts with the domain model as these points are “the top of the funnel” where interaction begins and all changes that would be made due to that interaction are returned to.
