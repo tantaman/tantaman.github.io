@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Reacting Better - Deeply Nested Updates'
-tags: software-engineering react
+tags: software-engineering react framework
 ---
 
 Something irks me about [React](https://reactjs.org/). It's how inefficiently it handles deeply nested updates.
@@ -101,10 +101,33 @@ We only wanted to re-render the leaves -- `BlockOptions` and `MarkdownEditor` bu
 
 # What Do?
 
-We need a different model for React components to subscribe to application state and for those state updates to propagate through the app, without sacraficing the pros of the [unidirectional data flow of react](https://reactjs.org/docs/thinking-in-react.html).
+We need a different model for `React` components to subscribe to application state and for those state updates to propagate through the app, without sacraficing the pros of the [unidirectional data flow of react](https://reactjs.org/docs/thinking-in-react.html).
 
-To do that I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework based on the work outlined in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) and [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}).
+To do this we need to distinguish between nominal and physical identity in software. Nominal identity is like a proper name. Proper names hold over time, no matter how the physical characteristics of the named thing changes. E.g., We always recognize that the Nile refers to the Nile river, even though at every instant the physical makeup of the Nile is changing. This is the case because nominal identities get their meaning from causal links over time rather than physical composition at snapshots in time.
 
-I'll be introducing and publishing this framework in a follow up post in the next week.
+For our specific use case, adding and removing slides from a slide deck does not change the nominal identity of the deck. It's still the same deck, just with a longer causal chain of events attached to it. If I make a presentation on Apes called "Matt's Ape Presentation" and remove a slide or fix up spelling mistakes, it is still "Matt's Ape Presentation." The Nile today is the Nile tomorrow, just with some more accumulated history.
+
+Now at this point it might sound like I'm suggesting a regression back to mutable data structures and all the complications that that entails. In some ways yes, in other ways no. I think we can have the best of both worlds:
+
+1. A nominal identity rooted in causal links that can refer to something that shifts over time
+2. Immutable physical identities that refer to snapshots in time.
+
+I think the current state software is in is a false dichotomy between immutable & functional vs mutable & oo. I explain more on this in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) as well as [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}).
+
+If we introduce the concept of nominal identity, references in the state tree would be nominal references. If something in `AuthoringState` changes, the nominal reference to `AuthoringState` from `AppState` would not change. If slides are added to a `Deck`, the nominal reference to `Deck` from `AppState` would not change.
+
+Further, `AppState` never changes nominally. It is constant for the lifetime of the user's session. `AuthoringState` is nominally constant so long as the user does not load a new `Deck`. `blockState` changes nominally every time we reference a different block element within the slide. E.g., new paragraph, header, quote, etc. block.
+
+# Integrating It
+
+React should only concern itself and update when specific references changes. Rereferences should be nominal references which hold over time such that we can update references to deeply nested items without updating the entire state tree.
+
+The updating of references must be atomic so at any instant in time the state of the system represents a consistent physical identity.
+
+# Framework
+
+I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework based on the work outlined here, [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) and [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}).
+
+I'll be publishing this framework in a follow up post over the next week.
 
 <!-- TODO next post -->
