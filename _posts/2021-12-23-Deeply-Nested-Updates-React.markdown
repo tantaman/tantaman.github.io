@@ -4,7 +4,7 @@ title: 'Reacting Better - Deeply Nested Updates'
 tags: software-engineering react
 ---
 
-Something irks me about React. It's how inefficiently it handles deeply nested updates. Svelte is doing interesting work on this [here](https://svelte.dev/blog/svelte-3-rethinking-reactivity) -- but let's just focus on [React](https://reactjs.org/) and fixing the problem within React for this post.
+Something irks me about [React](https://reactjs.org/). It's how inefficiently it handles deeply nested updates.
 
 React apps, like any app, will have deeply nested components in the display hierarchy.
 
@@ -91,7 +91,7 @@ appState {
 
 All is well and good until we want to update our application's state.
 
-If `appState` is immutable, an update to a deeply nested property like `blockState` will cause a re-render cycle across our entire app. Now would be a good time to watch that [Svelte video](https://svelte.dev/blog/svelte-3-rethinking-reactivit).
+If `appState` is immutable, an update to a deeply nested property like `blockState` will cause a re-render cycle across our entire app. Now would be a good time to watch that [Svelte video](https://www.youtube.com/watch?v=AdNJ3fydeao) for another perspective on the same problem.
 
 `App` will get a re-render event due to it receiving a new reference. The `App` render method will visit `Header` which re-renders. `Header` re-renders since its child `StylingButtons` re-redners. `StylingButtons` re-renders since its child of `ParagraphStyle` re-renders. `ParagraphStyle` re-renders since its children of `BlockOptions` changes. Similar pattern goes for `SlideEditor` and `MarkdownEditor`.
 
@@ -103,6 +103,6 @@ We only wanted to re-render `BlockOptions` and `MarkdownEditor` but we ended up 
 
 Ultimately we need a different model for React components to subscribe to application state and for those state updates to propagate through the app, without sacraficing the pros of the [unidirectional data flow of react](https://reactjs.org/docs/thinking-in-react.html).
 
-To do that I'll introduce [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) and build upon them in the follow up post.
+To do that I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework based on the work outlined in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}). I'll be intorducing and publishing this framework in a follow up post in the next week.
 
 <!-- TODO next post -->
