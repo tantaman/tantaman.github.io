@@ -4,7 +4,7 @@ title: 'Reacting Better - Deeply Nested Update Problem'
 tags: software-engineering react framework
 ---
 
-Something irks me about [React](https://reactjs.org/). It's how inefficiently it handles deeply nested updates.
+Something irks me about React. It's how [inefficiently it handles deeply nested updates](https://youtu.be/AdNJ3fydeao).
 
 React apps, like any app, will have a display hierarchy of deeply nested components. The root component being the entrypoint of the app, the leaves being the individual buttons, table rows and text rendered by the app.
 
