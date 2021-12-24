@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Reacting Better - Deeply Nested Updates'
+title: 'Reacting Better - Deeply Nested Update Problem'
 tags: software-engineering react framework
 ---
 
@@ -8,7 +8,7 @@ Something irks me about [React](https://reactjs.org/). It's how inefficiently it
 
 React apps, like any app, will have a display hierarchy of deeply nested components. The root component being the entrypoint of the app, the leaves being the individual buttons, table rows and text rendered by the app.
 
-**Lets look at an example**
+**Example**
 
 Let's take a presentation editor (e.g., powerpoint / keynote or [strut.io](https://strut.io)) as an example.
 
@@ -107,18 +107,18 @@ To do this we need to distinguish between _nominal_ and _physical_ identity in s
 
 **Nominal** identity is like a proper name. Proper names hold over time, no matter how the **physical** characteristics of the named thing changes.
 
-**E.g.,** We always recognize that the **Nile** refers to the **Nile** river, even though at every instant the physical makeup of the **Nile** is changing. This is the case because nominal identities get their meaning from causal links over time rather than physical composition at snapshots in time.
+**E.g.,** We always recognize that the **Nile** refers to the **Nile** river, even though at every instant the physical makeup of the **Nile** is changing. This is the case because nominal identities get their meaning from causal links over time rather than physical composition at snapshots in time. See [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}) for more discussion.
 
-For our specific use case, adding and removing slides from a slide deck does not change the nominal identity of the deck. It's still the same deck, just with a longer causal chain of events attached to it. More concretely, if I make a presentation on Apes called _"Matt's Ape Presentation"_ and remove a slide or fix up spelling mistakes, it is still _"Matt's Ape Presentation."_ The **Nile** today is the **Nile** tomorrow, just with some more accumulated history.
+For our specific use case, adding and removing slides from a slide deck does not change the nominal identity of the deck. It's still the same deck, just with a longer causal chain of events attached to it. More concretely, if I make a presentation on Apes called _"Matt's Ape Presentation"_ and remove a slide or fix up spelling mistakes, it is still _"Matt's Ape Presentation."_
 
-Now at this point it might sound like I'm suggesting a regression back to mutable data structures and all the complications that that entails. In some ways yes, in other ways no. I think we can have the best of both worlds:
+It might sound like I'm suggesting a regression back to mutable data structures and all the complications that that entails. In some ways yes, in other ways no. I think we can have the best of both worlds:
 
 1. A nominal identity rooted in causal links that can refer to something that shifts over time
 2. Immutable physical identities that refer to snapshots in time.
 
-and the current state software is in is a false dichotomy between immutable & functional vs mutable & oo. I explain more on this in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) as well as [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}).
+The current state software engineering is in is a false dichotomy between immutable & functional vs mutable & oo. I explore this more in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) as well as [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}).
 
-If we introduce the concept of nominal identity, references in the state tree would be nominal references. If something in `AuthoringState` changes, the nominal reference to `AuthoringState` from `AppState` would not change. If `slides` are added to a `Deck`, the nominal reference to `Deck` from `AppState` would not change.
+For React, if we introduce the concept of nominal identity, references in the state tree would be nominal references. If something in `AuthoringState` changes, the nominal reference to `AuthoringState` from `AppState` would not change. If `slides` are added to a `Deck`, the nominal reference to `Deck` from `AppState` would not change.
 
 Further, `AppState` would never change nominally. It would be constant for the lifetime of the user's session. `AuthoringState` would be nominally constant so long as the user does not load a new `Deck`. `blockState` would change nominally every time we reference a different block element within the slide. E.g., new paragraph, header, quote, etc. block.
 
@@ -128,6 +128,8 @@ To integrate these concepts, `React` should only concern itself and update when 
 
 1. Rereferences should be nominal references which hold over time such that we can update references to deeply nested items without updating the entire state tree.
 2. The updating of references must be atomic so at any instant in time the state of the system represents a consistent physical identity.
+
+I've not discussed physical identity in detail but it would mean that the physical attributes must match excatly for two things to be the same. Something with one nominal identity (e.g., a river or the ship of Theseus) can have an infinite number of physical identities over its lifetime.
 
 # Framework
 
