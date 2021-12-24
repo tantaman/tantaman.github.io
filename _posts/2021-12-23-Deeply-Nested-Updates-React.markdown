@@ -126,11 +126,11 @@ Further, `AppState` would never change nominally. It would be constant for the l
 
 To integrate these concepts, `React` components need to understand whether they depend on something nominally or physically.
 
-If a component depends on something nominally, this means that the component does not re-render if the physical structure or makeup of the thing it depends on changes. It would only re-render if the nominal identity of its dependency changes. E.g., my "Ape Presentation" is replaced by my "Zebra Presentation."
+If a component depends on something nominally, this means that the component does not re-render if the physical structure or makeup of the thing it depends on changes. The component would only re-render if the nominal identity of its dependency changes. E.g., my "Ape Presentation" is replaced by my "Zebra Presentation."
 
-If a component depends on something physically, this means the component re-renders any time any bit of that thing changes. E.g., a letter in a string that is rendered by a text box changes.
+If a component depends on something physically, this means that the component re-renders any time any bit of that thing changes. E.g., a letter in a string that is rendered by a text box changes.
 
-I've not discussed physical identity in detail but it would mean that the physical attributes must match excatly for two things to be the same. A single nominal identity (e.g., a river or the ship of Theseus) can have an infinite number of physical identities over its lifetime.
+I've not discussed physical identity in detail but pysical identity means that the physical attributes must match excatly for two things to be the same. A single nominal identity (e.g., a river or the ship of Theseus) can have an infinite number of physical identities over its lifetime. Things get interesting when you have physical things which contain nominal references and this needs to be explored further as to whether or not this relationship should be allowed. Nominal things containing physical things is intuitive and well defined.
 
 # Framework
 
