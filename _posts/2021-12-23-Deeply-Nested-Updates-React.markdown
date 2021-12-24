@@ -124,12 +124,13 @@ Further, `AppState` would never change nominally. It would be constant for the l
 
 # Integrating It
 
-To integrate these concepts, `React` should only concern itself and update when references changes.
+To integrate these concepts, `React` components need to understand whether they depend on something nominally or physically.
 
-1. Rereferences should be nominal references which hold over time such that we can update references to deeply nested items without updating the entire state tree.
-2. The updating of references must be atomic so at any instant in time the state of the system represents a consistent physical identity.
+If a component depends on something nominally, this means that the component does not re-render if the physical structure or makeup of the thing it depends on changes. It should only re-render the nominal identity of its dependency changes. E.g., my "Ape Presentation" is replaced by my "Zebra Presentation."
 
-I've not discussed physical identity in detail but it would mean that the physical attributes must match excatly for two things to be the same. Something with one nominal identity (e.g., a river or the ship of Theseus) can have an infinite number of physical identities over its lifetime.
+If a component depends on something physically, this means the component re-renders any time any bit of that thing changes. E.g., a letter in a string that is rendered by a text box.
+
+I've not discussed physical identity in detail but it would mean that the physical attributes must match excatly for two things to be the same. A single nominal identity (e.g., a river or the ship of Theseus) can have an infinite number of physical identities over its lifetime.
 
 # Framework
 
