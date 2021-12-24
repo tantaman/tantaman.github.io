@@ -126,9 +126,9 @@ Further, `AppState` would never change nominally. It would be constant for the l
 
 To integrate these concepts, `React` components need to understand whether they depend on something nominally or physically.
 
-If a component depends on something nominally, this means that the component does not re-render if the physical structure or makeup of the thing it depends on changes. It should only re-render the nominal identity of its dependency changes. E.g., my "Ape Presentation" is replaced by my "Zebra Presentation."
+If a component depends on something nominally, this means that the component does not re-render if the physical structure or makeup of the thing it depends on changes. It would only re-render if the nominal identity of its dependency changes. E.g., my "Ape Presentation" is replaced by my "Zebra Presentation."
 
-If a component depends on something physically, this means the component re-renders any time any bit of that thing changes. E.g., a letter in a string that is rendered by a text box.
+If a component depends on something physically, this means the component re-renders any time any bit of that thing changes. E.g., a letter in a string that is rendered by a text box changes.
 
 I've not discussed physical identity in detail but it would mean that the physical attributes must match excatly for two things to be the same. A single nominal identity (e.g., a river or the ship of Theseus) can have an infinite number of physical identities over its lifetime.
 
