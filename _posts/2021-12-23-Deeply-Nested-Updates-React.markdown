@@ -113,14 +113,16 @@ For our specific use case, adding and removing slides from a slide deck does not
 
 It might sound like I'm suggesting a regression back to mutable data structures and all the complications that that entails. In some ways yes, in other ways no. I think we can have the best of both worlds:
 
-1. A nominal identity rooted in causal links that can refer to something that shifts over time
-2. Immutable physical identities that refer to snapshots in time.
+1. Nominal identities rooted in causal links and refer to things that change over time
+2. Physical identities that refer to immutable snapshots in time.
 
-The current state software engineering is in is a false dichotomy between immutable & functional vs mutable & oo. I explore this more in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) as well as [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}).
+> The current state software engineering is in is a false dichotomy between immutable & functional vs mutable & oo. I explore this more in [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}) as well as [Understanding Reference Equality]({% post_url 2021-12-17-Object-Identity %}).
 
-For React, if we introduce the concept of nominal identity, references in the state tree would be nominal references. If something in `AuthoringState` changes, the nominal reference to `AuthoringState` from `AppState` would not change. If `slides` are added to a `Deck`, the nominal reference to `Deck` from `AppState` would not change.
+If we introduce the concept of nominal identity into our example, certain references in our state tree would be nominal references. If something in `AuthoringState` changes, the nominal reference to `AuthoringState` from `AppState` would not change. If `slides` are added to a `Deck`, the nominal reference to `Deck` from `AppState` would not change.
 
 Further, `AppState` would never change nominally. It would be constant for the lifetime of the user's session. `AuthoringState` would be nominally constant so long as the user does not load a new `Deck`. `blockState` would change nominally every time we reference a different block element within the slide. E.g., new paragraph, header, quote, etc. block.
+
+The stability of these references would allow us to only render the components whose data actually changed.
 
 # Integrating It
 
@@ -134,8 +136,6 @@ I've not discussed physical identity in detail but pysical identity means that t
 
 # Framework
 
-I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework based on the work outlined here.
-
-I'll be publishing this framework in a follow up post over the next week.
+I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework, based on the work outlined here, which I'll be publishing in the following week.
 
 <!-- TODO next post -->
