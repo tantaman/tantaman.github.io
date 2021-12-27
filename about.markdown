@@ -4,7 +4,8 @@ title: About
 permalink: /about/
 ---
 
-In 2022 I left Meta to become a [MicroFounder](https://microfounder.com/). The high level of what I'm working on is beginning to take shape here: [Vision]({% post_url 2021-12-27-Personal-Vision %}
+In 2022 I left Meta to become a [MicroFounder](https://microfounder.com/).
+<br/>The high level of what I'm working on is beginning to take shape here: [Vision]({% post_url 2021-12-27-Personal-Vision %})
 
 ---
 
