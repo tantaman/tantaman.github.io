@@ -25,7 +25,7 @@ o_O Who knows.
 
 All of these things need to be answered to run good software and mantain a high quality bar.
 
-I thought I had coined a new term called "Observability Driven Development" -- but after doing some googling I found a former `Facebook Engineering Manager` that left to become CTO of [Honeycomb.io](https://honeycomb.io) which develops products for exactly this problem and calls it by the same name.
+While thinking these problems over and developing best practices for observding systems, I thought I had coined a new term called "Observability Driven Development." After doing some googling, however, I found that a former `Facebook Engineering Manager` left to become CTO of [Honeycomb.io](https://honeycomb.io) which develops products for exactly this problem and calls it by the same name.
 
 Interesting coincidence, esp. given I'm planning on releasing some my personal tooling that is centered around this exact same problem.
 
