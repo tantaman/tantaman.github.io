@@ -4,7 +4,7 @@ title: 'Observability Driven Development'
 tags: software-engineering odd
 ---
 
-One of the things I learned quickly while working on large scale systems at Facebook (Meta) was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as intended. Without observation in prod, you don't even have a baseline to know what "normal" operation looks like.
+One of the things I learned quickly while working on large scale systems at `Facebook (Meta)` was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as intended. Without observation in prod, you don't even have a baseline to know what "normal" operation looks like.
 
 E.g.,
 
@@ -27,6 +27,6 @@ All of these things need to be answered to run good software and mantain a high 
 
 While thinking these problems over and developing best practices for observing systems, I thought I had coined a new term called "Observability Driven Development." After doing some googling, however, I found that a former `Facebook Engineering Manager` left to become CTO of [Honeycomb.io](https://honeycomb.io) which develops products for exactly this problem and calls it by the same name.
 
-Interesting coincidence, esp. given I'm planning on releasing some my personal tooling that is centered around this exact same problem.
+Interesting coincidence, given I'm also coming from `Facebook` and am planning on releasing tooling that is centered around exactly the same problem as part of my new journey as a [MicroFounder](https://microfounder.com/). The last coincidental detail was that I had wanted to join the parse team but unfortunately parse was shuttered by FB at that time.
 
 `Charity Majors` (Honeycomb CTO) article on Observability Driven Development: [A Next Step Beyond TDD](https://thenewstack.io/a-next-step-beyond-test-driven-development/)
