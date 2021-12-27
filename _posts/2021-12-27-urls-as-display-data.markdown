@@ -22,7 +22,7 @@ The current state of the art in SPAs is to let the URL (the route) drive applica
 After developing a number of applications at [Meta](https://meta.com) with [React Router](https://reactrouter.com/) I'm starting to think that we have the whole thing backwards.
 
 1. Binding application logic to routes introduces the URL as a source of state for your application. If your application also has a domain model, you begin to get two sources of truth for your state and two places that can influence what is displayed.
-2. When the URL is acting as a source of truth for some part of your application state, then creating routes from one part of the application to another introduces extra coupling between components that shouldn't know about one another. The coupling is introduced since the components must preserve certain aspects of the URL for one another.
+2. When the URL is acting as a source of truth for some part of your application state, creating routes from one part of the application to another introduces extra coupling between components that shouldn't know about one another. The coupling is introduced since the components must preserve aspects of the URL for one another.
 
 # Alternative
 
