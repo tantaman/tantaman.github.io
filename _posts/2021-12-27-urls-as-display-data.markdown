@@ -26,13 +26,21 @@ After developing a number of applications at [Meta](https://meta.com) with [Reac
 
 # Alternative
 
-What if we treated `window.location` as a _UI component_ to be rendered **from the state of our application** rathern than something **that drives our application**?
+What if we treated `window.location` as a _UI component_ to be **rendered from the state of our application** rathern than something that drives our application?
 
 **Example:**
 
 ```jsx
 function UrlRenderer({ appState }: { appState: AppState }) {
-  window.location = `/${appState.editorMode}/${appState.deck.selectedSlide}`;
+  useEffect(
+    () =>
+      window.history.pushState(
+        {},
+        '',
+        `/${appState.editorMode}/${appState.deck.selectedSlide}`,
+      ),
+    [appState.editorMode, appState.deck.selectedSlide],
+  );
   return null;
 }
 
@@ -62,6 +70,6 @@ This is the approach I've been taking as I re-write, re-design and overall moder
 I no longer have to think any differently about the URL and handling route changes than I do for the rest of my application.
 
 - Rendering the URL is the same as rendering a component.
-- Handling a URL change is the same as handling a state or prop change.
+- Handling a URL change in my app is the same as handling a state or prop change.
 
 If I decide something that wasn't previously captured in the URL should now become persisted into the URL, I just update my `UrlRenderer` component and `decodeUrl` function -- everything else in my app remains unchanged.
