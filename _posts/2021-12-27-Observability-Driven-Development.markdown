@@ -19,7 +19,7 @@ o_O Who knows.
 - Is this trend a regression?
 - When was the regression introduced?
 - How much memory has our app historically used?
-- Which releases caused the greatest memory regressions?
+- Which releases caused the greatest mem/cpu/requests per user/replication lag/... regressions?
 - Which features were in those releases?
 - ...
 
@@ -27,6 +27,7 @@ All of these things need to be answered to run good software and mantain a high 
 
 While thinking these problems over and developing best practices for observing systems, I thought I had coined a new term called "Observability Driven Development." After doing some googling, however, I found that a former `Facebook Engineering Manager` left to become CTO of [Honeycomb.io](https://honeycomb.io) which develops products for exactly this problem and calls it by the same name.
 
-Interesting coincidence, given I'm also coming from `Facebook` and am planning on releasing tooling that is centered around exactly the same problem as part of my new journey as a [MicroFounder](https://microfounder.com/). The last coincidental detail was that I had wanted to join the parse team but unfortunately parse was shuttered by FB at that time.
+Interesting coincidence, given I'm also coming from `Facebook` and am planning on releasing tooling that is centered around exactly the same problem as part of my new journey as a [MicroFounder](https://microfounder.com/). The last coincidental detail was that I had considered reaching out to join the parse team before it was shuttered by FB.
 
-`Charity Majors` (Honeycomb CTO) article on Observability Driven Development: [A Next Step Beyond TDD](https://thenewstack.io/a-next-step-beyond-test-driven-development/)
+Rather than repeat thoughts explained well elsewhere, here's the article on the same topic by Honeycomb's CTO:
+[A Next Step Beyond TDD](https://thenewstack.io/a-next-step-beyond-test-driven-development/)
