@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Reference Equality - What is it Really?'
-tags: software-engineering language
+tags: software-engineering framework
 ---
 
 In programming we're met with things that are completely new. Even though they're new, they're familiar enough to grasp with existing concepts. This converting the new to something familiar helps us to understand things at one level but if the familiar does not perfectly match the new then it causes us to fail to understand at another level.
