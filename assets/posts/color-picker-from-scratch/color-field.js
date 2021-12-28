@@ -3,6 +3,7 @@ import { publisher, atom } from '/assets/js/publisher.js';
 // https://www.rapidtables.com/convert/color/hsv-to-rgb.html
 
 function hsvToRgb(h, s, v) {
+  h = h % 360;
   const c = v * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
   const m = v - c;
@@ -97,6 +98,13 @@ const templates = {
     <div class="stretch" style="${'background: ' + props.background}"></div>
   </div>
   `,
+  hueSliderEx: (props) => {
+    const hues = [0, 60, 120, 180, 240, 300, 360];
+    const colors = hues.map((h) => rgbToHex(...hsvToRgb(h, 1, 1)));
+    const background = `linear-gradient(90deg, ${colors.join(',')})`;
+
+    return `<div style="background: ${background}; width: 200px; height: 20px; margin: 0 auto;"></div>`;
+  },
 };
 
 const state = atom({ background: rgbToHex(...hsvToRgb(0, 1, 1)) });
@@ -109,4 +117,9 @@ const state = atom({ background: rgbToHex(...hsvToRgb(0, 1, 1)) });
 {
   const { _md, html } = publisher(document.getElementById('showing-hue-ex'));
   html(templates.addingHue, state);
+}
+
+{
+  const { _md, html } = publisher(document.getElementById('hue-slider-ex'));
+  html(templates.hueSliderEx, state);
 }

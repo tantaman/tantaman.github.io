@@ -39,11 +39,25 @@ We'll return to these concepts, and explain them further, as we build out the co
 
 # The Hue Slider
 
+Hue is derived from the color wheel and ranges between the values of 0 and 360. To display all available hues to a user, we can set up a gradient with color points at different values between 0 and 360.
+
+```js
+const hues = [0, 60, 120, 180, 240, 300, 360];
+const colors = hues.map((h) => rgbToHex(...hsvToRgb(h, 1, 1)));
+const background = `linear-gradient(90deg, ${colors.join(',')})`;
+
+`<div style="background: ${background};"></div>`;
+```
+
+<div id="hue-slider-ex"></div>
+
+Knowing which hue the user selected is fairly straightforward. Divide the `layerX` of the event by the width of the hue slider. This gives you a value between `0` and `1` of where you are within the slider. Multiply that by `360` and you have your hue.
+
 # The HSV Field
 
 <div id="color-field-intro"></div>
 
-The first component of a color picker I call the HSV field. This shows a single hue and allows the user to adjust the saturation and value being applied to that hue.
+The HSV field shows a single hue and allows the user to adjust the saturation and value being applied to that hue.
 
 Using CSS and the concepts of HSV defined earlier, we can build this with three layered divs. The first to display the hue, the second to show the saturation of the hue along a gradient and the third to show the value of the hue along a gradient.
 
