@@ -13,8 +13,8 @@ We'll skip the why you'd want to do this and just jump into the how.
 I'll break this down into a few parts:
 
 1. Basic color theory
-2. The HSV field
-3. The Hue slider
+2. The Hue slider
+3. The HSV field
 4. Generating Swatches
 
 # Basic Color Theory
@@ -37,16 +37,28 @@ Saturation is the intesnity of the color. You can think of this in terms of how 
 
 We'll return to these concepts, and explain them further, as we build out the color picker.
 
+# The Hue Slider
+
 # The HSV Field
 
-<div id="color-field-intro" />
+<div id="color-field-intro"></div>
 
 The first component of a color picker I call the HSV field. This shows a single hue and allows the user to adjust the saturation and value being applied to that hue.
 
-Using CSS, and the concepts of HSV defined earlier, we can build this in a pretty straightforward way.
+Using CSS and the concepts of HSV defined earlier, we can build this with three layered divs. The first to display the hue, the second to show the saturation of the hue along a gradient and the third to show the value of the hue along a gradient.
 
-## Adding Hue
+## Showing Hue
 
-First, we need to place the hue. Given hue as "pure pigment", we display this as a surface of a single color.
+First, we need to place the hue. Given hue is "pure pigment", we display this as a surface of a single color.
 
-<div id="adding-hue" />
+```html
+<div style="background-color: HUE;"></div>
+```
+
+<div id="showing-hue-ex"></div>
+
+## Showing Saturation
+
+Remember that sturation is the intensity of the color. To show saturation, we can layer a div with a gradient on top of the hue div.
+
+## Showing Value
