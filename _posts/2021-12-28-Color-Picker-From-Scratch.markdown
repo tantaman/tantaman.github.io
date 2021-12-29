@@ -19,7 +19,7 @@ I'll break this down into a few parts:
 
 # Basic Color Theory
 
-Color isn't just a single thing. It is made up of components. Rather than thing in terms of "RGB", color is more accessible when we think of it in terms of "HSV" or Hue, Saturation and Value.
+Color isn't just a single thing. It is made up of components. Rather than think in terms of "RGB", color is more accessible when we think of it in terms of "HSV" or Hue, Saturation and Value.
 
 ## Hue
 
