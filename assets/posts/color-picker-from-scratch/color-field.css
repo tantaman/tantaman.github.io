@@ -4,11 +4,11 @@
 }
 
 .saturation {
-  background-image: linear-gradient(to right, #fff, rgba(204, 154, 129, 0));
+  background-image: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
 }
 
 .value {
-  background-image: linear-gradient(to top, #000, rgba(204, 154, 129, 0));
+  background-image: linear-gradient(to top, #000, rgba(255, 255, 255, 0));
 }
 
 .stretch {
@@ -27,4 +27,15 @@
   border: 2px solid white;
   outline: 2px solid black;
   pointer-events: none;
+}
+
+.hueSlider {
+  position: relative;
+}
+
+.hueControl {
+  position: absolute;
+  width: 6px;
+  height: 20px;
+  border: 2px solid rgb(138, 133, 133);
 }
