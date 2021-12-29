@@ -38,7 +38,11 @@ function hsvToRgb(h, s, v) {
     bp = x;
   }
 
-  return [(rp + m) * 255, (gp + m) * 255, (bp + m) * 255];
+  return [
+    Math.floor((rp + m) * 255),
+    Math.floor((gp + m) * 255),
+    Math.floor((bp + m) * 255),
+  ];
 }
 
 function rgbToHsv(r, g, b) {
@@ -76,9 +80,12 @@ function rgbToHex(r, g, b) {
 }
 
 const fieldSize = {
-  width: 200,
+  width: 250,
   height: 150,
 };
+const hues = [0, 60, 120, 180, 240, 300, 360];
+const colors = hues.map((h) => rgbToHex(...hsvToRgb(h, 1, 1)));
+const hudeGradient = `linear-gradient(90deg, ${colors.join(',')})`;
 const templates = {
   colorField: (props) => `
   <div class="colorField" style="width:${fieldSize.width}px; height: ${
@@ -91,23 +98,44 @@ const templates = {
     </div>
   </div>
   `,
-  addingHue: (props) => `
+  showingHueEx: (props) => `
   <div class="colorField" style="width:${fieldSize.width}px; height: ${
     fieldSize.height
   }px;">
     <div class="stretch" style="${'background: ' + props.background}"></div>
   </div>
   `,
-  hueSliderEx: (props) => {
-    const hues = [0, 60, 120, 180, 240, 300, 360];
-    const colors = hues.map((h) => rgbToHex(...hsvToRgb(h, 1, 1)));
-    const background = `linear-gradient(90deg, ${colors.join(',')})`;
-
-    return `<div style="background: ${background}; width: 200px; height: 20px; margin: 0 auto;"></div>`;
-  },
+  hueSliderEx: (props) =>
+    `<div style="background: ${hudeGradient}; width: 200px; height: 20px; margin: 0 auto;" class="hueSlider">
+      <div class="hueControl" style="left: ${
+        props != null ? (props.hue / 360) * 200 : 0
+      }px"></div>
+    </div>`,
+  showingSaturationEx: (props) => `
+  <div class="colorField" style="width:${fieldSize.width}px; height: ${
+    fieldSize.height
+  }px;">
+    <div class="stretch" style="${'background: ' + props.background}">
+      <div class="saturation stretch">
+      </div>
+    </div>
+  </div>
+  `,
+  showingValueEx: (props) => `
+  <div class="colorField" style="width:${fieldSize.width}px; height: ${
+    fieldSize.height
+  }px;">
+    <div class="stretch" style="${'background: ' + props.background}">
+      <div class="value stretch">
+      </div>
+    </div>
+  </div>
+  `,
 };
 
-const state = atom({ background: rgbToHex(...hsvToRgb(0, 1, 1)) });
+let hue = 0;
+const state = atom({ background: rgbToHex(...hsvToRgb(hue, 1, 1)) });
+const hueState = atom({ hue });
 
 {
   const { _md, html } = publisher(document.getElementById('color-field-intro'));
@@ -115,11 +143,49 @@ const state = atom({ background: rgbToHex(...hsvToRgb(0, 1, 1)) });
 }
 
 {
-  const { _md, html } = publisher(document.getElementById('showing-hue-ex'));
-  html(templates.addingHue, state);
+  const { _md, html } = publisher(document.getElementById('hue-slider-ex'));
+  html(templates.hueSliderEx, null);
 }
 
 {
-  const { _md, html } = publisher(document.getElementById('hue-slider-ex'));
-  html(templates.hueSliderEx, state);
+  const { _md, html } = publisher(document.getElementById('showing-hue-ex'));
+  html(templates.showingHueEx, state);
 }
+
+{
+  const { _md, html } = publisher(document.getElementById('hue-slider-ex2'));
+  html(templates.hueSliderEx, hueState);
+}
+{
+  const { _md, html } = publisher(document.getElementById('hue-slider-ex3'));
+  html(templates.hueSliderEx, hueState);
+}
+{
+  const { _md, html } = publisher(document.getElementById('hue-slider-ex4'));
+  html(templates.hueSliderEx, hueState);
+}
+
+{
+  const { _md, html } = publisher(
+    document.getElementById('showing-saturation-ex'),
+  );
+  html(templates.showingSaturationEx, state);
+}
+
+{
+  const { _md, html } = publisher(document.getElementById('showing-value-ex'));
+  html(templates.showingValueEx, state);
+}
+
+{
+  const { _md, html } = publisher(document.getElementById('all-3-ex'));
+  html(templates.colorField, state);
+}
+
+function step() {
+  hue = (hue + 1) % 360;
+  state.set({ background: rgbToHex(...hsvToRgb(hue, 1, 1)) });
+  hueState.set({ hue });
+  requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
