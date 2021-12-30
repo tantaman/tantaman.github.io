@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Writing a Color Picker From Scratch'
+title: 'Understanding Color by Writing a Color Picker'
 tags: software-engineering demo
 jsmodules:
   - /assets/posts/color-picker-from-scratch/color-field.js
