@@ -19,7 +19,7 @@ I'll break this down into a few parts:
 
 # Basic Color Theory
 
-Color isn't just a single thing. It is made up of components. Rather than thing in terms of "RGB", color is more accessible when we think of it in terms of "HSV" or Hue, Saturation and Value.
+Color isn't just a single thing. It is made up of components. Rather than think in terms of "RGB", color is more accessible when we think of it in terms of "HSV" or Hue, Saturation and Value.
 
 ## Hue
 
@@ -145,3 +145,5 @@ Now you can see why converting RGB to HSV makes authoring a color picker quite a
 I'll leave it as an exercise to the reader to combine all of these into a workable component as that involves the familiar work of attaching mouse and drag listeners, converting coordinates to ratios and plugging the results into [`hsvToRgb(hue, saturation, value)`](https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/color-picker-from-scratch/color-field.js#L5-L76) to get back the RGB representation of the color.
 
 <div id="end-ex"></div>
+
+As always the source is available on Github -- [https://github.com/tantaman/tantaman.github.io/tree/master/assets/posts/color-picker-from-scratch](https://github.com/tantaman/tantaman.github.io/tree/master/assets/posts/color-picker-from-scratch)
