@@ -17,7 +17,6 @@ Here is a taste of what I like to work on and think about as it relates to code.
 
 - Re-writing [Strut](https://github.com/tantaman/Strut) to be re-launched with a focus on rapid, non-linear presentation authoring and note taking.
 - Working on [language and storage system agnostic](https://github.com/tantaman/aphrodite) schema definitions.
-- Prototyping centralized logging and real-time detection systems
 
 # ✍️ Currently Writing
 
