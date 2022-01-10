@@ -10,7 +10,7 @@ Say you create a common library and you want to use it in `N > 1` of your other 
 
 Now you could publish it to `NPM` and install it like any other dependency. This works ok but definitely not if you're still frequently iterating on your shared library. If that's the case, you start hitting a bunch of friction:
 
-1. Switching repos to make changes to the shared library
+1. Having to switch repos and working sets to make changes to the shared library
 2. Having to create and deploy a new package for the shared library. Which is [overly complicated](https://medium.com/@debshish.pal/publish-a-npm-package-locally-for-testing-9a00015eb9fd).
 3. Having to upgrade the library dependency across all projects that use it
 
@@ -26,7 +26,7 @@ What I've ended up doing in the past is installing my common libraries as `git s
 
 There are still drawbacks to this approach, however.
 
-1. Managing dependencies of the sub-modules. E.g., If the common libs have their own `node_modules` those can conflict with the parent project's node modules -- duplicate copies of the same code being loaded, for example.
+1. Managing dependencies of the sub-modules. E.g., If the common libs have their own `node_modules` those can conflict with the parent project's node modules or cause duplicate copies of the same code to be loaded.
 2. Imports. I generally end up having to add a bunch of import aliases in my root project to get things seeing one another.
 3. Building. Parcel can pretty much handle building anything without any config, so this usually isn't an issue.
 
