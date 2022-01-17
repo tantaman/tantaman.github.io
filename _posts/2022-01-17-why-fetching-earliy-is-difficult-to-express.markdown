@@ -4,6 +4,8 @@ title: 'Expressing Early Fetches - React'
 tags: software-engineering react
 ---
 
+draft post--
+
 Fetching early is difficult to express and get right in all places in React.
 
 This is because a lack of domain models. That everything is anemic. That we've moved business logic into display.
@@ -21,3 +23,5 @@ How can we express this relationship such that each event that leads to the view
   setResource(fetchProfileData(nextUserId));
 }}>
 ```
+
+reference: https://reactjs.org/docs/concurrent-mode-suspense.html

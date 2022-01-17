@@ -57,11 +57,21 @@ There are alternatives to suspense in user space.
 usePromise(promise) {
   const [resolution, setResolution] = useState();
   useEffect(
-    promise.then((r) => {
-    setResolution({type: 'success', result: r});
-    }, (e) => {
-      setResolution({type: 'error', result: e});
-    }),
+    () => {
+      let ignore = false;
+      promise.then(
+        (r) => {
+          !ignore && setResolution({type: 'success', result: r});
+        },
+        (e) => {
+          !ignore && setResolution({type: 'error', result: e});
+        },
+      );
+      return () => {
+        // fix race conditions
+        ignore = true;
+      };
+    },
     [promise],
   );
 
