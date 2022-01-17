@@ -8,28 +8,25 @@ css:
   - /assets/posts/color-picker-from-scratch/color-field.css
 ---
 
-We'll skip the why you'd want to do this and just jump into the how.
+> "Programmers re-invent the wheel so they can understand how the wheel works" - unknown
 
-I'll break this down into a few parts:
+Why write a color picker from scratch? To understand color theory better and to realize that color pickers are actually pretty simplistic.
 
-1. Basic color theory
-2. The Hue slider
-3. The HSV field
-4. Generating Swatches
+To understand how to convert user events to colors, you first need to understand a little bit of color theory.
 
 # Basic Color Theory
 
-Color isn't just a single thing. It is made up of components. Rather than think in terms of "RGB", color is more accessible when we think of it in terms of "HSV" or Hue, Saturation and Value.
+Color isn't just a single thing. It is made up of components. You could think in terms of "RGB" but color is more accessible when we think of it in terms of "HSV" or Hue, Saturation and Value. HSV conceives color in more human terms.
 
 ## Hue
 
-> "the degree to which a stimulus can be described as similar to or different from stimuli that are described as red, orange, yellow, green, blue, violet,"
-
-I think of hue as being the pure pigment, before any lighting has been applied and before that pigment has been spread out over a surface.
+Hue can be thought of as pure pigment. This is the pigment before any lighting has been applied and before that pigment has been spread out over a surface.
 
 ## Value
 
-Value refers to the lightness or darkness of a color. You can think of this as taking a hue and then adding or removing light from it. It there is no light shining on a hue, it appears black. Same as when the lights are turned out in a room. If the hue is perfectly lit, it appears as its true color.
+Value is how much or little lighting has been applied to the hue (pure pigment). It there is no light shining on a hue, it appears black. If the hue is perfectly lit, it appears as its true color. Same as when the lights are turned on or off in a room.
+
+No lights? Everything is black. Evenly lit? Everything appears its proper color.
 
 ## Saturation
 
@@ -37,11 +34,11 @@ Saturation is the intesnity of the color. You can think of this in terms of how 
 
 Another way to think of this is if you put a tiny amount of paint on a brush and painted a giant wall or a ton of paint on a brush and painted a small wall. The first wall is less saturated with the hue, the second wall is very saturated.
 
-We'll return to these concepts, and explain them further, as we build out the color picker.
+Now that you understand HSV, lets see how to apply them to create a color picker.
 
 # The Hue Slider
 
-Hue is derived from the color wheel and ranges between the values of 0 and 360. To display all available hues to a user, we can set up a gradient with color points at different values between 0 and 360.
+Hue, as a value, ranges between 0 and 360. This is because hue was originally formalized using the analogy of a color wheel. Each angle of the wheel being a different hue. To display all available hues to a user, we can set up a gradient with color points at different values between 0 and 360.
 
 ```jsx
 const hues = [0, 60, 120, 180, 240, 300, 360];
