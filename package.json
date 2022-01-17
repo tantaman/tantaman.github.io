@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/tantaman/tantaman.github.io#readme",
   "dependencies": {
-    "marked": "^2.0.0"
+    "marked": "^4.0.10"
   }
 }
