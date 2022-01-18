@@ -38,7 +38,7 @@ Now that you understand HSV, lets see how to apply them to create a color picker
 
 # The Hue Slider
 
-Hue, as a value, ranges between 0 and 360. This is because hue was originally formalized using the analogy of a color wheel. Each angle of the wheel being a different hue. To display all available hues to a user, we can set up a gradient with color points at different values between 0 and 360.
+Hue, as a value, ranges between 0 and 360. This is because hue was originally formalized using the analogy of a color wheel. Each angle of the wheel being a different hue. To display all available hues to a user using CSS, we can set up a gradient with color points at different values between 0 and 360.
 
 ```jsx
 const hues = [0, 60, 120, 180, 240, 300, 360];
