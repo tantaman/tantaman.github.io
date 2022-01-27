@@ -4,7 +4,9 @@ title: 'Thoughts on A Protocol For Integrations'
 tags: software-engineering schema protocol
 ---
 
-One of the things I did while working at Meta was to lay out a vision for and lead a team to enable products to be integrated into our human review, investigative analysis, legal disclosure, dyi, abuse protection, rules engine and feature extraction platforms with little to no code required. 
+One of the things I did while working at Meta was to lay out a vision for and lead a team to enable products to be integrated into our human review, investigative analysis, legal disclosure, download your information, abuse protection, rules engines and feature extraction platforms with little to no code. The idea was to make data available to systems that needed it without product developers having to do anything.
+
+So how did we accomplish this?
 
 What new protocol definitions did IObjs bring?
 
