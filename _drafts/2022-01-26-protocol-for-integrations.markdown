@@ -6,22 +6,27 @@ tags: software-engineering schema protocol
 
 One of the things I did while working at Meta was to lay out a vision for and lead a team to enable products to be integrated into our human review, investigative analysis, legal disclosure, download your information, abuse protection, rules engines and feature extraction platforms with little to no code.
 
-The guiding principle was to make data available to all systems that needed it without developers having to do anything.
+The guiding principle was to make data, and actions, available to all systems that need them without developers having to do anything.
 
 - New product gets developed? Rules (policies) can immediately be written against it.
-- New content type added? Review tooling can automatically render it.
+- New content type added? Review/moderation tooling can automatically render it and enforce against it.
 - New comment feature? Automatically enrolled in abuse protection systems.
 - Etc.
 
-So how did we accomplish this? We developed in a few stages:
-1. A schema
-2. A protocol
-3. Semantic types
-4. Data annotations
-5. Promoting edges to a first class type
-6. Dropping objects
-7. Everything is a type
-8. Schemas as a parallel to the type system
+Sounds too good to be true. How did we do it?
+
+We started with a schema which evolved into a protocol that expressed a set of concepts. To deploy the protocol without friction, we built on the parallels between schemas and static type systems and protocols and functions.
+
+1. The Schema
+2. The Protocol
+3. The Concepts
+   1. Semantic types / Everything is a type
+   2. Actioning
+   3. Promoting edges to a first class type
+   4. Dropping objects
+   5. Isomorphs
+4. Deployment
+   1. Schemas as a parallel to the type system - Annotations
 
 
 # The Schema
