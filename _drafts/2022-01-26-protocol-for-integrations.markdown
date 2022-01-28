@@ -95,6 +95,12 @@ Of course we can't stop here. If we did, we wouldn't be much better than somethi
 5. Understand the semantic meaning of types
 6. Provide clients with a copy of the schema
 
+This sort of schema is also not rich enough. It doesn't tell us:
+1. What methods exist to be invoke.
+2. What arguments those methods take.
+3. If there is an unbounded edge between two types.
+4. 
+
 # The Protocol
 
 We had to move beyond just providing a pure schema and also provide a protocol. The protocol would define:
