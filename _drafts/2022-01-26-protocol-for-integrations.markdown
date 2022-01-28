@@ -80,9 +80,9 @@ Static types and schemas are one and the same thing. We leveraged this fact and 
 ```
 @Expose
 class Foo {
-  @ID
+  @Field
   public function getId(): ID_of<Foo> {...}
-  @Field('description...', ...)
+  @Field('image', ...)
   public function getImageURL(): URL {...}
 }
 ```
@@ -94,24 +94,84 @@ Of course we can't stop here. If we did, we wouldn't be much better than somethi
 * If you have an abuse protection system (e.g., ant-spam), how do you know what parts of the object contain user controlled information?
 * If your abuse protection system wants to action an object (and all connected objects), how would it do that?
 
-All that to say, a simple schema like this isn't very useful. We need to evolve the schema and upgrade it to a protocol that enable client services to:
+All that to say, a simple schema like this isn't very useful. We need to evolve the schema and upgrade it to a protocol that enables client services to:
 
-1. Understand when a field represents an edge or is just a reference
-2. Understand the semantic meaning of types (e.g., what _is_ this string or int)
-3. Run actions to update objects
-4. Invoke methods on objects
-5. Request a machine readable copy of the schema, and protocol, to understand the scope of the universe
-6. Request and load arbitrary objects
-7. Traverse edges between obejcts
-8. Provide a description of the arguments methods can take
-9. Only request a subset of fields from an object
-10.  Extend or enrich definitions of other objects without modifying those objects
+1. Understand what represents the primary key for an object
+2. Understand when a field can be parameterized and what those parameters are
+3. Understand when a field represents an edge
+4. Understand the semantic meaning of types (e.g., what _is_ this string or int)
+5. Understand what actions exist for a given type
+6. Extend or enrich definitions of other schemas without modifying those schemas
+7. Unify equivalent types
+8. Request and load arbitrary objects
+9. Traverse edges between objects
+10. Invoke methods on objects
+11. Run actions agains objects
+12. Request a machine readable copy of the schema, and protocol, to understand the scope of the universe
+13. Request a subset of fields from an object
+
+> Note: for those who have used `GraphQL` this should look somewhat familiar. Given `GraphQL` and `Relay` are both developed by Meta we took a lot of inspiration from their approaches. Our protocol even has a very tight `GraphQL` integration. We diverge, however, in a few places. We allow users to extend one another's types (think of [Rust's trait system](https://doc.rust-lang.org/book/ch10-02-traits.html)), we heavily encourage the use of semantic type aliases, we have no "terminal" types, we've further defined edge traversals and edge operations (similar to https://relay.dev/graphql/connections.htm), we provide more primitives for introspection, we retain the "node" and "nodes" root calls concepts (https://github.com/facebook/relay/issues/1653), we add support for type equivalences.
+
 
 # Evolving the Schema
 
-Of the ten items above, 5 require "schema updates"
+Of the 13 items above, the first 7 require schema updates.
 
-1. 
+(1) is pretty simple -- we can add an `@ID` annotation which can be applied to a field or method. Useful on a method for the cases where the id is a compound id.
+
+```typescript
+@Expose
+class Foo {
+  @ID('id')
+  public getId(): ID_of<Foo> {...}
+}
+```
+
+generates the following notional schema:
+
+```javascript
+Foo: {
+  meta: {
+    type: "Foo",
+    primaryKey: "id",
+  },
+  fields: {
+    id: ID_of(Foo)
+  }
+}
+```
+
+(2) is pretty simple too. Just update the script that processes static types and annotations to ingest the parameters of annotated methods as well and encode them into the schema.
+
+As an example, applying (2) to
+
+```typescript
+@Expose
+class Foo {
+  @Field('image')
+  public getImageURL(d?: Dimensions): URL {...}
+}
+```
+
+generates
+
+```typescript
+Foo: {
+  meta: {
+    type: "Foo"
+  },
+  fields: {
+    image: {
+      args: [optional(Dimensions)],
+      ret: type_reference(URL)
+    }
+  }
+}
+```
+
+(3-7) require some explaining as they're innovative ideas.
+
+
 
 # The Protocol
 
