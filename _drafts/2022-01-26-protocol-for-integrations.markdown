@@ -15,21 +15,7 @@ The guiding principle was to make data and actions available to all systems that
 
 Sounds too good to be true. How did we do it?
 
-We started with a schema which evolved into a protocol built around a core set of concepts. To deploy the protocol without friction, we leveraged the parallels between schemas and static types and protocols and functions.
-
-In other words, the system is broken down into four parts:
-
-1. The Schema
-2. The Protocol
-3. The Concepts
-   1. Semantic types / Everything is a type
-   2. Actioning
-   3. Promoting edges to a first class type
-   4. Dropping objects
-   5. Isomorphs
-4. Deployment
-   1. Schemas as a parallel to the type system
-   2. Protocol specification as a parallel to functions
+We started with a schema which evolved into a protocol that expressed a core set of concepts for interacting with data.
 
 # The Schema
 
@@ -110,7 +96,7 @@ All that to say, a simple schema like this isn't very useful. We need to evolve 
 12. Request a machine readable copy of the schema, and protocol, to understand the scope of the universe
 13. Request a subset of fields from an object
 
-> Note: for those who have used `GraphQL` this should look somewhat familiar. Given `GraphQL` and `Relay` are both developed by Meta we took a lot of inspiration from their approaches. Our protocol even has a very tight `GraphQL` integration. We diverge, however, in a few places. We allow users to extend one another's types (think of [Rust's trait system](https://doc.rust-lang.org/book/ch10-02-traits.html)), we heavily encourage the use of semantic type aliases, we have no "terminal" types, we've further defined edge traversals and edge operations (similar to https://relay.dev/graphql/connections.htm), we provide more primitives for introspection, we retain the "node" and "nodes" root calls concepts (https://github.com/facebook/relay/issues/1653), we add support for type equivalences.
+> **Note:** for those who have used `GraphQL` this should look somewhat familiar. Given `GraphQL` and `Relay` are both developed by Meta, we took a lot of inspiration from their approaches. Our protocol even has a very tight `GraphQL` integration. We diverge, however, in a few places. We allow users to extend one another's types (think of [Rust's trait system](https://doc.rust-lang.org/book/ch10-02-traits.html)), we heavily encourage the use of semantic type aliases, we have no "terminal" types, we've further defined edge traversals and edge operations (similar to [Relay Connections](https://relay.dev/graphql/connections.htm)), we provide more primitives for introspection, we retain the ["node" and "nodes" root calls concepts](https://github.com/facebook/relay/issues/1653), we add support for type equivalences.
 
 
 # Evolving the Schema
@@ -141,7 +127,7 @@ FooSchema = {
 }
 ```
 
-(2) is pretty simple too. Just update the script that processes static types and annotations to ingest the parameters of annotated methods as well and encode them into the schema.
+(2) is straightforward as well. Just update the script that processes static types and annotations to ingest the parameters of annotated methods and encode them into the schema.
 
 As an example, applying (2) to
 
@@ -171,11 +157,86 @@ FooSchema = {
 
 > Note: the generated schema is a struct that is easily consumable by a machine.
 
-(3-7) require some explaining as they're innovative ideas.
+(3-7) are more involved as they're new ideas.
 
 ## (3) Field or Edge?
 
+Our schema needs to tell us if something is a field or an edge. This is important because edges represent potentially unbounded connections between objects. E.g., the list of all fans of a page. This could be in the millions and you wouldn't want to retrieve all of them at once.
+
+Edges can also be filtered, paged over, or combined with other edges (we'll get to this in the protocol section).
+
+So how do we tell our schema that something is an edge? Luckily in our codebase this idea is already well expressed. Whenever an object has an edge to another, it returns a `Query` type rather than a raw collection. Raw collections are almost never what you want for these relationships -- nomatter their size -- as collections are the wrong abstraction to model an edge (for a different post). We let the developer still use the `@Field` annotation and infer for them, based on return type, that the thing is an edge.
+
+Example:
+```typescript
+@Expose
+class Foo {
+  @Field('history')
+  public function queryHistory(): HistoryQuery { ... }
+}
+```
+
+generates:
+
+```typescript
+FooSchmea = {
+  meta: {
+    type: "Foo"
+  },
+  edges: {
+    history: {
+      // all edges support a specific set of arguments
+      // covered in the `protocol` section 
+      args: {
+        first: int,
+        last: int,
+        after: Cursor
+      },
+      edge: {
+        cursor: Cursor,
+        node: type_reference(History),
+        data: null // Edges can have data about the relationship. Not covered.
+      },
+      count: int
+    }
+  }
+}
+```
+
 ## (4) Semantic Types
+
+If you remember, the other not so useful thing about our schema was when fields returned "string" or "int" or other "storage" types (see [These are Not Types]({% post_url 2020-05-19-These-Are-Not-Types %})). What does the string represent? An email? A domain? A date?
+
+To be useful to services we must provide hints about the meaning of the string. Some schemas decide to go with "format" properties. I think this is the wrong direction. Format is an encoding concern rather than a meaning concern.
+
+What we did was to encourage developers to use semantic type alises in their code. So instead of returning "string" return "EmailString."
+
+Example aliases:
+
+```typescript
+type EmailString = string;
+type DomainString = string;
+type URLString = string;
+type Timestamp = int;
+type Month = int;
+type Measure<T as Unit> = double;
+type ID<T> = int | string;
+type Unit = 's' | 'ms' | 'm' | ...;
+...
+```
+
+And our schema generator would parse out these semantic types and encode the information they conveted into the schema.
+
+Example:
+
+```
+```
+
+generates:
+
+```
+```
+
 ## (5) Actions
 ## (6) Type Extension
 ## (7) Type Equivalence
