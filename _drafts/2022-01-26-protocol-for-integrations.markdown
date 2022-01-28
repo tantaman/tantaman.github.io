@@ -83,23 +83,35 @@ class Foo {
   @ID
   public function getId(): ID_of<Foo> {...}
   @Field('description...', ...)
-  public function getThing(): string {...}
+  public function getImageURL(): URL {...}
 }
 ```
 
-Of course we can't stop here. If we did, we wouldn't be much better than something like JSON or Thrift. Yea, this lets us package an object and ship it over the wire, but it lacks the ability to do many important things like:
-1. Request and load arbitrary objects
-2. Traverse edges between obejcts
-3. Run actions to update objects
-4. Extend or enrich object definitions of other products without modifying those products
-5. Understand the semantic meaning of types
-6. Provide clients with a copy of the schema
+Of course we can't stop here. If we did, we wouldn't be much better than something like JSON or Thrift. Yeah, this lets us package an object and ship it over the wire but the receiver can't do much with it.
 
-This sort of schema is also not rich enough. It doesn't tell us:
-1. What methods exist to be invoke.
-2. What arguments those methods take.
-3. If there is an unbounded edge between two types.
-4. 
+* If you have a rules engine and you want to load objects, the schema doesn't tell you how to do that.
+* If you have a content moderation tool and you want to render user reported content for review, this schema doesn't provide enough meaningful semantic information to do that. E.g., does a URL represent an image? A video? A blob?
+* If you have an abuse protection system (e.g., ant-spam), how do you know what parts of the object contain user controlled information?
+* If your abuse protection system wants to action an object (and all connected objects), how would it do that?
+
+All that to say, a simple schema like this isn't very useful. We need to evolve the schema and upgrade it to a protocol that enable client services to:
+
+1. Understand when a field represents an edge or is just a reference
+2. Understand the semantic meaning of types (e.g., what _is_ this string or int)
+3. Run actions to update objects
+4. Invoke methods on objects
+5. Request a machine readable copy of the schema, and protocol, to understand the scope of the universe
+6. Request and load arbitrary objects
+7. Traverse edges between obejcts
+8. Provide a description of the arguments methods can take
+9. Only request a subset of fields from an object
+10.  Extend or enrich definitions of other objects without modifying those objects
+
+# Evolving the Schema
+
+Of the ten items above, 5 require "schema updates"
+
+1. 
 
 # The Protocol
 
