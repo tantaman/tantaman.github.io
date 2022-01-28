@@ -87,15 +87,23 @@ class Foo {
 }
 ```
 
-Of course we can't stop here. If we did, we wouldn't be much better than something like JSON. Yea, this lets us package an object up and decode an object, but it lacks the ability to do many important things like:
-1. Provide clients with a copy of the schema
-2. Request and load arbitrary objects
-3. Traverse edges between obejcts
-4. Run actions to update objects
-5. Extend or enrich object definitions of other products without modifying those products
-6. Understand the semantic meaning of types
+Of course we can't stop here. If we did, we wouldn't be much better than something like JSON or Thrift. Yea, this lets us package an object and ship it over the wire, but it lacks the ability to do many important things like:
+1. Request and load arbitrary objects
+2. Traverse edges between obejcts
+3. Run actions to update objects
+4. Extend or enrich object definitions of other products without modifying those products
+5. Understand the semantic meaning of types
+6. Provide clients with a copy of the schema
 
+# The Protocol
 
+We had to move beyond just providing a pure schema and also provide a protocol. The protocol would define:
+1. How to obtain a copy of the current schema
+2. How to load an object from an ID
+3. How to search for objects of a given type
+4. How to traverse a X edges from M objects to N anothers
+5. What operations can be applied to edge traversals from (3)
+6. How to perform actions...
 
 What new protocol definitions did IObjs bring?
 
