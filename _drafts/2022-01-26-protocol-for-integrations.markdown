@@ -115,7 +115,7 @@ All that to say, a simple schema like this isn't very useful. We need to evolve 
 
 # Evolving the Schema
 
-Of the 13 items above, the first 7 require schema updates.
+Of the 13 items above, the first 7 require a more expressive schema.
 
 (1) is pretty simple -- we can add an `@ID` annotation which can be applied to a field or method. Useful on a method for the cases where the id is a compound id.
 
@@ -130,7 +130,7 @@ class Foo {
 generates the following notional schema:
 
 ```javascript
-Foo: {
+FooSchema = {
   meta: {
     type: "Foo",
     primaryKey: "id",
@@ -156,7 +156,7 @@ class Foo {
 generates
 
 ```typescript
-Foo: {
+FooSchema = {
   meta: {
     type: "Foo"
   },
@@ -169,19 +169,25 @@ Foo: {
 }
 ```
 
+> Note: the generated schema is a struct that is easily consumable by a machine.
+
 (3-7) require some explaining as they're innovative ideas.
 
+## (3) Field or Edge?
 
+## (4) Semantic Types
+## (5) Actions
+## (6) Type Extension
+## (7) Type Equivalence
+
+The remaining 6 items define the protocol.
 
 # The Protocol
 
-We had to move beyond just providing a pure schema and also provide a protocol. The protocol would define:
-1. How to obtain a copy of the current schema
-2. How to load an object from an ID
-3. How to search for objects of a given type
-4. How to traverse a X edges from M objects to N anothers
-5. What operations can be applied to edge traversals from (3)
-6. How to perform actions...
+Where the schema defines the data format the protocol defines how to interact with the data. How to fetch it, change it, interrogate it.
+
+
+---
 
 What new protocol definitions did IObjs bring?
 
