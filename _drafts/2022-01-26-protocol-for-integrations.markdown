@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Thoughts on A Protocol For Integrations'
+title: 'Integration Protocol'
 tags: software-engineering schema protocol
 ---
 
@@ -188,8 +188,8 @@ FooSchmea = {
       // all edges support a specific set of arguments
       // covered in the `protocol` section 
       args: {
-        first: int,
-        last: int,
+        first: optional(int),
+        last: optional(int),
         after: Cursor
       },
       edge: {
@@ -202,6 +202,8 @@ FooSchmea = {
   }
 }
 ```
+
+Now that edges are part of the schema, we can begin to work with graphs of data rather than single objects.
 
 ## (4) Semantic Types
 
@@ -225,7 +227,7 @@ type Unit = 's' | 'ms' | 'm' | ...;
 ...
 ```
 
-And our schema generator would parse out these semantic types and encode the information they conveted into the schema.
+And our schema generator would parse out these semantic types and encode the information into the schema.
 
 Example:
 
@@ -264,7 +266,7 @@ Meausre = {
 
 Now a service that receives this can actually do something! It can plot something meaningful on a map or chart. It can show a visual, it can compare the length to lengths of other objects in the system. All by simply adding a little type information.
 
-This extends to other things like "email." When a system receives a string that it _knows_ is an email address, it can do things with it. It can check block lists, check dkim keys, pull the domain and check registrant information. All very important things for an abuse protection system to do.
+The usefulness of semantic types extends to other things like "email." When a system receives a string that it _knows_ is an email address, it can do things with it. It can check block lists, check dkim keys, pull the domain and check registrant information. All very important things for an abuse protection system to do. For a UI, it would know to render it in a `mailto:` link or render a contact form.
 
 You could argue that the system receiving a string can pattern match against it to try to understand _what_ it is. That doesn't work so well with things that overlap -- such as user ids, phone numbers and time stamps. They're all overlapping sets of ints.
 
@@ -272,14 +274,102 @@ You could argue that the system receiving a string can pattern match against it 
 
 We've come a long way. With these updates to the schema, systems can be built to create meningful visualizations from the data received, graph relationships between types, pull features for use in classification, detect abusive content and more.
 
-Wouldn't it be great, however, if the client service could provide some sort of feedback? E.g., if an abuse protection system could block actions, delete harmful posts, and log-out compromised users based on the data it received from a product?
+Wouldn't it be great, however, if the client service could provide some sort of feedback to the system that is the source of the data? E.g., if an abuse protection service could block actions, delete harmful posts, and log-out compromised users based on the data it received from a product?
 
-To do that we need to schematize what actions are available.
+All of that is possible -- and programmatically discoverable -- by schematizing the actions that exist in the system.
 
+One may think that actions could just be represented as parameterized fields on an object. We've taken the stance that all fields, parameterized or not, only ever perform read operations. This makes queries easier to reason about, idempotent and cachable. Thus actions must not be represented as fields/methods on the objects themselves. The other reason for actions to be standalone entities is that different organizations and teams write their own actions against different products. It wouldn't make sense to add these to the core domain model of the product.
 
+The above paragraph should sound pretty familiar. What it is describing is a function, rather than methods, and that's what we annotate in the codebase to expose an action.
+
+```typescript
+@Action
+function enqueue_for_review(in: HasID): ActionHandle<ReviewJob> { ... }
+```
+
+generates
+
+```typescript
+EnqueueForReviewAction = {
+  args: {
+    in: type_reference(HasID)
+  },
+  ret: type_reference(ActionHandle, type_reference(ReviewJob))
+}
+```
+
+Having actions in the schema lets services understand what they can do against a given type. E.g., they can reflect against the schema and find all actions that take type X (or superclasses thereof) as a parameter.
+
+There's room for improvement on actions such as namespacing them to a domain. This way a system can understand what "review", "mutation", "linking", etc. actions are available for a type. Each domain should also have a standardized set of verbs. For mutation it'd be the obvious ones -- "update" and "delete."
 
 ## (6) Type Extension
+
+One thing we discovered while developing all of this was that product models are often enriched by other products. These enrichments aren't central the the original product's domain model so they aren't defined as fields or methods on the classes of the original product.
+
+Types were being extended in ad-hoc ways. This led us to abandon the idea of exposing objects. Instead developers would expose individual functions or methods and our schema generator would assemble the final representation of the type.
+
+```typescript
+class Foo {
+  @Field('email')
+  getEmail(): EmailString { ... }
+}
+
+@Field('bars')
+function relatedBars(in: Foo): BarQuery { ... }
+@Field('hash')
+function hash(in: Foo): MD5 { ... }
+```
+
+generates
+
+```typescript
+Foo = {
+  meta: {
+    type: 'Foo',
+  },
+  fields: {
+    email: type_reference(EmailString),
+    hash: type_reference(MD5)
+  },
+  edges: {
+    bars: {
+      args: {
+        first: optional(int),
+        last: optional(int),
+        after: Cursor
+      },
+      edge: {
+        cursor: Cursor,
+        node: type_reference(Bar)
+      },
+      count: int
+    }
+  }
+}
+```
+
+What's going on here is that functions that take `Foo` as a type can exist and be exposed anywhere. They'll all be added to the schema as fields/edges that can be fetched for `Foo`.
+
+This gives developers massive freedom to extend existing types where their needs are not being met.
+
 ## (7) Type Equivalence
+
+With a large codebase you inevitably end up with types that are equivalent to one another. Problem is that some set of functions will always be defined for one type but not the other.
+
+Examples here would be a proper `Email` class, an `EmailString` type alias, a product specific `ProductFooEmail` class and so on. If `getDomain` is defined for the `Email` class but not `EmailString` -- how do you resolve this difficulty? A human can figure out how to do the conversion from `EmailString` to `Email` but a machine not so much.
+
+To overcome this, we've allowed developers to tag functions that perform type transformations.
+
+E.g.,
+```typescript
+@TypeTransformation
+function emailStringToEmail(in: EmailString): Email { ... }
+```
+Our schema generation step can the traverse the graph of type transformations and expose all fields from one type onto their equivalent types.
+
+Example:
+```typescript
+```
 
 The remaining 6 items define the protocol.
 
@@ -289,6 +379,8 @@ Where the schema defines the data format the protocol defines how to interact wi
 
 
 ---
+
+schema reflection utilities...
 
 What new protocol definitions did IObjs bring?
 
