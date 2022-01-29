@@ -229,15 +229,55 @@ And our schema generator would parse out these semantic types and encode the inf
 
 Example:
 
-```
+```typescript
+@Expose
+class Foo {
+  @Field('length')
+  public getLength(): Measure<'m'> { ... }
+}
 ```
 
 generates:
 
-```
+```typescript
+FooSchema = {
+  meta: {
+    type: "Foo"
+  },
+  fields: {
+    length: type_reference(Measure)
+  }
+}
+
+Meausre = {
+  meta: {
+    type: "Measure",
+  },
+  // We'll get into why `Measure` is a type with fields
+  // rather than just a value later
+  fields: {
+    value: double,
+    unit: type_reference(Unit)
+  }
+}
 ```
 
+Now a service that receives this can actually do something! It can plot something meaningful on a map or chart. It can show a visual, it can compare the length to lengths of other objects in the system. All by simply adding a little type information.
+
+This extends to other things like "email." When a system receives a string that it _knows_ is an email address, it can do things with it. It can check block lists, check dkim keys, pull the domain and check registrant information. All very important things for an abuse protection system to do.
+
+You could argue that the system receiving a string can pattern match against it to try to understand _what_ it is. That doesn't work so well with things that overlap -- such as user ids, phone numbers and time stamps. They're all overlapping sets of ints.
+
 ## (5) Actions
+
+We've come a long way. With these updates to the schema, systems can be built to create meningful visualizations from the data received, graph relationships between types, pull features for use in classification, detect abusive content and more.
+
+Wouldn't it be great, however, if the client service could provide some sort of feedback? E.g., if an abuse protection system could block actions, delete harmful posts, and log-out compromised users based on the data it received from a product?
+
+To do that we need to schematize what actions are available.
+
+
+
 ## (6) Type Extension
 ## (7) Type Equivalence
 
