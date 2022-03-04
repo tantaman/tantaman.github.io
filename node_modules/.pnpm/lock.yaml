@@ -1,0 +1,15 @@
+lockfileVersion: 5.3
+
+specifiers:
+  marked: ^4.0.10
+
+dependencies:
+  marked: 4.0.12
+
+packages:
+
+  /marked/4.0.12:
+    resolution: {integrity: sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ==}
+    engines: {node: '>= 12'}
+    hasBin: true
+    dev: false
