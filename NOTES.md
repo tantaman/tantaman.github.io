@@ -1,3 +1,8 @@
+# 3/4/2022 -
+Shifted to [Nextra](https://nextra.vercel.app/get-started)
+
+
+---
 Adding custom markdown parser:
 https://jekyllrb.com/docs/configuration/markdown/
 
