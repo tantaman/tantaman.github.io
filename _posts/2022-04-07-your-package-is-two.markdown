@@ -2,6 +2,7 @@
 layout: post
 title: 'Your One Package Might Be Two'
 tags: software-engineering
+mermaid: true
 ---
 
 When creating a software package (or module or bundle, pick your term) for others to reuse, there's often a _second_ package in the package that developers overlook.
@@ -18,3 +19,11 @@ In many cases it would benefit the author to move the inetrface into its own sep
 2. Moving the interface out lets other packages depend on types from the interface without having to depend on the entire implementation package, which could be large
 
 The second point is useful for cases where an extension consumes outputs of a package but doesn't need to actually run that package. Maybe the outputs come from somewhere else over the wire or are read from disk rather than being a direct invocation of the implementation.
+
+**Note** that the interface package _does not_ depend on the implementation package. The implementation package dependson the interface package. This makes sense given that interfaces don't know about their implementations but implementations do know about the interfaces they implement.
+
+<div class="mermaid">
+graph TD
+  Extension --> Interface
+  Package --> Interface
+</div>
