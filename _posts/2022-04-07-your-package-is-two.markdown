@@ -9,9 +9,9 @@ When creating a software package (or module or bundle, pick your term) for other
 
 The second package is the _interface_ package. I.e., the interface that overlays the specific implementation that is your package.
 
-As an example, I might provide a codegen package. The `CodegenFile`, `CodegenStep`, `CodegenPipeline` and such classes comprise the interface of that package. All the other things are implementation details.
+As an example, I might provide a codegen package. `CodegenFile`, `CodegenStep`, `CodegenPipeline` and such classes comprise the interface of that package. All the other things are implementation details.
 
-In many cases it would benefit the author to move the inetrface into its own separate package.
+In many cases it would benefit the author of the package to pull the inetrface out into its own separate package.
 
 ## Why?
 
