@@ -33,12 +33,15 @@ Some highlights from the first two pieces:
 
 > Well educated liberal white people (e.g., professors) think they aren't racist yet they're always trying to **help** people of color. **- The Problem With John Stewart**
 
+&
 
 > Avatar promotes a mindset of colonialism. Rather than seeing and valuing the Na'vi in their own right, they're only valued after they've been humanized. **- Why Avatar is a truly dangerous film**
 
 Lets move past the issue of a work being called dangerous, bordering on a call for censorship, and learn something from what they're trying to sasy.
 
-What they're trying to say in both pieces is that the culture of marginalized people should be respected and valued in its own right. That, rather than trying to normalize a people through education, missionaries, _helping_ them to ask instead of axe you a question and so on, they should be valued in their own right. In the last instance: sure they speak differently but who give a f if you can still communicate?
+What they're trying to say in both pieces is that the culture of marginalized people should be respected and valued in its own right. That, rather than trying to normalize a people through education, missionaries, _helping_ them to *ask* instead of *axe* you a question and so on, they should be valued in their own right.
+
+**In the last instance:** sure they speak differently but who gives **a f** if you can still communicate?
 
 Dwelling on this point a second longer -- you can imagine going back in time to the discovery of the new world with the mindset of valuing cultures in their own right. If the settlers had this mindset they wouldn't have preached to native americans nor enrolled them in school nor killed them. The settlers would have let the natives lived as they like, traded with them fairly (if they were open to it), and only used un-occupied lands.
 
@@ -58,9 +61,9 @@ The main idea here is that the foundational myths of a society shape that societ
 
 And that's the tie to The 1619 Project. It is an attempt to reset America's foundational myths from manifest destiny & flawless and enlightened leaders to one where the impacts on and contributions of marginalized groups are recognized.
 
-> Aside - some have called it a re-birth & re-clothing of Western Christiantiy (https://fromdanielsdesk.com/2017/11/27/christendom-and-the-500-year-cycle/). I'm not sure I'd go that far.
+> Aside - some have called it a re-birth & re-clothing of Western Christiantiy ([https://fromdanielsdesk.com/2017/11/27/christendom-and-the-500-year-cycle/](https://fromdanielsdesk.com/2017/11/27/christendom-and-the-500-year-cycle/)). I'm not sure I'd go that far.
 
-To me, an endeavour like 1619 Project is a problematic way to go about fixing the ills of society. Attempting to supplant the identity of an entire population will inevitbly lead to a huge amount of conflict. Supplanting an identity is akin to a psychological death (aside: https://www.philosophizethis.org/podcast/episode-158-the-creation-of-meaning-nietzsche-the-ascetic-ideal-f8k5h-k8xfx-6tyfj-xc8hy) -- all your values, ways of guiding life and making decisions are turned upside down. Very much why Christiantiy speaks of requiring a death to the world, a re-birth and being born again.
+To me, an endeavour like 1619 Project is a problematic way to go about fixing the ills of society. Attempting to supplant the identity of an entire population will inevitbly lead to a huge amount of conflict. Supplanting an identity is akin to a psychological death (aside: [https://www.philosophizethis.org/podcast/episode-158-the-creation-of-meaning-nietzsche-the-ascetic-ideal-f8k5h-k8xfx-6tyfj-xc8hy](https://www.philosophizethis.org/podcast/episode-158-the-creation-of-meaning-nietzsche-the-ascetic-ideal-f8k5h-k8xfx-6tyfj-xc8hy])) -- all your values, ways of guiding life and making decisions are turned upside down. Very much why Christiantiy speaks of requiring a death to the world, a re-birth and being born again.
 
 So what can we do instead? America's foundational myths already hold the key to a better world. They also already hold the end result that the 1619 Project and the first two pieces are trying to get to.
 
