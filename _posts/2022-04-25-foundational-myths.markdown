@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Meme & Themes - 1619 Project'
+title: 'Memes & Themes - 1619 Project'
 tags: politics
 mermaid: true
 ---
