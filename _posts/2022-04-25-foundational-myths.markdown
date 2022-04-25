@@ -31,10 +31,10 @@ Anyway -- the nexus of these three gave me better insight into why there's a pus
 
 Some highlights from the first two pieces:
 
-> Well educated liberal white people (e.g., professors) think they aren't racist yet they're always trying to _help_ people of color. - The Problem With John Stewart
+> Well educated liberal white people (e.g., professors) think they aren't racist yet they're always trying to **help** people of color. **- The Problem With John Stewart**
 
 
-> Avatar promotes a mindset of colonialism. Rather than seeing and valuing the Na'vi in their own right, they're only valued after they've been humanized. - Why Avatar is a truly dangerous film
+> Avatar promotes a mindset of colonialism. Rather than seeing and valuing the Na'vi in their own right, they're only valued after they've been humanized. **- Why Avatar is a truly dangerous film**
 
 Lets move past the issue of a work being called dangerous, bordering on a call for censorship, and learn something from what they're trying to sasy.
 
