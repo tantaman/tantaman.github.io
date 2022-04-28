@@ -2,7 +2,6 @@
 layout: post
 title: 'Memes & Themes - 1619 Project'
 tags: politics
-mermaid: true
 ---
 
 Coincidentally I came across all of these things around the same time
