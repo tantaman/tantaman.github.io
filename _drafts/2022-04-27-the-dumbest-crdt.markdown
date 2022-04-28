@@ -8,9 +8,14 @@ tags: crdt programming
 
 # The Dumbest CRDT
 
-A CRDT (conflict free replicated data type) is a structure where concurrent changes made by multiple parties can all be merged together without conflicts. Formally, however, the only constraint is that once all peers in a network have received all messages (in any order) regarding the CRDT, they will all have the same state.
+A CRDT (conflict free replicated data type) is a structure where concurrent changes made by multiple parties can all be merged together without conflicts.
 
-In other words, the dumbest possible CRDT is just one that (a) has a logical clock and (b) replaces the entire document on every update. This type of CRDT is called a LWW or "last write wins" CRDT.
+**Wikipedia** definition:
+> In distributed computing, a conflict-free replicated data type (CRDT) is a data structure which can be replicated across multiple computers in a network, where the replicas can be updated independently and concurrently without coordination between the replicas, and where it is always mathematically possible to resolve inconsistencies that might come up
+
+Formally, however, the only constraint is that all peers in a network have the same representation of a structure after seeing the same sets of messages for updating that structure. These messages can arrive in any order and over any period of time.
+
+This means that the dumbest possible CRDT is just one that (a) has a logical clock and (b) replaces the entire document on every update. This type of CRDT is called a LWW or "last write wins" CRDT.
 
 > todo -- add a diagram, explain logical clocks. Maybe linger on back-channels for information and logical clocks vs physical.
 > 
