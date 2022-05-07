@@ -5,7 +5,7 @@ tags: [software-engineering]
 
 Is an **int** a type? A **float**? A **double**?
 
-These are **storage** types, not **application level** types.
+These are **storage** types, not **application level** types.<!--truncate-->
 
 For many software projects, `int`, `float`, `double`, `string`, etc. exist at the wrong level of abstraction to be conidered proper data types. They represent how information is encoded by storage rather than something that an application should deal with.
 

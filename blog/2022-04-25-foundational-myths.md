@@ -1,21 +1,21 @@
 ---
-
 title: 'Memes & Themes - 1619 Project'
 tags: [politics]
 ---
+Coincidentally I came across all of these three things below around the same time
 
-Coincidentally I came across all of these things around the same time
+<iframe style={{borderRadius:12}} src="https://open.spotify.com/embed/episode/2fX9FG3l002rHyMRdOFw6D?utm_source=generator" width="100%" height="232" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2fX9FG3l002rHyMRdOFw6D?utm_source=generator" width="100%" height="232" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+<br/>
+<br/>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This was a good critique, from 2010: “why Avater is a truly dangerous film” <a href="https://t.co/5ZeJIWndG8">https://t.co/5ZeJIWndG8</a></p>&mdash; Kent William Innholt (@oerhoert) <a href="https://twitter.com/oerhoert/status/1517801045455478784?ref_src=twsrc%5Etfw">April 23, 2022</a></blockquote>
 
 <br/>
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This was a good critique, from 2010: “why Avater is a truly dangerous film” <a href="https://t.co/5ZeJIWndG8">https://t.co/5ZeJIWndG8</a></p>&mdash; Kent William Innholt (@oerhoert) <a href="https://twitter.com/oerhoert/status/1517801045455478784?ref_src=twsrc%5Etfw">April 23, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">War of memes: why Z-war won&#39;t end with peace<br/><br/>Some Western analysts unfamiliar with Eastern European cultural context perceive Z-war as an accident. They presume that Russian invasion results from some sort of &quot;misunderstanding&quot; or mistake which can be resolved via negotiations🧵 <a href="https://t.co/diHMDIpvu0">pic.twitter.com/diHMDIpvu0</a></p>&mdash; Kamil Galeev (@kamilkazani) <a href="https://twitter.com/kamilkazani/status/1516162437455654913?ref_src=twsrc%5Etfw">April 18, 2022</a></blockquote>
 
-<br/>
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">War of memes: why Z-war won&#39;t end with peace<br><br>Some Western analysts unfamiliar with Eastern European cultural context perceive Z-war as an accident. They presume that Russian invasion results from some sort of &quot;misunderstanding&quot; or mistake which can be resolved via negotiations🧵 <a href="https://t.co/diHMDIpvu0">pic.twitter.com/diHMDIpvu0</a></p>&mdash; Kamil Galeev (@kamilkazani) <a href="https://twitter.com/kamilkazani/status/1516162437455654913?ref_src=twsrc%5Etfw">April 18, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
+<!--truncate-->
 <br/>
 Or maybe not so "coincidentally" given the current cultural mindset is heavily focused on all of these things. Interesting how one could choose to see it --
 

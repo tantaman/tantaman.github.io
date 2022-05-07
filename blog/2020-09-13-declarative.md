@@ -6,7 +6,7 @@ image: /assets/posts/filter-map-reduce-vs.svg
 ---
 
 I've run into the occasional programmer that finds the functional way of transforming collections (`map`, `filter`, `reduce`, `zip`, `pull`, etc.)
-harder to understand than the imperative style of `for`, `while` and `for-each` loops.
+harder to understand than the imperative style of `for`, `while` and `for-each` loops.<!--truncate-->
 
 I.e.,
 

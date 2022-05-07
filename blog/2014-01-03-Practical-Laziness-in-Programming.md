@@ -8,6 +8,7 @@ When I first heard about lazy evaluation I thought it was cool but not of much p
 Laziness improves API design.
 
 I’ll illustrate with a program I wrote to convert Javadoc comments to JSON. I started writing the program in Java and I quickly realized the problem would be easier with lazy evaluation.
+<!--truncate-->
 
 Ideally I wanted to do something like:
 
@@ -18,10 +19,12 @@ Ideally I wanted to do something like:
 
 In code:
 
-    List<ClassDoc> docs = getClassDocs();
-    List<JSONObject> jsonObjects = toJSON(docs);
-    List<String> jsonStrings = stringify(jsonObjects);
-    writeAll(jsonStrings);
+```java
+List<ClassDoc> docs = getClassDocs();
+List<JSONObject> jsonObjects = toJSON(docs);
+List<String> jsonStrings = stringify(jsonObjects);
+writeAll(jsonStrings);
+```
 
 That is a pretty straightforward sequence of steps but our repository is huge and I wanted to keep memory consumption down so I couldn't just process everything at once. I had to instead do:
 
@@ -33,12 +36,14 @@ That is a pretty straightforward sequence of steps but our repository is huge an
 
 In code:
 
-    while (hasNext()) {
-      ClassDoc doc = getNext();
-      JSONObject jsonObject = toJSON(doc);
-      String jsonString = stringify(jsonObject);
-      write(jsonString); // <-- non blocking write so we can write in parallel
-    }
+```java
+while (hasNext()) {
+  ClassDoc doc = getNext();
+  JSONObject jsonObject = toJSON(doc);
+  String jsonString = stringify(jsonObject);
+  write(jsonString); // <-- non blocking write so we can write in parallel
+}
+```
 
 Now this doesn't seem like a big deal. After all, only 1 step was added and that step is just looping over the first 4 steps. The problem is that this second approach makes the code less **composable**.
 
@@ -46,14 +51,16 @@ With the first approach I can just return the results of each of my intermediate
 
 Here is an example:
 
-    // Normal conversion
-    api.write(api.stringifyJSON(
-        api.toJSON(api.getClassDocs())));
+```java
+// Normal conversion
+api.write(api.stringifyJSON(
+    api.toJSON(api.getClassDocs())));
 
-    // Conversion + user's own swag
-    api.write(**swag**.addCopyright(
-       api.stringifyJSON(**swag**.addCustomProps(api.toJSON(
-          api.getClassDocs())))));
+// Conversion + user's own swag
+api.write(**swag**.addCopyright(
+    api.stringifyJSON(**swag**.addCustomProps(api.toJSON(
+      api.getClassDocs())))));
+```
 
 As you see in the “conversion + user’s own swag” example, the user can easily add a copyright notice and some custom properties to the JSON just by adding a few extra method calls within and around the normal api calls.
 
@@ -61,29 +68,33 @@ With the looping approach, that composability becomes quite a bit harder to atta
 
 E.g.
 
-    while (hasNext()) {
-     ClassDoc doc = getNext();
-     **callDocCallbacks**(doc);
+```java
+while (hasNext()) {
+  ClassDoc doc = getNext();
+  **callDocCallbacks**(doc);
 
-     JSONObject jsonObject = toJSON(doc);
-     **callJsonObjectCallbacks**(jsonObject);
+  JSONObject jsonObject = toJSON(doc);
+  **callJsonObjectCallbacks**(jsonObject);
 
-     String jsonString = stringify(jsonObject);
-     **callJsonStringCallbacks**(jsonString);
+  String jsonString = stringify(jsonObject);
+  **callJsonStringCallbacks**(jsonString);
 
-     write(jsonString);
-    }
+  write(jsonString);
+}
+```
 
 and the api becomes something like:
 
-    api.**registerJsonObjectCallback**(new Callback<JSONObject>() {
-      public void apply(JSONObject obj) {
-        swag.addCustomProps(obj);
-      }
-    });
-    api.**registerJsonStringCallback**(new Callback<String>(){...});
+```java
+api.**registerJsonObjectCallback**(new Callback<JSONObject>() {
+  public void apply(JSONObject obj) {
+    swag.addCustomProps(obj);
+  }
+});
+api.**registerJsonStringCallback**(new Callback<String>(){...});
 
-    api.process();
+api.process();
+```
 
 As you can see this requires work on the API side to call the appropriate hooks and work on the client side to implement the callback interface and register callbacks at the correct points. If I ever add new steps to the process then new hooks need to be added as well.
 
@@ -91,13 +102,15 @@ As you can see this requires work on the API side to call the appropriate hooks 
 
 The first approach, without laziness, is going to process every class all at once and execute every step before writing any data or releasing any data from memory. Not good.
 
-Laziness allows the first approach to return lists that never actually contain anything until they are read. That is if my _List<ClassDoc>_ is lazy then it won’t actually contain anything until someone tries to read from it. It’ll use 0 memory.
+Laziness allows the first approach to return lists that never actually contain anything until they are read. That is if my _`List<ClassDoc>`_ is lazy then it won’t actually contain anything until someone tries to read from it. It’ll use 0 memory.
 
 In other words, if _getClassDocs_, _toJSON_ and _stringify_ are all lazy then all of the following calls:
 
-    List<ClassDoc> classDocs = api.getClassDocs();
-    List<JSONObject> jsonObjects = api.toJSON(classDocs);
-    List<String> jsonString = api.stringify(jsonObjects);
+```java
+List<ClassDoc> classDocs = api.getClassDocs();
+List<JSONObject> jsonObjects = api.toJSON(classDocs);
+List<String> jsonString = api.stringify(jsonObjects);
+```
 
 won’t ever actually do any computation. Since each method is lazy they just return lists that don’t have anything in them until someone tries to read from them. **It’s just like telling your mom you finished your homework but not actually starting your homework until she asks to see it later that night.**
 
@@ -109,10 +122,8 @@ will return docs in chunks for later stages of the pipeline to process. Those ch
 ### Great but how can I be lazy on the JVM?
 
 1. Clojure — all map operations are lazy & has lazy sequences
-
-1. Scala — has lazy sequences
-
-1. Write your own iterables which perform lazily
+2. Scala — has lazy sequences
+3. Write your own iterables which perform lazily
 
 My complete 30 lines of lazy Clojure code that converts Javadoc to JSON can be found [here](https://github.com/tantaman/jsonDoclet/blob/master/src/com/tantaman/doc/JsonDoclet.clj).
 

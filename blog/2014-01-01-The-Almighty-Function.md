@@ -8,12 +8,10 @@ tags: [software-engineering]
 Some people say everything is an object. I used to too but these days I think everything is actually a function.
 
 1. A map? Isn’t that just a function that maps from one value to another?
-
 2. An array? Well that can be thought of as a map which can be thought of as a function.
-
 3. An object? Those are just partial functions that return functions.
 
-Lets take a closer look. Here is a **pair implemented as a function**. It is implemented in Javascript for illustration purposes.
+Lets take a closer look. <!--truncate-->Here is a **pair implemented as a function**. It is implemented in Javascript for illustration purposes.
 
     var pairCreator = function(first, second) {
       var first, second;

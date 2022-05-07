@@ -9,7 +9,7 @@ image: /assets/posts/volatility-is-not-risk/cover.svg
 
 The biggest lie in investing is that volatiliy = risk.
 
-This is bogus. It misses the point of risk. Risk is about the chance of losing your principal in an investment. Volatility does not capture that whatsoever. What does it matter if the price of an investment swings wildly up and down, so long as the mean of those swings always trends upwards?
+This is bogus. It misses the point of risk. Risk is about the chance of losing your principal in an investment. Volatility does not capture that whatsoever. What does it matter if the price of an investment swings wildly up and down, so long as the mean of those swings always trends upwards?<!--truncate-->
 
 # Example
 
@@ -38,4 +38,4 @@ Dollar cost average is a very passive way of buying and selling. Something I'd r
 
 So how do you assess the risk of an investment? Stay tuned for the next post.
 
-<center><iframe width="560" height="315" src="https://www.youtube.com/embed/KmQk4zkrdzU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><center>
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/KmQk4zkrdzU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>

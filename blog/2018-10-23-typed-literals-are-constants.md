@@ -10,7 +10,7 @@ tags: [software-engineering]
 
 # **Are both lines of code above using constants?**
 
-I keep getting push-back that the first line is better practice than the second line. When reviewers see something that looks like the second line they say “define that in a constant.”
+I keep getting push-back that the first line is better practice than the second line. When reviewers see something that looks like the second line they say “define that in a constant.”<!--truncate-->
 
 I’d understand their complaints if the method being called was not typed, but it is.
 

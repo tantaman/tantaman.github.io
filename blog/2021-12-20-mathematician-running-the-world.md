@@ -8,7 +8,7 @@ Listening to [Freakonomics s11e16](https://freakonomics.com/podcast/season-11-ep
 
 What an absurd statement.
 
-I'll just focus on two ways this is wrong. The first is that mathematics is irrational through omission.
+I'll just focus on two ways this is wrong. The first is that mathematics is irrational through omission.<!--truncate-->
 
 # Irrational Through Omission
 

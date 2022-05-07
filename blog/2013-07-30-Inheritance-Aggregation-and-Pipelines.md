@@ -6,6 +6,7 @@ tags: [software-engineering]
 How does one write software that can be extended?
 
 I think many developer’s first instinct is to set up some form of inheritance hierarchy. Inheritance is a step in the right direction but it is very restrictive. The problem with inheritance is that relationships between your components and their extensions are rigidly defined at compile time.
+<!--truncate-->
 
 Take a set of classes that provide access to resources at various URIs as an example. The base class just provides get/put/delete operations.
 

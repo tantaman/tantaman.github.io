@@ -6,7 +6,7 @@ tags: [pontification]
 
 The popular view of religion is as being the first development of a civilization. The thing that predates a people before they discover reason & science.
 
-What if we thought of it instead as the culmination of a civilation? A civilization's peak product right before collapse?
+What if we thought of it instead as the culmination of a civilation? A civilization's peak product right before collapse?<!--truncate-->
 
 The Romans were efficient administrators, engineers, philosophers with a great cultural heritage from the Greeks. Eventually they culminated in circuses, decadance, scandal which gave rise to the Christian religion not based on reason but strictly on arbitrary choice of faith.
 

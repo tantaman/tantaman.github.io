@@ -10,7 +10,7 @@ css:
 
 > "Programmers re-invent the wheel so they can understand how the wheel works" - unknown
 
-Why write a color picker from scratch? To understand color theory better and to realize that color pickers are actually pretty simplistic.
+Why write a color picker from scratch? To understand color theory better and to realize that color pickers are actually pretty simplistic.<!--truncate-->
 
 To understand how to convert user events to colors, you first need to understand a little bit of color theory.
 

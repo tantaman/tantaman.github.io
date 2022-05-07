@@ -4,7 +4,7 @@ title: 'Vision'
 tags: [vision]
 ---
 
-After ~8 years working at Meta and ~15 years professionally programming post college, I'm departing the workforce to puruse my own ideas full time.
+After ~8 years working at Meta and ~15 years professionally programming post college, I'm departing the workforce to puruse my own ideas full time.<!--truncate-->
 
 # Vision
 

@@ -12,7 +12,7 @@ Reference equality being equated with identity is one of these things.
 
 Reference equality appears to mean identity. If two objects are equal by reference, they're the same object.
 
-But first, what is identity?
+But first, what is identity?<!--truncate-->
 
 # Identity
 

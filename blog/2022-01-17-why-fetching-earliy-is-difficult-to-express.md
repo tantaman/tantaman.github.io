@@ -4,7 +4,7 @@ title: 'Expressing Early Fetches - React'
 tags: [software-engineering, react]
 ---
 
-draft post--
+draft post--<!--truncate-->
 
 Fetching early is difficult to express and get right in all places in React.
 

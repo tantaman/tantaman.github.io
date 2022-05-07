@@ -13,7 +13,7 @@ Many of my blog posts contain interactive demos or content that is generated via
 
 I've experimented with a few ways. The guiding principle around these experiments is to do as much as possible with as little code as possible.
 
-One approach uses a `data-bind` attribute to bind an element to a JS variable. This was the approach I took when writing my [Gambler's fallacy post](/2021-01-26-regression-mean-vs-gambler/).
+One approach uses a `data-bind` attribute to bind an element to a JS variable. This was the approach I took when writing my [Gambler's fallacy post](/2021-01-26-regression-mean-vs-gambler/).<!--truncate-->
 
 ## Data-Bind Example
 
