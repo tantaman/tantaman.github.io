@@ -1,0 +1,62 @@
+.coin-chart {
+  overflow-wrap: break-word;
+  line-height: 0px;
+
+  margin-bottom: 20px;
+}
+
+.coin {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+
+  outline: 1px solid black;
+}
+
+:root {
+  --h-bg-color: #cdcdf7;
+  --t-bg-color: #efc3c3;
+
+  --h-run-bg-color: #7474c5;
+  --t-run-bg-color: #dc6868;
+}
+
+@keyframes h-run {
+  from {background-color: var(--h-bg-color);}
+  to {background-color: var(--h-run-bg-color);}
+}
+
+@keyframes t-run {
+  from {background-color: var(--t-bg-color);}
+  to {background-color: var(--t-run-bg-color);}
+}
+
+.side-H {
+  background-color: var(--h-bg-color);
+}
+.side-H.run {
+  background: var(--h-run-bg-color);
+  animation-name: h-run;
+}
+
+.side-T {
+  background-color: var(--t-bg-color);
+}
+.side-T.run {
+  background: var(--t-run-bg-color);
+  animation-name: t-run;
+}
+
+.coin-chart > .run {
+  /* animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate; */
+}
+
+.run-list {
+  margin-bottom: 20px;
+}
+
+.run-list td {
+  text-align: center;
+}
