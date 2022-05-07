@@ -17,6 +17,9 @@ Formally, however, the only constraint is that all peers in a network have the s
 
 This means that the dumbest possible CRDT is just one that (a) has a logical clock and (b) replaces the entire document on every update. This type of CRDT is called a LWW or "last write wins" CRDT.
 
+This is the approach taken by the awareness protocol in Yjs.
+Well that is each client with the doc rather than sharingt he doc... so a bit different.
+
 > todo -- add a diagram, explain logical clocks. Maybe linger on back-channels for information and logical clocks vs physical.
 > 
 > todo -- move into theory and how each new state must be a superset of the prior state and why this property is important to satisfy the conditions of a CRDT
@@ -39,3 +42,7 @@ We'll assume that blocks cannot be re-ordered at the moment. That re-ordering is
 We'll also assume that all blocks have globally unique ids and that the id of a removed block is never re-used when adding a block.
 
 > todo -- finish this section
+
+> todo -- implications. CRDTs can always re-wind and move forward to any point in time.
+
+The subsetting problem. Domains of atomicity.
