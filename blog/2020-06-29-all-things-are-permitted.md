@@ -5,7 +5,7 @@ tags: [pontification]
 
 Its been said that _"if there is no God then all things are permitted."_
 
-Well, that's why we have laws. Precisely because all things _are_ permitted (by nature). Murder, adultery, theft, war, etc. All of these things happen and are able to happen and, being able to happen, are thus permitted.
+Well, that's why we have laws. Precisely because all things _are_ permitted (by nature). Murder, adultery, theft, war, etc. All of these things happen and are able to happen and, being able to happen, are thus permitted.<!--truncate-->
 
 Laws are created to curb what is permitted.
 

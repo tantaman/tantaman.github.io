@@ -4,7 +4,7 @@ title: 'URLs As Display Data'
 tags: [software-engineering, framework]
 ---
 
-I've been toying with the idea that we get something wrong when it comes to URL management and routing in [single page applications (SPAs)](https://developer.mozilla.org/en-US/docs/Glossary/SPA).
+I've been toying with the idea that we get something wrong when it comes to URL management and routing in [single page applications (SPAs)](https://developer.mozilla.org/en-US/docs/Glossary/SPA).<!--truncate-->
 
 The current state of the art in SPAs is to let the URL (the route) drive application logic. We do this by binding UI components to paths. When the current path changes, the router switches out what UI components are visibile.
 

@@ -1,5 +1,4 @@
 ---
-
 title: 'Understanding False Positive Rate'
 tags: [math, demo]
 customjs:
@@ -16,6 +15,7 @@ Throughout the Coronavirus pandemic, the most distressing thing has been the che
 Things have gotten better. Cases, deaths, and hospitalizations are often reported per 100k, rather than being without context. We're also getting information about the percentage of people that test positive out of all the people that were tested.
 
 **But if you test positive for an illness, what is the chance that you really have that illness?**
+<!--truncate-->
 
 Speaking with friends and family, the conversation around the chances of having COVID given a positive test generally goes:
 
@@ -54,7 +54,7 @@ To get a feel for how the different variables impact testing, you can modify the
         <label for="pop-ctrl">Population Size (<span id="pop-legend">10,000</span>)</label>
       </td>
       <td>
-        <input type="range" id="pop-ctrl" min="1000" max="100000" value="10000" step="1000">
+        <input type="range" id="pop-ctrl" min="1000" max="100000" value="10000" step="1000"></input>
       </td>
       </tr>
       <tr>
@@ -62,7 +62,7 @@ To get a feel for how the different variables impact testing, you can modify the
           <label for="prevalence-ctrl">Prevalence (<span id="prevalence-legend">1</span>%)</label>
         </td>
         <td>
-          <input type="range" id="prevalence-ctrl" min="0" max="100" value="1">
+          <input type="range" id="prevalence-ctrl" min="0" max="100" value="1"></input>
         </td>
       </tr>
       <tr>
@@ -70,7 +70,7 @@ To get a feel for how the different variables impact testing, you can modify the
           <label for="fp-rate-ctrl">False Positive Rate (<span id="fp-rate-legend">0.5</span>%)</label>
         </td>
         <td>
-          <input type="range" id="fp-rate-ctrl" max="100" min="0" value="0.5" step="0.5">
+          <input type="range" id="fp-rate-ctrl" max="100" min="0" value="0.5" step="0.5"></input>
         </td>
       </tr>
       <tr>
@@ -78,7 +78,7 @@ To get a feel for how the different variables impact testing, you can modify the
           <label for="fn-rate-ctrl">False Negative Rate (<span id="fn-rate-legend">25</span>%)</label>
         </td>
         <td>
-          <input type="range" id="fn-rate-ctrl" max="100" min="0" value="25" step="1">
+          <input type="range" id="fn-rate-ctrl" max="100" min="0" value="25" step="1"></input>
         </td>
       </tr>
     </tbody>
@@ -148,16 +148,6 @@ To get a feel for how the different variables impact testing, you can modify the
       </div>
     </div>
   </div>
-  <!-- <table class="outcomes-block">
-    <tbody>
-      <tr>
-        <td id="false-neg-ppl"></td>
-        <td id="true-pos-ppl"></td>
-        <td id="true-neg-ppl"></td>
-        <td id="false-pos-ppl"></td>
-      </tr>
-    </tbody>
-  </table> -->
 </div>
 <table class="final-stats">
   <tbody>

@@ -12,6 +12,7 @@ Lines of code like:
 We’re trying to be generic by typing our variable as the interface type but that one call to **_new MercatorPositionCalculator()_** suddenly death-ties the class containing that line to the **_MercatorPositionCalculator_**.
 
 The use of the interface is effectively useless in a line where you directly construct the implementation of the interface.
+<!--truncate-->
 
 ### Dependency Injection
 

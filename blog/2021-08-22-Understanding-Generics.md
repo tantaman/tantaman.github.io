@@ -25,6 +25,7 @@ function identity(x: Object): Object {
   return x;
 }
 ```
+<!--truncate-->
 
 The type makes a world of difference for the caller, however. Adding a generic type param to `identity` allows the caller to retain information about the type of the argument that was passed to identity.
 

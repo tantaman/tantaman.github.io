@@ -4,7 +4,7 @@ title: 'Improving Code Sharing with Yarn Workspaces'
 tags: [software-engineering, sharing-code]
 ---
 
-Sharing code between `JavaScript` & `TypeScript` projects has always been more trouble than it should be.
+Sharing code between `JavaScript` & `TypeScript` projects has always been more trouble than it should be.<!--truncate-->
 
 Say you create a common library and you want to use it in `N > 1` of your other projects.
 

@@ -19,6 +19,7 @@ type Embed = {
   left: number;
 };
 ```
+<!--truncate-->
 
 This is exacerbated, or even further codified, by [Relay](https://relay.dev/) and [GraphQL](https://graphql.org/) where you fetch properties from the server and render them directly (note: Relay and GraphQL are truly revolutionary and amazing technologies by allowing data fetching to be declarative and driven by the client).
 

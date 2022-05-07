@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-01-26-regression-mean-vs-gambler
 title: "Regression to the Mean & the Gambler's Fallacy - Simulated"
 tags: [math, demo]
 customjs:
@@ -16,7 +16,7 @@ There are two seemingly contradictory findings in statistics which apply to inde
 1. Regression to the Mean
 2. The Gambler's Fallacy
 
-**Regression to the mean** is defined as:
+**Regression to the mean** is defined as:<!--truncate-->
 
 > The phenomenon that arises if a sample point of a random variable is extreme (nearly an outlier), a future point will be closer to the mean or average on further measurements. - [Wikipedia](https://en.wikipedia.org/wiki/Regression_toward_the_mean#:~:text=In%20statistics%2C%20regression%20toward%20the,or%20average%20on%20further%20measurements.)
 

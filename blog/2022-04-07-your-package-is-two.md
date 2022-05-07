@@ -7,7 +7,7 @@ mermaid: true
 
 When creating a software package (or module or bundle, pick your term) for others to reuse, there's often a _second_ package in the package that developers overlook.
 
-The second package is the _interface_ package. I.e., the interface that overlays the specific implementation that is your package.
+The second package is the _interface_ package. I.e., the interface that overlays the specific implementation that is your package.<!--truncate-->
 
 As an example, I might provide a codegen package. `CodegenFile`, `CodegenStep`, `CodegenPipeline` and such classes comprise the interface of that package. All the other things are implementation details.
 

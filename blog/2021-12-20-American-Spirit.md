@@ -8,7 +8,7 @@ tags: [pontification]
 
 ---
 
-The spirit of the American is a worthless thing. It has been neutered and seeks to neuter all others. It no longer understands pain and the requirement of pain, the need for pain. That pain brings greatness. It only desires comfort. To be placated and catered to. That any pain it feels is an injustice wrought upon it by oppressors. Oppressors that are everywhere. In language, in capital, in technology, in laws, in the street, in the air, in the snow.
+The spirit of the American is a worthless thing. It has been neutered and seeks to neuter all others. It no longer understands pain and the requirement of pain, the need for pain. That pain brings greatness. It only desires comfort. To be placated and catered to. That any pain it feels is an injustice wrought upon it by oppressors. Oppressors that are everywhere. In language, in capital, in technology, in laws, in the street, in the air, in the snow.<!--truncate-->
 
 The intolerance for pain is so high that the American can no longer stand to even be with himself. When he goes to the toilet to shit a fear wells up in him. A fear that he will have to sit in silence. A silence that would allow his inner thoughts to get through, to reveal the worm he has become. The American takes solace in his phone. His feeds. His notifications. These comfort him in all quiet moments when anything of merit could break through to him. They’re his forever drug, his forever inoculation against anything that dare to make him more.
 

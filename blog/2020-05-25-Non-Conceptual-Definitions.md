@@ -6,7 +6,7 @@ tags: [pontification]
 Philopsophers often question what is "art" or "love" or other words for humanity has never had a solid definition.
 
 The quest to finding a general principle which can define these words is always admirable and bears much fruit (e.g., reading Heidegger's work on coming up with a the nature and definition of "being" is continually mind expanding) but I think words of the class of art
-actually don't have proper conceptual definitions. They are defined by a set of concretes rather than an abstract principle. They are non-conceptual words.
+actually don't have proper conceptual definitions. They are defined by a set of concretes rather than an abstract principle. They are non-conceptual words.<!--truncate-->
 
 Taking art as an example.
 

@@ -9,7 +9,7 @@ I’ve been developing apps for the past ~8 years that use immutable data models
 
 Immutable models solve endless numbers of problems but what I realized is that it isn’t mutation that is so bad. It is being unable to express, commit and record a mutation in one atomic move that is the problem.
 
-**Object oriented languages don’t have a way to express mutations.**
+**Object oriented languages don’t have a way to express mutations.**<!--truncate-->
 
 Yes, you can do assignments:
 
