@@ -29,7 +29,7 @@ const config = {
 
   presets: [
     [
-      'classic',
+      './src/presets/local-preset',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
