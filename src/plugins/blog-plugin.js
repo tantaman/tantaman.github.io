@@ -25,7 +25,16 @@ async function blogPluginExtended(...pluginArgs) {
 
         // These are the props that will be passed to our "Home" page component
         modules: {
-          recentPosts: [],
+          recentPosts: recentPosts.map((post) => ({
+            content: {
+              __import: true,
+              // The markdown file for the blog post will be loaded by webpack
+              path: post.metadata.source,
+              query: {
+                truncated: true,
+              },
+            },
+          })),
         },
       });
 
