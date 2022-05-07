@@ -1,4 +1,0 @@
----
-layout: ig
-permalink: /ig/
----

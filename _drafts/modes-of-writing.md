@@ -1,3 +1,0 @@
-- journaling
-- project noting / thinking through / psuedo-coding
-- publication
