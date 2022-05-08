@@ -1,6 +1,5 @@
 ---
-
-title: "Reactive Markdown"
+title: 'Reactive Markdown'
 tags: [software-engineering, demo]
 jsmodules:
   - /assets/posts/reactive-markdown/main.js
@@ -8,6 +7,10 @@ css:
   - /assets/posts/reactive-markdown/main.css
 image: /assets/posts/reactive-markdown/cover.svg
 ---
+
+import '@site/static/blog-assets/reactive-markdown/main.css';
+
+## DEPRECATED -- moved to mdx.
 
 Many of my blog posts contain interactive demos or content that is generated via `JavaScript`. The prose of my posts, however, is written in `Markdown`. Shuttling data back and forth from the `Markdown` side to the `JS` side can be annoying, especially when data from `JavaScript` needs to be displayed inline with the markdown and updated in real time.
 
@@ -18,6 +21,7 @@ One approach uses a `data-bind` attribute to bind an element to a JS variable. T
 ## Data-Bind Example
 
 In the [JS](https://github.com/tantaman/tantaman.github.io/blob/e11824ea7415f15a765d71aeedfdf6a688bffb75/assets/posts/regression-mean-vs-gambler.js#L168-L202) - export some vars from JS & bind them to the doc
+
 ```js
 // export vars
 const exported_data = {
@@ -38,6 +42,7 @@ bindit(exported_data);
 ```
 
 In the [Markdown](https://raw.githubusercontent.com/tantaman/tantaman.github.io/master/_posts/2021-01-26-regression-mean-vs-gambler.markdown) - leave placeholders for where exported variables will be injected
+
 ```md
 If <i data-bind="run_length"></i> coin tosses produced <i data-bind="run_length"></i> heads,
 the next <i data-bind="run_length"></i> ...
@@ -62,6 +67,7 @@ function bindit(exported_data) {
 Readers that like such a simplistic approach to rendering `JS` values into `HTML` would love my [150 line TODO-MVC app](https://github.com/tantaman/fk-your-frameworks-todomvc) which is written in pure `JS`.
 
 The `data-bind` approach is super simple but:
+
 1. It is a bit verbose to write out `<i data-bind="..."></i>` every time you want to refer to a variable.
 2. The data being exported from `JS` has to be display ready. This can lead to a ton of exports if the same data is re-exported under many formats. I'd rather display-format the exported data in the `Markdown` doc, putting all display time concerns in one spot.
 
@@ -79,44 +85,32 @@ My latest iteration to make authoring interactive blog posts easier is `Reactive
 
 **Simplified example -**
 
-<div class="rmd-illustration">
-<table>
-  <thead>
-    <tr>
-      <td>
-        JS
-      </td>
-      <td>
-        Markdown
-      </td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-<pre>
-setInterval(
-  () => x += 1,
-  500,
-);
-</pre>
-      </td>
-      <td>
-<pre>
-# the count is ${x}
-</pre>
-      </td>
-    </tr>
-    <tr>
-      <td>
-      </td>
-      <td id="simplified-example">
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div className="rmd-illustration">
+  <table>
+    <thead>
+      <tr>
+        <td>JS</td>
+        <td>Markdown</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <pre>setInterval( () => x += 1, 500, );</pre>
+        </td>
+        <td>
+          <pre># the count is $x</pre>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td id="simplified-example"></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-<br/>
+<br />
+
 ### v0.1
 
 The first version of `reactive markdown` is "JavaScript first." In other words, you author everything in a JS file. The next phase will likely end up being an extension, or re-write, of a markdown parser to make this "markdown first."
@@ -127,7 +121,7 @@ Anyway, on to some actual reactive markdown!
 
 <div id="doc"></div>
 
-# Use It
+## Use It
 
 The library is currently called "publisher" and is available [here](https://github.com/tantaman/tantaman.github.io/blob/master/assets/js/publisher.js).
 
