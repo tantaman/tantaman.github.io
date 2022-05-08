@@ -1,8 +1,12 @@
 ---
-
-title:  "Pi Cloud"
+title: 'Pi Cloud'
 tags: [production-engineering]
 ---
+
+import HighLevel from '@site/static/blog-assets/pi-cloud/first/high-level.svg';
+import Deploy from '@site/static/blog-assets/pi-cloud/first/deploy.svg';
+import LogCollect from '@site/static/blog-assets/pi-cloud/first/log-collect.svg';
+
 With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, creating and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and how to `alloc` & `free`.
 
 Well I don't think that those professors were entirely wrong. Of course you want to take advantage of all the abstractions available to you in the modern era but you'll inevitbly have to face low level problems at some point in your career. Joel Spolsky has some great writing on this topic. While I think Joel goes a bit overboard (we're surrounded by abstraction that rarely, if ever, leak) all of this reminds me of his article on [leaky abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/). Tldr: at some point something lower in the stack breaks (or bubbles up), requiring you to understand how it works so you can fix (or accomodate) it.<!--truncate-->
@@ -11,13 +15,13 @@ The most spectacular example I've seen of a leaky abstraction in production was 
 
 All that being said, you don't know which part of the stack is going to end up breaking in your future but some part, deep down, will break. Given that, a good developer should have a passing familiarity with all levels of the stack.
 
-# Getting Started
+## Getting Started
 
 In this series I'll be setting up a full blown cloud, the likes of which you'd see deployed at Facebook, Google, Amazon or Microsoft. The cloud will be scaled down to tens of servers rather than tens of thousands of servers. The hardware we're using will also be exclusively Raspberry Pis.
 
 The princple we'll be using while developing this cloud is that nothing is done until it is fully monitored. We'll call this "monitoring driven development."
 
-# Components
+## Components
 
 Before we can get started we need to understand what components we'll need. When taken together, the set of components should be capable of supporting a diverse and rich array of applications that would be hosted in our cloud.
 
@@ -44,11 +48,12 @@ For our DB tier, we may get into shard maps. TBD.
 
 We may also get into data governance as using user data appropriately (based on whatever consent we've collected from the user), and properly anonymizing and deleting data is a big deal in this era.
 
-# Relationships
+## Relationships
 
 To understand how all of the components connect, let's draw them out.
 
 Below is a high level diagram that shows how requests:
+
 1. Come in from the internet
 2. Hit our load balancer
 3. Get sent to an app server
@@ -59,32 +64,52 @@ Below is a high level diagram that shows how requests:
 8. The DB holds a link (like a file handle) to content in the blob storage
 9. Blob storage content is served to users via CDN
 
-{% include image.html url="/assets/posts/pi-cloud/first/high-level.svg" description="High level diagram of the relationships between the cloud components" %}
+<HighLevel style={{ height: 700 }} />
+<figcaption style={{ textAlign: 'center' }}>
+  <i>High level diagram of the relationships between the cloud components</i>
+</figcaption>
+<br />
 
 We'll somehow have to manage deployment of all of these services to the various Raspberry Pis. Services will describe their resource constraints and a machine will be picked for them to run on.
 
-{% include image.html url="/assets/posts/pi-cloud/first/deploy.svg" description="Deployment is handled by services declaring their resource needs, stacking constraints and number of instances to run. The deployment service will find machines to run the services on that match the constraints." %}
+<Deploy style={{ height: 400 }} />
+<figcaption style={{ textAlign: 'center' }}>
+  <i>
+    Deployment is handled by services declaring their resource needs, stacking
+    constraints and number of instances to run. The deployment service will find
+    machines to run the services on that match the constraints.
+  </i>
+</figcaption>
+<br />
 
 And lastly we have log collection. This may seem unimportant to some but having a central and streamlined way of processing log data will vastly simplify monitoring, alerting, application experimentation, abuse protection, online machine learning and more within our cloud.
 
-{% include image.html url="/assets/posts/pi-cloud/first/log-collect.svg" description="All logs will be collected, or sent, to a central message bus. The bus will distribute the logs to any services that would like to subscribe to them." %}
+<LogCollect style={{ height: 400 }} />
+<figcaption style={{ textAlign: 'center' }}>
+  <i>
+    All logs will be collected, or sent, to a central message bus. The bus will
+    distribute the logs to any services that would like to subscribe to them.
+  </i>
+</figcaption>
+<br />
 
-# Series Format
+## Series Format
 
 We've roughly laid out the vision for this series. Future posts will do a deep dive into each component, what software we pick (or write) to run that component, how we integrate it into the system and then finally how we monitor and test that component.
 
 We'll end up covering topics like:
-* error rates
-* bandwidth usage
-* cpu & memory usage
-* service failover
-* database replication
-* log collection
-* alerting
-* hardware failure remediation
-* when to shard
-* finding bottlenecks
-* when to horizontally vs vertically scale
-* service discovery
-* spam fighting
-* and more!
+
+- error rates
+- bandwidth usage
+- cpu & memory usage
+- service failover
+- database replication
+- log collection
+- alerting
+- hardware failure remediation
+- when to shard
+- finding bottlenecks
+- when to horizontally vs vertically scale
+- service discovery
+- spam fighting
+- and more!
