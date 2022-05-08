@@ -76,7 +76,10 @@ Pipelines are the alternative abstraction that will help us resolve all of the d
 
 Continuing our resource provider example, all of the instances of **IResourceProvider** that we want to chain together will now be held by a **Pipeline** class.
 
-{% include image.html url="/assets/images/inheritance-aggregation-pipelines/pipeline.png" description="The Pipeline holds a list of IResourceProviders instead of the IResourceProviders holding one another." %}
+<Figure
+  url={pipeline}
+  description="The Pipeline holds a list of IResourceProviders instead of the IResourceProviders holding one another."
+/>
 
 As you can see the **Pipeline** holds an arbitrary number of **IResourceProviders** and allows **IResourceProvider** instances to be added and removed. The **Pipeline** also implements the **IResourceProvider** interface since you’ll invoke methods on the pipeline which will forward those invocations to the members of the pipeline.
 
@@ -109,26 +112,31 @@ Pipelining also allows us to build more and more complex processing without ever
 
 The simplest pipeline just invokes a method on every handler it contains. Kind of like notifying listeners. Of course this is not always how you would like to do things so a more robust pipeline passes a “**next**” or “**context**” object to each member of the pipeline that it calls. Using the context object, members of the pipeline can choose to stop a call from continuing down the pipeline or make adjustments to the parameters of a call as it moves down the pipeline.
 
-{% include image.html url="/assets/images/inheritance-aggregation-pipelines/pipeline-context.png" description="A new interface for items in the pipeline. The Context object can be used to stop calls from moving down the pipeline among other things." %}
+<Figure
+  url={pipelineContext}
+  description="A new interface for items in the pipeline. The Context object can be used to stop calls from moving down the pipeline among other things."
+/>
 
 A common use for the **Context** object is to allow members of the pipeline to choose when to call the next member of the pipeline. The context object could also allow a member of the pipeline to pass an updated set of parameters to the next member.
 
-    // An example of a member of the ResourceProvider Pipeline.
-    public class LRUCachedResourceProvider implements IPipelinedResourceProvider {
-      …
-      public void get(String uri, Context ctx) {
-        if (cacheContains(uri)) {
-          // we found it in our cache so return and don’t
-          // call the next member of the pipeline.
-          return getCachedValue(uri);
-        } else {
-          // It wasn’t in the cache.  Forward call to
-          // the next handler in the pipeline.
-          return ctx.nextGet(uri, ctx);
-        }
-      }
-      …
+```java
+// An example of a member of the ResourceProvider Pipeline.
+public class LRUCachedResourceProvider implements IPipelinedResourceProvider {
+  …
+  public void get(String uri, Context ctx) {
+    if (cacheContains(uri)) {
+      // we found it in our cache so return and don’t
+      // call the next member of the pipeline.
+      return getCachedValue(uri);
+    } else {
+      // It wasn’t in the cache.  Forward call to
+      // the next handler in the pipeline.
+      return ctx.nextGet(uri, ctx);
     }
+  }
+  …
+}
+```
 
 If you want to see the pipeline pattern in practice you can check out the Netty project and their [ChannelPipeline](http://docs.jboss.org/netty/3.2/api/org/jboss/netty/channel/ChannelPipeline.html).
 

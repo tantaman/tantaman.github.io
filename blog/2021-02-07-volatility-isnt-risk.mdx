@@ -1,21 +1,28 @@
 ---
-
-title:  "Volatility isn't Risk"
+title: "Volatility isn't Risk"
 tags: [finance, math]
 css:
   - /assets/posts/volatility-is-not-risk/style.css
 image: /assets/posts/volatility-is-not-risk/cover.svg
 ---
 
+import Figure from '@site/src/components/Figure';
+import Volatile from '@site/static/blog-assets/volatility-is-not-risk/volatile.svg';
+import PeakTrough from '@site/static/blog-assets/volatility-is-not-risk/peak-trough.svg';
+
 The biggest lie in investing is that volatiliy = risk.
 
 This is bogus. It misses the point of risk. Risk is about the chance of losing your principal in an investment. Volatility does not capture that whatsoever. What does it matter if the price of an investment swings wildly up and down, so long as the mean of those swings always trends upwards?<!--truncate-->
 
-# Example
+## Example
 
 The graph below is a highly volatile investment but the trend of the volatility is always upwards. If we've done our own risk assessment then this sort of upwards volatility doesn't matter to us.
 
-{% include image.html url="/assets/posts/volatility-is-not-risk/volatile.svg" description="Volatile but low risk" %}
+<Volatile style={{ width: 600, height: 400 }} />
+<figcaption style={{ textAlign: 'center' }}>
+  <i>Volatile but low risk</i>
+</figcaption>
+<br />
 
 An oft repeated mantra in investing is that “past performance doesn’t guarantee future performance.” If we know this then why do we think that past volatility can somehow predict future risk? One theory is that academics are searching for a way to quantify risk. Another is that figuring out when to buy and sell a volatile investment looks difficult and risky.
 
@@ -23,9 +30,13 @@ An oft repeated mantra in investing is that “past performance doesn’t guaran
 
 If a stock is extremely volatile, when do you buy in and when do you sell? You wouldn't want to end up buying at a peak and killing your returns if you sell in a dip.
 
-{% include image.html url="/assets/posts/volatility-is-not-risk/peak-trough.svg" description="Red - buys peak, sells future dip. Blue - buys dip, sells future peak" %}
+<PeakTrough style={{ width: 600, height: 400 }} />
+<figcaption style={{ textAlign: 'center' }}>
+  <i>Red - buys peak, sells future dip. Blue - buys dip, sells future peak</i>
+</figcaption>
+<br />
 
-In the above example, **<span class="blue">blue</span>** makes a killer return and **<span class="red">red</span>** makes a shitty return even though they both hold the investment for nearly the same period of time. This problem of buying and selling volatile investments is why many investors end up equating volatility with risk. We can easily compensate for price swings through two techniques, however.
+In the above example, **<span className="blue">blue</span>** makes a killer return and **<span className="red">red</span>** makes a shitty return even though they both hold the investment for nearly the same period of time. This problem of buying and selling volatile investments is why many investors end up equating volatility with risk. We can easily compensate for price swings through two techniques, however.
 
 1. The time horizon for holding an investment should always be long term. If you don't believe in the investment enough to hold it for more than 5 years, you shouldn't buy it.
 2. Dollar cost averaging.
@@ -38,4 +49,13 @@ Dollar cost average is a very passive way of buying and selling. Something I'd r
 
 So how do you assess the risk of an investment? Stay tuned for the next post.
 
-<center><iframe width="560" height="315" src="https://www.youtube.com/embed/KmQk4zkrdzU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
+<center>
+  <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/KmQk4zkrdzU"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  ></iframe>
+</center>
