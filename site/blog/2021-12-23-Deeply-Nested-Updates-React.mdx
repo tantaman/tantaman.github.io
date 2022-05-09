@@ -5,8 +5,6 @@ tags: [software-engineering, react, framework]
 ---
 
 import Figure from '../components/Figure';
-import deeplyNested from '../static/blog-assets/deeply-nested-updates/deeply-nested.png';
-import deeplyNestedReRender from '../static/blog-assets/deeply-nested-updates/deeply-nested-re-render.png';
 
 Something irks me about React. It's how [inefficiently it handles deeply nested updates](https://youtu.be/AdNJ3fydeao).
 
@@ -18,7 +16,10 @@ Let's take a presentation editor (e.g., powerpoint / keynote or [strut.io](https
 
 The component hierarchy might look something like:
 
-<Figure url={deeplyNested} description="App Components" />
+<Figure
+  url="./blog-assets/deeply-nested-updates/deeply-nested.png"
+  description="App Components"
+/>
 
 Which, in code, looks like:
 
@@ -102,7 +103,7 @@ If `appState` is immutable, an update to a deeply nested property like `blockSta
 We only wanted to re-render the leaves -- `BlockOptions` and `MarkdownEditor` but we ended up re-rendering the entire component graph.
 
 <Figure
-  url={deeplyNestedReRender}
+  url="./blog-assets/deeply-nested-updates/deeply-nested-re-render.png"
   description="Everything in <font color='red'>red</font> re-renders, but we only needed to re-render the stuff in <font color='blue'>blue</font>"
 />
 
