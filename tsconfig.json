@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "strict": true,
+    "outDir": "./dist/",
+    "rootDir": "./src",
     "module": "ES2020",
     "moduleResolution": "Node",
     "target": "ES2017",
@@ -14,5 +16,6 @@
     "compilerOptions": {
       "module": "CommonJS"
     }
-  }
+  },
+  "include": ["./src/"]
 }
