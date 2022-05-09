@@ -3,14 +3,11 @@ slug: 2021-02-07-volatility-isnt-risk
 title: "Volatility isn't Risk"
 tags: [finance, math]
 css:
-  - /assets/posts/volatility-is-not-risk/style.css
+  - ../static/blog-assets/volatility-is-not-risk/style.css
 image: /assets/posts/volatility-is-not-risk/cover.svg
 ---
 
 import Figure from '../components/Figure';
-import Volatile from '../static/blog-assets/volatility-is-not-risk/volatile.svg';
-import PeakTrough from '../static/blog-assets/volatility-is-not-risk/peak-trough.svg';
-import '../static/blog-assets/volatility-is-not-risk/style.css';
 
 The biggest lie in investing is that volatiliy = risk.
 
@@ -20,7 +17,10 @@ This is bogus. It misses the point of risk. Risk is about the chance of losing y
 
 The graph below is a highly volatile investment but the trend of the volatility is always upwards. If we've done our own risk assessment then this sort of upwards volatility doesn't matter to us.
 
-<Volatile style={{ width: 600, height: 400 }} />
+<img
+  src="./blog-assets/volatility-is-not-risk/volatile.svg"
+  style={{ width: 600, height: 400 }}
+/>
 <figcaption style={{ textAlign: 'center' }}>
   <i>Volatile but low risk</i>
 </figcaption>
@@ -32,7 +32,10 @@ An oft repeated mantra in investing is that “past performance doesn’t guaran
 
 If a stock is extremely volatile, when do you buy in and when do you sell? You wouldn't want to end up buying at a peak and killing your returns if you sell in a dip.
 
-<PeakTrough style={{ width: 600, height: 400 }} />
+<img
+  src="./blog-assets/volatility-is-not-risk/peak-trough.svg"
+  style={{ width: 600, height: 400 }}
+/>
 <figcaption style={{ textAlign: 'center' }}>
   <i>Red - buys peak, sells future dip. Blue - buys dip, sells future peak</i>
 </figcaption>

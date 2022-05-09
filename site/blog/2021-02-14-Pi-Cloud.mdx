@@ -4,10 +4,6 @@ title: 'Pi Cloud'
 tags: [production-engineering]
 ---
 
-import HighLevel from '../static/blog-assets/pi-cloud/first/high-level.svg';
-import Deploy from '../static/blog-assets/pi-cloud/first/deploy.svg';
-import LogCollect from '../static/blog-assets/pi-cloud/first/log-collect.svg';
-
 With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, creating and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and how to `alloc` & `free`.
 
 Well I don't think that those professors were entirely wrong. Of course you want to take advantage of all the abstractions available to you in the modern era but you'll inevitbly have to face low level problems at some point in your career. Joel Spolsky has some great writing on this topic. While I think Joel goes a bit overboard (we're surrounded by abstraction that rarely, if ever, leak) all of this reminds me of his article on [leaky abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/). Tldr: at some point something lower in the stack breaks (or bubbles up), requiring you to understand how it works so you can fix (or accomodate) it.
@@ -65,7 +61,10 @@ Below is a high level diagram that shows how requests:
 8. The DB holds a link (like a file handle) to content in the blob storage
 9. Blob storage content is served to users via CDN
 
-<HighLevel style={{ height: 700 }} />
+<img
+  src="./blog-assets/pi-cloud/first/high-level.svg"
+  style={{ height: 700 }}
+/>
 <figcaption style={{ textAlign: 'center' }}>
   <i>High level diagram of the relationships between the cloud components</i>
 </figcaption>
@@ -73,7 +72,7 @@ Below is a high level diagram that shows how requests:
 
 We'll somehow have to manage deployment of all of these services to the various Raspberry Pis. Services will describe their resource constraints and a machine will be picked for them to run on.
 
-<Deploy style={{ height: 400 }} />
+<img src="./blog-assets/pi-cloud/first/deploy.svg" style={{ height: 400 }} />
 <figcaption style={{ textAlign: 'center' }}>
   <i>
     Deployment is handled by services declaring their resource needs, stacking
@@ -85,7 +84,10 @@ We'll somehow have to manage deployment of all of these services to the various 
 
 And lastly we have log collection. This may seem unimportant to some but having a central and streamlined way of processing log data will vastly simplify monitoring, alerting, application experimentation, abuse protection, online machine learning and more within our cloud.
 
-<LogCollect style={{ height: 400 }} />
+<img
+  src="./blog-assets/pi-cloud/first/log-collect.svg"
+  style={{ height: 400 }}
+/>
 <figcaption style={{ textAlign: 'center' }}>
   <i>
     All logs will be collected, or sent, to a central message bus. The bus will
