@@ -4,10 +4,10 @@ title: 'Understanding False Positive Rate'
 tags: [math, demo]
 customjs:
   - /assets/posts/false-positive-rate.js
-css:
-  - /assets/posts/false-positive-rate.css
 image: /assets/posts/understanding-fp-rate.svg
 ---
+
+import '@site/static/blog-assets/false-positive-rate.css';
 
 [Jump to the simulation](#prior-probability)
 
@@ -16,16 +16,37 @@ Throughout the Coronavirus pandemic, the most distressing thing has been the che
 Things have gotten better. Cases, deaths, and hospitalizations are often reported per 100k, rather than being without context. We're also getting information about the percentage of people that test positive out of all the people that were tested.
 
 **But if you test positive for an illness, what is the chance that you really have that illness?**
+
 <!--truncate-->
 
 Speaking with friends and family, the conversation around the chances of having COVID given a positive test generally goes:
 
 <ul class="dialogue">
-<li><strong>Me:</strong> <q>What do you think the chances are of having COVID if you test positive for COVID?</q></li>
-<li><strong>Friend/Family:</strong> <q>What's the false positive rate of the test?</q></li>
-<li><strong>Me:</strong> <q>0.5%</q></li>
-<li><strong>F/F:</strong> <q>Then there's a 99.5% chance that you do have COVID.</q></li>
-<li><strong>Me:</strong> <q>That's actually not how false positive rate works. You have to account for prevalence of the disease.</q></li>
+  <li>
+    <strong>Me:</strong>{' '}
+    <q>
+      What do you think the chances are of having COVID if you test positive for
+      COVID?
+    </q>
+  </li>
+  <li>
+    <strong>Friend/Family:</strong>{' '}
+    <q>What's the false positive rate of the test?</q>
+  </li>
+  <li>
+    <strong>Me:</strong> <q>0.5%</q>
+  </li>
+  <li>
+    <strong>F/F:</strong>{' '}
+    <q>Then there's a 99.5% chance that you do have COVID.</q>
+  </li>
+  <li>
+    <strong>Me:</strong>{' '}
+    <q>
+      That's actually not how false positive rate works. You have to account for
+      prevalence of the disease.
+    </q>
+  </li>
 </ul>
 
 To cut to the chase, you can actually have a false positive rate of 0.5% but still have 50% of positive test results be incorrect! Or even 60, 70, 80, 90 all the way up to 100% incorrect positive results!
@@ -49,46 +70,81 @@ What is going on is that the prior probability of having a disease impacts the a
 To get a feel for how the different variables impact testing, you can modify the prevalence, false positive and false negative rates below to see the various outcomes.
 
 <table class="demo-controls">
-    <tbody>
-      <tr>
+  <tbody>
+    <tr>
       <td>
-        <label for="pop-ctrl">Population Size (<span id="pop-legend">10,000</span>)</label>
+        <label for="pop-ctrl">
+          Population Size (<span id="pop-legend">10,000</span>)
+        </label>
       </td>
       <td>
-        <input type="range" id="pop-ctrl" min="1000" max="100000" value="10000" step="1000"></input>
+        <input
+          type="range"
+          id="pop-ctrl"
+          min="1000"
+          max="100000"
+          value="10000"
+          step="1000"
+        ></input>
       </td>
-      </tr>
-      <tr>
-        <td>
-          <label for="prevalence-ctrl">Prevalence (<span id="prevalence-legend">1</span>%)</label>
-        </td>
-        <td>
-          <input type="range" id="prevalence-ctrl" min="0" max="100" value="1"></input>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label for="fp-rate-ctrl">False Positive Rate (<span id="fp-rate-legend">0.5</span>%)</label>
-        </td>
-        <td>
-          <input type="range" id="fp-rate-ctrl" max="100" min="0" value="0.5" step="0.5"></input>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label for="fn-rate-ctrl">False Negative Rate (<span id="fn-rate-legend">25</span>%)</label>
-        </td>
-        <td>
-          <input type="range" id="fn-rate-ctrl" max="100" min="0" value="25" step="1"></input>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    </tr>
+    <tr>
+      <td>
+        <label for="prevalence-ctrl">
+          Prevalence (<span id="prevalence-legend">1</span>%)
+        </label>
+      </td>
+      <td>
+        <input
+          type="range"
+          id="prevalence-ctrl"
+          min="0"
+          max="100"
+          value="1"
+        ></input>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="fp-rate-ctrl">
+          False Positive Rate (<span id="fp-rate-legend">0.5</span>%)
+        </label>
+      </td>
+      <td>
+        <input
+          type="range"
+          id="fp-rate-ctrl"
+          max="100"
+          min="0"
+          value="0.5"
+          step="0.5"
+        ></input>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="fn-rate-ctrl">
+          False Negative Rate (<span id="fn-rate-legend">25</span>%)
+        </label>
+      </td>
+      <td>
+        <input
+          type="range"
+          id="fn-rate-ctrl"
+          max="100"
+          min="0"
+          value="25"
+          step="1"
+        ></input>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <div class="full-info-box">
   <center class="pop-readout">
     <span>
       <span class="pop-num" id="pop-value">
-      1,000
+        1,000
       </span>
       <span class="person">
         <div class="head"></div>
@@ -104,14 +160,18 @@ To get a feel for how the different variables impact testing, you can modify the
   <div class="have-not-have">
     <div class="prevalence left">
       <div class="vertical-bar"></div>
-      <div class="readout"><span id="infected-value">y</span></div>
+      <div class="readout">
+        <span id="infected-value">y</span>
+      </div>
       <div class="readout">have COVID</div>
       <div class="vertical-bar"></div>
     </div>
     <div class="not-have right">
       <div class="vertical-bar"></div>
       <div class="clear"></div>
-      <div class="readout"><span id="healthy-value">x</span></div>
+      <div class="readout">
+        <span id="healthy-value">x</span>
+      </div>
       <div class="readout">do not have COVID</div>
       <div class="vertical-bar"></div>
       <div class="clear"></div>
@@ -122,13 +182,17 @@ To get a feel for how the different variables impact testing, you can modify the
     <div class="infected-tree">
       <div class="left">
         <div class="vertical-bar"></div>
-        <div class="readout"><span id="false-neg-value"></span></div>
+        <div class="readout">
+          <span id="false-neg-value"></span>
+        </div>
         <div class="readout">tested -</div>
       </div>
       <div class="right">
         <div class="vertical-bar"></div>
         <div class="clear"></div>
-        <div class="readout"><span id="true-pos-value"></span></div>
+        <div class="readout">
+          <span id="true-pos-value"></span>
+        </div>
         <div class="readout">tested +</div>
         <div class="clear"></div>
       </div>
@@ -137,13 +201,17 @@ To get a feel for how the different variables impact testing, you can modify the
     <div class="healthy-tree">
       <div class="left">
         <div class="vertical-bar"></div>
-        <div class="readout"><span id="true-neg-value"></span></div>
+        <div class="readout">
+          <span id="true-neg-value"></span>
+        </div>
         <div class="readout">tested -</div>
       </div>
       <div class="right">
         <div class="vertical-bar"></div>
         <div class="clear"></div>
-        <div class="readout"><span id="false-pos-value"></span></div>
+        <div class="readout">
+          <span id="false-pos-value"></span>
+        </div>
         <div class="readout">tested +</div>
         <div class="clear"></div>
       </div>
@@ -154,15 +222,19 @@ To get a feel for how the different variables impact testing, you can modify the
   <tbody>
     <tr>
       <td>Negative results that are wrong </td>
-      <td><span id="negative-wrong-value"></span>%</td>
+      <td>
+        <span id="negative-wrong-value"></span>%
+      </td>
     </tr>
     <tr>
       <td>Positive results that are wrong </td>
-      <td><span id="positive-wrong-value">y</span>%</td>
+      <td>
+        <span id="positive-wrong-value">y</span>%
+      </td>
     </tr>
   </tbody>
 </table>
-<br/>
+<br />
 ## On Case Numbers
 
 All of this sheds a different light on case numbers. Are reported numbers only based on testing, or are they compensating for the number of incorrect test results?
@@ -170,10 +242,11 @@ All of this sheds a different light on case numbers. Are reported numbers only b
 To compensate for incorrect test results, you can calculate test positivity. Test positivity represents the fraction of people tested that had a positive result. If you have high test positivity then you will have many fewer positive results that are incorrect.
 
 ### TODO:
-* More stuff for me to write:
-  * Explain Bayes theorem
-  * Interactive plot of positivity vs false positives
-  * On editorializing
+
+- More stuff for me to write:
+  - Explain Bayes theorem
+  - Interactive plot of positivity vs false positives
+  - On editorializing
 
 **References:**<br/>
 https://www.icd10monitor.com/false-positives-in-pcr-tests-for-covid-19<br/>
