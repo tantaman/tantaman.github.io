@@ -1,10 +1,9 @@
 {
   "scripts": {
-    "dev": "pnpm run server",
-    "prod": "pnpm run build && pnpm run server:prod",
-    "build": "vite build && vite build --ssr",
-    "server": "node ./server",
-    "server:prod": "cross-env NODE_ENV=production node ./server"
+    "bsite": "node compiler/build.js",
+    "bfwrk": "tsc build",
+    "wfwrk": "tsc watch",
+    "chtml": "cp src/*.html dist"
   },
   "type": "module",
   "dependencies": {
