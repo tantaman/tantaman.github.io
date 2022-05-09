@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-08-22-Understanding-Generics
 title: "Understanding Generics"
 tags: [software-engineering]
 ---

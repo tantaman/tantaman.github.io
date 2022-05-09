@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-12-20-American-Spirit
 title: 'American Spirit'
 tags: [pontification]
 ---

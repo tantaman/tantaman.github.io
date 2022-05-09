@@ -1,4 +1,5 @@
 ---
+slug: 2020-05-17-dangerous-ideas
 title:  Dangerous. Ideas.
 tags: [pontification]
 ---

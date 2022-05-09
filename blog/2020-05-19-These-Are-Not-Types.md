@@ -1,4 +1,5 @@
 ---
+slug: 2020-05-19-These-Are-Not-Types
 title: These are not types
 tags: [software-engineering]
 ---

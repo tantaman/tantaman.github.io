@@ -1,5 +1,5 @@
 ---
-
+slug: 2022-04-07-your-package-is-two
 title: 'Your One Package Might Be Two'
 tags: [software-engineering]
 mermaid: true

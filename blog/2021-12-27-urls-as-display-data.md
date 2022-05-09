@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-12-27-urls-as-display-data
 title: 'URLs As Display Data'
 tags: [software-engineering, framework]
 ---

@@ -1,5 +1,5 @@
 ---
-
+slug: 2022-04-25-doing-for-others
 title: 'Past, Present, Future - Doing for Others'
 tags: [philosophy, religion]
 ---

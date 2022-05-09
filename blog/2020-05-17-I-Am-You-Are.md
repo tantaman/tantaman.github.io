@@ -1,4 +1,5 @@
 ---
+slug: 2020-05-17-I-Am-You-Are
 title: I am. You are?
 tags: [pontification]
 ---

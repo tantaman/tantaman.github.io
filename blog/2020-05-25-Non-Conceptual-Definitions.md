@@ -1,4 +1,5 @@
 ---
+slug: 2020-05-25-Non-Conceptual-Definitions
 title: Non Conceptual Definitions
 tags: [pontification]
 ---
