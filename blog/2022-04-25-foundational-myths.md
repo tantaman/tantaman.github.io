@@ -1,4 +1,5 @@
 ---
+slug: 2022-04-25-foundational-myths
 title: 'Memes & Themes - 1619 Project'
 tags: [politics]
 ---

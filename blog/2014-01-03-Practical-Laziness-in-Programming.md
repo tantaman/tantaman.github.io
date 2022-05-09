@@ -1,4 +1,5 @@
 ---
+slug: 2014-01-03-Practical-Laziness-in-Programming
 title: Practical Laziness in Programming
 tags: [software-engineering]
 ---

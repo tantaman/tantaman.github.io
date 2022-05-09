@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-12-27-Personal-Vision
 title: 'Vision'
 tags: [vision]
 ---

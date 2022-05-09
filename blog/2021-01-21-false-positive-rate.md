@@ -1,4 +1,5 @@
 ---
+slug: 2021-01-21-false-positive-rate
 title: 'Understanding False Positive Rate'
 tags: [math, demo]
 customjs:

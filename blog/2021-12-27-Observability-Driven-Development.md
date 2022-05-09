@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-12-27-Observability-Driven-Development
 title: 'Observability Driven Development'
 tags: [software-engineering odd]
 ---

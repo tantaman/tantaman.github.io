@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-04-05-Religion-Last
 title:  "What if Religion is last?"
 tags: [pontification]
 ---

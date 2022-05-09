@@ -1,4 +1,5 @@
 ---
+slug: 2020-06-29-all-things-are-permitted
 title: All Things are Permitted
 tags: [pontification]
 ---

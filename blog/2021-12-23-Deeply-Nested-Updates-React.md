@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-12-23-Deeply-Nested-Updates-React
 title: 'Reacting Better - Deeply Nested Update Problem'
 tags: [software-engineering, react, framework]
 ---

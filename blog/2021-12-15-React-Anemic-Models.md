@@ -1,5 +1,5 @@
 ---
-
+slug: 2021-12-15-React-Anemic-Models
 title: 'Reacting Better. Intro: Anemic Models'
 tags: [software-engineering, react]
 ---
