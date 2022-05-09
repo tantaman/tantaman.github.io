@@ -15,14 +15,18 @@ async function build(collection) {
     ]),
   );
 
-  console.log(artifacts);
-
   await fs.promises.mkdir(dest, { recursive: true });
   await Promise.all(
     artifacts.map(
-      async ([path, a]) => await fs.promises.writeFile(path, JSON.stringify(a)),
+      async ([path, a]) =>
+        await fs.promises.writeFile(path + '.json', JSON.stringify(a)),
     ),
   );
 }
 
-await build('blog');
+await Promise.all([
+  build('blog'),
+  build('pages'),
+  build('tweets'),
+  build('crumbs'),
+]);
