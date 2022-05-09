@@ -4,6 +4,10 @@ title: 'Reacting Better - Deeply Nested Update Problem'
 tags: [software-engineering, react, framework]
 ---
 
+import Figure from '@site/src/components/Figure';
+import deeplyNested from '@site/static/blog-assets/deeply-nested-updates/deeply-nested.png';
+import deeplyNestedReRender from '@site/static/blog-assets/deeply-nested-updates/deeply-nested-re-render.png';
+
 Something irks me about React. It's how [inefficiently it handles deeply nested updates](https://youtu.be/AdNJ3fydeao).<!--truncate-->
 
 React apps, like any app, will have a display hierarchy of deeply nested components. The root component being the entrypoint of the app, the leaves being the individual buttons, table rows and text rendered by the app.
@@ -14,7 +18,7 @@ Let's take a presentation editor (e.g., powerpoint / keynote or [strut.io](https
 
 The component hierarchy might look something like:
 
-{% include image.html url="/assets/posts/deeply-nested-updates/deeply-nested.png" description="App Components" %}
+<Figure url={deeplyNested} description="App Components" />
 
 Which, in code, looks like:
 
@@ -85,7 +89,7 @@ appState {
 }
 ```
 
-<br/>
+<br />
 
 # Updates
 
@@ -97,7 +101,10 @@ If `appState` is immutable, an update to a deeply nested property like `blockSta
 
 We only wanted to re-render the leaves -- `BlockOptions` and `MarkdownEditor` but we ended up re-rendering the entire component graph.
 
-{% include image.html url="/assets/posts/deeply-nested-updates/deeply-nested-re-render.png" description="Everything in <font color='red'>red</font> re-renders, but we only needed to re-render the stuff in <font color='blue'>blue</font>" %}
+<Figure
+  url={deeplyNestedReRender}
+  description="Everything in <font color='red'>red</font> re-renders, but we only needed to re-render the stuff in <font color='blue'>blue</font>"
+/>
 
 # What Do?
 
@@ -136,6 +143,6 @@ I've not discussed physical identity in detail but pysical identity means that t
 
 # Framework
 
-I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework, based on the work outlined here, which I'll be publishing in the following week.
+I've built out a [React Hook](https://reactjs.org/docs/hooks-intro.html) framework, based on the work outlined here, which I'll be publishing as part of [Aphrodite](https://github.com/tantaman/aphrodite).
 
 <!-- TODO next post -->
