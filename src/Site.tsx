@@ -16,6 +16,12 @@ export default function Site() {
         return target.apply(thisArg, argArray);
       },
     });
+
+    const listener = () => {
+      setSiteState(decodeUrl());
+    };
+    window.addEventListener('popstate', listener);
+    return () => window.removeEventListener('popstate', listener);
   }, []);
   return (
     <QueryClientProvider client={queryClient}>
