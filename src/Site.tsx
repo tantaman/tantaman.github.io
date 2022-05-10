@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './support/Header';
 import { SiteState } from './support/Domain';
 import Blog from './Blog';
@@ -8,8 +8,15 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();
 export default function Site() {
-  const siteState = decodeUrl();
-  // TODO: Listen for URL changes?
+  const [siteState, setSiteState] = useState<SiteState>(decodeUrl());
+  useEffect(() => {
+    window.history.pushState = new Proxy(window.history.pushState, {
+      apply: (target, thisArg, argArray: [any, string, string]) => {
+        setSiteState(decodeUrl(argArray[2]));
+        return target.apply(thisArg, argArray);
+      },
+    });
+  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <Header />
@@ -23,7 +30,7 @@ export default function Site() {
 function Routed({ state }: { state: SiteState }) {
   switch (state.section) {
     case 'blog':
-      return <Blog />;
+      return <Blog state={state} />;
     case 'tweets':
       return <Tweets />;
     case 'home':
