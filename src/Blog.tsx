@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Link from './support/Link';
+import stripExtension from './support/stripExtension';
 
 export default function Blog() {
   const [index, setIndex] = useState<{ [key: string]: {} }>();
@@ -8,6 +10,18 @@ export default function Blog() {
       setIndex(json);
     });
   }, []);
-  console.log(index);
-  return <div>Blog</div>;
+  if (index == null) {
+    return <div></div>;
+  }
+  return (
+    <div>
+      <ul>
+        {Object.entries(index).map(([key, matter]) => (
+          <li key={key}>
+            <Link path={`/blog/${stripExtension(key)}`}>{key}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

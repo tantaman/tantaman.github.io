@@ -1,4 +1,5 @@
 import reactRefresh from '@vitejs/plugin-react';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -6,5 +7,5 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
   },
-  plugins: [reactRefresh()],
+  plugins: [reactRefresh(), vanillaExtractPlugin()],
 });

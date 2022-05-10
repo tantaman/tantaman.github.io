@@ -14,7 +14,3 @@ export default function UrlBar({ state }: { state: SiteState }) {
 
   return null;
 }
-
-export function decodeUrl(): {} {
-  return {};
-}

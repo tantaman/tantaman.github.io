@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Header from './support/Header';
 import { SiteState } from './support/Domain';
-import UrlBar from './support/UrlBar';
 import Blog from './Blog';
 import Tweets from './Tweets';
+import { decodeUrl } from './support/decodeUrl';
 
 export default function Site() {
-  const [siteState, setSiteState] = useState<SiteState>({
-    section: 'blog',
-  });
+  const siteState = decodeUrl();
+  // Listen for URL changes?
   return (
     <>
-      <UrlBar state={siteState} />
       <Header />
       <main>
         <Routed state={siteState} />
@@ -26,5 +24,7 @@ function Routed({ state }: { state: SiteState }) {
       return <Blog />;
     case 'tweets':
       return <Tweets />;
+    case 'home':
+      return <div>Home</div>;
   }
 }
