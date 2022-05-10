@@ -1,4 +1,5 @@
 {
+  "name": "tantamanlands",
   "scripts": {
     "bcontent": "node compiler/build.js",
     "start": "vite",
@@ -14,6 +15,7 @@
     "@mdx-js/react": "^2.1.1",
     "@mdx-js/rollup": "^2.1.1",
     "@vanilla-extract/css": "^1.7.0",
+    "@vanilla-extract/vite-plugin": "^3.1.6",
     "memoize-one": "^6.0.0",
     "react": "^18",
     "react-dom": "^18"
