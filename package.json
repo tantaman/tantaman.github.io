@@ -13,6 +13,7 @@
     "@mdx-js/mdx": "^2.1.1",
     "@mdx-js/react": "^2.1.1",
     "@mdx-js/rollup": "^2.1.1",
+    "@vanilla-extract/css": "^1.7.0",
     "memoize-one": "^6.0.0",
     "react": "^18",
     "react-dom": "^18"
