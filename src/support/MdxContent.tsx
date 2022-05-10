@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import memoizeOne from 'memoize-one';
 import { getMDXComponent } from 'mdx-bundler/client';
+import { useQuery } from 'react-query';
+import api from '../api/api';
 
 function MdxContent({ path }: { path: string }) {
-  const [data, setData] = useState<{ code: string } | null>(null);
-  useEffect(() => {
-    fetch(path).then(async (response) => {
-      const json = await response.json();
-      setData(json);
-    });
-  }, [path]);
+  const { isLoading, error, data } = useQuery('blog/index', api.content(path));
 
   if (data == null) {
     return <div></div>;
