@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import memoizeOne from 'memoize-one';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { useQuery } from 'react-query';
