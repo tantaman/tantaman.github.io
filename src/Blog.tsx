@@ -1,12 +1,20 @@
+import path from 'path';
 import React from 'react';
 import { useQuery } from 'react-query';
 import api from './api/api';
 import { BlogState } from './support/Domain';
 import Link from './support/Link';
 import stripExtension from './support/stripExtension';
+import MdxContent from './support/MdxContent';
 
 export default function Blog({ state }: { state: BlogState }) {
-  console.log(state);
+  if (state.post) {
+    return <BlogPost post={state.post} />;
+  }
+  return <BlogHome />;
+}
+
+function BlogHome() {
   const { isLoading, error, data } = useQuery('blog/index', api.index('blog'));
   if (data == null) {
     return <div></div>;
@@ -22,4 +30,10 @@ export default function Blog({ state }: { state: BlogState }) {
       </ul>
     </div>
   );
+}
+
+function BlogPost({ post }: { post: string }) {
+  const path = `blog/${post}.mdx`;
+
+  return <MdxContent path={path} />;
 }
