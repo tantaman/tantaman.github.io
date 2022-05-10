@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { getMDXComponent } from 'mdx-bundler/client';
+import Header from './Header';
+import { SiteState } from './Domain';
+import UrlBar from './UrlBar';
+import Blog from './Blog';
+import Tweets from './Tweets';
 
 function MDXPage({ code }: { code: string }) {
   const Component = getMDXComponent(code);
-  return (
-    <main>
-      <Component />
-    </main>
-  );
+  return <Component />;
 }
-
-export default function Site() {
-  const [data, setData] = useState<{ code: string } | null>(null);
+/*
+const [data, setData] = useState<{ code: string } | null>(null);
   useEffect(() => {
     fetch(
       '/built/blog/2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx.json',
@@ -20,5 +20,28 @@ export default function Site() {
       setData(json);
     });
   }, []);
-  return <div>{data != null ? <MDXPage code={data.code} /> : null}</div>;
+*/
+
+export default function Site() {
+  const [siteState, setSiteState] = useState<SiteState>({
+    section: 'blog',
+  });
+  return (
+    <>
+      <UrlBar state={siteState} />
+      <Header />
+      <main>
+        <Routed state={siteState} />
+      </main>
+    </>
+  );
+}
+
+function Routed({ state }: { state: SiteState }) {
+  switch (state.section) {
+    case 'blog':
+      return <Blog />;
+    case 'tweets':
+      return <Tweets />;
+  }
 }
