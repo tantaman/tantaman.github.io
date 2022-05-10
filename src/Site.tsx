@@ -14,7 +14,7 @@ export default function Site() {
   const [data, setData] = useState<{ code: string } | null>(null);
   useEffect(() => {
     fetch(
-      '/public/built/blog/2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx.json',
+      '/built/blog/2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx.json',
     ).then(async (response) => {
       const json = await response.json();
       setData(json);
