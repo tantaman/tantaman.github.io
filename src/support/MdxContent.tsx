@@ -1,11 +1,12 @@
-import React from 'react';
-import memoizeOne from 'memoize-one';
+import React, { memo } from 'react';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { useQuery } from 'react-query';
 import api from '../api/api';
 
+// TODO: handle as normal md vs mdx vs html vs ...
+// in other words, allow different content types to exist.
 function MdxContent({ path }: { path: string }) {
-  const { isLoading, error, data } = useQuery('blog/index', api.content(path));
+  const { isLoading, error, data } = useQuery(path, api.content(path));
 
   if (data == null) {
     return <div></div>;
@@ -15,6 +16,6 @@ function MdxContent({ path }: { path: string }) {
   return <Component />;
 }
 
-const memoized = memoizeOne(MdxContent);
+const memoized = memo(MdxContent);
 
 export default memoized;

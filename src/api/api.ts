@@ -7,6 +7,7 @@ export default {
   },
 
   content(path: string) {
-    return () => fetch(`/built/${path}`).then((response) => response.json());
+    return () =>
+      fetch(`/built/${path}.json`).then((response) => response.json());
   },
 };
