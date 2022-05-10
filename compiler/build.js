@@ -3,14 +3,14 @@ import fs from 'fs';
 import path from 'path';
 
 async function build(collection) {
-  const dest = './dist/' + collection;
-  const files = await fs.promises.readdir('./site/' + collection);
+  const dest = './public/built/' + collection;
+  const files = await fs.promises.readdir('./content/' + collection);
   const artifacts = await Promise.all(
     files.map(async (file) => [
       dest + '/' + file,
       await bundleMDX({
-        file: path.resolve('./site/' + collection + '/' + file),
-        cwd: path.resolve('./site/' + collection),
+        file: path.resolve('./content/' + collection + '/' + file),
+        cwd: path.resolve('./content/' + collection),
       }),
     ]),
   );
