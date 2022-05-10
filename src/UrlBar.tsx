@@ -10,15 +10,11 @@ import { SiteState } from './Domain';
 
 // As a react component so life-cycle and batching of updates are handled for us
 export default function UrlBar({ state }: { state: SiteState }) {
-  window.location.hash = encodeURIComponent(JSON.stringify(state));
+  history.pushState(state, '', '/' + state.section);
 
   return null;
 }
 
 export function decodeUrl(): {} {
-  try {
-    return JSON.parse(decodeURIComponent(window.location.hash.substring(1)));
-  } catch (e) {
-    return {};
-  }
+  return {};
 }
