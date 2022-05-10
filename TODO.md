@@ -8,3 +8,5 @@
 - auto-tweet, macro blog -- https://alecmuffett.com/article/13253
 - CSS.... all css includes are polluting a single stylesheet rather than existing once per blog.
   - Custom js stuff also doesn't work right when included into an mdx doc...
+
+https://dev.to/joeholmes/creating-a-diy-digital-garden-with-obsidian-and-gatsby-378e

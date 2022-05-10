@@ -22,6 +22,24 @@ async function build(collection) {
         await fs.promises.writeFile(path + '.json', JSON.stringify(a)),
     ),
   );
+
+  await fs.promises.writeFile(
+    dest + '/index.json',
+    JSON.stringify(index(artifacts)),
+  );
+}
+
+/**
+ *
+ * @param {[string, {frontMatter: {[key: string]: any}}][]} artifacts
+ */
+function index(artifacts) {
+  const ret = artifacts.reduce((l, r) => {
+    console.log(path.basename(r[0]));
+    l[path.basename(r[0])] = r[1].frontmatter;
+    return l;
+  }, {});
+  return ret;
 }
 
 await Promise.all([
