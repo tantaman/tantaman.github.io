@@ -20,6 +20,7 @@ async function build(collection) {
   await fs.promises.mkdir(dest, { recursive: true });
   await Promise.all(
     artifacts.map(async ([path, a]) => {
+      // TODO: allow configuring redirects
       if (a.frontmatter?.standalone) {
         const [stadalonePath, code] = makeStandalone(
           path,
