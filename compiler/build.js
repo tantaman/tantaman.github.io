@@ -1,18 +1,20 @@
-import { bundleMDX } from 'mdx-bundler';
 import fs from 'fs';
 import path from 'path';
+import handlers from './handlers.js';
 
 async function build(collection) {
   const dest = './public/built/' + collection;
   const files = await fs.promises.readdir('./content/' + collection);
   const artifacts = await Promise.all(
-    files.map(async (file) => [
-      dest + '/' + file,
-      await bundleMDX({
-        file: path.resolve('./content/' + collection + '/' + file),
-        cwd: path.resolve('./content/' + collection),
-      }),
-    ]),
+    files.map(async (file) => {
+      return [
+        dest + '/' + file,
+        await handlers[path.extname(file).substring(1)](
+          path.resolve('./content/' + collection + '/' + file),
+          path.resolve('./content/' + collection),
+        ),
+      ];
+    }),
   );
 
   await fs.promises.mkdir(dest, { recursive: true });
@@ -35,8 +37,7 @@ async function build(collection) {
  */
 function index(artifacts) {
   const ret = artifacts.reduce((l, r) => {
-    console.log(path.basename(r[0]));
-    l[path.basename(r[0])] = r[1].frontmatter;
+    l[path.basename(r[0])] = r[1].frontmatter || null;
     return l;
   }, {});
   return ret;
