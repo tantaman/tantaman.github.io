@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Yarn Workspaces - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="description" content="Yarn Workspaces From the Yarn website:
+Why would you want to do…">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Yarn Workspaces">
+<meta property="og:description" content="Yarn Workspaces From the Yarn website:
+Why would you want to do…">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="3-4 minutes">
+</head>
+<body>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#yarn-workspaces">Yarn Workspaces</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#from-the-yarn-website">From the Yarn website:</a><ol class="toc-level toc-level-3"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#why-would-you-want-to-do-this">Why would you want to do this?</a></li></ol></li></ol></li></ol></nav><p>Sharing code between <code>JavaScript</code> &#x26; <code>TypeScript</code> projects has always been more trouble than it should be.</p>
+<p>Say you create a common library and you want to use it in <code>N > 1</code> of your other projects.</p>
+<p>You could publish it to <a href="https://www.npmjs.com/"><code>NPM</code></a> and install it like any other dependency. This works ok but definitely not if you're still frequently iterating on your shared library. If that's the case, you start hitting a bunch of friction:</p>
+<ol>
+<li>Having to switch repos and working sets to make changes to the shared library</li>
+<li>Having to create and deploy a new package for the shared library after each update. This is <a href="https://medium.com/@debshish.pal/publish-a-npm-package-locally-for-testing-9a00015eb9fd">overly complicated</a>.</li>
+<li>Having to upgrade the dependency on the library across all projects that use it</li>
+</ol>
+<p>The remedy this, what I've ended up doing in the past is installing my common libraries as <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules"><code>git submodules</code></a> rather than <code>npm packages</code>. This lets me have the source of my shared libraries in my current working tree for easy browsing, editing and comitting. Having the full source in my current project and depending on that, rather than an <code>npm package</code>, also means there's no re-packaging, re-deploying, or upgrading steps to go through after modifying the common library.</p>
+<pre><code class="hljs language-css">- app
+  |+ <span class="hljs-attribute">src</span>
+  |- git_modules
+     |+ common_lib_1
+     |+ common_lib_2
+</code></pre>
+<p>There are still drawbacks to this approach, however.</p>
+<ol>
+<li>Managing dependencies of sub-modules. E.g., If the common libs have their own <code>node_modules</code> those can conflict with the parent project's node modules or cause duplicate copies of the same code to be loaded.</li>
+<li>Imports. I generally end up having to add a bunch of import aliases in my root project to get things seeing one another.</li>
+<li>Building. Some packages may require a build step prior to be usable.</li>
+</ol>
+<h1 id="yarn-workspaces"><a aria-hidden="true" tabindex="-1" href="#yarn-workspaces"><span class="icon icon-link"></span></a>Yarn Workspaces</h1>
+<p><code>Yarn Workspaces</code> solve (1) &#x26; (2) from above.</p>
+<p>Yarn Workspaces makes <code>Yarn</code> aware that all of the packages within the working tree are being used in the same application.</p>
+<p>This allows me to
+(1) keep the source of my dependencies close by by using them as <code>git submodules</code>
+(2) install all required packages, without conflicts, in a single <code>yarn install</code> run
+(3) refer to the packages provided by my <code>git submodules</code> just as if they were installed as normal <code>node_modules</code></p>
+<p>Perfect!</p>
+<p>If your dependencies, as <code>git submodules</code>, require special build steps you can look into something like <a href="https://turborepo.org/"><code>TurboRepo</code></a> to manage those. I've not yet looked into this myself as <a href="https://parceljs.org/"><code>Parcel</code></a>, with its 0 config principles, has fit the bill just fine.</p>
+<h2 id="from-the-yarn-website"><a aria-hidden="true" tabindex="-1" href="#from-the-yarn-website"><span class="icon icon-link"></span></a>From the <a href="https://classic.yarnpkg.com/lang/en/docs/workspaces/">Yarn website</a>:</h2>
+<h3 id="why-would-you-want-to-do-this"><a aria-hidden="true" tabindex="-1" href="#why-would-you-want-to-do-this"><span class="icon icon-link"></span></a>Why would you want to do this?</h3>
+<ul>
+<li>Your dependencies can be linked together, which means that your workspaces can depend on one another while always using the most up-to-date code available. This is also a better mechanism than yarn link since it only affects your workspace tree rather than your whole system.</li>
+<li>All your project dependencies will be installed together, giving Yarn more latitude to better optimize them.</li>
+<li>Yarn will use a single lockfile rather than a different one for each project, which means fewer conflicts and easier reviews.</li>
+</ul>
+</body>
+</html>

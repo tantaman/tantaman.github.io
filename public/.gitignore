@@ -1,10 +1,1 @@
-# .gitignore sample
-# Ignore all files in this dir...
-*
-
-# ... except for this one.
-!.gitignore
-!blog-assets
-!ice-cream
-!img
-!CNAME
+# Do not ignore anything in public in the dist branch. This is for deployment

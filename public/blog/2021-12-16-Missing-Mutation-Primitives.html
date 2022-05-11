@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>1 - Mutation Failure &#x26; Rollback - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="description" content="1 - Mutation Failure &#x26; Rollback2 - Prevent Intermediate…">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="1 - Mutation Failure &#x26; Rollback">
+<meta property="og:description" content="1 - Mutation Failure &#x26; Rollback2 - Prevent Intermediate…">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="5-8 minutes">
+</head>
+<body>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#1---mutation-failure--rollback">1 - Mutation Failure &#x26; Rollback</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#2---prevent-intermediate-observations">2 - Prevent Intermediate Observations</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#3---undo-support">3 - Undo Support</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-missing-piece---expressing-a-mutation">The Missing Piece - Expressing a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#changesets">Changesets</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#committing-a-changeset">Committing a Changeset</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#where-to-commit">Where to Commit?</a></li></ol></nav><p>I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.</p>
+<p>Immutable models solve endless numbers of problems but what I realized is that it isn’t mutation that is so bad. It is being unable to express, commit and record a mutation in one atomic move that is the problem.</p>
+<p><strong>Object oriented languages don’t have a way to express mutations.</strong></p>
+<p>Yes, you can do assignments:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-variable language_">this</span>.<span class="hljs-property">x</span> = y;
+</code></pre>
+<p>And yes, you can batch assignments into methods:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-title function_">foo</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span> = x;
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">b</span> = y;
+}
+</code></pre>
+<p>And you can even guard those bulk assignments with concurrency primitives to ensure they’re atomic across threads:</p>
+<pre><code class="hljs language-typescript">syncrhonized <span class="hljs-title function_">foo</span>(<span class="hljs-params"></span>) {
+  ...
+}
+</code></pre>
+<p>But there’s something massive missing. So massive it creates an inability to handle the following cases.</p>
+<ol>
+<li>In OO, how do you roll back a large mutation that fails half way through?</li>
+<li>How do you express everything that should be changed together in one atomic action and not allow intermediate mutations to be observed either in the same thread via listeners or in other threads via direct memory access?</li>
+<li>How do you roll the entire OO data model back to prior states? E.g., “undo”</li>
+</ol>
+<h1 id="1---mutation-failure--rollback"><a aria-hidden="true" tabindex="-1" href="#1---mutation-failure--rollback"><span class="icon icon-link"></span></a>1 - Mutation Failure &#x26; Rollback</h1>
+<p>Say I have some method that updates a bunch of state on a slide deck:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Deck</span> {
+  <span class="hljs-title function_">addNewYoutubeSlide</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-keyword">const</span> slide = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Slide</span>();
+    <span class="hljs-keyword">const</span> component = <span class="hljs-keyword">new</span> <span class="hljs-title class_">YoutubeEmbed</span>(src);
+    slide.<span class="hljs-title function_">addComponent</span>(component);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">slides</span>.<span class="hljs-title function_">push</span>(slide);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setSelectedSlide</span>(slide);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">notifySelectionListeners</span>();
+  }
+}
+</code></pre>
+<p>Now what do I do if there is a failure between any of those lines?</p>
+<p>If the failure occurs before <code>this.slides.push</code> there’s no harm — the garbage collector will clean up all my dangling objects.</p>
+<p>If the writes weren’t ordered so well (say we push the slide before adding the video) and a failure happened when creating the <code>video</code> component, we’ll end up with a blank <code>slide</code> in the <code>deck</code>.</p>
+<p>The worst case is that we get all the way to selecting the <code>slide</code> and then fail notifying the <code>listeners</code>. Now our <code>app</code> is in an inconsistent state. The <code>Deck</code> thinks one thing is selected, all the UI components might think something else is selected.</p>
+<p><strong>And this is where OO and mutable data structures begin to fall apart,</strong> with detractors going so far as to say “object oriented design is bad design.” Because how would you roll this failure back? And roll it back in a way that wouldn’t incur another failure or partial update? And make roll-backs composable such that if a mutation is built on top of this mutation, it knows to stop executing and roll itself back too?</p>
+<h1 id="2---prevent-intermediate-observations"><a aria-hidden="true" tabindex="-1" href="#2---prevent-intermediate-observations"><span class="icon icon-link"></span></a>2 - Prevent Intermediate Observations</h1>
+<p>If I have a bulk update how do I ensure no observers are seeing changes until all changes are complete? I want my model to be consistent before it can be observed. How do I do this in a composable way?</p>
+<p>E.g., if my <code>Deck</code> is mutating a <code>Slide</code> which is mutating a <code>Component</code> on the slide, no notifications should go out from any of those objects until all modifications are complete and all pre and post-conditions hold.</p>
+<h1 id="3---undo-support"><a aria-hidden="true" tabindex="-1" href="#3---undo-support"><span class="icon icon-link"></span></a>3 - Undo Support</h1>
+<p>This is more than “undo” and about generally being able to roll an <code>OO</code> data model back to some prior instant in time. How can you do this reliably? Without the developer having to resort to verbose solutions like the command pattern.</p>
+<p>Functional languages solve the above problems by not allowing mutations. By requiring copies of those objects be created with the new data and then, in one atomic motion, the copies replace the original instances.</p>
+<h1 id="the-missing-piece---expressing-a-mutation"><a aria-hidden="true" tabindex="-1" href="#the-missing-piece---expressing-a-mutation"><span class="icon icon-link"></span></a>The Missing Piece - Expressing a Mutation</h1>
+<p>What’s missing from OO (and I’d argue functional languages as well) are language primitives that can express mutations.</p>
+<p>So how do you express a mutation?</p>
+<h1 id="changesets"><a aria-hidden="true" tabindex="-1" href="#changesets"><span class="icon icon-link"></span></a>Changesets</h1>
+<p>We need the concept of a <code>changeset</code>.</p>
+<p>A <code>changeset</code> represents all of the updates you’d like to make to the domain model without actually performing any of them. <code>Changesets</code> can also be composed. If you call multiple methods that themselves return <code>changesets</code>, you can keep combining them until you decide it is time to commit the update.</p>
+<p>Lets look at a notional example if this were implemented in user space:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Deck</span> {
+  <span class="hljs-title function_">addNewYoutubeSlide</span>(src): [<span class="hljs-title class_">Changeset</span>&#x3C;<span class="hljs-title class_">Deck</span>>, ...<span class="hljs-title class_">Changeset</span>&#x3C;<span class="hljs-built_in">any</span>>[]] {
+    <span class="hljs-keyword">let</span> slideCs = <span class="hljs-title class_">Slide</span>.<span class="hljs-title function_">create</span>();
+    <span class="hljs-keyword">const</span> componentCs = <span class="hljs-title class_">YoutubeEmbed</span>.<span class="hljs-title function_">create</span>(src);
+    slideCs = <span class="hljs-title function_">merge</span>(slideCs, slideCs.<span class="hljs-property">deRef</span>.<span class="hljs-title function_">addComponent</span>(component));
+    <span class="hljs-keyword">const</span> deckCs = <span class="hljs-title function_">merge</span>(
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">addSlide</span>(slideCs.<span class="hljs-property">deRef</span>),
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setSelectedSlide</span>(slideCs.<span class="hljs-property">deRef</span>),
+    );
+
+    <span class="hljs-keyword">return</span> [deckCs, slideCs, componentCs];
+  }
+}
+</code></pre>
+<p>Every call that would perform a mutation returns a <code>changeset</code> rather than doing the mutation directly.</p>
+<p>This way of modeling mutations has some great properties.</p>
+<ol>
+<li>If you get a changeset back, you know all the values that will need to be set were computed with no exceptions.</li>
+<li>If an exception is thrown when creating changesets, no mutations were actually made so nothing needs rolling back.</li>
+<li>Nothing was actually mutated while building a changeset so nobody has observed anything.</li>
+<li>The changeset has a record of every single mutation that is about to happen, enabling seamless undo &#x26; redo or “time traveling” through the data model.</li>
+</ol>
+<h1 id="committing-a-changeset"><a aria-hidden="true" tabindex="-1" href="#committing-a-changeset"><span class="icon icon-link"></span></a>Committing a Changeset</h1>
+<p>Getting a changeset that represents everything that would happen from a series of mutations is all well and good but how do you actually update the model with those mutations?</p>
+<p>We'd introduce the concept of commiting a changeset. Once all the mutations that should take place have been expressed, we can commit them in one atomic move.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">commit</span>(<span class="hljs-params">changeset: Changeset&#x3C;Model>[], log: TransactionLog[]</span>);
+</code></pre>
+<p>The second piece we can introduce with <code>commit</code> is a set of transaction logs that should record the change. E.g., you can commit a changeset but omit it from your persistence layer by not providing the persistence log. Or commit and omit it from undo functionality by omitting the undo transaction log.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-title function_">commit</span>(changesets, [persistLog, undoLog]);
+</code></pre>
+<p>More on the importance of separating out persistence and undo into transaction logs rather than direct observations of the domain model in a future post.</p>
+<!-- TODO next post -->
+<h1 id="where-to-commit"><a aria-hidden="true" tabindex="-1" href="#where-to-commit"><span class="icon icon-link"></span></a>Where to Commit?</h1>
+<p>Where does one invoke a “commit” action, however? Commits should never be done within the domain model itself but only at points where the client code (e.g., UI code) interacts with the domain model as these points are “the top of the funnel” where interaction begins and all changes that would be made due to that interaction are returned to.</p>
+<p>A release of a user-space implementation of the changeset framework will be available on <a href="https://github.com/tantaman">Github</a> early 2022.</p>
+</body>
+</html>

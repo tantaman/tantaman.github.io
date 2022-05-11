@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="description" content="Dependency InjectionEnter Services Lines of code like:
+
+PositionC…">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:description" content="Dependency InjectionEnter Services Lines of code like:
+
+PositionC…">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="4-6 minutes">
+</head>
+<body>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#dependency-injection">Dependency Injection</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#enter-services">Enter Services</a></li></ol></nav><p>Lines of code like:</p>
+<blockquote>
+<p>PositionCalculator calc = new MercatorPositionCalculator();</p>
+</blockquote>
+<p>(where <strong><em>PositionCalculator</em></strong> is an interface and <strong><em>MercatorPositionCalculator</em></strong> the implementation) have always bugged me and probably any other astute programmer out there.</p>
+<p>We’re trying to be generic by typing our variable as the interface type but that one call to <strong><em>new MercatorPositionCalculator()</em></strong> suddenly death-ties the class containing that line to the <strong><em>MercatorPositionCalculator</em></strong>.</p>
+<p>The use of the interface is effectively useless in a line where you directly construct the implementation of the interface.</p>
+<h3 id="dependency-injection"><a aria-hidden="true" tabindex="-1" href="#dependency-injection"><span class="icon icon-link"></span></a>Dependency Injection</h3>
+<p>Dependency injection helps to resolve the above problem but it still falls short. With dependency injection your class no longer directly constructs its dependencies but instead takes them in as parameters.</p>
+<p>Example:</p>
+<pre><code class="hljs language-arduino"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ObjectDrawer</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> PositionCalculator calc;
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ObjectDrawer</span><span class="hljs-params">(PositionCalculator calc)</span> </span>{
+    <span class="hljs-keyword">this</span>.calc = calc;
+  }
+}
+</code></pre>
+<p>This trick of pushing dependencies out and requiring them to be passed in makes our <strong><em>ObjectDrawer</em></strong> more reusable since it now only has interface level dependencies.</p>
+<p>Users of <strong><em>ObjectDrawer</em></strong> can use it with <strong><em>Spherical</em></strong>, <strong><em>Stereographic</em></strong>, <strong><em>Mercator</em></strong> or any other type of <strong><em>PositionCalculator</em></strong> by passing in the correct implementation.</p>
+<p>Using Dependency Injection we’ve resolved the dependency problem at the class level but our component, as a whole, still has hard dependencies on the implementations being used.</p>
+<h3 id="enter-services"><a aria-hidden="true" tabindex="-1" href="#enter-services"><span class="icon icon-link"></span></a>Enter Services</h3>
+<p>Using dependency injection, construction of dependencies is still the responsibility of your component. Services, however, push your dependencies out to their final level.</p>
+<p>In a service oriented world each component is responsible for instantiating the implementations of the services that it provides. That is, instead of the user of an interface instantiating the implementation of that interface, the component providing the implementation is responsible for instantiating it.</p>
+<blockquote>
+<p>Since the provider of an implementation is also responsible for instantiating the implementation you no longer have any cross component dependencies! (other than at the interface level but your interfaces should be in a component all on their own)</p>
+</blockquote>
+<p>This makes total sense since the thing providing an implementation doesn’t have to pull in extra stuff to instantiate the implementation. Conversely, if the consumer of some some interface had to instantiate the implementation of that interface then it would have to pull the implementation in as a dependency.</p>
+<p>The next question is how does the consumer of an interface get an implementation if the consumer, and nothing in the component that the consumer is a part of, instantiates the implementation?</p>
+<p>In most service frameworks there is a notion of a registry. The registry is where components go to register the services that they provide or look up the services they need.</p>
+<p>If I have a component that handles Mercator coordinates then it would register its <strong><em>MercatorCalculator</em></strong> with the registry under the interface name <strong><em>PositionCalculator.</em></strong></p>
+<p>Another component that handles Stereographic coordinates would register its <strong><em>StereographicCalculator</em></strong> under the same <strong><em>PositionCalculator</em></strong> interface name. Various bits of metadata can be attached to service registrations to handle the case where multiple services implementing the same interface are registered.</p>
+<p>The components that are clients of a service then look up the services they need by their interface name and/or additional metadata. This allows components to be dependent on <strong>descriptions</strong> of <strong>capabilities</strong> and not some specific set of implementations.</p>
+<p>So a component that relies on <strong><em>PositionCalculators</em></strong> would then do something like:</p>
+<pre><code class="hljs language-ini"><span class="hljs-attr">calculator</span> = registry.getService(PositionCalculator.class.getName(), worldLocation)<span class="hljs-comment">;</span>
+</code></pre>
+<p>to get the implementation that it needs. As you can see, the component only has a dependency on the <strong><em>PositionCalculator</em></strong> interface.</p>
+<p>The second parameter would be additional metadata to discriminate between available position calculators. The additional metadata should be something that is well within the domain of the component. In this case, the metadata is a conflated location in the world since that determines if we should use <a href="http://en.wikipedia.org/wiki/Universal_Polar_Stereographic_coordinate_system">Stereographic</a> or <a href="http://en.wikipedia.org/wiki/Universal_Transverse_Mercator">Mercator</a> coordinate systems.</p>
+<p>If you’re developing in Java, <a href="http://en.wikipedia.org/wiki/OSGi">OSGi</a> has a great component and service model (although getting up and running for your first time will be a trial but it is worth it in the end).</p>
+<p>If you’re a Javascript developer, <a href="http://angularjs.org/">AngularJS</a> has a decent service system with automatic dependency injection.</p>
+<p>There is also <a href="https://github.com/tantaman/ServiceRegistry.js">ServiceRegistry.js</a> which is used by <a href="http://strut.io/">Strut.io</a> to manage storage providers, presentation generators, available edit modes and more. It lacks an automatic dependency injection mechanism and so it can be quite cumbersome but it does account for the service lifecycle.</p>
+</body>
+</html>

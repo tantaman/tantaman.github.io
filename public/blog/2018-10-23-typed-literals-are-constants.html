@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Are both lines of code above using constants? - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="description" content="Are both lines of code above using constants? (option 1) display…">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Are both lines of code above using constants?">
+<meta property="og:description" content="Are both lines of code above using constants? (option 1) display…">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2 minutes">
+</head>
+<body>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#are-both-lines-of-code-above-using-constants">Are both lines of code above using constants?</a></li></ol></nav><pre><code class="hljs language-scss">(option <span class="hljs-number">1</span>) <span class="hljs-attribute">display</span><span class="hljs-selector-class">.setLayout</span>(Layouts.FIXED);
+(option <span class="hljs-number">2</span>) <span class="hljs-attribute">display</span><span class="hljs-selector-class">.setLayout</span>('FIXED');
+</code></pre>
+<h1 id="are-both-lines-of-code-above-using-constants"><a aria-hidden="true" tabindex="-1" href="#are-both-lines-of-code-above-using-constants"><span class="icon icon-link"></span></a><strong>Are both lines of code above using constants?</strong></h1>
+<p>I keep getting push-back that the first line is better practice than the second line. When reviewers see something that looks like the second line they say “define that in a constant.”</p>
+<p>I’d understand their complaints if the method being called was not typed, but it is.</p>
+<pre><code class="hljs language-ini">type <span class="hljs-attr">Layout</span> = <span class="hljs-string">'FIXED'</span> | <span class="hljs-string">'FLOW'</span> | <span class="hljs-string">'GRID'</span><span class="hljs-comment">;</span>
+function setLayout(layout: Layout): void<span class="hljs-comment">;</span>
+</code></pre>
+<p>When the thing being called is typed as above, then there is no need, no purpose, and no advantage in defining these string literals in constants. Said another way, <code>Layouts.FIXED</code> and <code>'FIXED'</code> are equivalent. They’re just spelled differently.</p>
+<p>To prove that they’re equivalent, run through the exercise of changing the accepted layout parameter from <code>FIXED</code> to <code>STATIC</code>. The consequences (code changes you need to make) are the same in both situations.</p>
+<p>In option (1) you need to run through and change all references to <code>Layouts.FIXED</code> to <code>Layouts.STATIC</code>.</p>
+<p>In option (2) you need to run through and change all references from <code>'FIXED'</code> to <code>'STATIC'</code>.</p>
+<p>But one may say in option (2) you don’t know where to go to change these literals. That would be incorrect. Since the use of these literals is typed you’ll get compile time errors that call out every point where <code>'FIXED'</code> needs to changed to <code>'STATIC'</code> — the same as you would if you used option (1).</p>
+<pre><code class="hljs language-ini">type <span class="hljs-attr">Layout</span> = <span class="hljs-string">'STATIC'</span> | <span class="hljs-string">'FLOW'</span> | <span class="hljs-string">'GRID'</span><span class="hljs-comment">;</span>
+function setLayout(layout: Layout): void<span class="hljs-comment">;</span>
+</code></pre>
+<pre><code class="hljs language-scss">const LayoutTypes = {
+  STATIC: <span class="hljs-string">'STATIC'</span>,
+  FLOW: <span class="hljs-string">'FLOW'</span>,
+  GRID: <span class="hljs-string">'GRID'</span>,
+}
+</code></pre>
+</body>
+</html>

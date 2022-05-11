@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="description" content="Data-Bind ExampleReactive Markdown v0.1
+Use It
+
+Many of my blog…">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:description" content="Data-Bind ExampleReactive Markdown v0.1
+Use It
+
+Many of my blog…">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="3-5 minutes">
+</head>
+<body>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#data-bind-example">Data-Bind Example</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#reactive-markdown">Reactive Markdown</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#v01">v0.1</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#use-it">Use It</a></li></ol></nav><style type="text/css">
+@import url("/blog-assets/reactive-markdown/main.css");
+</style>
+<script type="module" src="/blog-assets/reactive-markdown/main.js"></script>
+<p>Many of my blog posts contain interactive demos or content that is generated via <code>JavaScript</code>. The prose of my posts, however, is written in <code>Markdown</code>. Shuttling data back and forth from the <code>Markdown</code> side to the <code>JS</code> side can be annoying, especially when data from <code>JavaScript</code> needs to be displayed inline with the markdown and updated in real time.</p>
+<p>I've experimented with a few ways. The guiding principle around these experiments is to do as much as possible with as little code as possible.</p>
+<p>One approach uses a <code>data-bind</code> attribute to bind an element to a JS variable. This was the approach I took when writing my <a href="/2021-01-26-regression-mean-vs-gambler/">Gambler's fallacy post</a>.</p>
+<h2 id="data-bind-example"><a aria-hidden="true" tabindex="-1" href="#data-bind-example"><span class="icon icon-link"></span></a>Data-Bind Example</h2>
+<p>In the <a href="https://github.com/tantaman/tantaman.github.io/blob/e11824ea7415f15a765d71aeedfdf6a688bffb75/assets/posts/regression-mean-vs-gambler.js#L168-L202">JS</a> - export some vars from JS &#x26; bind them to the doc</p>
+<pre><code class="hljs language-js"><span class="hljs-comment">// export vars</span>
+<span class="hljs-keyword">const</span> exported_data = {
+  <span class="hljs-attr">num_coins</span>: <span class="hljs-variable constant_">NUM_COINS</span>.<span class="hljs-title function_">toLocaleString</span>(),
+  <span class="hljs-attr">coin_chart</span>: coins.<span class="hljs-title function_">map</span>(
+    <span class="hljs-function"><span class="hljs-params">coin</span> =></span> <span class="hljs-title function_">render_coin</span>(coin),
+  ).<span class="hljs-title function_">join</span>(<span class="hljs-string">''</span>),
+  <span class="hljs-attr">run_chart</span>: <span class="hljs-title function_">render_runs</span>(coins),
+  <span class="hljs-attr">run_length</span>: <span class="hljs-variable constant_">RUN_LENGTH</span>,
+  <span class="hljs-attr">run_list</span>: <span class="hljs-title function_">render_run_list</span>(coins, run_list),
+  after_run_heads,
+  after_run_tails,
+  <span class="hljs-attr">num_runs</span>: run_list.<span class="hljs-property">length</span>,
+  ...
+};
+<span class="hljs-comment">// bind to doc</span>
+<span class="hljs-title function_">bindit</span>(exported_data);
+</code></pre>
+<p>In the <a href="https://raw.githubusercontent.com/tantaman/tantaman.github.io/master/_posts/2021-01-26-regression-mean-vs-gambler.markdown">Markdown</a> - leave placeholders for where exported variables will be injected</p>
+<pre><code class="hljs language-md">If <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">i</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"run_length"</span>></span></span><span class="xml"><span class="hljs-tag">&#x3C;/<span class="hljs-name">i</span>></span></span> coin tosses produced <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">i</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"run_length"</span>></span></span><span class="xml"><span class="hljs-tag">&#x3C;/<span class="hljs-name">i</span>></span></span> heads,
+the next <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">i</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"run_length"</span>></span></span><span class="xml"><span class="hljs-tag">&#x3C;/<span class="hljs-name">i</span>></span></span> ...
+</code></pre>
+<p>The data bind approach has an incredibly simple implementation and is more than efficient enough for blog demos.</p>
+<p><strong>Side note -</strong> The browser seems to understand when the new innerHTML is equivalent to the old innerHTML and doesn't do any repaints in those cases. Profiling even shows some sort of diffing happening when the new and old innerHTMLs don't match but do overlap. All of this is for a post for another day, however.</p>
+<p><strong><code>data-bind</code> implementation:</strong></p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">bindit</span>(<span class="hljs-params">exported_data</span>) {
+  <span class="hljs-keyword">const</span> to_bind = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">'[data-bind]'</span>);
+  <span class="hljs-keyword">for</span> (e <span class="hljs-keyword">of</span> to_bind) {
+    <span class="hljs-keyword">const</span> x = e.<span class="hljs-property">dataset</span>.<span class="hljs-property">bind</span>;
+    e.<span class="hljs-property">innerHTML</span> = exported_data[x];
+  }
+}
+</code></pre>
+<p>Readers that like such a simplistic approach to rendering <code>JS</code> values into <code>HTML</code> would love my <a href="https://github.com/tantaman/fk-your-frameworks-todomvc">150 line TODO-MVC app</a> which is written in pure <code>JS</code>.</p>
+<p>The <code>data-bind</code> approach is super simple but:</p>
+<ol>
+<li>It is a bit verbose to write out <code>&#x3C;i data-bind="...">&#x3C;/i></code> every time you want to refer to a variable.</li>
+<li>The data being exported from <code>JS</code> has to be display ready. This can lead to a ton of exports if the same data is re-exported under many formats. I'd rather display-format the exported data in the <code>Markdown</code> doc, putting all display time concerns in one spot.</li>
+</ol>
+<p>Given I'll be writing lots of blog posts, and thus spending lots of time writing the <code>&#x3C;i data-bind"...">&#x3C;/i></code> boilerplate as well as iterating on converting data to be "display ready", it makes sense to invest more into an ergonomic API.</p>
+<p><strong>Side note -</strong> investing in software infrastructure is an optimization problem. Under ideal circumstances: the more you invest in infra, the faster the work on top of it goes. If there is a limited amount of work to be done on top of that infra, however, the infra investment should be bounded. Once infra is "good enough", continued investments start producing diminishing returns (unless there is a paradigm shift. A post for another day.).</p>
+<img src="./blog-assets/reactive-markdown/infra-invest.svg" />
+<h2 id="reactive-markdown"><a aria-hidden="true" tabindex="-1" href="#reactive-markdown"><span class="icon icon-link"></span></a>Reactive Markdown</h2>
+<p>My latest iteration to make authoring interactive blog posts easier is <code>Reactive Markdown</code>.</p>
+<p><code>Reactive Markdown</code> is the idea that your markdown can reference <code>JavaScript</code> variables and expressions. Whenever the underlying data being referenced changes, your <code>Markdown</code> document updates automtically to incorporate the new values or expressions.</p>
+<p><strong>Simplified example -</strong></p>
+<div className="rmd-illustration">
+  <table>
+    <thead>
+      <tr>
+        <td>JS</td>
+        <td>Markdown</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <pre>setInterval( () => x += 1, 500, );</pre>
+        </td>
+        <td>
+          <pre># the count is $x</pre>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td id="simplified-example"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br />
+<h3 id="v01"><a aria-hidden="true" tabindex="-1" href="#v01"><span class="icon icon-link"></span></a>v0.1</h3>
+<p>The first version of <code>reactive markdown</code> is "JavaScript first." In other words, you author everything in a JS file. The next phase will likely end up being an extension, or re-write, of a markdown parser to make this "markdown first."</p>
+<p>Why? A javascript-first is slightly awkward due to having to stick markdown into JS templates and, when writing a blog entry, the majority of characters being written are Markdown not JS.</p>
+<p>Anyway, on to some actual reactive markdown!</p>
+<div id="doc"></div>
+<h2 id="use-it"><a aria-hidden="true" tabindex="-1" href="#use-it"><span class="icon icon-link"></span></a>Use It</h2>
+<p>The library is currently called "publisher" and is available <a href="https://github.com/tantaman/tantaman.github.io/blob/master/assets/js/publisher.js">here</a>.</p>
+<p>If/when it matures I'll likely split it out into its own repo and publish to npm.</p>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Basic Color Theory - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="description" content="Basic Color Theory HueValueSaturation
+The Hue SliderThe HSV Field
+S…">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Basic Color Theory">
+<meta property="og:description" content="Basic Color Theory HueValueSaturation
+The Hue SliderThe HSV Field
+S…">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="5-7 minutes">
+</head>
+<body>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#basic-color-theory">Basic Color Theory</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#hue">Hue</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#value">Value</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#saturation">Saturation</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-hue-slider">The Hue Slider</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-hsv-field">The HSV Field</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#showing-hue">Showing Hue</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#showing-saturation">Showing Saturation</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#showing-value">Showing Value</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#combinding-saturation-hue--value">Combinding Saturation, Hue &#x26; Value</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#a-workable-component">A Workable Component</a></li></ol></nav><style type="text/css">
+@import url("/blog-assets/color-picker-from-scratch/color-field.css");
+</style>
+<script type="module" src="/blog-assets/color-picker-from-scratch/color-field.js"></script>
+<blockquote>
+<p>"Programmers re-invent the wheel so they can understand how the wheel works" - unknown</p>
+</blockquote>
+<p>Why write a color picker from scratch? To understand color theory better and to realize that color pickers are actually pretty simplistic.</p>
+<p>To understand how to convert user events to colors, you first need to understand a little bit of color theory.</p>
+<h1 id="basic-color-theory"><a aria-hidden="true" tabindex="-1" href="#basic-color-theory"><span class="icon icon-link"></span></a>Basic Color Theory</h1>
+<p>Color isn't just a single thing. It is made up of components. You could think in terms of "RGB" but color is more accessible when we think of it in terms of "HSV" or Hue, Saturation and Value. HSV conceives color in more human terms.</p>
+<h2 id="hue"><a aria-hidden="true" tabindex="-1" href="#hue"><span class="icon icon-link"></span></a>Hue</h2>
+<p>Hue can be thought of as pure pigment. This is the pigment before any lighting has been applied and before that pigment has been spread out over a surface.</p>
+<h2 id="value"><a aria-hidden="true" tabindex="-1" href="#value"><span class="icon icon-link"></span></a>Value</h2>
+<p>Value is how much or little lighting has been applied to the hue (pure pigment). It there is no light shining on a hue, it appears black. If the hue is perfectly lit, it appears as its true color. Same as when the lights are turned on or off in a room.</p>
+<p>No lights? Everything is black. Evenly lit? Everything appears its proper color.</p>
+<h2 id="saturation"><a aria-hidden="true" tabindex="-1" href="#saturation"><span class="icon icon-link"></span></a>Saturation</h2>
+<p>Saturation is the intesnity of the color. You can think of this in terms of how much of the hue has been spread out over a surface. The more hue per surface area, the higher the saturation.</p>
+<p>Another way to think of this is if you put a tiny amount of paint on a brush and painted a giant wall or a ton of paint on a brush and painted a small wall. The first wall is less saturated with the hue, the second wall is very saturated.</p>
+<p>Now that you understand HSV, lets see how to apply them to create a color picker.</p>
+<h1 id="the-hue-slider"><a aria-hidden="true" tabindex="-1" href="#the-hue-slider"><span class="icon icon-link"></span></a>The Hue Slider</h1>
+<p>Hue, as a value, ranges between 0 and 360. This is because hue was originally formalized using the analogy of a color wheel. Each angle of the wheel being a different hue. To display all available hues to a user using CSS, we can set up a gradient with color points at different values between 0 and 360.</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> hues = [<span class="hljs-number">0</span>, <span class="hljs-number">60</span>, <span class="hljs-number">120</span>, <span class="hljs-number">180</span>, <span class="hljs-number">240</span>, <span class="hljs-number">300</span>, <span class="hljs-number">360</span>];
+<span class="hljs-keyword">const</span> colors = hues.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">h</span>) =></span> <span class="hljs-title function_">rgbToHex</span>(...<span class="hljs-title function_">hsvToRgb</span>(h, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)));
+<span class="hljs-keyword">const</span> background = <span class="hljs-string">`linear-gradient(90deg, <span class="hljs-subst">${colors.join(<span class="hljs-string">','</span>)}</span>)`</span>;
+
+<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{</span>`<span class="hljs-attr">background:</span> ${<span class="hljs-attr">background</span>};`}></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>;
+</code></pre>
+<div id="hue-slider-ex"></div>
+<p>Knowing which hue the user selected is fairly straightforward. Divide the <code>layerX</code> of the mouse event by the width of the hue slider. This gives you a value between <code>0</code> and <code>1</code> of where you are within the slider. Multiply that by <code>360</code> and you have your hue.</p>
+<h1 id="the-hsv-field"><a aria-hidden="true" tabindex="-1" href="#the-hsv-field"><span class="icon icon-link"></span></a>The HSV Field</h1>
+<div id="color-field-intro"></div>
+<div id="hue-slider-ex2"></div>
+<p>The HSV field shows a single hue and allows the user to adjust the saturation and value being applied to that hue.
+Above is a final example of the HSV field, displaying rotating hues.</p>
+<p>So how do you build that field?</p>
+<p>Using CSS and the concepts of hue, saturation &#x26; value defined earlier, we can create this with three layered divs. The first to div display the hue, the second to show the saturation of the hue along a gradient and the third to show the value of the hue along a gradient.</p>
+<h2 id="showing-hue"><a aria-hidden="true" tabindex="-1" href="#showing-hue"><span class="icon icon-link"></span></a>Showing Hue</h2>
+<p>First, we need to place the hue. Given hue is "pure pigment", we display this as a surface of a single hue.</p>
+<p>To do this, we convert the hue selection (0 to 360) at max saturation and value (1 &#x26; 1) to a color in RGB space. See my post on converting color models for more details or <a href="https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/color-picker-from-scratch/color-field.js#L5-L76">see the source of these functions</a>.</p>
+<pre><code class="hljs language-jsx">&#x3C;div style={<span class="hljs-string">`background-color: <span class="hljs-subst">${rgbToHex(...hsvToRgb(HUE, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>))}</span>;`</span>}>&#x3C;/div>
+</code></pre>
+<div id="showing-hue-ex"></div>
+<div id="hue-slider-ex3"></div>
+<h2 id="showing-saturation"><a aria-hidden="true" tabindex="-1" href="#showing-saturation"><span class="icon icon-link"></span></a>Showing Saturation</h2>
+<p>Remember that sturation is the intensity of the color. To show saturation, we layer a div with a gradient on top of the hue div.</p>
+<pre><code class="hljs language-jsx">&#x3C;!-- hue div -->
+<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{</span>`<span class="hljs-attr">background-color:</span> ${<span class="hljs-attr">rgbToHex</span>(<span class="hljs-attr">...hsvToRgb</span>(<span class="hljs-attr">HUE</span>, <span class="hljs-attr">1</span>, <span class="hljs-attr">1</span>))};`}></span>
+  <span class="hljs-comment">&#x3C;!-- saturation div --></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background: background-image: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));"</span>></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>;
+</code></pre>
+<div id="showing-saturation-ex"></div>
+<p>The gradient changes from opaque white to completely transparent. This mirrors no pigment being applied (opaque white) to full application of pigment by filtering out how much of the hue div shows through.</p>
+<pre><code class="hljs language-css">linear-gradient(<span class="hljs-selector-tag">to</span> <span class="hljs-attribute">right</span>, <span class="hljs-selector-id">#fff</span>, rgba(<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0</span>));
+</code></pre>
+<p>To convert a user's mouse event within the field, we can divide the event's layerX by the width of the field. This gives us a number between 0 and 1 that perfectly maps to the range of saturation.</p>
+<h2 id="showing-value"><a aria-hidden="true" tabindex="-1" href="#showing-value"><span class="icon icon-link"></span></a>Showing Value</h2>
+<p>Value is the amount of light being applied to the hue. We can simulate this by overlaying a div with a gradient that shifts from black to transparent.</p>
+<pre><code class="hljs language-jsx">&#x3C;!-- hue div -->
+<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{</span>`<span class="hljs-attr">background-color:</span> ${<span class="hljs-attr">rgbToHex</span>(<span class="hljs-attr">...hsvToRgb</span>(<span class="hljs-attr">HUE</span>, <span class="hljs-attr">1</span>, <span class="hljs-attr">1</span>))};`}></span>
+  <span class="hljs-comment">&#x3C;!-- value div --></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background: background-image: linear-gradient(to top, #000, rgba(255, 255, 255, 0));"</span>></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>;
+</code></pre>
+<div id="showing-value-ex"></div>
+<p>We go from bottom to top (instead of left to right) in this case so the user can select value in one axis and saturation in another.</p>
+<p>To convert a mouse event with the field to a value, we can divide <code>height - event's layerY</code> by the height of the field. This gives us a number between 0 and 1 that perfectly maps to the range of value.</p>
+<h2 id="combinding-saturation-hue--value"><a aria-hidden="true" tabindex="-1" href="#combinding-saturation-hue--value"><span class="icon icon-link"></span></a>Combinding Saturation, Hue &#x26; Value</h2>
+<p>The last step for the field is to layer all 3 divs.</p>
+<pre><code class="hljs language-jsx">&#x3C;!-- hue div -->
+<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{</span>`<span class="hljs-attr">background-color:</span> ${<span class="hljs-attr">rgbToHex</span>(<span class="hljs-attr">...hsvToRgb</span>(<span class="hljs-attr">HUE</span>, <span class="hljs-attr">1</span>, <span class="hljs-attr">1</span>))};`}></span>
+  <span class="hljs-comment">&#x3C;!-- saturation div --></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background: background-image: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));"</span>></span>
+    <span class="hljs-comment">&#x3C;!-- value div --></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background: background-image: linear-gradient(to top, #000, rgba(255, 255, 255, 0));"</span>></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span></span>;
+</code></pre>
+<div id="all-3-ex"></div>
+<div id="hue-slider-ex4"></div>
+<h1 id="a-workable-component"><a aria-hidden="true" tabindex="-1" href="#a-workable-component"><span class="icon icon-link"></span></a>A Workable Component</h1>
+<p>Now you can see why converting RGB to HSV makes authoring a color picker quite a bit easier and how we can use the concepts of HSV to give a user control of all the variables that go into making a color.</p>
+<p>I'll leave it as an exercise to the reader to combine all of these into a workable component as that involves the familiar work of attaching mouse and drag listeners, converting coordinates to ratios and plugging the results into <a href="https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/color-picker-from-scratch/color-field.js#L5-L76"><code>hsvToRgb(hue, saturation, value)</code></a> to get back the RGB representation of the color.</p>
+<div id="end-ex"></div>
+<p>As always the source is available on Github -- <a href="https://github.com/tantaman/tantaman.github.io/tree/master/assets/posts/color-picker-from-scratch">https://github.com/tantaman/tantaman.github.io/tree/master/assets/posts/color-picker-from-scratch</a></p>
+</body>
+</html>
