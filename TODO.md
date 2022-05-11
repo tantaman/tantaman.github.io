@@ -1,6 +1,6 @@
 # TODO
 
-- rm old src: 93de28f
+- rm old src: 58fd02e
 - https://unifiedjs.com/explore/package/rehype-meta/ for open graph
   - auto-tweet, macro blog -- https://alecmuffett.com/article/13253
 
