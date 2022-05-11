@@ -7,7 +7,7 @@
     "tsc": "tsc",
     "preview": "vite preview",
     "test:unit": "vitest",
-    "sprod": "cd dist && serve"
+    "sprod": "cd public && serve"
   },
   "type": "module",
   "dependencies": {

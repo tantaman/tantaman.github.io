@@ -45,8 +45,9 @@ await Promise.all([
 function index(artifacts) {
   const ret = artifacts.reduce((l, r) => {
     l[path.basename(r[0])] = {
+      compiledFilename: r[1].compiledFilename,
       frontmatter: r[1].frontmatter || {},
-      greymatter: {},
+      greymatter: r[1].greymatter,
     };
     return l;
   }, {});
