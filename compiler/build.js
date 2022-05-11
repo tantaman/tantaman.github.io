@@ -26,7 +26,6 @@ async function build(collection) {
   await fs.promises.mkdir(dest, { recursive: true });
   await Promise.all(
     artifacts.flatMap(([destPath, a]) => {
-      // TODO: allow generation of companion files. E.g., scripts.
       const [stadalonePath, content] = postProcess(destPath, a, theIndex);
       return [
         fs.promises.writeFile(stadalonePath, content),
