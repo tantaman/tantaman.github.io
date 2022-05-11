@@ -61,10 +61,7 @@ Below is a high level diagram that shows how requests:
 8. The DB holds a link (like a file handle) to content in the blob storage
 9. Blob storage content is served to users via CDN
 
-<img
-  src="./blog-assets/pi-cloud/first/high-level.svg"
-  style={{ height: 700 }}
-/>
+<img src="/blog-assets/pi-cloud/first/high-level.svg" style={{ height: 700 }} />
 <figcaption style={{ textAlign: 'center' }}>
   <i>High level diagram of the relationships between the cloud components</i>
 </figcaption>
@@ -72,7 +69,7 @@ Below is a high level diagram that shows how requests:
 
 We'll somehow have to manage deployment of all of these services to the various Raspberry Pis. Services will describe their resource constraints and a machine will be picked for them to run on.
 
-<img src="./blog-assets/pi-cloud/first/deploy.svg" style={{ height: 400 }} />
+<img src="/blog-assets/pi-cloud/first/deploy.svg" style={{ height: 400 }} />
 <figcaption style={{ textAlign: 'center' }}>
   <i>
     Deployment is handled by services declaring their resource needs, stacking
@@ -85,7 +82,7 @@ We'll somehow have to manage deployment of all of these services to the various 
 And lastly we have log collection. This may seem unimportant to some but having a central and streamlined way of processing log data will vastly simplify monitoring, alerting, application experimentation, abuse protection, online machine learning and more within our cloud.
 
 <img
-  src="./blog-assets/pi-cloud/first/log-collect.svg"
+  src="/blog-assets/pi-cloud/first/log-collect.svg"
   style={{ height: 400 }}
 />
 <figcaption style={{ textAlign: 'center' }}>

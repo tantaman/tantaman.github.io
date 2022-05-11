@@ -75,7 +75,7 @@ Given I'll be writing lots of blog posts, and thus spending lots of time writing
 
 **Side note -** investing in software infrastructure is an optimization problem. Under ideal circumstances: the more you invest in infra, the faster the work on top of it goes. If there is a limited amount of work to be done on top of that infra, however, the infra investment should be bounded. Once infra is "good enough", continued investments start producing diminishing returns (unless there is a paradigm shift. A post for another day.).
 
-<img src="./blog-assets/reactive-markdown/infra-invest.svg" />
+<img src="/blog-assets/reactive-markdown/infra-invest.svg" />
 
 ## Reactive Markdown
 

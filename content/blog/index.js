@@ -2,6 +2,7 @@ export default function index(file, cwd, files) {
   return {
     content: (index) => {
       return `<ol>${Object.entries(index)
+        .filter(([key, meta]) => key !== 'index.js')
         .map(
           ([key, meta]) =>
             `<li><a href="./${meta.compiledFilename}">${key}</a></li>`,
