@@ -5,7 +5,10 @@ import path from 'path';
 
 export default function postProcess(filepath, artifact, index) {
   const ext = path.extname(filepath).substring(1);
-  filepath = filepath.substring(0, filepath.lastIndexOf('.'));
+  const filename = path.basename(filepath);
+  const compiledFilepath =
+    filepath.substring(0, filepath.lastIndexOf(filename)) +
+    artifact.compiledFilename;
 
   // We'll use
   // https://unifiedjs.com/explore/package/rehype-document/
@@ -14,15 +17,12 @@ export default function postProcess(filepath, artifact, index) {
   // and then just get rid of `makeStandalone`
   // because it'll all be standalone.
   if (ext === 'md') {
-    return [
-      `${filepath}.${artifact.frontmatter?.standalone || 'html'}`,
-      artifact.content,
-    ];
+    return [compiledFilepath, artifact.content];
   }
 
   if (ext === 'js') {
     return [
-      `${filepath}.${artifact.frontmatter?.standalone || 'html'}`,
+      compiledFilepath,
       typeof artifact.content === 'function'
         ? artifact.content(index)
         : artifact.content,
@@ -30,7 +30,7 @@ export default function postProcess(filepath, artifact, index) {
   }
 
   return [
-    `${filepath}.${artifact.frontmatter?.standalone || 'html'}`,
+    compiledFilepath,
     `<!DOCTYPE html>
 <html>
   <body>${artifact.content}</body>
