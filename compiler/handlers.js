@@ -1,4 +1,3 @@
-import { bundleMDX } from 'mdx-bundler';
 import fs from 'fs';
 
 import { read } from 'to-vfile';
@@ -20,7 +19,7 @@ import rehypeMeta from 'rehype-meta';
 import rehypeInferTitleMeta from 'rehype-infer-title-meta';
 import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
-import unifiedInferGitMeta from 'unified-infer-git-meta';
+// import unifiedInferGitMeta from 'unified-infer-git-meta';
 import { compile as compileMdx } from '@mdx-js/mdx';
 
 import clojure from 'highlight.js/lib/languages/clojure';
@@ -126,10 +125,9 @@ async function processMarkdown(fileOrContent, docAdditions) {
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSlug)
     .use(toc)
-    .use(rehypeInferTitleMeta) // Find the main title.
-    .use(rehypeInferDescriptionMeta, { truncateSize: 64 }) // Find the description.
-    .use(rehypeInferReadingTimeMeta) // Estimate reading time.
-    // .use(unifiedInferGitMeta) // Find published, modified, and authors in Git.
+    .use(rehypeInferTitleMeta)
+    .use(rehypeInferDescriptionMeta, { truncateSize: 64 })
+    .use(rehypeInferReadingTimeMeta)
     .use(rehypeAutolinkHeadings)
     .use(rehypeHighlight, {
       languages: { clojure, typescript, javascript, java, xml, rust },

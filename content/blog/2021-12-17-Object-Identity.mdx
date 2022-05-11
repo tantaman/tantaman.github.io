@@ -4,7 +4,7 @@ title: 'Reference Equality - What is it Really?'
 tags: [software-engineering, framework]
 ---
 
-import Figure from '../components/Figure';
+import Figure from '/dist/components/Figure.js';
 
 In programming we're met with things that are completely new. Even though they're new, they're familiar enough to grasp with existing concepts. This converting the new to something familiar helps us to understand things at one level but if the familiar does not perfectly match the new then it causes us to fail to understand at another level.
 
@@ -19,7 +19,7 @@ But first, what is identity?
 # Identity
 
 <Figure
-  url="./blog-assets/identity-software/shipoftheseus.jpg"
+  url="/blog-assets/identity-software/shipoftheseus.jpg"
   description="Ship of Theseus"
 />
 
@@ -51,14 +51,14 @@ So is reference quality nominal or physical identity or neither?
 Reference equality looks a lot like nominal identity. A reference points to something as does a name. If the thing pointed to changes over time, the reference still holds just like nominal identity.
 
 <Figure
-  url="./blog-assets/identity-software/reference.png"
+  url="/blog-assets/identity-software/reference.png"
   description="Reference Equality Providing Nominal Identity"
 />
 
 Reference equality being the same as nominal identity breaks down as soon as you intorduce immutability. Once an object is immutable, there's no longer a way to capture the nominal identity of that object via a reference. This is the case since every time you change the object you must create a new one so the reference is always new. Immutable objects are thus left with only having a physical, and no nominal, identity.
 
 <Figure
-  url="./blog-assets/identity-software/immutable.png"
+  url="/blog-assets/identity-software/immutable.png"
   description="Reference Equality Losing Nominal Identity"
 />
 
