@@ -43,5 +43,11 @@ export default {
     return JSON.parse(contents);
   },
 
-  html(file, cwd) {},
+  async html(file, cwd) {
+    const contents = await fs.promises.readFile(file, { encoding: 'utf8' });
+    return {
+      code: contents,
+      frontmatter: {},
+    };
+  },
 };

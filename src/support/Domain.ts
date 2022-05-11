@@ -15,9 +15,10 @@ export type TweetState = {
 };
 
 export type Index = {
-  [key: string]: {
-    frontmatter: any;
-    code: string;
-    type: 'mdx' | 'html';
-  };
+  [key: string]: ContentMeta;
+};
+
+export type ContentMeta = {
+  frontmatter: any;
+  greymatter: any;
 };

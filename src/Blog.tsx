@@ -37,5 +37,5 @@ function BlogHome({ index }: { index?: Index }) {
 
 function BlogPost({ post, index }: { post: string; index: Index }) {
   const path = `blog/${post}`;
-  return <Content path={path} />;
+  return <Content path={path} meta={index[post]} />;
 }
