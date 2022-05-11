@@ -1,7 +1,7 @@
 {
   "name": "tantamanlands",
   "scripts": {
-    "bcontent": "git clean -xdf public && node compiler/build.js",
+    "build": "git clean -xdf public && node compiler/build.js && tsc",
     "twatch": "tsc --watch",
     "tsc": "tsc",
     "serve": "cd public && serve"

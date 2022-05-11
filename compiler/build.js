@@ -25,10 +25,20 @@ async function build(collection) {
 
   await fs.promises.mkdir(dest, { recursive: true });
   await Promise.all(
-    artifacts.map(async ([path, a]) => {
+    artifacts.flatMap(([destPath, a]) => {
       // TODO: allow generation of companion files. E.g., scripts.
-      const [stadalonePath, content] = postProcess(path, a, theIndex);
-      return await fs.promises.writeFile(stadalonePath, content);
+      const [stadalonePath, content] = postProcess(destPath, a, theIndex);
+      return [
+        fs.promises.writeFile(stadalonePath, content),
+        ...[
+          (a.companionFiles || []).map((f) => {
+            fs.promises.writeFile(
+              path.dirname(stadalonePath) + '/' + f.name,
+              f.content,
+            );
+          }),
+        ],
+      ];
     }),
   );
 }
