@@ -2,12 +2,15 @@
 slug: 2021-01-26-regression-mean-vs-gambler
 title: "Regression to the Mean & the Gambler's Fallacy - Simulated"
 tags: [math, demo]
-customjs:
-  - /assets/posts/regression-mean-vs-gambler.js
 image: /assets/posts/gambler-vs-mean.svg
-css:
-  - ../static/blog-assets/regression-mean-vs-gambler.css
+standalone: html
 ---
+
+<style type="text/css">
+@import url("/blog-assets/regression-mean-vs-gambler.css");
+</style>
+
+<script type="text/javascript" src="/blog-assets/regression-mean-vs-gambler.js"></script>
 
 [Jump to the simulation](#simulating-both-findings)
 
