@@ -123,10 +123,10 @@ async function processMarkdown(fileOrContent, docAdditions) {
     .use(remarkGfm)
     .use(remarkWikiLink)
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeInferDescriptionMeta, { truncateSize: 255 })
     .use(rehypeSlug)
     .use(toc)
     .use(rehypeInferTitleMeta)
-    .use(rehypeInferDescriptionMeta, { truncateSize: 64 })
     .use(rehypeInferReadingTimeMeta)
     .use(rehypeAutolinkHeadings)
     .use(rehypeHighlight, {
@@ -144,6 +144,9 @@ async function processMarkdown(fileOrContent, docAdditions) {
       siteTags: ['software', 'statistics', 'economics'],
       siteAuthor: 'Matt Wonlaw',
       siteTwitter: '@tantaman',
+      image: '/img/avatar-icon.png',
+      imageWidth: 312,
+      imageHeight: 369,
     })
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(fileOrContent);
