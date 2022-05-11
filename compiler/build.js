@@ -19,10 +19,17 @@ async function build(collection) {
 
   await fs.promises.mkdir(dest, { recursive: true });
   await Promise.all(
-    artifacts.map(
-      async ([path, a]) =>
-        await fs.promises.writeFile(path + '.json', JSON.stringify(a)),
-    ),
+    artifacts.map(async ([path, a]) => {
+      if (a.frontmatter?.standalone) {
+        const [stadalonePath, code] = makeStandalone(
+          path,
+          a.code,
+          a.frontmatter?.standalone,
+        );
+        return await fs.promises.writeFile(stadalonePath, code);
+      }
+      return await fs.promises.writeFile(path + '.json', JSON.stringify(a));
+    }),
   );
 
   await fs.promises.writeFile(
@@ -32,12 +39,14 @@ async function build(collection) {
 }
 
 /**
- *
- * @param {[string, {frontMatter: {[key: string]: any}}][]} artifacts
+ * @param {[string, {frontmatter: {[key: string]: any}}][]} artifacts
  */
 function index(artifacts) {
   const ret = artifacts.reduce((l, r) => {
-    l[path.basename(r[0])] = r[1].frontmatter || null;
+    l[path.basename(r[0])] = {
+      frontmatter: r[1].frontmatter || {},
+      greymatter: {},
+    };
     return l;
   }, {});
   return ret;
@@ -49,3 +58,10 @@ await Promise.all([
   build('tweets'),
   build('crumbs'),
 ]);
+
+function makeStandalone(path, content, ext) {
+  return [
+    `${path}.${ext}`,
+    `<!DOCTYPE html><html><body>${content}</body></html>`,
+  ];
+}

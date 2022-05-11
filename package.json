@@ -1,7 +1,7 @@
 {
   "name": "tantamanlands",
   "scripts": {
-    "bcontent": "node compiler/build.js",
+    "bcontent": "rm -rf public/built && node compiler/build.js",
     "start": "vite",
     "build": "vite build",
     "tsc": "tsc",
