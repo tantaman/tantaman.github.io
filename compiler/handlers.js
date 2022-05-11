@@ -28,8 +28,8 @@ export default {
       .use(remarkFrontmatter)
       .use(extractFromtmatter, { yaml: yaml.parse })
       .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeStringify)
+      .use(remarkRehype, { allowDangerousHtml: true })
+      .use(rehypeStringify, { allowDangerousHtml: true })
       .use(remarkWikiLink)
       .process(contents);
     return {
