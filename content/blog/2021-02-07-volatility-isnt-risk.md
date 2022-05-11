@@ -3,11 +3,13 @@ slug: 2021-02-07-volatility-isnt-risk
 title: "Volatility isn't Risk"
 tags: [finance, math]
 css:
-  - ../static/blog-assets/volatility-is-not-risk/style.css
+  - /blog-assets/volatility-is-not-risk/style.css
 image: /assets/posts/volatility-is-not-risk/cover.svg
 ---
 
-import Figure from '../components/Figure';
+<style type="text/css">
+  @import url("/blog-assets/volatility-is-not-risk/style.css");
+</style>
 
 The biggest lie in investing is that volatiliy = risk.
 
@@ -18,10 +20,11 @@ This is bogus. It misses the point of risk. Risk is about the chance of losing y
 The graph below is a highly volatile investment but the trend of the volatility is always upwards. If we've done our own risk assessment then this sort of upwards volatility doesn't matter to us.
 
 <img
-  src="./blog-assets/volatility-is-not-risk/volatile.svg"
-  style={{ width: 600, height: 400 }}
+  src="/blog-assets/volatility-is-not-risk/volatile.svg"
+  style="width: 600px; height: 400px"
 />
-<figcaption style={{ textAlign: 'center' }}>
+
+<figcaption style="textAlign: center">
   <i>Volatile but low risk</i>
 </figcaption>
 <br />
@@ -33,15 +36,16 @@ An oft repeated mantra in investing is that “past performance doesn’t guaran
 If a stock is extremely volatile, when do you buy in and when do you sell? You wouldn't want to end up buying at a peak and killing your returns if you sell in a dip.
 
 <img
-  src="./blog-assets/volatility-is-not-risk/peak-trough.svg"
-  style={{ width: 600, height: 400 }}
+  src="/blog-assets/volatility-is-not-risk/peak-trough.svg"
+  style="width: 600px; height: 400px"
 />
-<figcaption style={{ textAlign: 'center' }}>
+
+<figcaption style="textAlign: center">
   <i>Red - buys peak, sells future dip. Blue - buys dip, sells future peak</i>
 </figcaption>
 <br />
 
-In the above example, **<span className="blue">blue</span>** makes a killer return and **<span className="red">red</span>** makes a shitty return even though they both hold the investment for nearly the same period of time. This problem of buying and selling volatile investments is why many investors end up equating volatility with risk. We can easily compensate for price swings through two techniques, however.
+In the above example, **<span class="blue">blue</span>** makes a killer return and **<span class="red">red</span>** makes a shitty return even though they both hold the investment for nearly the same period of time. This problem of buying and selling volatile investments is why many investors end up equating volatility with risk. We can easily compensate for price swings through two techniques, however.
 
 1. The time horizon for holding an investment should always be long term. If you don't believe in the investment enough to hold it for more than 5 years, you shouldn't buy it.
 2. Dollar cost averaging.

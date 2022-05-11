@@ -2,11 +2,14 @@
 slug: 2021-12-28-Color-Picker-From-Scratch
 title: 'Understanding Color by Writing a Color Picker'
 tags: [software-engineering, demo]
-jsmodules:
-  - /assets/posts/color-picker-from-scratch/color-field.js
-css:
-  - /assets/posts/color-picker-from-scratch/color-field.css
+standalone: html
 ---
+
+<style type="text/css">
+@import url("/blog-assets/color-picker-from-scratch/color-field.css");
+</style>
+
+<script type="module" src="/blog-assets/color-picker-from-scratch/color-field.js"></script>
 
 > "Programmers re-invent the wheel so they can understand how the wheel works" - unknown
 

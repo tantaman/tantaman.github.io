@@ -1,4 +1,4 @@
-import { publisher, atom } from '/assets/js/publisher.js';
+import { publisher, atom } from '/blog-assets/publisher.js';
 
 // https://www.rapidtables.com/convert/color/hsv-to-rgb.html
 
