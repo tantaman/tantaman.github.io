@@ -14,6 +14,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeHighlight from 'rehype-highlight';
 import toc from '@jsdevtools/rehype-toc';
 import yaml from 'yaml';
+import rehypeDocument from 'rehype-document';
 
 import clojure from 'highlight.js/lib/languages/clojure';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -58,6 +59,7 @@ export default {
       .use(rehypeHighlight, {
         languages: { clojure, typescript, javascript, java, xml, rust },
       })
+      .use(rehypeDocument)
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(contents);
 
@@ -84,11 +86,6 @@ export default {
     };
   },
 
-  // TODO: ideally we pass the index of all files and all their frontmatter.
-  // of course excluding js files.
-  // so requires 2 passes.
-  // our maybe the js can return a function for `content` which will be invoked
-  // with the index.
   async js(file, cwd, files) {
     // should js return a rehype doc?
     // probs.. so we can have all the same integrations as above.

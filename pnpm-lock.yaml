@@ -21,6 +21,7 @@ specifiers:
   react-dom: ^18
   react-query: ^3.39.0
   rehype-autolink-headings: ^6.1.1
+  rehype-document: ^6.0.1
   rehype-highlight: ^5.0.2
   rehype-slug: ^5.0.1
   rehype-stringify: ^9.0.3
@@ -48,6 +49,7 @@ dependencies:
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
   react-query: 3.39.0_ef5jwxihqo6n7gxfmzogljlgcm
+  rehype-document: 6.0.1
 
 devDependencies:
   '@jsdevtools/rehype-toc': 3.0.2
@@ -1503,6 +1505,12 @@ packages:
       '@types/unist': 2.0.6
     dev: true
 
+  /hast-util-parse-selector/3.1.0:
+    resolution: {integrity: sha512-AyjlI2pTAZEOeu7GeBPZhROx0RHBnydkQIXlhnFzDi0qfXTmGUWoCYZtomHbrdrheV4VFUlPcfJ6LMF5T6sQzg==}
+    dependencies:
+      '@types/hast': 2.3.4
+    dev: false
+
   /hast-util-to-estree/2.0.2:
     resolution: {integrity: sha512-UQrZVeBj6A9od0lpFvqHKNSH9zvDrNoyWKbveu1a2oSCXEDUI+3bnd6BoiQLPnLrcXXn/jzJ6y9hmJTTlvf8lQ==}
     dependencies:
@@ -1554,6 +1562,16 @@ packages:
 
   /hast-util-whitespace/2.0.0:
     resolution: {integrity: sha512-Pkw+xBHuV6xFeJprJe2BBEoDV+AvQySaz3pPDRUs5PNZEMQjpXJJueqrpcHIXxnWTcAGi/UOCgVShlkY6kLoqg==}
+
+  /hastscript/7.0.2:
+    resolution: {integrity: sha512-uA8ooUY4ipaBvKcMuPehTAB/YfFLSSzCwFSwT6ltJbocFUKH/GDHLN+tflq7lSRf9H86uOuxOFkh1KgIy3Gg2g==}
+    dependencies:
+      '@types/hast': 2.3.4
+      comma-separated-tokens: 2.0.2
+      hast-util-parse-selector: 3.1.0
+      property-information: 6.1.1
+      space-separated-tokens: 2.0.1
+    dev: false
 
   /highlight.js/11.5.1:
     resolution: {integrity: sha512-LKzHqnxr4CrD2YsNoIf/o5nJ09j4yi/GcH5BnYz9UnVpZdS4ucMgvP61TDty5xJcFGRjnH4DpujkS9bHT3hq0Q==}
@@ -2645,6 +2663,14 @@ packages:
       unified: 10.1.2
       unist-util-visit: 4.1.0
     dev: true
+
+  /rehype-document/6.0.1:
+    resolution: {integrity: sha512-Uz36ekagn5MilQNqNCjmoQBqGHPwr8P39v3N09l38FGaBh5pPEhRQnQb8sG065Mhncs0wEcBSNLN+sOkjFhabQ==}
+    dependencies:
+      '@types/hast': 2.3.4
+      hastscript: 7.0.2
+      unified: 10.1.2
+    dev: false
 
   /rehype-highlight/5.0.2:
     resolution: {integrity: sha512-ZNm8V8BQUDn05cJPzAu/PjiloaFFrh+Pt3bY+NCcdCggI7Uyl5mW0FGR7RATeIz5/ECUd1D8Kvjt4HaLPmnOMw==}
