@@ -21,6 +21,7 @@ import rehypeInferTitleMeta from 'rehype-infer-title-meta';
 import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
 import unifiedInferGitMeta from 'unified-infer-git-meta';
+import { compile as compileMdx } from '@mdx-js/mdx';
 
 import clojure from 'highlight.js/lib/languages/clojure';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -32,11 +33,56 @@ import path from 'path';
 
 export default {
   async mdx(file, cwd) {
+    // const compiled = await compileMdx()
     const ret = await bundleMDX({
       file,
       cwd,
+      mdxOptions(options, frontmatter) {
+        // this is the recommended way to add custom remark/rehype plugins:
+        // The syntax might look weird, but it protects you in case we add/remove
+        // plugins in the future.
+        options.remarkPlugins = [
+          ...(options.remarkPlugins ?? []),
+          remarkWikiLink,
+        ];
+        options.rehypePlugins = [
+          ...(options.rehypePlugins ?? []),
+          toc,
+          rehypeInferTitleMeta,
+          [rehypeInferDescriptionMeta, { truncateSize: 64 }],
+          rehypeInferReadingTimeMeta,
+          unifiedInferGitMeta,
+          rehypeAutolinkHeadings,
+          [
+            rehypeHighlight,
+            { languages: { clojure, typescript, javascript, java, xml, rust } },
+          ],
+          [
+            rehypeDocument,
+            {
+              js: '/dist/main.js',
+            },
+          ],
+          [
+            rehypeMeta,
+            {
+              og: true,
+              twitter: true,
+              copyright: true,
+              type: 'article',
+              name: 'Tantamanlands',
+              siteTags: ['software', 'statistics', 'economics'],
+              siteAuthor: 'Matt Wonlaw',
+              siteTwitter: '@tantaman',
+            },
+          ],
+        ];
+
+        return options;
+      },
     });
 
+    console.log(ret);
     // re-write code into a standalone format
     ret.code = `<script type="text/javascript">window.mdxBundle = ${JSON.stringify(
       ret.code,
