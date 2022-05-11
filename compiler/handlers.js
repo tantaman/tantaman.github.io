@@ -15,7 +15,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeHighlight from 'rehype-highlight';
 import toc from '@jsdevtools/rehype-toc';
 import yaml from 'yaml';
-import rehypeDocument from 'rehype-document';
+import rehypeDocument from './rehype-document.js';
 import rehypeMeta from 'rehype-meta';
 import rehypeInferTitleMeta from 'rehype-infer-title-meta';
 import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
@@ -33,100 +33,24 @@ import path from 'path';
 
 export default {
   async mdx(file, cwd) {
-    // const compiled = await compileMdx()
-    const ret = await bundleMDX({
-      file,
-      cwd,
-      mdxOptions(options, frontmatter) {
-        // this is the recommended way to add custom remark/rehype plugins:
-        // The syntax might look weird, but it protects you in case we add/remove
-        // plugins in the future.
-        options.remarkPlugins = [
-          ...(options.remarkPlugins ?? []),
-          remarkWikiLink,
-        ];
-        options.rehypePlugins = [
-          ...(options.rehypePlugins ?? []),
-          toc,
-          rehypeInferTitleMeta,
-          [rehypeInferDescriptionMeta, { truncateSize: 64 }],
-          rehypeInferReadingTimeMeta,
-          unifiedInferGitMeta,
-          rehypeAutolinkHeadings,
-          [
-            rehypeHighlight,
-            { languages: { clojure, typescript, javascript, java, xml, rust } },
-          ],
-          [
-            rehypeDocument,
-            {
-              js: '/dist/main.js',
-            },
-          ],
-          [
-            rehypeMeta,
-            {
-              og: true,
-              twitter: true,
-              copyright: true,
-              type: 'article',
-              name: 'Tantamanlands',
-              siteTags: ['software', 'statistics', 'economics'],
-              siteAuthor: 'Matt Wonlaw',
-              siteTwitter: '@tantaman',
-            },
-          ],
-        ];
-
-        return options;
-      },
+    // TODO: extract frontmatter and things. Enable GFM and such.
+    const compiled = await compileMdx(await read(file), {
+      jsxImportSource: 'https://esm.sh/react',
+    });
+    const parsed = await processMarkdown('<div id="mdx"></div>', {
+      script: [compiled.toString()],
     });
 
-    console.log(ret);
-    // re-write code into a standalone format
-    ret.code = `<script type="text/javascript">window.mdxBundle = ${JSON.stringify(
-      ret.code,
-    )}</script>`;
-
     return {
+      content: parsed.toString(),
+      frontmatter: compiled.data,
       compiledFilename: compiledFilename(file),
-      content: ret.code,
-      frontmatter: ret.frontmatter,
-      greymatter: ret.greymatter,
+      greymatter: {},
     };
   },
 
   async md(file, cwd) {
-    const parsed = await unified()
-      .use(remarkParse)
-      .use(remarkFrontmatter)
-      .use(extractFromtmatter, { yaml: yaml.parse })
-      .use(remarkGfm)
-      .use(remarkWikiLink)
-      .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeSlug)
-      .use(toc)
-      .use(rehypeInferTitleMeta) // Find the main title.
-      .use(rehypeInferDescriptionMeta, { truncateSize: 64 }) // Find the description.
-      .use(rehypeInferReadingTimeMeta) // Estimate reading time.
-      .use(unifiedInferGitMeta) // Find published, modified, and authors in Git.
-      .use(rehypeAutolinkHeadings)
-      .use(rehypeHighlight, {
-        languages: { clojure, typescript, javascript, java, xml, rust },
-      })
-      .use(rehypeDocument)
-      .use(rehypeMeta, {
-        og: true,
-        twitter: true,
-        copyright: true,
-        type: 'article',
-        name: 'Tantamanlands',
-        siteTags: ['software', 'statistics', 'economics'],
-        siteAuthor: 'Matt Wonlaw',
-        siteTwitter: '@tantaman',
-      })
-      .use(rehypeStringify, { allowDangerousHtml: true })
-      .process(await read(file));
+    const parsed = await processMarkdown(await read(file));
 
     return {
       content: parsed.toString(),
@@ -160,6 +84,41 @@ export default {
     return ret;
   },
 };
+
+async function processMarkdown(fileOrContent, docAdditions) {
+  return await unified()
+    .use(remarkParse)
+    .use(remarkFrontmatter)
+    .use(extractFromtmatter, { yaml: yaml.parse })
+    .use(remarkGfm)
+    .use(remarkWikiLink)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeSlug)
+    .use(toc)
+    .use(rehypeInferTitleMeta) // Find the main title.
+    .use(rehypeInferDescriptionMeta, { truncateSize: 64 }) // Find the description.
+    .use(rehypeInferReadingTimeMeta) // Estimate reading time.
+    // .use(unifiedInferGitMeta) // Find published, modified, and authors in Git.
+    .use(rehypeAutolinkHeadings)
+    .use(rehypeHighlight, {
+      languages: { clojure, typescript, javascript, java, xml, rust },
+    })
+    .use(rehypeDocument, {
+      ...docAdditions,
+    })
+    .use(rehypeMeta, {
+      og: true,
+      twitter: true,
+      copyright: true,
+      type: 'article',
+      name: 'Tantamanlands',
+      siteTags: ['software', 'statistics', 'economics'],
+      siteAuthor: 'Matt Wonlaw',
+      siteTwitter: '@tantaman',
+    })
+    .use(rehypeStringify, { allowDangerousHtml: true })
+    .process(fileOrContent);
+}
 
 function compiledFilename(file) {
   let ret = path.basename(file);
