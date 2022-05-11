@@ -1,30 +1,33 @@
-import path from 'path';
 import React from 'react';
 import { useQuery } from 'react-query';
 import api from './api/api';
-import { BlogState } from './support/Domain';
+import { BlogState, Index } from './support/Domain';
 import Link from './support/Link';
-import stripExtension from './support/stripExtension';
 import MdxContent from './support/MdxContent';
+import Oops from './error/Oops';
 
 export default function Blog({ state }: { state: BlogState }) {
-  if (state.post) {
-    return <BlogPost post={state.post} />;
+  const { isLoading, error, data } = useQuery('blog/index', api.index('blog'));
+  if (error) {
+    return <Oops e={error} />;
   }
-  return <BlogHome />;
+
+  if (state.post && data) {
+    return <BlogPost index={data} post={state.post} />;
+  }
+  return <BlogHome index={data} />;
 }
 
-function BlogHome() {
-  const { isLoading, error, data } = useQuery('blog/index', api.index('blog'));
-  if (data == null) {
+function BlogHome({ index }: { index?: Index }) {
+  if (index == null) {
     return <div></div>;
   }
   return (
     <div>
       <ul>
-        {Object.entries(data).map(([key, matter]) => (
+        {Object.entries(index).map(([key, matter]) => (
           <li key={key}>
-            <Link path={`/blog/${stripExtension(key)}`}>{key}</Link>
+            <Link path={`#/blog/${key}`}>{key}</Link>
           </li>
         ))}
       </ul>
@@ -32,8 +35,8 @@ function BlogHome() {
   );
 }
 
-function BlogPost({ post }: { post: string }) {
-  const path = `blog/${post}.mdx`;
+function BlogPost({ post, index }: { post: string; index: Index }) {
+  const path = `blog/${post}`;
 
   return <MdxContent path={path} />;
 }

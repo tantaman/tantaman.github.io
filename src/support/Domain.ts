@@ -13,3 +13,11 @@ export type BlogState = {
 export type TweetState = {
   section: 'tweets';
 };
+
+export type Index = {
+  [key: string]: {
+    frontMatter: any;
+    code: string;
+    type: 'mdx' | 'html';
+  };
+};
