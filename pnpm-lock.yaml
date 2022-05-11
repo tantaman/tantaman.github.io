@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@jsdevtools/rehype-toc': ^3.0.2
   '@mdx-js/mdx': ^2.1.1
   '@mdx-js/react': ^2.1.1
   '@mdx-js/rollup': ^2.1.1
@@ -13,12 +14,14 @@ specifiers:
   '@vanilla-extract/vite-plugin': ^3.1.6
   '@vitejs/plugin-react': ^1.3.2
   esbuild: ^0.14.38
+  highlight.js: ^11.5.1
   mdx-bundler: ^9.0.0
   memoize-one: ^6.0.0
   react: ^18
   react-dom: ^18
   react-query: ^3.39.0
   rehype-autolink-headings: ^6.1.1
+  rehype-highlight: ^5.0.2
   rehype-slug: ^5.0.1
   rehype-stringify: ^9.0.3
   remark-extract-frontmatter: ^3.2.0
@@ -47,6 +50,7 @@ dependencies:
   react-query: 3.39.0_ef5jwxihqo6n7gxfmzogljlgcm
 
 devDependencies:
+  '@jsdevtools/rehype-toc': 3.0.2
   '@types/compression': 1.7.2
   '@types/express': 4.17.13
   '@types/node': 17.0.31
@@ -54,8 +58,10 @@ devDependencies:
   '@types/react-dom': 18.0.3
   '@vitejs/plugin-react': 1.3.2
   esbuild: 0.14.38
+  highlight.js: 11.5.1
   mdx-bundler: 9.0.0_esbuild@0.14.38
   rehype-autolink-headings: 6.1.1
+  rehype-highlight: 5.0.2
   rehype-slug: 5.0.1
   rehype-stringify: 9.0.3
   remark-extract-frontmatter: 3.2.0
@@ -390,6 +396,11 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.0.7
       '@jridgewell/sourcemap-codec': 1.4.13
+    dev: true
+
+  /@jsdevtools/rehype-toc/3.0.2:
+    resolution: {integrity: sha512-n5JEf16Wr4mdkRMZ8wMP/wN9/sHmTjRPbouXjJH371mZ2LEGDl72t8tEsMRNFerQN/QJtivOxqK1frdGa4QK5Q==}
+    engines: {node: '>=10'}
     dev: true
 
   /@mdx-js/esbuild/2.1.1_esbuild@0.14.38:
@@ -1533,8 +1544,21 @@ packages:
       '@types/hast': 2.3.4
     dev: true
 
+  /hast-util-to-text/3.1.1:
+    resolution: {integrity: sha512-7S3mOBxACy8syL45hCn3J7rHqYaXkxRfsX6LXEU5Shz4nt4GxdjtMUtG+T6G/ZLUHd7kslFAf14kAN71bz30xA==}
+    dependencies:
+      '@types/hast': 2.3.4
+      hast-util-is-element: 2.1.2
+      unist-util-find-after: 4.0.0
+    dev: true
+
   /hast-util-whitespace/2.0.0:
     resolution: {integrity: sha512-Pkw+xBHuV6xFeJprJe2BBEoDV+AvQySaz3pPDRUs5PNZEMQjpXJJueqrpcHIXxnWTcAGi/UOCgVShlkY6kLoqg==}
+
+  /highlight.js/11.5.1:
+    resolution: {integrity: sha512-LKzHqnxr4CrD2YsNoIf/o5nJ09j4yi/GcH5BnYz9UnVpZdS4ucMgvP61TDty5xJcFGRjnH4DpujkS9bHT3hq0Q==}
+    engines: {node: '>=12.0.0'}
+    dev: true
 
   /html-void-elements/2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
@@ -1738,6 +1762,14 @@ packages:
     resolution: {integrity: sha512-OvKfgCC2Ndby6aSTREl5aCCPTNIzlDfQZvZxNUrBrihDhL3xcrYegTblhmEiCrg2kKQz4XsFIaemE5BF4ybSaQ==}
     dependencies:
       get-func-name: 2.0.0
+    dev: true
+
+  /lowlight/2.6.1:
+    resolution: {integrity: sha512-t0ueDL6SIn9FKHipm78CNjWcJQv0xi6WCjYAICyO6GyPzoT7E58yom1mNwvI7AMwVe3pLwwFT0Bt2gml7uaUeQ==}
+    dependencies:
+      '@types/hast': 2.3.4
+      fault: 2.0.1
+      highlight.js: 11.5.1
     dev: true
 
   /markdown-extensions/1.1.1:
@@ -2614,6 +2646,16 @@ packages:
       unist-util-visit: 4.1.0
     dev: true
 
+  /rehype-highlight/5.0.2:
+    resolution: {integrity: sha512-ZNm8V8BQUDn05cJPzAu/PjiloaFFrh+Pt3bY+NCcdCggI7Uyl5mW0FGR7RATeIz5/ECUd1D8Kvjt4HaLPmnOMw==}
+    dependencies:
+      '@types/hast': 2.3.4
+      hast-util-to-text: 3.1.1
+      lowlight: 2.6.1
+      unified: 10.1.2
+      unist-util-visit: 4.1.0
+    dev: true
+
   /rehype-slug/5.0.1:
     resolution: {integrity: sha512-X5v3wV/meuOX9NFcGhJvUpEjIvQl2gDvjg3z40RVprYFt7q3th4qMmYLULiu3gXvbNX1ppx+oaa6JyY1W67pTA==}
     dependencies:
@@ -2949,6 +2991,13 @@ packages:
     resolution: {integrity: sha512-GFxmfEAa0vi9i5sd0R2kcrI9ks0r82NasRq5QHh2ysGngrc6GiqD5CDf1FjPenY4vApmFASBIIlk/jj5J5YbmQ==}
     dependencies:
       '@types/unist': 2.0.6
+
+  /unist-util-find-after/4.0.0:
+    resolution: {integrity: sha512-gfpsxKQde7atVF30n5Gff2fQhAc4/HTOV4CvkXpTg9wRfQhZWdXitpyXHWB6YcYgnsxLx+4gGHeVjCTAAp9sjw==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+    dev: true
 
   /unist-util-generated/2.0.0:
     resolution: {integrity: sha512-TiWE6DVtVe7Ye2QxOVW9kqybs6cZexNwTwSMVgkfjEReqy/xwGpAXb99OxktoWwmL+Z+Epb0Dn8/GNDYP1wnUw==}
