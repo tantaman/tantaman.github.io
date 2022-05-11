@@ -3,8 +3,8 @@ import { useQuery } from 'react-query';
 import api from './api/api';
 import { BlogState, Index } from './support/Domain';
 import Link from './support/Link';
-import MdxContent from './support/MdxContent';
 import Oops from './error/Oops';
+import Content from './support/Content';
 
 export default function Blog({ state }: { state: BlogState }) {
   const { isLoading, error, data } = useQuery('blog/index', api.index('blog'));
@@ -37,6 +37,5 @@ function BlogHome({ index }: { index?: Index }) {
 
 function BlogPost({ post, index }: { post: string; index: Index }) {
   const path = `blog/${post}`;
-
-  return <MdxContent path={path} />;
+  return <Content path={path} />;
 }

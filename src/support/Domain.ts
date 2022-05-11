@@ -16,7 +16,7 @@ export type TweetState = {
 
 export type Index = {
   [key: string]: {
-    frontMatter: any;
+    frontmatter: any;
     code: string;
     type: 'mdx' | 'html';
   };
