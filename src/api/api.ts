@@ -1,9 +1,9 @@
 import { Section } from '../support/Domain';
 
 export default {
-  index(section: Section) {
+  index(path: string) {
     return () =>
-      fetch(`/built/${section}/index.json`).then((response) => response.json());
+      fetch(`/built/${path}/index.json`).then((response) => response.json());
   },
 
   content(path: string) {

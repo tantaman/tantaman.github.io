@@ -1,6 +1,6 @@
 import { SiteState } from './Domain';
 
-export function decodeUrl(path: string = window.location.pathname): SiteState {
+export function decodeUrl(path: string = window.location.hash): SiteState {
   const [_, section, subsection] = path.split('/');
   if (section === 'blog') {
     return {
