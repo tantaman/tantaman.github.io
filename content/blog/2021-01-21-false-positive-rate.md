@@ -2,12 +2,18 @@
 slug: 2021-01-21-false-positive-rate
 title: 'Understanding False Positive Rate'
 tags: [math, demo]
-customjs:
-  - /assets/posts/false-positive-rate.js
 image: /assets/posts/understanding-fp-rate.svg
-css:
-  - ../static/blog-assets/false-positive-rate.css
+standalone: html
 ---
+
+<style type="text/css">
+  @import url("/blog-assets/false-positive-rate.css");
+</style>
+
+<script
+  type="text/javascript"
+  src="/blog-assets/false-positive-rate.js"
+></script>
 
 [Jump to the simulation](#prior-probability)
 
@@ -21,27 +27,25 @@ Speaking with friends and family, the conversation around the chances of having 
 
 <ul class="dialogue">
   <li>
-    <strong>Me:</strong>{' '}
-    <q>
-      What do you think the chances are of having COVID if you test positive for
+    <strong>Me:</strong>
+    <q>What do you think the chances are of having COVID if you test positive for
       COVID?
     </q>
   </li>
   <li>
-    <strong>Friend/Family:</strong>{' '}
+    <strong>Friend/Family:</strong>
     <q>What's the false positive rate of the test?</q>
   </li>
   <li>
     <strong>Me:</strong> <q>0.5%</q>
   </li>
   <li>
-    <strong>F/F:</strong>{' '}
+    <strong>F/F:</strong>
     <q>Then there's a 99.5% chance that you do have COVID.</q>
   </li>
   <li>
-    <strong>Me:</strong>{' '}
-    <q>
-      That's actually not how false positive rate works. You have to account for
+    <strong>Me:</strong>
+    <q>That's actually not how false positive rate works. You have to account for
       prevalence of the disease.
     </q>
   </li>
