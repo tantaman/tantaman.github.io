@@ -36,6 +36,23 @@ export default {
     // TODO: extract frontmatter and things. Enable GFM and such.
     const compiledMdx = await compileMdx(await read(file), {
       jsxImportSource: 'https://esm.sh/react',
+      remarkPlugins: [
+        remarkFrontmatter,
+        [extractFromtmatter, { yaml: yaml.parse }],
+        remarkGfm,
+        remarkWikiLink,
+      ],
+      rehypePlugins: [
+        rehypeSlug,
+        toc,
+        rehypeAutolinkHeadings,
+        [
+          rehypeHighlight,
+          {
+            languages: { clojure, typescript, javascript, java, xml, rust },
+          },
+        ],
+      ],
     });
     const companionScriptName = path.basename(file) + '.js';
     const parsed = await processMarkdown('<div id="mdx"></div>', {
