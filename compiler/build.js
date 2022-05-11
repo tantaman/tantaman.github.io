@@ -3,7 +3,7 @@ import path from 'path';
 import handlers from './handlers.js';
 import postProcess from './postProcess.js';
 
-const builtDir = './public/built/';
+const builtDir = './public/';
 
 async function build(collection) {
   const dest = builtDir + collection;
