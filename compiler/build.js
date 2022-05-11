@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import handlers from './handlers.js';
+import makeStandalone from './makeStandalone.js';
 
 const builtDir = './public/built/';
 
@@ -22,37 +23,10 @@ async function build(collection) {
   await fs.promises.mkdir(dest, { recursive: true });
   await Promise.all(
     artifacts.map(async ([path, a]) => {
-      // TODO: allow configuring redirects
-      if (a.frontmatter?.standalone) {
-        const [stadalonePath, code] = makeStandalone(
-          path,
-          a.code,
-          a.frontmatter?.standalone,
-        );
-        return await fs.promises.writeFile(stadalonePath, code);
-      }
-      return await fs.promises.writeFile(path + '.json', JSON.stringify(a));
+      const [stadalonePath, content] = makeStandalone(path, a);
+      return await fs.promises.writeFile(stadalonePath, content);
     }),
   );
-
-  await fs.promises.writeFile(
-    dest + '/index.json',
-    JSON.stringify(index(artifacts)),
-  );
-}
-
-/**
- * @param {[string, {frontmatter: {[key: string]: any}}][]} artifacts
- */
-function index(artifacts) {
-  const ret = artifacts.reduce((l, r) => {
-    l[path.basename(r[0])] = {
-      frontmatter: r[1].frontmatter || {},
-      greymatter: {},
-    };
-    return l;
-  }, {});
-  return ret;
 }
 
 await Promise.all([
@@ -61,10 +35,3 @@ await Promise.all([
   build('tweets'),
   build('crumbs'),
 ]);
-
-function makeStandalone(path, content, ext) {
-  return [
-    `${path}.${ext}`,
-    `<!DOCTYPE html><html><body>${content}</body></html>`,
-  ];
-}

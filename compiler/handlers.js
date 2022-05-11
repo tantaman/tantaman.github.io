@@ -29,7 +29,16 @@ export default {
       cwd,
     });
 
-    return ret;
+    // re-write code into a standalone format
+    ret.code = `<script type="text/javascript">window.mdxBundle = ${JSON.stringify(
+      ret.code,
+    )}</script>`;
+
+    return {
+      content: ret.code,
+      frontmatter: ret.frontmatter,
+      greymatter: ret.greymatter,
+    };
   },
 
   async md(file, cwd) {
@@ -50,7 +59,7 @@ export default {
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(contents);
     return {
-      code: parsed.toString(),
+      content: parsed.toString(),
       frontmatter: parsed.data,
     };
   },
@@ -61,9 +70,20 @@ export default {
   },
 
   async html(file, cwd) {
-    const contents = await fs.promises.readFile(file, { encoding: 'utf8' });
+    const content = await fs.promises.readFile(file, { encoding: 'utf8' });
     return {
-      code: contents,
+      content,
+      frontmatter: {},
+    };
+  },
+
+  async js(file, cwd) {
+    // import it?
+    // run it..
+    const module = await import(file);
+    console.log(module);
+    return {
+      content: '',
       frontmatter: {},
     };
   },
