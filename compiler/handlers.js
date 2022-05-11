@@ -9,6 +9,8 @@ import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import remarkWikiLink from 'remark-wiki-link';
 import extractFromtmatter from 'remark-extract-frontmatter';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'rehype-slug';
 import yaml from 'yaml';
 
 export default {
@@ -28,9 +30,11 @@ export default {
       .use(remarkFrontmatter)
       .use(extractFromtmatter, { yaml: yaml.parse })
       .use(remarkGfm)
-      .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeStringify, { allowDangerousHtml: true })
       .use(remarkWikiLink)
+      .use(remarkRehype, { allowDangerousHtml: true })
+      .use(rehypeSlug)
+      .use(rehypeAutolinkHeadings)
+      .use(rehypeStringify, { allowDangerousHtml: true })
       .process(contents);
     return {
       code: parsed.toString(),
