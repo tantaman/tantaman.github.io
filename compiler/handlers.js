@@ -34,18 +34,32 @@ import path from 'path';
 export default {
   async mdx(file, cwd) {
     // TODO: extract frontmatter and things. Enable GFM and such.
-    const compiled = await compileMdx(await read(file), {
+    const compiledMdx = await compileMdx(await read(file), {
       jsxImportSource: 'https://esm.sh/react',
     });
+    const companionScriptName = path.basename(file) + '.js';
     const parsed = await processMarkdown('<div id="mdx"></div>', {
-      script: [compiled.toString()],
+      script: `import MDXContent from "./${companionScriptName}";
+import React from 'https://esm.sh/react';
+import { createRoot } from 'https://esm.sh/react-dom/client';
+
+const rootElement = document.getElementById("mdx");
+const root = createRoot(rootElement)
+root.render(React.createElement(MDXContent, {}, null));
+`,
     });
 
     return {
       content: parsed.toString(),
-      frontmatter: compiled.data,
+      frontmatter: compiledMdx.data,
       compiledFilename: compiledFilename(file),
       greymatter: {},
+      companionFiles: [
+        {
+          name: companionScriptName,
+          content: compiledMdx.toString(),
+        },
+      ],
     };
   },
 

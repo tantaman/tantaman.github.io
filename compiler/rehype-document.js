@@ -121,7 +121,7 @@ export default function rehypeDocument(options = {}) {
     while (++index < js.length) {
       contents.push(
         { type: 'text', value: '\n' },
-        h('script', { src: js[index] }),
+        h('script', { src: js[index], type: 'module' }),
       );
     }
 
