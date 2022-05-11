@@ -4,20 +4,16 @@ import api from '../api/api';
 
 export default function HtmlContent({ path }: { path: string }) {
   const { isLoading, error, data } = useQuery(path, api.content(path));
-  const [addedScripts, setAddedScripts] = useState(false);
 
   if (data == null) {
     return <div></div>;
   }
 
-  // OK.. instead of doing this and how buggy it is...
-  // We should generate a new html page to sandbox these things...
-  // SSR?
-  // iframe and load as actual html?
-  return (
-    <div
-      dangerouslySetInnerHTML={{ __html: data.code }}
-      ref={(n) => {
+  return <div dangerouslySetInnerHTML={{ __html: data.code }} />;
+}
+
+/*
+ref={(n) => {
         if (n == null || addedScripts) {
           return;
         }
@@ -31,6 +27,4 @@ export default function HtmlContent({ path }: { path: string }) {
         });
         setAddedScripts(true);
       }}
-    />
-  );
-}
+*/

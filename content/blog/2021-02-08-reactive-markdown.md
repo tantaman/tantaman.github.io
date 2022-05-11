@@ -9,8 +9,6 @@ css:
   - ../static/blog-assets/reactive-markdown/main.css
 ---
 
-## DEPRECATED -- moved to mdx.
-
 Many of my blog posts contain interactive demos or content that is generated via `JavaScript`. The prose of my posts, however, is written in `Markdown`. Shuttling data back and forth from the `Markdown` side to the `JS` side can be annoying, especially when data from `JavaScript` needs to be displayed inline with the markdown and updated in real time.
 
 I've experimented with a few ways. The guiding principle around these experiments is to do as much as possible with as little code as possible.

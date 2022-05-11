@@ -1,4 +1,4 @@
-import marked from '/assets/js/marked.js';
+import marked from '/blog-assets/marked.js';
 
 function remove(a, x) {
   a.splice(a.indexOf(x), 1);
@@ -35,7 +35,7 @@ function atom(initial) {
   let listeners = [];
 
   function notify() {
-    listeners.forEach(l => l(state));
+    listeners.forEach((l) => l(state));
   }
 
   return {
@@ -71,11 +71,7 @@ function atom(initial) {
 }
 
 function publisher(el) {
-  function _render(
-    content,
-    atom,
-    converter = identity,
-  ) {
+  function _render(content, atom, converter = identity) {
     if (typeof content === 'string') {
       invariant(atom == null, 'You cannot use an atom with raw string content');
       // render and append to doc
@@ -94,25 +90,12 @@ function publisher(el) {
     return p;
   }
 
-  function md(
-    content,
-    atom,
-  ) {
-    _render(
-      content,
-      atom,
-      marked,
-    );
+  function md(content, atom) {
+    _render(content, atom, marked);
   }
 
-  function html(
-    content,
-    atom,
-  ) {
-    _render(
-      content,
-      atom,
-    );
+  function html(content, atom) {
+    _render(content, atom);
   }
 
   function append(rendered_content) {
@@ -131,7 +114,4 @@ function publisher(el) {
   };
 }
 
-export {
-  publisher,
-  atom,
-};
+export { publisher, atom };
