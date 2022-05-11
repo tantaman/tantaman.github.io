@@ -2,8 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import handlers from './handlers.js';
 
+const builtDir = './public/built/';
+
 async function build(collection) {
-  const dest = './public/built/' + collection;
+  const dest = builtDir + collection;
   const files = await fs.promises.readdir('./content/' + collection);
   const artifacts = await Promise.all(
     files.map(async (file) => {
