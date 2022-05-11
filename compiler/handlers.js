@@ -11,7 +11,16 @@ import remarkWikiLink from 'remark-wiki-link';
 import extractFromtmatter from 'remark-extract-frontmatter';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
+import rehypeHighlight from 'rehype-highlight';
+import toc from '@jsdevtools/rehype-toc';
 import yaml from 'yaml';
+
+import clojure from 'highlight.js/lib/languages/clojure';
+import typescript from 'highlight.js/lib/languages/typescript';
+import javascript from 'highlight.js/lib/languages/javascript';
+import java from 'highlight.js/lib/languages/java';
+import xml from 'highlight.js/lib/languages/xml';
+import rust from 'highlight.js/lib/languages/rust';
 
 export default {
   async mdx(file, cwd) {
@@ -33,7 +42,11 @@ export default {
       .use(remarkWikiLink)
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(rehypeSlug)
+      .use(toc)
       .use(rehypeAutolinkHeadings)
+      .use(rehypeHighlight, {
+        languages: { clojure, typescript, javascript, java, xml, rust },
+      })
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(contents);
     return {
@@ -55,3 +68,5 @@ export default {
     };
   },
 };
+
+// https://unifiedjs.com/explore/package/rehype-meta/

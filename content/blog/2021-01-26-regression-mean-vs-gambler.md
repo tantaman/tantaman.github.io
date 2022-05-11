@@ -103,11 +103,11 @@ We're interseted in (3) so we can verify that a series of flips immediately afte
         <i data-bind="after_run_tails"></i> <span class="coin side-T"></span>
       </td>
       <td>
-        <i data-bind="seq_after_run_heads"></i> <span class="coin side-H"></span>{' '}
+        <i data-bind="seq_after_run_heads"></i> <span class="coin side-H"></span>&nbsp;
         /<i data-bind="seq_after_run_tails"></i> <span class="coin side-T"></span>
       </td>
       <td>
-        <i data-bind="num_seq_closer_to_mean"></i> of <i data-bind="num_runs"></i>{' '}
+        <i data-bind="num_seq_closer_to_mean"></i> of <i data-bind="num_runs"></i>&nbsp;
         Closer to mean
       </td>
     </tr>
@@ -158,15 +158,15 @@ To be sure, let's re-do the analysis above but for streaks of heads only.
         <i data-bind="heads_num_runs"></i> Streaks
       </td>
       <td>
-        <i data-bind="heads_after_run_heads"></i> <span class="coin side-H"></span>{' '}
+        <i data-bind="heads_after_run_heads"></i> <span class="coin side-H"></span>&nbsp;
         /<i data-bind="heads_after_run_tails"></i> <span class="coin side-T"></span>
       </td>
       <td>
-        <i data-bind="heads_seq_after_run_heads"></i> <span class="coin side-H"></span>{' '}
+        <i data-bind="heads_seq_after_run_heads"></i> <span class="coin side-H"></span>&nbsp;
         /<i data-bind="heads_seq_after_run_tails"></i> <span class="coin side-T"></span>
       </td>
       <td>
-        <i data-bind="heads_num_seq_closer_to_mean"></i> of <i data-bind="heads_num_runs"></i>{' '}
+        <i data-bind="heads_num_seq_closer_to_mean"></i> of <i data-bind="heads_num_runs"></i>&nbsp;
         Closer to mean
       </td>
     </tr>
