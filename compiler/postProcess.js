@@ -10,16 +10,6 @@ export default function postProcess(filepath, artifact, index) {
     filepath.substring(0, filepath.lastIndexOf(filename)) +
     artifact.compiledFilename;
 
-  // We'll use
-  // https://unifiedjs.com/explore/package/rehype-document/
-  // to make everything standalone.
-  // We need to integrate that into `bundleMdx` too
-  // and then just get rid of `makeStandalone`
-  // because it'll all be standalone.
-  if (ext === 'md') {
-    return [compiledFilepath, artifact.content];
-  }
-
   if (ext === 'js') {
     return [
       compiledFilepath,
@@ -29,12 +19,5 @@ export default function postProcess(filepath, artifact, index) {
     ];
   }
 
-  return [
-    compiledFilepath,
-    `<!DOCTYPE html>
-<html>
-  <body>${artifact.content}</body>
-</html>
-`,
-  ];
+  return [compiledFilepath, artifact.content];
 }
