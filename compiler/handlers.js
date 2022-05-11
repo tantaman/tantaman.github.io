@@ -124,9 +124,9 @@ async function processMarkdown(fileOrContent, docAdditions) {
     .use(remarkWikiLink)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeInferDescriptionMeta, { truncateSize: 255 })
+    .use(rehypeInferTitleMeta)
     .use(rehypeSlug)
     .use(toc)
-    .use(rehypeInferTitleMeta)
     .use(rehypeInferReadingTimeMeta)
     .use(rehypeAutolinkHeadings)
     .use(rehypeHighlight, {
