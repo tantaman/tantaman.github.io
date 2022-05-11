@@ -3,7 +3,7 @@
 // Basically LAMP of old but ahead of time.
 import path from 'path';
 
-export default function makeStandalone(filepath, artifact) {
+export default function postProcess(filepath, artifact, index) {
   const ext = path.extname(filepath).substring(1);
   filepath = filepath.substring(0, filepath.lastIndexOf('.'));
 
@@ -17,6 +17,15 @@ export default function makeStandalone(filepath, artifact) {
     return [
       `${filepath}.${artifact.frontmatter?.standalone || 'html'}`,
       artifact.content,
+    ];
+  }
+
+  if (ext === 'js') {
+    return [
+      `${filepath}.${artifact.frontmatter?.standalone || 'html'}`,
+      typeof artifact.content === 'function'
+        ? artifact.content(index)
+        : artifact.content,
     ];
   }
 
