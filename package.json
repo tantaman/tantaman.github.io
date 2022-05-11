@@ -2,12 +2,9 @@
   "name": "tantamanlands",
   "scripts": {
     "bcontent": "git clean -xdf public && node compiler/build.js",
-    "start": "vite",
-    "build": "vite build",
+    "twatch": "tsc --watch",
     "tsc": "tsc",
-    "preview": "vite preview",
-    "test:unit": "vitest",
-    "sprod": "cd public && serve"
+    "serve": "cd public && serve"
   },
   "type": "module",
   "dependencies": {
