@@ -19,7 +19,8 @@
     "memoize-one": "^6.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-query": "^3.39.0"
+    "react-query": "^3.39.0",
+    "rehype-document": "^6.0.1"
   },
   "devDependencies": {
     "@jsdevtools/rehype-toc": "^3.0.2",
