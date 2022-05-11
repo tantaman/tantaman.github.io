@@ -1,6 +1,7 @@
 import { bundleMDX } from 'mdx-bundler';
 import fs from 'fs';
 
+import { read } from 'to-vfile';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkFrontmatter from 'remark-frontmatter';
@@ -15,6 +16,11 @@ import rehypeHighlight from 'rehype-highlight';
 import toc from '@jsdevtools/rehype-toc';
 import yaml from 'yaml';
 import rehypeDocument from 'rehype-document';
+import rehypeMeta from 'rehype-meta';
+import rehypeInferTitleMeta from 'rehype-infer-title-meta';
+import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
+import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
+import unifiedInferGitMeta from 'unified-infer-git-meta';
 
 import clojure from 'highlight.js/lib/languages/clojure';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -45,7 +51,6 @@ export default {
   },
 
   async md(file, cwd) {
-    const contents = await fs.promises.readFile(file, { encoding: 'utf8' });
     const parsed = await unified()
       .use(remarkParse)
       .use(remarkFrontmatter)
@@ -55,13 +60,27 @@ export default {
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(rehypeSlug)
       .use(toc)
+      .use(rehypeInferTitleMeta) // Find the main title.
+      .use(rehypeInferDescriptionMeta, { truncateSize: 64 }) // Find the description.
+      .use(rehypeInferReadingTimeMeta) // Estimate reading time.
+      .use(unifiedInferGitMeta) // Find published, modified, and authors in Git.
       .use(rehypeAutolinkHeadings)
       .use(rehypeHighlight, {
         languages: { clojure, typescript, javascript, java, xml, rust },
       })
       .use(rehypeDocument)
+      .use(rehypeMeta, {
+        og: true,
+        twitter: true,
+        copyright: true,
+        type: 'article',
+        name: 'Tantamanlands',
+        siteTags: ['software', 'statistics', 'economics'],
+        siteAuthor: 'Matt Wonlaw',
+        siteTwitter: '@tantaman',
+      })
       .use(rehypeStringify, { allowDangerousHtml: true })
-      .process(contents);
+      .process(await read(file));
 
     return {
       content: parsed.toString(),
