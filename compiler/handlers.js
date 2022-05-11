@@ -77,15 +77,16 @@ export default {
     };
   },
 
-  async js(file, cwd) {
+  // TODO: ideally we pass the index of all files and all their frontmatter.
+  // of course excluding js files.
+  // so requires 2 passes.
+  // our maybe the js can return a function for `content` which will be invoked
+  // with the index.
+  async js(file, cwd, files) {
     // import it?
     // run it..
     const module = await import(file);
-    console.log(module);
-    return {
-      content: '',
-      frontmatter: {},
-    };
+    return module.default(file, cwd, files);
   },
 };
 
