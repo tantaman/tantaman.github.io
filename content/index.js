@@ -25,7 +25,6 @@ export default function index(file, cwd, files) {
 }
 
 function blogIndex(index) {
-  console.log(index);
   return `
 <div className="grid grid-cols-3 gap-4">
   ${Object.entries(index)
@@ -43,7 +42,7 @@ function blogIndex(index) {
   </div>
   <hr />
   <div class="summary">
-      ${meta.meta?.description || ''}
+      ${meta.meta?.description || meta.frontmatter.description || ''}
   </div>
 </a>`,
     )

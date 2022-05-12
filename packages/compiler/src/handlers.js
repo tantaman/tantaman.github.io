@@ -46,6 +46,7 @@ export default {
         remarkWikiLink,
       ],
       rehypePlugins: [
+        [rehypeInferDescriptionMeta, { truncateSize: 255 }],
         rehypeSlug,
         toc,
         rehypeAutolinkHeadings,
