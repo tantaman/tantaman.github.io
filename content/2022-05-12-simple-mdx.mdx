@@ -15,16 +15,16 @@ So you want to deploy a site that uses `MDX`? Outside of using [Nextjs](https://
 
 Technically we don't even need to mess with `mdx-bundler` (see [Building Without Bundling](./2022-05-12-skipping-the-bundling)). Going the "bundle-free" route, we can drop down and use [`@mdx-js/mdx`](https://github.com/mdx-js/mdx) directly. To me, bundle-free makes sense for `MDX` given each `MDX` page will likely be a small scale project.
 
-> It will be interesting to see the days where we're developing entirely within documents and interlinking dozens or hundreds of docs via their exports. Where the prose is the first class citizen and the code the second. The confluence of [Notion](https://www.notion.so/)/[ObservableHQ](https://observablehq.com/)/[Jupyter](https://jupyter.org/)/[Quarto](https://quarto.org/)/[MDX](https://mdxjs.com/)/[CraftDocs](https://www.craft.do/)/[Coda](https://coda.io/)/[Obsidian](https://obsidian.md/)/[Airtable](https://www.airtable.com/) like features being brought together into a single authoring and coding paltform.
+> It will be interesting, however, to see the days where we're developing entirely within documents and interlinking dozens or hundreds of docs via their exports. Where the prose is the first class citizen and the code the second. The confluence of [Notion](https://www.notion.so/)/[ObservableHQ](https://observablehq.com/)/[Jupyter](https://jupyter.org/)/[Quarto](https://quarto.org/)/[MDX](https://mdxjs.com/)/[CraftDocs](https://www.craft.do/)/[Coda](https://coda.io/)/[Obsidian](https://obsidian.md/)/[Airtable](https://www.airtable.com/) like features being brought together into a single authoring and coding platform.
 
 ## Getting Started
 
 To use `@mdx-js/mdx` directly we'll go over a few things:
 
-1. Ingesting MDX content for processing
+1. Ingesting `MDX` content for processing
 2. Deciding what transformations to apply
-3. Applying transforms and compiling the MDX to JavaScript
-4. Supplying JSX & using the component on the frontend
+3. Applying transforms and compiling the `MDX` to `JavaScript`
+4. Supplying `JSX` & using the component on the frontend
 
 ### Ingesting Content
 
@@ -41,13 +41,13 @@ const componentCode = await Promise.all(
 );
 ```
 
-[`to-vfile`](https://github.com/vfile/to-vfile) is a package that converts a file to [Unifiedjs](https://unifiedjs.com/)'s virtual file format for text processing. If you're reading files from the filesystem, its important to do this conversion to a vfile as some transformations rely on the metadata this conversion will bring (e.g., [unified-infer-git-meta](https://github.com/unifiedjs/unified-infer-git-meta)).
+[`to-vfile`](https://github.com/vfile/to-vfile) is a package that converts a file to [Unifiedjs](https://unifiedjs.com/)'s virtual file format for text processing. If you're reading files from the filesystem, its important to do this conversion to a `vfile` as some transformations rely on the metadata this conversion will bring (e.g., [unified-infer-git-meta](https://github.com/unifiedjs/unified-infer-git-meta)).
 
-We'll fill in the details of `processMdx` when we cover compiling mdx to js.
+We'll fill in the details of `processMdx` when we cover applying transforms.
 
 ### Picking Transformations
 
-`MDX` is based on `Remark`, `Rehype` and the `Unifiedjs` ecosystem. This ecosystem is comprised of a large set of plugins or transformations that you can use to control the final output of your `MDX` conversion.
+`MDX` is based on `Remark`, `Rehype` and the `Unifiedjs` ecosystem. This ecosystem is comprised of a large set of plugins that you can use to control/transform the final output of your `MDX` conversion.
 
 At a high level, plugins are chained together into a processing pipeline. The plugins that come first deal at the lowest level of abstract, enriching or transforming the data to higher levels of abstraction before passing it on to the next set of plugins in the chain (for more on pipelines in general, see [inheritance, aggregation and pipelines](/2013-07-30-Inheritance-Aggregation-and-Pipelines.html#pipelines)).
 
@@ -119,12 +119,88 @@ Now how do you use this component on the fronted?
 
 Given the component is pure javascript you can write the code to disk and use it like you would any other JavaScript module.
 
-```javascript
+**Backend** -- write generated MDX JS to disk:
 
+```javascript
+const filenamesAndCode = await Promise.all(
+  files.map(async (file) => [file, await processMdx(await read(file))]),
+);
+
+await Promise.all(
+  filenamesAndCode.map(async ([filename, code]) => {
+    await fs.promises.writeFile(filename + '.js', code);
+  }),
+);
+```
+
+**Client/Frontend** -- import written `MDX`:
+
+```javascript
+import SomeComponent from '/path/to/generated-mdx.js';
+
+function MyComponent() {
+  return <SomeComponent />;
+}
 ```
 
 ## Full Sample Code
 
 ```javascript
+import fs from 'fs';
+import { read } from 'to-vfile';
+import { compile } from '@mdx-js/mdx';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkGfm from 'remark-gfm';
+import remarkWikiLink from 'remark-wiki-link';
+import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeHighlight from 'rehype-highlight';
 
+const path = './content';
+const files = await fs.promises.readdir(path);
+const filenamesAndCode = await Promise.all(
+  files.map(async (file) => [file, await processMdx(await read(file))]),
+);
+
+await Promise.all(
+  filenamesAndCode.map(async ([filename, code]) => {
+    await fs.promises.writeFile(filename + '.js', code);
+  }),
+);
+
+async function processMdx(file) {
+  return await compile(file, {
+    remarkPlugins: [
+      remarkFrontmatter,
+      () => (tree, file) => {
+        matter(file, { strip: true });
+      },
+      remarkGfm,
+      remarkWikiLink,
+    ],
+    rehypePlugins: [
+      [rehypeInferDescriptionMeta, { truncateSize: 255 }],
+      rehypeAutolinkHeadings,
+      rehypeHighlight,
+    ],
+  }).toString();
+}
 ```
+
+## This post is MDX!
+
+This blog post is actually an MDX component!
+
+If you view the source of this page you can see how we include the component and render it into the page --
+
+```javascript
+import MDXContent from './2022-05-12-simple-mdx.mdx.js';
+import React from 'https://esm.sh/react';
+import { createRoot } from 'https://esm.sh/react-dom/client';
+
+const rootElement = document.getElementById('mdx');
+const root = createRoot(rootElement);
+root.render(React.createElement(MDXContent, {}, null));
+```
+
+the source mdx that this post was built from [can be found here](https://github.com/tantaman/tantaman.github.io/blob/master/content/2022-05-12-simple-mdx.mdx) and `mdx` compilation [here](https://github.com/tantaman/tantaman.github.io/blob/19e8c05dc4ed51f2ed38fde624405436e5706b30/packages/compiler/src/handlers.js#L36).
