@@ -26,7 +26,7 @@ export default function index(file, cwd, files) {
 
 function blogIndex(index) {
   return `
-<div className="grid grid-cols-3 gap-4">
+<div className="grid post-grid gap-4">
   ${Object.entries(index)
     .reverse()
     .filter(([key, _]) => key !== 'index.js' && key !== 'README.md')
