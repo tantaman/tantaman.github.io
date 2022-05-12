@@ -16,23 +16,46 @@ export default function index(file, cwd, files) {
         .use(rehypeMeta, meta)
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
-        .processSync(
-          toHtml(
-            h('ol', [
-              Object.entries(index)
-                .reverse()
-                .filter(
-                  ([key, meta]) => key !== 'index.js' && key !== 'README.md',
-                )
-                .map(([key, meta]) =>
-                  h('li', h('a', { href: meta.compiledFilename }, key)),
-                ),
-            ]),
-          ),
-        )
+        .processSync(blogIndex(index))
         .toString();
     },
     frontmatter: {},
     greymatter: {},
   };
+}
+
+function blogIndex(index) {
+  console.log(index);
+  return `
+<div className="grid grid-cols-3 gap-4">
+  ${Object.entries(index)
+    .reverse()
+    .filter(([key, _]) => key !== 'index.js' && key !== 'README.md')
+    .map(
+      ([key, meta]) =>
+        `
+<a class="entry-card" href="${meta.compiledFilename}">
+  <span>
+    ${meta.frontmatter.title || key}
+  </span>
+  <div class="subtext">
+    ${extractDate(meta.compiledFilename)} · ${joinTags(meta.frontmatter)}
+  </div>
+  <hr />
+  <div class="summary">
+      ${meta.meta?.description || ''}
+  </div>
+</a>`,
+    )
+    .join('\n')}
+</div>
+`;
+}
+
+function extractDate(filename) {
+  return filename.substring(0, 10);
+}
+
+function joinTags(frontmatter) {
+  return (frontmatter.tags || []).join(', ');
 }

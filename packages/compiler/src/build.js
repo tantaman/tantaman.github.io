@@ -58,6 +58,7 @@ function index(artifacts) {
       compiledFilename: r[1].compiledFilename,
       frontmatter: r[1].frontmatter || {},
       greymatter: r[1].greymatter,
+      meta: r[1].meta || {},
     };
     return l;
   }, {});
