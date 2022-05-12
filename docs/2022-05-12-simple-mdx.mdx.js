@@ -76,7 +76,7 @@ function MDXContent(props = {}) {
         children: ["\n", _jsxs(_components.p, {
           children: ["tldr; ", _jsx(_components.a, {
             href: "#full-sample-code",
-            children: "skip to full sampel code"
+            children: "skip to full sample code"
           })]
         }), "\n"]
       }), "\n", _jsxs(_components.p, {
@@ -209,6 +209,9 @@ function MDXContent(props = {}) {
             children: "readdir"
           }), "(path);\n", _jsx(_components.span, {
             className: "hljs-keyword",
+            children: "const"
+          }), " componentCode = ", _jsx(_components.span, {
+            className: "hljs-keyword",
             children: "await"
           }), " ", _jsx(_components.span, {
             className: "hljs-title class_",
@@ -216,13 +219,16 @@ function MDXContent(props = {}) {
           }), ".", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "all"
-          }), "(files.", _jsx(_components.span, {
+          }), "(\n  files.", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "map"
           }), "(", _jsx(_components.span, {
             className: "hljs-keyword",
             children: "async"
           }), " (file) => ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "await"
+          }), " ", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "processMdx"
           }), "(", _jsx(_components.span, {
@@ -231,7 +237,7 @@ function MDXContent(props = {}) {
           }), " ", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "read"
-          }), "(file))));\n"]
+          }), "(file))),\n);\n"]
         })
       }), "\n", _jsxs(_components.p, {
         children: [_jsx(_components.a, {
@@ -539,7 +545,13 @@ function MDXContent(props = {}) {
           children: "here"
         }), ") for this article."]
       }), "\n", _jsx(_components.p, {
-        children: "Now how do you"
+        children: "Now how do you use this component on the fronted?"
+      }), "\n", _jsx(_components.p, {
+        children: "Given the component is pure javascript you can write the code to disk and use it like you would any other JavaScript module."
+      }), "\n", _jsx(_components.pre, {
+        children: _jsx(_components.code, {
+          className: "hljs language-javascript"
+        })
       }), "\n", _jsxs(_components.h2, {
         id: "full-sample-code",
         children: [_jsx(_components.a, {

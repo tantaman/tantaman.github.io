@@ -5,7 +5,7 @@ tags: [software-engineering]
 
 import { TwitterTweetEmbed } from 'https://esm.sh/react-twitter-embed';
 
-> tldr; [skip to full sampel code](#full-sample-code)
+> tldr; [skip to full sample code](#full-sample-code)
 
 So you want to deploy a site that uses `MDX`? Outside of using [Nextjs](https://nextjs.org/docs/advanced-features/using-mdx), this process is much more difficult than it aught to be.
 
@@ -36,7 +36,9 @@ If they're files on disk you can read them easily via the `fs` api in `Node`/`De
 import { read } from 'to-vfile';
 
 const files = await fs.promises.readdir(path);
-await Promise.all(files.map(async (file) => processMdx(await read(file))));
+const componentCode = await Promise.all(
+  files.map(async (file) => await processMdx(await read(file))),
+);
 ```
 
 [`to-vfile`](https://github.com/vfile/to-vfile) is a package that converts a file to [Unifiedjs](https://unifiedjs.com/)'s virtual file format for text processing. If you're reading files from the filesystem, its important to do this conversion to a vfile as some transformations rely on the metadata this conversion will bring (e.g., [unified-infer-git-meta](https://github.com/unifiedjs/unified-infer-git-meta)).
@@ -113,7 +115,13 @@ Any imports referenced within your component either need to be URLs that resolve
 
 If you need to bundle your dependencies along with the MDX component in this phase, see [`mdx-bundler`](https://github.com/kentcdodds/mdx-bundler). `mdx-bundler` works much the same as what we've describe here except it'll use `ESBuild` to scan imports and bundle their code in with the final component. We've taken a non-bundling approach (as described [here](http://localhost:3000/2022-05-12-skipping-the-bundling)) for this article.
 
-Now how do you
+Now how do you use this component on the fronted?
+
+Given the component is pure javascript you can write the code to disk and use it like you would any other JavaScript module.
+
+```javascript
+
+```
 
 ## Full Sample Code
 

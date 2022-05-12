@@ -2,8 +2,10 @@
 slug: 2022-04-07-your-package-is-two
 title: 'Your One Package Might Be Two'
 tags: [software-engineering]
-mermaid: true
+js: ['https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js']
 ---
+
+import Mermaid from '/dist/components/Mermaid.js';
 
 When creating a software package (or module or bundle, pick your term) for others to reuse, there's often a _second_ package in the package that developers overlook.
 
@@ -22,8 +24,11 @@ The second point is useful for cases where an extension consumes outputs of a pa
 
 **Note** that the interface package _does not_ depend on the implementation package. The implementation package dependson the interface package. This makes sense given that interfaces don't know about their implementations but implementations do know about the interfaces they implement.
 
-<div class="mermaid">
-graph TD
-  Extension --> Interface
-  Package --> Interface
-</div>
+<center>
+  <Mermaid
+    id="two"
+    chart={`graph TD;
+  Extension --> Interface;
+  Package --> Interface;`}
+  />
+</center>
