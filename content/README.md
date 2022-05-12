@@ -1,0 +1,1 @@
+Long form thoughts, ready for publication

@@ -1,5 +1,6 @@
 import fs from 'fs';
 
+import layouts from './layouts/layouts.js';
 import { read } from 'to-vfile';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
@@ -8,12 +9,10 @@ import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import remarkWikiLink from 'remark-wiki-link';
-import extractFromtmatter from 'remark-extract-frontmatter';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import rehypeHighlight from 'rehype-highlight';
 import toc from '@jsdevtools/rehype-toc';
-import yaml from 'yaml';
 import rehypeDocument from './rehype-document.js';
 import rehypeMeta from 'rehype-meta';
 import rehypeInferTitleMeta from 'rehype-infer-title-meta';
@@ -21,6 +20,7 @@ import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
 // import unifiedInferGitMeta from 'unified-infer-git-meta';
 import { compile as compileMdx } from '@mdx-js/mdx';
+import { matter } from 'vfile-matter';
 
 import clojure from 'highlight.js/lib/languages/clojure';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -37,7 +37,9 @@ export default {
       jsxImportSource: 'https://esm.sh/react',
       remarkPlugins: [
         remarkFrontmatter,
-        [extractFromtmatter, { yaml: yaml.parse }],
+        () => (tree, file) => {
+          matter(file, { strip: true });
+        },
         remarkGfm,
         remarkWikiLink,
       ],
@@ -54,8 +56,10 @@ export default {
       ],
     });
     const companionScriptName = path.basename(file) + '.js';
-    const parsed = await processMarkdown('<div id="mdx"></div>', {
-      script: `import MDXContent from "./${companionScriptName}";
+    const parsed = await processMarkdown(
+      '<div id="mdx"></div>',
+      {
+        script: `import MDXContent from "./${companionScriptName}";
 import React from 'https://esm.sh/react';
 import { createRoot } from 'https://esm.sh/react-dom/client';
 
@@ -63,11 +67,13 @@ const rootElement = document.getElementById("mdx");
 const root = createRoot(rootElement)
 root.render(React.createElement(MDXContent, {}, null));
 `,
-    });
+      },
+      compiledMdx.data.matter,
+    );
 
     return {
       content: parsed.toString(),
-      frontmatter: compiledMdx.data,
+      frontmatter: compiledMdx.data.matter,
       compiledFilename: compiledFilename(file),
       greymatter: {},
       companionFiles: [
@@ -84,7 +90,7 @@ root.render(React.createElement(MDXContent, {}, null));
 
     return {
       content: parsed.toString(),
-      frontmatter: parsed.data,
+      frontmatter: parsed.data.matter,
       compiledFilename: compiledFilename(file),
       greymatter: {},
     };
@@ -115,24 +121,31 @@ root.render(React.createElement(MDXContent, {}, null));
   },
 };
 
-async function processMarkdown(fileOrContent, docAdditions) {
+async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
   return await unified()
     .use(remarkParse)
     .use(remarkFrontmatter)
-    .use(extractFromtmatter, { yaml: yaml.parse })
+    .use(() => (tree, file) => {
+      if (gottenMatter) {
+        file.data.matter = gottenMatter;
+        return;
+      }
+      matter(file, { strip: true });
+    })
     .use(remarkGfm)
     .use(remarkWikiLink)
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeInferDescriptionMeta, { truncateSize: 255 })
+    .use(rehypeInferTitleMeta)
     .use(rehypeSlug)
     .use(toc)
-    .use(rehypeInferTitleMeta)
-    .use(rehypeInferDescriptionMeta, { truncateSize: 64 })
     .use(rehypeInferReadingTimeMeta)
     .use(rehypeAutolinkHeadings)
     .use(rehypeHighlight, {
       languages: { clojure, typescript, javascript, java, xml, rust },
     })
     .use(rehypeDocument, {
+      css: ['/index.css'],
       ...docAdditions,
     })
     .use(rehypeMeta, {
@@ -144,6 +157,12 @@ async function processMarkdown(fileOrContent, docAdditions) {
       siteTags: ['software', 'statistics', 'economics'],
       siteAuthor: 'Matt Wonlaw',
       siteTwitter: '@tantaman',
+      image: '/img/avatar-icon.png',
+      imageWidth: 312,
+      imageHeight: 369,
+    })
+    .use(() => (tree, file) => {
+      layouts[file.data.matter.layout || 'default'](tree, file);
     })
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(fileOrContent);

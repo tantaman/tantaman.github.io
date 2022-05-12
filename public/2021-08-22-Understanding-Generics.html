@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Understanding Generics - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="function identity<T>(x: T): T; What is the essence of a generic?
+
+Generics are for the caller rather than for what is being called. They allow the caller to retain type information. To retain information about types given to what is called.
+
+Example…">
+<meta name="keywords" content="software-engineering, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Understanding Generics">
+<meta property="og:description" content="function identity<T>(x: T): T; What is the essence of a generic?
+
+Generics are for the caller rather than for what is being called. They allow the caller to retain type information. To retain information about types given to what is called.
+
+Example…">
+<meta property="og:image" content="/img/avatar-icon.png">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/img/avatar-icon.png">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="1-2 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Understanding Generics</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#example---identity">Example - Identity</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#example---container">Example - Container</a></li></ol></nav><pre><code class="hljs language-js"><span class="hljs-keyword">function</span> identity&#x3C;T>(<span class="hljs-attr">x</span>: T): T;
+</code></pre>
+<p>What is the essence of a generic?</p>
+<blockquote>
+<p>Generics are for the <strong>caller</strong> rather than for what is being called. They allow the <strong>caller</strong> to retain type information. To retain information about types given to what is called.</p>
+</blockquote>
+<h2 id="example---identity"><a aria-hidden="true" tabindex="-1" href="#example---identity"><span class="icon icon-link"></span></a>Example - Identity</h2>
+<p>For the identity function, the generic serves no purpose for the called function. Identity could be typed as any, number, object, etc. It'd make no different to the implementation of identity.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">identity</span>(<span class="hljs-params">x: any</span>): any {
+  <span class="hljs-keyword">return</span> x;
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">identity</span>(<span class="hljs-params">x: <span class="hljs-built_in">Object</span></span>): <span class="hljs-title class_">Object</span> {
+  <span class="hljs-keyword">return</span> x;
+}
+</code></pre>
+<p>The type makes a world of difference for the caller, however. Adding a generic type param to <code>identity</code> allows the caller to retain information about the type of the argument that was passed to identity.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">function</span> identity&#x3C;T>(<span class="hljs-attr">x</span>: T): T;
+
+<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">abs</span>(<span class="hljs-title function_">identity</span>(-<span class="hljs-number">1</span>));
+</code></pre>
+<p>This is true for all generic functions and classes. The caller uses the generic to pass through type information that it knows at the callsite and would like to make use of later.</p>
+<h2 id="example---container"><a aria-hidden="true" tabindex="-1" href="#example---container"><span class="icon icon-link"></span></a>Example - Container</h2>
+<pre><code class="hljs language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Container</span>&#x3C;T> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+    public readonly x: T,
+  </span>) {}
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">caller</span>(<span class="hljs-params">n: number</span>) {
+  <span class="hljs-keyword">const</span> c = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Container</span>&#x3C;number>(n);
+
+  <span class="hljs-comment">// Caller can use `abs` because it has retained</span>
+  <span class="hljs-comment">// the type information about its parameter `n`</span>
+  <span class="hljs-comment">// after putting it into container `c`</span>
+  <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">abs</span>(c.<span class="hljs-property">x</span>);
+}
+</code></pre>
+<p>Caller can use <code>abs</code> because it has retained the type information about its parameter <code>n</code> after putting it into container <code>c</code></p>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
