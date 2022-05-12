@@ -1,10 +1,10 @@
 {
   "name": "tantamanlands",
   "scripts": {
-    "build": "git clean -xdf public && node compiler/build.js && tsc",
+    "build": "node compiler/build.js && tsc",
     "twatch": "tsc --watch",
     "tsc": "tsc",
-    "serve": "cd public && serve"
+    "serve": "cd docs && serve"
   },
   "type": "module",
   "dependencies": {
