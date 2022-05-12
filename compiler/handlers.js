@@ -56,8 +56,10 @@ export default {
       ],
     });
     const companionScriptName = path.basename(file) + '.js';
-    const parsed = await processMarkdown('<div id="mdx"></div>', {
-      script: `import MDXContent from "./${companionScriptName}";
+    const parsed = await processMarkdown(
+      '<div id="mdx"></div>',
+      {
+        script: `import MDXContent from "./${companionScriptName}";
 import React from 'https://esm.sh/react';
 import { createRoot } from 'https://esm.sh/react-dom/client';
 
@@ -65,7 +67,9 @@ const rootElement = document.getElementById("mdx");
 const root = createRoot(rootElement)
 root.render(React.createElement(MDXContent, {}, null));
 `,
-    });
+      },
+      compiledMdx.data.matter,
+    );
 
     return {
       content: parsed.toString(),
@@ -117,11 +121,15 @@ root.render(React.createElement(MDXContent, {}, null));
   },
 };
 
-async function processMarkdown(fileOrContent, docAdditions) {
+async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
   return await unified()
     .use(remarkParse)
     .use(remarkFrontmatter)
     .use(() => (tree, file) => {
+      if (gottenMatter) {
+        file.data.matter = gottenMatter;
+        return;
+      }
       matter(file, { strip: true });
     })
     .use(remarkGfm)
