@@ -1,8 +1,8 @@
 # Dependencies
-/node_modules
+node_modules/
 
 # Production
-/build
+dist/
 
 # Generated files
 .docusaurus
@@ -21,4 +21,3 @@ yarn-error.log*
 
 .next/
 
-/dist
