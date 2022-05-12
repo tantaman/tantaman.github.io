@@ -8,6 +8,7 @@
     "target": "es2017",
     "lib": ["ESNext"],
     "jsx": "react-jsx",
+    "jsxImportSource": "hastscript",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowJs": true
