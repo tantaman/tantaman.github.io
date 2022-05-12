@@ -1,5 +1,7 @@
 :root {
   --primary: #225e9c;
+  --accent-bg: #ededed;
+  --body-color: #404040;
 }
 
 html,
@@ -8,7 +10,12 @@ body {
   margin: 0px;
   font-family: 'Lora', 'Times New Roman', serif;
   font-size: 1.125rem;
-  color: #404040;
+  color: var(--body-color);
+}
+
+hr {
+  border: 1px solid var(--primary);
+  height: 0px;
 }
 
 iframe {
@@ -24,7 +31,7 @@ iframe {
 
 pre {
   padding: 0.75em;
-  background: #ededed;
+  background: var(--accent-bg);
   border-radius: 6px;
   white-space: pre-wrap;
 }
@@ -36,10 +43,55 @@ pre {
 }
 
 .logo {
-  width: 120px;
   margin-left: auto;
   margin-right: auto;
   display: block;
+  width: 120px;
+}
+
+.subtext {
+  color: #888;
+  font-size: 0.75em;
+}
+
+.summary {
+  font-size: 0.75em;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.logo > img {
+  width: 120px;
+}
+
+.entry-card {
+  display: block;
+  background: var(--accent-bg);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  text-decoration: none;
+  color: var(--body-color);
+}
+
+.entry-card > span {
+  color: var(--primary);
+}
+
+.entry-card > .subtext {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 a {

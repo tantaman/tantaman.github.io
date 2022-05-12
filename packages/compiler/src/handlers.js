@@ -29,7 +29,7 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import java from 'highlight.js/lib/languages/java';
 import xml from 'highlight.js/lib/languages/xml';
 import rust from 'highlight.js/lib/languages/rust';
-import path from 'path';
+import path, { parse } from 'path';
 import { doc, meta } from './layouts/global.js';
 
 export default {
@@ -76,6 +76,7 @@ root.render(React.createElement(MDXContent, {}, null));
     return {
       content: parsed.toString(),
       frontmatter: compiledMdx.data.matter,
+      meta: compiledMdx.data.meta || {},
       compiledFilename: compiledFilename(file),
       greymatter: {},
       companionFiles: [
@@ -93,6 +94,7 @@ root.render(React.createElement(MDXContent, {}, null));
     return {
       content: parsed.toString(),
       frontmatter: parsed.data.matter,
+      meta: parsed.data.meta || {},
       compiledFilename: compiledFilename(file),
       greymatter: {},
     };
@@ -108,6 +110,7 @@ root.render(React.createElement(MDXContent, {}, null));
     return {
       content,
       frontmatter: {},
+      meta: {},
       compiledFilename: file,
       greymatter: {},
     };

@@ -17,7 +17,9 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
   }
   body.children = [
     <header id="header">
-      <img class="logo" src="/img/avatar-icon.png" />
+      <a href="/" class="logo">
+        <img src="/img/avatar-icon.png" />
+      </a>
     </header>,
     <div id="static-container">
       <div id="before-static"></div>
