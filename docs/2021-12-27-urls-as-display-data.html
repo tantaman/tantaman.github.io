@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>URLs As Display Data - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="I&#x27;ve been toying with the idea that we get something wrong when it comes to URL management and routing in single page applications (SPAs). The current state of the art in SPAs is to let the URL (the route) drive application logic. We do this by binding UI…">
+<meta name="keywords" content="software-engineering, framework, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="URLs As Display Data">
+<meta property="og:description" content="I&#x27;ve been toying with the idea that we get something wrong when it comes to URL management and routing in single page applications (SPAs). The current state of the art in SPAs is to let the URL (the route) drive application logic. We do this by binding UI…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering">
+<meta property="article:tag" content="framework">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2-3 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>URLs As Display Data</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#alternative">Alternative</a></li></ol></nav><p>I've been toying with the idea that we get something wrong when it comes to URL management and routing in <a href="https://developer.mozilla.org/en-US/docs/Glossary/SPA">single page applications (SPAs)</a>.</p>
+<p>The current state of the art in SPAs is to let the URL (the route) drive application logic. We do this by binding UI components to paths. When the current path changes, the router switches out what UI components are visibile.</p>
+<pre><code class="hljs language-jsx">&#x3C;<span class="hljs-title class_">Routes</span>>
+  <span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&#x3C;<span class="hljs-attr">Layout</span> /></span>}>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">Route</span> <span class="hljs-attr">index</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&#x3C;<span class="hljs-attr">Home</span> /></span>} />
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"about"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&#x3C;<span class="hljs-attr">About</span> /></span>} />
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"dashboard"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&#x3C;<span class="hljs-attr">Dashboard</span> /></span>} />
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"*"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&#x3C;<span class="hljs-attr">NoMatch</span> /></span>} />
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">Route</span>></span></span>
+&#x3C;/<span class="hljs-title class_">Routes</span>>
+</code></pre>
+<p>After developing a number of applications at <a href="https://meta.com">Meta</a> with <a href="https://reactrouter.com/">React Router</a> I'm starting to think that we have the whole thing backwards.</p>
+<ol>
+<li>Binding application logic to routes introduces the URL as a source of state for your application. If your application also has a domain model, you begin to get two sources of truth for your state and two places that can influence what is displayed.</li>
+<li>When the URL is acting as a source of truth for some part of your application state, creating routes from one part of the application to another introduces extra coupling between components that shouldn't know about one another. The coupling is introduced since the components must preserve aspects of the URL for one another.</li>
+</ol>
+<h1 id="alternative"><a aria-hidden="true" tabindex="-1" href="#alternative"><span class="icon icon-link"></span></a>Alternative</h1>
+<p>What if we treated <code>window.location</code> as a <em>UI component</em> to be <strong>rendered from the state of our application</strong> rathern than something that drives our application?</p>
+<p><strong>Example:</strong></p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">function</span> <span class="hljs-title function_">UrlRenderer</span>(<span class="hljs-params">{ appState }: { appState: AppState }</span>) {
+  <span class="hljs-title function_">useEffect</span>(
+    <span class="hljs-function">() =></span>
+      <span class="hljs-variable language_">window</span>.<span class="hljs-property">history</span>.<span class="hljs-title function_">pushState</span>(
+        {},
+        <span class="hljs-string">''</span>,
+        <span class="hljs-string">`/<span class="hljs-subst">${appState.editorMode}</span>/<span class="hljs-subst">${appState.deck.selectedSlide}</span>`</span>,
+      ),
+    [appState.<span class="hljs-property">editorMode</span>, appState.<span class="hljs-property">deck</span>.<span class="hljs-property">selectedSlide</span>],
+  );
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params">appState</span>) {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&#x3C;></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">UrlRenderer</span> <span class="hljs-attr">appState</span>=<span class="hljs-string">{appState}</span> /></span>
+      {appState.editorMode === 'slide' ? (
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">SlideEditor</span> <span class="hljs-attr">appState</span>=<span class="hljs-string">{appState}</span> /></span>
+      ) : (
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">TransitionEditor</span> <span class="hljs-attr">appState</span>=<span class="hljs-string">{appState}</span> /></span>
+      )}
+    <span class="hljs-tag">&#x3C;/></span></span>
+  );
+}
+
+<span class="hljs-comment">// Only at application startup do we read the URL then never again.</span>
+<span class="hljs-comment">// All further interactions and display changes only happen via AppState.</span>
+<span class="hljs-keyword">const</span> initialValues = <span class="hljs-title function_">decodeUrl</span>();
+<span class="hljs-keyword">const</span> appState = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AppState</span>(initialValues);
+
+<span class="hljs-title function_">render</span>(<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">App</span> <span class="hljs-attr">appState</span>=<span class="hljs-string">{appState}</span> /></span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'app'</span>));
+</code></pre>
+<p>This is the approach I've been taking as I re-write, re-design and overall modernize <a href="https://strut.io">strut.io</a>. I have to say that I like it very very much.</p>
+<p>I no longer have to think any differently about the URL and handling route changes than I do for the rest of my application.</p>
+<ul>
+<li>Rendering the URL is the same as rendering a component.</li>
+<li>Handling a URL change in my app is the same as handling a state or prop change.</li>
+</ul>
+<p>If I decide something that wasn't previously captured in the URL should now become persisted into the URL, I just update my <code>UrlRenderer</code> component and <code>decodeUrl</code> function -- everything else in my app remains unchanged.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

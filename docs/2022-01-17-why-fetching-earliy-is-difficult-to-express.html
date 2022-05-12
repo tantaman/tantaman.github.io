@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Expressing Early Fetches - React - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="draft post-- Fetching early is difficult to express and get right in all places in React.
+
+This is because a lack of domain models. That everything is anemic. That we&#x27;ve moved business logic into display.
+
+Render-as-you-fetch rather than fetch-before-render…">
+<meta name="keywords" content="software-engineering, react, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Expressing Early Fetches - React">
+<meta property="og:description" content="draft post-- Fetching early is difficult to express and get right in all places in React.
+
+This is because a lack of domain models. That everything is anemic. That we&#x27;ve moved business logic into display.
+
+Render-as-you-fetch rather than fetch-before-render…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering">
+<meta property="article:tag" content="react">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="1 minute">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Expressing Early Fetches - React</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>draft post--</p>
+<p>Fetching early is difficult to express and get right in all places in React.</p>
+<p>This is because a lack of domain models. That everything is anemic. That we've moved business logic into display.</p>
+<p>Render-as-you-fetch rather than fetch-before-render is the more natural way in React. The rendered thing won't miss any fetches in render-as-you-fetch.</p>
+<p>But in fetch-before-render, you could miss fetch kickoffs. E.g., on click, on tap, on keydown, on drop, on push state ... could all be different entrypoints to the same view which requires the same fetch kickoffs. But maybe you miss adding the fetch in one of those entrypoints.</p>
+<p>How can we express this relationship such that each event that leads to the view doesn't have to start the fetch? Or that they're all guaranteed to start the same required fetches?</p>
+<pre><code class="hljs language-typescript">&#x3C;button onClick={<span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> nextUserId = <span class="hljs-title function_">getNextId</span>(resource.<span class="hljs-property">userId</span>);
+  <span class="hljs-comment">// Next fetch: when the user clicks</span>
+  <span class="hljs-title function_">setResource</span>(<span class="hljs-title function_">fetchProfileData</span>(nextUserId));
+}}>
+</code></pre>
+<p>reference: <a href="https://reactjs.org/docs/concurrent-mode-suspense.html">https://reactjs.org/docs/concurrent-mode-suspense.html</a></p>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

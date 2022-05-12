@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Regression to the Mean &#x26; the Gambler's Fallacy - Simulated - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="Jump to the simulation There are two seemingly contradictory findings in statistics which apply to independent events:
+
+Regression to the MeanThe Gambler&#x27;s Fallacy
+
+Regression to the mean is defined as:
+
+The phenomenon that arises if a sample point of…">
+<meta name="keywords" content="math, demo, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Regression to the Mean &#x26; the Gambler&#x27;s Fallacy - Simulated">
+<meta property="og:description" content="Jump to the simulation There are two seemingly contradictory findings in statistics which apply to independent events:
+
+Regression to the MeanThe Gambler&#x27;s Fallacy
+
+Regression to the mean is defined as:
+
+The phenomenon that arises if a sample point of…">
+<meta property="og:image" content="/assets/posts/gambler-vs-mean.svg">
+<meta property="article:tag" content="math">
+<meta property="article:tag" content="demo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/assets/posts/gambler-vs-mean.svg">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="4-5 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Regression to the Mean &#x26; the Gambler's Fallacy - Simulated</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#prior-work">Prior Work</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#simulating-both-findings">Simulating both findings</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#heads-only">Heads Only</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#conclusion">Conclusion</a></li></ol></li></ol></nav><style type="text/css">
+@import url("/blog-assets/regression-mean-vs-gambler.css");
+</style>
+<script type="text/javascript" src="/blog-assets/regression-mean-vs-gambler.js"></script>
+<p><a href="#simulating-both-findings">Jump to the simulation</a></p>
+<p>There are two seemingly contradictory findings in statistics which apply to independent events:</p>
+<ol>
+<li>Regression to the Mean</li>
+<li>The Gambler's Fallacy</li>
+</ol>
+<p><strong>Regression to the mean</strong> is defined as:</p>
+<blockquote>
+<p>The phenomenon that arises if a sample point of a random variable is extreme (nearly an outlier), a future point will be closer to the mean or average on further measurements. - <a href="https://en.wikipedia.org/wiki/Regression_toward_the_mean#:~:text=In%20statistics%2C%20regression%20toward%20the,or%20average%20on%20further%20measurements.">Wikipedia</a></p>
+</blockquote>
+<p><strong>Example:</strong> If <i data-bind="run_length"></i> coin tosses produced <i data-bind="run_length"></i> heads, the next <i data-bind="run_length"></i> coin tosses are more likely to produce 2 heads and 2 tails.</p>
+<p>Whereas the <strong>Gambler's Fallacy</strong> is defined as:</p>
+<blockquote>
+<p>The erroneous belief that if a particular event occurs more frequently than normal during the past it is less likely to happen in the future. - <a href="https://en.wikipedia.org/wiki/Gambler%27s_fallacy">Wikipedia</a></p>
+</blockquote>
+<p><strong>Example:</strong> The false belief that if you toss a coin <i data-bind="run_length"></i> times and each toss is heads, the next toss is more likely to be tails.</p>
+<p>These two findings seem to be contradictory.</p>
+<p>In the first, we hear that after tossing <i data-bind="run_length"></i> heads in a row, the next set of tosses are more likely to be evenly split between heads and tails.</p>
+<p>In the second, we hear that the past doesn't influence the future for independent events like coin tosses or dice rolls.</p>
+<h1 id="prior-work"><a aria-hidden="true" tabindex="-1" href="#prior-work"><span class="icon icon-link"></span></a>Prior Work</h1>
+<p>Googling "Regression to the Mean vs Gambler's Fallacy" brings up a number of times where people have become confused over these two findings:</p>
+<ul>
+<li><a href="https://stats.stackexchange.com/questions/204397/regression-to-the-mean-vs-gamblers-fallacy">stats.stackexchange - Regression to the mean vs gambler's fallacy</a></li>
+<li><a href="https://math.stackexchange.com/questions/433492/regression-towards-the-mean-v-s-the-gamblers-fallacy">math.stackexchange - Regression towards the mean v/s the Gambler's fallacy</a></li>
+<li><a href="https://www.quora.com/Whats-the-difference-between-regression-to-the-mean-and-the-gamblers-fallacy">quora - What's the difference between regression to the mean and the gambler's fallacy?</a></li>
+<li><a href="https://www.reddit.com/r/askscience/comments/340ulx/do_the_gamblers_fallacy_and_regression_toward_the/">r/askscience - Do the Gamblers Fallacy and regression toward the mean contradict each other?</a></li>
+<li><a href="https://www.financialwisdomforum.org/gummy-stuff/coin-tossing.htm">financial wisdom - Coin Tossing ... and Reversion to the Mean</a></li>
+<li><a href="https://medium.com/@sundaykuloksun/gamblers-fallacy-regression-towards-the-means-ae538ace8318">medium - Gambler’s fallacy &#x26; Regression towards the means</a></li>
+</ul>
+<p>I find the <a href="%5Bmedium%5D(https://medium.com/@sundaykuloksun/gamblers-fallacy-regression-towards-the-means-ae538ace8318)">medium article</a> by Ku Lok Sun the most succint and accessible explination of the difference between the two, but none of the sources above provide a simulation of the phenomenon.</p>
+<h1 id="simulating-both-findings"><a aria-hidden="true" tabindex="-1" href="#simulating-both-findings"><span class="icon icon-link"></span></a>Simulating both findings</h1>
+<p>To get a practical sense that the findings are in fact not contradictory, lets perform a test.</p>
+<p>First we'll flip <i data-bind="num_coins"></i> coins and plot the results.</p>
+<p><span class="coin side-H"></span> will repersent heads.
+<br />
+<span class="coin side-T"></span> will represent tails.</p>
+<div class="coin-chart" data-bind="coin_chart"></div>
+<p>Now lets take a look at streaks of <i data-bind="run_length"></i> or more heads in a row as well as streaks of <i data-bind="run_length"></i> or more tails in a row.</p>
+<p>Heads streaks ><i data-bind="run_length"></i> are highlighted as <span class="coin side-H run"></span><br/>Tails streaks ><i data-bind="run_length"></i> are highlighted as <span class="coin side-T run"></span></p>
+<div class="coin-chart" data-bind="run_chart"></div>
+<p>To explore regression to the mean and the gambler's fallacy, we're interested in knowing what happens immediately after a streak of <i data-bind="run_length"></i>. So lets pull out:</p>
+<ol>
+<li>Streaks of <i data-bind="run_length"></i>
+<ol>
+<li>Streaks greater than <i data-bind="run_length"></i> will be split into (streak length) / <i data-bind="run_length"></i> parts.</li>
+</ol>
+</li>
+<li>The coin flip immediately after the streak</li>
+<li>The set of <i data-bind="run_length"></i> flips immediately after the streak of <i data-bind="run_length"></i>.</li>
+</ol>
+<p>We're interested in (2) so we can verify that the chances of heads/tails after a streak is still 50/50 (<strong>gambler's fallacy</strong>).</p>
+<p>We're interseted in (3) so we can verify that a series of flips immediately after an outlier (the streak) is, on average, closer to the mean (<strong>regression to the mean</strong>).</p>
+<table class="run-list">
+  <thead>
+    <tr>
+      <td>Streak</td>
+      <td>Next Flip</td>
+      <td>
+        Next <i data-bind="run_length"></i> Flips
+      </td>
+      <td>
+        <i data-bind="run_length"></i> Flips Sum
+      </td>
+    </tr>
+  </thead>
+  <tbody data-bind="run_list"></tbody>
+  <tfoot>
+    <tr>
+      <td>
+        <i data-bind="num_runs"></i> Streaks
+      </td>
+      <td>
+        <i data-bind="after_run_heads"></i> <span class="coin side-H"></span> /
+        <i data-bind="after_run_tails"></i> <span class="coin side-T"></span>
+      </td>
+      <td>
+        <i data-bind="seq_after_run_heads"></i> <span class="coin side-H"></span>&nbsp;
+        /<i data-bind="seq_after_run_tails"></i> <span class="coin side-T"></span>
+      </td>
+      <td>
+        <i data-bind="num_seq_closer_to_mean"></i> of <i data-bind="num_runs"></i>&nbsp;
+        Closer to mean
+      </td>
+    </tr>
+  </tfoot>
+</table>
+<p><strong>Gambler's Fallacy</strong> - In the second column above, the probability of flipping heads or tails immediately after a streak is still close to 50/50. The prior streak doesn't impact the next flip.</p>
+<p><i data-bind="after_run_heads"></i> / <i data-bind="num_runs"></i> * 100 =<i data-bind="after_run_heads_pct"></i>
+% <span class="coin side-H"></span>
+<br />
+<i data-bind="after_run_tails"></i> / <i data-bind="num_runs"></i> * 100 =
+<i data-bind="after_run_tails_pct"></i>% <span class="coin side-T"></span></p>
+<p>Note: refreshing this page re-runs the coinflips if you want to run the test multiple times.</p>
+<p><strong>Regression to the mean</strong> - The last column is a tally of column 3 where heads = -1 and tails = 1. A magnitude &#x3C; 4 means that we're closer to the mean than the streak. In the last column, nearly all of the sequences of flips immediatelly following a streak are closer to the mean (i.e., have nearly even numbers of heads and tails).</p>
+<p>This confirms regression to the mean: after seeing an outlier the next measurement is more likely to be closer to the mean.</p>
+<p><i data-bind="num_seq_closer_to_mean"></i> / <i data-bind="num_runs"></i> * 100 =
+<strong><i data-bind="num_seq_closer_to_mean_pct"></i>%</strong> of runs are <strong>closer to the
+mean.</strong></p>
+<p>But we're taking into consideration both heads streaks and tails streaks. Could they by evening one another out?</p>
+<h3 id="heads-only"><a aria-hidden="true" tabindex="-1" href="#heads-only"><span class="icon icon-link"></span></a>Heads Only</h3>
+<p>To be sure, let's re-do the analysis above but for streaks of heads only.</p>
+<table class="run-list">
+  <thead>
+    <tr>
+      <td>Streak</td>
+      <td>Next Flip</td>
+      <td>
+        <i data-bind="run_length"></i> Flips After
+      </td>
+      <td>
+        <i data-bind="run_length"></i> Flips Sum
+      </td>
+    </tr>
+  </thead>
+  <tbody data-bind="heads_run_list"></tbody>
+  <tfoot>
+    <tr>
+      <td>
+        <i data-bind="heads_num_runs"></i> Streaks
+      </td>
+      <td>
+        <i data-bind="heads_after_run_heads"></i> <span class="coin side-H"></span>&nbsp;
+        /<i data-bind="heads_after_run_tails"></i> <span class="coin side-T"></span>
+      </td>
+      <td>
+        <i data-bind="heads_seq_after_run_heads"></i> <span class="coin side-H"></span>&nbsp;
+        /<i data-bind="heads_seq_after_run_tails"></i> <span class="coin side-T"></span>
+      </td>
+      <td>
+        <i data-bind="heads_num_seq_closer_to_mean"></i> of <i data-bind="heads_num_runs"></i>&nbsp;
+        Closer to mean
+      </td>
+    </tr>
+  </tfoot>
+</table>
+<p><strong>Gambler's Fallacy:</strong></p>
+<p><i data-bind="heads_after_run_heads"></i> / <i data-bind="heads_num_runs"></i> *
+100 =<i data-bind="heads_after_run_heads_pct"></i>% <span class="coin side-H"></span>
+<br />
+<i data-bind="heads_after_run_tails"></i> / <i data-bind="heads_num_runs"></i> *
+100 =<i data-bind="heads_after_run_tails_pct"></i>% <span class="coin side-T"></span></p>
+<p><strong>Regression to the Mean:</strong></p>
+<p><i data-bind="heads_num_seq_closer_to_mean"></i> / <i data-bind="heads_num_runs"></i> *
+100 = <strong><i data-bind="heads_num_seq_closer_to_mean_pct"></i>%</strong> of runs are
+<strong>closer to the mean.</strong></p>
+<p>These findings corroborate our original findings.</p>
+<h2 id="conclusion"><a aria-hidden="true" tabindex="-1" href="#conclusion"><span class="icon icon-link"></span></a>Conclusion</h2>
+<p>In accord with the gambler's fallacy, every flip is 50/50, regardless of the streak proceeding the flip.</p>
+<p>Since every flip is 50/50, a streak of heads or tails is a deviation from the mean and an outlier. By definition, flips after a streak (an outlier) are more likely be closer to the mean.</p>
+<p>Regression to the mean, rather than being contrary to the gambler's fallacy, is really a restatement of it. A sequence of random events will always tend towards the mean. The chance of getting heads or tails on any given flip is the mean.</p>
+<p>Demo source:</p>
+<ul>
+<li><a href="https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/regression-mean-vs-gambler.js">js</a></li>
+<li><a href="https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/regression-mean-vs-gambler.css">css</a></li>
+<li><a href="https://github.com/tantaman/tantaman.github.io/blob/master/_posts/2021-01-26-regression-mean-vs-gambler.markdown">markdown/html</a></li>
+</ul>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

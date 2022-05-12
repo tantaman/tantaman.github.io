@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Shortest, Framework Free, TODO App - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="A TodoMVC App in ~200 lines of plain JavaScript and 0 dependencies. Source:
+
+const tempEl = document.createElement(&#x27;div&#x27;);
+const sanitize = (value) => {
+  if (value) {
+    if (typeof value === &#x27;object&#x27; &#x26;&#x26; value.__html__) {
+      return value.__html__;…">
+<meta name="keywords" content="software-engineering, demo, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="The Shortest, Framework Free, TODO App">
+<meta property="og:description" content="A TodoMVC App in ~200 lines of plain JavaScript and 0 dependencies. Source:
+
+const tempEl = document.createElement(&#x27;div&#x27;);
+const sanitize = (value) => {
+  if (value) {
+    if (typeof value === &#x27;object&#x27; &#x26;&#x26; value.__html__) {
+      return value.__html__;…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering">
+<meta property="article:tag" content="demo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="3-5 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>The Shortest, Framework Free, TODO App</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><style type="text/css">
+@import url("/blog-assets/todo-mvc/base.css");
+@import url("/blog-assets/todo-mvc/todo.css");
+</style>
+<script type="text/javascript" src="/blog-assets/todo-mvc/todomvc.js"></script>
+<p><strong>A TodoMVC App in ~200 lines of plain JavaScript and 0 dependencies.</strong></p>
+<br />
+<br />
+<br />
+<div id="container"></div>
+<p>Source:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> tempEl = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">'div'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">sanitize</span> = (<span class="hljs-params">value</span>) => {
+  <span class="hljs-keyword">if</span> (value) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'object'</span> &#x26;&#x26; value.<span class="hljs-property">__html__</span>) {
+      <span class="hljs-keyword">return</span> value.<span class="hljs-property">__html__</span>;
+    }
+    <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(value)) {
+      <span class="hljs-keyword">return</span> value.<span class="hljs-title function_">map</span>(sanitize).<span class="hljs-title function_">join</span>(<span class="hljs-string">''</span>);
+    }
+  }
+  tempEl.<span class="hljs-property">textContent</span> = value;
+  <span class="hljs-keyword">return</span> tempEl.<span class="hljs-property">innerHTML</span>;
+};
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">html</span> = (<span class="hljs-params">parts, ...values</span>) => {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">__html__</span>: parts
+      .<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">part, i</span>) =></span> {
+        <span class="hljs-keyword">return</span> part + (i &#x3C; values.<span class="hljs-property">length</span> ? <span class="hljs-title function_">sanitize</span>(values[i]) : <span class="hljs-string">''</span>);
+      })
+      .<span class="hljs-title function_">join</span>(<span class="hljs-string">''</span>),
+  };
+};
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">todoApp</span> = (<span class="hljs-params">state</span>) => {
+  <span class="hljs-keyword">const</span> remaining = state.<span class="hljs-property">items</span>.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =></span> !item.<span class="hljs-property">complete</span>);
+  <span class="hljs-keyword">let</span> toggleAll = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">if</span> (state.<span class="hljs-property">items</span>.<span class="hljs-property">length</span>) {
+    toggleAll = html`<span class="xml"> <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span>
+        <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-all"</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span>
+        <span class="hljs-attr">class</span>=<span class="hljs-string">"toggle-all"</span>
+        </span></span><span class="hljs-subst">${remaining.length ? <span class="hljs-string">''</span> : <span class="hljs-string">'checked'</span>}</span><span class="xml"><span class="hljs-tag">
+        <span class="hljs-attr">onclick</span>=<span class="hljs-string">"toggleAll();"</span>
+      /></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"toggle-all"</span>></span>Mark all as complete<span class="hljs-tag">&#x3C;/<span class="hljs-name">label</span>></span>`</span>;
+  }
+  <span class="hljs-keyword">return</span> html`<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"todoapp"</span>></span>
+    </span><span class="hljs-subst">${header()}</span><span class="xml">
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">section</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"main"</span> </span></span><span class="hljs-subst">${state.items.length ? <span class="hljs-string">''</span> : <span class="hljs-string">'style="display: none;"'</span>}</span><span class="xml"><span class="hljs-tag">></span>
+      </span><span class="hljs-subst">${toggleAll}</span><span class="xml">
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"todo-list"</span>></span>
+        </span><span class="hljs-subst">${state.items.map(todo)}</span><span class="xml">
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">ul</span>></span>
+      </span><span class="hljs-subst">${footer(remaining, state.items)}</span><span class="xml">
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">section</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>`</span>;
+};
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">header</span> = (<span class="hljs-params"></span>) =>
+  html`<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">header</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"header"</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">h1</span>></span>todos<span class="hljs-tag">&#x3C;/<span class="hljs-name">h1</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span>
+      <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+      <span class="hljs-attr">class</span>=<span class="hljs-string">"new-todo"</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">"todoInput"</span>
+      <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"What needs to be done?"</span>
+      <span class="hljs-attr">onkeydown</span>=<span class="hljs-string">"onCreate(event)"</span>
+      <span class="hljs-attr">autofocus</span>
+      <span class="hljs-attr">value</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${state.newTodo}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>
+    /></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">header</span>></span>`</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">todo</span> = (<span class="hljs-params">item, i</span>) => {
+  <span class="hljs-keyword">if</span> (state.<span class="hljs-property">filter</span> === <span class="hljs-string">'completed'</span> &#x26;&#x26; !item.<span class="hljs-property">complete</span>) <span class="hljs-keyword">return</span> <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">if</span> (state.<span class="hljs-property">filter</span> === <span class="hljs-string">'active'</span> &#x26;&#x26; item.<span class="hljs-property">complete</span>) <span class="hljs-keyword">return</span> <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">let</span> body = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">if</span> (item.<span class="hljs-property">_editing</span>) {
+    body = html`<span class="xml">
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+        <span class="hljs-attr">class</span>=<span class="hljs-string">"edit"</span>
+        <span class="hljs-attr">autofocus</span>
+        <span class="hljs-attr">value</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${item.name}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>
+        <span class="hljs-attr">onkeydown</span>=<span class="hljs-string">"onSave(event, </span></span></span><span class="hljs-subst">${i}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">)"</span>
+        <span class="hljs-attr">onblur</span>=<span class="hljs-string">"onSave(event, </span></span></span><span class="hljs-subst">${i}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">)"</span>
+      /></span>
+    `</span>;
+  } <span class="hljs-keyword">else</span> {
+    body = html`<span class="xml">
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"view"</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">input</span>
+          <span class="hljs-attr">type</span>=<span class="hljs-string">"checkbox"</span>
+          <span class="hljs-attr">class</span>=<span class="hljs-string">"toggle"</span>
+          </span></span><span class="hljs-subst">${item.complete ? <span class="hljs-string">'checked'</span> : <span class="hljs-string">''</span>}</span><span class="xml"><span class="hljs-tag">
+          <span class="hljs-attr">onclick</span>=<span class="hljs-string">"toggle(</span></span></span><span class="hljs-subst">${i}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">);"</span>
+        /></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">label</span> <span class="hljs-attr">ondblclick</span>=<span class="hljs-string">"startEditing(</span></span></span><span class="hljs-subst">${i}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">)"</span>></span></span><span class="hljs-subst">${item.name}</span><span class="xml"><span class="hljs-tag">&#x3C;/<span class="hljs-name">label</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"destroy"</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">"remove(</span></span></span><span class="hljs-subst">${i}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">)"</span> /></span>
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">div</span>></span>
+    `</span>;
+  }
+  <span class="hljs-keyword">return</span> html`<span class="xml">
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">li</span>
+      <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${item.complete ? <span class="hljs-string">'completed'</span> : <span class="hljs-string">''</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string"> </span></span></span><span class="hljs-subst">${item._editing
+        ? <span class="hljs-string">'editing'</span>
+        : <span class="hljs-string">''</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>
+    ></span>
+      </span><span class="hljs-subst">${body}</span><span class="xml">
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">li</span>></span>
+  `</span>;
+};
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">footer</span> = (<span class="hljs-params">remaining, items</span>) => {
+  <span class="hljs-keyword">let</span> clearCompleted = <span class="hljs-string">''</span>;
+  <span class="hljs-keyword">if</span> (remaining.<span class="hljs-property">length</span> !== items.<span class="hljs-property">length</span>) {
+    clearCompleted = html`<span class="xml"> <span class="hljs-tag">&#x3C;<span class="hljs-name">button</span>
+      <span class="hljs-attr">class</span>=<span class="hljs-string">"clear-completed"</span>
+      <span class="hljs-attr">onClick</span>=<span class="hljs-string">"clearCompleted()"</span>
+    ></span>
+      Clear completed
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">button</span>></span>`</span>;
+  }
+  <span class="hljs-keyword">return</span> html`<span class="xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">footer</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"footer"</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"todo-count"</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">strong</span>></span> </span><span class="hljs-subst">${remaining.length ? remaining.length : <span class="hljs-string">'0'</span>}</span><span class="xml"> <span class="hljs-tag">&#x3C;/<span class="hljs-name">strong</span>></span>
+      </span><span class="hljs-subst">${remaining.length === <span class="hljs-number">1</span> ? <span class="hljs-string">'item'</span> : <span class="hljs-string">'items'</span>}</span><span class="xml"> left
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">span</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"filters"</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">li</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">a</span>
+          <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${state.filter === <span class="hljs-string">''</span> ? <span class="hljs-string">'selected'</span> : <span class="hljs-string">''</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>
+          <span class="hljs-attr">onClick</span>=<span class="hljs-string">"updateFilter('')"</span>
+        ></span>
+          All
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">a</span>></span>
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">li</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">li</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">a</span>
+          <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${state.filter === <span class="hljs-string">'active'</span> ? <span class="hljs-string">'selected'</span> : <span class="hljs-string">''</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>
+          <span class="hljs-attr">onClick</span>=<span class="hljs-string">"updateFilter('active')"</span>
+          ></span>Active&#x3C;/a
+        >
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">li</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">li</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">a</span>
+          <span class="hljs-attr">class</span>=<span class="hljs-string">"</span></span></span><span class="hljs-subst">${state.filter === <span class="hljs-string">'completed'</span> ? <span class="hljs-string">'selected'</span> : <span class="hljs-string">''</span>}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>
+          <span class="hljs-attr">onClick</span>=<span class="hljs-string">"updateFilter('completed')"</span>
+        ></span>
+          Completed
+        <span class="hljs-tag">&#x3C;/<span class="hljs-name">a</span>></span>
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">li</span>></span>
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">ul</span>></span>
+    </span><span class="hljs-subst">${clearCompleted}</span><span class="xml">
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">footer</span>></span>`</span>;
+};
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">toggleAll</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> hasRemaining = state.<span class="hljs-property">items</span>.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">i</span>) =></span> !i.<span class="hljs-property">complete</span>).<span class="hljs-property">length</span> != <span class="hljs-number">0</span>;
+  state.<span class="hljs-property">items</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">i</span>) =></span> (i.<span class="hljs-property">complete</span> = hasRemaining));
+  <span class="hljs-title function_">turnTheCrank</span>();
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">clearCompleted</span>(<span class="hljs-params"></span>) {
+  state.<span class="hljs-property">items</span> = state.<span class="hljs-property">items</span>.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">i</span>) =></span> !i.<span class="hljs-property">complete</span>);
+  <span class="hljs-title function_">turnTheCrank</span>();
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onCreate</span>(<span class="hljs-params">e</span>) {
+  <span class="hljs-keyword">const</span> text = <span class="hljs-title function_">getFinalText</span>(e);
+  <span class="hljs-keyword">if</span> (text) {
+    state.<span class="hljs-property">items</span>.<span class="hljs-title function_">push</span>({
+      <span class="hljs-attr">name</span>: text,
+      <span class="hljs-attr">complete</span>: <span class="hljs-literal">false</span>,
+    });
+    state.<span class="hljs-property">newTodo</span> = <span class="hljs-string">''</span>;
+    <span class="hljs-title function_">turnTheCrank</span>(<span class="hljs-string">'todoInput'</span>);
+  }
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onSave</span>(<span class="hljs-params">e, i</span>) {
+  <span class="hljs-keyword">if</span> (e.<span class="hljs-property">which</span> === <span class="hljs-number">27</span>) {
+    state.<span class="hljs-property">items</span>[i].<span class="hljs-property">_editing</span> = <span class="hljs-literal">false</span>;
+    e.<span class="hljs-property">target</span>.<span class="hljs-property">value</span> = state.<span class="hljs-property">items</span>[i].<span class="hljs-property">name</span>;
+    <span class="hljs-title function_">turnTheCrank</span>();
+    <span class="hljs-keyword">return</span>;
+  }
+  <span class="hljs-keyword">const</span> text = <span class="hljs-title function_">getFinalText</span>(e);
+  <span class="hljs-keyword">if</span> (text) {
+    state.<span class="hljs-property">items</span>[i].<span class="hljs-property">name</span> = text;
+    state.<span class="hljs-property">items</span>[i].<span class="hljs-property">_editing</span> = <span class="hljs-literal">false</span>;
+    <span class="hljs-title function_">setItems</span>();
+    <span class="hljs-title function_">turnTheCrank</span>();
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (text !== <span class="hljs-literal">null</span> &#x26;&#x26; state.<span class="hljs-property">items</span>[i] &#x26;&#x26; state.<span class="hljs-property">items</span>[i].<span class="hljs-property">_editing</span>) {
+    state.<span class="hljs-property">items</span>[i].<span class="hljs-property">_editing</span> = <span class="hljs-literal">false</span>;
+    state.<span class="hljs-property">items</span>.<span class="hljs-title function_">splice</span>(i, <span class="hljs-number">1</span>);
+    <span class="hljs-title function_">setItems</span>();
+    <span class="hljs-title function_">turnTheCrank</span>();
+  }
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">toggle</span>(<span class="hljs-params">i</span>) {
+  state.<span class="hljs-property">items</span>[i].<span class="hljs-property">complete</span> = !state.<span class="hljs-property">items</span>[i].<span class="hljs-property">complete</span>;
+  <span class="hljs-title function_">turnTheCrank</span>();
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">remove</span>(<span class="hljs-params">i</span>) {
+  state.<span class="hljs-property">items</span>.<span class="hljs-title function_">splice</span>(i, <span class="hljs-number">1</span>);
+  <span class="hljs-title function_">turnTheCrank</span>();
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">startEditing</span>(<span class="hljs-params">i</span>) {
+  state.<span class="hljs-property">items</span>[i].<span class="hljs-property">_editing</span> = <span class="hljs-literal">true</span>;
+  <span class="hljs-title function_">turnTheCrank</span>();
+}
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">updateFilter</span>(<span class="hljs-params">filter</span>) {
+  <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">hash</span> = filter;
+}
+<span class="hljs-variable language_">window</span>.<span class="hljs-property">onhashchange</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  state.<span class="hljs-property">filter</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">hash</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">'#'</span>)[<span class="hljs-number">1</span>] || <span class="hljs-string">''</span>;
+  <span class="hljs-title function_">turnTheCrank</span>();
+};
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">getFinalText</span> = (<span class="hljs-params">e</span>) =>
+  e.<span class="hljs-property">which</span> === <span class="hljs-number">13</span> || e.<span class="hljs-property">type</span> === <span class="hljs-string">'blur'</span> ? e.<span class="hljs-property">target</span>.<span class="hljs-property">value</span>.<span class="hljs-title function_">trim</span>() : <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">let</span> state;
+<span class="hljs-variable language_">window</span>.<span class="hljs-property">onload</span> = <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> container = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">'container'</span>);
+  <span class="hljs-keyword">const</span> prevState = <span class="hljs-variable language_">window</span>.<span class="hljs-property">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">'todos-vanilla-slim'</span>);
+  state = {
+    <span class="hljs-attr">filter</span>: <span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">hash</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">'#'</span>)[<span class="hljs-number">1</span>] || <span class="hljs-string">''</span>,
+    <span class="hljs-attr">newTodo</span>: <span class="hljs-string">''</span>,
+    <span class="hljs-attr">items</span>: (prevState &#x26;&#x26; <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(prevState)) || [],
+  };
+  <span class="hljs-title function_">turnTheCrank</span>(<span class="hljs-literal">null</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">'.new-todo'</span>)[<span class="hljs-number">0</span>].<span class="hljs-title function_">focus</span>();
+    <span class="hljs-title function_">setItems</span>(); <span class="hljs-comment">// apprently TodoMVC tests need this line</span>
+  });
+};
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">turnTheCrank</span>(<span class="hljs-params">refocus, cb</span>) {
+  <span class="hljs-title function_">requestAnimationFrame</span>(<span class="hljs-function">() =></span> {
+    container.<span class="hljs-property">innerHTML</span> = <span class="hljs-title function_">todoApp</span>(state).<span class="hljs-property">__html__</span>;
+    <span class="hljs-keyword">if</span> (refocus) <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(refocus).<span class="hljs-title function_">focus</span>();
+    <span class="hljs-keyword">if</span> (cb) <span class="hljs-title function_">cb</span>();
+  });
+}
+<span class="hljs-keyword">const</span> setItems = (<span class="hljs-variable language_">window</span>.<span class="hljs-property">onbeforeunload</span> = <span class="hljs-function">() =></span>
+  <span class="hljs-variable language_">window</span>.<span class="hljs-property">localStorage</span>.<span class="hljs-title function_">setItem</span>(
+    <span class="hljs-string">'todos-vanilla-slim'</span>,
+    <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(state.<span class="hljs-property">items</span>),
+  ));
+</code></pre>
+<p><a href="https://github.com/tantaman/fk-your-frameworks-todomvc">https://github.com/tantaman/fk-your-frameworks-todomvc</a></p>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
