@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "strict": true,
-    "outDir": "./public/dist/",
+    "outDir": "./docs/dist",
     "rootDir": "./src",
     "module": "ES2020",
     "moduleResolution": "Node",
