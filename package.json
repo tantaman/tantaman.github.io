@@ -7,7 +7,7 @@
     "pnpm": ">=3"
   },
   "dependencies": {
-    "@tantaman/siteCompiler": "workspace:*"
+    "@tantaman/sitecompiler": "workspace:*"
   },
   "scripts": {
     "build": "sitecompiler",
