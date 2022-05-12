@@ -570,12 +570,20 @@ function MDXContent(props = {}) {
         }), ") for this article."]
       }), "\n", _jsx(_components.p, {
         children: "Now how do you use this component on the fronted?"
-      }), "\n", _jsx(_components.p, {
-        children: "Given the component is pure javascript you can write the code to disk and use it like you would any other JavaScript module."
+      }), "\n", _jsxs(_components.p, {
+        children: ["Given the component is pure ", _jsx(_components.code, {
+          children: "JavaScript"
+        }), " you can write the code to disk and use it like you would any other ", _jsx(_components.code, {
+          children: "JavaScript"
+        }), " module."]
       }), "\n", _jsxs(_components.p, {
         children: [_jsx(_components.strong, {
           children: "Backend"
-        }), " -- write generated MDX JS to disk:"]
+        }), " -- write generated ", _jsx(_components.code, {
+          children: "MDX"
+        }), " ", _jsx(_components.code, {
+          children: "JS"
+        }), " to disk:"]
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-javascript",
@@ -916,8 +924,10 @@ function MDXContent(props = {}) {
             className: "icon icon-link"
           })
         }), "This post is MDX!"]
-      }), "\n", _jsx(_components.p, {
-        children: "This blog post is actually an MDX component!"
+      }), "\n", _jsxs(_components.p, {
+        children: ["This blog post actually is an ", _jsx(_components.code, {
+          children: "MDX"
+        }), " component!"]
       }), "\n", _jsx(_components.p, {
         children: "If you view the source of this page you can see how we include the component and render it into the page --"
       }), "\n", _jsx(_components.pre, {
