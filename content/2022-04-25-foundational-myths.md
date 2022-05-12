@@ -6,10 +6,10 @@ tags: [politics]
 Coincidentally I came across all of these three things below around the same time
 
 <iframe style={{borderRadius:12}} src="https://open.spotify.com/embed/episode/2fX9FG3l002rHyMRdOFw6D?utm_source=generator" width="100%" height="232" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-
 <br/>
 <br/>
 
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">This was a good critique, from 2010: “why Avater is a truly dangerous film” <a href="https://t.co/5ZeJIWndG8">https://t.co/5ZeJIWndG8</a></p>&mdash; Kent William Innholt (@oerhoert) <a href="https://twitter.com/oerhoert/status/1517801045455478784?ref_src=twsrc%5Etfw">April 23, 2022</a></blockquote>
 
 <br/>
