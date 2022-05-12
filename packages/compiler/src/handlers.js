@@ -157,9 +157,12 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
       siteTags: ['software', 'statistics', 'economics'],
       siteAuthor: 'Matt Wonlaw',
       siteTwitter: '@tantaman',
-      image: '/img/avatar-icon.png',
-      imageWidth: 312,
-      imageHeight: 369,
+      image: {
+        url: 'https://tantaman.com/img/avatar-icon.png',
+        width: 312,
+        height: 369,
+        alt: 'Tantaman',
+      },
     })
     .use(() => (tree, file) => {
       layouts[file.data.matter.layout || 'default'](tree, file);

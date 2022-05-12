@@ -1,12 +1,9 @@
-// @ts-nocheck
-
+// @ts-nocheck -- jsx hastscript types don't work with hast??
 import { select } from 'hast-util-select';
 import { h } from 'hastscript';
 import { VFile } from 'vfile';
 
 export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
-  // TODO: you could probably wire up some jsx compilation to create the
-  // hastscript
   const body = select('body', tree);
   if (!body) {
     throw new Error(
@@ -14,7 +11,7 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
     );
   }
   const newChildren = [body.children];
-  const matter = file.data.matter as any;
+  const matter = file.data.matter;
   if (matter?.title) {
     newChildren.unshift(<h1>{matter?.title}</h1>);
   }
