@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import layouts from './layouts/layouts.js';
+import layouts from './src/layouts/layouts.js';
 import { read } from 'to-vfile';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
