@@ -70,6 +70,7 @@ const rootElement = document.getElementById("mdx");
 const root = createRoot(rootElement)
 root.render(React.createElement(MDXContent, {}, null));
 `,
+        js: compiledMdx.data.matter.js || [],
       },
       compiledMdx.data.matter,
     );
@@ -153,6 +154,7 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
     .use(rehypeDocument, {
       ...doc,
       ...docAdditions,
+      js: (doc.js || []).concat((docAdditions || {}).js || []),
     })
     .use(rehypeMeta, meta)
     .use(layout)

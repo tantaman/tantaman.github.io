@@ -108,11 +108,16 @@ a {
 blockquote {
   margin: 10px auto;
   font-family: Open Sans;
-  font-style: italic;
   color: #555555;
   padding: 0.75em;
   border-left: 8px solid var(--primary);
   position: relative;
+  background: var(--accent-bg);
+}
+
+blockquote > p {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 blockquote span {
