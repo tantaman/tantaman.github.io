@@ -8,18 +8,25 @@ const builtDir = './public/';
 async function build(collection) {
   const dest = builtDir + collection;
   const files = await fs.promises.readdir('./content/' + collection);
-  const artifacts = await Promise.all(
-    files.map(async (file) => {
-      return [
-        dest + '/' + file,
-        await handlers[path.extname(file).substring(1)](
-          path.resolve('./content/' + collection + '/' + file),
-          path.resolve('./content/' + collection),
-          files,
-        ),
-      ];
-    }),
-  );
+  const artifacts = (
+    await Promise.all(
+      files.map(async (file) => {
+        const ext = path.extname(file).substring(1);
+        const handler = handlers[ext];
+        if (!handler) {
+          return null;
+        }
+        return [
+          dest + '/' + file,
+          await handler(
+            path.resolve('./content/' + collection + file),
+            path.resolve('./content/' + collection),
+            files,
+          ),
+        ];
+      }),
+    )
+  ).filter((a) => a != null);
 
   const theIndex = index(artifacts);
 
@@ -43,10 +50,10 @@ async function build(collection) {
 }
 
 await Promise.all([
-  build('blog'),
-  build('pages'),
-  build('tweets'),
-  build('crumbs'),
+  build(''),
+  build('pages/'),
+  build('tweets/'),
+  build('crumbs/'),
 ]);
 
 /**

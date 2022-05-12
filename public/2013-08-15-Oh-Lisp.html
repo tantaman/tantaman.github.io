@@ -1,7 +1,217 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url=/blog/2013-08-15-Oh-Lisp" />
-  </head>
-  <body></body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Oh Lisp - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="If you ever tell someone you like Lisp and that Lisp is a more suitable language for the work you are doing most of the time you’ll get weird looks and comments like: “Isn’t that… old?”
+
+“All I know is that it has parenthesis everywhere.”
+
+“Is that like…">
+<meta name="keywords" content="software-engineering, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Oh Lisp">
+<meta property="og:description" content="If you ever tell someone you like Lisp and that Lisp is a more suitable language for the work you are doing most of the time you’ll get weird looks and comments like: “Isn’t that… old?”
+
+“All I know is that it has parenthesis everywhere.”
+
+“Is that like…">
+<meta property="og:image" content="/img/avatar-icon.png">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/img/avatar-icon.png">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="6-9 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Oh Lisp</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>If you ever tell someone you like Lisp and that Lisp is a more suitable language for the work you are doing most of the time you’ll get weird looks and comments like:</p>
+<blockquote>
+<p>“Isn’t that… old?”</p>
+<p>“All I know is that it has parenthesis everywhere.”</p>
+<p>“Is that like COBOL?”</p>
+<p>“Why would you use an underpowered language like Lisp?”</p>
+</blockquote>
+<p>Which is unfortunate because I believe Lisp to be one of the most important programming languages we currently have. I’ve yet to find an article that concisely, clearly and effectively describes the advantages of Lisp to the Lisp skeptic, so here goes my attempt at it.</p>
+<p>I’m sure you’re familiar with XML so let’s consider that for a moment.</p>
+<p>You can think of Lisp as being like XML. There really isn’t anything to XML besides balanced &#x3C;>’s yet it is tremendously useful. Because of how open ended the XML syntax is, you can use it to represent nearly any kind of <strong>data</strong> or <strong>program</strong>. Because of how simple the XML syntax is, it is easily read and manipulated by humans and programs.</p>
+<p>Some examples where XML is in use:</p>
+<ol>
+<li><a href="http://ant.apache.org/">Ant</a> uses XML to define build files.</li>
+<li><a href="http://en.wikipedia.org/wiki/Web_Services_Description_Language">WSDL</a> uses XML to describe web services</li>
+<li>XML <a href="http://exist-db.org/exist/apps/homepage/index.html">databases</a></li>
+<li><a href="http://en.wikipedia.org/wiki/XSLT">XSLT</a> is an XML language for translating XML to other formats (Lisp’s analog would be macros)</li>
+<li><a href="http://en.wikipedia.org/wiki/AIML">AIML</a> — Artificial Intelligence Markup Language</li>
+</ol>
+<p>As you can see from those examples and likely your own experience with XML, XML allows you to come up with your own tags and thus your own sub-language. Ant uses XML as a build language, WSDL uses it as a service language, ALICE uses it as an AI language and XSLT uses it as a macro language.</p>
+<p>An external program or parser (e.g., Ant, XSLT, Maven, JAXB) is what confers meaning upon those tags by using them. When you’re defining a new XML schema, you’re defining a new language for your problem domain.</p>
+<p>To make the comparison of XML and Lisp concrete, here is a comparison of an XML document and a representation of it in Lisp:</p>
+<pre><code class="hljs language-xml"><span class="hljs-comment">&#x3C;!--xml--></span>
+<span class="hljs-tag">&#x3C;<span class="hljs-name">println</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">even</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">list</span>></span><span class="hljs-tag">&#x3C;<span class="hljs-name">elem</span>></span>1<span class="hljs-tag">&#x3C;/<span class="hljs-name">elem</span>></span><span class="hljs-tag">&#x3C;<span class="hljs-name">elem</span>></span>2<span class="hljs-tag">&#x3C;/<span class="hljs-name">elem</span>></span><span class="hljs-tag">&#x3C;<span class="hljs-name">elem</span>></span>3<span class="hljs-tag">&#x3C;/<span class="hljs-name">elem</span>></span><span class="hljs-tag">&#x3C;/<span class="hljs-name">list</span>></span>
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">even</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">println</span>></span>
+</code></pre>
+<pre><code class="hljs language-clojure"><span class="hljs-comment">; Lisp</span>
+(<span class="hljs-name">println</span> (<span class="hljs-name">even</span> (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span>))) <span class="hljs-comment">; => 2</span>
+</code></pre>
+<p>In Lisp, every “tag” is a function or a macro. So in our above example, <em>println</em>, <em>even</em> and <em>list</em> are functions or macros that you would define in Lisp.</p>
+<p>Since each “tag” is a function or macro, instead of having one program to confer meaning upon (i.e., to interpret) a set of tags like in XML, Lisp allows every “tag” to consume and interpret the expressions given to it. It’s like allowing Ant as a built in function to handle a section of your code and then a ALICE to handle another section.</p>
+<p>Every “tag” in Lisp is another opportunity to define a perfectly tailored way of doing things. Just like Ant and Maven are two uses of the XML format for their own goals, the Lisp functions and macros you define are tailored uses of <a href="http://en.wikipedia.org/wiki/S-expression">S-expressions</a> (the nested lists or “parenthetical expressions” in Lisp) for their own goals.</p>
+<p>The minimal syntax of Lisp and XML allows your programs to talk solely in terms of the problem domain (XML is certainly verbose but it is minimal in the number of components that make up its syntax).</p>
+<p>Let’s look at a comparison of Lisp, XML and Javascript.</p>
+<p>Lisp code to construct a deck of slides:</p>
+<pre><code class="hljs language-clojure">(<span class="hljs-name">deck</span> (<span class="hljs-name">slides</span>
+        (<span class="hljs-name">slide</span>
+          (<span class="hljs-name">components</span>
+              (<span class="hljs-name">text-box</span> <span class="hljs-string">"some text"</span> (<span class="hljs-name">position</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>))
+              (<span class="hljs-name">image</span> <span class="hljs-string">"img.png"</span> (<span class="hljs-name">position</span> <span class="hljs-number">0</span> <span class="hljs-number">200</span>)))
+        (<span class="hljs-name">slide</span> ...)))
+</code></pre>
+<p>XML:</p>
+<pre><code class="hljs language-xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">deck</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">slides</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">slide</span>></span>
+      <span class="hljs-tag">&#x3C;<span class="hljs-name">components</span>></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">text-box</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"some text"</span> <span class="hljs-attr">position</span>=<span class="hljs-string">"0,0"</span>/></span>
+        <span class="hljs-tag">&#x3C;<span class="hljs-name">image</span> <span class="hljs-attr">src</span>"<span class="hljs-attr">img.png</span>" <span class="hljs-attr">position</span>=<span class="hljs-string">"0,200"</span>/></span>
+      <span class="hljs-tag">&#x3C;/<span class="hljs-name">component</span>></span>
+    <span class="hljs-tag">&#x3C;/<span class="hljs-name">slide</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">slides</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">deck</span>></span>
+</code></pre>
+<p>Javascript to construct a deck of slides:</p>
+<pre><code class="hljs language-csharp"><span class="hljs-keyword">var</span> deck = <span class="hljs-keyword">new</span> Deck();
+<span class="hljs-keyword">var</span> slide1 = <span class="hljs-keyword">new</span> Slide([<span class="hljs-keyword">new</span> TextBox(<span class="hljs-string">"some text"</span>, <span class="hljs-keyword">new</span> Position(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)), <span class="hljs-keyword">new</span> Image(<span class="hljs-string">"img.png"</span>, <span class="hljs-keyword">new</span> Poisiton(<span class="hljs-number">0</span>, <span class="hljs-number">200</span>)]);
+deck.<span class="hljs-keyword">add</span>(slide1);
+...
+</code></pre>
+<p>You can see that while the Lisp and XML examples only have items relevant to the problem domain, the Javascript one is afflicted with extra ceremony (just imagine what it’d be like in Java…). Of course we could make the Javascript one more lisp-like (and take out some of the ceremonial syntax of the language) by using factories:</p>
+<pre><code class="hljs language-clojure">Deck([Slide([TextBox(<span class="hljs-string">"some text"</span><span class="hljs-punctuation">,</span> Pos(<span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-number">0</span>))<span class="hljs-punctuation">,</span> Image(<span class="hljs-string">"img.png"</span><span class="hljs-punctuation">,</span> Pos(<span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-number">200</span>))])])<span class="hljs-comment">;</span>
+</code></pre>
+<p>but it is still lacking. It is lacking because the Javascript code is stuck and rigid in that state. Javascript code isn’t <strong>data</strong>. In Lisp, the code can be treated as and manipulated as a list of lists. The code <strong>is</strong> data.</p>
+<p>Lisp code is written as lists. In the Lisp code above, <code>(deck</code> starts the first list of symbols, <code>(slides</code> is a sub-list of <code>(deck</code> and <code>(slide</code> a sub-list of <code>(slides</code> and so on. In Lisp, you can create code and macros that take in and manipulate these code-as-list forms. E.g., calling <em>first</em> on the Lisp code above would return the <strong>symbol</strong> ‘deck’. Calling _second _(to get the second element of code) would return the <strong>code (as a list)</strong> that defines the list of slides. You can even add and remove from these lists to generate new code. This is similar to XML where you can use XSLT translate the XML into a new form.</p>
+<p>This notion of code as data that can be manipulated by Lisp allows Lisp programs to be extremely flexible and expressive. With Lisp you can create whatever forms you need that aren’t yet present in the language.</p>
+<blockquote>
+<p>Essentially, Lisp can manipulate Lisp programs just as easily as XML can be manipulated with the DOM or as easily as HTML can be manipulated via jQuery.</p>
+</blockquote>
+<p>Recap,</p>
+<ul>
+<li>
+<p>Lisp lets you create your own languages tailored to the problem domain, just as XML lets you create custom document formats for your domain.</p>
+</li>
+<li>
+<p>The minimal syntax of Lisp clears away everything that is standing between you and your problem.</p>
+</li>
+<li>
+<p>Lisp code and Lisp lists are interchangeable. I.e., you can take a Lisp list and evaluate it into a program and you can take a Lisp program and pass it around, and manipulate it, as a list of lists.</p>
+</li>
+<li>
+<p>Just as XML can be trivially parsed and manipulated, Lisp code can be manipulated by Lisp functions and/or Lisp macros. <strong>The Lisp code is parsed into a data structure (a list of lists / tree / <a href="http://en.wikipedia.org/wiki/S-expression">S expression</a>) for you to manipulate, just like the XML you work with is usually parsed into a DOM (a tree) for you to manipulate.</strong></p>
+</li>
+</ul>
+<p>Here is an interesting comparison of <strong>Lisp &#x26; Lisp Macros</strong> to <strong>XML &#x26; XSLT</strong> (courtesy of <a href="http://c2.com/cgi/wiki?LispVsXml">http://c2.com/cgi/wiki?LispVsXml</a>) to further illustrate the nature of Lisp.</p>
+<p>Notice how the code passed to the Lisp macro is accessed and used as a list of lists (which is a tree).</p>
+<p><strong>Lisp Macro:</strong></p>
+<pre><code class="hljs language-clojure"><span class="hljs-comment">; words is the code passed to the macro</span>
+(<span class="hljs-keyword">defmacro</span> <span class="hljs-title">dictionary</span> (<span class="hljs-name">&#x26;rest</span> words)
+`(<span class="hljs-name">progn</span>
+(<span class="hljs-name"><span class="hljs-built_in">format</span></span> t <span class="hljs-string">"&#x3C;dictionary>~%"</span>)
+
+        <span class="hljs-comment">; for each word in words</span>
+(<span class="hljs-name">dolist</span> (<span class="hljs-name">word</span> '<span class="hljs-punctuation">,</span>words)
+  (<span class="hljs-name"><span class="hljs-built_in">format</span></span> t <span class="hljs-string">" &#x3C;word>~%"</span>)
+
+          <span class="hljs-comment">; get the first item (e.g., xml,java,lisp)</span>
+  (<span class="hljs-name"><span class="hljs-built_in">format</span></span> t <span class="hljs-string">"	&#x3C;id>~A&#x3C;/id>~%"</span> (<span class="hljs-name"><span class="hljs-built_in">first</span></span> word))
+
+          <span class="hljs-comment">; get the second item (i.e., the definition)</span>
+  (<span class="hljs-name"><span class="hljs-built_in">format</span></span> t <span class="hljs-string">"	&#x3C;def>~S&#x3C;/def>~%"</span> (<span class="hljs-name"><span class="hljs-built_in">second</span></span> word))
+
+  (<span class="hljs-name"><span class="hljs-built_in">format</span></span> t <span class="hljs-string">" &#x3C;/word>~%"</span>))
+  (<span class="hljs-name"><span class="hljs-built_in">format</span></span> t <span class="hljs-string">"&#x3C;/dictionary>~%"</span>))
+)
+</code></pre>
+<p>Now, when I enter the following sexpr...</p>
+<pre><code class="hljs language-clojure">(<span class="hljs-name">dictionary</span>
+  (<span class="hljs-name">xml</span> <span class="hljs-string">"data language"</span>)
+  (<span class="hljs-name">java</span> <span class="hljs-string">"programming language"</span>)
+  (<span class="hljs-name">lisp</span> <span class="hljs-string">"programming and data language"</span>))
+</code></pre>
+<p>...I get the following result:</p>
+<pre><code class="hljs language-xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">dictionary</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">word</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">id</span>></span>xml<span class="hljs-tag">&#x3C;/<span class="hljs-name">id</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">def</span>></span>"data language"<span class="hljs-tag">&#x3C;/<span class="hljs-name">def</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">word</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">word</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">id</span>></span>java<span class="hljs-tag">&#x3C;/<span class="hljs-name">id</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">def</span>></span>"programming language"<span class="hljs-tag">&#x3C;/<span class="hljs-name">def</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">word</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">word</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">id</span>></span>lisp<span class="hljs-tag">&#x3C;/<span class="hljs-name">id</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">def</span>></span>"programming and data language"<span class="hljs-tag">&#x3C;/<span class="hljs-name">def</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">word</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">dictionary</span>></span>
+</code></pre>
+<p><strong>XSLT:</strong></p>
+<pre><code class="hljs language-xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:template</span> <span class="hljs-attr">match</span>=<span class="hljs-string">"dictionary"</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:text</span>></span>(dictionary<span class="hljs-tag">&#x3C;/<span class="hljs-name">xsl:text</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:apply-templates</span> /></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:text</span>></span>)<span class="hljs-symbol">&#x26;#10;</span><span class="hljs-tag">&#x3C;/<span class="hljs-name">xsl:text</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">xsl:template</span>></span>
+
+<span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:template</span> <span class="hljs-attr">match</span>=<span class="hljs-string">"word"</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:text</span>></span><span class="hljs-symbol">&#x26;#10;</span> (<span class="hljs-tag">&#x3C;/<span class="hljs-name">xsl:text</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:value-of</span> <span class="hljs-attr">select</span>=<span class="hljs-string">"id"</span> /></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:text</span>></span> <span class="hljs-symbol">&#x26;quot;</span><span class="hljs-tag">&#x3C;/<span class="hljs-name">xsl:text</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:value-of</span> <span class="hljs-attr">select</span>=<span class="hljs-string">"def"</span> /></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">xsl:text</span>></span><span class="hljs-symbol">&#x26;quot;</span>)<span class="hljs-tag">&#x3C;/<span class="hljs-name">xsl:text</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">xsl:template</span>></span>
+</code></pre>
+<p>Now, when I enter the following XML,</p>
+<pre><code class="hljs language-xml"><span class="hljs-tag">&#x3C;<span class="hljs-name">dictionary</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">word</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">id</span>></span>xml<span class="hljs-tag">&#x3C;/<span class="hljs-name">id</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">def</span>></span>data language<span class="hljs-tag">&#x3C;/<span class="hljs-name">def</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">word</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">word</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">id</span>></span>java<span class="hljs-tag">&#x3C;/<span class="hljs-name">id</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">def</span>></span>programming language<span class="hljs-tag">&#x3C;/<span class="hljs-name">def</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">word</span>></span>
+  <span class="hljs-tag">&#x3C;<span class="hljs-name">word</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">id</span>></span>lisp<span class="hljs-tag">&#x3C;/<span class="hljs-name">id</span>></span>
+    <span class="hljs-tag">&#x3C;<span class="hljs-name">def</span>></span>programming and data language<span class="hljs-tag">&#x3C;/<span class="hljs-name">def</span>></span>
+  <span class="hljs-tag">&#x3C;/<span class="hljs-name">word</span>></span>
+<span class="hljs-tag">&#x3C;/<span class="hljs-name">dictionary</span>></span>
+</code></pre>
+<p>I get the following result:</p>
+<pre><code class="hljs language-clojure"> (<span class="hljs-name">dictionary</span>
+	(<span class="hljs-name">xml</span> <span class="hljs-string">"data language"</span>)
+	(<span class="hljs-name">java</span> <span class="hljs-string">"programming language"</span>)
+	(<span class="hljs-name">lisp</span> <span class="hljs-string">"programming and data language"</span>))
+</code></pre>
+<p>I hope this will have at least ignited some interest in Lisp in you.</p>
+<p>It would be interesting to extend this analogy of Lisp and XML to something like “JSON as a programming language…”, maybe another time.</p>
+<p>Lisp resources:</p>
+<ul>
+<li><a href="http://clojure.org/">Lisp on the JVM, CLR and Javascript</a></li>
+<li><a href="http://racket-lang.org/">Lisp for creating new languages that don’t look like Lisp</a></li>
+<li><a href="http://common-lisp.net/">Common Lisp</a></li>
+</ul>
+<p>XML based programming languages (not that I think these are a terribly good idea due to the verbosity of XML but it illustrates the flexibility of XML, and thus Lisp, effectively):</p>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/XSLT">XSLT</a> (turing complete)</li>
+<li><a href="http://en.wikipedia.org/wiki/Schematron">Schematron</a></li>
+<li><a href="http://en.wikipedia.org/wiki/POSXML">POSXML</a></li>
+<li><a href="http://en.wikipedia.org/wiki/XProc">XProc</a></li>
+</ul>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
 </html>

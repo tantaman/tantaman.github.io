@@ -14,7 +14,10 @@ export default function index(file, cwd, files) {
             ]),
             h('ol', [
               Object.entries(index)
-                .filter(([key, meta]) => key !== 'index.js')
+                .reverse()
+                .filter(
+                  ([key, meta]) => key !== 'index.js' && key !== 'README.md',
+                )
                 .map(([key, meta]) =>
                   h('li', h('a', { href: meta.compiledFilename }, key)),
                 ),
