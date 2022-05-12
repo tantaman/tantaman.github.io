@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why is Markdown a Thing? - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="Why do Markdown and MDX exist? Why do we even need them? First, Markdown and MDX invert our relationship with markup languages. They put the prose, the content, first and the markup second.
+
+Second, they&#x27;re a format that can be written by a human being…">
+<meta name="keywords" content="software-engineering, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Why is Markdown a Thing?">
+<meta property="og:description" content="Why do Markdown and MDX exist? Why do we even need them? First, Markdown and MDX invert our relationship with markup languages. They put the prose, the content, first and the markup second.
+
+Second, they&#x27;re a format that can be written by a human being…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="4-5 minutes">
+</head>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Why is Markdown a Thing?</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-failures">The Failures</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#how-rich-text-editors-failed">How Rich Text Editors Failed</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#portability">Portability</a><ol class="toc-level toc-level-3"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#html-portability">HTML Portability</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#open-office">Open Office</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#pdf-portability">PDF Portability</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#bad-fits">Bad Fits</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#enter-mdx">Enter MDX</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#from-first-principles">From First Principles</a></li></ol></nav><p><strong>Why do <code>Markdown</code> and <code>MDX</code> exist? Why do we even need them?</strong></p>
+<p><strong>First</strong>, <code>Markdown</code> and <code>MDX</code> invert our relationship with markup languages. They put the prose, the content, first and the markup second.</p>
+<p><strong>Second</strong>, they're a format that can be written by a human being. The markup characters they use heve even become shortcut keys to apply styles in rich text editors (e.g., google docs, quip, apple notes) without having to click around.</p>
+<p>At first glance, these look like great reasons for <code>Markdown</code> to take off.</p>
+<blockquote>
+<p>Puts your prose, your content, ahead of markup? Great.</p>
+<p>Easier to read for a human? Great.</p>
+</blockquote>
+<p>But... how did we even get here? How did we get to the point where these are even acceptable as good reasons? Where the human being writing content needs to be exposed to and versed in the file format used to save their content!? WTF?!</p>
+<p>Surely these reasons for success are actually marks of massive failures somewhere else.</p>
+<h1 id="the-failures"><a aria-hidden="true" tabindex="-1" href="#the-failures"><span class="icon icon-link"></span></a>The Failures</h1>
+<p>They are marks of failure. They're indicative of massive failures in rich text editing software.</p>
+<p>Right?</p>
+<p>Why else would we need to land in a place where the author of rich text must write in the raw file format of that rich text?</p>
+<h1 id="how-rich-text-editors-failed"><a aria-hidden="true" tabindex="-1" href="#how-rich-text-editors-failed"><span class="icon icon-link"></span></a>How Rich Text Editors Failed</h1>
+<p>In what ways did rich text editing software fail us?</p>
+<h2 id="portability"><a aria-hidden="true" tabindex="-1" href="#portability"><span class="icon icon-link"></span></a>Portability</h2>
+<p>One argument is the portability argument. That there was and is no portable rich text format.</p>
+<p>The opposition would argue that we do have portable formats for rich text.</p>
+<ul>
+<li>html</li>
+<li>OpenOffice</li>
+<li>pdf</li>
+</ul>
+<p>I don't think either one of those is actually portable when it comes to the rich text problem.</p>
+<h3 id="html-portability"><a aria-hidden="true" tabindex="-1" href="#html-portability"><span class="icon icon-link"></span></a>HTML Portability</h3>
+<p><code>html</code> is an incredibly portable format for displaying rich text (I know, sounds like a contractiond!). One day everyone on the planet will have a device capable of rendering <code>html</code>. The problem with <code>html</code>, however, is in its expressiveness and flexibility.</p>
+<p>The richness and expressiveness of <code>html</code> prevents it from being portable in the authoring space. The reason is that if I write a rich text editor and use <code>html</code> as its file format, with the intention of being iteroperable with other editors that use <code>html</code> as their format, I now need to support not only rendering but also editing the full range of <code>html</code>. Rendering <code>html</code> in and of itself is a monumental task. Throw consistent editing into the mix and you're out of luck.</p>
+<p>Using <code>html</code> as the format is also too open ended. Each node &#x26; mark can have additional properties attached to it whose meanings are left to be interpreted by the application.</p>
+<blockquote>
+<p>(r1) I do think a subset of <code>html</code> could have been defined as a portable format for rich text. E.g., restrict ourselves to <code>&#x3C;p></code>, <code>&#x3C;strong></code>, <code>&#x3C;em></code>, <code>&#x3C;h1...6></code>, etc. This is essentially what markdown targets. So why didn't we end up here?</p>
+</blockquote>
+<blockquote>
+<p>(r2) The argument around having to support all features of <code>html</code> could also be levied against <code>markdown.</code> There are a variety of flavors of <code>markdown</code> out there. Not all markdown editors support all flavors. We'll have to address this concern as well.</p>
+</blockquote>
+<blockquote>
+<p>(r3) but html can be inserted directly into markdown... doesn't this make markdown a superset of html? Not quite given inline html is "second class" within markdown and generally not expected to be surfaced for editing by WYSIWYG editors.</p>
+</blockquote>
+<h3 id="open-office"><a aria-hidden="true" tabindex="-1" href="#open-office"><span class="icon icon-link"></span></a>Open Office</h3>
+<h3 id="pdf-portability"><a aria-hidden="true" tabindex="-1" href="#pdf-portability"><span class="icon icon-link"></span></a>PDF Portability</h3>
+<p><code>PDF</code>'s problem isn't so much one of portability but one of it being a bad fit. It was designed to target printers and fixed size documents rather than today's screens and documents that resize to fit the available area.</p>
+<blockquote>
+<p>(r4) But is not fixed width and/or fixed breaks and typesetting something we want in our rich text? This is something related to google doc's pageless mode and why we've transitioned away from the concept of pages... but we still have fixed widths and font sizes, no?</p>
+</blockquote>
+<h2 id="bad-fits"><a aria-hidden="true" tabindex="-1" href="#bad-fits"><span class="icon icon-link"></span></a>Bad Fits</h2>
+<p><code>html</code>'s complexity makes portability hard but also makes it a bad fit for rich text.</p>
+<h2 id="enter-mdx"><a aria-hidden="true" tabindex="-1" href="#enter-mdx"><span class="icon icon-link"></span></a>Enter MDX</h2>
+<p>MDX works because the components bring with them a notion of their rendering. They also are not editable other than thru changing the parameters provided them. They're immutable blocks.</p>
+<p>But why MDX? For inclusion of arbitrary content. HTML <em>doesn't</em> have a component system where opaque blocks are added to a doc.
+MDX shines as an advancement here. (something something shadow dom)</p>
+<h1 id="from-first-principles"><a aria-hidden="true" tabindex="-1" href="#from-first-principles"><span class="icon icon-link"></span></a>From First Principles</h1>
+<ul>
+<li>worse is better</li>
+<li>if you really did create a specific format</li>
+<li>rendering. Target html so all renderings are free.
+<ul>
+<li>only have to solve the authoring problem...</li>
+</ul>
+</li>
+</ul>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
