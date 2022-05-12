@@ -6,7 +6,7 @@ export default function defaultLayout(tree, file) {
   // hastscript
   const body = select('body', tree);
   const newChildren = [body.children];
-  if (file.data.matter.title) {
+  if (file?.data?.matter?.title) {
     newChildren.unshift(h('h1', file.data.matter.title));
   }
   body.children = [
