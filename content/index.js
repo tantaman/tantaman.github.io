@@ -1,17 +1,23 @@
-import { toHtml } from 'hast-util-to-html';
+import { doc, meta, layout, rehypeDocument } from '@tantaman/sitecompiler';
 import { h } from 'hastscript';
+import rehypeStringify from 'rehype-stringify';
+import { unified } from 'unified';
+import rehypeMeta from 'rehype-meta';
+import { toHtml } from 'hast-util-to-html';
+import rehypeParse from 'rehype-parse';
 
 // TODO: put this thru the unified pipeline like markdown?
 export default function index(file, cwd, files) {
   return {
     content: (index) => {
-      return toHtml(
-        h('html', [
-          h('head', h('link', { rel: 'stylesheet', href: '/index.css' })),
-          h('body', [
-            h('header#header', [
-              h('img.logo', { src: '/img/avatar-icon.png' }),
-            ]),
+      return unified()
+        .use(rehypeParse)
+        .use(rehypeDocument, doc)
+        .use(rehypeMeta, meta)
+        .use(layout)
+        .use(rehypeStringify, { allowDangerousHtml: true })
+        .processSync(
+          toHtml(
             h('ol', [
               Object.entries(index)
                 .reverse()
@@ -22,9 +28,9 @@ export default function index(file, cwd, files) {
                   h('li', h('a', { href: meta.compiledFilename }, key)),
                 ),
             ]),
-          ]),
-        ]),
-      );
+          ),
+        )
+        .toString();
     },
     frontmatter: {},
     greymatter: {},

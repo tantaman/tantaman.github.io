@@ -119,10 +119,15 @@ export default function rehypeDocument(options = {}) {
     index = -1;
 
     while (++index < js.length) {
-      contents.push(
-        { type: 'text', value: '\n' },
-        h('script', { src: js[index], type: 'module' }),
-      );
+      const instance = js[index];
+      if (typeof instance === 'object') {
+        contents.push({ type: 'text', value: '\n' }, h('script', instance));
+      } else {
+        contents.push(
+          { type: 'text', value: '\n' },
+          h('script', { src: js[index], type: 'module' }),
+        );
+      }
     }
 
     contents.push({ type: 'text', value: '\n' });

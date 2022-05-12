@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import layouts from './layouts/layouts.js';
+import layout from './layouts/layouts.js';
 import { read } from 'to-vfile';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
@@ -18,6 +18,7 @@ import rehypeMeta from 'rehype-meta';
 import rehypeInferTitleMeta from 'rehype-infer-title-meta';
 import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
 import rehypeInferReadingTimeMeta from 'rehype-infer-reading-time-meta';
+import rehypeParse from 'rehype-parse';
 // import unifiedInferGitMeta from 'unified-infer-git-meta';
 import { compile as compileMdx } from '@mdx-js/mdx';
 import { matter } from 'vfile-matter';
@@ -29,6 +30,7 @@ import java from 'highlight.js/lib/languages/java';
 import xml from 'highlight.js/lib/languages/xml';
 import rust from 'highlight.js/lib/languages/rust';
 import path from 'path';
+import { doc, meta } from './layouts/global.js';
 
 export default {
   async mdx(file, cwd) {
@@ -145,28 +147,11 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
       languages: { clojure, typescript, javascript, java, xml, rust },
     })
     .use(rehypeDocument, {
-      css: ['/index.css'],
+      ...doc,
       ...docAdditions,
     })
-    .use(rehypeMeta, {
-      og: true,
-      twitter: true,
-      copyright: true,
-      type: 'article',
-      name: 'Tantamanlands',
-      siteTags: ['software', 'statistics', 'economics'],
-      siteAuthor: 'Matt Wonlaw',
-      siteTwitter: '@tantaman',
-      image: {
-        url: 'https://tantaman.com/img/avatar-icon.png',
-        width: 312,
-        height: 369,
-        alt: 'Tantaman',
-      },
-    })
-    .use(() => (tree, file) => {
-      layouts[file.data.matter.layout || 'default'](tree, file);
-    })
+    .use(rehypeMeta, meta)
+    .use(layout)
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(fileOrContent);
 }
