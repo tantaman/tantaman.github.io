@@ -9,3 +9,6 @@ https://twitter.com/Tantaman/status/1524057494829547521
 
 ---
 https://github.com/kentcdodds/mdx-bundler
+
+- utterances reconfigure:
+  - https://github.com/tantaman/tantaman.github.io/blob/6ad856d10d9ad0f363b55cfecacd14b5936491e5/_includes/utterances-comment.html
