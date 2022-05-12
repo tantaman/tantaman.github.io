@@ -98,7 +98,7 @@ async function processMdx(file) {
 
 ### Supplying JSX & Using the Component
 
-What `processMdx` will do is to return a JavaScript module that defines a React component that represents the MDX document. What is not included in the genreated component, however, is the code for any imports you may require.
+What `processMdx` will do is to return a `JavaScript` module that defines a `React` component that represents the `MDX` document. What is not included in the genreated component, however, is the code for any imports the component may require.
 
 One way of including React without bundling it directly with the `MDX` component (or requiring another build step after generating the component) is to supply the `jsxImportSource` option.
 
@@ -111,9 +111,7 @@ async function processMdx(file) {
 }
 ```
 
-Any imports referenced within your component either need to be URLs that resolve to ES Modules -or- imports that can be resolved in a later build step.
-
-If you need to bundle your dependencies along with the MDX component in this phase, see [`mdx-bundler`](https://github.com/kentcdodds/mdx-bundler). `mdx-bundler` works much the same as what we've describe here except it'll use `ESBuild` to scan imports and bundle their code in with the final component. We've taken a non-bundling approach (as described [here](http://localhost:3000/2022-05-12-skipping-the-bundling)) for this article.
+If you need to bundle your dependencies along with the `MDX` component in this phase, see [`mdx-bundler`](https://github.com/kentcdodds/mdx-bundler). `mdx-bundler` works much the same as what we've describe here except it'll use `ESBuild` to scan imports and bundle their code in with the final component. We've taken a non-bundling approach (as described [here](http://localhost:3000/2022-05-12-skipping-the-bundling)) for this article.
 
 Now how do you use this component on the fronted?
 
@@ -203,4 +201,4 @@ const root = createRoot(rootElement);
 root.render(React.createElement(MDXContent, {}, null));
 ```
 
-the source mdx that this post was built from [can be found here](https://github.com/tantaman/tantaman.github.io/blob/master/content/2022-05-12-simple-mdx.mdx) and `mdx` compilation [here](https://github.com/tantaman/tantaman.github.io/blob/19e8c05dc4ed51f2ed38fde624405436e5706b30/packages/compiler/src/handlers.js#L36).
+the source mdx that this post was built from [can be found here](https://github.com/tantaman/tantaman.github.io/blob/master/content/2022-05-12-simple-mdx.mdx), the `mdx` compiler [here](https://github.com/tantaman/tantaman.github.io/blob/19e8c05dc4ed51f2ed38fde624405436e5706b30/packages/compiler/src/handlers.js#L36) and the compiled mdx [here](http://localhost:3000/2022-05-12-simple-mdx.mdx.js).

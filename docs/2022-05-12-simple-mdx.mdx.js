@@ -507,7 +507,13 @@ function MDXContent(props = {}) {
       }), "\n", _jsxs(_components.p, {
         children: ["What ", _jsx(_components.code, {
           children: "processMdx"
-        }), " will do is to return a JavaScript module that defines a React component that represents the MDX document. What is not included in the genreated component, however, is the code for any imports you may require."]
+        }), " will do is to return a ", _jsx(_components.code, {
+          children: "JavaScript"
+        }), " module that defines a ", _jsx(_components.code, {
+          children: "React"
+        }), " component that represents the ", _jsx(_components.code, {
+          children: "MDX"
+        }), " document. What is not included in the genreated component, however, is the code for any imports the component may require."]
       }), "\n", _jsxs(_components.p, {
         children: ["One way of including React without bundling it directly with the ", _jsx(_components.code, {
           children: "MDX"
@@ -546,10 +552,10 @@ function MDXContent(props = {}) {
             children: "'https://esm.sh/react'"
           }), ",\n    ...\n  });\n}\n"]
         })
-      }), "\n", _jsx(_components.p, {
-        children: "Any imports referenced within your component either need to be URLs that resolve to ES Modules -or- imports that can be resolved in a later build step."
       }), "\n", _jsxs(_components.p, {
-        children: ["If you need to bundle your dependencies along with the MDX component in this phase, see ", _jsx(_components.a, {
+        children: ["If you need to bundle your dependencies along with the ", _jsx(_components.code, {
+          children: "MDX"
+        }), " component in this phase, see ", _jsx(_components.a, {
           href: "https://github.com/kentcdodds/mdx-bundler",
           children: _jsx(_components.code, {
             children: "mdx-bundler"
@@ -989,10 +995,13 @@ function MDXContent(props = {}) {
         children: ["the source mdx that this post was built from ", _jsx(_components.a, {
           href: "https://github.com/tantaman/tantaman.github.io/blob/master/content/2022-05-12-simple-mdx.mdx",
           children: "can be found here"
-        }), " and ", _jsx(_components.code, {
+        }), ", the ", _jsx(_components.code, {
           children: "mdx"
-        }), " compilation ", _jsx(_components.a, {
+        }), " compiler ", _jsx(_components.a, {
           href: "https://github.com/tantaman/tantaman.github.io/blob/19e8c05dc4ed51f2ed38fde624405436e5706b30/packages/compiler/src/handlers.js#L36",
+          children: "here"
+        }), " and the compiled mdx ", _jsx(_components.a, {
+          href: "http://localhost:3000/2022-05-12-simple-mdx.mdx.js",
           children: "here"
         }), "."]
       })]
