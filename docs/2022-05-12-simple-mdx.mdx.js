@@ -1,7 +1,6 @@
 /*@jsxRuntime automatic @jsxImportSource https://esm.sh/react*/
 import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "https://esm.sh/react/jsx-runtime";
 import {TwitterTweetEmbed} from 'https://esm.sh/react-twitter-embed';
-import {Mermaid} from '/dist/components/Mermaid.js';
 function MDXContent(props = {}) {
   const {wrapper: MDXLayout} = props.components || ({});
   return MDXLayout ? _jsx(MDXLayout, Object.assign({}, props, {
@@ -13,9 +12,9 @@ function MDXContent(props = {}) {
       ol: "ol",
       li: "li",
       a: "a",
+      blockquote: "blockquote",
       p: "p",
       code: "code",
-      blockquote: "blockquote",
       h2: "h2",
       span: "span",
       h3: "h3",
@@ -24,14 +23,14 @@ function MDXContent(props = {}) {
     return _jsxs(_Fragment, {
       children: [_jsx(_components.nav, {
         className: "toc",
-        children: _jsx(_components.ol, {
+        children: _jsxs(_components.ol, {
           className: "toc-level toc-level-1",
-          children: _jsxs(_components.li, {
+          children: [_jsxs(_components.li, {
             className: "toc-item toc-item-h2",
             children: [_jsx(_components.a, {
               className: "toc-link toc-link-h2",
-              href: "#using-mdx",
-              children: "Using MDX"
+              href: "#getting-started",
+              children: "Getting Started"
             }), _jsxs(_components.ol, {
               className: "toc-level toc-level-2",
               children: [_jsx(_components.li, {
@@ -46,19 +45,47 @@ function MDXContent(props = {}) {
                 children: _jsx(_components.a, {
                   className: "toc-link toc-link-h3",
                   href: "#picking-transformations",
-                  children: "Picking transformations"
+                  children: "Picking Transformations"
+                })
+              }), _jsx(_components.li, {
+                className: "toc-item toc-item-h3",
+                children: _jsx(_components.a, {
+                  className: "toc-link toc-link-h3",
+                  href: "#applying-transformations",
+                  children: "Applying Transformations"
+                })
+              }), _jsx(_components.li, {
+                className: "toc-item toc-item-h3",
+                children: _jsx(_components.a, {
+                  className: "toc-link toc-link-h3",
+                  href: "#supplying-jsx--using-the-component",
+                  children: "Supplying JSX & Using the Component"
                 })
               })]
             })]
-          })
+          }), _jsx(_components.li, {
+            className: "toc-item toc-item-h2",
+            children: _jsx(_components.a, {
+              className: "toc-link toc-link-h2",
+              href: "#full-sample-code",
+              children: "Full Sample Code"
+            })
+          })]
         })
+      }), "\n", _jsxs(_components.blockquote, {
+        children: ["\n", _jsxs(_components.p, {
+          children: ["tldr; ", _jsx(_components.a, {
+            href: "#full-sample-code",
+            children: "skip to full sampel code"
+          })]
+        }), "\n"]
       }), "\n", _jsxs(_components.p, {
         children: ["So you want to deploy a site that uses ", _jsx(_components.code, {
           children: "MDX"
         }), "? Outside of using ", _jsx(_components.a, {
           href: "https://nextjs.org/docs/advanced-features/using-mdx",
           children: "Nextjs"
-        }), ", the process is much more difficult than it aught to be."]
+        }), ", this process is much more difficult than it aught to be."]
       }), "\n", _jsx("center", {
         children: _jsx(TwitterTweetEmbed, {
           tweetId: '1524057494829547521'
@@ -111,19 +138,19 @@ function MDXContent(props = {}) {
           }), " like features being brought together into a single authoring and coding paltform."]
         }), "\n"]
       }), "\n", _jsxs(_components.h2, {
-        id: "using-mdx",
+        id: "getting-started",
         children: [_jsx(_components.a, {
           "aria-hidden": "true",
           tabIndex: "-1",
-          href: "#using-mdx",
+          href: "#getting-started",
           children: _jsx(_components.span, {
             className: "icon icon-link"
           })
-        }), "Using MDX"]
+        }), "Getting Started"]
       }), "\n", _jsxs(_components.p, {
-        children: ["Lets get started using ", _jsx(_components.code, {
+        children: ["To use ", _jsx(_components.code, {
           children: "@mdx-js/mdx"
-        }), " directly. We'll go over a few things:"]
+        }), " directly we'll go over a few things:"]
       }), "\n", _jsxs(_components.ol, {
         children: ["\n", _jsx(_components.li, {
           children: "Ingesting MDX content for processing"
@@ -132,7 +159,7 @@ function MDXContent(props = {}) {
         }), "\n", _jsx(_components.li, {
           children: "Applying transforms and compiling the MDX to JavaScript"
         }), "\n", _jsx(_components.li, {
-          children: "Loading the component on the frontend"
+          children: "Supplying JSX & using the component on the frontend"
         }), "\n"]
       }), "\n", _jsxs(_components.h3, {
         id: "ingesting-content",
@@ -232,7 +259,7 @@ function MDXContent(props = {}) {
           children: _jsx(_components.span, {
             className: "icon icon-link"
           })
-        }), "Picking transformations"]
+        }), "Picking Transformations"]
       }), "\n", _jsxs(_components.p, {
         children: [_jsx(_components.code, {
           children: "MDX"
@@ -242,36 +269,291 @@ function MDXContent(props = {}) {
           children: "Rehype"
         }), " and the ", _jsx(_components.code, {
           children: "Unifiedjs"
-        }), " ecosystem."]
+        }), " ecosystem. This ecosystem is comprised of a large set of plugins or transformations that you can use to control the final output of your ", _jsx(_components.code, {
+          children: "MDX"
+        }), " conversion."]
       }), "\n", _jsxs(_components.p, {
-        children: ["The root of this ecosystem is a representation of text as a syntax tree (", _jsx(_components.a, {
-          href: "https://github.com/syntax-tree/hast",
-          children: "hast"
-        }), "). All ", _jsx(_components.code, {
-          children: "unifiedjs"
-        }), " processors are built around this abstraction and work by applying transofrmations to the tree, passing the updated tree along to the next step in the processing pipeline so it can apply its transofrmations and then pass the updated tree to the next step and so on."]
-      }), "\n", _jsxs(_components.p, {
-        children: ["For more on pipelines in general, see ", _jsx(_components.a, {
+        children: ["At a high level, plugins are chained together into a processing pipeline. The plugins that come first deal at the lowest level of abstract, enriching or transforming the data to higher levels of abstraction before passing it on to the next set of plugins in the chain (for more on pipelines in general, see ", _jsx(_components.a, {
           href: "/2013-07-30-Inheritance-Aggregation-and-Pipelines.html#pipelines",
           children: "inheritance, aggregation and pipelines"
-        })]
+        }), ")."]
+      }), "\n", _jsxs(_components.blockquote, {
+        children: ["\n", _jsxs(_components.p, {
+          children: ["Nit: At the lowest levels (e.g., parsing and tokenizing) extensions will be combined or invoked in turn without passing data to one another. At higher levels (rehype and above) each plugin does manipulate the ", _jsx(_components.code, {
+            children: "AST"
+          }), " and pass on its results to the next plugin."]
+        }), "\n"]
       }), "\n", _jsxs(_components.p, {
-        children: ["A pipeline for converting ", _jsx(_components.code, {
-          children: "Markdown"
-        }), " to ", _jsx(_components.code, {
-          children: "html"
-        }), " might look something like:"]
-      }), "\n", _jsx(Mermaid, {
-        id: "example-pipe",
-        chart: `
-graph TD;
-  remarkParse-->remarkFrontmatter
-  remarkFrontmatter-->remarkGfm
-  remarkGfm-->remarkWikiLink
-  remarkWikiLink-->remarkRehype
-  remarkRehype-->rehypeInferDescriptionMeta
-  rehypeInferDescriptionMeta-->rehypeStringify
-`
+        children: ["All of the various plugins that are available to you to enrich your transformation of ", _jsx(_components.code, {
+          children: "MDX"
+        }), " (or ", _jsx(_components.code, {
+          children: "MD"
+        }), " or just text in general) can ", _jsx(_components.a, {
+          href: "https://unifiedjs.com/explore/",
+          children: "be found here"
+        }), "."]
+      }), "\n", _jsx(_components.p, {
+        children: "Figuring out what to use may seem daunting so here are a few common packages."
+      }), "\n", _jsxs(_components.ol, {
+        children: ["\n", _jsxs(_components.li, {
+          children: [_jsx(_components.a, {
+            href: "https://github.com/remarkjs/remark/tree/main/packages/remark-parse",
+            children: "remark-parse"
+          }), " - to parse markdown. Already included by ", _jsx(_components.code, {
+            children: "@mdx-js/mdx"
+          }), "."]
+        }), "\n", _jsxs(_components.li, {
+          children: [_jsx(_components.a, {
+            href: "https://github.com/remarkjs/remark-frontmatter",
+            children: "remark-frontmatter"
+          }), " - to extract frontmatter"]
+        }), "\n", _jsxs(_components.li, {
+          children: [_jsx(_components.a, {
+            href: "https://github.com/remarkjs/remark-gfm",
+            children: "remark-gfm"
+          }), " - to support github flavored markdown"]
+        }), "\n", _jsxs(_components.li, {
+          children: [_jsx(_components.a, {
+            href: "https://github.com/landakram/remark-wiki-link",
+            children: "remark-wiki-link"
+          }), " - to enable wiki link syntax"]
+        }), "\n", _jsxs(_components.li, {
+          children: [_jsx(_components.a, {
+            href: "https://github.com/remarkjs/remark-rehype",
+            children: "remark-rehype"
+          }), " - to convert the markdown ast to an html ast for futher processing. Already included by ", _jsx(_components.code, {
+            children: "@mdx-js/mdx"
+          }), "."]
+        }), "\n", _jsxs(_components.li, {
+          children: [_jsx(_components.a, {
+            href: "https://github.com/rehypejs/rehype-highlight",
+            children: "rehype-highlight"
+          }), " - to eanble code highlighting"]
+        }), "\n"]
+      }), "\n", _jsxs(_components.h3, {
+        id: "applying-transformations",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#applying-transformations",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Applying Transformations"]
+      }), "\n", _jsxs(_components.p, {
+        children: ["Applying transformations is as simple as passing their imported modules and options to ", _jsx(_components.code, {
+          children: "compile"
+        }), " from ", _jsx(_components.code, {
+          children: "@mdx-js/mdx"
+        }), ". To do that, we'll go ahead an implement the ", _jsx(_components.code, {
+          children: "processMdx"
+        }), " function that we called earlier."]
+      }), "\n", _jsx(_components.pre, {
+        children: _jsxs(_components.code, {
+          className: "hljs language-javascript",
+          children: [_jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "import"
+          }), " { compile } ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "from"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'@mdx-js/mdx'"
+          }), ";\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "import"
+          }), " remarkFrontmatter ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "from"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'remark-frontmatter'"
+          }), ";\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "import"
+          }), " remarkGfm ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "from"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'remark-gfm'"
+          }), ";\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "import"
+          }), " remarkWikiLink ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "from"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'remark-wiki-link'"
+          }), ";\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "import"
+          }), " rehypeInferDescriptionMeta ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "from"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'rehype-infer-description-meta'"
+          }), ";\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "import"
+          }), " rehypeAutolinkHeadings ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "from"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'rehype-autolink-headings'"
+          }), ";\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "import"
+          }), " rehypeHighlight ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "from"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'rehype-highlight'"
+          }), ";\n\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "async"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "function"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "processMdx"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-params",
+            children: "file"
+          }), ") {\n  ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "return"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "await"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "compile"
+          }), "(file, {\n    ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "remarkPlugins"
+          }), ": [\n      remarkFrontmatter,\n      ", _jsx(_components.span, {
+            className: "hljs-function",
+            children: "() =>"
+          }), " ", _jsxs(_components.span, {
+            className: "hljs-function",
+            children: ["(", _jsx(_components.span, {
+              className: "hljs-params",
+              children: "tree, file"
+            }), ") =>"]
+          }), " {\n        ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "matter"
+          }), "(file, { ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "strip"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-literal",
+            children: "true"
+          }), " });\n      },\n      remarkGfm,\n      remarkWikiLink,\n    ],\n    ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "rehypePlugins"
+          }), ": [\n      [rehypeInferDescriptionMeta, { ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "truncateSize"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "255"
+          }), " }],\n      rehypeAutolinkHeadings,\n      rehypeHighlight,\n    ],\n  }).", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "toString"
+          }), "();\n}\n"]
+        })
+      }), "\n", _jsxs(_components.h3, {
+        id: "supplying-jsx--using-the-component",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#supplying-jsx--using-the-component",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Supplying JSX & Using the Component"]
+      }), "\n", _jsxs(_components.p, {
+        children: ["What ", _jsx(_components.code, {
+          children: "processMdx"
+        }), " will do is to return a JavaScript module that defines a React component that represents the MDX document. What is not included in the genreated component, however, is the code for any imports you may require."]
+      }), "\n", _jsxs(_components.p, {
+        children: ["One way of including React without bundling it directly with the ", _jsx(_components.code, {
+          children: "MDX"
+        }), " component (or requiring another build step after generating the component) is to supply the ", _jsx(_components.code, {
+          children: "jsxImportSource"
+        }), " option."]
+      }), "\n", _jsx(_components.pre, {
+        children: _jsxs(_components.code, {
+          className: "hljs language-javascript",
+          children: [_jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "async"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "function"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "processMdx"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-params",
+            children: "file"
+          }), ") {\n  ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "return"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "await"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "compile"
+          }), "(file, {\n    ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "jsxImportSource"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'https://esm.sh/react'"
+          }), ",\n    ...\n  });\n}\n"]
+        })
+      }), "\n", _jsx(_components.p, {
+        children: "Any imports referenced within your component either need to be URLs that resolve to ES Modules -or- imports that can be resolved in a later build step."
+      }), "\n", _jsxs(_components.p, {
+        children: ["If you need to bundle your dependencies along with the MDX component in this phase, see ", _jsx(_components.a, {
+          href: "https://github.com/kentcdodds/mdx-bundler",
+          children: _jsx(_components.code, {
+            children: "mdx-bundler"
+          })
+        }), ". ", _jsx(_components.code, {
+          children: "mdx-bundler"
+        }), " works much the same as what we've describe here except it'll use ", _jsx(_components.code, {
+          children: "ESBuild"
+        }), " to scan imports and bundle their code in with the final component. We've taken a non-bundling approach (as described ", _jsx(_components.a, {
+          href: "http://localhost:3000/2022-05-12-skipping-the-bundling",
+          children: "here"
+        }), ") for this article."]
+      }), "\n", _jsx(_components.p, {
+        children: "Now how do you"
+      }), "\n", _jsxs(_components.h2, {
+        id: "full-sample-code",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#full-sample-code",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Full Sample Code"]
+      }), "\n", _jsx(_components.pre, {
+        children: _jsx(_components.code, {
+          className: "hljs language-javascript"
+        })
       })]
     });
   }
