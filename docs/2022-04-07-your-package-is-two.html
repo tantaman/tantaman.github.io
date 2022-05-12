@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your One Package Might Be Two - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="When creating a software package (or module or bundle, pick your term) for others to reuse, there&#x27;s often a second package in the package that developers overlook. The second package is the interface package. I.e., the interface that overlays the specific…">
+<meta name="keywords" content="software-engineering, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Your One Package Might Be Two">
+<meta property="og:description" content="When creating a software package (or module or bundle, pick your term) for others to reuse, there&#x27;s often a second package in the package that developers overlook. The second package is the interface package. I.e., the interface that overlays the specific…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="1-2 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Your One Package Might Be Two</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#why">Why?</a></li></ol></nav><p>When creating a software package (or module or bundle, pick your term) for others to reuse, there's often a <em>second</em> package in the package that developers overlook.</p>
+<p>The second package is the <em>interface</em> package. I.e., the interface that overlays the specific implementation that is your package.</p>
+<p>As an example, I might provide a codegen package. <code>CodegenFile</code>, <code>CodegenStep</code>, <code>CodegenPipeline</code> and such classes comprise the interface of that package. All the other things are implementation details.</p>
+<p>In many cases it would benefit the author of the package to pull the inetrface out into its own separate package.</p>
+<h2 id="why"><a aria-hidden="true" tabindex="-1" href="#why"><span class="icon icon-link"></span></a>Why?</h2>
+<ol>
+<li>Moving the interface out lets developers create alternative implementations of the interface.</li>
+<li>Moving the interface out lets other packages depend on types from the interface without having to depend on the entire implementation package, which could be large</li>
+</ol>
+<p>The second point is useful for cases where an extension consumes outputs of a package but doesn't need to actually run that package. Maybe the outputs come from somewhere else over the wire or are read from disk rather than being a direct invocation of the implementation.</p>
+<p><strong>Note</strong> that the interface package <em>does not</em> depend on the implementation package. The implementation package dependson the interface package. This makes sense given that interfaces don't know about their implementations but implementations do know about the interfaces they implement.</p>
+<div class="mermaid">
+graph TD
+  Extension --> Interface
+  Package --> Interface
+</div>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

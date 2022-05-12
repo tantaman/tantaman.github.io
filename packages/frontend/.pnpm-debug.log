@@ -1,0 +1,16 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1,
+    "workspacePrefix": "/Users/tantaman/workspace/tantaman.github.io"
+  },
+  "1 error pnpm": {
+    "fileName": "/Users/tantaman/workspace/tantaman.github.io/packages/frontend/package.json",
+    "code": "ERR_PNPM_JSON_PARSE",
+    "err": {
+      "name": "pnpm",
+      "message": "Unexpected end of JSON input while parsing empty string in /Users/tantaman/workspace/tantaman.github.io/packages/frontend/package.json",
+      "code": "ERR_PNPM_JSON_PARSE",
+      "stack": "pnpm: Unexpected end of JSON input while parsing empty string in /Users/tantaman/workspace/tantaman.github.io/packages/frontend/package.json\n    at parseJson (/Users/tantaman/.nvm/versions/node/v17.5.0/pnpm-global/5/node_modules/.pnpm/pnpm@7.0.0/node_modules/pnpm/dist/pnpm.cjs:3133:27)\n    at readJsonFile (/Users/tantaman/.nvm/versions/node/v17.5.0/pnpm-global/5/node_modules/.pnpm/pnpm@7.0.0/node_modules/pnpm/dist/pnpm.cjs:19605:42)\n    at async readExactProjectManifest (/Users/tantaman/.nvm/versions/node/v17.5.0/pnpm-global/5/node_modules/.pnpm/pnpm@7.0.0/node_modules/pnpm/dist/pnpm.cjs:19738:34)\n    at async /Users/tantaman/.nvm/versions/node/v17.5.0/pnpm-global/5/node_modules/.pnpm/pnpm@7.0.0/node_modules/pnpm/dist/pnpm.cjs:49116:16"
+    }
+  }
+}

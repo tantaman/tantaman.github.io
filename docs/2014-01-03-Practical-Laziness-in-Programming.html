@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Practical Laziness in Programming - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder. Laziness improves API design.
+
+I’ll illustrate with a program I wrote to convert Javadoc comments to JSON. I…">
+<meta name="keywords" content="software-engineering, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Practical Laziness in Programming">
+<meta property="og:description" content="When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder. Laziness improves API design.
+
+I’ll illustrate with a program I wrote to convert Javadoc comments to JSON. I…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="4-6 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Practical Laziness in Programming</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#what-about-laziness">What about laziness??</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#great-but-how-can-i-be-lazy-on-the-jvm">Great but how can I be lazy on the JVM?</a></li></ol></nav><p>When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder.</p>
+<p>Laziness improves API design.</p>
+<p>I’ll illustrate with a program I wrote to convert Javadoc comments to JSON. I started writing the program in Java and I quickly realized the problem would be easier with lazy evaluation.</p>
+<p>Ideally I wanted to do something like:</p>
+<ol>
+<li>get a list of all the ClassDoc objects (Javadoc documentation on top of a class)</li>
+<li>convert every entry in the list to a JSON object</li>
+<li>stringify all the JSON objects</li>
+<li>write all the strings to different files in parallel</li>
+</ol>
+<p>In code:</p>
+<pre><code class="hljs language-java">List&#x3C;ClassDoc> docs = getClassDocs();
+List&#x3C;JSONObject> jsonObjects = toJSON(docs);
+List&#x3C;String> jsonStrings = stringify(jsonObjects);
+writeAll(jsonStrings);
+</code></pre>
+<p>That is a pretty straightforward sequence of steps but our repository is huge and I wanted to keep memory consumption down so I couldn't just process everything at once. I had to instead do:</p>
+<ol>
+<li>get a ClassDoc object</li>
+<li>convert the ClassDoc object to a JSON object</li>
+<li>stringify the JSON object</li>
+<li>send the JSON object to an executor service that writes it to a file</li>
+<li>repeat steps 1-4 until no ClassDoc objects remain</li>
+</ol>
+<p>In code:</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">while</span> (hasNext()) {
+  <span class="hljs-type">ClassDoc</span> <span class="hljs-variable">doc</span> <span class="hljs-operator">=</span> getNext();
+  <span class="hljs-type">JSONObject</span> <span class="hljs-variable">jsonObject</span> <span class="hljs-operator">=</span> toJSON(doc);
+  <span class="hljs-type">String</span> <span class="hljs-variable">jsonString</span> <span class="hljs-operator">=</span> stringify(jsonObject);
+  write(jsonString); <span class="hljs-comment">// &#x3C;-- non blocking write so we can write in parallel</span>
+}
+</code></pre>
+<p>Now this doesn't seem like a big deal. After all, only 1 step was added and that step is just looping over the first 4 steps. The problem is that this second approach makes the code less <strong>composable</strong>.</p>
+<p>With the first approach I can just return the results of each of my intermediate steps for someone to work with. I.e., I can define each step as a method on my api class and users can compose those methods, or add steps in between them, however they want.</p>
+<p>Here is an example:</p>
+<pre><code class="hljs language-java"><span class="hljs-comment">// Normal conversion</span>
+api.write(api.stringifyJSON(
+    api.toJSON(api.getClassDocs())));
+
+<span class="hljs-comment">// Conversion + user's own swag</span>
+api.write(**swag**.addCopyright(
+    api.stringifyJSON(**swag**.addCustomProps(api.toJSON(
+      api.getClassDocs())))));
+</code></pre>
+<p>As you see in the “conversion + user’s own swag” example, the user can easily add a copyright notice and some custom properties to the JSON just by adding a few extra method calls within and around the normal api calls.</p>
+<p>With the looping approach, that composability becomes quite a bit harder to attain. Instead of just having api methods that users can compose on their own, I now need to provide some callback interface and a way for users to inject callbacks to be called at different points in my loop.</p>
+<p>E.g.</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">while</span> (hasNext()) {
+  <span class="hljs-type">ClassDoc</span> <span class="hljs-variable">doc</span> <span class="hljs-operator">=</span> getNext();
+  **callDocCallbacks**(doc);
+
+  <span class="hljs-type">JSONObject</span> <span class="hljs-variable">jsonObject</span> <span class="hljs-operator">=</span> toJSON(doc);
+  **callJsonObjectCallbacks**(jsonObject);
+
+  <span class="hljs-type">String</span> <span class="hljs-variable">jsonString</span> <span class="hljs-operator">=</span> stringify(jsonObject);
+  **callJsonStringCallbacks**(jsonString);
+
+  write(jsonString);
+}
+</code></pre>
+<p>and the api becomes something like:</p>
+<pre><code class="hljs language-java">api.**registerJsonObjectCallback**(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Callback</span>&#x3C;JSONObject>() {
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">apply</span><span class="hljs-params">(JSONObject obj)</span> {
+    swag.addCustomProps(obj);
+  }
+});
+api.**registerJsonStringCallback**(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Callback</span>&#x3C;String>(){...});
+
+api.process();
+</code></pre>
+<p>As you can see this requires work on the API side to call the appropriate hooks and work on the client side to implement the callback interface and register callbacks at the correct points. If I ever add new steps to the process then new hooks need to be added as well.</p>
+<h3 id="what-about-laziness"><a aria-hidden="true" tabindex="-1" href="#what-about-laziness"><span class="icon icon-link"></span></a>What about laziness??</h3>
+<p>The first approach, without laziness, is going to process every class all at once and execute every step before writing any data or releasing any data from memory. Not good.</p>
+<p>Laziness allows the first approach to return lists that never actually contain anything until they are read. That is if my <em><code>List&#x3C;ClassDoc></code></em> is lazy then it won’t actually contain anything until someone tries to read from it. It’ll use 0 memory.</p>
+<p>In other words, if <em>getClassDocs</em>, <em>toJSON</em> and <em>stringify</em> are all lazy then all of the following calls:</p>
+<pre><code class="hljs language-java">List&#x3C;ClassDoc> classDocs = api.getClassDocs();
+List&#x3C;JSONObject> jsonObjects = api.toJSON(classDocs);
+List&#x3C;String> jsonString = api.stringify(jsonObjects);
+</code></pre>
+<p>won’t ever actually do any computation. Since each method is lazy they just return lists that don’t have anything in them until someone tries to read from them. <strong>It’s just like telling your mom you finished your homework but not actually starting your homework until she asks to see it later that night.</strong></p>
+<p>Since lazy lists don’t produce elements until they are read we effectively get all of the benefits of the looping approach (low memory usage) and all the benefits of the composable approach (just working with normal lists).</p>
+<p>An objection may be that once you start writing the lazy structures will then consume all memory due to <code>getClassDocs</code> returning all docs for all classes in the entire repo. If <code>getClassDocs</code> returns an iterable then ideally that shouldn't be the case. The iterable
+will return docs in chunks for later stages of the pipeline to process. Those chunks are freed as they are processed as the structure is an <code>iterable</code> and not something that retains elements like a <code>collection</code> / <code>list</code> / <code>array</code> etc.</p>
+<h3 id="great-but-how-can-i-be-lazy-on-the-jvm"><a aria-hidden="true" tabindex="-1" href="#great-but-how-can-i-be-lazy-on-the-jvm"><span class="icon icon-link"></span></a>Great but how can I be lazy on the JVM?</h3>
+<ol>
+<li>Clojure — all map operations are lazy &#x26; has lazy sequences</li>
+<li>Scala — has lazy sequences</li>
+<li>Write your own iterables which perform lazily</li>
+</ol>
+<p>My complete 30 lines of lazy Clojure code that converts Javadoc to JSON can be found <a href="https://github.com/tantaman/jsonDoclet/blob/master/src/com/tantaman/doc/JsonDoclet.clj">here</a>.</p>
+<p>Of course you could make the looping approach just as composable as the lazy approach by using the Reactive Extensions for the JVM (<a href="https://github.com/Netflix/RxJava">https://github.com/Netflix/RxJava</a>) but that is for a later post.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

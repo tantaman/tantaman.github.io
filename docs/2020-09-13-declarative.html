@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Filter, Map, etc. vs For Each &#x26; While - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="I&#x27;ve run into the occasional programmer that finds the functional way of transforming collections (map, filter, reduce, zip, pull, etc.) harder to understand than the imperative style of for, while and for-each loops. I.e.,
+
+const results = numbers.map…">
+<meta name="keywords" content="software-engineering, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Filter, Map, etc. vs For Each &#x26; While">
+<meta property="og:description" content="I&#x27;ve run into the occasional programmer that finds the functional way of transforming collections (map, filter, reduce, zip, pull, etc.) harder to understand than the imperative style of for, while and for-each loops. I.e.,
+
+const results = numbers.map…">
+<meta property="og:image" content="/assets/posts/filter-map-reduce-vs.svg">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/assets/posts/filter-map-reduce-vs.svg">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Filter, Map, etc. vs For Each &#x26; While</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#upleveling-language">Upleveling Language</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#familiarity">Familiarity</a></li></ol></nav><p>I've run into the occasional programmer that finds the functional way of transforming collections (<code>map</code>, <code>filter</code>, <code>reduce</code>, <code>zip</code>, <code>pull</code>, etc.)
+harder to understand than the imperative style of <code>for</code>, <code>while</code> and <code>for-each</code> loops.</p>
+<p>I.e.,</p>
+<pre><code class="hljs language-ini">const <span class="hljs-attr">results</span> = numbers.map(
+  <span class="hljs-attr">x</span> => x * <span class="hljs-number">2</span>,
+)<span class="hljs-comment">;</span>
+</code></pre>
+<p>harder to understand than</p>
+<pre><code class="hljs language-ini">const <span class="hljs-attr">results</span> = []<span class="hljs-comment">;</span>
+for (const x of numbers) {
+  results.push(x * 2)<span class="hljs-comment">;</span>
+}
+</code></pre>
+<p>The underlying problem seems to stem from</p>
+<ol>
+<li>A lack of familiarity with functions over collections</li>
+<li>Not seeing programming as a way to uplevel the language used to express and solve a problem</li>
+</ol>
+<h1 id="upleveling-language"><a aria-hidden="true" tabindex="-1" href="#upleveling-language"><span class="icon icon-link"></span></a>Upleveling Language</h1>
+<p>At its root, programming is about upleveling the language we use to model and solve problems.
+We do this by seeing common patterns, abstracting them from their particulars and then giving them a name.</p>
+<p>Being unwilling to adopt <code>map</code>, <code>filter</code>, <code>reduce</code>, and others of their ilk is being unwilling to discover and make use of new concepts.</p>
+<p>Seeing <code>filter(x)</code> in code, I know immediately what is happening -- the collection is being filtered.
+Seeing <code>for (e of x)</code>, I have no idea what is happening in until I read the entire loop.</p>
+<h1 id="familiarity"><a aria-hidden="true" tabindex="-1" href="#familiarity"><span class="icon icon-link"></span></a>Familiarity</h1>
+<p>In software development we must not always seek to express things in terms that are familiar to us. During development, sometimes we happen across concepts and ideas that we've never seen before. To always try to recast those in terms of ideas that we are already familiar with is to not grow and learn new ideas.</p>
+<p>It would be as if the we stopped adding words to the English (or any) language. That would only happen if and when we stop discovering new ideas and learning of new ways to express ourselves.</p>
+<p>So if after reading a handful of for loops and seeing that they all share a common theme, come up with a name for that theme and write a function to express it. That's where filter/map/reduce/etc. come from.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

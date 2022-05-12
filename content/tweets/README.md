@@ -1,0 +1,1 @@
+Quick, short jots.

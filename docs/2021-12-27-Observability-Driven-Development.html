@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Observability Driven Development - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="One of the things I learned quickly while working on large scale systems at Facebook (Meta) was that if your tests passed but you didn&#x27;t observe your system in production, you had no idea whether or not your system was actually behaving as intended…">
+<meta name="keywords" content="software-engineering odd, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Observability Driven Development">
+<meta property="og:description" content="One of the things I learned quickly while working on large scale systems at Facebook (Meta) was that if your tests passed but you didn&#x27;t observe your system in production, you had no idea whether or not your system was actually behaving as intended…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering odd">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2-3 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Observability Driven Development</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>One of the things I learned quickly while working on large scale systems at <code>Facebook (Meta)</code> was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as intended. Without observation in prod, you don't even have a baseline to know what "normal" operation looks like.</p>
+<p>E.g.,</p>
+<ul>
+<li>Is 1M QPS normal?</li>
+<li>500ms per request fast or slow?</li>
+<li>100 requests per user session, is that ok?</li>
+<li>6 component renders per app state change?</li>
+</ul>
+<p>o_O Who knows.</p>
+<ul>
+<li>How have these metrics drifted over time?</li>
+<li>Is this trend a regression?</li>
+<li>When was the regression introduced?</li>
+<li>How much memory has our app historically used?</li>
+<li>Which releases caused the greatest mem/cpu/requests per user/replication lag/... regressions?</li>
+<li>Which features were in those releases?</li>
+<li>...</li>
+</ul>
+<p>All of these things need to be answered to run good software and mantain a high quality bar.</p>
+<p>While thinking these problems over and developing best practices for observing systems, I thought I had coined a new term called "Observability Driven Development." After doing some googling, however, I found that a former <code>Facebook Engineering Manager</code> left to become CTO of <a href="https://honeycomb.io">Honeycomb.io</a> which develops products for exactly this problem and calls it by the same name.</p>
+<p>Interesting coincidence, given I'm also coming from <code>Facebook</code> and am planning on releasing tooling that is centered around exactly the same problem as part of my new journey as a <a href="https://microfounder.com/">MicroFounder</a>. The last coincidental detail was that I had considered reaching out to join the parse team before it was shuttered by FB.</p>
+<p>Rather than repeat thoughts explained well elsewhere, here's the article on the same topic by Honeycomb's CTO:
+<a href="https://thenewstack.io/a-next-step-beyond-test-driven-development/">A Next Step Beyond TDD</a></p>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

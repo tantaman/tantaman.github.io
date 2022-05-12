@@ -1,25 +1,20 @@
 {
-  "name": "blog",
-  "version": "1.0.0",
-  "description": "my blog",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@7.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=17",
+    "pnpm": ">=3"
+  },
+  "dependencies": {
+    "@tantaman/sitecompiler": "workspace:*",
+    "rehype-parse": "^8.0.4"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tantaman/tantaman.github.io.git"
-  },
-  "author": "Matt Wonlaw",
-  "license": "Creative Commons Attribution 4.0 International License",
-  "bugs": {
-    "url": "https://github.com/tantaman/tantaman.github.io/issues"
-  },
-  "homepage": "https://github.com/tantaman/tantaman.github.io#readme",
-  "dependencies": {
-    "marked": "^4.0.10"
+    "build": "sitecompiler",
+    "serve": "cd docs && serve",
+    "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
+    "preinstall": "npx only-allow pnpm"
   }
 }
