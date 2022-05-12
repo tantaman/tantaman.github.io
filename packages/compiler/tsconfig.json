@@ -3,19 +3,14 @@
     "strict": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "module": "ES2020",
+    "module": "esnext",
     "moduleResolution": "Node",
-    "target": "ES2017",
+    "target": "es2017",
     "lib": ["ESNext"],
     "jsx": "react-jsx",
     "skipLibCheck": true,
-    "esModuleInterop": true
-  },
-  "ts-node": {
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
+    "esModuleInterop": true,
+    "allowJs": true
   },
   "include": ["./src"]
 }

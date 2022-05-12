@@ -5,7 +5,7 @@ import postProcess from './postProcess.js';
 
 const builtDir = './docs/';
 
-async function build(collection) {
+export default async function build(collection) {
   const dest = builtDir + collection;
   const files = await fs.promises.readdir('./content/' + collection);
   const artifacts = (
@@ -48,13 +48,6 @@ async function build(collection) {
     }),
   );
 }
-
-await Promise.all([
-  build(''),
-  build('pages/'),
-  build('tweets/'),
-  build('crumbs/'),
-]);
 
 /**
  * @param {[string, {frontmatter: {[key: string]: any}}][]} artifacts

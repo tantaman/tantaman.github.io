@@ -2,7 +2,11 @@
   "name": "@tantaman/sitecompiler",
   "scripts": {
     "build": "tsc",
-    "twatch": "tsc --watch"
+    "watch": "tsc --watch"
+  },
+  "main": "dist/index.js",
+  "bin": {
+    "sitecompiler": "./dist/bin/sitecompiler.js"
   },
   "type": "module",
   "dependencies": {
