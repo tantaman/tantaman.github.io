@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>These are not types - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="Is an int a type? A float? A double? These are storage types, not application level types.
+
+For many software projects, int, float, double, string, etc. exist at the wrong level of abstraction to be conidered proper data types. They represent how…">
+<meta name="keywords" content="software-engineering, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="These are not types">
+<meta property="og:description" content="Is an int a type? A float? A double? These are storage types, not application level types.
+
+For many software projects, int, float, double, string, etc. exist at the wrong level of abstraction to be conidered proper data types. They represent how…">
+<meta property="og:image" content="/img/avatar-icon.png">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/img/avatar-icon.png">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>These are not types</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#id-type">ID Type</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#for-another-day">For another day:</a></li></ol></nav><p>Is an <strong>int</strong> a type? A <strong>float</strong>? A <strong>double</strong>?</p>
+<p>These are <strong>storage</strong> types, not <strong>application level</strong> types.</p>
+<p>For many software projects, <code>int</code>, <code>float</code>, <code>double</code>, <code>string</code>, etc. exist at the wrong level of abstraction to be conidered proper data types. They represent how information is encoded by storage rather than something that an application should deal with.</p>
+<p>As an example, if you're reviewing the code of an application, what does the type <code>int</code> tell you? That <code>int</code> could be:</p>
+<ol>
+<li>a timestamp</li>
+<li>a count</li>
+<li>a measurement</li>
+<li>an ID</li>
+<li>a phone number</li>
+<li>...</li>
+</ol>
+<p>An application exists several levels of abstraction above raw storage and so raw storage types are mostly meaningless in the application context. Even in the list above which refines the integer type, those types can still be refined further.</p>
+<h3 id="id-type"><a aria-hidden="true" tabindex="-1" href="#id-type"><span class="icon icon-link"></span></a>ID Type</h3>
+<p>The most obvious yet non-obvious example is the ID type. IDs are <em>of</em> things rather than being the things themselves. An ID type should thus express what the ID is of.</p>
+<p>E.g., ID of User, ID of Post, ID of Comment.</p>
+<p>Leading to method signatures like:</p>
+<pre><code class="hljs language-scss"><span class="hljs-built_in">getPosts</span>(id: ID&#x3C;User>): List&#x3C;ID&#x3C;Post>>;
+<span class="hljs-built_in">getComments</span>(id: ID&#x3C;Post>): List&#x3C;ID&#x3C;Comment>>;
+</code></pre>
+<p>Which is much more expressive than:</p>
+<pre><code class="hljs language-php"><span class="hljs-title function_ invoke__">getPosts</span>(<span class="hljs-attr">id</span>: <span class="hljs-keyword">int</span>): List&#x3C;<span class="hljs-keyword">int</span>>;
+<span class="hljs-title function_ invoke__">getComments</span>(<span class="hljs-attr">id</span>: <span class="hljs-keyword">int</span>): List&#x3C;<span class="hljs-keyword">int</span>>;
+</code></pre>
+<h2 id="for-another-day"><a aria-hidden="true" tabindex="-1" href="#for-another-day"><span class="icon icon-link"></span></a>For another day:</h2>
+<ul>
+<li>A new issue here is the <code>List</code> type. It is completely the wrong type to use to represent potentially unbounded collections.</li>
+<li>Counts, measurements, phone numbers, etc. can all be refined futher and further. And even more so once you start to consider data flow, policy and legal restrictions that should be factored into data types.</li>
+<li>Invariants. Invariants are a symptom of poor types.</li>
+</ul>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

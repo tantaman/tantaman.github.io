@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reacting Better. Intro: Anemic Models - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="React eschews models that have any attached functionality. The “model” for a react app is usually anemic — just a bare set of properties with no methods attached. type Slide = {
+  selected: boolean;
+  embeds: Embed[];
+  text: string;
+};
+
+type Embed…">
+<meta name="keywords" content="software-engineering, react, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Reacting Better. Intro: Anemic Models">
+<meta property="og:description" content="React eschews models that have any attached functionality. The “model” for a react app is usually anemic — just a bare set of properties with no methods attached. type Slide = {
+  selected: boolean;
+  embeds: Embed[];
+  text: string;
+};
+
+type Embed…">
+<meta property="og:image" content="/img/avatar-icon.png">
+<meta property="article:tag" content="software-engineering">
+<meta property="article:tag" content="react">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/img/avatar-icon.png">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="3-4 minutes">
+</head>
+<body><header id="header"><img class="logo" src="/img/avatar-icon.png"></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Reacting Better. Intro: Anemic Models</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p><a href="https://reactjs.org/">React</a> eschews models that have any attached functionality. The “model” for a react app is usually <a href="https://martinfowler.com/bliki/AnemicDomainModel.html">anemic</a> — just a bare set of properties with no methods attached.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Slide</span> = {
+  <span class="hljs-attr">selected</span>: <span class="hljs-built_in">boolean</span>;
+  <span class="hljs-attr">embeds</span>: <span class="hljs-title class_">Embed</span>[];
+  <span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span>;
+};
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Embed</span> = {
+  <span class="hljs-attr">src</span>: <span class="hljs-variable constant_">URI</span>;
+  <span class="hljs-attr">top</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">left</span>: <span class="hljs-built_in">number</span>;
+};
+</code></pre>
+<p>This is exacerbated, or even further codified, by <a href="https://relay.dev/">Relay</a> and <a href="https://graphql.org/">GraphQL</a> where you fetch properties from the server and render them directly (note: Relay and GraphQL are truly revolutionary and amazing technologies by allowing data fetching to be declarative and driven by the client).</p>
+<p>If you need to perform operations against your data, you’d just call plain old functions to do that.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Slide</span>(<span class="hljs-params">props: Slide</span>): <span class="hljs-title class_">ReactNode</span> {
+  <span class="hljs-keyword">const</span> videos = <span class="hljs-title function_">pullVideos</span>(props.<span class="hljs-property">embeds</span>);
+  ...
+}
+</code></pre>
+<p><strong>Let me pause here</strong> and say that this is often all you need for your app. I’ve built apps in the hundreds of thousands of lines that were worked on by dozens of developers, all with anemic models and it worked great. <a href="https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it">YAGNI</a>.</p>
+<p>When, however, do anemic models become a problem? A few things have to start to be true:</p>
+<ol>
+<li>Most of the logic for mutating your model lives client side rather than server side</li>
+<li>You have many models which need to vary their behavior according to some type information. This usually manifests when your anemic models start to carry <code>type</code> or <code>__type</code> fields in them and you use that to alter behavior in functions.</li>
+<li>Your model is open for extension by others</li>
+</ol>
+<p>Here’s an example where an anemic model could star to become problematic — when we want to start extending our presentation builder with new types of slides.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Slide</span> =
+  | {
+      <span class="hljs-attr">type</span>: <span class="hljs-string">'markdown_slide'</span>;
+      <span class="hljs-attr">selected</span>: <span class="hljs-built_in">boolean</span>;
+      <span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span>;
+    }
+  | {
+      <span class="hljs-attr">type</span>: <span class="hljs-string">'standard_slide'</span>;
+      <span class="hljs-attr">embed</span>: <span class="hljs-title class_">Embed</span>;
+      <span class="hljs-attr">text</span>: <span class="hljs-title class_">TextBox</span>[];
+    };
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">pullVideos</span>(<span class="hljs-params">s: Slide</span>) {
+  <span class="hljs-keyword">switch</span> (s.<span class="hljs-property">type</span>) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'markdown_slide'</span>:
+      <span class="hljs-keyword">return</span> <span class="hljs-title function_">pullVideosFromMarkdown</span>(s);
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'standard_slide'</span>:
+      <span class="hljs-keyword">return</span> s.<span class="hljs-property">embeds</span>.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">e</span>) =></span> e.<span class="hljs-property">type</span> === <span class="hljs-string">'video'</span>);
+  }
+}
+</code></pre>
+<p>Of course we can add new types of slides, get compile errors because the switches are not exhaustive and then open the functions up to decide what to add or move to a default case.</p>
+<p>This lack of colocation of functionality for new types can be problematic when it comes to organizing your code and especially when it comes to allowing third parties to extend your code — they’ll need to modify your core functions. The common <a href="https://en.wikipedia.org/wiki/Expression_problem">expression problem</a>.</p>
+<p>You could of course get more clever and write “type function providers” that allows third party extensions without modifying existing code as well as co-locating functions with type names. E.g.,</p>
+<pre><code class="hljs language-typescript"><span class="hljs-title function_">provideFunctionsForType</span>(<span class="hljs-string">'markdown_slide'</span>, {
+  <span class="hljs-title function_">pullVideos</span>(<span class="hljs-params">s: MarkdownSlide</span>) {
+    ...
+  }
+  <span class="hljs-title function_">renderText</span>(<span class="hljs-params">s: MarkdownSlide</span>) {
+    ...
+  }
+});
+</code></pre>
+<p>but at this point, aren’t you just re-inventing classes?</p>
+<p>And how would you <strong>even introduce a domain model</strong> / classes with with behavior into a React app? Where in the React world we expect all of our props to be <strong>immutable</strong> and classes are often <strong>contrary</strong> to that concept. Even further — how do you <strong>hydrate</strong> such a model when using libraries like Relay to pull data?</p>
+<p>The first thing we need to address is immutability. How do we make a domain model which is immutable or, for all appearances, has the properties of being immutable?</p>
+<p>To do that, we need to address [Missing Mutation Primitives]({% post_url 2021-12-16-Missing-Mutation-Primitives %}).</p>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
