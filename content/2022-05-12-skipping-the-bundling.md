@@ -1,5 +1,5 @@
 ---
-title: Skipping the Bundling
+title: 🧶 Skipping the Bundling
 tags: [software-engineering]
 ---
 

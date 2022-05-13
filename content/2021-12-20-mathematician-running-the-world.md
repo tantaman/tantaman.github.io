@@ -1,6 +1,6 @@
 ---
 slug: 2021-12-20-mathematician-running-the-world
-title: 'No, Mathematical Government is not a Logical Government'
+title: '🧮 No, Mathematical Government is not a Logical Government'
 tags: [pontification]
 ---
 
