@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Large Local Storage - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="Way way back in 2013 there wasn&#x27;t a common way to save large blobs in all browser. Back then, all of these were true: DOMStorage only gives you 5mbChrome doesn&#x27;t let you store blobs in IndexedDBSafari doesn&#x27;t support IndexedDB,IE and Firefox both…">
+<meta name="keywords" content="software-engineering, project, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Large Local Storage">
+<meta property="og:description" content="Way way back in 2013 there wasn&#x27;t a common way to save large blobs in all browser. Back then, all of these were true: DOMStorage only gives you 5mbChrome doesn&#x27;t let you store blobs in IndexedDBSafari doesn&#x27;t support IndexedDB,IE and Firefox both…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering">
+<meta property="article:tag" content="project">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2-3 minutes">
+</head>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Large Local Storage</h1><span class="published subtext">Published 2022-05-13</span>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#learnings">Learnings</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#architecture">Architecture</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#build">Build</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#cosmetics">Cosmetics</a></li></ol></li></ol></nav><p>Way way back in 2013 there wasn't a common way to save large blobs in all browser. Back then, all of these were true:</p>
+<ul>
+<li>DOMStorage only gives you 5mb</li>
+<li>Chrome doesn't let you store blobs in IndexedDB</li>
+<li>Safari doesn't support IndexedDB,</li>
+<li>IE and Firefox both support IndexedDB but not the FilesystemAPI.</li>
+</ul>
+<p>At that time I was also writing <a href="https://strut.io">strut.io</a> as a side project.</p>
+<center>
+<video class="frame" width="493" autoplay="" loop="" muted="">
+    <source src="https://strut.io/videos/strut-loop-3.h264.avi" type="video/mp4">
+    <source src="https://strut.io/videos/strut-loop-3.webm" type="video/webm">
+</video>
+</center>
+<p><a href="https://strut.io">strut.io</a> was &#x26; is a completely local-first presentation editor hosted in the browser. Given it was local-first I needed a way to save large blobs and given Chromium based browsers had not yet come to dominate the entire browser market, I needed it to work across all browsers.</p>
+<p>Enter <a href="https://github.com/tantaman/LargeLocalStorage"><code>Large Local Storage</code></a> -- my solution to this problem of yester years.</p>
+<center>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">LargeLocalStorage: lets you store a large amount of key-value based data in IE, Chrome, Safari and Firefox. <a href="https://t.co/Vw2CPQ4lso">https://t.co/Vw2CPQ4lso</a></p>&mdash; Smashing Magazine 🇺🇦 (@smashingmag) <a href="https://twitter.com/smashingmag/status/410118699577012224?ref_src=twsrc%5Etfw">December 9, 2013</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</center>
+<h2 id="learnings"><a aria-hidden="true" tabindex="-1" href="#learnings"><span class="icon icon-link"></span></a>Learnings</h2>
+<p><code>LargeLocalStorage</code> (<code>LLS</code>) is certainly no longer needed given <code>IndexedDB</code> and the <code>FilesytemAPI</code> now have reasonable support in all browsers. There's even a new <a href="https://web.dev/storage-foundation/">"storage foundation"</a> layer coming for better access to storage from the web. In any case, I think its valuable to keep around as a record of</p>
+<ul>
+<li>What I've done</li>
+<li>Where my interests have always been (to identify <a class="internal new" href="#/page/personal_strengths">personal strengths</a>)</li>
+<li>As learning material (e.g., <a class="internal new" href="#/page/software_arhitecture">software arhitecture</a>, patterns for solving similar problems of <a class="internal new" href="#/page/abstracting_over_concretes">abstracting over concretes</a>)</li>
+<li>To inspire future ideas in the space.</li>
+</ul>
+<h3 id="architecture"><a aria-hidden="true" tabindex="-1" href="#architecture"><span class="icon icon-link"></span></a>Architecture</h3>
+<p><code>LLS</code> proivded a unified interface for:</p>
+<ul>
+<li>FileSystemAPI</li>
+<li>WebSQL</li>
+<li>IndexedDB</li>
+<li>LocalStorage</li>
+</ul>
+<p>It leveraged a <a href="./2013-07-30-Inheritance-Aggregation-and-Pipelines">pipeline architecture</a> to enable adding plugins such as <code>caching</code>, <code>logging</code>, <code>s3 uploads</code>, and so on.</p>
+<p>In other words, I could instantiate a <code>LargeLocalStorage</code> instance in my app and then later, as my requirements changed, plug in a caching layer, persistence layer, image optimization layer and on and on.</p>
+<p>In code this looked like:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> storage = <span class="hljs-keyword">new</span> <span class="hljs-title function_">lls</span>({<span class="hljs-attr">name</span>: <span class="hljs-string">'strut-db'</span>, <span class="hljs-attr">size</span>: <span class="hljs-number">10</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>});
+<span class="hljs-title class_">Cache</span>.<span class="hljs-title function_">addTo</span>(storage);
+S3Persist.<span class="hljs-title function_">addTo</span>(storage);
+<span class="hljs-title class_">Logger</span>.<span class="hljs-title function_">addTo</span>(storage);
+<span class="hljs-title class_">ImageOptimizer</span>.<span class="hljs-title function_">addTo</span>(storage);
+<span class="hljs-title class_">BlobDeDuplication</span>.<span class="hljs-title function_">addTo</span>(storage);
+... etc
+</code></pre>
+<p>If I rebuilt this today, I probably would have gone for a slightly more ergonomic API and one that doesn't mutate the original instance.</p>
+<p>E.g.,</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> storage = <span class="hljs-keyword">new</span> <span class="hljs-title function_">lls</span>({<span class="hljs-attr">name</span>: <span class="hljs-string">'strut-db'</span>, <span class="hljs-attr">size</span>: <span class="hljs-number">10</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>})
+  .<span class="hljs-title function_">use</span>(<span class="hljs-title class_">LRUCache</span>)
+  .<span class="hljs-title function_">use</span>(S3Persist)
+  .<span class="hljs-title function_">use</span>(<span class="hljs-title class_">Logger</span>)
+  .<span class="hljs-title function_">use</span>(<span class="hljs-title class_">ImageOptimzer</span>)
+  .<span class="hljs-title function_">use</span>(<span class="hljs-title class_">BlobDeDuplication</span>);
+</code></pre>
+<h3 id="build"><a aria-hidden="true" tabindex="-1" href="#build"><span class="icon icon-link"></span></a>Build</h3>
+<p>Building is quite funny. It literally just concatenated JS files together. So simple 🤣  so naive?</p>
+<p><a href="https://github.com/tantaman/LargeLocalStorage/blob/master/Gruntfile.js#L12-L22">https://github.com/tantaman/LargeLocalStorage/blob/master/Gruntfile.js#L12-L22</a></p>
+<h3 id="cosmetics"><a aria-hidden="true" tabindex="-1" href="#cosmetics"><span class="icon icon-link"></span></a>Cosmetics</h3>
+<p>I'm highly impressed by the <a href="https://tantaman.com/LargeLocalStorage/doc/classes/LargeLocalStorage.html">super clean document generation</a></p>
+<p>They're generated via <a href="https://github.com/yui/yuidoc"><code>yuidoc</code></a> which apparently never gained much traction and was abandoned in 2017. It'd be interesting to know why <code>yuidoc</code> got so little traction.</p>
+<p><img src="/blog-assets/large-local-storage/docs.png" alt="docs"></p>
+<p>the notion of having <a href="https://tantaman.com/LargeLocalStorage/test/">the test suite for a project clickable and executable in a browser</a>!!</p>
+<p>And a super <a href="https://tantaman.com/LargeLocalStorage/examples/album/">simple demo app</a></p>
+<ul>
+<li><a href="https://tantaman.com/LargeLocalStorage/doc/classes/LargeLocalStorage.html">Docs</a></li>
+<li><a href="https://tantaman.com/LargeLocalStorage/examples/album/">Demo App</a></li>
+<li><a href="https://tantaman.com/LargeLocalStorage/test/">Online Test Runner</a></li>
+<li><a href="https://github.com/tantaman/LargeLocalStorage">Repo</a></li>
+</ul>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-177900110-1" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
