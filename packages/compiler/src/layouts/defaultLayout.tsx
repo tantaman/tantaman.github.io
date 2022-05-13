@@ -12,6 +12,12 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
   }
   const newChildren = [body.children];
   const matter = file.data.matter;
+  const maybeDate = file.basename?.substring(0, 10);
+  if (/[0-9]{4}-[0-9]{2}-[0-9]{2}/.exec(maybeDate)) {
+    newChildren.unshift(
+      <span class="published subtext">Published {maybeDate}</span>,
+    );
+  }
   if (matter?.title) {
     newChildren.unshift(<h1>{matter?.title}</h1>);
   }
