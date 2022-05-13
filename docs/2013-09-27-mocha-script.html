@@ -29,7 +29,8 @@ In any case, I had the burning desire to understand compilers and interpreters m
 <meta name="twitter:data1" content="3-5 minutes">
 </head>
 <body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static">
-<html><head></head><body><nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#declarations">Declarations</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#functions">Functions</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#objects">Objects</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#arrays--objects-continued">Arrays / Objects continued</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#js-interop">JS Interop</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#looping-and-branching">Looping and Branching</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#types">Types, Inheritance, Mixins</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#macros">Macros open your browser's console (F12) to see the output</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#events">Events msdispatch</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#standard-library">Standard Library</a></li></ol></nav><div>
+<html><head></head><body><nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#declarations">Declarations</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#functions">Functions</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#objects">Objects</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#arrays--objects-continued">Arrays / Objects continued</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#js-interop">JS Interop</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#looping-and-branching">Looping and Branching</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#types">Types, Inheritance, Mixins</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#macros">Macros open your browser's console (F12) to see the output
+      </a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#events">Events msdispatch</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#standard-library">Standard Library</a></li></ol></nav><div>
   <p>
     Somehow I ended up graduating my undergraduate program without ever taking a compilers course. Seems like a sin.
   </p>
@@ -86,9 +87,10 @@ In any case, I had the burning desire to understand compilers and interpreters m
 (alert things)
 </textarea>
         <textarea class="js"></textarea>
+        <div class="clear"></div>
         <div class="run-log">
+          <pre class="log">>_</pre>
           <div class="run btn btn-success">Compile &#x26; Run</div>
-          <div class="log">Log</div>
         </div>
       </div>
     </div>
@@ -308,7 +310,8 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title" id="macros"><a aria-hidden="true" tabindex="-1" href="#macros"><span class="icon icon-link"></span></a>Macros <small>open your browser's console (F12) to see the output</small></h3>
+      <h3 class="panel-title" id="macros"><a aria-hidden="true" tabindex="-1" href="#macros"><span class="icon icon-link"></span></a>Macros <small>open your browser's console (F12) to see the output</small>
+      </h3>
     </div>
     <div class="panel-body">
       <div class="codeDemo">
@@ -430,11 +433,15 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
           CodeMirror.fromTextArea($this.find('.js')[0], { mode: 'javascript' });
 
         var $run = $this.find('.run');
+        var $log = $this.find('.log');
+        var log = function (str) {
+          $log.html(str);
+        }
         $run.click(function () {
           var result = mochascriptParser.parse(msMirror.getValue());
           result = js_beautify(result);
           jsMirror.setValue(result);
-          eval(result);
+          eval('(demoLog) => { ' + result + '}')(log);
         });
       });
     });

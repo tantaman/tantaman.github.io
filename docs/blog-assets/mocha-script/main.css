@@ -14,7 +14,6 @@
   display: inline-block;
   outline: 1px solid #7c7c7c;
   padding: 12px;
-  margin-top: 10px;
   border-radius: 6px;
   font-weight: bold;
   color: white;
@@ -22,10 +21,15 @@
   cursor: pointer;
 }
 
-.run-out {
+.clear {
   clear: both;
 }
 
 .log {
-  display: inline-block;
+  background: black;
+  display: block;
+  padding: 20px;
+  margin-top: 10px;
+  margin-right: 60px;
+  color: green;
 }
