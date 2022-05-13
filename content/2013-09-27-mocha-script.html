@@ -1,48 +1,40 @@
 <div>
-  <p>
-    Somehow I ended up graduating my undergraduate program without ever taking a compilers course. Seems like a sin.
-  </p>
-  <p>
-    In any case, I had the burning desire to understand compilers and interpreters more so circa 2013 (where "js but not
-    js languages" were reaching a fever pitch e.g., CoffeeScript), I created
-    <code>mocha-script</code> as a learning experience.
-  </p>
-  <p>
-    <code>Mocha-Script</code> is a dialect of <code>Lisp</code> that compiles to executable <code>JavaScript</code>
-    code. It was pretty heavily inspired by
-    <code>Clojure</code> and features some of their syntax conveniences as well as first class macro support.
-  </p>
-  <p>
-    The GitHub repo is here: https://github.com/tantaman/mocha-script/
-  </p>
+  <h1>Mocha-Script</h1>
+  <main>
+    <p>
+      Somehow I ended up graduating my undergraduate program without ever taking a compilers course. Seems like a sin.
+    </p>
+    <p>
+      In any case, I had the burning desire to understand compilers and interpreters more so circa 2013 (where "js but
+      not
+      js languages" were reaching a fever pitch e.g., <a href="https://coffeescript.org/">CoffeeScript</a>), I created
+      <code>mocha-script</code> as a learning experience.
+    </p>
+    <p>
+      <code>Mocha-Script</code> is a dialect of <code>Lisp</code> that compiles to executable <code>JavaScript</code>
+      code. It was pretty heavily inspired by
+      <code>Clojure</code> and features some of their syntax conveniences as well as first class macro support.
+    </p>
+    <p>
+      The GitHub repo is here: <a
+        href="https://github.com/tantaman/mocha-script/">https://github.com/tantaman/mocha-script/</a>
+    </p>
 
-  <p>
-    An tour of the language below --
-  </p>
+    <h2>A Tour of the Language</h2>
 
-  <link rel="stylesheet" href="/blog-assets/mocha-script/main.css">
-  <link rel="stylesheet" href="/blog-assets/mocha-script/vendor/codemirror.css">
-  </link>
+    <link rel="stylesheet" href="/blog-assets/mocha-script/main.css">
+    <link rel="stylesheet" href="/blog-assets/mocha-script/vendor/codemirror.css">
+    </link>
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Declarations</h3>
-      <div class="description">
-        All variables are defined via the `def` statement. Variables can hold anything.
-        <ul>
-          <li>Arrays</li>
-          <li>Objects</li>
-          <li>Primitives</li>
-          <li>Functions</li>
-          <li>Strings and so on</li>
-        </ul>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Declarations</h3>
       </div>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
-        <textarea class="ms">
+      <div class="panel-body">
+        <div class="codeDemo">
+          <textarea class="ms">
 (def treats ["cookies" "candy" "ice cream"])
 (def date (Date))
 (def answer 42)
@@ -53,28 +45,28 @@
 " and the answer is " answer
 " which doubled is " (double answer)))
 
-(alert things)
+(demoLog things)
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="clear"></div>
-        <div class="run-log">
-          <pre class="log">>_</pre>
-          <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Functions</h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
-        <textarea class="ms">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Functions</h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
+          <textarea class="ms">
 ; define a function and save it in the variable "sqaure"
 (def square (fn (n) (* n n)))
 
@@ -88,25 +80,29 @@
 (defn shorter (n) (* n n))
 
 ; alert the cubes with a very shorthand function definition
-(alert (map #(* %1 %1 %1) [2 4 6 8]))
+(demoLog (map #(* %1 %1 %1) [2 4 6 8]))
 
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Objects</h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
-        <textarea class="ms">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Objects</h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
+          <textarea class="ms">
 ; define an object literal
 (def arnold {
 		name:{first:"Arnold" last:"Schwarzenegger"}
@@ -124,29 +120,33 @@
 ((:greet arnold))
 
 ; alert age
-(alert (:age arnold))
+(demoLog (:age arnold))
 
 ; anonymous object literal
-(log {first:1 second:2})
+(demoLog {first:1 second:2})
 
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Arrays / Objects continued</h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Arrays / Objects continued</h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
 
-        <textarea class="ms">
+          <textarea class="ms">
 ; define an array
 (def movies ["Freddy got Fingered"
 			 "Road Trip"
@@ -166,100 +166,112 @@
 ; literal get
 ("goofy key" obj)
 
-; alert field
-(alert (2 movies))
+; log field
+(demoLog (2 movies))
 
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">JS Interop</h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">JS Interop</h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
 
-        <textarea class="ms">
+          <textarea class="ms">
 ; get the latest answers on Stack Overflow
-; and alert the author's names
+; and log the author's names
 (def api "http://api.stackexchange.com/2.1/answers?key=U4DMV*8nvpm3EOpvf69Rxw((&site=stackoverflow&order=desc&sort=activity&filter=default")
 
-(.get $ api #(alert (pluck
+(.get $ api #(demoLog (pluck
 (pluck (:items %1) "owner") "display_name")))
 
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Looping and Branching</h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Looping and Branching</h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
 
-        <textarea class="ms">
+          <textarea class="ms">
 (if (> 2 1)
-	(alert "2 is greater than 1") ; if true case
-	(alert "2 is less than 1?")) ; else case
+	(demoLog "2 is greater than 1") ; if true case
+	(demoLog "2 is less than 1?")) ; else case
 
 (def result (if true "true" "false"))
 
-(times 6 #(log "hello")) ; log hello 6 times
+(times 6 #(demoLog "hello")) ; log hello 6 times
 
-(log (loop (z 1)
+(demoLog (loop (z 1)
 (when (< z 5)
-(log z)
+(demoLog z)
 (recur (+ z 1)))
 ))
 
-(foreach [1 2 3 4] log)
+(foreach [1 2 3 4] demoLog)
 
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title" id="types">Types, Inheritance, Mixins</h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title" id="types">Types, Inheritance, Mixins</h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
 
-        <textarea class="ms">
+          <textarea class="ms">
 ; define a type
 (deftype Animal
-	(eat (food) (log food))
-	(sleep (duration) (setTimeout #(log "slept") duration))
+	(eat (food) (demoLog food))
+	(sleep (duration) (setTimeout #(demoLog "slept") duration))
 )
 
 ; define a type that inherits from another
 (deftype Tiger {extend: (:prototype Animal)}
-(prowl () (alert "prowling"))
+(prowl () (demoLog "prowling"))
 )
 
 ; define a type as an expression that can be passed and/or saved
 (def Lion (type Lion {extend: (:prototype Animal)}
-(roar () (alert "ROAR!!!"))
+(roar () (demoLog "ROAR!!!"))
 ))
 
 ; define a type that mixes in other types
@@ -274,30 +286,34 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
 )
 
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title" id="macros">Macros <small>open your browser's console (F12) to see the output</small>
-      </h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title" id="macros">Macros
+        </h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
 
-        <textarea class="ms">
+          <textarea class="ms">
 ; defining a macro for unless
 (defmacro unless (syms)
   `(if (not ~(get syms 1)) ~(get syms 2))
 )
 ; use our unless macro!
-(unless true (log "Even truth is not truth"))
+(unless true (demoLog "Even truth is not truth"))
 
 ; defining a macro for a for loop
 (defmacro forloop (syms)
@@ -309,30 +325,34 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
 ))
 ))
 ; use our forloop macro!
-(forloop (i 0 (< i 10) (+ i 1)) (log i))
+(forloop (i 0 (< i 10) (+ i 1)) (demoLog i))
 
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title" id="events">Events <small>msdispatch</small></h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title" id="events">Events <small>msdispatch</small></h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
 
-        <textarea class="ms">
+          <textarea class="ms">
 (def arnold {age:1})
 
 ; we can observe any property on any object by registering with msdispatch
-(msdispatch.on arnold :age (fn () (log arguments)))
+(msdispatch.on arnold :age (fn () (demoLog arguments)))
 
 ; setting a property on an object with !! will cause a change event to be fired
 (!! arnold :age 2)
@@ -342,23 +362,27 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
 (! arnold.age 1)
 
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
 
-  <!-- PANEL -->
+    <!-- PANEL -->
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Standard Library</h3>
-    </div>
-    <div class="panel-body">
-      <div class="codeDemo">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Standard Library</h3>
+      </div>
+      <div class="panel-body">
+        <div class="codeDemo">
 
-        <textarea class="ms">
+          <textarea class="ms">
 ; map
 ; pluck
 ; reduce
@@ -372,12 +396,17 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
 ; times
 ; where .... TODO TODOCUMENT
 </textarea>
-        <textarea class="js"></textarea>
-        <div class="run btn btn-success">Compile &amp; Run</div>
+          <textarea class="js"></textarea>
+          <div class="clear"></div>
+          <div class="run-log">
+            <pre class="log">></pre>
+            <div class="run btn btn-success">Compile &amp; Run</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- END PANEL -->
+    <!-- END PANEL -->
+  </main>
 
   <!-- includes just for the overview -->
   <script src="/blog-assets/mocha-script/vendor/jquery.js"></script>
@@ -412,14 +441,19 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
 
         var $run = $this.find('.run');
         var $log = $this.find('.log');
-        var log = function (str) {
-          $log.html(str);
+        var demoLog = function (str) {
+          if (typeof str !== 'string') {
+            str = JSON.stringify(str);
+          }
+          $log.html(
+            $log.html() + "\n" + str
+          );
         }
         $run.click(function () {
           var result = mochascriptParser.parse(msMirror.getValue());
           result = js_beautify(result);
           jsMirror.setValue(result);
-          eval('(demoLog) => { ' + result + '}')(log);
+          eval('(demoLog) => { ' + result + '}')(demoLog);
         });
       });
     });
