@@ -3,7 +3,6 @@ node_modules/
 
 # Production
 /packages/compiler/dist
-/docs/dist
 
 # Generated files
 .docusaurus
