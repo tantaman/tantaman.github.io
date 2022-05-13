@@ -1,6 +1,6 @@
 ---
 slug: 2022-01-09-improving-code-sharing
-title: 'Improving Code Sharing with Yarn Workspaces'
+title: '🧶 Improving Code Sharing with Yarn Workspaces'
 tags: [software-engineering, sharing-code]
 ---
 

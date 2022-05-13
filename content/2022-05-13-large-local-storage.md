@@ -1,5 +1,5 @@
 ---
-title: 'Large Local Storage'
+title: '📀 Large Local Storage'
 tags: [software-engineering, project]
 ---
 

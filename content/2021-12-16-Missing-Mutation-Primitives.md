@@ -1,6 +1,6 @@
 ---
 slug: 2021-12-16-Missing-Mutation-Primitives
-title: 'Missing Mutation Primitives'
+title: '🧬 Missing Mutation Primitives'
 tags: [software-engineering, framework]
 image: /assets/images/mutation.jpg
 ---
