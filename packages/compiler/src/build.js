@@ -16,14 +16,20 @@ export default async function build(collection) {
         if (!handler) {
           return null;
         }
-        return [
-          dest + '/' + file,
-          await handler(
+        let artifact;
+        try {
+          artifact = await handler(
             path.resolve('./content/' + collection + file),
             path.resolve('./content/' + collection),
             files,
-          ),
-        ];
+          );
+        } catch (e) {
+          console.error('Failed compiling ' + file);
+          console.error(e);
+          return null;
+        }
+
+        return [dest + '/' + file, artifact];
       }),
     )
   ).filter((a) => a != null);

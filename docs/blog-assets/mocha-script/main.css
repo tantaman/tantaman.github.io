@@ -1,0 +1,31 @@
+.CodeMirror {
+  font-size: 0.85em;
+  background: #f8f8f8;
+  font-family: monospace;
+  margin-right: 10px;
+  float: left;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  width: 480px;
+  height: 280px;
+}
+
+.btn {
+  display: inline-block;
+  outline: 1px solid #7c7c7c;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  background: #43a64a;
+  cursor: pointer;
+}
+
+.run-out {
+  clear: both;
+}
+
+.log {
+  display: inline-block;
+}

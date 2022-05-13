@@ -108,12 +108,14 @@ root.render(React.createElement(MDXContent, {}, null));
   },
 
   async html(file, cwd) {
-    const content = await fs.promises.readFile(file, { encoding: 'utf8' });
+    const parsed = await addRehypePlugins(unified().use(rehypeParse)).process(
+      await read(file),
+    );
     return {
-      content,
-      frontmatter: {},
-      meta: {},
-      compiledFilename: file,
+      content: parsed.toString(),
+      frontmatter: parsed.data?.matter || {},
+      meta: parsed.data?.meta || {},
+      compiledFilename: compiledFilename(file),
       greymatter: {},
     };
   },
@@ -129,19 +131,27 @@ root.render(React.createElement(MDXContent, {}, null));
 };
 
 async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
-  return await unified()
-    .use(remarkParse)
-    .use(remarkFrontmatter)
-    .use(() => (tree, file) => {
-      if (gottenMatter) {
-        file.data.matter = gottenMatter;
-        return;
-      }
-      matter(file, { strip: true });
-    })
-    .use(remarkGfm)
-    .use(remarkWikiLink)
-    .use(remarkRehype, { allowDangerousHtml: true })
+  return await addRehypePlugins(
+    unified()
+      .use(remarkParse)
+      .use(remarkFrontmatter)
+      .use(() => (tree, file) => {
+        if (gottenMatter) {
+          file.data.matter = gottenMatter;
+          return;
+        }
+        matter(file, { strip: true });
+      })
+      .use(remarkGfm)
+      .use(remarkWikiLink)
+      .use(remarkRehype, { allowDangerousHtml: true }),
+    docAdditions,
+    gottenMatter,
+  ).process(fileOrContent);
+}
+
+function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
+  return pipeline
     .use(rehypeInferDescriptionMeta, { truncateSize: 255 })
     .use(rehypeInferTitleMeta)
     .use(rehypeSlug)
@@ -158,8 +168,7 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
     })
     .use(rehypeMeta, meta)
     .use(layout)
-    .use(rehypeStringify, { allowDangerousHtml: true })
-    .process(fileOrContent);
+    .use(rehypeStringify, { allowDangerousHtml: true });
 }
 
 function compiledFilename(file) {
