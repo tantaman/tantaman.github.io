@@ -56,9 +56,10 @@
 (alert things)
 </textarea>
         <textarea class="js"></textarea>
+        <div class="clear"></div>
         <div class="run-log">
+          <pre class="log">>_</pre>
           <div class="run btn btn-success">Compile &amp; Run</div>
-          <div class="log">Log</div>
         </div>
       </div>
     </div>
@@ -284,7 +285,8 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title" id="macros">Macros <small>open your browser's console (F12) to see the output</small></h3>
+      <h3 class="panel-title" id="macros">Macros <small>open your browser's console (F12) to see the output</small>
+      </h3>
     </div>
     <div class="panel-body">
       <div class="codeDemo">
@@ -409,11 +411,15 @@ mix: [(:prototype Lion) (:prototype Tiger)]}
           CodeMirror.fromTextArea($this.find('.js')[0], { mode: 'javascript' });
 
         var $run = $this.find('.run');
+        var $log = $this.find('.log');
+        var log = function (str) {
+          $log.html(str);
+        }
         $run.click(function () {
           var result = mochascriptParser.parse(msMirror.getValue());
           result = js_beautify(result);
           jsMirror.setValue(result);
-          eval(result);
+          eval('(demoLog) => { ' + result + '}')(log);
         });
       });
     });
