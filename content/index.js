@@ -27,7 +27,10 @@ function blogIndex(index) {
 <div className="grid post-grid gap-4">
   ${Object.entries(index)
     .reverse()
-    .filter(([key, _]) => key !== 'index.js' && key !== 'README.md')
+    .filter(
+      ([key, _]) =>
+        key !== 'index.js' && key !== 'README.md' && key !== '404.md',
+    )
     .map(
       ([key, meta]) =>
         `
