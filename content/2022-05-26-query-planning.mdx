@@ -73,7 +73,7 @@ abstract class SourceQuery {
 
   plan() {
     // We're the source query. Return a new plan with our source expression.
-    return new Plan(this.expression. [])
+    return new Plan(this.expression, [])
   }
 }
 ```
@@ -278,4 +278,4 @@ This splitting of plans begs the question of we can do a global optimization acr
 
 # Optimization
 
-That brings us to query plan optimization. To be written in a follow up post!
+That brings us to query plan optimization. Written as a separate post in the series here: [Query Plan Optimization](./2022-05-26-query-plan-optimization).

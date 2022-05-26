@@ -1,0 +1,44 @@
+---
+title: '💨 Query Plan Optimization'
+tags: [software-engineering, aphrodite]
+js: ['https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js']
+---
+
+import Mermaid from '/dist/components/Mermaid.js';
+
+This is the third part in a deep dive into [Aphrodite's](https://aphrodite.sh) query layer.
+
+- [Part 1](./2022-05-26-query-builder) we talked about the query builder
+- [Part 2](./2022-05-26-query-planning) covered query plans
+
+Now we'll cover how we optimize query plans.
+
+# Optimization? Wtf? 😕
+
+One of the first questions might be why an `ORM` needs to do query optimization. Isn't an `ORM` just translating the user's desired query to `SQL` (or other target backend query format)? And don't databases already do query optimization? Given that, why do we need an optimization layer in the `ORM`? Seems duplicative.
+
+# Optimization Goals
+
+To understand this better we need to clarify what we mean by optimization. `Aphrodite`'s optimization step has two goals in mind:
+
+1. Generate as few database calls as possible
+2. Minimze the amount of data returned from the database as much as possible
+
+A really dumb ORM might issue a SQL query for every join and then join all the data in the application server. We really don't want to do this.
+
+To accomplish our goals, `Aphrodite` does two things during optimization:
+
+1. Collapses `HopPlans` into their source plans everywhere possible
+2. Collapses derived expressions into source expressions everywhere possible
+
+What those two steps accomplish is to "hoist" all of the operations expressed by the user to be run in the database. E.g., hoisting filters, limits, hop/joins, order bys, etc. to be encoded into the SQL statement (or other db statement) and run in the database.
+
+`Aphrodite` also need optimization for a third reason. That is due to the fact that `Aphrodite` lets (will let) you declare edges between rows in different data sources (e.g., `SQL` to `Redis` to `ZippyDB` to `Neo4J`). These datasources are unaware that they're being wired together at a higher level and thus `Aphrodite` needs to take care of optimizing queries that span data stores. Cross data store query optimization is for a different post but some of the building blocks are [hinted at here](./2022-05-26-chunk-iterable).
+
+# Hoisting / Collapsing Derived Expressions
+
+todo
+
+# Collapsing Hops
+
+todo
