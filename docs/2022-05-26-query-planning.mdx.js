@@ -62,44 +62,13 @@ function MDXContent(props = {}) {
                 })
               })]
             })]
-          }), _jsxs(_components.li, {
+          }), _jsx(_components.li, {
             className: "toc-item toc-item-h1",
-            children: [_jsx(_components.a, {
+            children: _jsx(_components.a, {
               className: "toc-link toc-link-h1",
               href: "#optimization",
               children: "Optimization"
-            }), _jsxs(_components.ol, {
-              className: "toc-level toc-level-2",
-              children: [_jsx(_components.li, {
-                className: "toc-item toc-item-h2",
-                children: _jsx(_components.a, {
-                  className: "toc-link toc-link-h2",
-                  href: "#hoisting",
-                  children: "Hoisting"
-                })
-              }), _jsx(_components.li, {
-                className: "toc-item toc-item-h2",
-                children: _jsx(_components.a, {
-                  className: "toc-link toc-link-h2",
-                  href: "#joining-plans",
-                  children: "Joining Plans"
-                })
-              }), _jsx(_components.li, {
-                className: "toc-item toc-item-h2",
-                children: _jsx(_components.a, {
-                  className: "toc-link toc-link-h2",
-                  href: "#unhoistable-expressions",
-                  children: "Unhoistable Expressions"
-                })
-              }), _jsx(_components.li, {
-                className: "toc-item toc-item-h2",
-                children: _jsx(_components.a, {
-                  className: "toc-link toc-link-h2",
-                  href: "#chain-after",
-                  children: "Chain-after"
-                })
-              })]
-            })]
+            })
           })]
         })
       }), "\n", _jsxs(_components.h1, {
@@ -220,7 +189,19 @@ PhotoQueryF --> PhotoQuery`
           }), " ", _jsx(_components.span, {
             className: "hljs-title class_",
             children: "DerivedQuery"
-          }), " {\n\n  ...\n\n  ", _jsx(_components.span, {
+          }), " {\n  ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "readonly"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "expression"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "DerivedExpression"
+          }), " | ", _jsx(_components.span, {
+            className: "hljs-literal",
+            children: "null"
+          }), ";\n  ...\n\n  ", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "plan"
           }), "(", _jsx(_components.span, {
@@ -273,7 +254,16 @@ PhotoQueryF --> PhotoQuery`
           }), " ", _jsx(_components.span, {
             className: "hljs-title class_",
             children: "SourceQuery"
-          }), " {\n\n  ...\n\n  ", _jsx(_components.span, {
+          }), " {\n  ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "readonly"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "expression"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "SourceExpression"
+          }), ";\n  ...\n\n  ", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "plan"
           }), "(", _jsx(_components.span, {
@@ -306,7 +296,10 @@ PhotoQueryF --> PhotoQuery`
           children: [_jsx(_components.span, {
             className: "hljs-keyword",
             children: "const"
-          }), " query = user.", _jsx(_components.span, {
+          }), " query = ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "User"
+          }), ".", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "queryAll"
           }), "().", _jsx(_components.span, {
@@ -387,7 +380,10 @@ UserQuery --> SQLSourceQuery
           children: [_jsx(_components.span, {
             className: "hljs-keyword",
             children: "const"
-          }), " query = user\n  .", _jsx(_components.span, {
+          }), " query = ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "User"
+          }), ".", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "queryAll"
           }), "()\n  .", _jsx(_components.span, {
@@ -507,13 +503,325 @@ UserQuery --> SQLSourceQuery
           })
         }), "Hops and Many Plans"]
       }), "\n", _jsxs(_components.p, {
-        children: ["Hops are represented as separate ", _jsx(_components.code, {
+        children: ["Hops (or edge traversals) are represented as separate ", _jsx(_components.code, {
           children: "HopPlans"
-        }), ". If we do a query like the following:"]
+        }), ". If we build a query like the following:"]
       }), "\n", _jsx(_components.pre, {
-        children: _jsx(_components.code, {
-          className: "hljs language-typescript"
+        children: _jsxs(_components.code, {
+          className: "hljs language-typescript",
+          children: [_jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "const"
+          }), " query = ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "User"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "queryAll"
+          }), "()\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "whereName"
+          }), "(P.", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "equals"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'Bill'"
+          }), "))\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "queryPhotos"
+          }), "()\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "whereUploadDate"
+          }), "(P.", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "greaterThan"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "new"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "Date"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'2022-01-01'"
+          }), ")))\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "queryComments"
+          }), "();\n"]
         })
+      }), "\n", _jsx(_components.p, {
+        children: "We'll get this list of queries:"
+      }), "\n", _jsx("center", {
+        children: _jsx(Mermaid, {
+          id: "xcxc",
+          chart: `graph TD
+CommentQuery --> HopQueryPC["HopQuery(PhotosToCommentsEdge)"]
+HopQueryPC --> PhotosQueryUD["PhotosQuery(uploadDate > 2022-01-01)"]
+PhotosQueryUD --> PhotosQuery
+PhotosQuery --> HopQueryUP["HopQuery(UserToPhotosEdge)"]
+HopQueryUP --> UserQueryN["UserQuery(name == Bill)"]
+UserQueryN --> UserQuery
+UserQuery --> SQLSourceQuery
+`
+        })
+      }), "\n", _jsxs(_components.p, {
+        children: ["Converting this to a plan works exactly the same as normal planning except every time we hit a hop, we wrap the plan it receives from the query before it into a ", _jsx(_components.code, {
+          children: "HopPlan"
+        }), "."]
+      }), "\n", _jsx(_components.p, {
+        children: "The basic implementation of hop planing is below --"
+      }), "\n", _jsx(_components.pre, {
+        children: _jsxs(_components.code, {
+          className: "hljs language-typescript",
+          children: [_jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "abstract"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "class"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "DerivedQuery"
+          }), " {\n  ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "readonly"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "expression"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "DerivedExpression"
+          }), " | ", _jsx(_components.span, {
+            className: "hljs-literal",
+            children: "null"
+          }), ";\n  ...\n\n  ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "plan"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-params"
+          }), ") {\n    ", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// Derived queries add to plans rather than creating plans."
+          }), "\n    ", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// Ask the prior query to plan itself"
+          }), "\n    ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "const"
+          }), " plan = ", _jsx(_components.span, {
+            className: "hljs-variable language_",
+            children: "this"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-property",
+            children: "priorQuery"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "plan"
+          }), "();\n    ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "if"
+          }), " (", _jsx(_components.span, {
+            className: "hljs-variable language_",
+            children: "this"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-property",
+            children: "expression"
+          }), ") {\n      ", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// append our expression to the plan"
+          }), "\n      plan.", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "addDerivation"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-variable language_",
+            children: "this"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-property",
+            children: "expression"
+          }), ");\n    }\n\n    ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "return"
+          }), " plan;\n  }\n}\n\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "abstract"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "class"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "SourceQuery"
+          }), " {\n  ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "readonly"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "expression"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "SourceExpression"
+          }), ";\n  ...\n\n  ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "plan"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-params"
+          }), ") {\n    ", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// We're the source query. Return the plan with our source expression."
+          }), "\n    ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "return"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "new"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "Plan"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-variable language_",
+            children: "this"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-property",
+            children: "expression"
+          }), ". [])\n  }\n}\n\n", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "abstract"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "class"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "HopQuery"
+          }), " {\n  ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "readonly"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "expression"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "HopExpression"
+          }), ";\n  ...\n  ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "plan"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-params"
+          }), ") {\n    ", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// HopQueries wrap the plans of their predecessors into HopPlans."
+          }), "\n    ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "return"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "new"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "HopPlan"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-variable language_",
+            children: "this"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-property",
+            children: "priorQuery"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "plan"
+          }), "(), ", _jsx(_components.span, {
+            className: "hljs-variable language_",
+            children: "this"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-property",
+            children: "expression"
+          }), ", []);\n  }\n}\n"]
+        })
+      }), "\n", _jsx(_components.p, {
+        children: "Based on that, our multi-hop example would generate the following plan:"
+      }), "\n", _jsx(_components.pre, {
+        children: _jsxs(_components.code, {
+          className: "hljs language-javascript",
+          children: [_jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "HopPlan"
+          }), " {\n  ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "sourcePlan"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "HopPlan"
+          }), " {\n    ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "sourcePlan"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "Plan"
+          }), " {\n      ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "source"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "SQLSourceExpression"
+          }), "(table = users, db = example),\n      ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "derivations"
+          }), ": [\n        ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "FilterExpression"
+          }), "(name == ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'Matt'"
+          }), "),\n      ],\n    },\n    ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "hopExpression"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "SQLHopExpression"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "UserToPhotosEdge"
+          }), "),\n    ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "derivations"
+          }), ": [\n      ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "FilterExpression"
+          }), "(uploadDate > ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'2022-01-01'"
+          }), "),\n    ],\n  },\n  ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "hopExpression"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "SQLHopExpression"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "PhotosToCommentsEdge"
+          }), ")\n  ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "derivations"
+          }), ": []\n}\n"]
+        })
+      }), "\n", _jsx(_components.p, {
+        children: "Or, visually:"
+      }), "\n", _jsx("center", {
+        children: _jsx(Mermaid, {
+          id: "hjh",
+          chart: `graph LR
+HopPlan["HopPlan(PhotosToCommentsEdge)"] --> HopPlanUP["HopPlan(UserToPhotosEdge)"]
+HopPlanUP --> Plan["Plan(SQLSourceExpression(table = users, db = example))"]
+`
+        })
+      }), "\n", _jsx(_components.p, {
+        children: "This follows a similar pattern to our query builder in that each hop plan has a pointer to the plan before it, creating a linked list of plans."
+      }), "\n", _jsxs(_components.p, {
+        children: ["Hops get their own plans since they're often operating on different tables or even different databases or storage types altogether. I.e., you can hop from a ", _jsx(_components.code, {
+          children: "SQL"
+        }), " node to an ", _jsx(_components.code, {
+          children: "IndexDB"
+        }), " node and back."]
+      }), "\n", _jsx(_components.p, {
+        children: "This splitting of plans begs the question of we can do a global optimization across all plans and create a single plan of execution."
       }), "\n", _jsxs(_components.h1, {
         id: "optimization",
         children: [_jsx(_components.a, {
@@ -524,46 +832,8 @@ UserQuery --> SQLSourceQuery
             className: "icon icon-link"
           })
         }), "Optimization"]
-      }), "\n", _jsxs(_components.h2, {
-        id: "hoisting",
-        children: [_jsx(_components.a, {
-          "aria-hidden": "true",
-          tabIndex: "-1",
-          href: "#hoisting",
-          children: _jsx(_components.span, {
-            className: "icon icon-link"
-          })
-        }), "Hoisting"]
-      }), "\n", _jsxs(_components.h2, {
-        id: "joining-plans",
-        children: [_jsx(_components.a, {
-          "aria-hidden": "true",
-          tabIndex: "-1",
-          href: "#joining-plans",
-          children: _jsx(_components.span, {
-            className: "icon icon-link"
-          })
-        }), "Joining Plans"]
-      }), "\n", _jsxs(_components.h2, {
-        id: "unhoistable-expressions",
-        children: [_jsx(_components.a, {
-          "aria-hidden": "true",
-          tabIndex: "-1",
-          href: "#unhoistable-expressions",
-          children: _jsx(_components.span, {
-            className: "icon icon-link"
-          })
-        }), "Unhoistable Expressions"]
-      }), "\n", _jsxs(_components.h2, {
-        id: "chain-after",
-        children: [_jsx(_components.a, {
-          "aria-hidden": "true",
-          tabIndex: "-1",
-          href: "#chain-after",
-          children: _jsx(_components.span, {
-            className: "icon icon-link"
-          })
-        }), "Chain-after"]
+      }), "\n", _jsx(_components.p, {
+        children: "That brings us to query plan optimization. To be written in a follow up post!"
       })]
     });
   }
