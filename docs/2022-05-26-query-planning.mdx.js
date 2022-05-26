@@ -50,8 +50,8 @@ function MDXContent(props = {}) {
                 className: "toc-item toc-item-h2",
                 children: _jsx(_components.a, {
                   className: "toc-link toc-link-h2",
-                  href: "#a-complicated-walk",
-                  children: "A Complicated Walk"
+                  href: "#a-more-complicated-walk",
+                  children: "A More Complicated Walk"
                 })
               }), _jsx(_components.li, {
                 className: "toc-item toc-item-h2",
@@ -163,7 +163,7 @@ function MDXContent(props = {}) {
         children: "returns a linked list that looks roughly like"
       }), "\n", _jsx("center", {
         children: _jsx(Mermaid, {
-          id: "one",
+          id: "hhg",
           chart: `graph LR
 UserQueryF["UserQuery(name == Jeff)"] --> UserQuery
 UserQuery --> PhotoQueryF["PhotoQuery(uploadDate > 2022-01-01)"]
@@ -188,7 +188,7 @@ PhotoQueryF --> PhotoQuery`
       }), "\n", _jsx(_components.p, {
         children: "There are several important steps that happen after building a query to get it into a state where it can be executed. The first of those is the query planning step."
       }), "\n", _jsxs(_components.p, {
-        children: ["The core idea of query planning is to walk the list of expressions and pull out (hoist) as many expressions as possible to send them to be executed directly in the database. Expressions that cannot be hoisted will be executed within the application via the ", _jsx(_components.a, {
+        children: ["The core idea of query planning is to walk the list of queries and pull out (hoist) as many expressions as possible to send them to be executed directly in the database. Expressions that cannot be hoisted will be executed within the application via the ", _jsx(_components.a, {
           href: "./2022-05-26-chunk-iterable",
           children: "chunk iterable framework"
         }), " (chunked iteration phase to be covered in more detail in a future post)."]
@@ -273,7 +273,7 @@ PhotoQueryF --> PhotoQuery`
           }), " ", _jsx(_components.span, {
             className: "hljs-title class_",
             children: "SourceQuery"
-          }), " {\n  ", _jsx(_components.span, {
+          }), " {\n\n  ...\n\n  ", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "plan"
           }), "(", _jsx(_components.span, {
@@ -324,7 +324,7 @@ PhotoQueryF --> PhotoQuery`
         children: "This query would return a linked list that looks like:"
       }), "\n", _jsx("center", {
         children: _jsx(Mermaid, {
-          id: "twp",
+          id: "ggg",
           chart: `graph LR
 UserQueryF["UserQuery(name == Bill)"] --> UserQuery
 UserQuery --> SQLSourceQuery
@@ -348,22 +348,154 @@ UserQuery --> SQLSourceQuery
         children: "The plan for this query would look like:"
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
-          className: "hljs language-css",
-          children: ["Plan {\n  source: SQLSourceExpression,\n  derivations: [\n    ", _jsx(_components.span, {
-            className: "hljs-built_in",
+          className: "hljs language-javascript",
+          children: [_jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "Plan"
+          }), " {\n  ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "source"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "SQLSourceExpression"
+          }), "(table = users, db = example),\n  ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "derivations"
+          }), ": [\n    ", _jsx(_components.span, {
+            className: "hljs-title class_",
             children: "FilterExpression"
-          }), "(name == Bill),\n  ]\n}\n"]
+          }), "(name == ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "Bill"
+          }), "),\n  ]\n}\n"]
         })
       }), "\n", _jsxs(_components.h2, {
-        id: "a-complicated-walk",
+        id: "a-more-complicated-walk",
         children: [_jsx(_components.a, {
           "aria-hidden": "true",
           tabIndex: "-1",
-          href: "#a-complicated-walk",
+          href: "#a-more-complicated-walk",
           children: _jsx(_components.span, {
             className: "icon icon-link"
           })
-        }), "A Complicated Walk"]
+        }), "A More Complicated Walk"]
+      }), "\n", _jsx(_components.p, {
+        children: "Lets look at a more complicated query."
+      }), "\n", _jsx(_components.pre, {
+        children: _jsxs(_components.code, {
+          className: "hljs language-javascript",
+          children: [_jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "const"
+          }), " query = user\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "queryAll"
+          }), "()\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "whereAge"
+          }), "(P.", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "greaterThan"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "24"
+          }), "))\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "whereName"
+          }), "(P.", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "equals"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'Matt'"
+          }), "))\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "orderBy"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "UserSpec"
+          }), ".", _jsx(_components.span, {
+            className: "hljs-property",
+            children: "age"
+          }), ")\n  .", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "take"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "5"
+          }), ");\n"]
+        })
+      }), "\n", _jsx(_components.p, {
+        children: "Which generates this list of linked queries:"
+      }), "\n", _jsx("center", {
+        children: _jsx(Mermaid, {
+          id: "gfdf",
+          chart: `graph LR
+UserQueryT["UserQuery(take 5)"] --> UserQueryO["UserQuery(orderBy age)"]
+UserQueryO --> UserQueryN["UserQuery(name == 'Matt')"]
+UserQueryN --> UserQueryA["UserQuery(age > 24)"]
+UserQueryA --> UserQuery
+UserQuery --> SQLSourceQuery
+`
+        })
+      }), "\n", _jsx(_components.p, {
+        children: "Remember that the planning phase walks to the end of the list and pops a plan all the way back up the list.\nGiven that, the planning phase will convert the list of queries to:"
+      }), "\n", _jsx(_components.pre, {
+        children: _jsxs(_components.code, {
+          className: "hljs language-javascript",
+          children: [_jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "Plan"
+          }), " {\n  ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "source"
+          }), ": ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "SQLSourceExpression"
+          }), "(table = users, db = example),\n  ", _jsx(_components.span, {
+            className: "hljs-attr",
+            children: "derivations"
+          }), ": [\n    ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "FilterExpression"
+          }), "(a > ", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "24"
+          }), "),\n    ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "FilterExpression"
+          }), "(name == ", _jsx(_components.span, {
+            className: "hljs-string",
+            children: "'Matt'"
+          }), "),\n    ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "OrderByExpression"
+          }), "(age)\n    ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "TakeExpression"
+          }), "(", _jsx(_components.span, {
+            className: "hljs-number",
+            children: "5"
+          }), ")\n  ]\n}\n"]
+        })
+      }), "\n", _jsx(_components.p, {
+        children: "What this plan says is to"
+      }), "\n", _jsxs(_components.ol, {
+        children: ["\n", _jsxs(_components.li, {
+          children: ["Run the ", _jsx(_components.code, {
+            children: "SQLSourceExpression"
+          }), " then"]
+        }), "\n", _jsx(_components.li, {
+          children: "Run all subsequent expressions"
+        }), "\n"]
+      }), "\n", _jsx(_components.p, {
+        children: "As you can see, the first step of query planning is very simple. It is just extracting and correctly ordering all of the expressions from the list of queries."
+      }), "\n", _jsx(_components.p, {
+        children: "Although I did say that there could be many plans from one list of queries. I also mentioned that planning involves hoisting expressions to run in the database directly."
+      }), "\n", _jsx(_components.p, {
+        children: "Multiple plans happen when we have \"hop queries\" or \"edge traversals.\" Hoisting of expressions happens when we optimize our plan."
+      }), "\n", _jsx(_components.p, {
+        children: "First we'll discuss hop queries and hop plans then we'll get into hoisting and plan optimization."
       }), "\n", _jsxs(_components.h2, {
         id: "hops-and-many-plans",
         children: [_jsx(_components.a, {
@@ -374,6 +506,14 @@ UserQuery --> SQLSourceQuery
             className: "icon icon-link"
           })
         }), "Hops and Many Plans"]
+      }), "\n", _jsxs(_components.p, {
+        children: ["Hops are represented as separate ", _jsx(_components.code, {
+          children: "HopPlans"
+        }), ". If we do a query like the following:"]
+      }), "\n", _jsx(_components.pre, {
+        children: _jsx(_components.code, {
+          className: "hljs language-typescript"
+        })
       }), "\n", _jsxs(_components.h1, {
         id: "optimization",
         children: [_jsx(_components.a, {
