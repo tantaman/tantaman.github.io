@@ -286,7 +286,7 @@ PhotoQueryF --> PhotoQuery`
           }), ".", _jsx(_components.span, {
             className: "hljs-property",
             children: "expression"
-          }), ". [])\n  }\n}\n"]
+          }), ", [])\n  }\n}\n"]
         })
       }), "\n", _jsx(_components.p, {
         children: "Lets start with a simple query. Finding all users named \"Bill\"."
@@ -832,8 +832,11 @@ HopPlanUP --> Plan["Plan(SQLSourceExpression(table = users, db = example))"]
             className: "icon icon-link"
           })
         }), "Optimization"]
-      }), "\n", _jsx(_components.p, {
-        children: "That brings us to query plan optimization. To be written in a follow up post!"
+      }), "\n", _jsxs(_components.p, {
+        children: ["That brings us to query plan optimization. Written as a separate post in the series here: ", _jsx(_components.a, {
+          href: "./2022-05-26-query-plan-optimization",
+          children: "Query Plan Optimization"
+        }), "."]
       })]
     });
   }
