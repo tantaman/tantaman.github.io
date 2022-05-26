@@ -48,7 +48,7 @@ We walk the list of queries provided by our query builder, collecting the expres
 
 We perform this walk by asking the last query returned by the query builder to plan itself. It then asks the query before it to plan itself and so on, all the way to the beginning.
 
-The "root" or "source" plan is then returned back up the stack at which point each query appends its expressions to the plan.
+The "root" or "source" plan is then returned back up the stack. As the plan comes up the stack, each derived query appends its expression to the plan.
 
 ```typescript
 abstract class DerivedQuery {
@@ -56,8 +56,10 @@ abstract class DerivedQuery {
   ...
 
   plan() {
+    // Ask the prior query to plan itself
     const plan = this.priorQuery.plan();
     if (this.expression) {
+      // append our expression to the plan
       plan.addDerivation(this.expression);
     }
 
@@ -67,18 +69,19 @@ abstract class DerivedQuery {
 
 abstract class SourceQuery {
   plan() {
+    // We're the source query. Return a new plan with our source expression.
     return new Plan(this.expression. [])
   }
 }
 ```
 
-Lets start with a simple query. Finding all users name "Bill".
+Lets start with a simple query. Finding all users named "Bill".
 
 ```javascript
 const query = user.queryAll().whereName(P.equals('Bill'));
 ```
 
-Which generates a linked list that looks like:
+This query would return a linked list that looks like:
 
 <center>
   <Mermaid
@@ -90,8 +93,31 @@ UserQuery --> SQLSourceQuery
   />
 </center>
 
-`UserQuery(name == Bill)` being the "last" node in the list and linked back to prior queries.
+`UserQuery(name == Bill)` being the last node in the list and linked back to the prior queries.
 
-Planning this query would convert it from this list of queries to a source expression and list of derived expressions.
+`SQLSourceQuery` is a new addition to the diagram. It is a query type that is returned by the query builder when creating a new query not derived from a prior query. It represents the root and would be specific to the storage type that is kicking off the query. E.g., `SQLSourceQuery`, `CypherSourceQuery` or `IndexDBSourceQuery` would be some possibilities depending on where the source model type is stored.
 
--- interrupted. to finish.
+The plan for this query would look like:
+
+```
+Plan {
+  source: SQLSourceExpression,
+  derivations: [
+    FilterExpression(name == Bill),
+  ]
+}
+```
+
+## A Complicated Walk
+
+## Hops and Many Plans
+
+# Optimization
+
+## Hoisting
+
+## Joining Plans
+
+## Unhoistable Expressions
+
+## Chain-after
