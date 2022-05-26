@@ -83,7 +83,7 @@ function MDXContent(props = {}) {
         children: ["\n", _jsx(_components.li, {
           children: "A reference the previous query"
         }), "\n", _jsx(_components.li, {
-          children: "A reference to the operation (filter/map/limit/etc) being applied"
+          children: "A reference to the expression (filter/map/limit/etc) being applied"
         }), "\n"]
       }), "\n", _jsx(_components.p, {
         children: "This forms a linked list which perfectly represents the invocations against the query builder, creating a structure that looks like:"
@@ -95,6 +95,14 @@ UserQueryF["UserQuery(name == Jeff)"] --> UserQuery
 UserQuery --> PhotoQueryF["PhotoQuery(uploadDate > 2022-01-01)"]
 PhotoQueryF --> PhotoQuery`
         })
+      }), "\n", _jsxs(_components.p, {
+        children: ["The first node in the list represents the last query builder method that was invoked (", _jsx(_components.code, {
+          children: "whereName(P.equals('Jeff'))"
+        }), ") and the last node in the list the first query builder method (", _jsx(_components.code, {
+          children: "queryPhotos"
+        }), ")."]
+      }), "\n", _jsx(_components.p, {
+        children: "As a JSON structure it looks like:"
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-typescript",
@@ -166,10 +174,17 @@ PhotoQueryF --> PhotoQuery`
             children: "null"
           }), ",\n      }\n    }\n  }\n}\n"]
         })
+      }), "\n", _jsxs(_components.p, {
+        children: ["Walking the linked list to the end will get you to the root that starts the query off.\nRunning each node in the list from the end back to the start will run the full query. In reality, however, we convert the query to a ", _jsx(_components.code, {
+          children: "plan"
+        }), " and optimize the ", _jsx(_components.code, {
+          children: "plan"
+        }), " before running it.\nSee ", _jsx(_components.a, {
+          href: "./2022-05-26-query-planning",
+          children: "Query Planning"
+        }), " for more info on this."]
       }), "\n", _jsx(_components.p, {
-        children: "Walking the linked list to the end will get you to the root that starts the query off."
-      }), "\n", _jsx(_components.p, {
-        children: "In reality the structure is a bit more complicated since we need to constrain queries to only fetch items related to the prior hop but this is the basic idea."
+        children: "The structure is a bit more complicated in practice since we need to constrain queries to only fetch items related to the prior hop but this is the basic idea."
       }), "\n", _jsx(_components.p, {
         children: "For the interested, a more faithful representation of what happens in practice is reproduced below."
       }), "\n", _jsx("center", {
