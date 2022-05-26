@@ -52,7 +52,7 @@ The "root" or "source" plan is then returned back up the stack. As the plan come
 
 ```typescript
 abstract class DerivedQuery {
-
+  readonly expression: DerivedExpression | null;
   ...
 
   plan() {
@@ -68,7 +68,7 @@ abstract class DerivedQuery {
 }
 
 abstract class SourceQuery {
-
+  readonly expression: SourceExpression;
   ...
 
   plan() {
@@ -81,7 +81,7 @@ abstract class SourceQuery {
 Lets start with a simple query. Finding all users named "Bill".
 
 ```javascript
-const query = user.queryAll().whereName(P.equals('Bill'));
+const query = User.queryAll().whereName(P.equals('Bill'));
 ```
 
 This query would return a linked list that looks like:
@@ -116,8 +116,7 @@ Plan {
 Lets look at a more complicated query.
 
 ```javascript
-const query = user
-  .queryAll()
+const query = User.queryAll()
   .whereAge(P.greaterThan(24))
   .whereName(P.equals('Matt'))
   .orderBy(UserSpec.age)
@@ -169,18 +168,114 @@ First we'll discuss hop queries and hop plans then we'll get into hoisting and p
 
 ## Hops and Many Plans
 
-Hops are represented as separate `HopPlans`. If we do a query like the following:
+Hops (or edge traversals) are represented as separate `HopPlans`. If we build a query like the following:
 
 ```typescript
-
+const query = User.queryAll()
+  .whereName(P.equals('Bill'))
+  .queryPhotos()
+  .whereUploadDate(P.greaterThan(new Date('2022-01-01')))
+  .queryComments();
 ```
+
+We'll get this list of queries:
+
+<center>
+  <Mermaid
+    id="xcxc"
+    chart={`graph TD
+CommentQuery --> HopQueryPC["HopQuery(PhotosToCommentsEdge)"]
+HopQueryPC --> PhotosQueryUD["PhotosQuery(uploadDate > 2022-01-01)"]
+PhotosQueryUD --> PhotosQuery
+PhotosQuery --> HopQueryUP["HopQuery(UserToPhotosEdge)"]
+HopQueryUP --> UserQueryN["UserQuery(name == Bill)"]
+UserQueryN --> UserQuery
+UserQuery --> SQLSourceQuery
+`}
+  />
+</center>
+
+Converting this to a plan works exactly the same as normal planning except every time we hit a hop, we wrap the plan it receives from the query before it into a `HopPlan`.
+
+The basic implementation of hop planing is below --
+
+```typescript
+abstract class DerivedQuery {
+  readonly expression: DerivedExpression | null;
+  ...
+
+  plan() {
+    // Derived queries add to plans rather than creating plans.
+    // Ask the prior query to plan itself
+    const plan = this.priorQuery.plan();
+    if (this.expression) {
+      // append our expression to the plan
+      plan.addDerivation(this.expression);
+    }
+
+    return plan;
+  }
+}
+
+abstract class SourceQuery {
+  readonly expression: SourceExpression;
+  ...
+
+  plan() {
+    // We're the source query. Return the plan with our source expression.
+    return new Plan(this.expression. [])
+  }
+}
+
+abstract class HopQuery {
+  readonly expression: HopExpression;
+  ...
+  plan() {
+    // HopQueries wrap the plans of their predecessors into HopPlans.
+    return new HopPlan(this.priorQuery.plan(), this.expression, []);
+  }
+}
+```
+
+Based on that, our multi-hop example would generate the following plan:
+
+```javascript
+HopPlan {
+  sourcePlan: HopPlan {
+    sourcePlan: Plan {
+      source: SQLSourceExpression(table = users, db = example),
+      derivations: [
+        FilterExpression(name == 'Matt'),
+      ],
+    },
+    hopExpression: SQLHopExpression(UserToPhotosEdge),
+    derivations: [
+      FilterExpression(uploadDate > '2022-01-01'),
+    ],
+  },
+  hopExpression: SQLHopExpression(PhotosToCommentsEdge)
+  derivations: []
+}
+```
+
+Or, visually:
+
+<center>
+  <Mermaid
+    id="hjh"
+    chart={`graph LR
+HopPlan["HopPlan(PhotosToCommentsEdge)"] --> HopPlanUP["HopPlan(UserToPhotosEdge)"]
+HopPlanUP --> Plan["Plan(SQLSourceExpression(table = users, db = example))"]
+`}
+  />
+</center>
+
+This follows a similar pattern to our query builder in that each hop plan has a pointer to the plan before it, creating a linked list of plans.
+
+Hops get their own plans since they're often operating on different tables or even different databases or storage types altogether. I.e., you can hop from a `SQL` node to an `IndexDB` node and back.
+
+This splitting of plans begs the question of we can do a global optimization across all plans and create a single plan of execution.
 
 # Optimization
 
-## Hoisting
-
-## Joining Plans
-
-## Unhoistable Expressions
-
-## Chain-after
+That brings us to query plan optimization. To be written in a follow up post!
