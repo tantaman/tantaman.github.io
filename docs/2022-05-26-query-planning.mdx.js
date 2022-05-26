@@ -683,7 +683,7 @@ UserQuery --> SQLSourceQuery
           }), ".", _jsx(_components.span, {
             className: "hljs-property",
             children: "expression"
-          }), ". [])\n  }\n}\n\n", _jsx(_components.span, {
+          }), ", [])\n  }\n}\n\n", _jsx(_components.span, {
             className: "hljs-keyword",
             children: "abstract"
           }), " ", _jsx(_components.span, {
