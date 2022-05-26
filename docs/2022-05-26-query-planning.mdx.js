@@ -37,16 +37,68 @@ function MDXContent(props = {}) {
               className: "toc-link toc-link-h1",
               href: "#planning",
               children: "Planning"
-            }), _jsx(_components.ol, {
+            }), _jsxs(_components.ol, {
               className: "toc-level toc-level-2",
-              children: _jsx(_components.li, {
+              children: [_jsx(_components.li, {
                 className: "toc-item toc-item-h2",
                 children: _jsx(_components.a, {
                   className: "toc-link toc-link-h2",
                   href: "#the-walk",
                   children: "The Walk"
                 })
-              })
+              }), _jsx(_components.li, {
+                className: "toc-item toc-item-h2",
+                children: _jsx(_components.a, {
+                  className: "toc-link toc-link-h2",
+                  href: "#a-complicated-walk",
+                  children: "A Complicated Walk"
+                })
+              }), _jsx(_components.li, {
+                className: "toc-item toc-item-h2",
+                children: _jsx(_components.a, {
+                  className: "toc-link toc-link-h2",
+                  href: "#hops-and-many-plans",
+                  children: "Hops and Many Plans"
+                })
+              })]
+            })]
+          }), _jsxs(_components.li, {
+            className: "toc-item toc-item-h1",
+            children: [_jsx(_components.a, {
+              className: "toc-link toc-link-h1",
+              href: "#optimization",
+              children: "Optimization"
+            }), _jsxs(_components.ol, {
+              className: "toc-level toc-level-2",
+              children: [_jsx(_components.li, {
+                className: "toc-item toc-item-h2",
+                children: _jsx(_components.a, {
+                  className: "toc-link toc-link-h2",
+                  href: "#hoisting",
+                  children: "Hoisting"
+                })
+              }), _jsx(_components.li, {
+                className: "toc-item toc-item-h2",
+                children: _jsx(_components.a, {
+                  className: "toc-link toc-link-h2",
+                  href: "#joining-plans",
+                  children: "Joining Plans"
+                })
+              }), _jsx(_components.li, {
+                className: "toc-item toc-item-h2",
+                children: _jsx(_components.a, {
+                  className: "toc-link toc-link-h2",
+                  href: "#unhoistable-expressions",
+                  children: "Unhoistable Expressions"
+                })
+              }), _jsx(_components.li, {
+                className: "toc-item toc-item-h2",
+                children: _jsx(_components.a, {
+                  className: "toc-link toc-link-h2",
+                  href: "#chain-after",
+                  children: "Chain-after"
+                })
+              })]
             })]
           })]
         })
@@ -155,7 +207,7 @@ PhotoQueryF --> PhotoQuery`
       }), "\n", _jsx(_components.p, {
         children: "We perform this walk by asking the last query returned by the query builder to plan itself. It then asks the query before it to plan itself and so on, all the way to the beginning."
       }), "\n", _jsx(_components.p, {
-        children: "The \"root\" or \"source\" plan is then returned back up the stack at which point each query appends its expressions to the plan."
+        children: "The \"root\" or \"source\" plan is then returned back up the stack. As the plan comes up the stack, each derived query appends its expression to the plan."
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-typescript",
@@ -174,6 +226,9 @@ PhotoQueryF --> PhotoQuery`
           }), "(", _jsx(_components.span, {
             className: "hljs-params"
           }), ") {\n    ", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// Ask the prior query to plan itself"
+          }), "\n    ", _jsx(_components.span, {
             className: "hljs-keyword",
             children: "const"
           }), " plan = ", _jsx(_components.span, {
@@ -194,7 +249,10 @@ PhotoQueryF --> PhotoQuery`
           }), ".", _jsx(_components.span, {
             className: "hljs-property",
             children: "expression"
-          }), ") {\n      plan.", _jsx(_components.span, {
+          }), ") {\n      ", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// append our expression to the plan"
+          }), "\n      plan.", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "addDerivation"
           }), "(", _jsx(_components.span, {
@@ -221,6 +279,9 @@ PhotoQueryF --> PhotoQuery`
           }), "(", _jsx(_components.span, {
             className: "hljs-params"
           }), ") {\n    ", _jsx(_components.span, {
+            className: "hljs-comment",
+            children: "// We're the source query. Return a new plan with our source expression."
+          }), "\n    ", _jsx(_components.span, {
             className: "hljs-keyword",
             children: "return"
           }), " ", _jsx(_components.span, {
@@ -238,7 +299,7 @@ PhotoQueryF --> PhotoQuery`
           }), ". [])\n  }\n}\n"]
         })
       }), "\n", _jsx(_components.p, {
-        children: "Lets start with a simple query. Finding all users name \"Bill\"."
+        children: "Lets start with a simple query. Finding all users named \"Bill\"."
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-javascript",
@@ -260,7 +321,7 @@ PhotoQueryF --> PhotoQuery`
           }), "));\n"]
         })
       }), "\n", _jsx(_components.p, {
-        children: "Which generates a linked list that looks like:"
+        children: "This query would return a linked list that looks like:"
       }), "\n", _jsx("center", {
         children: _jsx(Mermaid, {
           id: "twp",
@@ -272,11 +333,97 @@ UserQuery --> SQLSourceQuery
       }), "\n", _jsxs(_components.p, {
         children: [_jsx(_components.code, {
           children: "UserQuery(name == Bill)"
-        }), " being the \"last\" node in the list and linked back to prior queries."]
+        }), " being the last node in the list and linked back to the prior queries."]
+      }), "\n", _jsxs(_components.p, {
+        children: [_jsx(_components.code, {
+          children: "SQLSourceQuery"
+        }), " is a new addition to the diagram. It is a query type that is returned by the query builder when creating a new query not derived from a prior query. It represents the root and would be specific to the storage type that is kicking off the query. E.g., ", _jsx(_components.code, {
+          children: "SQLSourceQuery"
+        }), ", ", _jsx(_components.code, {
+          children: "CypherSourceQuery"
+        }), " or ", _jsx(_components.code, {
+          children: "IndexDBSourceQuery"
+        }), " would be some possibilities depending on where the source model type is stored."]
       }), "\n", _jsx(_components.p, {
-        children: "Planning this query would convert it from this list of queries to a source expression and list of derived expressions."
-      }), "\n", _jsx(_components.p, {
-        children: "-- interrupted. to finish."
+        children: "The plan for this query would look like:"
+      }), "\n", _jsx(_components.pre, {
+        children: _jsxs(_components.code, {
+          className: "hljs language-css",
+          children: ["Plan {\n  source: SQLSourceExpression,\n  derivations: [\n    ", _jsx(_components.span, {
+            className: "hljs-built_in",
+            children: "FilterExpression"
+          }), "(name == Bill),\n  ]\n}\n"]
+        })
+      }), "\n", _jsxs(_components.h2, {
+        id: "a-complicated-walk",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#a-complicated-walk",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "A Complicated Walk"]
+      }), "\n", _jsxs(_components.h2, {
+        id: "hops-and-many-plans",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#hops-and-many-plans",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Hops and Many Plans"]
+      }), "\n", _jsxs(_components.h1, {
+        id: "optimization",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#optimization",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Optimization"]
+      }), "\n", _jsxs(_components.h2, {
+        id: "hoisting",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#hoisting",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Hoisting"]
+      }), "\n", _jsxs(_components.h2, {
+        id: "joining-plans",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#joining-plans",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Joining Plans"]
+      }), "\n", _jsxs(_components.h2, {
+        id: "unhoistable-expressions",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#unhoistable-expressions",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Unhoistable Expressions"]
+      }), "\n", _jsxs(_components.h2, {
+        id: "chain-after",
+        children: [_jsx(_components.a, {
+          "aria-hidden": "true",
+          tabIndex: "-1",
+          href: "#chain-after",
+          children: _jsx(_components.span, {
+            className: "icon icon-link"
+          })
+        }), "Chain-after"]
       })]
     });
   }
