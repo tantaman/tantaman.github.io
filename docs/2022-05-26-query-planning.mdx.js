@@ -156,11 +156,8 @@ PhotoQueryF --> PhotoQuery`
         }), "Planning"]
       }), "\n", _jsx(_components.p, {
         children: "There are several important steps that happen after building a query to get it into a state where it can be executed. The first of those is the query planning step."
-      }), "\n", _jsxs(_components.p, {
-        children: ["The core idea of query planning is to walk the list of queries and pull out (hoist) as many expressions as possible to send them to be executed directly in the database. Expressions that cannot be hoisted will be executed within the application via the ", _jsx(_components.a, {
-          href: "./2022-05-26-chunk-iterable",
-          children: "chunk iterable framework"
-        }), " (chunked iteration phase to be covered in more detail in a future post)."]
+      }), "\n", _jsx(_components.p, {
+        children: "The core idea of query planning is to walk the list of queries returned by the query builder, gather them into groups and convert them into expressions that can be executed."
       }), "\n", _jsxs(_components.h2, {
         id: "the-walk",
         children: [_jsx(_components.a, {
@@ -174,9 +171,9 @@ PhotoQueryF --> PhotoQuery`
       }), "\n", _jsx(_components.p, {
         children: "We walk the list of queries provided by our query builder, collecting the expressions it contains into one or more plans."
       }), "\n", _jsx(_components.p, {
-        children: "We perform this walk by asking the last query returned by the query builder to plan itself. It then asks the query before it to plan itself and so on, all the way to the beginning."
+        children: "We perform this walk by asking the last query returned by the query builder to plan itself. This query then asks the query before it to plan itself and so on, all the way down."
       }), "\n", _jsx(_components.p, {
-        children: "The \"root\" or \"source\" plan is then returned back up the stack. As the plan comes up the stack, each derived query appends its expression to the plan."
+        children: "The \"root\" or \"source\" plan is then returned back up the call stack. As the plan comes up the stack, each derived query appends its expression to the plan."
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-typescript",
@@ -289,7 +286,7 @@ PhotoQueryF --> PhotoQuery`
           }), ", [])\n  }\n}\n"]
         })
       }), "\n", _jsx(_components.p, {
-        children: "Lets start with a simple query. Finding all users named \"Bill\"."
+        children: "Lets look at thow this process works with a simple query: finding all users named \"Bill\"."
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-javascript",
@@ -330,7 +327,7 @@ UserQuery --> SQLSourceQuery
       }), "\n", _jsxs(_components.p, {
         children: [_jsx(_components.code, {
           children: "SQLSourceQuery"
-        }), " is a new addition to the diagram. It is a query type that is returned by the query builder when creating a new query not derived from a prior query. It represents the root and would be specific to the storage type that is kicking off the query. E.g., ", _jsx(_components.code, {
+        }), " is a new addition to the diagram. It is a query type that is returned by the query builder when creating a query not derived from a prior query. It represents the root and would be specific to the storage type that is kicking off the query. E.g., ", _jsx(_components.code, {
           children: "SQLSourceQuery"
         }), ", ", _jsx(_components.code, {
           children: "CypherSourceQuery"
@@ -338,7 +335,7 @@ UserQuery --> SQLSourceQuery
           children: "IndexDBSourceQuery"
         }), " would be some possibilities depending on where the source model type is stored."]
       }), "\n", _jsx(_components.p, {
-        children: "The plan for this query would look like:"
+        children: "The plan for this basic query would look like:"
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-javascript",
@@ -373,7 +370,7 @@ UserQuery --> SQLSourceQuery
           })
         }), "A More Complicated Walk"]
       }), "\n", _jsx(_components.p, {
-        children: "Lets look at a more complicated query."
+        children: "That simple plan isn't very illuminating so lets look at a more complicated query."
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-javascript",
@@ -426,7 +423,7 @@ UserQuery --> SQLSourceQuery
       }), "\n", _jsx("center", {
         children: _jsx(Mermaid, {
           id: "gfdf",
-          chart: `graph LR
+          chart: `graph TD
 UserQueryT["UserQuery(take 5)"] --> UserQueryO["UserQuery(orderBy age)"]
 UserQueryO --> UserQueryN["UserQuery(name == 'Matt')"]
 UserQueryN --> UserQueryA["UserQuery(age > 24)"]
@@ -435,7 +432,7 @@ UserQuery --> SQLSourceQuery
 `
         })
       }), "\n", _jsx(_components.p, {
-        children: "Remember that the planning phase walks to the end of the list and pops a plan all the way back up the list.\nGiven that, the planning phase will convert the list of queries to:"
+        children: "Remember that the planning phase walks to the end of the list and returns a plan all the way back up the list.\nGiven that, the planning phase will convert the list of queries to:"
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-javascript",
@@ -487,9 +484,9 @@ UserQuery --> SQLSourceQuery
       }), "\n", _jsx(_components.p, {
         children: "As you can see, the first step of query planning is very simple. It is just extracting and correctly ordering all of the expressions from the list of queries."
       }), "\n", _jsx(_components.p, {
-        children: "Although I did say that there could be many plans from one list of queries. I also mentioned that planning involves hoisting expressions to run in the database directly."
+        children: "Although I did say that there could be many plans from one list of queries."
       }), "\n", _jsx(_components.p, {
-        children: "Multiple plans happen when we have \"hop queries\" or \"edge traversals.\" Hoisting of expressions happens when we optimize our plan."
+        children: "Multiple plans happen when we have \"hop queries\" or \"edge traversals.\" Planning also involves one more step called -- the optimization step."
       }), "\n", _jsx(_components.p, {
         children: "First we'll discuss hop queries and hop plans then we'll get into hoisting and plan optimization."
       }), "\n", _jsxs(_components.h2, {
