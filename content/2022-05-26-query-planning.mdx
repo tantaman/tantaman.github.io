@@ -40,15 +40,15 @@ The first node in the list represents the last query builder method that was inv
 
 There are several important steps that happen after building a query to get it into a state where it can be executed. The first of those is the query planning step.
 
-The core idea of query planning is to walk the list of queries and pull out (hoist) as many expressions as possible to send them to be executed directly in the database. Expressions that cannot be hoisted will be executed within the application via the [chunk iterable framework](./2022-05-26-chunk-iterable) (chunked iteration phase to be covered in more detail in a future post).
+The core idea of query planning is to walk the list of queries returned by the query builder, gather them into groups and convert them into expressions that can be executed.
 
 ## The Walk
 
 We walk the list of queries provided by our query builder, collecting the expressions it contains into one or more plans.
 
-We perform this walk by asking the last query returned by the query builder to plan itself. It then asks the query before it to plan itself and so on, all the way to the beginning.
+We perform this walk by asking the last query returned by the query builder to plan itself. This query then asks the query before it to plan itself and so on, all the way down.
 
-The "root" or "source" plan is then returned back up the stack. As the plan comes up the stack, each derived query appends its expression to the plan.
+The "root" or "source" plan is then returned back up the call stack. As the plan comes up the stack, each derived query appends its expression to the plan.
 
 ```typescript
 abstract class DerivedQuery {
@@ -78,7 +78,7 @@ abstract class SourceQuery {
 }
 ```
 
-Lets start with a simple query. Finding all users named "Bill".
+Lets look at thow this process works with a simple query: finding all users named "Bill".
 
 ```javascript
 const query = User.queryAll().whereName(P.equals('Bill'));
@@ -98,9 +98,9 @@ UserQuery --> SQLSourceQuery
 
 `UserQuery(name == Bill)` being the last node in the list and linked back to the prior queries.
 
-`SQLSourceQuery` is a new addition to the diagram. It is a query type that is returned by the query builder when creating a new query not derived from a prior query. It represents the root and would be specific to the storage type that is kicking off the query. E.g., `SQLSourceQuery`, `CypherSourceQuery` or `IndexDBSourceQuery` would be some possibilities depending on where the source model type is stored.
+`SQLSourceQuery` is a new addition to the diagram. It is a query type that is returned by the query builder when creating a query not derived from a prior query. It represents the root and would be specific to the storage type that is kicking off the query. E.g., `SQLSourceQuery`, `CypherSourceQuery` or `IndexDBSourceQuery` would be some possibilities depending on where the source model type is stored.
 
-The plan for this query would look like:
+The plan for this basic query would look like:
 
 ```javascript
 Plan {
@@ -113,7 +113,7 @@ Plan {
 
 ## A More Complicated Walk
 
-Lets look at a more complicated query.
+That simple plan isn't very illuminating so lets look at a more complicated query.
 
 ```javascript
 const query = User.queryAll()
@@ -128,7 +128,7 @@ Which generates this list of linked queries:
 <center>
   <Mermaid
     id="gfdf"
-    chart={`graph LR
+    chart={`graph TD
 UserQueryT["UserQuery(take 5)"] --> UserQueryO["UserQuery(orderBy age)"]
 UserQueryO --> UserQueryN["UserQuery(name == 'Matt')"]
 UserQueryN --> UserQueryA["UserQuery(age > 24)"]
@@ -138,7 +138,7 @@ UserQuery --> SQLSourceQuery
   />
 </center>
 
-Remember that the planning phase walks to the end of the list and pops a plan all the way back up the list.
+Remember that the planning phase walks to the end of the list and returns a plan all the way back up the list.
 Given that, the planning phase will convert the list of queries to:
 
 ```javascript
@@ -160,9 +160,9 @@ What this plan says is to
 
 As you can see, the first step of query planning is very simple. It is just extracting and correctly ordering all of the expressions from the list of queries.
 
-Although I did say that there could be many plans from one list of queries. I also mentioned that planning involves hoisting expressions to run in the database directly.
+Although I did say that there could be many plans from one list of queries.
 
-Multiple plans happen when we have "hop queries" or "edge traversals." Hoisting of expressions happens when we optimize our plan.
+Multiple plans happen when we have "hop queries" or "edge traversals." Planning also involves one more step called -- the optimization step.
 
 First we'll discuss hop queries and hop plans then we'll get into hoisting and plan optimization.
 

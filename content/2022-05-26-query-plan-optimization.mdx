@@ -19,12 +19,12 @@ One of the first questions might be why an `ORM` needs to do query optimization.
 
 # Optimization Goals
 
-To understand this better we need to clarify what we mean by optimization. `Aphrodite`'s optimization step has two goals in mind:
+To understand this better we need to clarify what we mean by optimization. `Aphrodite`'s optimization has two goals in mind:
 
 1. Generate as few database calls as possible
 2. Minimze the amount of data returned from the database as much as possible
 
-A really dumb ORM might issue a SQL query for every join and then join all the data in the application server. We really don't want to do this.
+As an example, a really dumb ORM might issue a SQL query for every join and then join all the data in the application server. We really don't want to do this. Another example problem is the famous [N+1 problem](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping) often associated with ORMs.
 
 To accomplish our goals, `Aphrodite` does two things during optimization:
 

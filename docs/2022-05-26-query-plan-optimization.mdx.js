@@ -105,15 +105,18 @@ function MDXContent(props = {}) {
       }), "\n", _jsxs(_components.p, {
         children: ["To understand this better we need to clarify what we mean by optimization. ", _jsx(_components.code, {
           children: "Aphrodite"
-        }), "'s optimization step has two goals in mind:"]
+        }), "'s optimization has two goals in mind:"]
       }), "\n", _jsxs(_components.ol, {
         children: ["\n", _jsx(_components.li, {
           children: "Generate as few database calls as possible"
         }), "\n", _jsx(_components.li, {
           children: "Minimze the amount of data returned from the database as much as possible"
         }), "\n"]
-      }), "\n", _jsx(_components.p, {
-        children: "A really dumb ORM might issue a SQL query for every join and then join all the data in the application server. We really don't want to do this."
+      }), "\n", _jsxs(_components.p, {
+        children: ["As an example, a really dumb ORM might issue a SQL query for every join and then join all the data in the application server. We really don't want to do this. Another example problem is the famous ", _jsx(_components.a, {
+          href: "https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping",
+          children: "N+1 problem"
+        }), " often associated with ORMs."]
       }), "\n", _jsxs(_components.p, {
         children: ["To accomplish our goals, ", _jsx(_components.code, {
           children: "Aphrodite"
