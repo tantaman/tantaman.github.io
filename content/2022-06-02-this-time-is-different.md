@@ -17,8 +17,8 @@ In the past, we didn't have a good component model for the web. Not being able t
 
 As time went on, however, things got better.
 1. `HTML` got templates and partials
-2. `CSS` got imports and/or pre-processors
-3. `JS` got real imports, first with things like requirejs/commonjs/amd, later with ES6
+2. `CSS` got imports and pre-processors
+3. `JS` got real imports. First with things like requirejs/commonjs/amd, later with ES6
 
 
 These advancements allowed the untangling components and we hit a brief phase where component definitions would have a bunch of tiny files:
