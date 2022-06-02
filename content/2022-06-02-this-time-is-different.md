@@ -13,7 +13,7 @@ In the past, we didn't have a good component model for the web. Not being able t
 
 1. All of their structures were mixed together in the same HTML.
 2. All their styles were mixed together in the same CSS.
-3. All their logic mixed together in a few JS files.
+3. All their logic was mixed together in a few JS files.
 
 As time went on, however, things got better.
 1. `HTML` got templates and partials
