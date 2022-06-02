@@ -32,7 +32,12 @@ import rust from 'highlight.js/lib/languages/rust';
 import path, { parse } from 'path';
 import { doc, meta } from './layouts/global.js';
 
-const wikilinkOptions = { hrefTemplate: (permalink) => `/${permalink}` };
+// TODO: we need the directory for the entire site so we can determine which links are broken.
+// Actually just auto-create broken links and render what their backlinks are.
+const wikilinkOptions = {
+  hrefTemplate: (permalink) => `/${permalink}`,
+  pageResolver: (name) => [name.replace(/ /g, '%20').toLowerCase()],
+};
 export default {
   async mdx(file, cwd) {
     // TODO: extract frontmatter and things. Enable GFM and such.
