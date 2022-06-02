@@ -32,17 +32,17 @@
 <p>We've gone completely backwards! We've gone from separating our structure, style and logic to putting them all into the same file! inline styles! inline html! inline event handlers! NOOOOO!!!</p>
 </blockquote>
 <p>This sentiment misses the point.</p>
-<p>In the past, we didn't have a good component model for the web. Not being able to split stuff into components, developers ended up splitting on an incidental boundaries. They ended up splitting on Structure (<code>HTML</code>), Style (<code>CSS</code>) &#x26; Logic (<code>JS</code>). This reduced complexity by a factor of 3 but you still had a problem. All of your <strong>components</strong> were still <strong>bundled together</strong>.</p>
+<p>In the past, we didn't have a good component model for the web. Not being able to split stuff into components, developers ended up splitting on <strong>incidental boundaries</strong>. They ended up splitting on Structure (<code>HTML</code>), Style (<code>CSS</code>) &#x26; Logic (<code>JS</code>). This reduced complexity by a factor of 3 but you still had a problem. All of your <strong>components</strong> were still <strong>bundled together</strong>.</p>
 <ol>
 <li>All of their structures were mixed together in the same HTML.</li>
 <li>All their styles were mixed together in the same CSS.</li>
 <li>All their logic mixed together in a few JS files.</li>
 </ol>
-<p>As time went on, however,</p>
+<p>As time went on, however, things got better.</p>
 <ol>
-<li>html got templates and partials</li>
-<li>CSS got imports and/or pre-processors</li>
-<li>JS got real imports, first with things like requirejs/commonjs/amd, later with ES6</li>
+<li><code>HTML</code> got templates and partials</li>
+<li><code>CSS</code> got imports and/or pre-processors</li>
+<li><code>JS</code> got real imports, first with things like requirejs/commonjs/amd, later with ES6</li>
 </ol>
 <p>These advancements allowed the untangling components and we hit a brief phase where component definitions would have a bunch of tiny files:</p>
 <pre><code class="hljs language-diff"><span class="hljs-deletion">- likeButton.js</span>
@@ -50,9 +50,9 @@
 <span class="hljs-deletion">- likeButton.css</span>
 </code></pre>
 <p>each with a few lines of code and referencing data from one another.</p>
-<p>This atomization of components didn't make sense so developers made the reasonable choice of bundling <code>html</code>, <code>css</code>, &#x26; <code>js</code> all back together again. Except, this time, it was different. This time we only bundled the <code>html</code>, <code>css</code> &#x26; <code>js</code> of a <em>single component</em> together.</p>
+<p>This atomization of components didn't make sense so developers made the reasonable choice of bundling <code>html</code>, <code>css</code>, &#x26; <code>js</code> all back together again. Except, this time, <strong>it was different</strong>. This time we only bundled the <code>html</code>, <code>css</code> &#x26; <code>js</code> of a <em>single component</em> together.</p>
 <p>Have we gone back to the days of combined &#x26; inline <code>html</code>, <code>css</code> &#x26; <code>js</code>? Yes, but not in the way you think.</p>
-<p>We now split our code where it matters -- at the component level.</p>
+<p><strong>We now split our code where it matters</strong> -- at the component level.</p>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
 </main><div id="after-static"></div></div><footer id="footer"></footer></body>
