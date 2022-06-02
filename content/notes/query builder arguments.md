@@ -1,0 +1,1 @@
+https://gajus.medium.com/stop-using-knex-js-and-earn-30-bf410349856c
