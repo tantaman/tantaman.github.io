@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chapters - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="notes/distributed computing lectures http://dist-prog-book.com/chapter/
+
+Good review material on notes/distributed computing. Go to each chapter dir and open the html file.
+
+Random thought: Yes, distributed computing has unique challenges but also not so…">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Chapters">
+<meta property="og:description" content="notes/distributed computing lectures http://dist-prog-book.com/chapter/
+
+Good review material on notes/distributed computing. Go to each chapter dir and open the html file.
+
+Random thought: Yes, distributed computing has unique challenges but also not so…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2 minutes">
+</head>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static">
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#chapters">Chapters</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#chapter-5---languages-extended-for-distributed-computing">Chapter 5 - Languages Extended for Distributed Computing</a></li></ol></nav><p><a class="internal new" href="/notes/distributed%20computing%20lectures">notes/distributed computing lectures</a></p>
+<h1 id="chapters"><a aria-hidden="true" tabindex="-1" href="#chapters"><span class="icon icon-link"></span></a>Chapters</h1>
+<p><a href="http://dist-prog-book.com/chapter/">http://dist-prog-book.com/chapter/</a></p>
+<p>Good review material on <a class="internal new" href="/notes/distributed%20computing">notes/distributed computing</a>.
+Go to each chapter dir and open the <code>html</code> file.</p>
+<p>Random thought:
+Yes, distributed computing has unique challenges but also not so much.
+Monolithic pieces of software that are comprised of hundreds of packages and dependencies (but run on a single host in a single app) also share many of the same characteristics of distributed computing.</p>
+<ul>
+<li>A dependency could swallow exceptions, causing partial failures</li>
+<li>A depedency could spawn threads that call back into you, causing indeterminism</li>
+<li>A dependency could be buggy, changing data in undesirable ways.</li>
+<li>A dependency could busy wait or sleep or be otherwise non-perofrmant, leading to latency</li>
+</ul>
+<p>Other random thought --
+Single threaded apps can cause the same problems as multi-threaded apps when passing mutable data structures around. I.e., that old trick where <code>.hashCode()</code> inserts into a map and blows it out past capacity in Java because HashMap capacity isn't checked while computing a hash code.
+^-- This is an ancient observation from circa 2009 while working at Lockheed Martin.</p>
+<h1 id="chapter-5---languages-extended-for-distributed-computing"><a aria-hidden="true" tabindex="-1" href="#chapter-5---languages-extended-for-distributed-computing"><span class="icon icon-link"></span></a>Chapter 5 - Languages Extended for Distributed Computing</h1>
+<p><a href="http://dist-prog-book.com/chapter/5/langs-extended-for-dist.html">http://dist-prog-book.com/chapter/5/langs-extended-for-dist.html</a></p>
+<p>Extending <a class="internal new" href="/notes/type%20systems">notes/type systems</a> to take into account distributed computing. Reminds me of <a class="internal new" href="/notes/rust">notes/rust</a> but encoding distribution concerns (e.g., latency, failure, resource sharing) rather than memory concerns into the type system. There's some overlap though in that memory concerns and sharing concerns overlap. Does Rust encode threading concerns into the type system? <a class="internal new" href="/notes/questions">notes/questions</a>
+<a class="internal new" href="/notes/cloud%20haskell">notes/Cloud Haskell</a>? wut?</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>

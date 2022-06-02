@@ -1,0 +1,1 @@
+Language to attempt to solve [[notes/distributed computing]] problems. See here: http://bloom-lang.net/index.html
