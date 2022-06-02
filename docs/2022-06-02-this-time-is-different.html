@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>🧶 HTML, CSS &#x26; JS -- All mixed up together. - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="From time to time I run across people decrying the current state of web development with words like: We&#x27;ve gone completely backwards! We&#x27;ve gone from separating our structure, style and logic to putting them all into the same file! inline styles! inline…">
+<meta name="keywords" content="software-engineering, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="🧶 HTML, CSS &#x26; JS -- All mixed up together.">
+<meta property="og:description" content="From time to time I run across people decrying the current state of web development with words like: We&#x27;ve gone completely backwards! We&#x27;ve gone from separating our structure, style and logic to putting them all into the same file! inline styles! inline…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software-engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2 minutes">
+</head>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>🧶 HTML, CSS &#x26; JS -- All mixed up together.</h1><span class="published subtext">Published 2022-06-02</span>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>From time to time I run across people decrying the current state of web development with words like:</p>
+<blockquote>
+<p>We've gone completely backwards! We've gone from separating our structure, style and logic to putting them all into the same file! inline styles! inline html! inline event handlers! NOOOOO!!!</p>
+</blockquote>
+<p>This sentiment misses the point.</p>
+<p>In the past, we didn't have a good component model for the web. Not being able to split stuff into components, developers ended up splitting on an incidental boundaries. They ended up splitting on Structure (<code>HTML</code>), Style (<code>CSS</code>) &#x26; Logic (<code>JS</code>). This reduced complexity by a factor of 3 but you still had a problem. All of your <strong>components</strong> were still <strong>bundled together</strong>.</p>
+<ol>
+<li>All of their structures were mixed together in the same HTML.</li>
+<li>All their styles were mixed together in the same CSS.</li>
+<li>All their logic mixed together in a few JS files.</li>
+</ol>
+<p>As time went on, however,</p>
+<ol>
+<li>html got templates and partials</li>
+<li>CSS got imports and/or pre-processors</li>
+<li>JS got real imports, first with things like requirejs/commonjs/amd, later with ES6</li>
+</ol>
+<p>These advancements allowed the untangling components and we hit a brief phase where component definitions would have a bunch of tiny files:</p>
+<pre><code class="hljs language-diff"><span class="hljs-deletion">- likeButton.js</span>
+<span class="hljs-deletion">- likeButton.html</span>
+<span class="hljs-deletion">- likeButton.css</span>
+</code></pre>
+<p>each with a few lines of code and referencing data from one another.</p>
+<p>This atomization of components didn't make sense so developers made the reasonable choice of bundling <code>html</code>, <code>css</code>, &#x26; <code>js</code> all back together again. Except, this time, it was different. This time we only bundled the <code>html</code>, <code>css</code> &#x26; <code>js</code> of a <em>single component</em> together.</p>
+<p>Have we gone back to the days of combined &#x26; inline <code>html</code>, <code>css</code> &#x26; <code>js</code>? Yes, but not in the way you think.</p>
+<p>We now split our code where it matters -- at the component level.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
