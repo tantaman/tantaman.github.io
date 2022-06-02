@@ -1,5 +1,5 @@
 ---
-title: '🧶 HTML, CSS & JS -- All mixed up together.'
+title: 🧶 HTML, CSS & JS. All mixed up together. This time it's different.
 tags: [software-engineering]
 ---
 
