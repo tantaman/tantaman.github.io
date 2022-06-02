@@ -199,6 +199,6 @@ Regression to the mean, rather than being contrary to the gambler's fallacy, is 
 
 Demo source:
 
-- [js](https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/regression-mean-vs-gambler.js)
-- [css](https://github.com/tantaman/tantaman.github.io/blob/master/assets/posts/regression-mean-vs-gambler.css)
-- [markdown/html](https://github.com/tantaman/tantaman.github.io/blob/master/_posts/2021-01-26-regression-mean-vs-gambler.markdown)
+- [js](https://github.com/tantaman/tantaman.github.io/blob/master/docs/blog-assets/regression-mean-vs-gambler.css)
+- [css](https://github.com/tantaman/tantaman.github.io/blob/master/docs/blog-assets/regression-mean-vs-gambler.js)
+- [markdown/html](https://github.com/tantaman/tantaman.github.io/blob/master/content/2021-01-26-regression-mean-vs-gambler.md)
