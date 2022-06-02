@@ -61,12 +61,14 @@ function MDXContent(props = {}) {
       }), "\n", _jsxs(_components.ul, {
         children: ["\n", _jsxs(_components.li, {
           children: [_jsx(_components.a, {
-            href: "./2022-05-26-query-builder",
+            className: "internal new",
+            href: "/2022-05-26-query-builder",
             children: "Part 1"
           }), " we talked about the query builder"]
         }), "\n", _jsxs(_components.li, {
           children: [_jsx(_components.a, {
-            href: "./2022-05-26-query-planning",
+            className: "internal new",
+            href: "/2022-05-26-query-planning",
             children: "Part 2"
           }), " covered query plans"]
         }), "\n"]
