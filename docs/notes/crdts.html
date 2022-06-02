@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Tantamanlands</title>
+<title>Shelf - Tantamanlands</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/index.css">
 
@@ -12,6 +12,7 @@
 <meta name="copyright" content="© 2022 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Shelf">
 <meta property="og:description" content="See backlinks (which are not yet implemented lulz) In order for a set of operations to converge on the same value in an environment where replicas only communicate occasionally, the operations need to be order-independent and insensitive to (message…">
 <meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
 <meta property="og:image:alt" content="Tantaman">
@@ -22,10 +23,10 @@
 <meta name="twitter:image:alt" content="Tantaman">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="1 minute">
+<meta name="twitter:data1" content="1-2 minutes">
 </head>
 <body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static">
-<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>See backlinks (which are not yet implemented lulz)</p>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#shelf">Shelf</a></li></ol></nav><p>See backlinks (which are not yet implemented lulz)</p>
 <blockquote>
 <p>In order for a set of operations to converge on the same value in an environment where replicas only communicate occasionally, the operations need to be order-independent and insensitive to (message) duplication/redelivery. Thus, their operations need to be:</p>
 <p>Associative (a+(b+c)=(a+b)+c), so that grouping doesn't matter
@@ -36,6 +37,16 @@ Idempotent (a+a=a), so that duplication does not matter</p>
 </ul>
 </blockquote>
 <p><a href="https://hal.inria.fr/file/index/docid/555588/filename/techreport.pdf">https://hal.inria.fr/file/index/docid/555588/filename/techreport.pdf</a></p>
+<h1 id="shelf"><a aria-hidden="true" tabindex="-1" href="#shelf"><span class="icon icon-link"></span></a>Shelf</h1>
+<p><a href="https://bartoszsypytkowski.com/shelf-crdt/">https://bartoszsypytkowski.com/shelf-crdt/</a></p>
+<p>3rd property is interesting to remove "client ids":</p>
+<ol>
+<li>If we merge two Object nodes, we recursively merge their corresponding entries. Entry which didn't exist on merge side will just get added.</li>
+<li>If we merge nodes of different types, we arbitrary allow for Objects to take precedence over Values.</li>
+<li>If we merge two Values, we first compare their versions: greater version number wins. But what if versions were the same? You may have notices that our type Shelf&#x3C;'t when 't : comparison> puts a comparison constraint over 't. That's right: since we don't use replica identifiers, we compare values themselves and pick the one that's logically "higher".</li>
+</ol>
+<p>Path thru doc and incrementing version count...</p>
+<p>Obviously can't work in relational world? Where paths can start from anywhere? Or can it?</p>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
 </main><div id="after-static"></div></div><footer id="footer"></footer></body>
