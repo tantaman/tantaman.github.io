@@ -248,7 +248,7 @@ function MDXContent(props = {}) {
         }), "\n", _jsxs("span", {
           children: ["-- ", _jsx(_components.a, {
             className: "internal new",
-            href: "#/page/2022-05-12-simple-mdx",
+            href: "/2022-05-12-simple-mdx",
             children: "2022-05-12-simple-mdx"
           })]
         }), "\n"]
