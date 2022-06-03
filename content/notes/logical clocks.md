@@ -1,0 +1,3 @@
+> While timestamps can potentially give us information necessary to determine the most recent update (we'll use that in a minute), they won't tell us anything about the "state of the world" at the moment, when update has happened. This means, we cannot detect if one update knew about another, or if they happened concurrently.
+
+This is speaking to [[notes/vector clocks]]. Vector clocks, since they have the logical clock of every process, can let us understand which processes have seen which events. I.e., getting update [0, 1, 1] from process 2 lets me compare against my clock [1, 1, 0] and know that 2's update is not causally after 0's update but is causally later than 1's.
