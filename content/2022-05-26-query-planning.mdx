@@ -274,7 +274,7 @@ This follows a similar pattern to our query builder in that each hop plan has a 
 
 Hops get their own plans since they're often operating on different tables or even different databases or storage types altogether. I.e., you can hop from a `SQL` node to an `IndexDB` node and back.
 
-This splitting of plans begs the question of we can do a global optimization across all plans and create a single plan of execution.
+This splitting of plans begs the question: how we can do a global optimization across all plans and create a single plan of execution?
 
 # Optimization
 

@@ -818,7 +818,7 @@ HopPlanUP --> Plan["Plan(SQLSourceExpression(table = users, db = example))"]
           children: "IndexDB"
         }), " node and back."]
       }), "\n", _jsx(_components.p, {
-        children: "This splitting of plans begs the question of we can do a global optimization across all plans and create a single plan of execution."
+        children: "This splitting of plans begs the question: how we can do a global optimization across all plans and create a single plan of execution?"
       }), "\n", _jsxs(_components.h1, {
         id: "optimization",
         children: [_jsx(_components.a, {
