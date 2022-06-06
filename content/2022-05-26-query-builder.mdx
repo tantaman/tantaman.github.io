@@ -6,10 +6,10 @@ js: ['https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js']
 
 import Mermaid from '/dist/components/Mermaid.js';
 
-[Aphrodite](http://aphrodite.sh) generates a rich and type safe query builders ([example](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/generated/UserQuery.ts#L17-L66)) from your schemas.
-The query builders can not only query for nodes of a given type but also traverse edges, apply filters, do pagination and more.
+[Aphrodite](http://aphrodite.sh) generates rich and type safe query builders ([example](https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/generated/UserQuery.ts#L17-L66)) from your schemas.
+The query builders not only query for nodes of a given type but also traverse edges, apply filters, do pagination and more.
 
-As an example, we can traverse from a user to their photos uploaded after `2022-01-01`` to users tagged in those photos named Jeff like so:
+As an example, we can traverse from a user to their photos uploaded after `2022-01-01` to users tagged in those photos named `Jeff` like so:
 
 ```typescript
 const jeffQuery = user
@@ -56,7 +56,7 @@ PhotoQueryF --> PhotoQuery`}
   />
 </center>
 
-The first node in the list represents the last query builder method that was invoked (`whereName(P.equals('Jeff'))`) and the last node in the list the first query builder method that was invoked (`queryPhotos`).
+The first node in the list represents the last query builder method that was invoked (`whereName(P.equals('Jeff'))`) and the last node in the list represents the first query builder method that was invoked (`queryPhotos`).
 
 Walking the linked list to the end will get you to the root that starts the query.
 
