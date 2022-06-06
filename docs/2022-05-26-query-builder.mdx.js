@@ -12,8 +12,8 @@ function MDXContent(props = {}) {
       ol: "ol",
       p: "p",
       a: "a",
-      pre: "pre",
       code: "code",
+      pre: "pre",
       span: "span",
       li: "li"
     }, props.components);
@@ -27,12 +27,16 @@ function MDXContent(props = {}) {
         children: [_jsx(_components.a, {
           href: "http://aphrodite.sh",
           children: "Aphrodite"
-        }), " generates a rich and type safe query builders (", _jsx(_components.a, {
+        }), " generates rich and type safe query builders (", _jsx(_components.a, {
           href: "https://github.com/tantaman/aphrodite/blob/main/packages/integration-tests-ts/src/generated/UserQuery.ts#L17-L66",
           children: "example"
-        }), ") from your schemas.\nThe query builders can not only query for nodes of a given type but also traverse edges, apply filters, do pagination and more."]
-      }), "\n", _jsx(_components.p, {
-        children: "As an example, we can traverse from a user to their photos uploaded after `2022-01-01`` to users tagged in those photos named Jeff like so:"
+        }), ") from your schemas.\nThe query builders not only query for nodes of a given type but also traverse edges, apply filters, do pagination and more."]
+      }), "\n", _jsxs(_components.p, {
+        children: ["As an example, we can traverse from a user to their photos uploaded after ", _jsx(_components.code, {
+          children: "2022-01-01"
+        }), " to users tagged in those photos named ", _jsx(_components.code, {
+          children: "Jeff"
+        }), " like so:"]
       }), "\n", _jsx(_components.pre, {
         children: _jsxs(_components.code, {
           className: "hljs language-typescript",
@@ -164,7 +168,7 @@ PhotoQueryF --> PhotoQuery`
       }), "\n", _jsxs(_components.p, {
         children: ["The first node in the list represents the last query builder method that was invoked (", _jsx(_components.code, {
           children: "whereName(P.equals('Jeff'))"
-        }), ") and the last node in the list the first query builder method that was invoked (", _jsx(_components.code, {
+        }), ") and the last node in the list represents the first query builder method that was invoked (", _jsx(_components.code, {
           children: "queryPhotos"
         }), ")."]
       }), "\n", _jsx(_components.p, {
