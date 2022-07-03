@@ -21,6 +21,27 @@ Solving the incidental complexity of state management is something our tooling a
 
 But lets constrain ourselves to the incidental complexity involved in state management.
 
+The incidental complexity exists on a spectrum. On one end we have all state being local to a single process. On the opposite end we have state being distributed across many processes.
+
+For simplicity, we'll assume a process is single threaded. I don't think this simplification reduces the generality of the discussion given a process of N threads can be thought of as N processes of one thread -- which is captured by the right hand side of the spectrum.
+
+Recent history (1990 onward) has seen a consistent march from the left side of the specrtum to the right. (Note: A similar cycle may have already repeated itself in the mainframe era but I'm not familiar with that era.)
+
+- 1990 - Personal computers
+- 1995-2000 - Early Internet
+- 2000-2008 - Web 2.0
+- 2008 - mobile
+- 2010 - single page web applications
+- 2015 - collaborative web & mobile applications
+- 2020 - the world is trying to figure out decentralization (blockchain not a requirement), self custody of data, distributed identity, privacy. I'm verbose here given a single heading/term has yet to surface which clearly and unambiguously captures the current moment. Web3, Web5, dapps are all too loaded, too undefined and too tied to the current crypto bubble.
+
+
+Let's go through each time and see how state was dealt with then.
+
+
+
+
+ and how its gotten more tied up in incidental complexity now.
 
 These can be declared in a schema that describes our state.
 
