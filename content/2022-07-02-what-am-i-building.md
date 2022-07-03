@@ -5,15 +5,33 @@ tags: [programming]
 
 What is [Aphrodite](aphrodite.sh) and what am I aiming to accomplish by building it?
 
-First and foremost, to fix state management.
+First and foremost
+
+> To fix state management.
+
+A little more specific
+
+> To remove incidental complexity from state management for modern applications.
+
+And even more specific, but which is a non-obvious statement at the outset,
+
+> To make peer-2-peer & local/offline-first software as easy to develop as traditional client-server software.
+ 
+This statement is the conclusion of analyzing the complexities involved in state management and current software trends below.
+
+On to state --
+
+# State!
 
 State management is always the bane of our existence when writing software.
 
-Why? 
+Why?
 
-The essential reasons -- because state spans time and space. The more stateful variables you accumulate, the more possible configurations to consider. The more functions that operate on that state, the more contracts that state must uphold.
+The essential reasons -- because state spans time and space. The more stateful variables you accumulate, the more possible configurations to consider. The more functions that operate on that state, the more contracts that state must uphold and more avenues available to modify the state.
 
-The incidental reasons -- state, in modern applications, is duplicated (on the server, on the client, optimistically updated, spread across devices, ...).
+The incidental reasons -- state, in modern applications, is duplicated. It lives on the server, on the client through caching, on the client through optimistic updates, spread across multiple devices in various states. State might also be deployed in a polyglot fashion (e.g., live in IndexDB, SQLite, accessed via Swift / TypeScript / Kotlin).
+
+The in-between reasons -- privacy? permissions? security? purpose use?
 
 Solving the essential complexity of state management requires being able to clearly specify the requirements on your state. Things like type systems, invariants, allowed mutations, tests, and relational constraints allow us to do this. A human component -- a clear understanding of the problem being solved and how to translate that to types, invariants, tests, & other artifacts -- is also required.
 
@@ -21,9 +39,9 @@ Solving the incidental complexity of state management is something our tooling a
 
 But lets constrain ourselves to the incidental complexity involved in state management.
 
-The incidental complexity exists on a spectrum. On one end we have all state being local to a single process. On the opposite end we have state being distributed across many processes.
+This complexity exists on a spectrum. On one end we have all state being local to a single process. On the opposite end we have state being distributed across many processes.
 
-For simplicity, we'll assume a process is single threaded. I don't think this simplification reduces the generality of the discussion given a process of N threads can be thought of as N processes of one thread -- which is captured by the right hand side of the spectrum.
+> For simplicity, we'll assume a process is single threaded. I don't think this simplification reduces the generality of the discussion given a process of N threads can be thought of as N processes of one thread -- which is captured by the right hand side of the spectrum.
 
 Recent history (1990 onward) has seen a consistent march from the left side of the specrtum to the right. (Note: A similar cycle may have already repeated itself in the mainframe era but I'm not familiar with that era.)
 
@@ -36,18 +54,16 @@ Recent history (1990 onward) has seen a consistent march from the left side of t
 - 2020 - the world is trying to figure out decentralization (blockchain not a requirement), self custody of data, distributed identity, privacy. I'm verbose here given a single heading/term has yet to surface which clearly and unambiguously captures the current moment. Web3, Web5, dapps are all too loaded, too undefined and too tied to the current crypto bubble.
 
 
-Let's go through each time and see how state was dealt with then.
+Let's go through each period to see how state was dealt with and what requirements were added to state over time.
 
 
 
+
+is x-state worth mentioning?
 
  and how its gotten more tied up in incidental complexity now.
 
 These can be declared in a schema that describes our state.
-
-
-
-
 
 , it controls how our program will respond to future inputs and if it drifts into unexpected territory it makes our programs behave incorrectly.
 
