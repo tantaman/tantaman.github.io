@@ -9,7 +9,28 @@ First and foremost, to fix state management.
 
 State management is always the bane of our existence when writing software.
 
-Why?
+Why? 
+
+The essential reasons -- because state spans time and space. The more stateful variables you accumulate, the more possible configurations to consider. The more functions that operate on that state, the more contracts that state must uphold.
+
+The incidental reasons -- state, in modern applications, is duplicated (on the server, on the client, optimistically updated, spread across devices, ...).
+
+Solving the essential complexity of state management requires being able to clearly specify the requirements on your state. Things like type systems, invariants, allowed mutations, tests, and relational constraints allow us to do this. A human component -- a clear understanding of the problem being solved and how to translate that to types, invariants, tests, & other artifacts -- is also required.
+
+Solving the incidental complexity of state management is something our tooling and infrastructure should be able to do for us. Programmers are tied up in all sorts of incidental complexity that, one day, we'll hopefully no longer have to solve. E.g., how to deploy your code, how to discover services, how to fail over between services, how to decrease load times via server side rendering, how to re-hydrate components on the client, how to cache data for responsiveness, how to not leak memory, how to safely access user provided input, how to share data between threads, how to map in-memory representations of data to storage representations, how to monitor our code once deployed, etc. etc.
+
+But lets constrain ourselves to the incidental complexity involved in state management.
+
+
+These can be declared in a schema that describes our state.
+
+
+
+
+
+, it controls how our program will respond to future inputs and if it drifts into unexpected territory it makes our programs behave incorrectly.
+
+ Because state represents the outcome of our programs. Its the final goal and if it is wrong the program is wrong.
 
 Client-server & (consensus driven?) single master state problems:
 
@@ -25,9 +46,14 @@ Myriad types of state due to incidental details
 5. Single client managed state backed up on a server
 6. Many client managed state backed up on a server
 
+^-- This generalizes to:<br/>
+1. Single server
+2. Single master/writer & writes replicated to others (effectively caching)
+3. (2) with optimistic updates (effectively write through caching)
 
+There's N more options missing but lets consider these 5 first. These exist on a spectrum. On the one side we have everything managed by the server and all updates to and reads of the state require round trips to the server.
 
-There's N more options missing but lets consider these 5 first. These exist on a spectrum -- from
+This side of the spectrum was web development in the 90s when there was no dynamicism on the client. You requested a page, the server loaded everything it needed from the database, rendered the page and furnished you with a response.
 
 Centralized consensus managed state vs decentralized strongly convergent state.
 
@@ -48,3 +74,16 @@ Get our:
 - row level privacy
 - query language
 - etc
+
+---
+
+What Svelte and Solid are _trying_ to do but missing. Domain model needs to express this stuff not component state.
+
+---
+
+CRDT based state management, where everything is thought of from the perspective of client first, is a revolution in web development.
+
+
+---
+
+Web as subscribable and patchable resources?
