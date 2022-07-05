@@ -5,19 +5,19 @@ tags: [programming]
 
 What is [Aphrodite](aphrodite.sh) and what am I aiming to accomplish by building it?
 
-First and foremost
+To simplify application development. The hardest thing in application develpoment being state management so first and foremost
 
 > To fix state management.
 
-A little more specific
+And a little more specific
 
 > To remove incidental complexity from state management for modern applications.
 
 And even more specific, but which is a non-obvious statement at the outset,
 
-> To make peer-2-peer & local/offline-first software as easy to develop as traditional client-server software.
+> To make peer-2-peer & offline-first software as easy to develop as traditional client-server software.
  
-This statement is the conclusion of analyzing the complexities involved in state management and current software trends below.
+This statement is the conclusion of analyzing the complexities involved in state management, current software trends, and which state models are most flexible, below.
 
 On to state --
 
@@ -25,36 +25,97 @@ On to state --
 
 State management is always the bane of our existence when writing software.
 
-Why?
+*Why?*
 
-The essential reasons -- because state spans time and space. The more stateful variables you accumulate, the more possible configurations to consider. The more functions that operate on that state, the more contracts that state must uphold and more avenues available to modify the state.
+**The essential reasons**
+- State spans time and space. 
+- The more stateful variables you accumulate, the more possible configurations to consider.
+- The more functions that operate on that state, the more contracts that state must uphold and the more avenues available to modify the state.
 
-The incidental reasons -- state, in modern applications, is duplicated. It lives on the server, on the client through caching, on the client through optimistic updates, spread across multiple devices in various states. State might also be deployed in a polyglot fashion (e.g., live in IndexDB, SQLite, accessed via Swift / TypeScript / Kotlin).
+**The incidental reasons**
+1. State, in modern applications, is duplicated. It lives on the server, on the client through caching, on the client through optimistic updates, spread across multiple devices (mobile, desktop, tablet, etc.) in various states.
+   - These states need to either be consistent or eventually converge to the same value
+2. State might be deployed in a polyglot fashion (e.g., live in `IndexDB`, `SQLite`, or `Postgres`. Accessed via `Swift` / `TypeScript` / `Kotlin` / `Python`), complicating convergence and the preservation of invariants.
+3. State is often encoded via "storage types" rather than "semantic types." E.g., an `ID` is typed as a `string` or `int` rather than `ID_of<User>` or a connection as `List<Post>` rather than `Query<Post>` and timestamps as `ints` rather than `UTCTimestamp<Seconds>`, etc. (see [these are not types](https://tantaman.com/2020-05-19-These-Are-Not-Types.html)).
+4. Valid transitions between states and valid states are not easily expressed.
+5. Observing state changes is not well supported in current programming languages. E.g., programming languages don't have support for committing a transaction to memory and only notifying observers of the change once all variables in the transaction have been updated -- or rolling back the full transaction in the face of a failure. (link to mutation primitives post? clojure?)
+   - Redux, Solidjs, Svelte have mad strides here but they're limited to the UI space
+   - Functional languages side step most of these problems through immutability but open new problems (e.g., updating deeply nested values) in the process (link to your post on identity and [clojure discussion of identity and state](https://clojure.org/about/state))
+6. Schemas that represent state (data) in our application are not shared with schemas that represent it in our logs and/or the data warehouse.
+7. Unnecessary impedence mismatches between in-memory representation of state and on-disk (e.g., in the DB) representation.
+   - Post on "the relational model _is_ the model" / "there is no impedence mismatch, you're just modeling it wrong"
+8. Peers/clients/servers can be operating at different versions while communicating with one another, having different views of what "shape" (schema) the state should have. (datomic?)
 
-The in-between reasons -- privacy? permissions? security? purpose use?
+**In-between reasons** -- In-between reasons are concerns around state (data) that the industry at large does not yet understand as being essential properties of state. These are concerns like: security, permissions, and purpose use.
+- Current best partices focus on "controller level" or "api level" permissions rather than [row level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html).
+  - Controller/api level security is a huge problem in a world of GraphQL apis and the ability to pivot arbitrarily between nodes
+- 
+
+# Solutions
 
 Solving the essential complexity of state management requires being able to clearly specify the requirements on your state. Things like type systems, invariants, allowed mutations, tests, and relational constraints allow us to do this. A human component -- a clear understanding of the problem being solved and how to translate that to types, invariants, tests, & other artifacts -- is also required.
 
-Solving the incidental complexity of state management is something our tooling and infrastructure should be able to do for us. Programmers are tied up in all sorts of incidental complexity that, one day, we'll hopefully no longer have to solve. E.g., how to deploy your code, how to discover services, how to fail over between services, how to decrease load times via server side rendering, how to re-hydrate components on the client, how to cache data for responsiveness, how to not leak memory, how to safely access user provided input, how to share data between threads, how to map in-memory representations of data to storage representations, how to monitor our code once deployed, etc. etc.
+Solving the incidental complexity of state management is something our tooling and infrastructure should do for us.
+As an example, programmers have been tied up in all sorts of incidental complexity (complexity not related to solving the core problem or business needs) which have had various tooling and infrastructure solutions over time to remove this complexity --
 
-But lets constrain ourselves to the incidental complexity involved in state management.
+- Deploying code
+  - Heroku pioneered the simplifications here, setting the standard for the next generation of hosting companies
+- Updating a UI in response to state changes
+  - React showed the way here. That we can render the UI on state change the same way we render it on initial load.
+- Memory management
+  - Garbage collected languages
+  - Rust encoding resource ownership into the type system
+- Back-end-for-front-end
+  - Firebase
+  - Parse
+  - Apollo, Relay, GraphQL
+- Safely sharing data between threads
+  - Akka
+  - Clojure STM
+- Mapping from relational to OO worlds (nit: I think these are largely mistakes -- to be discussed later)
+  - Hibernate
+  - Prisma
+- Building code
+  - Bazel, Vite, Webpack, Gradel, etc.
+- Identity management
+  - OAuth
+  - DID
 
-This complexity exists on a spectrum. On one end we have all state being local to a single process. On the opposite end we have state being distributed across many processes.
+tldr: programming evolves by first being mired in incidental complexity and later having that complexity removed by clever tooling and infrastructure. 
+
+> Some of these abstractions [leak more than others](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) and sometimes "infra claiming to remove complexity" really just moves us backwards and creates more complexity. Remember all the craze over NoSQL? [Relational DBs aren't dinosaurs, they're sharks](https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/). Or the overly zealous push for micro-services everywhere which reached fever pitch with "micro-repositories"?
+
+My claim is that there's no comprehensive solution to removing the incidental complexities bound up in state management. All we have are pieces focused on thin slices of the problem and not applicable across the state distribution spectrum.
+
+# The State Distribution Spectrum
+
+The "state distribution spectrum" refers to how either centralized or distributed some set of state is.
+
+On one end we have all state being local to a single process. On the opposite end we have state being distributed across many processes.
 
 > For simplicity, we'll assume a process is single threaded. I don't think this simplification reduces the generality of the discussion given a process of N threads can be thought of as N processes of one thread -- which is captured by the right hand side of the spectrum.
 
+Why is this important? Because state is moving inexorably further and further to the right hand side of the spectrum and any state management solution must account for this.
+
+# Historical March
+
 Recent history (1990 onward) has seen a consistent march from the left side of the specrtum to the right. (Note: A similar cycle may have already repeated itself in the mainframe era but I'm not familiar with that era.)
 
-- 1990 - Personal computers
-- 1995-2000 - Early Internet
-- 2000-2008 - Web 2.0
-- 2008 - mobile
-- 2010 - single page web applications
-- 2015 - collaborative web & mobile applications
-- 2020 - the world is trying to figure out decentralization (blockchain not a requirement), self custody of data, distributed identity, privacy. I'm verbose here given a single heading/term has yet to surface which clearly and unambiguously captures the current moment. Web3, Web5, dapps are all too loaded, too undefined and too tied to the current crypto bubble.
+- 1990 - Personal computers - all state local to the application and on a single machine.
+- 1995-2000 - Early Internet - all state centralized on the server with a rendered, and thrown away, representation delivered to the client. Updates to state come from the service provider.
+- 2000-2008 - Web 2.0 - all state is still centralized with the service provider. Updates to state now able to come from clients in addition to the service providers. Clients only update objects they own. Two clients rarely ever able to update the same object (row).
+- 2008 - mobile - some state starts to live on device. State sync is managed via the service provider. Accidentally overwriting changes is common.
+- 2010 - single page web applications - web starts getting local storage, local caching of resources in the browser. Looking more like mobile apps and having similar problems.
+- 2015 - collaborative web & mobile applications - Web 2.0 but now multiple clients (writers) can update the same objects at the same time. The majority of state is still server side with thin slices managed on the client.
+- 2020+ - the world is trying to figure out decentralization (blockchain not a requirement), self custody of data, distributed identity and privacy. The majority of state will be on device, a network may consist only of peers rather than clients and service providers, many writers to the same object will be common.
+
+> Note: you're skipping over the details of service provider and distributed systems architecture in these eras. E.g., a single service provider had to manage all of the state problems of 2020 but they were doing it way back in 2000. The time sensitivity was different as the geographical distribution of the networks and was constrained and network links and hardware could be centrally planned. NTP could suffice in some environments. Lamport clocks in others. Strong consensus (e.g., single master and Paxos/Raft) in others. These same strategies, however, break down when the network is ad-hoc and composed of peers with vastly varying levels of connectivity, uptime and resources. Fundamentally new technologies are required for "planet level and ad-hoc (unplanned)" distribution of state.
+
+> Note: a push back would be "do we really need to consider ad-hoc networks and planet level distribution?" We should show how common this is with some basic examples. And maybe some first principles?
 
 
-Let's go through each period to see how state was dealt with and what requirements were added to state over time.
+
+I'm verbose here given a single term has yet to surface which clearly and unambiguously captures the current moment. Web3, Web5, dapps are all too loaded, too undefined and too tied to the current crypto bubble.
 
 
 
@@ -124,3 +185,23 @@ CRDT based state management, where everything is thought of from the perspective
 ---
 
 Web as subscribable and patchable resources?
+
+---
+
+In the UI realm we have:
+- Redux, XState, React Context
+- React/Vue/Solid/Svelte
+
+In the UI-middleware realm we have:
+- GraphQL w/ Apollo & Relay
+- Rest w/ ReactQuery, WunderGraph, TRPC and others
+
+On the server we have:
+- SQL
+- Prisma
+
+For reconciling changes in a distributed system:
+- CRDTs
+- Operational Transform
+- Paxos & Raft (in practical terms, db managed synchronization)
+
