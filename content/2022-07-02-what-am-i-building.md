@@ -1,5 +1,5 @@
 ---
-title: What am I building??
+title: [DRAFT] What am I building??
 tags: [programming]
 ---
 
@@ -52,15 +52,17 @@ State management is always the bane of our existence when writing software.
   - Its also a problem more generally as you can never prove that a row of data is not inappropriately accessed in this controller/api gating model
   - Controller/api gating precludes sharing of state with peers
 
-# Solutions
+When developing solutions to fix state management, the best place to focus is on eliminating incidental complexity and creating supporting infrastructure for the in-between complexity.
 
-Solving the essential complexity of state management requires being able to clearly specify the requirements on your state. Things like type systems, invariants, allowed mutations, tests, and relational constraints allow us to do this. A human component -- a clear understanding of the problem being solved and how to translate that to types, invariants, tests, & other artifacts -- is also required.
+# Why Indicidental Complexity?
 
-Solving the incidental complexity of state management is something our tooling and infrastructure should do for us.
-As an example, programmers have been tied up in all sorts of incidental complexity (complexity not related to solving the core problem or business needs) which have had various tooling and infrastructure solutions over time to remove this complexity --
+Solving the essential complexity of state management requires being able to clearly specify the requirements on your state. A human component -- a clear understanding of the problem being solved and how to translate that to types, invariants, tests, & other artifacts -- is also required. Essential complexity, being essential to the specific problem and requiring specific domain knowledge, will always exist and always require thinking agents to resolve it.
 
-- Deploying code
-  - Heroku pioneered the simplifications here, setting the standard for the next generation of hosting companies
+Solving the incidental complexity of state management is something tooling and infrastructure can and should do for us.
+Programmers have been tied up in all sorts of incidental complexity (complexity not related to solving the core problem or business needs) which have had various tooling and infrastructure solutions created over time to remove this complexity --
+
+- Deploying & running code
+  - Kubernetes, Heroku like "push to deploy" experiences, serverless (e.g., AWS Lambda, Cloudflare workers)
 - Updating a UI in response to state changes
   - React showed the way here. That we can render the UI on state change the same way we render it on initial load.
 - Memory management
@@ -73,7 +75,7 @@ As an example, programmers have been tied up in all sorts of incidental complexi
 - Safely sharing data between threads
   - Akka
   - Clojure STM
-- Mapping from relational to OO worlds (nit: I think these are largely mistakes -- to be discussed later)
+- Mapping from relational to OO worlds (note: I think this is largely a mistake -- to be discussed later)
   - Hibernate
   - Prisma
 - Building code
@@ -82,11 +84,21 @@ As an example, programmers have been tied up in all sorts of incidental complexi
   - OAuth
   - DID
 
-tldr: programming evolves by first being mired in incidental complexity and later having that complexity removed by clever tooling and infrastructure. 
+tldr: programming evolves by first being mired in incidental complexity and later having that complexity removed by clever tooling and infrastructure.  Infrastructure codifies knowledge and uplevels the programmer.
 
 > Some of these abstractions [leak more than others](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) and sometimes "infra claiming to remove complexity" really just moves us backwards and creates more complexity. Remember all the craze over NoSQL? [Relational DBs aren't dinosaurs, they're sharks](https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/). Or the overly zealous push for micro-services everywhere which reached fever pitch with "micro-repositories"?
 
-My claim is that there's no comprehensive solution to removing the incidental complexities bound up in state management. All we have are pieces focused on thin slices of the problem and not applicable across the state distribution spectrum.
+All the incidental complexities involved in state management, listed above (the incidental reasons), can be resolved by addressing a few areas:
+
+- The state distribution spectrum
+- The impedence myth
+- Mismodeling
+  - Storage level, rather than application level, thinking
+  - Becoming more declarative
+
+(where does polyglot fit?)
+
+My claim is that there's no comprehensive solution to removing the incidental complexities bound up in application state management. All we have are pieces focused on thin slices of the problem and not applicable across the state distribution spectrum.
 
 # The State Distribution Spectrum
 
@@ -98,7 +110,7 @@ On one end we have all state being local to a single process. On the opposite en
 
 Why is this important? Because state is moving inexorably further and further to the right hand side of the spectrum and any state management solution must account for this.
 
-# Historical March
+## Historical March
 
 Recent history (1990 onward) has seen a consistent march from the left side of the specrtum to the right. (Note: A similar cycle may have already repeated itself in the mainframe era but I'm not familiar with that era.)
 
@@ -110,15 +122,51 @@ Recent history (1990 onward) has seen a consistent march from the left side of t
 - 2015 - collaborative web & mobile applications - Web 2.0 but now multiple clients (writers) can update the same objects at the same time. The majority of state is still server side with thin slices managed on the client.
 - 2020+ - the world is trying to figure out decentralization (blockchain not a requirement), self custody of data, distributed identity and privacy. The majority of state will be on device, a network may consist only of peers rather than clients and service providers, many writers to the same object will be common.
 
-> Note: you're skipping over the details of service provider and distributed systems architecture in these eras. E.g., a single service provider had to manage all of the state problems of 2020 but they were doing it way back in 2000. The time sensitivity was different as the geographical distribution of the networks and was constrained and network links and hardware could be centrally planned. NTP could suffice in some environments. Lamport clocks in others. Strong consensus (e.g., single master and Paxos/Raft) in others. These same strategies, however, break down when the network is ad-hoc and composed of peers with vastly varying levels of connectivity, uptime and resources. Fundamentally new technologies are required for "planet level and ad-hoc (unplanned)" distribution of state.
+> Note: you're skipping over the details of service provider distributed systems architecture in these eras. E.g., a single service provider had to manage all of the state problems of 2020 but they were doing it way back in 2000. The time sensitivity was different as the geographical distribution of the networks was constrained and network links and hardware could be centrally planned. NTP could suffice in some environments. Lamport clocks in others. Strong consensus (e.g., single master and Paxos/Raft) in others. These same strategies, however, break down when the network is ad-hoc and composed of peers with vastly varying levels of connectivity, uptime and resources. Fundamentally new technologies are required for "planet level and ad-hoc" distribution of state.
 
 > Note: a push back would be "do we really need to consider ad-hoc networks and planet level distribution?" We should show how common this is with some basic examples. And maybe some first principles?
 
-# Theses
+## Distributed State Theses
 
-Software is only getting more distributed, more collaborative and more peer oriented (you haven't really validated the peer claim through anything above). A state management solution thus must be distributed, collaborative and peer2peer.
+1. Software is only getting more distributed, more collaborative and more peer oriented. A state management solution must thus be distributed, collaborative and peer 2 peer.
 
-Given a solution that exists fully on the right hand side of the spectrum is more powerful than one on the left, being distributed and peer2peer does not preclude the solution from being used to model simpler state requirements. Note: but does it make it harder for the simple case? I think not. We'll have to validate this.
+2. Given a solution that exists fully on the right hand side of the spectrum is more powerful than one on the left, being distributed and peer2peer does not preclude the solution from being used to model simpler state requirements.
+
+3. If the system is designed right, modeling and supporting simpler state requirements is no harder than it would be in a system designed only to target those simpler requirements.
+
+# The Impedence Myth
+
+We've been under a false impression that there is an impedence mismatch between how data is modeled in a normalized relational database and how it is modeled in memory. Great pains are taken to convert the relational model to an "object oriented model",  resulting in a total loss of valuable information.
+
+We have so many problems keeping application state consistent in memory, vastly fewer problems keeping it consistent in our relational databases.
+
+Why? The relational model helps us keep things consistent --
+
+1. Is normalized, removing duplication of data and thus removing data consistency problems
+2. Does not conflate edges & relations with collections
+3. Supports transactions. Allowing us to mutate an entire set of values or none of them at all.
+4. Enforces constraints. Uniqueness, foreign key constraints, cascading deletes, etc.
+
+We're doing ourselves a diservice by abandoning these features after loading data into memory.
+
+When interacting with state in memory we must be able to:
+
+1. Keep our state normalized. Only one copy of an object of a given identity.
+2. Wrap state updates in transactions and roll those transactions back if they cannot be fully applied.
+3. Differentiate between a collection (List/Array) and an edge.
+4. Support cascading deletes
+
+The in-memory model should match the relational model. The schemas should be the same.
+
+## SQL, Data Loading & the source of the myth
+
+Graph is the common ancestor. In-memory we traverse records like a graph. Relationally, we do the same but SQL obscures this.
+
+# Mismodeling
+
+# Use Cases
+
+
 
 # How?
 
