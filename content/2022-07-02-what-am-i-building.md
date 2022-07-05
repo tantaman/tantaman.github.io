@@ -95,6 +95,7 @@ All the incidental complexities involved in state management, listed above (the 
 - Mismodeling
   - Storage level, rather than application level, thinking
   - Becoming more declarative
+  - Modeling and performing mutations
 
 (where does polyglot fit?)
 
@@ -136,7 +137,7 @@ Recent history (1990 onward) has seen a consistent march from the left side of t
 
 # The Impedence Myth
 
-We've been under a false impression that there is an impedence mismatch between how data is modeled in a normalized relational database and how it is modeled in memory. Great pains are taken to convert the relational model to an "object oriented model",  resulting in a total loss of valuable information.
+We've been under a false impression that there is an impedance mismatch between how data is modeled in a normalized relational database and how it is modeled in memory. Great pains are taken to convert the relational model to an "object oriented model",  resulting in a total loss of valuable information.
 
 We have so many problems keeping application state consistent in memory, vastly fewer problems keeping it consistent in our relational databases.
 
@@ -156,13 +157,100 @@ When interacting with state in memory we must be able to:
 3. Differentiate between a collection (List/Array) and an edge.
 4. Support cascading deletes
 
-The in-memory model should match the relational model. The schemas should be the same.
+If we've decided that the relational model is best for handling many readers and writers, persisting state over long periods of time, holding invariants and preventing corruption, why not use it in-memory as well?
+
+Lastly, the format of the in-memory model should match the relational model. The schemas should be the same.
 
 ## SQL, Data Loading & the source of the myth
 
-Graph is the common ancestor. In-memory we traverse records like a graph. Relationally, we do the same but SQL obscures this.
+The source of the impedance is data loading and `SQL`. `SQL` is simply not designed to express the sorts of data traversals that are common in the application layer.
+
+When working with structures in memory, we traverse our data like it is a graph.
+
+E.g., user -> posts -> comments
+```javascript
+user.getPosts().flatMap(f => f.getComments());
+```
+
+Where as in SQL this is very cumbersome --
+```sql
+SELECT comment.* FROM user JOIN post on post.authorId = user.id JOIN comment on comment.postId = post.id WHERE user.id = $uid
+```
+
+In SQL we traverse our data through joins, building up one large table to be filtered down to the expected rows.
+
+Luckily, a relational traversal can be expressed as a graph traversal and a graph traversal as relational. The first step in getting rid of the impedence mismatch is a matter of allowing us to traverse relational data as a graph.
+
+Post traversal, we come to data loading. When it comes to data loading, objects should not aggregate multiple tables but instead represent a single row in a single table. Aggregation of many rows from many tables into a single object happens today because edges (relations) are not first class citizens in the application layers. Edges are instead hidden and conflated with pointers or collections.
+
+## Surfacing Edges
+
+Returning to the first example --
+
+```javascript
+user.getPosts().flatMap(f => f.getComments());
+```
+
+There's a problem with this. `getPosts` implies that the in-memory representation of a user looks like a nested document.
+
+E.g.,
+
+```javascript
+user: {
+  name: "Brian",
+  email: "foo@bar.com",
+  posts: [
+    {
+      title: "x",
+      date: "2022-05-05",
+      content: "...",
+    },
+    ...
+  ]
+}
+```
+
+But that's wrong. `posts` could be huge and the collection would not contain all posts in those cases. `posts` could also be empty (or not present) if you decided to only query the user rather than the user and their posts. `Posts` being represented as a collection (like an array) hides this fact and _creates_ an impedance mismatch where there need not be one.
+
+Edges, rather than being represented in memory as pointers (for 1-1 edges) or collections (for 1-n edges), should be represented as first class types.
+
+Elevating edges to be first class citizens, rather than conflated with collections, looks like --
+
+```typescript
+type User = {
+  name: string;
+  email: string;
+  posts(): PostQuery;
+}
+
+type PostQuery = {
+  queryComments(): CommentQuery;
+
+  after(cursor: string): PostQuery;
+  take(n: number): PostQuery;
+  gen(): Post[];
+};
+
+type CommentQuery = {
+  after(cursor: string): CommentQuery;
+  take(n: number): CommentQuery;
+  gen(): Comment[];
+}
+```
+
+which means your API becomes explicit as to where edges exist and what you can do with them.
+
+```javascript
+user.queryPosts().queryComments();
+```
 
 # Mismodeling
+
+
+
+- normalized cache
+- txs --- what functional is really approximating (txs bc state must eventually be written)
+
 
 # Use Cases
 
