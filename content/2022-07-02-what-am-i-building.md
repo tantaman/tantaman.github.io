@@ -49,7 +49,8 @@ State management is always the bane of our existence when writing software.
 **In-between reasons** -- In-between reasons are concerns around state (data) that the industry at large does not yet understand as being essential properties of state. These are concerns like: security, permissions, and purpose use.
 - Current best partices focus on "controller level" or "api level" permissions rather than [row level security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html).
   - Controller/api level security is a huge problem in a world of GraphQL apis and the ability to pivot arbitrarily between nodes
-- 
+  - Its also a problem more generally as you can never prove that a row of data is not inappropriately accessed in this controller/api gating model
+  - Controller/api gating precludes sharing of state with peers
 
 # Solutions
 
@@ -113,7 +114,17 @@ Recent history (1990 onward) has seen a consistent march from the left side of t
 
 > Note: a push back would be "do we really need to consider ad-hoc networks and planet level distribution?" We should show how common this is with some basic examples. And maybe some first principles?
 
+# Theses
 
+Software is only getting more distributed, more collaborative and more peer oriented (you haven't really validated the peer claim through anything above). A state management solution thus must be distributed, collaborative and peer2peer.
+
+Given a solution that exists fully on the right hand side of the spectrum is more powerful than one on the left, being distributed and peer2peer does not preclude the solution from being used to model simpler state requirements. Note: but does it make it harder for the simple case? I think not. We'll have to validate this.
+
+# How?
+
+
+
+---
 
 I'm verbose here given a single term has yet to surface which clearly and unambiguously captures the current moment. Web3, Web5, dapps are all too loaded, too undefined and too tied to the current crypto bubble.
 
