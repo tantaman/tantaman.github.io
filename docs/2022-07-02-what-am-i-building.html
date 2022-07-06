@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>[DRAFT] What am I building?? - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="What is Aphrodite and what am I aiming to accomplish by building it? To simplify application development. The hardest thing in application develpoment being state management so first and foremost
+
+To fix state management.
+
+And a little more specific
+
+To…">
+<meta name="keywords" content="programming, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="[DRAFT] What am I building??">
+<meta property="og:description" content="What is Aphrodite and what am I aiming to accomplish by building it? To simplify application development. The hardest thing in application develpoment being state management so first and foremost
+
+To fix state management.
+
+And a little more specific
+
+To…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="programming">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="13-20 minutes">
+</head>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>[DRAFT] What am I building??</h1><span class="published subtext">Published 2022-07-02</span>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#state">State!</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#why-indicidental-complexity">Why Indicidental Complexity?</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-state-distribution-spectrum">The State Distribution Spectrum</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#historical-march">Historical March</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#distributed-state-theses">Distributed State Theses</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-impedence-myth">The Impedence Myth</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#sql-data-loading--the-source-of-the-myth">SQL, Data Loading &#x26; the source of the myth</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#surfacing-edges">Surfacing Edges</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#mismodeling">Mismodeling</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#use-cases">Use Cases</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#how">How?</a></li></ol></nav><p>What is <a href="aphrodite.sh">Aphrodite</a> and what am I aiming to accomplish by building it?</p>
+<p>To simplify application development. The hardest thing in application develpoment being state management so first and foremost</p>
+<blockquote>
+<p>To fix state management.</p>
+</blockquote>
+<p>And a little more specific</p>
+<blockquote>
+<p>To remove incidental complexity from state management for modern applications.</p>
+</blockquote>
+<p>And even more specific, but which is a non-obvious statement at the outset,</p>
+<blockquote>
+<p>To make peer-2-peer &#x26; offline-first software as easy to develop as traditional client-server software.</p>
+</blockquote>
+<p>This statement is the conclusion of analyzing the complexities involved in state management, current software trends, and which state models are most flexible, below.</p>
+<p>On to state --</p>
+<h1 id="state"><a aria-hidden="true" tabindex="-1" href="#state"><span class="icon icon-link"></span></a>State!</h1>
+<p>State management is always the bane of our existence when writing software.</p>
+<p><em>Why?</em></p>
+<p><strong>The essential reasons</strong></p>
+<ul>
+<li>State spans time and space.</li>
+<li>The more stateful variables you accumulate, the more possible configurations to consider.</li>
+<li>The more functions that operate on that state, the more contracts that state must uphold and the more avenues available to modify the state.</li>
+</ul>
+<p><strong>The incidental reasons</strong></p>
+<ol>
+<li>State, in modern applications, is duplicated. It lives on the server, on the client through caching, on the client through optimistic updates, spread across multiple devices (mobile, desktop, tablet, etc.) in various states.
+<ul>
+<li>These states need to either be consistent or eventually converge to the same value</li>
+</ul>
+</li>
+<li>State might be deployed in a polyglot fashion (e.g., live in <code>IndexDB</code>, <code>SQLite</code>, or <code>Postgres</code>. Accessed via <code>Swift</code> / <code>TypeScript</code> / <code>Kotlin</code> / <code>Python</code>), complicating convergence and the preservation of invariants.</li>
+<li>State is often encoded via "storage types" rather than "semantic types." E.g., an <code>ID</code> is typed as a <code>string</code> or <code>int</code> rather than <code>ID_of&#x3C;User></code> or a connection as <code>List&#x3C;Post></code> rather than <code>Query&#x3C;Post></code> and timestamps as <code>ints</code> rather than <code>UTCTimestamp&#x3C;Seconds></code>, etc. (see <a href="https://tantaman.com/2020-05-19-These-Are-Not-Types.html">these are not types</a>).</li>
+<li>Valid transitions between states and valid states are not easily expressed.</li>
+<li>Observing state changes is not well supported in current programming languages. E.g., programming languages don't have support for committing a transaction to memory and only notifying observers of the change once all variables in the transaction have been updated -- or rolling back the full transaction in the face of a failure. (link to mutation primitives post? clojure?)
+<ul>
+<li>Redux, Solidjs, Svelte have mad strides here but they're limited to the UI space</li>
+<li>Functional languages side step most of these problems through immutability but open new problems (e.g., updating deeply nested values) in the process (link to your post on identity and <a href="https://clojure.org/about/state">clojure discussion of identity and state</a>)</li>
+</ul>
+</li>
+<li>Schemas that represent state (data) in our application are not shared with schemas that represent it in our logs and/or the data warehouse.</li>
+<li>Unnecessary impedence mismatches between in-memory representation of state and on-disk (e.g., in the DB) representation.
+<ul>
+<li>Post on "the relational model <em>is</em> the model" / "there is no impedence mismatch, you're just modeling it wrong"</li>
+</ul>
+</li>
+<li>Peers/clients/servers can be operating at different versions while communicating with one another, having different views of what "shape" (schema) the state should have. (datomic?)</li>
+</ol>
+<p><strong>In-between reasons</strong> -- In-between reasons are concerns around state (data) that the industry at large does not yet understand as being essential properties of state. These are concerns like: security, permissions, and purpose use.</p>
+<ul>
+<li>Current best partices focus on "controller level" or "api level" permissions rather than <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">row level security</a>.
+<ul>
+<li>Controller/api level security is a huge problem in a world of GraphQL apis and the ability to pivot arbitrarily between nodes</li>
+<li>Its also a problem more generally as you can never prove that a row of data is not inappropriately accessed in this controller/api gating model</li>
+<li>Controller/api gating precludes sharing of state with peers</li>
+</ul>
+</li>
+</ul>
+<p>When developing solutions to fix state management, the best place to focus is on eliminating incidental complexity and creating supporting infrastructure for the in-between complexity.</p>
+<h1 id="why-indicidental-complexity"><a aria-hidden="true" tabindex="-1" href="#why-indicidental-complexity"><span class="icon icon-link"></span></a>Why Indicidental Complexity?</h1>
+<p>Solving the essential complexity of state management requires being able to clearly specify the requirements on your state. A human component -- a clear understanding of the problem being solved and how to translate that to types, invariants, tests, &#x26; other artifacts -- is also required. Essential complexity, being essential to the specific problem and requiring specific domain knowledge, will always exist and always require thinking agents to resolve it.</p>
+<p>Solving the incidental complexity of state management is something tooling and infrastructure can and should do for us.
+Programmers have been tied up in all sorts of incidental complexity (complexity not related to solving the core problem or business needs) which have had various tooling and infrastructure solutions created over time to remove this complexity --</p>
+<ul>
+<li>Deploying &#x26; running code
+<ul>
+<li>Kubernetes, Heroku like "push to deploy" experiences, serverless (e.g., AWS Lambda, Cloudflare workers)</li>
+</ul>
+</li>
+<li>Updating a UI in response to state changes
+<ul>
+<li>React showed the way here. That we can render the UI on state change the same way we render it on initial load.</li>
+</ul>
+</li>
+<li>Memory management
+<ul>
+<li>Garbage collected languages</li>
+<li>Rust encoding resource ownership into the type system</li>
+</ul>
+</li>
+<li>Back-end-for-front-end
+<ul>
+<li>Firebase</li>
+<li>Parse</li>
+<li>Apollo, Relay, GraphQL</li>
+</ul>
+</li>
+<li>Safely sharing data between threads
+<ul>
+<li>Akka</li>
+<li>Clojure STM</li>
+</ul>
+</li>
+<li>Mapping from relational to OO worlds (note: I think this is largely a mistake -- to be discussed later)
+<ul>
+<li>Hibernate</li>
+<li>Prisma</li>
+</ul>
+</li>
+<li>Building code
+<ul>
+<li>Bazel, Vite, Webpack, Gradel, etc.</li>
+</ul>
+</li>
+<li>Identity management
+<ul>
+<li>OAuth</li>
+<li>DID</li>
+</ul>
+</li>
+</ul>
+<p>tldr: programming evolves by first being mired in incidental complexity and later having that complexity removed by clever tooling and infrastructure.  Infrastructure codifies knowledge and uplevels the programmer.</p>
+<blockquote>
+<p>Some of these abstractions <a href="https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/">leak more than others</a> and sometimes "infra claiming to remove complexity" really just moves us backwards and creates more complexity. Remember all the craze over NoSQL? <a href="https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/">Relational DBs aren't dinosaurs, they're sharks</a>. Or the overly zealous push for micro-services everywhere which reached fever pitch with "micro-repositories"?</p>
+</blockquote>
+<p>All the incidental complexities involved in state management, listed above (the incidental reasons), can be resolved by addressing a few areas:</p>
+<ul>
+<li>The state distribution spectrum</li>
+<li>The impedence myth</li>
+<li>Mismodeling
+<ul>
+<li>Storage level, rather than application level, thinking</li>
+<li>Becoming more declarative</li>
+<li>Modeling and performing mutations</li>
+</ul>
+</li>
+</ul>
+<p>(where does polyglot fit?)</p>
+<p>My claim is that there's no comprehensive solution to removing the incidental complexities bound up in application state management. All we have are pieces focused on thin slices of the problem and not applicable across the state distribution spectrum.</p>
+<h1 id="the-state-distribution-spectrum"><a aria-hidden="true" tabindex="-1" href="#the-state-distribution-spectrum"><span class="icon icon-link"></span></a>The State Distribution Spectrum</h1>
+<p>The "state distribution spectrum" refers to how either centralized or distributed some set of state is.</p>
+<p>On one end we have all state being local to a single process. On the opposite end we have state being distributed across many processes.</p>
+<blockquote>
+<p>For simplicity, we'll assume a process is single threaded. I don't think this simplification reduces the generality of the discussion given a process of N threads can be thought of as N processes of one thread -- which is captured by the right hand side of the spectrum.</p>
+</blockquote>
+<p>Why is this important? Because state is moving inexorably further and further to the right hand side of the spectrum and any state management solution must account for this.</p>
+<h2 id="historical-march"><a aria-hidden="true" tabindex="-1" href="#historical-march"><span class="icon icon-link"></span></a>Historical March</h2>
+<p>Recent history (1990 onward) has seen a consistent march from the left side of the specrtum to the right. (Note: A similar cycle may have already repeated itself in the mainframe era but I'm not familiar with that era.)</p>
+<ul>
+<li>1990 - Personal computers - all state local to the application and on a single machine.</li>
+<li>1995-2000 - Early Internet - all state centralized on the server with a rendered, and thrown away, representation delivered to the client. Updates to state come from the service provider.</li>
+<li>2000-2008 - Web 2.0 - all state is still centralized with the service provider. Updates to state now able to come from clients in addition to the service providers. Clients only update objects they own. Two clients rarely ever able to update the same object (row).</li>
+<li>2008 - mobile - some state starts to live on device. State sync is managed via the service provider. Accidentally overwriting changes is common.</li>
+<li>2010 - single page web applications - web starts getting local storage, local caching of resources in the browser. Looking more like mobile apps and having similar problems.</li>
+<li>2015 - collaborative web &#x26; mobile applications - Web 2.0 but now multiple clients (writers) can update the same objects at the same time. The majority of state is still server side with thin slices managed on the client.</li>
+<li>2020+ - the world is trying to figure out decentralization (blockchain not a requirement), self custody of data, distributed identity and privacy. The majority of state will be on device, a network may consist only of peers rather than clients and service providers, many writers to the same object will be common.</li>
+</ul>
+<blockquote>
+<p>Note: you're skipping over the details of service provider distributed systems architecture in these eras. E.g., a single service provider had to manage all of the state problems of 2020 but they were doing it way back in 2000. The time sensitivity was different as the geographical distribution of the networks was constrained and network links and hardware could be centrally planned. NTP could suffice in some environments. Lamport clocks in others. Strong consensus (e.g., single master and Paxos/Raft) in others. These same strategies, however, break down when the network is ad-hoc and composed of peers with vastly varying levels of connectivity, uptime and resources. Fundamentally new technologies are required for "planet level and ad-hoc" distribution of state.</p>
+</blockquote>
+<blockquote>
+<p>Note: a push back would be "do we really need to consider ad-hoc networks and planet level distribution?" We should show how common this is with some basic examples. And maybe some first principles?</p>
+</blockquote>
+<h2 id="distributed-state-theses"><a aria-hidden="true" tabindex="-1" href="#distributed-state-theses"><span class="icon icon-link"></span></a>Distributed State Theses</h2>
+<ol>
+<li>
+<p>Software is only getting more distributed, more collaborative and more peer oriented. A state management solution must thus be distributed, collaborative and peer 2 peer.</p>
+</li>
+<li>
+<p>Given a solution that exists fully on the right hand side of the spectrum is more powerful than one on the left, being distributed and peer2peer does not preclude the solution from being used to model simpler state requirements.</p>
+</li>
+<li>
+<p>If the system is designed right, modeling and supporting simpler state requirements is no harder than it would be in a system designed only to target those simpler requirements.</p>
+</li>
+</ol>
+<h1 id="the-impedence-myth"><a aria-hidden="true" tabindex="-1" href="#the-impedence-myth"><span class="icon icon-link"></span></a>The Impedence Myth</h1>
+<p>We've been under a false impression that there is an impedance mismatch between how data is modeled in a normalized relational database and how it is modeled in memory. Great pains are taken to convert the relational model to an "object oriented model",  resulting in a total loss of valuable information.</p>
+<p>We have so many problems keeping application state consistent in memory, vastly fewer problems keeping it consistent in our relational databases.</p>
+<p>Why? The relational model helps us keep things consistent --</p>
+<ol>
+<li>Is normalized, removing duplication of data and thus removing data consistency problems</li>
+<li>Does not conflate edges &#x26; relations with collections</li>
+<li>Supports transactions. Allowing us to mutate an entire set of values or none of them at all.</li>
+<li>Enforces constraints. Uniqueness, foreign key constraints, cascading deletes, etc.</li>
+</ol>
+<p>We're doing ourselves a diservice by abandoning these features after loading data into memory.</p>
+<p>When interacting with state in memory we must be able to:</p>
+<ol>
+<li>Keep our state normalized. Only one copy of an object of a given identity.</li>
+<li>Wrap state updates in transactions and roll those transactions back if they cannot be fully applied.</li>
+<li>Differentiate between a collection (List/Array) and an edge.</li>
+<li>Support cascading deletes</li>
+</ol>
+<p>If we've decided that the relational model is best for handling many readers and writers, persisting state over long periods of time, holding invariants and preventing corruption, why not use it in-memory as well?</p>
+<p>Lastly, the format of the in-memory model should match the relational model. The schemas should be the same.</p>
+<h2 id="sql-data-loading--the-source-of-the-myth"><a aria-hidden="true" tabindex="-1" href="#sql-data-loading--the-source-of-the-myth"><span class="icon icon-link"></span></a>SQL, Data Loading &#x26; the source of the myth</h2>
+<p>The source of the impedance is data loading and <code>SQL</code>. <code>SQL</code> is simply not designed to express the sorts of data traversals that are common in the application layer.</p>
+<p>When working with structures in memory, we traverse our data like it is a graph.</p>
+<p>E.g., user -> posts -> comments</p>
+<pre><code class="hljs language-javascript">user.<span class="hljs-title function_">getPosts</span>().<span class="hljs-title function_">flatMap</span>(<span class="hljs-function"><span class="hljs-params">f</span> =></span> f.<span class="hljs-title function_">getComments</span>());
+</code></pre>
+<p>Where as in SQL this is very cumbersome --</p>
+<pre><code class="hljs language-sql"><span class="hljs-keyword">SELECT</span> comment.<span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">JOIN</span> post <span class="hljs-keyword">on</span> post.authorId <span class="hljs-operator">=</span> user.id <span class="hljs-keyword">JOIN</span> comment <span class="hljs-keyword">on</span> comment.postId <span class="hljs-operator">=</span> post.id <span class="hljs-keyword">WHERE</span> user.id <span class="hljs-operator">=</span> $uid
+</code></pre>
+<p>In SQL we traverse our data through joins, building up one large table to be filtered down to the expected rows.</p>
+<p>Luckily, a relational traversal can be expressed as a graph traversal and a graph traversal as relational. The first step in getting rid of the impedence mismatch is a matter of allowing us to traverse relational data as a graph.</p>
+<p>Post traversal, we come to data loading. When it comes to data loading, objects should not aggregate multiple tables but instead represent a single row in a single table. Aggregation of many rows from many tables into a single object happens today because edges (relations) are not first class citizens in the application layers. Edges are instead hidden and conflated with pointers or collections.</p>
+<h2 id="surfacing-edges"><a aria-hidden="true" tabindex="-1" href="#surfacing-edges"><span class="icon icon-link"></span></a>Surfacing Edges</h2>
+<p>Returning to the first example --</p>
+<pre><code class="hljs language-javascript">user.<span class="hljs-title function_">getPosts</span>().<span class="hljs-title function_">flatMap</span>(<span class="hljs-function"><span class="hljs-params">f</span> =></span> f.<span class="hljs-title function_">getComments</span>());
+</code></pre>
+<p>There's a problem with this. <code>getPosts</code> implies that the in-memory representation of a user looks like a nested document.</p>
+<p>E.g.,</p>
+<pre><code class="hljs language-javascript"><span class="hljs-attr">user</span>: {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">"Brian"</span>,
+  <span class="hljs-attr">email</span>: <span class="hljs-string">"foo@bar.com"</span>,
+  <span class="hljs-attr">posts</span>: [
+    {
+      <span class="hljs-attr">title</span>: <span class="hljs-string">"x"</span>,
+      <span class="hljs-attr">date</span>: <span class="hljs-string">"2022-05-05"</span>,
+      <span class="hljs-attr">content</span>: <span class="hljs-string">"..."</span>,
+    },
+    ...
+  ]
+}
+</code></pre>
+<p>But that's wrong. <code>posts</code> could be huge and the collection would not contain all posts in those cases. <code>posts</code> could also be empty (or not present) if you decided to only query the user rather than the user and their posts. <code>Posts</code> being represented as a collection (like an array) hides this fact and <em>creates</em> an impedance mismatch where there need not be one.</p>
+<p>Edges, rather than being represented in memory as pointers (for 1-1 edges) or collections (for 1-n edges), should be represented as first class types.</p>
+<p>Elevating edges to be first class citizens, rather than conflated with collections, looks like --</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">User</span> = {
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-title function_">posts</span>(): <span class="hljs-title class_">PostQuery</span>;
+}
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">PostQuery</span> = {
+  <span class="hljs-title function_">queryComments</span>(): <span class="hljs-title class_">CommentQuery</span>;
+
+  <span class="hljs-title function_">after</span>(<span class="hljs-attr">cursor</span>: <span class="hljs-built_in">string</span>): <span class="hljs-title class_">PostQuery</span>;
+  <span class="hljs-title function_">take</span>(<span class="hljs-attr">n</span>: <span class="hljs-built_in">number</span>): <span class="hljs-title class_">PostQuery</span>;
+  <span class="hljs-title function_">gen</span>(): <span class="hljs-title class_">Post</span>[];
+};
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">CommentQuery</span> = {
+  <span class="hljs-title function_">after</span>(<span class="hljs-attr">cursor</span>: <span class="hljs-built_in">string</span>): <span class="hljs-title class_">CommentQuery</span>;
+  <span class="hljs-title function_">take</span>(<span class="hljs-attr">n</span>: <span class="hljs-built_in">number</span>): <span class="hljs-title class_">CommentQuery</span>;
+  <span class="hljs-title function_">gen</span>(): <span class="hljs-title class_">Comment</span>[];
+}
+</code></pre>
+<p>which means your API becomes explicit as to where edges exist and what you can do with them.</p>
+<pre><code class="hljs language-javascript">user.<span class="hljs-title function_">queryPosts</span>().<span class="hljs-title function_">queryComments</span>();
+</code></pre>
+<h1 id="mismodeling"><a aria-hidden="true" tabindex="-1" href="#mismodeling"><span class="icon icon-link"></span></a>Mismodeling</h1>
+<ul>
+<li>normalized cache</li>
+<li>txs --- what functional is really approximating (txs bc state must eventually be written)</li>
+</ul>
+<h1 id="use-cases"><a aria-hidden="true" tabindex="-1" href="#use-cases"><span class="icon icon-link"></span></a>Use Cases</h1>
+<h1 id="how"><a aria-hidden="true" tabindex="-1" href="#how"><span class="icon icon-link"></span></a>How?</h1>
+<hr>
+<p>I'm verbose here given a single term has yet to surface which clearly and unambiguously captures the current moment. Web3, Web5, dapps are all too loaded, too undefined and too tied to the current crypto bubble.</p>
+<p>is x-state worth mentioning?</p>
+<p>and how its gotten more tied up in incidental complexity now.</p>
+<p>These can be declared in a schema that describes our state.</p>
+<p>, it controls how our program will respond to future inputs and if it drifts into unexpected territory it makes our programs behave incorrectly.</p>
+<p>Because state represents the outcome of our programs. Its the final goal and if it is wrong the program is wrong.</p>
+<p>Client-server &#x26; (consensus driven?) single master state problems:</p>
+<p>Myriad types of state due to incidental details</p>
+<ol>
+<li>Server managed state
+<ul>
+<li>Things like account credentials, for centralized apps (e.g., facebook) the state posts, status updates, etc.</li>
+</ul>
+</li>
+<li>Client managed state
+<ul>
+<li>Things local only to the client. Preferences or settings of the app in the app and not shared outside the app.</li>
+</ul>
+</li>
+<li>Server managed state cached on the client
+<ul>
+<li>This is just server managed state but cached in the client for faster response times</li>
+</ul>
+</li>
+<li>Server managed state, optimistically updated in the client
+<ul>
+<li>Very similar to (3) but the client can mutate this state too</li>
+</ul>
+</li>
+<li>Single client managed state backed up on a server</li>
+<li>Many client managed state backed up on a server</li>
+</ol>
+<p>^-- This generalizes to:<br/></p>
+<ol>
+<li>Single server</li>
+<li>Single master/writer &#x26; writes replicated to others (effectively caching)</li>
+<li>(2) with optimistic updates (effectively write through caching)</li>
+</ol>
+<p>There's N more options missing but lets consider these 5 first. These exist on a spectrum. On the one side we have everything managed by the server and all updates to and reads of the state require round trips to the server.</p>
+<p>This side of the spectrum was web development in the 90s when there was no dynamicism on the client. You requested a page, the server loaded everything it needed from the database, rendered the page and furnished you with a response.</p>
+<p>Centralized consensus managed state vs decentralized strongly convergent state.</p>
+<p>Local/client only state problems:</p>
+<ol>
+<li>Seeing transient/partial updates</li>
+<li>Invariants being violated after mutation(s)</li>
+<li>Observing a mutation while in-flight and thus acting on malformed domain model (basically restating 1 &#x26; 2)</li>
+<li>Reacting to changes / knowing about changes</li>
+<li>Memory leaks once reacting to changes is introduced</li>
+<li>Modeling a state machine (e.g., screens, routers, x-state)</li>
+</ol>
+<hr>
+<p>Relational model as <em>the</em> model. No more impedence mismatch.
+Get our:</p>
+<ul>
+<li>transactions against domain model</li>
+<li>foreign key constraints (cascading deletes)</li>
+<li>row level privacy</li>
+<li>query language</li>
+<li>etc</li>
+</ul>
+<hr>
+<p>What Svelte and Solid are <em>trying</em> to do but missing. Domain model needs to express this stuff not component state.</p>
+<hr>
+<p>CRDT based state management, where everything is thought of from the perspective of client first, is a revolution in web development.</p>
+<hr>
+<p>Web as subscribable and patchable resources?</p>
+<hr>
+<p>In the UI realm we have:</p>
+<ul>
+<li>Redux, XState, React Context</li>
+<li>React/Vue/Solid/Svelte</li>
+</ul>
+<p>In the UI-middleware realm we have:</p>
+<ul>
+<li>GraphQL w/ Apollo &#x26; Relay</li>
+<li>Rest w/ ReactQuery, WunderGraph, TRPC and others</li>
+</ul>
+<p>On the server we have:</p>
+<ul>
+<li>SQL</li>
+<li>Prisma</li>
+</ul>
+<p>For reconciling changes in a distributed system:</p>
+<ul>
+<li>CRDTs</li>
+<li>Operational Transform</li>
+<li>Paxos &#x26; Raft (in practical terms, db managed synchronization)</li>
+</ul>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
