@@ -30,16 +30,17 @@ I.e.,
 
 ```javascript
 class UserQuery implements Query {
-  sourceQuery: Query;
-  expression: Expression | null;
-  ...
+  constructor(
+    private sourceQuery: Query,
+    private expression: Expression | null,
+  ) {}
 
   queryPhotos() {
-    return new PhotoQuery(this);
+    return new PhotoQuery(this, null);
   }
 
   whereName(predicate) {
-    return new UserQuery(this, predicate)
+    return new UserQuery(this, new FilterExpression(predicate));
   }
 }
 ```
@@ -60,11 +61,9 @@ The first node in the list represents the last query builder method that was inv
 
 Walking the linked list to the end will get you to the root that starts the query.
 
-Running each node in the list from the end back to the start will run the full query. In reality, however, we convert the query to a `plan` and optimize the `plan` before running it. See [Query Planning](./2022-05-26-query-planning).
+Running each node in the list from the end back to the start will run the full query. In practice, however, we convert the query to a `plan` and optimize the `plan` before running it. See [Query Planning](./2022-05-26-query-planning).
 
-In reality, the above structure is actually a bit more complicated but this is the basic idea.
-
-A more faithful representation of what is created by the query builder API in reality is reproduced below.
+The above structure shows the basic idea but a more faithful representation of what is created by the query builder API is reproduced below.
 
 <center>
   <Mermaid

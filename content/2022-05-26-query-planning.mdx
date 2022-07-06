@@ -10,7 +10,7 @@ import Mermaid from '/dist/components/Mermaid.js';
 
 Previously we discussed the [query builder](./2022-05-26-query-builder).
 
-To recap, when a user interacts with the query builder a linked list of queries is built up behind the scenes. This list of queries holds a reference to the prior query and an expression to apply. Wehn taking this list together as a whole, it represents the user's desired final query.
+To recap, when a user interacts with the query builder a linked list of queries is built up behind the scenes. Eaech query in the list holds a reference to the prior query and an expression to apply. When taking this list together as a whole, it represents the user's desired final query.
 
 E.g., invoking the query builder like this
 

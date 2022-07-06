@@ -104,21 +104,15 @@ function MDXContent(props = {}) {
             className: "hljs-title class_",
             children: "Query"
           }), " {\n  ", _jsx(_components.span, {
-            className: "hljs-attr",
-            children: "sourceQuery"
-          }), ": ", _jsx(_components.span, {
-            className: "hljs-title class_",
-            children: "Query"
-          }), ";\n  ", _jsx(_components.span, {
-            className: "hljs-attr",
-            children: "expression"
-          }), ": ", _jsx(_components.span, {
-            className: "hljs-title class_",
-            children: "Expression"
-          }), " | ", _jsx(_components.span, {
-            className: "hljs-literal",
-            children: "null"
-          }), ";\n  ...\n\n  ", _jsx(_components.span, {
+            className: "hljs-title function_",
+            children: "constructor"
+          }), "(", _jsxs(_components.span, {
+            className: "hljs-params",
+            children: ["\n    private sourceQuery: Query,\n    private expression: Expression | ", _jsx(_components.span, {
+              className: "hljs-literal",
+              children: "null"
+            }), ",\n  "]
+          }), ") {}\n\n  ", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "queryPhotos"
           }), "(", _jsx(_components.span, {
@@ -135,6 +129,9 @@ function MDXContent(props = {}) {
           }), "(", _jsx(_components.span, {
             className: "hljs-variable language_",
             children: "this"
+          }), ", ", _jsx(_components.span, {
+            className: "hljs-literal",
+            children: "null"
           }), ");\n  }\n\n  ", _jsx(_components.span, {
             className: "hljs-title function_",
             children: "whereName"
@@ -153,7 +150,13 @@ function MDXContent(props = {}) {
           }), "(", _jsx(_components.span, {
             className: "hljs-variable language_",
             children: "this"
-          }), ", predicate)\n  }\n}\n"]
+          }), ", ", _jsx(_components.span, {
+            className: "hljs-keyword",
+            children: "new"
+          }), " ", _jsx(_components.span, {
+            className: "hljs-title class_",
+            children: "FilterExpression"
+          }), "(predicate));\n  }\n}\n"]
         })
       }), "\n", _jsx(_components.p, {
         children: "This forms a linked list which represents all the invocations made against the query builder, creating a structure that looks like:"
@@ -174,7 +177,7 @@ PhotoQueryF --> PhotoQuery`
       }), "\n", _jsx(_components.p, {
         children: "Walking the linked list to the end will get you to the root that starts the query."
       }), "\n", _jsxs(_components.p, {
-        children: ["Running each node in the list from the end back to the start will run the full query. In reality, however, we convert the query to a ", _jsx(_components.code, {
+        children: ["Running each node in the list from the end back to the start will run the full query. In practice, however, we convert the query to a ", _jsx(_components.code, {
           children: "plan"
         }), " and optimize the ", _jsx(_components.code, {
           children: "plan"
@@ -183,9 +186,7 @@ PhotoQueryF --> PhotoQuery`
           children: "Query Planning"
         }), "."]
       }), "\n", _jsx(_components.p, {
-        children: "In reality, the above structure is actually a bit more complicated but this is the basic idea."
-      }), "\n", _jsx(_components.p, {
-        children: "A more faithful representation of what is created by the query builder API in reality is reproduced below."
+        children: "The above structure shows the basic idea but a more faithful representation of what is created by the query builder API is reproduced below."
       }), "\n", _jsx("center", {
         children: _jsx(Mermaid, {
           id: "two",
