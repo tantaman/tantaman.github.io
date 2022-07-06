@@ -87,7 +87,7 @@ function MDXContent(props = {}) {
           children: "query builder"
         }), "."]
       }), "\n", _jsx(_components.p, {
-        children: "To recap, when a user interacts with the query builder a linked list of queries is built up behind the scenes. This list of queries holds a reference to the prior query and an expression to apply. Wehn taking this list together as a whole, it represents the user's desired final query."
+        children: "To recap, when a user interacts with the query builder a linked list of queries is built up behind the scenes. Eaech query in the list holds a reference to the prior query and an expression to apply. When taking this list together as a whole, it represents the user's desired final query."
       }), "\n", _jsx(_components.p, {
         children: "E.g., invoking the query builder like this"
       }), "\n", _jsx(_components.pre, {
