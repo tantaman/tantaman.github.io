@@ -5,9 +5,11 @@ tags: [programming]
 
 > part of a series as I think through problems related to deploying https://aphrodite.sh/ in real world apps
 
-In a local/offline-first world, how do we query for (and keep up to date) the data needed by our app? The answers differ based on where on the spectrum your state needs sit.
+In a local/offline-first world, how do we query for (and keep up to date) the data needed by our app? The answers differ based on where on the **state plane** your state needs sit.
 
 ![state spectrum](./blog-assets/local-first-querying/spectrum.png)
+<center><i>State plane</i></center>
+<br/>
 
 **Bottom left** - All of the data is local and the are no peers to collaborate with. Here we can use traditional methods such as saving data in a db or in the filesystem & querying it with SQL or filesystem operations. Data is always up to date given there are no changes to bring in from peers. Example here being the `TextEdit` app on MacOS or `Notepad` on Windows.
 
@@ -69,54 +71,71 @@ The other area where you hit problems, even in the hierarchical model, is if col
 
 # Querying Slices
 
-We've established the need for slices of data, when that need occurs and that slices are expressed via queries.
+We've established the need for slices of data, when that need occurs, and that slices are expressed via queries.
 
 So:
-1. How does a query for a slice get fulfilled in a local-first architecture
-2. How does that query receive updates
+1. How does a query for a slice get fulfilled in a local-first architecture?
+2. Once it is fulfilled, how do we keep the queried data up to date?
 
- Once we do fetch a slice, how do we keep that slice up to date?
+# Fulfilling Queries in a Local/Offline-First Architecture
 
-In traditional client-server software this is mostly straightforward. The client application establishes a websocket connection to the service over which updates to their queried data are streamed.
+Fulfilling queries hits another fork in the road. This decision is driven by your location in the state plane as well as by subjective design choices.
 
+The problem is this:
+1. Do you assume that your local state provides an authoritative answer, allowing the application to continue one the query is resolved locally?
+2. Do you assume that your local state is not authoritative and you must receive a response from all peers before loading is complete?
 
-We'll ignore the problems of massive scale (e.g., FAANG) but the solutions applied internally to services to support massive scale 
+Case (2) is, imo, only viable in client-server architectures and is the standard in online-first software or very small and highly available peer groups.
 
-For reference, we'll imagine a distributed social app used by an organization of ~1k users.
+We'll move forward with choice (1). The immediate consequence of this is that all queries _must_ be reactive queries. If you've queried you local dataset and not waited for peers, you likely have incomplete data and can have data that flows in from peers later. Thus the query must be able to be subscribed to so the application can respond as new data arrives from peers.
 
-The model above can get us pretty far (how far?) but we run into problems if we want to do things like
-- fetch the latest 20 comments
-- search across all wiki pages
+E.g., in a react world this would look something like:
+```jsx
+function TaskList() {
+  const todos = useLiveQuery(() => organization.queryTasks().whereAssignee(me));
+  return <ol>{todos.map(t => <li>{t}</li>)}</ol>;
+}
+```
 
+The `UX` would be such that the task list may initially be empty for a new client but slowly fill as peers weigh in with their state. Peer syncing status could potentially be surfaced but `UX` concerns are out of scope for this post.
 
-E.g., a group has thousands of posts and we only want to load the first 10 on the client or only posts with a given tag.
+The other consequence of choice (1) is that it lends itself nicely to a layered architecture.
 
-# Client-Server, Offline-First, Local Slices
+**Thesis 4:** local/offline-first software should treat queries resolved by the local dataset as authoritative and allow the application to proceed rather than blocking and awaiting more data from peers. This requires reactive queries.
 
+# Query Architecture -- Layering
 
+Given we can assume that the local response is authoritative and allows the application to continue executing we can abstract away peer syncing details from the application layer.
 
-# Many Peers, Local Slices
+![layering](./blog-assets/local-first-querying/layering.png)
 
-For reference, we'll imagine a distributed social app used by an organization of ~1k users.
+1. The application layer issues queries to the local data layer.
+2. The local data layer immediately fulfills the application's query with what is available
+3. Local data layer gives a representation of the queries to the network layer
+4. Networking layer subscribes to peers with those queries
+5. Peers execute queries and fulfill them where possible
 
-Slide authoring software? Inventory management? Social app?
+> (4) is another interesting design choice and is about how reactive we'd like to be. E.g., the queries can cease being reactive once they've received one set of updates from all peers or they can continue being reactive until the connection is terminated. We'll assume that the latter route is taken. The former is problematic from a perspective of staying up to date.
 
-There's two factors to consider in this quadrant:
-1. Is the set of documents known such that we can simply subscribe to documents directly?
-2. Are the "unbounded" connections?
+(4) & (5) get into fanout issues, whether or not the requesting node needs the data being returned or already has it.
 
-Case (1) is pretty straightforward
-1. The data model is sliced up into manageable docs
-2. The application only subscribes to docs it currently cares about
+> What about filters? Peers at different states will return different datasets and different orderings. We should presumably be able to resolve this on the node that receives the response by running merge algorithms?
 
-If any doc has an unbounded connection to some other set of docs, however, we start to run into issues. E.g., a group has thousands of posts and we only want to load the first 10 on the client or only posts with a given tag.
+Before answering those questions we need to detour into the duality of a query.
 
+# Query Duality
 
+Query duality? Wtf?
 
-# Transparency & Layering
+Queries have two natures.
 
-# Polyglot
+Query vs node subscriptions
 
-## DB support?
+# Fanout
 
-reMarkable-2.12.2.251
+# What results to exclude? include? Versioning?
+Versioning? Hasing of ids?
+
+# Individual Node Subscriptions??
+
+# Models -- authoritative sources
