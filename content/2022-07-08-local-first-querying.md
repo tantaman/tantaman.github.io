@@ -3,9 +3,11 @@ title: Local First Query Design
 tags: [programming]
 ---
 
+> part of a series as I think through problems related to deploying https://aphrodite.sh/ in real world apps
+
 In a local/offline-first world, how do we query for (and keep up to date) the data needed by our app? The answers differ based on where on the spectrum your state needs sit.
 
-![state spectrum](../docs/blog-assets/local-first-querying/spectrum.png)
+![state spectrum](./blog-assets/local-first-querying/spectrum.png)
 
 **Bottom left** - All of the data is local and the are no peers to collaborate with. Here we can use traditional methods such as saving data in a db or in the filesystem & querying it with SQL or filesystem operations. Data is always up to date given there are no changes to bring in from peers. Example here being the `TextEdit` app on MacOS or `Notepad` on Windows.
 
@@ -24,7 +26,7 @@ An example here being a p2p social app. Smaller scale examples would be perf opt
 
 > Note: traditional client-server software is only included for illustrative purposes. It doesn't belong in the chart given its sychronization protocol is that of a single master (the service provider) arbitrating changes.
 
-- **Thesis 1:** the green cases are all already solved or easily solved. 
+- **Thesis 1:** the green cases are all already solved or easily solved. I think this is self evident but please note where you disagree.
 - **Assumption 1:** the top right corner is the most generic case and solutions for that can support all other cases.
 - **Assumption 2:** using solutions for the top right to solve for all areas is no more complex than using solutions dedicated to those areas
 
@@ -39,30 +41,46 @@ There's two factors to consider when thinking over local slices.
 2. Is data non hierarchichal or accessed in non-hierarchical ways?
 
 Case (1) is pretty straightforward to solve
-1. Slice the data model up into manageable docs
-2. The application only subscribes to the subset of docs it currently cares about
+1. Slice the data model up into manageable documents
+2. The application only subscribes to the subset of documents it currently cares about
 
-Examples being --
+Examples of this method in practice are --
 
 - Filesystem / DropBox like apps. Each folder can be a doc the contents of which is an index (the file names) of what is in the folder. The client only fetches and subscribes to the folders and documents they have open. For folders with thousands of items will only be tens of KBs. Updates to those docs will be small deltas.
 - Wikis and Blogs. For the blog case -- open a post you're interested in, download it, model comments as a field nested on the post, subscribe to the post to receive new comments and post edits.
 
-**Thesis 2:** local slices of state is a trivial problem when the data is hierarchichal and accessed in a hierarchichal way.
+**Thesis 2:** Local slices of state is a trivial problem when the data is hierarchichal, accessed in a hierarchichal way and collections within a node are bounded. <br/>
+**Rationale:** This is the case since the application data is nicely partitioned into manageable chunks as illustrated by the prior examples.
 
-You start to run into problems as soon as you want to access the data in a non-hierarchichal way. E.g., if you want to implement a feed of comments or search and interact with blocks in something like a set of Notion docs.
+You start to run into problems as soon as you want to access the data in a non-hierarchichal way. E.g., if you want to implement a feed of comments or search and interact with the blocks (e.g., tables & paragraphs) across all documents.
 
-![state spectrum](../docs/blog-assets/local-first-querying/comment-search.png)
-![state spectrum](../docs/blog-assets/local-first-querying/block-search.png)
+![comment feed](./blog-assets/local-first-querying/comment-search.png)
+*Comment feed*
 
-The other area where you hit problems, even in the hierarchical model, is if connections are unbounded. E.g., a filesystem folder with hundreds of thousands of documents. A 100k item list at 22 characters per file name would be 2mb to transit. 
+![block search](./blog-assets/local-first-querying/block-search.png)
+*Block search w/ interactive editing*
 
-If there are unbounded connections or we try to start to normalize our data to build more complex features we run into issues.
+The other area where you hit problems, even in the hierarchical model, is if collections are very large or unbounded. E.g., a filesystem folder with hundreds of thousands of documents. A 100k item list at 20 characters per file name would be 2MB to transit. It is unlikely the client wants all of this data -- probably just the first few items like the 10 newest files. And once we've filtered it, we still want updates in case a newer file is created.
 
-## Unbounded Connections
+**Thesis 3:** Non-hierarchical data access and unbounded collections require query (e.g., filter, sort, limit & cursoring) support. <br/>
+**Rationale:** This is the case since the client can only interact with this type of data by fetching a subset of it. Fetching a subset of data requires being able to specify the subset in abstract terms which is (by definition) a query.
+
+> Note: non-hierarchichal access is a special case of unbounded collections in a hierarchy. E.g., data access from an abstract root node to which all other nodes are connected.
+
+# Querying Slices
+
+We've established the need for slices of data, when that need occurs and that slices are expressed via queries.
+
+So:
+1. How does a query for a slice get fulfilled in a local-first architecture
+2. How does that query receive updates
+
+ Once we do fetch a slice, how do we keep that slice up to date?
+
+In traditional client-server software this is mostly straightforward. The client application establishes a websocket connection to the service over which updates to their queried data are streamed.
 
 
-
-## Normalizing
+We'll ignore the problems of massive scale (e.g., FAANG) but the solutions applied internally to services to support massive scale 
 
 For reference, we'll imagine a distributed social app used by an organization of ~1k users.
 
