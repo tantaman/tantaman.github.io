@@ -24,11 +24,11 @@ An example here being a p2p social app. Smaller scale examples would be perf opt
 
 > Note: traditional client-server software is only included for illustrative purposes. It doesn't belong in the chart given its sychronization protocol is that of a single master (the service provider) arbitrating changes.
 
-- Claim 1: the green cases are all already solved or easily solved. 
-- Assumption 1: the top right corner is the most generic case and solutions for that can support all other cases.
-- Assumption 2: using solutions for the top right to solve for all areas is no more complex than using solutions dedicated to those areas
+- **Thesis 1:** the green cases are all already solved or easily solved. 
+- **Assumption 1:** the top right corner is the most generic case and solutions for that can support all other cases.
+- **Assumption 2:** using solutions for the top right to solve for all areas is no more complex than using solutions dedicated to those areas
 
-Given claim 1, we'll focus only on the orange and red cases.
+Given **thesis 1**, we'll focus only on the orange and red cases.
 
 What both cases have in common are that the clients can only keep local slices of data.
 
@@ -47,9 +47,14 @@ Examples being --
 - Filesystem / DropBox like apps. Each folder can be a doc the contents of which is an index (the file names) of what is in the folder. The client only fetches and subscribes to the folders and documents they have open. For folders with thousands of items will only be tens of KBs. Updates to those docs will be small deltas.
 - Wikis and Blogs. For the blog case -- open a post you're interested in, download it, model comments as a field nested on the post, subscribe to the post to receive new comments and post edits.
 
-Thesis 1: local slices of state is a trivial problem when the data is hierarchichal and accessed in a hierarchichal way.
+**Thesis 2:** local slices of state is a trivial problem when the data is hierarchichal and accessed in a hierarchichal way.
 
-You start to run into problems as soon as you want to access the data in a non-hierarchichal way. If you want to implement a feed of comments or search and interact with all blocks (like tables) in something like a notion doc that match a given criteria.
+You start to run into problems as soon as you want to access the data in a non-hierarchichal way. E.g., if you want to implement a feed of comments or search and interact with blocks in something like a set of Notion docs.
+
+![state spectrum](../docs/blog-assets/local-first-querying/comment-search.png)
+![state spectrum](../docs/blog-assets/local-first-querying/block-search.png)
+
+The other area where you hit problems, even in the hierarchical model, is if connections are unbounded. E.g., a filesystem folder with hundreds of thousands of documents. A 100k item list at 22 characters per file name would be 2mb to transit. 
 
 If there are unbounded connections or we try to start to normalize our data to build more complex features we run into issues.
 
