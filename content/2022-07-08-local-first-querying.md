@@ -5,34 +5,53 @@ tags: [programming]
 
 In a local/offline-first world, how do we query for (and keep up to date) the data needed by our app? The answers differ based on where on the spectrum your state needs sit.
 
-On one side, all of the data is local and the are no peers to collaborate with. Here we can use traditional methods such as saving data in a db & querying it with SQL. Data is always up to date given there are no changes to bring in from peers.
+![state spectrum](../docs/blog-assets/local-first-querying/spectrum.png)
 
-On another side, the entire dataset fits on each peer but there are many peers to collaborate with. Queries can still be fully resolved against the local dataset. The local dataset is subscribed to any and all changes from all peers so it stays up to date.
+**Bottom left** - all of the data is local and the are no peers to collaborate with. Here we can use traditional methods such as saving data in a db or in the filesystem & querying it with SQL or filesystem operations. Data is always up to date given there are no changes to bring in from peers. Example here being the `TextEdit` app on MacOS or `Notepad` on Windows.
 
-Briefly -- traditional client-server apps fit in this spectrum. In this case there are two "peers": the service provider and the client. Clients don't interact directly -- instead are abstracted away by the service provider. Slices of data are loaded from the service provider into the client app & updates are received via subscriptions. GraphQL, Apollo, Rest, long polling, websockets, etc. all exist as solutions here.
+**Top left** - the entire dataset fits on each peer but there are many peers to collaborate with. Queries can still be fully resolved against the local dataset. The local dataset is subscribed to all changes from all peers so it stays up to date. Examples here being a yjs doc, google doc, excalidraw drawing.
 
-On the most difficult end
-- Many peers exists and collaborate with one another
-- The total dataset is too large to fit locally or too write heavy to subscribe to all changes
+**Bottom right** -
+Traditional client-server apps fit here. In this case there are two "peers": the service provider and the client. Clients don't interact directly -- instead are abstracted away by the service provider. Slices of data are loaded from the service provider into the client app & updates are received via subscriptions. The "local" data is also only a cache and can be blown away at any point by an update from the service which is the authoritative source.
+
+Very similar to traditional client-server apps, we have offline-first client-server apps. This is the same as the client-server case but the big difference is that the local data is no longer seen as simply a cache but as an authoritative source of information. The client can function and modify data while offline. This "functioning offline" means that queries are considered fulfilled even if they're only fulfilled from local data and do not include server sent data.
+
+**Top right** - in the most difficult quadrant, we have the case where
+- Many peers exists and collaborate directly with one another
+- The total dataset is too large to fit on one peer or too write heavy for a peer to subscribe to all changes
 
 An example here being a p2p social app. Smaller scale examples would be perf optimizations where you shouldn't receive updates to things you're not interacting with.
 
-![state spectrum](../docs/blog-assets/local-first-querying/spectrum.png)
+> Note: traditional client-server software is only included for illustrative purposes. It doesn't belong in the chart given its sychronization protocol is that of a single master (the service provider) arbitrating changes.
 
-- Claim 1: the first 3 cases are all already solved or easily solved.
+- Claim 1: the green cases are all already solved or easily solved. 
 - Assumption 1: the top right corner is the most generic case and solutions for that can support all other cases.
 - Assumption 2: using solutions for the top right to solve for all areas is no more complex than using solutions dedicated to those areas
 
-Given claim 1, we'll focus only on the top right corner: only slices of data are local & many peers.
+Given claim 1, we'll focus only on the orange and red cases.
+
+# Client-Server Offline-First
 
 # Many Peers, Local Slices
 
+For reference, we'll imagine a distributed social app used by an organization of ~1k users.
 
+Slide authoring software? Inventory management? Social app?
 
-# Layering
-
-There's two factors to consider on this side:
+There's two factors to consider in this quadrant:
 1. Is the set of documents known such that we can simply subscribe to documents directly?
 2. Are the "unbounded" connections?
 
+Case (1) is pretty straightforward
+1. The data model is sliced up into manageable docs
+2. The application only subscribes to docs it currently cares about
 
+If any doc has an unbounded connection to some other set of docs, however, we start to run into issues. E.g., a group has thousands of posts and we only want to load the first 10 on the client or only posts with a given tag.
+
+
+
+# Transparency & Layering
+
+# Polyglot
+
+## DB support?
