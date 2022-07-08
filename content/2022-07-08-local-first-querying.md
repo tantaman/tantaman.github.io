@@ -103,7 +103,7 @@ The other consequence of choice (1) is that it lends itself nicely to a layered 
 
 **Thesis 4:** local/offline-first software should treat queries resolved by the local dataset as authoritative and allow the application to proceed rather than blocking and awaiting more data from peers. This requires reactive queries.
 
-# Query Architecture -- Layering
+# Layered Application Architecture
 
 Given we can assume that the local response is authoritative and allows the application to continue executing we can abstract away peer syncing details from the application layer.
 
@@ -117,21 +117,27 @@ Given we can assume that the local response is authoritative and allows the appl
 
 > (4) is another interesting design choice and is about how reactive we'd like to be. E.g., the queries can cease being reactive once they've received one set of updates from all peers or they can continue being reactive until the connection is terminated. We'll assume that the latter route is taken. The former is problematic from a perspective of staying up to date.
 
-(4) & (5) get into fanout issues, whether or not the requesting node needs the data being returned or already has it.
+(4) & (5) get into fanout issues, whether or not the requesting peer needs the data being returned or already has it.
 
-> What about filters? Peers at different states will return different datasets and different orderings. We should presumably be able to resolve this on the node that receives the response by running merge algorithms?
+> What about filters? Peers at different states will return different datasets and different orderings. We should presumably be able to resolve this on the peer that receives the response by running merge algorithms?
 
-Before answering those questions we need to detour into the duality of a query.
+# Node Duality
 
-# Query Duality
+Nodes are dual in that they have two forms of identity
+1. Nominal identity. E.g., unique id.
+2. Physical identity. E.g., the values of all the properties of the node.
 
-Query duality? Wtf?
+When binding to a query, we should only bind at the level of being aware of the nominal identities, and their order, in the query result. We should not bind to the returned nodes themselves. Binding to the nodes themselves leads to over-subscribing to updates that may not be required by the application.
 
-Queries have two natures.
+If the application desires keeping an up to date picture of the nodes that were returned by the query, it should bind to them each in turn.
 
-Query vs node subscriptions
+The means that syncing, in addition to passing queries, requires passing node ids that represent that set of data a peer wants to keep up to date.
 
-# Fanout
+Given node ids are passed around, peers will understand what nodes other peers already have (-ish. unsubscribed query result nodes...). This allows peers to understand whether or not they need to return query results. This, however, does not solve the fanout problem(s).
+
+This also means we should consider our choice of id formats. How many nodes might we be requesting data for? Is it worth chosing a format for ids that can compress?
+
+# Fanout & Peer Selection
 
 # What results to exclude? include? Versioning?
 Versioning? Hasing of ids?
