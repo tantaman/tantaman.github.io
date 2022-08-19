@@ -7,7 +7,7 @@ tags: [programming]
 
 In a local/offline-first world, how do we query for (and keep up to date) the data needed by our app? The answers differ based on where on the **state plane** your state needs sit.
 
-![state spectrum](./blog-assets/local-first-querying/spectrum.png)
+![state spectrum](./blog-assets/local-first-querying/spectrum2.png)
 <center><i>State plane</i></center>
 <br/>
 
@@ -16,9 +16,7 @@ In a local/offline-first world, how do we query for (and keep up to date) the da
 **Top left** - the entire dataset fits on each peer but there are many peers to collaborate with. Queries can still be fully resolved against the local dataset. The local dataset is subscribed to all changes from all peers so it stays up to date. Examples here being a yjs doc, google doc, excalidraw drawing.
 
 **Bottom right** -
-Traditional client-server apps fit here. In this case there are two "peers": the service provider and the client. Clients don't interact directly -- instead are abstracted away by the service provider. Slices of data are loaded from the service provider into the client app & updates are received via subscriptions. The "local" data is also only a cache and can be blown away at any point by an update from the service which is the authoritative source.
-
-Very similar to traditional client-server apps, we have offline-first client-server apps. This is the same as the client-server case but the big difference is that the local data is no longer seen as simply a cache but as an authoritative source of information. The client can function and modify data while offline. This "functioning offline" means that queries are considered fulfilled even if they're only fulfilled from local data and do not include server sent data. There are two sides to this: all state can be sent to the client or only slices of state can be sent to the client.
+Very similar to traditional client-server apps, we have offline-first client-server apps. This is the same as the client-server case but the big difference is that the local data is no longer seen as simply a cache but as an authoritative source. The client can function and modify data while offline. This "functioning offline" means that queries are considered fulfilled even if they're only fulfilled from local data and do not include server sent data.
 
 **Top right** - in the most difficult quadrant, we have the case where
 - Many peers exists and collaborate directly with one another
@@ -117,29 +115,42 @@ Given we can assume that the local response is authoritative and allows the appl
 
 > (4) is another interesting design choice and is about how reactive we'd like to be. E.g., the queries can cease being reactive once they've received one set of updates from all peers or they can continue being reactive until the connection is terminated. We'll assume that the latter route is taken. The former is problematic from a perspective of staying up to date.
 
-(4) & (5) get into fanout issues, whether or not the requesting peer needs the data being returned or already has it.
+Different peers may have different perspectives on the answer to a query. One way of thinking about this is that since CRDTs should eventually converge we can take all the answers, merge them locally, then re-run the query against the combined local dataset. This would be problematic, however, if we are not actually fetching down the field we're filtering against such as in the case that fetching those fields is expensive. Another way to look at it is that, since we're subscribed to the query, as peers start to converge they'll provide us with new answers to the query over time and their answers will start to converge.
 
-> What about filters? Peers at different states will return different datasets and different orderings. We should presumably be able to resolve this on the peer that receives the response by running merge algorithms?
+**Assumption 3:** having inconsistent answers to a query is acceptable. (are there bounds on this inconsistency?).
 
-# Node Duality
+(4) & (5) get into fanout issues (do we issue a query to _all_ peers?) and whether or not the requesting peer needs the data of another peer or already has it.
 
-Nodes are dual in that they have two forms of identity
-1. Nominal identity. E.g., unique id.
-2. Physical identity. E.g., the values of all the properties of the node.
+Lets first look at query results.
 
-When binding to a query, we should only bind at the level of being aware of the nominal identities, and their order, in the query result. We should not bind to the returned nodes themselves. Binding to the nodes themselves leads to over-subscribing to updates that may not be required by the application.
+# Query Results
 
-If the application desires keeping an up to date picture of the nodes that were returned by the query, it should bind to them each in turn.
+As mentioned earlier, query results may not contain the fields queried against. Rows returned from a query could be at two extremes:
 
-The means that syncing, in addition to passing queries, requires passing node ids that represent that set of data a peer wants to keep up to date.
+1. Just the row id returned
+2. Entire row is returned
 
-Given node ids are passed around, peers will understand what nodes other peers already have (-ish. unsubscribed query result nodes...). This allows peers to understand whether or not they need to return query results. This, however, does not solve the fanout problem(s).
+In the mininmal case, query results from peers should be unioned. This could cause inclusion of deleted rows.
 
-This also means we should consider our choice of id formats. How many nodes might we be requesting data for? Is it worth chosing a format for ids that can compress?
+On the other extreme, the full row is fetched. In this case, the requesting peer can merge the rows locally and fulfill the query from its local database.
+
+All instances in between "minimal" and "full" fetch should be treated as minimal fetches.
+
+Minimal / partial fetching brings us to another question: do we not bind to the returned rows in a query so we can receive updates to those rows? 
+
+# Binding to Queries
+
+When binding to a query, we should only bind at the level of being aware of row ids, and their order, in the query result. We should not bind to the returned rows themselves. Binding to the rows themselves leads to over-binding and receiving updates that may not be required by the application.
+
+If the application desires to keep an up to date picture of all rows returned by a query, it should bind to them each in turn.
+
+The means that syncing, in addition to passing queries, requires passing rows ids that represent that set of specific rows a peer wants to keep up to date.
+
+> Do we want to allow "partial subscriptions"? E.g., subscribe to X,Y,Z columns on row N?
 
 # Fanout & Peer Selection
 
-# What results to exclude? include? Versioning?
+# What data to return
 Versioning? Hasing of ids?
 
 # Individual Node Subscriptions??
