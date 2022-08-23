@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why SQLite? Why Now? - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="I&#x27;ve been sucked down a sqlite rabbithole and I&#x27;m all-in on it. So why SQLite? And why now?
+
+For me, its about a bunch of different angles
+
+Enabling the relational model for more use casesRespecting the consistency needs of dataBreaking the speed of…">
+<meta name="keywords" content="programming, edge, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Why SQLite? Why Now?">
+<meta property="og:description" content="I&#x27;ve been sucked down a sqlite rabbithole and I&#x27;m all-in on it. So why SQLite? And why now?
+
+For me, its about a bunch of different angles
+
+Enabling the relational model for more use casesRespecting the consistency needs of dataBreaking the speed of…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="programming">
+<meta property="article:tag" content="edge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="8-13 minutes">
+</head>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Why SQLite? Why Now?</h1><span class="published subtext">Published 2022-08-23</span>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#enabling-the-relational-model-for-more-use-cases">Enabling the Relational Model for More Use Cases</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#respecting-the-consistency-needs-of-the-data">Respecting the Consistency Needs of the Data</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#breaking-the-speed-of-light">Breaking the Speed of Light</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#turning-edge-architecture-upside-down-">Turning Edge Architecture Upside Down 🙃</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#local-first-paradigm">Local-First Paradigm</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#simpler-architecture">Simpler Architecture</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#lower-cloud-costs">Lower Cloud Costs</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#data-custody">Data Custody</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#transaction-support">Transaction Support</a></li></ol></nav><p>I've been sucked down a <code>sqlite</code> rabbithole and I'm all-in on it.</p>
+<p>So why <code>SQLite</code>? And why now?</p>
+<p>For me, its about a bunch of different angles</p>
+<ol>
+<li>Enabling the relational model for more use cases</li>
+<li>Respecting the consistency needs of data</li>
+<li>Breaking the speed of light</li>
+<li>Simplifying edge architecture by turning it upside down</li>
+<li>Reducing cloud costs</li>
+<li>Giving people control of their data</li>
+<li>Bringing transactions to application memory</li>
+</ol>
+<p>Let's take a look at each one.</p>
+<h1 id="enabling-the-relational-model-for-more-use-cases"><a aria-hidden="true" tabindex="-1" href="#enabling-the-relational-model-for-more-use-cases"><span class="icon icon-link"></span></a>Enabling the Relational Model for More Use Cases</h1>
+<p>The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing application state. Maybe you could even say <a href="https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/">it is an apex predator</a>.</p>
+<p>That being said, relational databases are firmly on the CA side of CAP. In the face of a network partition, they sacrafice all availability.</p>
+<p>Wouldn't it be great if we could use our relational databases even in cases of prolonged network partitions?</p>
+<p><a href="https://github.com/tantaman/conflict-free-sqlite">With a few tweaks</a> we can add an eventually consistent layer atop relational databases that can stay available in the face of network partitions. This means</p>
+<ul>
+<li>We can suddenly use <code>SQLite</code> for peer to peer applications.</li>
+<li>That we can have a multi-master relationship between our server and client.</li>
+<li>We can allow clients to make arbitrary changes to their local database and merge changes to, or from, the server (or other peers) at some arbitrary point in time in the future</li>
+</ul>
+<p>This is very appealing to me where I have many applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use. It is also convenient that this can be built atop existing technologies and my existing storage solution rather than requiring me to bring in something new.</p>
+<p>All of this relies on eventual consistency and thus begs the question of what data consistency needs data actually has.</p>
+<h1 id="respecting-the-consistency-needs-of-the-data"><a aria-hidden="true" tabindex="-1" href="#respecting-the-consistency-needs-of-the-data"><span class="icon icon-link"></span></a>Respecting the Consistency Needs of the Data</h1>
+<p><img src="./blog-assets/why-sqlite/respect.jpeg" alt="respect"></p>
+<p>The lack of options in the relational model has locked us into not thinking about what level of data consistency we actually need. As such, in traditional web applications all changes go through a central service and are generally strongly consistent. In this realtional + client-server paradigm, we don't even reach for eventual consistency until we run into performance, availability or scaling problems.</p>
+<p>This has blinded us to the fact that large swaths of state do not ever need to go through a central server or need strong consistency.</p>
+<p>User registration certainly does need strong consistency -- you don't want two users claiming the same handle. But does</p>
+<ul>
+<li>Working on anything that is private to the individual user?</li>
+<li>Working on anything (e.g., a post) that is private until published?</li>
+<li>Upvoting a comment?</li>
+<li>Adding an item to a shopping cart?</li>
+</ul>
+<p>By unlocking eventually consistent options atop the relational model, we give developers the ability to model all of their data in a familiar way and with the consistency options that make sense rather than just those that are at hand.</p>
+<p>The lack of options for eventual consistency and state distribution has put us down a path of default strong consistency and client-server architecture that is</p>
+<ul>
+<li>Expensive</li>
+<li>Complex</li>
+<li>Incompatible with distributed and edge computing</li>
+<li>Has hard speed limits</li>
+<li>Precludes self-custody of data</li>
+</ul>
+<p>This is being revealed in ever more painful detail today as we try to fit the square peg of strong consistency &#x26; client-server models into the round hole that is distributed &#x26; edge computing in an attempt to overcome the speed of light.</p>
+<h1 id="breaking-the-speed-of-light"><a aria-hidden="true" tabindex="-1" href="#breaking-the-speed-of-light"><span class="icon icon-link"></span></a>Breaking the Speed of Light</h1>
+<p><img src="./blog-assets/why-sqlite/light.jpeg" alt="light"></p>
+<p>For applications that require a server for a large percentage of their interactions (e.g., to ensure strong consistency of writes), the speed of light becomes quite problematic.</p>
+<p>Checking our <a href="https://github.com/sirupsen/napkin-math">napkin math</a> we can see that</p>
+<ul>
+<li>NA East &#x3C;-> West takes <strong>60ms</strong></li>
+<li>EU West &#x3C;-> NA East takes <strong>80ms</strong></li>
+<li>NA West &#x3C;-> Singapore takes <strong>180ms</strong></li>
+<li>EU West &#x3C;-> Singapore takes <strong>160ms</strong></li>
+</ul>
+<p>two sequential round trips from <code>NA West</code> to <code>Singapore</code> will get you almost half a second of delay.</p>
+<p>In the "strongly consistent, client-server paradigm" (from now on called "the paradigm"), the path of resolving this roughly goes as follows:</p>
+<ol>
+<li>Bundle resources (js, css, html, etc.)</li>
+<li>Add a CDN</li>
+<li>Add application servers in more regions</li>
+<li>Do server side rendering</li>
+<li>Add read replicas of the database to new regions</li>
+<li>Add optimistic writes to the application</li>
+<li>Shard the database, putting masters of given replicasets closer to certain users</li>
+<li>Put some low-value code into edge functions</li>
+<li>?</li>
+</ol>
+<p>This is a lot of work and a lot of moving parts just to shorten the lenght of and reduce the number of round trips. A lot of work just solving incidental rather than essential complexity. Yeah, the work delivers business value by making your app faster but the work isn't tied to the business's core mission or competency.</p>
+<p>My 8th statement might raise some eyebrows. "Low value code." I say this because the example use cases for edge functions <a href="https://www.netlify.com/blog/edge-functions-explained/#example-edge-functions-use-cases">certainly aren't very compelling</a>.</p>
+<p>Sure you can throw all of your business logic into the edge but that probably won't behave as you expect (to be seen later).</p>
+<p>The complexity of scaling "the paradigm" and the lack of compelling edge compute use cases for apps architected under "the paradigm" points to the fact that we've hit the limits of "the paradigm." "The paradigm" isn't ready for and was never made for edge computing.</p>
+<h1 id="turning-edge-architecture-upside-down-"><a aria-hidden="true" tabindex="-1" href="#turning-edge-architecture-upside-down-"><span class="icon icon-link"></span></a>Turning Edge Architecture Upside Down 🙃</h1>
+<p>As we've seen, the fundamental goal of edge computing is to increase the speed of applications by moving compute &#x26; state closer to users. Similar to a CDN but also drastically <strong>not</strong> similar <strong>at all</strong> to a CDN. Moving compute and state is just not the same problem as moving static resources and caching responses.</p>
+<p>E.g., if you deploy data-reliant application logic to <em>Singapore</em> but leave your database in <em>Ohio</em> you're probably going to have a really bad time. Those <code>Sing. -> Ohio</code> round trips for each DB call will be way worse than the single <code>user -> Ohio</code> round trip that you would have had previously had you kept the application colocated with the database. Static resources and cached data don't have behavior so placing copies of them everywhere only has upside.</p>
+<p>Current edge architectures, being beholden to "the paradigm", are an attempt to solve new problems by applying old patterns.</p>
+<p>What if we flipped everything on its head?</p>
+<p><img src="./blog-assets/why-sqlite/blue-idea.jpg" alt="blue-idea"></p>
+<p>What if, instead of always assuming that the server is the authortative source, we assumed that the user's local device is the authoritative source of information for that user?</p>
+<h1 id="local-first-paradigm"><a aria-hidden="true" tabindex="-1" href="#local-first-paradigm"><span class="icon icon-link"></span></a>Local-First Paradigm</h1>
+<p>In this world, all requests for state are immediately resolved on-device. The default deployment surface for compute (logic, code) is also on-device.</p>
+<p>In the local-first paradigm, the default consistency mode is eventual consistency. This means that state and compute can naturally exist at the edge and are only brought to the "center" when there is a need for strong consistency.</p>
+<p>In other words, the common case is edge computing. The specialized case is centralized computing.</p>
+<p>If you want your app to seamlessly run at the edge, you need to switch paradigms.</p>
+<p><code>sqlite</code> is a great fit for all of this.</p>
+<ul>
+<li>Developers are familiar with SQL</li>
+<li>SQL has stood the test of time (40+ years)</li>
+<li>SQL has massive adoption and many tools exist to interact with SQL from application code</li>
+<li><code>sqlite</code> can be embedded directly into your application</li>
+<li><code>sqlite</code> can be deployed anywhere your application is deployed</li>
+<li><code>sqlite</code>, or any relational database, can be extended to support eventual consistency (see the proof of concept at <a href="https://github.com/tantaman/conflict-free-sqlite">conflict free sqlite</a>)</li>
+</ul>
+<p>The local-first architecutre + embedding a database directly into your app has a number of other benefits on top of those we've already seen --</p>
+<ul>
+<li>Simpler architecture</li>
+<li>Reduced cloud costs</li>
+<li>Self custody of data</li>
+<li>Transaction support for mutation of application state</li>
+</ul>
+<h1 id="simpler-architecture"><a aria-hidden="true" tabindex="-1" href="#simpler-architecture"><span class="icon icon-link"></span></a>Simpler Architecture</h1>
+<p><img src="./blog-assets/why-sqlite/Hugh-Jackman-in-The-Fountain.jpeg" alt="simpler"></p>
+<p>When you can treat your local data store as an authoritative source of information, this enables abstracting away a large swath of complexity.</p>
+<p>You read and write directly to your local data layer and it is your local data layer that manages:</p>
+<ol>
+<li>Syncing changes back to a server or other peers</li>
+<li>Receiving updates from a server or peers</li>
+<li>Notifying the application that new data is available</li>
+</ol>
+<p>Since all reads and writes are local, you're no longer worried about network latency.</p>
+<p>Since your local data store is an authoritative source of information, you're not worried about cache invalidation.</p>
+<p>Of course there are tradeoffs. The most obvious is data consistency. This only works for data that either never needs to be reconciled with peers or for data that can be eventually consistent / modeled as a <a href="https://crdt.tech/">CRDT</a>. Others conerns are --</p>
+<ol>
+<li>How much data can you store locally?</li>
+<li>How do you signal to the user that their local set of data could be incomplete from the perspective of other peers?</li>
+<li>How do we bless certain peers (or servers) as authoritative sources of certain sets of information?</li>
+<li>What CRDTs are right for which use cases?</li>
+</ol>
+<p>These questions are being explored by myself and various working groups:</p>
+<ul>
+<li><a href="https://braid.org/">https://braid.org/</a></li>
+<li><a href="https://www.inkandswitch.com/">https://www.inkandswitch.com/</a></li>
+<li><a href="https://aphrodite.sh/">https://aphrodite.sh/</a> (self)</li>
+<li><a href="https://github.com/tantaman/conflict-free-sqlite">https://github.com/tantaman/conflict-free-sqlite</a> (self)</li>
+<li><a href="https://riffle.systems/">https://riffle.systems/</a></li>
+</ul>
+<h1 id="lower-cloud-costs"><a aria-hidden="true" tabindex="-1" href="#lower-cloud-costs"><span class="icon icon-link"></span></a>Lower Cloud Costs</h1>
+<p>Since compute and storage is moved as much to the user's device as possible, you're no longer footing the bill for every CPU cycle they run and every bit they need to transfer and store.</p>
+<h1 id="data-custody"><a aria-hidden="true" tabindex="-1" href="#data-custody"><span class="icon icon-link"></span></a>Data Custody</h1>
+<p>The user's device is an authoritative set of information. It no longer needs to ship every mutation off to a central service before that mutation is accepted. The user can be given <em>control</em> of what leaves their device and their application(s) will still function.</p>
+<h1 id="transaction-support"><a aria-hidden="true" tabindex="-1" href="#transaction-support"><span class="icon icon-link"></span></a>Transaction Support</h1>
+<p><img src="./blog-assets/why-sqlite/Oscar-can2.webp" alt="oscar"></p>
+<p>This is an entirely new point of departure from what has been discussed so far. We've mainly dealt with the distribution of state and flipping the model from "default strong consistency, default client-server" to "default eventual consistency, default distributed."</p>
+<p>Given that, I'll keep it brief.</p>
+<p>In short, applications are plagued by state management problems. Global state, within a program, is always seen as our enemy. More or less as a dumpster fire. But... a database is giant pile of global state that is being read and written by many different applications.</p>
+<p>Why do we have so few problems with the global and mutable state that is the database but so many problems with global and/or mutable state that exist in-memory?</p>
+<p>It comes down to:</p>
+<ul>
+<li>The primitives we have to express mutations</li>
+<li>Support for transactions against in-memory data structures</li>
+<li>Support for constraints on im-memory data</li>
+</ul>
+<p>If our programming languages had support for ACID transactions against in-memory data then entire classes of problems related to mutable state (in particular, those of observing partial states) would vanish.</p>
+<p>We can, in some ways, use an embedded in-memory <code>sqlite</code> as a hack to gain this power for our application state.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
