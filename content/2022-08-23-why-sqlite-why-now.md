@@ -22,19 +22,19 @@ So let's take a little journey through a few stops to see how all this plays out
 
 # Enabling the Relational Model for More Use Cases
 
-The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing application state. Maybe you could even say [it is an apex predator](https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/).
+The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing the data backing your application(s). Maybe you could even say [it is an apex predator](https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/).
 
-That being said, relational databases are firmly on the CA side of CAP. In the face of a network partition, they sacrafice all availability.
+That being said, relational databases are firmly on the CA side of [CAP](https://en.wikipedia.org/wiki/CAP_theorem). In the face of a network partition, they sacrafice all availability.
 
 Wouldn't it be great if we could use our relational databases even in cases of prolonged network partitions?
 
 [With a few tweaks](https://github.com/tantaman/conflict-free-sqlite) we can add an eventually consistent layer atop relational databases that can stay available in the face of network partitions. This means
 
-- We can suddenly use `SQLite` for peer to peer applications.
+- We can suddenly use `sqlite` for peer to peer applications.
 - That we can have a multi-master relationship between our server and client.
 - We can allow clients to make arbitrary changes to their local database and merge changes to, or from, the server (or other peers) at some arbitrary point in time in the future
 
-This is very appealing to me where I have many applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use. It is also convenient that this can be built atop existing technologies and my existing storage solution rather than requiring me to bring in something new.
+This is very appealing to me where I have applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use. It is also convenient that this can be built atop existing technologies and existing storage solutions rather than requiring something new.
 
 All of this relies on eventual consistency and thus begs the question of what data consistency needs data actually has.
 
