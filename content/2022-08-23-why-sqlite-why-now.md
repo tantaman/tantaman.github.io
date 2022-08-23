@@ -39,6 +39,8 @@ All of this relies on eventual consistency and thus begs the question of what da
 
 # Respecting the Consistency Needs of the Data
 
+![respect](./blog-assets/why-sqlite/respect.jpeg)
+
 The lack of options in the relational model has locked us into not thinking about what level of data consistency we actually need. As such, in traditional web applications all changes go through a central service and are generally strongly consistent. In this realtional + client-server paradigm, we don't even reach for eventual consistency until we run into performance, availability or scaling problems.
 
 This has blinded us to the fact that large swaths of state do not ever need to go through a central server or need strong consistency.
@@ -175,6 +177,8 @@ Since compute and storage is moved as much to the user's device as possible, you
 The user's device is an authoritative set of information. It no longer needs to ship every mutation off to a central service before that mutation is accepted. The user can be given _control_ of what leaves their device and their application(s) will still function.
 
 # Transaction Support
+
+![oscar](./blog-assets/why-sqlite/Oscar-can2.webp)
 
 This is an entirely new point of departure from what has been discussed so far. We've mainly dealt with the distribution of state and flipping the model from "default strong consistency, default client-server" to "default eventual consistency, default distributed."
 
