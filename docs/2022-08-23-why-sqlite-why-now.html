@@ -49,16 +49,16 @@ In one way, sqlite is a great fit…">
 <li><a href="#turning-edge-architecture-upside-down-">Turning Current Edge Architecture Upside Down 🙃</a></li>
 </ol>
 <h1 id="enabling-the-relational-model-for-more-use-cases"><a aria-hidden="true" tabindex="-1" href="#enabling-the-relational-model-for-more-use-cases"><span class="icon icon-link"></span></a>Enabling the Relational Model for More Use Cases</h1>
-<p>The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing application state. Maybe you could even say <a href="https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/">it is an apex predator</a>.</p>
-<p>That being said, relational databases are firmly on the CA side of CAP. In the face of a network partition, they sacrafice all availability.</p>
+<p>The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing the data backing your application(s). Maybe you could even say <a href="https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/">it is an apex predator</a>.</p>
+<p>That being said, relational databases are firmly on the CA side of <a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP</a>. In the face of a network partition, they sacrafice all availability.</p>
 <p>Wouldn't it be great if we could use our relational databases even in cases of prolonged network partitions?</p>
 <p><a href="https://github.com/tantaman/conflict-free-sqlite">With a few tweaks</a> we can add an eventually consistent layer atop relational databases that can stay available in the face of network partitions. This means</p>
 <ul>
-<li>We can suddenly use <code>SQLite</code> for peer to peer applications.</li>
+<li>We can suddenly use <code>sqlite</code> for peer to peer applications.</li>
 <li>That we can have a multi-master relationship between our server and client.</li>
 <li>We can allow clients to make arbitrary changes to their local database and merge changes to, or from, the server (or other peers) at some arbitrary point in time in the future</li>
 </ul>
-<p>This is very appealing to me where I have many applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use. It is also convenient that this can be built atop existing technologies and my existing storage solution rather than requiring me to bring in something new.</p>
+<p>This is very appealing to me where I have applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use. It is also convenient that this can be built atop existing technologies and existing storage solutions rather than requiring something new.</p>
 <p>All of this relies on eventual consistency and thus begs the question of what data consistency needs data actually has.</p>
 <h1 id="respecting-the-consistency-needs-of-the-data"><a aria-hidden="true" tabindex="-1" href="#respecting-the-consistency-needs-of-the-data"><span class="icon icon-link"></span></a>Respecting the Consistency Needs of the Data</h1>
 <p><img src="./blog-assets/why-sqlite/respect.jpeg" alt="respect"></p>
