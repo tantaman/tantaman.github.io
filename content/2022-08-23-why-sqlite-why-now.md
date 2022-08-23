@@ -69,33 +69,48 @@ This is actually quite a problematic speed limit. Checking our [napkin math](htt
 
 two sequential round trips from NA West to Singapore will get you almost half a second of delay.
 
-The world has been working harder and harder to break these limits. In the "strongly consistent, client-server" paradigm (for now on called "the paradigm"), the path of resolving this roughly goes as follows:
+In the "strongly consistent, client-server paradigm" (for now on called "the paradigm"), the path of resolving this roughly goes as follows:
 
+1. Bundle resources (js, css, html, etc.)
+2. Add a CDN
+3. Add application servers in more regions
+4. Do server side rendering
+5. Add read replicas of the database to new regions
+6. Add optimistic writes to the application
+7. Shard the database, putting masters of given replicasets closer to certain users
+8. Put some low-value code into edge functions
+9. ?
 
+This is a lot of work and a lot of moving parts just to shorten the lenght of and reduce the number of round trips. A lot of work just solving incidental rather than essential complexity. Yeah, the work delivers business value by making your app faster but the work isn't tied to the business's core mission.
+
+My 8th statement might raise some eyebrows. "Low value code." I say this because the example use cases for edge functions certainly aren't very compelling: https://www.netlify.com/blog/edge-functions-explained/#example-edge-functions-use-cases
+
+Sure you can throw all of your business logic into the edge but that probably won't behave as you expect (to be seen later).
+
+The complexity of scaling "the paradigm" and the lack of compelling edge compute use cases for apps architected under "the paradigm" points to the fact that we've hit the limits of "the paradigm." "The paradigm" isn't ready for and was never made for edge computing.
 
 # Turning Edge Architecture Upside Down
 
-There's a lot of buzz about edge computing.
+As we've seen, the fundamental goal of edge computing is to increase the speed of applications by moving compute & state closer to users. Similar to a CDN but also drastically **not** similar **at all** to a CDN. Moving compute and state is just not the same problem as moving static resources and caching responses.
 
-The fundamental goal of edge computing is to increase the speed of applications by moving resources closer to users.
+E.g., if you deploy data-reliant application logic to *Singapore* but leave your database in *Ohio* you're probably going to have a really bad time. Those Sing. -> Ohio round trips for each DB call will be way worse than the single user -> Ohio round trip that you would have had previously had you kept the application colocated with the database. Static resources and cached data don't have behavior so placing copies of them everywhere only has upside.
 
-We've already had one iteration of this (CDNs) but that was focused on static resources. The new iteration is focused on compute and dynamic data.
-
-Edge compute deployments come with a new set of complications. E.g., if you deploy data-reliant application logic to *Singapore* but leave your database in *Ohio* you're probably going to have a really bad time. Those Sing. -> Ohio round trips for each DB call will be way worse than the single user -> Ohio round trip that you would have had previously had you kept the application colocated with the database.
-
-To me, current edge architectures are an attempt to solve new problems by applying old patterns and generating a ton of incidental complexity for the developer to deal with.
-
-Current edge architectures, or really all web application archtiectures, are underpinned by the idea that a central service is the authoritative source of all information.
-
-This paradigm influences every single design decision within the app.
-- Any data on the client is now only seen as a cache and something that can be blown away. 
-- All writes must be persisted on the server.
-- Any optimistic write made by a client can be invalidated by the server.
-- The client almost always requires internet connectivity to function.
+Current edge architectures, being beholden to "the paradigm", are an attempt to solve new problems by applying old patterns and generating a ton of incidental complexity for the developer to deal with.
 
 What if we flipped everything on its head?
 
 ![blue-idea](./blog-assets/why-sqlite/blue-idea.jpg)
+
+What if, instead of always assuming that the server is the authortative source of state, we assumed that the user's local device is the authoritative source of information for that user.
+
+
+
+In the prior sections I mentioned that
+- Most data only need eventual consistency
+- relational dbs (e.g., sqlite) can be extended to support eventual consistency
+- Unlocking eventual consistency allows for multi-master relationships
+
+
 
 Lets instead say that the user's local device is the authoritative source of information for that user.
 
@@ -175,3 +190,15 @@ Scratch
 In all of these cases a user is interacting with something that only they can create and update. If the user is the authoritative source of all that information, you hardly need to send every edit to it through a central server. At some point you do (e.g., at checkout, or to make the post publicly visible) but not until then.
 
 Even much shared state does not need strong consistency. Users collaborating on a document or drawing will largely work of different sections so as not to conflict, allowing state merging to be done asynchronously and sometime after actual edits were made. If they do conflict, simple strategies like last-write-wins often suffice. More complex strategies for merging state (e.g., sequence CRDTs) exist for use cases that need to not drop any information.
+
+
+
+> Edge Architectures
+
+Current edge architectures, or really all web application archtiectures, are underpinned by the idea that a central service is the authoritative source of all information.
+
+This paradigm influences every single design decision within the app.
+- Any data on the client is now only seen as a cache and something that can be blown away. 
+- All writes must be persisted on the server.
+- Any optimistic write made by a client can be invalidated by the server.
+- The client almost always requires internet connectivity to function.
