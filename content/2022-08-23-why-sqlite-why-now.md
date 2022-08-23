@@ -9,17 +9,17 @@ So why `SQLite`? And why now?
 
 For me, its about a bunch of different angles
 
-1. Reducing cloud costs
-2. Breaking the speed of light
-3. Turning edge architecture upside down
-4. Enabling SQL for more use cases
-5. Giving people control of their data
-6. Consistency use cases - do you really need strong consistency?
-7. Transactions... intermittent state
+1. Enalbing more use cases for relational databases
+2. Giving data the consistency it needs
+3. Breaing the speed of light
+4. Reducing cloud costs
+5. Turning edge architecture upside down
+6. Giving people control of their data
+7.  Transactions... intermittent state
 
 Lets take a look at the first one.
 
-# Enabling SQL for more Use Cases
+# Enabling More Use Cases for Relational Databases
 
 The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing application state. Maybe you could even say [it is an apex predator](https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/).
 
@@ -33,20 +33,44 @@ With a few tweaks we can add an eventually consistent layer atop relational data
 - That we can have a multi-master relationship between our server and client.
 - We can allow clients to make arbitrary changes to their local database and merge changes to, or from, the server at some arbitrary point in time in the future
 
-This is very appealing to me where I have many applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use.
+This is very appealing to me where I have many applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use. It is also convenient that this can be built atop existing technologies and my existing storage solution rather than requiring me to bring in something new.
 
 All of the begs the question of what data consistency needs applications actually have.
 
-# Data Consistency Needs
+# Giving Data the Consistency it Needs
 
-I think the client-server model has largely locked us into not thinking about what level of data consistency we actually need. In traditional web applications, all changes go through a central service and are generally strongly consistent. In this model, we don't reach for eventual consistency until we run into performance or availability problems.
+I think the lack of options in the relational model has locked us into not thinking about what level of data consistency we actually need. In traditional web applications, all changes go through a central service and are generally strongly consistent. In this realtional + client-server paradigm, we don't even reach for eventual consistency until we run into performance, availability or scaling problems.
 
-I think this model has blinded us to the fact that the vast majority of state does not need strong consistency. User registration certainly does -- you don't want two users claiming the same handle. But does
+This has blinded us to the fact that large swaths of state do not ever need to go through a central server or need strong consistency.
 
-- Jotting down private notes?
-- Writing and making a post?
+User registration certainly does -- you don't want two users claiming the same handle. But does
+
+- Working on anything that is private to the individual user?
+- Working on anything (e.g., a post) that is private until published?
 - Upvoting a comment?
 - Adding an item to a shopping cart?
+
+This default to strong consistency and client-server architecture has put us down a path that is incompatible with edge computing.
+
+Defaulting to strong consistency makes moving state to the edge nearly impossible. If everything is strongly consistent by default, how will you handle writes when your application state and compute is geographically distributed? Especially if you take this to the extreme and put state on the user's device?
+
+By unlocking eventually consistent options atop the relational model, we give developers the ability to model all of their data in a familiar way and with the consistency requirements that make sense rather than those that are simply convenient.
+
+# Breaking the Speed of Light
+
+Applications that require a server for a large percentage of their interactions (e.g., to ensure strong consistency of writes) have a speed limit. They can never exceed the speed of light.
+
+This is actually quite a problematic speed limit. Checking our [napkin math](https://github.com/sirupsen/napkin-math) we can see that
+
+- NA East <-> West takes 60ms
+- EU West <-> NA East takes 80ms
+- NA West <-> Singapore takes 180ms
+- EU West <-> Singapore takes 160ms
+
+two sequential round trips from NA West to Singapore will get you almost half a second of delay.
+
+The world has been working harder and harder to break these limits. In the "strongly consistent, client-server" paradigm (for now on called "the paradigm"), the path of resolving this roughly goes as follows:
+
 
 
 # Turning Edge Architecture Upside Down
