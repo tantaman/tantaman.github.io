@@ -19,20 +19,35 @@ For me, its about a bunch of different angles
 
 Lets take a look at the first one.
 
+# Enabling SQL for more Use Cases
+
+The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing application state. Maybe you could even say [it is an apex predator](https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/).
+
+That being said, relational databases are firmly on the CA side of CAP. In the face of a network partition, they sacrafice all availability.
+
+Wouldn't it be great if we could use our relational databases even in cases of prolonged network partitions?
+
+With a few tweaks we can add an eventually consistent layer atop relational databases that can stay available in the face of network partitions. This means
+
+- We can suddenly use `SQLite` for peer to peer applications.
+- That we can have a multi-master relationship between our server and client.
+- We can allow clients to make arbitrary changes to their local database and merge changes to, or from, the server at some arbitrary point in time in the future
+
+This is very appealing to me where I have many applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use.
+
+All of the begs the question of what data consistency needs applications actually have.
+
 # Data Consistency Needs
 
-I think the client-server model has largely locked us into not thinking about what level of data consistency we actually need. In traditional web applications, all changes go through a central service and are generally strongly consistent.
+I think the client-server model has largely locked us into not thinking about what level of data consistency we actually need. In traditional web applications, all changes go through a central service and are generally strongly consistent. In this model, we don't reach for eventual consistency until we run into performance or availability problems.
 
-The vast majority of state does not need strong consistency. User registration certainly does -- you don't want two users claiming the same handle. But does
+I think this model has blinded us to the fact that the vast majority of state does not need strong consistency. User registration certainly does -- you don't want two users claiming the same handle. But does
 
 - Jotting down private notes?
 - Writing and making a post?
 - Upvoting a comment?
 - Adding an item to a shopping cart?
 
-In all of these cases a user is interacting with something that only they can create and update. If the user is the authoritative source of all that information, you hardly need to send every edit to it through a central server. At some point you do (e.g., at checkout, or to make the post publicly visible) but not until then.
-
-Even much shared state does not need strong consistency. Users collaborating on a document or drawing will largely work of different sections so as not to conflict, allowing state merging to be done asynchronously and sometime after actual edits were made. If they do conflict, simple strategies like last-write-wins often suffice. More complex strategies for merging state (e.g., sequence CRDTs) exist for use cases that need to not drop any information.
 
 # Turning Edge Architecture Upside Down
 
@@ -129,3 +144,10 @@ What is there for it to be partitioned from?
 
 ---
 Scratch
+
+
+> Data Consistency Needs
+> 
+In all of these cases a user is interacting with something that only they can create and update. If the user is the authoritative source of all that information, you hardly need to send every edit to it through a central server. At some point you do (e.g., at checkout, or to make the post publicly visible) but not until then.
+
+Even much shared state does not need strong consistency. Users collaborating on a document or drawing will largely work of different sections so as not to conflict, allowing state merging to be done asynchronously and sometime after actual edits were made. If they do conflict, simple strategies like last-write-wins often suffice. More complex strategies for merging state (e.g., sequence CRDTs) exist for use cases that need to not drop any information.
