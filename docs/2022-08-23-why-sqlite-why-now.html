@@ -8,9 +8,9 @@
 
 <meta name="description" content="I&#x27;ve been sucked down a sqlite rabbithole and I&#x27;m all-in on it. So why SQLite? And why now?
 
-For me, its about a bunch of different angles
+For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.
 
-Enabling the relational model for more use casesRespecting the consistency needs of dataBreaking the speed of…">
+In one way, sqlite is a great fit…">
 <meta name="keywords" content="programming, edge, software, statistics, economics">
 <meta name="author" content="Matt Wonlaw">
 <meta name="copyright" content="© 2022 Matt Wonlaw">
@@ -19,9 +19,9 @@ Enabling the relational model for more use casesRespecting the consistency needs
 <meta property="og:title" content="Why SQLite? Why Now?">
 <meta property="og:description" content="I&#x27;ve been sucked down a sqlite rabbithole and I&#x27;m all-in on it. So why SQLite? And why now?
 
-For me, its about a bunch of different angles
+For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.
 
-Enabling the relational model for more use casesRespecting the consistency needs of dataBreaking the speed of…">
+In one way, sqlite is a great fit…">
 <meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
 <meta property="og:image:alt" content="Tantaman">
 <meta property="og:image:width" content="312">
@@ -33,22 +33,21 @@ Enabling the relational model for more use casesRespecting the consistency needs
 <meta name="twitter:image:alt" content="Tantaman">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="8-13 minutes">
+<meta name="twitter:data1" content="9-13 minutes">
 </head>
 <body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Why SQLite? Why Now?</h1><span class="published subtext">Published 2022-08-23</span>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#enabling-the-relational-model-for-more-use-cases">Enabling the Relational Model for More Use Cases</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#respecting-the-consistency-needs-of-the-data">Respecting the Consistency Needs of the Data</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#breaking-the-speed-of-light">Breaking the Speed of Light</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#turning-edge-architecture-upside-down-">Turning Edge Architecture Upside Down 🙃</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#local-first-paradigm">Local-First Paradigm</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#simpler-architecture">Simpler Architecture</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#lower-cloud-costs">Lower Cloud Costs</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#data-custody">Data Custody</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#transaction-support">Transaction Support</a></li></ol></nav><p>I've been sucked down a <code>sqlite</code> rabbithole and I'm all-in on it.</p>
 <p>So why <code>SQLite</code>? And why now?</p>
-<p>For me, its about a bunch of different angles</p>
+<p>For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.</p>
+<p>In one way, <code>sqlite</code> is a great fit for distributed applications given it can be embedded directly into devices at the dge.</p>
+<p>In another way, it is an awful choice because it doesn't have a sync protocol nor does it support eventual consistency.</p>
+<p>So let's take a little journey to see how all this plays out and why I'm bullish on <code>sqlite</code>.</p>
 <ol>
 <li>Enabling the relational model for more use cases</li>
 <li>Respecting the consistency needs of data</li>
 <li>Breaking the speed of light</li>
 <li>Simplifying edge architecture by turning it upside down</li>
-<li>Reducing cloud costs</li>
-<li>Giving people control of their data</li>
-<li>Bringing transactions to application memory</li>
 </ol>
-<p>Let's take a look at each one.</p>
 <h1 id="enabling-the-relational-model-for-more-use-cases"><a aria-hidden="true" tabindex="-1" href="#enabling-the-relational-model-for-more-use-cases"><span class="icon icon-link"></span></a>Enabling the Relational Model for More Use Cases</h1>
 <p>The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing application state. Maybe you could even say <a href="https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/">it is an apex predator</a>.</p>
 <p>That being said, relational databases are firmly on the CA side of CAP. In the face of a network partition, they sacrafice all availability.</p>
@@ -105,7 +104,7 @@ Enabling the relational model for more use casesRespecting the consistency needs
 <li>Put some low-value code into edge functions</li>
 <li>?</li>
 </ol>
-<p>This is a lot of work and a lot of moving parts just to shorten the lenght of and reduce the number of round trips. A lot of work just solving incidental rather than essential complexity. Yeah, the work delivers business value by making your app faster but the work isn't tied to the business's core mission or competency.</p>
+<p>This is a lot of work and a lot of moving parts just to shorten the length of and reduce the number of round trips. In other words, a lot of work solving incidental rather than essential complexity. Yeah, the work delivers business value by making your app faster but the work isn't tied to the business's core mission or competency.</p>
 <p>My 8th statement might raise some eyebrows. "Low value code." I say this because the example use cases for edge functions <a href="https://www.netlify.com/blog/edge-functions-explained/#example-edge-functions-use-cases">certainly aren't very compelling</a>.</p>
 <p>Sure you can throw all of your business logic into the edge but that probably won't behave as you expect (to be seen later).</p>
 <p>The complexity of scaling "the paradigm" and the lack of compelling edge compute use cases for apps architected under "the paradigm" points to the fact that we've hit the limits of "the paradigm." "The paradigm" isn't ready for and was never made for edge computing.</p>
