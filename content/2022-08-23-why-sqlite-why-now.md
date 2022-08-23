@@ -7,17 +7,18 @@ I've been sucked down a `sqlite` rabbithole and I'm all-in on it.
 
 So why `SQLite`? And why now?
 
-For me, its about a bunch of different angles
+For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.
+
+In one way, `sqlite` is a great fit for distributed applications given it can be embedded directly into devices at the dge.
+
+In another way, it is an awful choice because it doesn't have a sync protocol nor does it support eventual consistency.
+
+So let's take a little journey to see how all this plays out and why I'm bullish on `sqlite`.
 
 1. Enabling the relational model for more use cases
 2. Respecting the consistency needs of data
 3. Breaking the speed of light
 4. Simplifying edge architecture by turning it upside down
-5. Reducing cloud costs
-6. Giving people control of their data
-7. Bringing transactions to application memory
-
-Let's take a look at each one.
 
 # Enabling the Relational Model for More Use Cases
 
@@ -90,7 +91,7 @@ In the "strongly consistent, client-server paradigm" (from now on called "the pa
 8. Put some low-value code into edge functions
 9. ?
 
-This is a lot of work and a lot of moving parts just to shorten the lenght of and reduce the number of round trips. A lot of work just solving incidental rather than essential complexity. Yeah, the work delivers business value by making your app faster but the work isn't tied to the business's core mission or competency.
+This is a lot of work and a lot of moving parts just to shorten the length of and reduce the number of round trips. In other words, a lot of work solving incidental rather than essential complexity. Yeah, the work delivers business value by making your app faster but the work isn't tied to the business's core mission or competency.
 
 My 8th statement might raise some eyebrows. "Low value code." I say this because the example use cases for edge functions [certainly aren't very compelling](https://www.netlify.com/blog/edge-functions-explained/#example-edge-functions-use-cases).
 
