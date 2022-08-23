@@ -1,5 +1,5 @@
 ---
-title: 'Why SQLite? Why Now?'
+title: 'Why SQLite? Why Now? 🐇'
 tags: [programming, edge]
 ---
 
@@ -13,12 +13,12 @@ In one way, `sqlite` is a great fit for distributed applications given it can be
 
 In another way, it is an awful choice because it doesn't have a sync protocol nor does it support eventual consistency.
 
-So let's take a little journey to see how all this plays out and why I'm bullish on `sqlite`.
+So let's take a little journey through a few stops to see how all this plays out and why I'm bullish on `sqlite`.
 
-1. Enabling the relational model for more use cases
-2. Respecting the consistency needs of data
-3. Breaking the speed of light
-4. Simplifying edge architecture by turning it upside down
+1. [Enabling the relational model for more use cases](#enabling-the-relational-model-for-more-use-cases)
+2. [Respecting the consistency needs of data](#respecting-the-consistency-needs-of-the-data)
+3. [Breaking the speed of light](#breaking-the-speed-of-light)
+4. [Turning Current Edge Architecture Upside Down 🙃](#turning-edge-architecture-upside-down-)
 
 # Enabling the Relational Model for More Use Cases
 
@@ -56,6 +56,7 @@ User registration certainly does need strong consistency -- you don't want two u
 By unlocking eventually consistent options atop the relational model, we give developers the ability to model all of their data in a familiar way and with the consistency options that make sense rather than just those that are at hand.
 
 The lack of options for eventual consistency and state distribution has put us down a path of default strong consistency and client-server architecture that is
+
 - Expensive
 - Complex
 - Incompatible with distributed and edge computing
@@ -99,11 +100,11 @@ Sure you can throw all of your business logic into the edge but that probably wo
 
 The complexity of scaling "the paradigm" and the lack of compelling edge compute use cases for apps architected under "the paradigm" points to the fact that we've hit the limits of "the paradigm." "The paradigm" isn't ready for and was never made for edge computing.
 
-# Turning Edge Architecture Upside Down 🙃 
+# Turning Current Edge Architecture Upside Down 🙃
 
 As we've seen, the fundamental goal of edge computing is to increase the speed of applications by moving compute & state closer to users. Similar to a CDN but also drastically **not** similar **at all** to a CDN. Moving compute and state is just not the same problem as moving static resources and caching responses.
 
-E.g., if you deploy data-reliant application logic to *Singapore* but leave your database in *Ohio* you're probably going to have a really bad time. Those `Sing. -> Ohio` round trips for each DB call will be way worse than the single `user -> Ohio` round trip that you would have had previously had you kept the application colocated with the database. Static resources and cached data don't have behavior so placing copies of them everywhere only has upside.
+E.g., if you deploy data-reliant application logic to _Singapore_ but leave your database in _Ohio_ you're probably going to have a really bad time. Those `Sing. -> Ohio` round trips for each DB call will be way worse than the single `user -> Ohio` round trip that you would have had previously had you kept the application colocated with the database. Static resources and cached data don't have behavior so placing copies of them everywhere only has upside.
 
 Current edge architectures, being beholden to "the paradigm", are an attempt to solve new problems by applying old patterns.
 
@@ -113,7 +114,7 @@ What if we flipped everything on its head?
 
 What if, instead of always assuming that the server is the authortative source, we assumed that the user's local device is the authoritative source of information for that user?
 
-# Local-First Paradigm
+## Local-First Paradigm
 
 In this world, all requests for state are immediately resolved on-device. The default deployment surface for compute (logic, code) is also on-device.
 
@@ -132,7 +133,6 @@ If you want your app to seamlessly run at the edge, you need to switch paradigms
 - `sqlite` can be deployed anywhere your application is deployed
 - `sqlite`, or any relational database, can be extended to support eventual consistency (see the proof of concept at [conflict free sqlite](https://github.com/tantaman/conflict-free-sqlite))
 
-
 The local-first architecutre + embedding a database directly into your app has a number of other benefits on top of those we've already seen --
 
 - Simpler architecture
@@ -140,13 +140,14 @@ The local-first architecutre + embedding a database directly into your app has a
 - Self custody of data
 - Transaction support for mutation of application state
 
-# Simpler Architecture
+## Simpler Architecture
 
 ![simpler](./blog-assets/why-sqlite/Hugh-Jackman-in-The-Fountain.jpeg)
 
 When you can treat your local data store as an authoritative source of information, this enables abstracting away a large swath of complexity.
 
 You read and write directly to your local data layer and it is your local data layer that manages:
+
 1. Syncing changes back to a server or other peers
 2. Receiving updates from a server or peers
 3. Notifying the application that new data is available
@@ -163,21 +164,22 @@ Of course there are tradeoffs. The most obvious is data consistency. This only w
 4. What CRDTs are right for which use cases?
 
 These questions are being explored by myself and various working groups:
+
 - https://braid.org/
 - https://www.inkandswitch.com/
 - https://aphrodite.sh/ (self)
 - https://github.com/tantaman/conflict-free-sqlite (self)
 - https://riffle.systems/
 
-# Lower Cloud Costs
+## Lower Cloud Costs
 
 Since compute and storage is moved as much to the user's device as possible, you're no longer footing the bill for every CPU cycle they run and every bit they need to transfer and store.
 
-# Data Custody
+## Data Custody
 
 The user's device is an authoritative set of information. It no longer needs to ship every mutation off to a central service before that mutation is accepted. The user can be given _control_ of what leaves their device and their application(s) will still function.
 
-# Transaction Support
+## Transaction Support
 
 ![oscar](./blog-assets/why-sqlite/Oscar-can2.webp)
 
@@ -190,6 +192,7 @@ In short, applications are plagued by state management problems. Global state, w
 Why do we have so few problems with the global and mutable state that is the database but so many problems with global and/or mutable state that exist in-memory?
 
 It comes down to:
+
 - The primitives we have to express mutations
 - Support for transactions against in-memory data structures
 - Support for constraints on im-memory data

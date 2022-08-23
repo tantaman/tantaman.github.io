@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Why SQLite? Why Now? - Tantamanlands</title>
+<title>Why SQLite? Why Now? 🐇 - Tantamanlands</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/index.css">
 
@@ -16,7 +16,7 @@ In one way, sqlite is a great fit…">
 <meta name="copyright" content="© 2022 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tantamanlands">
-<meta property="og:title" content="Why SQLite? Why Now?">
+<meta property="og:title" content="Why SQLite? Why Now? 🐇">
 <meta property="og:description" content="I&#x27;ve been sucked down a sqlite rabbithole and I&#x27;m all-in on it. So why SQLite? And why now?
 
 For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.
@@ -35,18 +35,18 @@ In one way, sqlite is a great fit…">
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="9-13 minutes">
 </head>
-<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Why SQLite? Why Now?</h1><span class="published subtext">Published 2022-08-23</span>
-<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#enabling-the-relational-model-for-more-use-cases">Enabling the Relational Model for More Use Cases</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#respecting-the-consistency-needs-of-the-data">Respecting the Consistency Needs of the Data</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#breaking-the-speed-of-light">Breaking the Speed of Light</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#turning-edge-architecture-upside-down-">Turning Edge Architecture Upside Down 🙃</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#local-first-paradigm">Local-First Paradigm</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#simpler-architecture">Simpler Architecture</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#lower-cloud-costs">Lower Cloud Costs</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#data-custody">Data Custody</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#transaction-support">Transaction Support</a></li></ol></nav><p>I've been sucked down a <code>sqlite</code> rabbithole and I'm all-in on it.</p>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Why SQLite? Why Now? 🐇</h1><span class="published subtext">Published 2022-08-23</span>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#enabling-the-relational-model-for-more-use-cases">Enabling the Relational Model for More Use Cases</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#respecting-the-consistency-needs-of-the-data">Respecting the Consistency Needs of the Data</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#breaking-the-speed-of-light">Breaking the Speed of Light</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#turning-current-edge-architecture-upside-down-">Turning Current Edge Architecture Upside Down 🙃</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#local-first-paradigm">Local-First Paradigm</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#simpler-architecture">Simpler Architecture</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#lower-cloud-costs">Lower Cloud Costs</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#data-custody">Data Custody</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#transaction-support">Transaction Support</a></li></ol></li></ol></nav><p>I've been sucked down a <code>sqlite</code> rabbithole and I'm all-in on it.</p>
 <p>So why <code>SQLite</code>? And why now?</p>
 <p>For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.</p>
 <p>In one way, <code>sqlite</code> is a great fit for distributed applications given it can be embedded directly into devices at the dge.</p>
 <p>In another way, it is an awful choice because it doesn't have a sync protocol nor does it support eventual consistency.</p>
-<p>So let's take a little journey to see how all this plays out and why I'm bullish on <code>sqlite</code>.</p>
+<p>So let's take a little journey through a few stops to see how all this plays out and why I'm bullish on <code>sqlite</code>.</p>
 <ol>
-<li>Enabling the relational model for more use cases</li>
-<li>Respecting the consistency needs of data</li>
-<li>Breaking the speed of light</li>
-<li>Simplifying edge architecture by turning it upside down</li>
+<li><a href="#enabling-the-relational-model-for-more-use-cases">Enabling the relational model for more use cases</a></li>
+<li><a href="#respecting-the-consistency-needs-of-the-data">Respecting the consistency needs of data</a></li>
+<li><a href="#breaking-the-speed-of-light">Breaking the speed of light</a></li>
+<li><a href="#turning-edge-architecture-upside-down-">Turning Current Edge Architecture Upside Down 🙃</a></li>
 </ol>
 <h1 id="enabling-the-relational-model-for-more-use-cases"><a aria-hidden="true" tabindex="-1" href="#enabling-the-relational-model-for-more-use-cases"><span class="icon icon-link"></span></a>Enabling the Relational Model for More Use Cases</h1>
 <p>The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing application state. Maybe you could even say <a href="https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/">it is an apex predator</a>.</p>
@@ -108,14 +108,14 @@ In one way, sqlite is a great fit…">
 <p>My 8th statement might raise some eyebrows. "Low value code." I say this because the example use cases for edge functions <a href="https://www.netlify.com/blog/edge-functions-explained/#example-edge-functions-use-cases">certainly aren't very compelling</a>.</p>
 <p>Sure you can throw all of your business logic into the edge but that probably won't behave as you expect (to be seen later).</p>
 <p>The complexity of scaling "the paradigm" and the lack of compelling edge compute use cases for apps architected under "the paradigm" points to the fact that we've hit the limits of "the paradigm." "The paradigm" isn't ready for and was never made for edge computing.</p>
-<h1 id="turning-edge-architecture-upside-down-"><a aria-hidden="true" tabindex="-1" href="#turning-edge-architecture-upside-down-"><span class="icon icon-link"></span></a>Turning Edge Architecture Upside Down 🙃</h1>
+<h1 id="turning-current-edge-architecture-upside-down-"><a aria-hidden="true" tabindex="-1" href="#turning-current-edge-architecture-upside-down-"><span class="icon icon-link"></span></a>Turning Current Edge Architecture Upside Down 🙃</h1>
 <p>As we've seen, the fundamental goal of edge computing is to increase the speed of applications by moving compute &#x26; state closer to users. Similar to a CDN but also drastically <strong>not</strong> similar <strong>at all</strong> to a CDN. Moving compute and state is just not the same problem as moving static resources and caching responses.</p>
 <p>E.g., if you deploy data-reliant application logic to <em>Singapore</em> but leave your database in <em>Ohio</em> you're probably going to have a really bad time. Those <code>Sing. -> Ohio</code> round trips for each DB call will be way worse than the single <code>user -> Ohio</code> round trip that you would have had previously had you kept the application colocated with the database. Static resources and cached data don't have behavior so placing copies of them everywhere only has upside.</p>
 <p>Current edge architectures, being beholden to "the paradigm", are an attempt to solve new problems by applying old patterns.</p>
 <p>What if we flipped everything on its head?</p>
 <p><img src="./blog-assets/why-sqlite/blue-idea.jpg" alt="blue-idea"></p>
 <p>What if, instead of always assuming that the server is the authortative source, we assumed that the user's local device is the authoritative source of information for that user?</p>
-<h1 id="local-first-paradigm"><a aria-hidden="true" tabindex="-1" href="#local-first-paradigm"><span class="icon icon-link"></span></a>Local-First Paradigm</h1>
+<h2 id="local-first-paradigm"><a aria-hidden="true" tabindex="-1" href="#local-first-paradigm"><span class="icon icon-link"></span></a>Local-First Paradigm</h2>
 <p>In this world, all requests for state are immediately resolved on-device. The default deployment surface for compute (logic, code) is also on-device.</p>
 <p>In the local-first paradigm, the default consistency mode is eventual consistency. This means that state and compute can naturally exist at the edge and are only brought to the "center" when there is a need for strong consistency.</p>
 <p>In other words, the common case is edge computing. The specialized case is centralized computing.</p>
@@ -136,7 +136,7 @@ In one way, sqlite is a great fit…">
 <li>Self custody of data</li>
 <li>Transaction support for mutation of application state</li>
 </ul>
-<h1 id="simpler-architecture"><a aria-hidden="true" tabindex="-1" href="#simpler-architecture"><span class="icon icon-link"></span></a>Simpler Architecture</h1>
+<h2 id="simpler-architecture"><a aria-hidden="true" tabindex="-1" href="#simpler-architecture"><span class="icon icon-link"></span></a>Simpler Architecture</h2>
 <p><img src="./blog-assets/why-sqlite/Hugh-Jackman-in-The-Fountain.jpeg" alt="simpler"></p>
 <p>When you can treat your local data store as an authoritative source of information, this enables abstracting away a large swath of complexity.</p>
 <p>You read and write directly to your local data layer and it is your local data layer that manages:</p>
@@ -162,11 +162,11 @@ In one way, sqlite is a great fit…">
 <li><a href="https://github.com/tantaman/conflict-free-sqlite">https://github.com/tantaman/conflict-free-sqlite</a> (self)</li>
 <li><a href="https://riffle.systems/">https://riffle.systems/</a></li>
 </ul>
-<h1 id="lower-cloud-costs"><a aria-hidden="true" tabindex="-1" href="#lower-cloud-costs"><span class="icon icon-link"></span></a>Lower Cloud Costs</h1>
+<h2 id="lower-cloud-costs"><a aria-hidden="true" tabindex="-1" href="#lower-cloud-costs"><span class="icon icon-link"></span></a>Lower Cloud Costs</h2>
 <p>Since compute and storage is moved as much to the user's device as possible, you're no longer footing the bill for every CPU cycle they run and every bit they need to transfer and store.</p>
-<h1 id="data-custody"><a aria-hidden="true" tabindex="-1" href="#data-custody"><span class="icon icon-link"></span></a>Data Custody</h1>
+<h2 id="data-custody"><a aria-hidden="true" tabindex="-1" href="#data-custody"><span class="icon icon-link"></span></a>Data Custody</h2>
 <p>The user's device is an authoritative set of information. It no longer needs to ship every mutation off to a central service before that mutation is accepted. The user can be given <em>control</em> of what leaves their device and their application(s) will still function.</p>
-<h1 id="transaction-support"><a aria-hidden="true" tabindex="-1" href="#transaction-support"><span class="icon icon-link"></span></a>Transaction Support</h1>
+<h2 id="transaction-support"><a aria-hidden="true" tabindex="-1" href="#transaction-support"><span class="icon icon-link"></span></a>Transaction Support</h2>
 <p><img src="./blog-assets/why-sqlite/Oscar-can2.webp" alt="oscar"></p>
 <p>This is an entirely new point of departure from what has been discussed so far. We've mainly dealt with the distribution of state and flipping the model from "default strong consistency, default client-server" to "default eventual consistency, default distributed."</p>
 <p>Given that, I'll keep it brief.</p>
