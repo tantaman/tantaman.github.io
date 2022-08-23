@@ -18,7 +18,7 @@ So let's take a little journey through a few stops to see how all this plays out
 1. [Enabling the relational model for more use cases](#enabling-the-relational-model-for-more-use-cases)
 2. [Respecting the consistency needs of data](#respecting-the-consistency-needs-of-the-data)
 3. [Breaking the speed of light](#breaking-the-speed-of-light)
-4. [Turning Current Edge Architecture Upside Down 🙃](#turning-edge-architecture-upside-down-)
+4. [Turning Edge Architecture Upside Down 🙃](#turning-edge-architecture-upside-down-)
 
 # Enabling the Relational Model for More Use Cases
 
@@ -100,7 +100,7 @@ Sure you can throw all of your business logic into the edge but that probably wo
 
 The complexity of scaling "the paradigm" and the lack of compelling edge compute use cases for apps architected under "the paradigm" points to the fact that we've hit the limits of "the paradigm." "The paradigm" isn't ready for and was never made for edge computing.
 
-# Turning Current Edge Architecture Upside Down 🙃
+# Turning Edge Architecture Upside Down 🙃
 
 As we've seen, the fundamental goal of edge computing is to increase the speed of applications by moving compute & state closer to users. Similar to a CDN but also drastically **not** similar **at all** to a CDN. Moving compute and state is just not the same problem as moving static resources and caching responses.
 
