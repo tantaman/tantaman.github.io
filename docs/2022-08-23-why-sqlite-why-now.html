@@ -33,7 +33,7 @@ In one way, sqlite is a great fit…">
 <meta name="twitter:image:alt" content="Tantaman">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="10-16 minutes">
+<meta name="twitter:data1" content="10-15 minutes">
 </head>
 <body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Why SQLite? Why Now? 🐇</h1><span class="published subtext">Published 2022-08-23</span>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#enabling-the-relational-model-for-more-use-cases">Enabling the Relational Model for More Use Cases</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#respecting-the-consistency-needs-of-the-data">Respecting the Consistency Needs of the Data</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#breaking-the-speed-of-light">Breaking the Speed of Light</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#turning-edge-architecture-upside-down-">Turning Edge Architecture Upside Down 🙃</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#local-first-paradigm">Local-First Paradigm</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#misc">Misc</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#simpler-architecture">Simpler Architecture</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#lower-cloud-costs">Lower Cloud Costs</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#data-custody">Data Custody</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#transaction-support">Transaction Support</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#sql-drawbacks">SQL Drawbacks</a></li></ol></nav><p>I've been sucked down a <code>sqlite</code> rabbithole and I'm all-in on it.</p>
@@ -41,7 +41,7 @@ In one way, sqlite is a great fit…">
 <p>For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.</p>
 <p>In one way, <code>sqlite</code> is a great fit for distributed applications given it can be embedded directly into devices at the dge.</p>
 <p>In another way, it is an awful choice because it doesn't have a sync protocol nor does it support eventual consistency.</p>
-<p>So is it great or is it awful? Let's take a little journey through a few stops to see how all this plays out and why I'm bullish on <code>sqlite</code>.</p>
+<p>So is it great or is it awful? Let's take a little journey through a few stops to see how all this plays out.</p>
 <ol>
 <li><a href="#enabling-the-relational-model-for-more-use-cases">Enabling the relational model for more use cases</a></li>
 <li><a href="#respecting-the-consistency-needs-of-the-data">Respecting the consistency needs of data</a></li>
@@ -49,7 +49,7 @@ In one way, sqlite is a great fit…">
 <li><a href="#turning-edge-architecture-upside-down-">Turning Edge Architecture Upside Down 🙃</a></li>
 </ol>
 <h1 id="enabling-the-relational-model-for-more-use-cases"><a aria-hidden="true" tabindex="-1" href="#enabling-the-relational-model-for-more-use-cases"><span class="icon icon-link"></span></a>Enabling the Relational Model for More Use Cases</h1>
-<p>The relational model has <a href="https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf">stood the test of time</a> and proven itself to be one of the best choices you can make for managing the data backing your application(s). Maybe you could even say <a href="https://en.wikipedia.org/wiki/Apex_predator">it is an apex predator</a>.</p>
+<p>The relational model has <a href="https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf">stood the test of time</a> and proven itself to be one of the best choices you can make for managing the data backing your applications. Maybe you could even say it is an apex predator.</p>
 <p>That being said, relational databases are firmly on the CA side of <a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP</a>. In the face of a network partition, they sacrafice all availability.</p>
 <p>Wouldn't it be great if we could use our relational databases even in cases of prolonged network partitions?</p>
 <p><a href="https://github.com/tantaman/conflict-free-sqlite">With a few tweaks</a> we can add an eventually consistent layer, atop relational databases, that can stay available in the face of network partitions. This means</p>
