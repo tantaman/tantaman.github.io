@@ -13,7 +13,7 @@ In one way, `sqlite` is a great fit for distributed applications given it can be
 
 In another way, it is an awful choice because it doesn't have a sync protocol nor does it support eventual consistency.
 
-So is it great or is it awful? Let's take a little journey through a few stops to see how all this plays out and why I'm bullish on `sqlite`.
+So is it great or is it awful? Let's take a little journey through a few stops to see how all this plays out.
 
 1. [Enabling the relational model for more use cases](#enabling-the-relational-model-for-more-use-cases)
 2. [Respecting the consistency needs of data](#respecting-the-consistency-needs-of-the-data)
@@ -22,7 +22,7 @@ So is it great or is it awful? Let's take a little journey through a few stops t
 
 # Enabling the Relational Model for More Use Cases
 
-The relational model has [stood the test of time](https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf) and proven itself to be one of the best choices you can make for managing the data backing your application(s). Maybe you could even say [it is an apex predator](https://en.wikipedia.org/wiki/Apex_predator).
+The relational model has [stood the test of time](https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf) and proven itself to be one of the best choices you can make for managing the data backing your applications. Maybe you could even say it is an apex predator.
 
 That being said, relational databases are firmly on the CA side of [CAP](https://en.wikipedia.org/wiki/CAP_theorem). In the face of a network partition, they sacrafice all availability.
 
