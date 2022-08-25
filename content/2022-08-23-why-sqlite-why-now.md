@@ -211,23 +211,23 @@ Another set of ideas for another time but --
 
 One of the key strengths of the relational model is the ability to enter your data from any point. For a blogging app, to find _any_ or _all_ comments you can query the comment table. To find _any_ or _all_ users you can query the user table. The relational model does not rely on access paths.
 
-Compare this with many `NoSQL` models which often structure their data into trees. Access path suddenly matters. To find _any_ comment you need to know what post it is attached to. To find _all_ comments, you must know that you have to traverse from posts to comments. Same for users. If architecture changes and someone changes the branch structure, you have to go update all your application logic to use the new paths.
+Compare this with many `NoSQL` models which often structure their data into trees. Access path suddenly matters. To find _any_ comment you need to know what post it is attached to. To find _all_ comments, you must know that you have to traverse all posts to all comments. If architecture changes and someone changes the branch structure, you have to go update all your application logic to use the new paths.
 
-In this latter way, supposedly schema-less `NoSQL` actually has more requirements than SQL. NoSQL requires you to understand access path when retrieving arbitrary data. Relational/SQL does not.
+In this latter way, supposedly schema-less `NoSQL` has more requirements than SQL. NoSQL requires you to understand how your data is layed out (access path) when retrieving arbitrary data. Relational/SQL does not since all types are flattened / normalized into their own tables.
 
-There are more revelatory observations like this in the original relational databases paper here: https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf
+There are more revelatory observations like this in the [original relational databases paper](https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf) from 1970.
 
 My addition, however, is that once we _do_ have a start node (a comment, post, user, etc.), a `Graph` query language is a better fit for application queries than `SQL`.
 
-This is the case since once you _do_ have a start node, most other queries made by the application are then traversals `from` that start node.
+This is the case since once you _do_ have a start node, the relationships _on_ that start node are properties _of_ the data and the majority of queries made by the application are traversals _from_ that start node. Finding start nodes is what SQL explicitly excels at. (note to self: future post on sharding and resurgence of graph models for sharded sql dbs (and why they're required here) then resurgence, again, of relational for the data warehouse).
 
-So instead of:
+Once you _do_ have a post to start from, instead of doing:
 
 ```sql
 select comment.* from post join comment on comment.post_id = post.id where post.id = x and comment.date < cursor.date and comment.id < cursor.id order by date, id desc limit 10
 ```
 
-we traverse like:
+to get it's comments, we traverse like:
 
 ```js
 post.comments().last(10).after(curosr);
