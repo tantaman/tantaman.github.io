@@ -233,4 +233,6 @@ to get it's comments, we traverse like:
 post.comments().last(10).after(curosr);
 ```
 
+An idea being explored in [Aphrodite](https://aphrodite.sh/)
+
 > Note: traversals / access paths, after having a start node, are a property of the data rather than a property of how we store it. The former being what relational models preserve, the latter being what NoSQL models expose.
