@@ -33,15 +33,15 @@ In one way, sqlite is a great fit…">
 <meta name="twitter:image:alt" content="Tantaman">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="9-13 minutes">
+<meta name="twitter:data1" content="10-15 minutes">
 </head>
 <body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Why SQLite? Why Now? 🐇</h1><span class="published subtext">Published 2022-08-23</span>
-<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#enabling-the-relational-model-for-more-use-cases">Enabling the Relational Model for More Use Cases</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#respecting-the-consistency-needs-of-the-data">Respecting the Consistency Needs of the Data</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#breaking-the-speed-of-light">Breaking the Speed of Light</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#turning-edge-architecture-upside-down-">Turning Edge Architecture Upside Down 🙃</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#local-first-paradigm">Local-First Paradigm</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#simpler-architecture">Simpler Architecture</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#lower-cloud-costs">Lower Cloud Costs</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#data-custody">Data Custody</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#transaction-support">Transaction Support</a></li></ol></li></ol></nav><p>I've been sucked down a <code>sqlite</code> rabbithole and I'm all-in on it.</p>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#enabling-the-relational-model-for-more-use-cases">Enabling the Relational Model for More Use Cases</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#respecting-the-consistency-needs-of-the-data">Respecting the Consistency Needs of the Data</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#breaking-the-speed-of-light">Breaking the Speed of Light</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#turning-edge-architecture-upside-down-">Turning Edge Architecture Upside Down 🙃</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#local-first-paradigm">Local-First Paradigm</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#misc">Misc</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#simpler-architecture">Simpler Architecture</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#lower-cloud-costs">Lower Cloud Costs</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#data-custody">Data Custody</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#transaction-support">Transaction Support</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#sql-drawbacks">SQL Drawbacks</a></li></ol></nav><p>I've been sucked down a <code>sqlite</code> rabbithole and I'm all-in on it.</p>
 <p>So why <code>SQLite</code>? And why now?</p>
 <p>For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.</p>
 <p>In one way, <code>sqlite</code> is a great fit for distributed applications given it can be embedded directly into devices at the dge.</p>
 <p>In another way, it is an awful choice because it doesn't have a sync protocol nor does it support eventual consistency.</p>
-<p>So let's take a little journey through a few stops to see how all this plays out and why I'm bullish on <code>sqlite</code>.</p>
+<p>So is it great or is it awful? Let's take a little journey through a few stops to see how all this plays out and why I'm bullish on <code>sqlite</code>.</p>
 <ol>
 <li><a href="#enabling-the-relational-model-for-more-use-cases">Enabling the relational model for more use cases</a></li>
 <li><a href="#respecting-the-consistency-needs-of-the-data">Respecting the consistency needs of data</a></li>
@@ -49,30 +49,31 @@ In one way, sqlite is a great fit…">
 <li><a href="#turning-edge-architecture-upside-down-">Turning Edge Architecture Upside Down 🙃</a></li>
 </ol>
 <h1 id="enabling-the-relational-model-for-more-use-cases"><a aria-hidden="true" tabindex="-1" href="#enabling-the-relational-model-for-more-use-cases"><span class="icon icon-link"></span></a>Enabling the Relational Model for More Use Cases</h1>
-<p>The relational model has stood the test of time and proven itself to be one of the best choices you can make for managing the data backing your application(s). Maybe you could even say <a href="https://www.simplethread.com/relational-databases-arent-dinosaurs-theyre-sharks/">it is an apex predator</a>.</p>
+<p>The relational model has <a href="https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf">stood the test of time</a> and proven itself to be one of the best choices you can make for managing the data backing your application(s). Maybe you could even say <a href="https://en.wikipedia.org/wiki/Apex_predator">it is an apex predator</a>.</p>
 <p>That being said, relational databases are firmly on the CA side of <a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP</a>. In the face of a network partition, they sacrafice all availability.</p>
 <p>Wouldn't it be great if we could use our relational databases even in cases of prolonged network partitions?</p>
-<p><a href="https://github.com/tantaman/conflict-free-sqlite">With a few tweaks</a> we can add an eventually consistent layer atop relational databases that can stay available in the face of network partitions. This means</p>
+<p><a href="https://github.com/tantaman/conflict-free-sqlite">With a few tweaks</a> we can add an eventually consistent layer, atop relational databases, that can stay available in the face of network partitions. This means</p>
 <ul>
 <li>We can suddenly use <code>sqlite</code> for peer to peer applications.</li>
 <li>That we can have a multi-master relationship between our server and client.</li>
 <li>We can allow clients to make arbitrary changes to their local database and merge changes to, or from, the server (or other peers) at some arbitrary point in time in the future</li>
 </ul>
-<p>This is very appealing to me where I have applications that I want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use. It is also convenient that this can be built atop existing technologies and existing storage solutions rather than requiring something new.</p>
-<p>All of this relies on eventual consistency and thus begs the question of what data consistency needs data actually has.</p>
+<p>This is very appealing for any situation where you want to allow the user to interact with their data without waiting for a response from the server and to be able to sync their data between all devices they use. That this can be built atop existing technologies and existing storage solutions, rather than requiring something new, is an added bonus.</p>
+<p>All of these benefits rely on eventual consistency. This begs the question of what data consistency needs your data actually has.</p>
 <h1 id="respecting-the-consistency-needs-of-the-data"><a aria-hidden="true" tabindex="-1" href="#respecting-the-consistency-needs-of-the-data"><span class="icon icon-link"></span></a>Respecting the Consistency Needs of the Data</h1>
 <p><img src="./blog-assets/why-sqlite/respect.jpeg" alt="respect"></p>
-<p>The lack of options in the relational model has locked us into not thinking about what level of data consistency we actually need. As such, in traditional web applications all changes go through a central service and are generally strongly consistent. In this realtional + client-server paradigm, we don't even reach for eventual consistency until we run into performance, availability or scaling problems.</p>
+<p>The lack of options, aside from stong consistency, in relational databases has locked us into not thinking about what level of data consistency we actually need. As such, in traditional web applications all changes go through a central service and are generally strongly consistent. In this realtional + client-server paradigm, we don't even reach for eventual consistency until we run into performance, availability or scaling problems.</p>
 <p>This has blinded us to the fact that large swaths of state do not ever need to go through a central server or need strong consistency.</p>
-<p>User registration certainly does need strong consistency -- you don't want two users claiming the same handle. But does</p>
+<p>User registration and bank transfers certainly do need strong consistency -- you don't want two users claiming the same handle or double spending but do:</p>
 <ul>
-<li>Working on anything that is private to the individual user?</li>
-<li>Working on anything (e.g., a post) that is private until published?</li>
-<li>Upvoting a comment?</li>
+<li>Collaborative documents (e.g., google docs)?</li>
+<li>Upvotes on posts?</li>
+<li>Tweeting?</li>
 <li>Adding an item to a shopping cart?</li>
 </ul>
+<p>These all just need to be eventually consistent.</p>
 <p>By unlocking eventually consistent options atop the relational model, we give developers the ability to model all of their data in a familiar way and with the consistency options that make sense rather than just those that are at hand.</p>
-<p>The lack of options for eventual consistency and state distribution has put us down a path of default strong consistency and client-server architecture that is</p>
+<p>The pripr lack of options has put us down a path of default strong consistency and centralized client-server architecture that is</p>
 <ul>
 <li>Expensive</li>
 <li>Complex</li>
@@ -91,7 +92,7 @@ In one way, sqlite is a great fit…">
 <li>NA West &#x3C;-> Singapore takes <strong>180ms</strong></li>
 <li>EU West &#x3C;-> Singapore takes <strong>160ms</strong></li>
 </ul>
-<p>two sequential round trips from <code>NA West</code> to <code>Singapore</code> will get you almost half a second of delay.</p>
+<p>two sequential round trips from <code>NA West</code> to <code>Singapore</code> will get you close to half a second of delay.</p>
 <p>In the "strongly consistent, client-server paradigm" (from now on called "the paradigm"), the path of resolving this roughly goes as follows:</p>
 <ol>
 <li>Bundle resources (js, css, html, etc.)</li>
@@ -114,24 +115,25 @@ In one way, sqlite is a great fit…">
 <p>Current edge architectures, being beholden to "the paradigm", are an attempt to solve new problems by applying old patterns.</p>
 <p>What if we flipped everything on its head?</p>
 <p><img src="./blog-assets/why-sqlite/blue-idea.jpg" alt="blue-idea"></p>
-<p>What if, instead of always assuming that the server is the authortative source, we assumed that the user's local device is the authoritative source of information for that user?</p>
+<p>What if, instead of always assuming that the server is the authortative source, we assumed that the user's local device is the authoritative source of information?</p>
 <h2 id="local-first-paradigm"><a aria-hidden="true" tabindex="-1" href="#local-first-paradigm"><span class="icon icon-link"></span></a>Local-First Paradigm</h2>
 <p>In this world, all requests for state are immediately resolved on-device. The default deployment surface for compute (logic, code) is also on-device.</p>
 <p>In the local-first paradigm, the default consistency mode is eventual consistency. This means that state and compute can naturally exist at the edge and are only brought to the "center" when there is a need for strong consistency.</p>
 <p>In other words, the common case is edge computing. The specialized case is centralized computing.</p>
-<p>If you want your app to seamlessly run at the edge, you need to switch paradigms.</p>
+<p>If you want your app to be edge native, you need to switch paradigms.</p>
 <p><code>sqlite</code> is a great fit for all of this.</p>
 <ul>
 <li>Developers are familiar with SQL</li>
-<li>SQL has stood the test of time (40+ years)</li>
+<li>SQL has stood the test of time (<a href="https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf">50+ years</a>)</li>
 <li>SQL has massive adoption and many tools exist to interact with SQL from application code</li>
 <li><code>sqlite</code> can be embedded directly into your application</li>
 <li><code>sqlite</code> can be deployed anywhere your application is deployed</li>
-<li><code>sqlite</code>, or any relational database, can be extended to support eventual consistency (see the proof of concept at <a href="https://github.com/tantaman/conflict-free-sqlite">conflict free sqlite</a>)</li>
+<li><code>sqlite</code>, or any relational database, can be extended to support eventual consistency (proof of concept at <a href="https://github.com/tantaman/conflict-free-sqlite">conflict free sqlite</a>)</li>
 </ul>
+<h1 id="misc"><a aria-hidden="true" tabindex="-1" href="#misc"><span class="icon icon-link"></span></a>Misc</h1>
 <p>The local-first architecutre + embedding a database directly into your app has a number of other benefits on top of those we've already seen --</p>
 <ul>
-<li>Simpler architecture</li>
+<li>Simpler</li>
 <li>Reduced cloud costs</li>
 <li>Self custody of data</li>
 <li>Transaction support for mutation of application state</li>
@@ -180,6 +182,23 @@ In one way, sqlite is a great fit…">
 </ul>
 <p>If our programming languages had support for ACID transactions against in-memory data then entire classes of problems related to mutable state (in particular, those of observing partial states) would vanish.</p>
 <p>We can, in some ways, use an embedded in-memory <code>sqlite</code> as a hack to gain this power for our application state.</p>
+<h1 id="sql-drawbacks"><a aria-hidden="true" tabindex="-1" href="#sql-drawbacks"><span class="icon icon-link"></span></a>SQL Drawbacks</h1>
+<p>Another set of ideas for another time but --</p>
+<p>One of the key strengths of the relational model is the ability to enter your data from any point. For a blogging app, to find <em>any</em> or <em>all</em> comments you can query the comment table. To find <em>any</em> or <em>all</em> users you can query the user table. The relational model does not rely on access paths.</p>
+<p>Compare this with many <code>NoSQL</code> models which often structure their data into trees. Access path suddenly matters. To find <em>any</em> comment you need to know what post it is attached to. To find <em>all</em> comments, you must know that you have to traverse from posts to comments. Same for users. If architecture changes and someone changes the branch structure, you have to go update all your application logic to use the new paths.</p>
+<p>In this latter way, supposedly schema-less <code>NoSQL</code> actually has more requirements than SQL. NoSQL requires you to understand access path when retrieving arbitrary data. Relational/SQL does not.</p>
+<p>There are more revelatory observations like this in the original relational databases paper here: <a href="https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf">https://www.seas.upenn.edu/~zives/03f/cis550/codd.pdf</a></p>
+<p>My addition, however, is that once we <em>do</em> have a start node (a comment, post, user, etc.), a <code>Graph</code> query language is a better fit for application queries than <code>SQL</code>.</p>
+<p>This is the case since once you <em>do</em> have a start node, most other queries made by the application are then traversals <code>from</code> that start node.</p>
+<p>So instead of:</p>
+<pre><code class="hljs language-sql"><span class="hljs-keyword">select</span> comment.<span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> post <span class="hljs-keyword">join</span> comment <span class="hljs-keyword">on</span> comment.post_id <span class="hljs-operator">=</span> post.id <span class="hljs-keyword">where</span> post.id <span class="hljs-operator">=</span> x <span class="hljs-keyword">and</span> comment.date <span class="hljs-operator">&#x3C;</span> cursor.date <span class="hljs-keyword">and</span> comment.id <span class="hljs-operator">&#x3C;</span> cursor.id <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> <span class="hljs-type">date</span>, id <span class="hljs-keyword">desc</span> limit <span class="hljs-number">10</span>
+</code></pre>
+<p>we traverse like:</p>
+<pre><code class="hljs language-js">post.<span class="hljs-title function_">comments</span>().<span class="hljs-title function_">last</span>(<span class="hljs-number">10</span>).<span class="hljs-title function_">after</span>(curosr);
+</code></pre>
+<blockquote>
+<p>Note: traversals / access paths, after having a start node, are a property of the data rather than a property of how we store it. The former being what relational models preserve, the latter being what NoSQL models expose.</p>
+</blockquote>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
 </main><div id="after-static"></div></div><footer id="footer"></footer></body>
