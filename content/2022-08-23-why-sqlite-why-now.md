@@ -7,7 +7,7 @@ I've been sucked down a `sqlite` rabbithole and I'm all-in on it.
 
 So why `SQLite`? And why now?
 
-For me, its about re-architecting how we write code so it can fit the coming world of edge, dstributed and local-first computing.
+For me, its about re-architecting how we write code so it can fit the coming world of edge, distributed and local-first computing.
 
 In one way, `sqlite` is a great fit for distributed applications given it can be embedded directly into devices at the dge.
 
