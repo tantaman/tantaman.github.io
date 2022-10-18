@@ -277,3 +277,7 @@ blockquote span {
 .hljs-tag {
   /* purposely ignored */
 }
+
+img {
+  max-width: 100%;
+}

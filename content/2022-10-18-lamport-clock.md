@@ -39,7 +39,7 @@ This means that while the Lamport clock can tell you that B did not happen befor
 
 Note: comparing clocks of events on the same system provides absolute guarantees but that isn't of interest to us.
 
-Some systems need stronger guarantees. I.e., knowing that B is strictly after and not concurrent with A. There are other clocks (vector clocks, interval tree clocks, causal graphs, merkle clocks, etc.) that can provide that information. Lamport clocks, however, are perfect for systems that don't need finer grained resolution. One such use case is a last write wins register. See Do LWW Registers Need Vector Clocks or Causal Graphs? (to publish).
+Some systems need stronger guarantees. I.e., knowing that B is strictly after and not concurrent with A. There are other clocks (vector clocks, interval tree clocks, causal graphs, merkle clocks, etc.) that can provide that information. Lamport clocks, however, are perfect for systems that don't need finer grained resolution. One such use case is a last write wins register. See [Do LWW Registers Need Vector Clocks or Causal Graphs?](./2022-10-18-lamport-sufficient-for-lww).
 
 # Implementation
 
