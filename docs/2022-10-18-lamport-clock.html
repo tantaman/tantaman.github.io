@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lamport Clock 🕥 - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="The Lamport clock was originally described in 1978 in the paper &#x22;Time, Clocks, and the Ordering of Events in a Distributed System&#x22;. It is a logical clock that was created as a way to order events in a distributed system. Why not use wall/physical clocks?…">
+<meta name="keywords" content="programming, distributed, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Lamport Clock 🕥">
+<meta property="og:description" content="The Lamport clock was originally described in 1978 in the paper &#x22;Time, Clocks, and the Ordering of Events in a Distributed System&#x22;. It is a logical clock that was created as a way to order events in a distributed system. Why not use wall/physical clocks?…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="programming">
+<meta property="article:tag" content="distributed">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="4-6 minutes">
+</head>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Lamport Clock 🕥</h1><span class="published subtext">Published 2022-10-18</span>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#lamport-clock">Lamport Clock</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#causality">Causality</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#lamport-guarantees">Lamport Guarantees</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#implementation">Implementation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#back-channels">Back-channels</a></li></ol></nav><h1 id="lamport-clock"><a aria-hidden="true" tabindex="-1" href="#lamport-clock"><span class="icon icon-link"></span></a>Lamport Clock</h1>
+<p>The Lamport clock was originally described in 1978 in the paper <a href="./blog-assets/lamport-clock/paper.pdf">"Time, Clocks, and the Ordering of Events in a Distributed System"</a>. It is a logical clock that was created as a way to order events in a distributed system.</p>
+<p>Why not use wall/physical clocks?</p>
+<p>Physical clocks are hard to keep in sync across participants in a distributed system, especially as those participants get further apart with respect to latency.</p>
+<p>Even if we did have perfectly synced physical clocks, <strong>physical clocks don't provide accurate causal information</strong>.</p>
+<h1 id="causality"><a aria-hidden="true" tabindex="-1" href="#causality"><span class="icon icon-link"></span></a>Causality</h1>
+<p>If event A happened before event B according to physical time, it is possible that A caused B but not guaranteed. As an example -- Bill bought a surfboard in Sydney at 1am UTC. I woke up in Washington DC at 11am UTC. While the purchasing of the board happened before me waking up, there is no causal relationship between the two.</p>
+<p>Logical clocks, on the other hand, track which messages are passed between which processes and use that as their basis of time. If two processes never exchange messages, all of their events or considered to be concurrent. When two processes do exchange a message with one another, their events from that point forward happen after all events prior to the message exchange.</p>
+<p>In the surfboard example, the purchasing of the board and me waking up would be considered concurrent. If, however, Bill called me before purchasing the board (thus exchanging a message from his process to mine), my waking up would happen after Bill purchased the board.</p>
+<blockquote>
+<p>Logical clocks provide a stronger guarantee of causal relationships since the times of processes can only be later than the times of other processes if they've interacted. Non-interacting processes do not influence one another and are considered concurrent.</p>
+</blockquote>
+<p><img src="./blog-assets/lamport-clock/lamport-view-1.png" alt="lamport-concurrent"></p>
+<p><img src="./blog-assets/lamport-clock/lamport-view-2-titled.png" alt="lamport-after"></p>
+<h1 id="lamport-guarantees"><a aria-hidden="true" tabindex="-1" href="#lamport-guarantees"><span class="icon icon-link"></span></a>Lamport Guarantees</h1>
+<p>The Lamport clock is the simplest form of logical clock. It only provides one guarantee when comparing clocks of events from two different systems:</p>
+<blockquote>
+<p>if <strong>a</strong> happened before <strong>b</strong> then Clock(<strong>a</strong>) &#x3C; Clock(<strong>b</strong>)</p>
+</blockquote>
+<p>Note that the converse is <strong>not</strong> true for Lamport clocks (<a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf">paper</a> pg 560):</p>
+<blockquote>
+<p>if Clock(<strong>a</strong>) &#x3C; Clock(<strong>b</strong>) then <strong>a</strong> happened before <strong>b</strong>.</p>
+</blockquote>
+<p>This means that while the Lamport clock can tell you that B did not happen before A, it can't tell you whether or not B was <strong>after</strong> or <strong>concurrent</strong> with A.</p>
+<p>Note: comparing clocks of events on the same system provides absolute guarantees but that isn't of interest to us.</p>
+<p>Some systems need stronger guarantees. I.e., knowing that B is strictly after and not concurrent with A. There are other clocks (vector clocks, interval tree clocks, causal graphs, merkle clocks, etc.) that can provide that information. Lamport clocks, however, are perfect for systems that don't need finer grained resolution. One such use case is a last write wins register. See Do LWW Registers Need Vector Clocks or Causal Graphs? (to publish).</p>
+<h1 id="implementation"><a aria-hidden="true" tabindex="-1" href="#implementation"><span class="icon icon-link"></span></a>Implementation</h1>
+<p>Implementing a Lamport clock is fairly straightforward. Each participant in a distributed system keeps a counter of events that have occurred locally. This counter is incremented for every new event that happens locally and must never run backwards.</p>
+<p>Whenever participants exchange messages they also exchange clock values. Participants update their clock to the max of (received clock, local clock).</p>
+<p>This "clock pushing" / "setting to max" on message events is what guarantees that if "a" happened before "b" then Clock(a) &#x3C; Clock(b).</p>
+<p><img src="./blog-assets/lamport-clock/clock-push.png" alt="clock-pushing"></p>
+<p>The fact that no information about where the clock value came from is retained is what limits Lamport clocks to not being able to tell you if "a" was before or concurrent with "b".</p>
+<p>This is the case since an event on system B can have a larger clock value than an event on system A, even if they've never exchanged messages, simply by B being more active than A.</p>
+<p>If a Lamport clock was extended to retain information about what clock values were received from whom (e.g., a vector clock) then we can differentiate between concurrent and happened before relationships.</p>
+<h1 id="back-channels"><a aria-hidden="true" tabindex="-1" href="#back-channels"><span class="icon icon-link"></span></a>Back-channels</h1>
+<p>Unfortunately logical clocks don't deal with back-channels or methods of transmitting causal information between systems outside of the awareness of said systems.</p>
+<blockquote>
+<p>Our resource scheduling algorithm ordered the requests according to the total ordering =>. This permits the following type of "anomalous behavior." Consider a nationwide system of interconnected computers. Suppose a person issues a request A on a computer A, and then telephones a friend in another city to have him issue a request B on a different computer B. It is quite possible for request B to receive a lower timestamp and be ordered before request A. This can happen because the system has no way of knowing that A actually preceded B, since that precedence information is based on messages external to the system.</p>
+</blockquote>
+<p>Hybrid logical clocks -- logical clocks with a physical time component -- are an alternative we can explore for these cases.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
