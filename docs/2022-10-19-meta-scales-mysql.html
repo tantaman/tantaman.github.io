@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meta / Facebook - How a graph model can scale your relational DBs - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="Did you know that still, to this day, the majority of Meta&#x27;s data needs are serviced by MySQL? There is a caching layer atop it (called TAO) that services all queries, sending requests to MySQL only on a cache miss but what enabled TAO and MySQL to scale…">
+<meta name="keywords" content="programming, distributed, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2022 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Meta / Facebook - How a graph model can scale your relational DBs">
+<meta property="og:description" content="Did you know that still, to this day, the majority of Meta&#x27;s data needs are serviced by MySQL? There is a caching layer atop it (called TAO) that services all queries, sending requests to MySQL only on a cache miss but what enabled TAO and MySQL to scale…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="programming">
+<meta property="article:tag" content="distributed">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="5-8 minutes">
+</head>
+<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static"><h1>Meta / Facebook - How a graph model can scale your relational DBs</h1><span class="published subtext">Published 2022-10-19</span>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#graph-vs-relational">Graph vs Relational</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#relational-data-access">Relational Data Access</a><ol class="toc-level toc-level-3"><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#no-entry-point-required">No Entry Point Required</a></li><li class="toc-item toc-item-h3"><a class="toc-link toc-link-h3" href="#reach-anything">Reach Anything</a></li></ol></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#graph-data-access">Graph Data Access</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#entry-point-required">Entry Point Required</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#reach-anything-1">Reach Anything</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#scaling">Scaling</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#natural-limits">Natural Limits</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#developer-experience">Developer Experience</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#follow-up">Follow up:</a></li></ol></nav><p>Did you know that still, to this day, the majority of Meta's data needs are serviced by MySQL?</p>
+<p>There is a caching layer atop it (called <a href="https://engineering.fb.com/2013/06/25/core-data/tao-the-power-of-the-graph/">TAO</a>) that services all queries, sending requests to MySQL only on a cache miss but what enabled TAO and MySQL to scale to servicing <a href="https://www.statista.com/statistics/1092227/facebook-product-dau">2.88 billion daily active users</a> was the adoption of a graph model for data access.</p>
+<h1 id="graph-vs-relational"><a aria-hidden="true" tabindex="-1" href="#graph-vs-relational"><span class="icon icon-link"></span></a>Graph vs Relational</h1>
+<p>Graph vs Relational can be a hard distinction to draw. At the end of the day, doesn't a relational database have nodes (rows) and edges (foreign keys) just like a graph?</p>
+<p>Isn't a "graph" just some abstract term that fits all data? Documents, like JSON, are trees which are just graphs. We already saw that a relational model can be a graph too.</p>
+<p>The differences come out in the data access patterns allowed by each model.</p>
+<h2 id="relational-data-access"><a aria-hidden="true" tabindex="-1" href="#relational-data-access"><span class="icon icon-link"></span></a>Relational Data Access</h2>
+<h3 id="no-entry-point-required"><a aria-hidden="true" tabindex="-1" href="#no-entry-point-required"><span class="icon icon-link"></span></a>No Entry Point Required</h3>
+<p>The relational model groups all data of the same type into tables. This allows one to query for any piece of data of that type that matches some criteria. In other words, you don't need an entry point to start fetching data.</p>
+<p><img src="./blog-assets/meta-sql-graph/table.png" alt="table"></p>
+<pre><code class="hljs language-sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> email <span class="hljs-operator">=</span> <span class="hljs-string">'...'</span>
+</code></pre>
+<p>Relational models also allow arbitrary indices. I.e., you can look up rows by things other than their primary key. Worst case, a full table scan is always available to you.</p>
+<h3 id="reach-anything"><a aria-hidden="true" tabindex="-1" href="#reach-anything"><span class="icon icon-link"></span></a>Reach Anything</h3>
+<p>Relational models are almost always normalized, allowing you to "reach anything." If you have the primary key for some row you can always look that row up directly just by using the primary key. Contrast this to a document model where, for nested items, you need the primary key of the parent document + the path to the nested item.</p>
+<h2 id="graph-data-access"><a aria-hidden="true" tabindex="-1" href="#graph-data-access"><span class="icon icon-link"></span></a>Graph Data Access</h2>
+<p>Graph Database products out there today diverge from some of the points to be outlined below to the point that some of them look identical to relational DBs but with a new query syntax. What is outlined below, however, are the properties of the graph data model in use @ Meta and which allow hyper scaling.</p>
+<h2 id="entry-point-required"><a aria-hidden="true" tabindex="-1" href="#entry-point-required"><span class="icon icon-link"></span></a>Entry Point Required</h2>
+<p>In contrast to the relational model, the graph model <em>requires</em> you to have a start node (or starting primary key) when you want to query the graph. You can't do an arbitrary <code>select all</code> against a given data type. You can only query from a given start node and out across its edges.</p>
+<p>The graph model also does not allow arbitrary joins. You can only move from node to node across edges over primary keys. In other words, graph edge traversal is a relational join where joins are restricted to only being allowed to be made against foreign keys which reference primary keys.</p>
+<p><img src="./blog-assets/meta-sql-graph/graph.png" alt="graph"></p>
+<pre><code class="hljs language-scss"><span class="hljs-built_in">user</span>(id = <span class="hljs-number">1</span>)-><span class="hljs-built_in">friends</span>(name = bill)-><span class="hljs-built_in">photos</span>()
+</code></pre>
+<h2 id="reach-anything-1"><a aria-hidden="true" tabindex="-1" href="#reach-anything-1"><span class="icon icon-link"></span></a>Reach Anything</h2>
+<p>Graphs have the "reach anything" property in common with the relational model. Data is hyper-normalized, every node has a primary key and every node can be retrieved by its primary key. Nodes generally do not contain complex data but rather have edges to other nodes when complex data needs to be modeled.</p>
+<p>To summarize, the key differences between graph and relation models are:</p>
+<ul>
+<li>Graph queries require starting from a node in the graph</li>
+<li>Relational queries don't require a starting point</li>
+<li>Graph traversals between nodes can only be done by primary key</li>
+<li>Relational queries allow traversing between rows via arbitrary join conditions</li>
+</ul>
+<h1 id="scaling"><a aria-hidden="true" tabindex="-1" href="#scaling"><span class="icon icon-link"></span></a>Scaling</h1>
+<p>How do those key difference impact scaling and allow Meta to serve ~3 billion daily active users? And didn't I say that Meta still uses MySQL which is relational?</p>
+<p>As we saw above, the relational model allows a superset of operations compared to the graph model. To scale MySQL up, Meta constrained interactions with MySQL to the graph model.</p>
+<p>They:</p>
+<ol>
+<li>Removed the ability to issue queries without a start node / start primar key and</li>
+<li>Removed the ability to do arbitrary joins. All joins / edge traversals having to be done through foreign keys pointing to primary keys.</li>
+</ol>
+<p>But why do those specific constraints allow scaling? And how did they impact developer experience?</p>
+<p>In the relational model, the grouping of all entities of the same type into the same table presents challenges when you need to scale up. If a given table no longer fits on a single machine you'll need to partition it. If you partition it you suddenly have some problems at query time.</p>
+<p>For a given query, do you query <em>all</em> partitions? If you do that then every machine in your fleet needs to be able to handle the entire query volume for the entire site.</p>
+<p><img src="./blog-assets/meta-sql-graph/fanout.png" alt="fanout"></p>
+<p>So for a given query you want to only query certain partitions. How do you know which partitions to query? Answering this question puts you into a place where you need to map from some properties known at query time to the database responsible. Having to know the properties of what you're looking for so you can find the right machine starts to remove that "no entry point required" feature of relational DBs.</p>
+<p>Also, are you going to make every single application developer at the company understand how to map from a given property to the DB responsible for storing the backing data? Probably not. It'd be easier to impose the constraint that all queries must start from a primary key and let the query layer map from primary key to DB behind the scenes. There we have the reasoning for constraint (1).</p>
+<p><img src="./blog-assets/meta-sql-graph/point.png" alt="point"></p>
+<p>The next constraint (2) is removing arbitrary joins. This falls into the same camp as (1). Joining from one row on one db to another row on, possibly, another db requires knowing how to find that db. If joins are arbitrary then you need arbitrarily complex mappings from data to dbs. If joins are strictly through foreign keys pointing to primary keys, then the query layer can look at each key and route to the appropriate db for the next "hop" of the query.</p>
+<p>Looking at it this way, Meta re-discovered the graph model as a consequence of their scaling needs.</p>
+<h1 id="natural-limits"><a aria-hidden="true" tabindex="-1" href="#natural-limits"><span class="icon icon-link"></span></a>Natural Limits</h1>
+<p>Queries being restricted to start nodes and edge traversals from those start nodes also puts some limits on the amount of data fetched by most queries in production. A table can easily grow to be arbitrarily large. The number of edges from a given node will, on average, be several orders of magnitude smaller than a table making it much harder to craft a query that melts a database. Of course there are entities with millions of outbound edges which still need to be handled with care.</p>
+<h1 id="developer-experience"><a aria-hidden="true" tabindex="-1" href="#developer-experience"><span class="icon icon-link"></span></a>Developer Experience</h1>
+<p>These constraints might sound problematic for developer experience but, aside from search use cases, applications almost always have some set of start nodes in mind when requesting data. In addition, the data they need is almost always a few hops away from those nodes via foreign key traversals.</p>
+<p>Another way to look at it is once you do have a start node (such as the logged in user) SQL is a less relevant query language and you're more interested in a graph based query language. Something that GraphQL adoption seems to be proving today.</p>
+<h1 id="follow-up"><a aria-hidden="true" tabindex="-1" href="#follow-up"><span class="icon icon-link"></span></a>Follow up:</h1>
+<ul>
+<li>Faking relational in a graph (sentinel nodes)</li>
+<li>Extra services (index services)</li>
+</ul>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</html>
