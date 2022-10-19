@@ -19,12 +19,12 @@ The differences come out in the data access patterns allowed by each model.
 
 ## No Entry Point Required
 
-The relational model groups all data of the same type into tables. This allows one to query for any piece of data of that type that matches some criteria. In other words, you don't need an entry point to start fetching data.
+The relational model groups all data of the same type into tables. This allows one to query for any piece of data of a given type that matches some criteria. In other words, you don't need an entry point (row id or primary key) to start fetching data.
 
 ![table](./blog-assets/meta-sql-graph/table.png)
 
 ```sql
-select * from user where email = '...'
+select * from user;
 ```
 
 Relational models also allow arbitrary indices. I.e., you can look up rows by things other than their primary key. Worst case, a full table scan is always available to you.
@@ -35,13 +35,13 @@ Relational models are almost always normalized, allowing you to "reach anything.
 
 # Graph Data Access
 
-Graph Database products out there today diverge from some of the points to be outlined below to the point that some of them look identical to relational DBs but with a new query syntax. What is outlined below, however, are the properties of the graph data model in use @ Meta and which allow hyper scaling.
+Graph Database products out there today diverge from some of the points to be outlined below to the point that some of them look identical to relational DBs but with a new query syntax. What is outlined below, however, are the properties of the graph data model in use @ Meta and which allowed hyper scaling.
 
 ## Entry Point Required
 
-In contrast to the relational model, the graph model _requires_ you to have a start node (or starting primary key) when you want to query the graph. You can't do an arbitrary `select all` against a given data type. You can only query from a given start node and out across its edges.
+In contrast to the relational model, the graph model _requires_ you to have a start node (starting primary key) when you want to query the graph. You can't do an arbitrary `select all` against a given data type. You can only query from a given start node and out across its edges.
 
-The graph model also does not allow arbitrary joins. You can only move from node to node across edges over primary keys. In other words, graph edge traversal is a relational join where joins are restricted to only being allowed to be made against foreign keys which reference primary keys.
+The graph model also does not allow arbitrary joins. You can only move from node to node across edges over primary keys. In other words, graph edge traversal is a relational join where joins are restricted to only being allowed to be made against foreign keys that reference primary keys.
 
 ![graph](./blog-assets/meta-sql-graph/graph.png)
 
@@ -57,19 +57,21 @@ To summarize, the key differences between graph and relation models are:
 
 - Graph queries require starting from a node in the graph
 - Relational queries don't require a starting point
-- Graph traversals between nodes can only be done by primary key
+- Graph traversals between nodes can only be done by foreign key
 - Relational queries allow traversing between rows via arbitrary join conditions
 
 # Scaling
 
-How do those key difference impact scaling and allow Meta to serve ~3 billion daily active users? And didn't I say that Meta still uses MySQL which is relational?
+How do those key differences impact scaling and allow Meta to serve ~3 billion daily active users? And didn't I say that Meta still uses MySQL which is relational?
 
 As we saw above, the relational model allows a superset of operations compared to the graph model. To scale MySQL up, Meta constrained interactions with MySQL to the graph model.
 
 They:
 
-1. Removed the ability to issue queries without a start node / start primar key and
+1. Removed the ability to issue queries without a start node / start primary key and
 2. Removed the ability to do arbitrary joins. All joins / edge traversals having to be done through foreign keys pointing to primary keys.
+
+> Note: "removed" is heavy handed. It is still _possible_ just not supported by the normal APIs exposed to product developers.
 
 But why do those specific constraints allow scaling? And how did they impact developer experience?
 
@@ -79,7 +81,7 @@ For a given query, do you query _all_ partitions? If you do that then every mach
 
 ![fanout](./blog-assets/meta-sql-graph/fanout.png)
 
-So for a given query you want to only query certain partitions. How do you know which partitions to query? Answering this question puts you into a place where you need to map from some properties known at query time to the database responsible. Having to know the properties of what you're looking for so you can find the right machine starts to remove that "no entry point required" feature of relational DBs.
+Sounds like a bad idea. So for a given query you want to only query relevant partitions. How do you know which partitions to query? Answering this question puts you into a place where you need to map from some properties known at query time to the database(s) responsible. Having to know the properties of what you're looking for so you can find the right machine starts to remove that "no entry point required" feature of relational DBs.
 
 Also, are you going to make every single application developer at the company understand how to map from a given property to the DB responsible for storing the backing data? Probably not. It'd be easier to impose the constraint that all queries must start from a primary key and let the query layer map from primary key to DB behind the scenes. There we have the reasoning for constraint (1).
 
@@ -91,7 +93,7 @@ Looking at it this way, Meta re-discovered the graph model as a consequence of t
 
 # Natural Limits
 
-Queries being restricted to start nodes and edge traversals from those start nodes also puts some limits on the amount of data fetched by most queries in production. A table can easily grow to be arbitrarily large. The number of edges from a given node will, on average, be several orders of magnitude smaller than a table making it much harder to craft a query that melts a database. Of course there are entities with millions of outbound edges which still need to be handled with care.
+Queries being restricted to start nodes and edge traversals from those start nodes also puts some limits on the amount of data fetched by most queries in production. A table can easily grow to be arbitrarily large. The number of edges from a given node will generally be several orders of magnitude smaller than a table making it much harder to craft a query that melts a database. Of course there are entities with millions of outbound edges which still need to be handled with care.
 
 # Developer Experience
 
@@ -101,5 +103,7 @@ Another way to look at it is once you do have a start node (such as the logged i
 
 # Follow up:
 
-- Faking relational in a graph (sentinel nodes)
-- Extra services (index services)
+- Faking the relational model in a graph (sentinel nodes)
+- Extra services (indexing services, full text search)
+- Specifying node locality in a graph model
+- Performance implications of undirectional vs bidirectional edges
