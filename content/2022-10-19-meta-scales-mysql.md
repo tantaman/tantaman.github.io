@@ -3,7 +3,7 @@ title: 'Meta / Facebook - How a graph model can scale your relational DBs'
 tags: [programming, distributed]
 ---
 
-Did you know that still, to this day, the majority of Meta's data needs are serviced by MySQL?
+Did you know that still, to this day, the majority of [Meta's](https://www.facebook.com/) data needs are serviced by MySQL?
 
 There is a caching layer atop it (called [TAO](https://engineering.fb.com/2013/06/25/core-data/tao-the-power-of-the-graph/)) that services all queries, sending requests to MySQL only on a cache miss but what enabled TAO and MySQL to scale to servicing [2.88 billion daily active users](https://www.statista.com/statistics/1092227/facebook-product-dau) was the adoption of a graph model for data access.
 
