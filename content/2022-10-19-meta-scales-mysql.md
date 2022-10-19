@@ -101,9 +101,12 @@ These constraints might sound problematic for developer experience but, aside fr
 
 Another way to look at it is once you do have a start node (such as the logged in user) SQL is a less relevant query language and you're more interested in a graph based query language. Something that GraphQL adoption seems to be proving today.
 
-# Follow up:
+# Follow ups:
 
 - Faking the relational model in a graph (sentinel nodes)
 - Extra services (indexing services, full text search)
 - Specifying node locality in a graph model
-- Performance implications of undirectional vs bidirectional edges
+- Performance implications of unidirectional vs bidirectional edges
+- Data consistency in a distrbiuted graph
+- Deleting user data reliably
+- The graph goes polyglot -- querying MySQL, TAO, Cassandra & ZippyDB with one abstraction
