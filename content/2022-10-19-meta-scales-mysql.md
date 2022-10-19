@@ -15,9 +15,9 @@ Isn't a "graph" just some abstract term that fits all data? Documents, like JSON
 
 The differences come out in the data access patterns allowed by each model.
 
-## Relational Data Access
+# Relational Data Access
 
-### No Entry Point Required
+## No Entry Point Required
 
 The relational model groups all data of the same type into tables. This allows one to query for any piece of data of that type that matches some criteria. In other words, you don't need an entry point to start fetching data.
 
@@ -29,11 +29,11 @@ select * from user where email = '...'
 
 Relational models also allow arbitrary indices. I.e., you can look up rows by things other than their primary key. Worst case, a full table scan is always available to you.
 
-### Reach Anything
+## Reach Anything
 
 Relational models are almost always normalized, allowing you to "reach anything." If you have the primary key for some row you can always look that row up directly just by using the primary key. Contrast this to a document model where, for nested items, you need the primary key of the parent document + the path to the nested item.
 
-## Graph Data Access
+# Graph Data Access
 
 Graph Database products out there today diverge from some of the points to be outlined below to the point that some of them look identical to relational DBs but with a new query syntax. What is outlined below, however, are the properties of the graph data model in use @ Meta and which allow hyper scaling.
 
