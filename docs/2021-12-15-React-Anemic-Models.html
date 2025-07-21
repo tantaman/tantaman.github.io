@@ -15,7 +15,7 @@
 type Embed…">
 <meta name="keywords" content="software-engineering, react, software, statistics, economics">
 <meta name="author" content="Matt Wonlaw">
-<meta name="copyright" content="© 2023 Matt Wonlaw">
+<meta name="copyright" content="© 2025 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tantamanlands">
 <meta property="og:title" content="Reacting Better. Intro: Anemic Models">
@@ -55,7 +55,7 @@ type Embed…">
 </code></pre>
 <p>This is exacerbated, or even further codified, by <a href="https://relay.dev/">Relay</a> and <a href="https://graphql.org/">GraphQL</a> where you fetch properties from the server and render them directly (note: Relay and GraphQL are truly revolutionary and amazing technologies by allowing data fetching to be declarative and driven by the client).</p>
 <p>If you need to perform operations against your data, you’d just call plain old functions to do that.</p>
-<pre><code class="hljs language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Slide</span>(<span class="hljs-params">props: Slide</span>): <span class="hljs-title class_">ReactNode</span> {
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Slide</span>(<span class="hljs-params"><span class="hljs-attr">props</span>: <span class="hljs-title class_">Slide</span></span>): <span class="hljs-title class_">ReactNode</span> {
   <span class="hljs-keyword">const</span> videos = <span class="hljs-title function_">pullVideos</span>(props.<span class="hljs-property">embeds</span>);
   ...
 }
@@ -80,7 +80,7 @@ type Embed…">
       <span class="hljs-attr">text</span>: <span class="hljs-title class_">TextBox</span>[];
     };
 
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">pullVideos</span>(<span class="hljs-params">s: Slide</span>) {
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">pullVideos</span>(<span class="hljs-params"><span class="hljs-attr">s</span>: <span class="hljs-title class_">Slide</span></span>) {
   <span class="hljs-keyword">switch</span> (s.<span class="hljs-property">type</span>) {
     <span class="hljs-keyword">case</span> <span class="hljs-string">'markdown_slide'</span>:
       <span class="hljs-keyword">return</span> <span class="hljs-title function_">pullVideosFromMarkdown</span>(s);
@@ -93,10 +93,10 @@ type Embed…">
 <p>This lack of colocation of functionality for new types can be problematic when it comes to organizing your code and especially when it comes to allowing third parties to extend your code — they’ll need to modify your core functions. The common <a href="https://en.wikipedia.org/wiki/Expression_problem">expression problem</a>.</p>
 <p>You could of course get more clever and write “type function providers” that allows third party extensions without modifying existing code as well as co-locating functions with type names. E.g.,</p>
 <pre><code class="hljs language-typescript"><span class="hljs-title function_">provideFunctionsForType</span>(<span class="hljs-string">'markdown_slide'</span>, {
-  <span class="hljs-title function_">pullVideos</span>(<span class="hljs-params">s: MarkdownSlide</span>) {
+  <span class="hljs-title function_">pullVideos</span>(<span class="hljs-params"><span class="hljs-attr">s</span>: <span class="hljs-title class_">MarkdownSlide</span></span>) {
     ...
   }
-  <span class="hljs-title function_">renderText</span>(<span class="hljs-params">s: MarkdownSlide</span>) {
+  <span class="hljs-title function_">renderText</span>(<span class="hljs-params"><span class="hljs-attr">s</span>: <span class="hljs-title class_">MarkdownSlide</span></span>) {
     ...
   }
 });

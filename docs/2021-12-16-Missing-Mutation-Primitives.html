@@ -9,7 +9,7 @@
 <meta name="description" content="I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures. Immutable models solve endless numbers of problems but what I realized…">
 <meta name="keywords" content="software-engineering, framework, software, statistics, economics">
 <meta name="author" content="Matt Wonlaw">
-<meta name="copyright" content="© 2023 Matt Wonlaw">
+<meta name="copyright" content="© 2025 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tantamanlands">
 <meta property="og:title" content="🧬 Missing Mutation Primitives">
@@ -103,7 +103,7 @@
 <h1 id="committing-a-changeset"><a aria-hidden="true" tabindex="-1" href="#committing-a-changeset"><span class="icon icon-link"></span></a>Committing a Changeset</h1>
 <p>Getting a changeset that represents everything that would happen from a series of mutations is all well and good but how do you actually update the model with those mutations?</p>
 <p>We'd introduce the concept of commiting a changeset. Once all the mutations that should take place have been expressed, we can commit them in one atomic move.</p>
-<pre><code class="hljs language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">commit</span>(<span class="hljs-params">changeset: Changeset&#x3C;Model>[], log: TransactionLog[]</span>);
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">commit</span>(<span class="hljs-params"><span class="hljs-attr">changeset</span>: <span class="hljs-title class_">Changeset</span>&#x3C;<span class="hljs-title class_">Model</span>>[], <span class="hljs-attr">log</span>: <span class="hljs-title class_">TransactionLog</span>[]</span>);
 </code></pre>
 <p>The second piece we can introduce with <code>commit</code> is a set of transaction logs that should record the change. E.g., you can commit a changeset but omit it from your persistence layer by not providing the persistence log. Or commit and omit it from undo functionality by omitting the undo transaction log.</p>
 <pre><code class="hljs language-typescript"><span class="hljs-title function_">commit</span>(changesets, [persistLog, undoLog]);
