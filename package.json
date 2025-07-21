@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "cd packages/compiler && pnpm build && cd ../.. && sitecompiler",
+    "build:watch": "sitecompiler-watch",
     "serve": "cd docs && serve",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"
