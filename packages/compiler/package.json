@@ -6,7 +6,8 @@
   },
   "main": "dist/index.js",
   "bin": {
-    "sitecompiler": "./dist/bin/sitecompiler.js"
+    "sitecompiler": "./dist/bin/sitecompiler.js",
+    "sitecompiler-watch": "./dist/bin/watch.js"
   },
   "type": "module",
   "dependencies": {
