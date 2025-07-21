@@ -4,13 +4,89 @@ import handlers from './handlers.js';
 import postProcess from './postProcess.js';
 
 const builtDir = './docs/';
+const cacheFile = '.build-cache.json';
 
-export default async function build(collection) {
+let buildCache = {};
+
+// Load existing cache
+try {
+  const cacheData = await fs.promises.readFile(cacheFile, 'utf8');
+  buildCache = JSON.parse(cacheData);
+} catch (e) {
+  buildCache = {};
+}
+
+export default async function build(collection, forceRebuild = false) {
   const dest = builtDir + collection;
-  const files = await fs.promises.readdir('./content/' + collection);
+  const contentDir = './content/' + collection;
+  const files = await fs.promises.readdir(contentDir);
+  
+  // Check if any JS files changed (which would require full rebuild due to index dependencies)
+  const jsFiles = files.filter(file => path.extname(file) === '.js');
+  let jsChanged = false;
+  
+  for (const jsFile of jsFiles) {
+    const filePath = path.join(contentDir, jsFile);
+    const stat = await fs.promises.stat(filePath);
+    const lastModified = stat.mtime.getTime();
+    const cacheKey = `${collection}/${jsFile}`;
+    
+    if (!buildCache[cacheKey] || buildCache[cacheKey] !== lastModified) {
+      jsChanged = true;
+      buildCache[cacheKey] = lastModified;
+    }
+  }
+  
+  const filesToProcess = [];
+  
+  if (forceRebuild || jsChanged) {
+    // If JS changed or force rebuild, process all files
+    filesToProcess.push(...files);
+    console.log(jsChanged ? 'JS files changed, rebuilding all files in collection' : 'Force rebuilding all files');
+  } else {
+    // Only process files that have changed
+    for (const file of files) {
+      const filePath = path.join(contentDir, file);
+      try {
+        const stat = await fs.promises.stat(filePath);
+        const lastModified = stat.mtime.getTime();
+        const cacheKey = `${collection}/${file}`;
+        
+        // Check if output file exists and is newer than source
+        const ext = path.extname(file).substring(1);
+        const handler = handlers[ext];
+        if (!handler) continue;
+        
+        const outputPath = path.join(dest, file.replace(path.extname(file), '.html'));
+        let outputExists = false;
+        try {
+          await fs.promises.access(outputPath);
+          outputExists = true;
+        } catch (e) {
+          // Output doesn't exist
+        }
+        
+        if (!buildCache[cacheKey] || buildCache[cacheKey] !== lastModified || !outputExists) {
+          filesToProcess.push(file);
+          buildCache[cacheKey] = lastModified;
+        }
+      } catch (e) {
+        // If we can't stat the file, include it
+        filesToProcess.push(file);
+      }
+    }
+    
+    if (filesToProcess.length === 0) {
+      console.log(`No changes detected in ${collection || 'root'} collection`);
+      return;
+    }
+    
+    console.log(`Processing ${filesToProcess.length} changed files in ${collection || 'root'} collection`);
+  }
+
   const artifacts = (
     await Promise.all(
-      files.map(async (file) => {
+      filesToProcess.map(async (file) => {
         const ext = path.extname(file).substring(1);
         const handler = handlers[ext];
         if (!handler) {
@@ -21,7 +97,7 @@ export default async function build(collection) {
           artifact = await handler(
             path.resolve('./content/' + collection + file),
             path.resolve('./content/' + collection),
-            files,
+            files, // Still pass all files for index generation
           );
         } catch (e) {
           console.error('Failed compiling ' + file);
@@ -34,7 +110,59 @@ export default async function build(collection) {
     )
   ).filter((a) => a != null);
 
-  const theIndex = index(artifacts);
+  if (artifacts.length === 0) {
+    return;
+  }
+
+  // For index generation, we need all artifacts, not just the ones being processed
+  // So we need to load existing artifacts from cache or regenerate them
+  let allArtifacts = artifacts;
+  
+  if (!forceRebuild && !jsChanged && filesToProcess.length < files.length) {
+    // We're doing incremental build, need to merge with existing artifacts
+    // For now, let's regenerate all artifacts to ensure index is correct
+    // This could be optimized further by caching artifact metadata
+    const allFiles = files.filter(file => {
+      const ext = path.extname(file).substring(1);
+      return handlers[ext];
+    });
+    
+    allArtifacts = (
+      await Promise.all(
+        allFiles.map(async (file) => {
+          const ext = path.extname(file).substring(1);
+          const handler = handlers[ext];
+          if (!handler) {
+            return null;
+          }
+          
+          // Only reprocess if this file was in our processing list
+          let artifact;
+          const existingArtifact = artifacts.find(([path, _]) => path.endsWith(file));
+          if (existingArtifact) {
+            artifact = existingArtifact[1];
+          } else {
+            // Load from existing or reprocess
+            try {
+              artifact = await handler(
+                path.resolve('./content/' + collection + file),
+                path.resolve('./content/' + collection),
+                files,
+              );
+            } catch (e) {
+              console.error('Failed compiling ' + file);
+              console.error(e);
+              return null;
+            }
+          }
+
+          return [dest + '/' + file, artifact];
+        }),
+      )
+    ).filter((a) => a != null);
+  }
+
+  const theIndex = index(allArtifacts);
 
   await fs.promises.mkdir(dest, { recursive: true });
   await Promise.all(
@@ -53,6 +181,9 @@ export default async function build(collection) {
       ];
     }),
   );
+  
+  // Save cache
+  await fs.promises.writeFile(cacheFile, JSON.stringify(buildCache, null, 2));
 }
 
 /**
