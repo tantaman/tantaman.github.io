@@ -248,31 +248,7 @@ They talked for hours. Sarah described what she'd discovered: that there was no 
 
 "But what is the larger thing?"
 
-"Life itself. The actual situation in front of you. The real needs of real people in real time."
-
-Daniel thought about his father's illness, how he'd navigated it with unwavering principle. "That worked because consistency was what was needed then."
-
-"Right. Your father needed to know he could count on you. Consistency served love. But what if he'd needed you to break a rule to get him better care? What if consistency had become an obstacle to love?"
-
-Daniel saw it now—how his principles had sometimes prevented him from seeing what was actually needed, how his consistency had occasionally become rigidity that hurt rather than helped.
-
----
-
-"So I become... polytheistic?" Daniel asked. "Like having multiple gods for different situations?"
-
-"Not gods," Sarah corrected. "Tools. Aspects. Facets of who you can be. You don't worship them—you use them."
-
-"But then what am I? The one who uses the tools?"
-
-Sarah was quiet for a long moment. "You're awareness itself. The space in which all these selves can appear and act. You're not the Consistent Man or the Flexible Man or the Principled Man. You're the one who can become any of these when love requires it."
-
-"Love?"
-
-"The deepest principle. Not romantic love—the kind of love that wants what's best for reality itself. That serves what's actually happening rather than what you think should be happening."
-
-Daniel felt something click into place. "So when I was consistent, I was serving love through consistency. When I need to be flexible, I serve love through flexibility."
-
-"Exactly. You're not abandoning your principles—you're discovering what they were always pointing toward."
+"Life itself. The actual situation in front of you."
 
 ---
 
@@ -284,11 +260,11 @@ They walked outside together. Daniel felt different—not dissolved, but expande
 
 "Because they're easier. Awareness requires attention. It requires staying awake to what's actually needed instead of defaulting to what you've always done."
 
-Daniel nodded. "So I become the observer of my own selves. The director choosing which character to put on stage."
+"I get what you're saying with all this awareness and flexibility but there is still a decision being made. And a decision is made because of _something_ so there's still some set of _values_, _goals_, _principles_ guiding one's actions at bottom."
 
-"And the stage itself. And the play being performed. And the audience witnessing it all."
+Sarah was quiet for a long moment, beginning to look troubled.
 
-Sarah was about to walk away when a voice called out behind them.
+---
 
 "Excuse me—sorry to interrupt."
 
@@ -304,15 +280,11 @@ Daniel nodded. "That's exactly what we were talking about. How do you choose whi
 
 Jesse smiled, and something about it made both Sarah and Daniel pay closer attention. "Well, I've found that love makes the choice pretty clear. Not love as a feeling, but love as... wanting what's actually best for the person in front of you."
 
-"That's what we concluded too," Sarah said. "But how do you know what's actually best?"
-
-"Good question." Jesse looked thoughtful. "I think it helps to remember that we're all wounded. Everyone who comes to you—whether they're asking for consistency or flexibility or whatever—they're usually asking because something in them is broken and looking for healing."
-
 He paused, seeming to weigh his words carefully.
 
-"The consistent person might need to learn flexibility. The flexible person might need to learn commitment. But beneath both needs is usually the same thing: they want to know they're loved. That they matter. That they're not alone in their struggle."
+"The consistent person might need to learn flexibility. The flexible person might need to learn commitment. But beneath both needs is usually the same thing: they want to show love."
 
-Daniel felt something stir in his chest. "So when I was being consistent during my father's illness..."
+Daniel felt something stir in his chest. He thought about his father's illness, how he'd navigated it with unwavering principle. "So when I was being consistent during my father's illness..."
 
 "You were showing him he was loved. That he could count on you. That he mattered enough for you to be reliable." Jesse's voice was gentle but sure. "And now, when you're learning to be more flexible, you're still serving love—you're just serving it more completely."
 
@@ -350,7 +322,7 @@ Jesse walked back into the coffee shop, leaving Sarah and Daniel standing at the
 
 But before they could part ways, another voice cut through the evening air—sharp, precise, and unmistakably challenging.
 
-"Excuse me, but I couldn't help overhearing that conversation through the window."
+"Excuse me, but that's a load of shit."
 
 They turned to see an elegant woman in her fifties approaching them, dressed in a well-tailored coat, her silver hair pulled back severely. She moved with the confidence of someone accustomed to being the smartest person in the room.
 
