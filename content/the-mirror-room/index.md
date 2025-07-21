@@ -390,7 +390,7 @@ Sarah and Daniel looked at him with surprise and growing unease.
 
 "The woman with the sharp mind and silver tongue—she speaks with the voice of one who has seen clearly the trap of living for others alone, yet remains trapped herself in the fortress of the separate self. The young carpenter who made your coffee—ah, my dear ones, surely you felt His presence even if you did not recognize His face?"
 
-The old man's eyes twinkled with a knowing sadness. "And you, my children, you search for identity, for consistency, for purpose, as if these were treasures to be grasped. But let me offer you a different teaching, one that encompasses and transcends all you have heard."
+The old man's eyes twinkled with a knowing sadness. "And you, my children, you search for identity, for consistency, for purpose, as if these were treasures to be grasped. But let me help lighten all you have heard."
 
 He gestured for them to sit on a nearby bench, settling himself between them with the comfort of an old friend.
 
