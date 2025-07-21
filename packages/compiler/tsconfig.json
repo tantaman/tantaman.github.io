@@ -11,7 +11,9 @@
     "jsxImportSource": "hastscript",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowJs": true
+    "allowJs": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
   "include": ["./src"]
 }
