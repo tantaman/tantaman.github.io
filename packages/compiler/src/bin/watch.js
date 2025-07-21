@@ -2,4 +2,4 @@
 
 import watch from '../watch.js';
 
-watch();
+await watch();
