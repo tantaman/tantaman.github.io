@@ -13,7 +13,7 @@
 We’re…">
 <meta name="keywords" content="software-engineering, software, statistics, economics">
 <meta name="author" content="Matt Wonlaw">
-<meta name="copyright" content="© 2023 Matt Wonlaw">
+<meta name="copyright" content="© 2025 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tantamanlands">
 <meta property="og:title" content="Services and Coupling">
@@ -45,9 +45,9 @@ We’re…">
 <h3 id="dependency-injection"><a aria-hidden="true" tabindex="-1" href="#dependency-injection"><span class="icon icon-link"></span></a>Dependency Injection</h3>
 <p>Dependency injection helps to resolve the above problem but it still falls short. With dependency injection your class no longer directly constructs its dependencies but instead takes them in as parameters.</p>
 <p>Example:</p>
-<pre><code class="hljs language-arduino"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ObjectDrawer</span> {
+<pre><code class="hljs language-kotlin"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ObjectDrawer</span> {
   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> PositionCalculator calc;
-  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ObjectDrawer</span><span class="hljs-params">(PositionCalculator calc)</span> </span>{
+  <span class="hljs-keyword">public</span> ObjectDrawer(PositionCalculator calc) {
     <span class="hljs-keyword">this</span>.calc = calc;
   }
 }
