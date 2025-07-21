@@ -16,7 +16,7 @@
     "unified": "^10.1.2"
   },
   "scripts": {
-    "build": "sitecompiler",
+    "build": "cd packages/compiler && pnpm build && cd ../.. && sitecompiler",
     "serve": "cd docs && serve",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"

@@ -6,6 +6,7 @@ await Promise.all([
   build(''), // ideally this would be `blog/` but we have historical links to the site to not break
   build('bookmarks/'),
   build('notes/'),
+  build('the-mirror-room/'),
   // build('pages/'),
   // build('tweets/'),
   // build('crumbs/'),
