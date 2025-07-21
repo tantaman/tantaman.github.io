@@ -1,7 +1,7 @@
 {
   "private": true,
   "version": "0.0.0",
-  "packageManager": "pnpm@7.0.0",
+  "packageManager": "pnpm@10.13.1",
   "type": "module",
   "engines": {
     "node": ">=17",
@@ -18,6 +18,7 @@
   "scripts": {
     "build": "cd packages/compiler && pnpm build && cd ../.. && sitecompiler",
     "build:watch": "sitecompiler-watch",
+    "dev": "sitecompiler-watch",
     "serve": "cd docs && serve",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"
