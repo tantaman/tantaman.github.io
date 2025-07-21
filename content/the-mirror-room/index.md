@@ -251,7 +251,7 @@ They walked outside together. Daniel felt different—not dissolved, but expande
 
 "I get what you're saying but there is still a decision being made. A decision is made because of _something_. There's some set of _values_, _goals_, _principles_ guiding one's actions at bottom. If not reasoned then unreasoned. Habits you accidentally accumulated or acquired from culture. Pangs of lust."
 
-Sarah was quiet for a long moment, beginning to look troubled.
+Sarah was quiet for a long moment. "How did you arrive at your principles? Were they not "
 
 ### Jesse
 
