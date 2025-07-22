@@ -220,19 +220,15 @@ Daniel's hand tightened on his coffee cup. "Every day."
 
 "I used to know exactly who I was," Sarah continued, staring at the bookstore. "Had it all mapped out—my values, my identity, my purpose. Then I realized it was all just... costume. I learned to see through the identities we wear, but now..." She gestured vaguely at the air. "I'm free, but I don't know what to do with the freedom."
 
-"And I'm disciplined," Daniel said, "but I don't know where to direct that discipline."
-
 They began walking, neither quite sure why they were walking together, but neither questioning it.
 
-"Tell me about your discipline," Sarah said.
-
-"I can choose any habit and stick to it day after day. No internal negotiations, no backsliding. If I decide something is important, I can make it happen." He kicked at a piece of gravel.
+"I'm disciplined. I can choose any habit and stick to it day after day. No internal negotiations, no backsliding. If I decide something is important, I can make it happen." He kicked at a piece of gravel.
 
 "I sense a but"
 
-Daniel half grinned, beginning to really like Sarah. "But..." he continued. "With this incredible will I've developed that can accomplish anything, what is a worthy goal to which to direct it? My personal joy? That seems arbitrary and subject to change as I change my habits. The benefit of another? Is that not just delegating my purpose to someone else who has no valid purpose either?"
+Daniel half grinned, beginning to really like Sarah. "But..." he continued. "I don't know where to direct that discipline. To borrow your words, the discipline is a how not a why. When I started my journey, the how was the why. I needed to become consistent to be able to _do_ in this world. Now that I've arrived, what shall I do? What is a worthy goal? My personal joy? That seems arbitrary and subject to change as I change my habits. The benefit of another? Is that not just delegating my purpose to someone else who has no valid purpose either?"
 
-Sarah nodded slowly. "I have the same problem. I can see that any identity, any goal, any purpose could be valid. I'm not trapped by the need to be consistent with who I was yesterday. But that means..." She trailed off.
+Sarah nodded slowly. "I have a similar, but mirrored, problem. I can see that any identity, any goal, any purpose could be valid. I'm not trapped by the need to be consistent with who I was yesterday. But that means..." She trailed off.
 
 "That means you could choose anything, so you choose nothing?"
 
