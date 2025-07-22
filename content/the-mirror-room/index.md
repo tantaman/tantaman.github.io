@@ -422,18 +422,6 @@ This is the paradox that no system can resolve: one must choose to become onesel
 
 For even if all things can be shown to proceed logically, one can still choose otherwise. The Advocate's confidence that the requirements of life provide objective guidance misses this entirely. The choice can only be made by the individual who has the courage to choose themselves into existence, not by a system.
 
-As I walked home from this morning's encounter, I found myself thinking of those two souls who had been offered such confident guidance, and I hoped—perhaps against hope—that they would find the strength to reject it. For their paralysis, their uncertainty, their anguish were not problems to be solved but signs of their approaching readiness to become themselves.
-
-The Consistent Man does not need to know what to be consistent toward; he needs to choose what to be consistent toward and then live with the consequences of that choice.
-
-The Woman of Mirrors does not need to understand who does the choosing; she needs to choose and discover in that act who she is.
-
-Both need not less uncertainty but more courage—the courage to act in spite of uncertainty, to choose in spite of the lack of objective grounds, to become themselves through the very acts by which they decide who they will be.
-
-For in the end, this is what it means to be human: to be the being who must choose to become what they are, who exists authentically only in the moment of self-choosing, who cannot escape the anguish of freedom except by fleeing into the false securities of system, convention, or rational calculation.
-
-The morning's encounter was complete, but the real drama—the drama of becoming—had only just begun.
-
 ---
 
 _The choice to exist—to truly exist as a self rather than merely persist as a biological organism—is not a choice made once and then executed systematically. It is the choice that must be made again and again, in fear and trembling, without the comfort of rational certainty._
