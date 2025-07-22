@@ -17,7 +17,47 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>The Mirror Room</title>
+
+      <title>The Mirror Room – A Short Story Collection</title>
+      <meta name="title" content="The Mirror Room – A Short Story Collection" />
+      <meta
+        name="description"
+        content="A short story collection exploring identity, crisis, freedom, and becoming."
+      />
+
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://tantaman.com/the-mirror-room/" />
+      <meta
+        property="og:title"
+        content="The Mirror Room – A Short Story Collection"
+      />
+      <meta
+        property="og:description"
+        content="A short story collection exploring identity, crisis, freedom, and becoming."
+      />
+      <meta
+        property="og:image"
+        content="https://tantaman.com/the-mirror-room/cover.png"
+      />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:url"
+        content="https://tantaman.com/the-mirror-room/"
+      />
+      <meta
+        name="twitter:title"
+        content="The Mirror Room – A Short Story Collection"
+      />
+      <meta
+        name="twitter:description"
+        content="A short story collection exploring identity, crisis, freedom, and becoming."
+      />
+      <meta
+        name="twitter:image"
+        content="https://tantaman.com/the-mirror-room/cover.png"
+      />
+
       <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;700&display=swap"
         rel="stylesheet"
