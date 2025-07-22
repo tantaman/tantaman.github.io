@@ -11,12 +11,18 @@
 
 body {
   /* background-color: #f9f6f1; */
-  background-color: #fffff8;
+  /* background-color: #fffff8; */
+  background-color: #feeec3;
   color: #2c2c2c;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.7;
   padding: 2rem;
+}
+
+a,
+a:visited {
+  color: #2c2c2c;
 }
 
 /* Container with max width like a book page */
