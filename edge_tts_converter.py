@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """
-Text-to-Speech converter for The Mirror Room stories
-Extracts clean text and generates audio files using OpenAI's TTS API
+High-Quality Text-to-Speech converter using Microsoft Edge TTS
+Uses neural voices for natural, human-like speech generation
 """
 
 import re
 import os
 import sys
+import asyncio
 from pathlib import Path
-import json
+import subprocess
+import edge_tts
 
 def extract_stories(markdown_content):
     """Extract individual stories from the markdown content"""
@@ -26,10 +28,7 @@ def extract_stories(markdown_content):
         elif i % 2 == 0 and current_story:  # Even indices are content
             stories[current_story] = section.strip()
     
-    return {
-        'The Meeting': stories.get('The Meeting', ''),
-        'The Reader\'s Crisis': stories.get('The Reader\'s Crisis', ''),
-    }
+    return stories
 
 def clean_text(text):
     """Remove markdown formatting and HTML tags"""
@@ -52,7 +51,7 @@ def clean_text(text):
     
     return text.strip()
 
-def split_into_chunks(text, max_chars=4000):
+def split_into_chunks(text, max_chars=800):
     """Split text into chunks suitable for TTS processing"""
     sentences = re.split(r'(?<=[.!?])\s+', text)
     chunks = []
@@ -70,37 +69,34 @@ def split_into_chunks(text, max_chars=4000):
     
     return chunks
 
-def generate_tts_with_openai(text, output_file, voice="alloy"):
-    """Generate TTS using OpenAI API"""
+async def generate_tts_with_edge(text, output_file, voice="en-US-JennyNeural", rate="-10%"):
+    """Generate TTS using Microsoft Edge TTS"""
     try:
-        from openai import OpenAI
-        client = OpenAI()
+        # Create TTS communication
+        communicate = edge_tts.Communicate(text, voice, rate=rate)
         
-        response = client.audio.speech.create(
-            model="tts-1-hd",  # Higher quality model
-            voice=voice,
-            input=text,
-            response_format="mp3"
-        )
+        # Save to file
+        await communicate.save(output_file)
         
-        with open(output_file, "wb") as f:
-            f.write(response.content)
-        
-        print(f"Generated: {output_file}")
+        print(f"Generated with Edge TTS ({voice}): {output_file}")
         return True
         
-    except ImportError:
-        print("OpenAI library not installed. Run: pip install openai")
-        return False
     except Exception as e:
-        print(f"Error generating TTS: {e}")
+        print(f"Error with Edge TTS: {e}")
         return False
+
+async def get_available_voices():
+    """Get list of available Edge TTS voices"""
+    try:
+        voices = await edge_tts.list_voices()
+        return voices
+    except Exception as e:
+        print(f"Error getting voices: {e}")
+        return []
 
 def combine_audio_files(input_files, output_file):
     """Combine multiple audio files using ffmpeg"""
     try:
-        import subprocess
-        
         # Create a temporary file list for ffmpeg
         file_list_path = "temp_file_list.txt"
         with open(file_list_path, "w") as f:
@@ -123,10 +119,10 @@ def combine_audio_files(input_files, output_file):
         print(f"FFmpeg error: {e}")
         return False
     except FileNotFoundError:
-        print("FFmpeg not found. Please install ffmpeg.")
+        print("FFmpeg not found. Install with: brew install ffmpeg")
         return False
 
-def main():
+async def main():
     # Read the markdown file
     input_file = Path("content/the-mirror-room/index.md")
     if not input_file.exists():
@@ -136,15 +132,45 @@ def main():
     with open(input_file, "r", encoding="utf-8") as f:
         content = f.read()
     
+    # Get available voices
+    print("Getting available voices...")
+    voices = await get_available_voices()
+    
+    # Best storytelling voices (neural, natural sounding)
+    storytelling_voices = [
+        "en-US-JennyNeural",      # Female, warm and conversational
+        "en-US-DavisNeural",      # Male, warm and friendly  
+        "en-US-AriaNeural",       # Female, cheerful and optimistic
+        "en-US-GuyNeural",        # Male, relaxed and trusting
+        "en-US-SaraNeural",       # Female, expressive
+        "en-US-TonyNeural",       # Male, authoritative
+        "en-GB-SoniaNeural",      # British Female, warm
+        "en-GB-RyanNeural",       # British Male, friendly
+    ]
+    
+    # Find best available voice
+    available_voice_names = [v['Name'] for v in voices] if voices else []
+    selected_voice = None
+    
+    for voice in storytelling_voices:
+        if voice in available_voice_names:
+            selected_voice = voice
+            break
+    
+    if not selected_voice:
+        selected_voice = "en-US-JennyNeural"  # Default fallback
+    
+    print(f"Using voice: {selected_voice}")
+    
+    # Speech rate adjustment (negative = slower, positive = faster)
+    speech_rate = "-15%"  # Slightly slower for better comprehension
+    
     # Extract stories
     stories = extract_stories(content)
     
     # Create output directory
-    output_dir = Path("audio_output")
+    output_dir = Path("edge_tts_output")
     output_dir.mkdir(exist_ok=True)
-    
-    # Voice options: alloy, echo, fable, onyx, nova, shimmer
-    voice = "nova"  # Good for storytelling
     
     for story_title, story_content in stories.items():
         if not story_content.strip():
@@ -156,7 +182,7 @@ def main():
         clean_content = clean_text(story_content)
         
         # Split into chunks
-        chunks = split_into_chunks(clean_content)
+        chunks = split_into_chunks(clean_content, max_chars=1000)
         print(f"Split into {len(chunks)} chunks")
         
         # Generate audio for each chunk
@@ -166,7 +192,7 @@ def main():
         
         for i, chunk in enumerate(chunks):
             chunk_file = story_dir / f"chunk_{i+1:03d}.mp3"
-            if generate_tts_with_openai(chunk, str(chunk_file), voice):
+            if await generate_tts_with_edge(chunk, str(chunk_file), selected_voice, speech_rate):
                 chunk_files.append(str(chunk_file))
         
         # Combine chunks into single file
@@ -174,7 +200,9 @@ def main():
             final_file = output_dir / f"{story_title.replace(' ', '_').lower()}.mp3"
             combine_audio_files(chunk_files, str(final_file))
     
-    print(f"\nAudio files generated in: {output_dir}")
+    print(f"\nHigh-quality audio files generated in: {output_dir}")
+    print(f"Voice used: {selected_voice}")
+    print(f"Speech rate: {speech_rate}")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

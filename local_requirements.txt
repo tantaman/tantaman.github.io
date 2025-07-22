@@ -1,0 +1,14 @@
+# Local TTS Requirements
+
+# High quality neural TTS (recommended)
+TTS>=0.22.0
+
+# Cross-platform TTS (fallback)
+pyttsx3>=2.90
+
+# Audio processing
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# Optional: for better GPU performance
+# torch>=2.0.0+cu118 --index-url https://download.pytorch.org/whl/cu118
