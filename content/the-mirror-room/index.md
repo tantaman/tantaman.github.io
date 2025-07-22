@@ -4,19 +4,21 @@ layout: mirrorRoom
 
 # The Mirror Room
 
+<img src="./cover-wordless.png" style="width: 100%;" />
+
 ### A Short Story Collection
 
-<h2 style="margin-top: 12vh;">Contents</h2>
+<h2 style="margin-top: 6vh;">Contents</h2>
 
-<ol style="margin-bottom: 12vh">
-  <li><a href="#one-the-consistent-man">The Consistent Man</a></li>
-  <li><a href="#two-the-mirror-room">The Mirror Room</a></li>
-  <li><a href="#three-the-meeting">The Meeting</a></li>
+<ol style="margin-bottom: 6vh">
+  <li><a href="#the-consistent-man">The Consistent Man</a></li>
+  <li><a href="#the-mirror-room-1">The Mirror Room</a></li>
+  <li><a href="#the-meeting">The Meeting</a></li>
   <li><a href="#the-paradox-of-becoming">The Paradox of Becoming</a></li>
   <li><a href="#the-readers-crisis">The Reader's Crisis</a></li>
 </ol>
 
-## One: The Consistent Man
+## The Consistent Man
 
 Daniel had been two different people by Thursday.
 
@@ -130,7 +132,7 @@ _"A logical I. A formed I. An Apollonic I. An intellectable I. An understandable
 
 # ❦
 
-## Two: The Mirror Room
+## The Mirror Room
 
 Sarah had always known exactly who she was. "I'm a progressive activist," she'd say at parties. "I'm a vegan. I'm someone who fights for social justice." Each label felt like armor, protecting her from the chaos of an uncertain world.
 
@@ -190,7 +192,7 @@ _Who am I? I am. Any other description is slavery._
 
 # ❦
 
-## Three: The Meeting
+## The Meeting
 
 Daniel stood at the intersection of Fifth and Main, checking his watch out of habit rather than urgency. 6:47 AM. He'd been walking the same route for three years now—part of his morning routine, as predictable as sunrise. The consistency had freed him from decision fatigue, but lately, he found himself wondering: _Consistent toward what?_
 
