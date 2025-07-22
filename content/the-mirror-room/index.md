@@ -226,13 +226,13 @@ They began walking, neither quite sure why they were walking together, but neith
 
 "Tell me about your discipline," Sarah said.
 
-"Consistency," Daniel said. "I can choose to be someone and then actually be that person, day after day. No internal negotiations, no backsliding. If I decide something is important, I can make it happen." He kicked at a piece of gravel.
+"I can choose any habit and stick to it day after day. No internal negotiations, no backsliding. If I decide something is important, I can make it happen." He kicked at a piece of gravel.
 
-"How do you choose your goals?"
+"I sense a but"
 
-"That's just it—I can't. I can commit to anything, but committing to the wrong thing might be worse than committing to nothing. I've built this incredible machine for achieving purposes, and I have no idea what purpose to feed it."
+Daniel half grinned, beginning to really like Sarah. "But..." he continued. "With this incredible will I've developed that can accomplish anything, what is a worthy goal to which to direct it? My personal joy? That seems arbitrary and subject to change as I change my habits. The benefit of another? Is that not just delegating my purpose to someone else who has no valid purpose either?"
 
-Sarah nodded slowly. "I have the opposite problem. I can see that any identity, any goal, any purpose could be valid. I'm not trapped by the need to be consistent with who I was yesterday. But that means..." She trailed off.
+Sarah nodded slowly. "I have the same problem. I can see that any identity, any goal, any purpose could be valid. I'm not trapped by the need to be consistent with who I was yesterday. But that means..." She trailed off.
 
 "That means you could choose anything, so you choose nothing?"
 
