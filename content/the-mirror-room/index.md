@@ -432,6 +432,10 @@ For in the end, this is what it means to be human: to be the being who must choo
 
 The morning's encounter was complete, but the real drama—the drama of becoming—had only just begun.
 
+---
+
+_The choice to exist—to truly exist as a self rather than merely persist as a biological organism—is not a choice made once and then executed systematically. It is the choice that must be made again and again, in fear and trembling, without the comfort of rational certainty._
+
 # ❦
 
 ## The Reader's Crisis
