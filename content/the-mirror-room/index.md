@@ -244,10 +244,6 @@ They had stopped walking. Daniel realized they were standing in front of a small
 
 They settled on a bench facing the street, watching the city wake up around them.
 
-"I think I understand your problem," Daniel said. "You've mastered the art of not being trapped by identity, but now you don't know what to commit to because any commitment would require you to become someone specific, even temporarily."
-
-"And I think I understand yours," Sarah replied. "You've mastered the art of commitment, but you can't choose what to commit to because that would require you to decide who you are beneath all the consistency."
-
 Daniel stared at a pigeon pecking at crumbs near their feet. "Maybe we're both asking the wrong question."
 
 "What do you mean?"
@@ -280,19 +276,7 @@ Daniel stood as well. "Which route?"
 
 "I don't know. That's what makes it interesting."
 
-As they walked, Daniel found himself deviating from his usual path. Not randomly—he wasn't abandoning his principles—but allowing something else to guide the choice of direction. Sarah, meanwhile, found herself committing to each turn they made, not because she had to maintain some identity as a person who followed through, but because committing to the moment seemed like a way of honoring something larger than her uncertainty.
-
-"This is strange," Daniel said as they turned down a street he'd never explored.
-
-"What?"
-
-"I'm being consistent with something I can't name. Like there's a pattern I'm following that I can't see yet."
-
-"And I'm choosing without choosing," Sarah said. "Like something is making choices through me, but I'm not abdicating responsibility."
-
-They walked in comfortable silence, two people who had found something they couldn't identify and decided to serve it anyway, at least for the duration of a morning walk.
-
-At the next intersection, they both stopped.
+As they walked, Daniel found himself deviating from his usual path. Not randomly but allowing something else to guide the choice of direction. Sarah, meanwhile, found herself committing to each turn they made, not because she had to maintain some identity as a person who followed through, but because committing to the moment seemed like a way of honoring something larger than her uncertainty.
 
 "This feels like where we part ways," Sarah said.
 
