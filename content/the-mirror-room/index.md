@@ -394,11 +394,9 @@ The city continued to wake up around them, full of people rushing toward purpose
 
 ## The Paradox of Becoming
 
-I have observed, through what the moderns might call a miraculous transmission across the centuries, a conversation that took place on a street corner between two souls and a teacher. What I witnessed there confirms my deepest suspicions about the human condition and illuminates the very sickness unto death that I spent my earthly life diagnosing.
+I have observed, through what the moderns might call a miraculous transmission across the centuries, a conversation that took place on a street corner between two souls and a teacher. What moved me most deeply about this morning's encounter was not the solutions offered but the anguish displayed—the anguish of two individuals beginning to grasp their own freedom and responsibility. For anguish is the mark of the authentic. It is what we feel when we realize that we must choose without the comfort of external authority, rational certainty, or systematic guidance.
 
-What moved me most deeply about this morning's encounter was not the solutions offered but the anguish displayed—the anguish of two individuals beginning to grasp their own freedom and responsibility. For anguish is the mark of the authentic. It is what we feel when we realize that we must choose without the comfort of external authority, rational certainty, or systematic guidance.
-
-The Consistent Man's confusion about what to be consistent toward is the beginning of wisdom. For when he truly understands that _he_ must choose—that no system, however perfect, can choose for him—he will be ready to make the choices that matter.
+The Consistent Man's confusion about what to be consistent toward is the beginning of wisdom. For when he truly understands that _he_ must choose. That no system, however perfect, can choose for him.
 
 The Woman of Mirrors' question about who does the choosing is equally profound. For when she realizes that she becomes herself precisely in choosing—that the chooser is not prior to the choice but is constituted by it—she will be ready to step into the uncertainty that authentic selfhood requires.
 
@@ -406,7 +404,7 @@ Neither of them needs more rational analysis or systematic methodology. What the
 
 This is the paradox that no system can resolve: one must choose to become oneself before one knows who oneself is. The self is not a given that one discovers through introspection or rational analysis. The self is a task—perhaps the only task that matters—and it can be completed only by those willing to work without a blueprint.
 
-For even if all things can be shown to proceed logically, one can still choose otherwise. The Advocate's confidence that the requirements of life provide objective guidance misses this entirely. The choice can only be made by the individual who has the courage to choose themselves into existence, not by a system.
+For even if all things can be shown to proceed logically, one can still choose otherwise. The Advocate's confidence that the requirements of life provide objective guidance, and thus provide a ground for their choice, misses this entirely.
 
 ---
 
