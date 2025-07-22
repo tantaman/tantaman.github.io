@@ -220,17 +220,17 @@ Daniel's hand tightened on his coffee cup. "Every day."
 
 "I used to know exactly who I was," Sarah continued, staring at the bookstore. "Had it all mapped out—my values, my identity, my purpose. Then I realized it was all just... costume. I learned to see through the identities we wear, but now..." She gestured vaguely at the air. "I'm free, but I don't know what to do with the freedom."
 
-"And I'm powerful," Daniel said, "but I don't know where to direct the power."
+"And I'm disciplined," Daniel said, "but I don't know where to direct that discipline."
 
 They began walking, neither quite sure why they were walking together, but neither questioning it.
 
-"Tell me about the power," Sarah said.
+"Tell me about your discipline," Sarah said.
 
-"Consistency," Daniel said. "I can choose to be someone and then actually be that person, day after day. No internal negotiations, no backsliding. If I decide something is important, I can make it happen." He kicked at a piece of gravel. "Problem is, I can't seem to decide what's important anymore."
+"Consistency," Daniel said. "I can choose to be someone and then actually be that person, day after day. No internal negotiations, no backsliding. If I decide something is important, I can make it happen." He kicked at a piece of gravel.
 
 "How do you choose your goals?"
 
-"That's just it—I can't. I can commit to anything, but committing to the wrong thing might be worse than committing to nothing. So I've built this incredible machine for achieving purposes, and I have no idea what purpose to feed it."
+"That's just it—I can't. I can commit to anything, but committing to the wrong thing might be worse than committing to nothing. I've built this incredible machine for achieving purposes, and I have no idea what purpose to feed it."
 
 Sarah nodded slowly. "I have the opposite problem. I can see that any identity, any goal, any purpose could be valid. I'm not trapped by the need to be consistent with who I was yesterday. But that means..." She trailed off.
 
@@ -393,6 +393,8 @@ The city continued to wake up around them, full of people rushing toward purpose
 # ❦
 
 ## The Paradox of Becoming
+
+I have observed, through what the moderns might call a miraculous transmission across the centuries, a conversation that took place on a street corner between two souls and a teacher. What I witnessed there confirms my deepest suspicions about the human condition and illuminates the very sickness unto death that I spent my earthly life diagnosing.
 
 What moved me most deeply about this morning's encounter was not the solutions offered but the anguish displayed—the anguish of two individuals beginning to grasp their own freedom and responsibility. For anguish is the mark of the authentic. It is what we feel when we realize that we must choose without the comfort of external authority, rational certainty, or systematic guidance.
 
