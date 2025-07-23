@@ -390,7 +390,7 @@ The city continued to wake up around them, full of people rushing toward purpose
 
 ## The Paradox of Becoming
 
-I have observed, through what the moderns might call a miraculous transmission across the centuries, a conversation that took place on a street corner between two souls and a teacher. What moved me most deeply about this morning's encounter was not the solutions offered but the anguish displayed—the anguish of two individuals beginning to grasp their own freedom and responsibility. For anguish is the mark of the authentic. It is what we feel when we realize that we must choose without the comfort of external authority, rational certainty, or systematic guidance.
+I have observed, through what the moderns might call a miraculous transmission across the centuries, a conversation that took place in a park between two souls and a teacher. What moved me most deeply about this morning's encounter was not the solutions offered but the anguish displayed—the anguish of two individuals beginning to grasp their own freedom and responsibility. For anguish is the mark of the authentic. It is what we feel when we realize that we must choose without the comfort of external authority, rational certainty, or systematic guidance.
 
 The Consistent Man's confusion about what to be consistent toward is the beginning of wisdom. For when he truly understands that _he_ must choose. That no system, however perfect, can choose for him.
 
