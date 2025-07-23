@@ -26,10 +26,7 @@ def extract_stories(markdown_content):
         elif i % 2 == 0 and current_story:  # Even indices are content
             stories[current_story] = section.strip()
     
-    return {
-        'The Meeting': stories.get('The Meeting', ''),
-        'The Reader\'s Crisis': stories.get('The Reader\'s Crisis', ''),
-    }
+    return stories
 
 def clean_text(text):
     """Remove markdown formatting and HTML tags"""
