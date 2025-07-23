@@ -312,7 +312,7 @@ Alicia stepped closer, her intensity palpable.
 
 "But how do you choose what to value without it being arbitrary?" Sarah asked, despite herself.
 
-"Arbitrary?" Alicia's eyebrows shot up. "Values aren't arbitrary because they serve a fundamental purpose—they keep you alive and make that life worth living."
+"Arbitrary?" Alicia's eyebrows shot up. "Values aren't arbitrary. They serve a fundamental purpose. They keep you alive and make that life worth living."
 
 She began pacing in front of them like a professor delivering a crucial lecture.
 
@@ -328,19 +328,13 @@ She stopped and faced them directly.
 
 She gestured at both of them.
 
-"You're asking 'what should I live for?' when you should be asking 'what does living require of me?' The answer isn't mystical. Your mind needs challenges to stay sharp—so find work that engages your intelligence. Your body needs health—so exercise, eat well, get proper rest. Your spirit needs inspiration—so seek out beauty, create something, love someone worthy of it."
+"You're asking 'what should I live for?' when you should be asking 'what does living require of me?' The answer isn't mystical."
 
 "But what if we choose wrong?" Daniel asked.
 
 "Then you learn and choose better! But choosing nothing is not avoiding error—it's choosing the error of a wasted life. You're both so afraid of making the wrong choice that you're making the worst choice: no choice at all."
 
 Alicia stopped pacing and looked directly at each of them.
-
-"You," she said to Daniel, "ask 'what should I be consistent toward?' The answer is: toward whatever serves your life as a rational being. Look at what you actually need to flourish—meaningful work that uses your mind, relationships with people who share your values, physical health, creative expression, the pride that comes from achievement. These aren't arbitrary preferences—they're requirements of human life."
-
-"And you," she turned to Sarah, "ask 'who does the choosing if there's no fixed self?' The answer is: you do the choosing. Your consciousness. Your mind. The fact that you can choose to change doesn't mean there's nobody there doing the choosing—it means you have the power to direct your own development."
-
-She stepped back, looking at both of them.
 
 "You've both made the same error in opposite directions. Daniel, you've developed the capacity for self-direction but refused to direct yourself. Sarah, you've gained freedom from imposed identity but refused to use that freedom to consciously create your own identity. Both of you are standing at the threshold of genuine self-ownership and turning away because it requires you to take responsibility for your own lives."
 
@@ -378,9 +372,7 @@ They stood there as the city moved around them, two people who had just been off
 
 Sarah smiled, and this time the smile carried decision rather than drift. "Yes. Same time tomorrow. I choose to be here."
 
-As they walked away in different directions, both carried something new—not answers, exactly, but a sense that the questions themselves might be asking them to step up rather than step back.
-
-The seeking continued, but now it felt less like wandering and more like hunting.
+As they walked away in different directions, both carried something new. The seeking continued, but now it felt less like wandering and more like hunting.
 
 The city continued to wake up around them, full of people rushing toward purposes they were sure of, and now two others walking with a different kind of certainty—not the certainty of having all the answers, but the certainty that they were capable of finding them.
 
