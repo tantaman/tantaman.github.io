@@ -1,3 +1,0 @@
-file 'audio_output/the_reader's_crisis/chunk_001.mp3'
-file 'audio_output/the_reader's_crisis/chunk_002.mp3'
-file 'audio_output/the_reader's_crisis/chunk_003.mp3'
