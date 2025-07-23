@@ -370,9 +370,7 @@ Sarah watched Alicia's retreating figure. "I think... she's certainly sure of he
 
 "That's not the same thing."
 
-"No, it's not." Sarah turned back to Daniel. "But maybe that's the point. Maybe being sure of yourself is something you choose to be, not something you wait to feel."
-
-Daniel considered this. "And maybe the question isn't whether our choices are right or wrong, but whether we're willing to make them and take responsibility for the consequences."
+"No, it's not." Sarah turned back to Daniel.
 
 They stood there as the city moved around them, two people who had just been offered a different framework for their dilemmas.
 
@@ -386,6 +384,10 @@ The seeking continued, but now it felt less like wandering and more like hunting
 
 The city continued to wake up around them, full of people rushing toward purposes they were sure of, and now two others walking with a different kind of certainty—not the certainty of having all the answers, but the certainty that they were capable of finding them.
 
+---
+
+_Choose life and your purpose is defined by what you require as a unique individual. It is the task of your mind to determine what that is._
+
 # ❦
 
 ## The Paradox of Becoming
@@ -396,11 +398,11 @@ The Consistent Man's confusion about what to be consistent toward is the beginni
 
 The Woman of Mirrors' question about who does the choosing is equally profound. For when she realizes that she becomes herself precisely in choosing—that the chooser is not prior to the choice but is constituted by it—she will be ready to step into the uncertainty that authentic selfhood requires.
 
-Neither of them needs more rational analysis or systematic methodology. What they need is the courage to choose themselves into existence, to become who they are through the very act of choosing who they will be.
+Neither of them needs more rational analysis or systematic methodology. What they need is the courage to choose themselves into existence, to become who they are through the very act of choosing who they will be. The Consistent Man chose once. He must regain the courage to choose yet again.
 
-This is the paradox that no system can resolve: one must choose to become oneself before one knows who oneself is. The self is not a given that one discovers through introspection or rational analysis. The self is a task—perhaps the only task that matters—and it can be completed only by those willing to work without a blueprint.
+This is the paradox that no system can resolve: one must choose to become oneself before one knows who oneself is. The Consistent Man chose to become consistent, and thus came to know himself, before he first knew himself. The self is not a given that one discovers through introspection or rational analysis. The self is a task—perhaps the only task that matters—and it can be completed only by those willing to work without a blueprint.
 
-For even if all things can be shown to proceed logically, one can still choose otherwise. The Advocate's confidence that the requirements of life provide objective guidance, and thus provide a ground for their choice, misses this entirely.
+Even if all things can be shown to proceed logically, one can still choose otherwise. The Advocate's (Alicia's) confidence that the requirements of life provide objective guidance, and thus provide a ground for their choice, misses this entirely.
 
 ---
 
