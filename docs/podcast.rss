@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+    <title>The Mirror Room: A Philosophical Short Story Collection</title>
+    <description><![CDATA[A collection of philosophical short stories exploring themes of identity, authenticity, choice, and the courage to exist as oneself. Through characters like Daniel (who masters consistency) and Sarah (who transcends fixed identity), these stories examine the fundamental challenges of becoming human in a world that offers no guarantees.]]></description>
+    <link>https://tantaman.github.io</link>
+    <language>en-us</language>
+    <copyright>© 2025 The Mirror Room</copyright>
+    <managingEditor>hello@themirrorroom.com</managingEditor>
+    <webMaster>hello@themirrorroom.com</webMaster>
+    <pubDate>Thu, 23 Jul 2025 18:00:00 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Jul 2025 18:00:00 +0000</lastBuildDate>
+    <generator>The Mirror Room Podcast Generator</generator>
+    
+    <itunes:subtitle>Philosophical Stories About Becoming Human</itunes:subtitle>
+    <itunes:author>The Mirror Room</itunes:author>
+    <itunes:summary><![CDATA[A collection of philosophical short stories exploring identity, choice, and authentic existence through compelling characters facing fundamental questions about what it means to be human.]]></itunes:summary>
+    <itunes:category text="Arts">
+        <itunes:category text="Books"/>
+    </itunes:category>
+    <itunes:category text="Society &amp; Culture">
+        <itunes:category text="Philosophy"/>
+    </itunes:category>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:owner>
+        <itunes:name>The Mirror Room</itunes:name>
+        <itunes:email>hello@themirrorroom.com</itunes:email>
+    </itunes:owner>
+    
+    <item>
+        <title>5: The Readers Crisis</title>
+        <description><![CDATA[Maya, a committed activist, grapples with how her political consciousness has become a prison. A story about the tension between systemic awareness and personal agency, and the radical act of taking responsibility for one's own existence.]]></description>
+        <itunes:summary><![CDATA[Maya, a committed activist, grapples with how her political consciousness has become a prison. A story about the tension between systemic awareness and personal agency, and the radical act of taking responsibility for one's own existence.]]></itunes:summary>
+        <pubDate>Thu, 23 Jul 2025 18:00:00 +0000</pubDate>
+        <enclosure url="https://tantaman.github.io/audio_output/the_readers_crisis.mp3" length="5000000" type="audio/mpeg"/>
+        <guid isPermaLink="false">mirror-room-05</guid>
+        <itunes:author>The Mirror Room</itunes:author>
+        <itunes:explicit>no</itunes:explicit>
+        <itunes:episode>5</itunes:episode>
+        <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    
+    <item>
+        <title>4: The Paradox Of Becoming</title>
+        <description><![CDATA[A reflection on the fundamental challenge of authentic existence: how do we choose to become ourselves before we know who we are? An exploration of the courage required for genuine self-creation.]]></description>
+        <itunes:summary><![CDATA[A reflection on the fundamental challenge of authentic existence: how do we choose to become ourselves before we know who we are? An exploration of the courage required for genuine self-creation.]]></itunes:summary>
+        <pubDate>Wed, 22 Jul 2025 18:00:00 +0000</pubDate>
+        <enclosure url="https://tantaman.github.io/audio_output/the_paradox_of_becoming.mp3" length="3000000" type="audio/mpeg"/>
+        <guid isPermaLink="false">mirror-room-04</guid>
+        <itunes:author>The Mirror Room</itunes:author>
+        <itunes:explicit>no</itunes:explicit>
+        <itunes:episode>4</itunes:episode>
+        <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    
+    <item>
+        <title>3: The Meeting</title>
+        <description><![CDATA[Two strangers meet at an intersection—Daniel, who has mastered consistency, and Sarah, who has transcended fixed identity. Their conversation with a provocative teacher challenges them to move beyond philosophical paralysis toward purposeful action.]]></description>
+        <itunes:summary><![CDATA[Two strangers meet at an intersection—Daniel, who has mastered consistency, and Sarah, who has transcended fixed identity. Their conversation with a provocative teacher challenges them to move beyond philosophical paralysis toward purposeful action.]]></itunes:summary>
+        <pubDate>Tue, 21 Jul 2025 18:00:00 +0000</pubDate>
+        <enclosure url="https://tantaman.github.io/audio_output/the_meeting.mp3" length="15000000" type="audio/mpeg"/>
+        <guid isPermaLink="false">mirror-room-03</guid>
+        <itunes:author>The Mirror Room</itunes:author>
+        <itunes:explicit>no</itunes:explicit>
+        <itunes:episode>3</itunes:episode>
+        <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    
+    <item>
+        <title>2: The Mirror Room</title>
+        <description><![CDATA[Sarah encounters a mysterious room filled with mirrors, each showing a different version of herself. A philosophical exploration of identity, choice, and the courage to exist without fixed labels.]]></description>
+        <itunes:summary><![CDATA[Sarah encounters a mysterious room filled with mirrors, each showing a different version of herself. A philosophical exploration of identity, choice, and the courage to exist without fixed labels.]]></itunes:summary>
+        <pubDate>Mon, 20 Jul 2025 18:00:00 +0000</pubDate>
+        <enclosure url="https://tantaman.github.io/audio_output/the_mirror_room.mp3" length="4000000" type="audio/mpeg"/>
+        <guid isPermaLink="false">mirror-room-02</guid>
+        <itunes:author>The Mirror Room</itunes:author>
+        <itunes:explicit>no</itunes:explicit>
+        <itunes:episode>2</itunes:episode>
+        <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    
+    <item>
+        <title>1: The Consistent Man</title>
+        <description><![CDATA[Daniel discovers that true consistency isn't about rigid habits, but about becoming someone you can count on. A story about forging identity through disciplined choice and the unexpected freedom that follows.]]></description>
+        <itunes:summary><![CDATA[Daniel discovers that true consistency isn't about rigid habits, but about becoming someone you can count on. A story about forging identity through disciplined choice and the unexpected freedom that follows.]]></itunes:summary>
+        <pubDate>Sun, 19 Jul 2025 18:00:00 +0000</pubDate>
+        <enclosure url="https://tantaman.github.io/audio_output/the_consistent_man.mp3" length="8000000" type="audio/mpeg"/>
+        <guid isPermaLink="false">mirror-room-01</guid>
+        <itunes:author>The Mirror Room</itunes:author>
+        <itunes:explicit>no</itunes:explicit>
+        <itunes:episode>1</itunes:episode>
+        <itunes:episodeType>full</itunes:episodeType>
+    </item>
+    
+</channel>
+</rss>
