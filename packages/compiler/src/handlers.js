@@ -9,6 +9,7 @@ import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import remarkWikiLink from 'remark-wiki-link';
+import remarkTransclusion from './remark-transclusion.js';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import rehypeHighlight from 'rehype-highlight';
@@ -48,6 +49,7 @@ export default {
         () => (tree, file) => {
           matter(file, { strip: true });
         },
+        remarkTransclusion,
         remarkGfm,
         [remarkWikiLink, wikilinkOptions],
       ],
@@ -148,6 +150,7 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
         }
         matter(file, { strip: true });
       })
+      .use(remarkTransclusion)
       .use(remarkGfm)
       .use(remarkWikiLink, wikilinkOptions)
       .use(remarkRehype, { allowDangerousHtml: true }),
