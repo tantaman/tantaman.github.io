@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+img {
+  width: 100%;
+}
+
 .toc {
   display: none;
 }
