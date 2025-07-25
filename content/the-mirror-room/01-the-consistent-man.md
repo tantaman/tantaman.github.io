@@ -1,3 +1,7 @@
+---
+layout: mirrorRoom
+---
+
 ## The Consistent Man
 
 Daniel had been two different people by Thursday.
