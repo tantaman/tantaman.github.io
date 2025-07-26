@@ -129,19 +129,3 @@ export default async function build(collection, forceRebuild = false) {
   // Save cache
   await fs.promises.writeFile(cacheFile, JSON.stringify(buildCache, null, 2));
 }
-
-/**
- * @param {[string, {frontmatter: {[key: string]: any}}][]} artifacts
- */
-function index(artifacts) {
-  const ret = artifacts.reduce((l, r) => {
-    l[path.basename(r[0])] = {
-      compiledFilename: r[1].compiledFilename,
-      frontmatter: r[1].frontmatter || {},
-      greymatter: r[1].greymatter,
-      meta: r[1].meta || {},
-    };
-    return l;
-  }, {});
-  return ret;
-}
