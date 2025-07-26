@@ -32,7 +32,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Did you know that still, to this day, the majority of Meta's data needs are serviced by MySQL?
+
+There is a caching layer atop it (called TAO) that services all queries, sending requests to MySQL only on a cache miss but what enabled TAO and MySQ...
   </div>
 </a>
 
@@ -45,7 +47,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Short answer: No. When it comes to a LWW register, Lamport clocks offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW.
+
+A last write wins register is a register where the "last" ...
   </div>
 </a>
 
@@ -58,7 +62,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      The Lamport clock was originally described in 1978 in the paper "Time, Clocks, and the Ordering of Events in a Distributed System". It is a logical clock that was created as a way to order events in a distributed system.
+
+Why not use wall/physic...
   </div>
 </a>
 
@@ -71,7 +77,13 @@
   </div>
   <hr>
   <div class="summary">
-      
+      I've been sucked down a `sqlite` rabbithole and I'm all-in on it.
+
+So why `SQLite`? And why now?
+
+For me, its about re-architecting how we write code so it can fit the coming world of edge, distributed and local-first computing.
+
+In one way, `sq...
   </div>
 </a>
 
@@ -84,7 +96,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      > Prompted after reading https://www.physics.princeton.edu/ph115/LQ.pdf and https://www.quantamagazine.org/how-to-make-the-universe-think-for-us-20220531/
+
+Sorry to break the news but even when you figure out how to upload your consciousness to ...
   </div>
 </a>
 
@@ -97,7 +111,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Was watching https://www.youtube.com/watch?v=AHblHPLoKKE&#x26;t=139s and this dawned on me.
+
+When we say "something isn't machine readable" we're not speaking accurately. What we really mean is that the content is not readable for the way that progra...
   </div>
 </a>
 
@@ -110,7 +126,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      From time to time I run across people decrying the current state of web development with words like:
+
+> We've gone completely backwards! We've gone from separating our structure, style and logic to putting them all into the same file! inline sty...
   </div>
 </a>
 
@@ -123,7 +141,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      # Review
+
+Previously we discussed the query builder.
+
+To recap, when a user interacts with the query builder a linked list of queries is built up behind the scenes. Eaech query in the list holds a reference to the prior query and an expression ...
   </div>
 </a>
 
@@ -136,7 +158,12 @@
   </div>
   <hr>
   <div class="summary">
-      
+      This is the third part in a deep dive into Aphrodite's query layer.
+
+- [[2022-05-26-query-builder:Part 1]] we talked about the query builder
+- [[2022-05-26-query-planning:Part 2]] covered query plans
+
+Now we'll cover how we optimize query plans...
   </div>
 </a>
 
@@ -149,7 +176,10 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Aphrodite generates rich and type safe query builders (example) from your schemas.
+The query builders not only query for nodes of a given type but also traverse edges, apply filters, do pagination and more.
+
+As an example, we can traverse from ...
   </div>
 </a>
 
@@ -162,7 +192,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Today I'll be discussing the `Chunk Iterable Framework`. This is a core component of Aphrodite and is used to speed up the processing of data returned by queries.
+
+The main idea behind a chunk iterable is to be able to iterate over some source o...
   </div>
 </a>
 
@@ -175,7 +207,12 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Way way back in 2013 there wasn't a common way to save large blobs in all browser. Back then, all of these were true:
+
+* DOMStorage only gives you 5mb
+* Chrome doesn't let you store blobs in IndexedDB
+* Safari doesn't support IndexedDB,
+* IE and...
   </div>
 </a>
 
@@ -188,7 +225,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      We're in the era of ES6 modules, esm.sh and Typescript.
+
+Do you _really_ need to spin up that webpack/snowpack/rollup/vite/parcel/_insert other bundler here_ for your small scale project?
+
+I think not. These days, module management is built righ...
   </div>
 </a>
 
@@ -201,7 +242,15 @@
   </div>
   <hr>
   <div class="summary">
-      
+      > tldr; skip to full sample code
+
+So you want to deploy a site that uses `MDX`? Outside of using Nextjs, this process is much more difficult than it aught to be.
+
+
+  
+
+
+Technically we don't even need to mess with `mdx-bundler` (see Building Wit...
   </div>
 </a>
 
@@ -214,7 +263,18 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Coincidentally I came across all of these three things below around the same time
+
+
+
+
+
+
+This was a good critique, from 2010: “why Avater is a truly dangerous film” https://t.co/5ZeJIWndG8— Kent William Innholt (@oerhoert) April 23, 2022
+
+
+
+...
   </div>
 </a>
 
@@ -227,7 +287,7 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Our current state of affairs is almost entirely determined by those who came before us. What institutions they created, what they've invented, what infrastructure &#x26; dwellings they've built, how they've spent the resources of the society, how the...
   </div>
 </a>
 
@@ -240,7 +300,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      When creating a software package (or module or bundle, pick your term) for others to reuse, there's often a _second_ package in the package that developers overlook.
+
+The second package is the _interface_ package. I.e., the interface that overl...
   </div>
 </a>
 
@@ -253,7 +315,13 @@
   </div>
   <hr>
   <div class="summary">
-      
+      draft post--
+
+Fetching early is difficult to express and get right in all places in React.
+
+This is because a lack of domain models. That everything is anemic. That we've moved business logic into display.
+
+Render-as-you-fetch rather than fetch-...
   </div>
 </a>
 
@@ -266,7 +334,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Sharing code between `JavaScript` &#x26; `TypeScript` projects has always been more trouble than it should be.
+
+Say you create a common library and you want to use it in `N > 1` of your other projects.
+
+You could publish it to `NPM` and install it li...
   </div>
 </a>
 
@@ -279,7 +351,14 @@
   </div>
   <hr>
   <div class="summary">
-      
+      @import url("/blog-assets/color-picker-from-scratch/color-field.css");
+
+
+
+
+> "Programmers re-invent the wheel so they can understand how the wheel works" - unknown
+
+Why write a color picker from scratch? To understand color theory better and to...
   </div>
 </a>
 
@@ -292,7 +371,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      I've been toying with the idea that we get something wrong when it comes to URL management and routing in single page applications (SPAs).
+
+The current state of the art in SPAs is to let the URL (the route) drive application logic. We do this by...
   </div>
 </a>
 
@@ -305,7 +386,13 @@
   </div>
   <hr>
   <div class="summary">
-      
+      After ~8 years working at Meta and ~15 years professionally programming post college, I'm departing the workforce to puruse my own ideas full time.
+
+## Vision 1
+
+> **Create software to help people think more deeply.**
+
+> Creating assisted memor...
   </div>
 </a>
 
@@ -318,7 +405,7 @@
   </div>
   <hr>
   <div class="summary">
-      
+      One of the things I learned quickly while working on large scale systems at `Facebook (Meta)` was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as int...
   </div>
 </a>
 
@@ -331,7 +418,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Something irks me about React. It's how inefficiently it handles deeply nested updates.
+
+React apps, like any app, will have a display hierarchy of deeply nested components. The root component being the entrypoint of the app, the leaves being t...
   </div>
 </a>
 
@@ -344,7 +433,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Listening to Freakonomics s11e16 there was some commentary about "if the world was run by mathematicians it'd be so logical."
+
+What an absurd statement.
+
+I'll just focus on two ways this is wrong. The first is that mathematics is irrational thro...
   </div>
 </a>
 
@@ -357,7 +450,7 @@
   </div>
   <hr>
   <div class="summary">
-      
+      > Note -- I just finished reading "Beyond Good and Evil" and was curious what something of that nature would read like if Nietzsche wrote it today. Below is that reproduction of that (me channeling my conception of Nietzsche) and not an expressi...
   </div>
 </a>
 
@@ -370,7 +463,7 @@
   </div>
   <hr>
   <div class="summary">
-      
+      In programming we're met with things that are completely new. Even though they're new, they're familiar enough to grasp with existing concepts. This converting the new to something familiar helps us to understand things at one level but if the ...
   </div>
 </a>
 
@@ -383,7 +476,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.
+
+Immutable models solve endless numbers of problems but what...
   </div>
 </a>
 
@@ -396,7 +491,13 @@
   </div>
   <hr>
   <div class="summary">
-      
+      React eschews models that have any attached functionality. The “model” for a react app is usually anemic — just a bare set of properties with no methods attached.
+
+```typescript
+type Slide = {
+  selected: boolean;
+  embeds: Embed[];
+  text: stri...
   </div>
 </a>
 
@@ -409,7 +510,13 @@
   </div>
   <hr>
   <div class="summary">
-      
+      ```js
+function identity(x: T): T;
+```
+
+What is the essence of a generic?
+
+> Generics are for the **caller** rather than for what is being called. They allow the **caller** to retain type information. To retain information about types given to wh...
   </div>
 </a>
 
@@ -422,7 +529,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      The popular view of religion is as being the first development of a civilization. The thing that predates a people before they discover reason &#x26; science.
+
+What if we thought of it instead as the culmination of a civilation? A civilization's peak...
   </div>
 </a>
 
@@ -435,7 +544,16 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Not many people realize this but Nicolas Cage is slowly but surely carving out and defining a whole new genre of trippy and artistic horror movies. Is he doing this intentionally or acidentally?
+
+One word to describe it? Purple.
+
+
+  
+    
+  
+  
+...
   </div>
 </a>
 
@@ -448,7 +566,7 @@
   </div>
   <hr>
   <div class="summary">
-      
+      With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, creating and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and...
   </div>
 </a>
 
@@ -461,7 +579,25 @@
   </div>
   <hr>
   <div class="summary">
-      
+      @import url("/blog-assets/todo-mvc/base.css");
+@import url("/blog-assets/todo-mvc/todo.css");
+
+
+
+
+**A TodoMVC App in ~200 lines of plain JavaScript and 0 dependencies.**
+
+
+
+
+
+
+
+Source:
+
+```js
+const tempEl = document.createElement('div');
+const ...
   </div>
 </a>
 
@@ -474,7 +610,12 @@
   </div>
   <hr>
   <div class="summary">
-      
+      @import url("/blog-assets/reactive-markdown/main.css");
+
+
+
+
+Many of my blog posts contain interactive demos or content that is generated via `JavaScript`. The prose of my posts, however, is written in `Markdown`. Shuttling data back and forth f...
   </div>
 </a>
 
@@ -487,7 +628,12 @@
   </div>
   <hr>
   <div class="summary">
-      
+      @import url("/blog-assets/volatility-is-not-risk/style.css");
+
+
+The biggest lie in investing is that volatiliy = risk.
+
+This is bogus. It misses the point of risk. Risk is about the chance of losing your principal in an investment. Volatility...
   </div>
 </a>
 
@@ -500,7 +646,19 @@
   </div>
   <hr>
   <div class="summary">
-      
+      @import url("/blog-assets/regression-mean-vs-gambler.css");
+
+
+
+
+Jump to the simulation
+
+There are two seemingly contradictory findings in statistics which apply to independent events:
+
+1. Regression to the Mean
+2. The Gambler's Fallacy
+
+**Regre...
   </div>
 </a>
 
@@ -513,7 +671,16 @@
   </div>
   <hr>
   <div class="summary">
-      
+      @import url("/blog-assets/false-positive-rate.css");
+
+
+
+
+Jump to the simulation
+
+Throughout the Coronavirus pandemic, the most distressing thing has been the cherry picking of statistics.
+
+Things have gotten better. Cases, deaths, and hospita...
   </div>
 </a>
 
@@ -526,7 +693,12 @@
   </div>
   <hr>
   <div class="summary">
-      
+      I've run into the occasional programmer that finds the functional way of transforming collections (`map`, `filter`, `reduce`, `zip`, `pull`, etc.)
+harder to understand than the imperative style of `for`, `while` and `for-each` loops.
+
+I.e.,
+
+```...
   </div>
 </a>
 
@@ -539,7 +711,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Its been said that _"if there is no God then all things are permitted."_
+
+Well, that's why we have laws. Precisely because all things _are_ permitted (by nature). Murder, adultery, theft, war, etc. All of these things happen and are able to happ...
   </div>
 </a>
 
@@ -552,7 +726,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Philopsophers often question what is "art" or "love" or other words for humanity has never had a solid definition.
+
+The quest to finding a general principle which can define these words is always admirable and bears much fruit (e.g., reading Hei...
   </div>
 </a>
 
@@ -565,7 +741,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Is an **int** a type? A **float**? A **double**?
+
+These are **storage** types, not **application level** types.
+
+For many software projects, `int`, `float`, `double`, `string`, etc. exist at the wrong level of abstraction to be conidered proper ...
   </div>
 </a>
 
@@ -578,7 +758,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      "A little bit of knowledge is a dangerous thing"
+
+How do yo interpret that?
+* Does that mean knowledge is power and even with a little bit one can become a dangerous advesary?
+* Or does it mean if you only know a little, rather than a lot, you a...
   </div>
 </a>
 
@@ -591,7 +775,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      When we describe how we're feeling we say "I am angry", "I am upset", "I am X"
+
+But you aren't _angry_ nor _upset_. You are feeling angry or upset. Describing emotions the way we currently do is incorrect in that it equates and identifies our sta...
   </div>
 </a>
 
@@ -604,7 +790,14 @@
   </div>
   <hr>
   <div class="summary">
-      
+      ```
+(option 1) display.setLayout(Layouts.FIXED);
+(option 2) display.setLayout('FIXED');
+```
+
+# **Are both lines of code above using constants?**
+
+I keep getting push-back that the first line is better practice than the second line. When reviewer...
   </div>
 </a>
 
@@ -617,7 +810,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder.
+
+Laziness improves API design.
+
+I’ll illustrate with a program I wrote to convert Javadoc comments to JS...
   </div>
 </a>
 
@@ -630,7 +827,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      > Objects are a poor man’s closures. Closures are a poor man’s objects.
+
+Some people say everything is an object. I used to too but these days I think everything is actually a function.
+
+1. A map? Isn’t that just a function that maps from one va...
   </div>
 </a>
 
@@ -643,7 +844,12 @@
   </div>
   <hr>
   <div class="summary">
-      
+      If you ever tell someone you like Lisp and that Lisp is a more suitable language for the work you are doing most of the time you’ll get weird looks and comments like:
+
+> “Isn’t that… old?”
+>
+> “All I know is that it has parenthesis everywhere.”
+...
   </div>
 </a>
 
@@ -656,7 +862,9 @@
   </div>
   <hr>
   <div class="summary">
-      
+      How does one write software that can be extended?
+
+I think many developer’s first instinct is to set up some form of inheritance hierarchy. Inheritance is a step in the right direction but it is very restrictive. The problem with inheritance is...
   </div>
 </a>
 
@@ -669,7 +877,11 @@
   </div>
   <hr>
   <div class="summary">
-      
+      Lines of code like:
+
+> PositionCalculator calc = new MercatorPositionCalculator();
+
+(where **_PositionCalculator_** is an interface and **_MercatorPositionCalculator_** the implementation) have always bugged me and probably any other astute prog...
   </div>
 </a>
 </div>

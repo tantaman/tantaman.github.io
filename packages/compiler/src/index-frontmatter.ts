@@ -43,7 +43,7 @@ export async function indexFrontmatter(): Promise<IndexShape> {
               const content = await fs.promises.readFile(filePath, 'utf-8');
 
               // parse the frontmatter
-              const frontmatter = parseFrontmatter(content);
+              const matterAndDesc = parseFrontmatterAndDescription(content);
               return [
                 file,
                 {
@@ -51,7 +51,8 @@ export async function indexFrontmatter(): Promise<IndexShape> {
                     collection +
                     path.basename(file, path.extname(file)) +
                     '.html',
-                  frontmatter,
+                  frontmatter: matterAndDesc.frontmatter,
+                  description: matterAndDesc.description,
                 },
               ] as const;
             }),
@@ -66,11 +67,26 @@ export async function indexFrontmatter(): Promise<IndexShape> {
   return cached;
 }
 
-function parseFrontmatter(content: string) {
+function parseFrontmatterAndDescription(content: string) {
   // frontmatter is the first block of YAML in the content
   // at the very beginning of the file
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  const match = content.match(/^---\n([\s\S]*?)\n---([\s\S]*)/);
   if (!match) return {};
   const frontmatter = match[1];
-  return parse(frontmatter);
+  let filteredContent = (match[2] ?? '')
+    .split('\n')
+    .filter((line) => !line.trim().startsWith('import '))
+    .join('\n')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1'); // Remove markdown links, keep text
+
+  if (filteredContent.length > 247) {
+    filteredContent = filteredContent.slice(0, 247) + '...';
+  } else {
+    filteredContent = filteredContent.slice(0, 250);
+  }
+  return {
+    frontmatter: parse(frontmatter),
+    description: filteredContent.trim(),
+  };
 }

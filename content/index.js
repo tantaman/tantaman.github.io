@@ -10,7 +10,7 @@ import { unified } from 'unified';
 import rehypeMeta from 'rehype-meta';
 import rehypeParse from 'rehype-parse';
 
-// TODO: put this thru  the unified pipeline like  markdown?
+// TODO: put this thru the  unified pipeline like  markdown?
 export default async function index(file, cwd, files) {
   return {
     content: async () => {
@@ -52,7 +52,7 @@ async function blogIndex() {
   </div>
   <hr />
   <div class="summary">
-      ${meta.meta?.description || meta.frontmatter.description || ''}
+      ${meta.frontmatter.description || meta.description || ''}
   </div>
 </a>`,
     )
