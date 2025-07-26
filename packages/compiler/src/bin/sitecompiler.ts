@@ -3,7 +3,10 @@
 import { collections } from '../collections.js';
 import { build } from '../index.js';
 
-await Promise.all(collections.map((collection) => build(collection)));
+const args = process.argv.slice(2);
+const forceRebuild = args.includes('--force');
+
+await Promise.all(collections.map((collection) => build(collection, forceRebuild)));
 
 /*
 [
