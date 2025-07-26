@@ -1,3 +1,10 @@
+---
+title: Observations on the Sleep of Seekers
+layout: mirrorRoom
+draft: true
+description: Draft. Practical advice in response to The Mirror Room collection.
+---
+
 # Observations on the Sleep of Seekers
 *Being Notes on Certain Mechanical Behaviors Witnessed in Contemporary Man*
 

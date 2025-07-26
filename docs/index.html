@@ -27,216 +27,218 @@
   <!-- <h2>Words&nbsp;Forged&nbsp;in&nbsp;Fire</h2> -->
   <p>tales, reflections, and evolving ideas.</p>
 </section>
+
 <section id="blog">
-<div class="container">
-<div class="grid">
-  
-<a class="card" href="2022-10-19-meta-scales-mysql.html">
-  <h4>
-    Meta / Facebook - How a graph model can scale your relational DBs
-  </h4>
-  <div class="subtext">
-    2022-10-19 · programming, distributed
-  </div>
-  <p>
-      Did you know that still, to this day, the majority of Meta's data needs are serviced by MySQL?
+  <div class="container">
+    <h3 class="section-title">Blog</h3>
+    <div class="grid">
+      
+    <a class="card" href="2022-10-19-meta-scales-mysql.html">
+      <h4>
+        Meta / Facebook - How a graph model can scale your relational DBs
+      </h4>
+      <div class="subtext">
+        2022-10-19 · programming, distributed
+      </div>
+      <p>
+          Did you know that still, to this day, the majority of Meta's data needs are serviced by MySQL?
 
 There is a caching layer atop it (called TAO) that services all queries, sending requests to MySQL only on a cache miss but what enabled TAO and MySQ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-10-18-lamport-sufficient-for-lww.html">
-  <h4>
-    Do LWW Registers Need Vector Clocks or Causal Graphs? 💭
-  </h4>
-  <div class="subtext">
-    2022-10-18 · programming, distributed
-  </div>
-  <p>
-      Short answer: No. When it comes to a LWW register, Lamport clocks offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW.
+    <a class="card" href="2022-10-18-lamport-sufficient-for-lww.html">
+      <h4>
+        Do LWW Registers Need Vector Clocks or Causal Graphs? 💭
+      </h4>
+      <div class="subtext">
+        2022-10-18 · programming, distributed
+      </div>
+      <p>
+          Short answer: No. When it comes to a LWW register, Lamport clocks offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW.
 
 A last write wins register is a register where the "last" ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-10-18-lamport-clock.html">
-  <h4>
-    Lamport Clock 🕥
-  </h4>
-  <div class="subtext">
-    2022-10-18 · programming, distributed
-  </div>
-  <p>
-      The Lamport clock was originally described in 1978 in the paper "Time, Clocks, and the Ordering of Events in a Distributed System". It is a logical clock that was created as a way to order events in a distributed system.
+    <a class="card" href="2022-10-18-lamport-clock.html">
+      <h4>
+        Lamport Clock 🕥
+      </h4>
+      <div class="subtext">
+        2022-10-18 · programming, distributed
+      </div>
+      <p>
+          The Lamport clock was originally described in 1978 in the paper "Time, Clocks, and the Ordering of Events in a Distributed System". It is a logical clock that was created as a way to order events in a distributed system.
 
 Why not use wall/physic...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-08-23-why-sqlite-why-now.html">
-  <h4>
-    Why SQLite? Why Now? 🐇
-  </h4>
-  <div class="subtext">
-    2022-08-23 · programming, edge
-  </div>
-  <p>
-      I've been sucked down a `sqlite` rabbithole and I'm all-in on it.
+    <a class="card" href="2022-08-23-why-sqlite-why-now.html">
+      <h4>
+        Why SQLite? Why Now? 🐇
+      </h4>
+      <div class="subtext">
+        2022-08-23 · programming, edge
+      </div>
+      <p>
+          I've been sucked down a `sqlite` rabbithole and I'm all-in on it.
 
 So why `SQLite`? And why now?
 
 For me, its about re-architecting how we write code so it can fit the coming world of edge, distributed and local-first computing.
 
 In one way, `sq...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-06-16-always-a-body.html">
-  <h4>
-    You'll always have a body
-  </h4>
-  <div class="subtext">
-    2022-06-16 · pontification
-  </div>
-  <p>
-      > Prompted after reading https://www.physics.princeton.edu/ph115/LQ.pdf and https://www.quantamagazine.org/how-to-make-the-universe-think-for-us-20220531/
+    <a class="card" href="2022-06-16-always-a-body.html">
+      <h4>
+        You'll always have a body
+      </h4>
+      <div class="subtext">
+        2022-06-16 · pontification
+      </div>
+      <p>
+          > Prompted after reading https://www.physics.princeton.edu/ph115/LQ.pdf and https://www.quantamagazine.org/how-to-make-the-universe-think-for-us-20220531/
 
 Sorry to break the news but even when you figure out how to upload your consciousness to ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-06-06-not-machine-readable.html">
-  <h4>
-    📚 Not Machine Readable?
-  </h4>
-  <div class="subtext">
-    2022-06-06 · software-engineering
-  </div>
-  <p>
-      Was watching https://www.youtube.com/watch?v=AHblHPLoKKE&#x26;t=139s and this dawned on me.
+    <a class="card" href="2022-06-06-not-machine-readable.html">
+      <h4>
+        📚 Not Machine Readable?
+      </h4>
+      <div class="subtext">
+        2022-06-06 · software-engineering
+      </div>
+      <p>
+          Was watching https://www.youtube.com/watch?v=AHblHPLoKKE&#x26;t=139s and this dawned on me.
 
 When we say "something isn't machine readable" we're not speaking accurately. What we really mean is that the content is not readable for the way that progra...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-06-02-this-time-is-different.html">
-  <h4>
-    🧶 HTML, CSS &#x26; JS. All mixed up together. This time it's different.
-  </h4>
-  <div class="subtext">
-    2022-06-02 · software-engineering
-  </div>
-  <p>
-      From time to time I run across people decrying the current state of web development with words like:
+    <a class="card" href="2022-06-02-this-time-is-different.html">
+      <h4>
+        🧶 HTML, CSS &#x26; JS. All mixed up together. This time it's different.
+      </h4>
+      <div class="subtext">
+        2022-06-02 · software-engineering
+      </div>
+      <p>
+          From time to time I run across people decrying the current state of web development with words like:
 
 > We've gone completely backwards! We've gone from separating our structure, style and logic to putting them all into the same file! inline sty...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-05-26-query-planning.html">
-  <h4>
-    📝 Query Planning
-  </h4>
-  <div class="subtext">
-    2022-05-26 · software-engineering, aphrodite
-  </div>
-  <p>
-      # Review
+    <a class="card" href="2022-05-26-query-planning.html">
+      <h4>
+        📝 Query Planning
+      </h4>
+      <div class="subtext">
+        2022-05-26 · software-engineering, aphrodite
+      </div>
+      <p>
+          # Review
 
 Previously we discussed the query builder.
 
 To recap, when a user interacts with the query builder a linked list of queries is built up behind the scenes. Eaech query in the list holds a reference to the prior query and an expression ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-05-26-query-plan-optimization.html">
-  <h4>
-    💨 Query Plan Optimization
-  </h4>
-  <div class="subtext">
-    2022-05-26 · software-engineering, aphrodite
-  </div>
-  <p>
-      This is the third part in a deep dive into Aphrodite's query layer.
+    <a class="card" href="2022-05-26-query-plan-optimization.html">
+      <h4>
+        💨 Query Plan Optimization
+      </h4>
+      <div class="subtext">
+        2022-05-26 · software-engineering, aphrodite
+      </div>
+      <p>
+          This is the third part in a deep dive into Aphrodite's query layer.
 
 - [[2022-05-26-query-builder:Part 1]] we talked about the query builder
 - [[2022-05-26-query-planning:Part 2]] covered query plans
 
 Now we'll cover how we optimize query plans...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-05-26-query-builder.html">
-  <h4>
-    ⛓ Query Builder
-  </h4>
-  <div class="subtext">
-    2022-05-26 · software-engineering, aphrodite
-  </div>
-  <p>
-      Aphrodite generates rich and type safe query builders (example) from your schemas.
+    <a class="card" href="2022-05-26-query-builder.html">
+      <h4>
+        ⛓ Query Builder
+      </h4>
+      <div class="subtext">
+        2022-05-26 · software-engineering, aphrodite
+      </div>
+      <p>
+          Aphrodite generates rich and type safe query builders (example) from your schemas.
 The query builders not only query for nodes of a given type but also traverse edges, apply filters, do pagination and more.
 
 As an example, we can traverse from ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-05-26-chunk-iterable.html">
-  <h4>
-    🪨 Chunk Iterable
-  </h4>
-  <div class="subtext">
-    2022-05-26 · software-engineering, aphrodite
-  </div>
-  <p>
-      Today I'll be discussing the `Chunk Iterable Framework`. This is a core component of Aphrodite and is used to speed up the processing of data returned by queries.
+    <a class="card" href="2022-05-26-chunk-iterable.html">
+      <h4>
+        🪨 Chunk Iterable
+      </h4>
+      <div class="subtext">
+        2022-05-26 · software-engineering, aphrodite
+      </div>
+      <p>
+          Today I'll be discussing the `Chunk Iterable Framework`. This is a core component of Aphrodite and is used to speed up the processing of data returned by queries.
 
 The main idea behind a chunk iterable is to be able to iterate over some source o...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-05-13-large-local-storage.html">
-  <h4>
-    📀 Large Local Storage
-  </h4>
-  <div class="subtext">
-    2022-05-13 · software-engineering, project
-  </div>
-  <p>
-      Way way back in 2013 there wasn't a common way to save large blobs in all browser. Back then, all of these were true:
+    <a class="card" href="2022-05-13-large-local-storage.html">
+      <h4>
+        📀 Large Local Storage
+      </h4>
+      <div class="subtext">
+        2022-05-13 · software-engineering, project
+      </div>
+      <p>
+          Way way back in 2013 there wasn't a common way to save large blobs in all browser. Back then, all of these were true:
 
 * DOMStorage only gives you 5mb
 * Chrome doesn't let you store blobs in IndexedDB
 * Safari doesn't support IndexedDB,
 * IE and...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-05-12-skipping-the-bundling.html">
-  <h4>
-    🧶 Skipping the Bundling
-  </h4>
-  <div class="subtext">
-    2022-05-12 · software-engineering
-  </div>
-  <p>
-      We're in the era of ES6 modules, esm.sh and Typescript.
+    <a class="card" href="2022-05-12-skipping-the-bundling.html">
+      <h4>
+        🧶 Skipping the Bundling
+      </h4>
+      <div class="subtext">
+        2022-05-12 · software-engineering
+      </div>
+      <p>
+          We're in the era of ES6 modules, esm.sh and Typescript.
 
 Do you _really_ need to spin up that webpack/snowpack/rollup/vite/parcel/_insert other bundler here_ for your small scale project?
 
 I think not. These days, module management is built righ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-05-12-simple-mdx.html">
-  <h4>
-    😌 Simple MDX
-  </h4>
-  <div class="subtext">
-    2022-05-12 · software-engineering
-  </div>
-  <p>
-      > tldr; skip to full sample code
+    <a class="card" href="2022-05-12-simple-mdx.html">
+      <h4>
+        😌 Simple MDX
+      </h4>
+      <div class="subtext">
+        2022-05-12 · software-engineering
+      </div>
+      <p>
+          > tldr; skip to full sample code
 
 So you want to deploy a site that uses `MDX`? Outside of using Nextjs, this process is much more difficult than it aught to be.
 
@@ -245,18 +247,18 @@ So you want to deploy a site that uses `MDX`? Outside of using Nextjs, this proc
 
 
 Technically we don't even need to mess with `mdx-bundler` (see Building Wit...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-04-25-foundational-myths.html">
-  <h4>
-    🧟‍♂️ Memes &#x26; Themes - 1619 Project
-  </h4>
-  <div class="subtext">
-    2022-04-25 · politics
-  </div>
-  <p>
-      Coincidentally I came across all of these three things below around the same time
+    <a class="card" href="2022-04-25-foundational-myths.html">
+      <h4>
+        🧟‍♂️ Memes &#x26; Themes - 1619 Project
+      </h4>
+      <div class="subtext">
+        2022-04-25 · politics
+      </div>
+      <p>
+          Coincidentally I came across all of these three things below around the same time
 
 
 
@@ -268,78 +270,78 @@ This was a good critique, from 2010: “why Avater is a truly dangerous film” 
 
 
 ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-04-25-doing-for-others.html">
-  <h4>
-    🧚‍♂️ Past, Present, Future - Doing for Others
-  </h4>
-  <div class="subtext">
-    2022-04-25 · philosophy, religion
-  </div>
-  <p>
-      Our current state of affairs is almost entirely determined by those who came before us. What institutions they created, what they've invented, what infrastructure &#x26; dwellings they've built, how they've spent the resources of the society, how the...
-  </p>
-</a>
+    <a class="card" href="2022-04-25-doing-for-others.html">
+      <h4>
+        🧚‍♂️ Past, Present, Future - Doing for Others
+      </h4>
+      <div class="subtext">
+        2022-04-25 · philosophy, religion
+      </div>
+      <p>
+          Our current state of affairs is almost entirely determined by those who came before us. What institutions they created, what they've invented, what infrastructure &#x26; dwellings they've built, how they've spent the resources of the society, how the...
+      </p>
+    </a>
 
-<a class="card" href="2022-04-07-your-package-is-two.html">
-  <h4>
-    📦 Your One Package Might Be Two
-  </h4>
-  <div class="subtext">
-    2022-04-07 · software-engineering
-  </div>
-  <p>
-      When creating a software package (or module or bundle, pick your term) for others to reuse, there's often a _second_ package in the package that developers overlook.
+    <a class="card" href="2022-04-07-your-package-is-two.html">
+      <h4>
+        📦 Your One Package Might Be Two
+      </h4>
+      <div class="subtext">
+        2022-04-07 · software-engineering
+      </div>
+      <p>
+          When creating a software package (or module or bundle, pick your term) for others to reuse, there's often a _second_ package in the package that developers overlook.
 
 The second package is the _interface_ package. I.e., the interface that overl...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-01-17-why-fetching-earliy-is-difficult-to-express.html">
-  <h4>
-    🌅 Expressing Early Fetches - React
-  </h4>
-  <div class="subtext">
-    2022-01-17 · software-engineering, react
-  </div>
-  <p>
-      draft post--
+    <a class="card" href="2022-01-17-why-fetching-earliy-is-difficult-to-express.html">
+      <h4>
+        🌅 Expressing Early Fetches - React
+      </h4>
+      <div class="subtext">
+        2022-01-17 · software-engineering, react
+      </div>
+      <p>
+          draft post--
 
 Fetching early is difficult to express and get right in all places in React.
 
 This is because a lack of domain models. That everything is anemic. That we've moved business logic into display.
 
 Render-as-you-fetch rather than fetch-...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2022-01-09-improving-code-sharing.html">
-  <h4>
-    🧶 Improving Code Sharing with Yarn Workspaces
-  </h4>
-  <div class="subtext">
-    2022-01-09 · software-engineering, sharing-code
-  </div>
-  <p>
-      Sharing code between `JavaScript` &#x26; `TypeScript` projects has always been more trouble than it should be.
+    <a class="card" href="2022-01-09-improving-code-sharing.html">
+      <h4>
+        🧶 Improving Code Sharing with Yarn Workspaces
+      </h4>
+      <div class="subtext">
+        2022-01-09 · software-engineering, sharing-code
+      </div>
+      <p>
+          Sharing code between `JavaScript` &#x26; `TypeScript` projects has always been more trouble than it should be.
 
 Say you create a common library and you want to use it in `N > 1` of your other projects.
 
 You could publish it to `NPM` and install it li...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-12-28-Color-Picker-From-Scratch.html">
-  <h4>
-    🌈 Understanding Color by Writing a Color Picker
-  </h4>
-  <div class="subtext">
-    2021-12-28 · software-engineering, demo
-  </div>
-  <p>
-      @import url("/blog-assets/color-picker-from-scratch/color-field.css");
+    <a class="card" href="2021-12-28-Color-Picker-From-Scratch.html">
+      <h4>
+        🌈 Understanding Color by Writing a Color Picker
+      </h4>
+      <div class="subtext">
+        2021-12-28 · software-engineering, demo
+      </div>
+      <p>
+          @import url("/blog-assets/color-picker-from-scratch/color-field.css");
 
 
 
@@ -347,180 +349,180 @@ You could publish it to `NPM` and install it li...
 > "Programmers re-invent the wheel so they can understand how the wheel works" - unknown
 
 Why write a color picker from scratch? To understand color theory better and to...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-12-27-urls-as-display-data.html">
-  <h4>
-    👨‍💻 URLs As Display Data
-  </h4>
-  <div class="subtext">
-    2021-12-27 · software-engineering, framework
-  </div>
-  <p>
-      I've been toying with the idea that we get something wrong when it comes to URL management and routing in single page applications (SPAs).
+    <a class="card" href="2021-12-27-urls-as-display-data.html">
+      <h4>
+        👨‍💻 URLs As Display Data
+      </h4>
+      <div class="subtext">
+        2021-12-27 · software-engineering, framework
+      </div>
+      <p>
+          I've been toying with the idea that we get something wrong when it comes to URL management and routing in single page applications (SPAs).
 
 The current state of the art in SPAs is to let the URL (the route) drive application logic. We do this by...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-12-27-Personal-Vision.html">
-  <h4>
-    👀 Vision
-  </h4>
-  <div class="subtext">
-    2021-12-27 · vision
-  </div>
-  <p>
-      After ~8 years working at Meta and ~15 years professionally programming post college, I'm departing the workforce to puruse my own ideas full time.
+    <a class="card" href="2021-12-27-Personal-Vision.html">
+      <h4>
+        👀 Vision
+      </h4>
+      <div class="subtext">
+        2021-12-27 · vision
+      </div>
+      <p>
+          After ~8 years working at Meta and ~15 years professionally programming post college, I'm departing the workforce to puruse my own ideas full time.
 
 ## Vision 1
 
 > **Create software to help people think more deeply.**
 
 > Creating assisted memor...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-12-27-Observability-Driven-Development.html">
-  <h4>
-    👀 Observability Driven Development
-  </h4>
-  <div class="subtext">
-    2021-12-27 · software-engineering odd
-  </div>
-  <p>
-      One of the things I learned quickly while working on large scale systems at `Facebook (Meta)` was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as int...
-  </p>
-</a>
+    <a class="card" href="2021-12-27-Observability-Driven-Development.html">
+      <h4>
+        👀 Observability Driven Development
+      </h4>
+      <div class="subtext">
+        2021-12-27 · software-engineering odd
+      </div>
+      <p>
+          One of the things I learned quickly while working on large scale systems at `Facebook (Meta)` was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as int...
+      </p>
+    </a>
 
-<a class="card" href="2021-12-23-Deeply-Nested-Updates-React.html">
-  <h4>
-    ☢️ Reacting Better - Deeply Nested Update Problem
-  </h4>
-  <div class="subtext">
-    2021-12-23 · software-engineering, react, framework
-  </div>
-  <p>
-      Something irks me about React. It's how inefficiently it handles deeply nested updates.
+    <a class="card" href="2021-12-23-Deeply-Nested-Updates-React.html">
+      <h4>
+        ☢️ Reacting Better - Deeply Nested Update Problem
+      </h4>
+      <div class="subtext">
+        2021-12-23 · software-engineering, react, framework
+      </div>
+      <p>
+          Something irks me about React. It's how inefficiently it handles deeply nested updates.
 
 React apps, like any app, will have a display hierarchy of deeply nested components. The root component being the entrypoint of the app, the leaves being t...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-12-20-mathematician-running-the-world.html">
-  <h4>
-    🧮 No, Mathematical Government is not a Logical Government
-  </h4>
-  <div class="subtext">
-    2021-12-20 · pontification
-  </div>
-  <p>
-      Listening to Freakonomics s11e16 there was some commentary about "if the world was run by mathematicians it'd be so logical."
+    <a class="card" href="2021-12-20-mathematician-running-the-world.html">
+      <h4>
+        🧮 No, Mathematical Government is not a Logical Government
+      </h4>
+      <div class="subtext">
+        2021-12-20 · pontification
+      </div>
+      <p>
+          Listening to Freakonomics s11e16 there was some commentary about "if the world was run by mathematicians it'd be so logical."
 
 What an absurd statement.
 
 I'll just focus on two ways this is wrong. The first is that mathematics is irrational thro...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-12-20-American-Spirit.html">
-  <h4>
-    👐 American Spirit
-  </h4>
-  <div class="subtext">
-    2021-12-20 · pontification
-  </div>
-  <p>
-      > Note -- I just finished reading "Beyond Good and Evil" and was curious what something of that nature would read like if Nietzsche wrote it today. Below is that reproduction of that (me channeling my conception of Nietzsche) and not an expressi...
-  </p>
-</a>
+    <a class="card" href="2021-12-20-American-Spirit.html">
+      <h4>
+        👐 American Spirit
+      </h4>
+      <div class="subtext">
+        2021-12-20 · pontification
+      </div>
+      <p>
+          > Note -- I just finished reading "Beyond Good and Evil" and was curious what something of that nature would read like if Nietzsche wrote it today. Below is that reproduction of that (me channeling my conception of Nietzsche) and not an expressi...
+      </p>
+    </a>
 
-<a class="card" href="2021-12-17-Object-Identity.html">
-  <h4>
-    ⛵️ Reference Equality - What is it Really?
-  </h4>
-  <div class="subtext">
-    2021-12-17 · software-engineering, framework
-  </div>
-  <p>
-      In programming we're met with things that are completely new. Even though they're new, they're familiar enough to grasp with existing concepts. This converting the new to something familiar helps us to understand things at one level but if the ...
-  </p>
-</a>
+    <a class="card" href="2021-12-17-Object-Identity.html">
+      <h4>
+        ⛵️ Reference Equality - What is it Really?
+      </h4>
+      <div class="subtext">
+        2021-12-17 · software-engineering, framework
+      </div>
+      <p>
+          In programming we're met with things that are completely new. Even though they're new, they're familiar enough to grasp with existing concepts. This converting the new to something familiar helps us to understand things at one level but if the ...
+      </p>
+    </a>
 
-<a class="card" href="2021-12-16-Missing-Mutation-Primitives.html">
-  <h4>
-    🧬 Missing Mutation Primitives
-  </h4>
-  <div class="subtext">
-    2021-12-16 · software-engineering, framework
-  </div>
-  <p>
-      I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.
+    <a class="card" href="2021-12-16-Missing-Mutation-Primitives.html">
+      <h4>
+        🧬 Missing Mutation Primitives
+      </h4>
+      <div class="subtext">
+        2021-12-16 · software-engineering, framework
+      </div>
+      <p>
+          I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.
 
 Immutable models solve endless numbers of problems but what...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-12-15-React-Anemic-Models.html">
-  <h4>
-    Reacting Better. Intro: Anemic Models
-  </h4>
-  <div class="subtext">
-    2021-12-15 · software-engineering, react
-  </div>
-  <p>
-      React eschews models that have any attached functionality. The “model” for a react app is usually anemic — just a bare set of properties with no methods attached.
+    <a class="card" href="2021-12-15-React-Anemic-Models.html">
+      <h4>
+        Reacting Better. Intro: Anemic Models
+      </h4>
+      <div class="subtext">
+        2021-12-15 · software-engineering, react
+      </div>
+      <p>
+          React eschews models that have any attached functionality. The “model” for a react app is usually anemic — just a bare set of properties with no methods attached.
 
 ```typescript
 type Slide = {
   selected: boolean;
   embeds: Embed[];
   text: stri...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-08-22-Understanding-Generics.html">
-  <h4>
-    Understanding Generics
-  </h4>
-  <div class="subtext">
-    2021-08-22 · software-engineering
-  </div>
-  <p>
-      ```js
+    <a class="card" href="2021-08-22-Understanding-Generics.html">
+      <h4>
+        Understanding Generics
+      </h4>
+      <div class="subtext">
+        2021-08-22 · software-engineering
+      </div>
+      <p>
+          ```js
 function identity(x: T): T;
 ```
 
 What is the essence of a generic?
 
 > Generics are for the **caller** rather than for what is being called. They allow the **caller** to retain type information. To retain information about types given to wh...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-04-05-Religion-Last.html">
-  <h4>
-    What if Religion is last?
-  </h4>
-  <div class="subtext">
-    2021-04-05 · pontification
-  </div>
-  <p>
-      The popular view of religion is as being the first development of a civilization. The thing that predates a people before they discover reason &#x26; science.
+    <a class="card" href="2021-04-05-Religion-Last.html">
+      <h4>
+        What if Religion is last?
+      </h4>
+      <div class="subtext">
+        2021-04-05 · pontification
+      </div>
+      <p>
+          The popular view of religion is as being the first development of a civilization. The thing that predates a people before they discover reason &#x26; science.
 
 What if we thought of it instead as the culmination of a civilation? A civilization's peak...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-03-01-Nic-Cage-Genre.html">
-  <h4>
-    Nicolas Cage is Creating a new Movie Genre
-  </h4>
-  <div class="subtext">
-    2021-03-01 · entertainment
-  </div>
-  <p>
-      Not many people realize this but Nicolas Cage is slowly but surely carving out and defining a whole new genre of trippy and artistic horror movies. Is he doing this intentionally or acidentally?
+    <a class="card" href="2021-03-01-Nic-Cage-Genre.html">
+      <h4>
+        Nicolas Cage is Creating a new Movie Genre
+      </h4>
+      <div class="subtext">
+        2021-03-01 · entertainment
+      </div>
+      <p>
+          Not many people realize this but Nicolas Cage is slowly but surely carving out and defining a whole new genre of trippy and artistic horror movies. Is he doing this intentionally or acidentally?
 
 One word to describe it? Purple.
 
@@ -530,30 +532,30 @@ One word to describe it? Purple.
   
   
 ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-02-14-Pi-Cloud.html">
-  <h4>
-    Pi Cloud
-  </h4>
-  <div class="subtext">
-    2021-02-14 · production-engineering
-  </div>
-  <p>
-      With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, creating and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and...
-  </p>
-</a>
+    <a class="card" href="2021-02-14-Pi-Cloud.html">
+      <h4>
+        Pi Cloud
+      </h4>
+      <div class="subtext">
+        2021-02-14 · production-engineering
+      </div>
+      <p>
+          With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, creating and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and...
+      </p>
+    </a>
 
-<a class="card" href="2021-02-12-Todo-MVC.html">
-  <h4>
-    The Shortest, Framework Free, TODO App
-  </h4>
-  <div class="subtext">
-    2021-02-12 · software-engineering, demo
-  </div>
-  <p>
-      @import url("/blog-assets/todo-mvc/base.css");
+    <a class="card" href="2021-02-12-Todo-MVC.html">
+      <h4>
+        The Shortest, Framework Free, TODO App
+      </h4>
+      <div class="subtext">
+        2021-02-12 · software-engineering, demo
+      </div>
+      <p>
+          @import url("/blog-assets/todo-mvc/base.css");
 @import url("/blog-assets/todo-mvc/todo.css");
 
 
@@ -572,52 +574,52 @@ Source:
 ```js
 const tempEl = document.createElement('div');
 const ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-02-08-reactive-markdown.html">
-  <h4>
-    Reactive Markdown
-  </h4>
-  <div class="subtext">
-    2021-02-08 · software-engineering, demo
-  </div>
-  <p>
-      @import url("/blog-assets/reactive-markdown/main.css");
+    <a class="card" href="2021-02-08-reactive-markdown.html">
+      <h4>
+        Reactive Markdown
+      </h4>
+      <div class="subtext">
+        2021-02-08 · software-engineering, demo
+      </div>
+      <p>
+          @import url("/blog-assets/reactive-markdown/main.css");
 
 
 
 
 Many of my blog posts contain interactive demos or content that is generated via `JavaScript`. The prose of my posts, however, is written in `Markdown`. Shuttling data back and forth f...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-02-07-volatility-isnt-risk.html">
-  <h4>
-    Volatility isn't Risk
-  </h4>
-  <div class="subtext">
-    2021-02-07 · finance, math
-  </div>
-  <p>
-      @import url("/blog-assets/volatility-is-not-risk/style.css");
+    <a class="card" href="2021-02-07-volatility-isnt-risk.html">
+      <h4>
+        Volatility isn't Risk
+      </h4>
+      <div class="subtext">
+        2021-02-07 · finance, math
+      </div>
+      <p>
+          @import url("/blog-assets/volatility-is-not-risk/style.css");
 
 
 The biggest lie in investing is that volatiliy = risk.
 
 This is bogus. It misses the point of risk. Risk is about the chance of losing your principal in an investment. Volatility...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-01-26-regression-mean-vs-gambler.html">
-  <h4>
-    Regression to the Mean &#x26; the Gambler's Fallacy - Simulated
-  </h4>
-  <div class="subtext">
-    2021-01-26 · math, demo
-  </div>
-  <p>
-      @import url("/blog-assets/regression-mean-vs-gambler.css");
+    <a class="card" href="2021-01-26-regression-mean-vs-gambler.html">
+      <h4>
+        Regression to the Mean &#x26; the Gambler's Fallacy - Simulated
+      </h4>
+      <div class="subtext">
+        2021-01-26 · math, demo
+      </div>
+      <p>
+          @import url("/blog-assets/regression-mean-vs-gambler.css");
 
 
 
@@ -630,18 +632,18 @@ There are two seemingly contradictory findings in statistics which apply to inde
 2. The Gambler's Fallacy
 
 **Regre...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2021-01-21-false-positive-rate.html">
-  <h4>
-    Understanding False Positive Rate
-  </h4>
-  <div class="subtext">
-    2021-01-21 · math, demo
-  </div>
-  <p>
-      @import url("/blog-assets/false-positive-rate.css");
+    <a class="card" href="2021-01-21-false-positive-rate.html">
+      <h4>
+        Understanding False Positive Rate
+      </h4>
+      <div class="subtext">
+        2021-01-21 · math, demo
+      </div>
+      <p>
+          @import url("/blog-assets/false-positive-rate.css");
 
 
 
@@ -651,109 +653,109 @@ Jump to the simulation
 Throughout the Coronavirus pandemic, the most distressing thing has been the cherry picking of statistics.
 
 Things have gotten better. Cases, deaths, and hospita...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2020-09-13-declarative.html">
-  <h4>
-    Filter, Map, etc. vs For Each &#x26; While
-  </h4>
-  <div class="subtext">
-    2020-09-13 · software-engineering
-  </div>
-  <p>
-      I've run into the occasional programmer that finds the functional way of transforming collections (`map`, `filter`, `reduce`, `zip`, `pull`, etc.)
+    <a class="card" href="2020-09-13-declarative.html">
+      <h4>
+        Filter, Map, etc. vs For Each &#x26; While
+      </h4>
+      <div class="subtext">
+        2020-09-13 · software-engineering
+      </div>
+      <p>
+          I've run into the occasional programmer that finds the functional way of transforming collections (`map`, `filter`, `reduce`, `zip`, `pull`, etc.)
 harder to understand than the imperative style of `for`, `while` and `for-each` loops.
 
 I.e.,
 
 ```...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2020-06-29-all-things-are-permitted.html">
-  <h4>
-    All Things are Permitted
-  </h4>
-  <div class="subtext">
-    2020-06-29 · pontification
-  </div>
-  <p>
-      Its been said that _"if there is no God then all things are permitted."_
+    <a class="card" href="2020-06-29-all-things-are-permitted.html">
+      <h4>
+        All Things are Permitted
+      </h4>
+      <div class="subtext">
+        2020-06-29 · pontification
+      </div>
+      <p>
+          Its been said that _"if there is no God then all things are permitted."_
 
 Well, that's why we have laws. Precisely because all things _are_ permitted (by nature). Murder, adultery, theft, war, etc. All of these things happen and are able to happ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2020-05-25-Non-Conceptual-Definitions.html">
-  <h4>
-    Non Conceptual Definitions
-  </h4>
-  <div class="subtext">
-    2020-05-25 · pontification
-  </div>
-  <p>
-      Philopsophers often question what is "art" or "love" or other words for humanity has never had a solid definition.
+    <a class="card" href="2020-05-25-Non-Conceptual-Definitions.html">
+      <h4>
+        Non Conceptual Definitions
+      </h4>
+      <div class="subtext">
+        2020-05-25 · pontification
+      </div>
+      <p>
+          Philopsophers often question what is "art" or "love" or other words for humanity has never had a solid definition.
 
 The quest to finding a general principle which can define these words is always admirable and bears much fruit (e.g., reading Hei...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2020-05-19-These-Are-Not-Types.html">
-  <h4>
-    These are not types
-  </h4>
-  <div class="subtext">
-    2020-05-19 · software-engineering
-  </div>
-  <p>
-      Is an **int** a type? A **float**? A **double**?
+    <a class="card" href="2020-05-19-These-Are-Not-Types.html">
+      <h4>
+        These are not types
+      </h4>
+      <div class="subtext">
+        2020-05-19 · software-engineering
+      </div>
+      <p>
+          Is an **int** a type? A **float**? A **double**?
 
 These are **storage** types, not **application level** types.
 
 For many software projects, `int`, `float`, `double`, `string`, etc. exist at the wrong level of abstraction to be conidered proper ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2020-05-17-dangerous-ideas.html">
-  <h4>
-    Dangerous. Ideas.
-  </h4>
-  <div class="subtext">
-    2020-05-17 · pontification
-  </div>
-  <p>
-      "A little bit of knowledge is a dangerous thing"
+    <a class="card" href="2020-05-17-dangerous-ideas.html">
+      <h4>
+        Dangerous. Ideas.
+      </h4>
+      <div class="subtext">
+        2020-05-17 · pontification
+      </div>
+      <p>
+          "A little bit of knowledge is a dangerous thing"
 
 How do yo interpret that?
 * Does that mean knowledge is power and even with a little bit one can become a dangerous advesary?
 * Or does it mean if you only know a little, rather than a lot, you a...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2020-05-17-I-Am-You-Are.html">
-  <h4>
-    I am. You are?
-  </h4>
-  <div class="subtext">
-    2020-05-17 · pontification
-  </div>
-  <p>
-      When we describe how we're feeling we say "I am angry", "I am upset", "I am X"
+    <a class="card" href="2020-05-17-I-Am-You-Are.html">
+      <h4>
+        I am. You are?
+      </h4>
+      <div class="subtext">
+        2020-05-17 · pontification
+      </div>
+      <p>
+          When we describe how we're feeling we say "I am angry", "I am upset", "I am X"
 
 But you aren't _angry_ nor _upset_. You are feeling angry or upset. Describing emotions the way we currently do is incorrect in that it equates and identifies our sta...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2018-10-23-typed-literals-are-constants.html">
-  <h4>
-    Typed Literals ARE Constants!
-  </h4>
-  <div class="subtext">
-    2018-10-23 · software-engineering
-  </div>
-  <p>
-      ```
+    <a class="card" href="2018-10-23-typed-literals-are-constants.html">
+      <h4>
+        Typed Literals ARE Constants!
+      </h4>
+      <div class="subtext">
+        2018-10-23 · software-engineering
+      </div>
+      <p>
+          ```
 (option 1) display.setLayout(Layouts.FIXED);
 (option 2) display.setLayout('FIXED');
 ```
@@ -761,91 +763,208 @@ But you aren't _angry_ nor _upset_. You are feeling angry or upset. Describing e
 # **Are both lines of code above using constants?**
 
 I keep getting push-back that the first line is better practice than the second line. When reviewer...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2014-01-03-Practical-Laziness-in-Programming.html">
-  <h4>
-    Practical Laziness in Programming
-  </h4>
-  <div class="subtext">
-    2014-01-03 · software-engineering
-  </div>
-  <p>
-      When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder.
+    <a class="card" href="2014-01-03-Practical-Laziness-in-Programming.html">
+      <h4>
+        Practical Laziness in Programming
+      </h4>
+      <div class="subtext">
+        2014-01-03 · software-engineering
+      </div>
+      <p>
+          When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder.
 
 Laziness improves API design.
 
 I’ll illustrate with a program I wrote to convert Javadoc comments to JS...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2014-01-01-The-Almighty-Function.html">
-  <h4>
-    The Almighty Function
-  </h4>
-  <div class="subtext">
-    2014-01-01 · software-engineering
-  </div>
-  <p>
-      > Objects are a poor man’s closures. Closures are a poor man’s objects.
+    <a class="card" href="2014-01-01-The-Almighty-Function.html">
+      <h4>
+        The Almighty Function
+      </h4>
+      <div class="subtext">
+        2014-01-01 · software-engineering
+      </div>
+      <p>
+          > Objects are a poor man’s closures. Closures are a poor man’s objects.
 
 Some people say everything is an object. I used to too but these days I think everything is actually a function.
 
 1. A map? Isn’t that just a function that maps from one va...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2013-08-15-Oh-Lisp.html">
-  <h4>
-    Oh Lisp
-  </h4>
-  <div class="subtext">
-    2013-08-15 · software-engineering
-  </div>
-  <p>
-      If you ever tell someone you like Lisp and that Lisp is a more suitable language for the work you are doing most of the time you’ll get weird looks and comments like:
+    <a class="card" href="2013-08-15-Oh-Lisp.html">
+      <h4>
+        Oh Lisp
+      </h4>
+      <div class="subtext">
+        2013-08-15 · software-engineering
+      </div>
+      <p>
+          If you ever tell someone you like Lisp and that Lisp is a more suitable language for the work you are doing most of the time you’ll get weird looks and comments like:
 
 > “Isn’t that… old?”
 >
 > “All I know is that it has parenthesis everywhere.”
 ...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2013-07-30-Inheritance-Aggregation-and-Pipelines.html">
-  <h4>
-    Inheritance, Aggregation, and Pipelines
-  </h4>
-  <div class="subtext">
-    2013-07-30 · software-engineering
-  </div>
-  <p>
-      How does one write software that can be extended?
+    <a class="card" href="2013-07-30-Inheritance-Aggregation-and-Pipelines.html">
+      <h4>
+        Inheritance, Aggregation, and Pipelines
+      </h4>
+      <div class="subtext">
+        2013-07-30 · software-engineering
+      </div>
+      <p>
+          How does one write software that can be extended?
 
 I think many developer’s first instinct is to set up some form of inheritance hierarchy. Inheritance is a step in the right direction but it is very restrictive. The problem with inheritance is...
-  </p>
-</a>
+      </p>
+    </a>
 
-<a class="card" href="2013-06-28-services-and-coupling.html">
-  <h4>
-    Services and Coupling
-  </h4>
-  <div class="subtext">
-    2013-06-28 · software-engineering
-  </div>
-  <p>
-      Lines of code like:
+    <a class="card" href="2013-06-28-services-and-coupling.html">
+      <h4>
+        Services and Coupling
+      </h4>
+      <div class="subtext">
+        2013-06-28 · software-engineering
+      </div>
+      <p>
+          Lines of code like:
 
 > PositionCalculator calc = new MercatorPositionCalculator();
 
 (where **_PositionCalculator_** is an interface and **_MercatorPositionCalculator_** the implementation) have always bugged me and probably any other astute prog...
-  </p>
-</a>
-</div>
-</div>
+      </p>
+    </a>
+    </div>
+  </div>
 </section>
-</body></html>
+
+
+
+<section id="stories">
+  <div class="container">
+    <h3 class="section-title">Stories</h3>
+    <div class="grid">
+      
+    <a class="card" href="the-mirror-room/todo.html">
+      <h4>
+        todo.md
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          
+      </p>
+    </a>
+
+    <a class="card" href="the-mirror-room/index.html">
+      <h4>
+        The Mirror Room Collection
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          A collection of short stories about identity and becoming.
+      </p>
+    </a>
+
+    <a class="card" href="the-mirror-room/gurdjieff-observations.html">
+      <h4>
+        Observations on the Sleep of Seekers
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          Draft. Practical advice in response to The Mirror Room collection.
+      </p>
+    </a>
+
+    <a class="card" href="the-mirror-room/audio.html">
+      <h4>
+        The Mirror Room Collection - Audiobook
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          Please read the print version. The audiobook is currently many revision behind.
+      </p>
+    </a>
+
+    <a class="card" href="the-mirror-room/05-the-readers-crisis.html">
+      <h4>
+        The Reader's Crisis
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          Part 5 of the Mirror Room Collection. A 21st century leftish critique.
+      </p>
+    </a>
+
+    <a class="card" href="the-mirror-room/04-the-paradox-of-becoming.html">
+      <h4>
+        The Paradox of Becoming
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          Part 4 of the Mirror Room Collection. Choice as primary.
+      </p>
+    </a>
+
+    <a class="card" href="the-mirror-room/03-the-meeting.html">
+      <h4>
+        The Meeting
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          Part 3 of the Mirror Room Collection. The Identities Meet.
+      </p>
+    </a>
+
+    <a class="card" href="the-mirror-room/02-the-mirror-room.html">
+      <h4>
+        The Mirror Room
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          Part 2 of the Mirror Room Collection. A mystic identity.
+      </p>
+    </a>
+
+    <a class="card" href="the-mirror-room/01-the-consistent-man.html">
+      <h4>
+        The Consistent Man
+      </h4>
+      <div class="subtext">
+        the-mirror · 
+      </div>
+      <p>
+          Part 1 of the Mirror Room Collection. A rational identity.
+      </p>
+    </a>
+    </div>
+  </div>
+</section></body></html>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
 <script src="/home.js"></script>

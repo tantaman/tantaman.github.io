@@ -1,5 +1,7 @@
 ---
 layout: mirrorRoom
+description: A collection of short stories about identity and becoming.
+title: The Mirror Room Collection
 ---
 
 # The Mirror Room
