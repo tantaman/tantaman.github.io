@@ -22,16 +22,21 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
     newChildren.unshift(<h1>{matter?.title}</h1>);
   }
   body.children = [
-    <header id="header">
-      <a href="/" class="logo">
-        <img src="/img/avatar-icon.png" />
-      </a>
+    <header>
+      <div class="container">
+        <h1>
+          <a href="/">Tantaman</a>
+        </h1>
+        <nav>
+          <a href="/#blog">Blog</a>
+          <a href="/#stories">Stories</a>
+          <a href="/#notes">Notes</a>
+          <a href="/#synthesis">Synthesis</a>
+          <a href="/#about">About</a>
+        </nav>
+      </div>
     </header>,
-    <div id="static-container">
-      <div id="before-static"></div>
-      <main id="static">{newChildren}</main>
-      <div id="after-static"></div>
-    </div>,
+    <main id="static">{newChildren}</main>,
     <footer id="footer"></footer>,
   ];
 }
