@@ -76,7 +76,7 @@ export default async function watch() {
 
           // Also rebuild content after compiler changes
           console.log('Rebuilding all content...');
-          await spawnAsync('sitecompiler');
+          await spawnAsync('sitecompiler', ['--force']);
           console.log('Content build complete');
         } else if (type === 'content') {
           console.log(
