@@ -132,7 +132,7 @@ root.render(React.createElement(MDXContent, {}, null));
     // should js return a rehype doc?
     // probs.. so we can have all the same integrations as above.
     const module = await import(file);
-    const ret = module.default(file, cwd, files);
+    const ret = await module.default(file, cwd, files);
     ret.compiledFilename = compiledFilename(file);
     return ret;
   },
