@@ -18,6 +18,7 @@ export default async function index(file, cwd, files) {
         .use(rehypeDocument, {
           ...doc,
           css: doc.css.concat(['/home.css']),
+          js: doc.js.concat(['/home.js']),
         })
         .use(rehypeMeta, meta)
         .use(layout)
