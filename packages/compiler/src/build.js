@@ -23,7 +23,6 @@ export default async function build(collection, forceRebuild = false) {
 
   // Check if any JS files changed (which would require full rebuild due to index dependencies)
   const jsFiles = files.filter((file) => path.extname(file) === '.js');
-  let jsChanged = false;
 
   for (const jsFile of jsFiles) {
     const filePath = path.join(contentDir, jsFile);
@@ -32,21 +31,16 @@ export default async function build(collection, forceRebuild = false) {
     const cacheKey = `${collection}/${jsFile}`;
 
     if (!buildCache[cacheKey] || buildCache[cacheKey] !== lastModified) {
-      jsChanged = true;
       buildCache[cacheKey] = lastModified;
     }
   }
 
   const filesToProcess = [];
 
-  if (forceRebuild || jsChanged) {
+  if (forceRebuild) {
     // If JS changed or force rebuild, process all files
     filesToProcess.push(...files);
-    console.log(
-      jsChanged
-        ? 'JS files changed, rebuilding all files in collection'
-        : 'Force rebuilding all files',
-    );
+    console.log('Force rebuilding all files');
   } else {
     // Only process files that have changed
     for (const file of files) {
