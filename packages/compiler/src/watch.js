@@ -1,9 +1,19 @@
 import fs from 'fs';
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { spawn } from 'child_process';
 import { startDevServer, notifyReload } from './dev-server.js';
 
-const execAsync = promisify(exec);
+function spawnAsync(command, args = [], options = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, { stdio: 'inherit', ...options });
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Command failed with exit code ${code}`));
+      }
+    });
+  });
+}
 
 const DEBOUNCE_DELAY = 300; // ms
 let buildTimeout = null;
@@ -61,18 +71,18 @@ export default async function watch() {
       try {
         if (type === 'typescript') {
           console.log('Building TypeScript compiler...');
-          await execAsync('cd packages/compiler && pnpm build');
+          await spawnAsync('pnpm', ['build'], { cwd: 'packages/compiler' });
           console.log('TypeScript build complete');
 
           // Also rebuild content after compiler changes
           console.log('Rebuilding all content...');
-          await execAsync('sitecompiler');
+          await spawnAsync('sitecompiler');
           console.log('Content build complete');
         } else if (type === 'content') {
           console.log(
             `Building content for collection: ${collection || 'root'}`,
           );
-          await execAsync('sitecompiler');
+          await spawnAsync('sitecompiler');
           console.log('Content build complete');
         }
 
