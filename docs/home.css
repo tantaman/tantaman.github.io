@@ -1,3 +1,35 @@
 body {
+  position: relative;
   background: var(--bg) url('/img/bg-fire.png') center / cover fixed;
+}
+
+/* ----- Ember Particle ----- */
+.ember {
+  position: absolute;
+  bottom: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+  /* glowing orange → red fade */
+  background: radial-gradient(
+    circle,
+    rgba(255, 200, 100, 1) 0%,
+    rgba(255, 120, 0, 1) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  /* animation duration filled in via JS */
+  animation: rise linear forwards;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100vh) scale(0.3);
+    opacity: 0;
+  }
 }
