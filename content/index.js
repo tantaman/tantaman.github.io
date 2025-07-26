@@ -31,9 +31,16 @@ export default async function index(file, cwd, files) {
 async function blogIndex() {
   const i = await indexFrontmatter();
   const index = i[''];
-  // get all front matter from all md & mdx files in `content/`
+  // get all front matter  from all md & mdx files in `content/`
   return `
-<div className="grid post-grid gap-4">
+<section id="hero">
+  <img src="/img/avatar-angry.png" alt="Stoic guardian meditating" />
+  <!-- <h2>Words&nbsp;Forged&nbsp;in&nbsp;Fire</h2> -->
+  <p>tales, reflections, and evolving ideas.</p>
+</section>
+<section id="blog">
+<div class="container">
+<div className="grid">
   ${Object.entries(index)
     .reverse()
     .filter(
@@ -43,21 +50,22 @@ async function blogIndex() {
     .map(
       ([key, meta]) =>
         `
-<a class="entry-card" href="${meta.compiledFilename}">
-  <span>
+<a class="card" href="${meta.compiledFilename}">
+  <h4>
     ${meta.frontmatter.title || key}
-  </span>
+  </h4>
   <div class="subtext">
     ${extractDate(meta.compiledFilename)} · ${joinTags(meta.frontmatter)}
   </div>
-  <hr />
-  <div class="summary">
+  <p>
       ${meta.frontmatter.description || meta.description || ''}
-  </div>
+  </p>
 </a>`,
     )
     .join('\n')}
 </div>
+</div>
+</section>
 `;
 }
 

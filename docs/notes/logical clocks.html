@@ -24,12 +24,12 @@
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="1 minute">
 </head>
-<body><header id="header"><a href="/" class="logo"><img src="/img/avatar-icon.png"></a></header><div id="static-container"><div id="before-static"></div><main id="static">
+<body><header><div class="container"><h1><a href="#">Tantaman</a></h1><nav><a href="#blog">Blog</a><a href="#stories">Stories</a><a href="#notes">Notes</a><a href="#synthesis">Synthesis</a><a href="#about">About</a></nav></div></header><main id="static">
 <nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><blockquote>
 <p>While timestamps can potentially give us information necessary to determine the most recent update (we'll use that in a minute), they won't tell us anything about the "state of the world" at the moment, when update has happened. This means, we cannot detect if one update knew about another, or if they happened concurrently.</p>
 </blockquote>
 <p>This is speaking to <a class="internal new" href="/notes/vector%20clocks">notes/vector clocks</a>. Vector clocks, since they have the logical clock of every process, can let us understand which processes have seen which events. I.e., getting update [0, 1, 1] from process 2 lets me compare against my clock [1, 1, 0] and know that 2's update is not causally after 0's update but is causally later than 1's.</p>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
-</main><div id="after-static"></div></div><footer id="footer"></footer></body>
+</main><footer id="footer"></footer></body>
 </html>
