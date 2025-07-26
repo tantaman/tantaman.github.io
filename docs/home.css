@@ -1,0 +1,3 @@
+body {
+  background: var(--bg) url('/img/bg-fire.png') center / cover fixed;
+}
