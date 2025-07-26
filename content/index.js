@@ -1,20 +1,26 @@
-import { doc, meta, layout, rehypeDocument } from '@tantaman/sitecompiler';
+import {
+  doc,
+  meta,
+  layout,
+  rehypeDocument,
+  indexFrontmatter,
+} from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
 import rehypeMeta from 'rehype-meta';
 import rehypeParse from 'rehype-parse';
 
-// TODO: put this thru the unified pipeline like markdown?
-export default function index(file, cwd, files) {
+// TODO: put this thru  the unified pipeline like  markdown?
+export default async function index(file, cwd, files) {
   return {
-    content: () => {
+    content: async () => {
       return unified()
         .use(rehypeParse)
         .use(rehypeDocument, doc)
         .use(rehypeMeta, meta)
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
-        .processSync(blogIndex())
+        .processSync(await blogIndex())
         .toString();
     },
     frontmatter: {},
@@ -22,8 +28,9 @@ export default function index(file, cwd, files) {
   };
 }
 
-function blogIndex() {
-  const index = {}; // TODO:
+async function blogIndex() {
+  const i = await indexFrontmatter();
+  const index = i[''];
   // get all front matter from all md & mdx files in `content/`
   return `
 <div className="grid post-grid gap-4">
