@@ -1,3 +1,9 @@
+---
+layout: mirrorRoom
+title: The Paradox of Becoming
+description: Part 4 of the Mirror Room Collection. Choice as primary.
+---
+
 ## The Paradox of Becoming
 
 ### By Søren Kierkegaard

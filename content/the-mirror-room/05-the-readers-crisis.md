@@ -1,3 +1,9 @@
+---
+layout: mirrorRoom
+title: The Reader's Crisis
+description: Part 5 of the Mirror Room Collection. A 21st century leftish critique.
+---
+
 ## The Reader's Crisis
 
 Maya closed her laptop with more force than necessary. She'd been reading the Mirror Room collection for her book club, and every page had made her more agitated.

@@ -23,7 +23,7 @@ export default async function index(file, cwd, files) {
         .use(rehypeMeta, meta)
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
-        .processSync(await blogIndex())
+        .processSync(await siteIndex())
         .toString();
     },
     frontmatter: {},
@@ -31,9 +31,9 @@ export default async function index(file, cwd, files) {
   };
 }
 
-async function blogIndex() {
-  const i = await indexFrontmatter();
-  const index = i[''];
+async function siteIndex() {
+  const indices = await indexFrontmatter();
+  const index = indices[''];
   // get all front matter from all md & mdx files in `content/`
   return `
 <section id="hero">
@@ -41,35 +41,59 @@ async function blogIndex() {
   <!-- <h2>Words&nbsp;Forged&nbsp;in&nbsp;Fire</h2> -->
   <p>tales, reflections, and evolving ideas.</p>
 </section>
-<section id="blog">
-<div class="container">
-<div className="grid">
-  ${Object.entries(index)
-    .reverse()
-    .filter(
-      ([key, _]) =>
-        key !== 'index.js' && key !== 'README.md' && key !== '404.md',
-    )
-    .map(
-      ([key, meta]) =>
-        `
-<a class="card" href="${meta.compiledFilename}">
-  <h4>
-    ${meta.frontmatter.title || key}
-  </h4>
-  <div class="subtext">
-    ${extractDate(meta.compiledFilename)} · ${joinTags(meta.frontmatter)}
+${Object.entries(indices)
+  .map(([collection, index]) => renderCollection(collection, index))
+  .join('\n')}`;
+}
+
+function renderCollection(collection, index) {
+  let collectionId = collection;
+  let collectionName = collection;
+  console.log('renderCollection', collection, index);
+  switch (collection) {
+    case '':
+      collectionId = 'blog';
+      collectionName = 'Blog';
+      break;
+    case 'bookmarks/':
+      return '';
+    case 'notes/':
+      return '';
+    case 'the-mirror-room/':
+      collectionId = 'stories';
+      collectionName = 'Stories';
+      break;
+  }
+  return `
+<section id="${collectionId}">
+  <div class="container">
+    <h3 class="section-title">${collectionName}</h3>
+    <div className="grid">
+      ${Object.entries(index)
+        .reverse()
+        .filter(
+          ([key, _]) =>
+            key !== 'index.js' && key !== 'README.md' && key !== '404.md',
+        )
+        .map(
+          ([key, meta]) =>
+            `
+    <a class="card" href="${meta.compiledFilename}">
+      <h4>
+        ${meta.frontmatter?.title || key}
+      </h4>
+      <div class="subtext">
+        ${extractDate(meta.compiledFilename)} · ${joinTags(meta.frontmatter)}
+      </div>
+      <p>
+          ${meta.frontmatter?.description || meta.description || ''}
+      </p>
+    </a>`,
+        )
+        .join('\n')}
+    </div>
   </div>
-  <p>
-      ${meta.frontmatter.description || meta.description || ''}
-  </p>
-</a>`,
-    )
-    .join('\n')}
-</div>
-</div>
-</section>
-`;
+</section>`;
 }
 
 function extractDate(filename) {
@@ -77,5 +101,5 @@ function extractDate(filename) {
 }
 
 function joinTags(frontmatter) {
-  return (frontmatter.tags || []).join(', ');
+  return (frontmatter?.tags || []).join(', ');
 }

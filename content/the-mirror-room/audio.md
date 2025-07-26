@@ -1,5 +1,7 @@
 ---
 layout: mirrorRoom
+title: The Mirror Room Collection - Audiobook
+description: Please read the print version. The audiobook is currently many revision behind.
 ---
 
 # The Mirror Room
