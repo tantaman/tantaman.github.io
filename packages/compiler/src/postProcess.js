@@ -3,7 +3,7 @@
 // Basically LAMP of old but ahead of time.
 import path from 'path';
 
-export default function postProcess(filepath, artifact, index) {
+export default async function postProcess(filepath, artifact, index) {
   const ext = path.extname(filepath).substring(1);
   const filename = path.basename(filepath);
   const compiledFilepath =
@@ -14,7 +14,7 @@ export default function postProcess(filepath, artifact, index) {
     return [
       compiledFilepath,
       typeof artifact.content === 'function'
-        ? artifact.content(index)
+        ? await artifact.content(index)
         : artifact.content,
     ];
   }

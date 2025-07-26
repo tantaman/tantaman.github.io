@@ -21,20 +21,6 @@ export default async function build(collection, forceRebuild = false) {
   const contentDir = './content/' + collection;
   const files = await fs.promises.readdir(contentDir);
 
-  // Check if any JS files changed (which would require full rebuild due to index dependencies)
-  const jsFiles = files.filter((file) => path.extname(file) === '.js');
-
-  for (const jsFile of jsFiles) {
-    const filePath = path.join(contentDir, jsFile);
-    const stat = await fs.promises.stat(filePath);
-    const lastModified = stat.mtime.getTime();
-    const cacheKey = `${collection}/${jsFile}`;
-
-    if (!buildCache[cacheKey] || buildCache[cacheKey] !== lastModified) {
-      buildCache[cacheKey] = lastModified;
-    }
-  }
-
   const filesToProcess = [];
 
   if (forceRebuild) {
@@ -124,10 +110,10 @@ export default async function build(collection, forceRebuild = false) {
 
   await fs.promises.mkdir(dest, { recursive: true });
   await Promise.all(
-    artifacts.flatMap(([destPath, a]) => {
-      const [stadalonePath, content] = postProcess(destPath, a);
-      return [
-        fs.promises.writeFile(stadalonePath, content),
+    artifacts.map(async ([destPath, a]) => {
+      const [stadalonePath, content] = await postProcess(destPath, a);
+      await Promise.all([
+        await fs.promises.writeFile(stadalonePath, content),
         ...[
           (a.companionFiles || []).map((f) => {
             fs.promises.writeFile(
@@ -136,7 +122,7 @@ export default async function build(collection, forceRebuild = false) {
             );
           }),
         ],
-      ];
+      ]);
     }),
   );
 
