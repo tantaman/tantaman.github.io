@@ -10,13 +10,15 @@ import { unified } from 'unified';
 import rehypeMeta from 'rehype-meta';
 import rehypeParse from 'rehype-parse';
 
-// TODO: put this thru the  unified pipeline like  markdown?
 export default async function index(file, cwd, files) {
   return {
     content: async () => {
       return unified()
         .use(rehypeParse)
-        .use(rehypeDocument, doc)
+        .use(rehypeDocument, {
+          ...doc,
+          css: doc.css.concat(['/home.css']),
+        })
         .use(rehypeMeta, meta)
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
@@ -31,7 +33,7 @@ export default async function index(file, cwd, files) {
 async function blogIndex() {
   const i = await indexFrontmatter();
   const index = i[''];
-  // get all front matter  from all md & mdx files in `content/`
+  // get all front matter from all md & mdx files in `content/`
   return `
 <section id="hero">
   <img src="/img/avatar-angry.png" alt="Stoic guardian meditating" />

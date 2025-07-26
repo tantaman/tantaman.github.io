@@ -28,7 +28,7 @@ export default async function watch() {
 
   const server = await startDevServer();
 
-  // Watch TypeScript compiler source
+  // Watch TypeScript compiler source .
   const compilerWatcher = fs.watch(
     './packages/compiler/src',
     { recursive: true },
