@@ -1,6 +1,14 @@
 // @ts-ignore
 import React from 'https://esm.sh/react';
-export default function Figure({ description, source, source_url, url, }) {
+/*
+{
+  description: string;
+  source: string;
+  source_url: string;
+  url: string;
+}
+*/
+export default function Figure({ description, source, source_url, url }) {
     return (React.createElement("figure", { className: "image", style: { textAlign: 'center' } },
         React.createElement("img", { src: url, alt: description }),
         React.createElement("figcaption", null,
