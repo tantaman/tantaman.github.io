@@ -30,9 +30,9 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
         <nav>
           <a href="/#blog">Blog</a>
           <a href="/#stories">Stories</a>
-          <a href="/#notes">Notes</a>
-          <a href="/#synthesis">Synthesis</a>
-          <a href="/#about">About</a>
+          {/* <a href="/#notes">Notes</a> */}
+          {/* <a href="/#synthesis">Synthesis</a> */}
+          {/* <a href="/#about">About</a> */}
         </nav>
       </div>
     </header>,
