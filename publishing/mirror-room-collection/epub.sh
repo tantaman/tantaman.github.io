@@ -28,7 +28,7 @@ do
   ' "$file" >> $COMBINED_FILE
   
   # Add a page break between files
-  echo "\n\n" >> $COMBINED_FILE
+  echo "\n\\\\newpage\n" >> $COMBINED_FILE
 done
 
 pandoc --from markdown \
