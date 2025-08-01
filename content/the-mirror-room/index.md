@@ -18,6 +18,7 @@ title: The Mirror Room Collection
   <li><a href="#the-meeting">The Meeting</a></li>
   <li><a href="#the-paradox-of-becoming">The Paradox of Becoming</a></li>
   <li><a href="#the-readers-crisis">The Reader's Crisis</a></li>
+  <li><a href="#observations-on-the-sleep-of-seekers">Observations on the Sleep of Seekers</a></li>
 </ol>
 
 ![The Consistent Man](./01-the-consistent-man.md)
@@ -29,3 +30,5 @@ title: The Mirror Room Collection
 ![The Paradox of Becoming](./04-the-paradox-of-becoming.md)
 
 ![The Read's Crisis](./05-the-readers-crisis.md)
+
+![Observations on the Sleep of Seekers](./gurdjieff-observations.md)
