@@ -4,9 +4,9 @@ title: The Paradox of Becoming
 description: Part 4 of the Mirror Room Collection. Choice as primary.
 ---
 
-# The Paradox of Becoming
+## The Paradox of Becoming
 
-## As Søren Kierkegaard
+### As Søren Kierkegaard
 
 I have observed, through what the moderns might call a miraculous transmission across the centuries, a conversation that took place in a park between two souls and a teacher. What moved me most deeply about the encounter was not the solutions offered but the anguish displayed—the anguish of two individuals beginning to grasp their own freedom and responsibility. For anguish is the mark of the authentic. It is what we feel when we realize that we must choose without the comfort of external authority, rational certainty, or systematic guidance.
 
@@ -22,4 +22,4 @@ Even if all things can be shown to proceed logically, one can still choose other
 
 ---
 
-_The choice to exist—to truly exist as a self rather than merely persist as a biological organism—is not a choice made once and then executed systematically. It is the choice that must be made again and again, in fear and trembling, without the comfort of rational certainty._
+*The choice to exist—to truly exist as a self rather than merely persist as a biological organism—is not a choice made once and then executed systematically. It is the choice that must be made again and again, in fear and trembling, without the comfort of rational certainty.*

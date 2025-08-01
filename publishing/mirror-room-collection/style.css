@@ -1,3 +1,9 @@
+section#copyright p {
+  text-align: center;
+  font-size: 0.95em;
+  margin: 0.5em 0;
+}
+
 /* Base */
 body {
   font-family: 'Cormorant Garamond', serif;
