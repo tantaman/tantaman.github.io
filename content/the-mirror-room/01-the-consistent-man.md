@@ -114,4 +114,4 @@ Daniel smiled. He recognized the look. It was the beginning of a decision—not 
 
 ---
 
-*"A logical I. A formed I. An Apollonic I. An intellectable I. An understandable, through time, I. This is the I of consistency. The I of principles. The I of decision made yesterday followed through tomorrow. Word given today, honored tomorrow."*
+*A logical I. A formed I. An Apollonic I. An intellectable I. An understandable, through time, I. This is the I of consistency. The I of principles. The I of decision made yesterday followed through tomorrow. Word given today, honored tomorrow.*
