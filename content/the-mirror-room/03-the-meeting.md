@@ -4,7 +4,7 @@ title: The Meeting
 description: Part 3 of the Mirror Room Collection. The Identities Meet.
 ---
 
-## The Meeting
+# The Meeting
 
 Daniel stood at the intersection of Fifth and Main, checking his watch out of habit rather than urgency. 6:47 AM. He'd been walking the same route for three years now—part of his morning routine, as predictable as sunrise. The consistency had freed him from decision fatigue, but lately, he found himself wondering: _Consistent toward what?_
 
@@ -98,7 +98,7 @@ They stood there for a moment, two strangers who had shared something nameless.
 
 Sarah smiled. "I don't know. We'll see what wants to happen."
 
-### The Stranger
+## The Stranger
 
 "Wait."
 
