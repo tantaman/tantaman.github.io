@@ -33,11 +33,13 @@ done
 
 pandoc --from markdown \
   --to epub3 \
+  --lua-filter ../pagebreak.lua \
   -o book.epub \
   --defaults=defaults.yml \
   --metadata-file=metadata.yml \
   --epub-embed-font="CormorantGaramond-Italic-VariableFont_wght.ttf" \
   --epub-embed-font="CormorantGaramond-VariableFont_wght.ttf" \
+  start.md \
   $COMBINED_FILE
 
 # Clean up
