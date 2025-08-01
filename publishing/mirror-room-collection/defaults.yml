@@ -1,0 +1,7 @@
+epub-cover-image: ../../docs/the-mirror-room/cover.png
+epub-title-page: false
+css: ./style.css
+variables:
+  header-includes: |
+    % disable maketitle
+    \renewcommand{\maketitle}{}
