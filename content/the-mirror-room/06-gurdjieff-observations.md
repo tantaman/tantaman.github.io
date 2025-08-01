@@ -8,7 +8,7 @@ description: Draft. Practical advice in response to The Mirror Room collection.
 ## Observations on the Sleep of Seekers
 *Being Notes on Certain Mechanical Behaviors Witnessed in Contemporary Man*
 
-**By G.I. Gurdjieff**
+**As G.I. Gurdjieff**
 
 ---
 
