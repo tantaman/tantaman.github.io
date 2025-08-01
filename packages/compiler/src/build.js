@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import handlers from './handlers.js';
 import postProcess from './postProcess.js';
+import { generatePodcastRSS } from './podcast-rss.js';
 
 const builtDir = './docs/';
 const cacheFile = '.build-cache.json';
@@ -125,6 +126,20 @@ export default async function build(collection, forceRebuild = false) {
       ]);
     }),
   );
+
+  // Generate podcast RSS feed for root collection only
+  if (collection === '' && (filesToProcess.length > 0 || forceRebuild)) {
+    console.log('Generating podcast RSS feed...');
+    try {
+      const rssContent = await generatePodcastRSS(contentDir);
+      if (rssContent) {
+        await fs.promises.writeFile(path.join(builtDir, 'podcast.xml'), rssContent);
+        console.log('Podcast RSS feed generated: docs/podcast.xml');
+      }
+    } catch (error) {
+      console.error('Failed to generate podcast RSS feed:', error);
+    }
+  }
 
   // Save cache
   await fs.promises.writeFile(cacheFile, JSON.stringify(buildCache, null, 2));
