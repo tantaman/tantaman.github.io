@@ -191,5 +191,3 @@ The city continued to wake up around them, full of people rushing toward purpose
 ---
 
 _Choose life and your purpose is defined by what you require as a unique individual. It is the task of your mind to determine what that is._
-
-# ❦

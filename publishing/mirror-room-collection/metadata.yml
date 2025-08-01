@@ -1,0 +1,11 @@
+title: 'The Mirror Room Collection'
+author: 'Tantaman'
+date: '2025'
+language: en-US
+subject: 'Philosophy'
+description: 'Identity and Becoming'
+rights: © 2025 Tantaman LLC
+cover-image: ../../docs/the-mirror-room/cover.png
+toc: true
+toc-depth: 2
+css: ./style.css

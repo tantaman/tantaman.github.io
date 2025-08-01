@@ -1,0 +1,70 @@
+/* Base */
+body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15em;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+/* Headings */
+h1 {
+  font-size: 2em;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 3em 0 1.5em;
+}
+
+h3 {
+  font-size: 1em;
+  font-weight: 300;
+  text-align: center;
+  text-transform: uppercase;
+  color: #666;
+  letter-spacing: 0.03em;
+  margin-bottom: 2em;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 1.4em;
+  text-indent: 1.5em;
+}
+
+/* First paragraph in chapter (optional, no indent) */
+h2 + p,
+h1 + p {
+  text-indent: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 2em 1em;
+  padding: 1em 1.5em;
+  font-style: italic;
+  color: #333;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Horizontal rule */
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 3em 0;
+}

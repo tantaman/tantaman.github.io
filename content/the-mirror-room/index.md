@@ -23,13 +23,24 @@ title: The Mirror Room Collection
 
 ![The Consistent Man](./01-the-consistent-man.md)
 
+# ❦
+
 ![The Mirror Room](./02-the-mirror-room.md)
+
+# ❦
 
 ![The Meeting](./03-the-meeting.md)
 
+# ❦
+
 ![The Paradox of Becoming](./04-the-paradox-of-becoming.md)
+
+# ❦
 
 ![The Read's Crisis](./05-the-readers-crisis.md)
 
+# ❦
+
 ![Observations on the Sleep of Seekers](./06-gurdjieff-observations.md)
 
+# ❦

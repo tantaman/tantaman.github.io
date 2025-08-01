@@ -23,5 +23,3 @@ Even if all things can be shown to proceed logically, one can still choose other
 ---
 
 _The choice to exist—to truly exist as a self rather than merely persist as a biological organism—is not a choice made once and then executed systematically. It is the choice that must be made again and again, in fear and trembling, without the comfort of rational certainty._
-
-# ❦

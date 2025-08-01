@@ -61,5 +61,3 @@ For the first time in years, that felt like freedom.
 ---
 
 _Who am I? I am. Any other description is slavery._
-
-# ❦

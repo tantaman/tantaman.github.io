@@ -111,5 +111,3 @@ For the first time in years, that felt like freedom rather than burden.
 ---
 
 _Sometimes the most progressive position is the belief that individuals can progress._
-
-# ❦
