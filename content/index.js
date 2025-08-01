@@ -49,7 +49,6 @@ ${Object.entries(indices)
 function renderCollection(collection, index) {
   let collectionId = collection;
   let collectionName = collection;
-  console.log('renderCollection', collection, index);
   switch (collection) {
     case '':
       collectionId = 'blog';
