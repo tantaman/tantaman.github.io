@@ -32,3 +32,4 @@ title: The Mirror Room Collection
 ![The Read's Crisis](./05-the-readers-crisis.md)
 
 ![Observations on the Sleep of Seekers](./06-gurdjieff-observations.md)
+

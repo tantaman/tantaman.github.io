@@ -4,7 +4,7 @@ title: The Consistent Man
 description: Part 1 of the Mirror Room Collection. A rational identity.
 ---
 
-## The Consistent Man
+# The Consistent Man
 
 Daniel had been two different people by Thursday.
 
@@ -20,7 +20,7 @@ The recognition cut deep. He wasn't a person; he was a collection of impulses, r
 
 _But can I choose to become consistent? Can I forge an actual self?_
 
-### Year One: The Forge
+## Year One: The Forge
 
 Daniel began with a simple question: What would a consistent version of myself do right now?
 
@@ -36,7 +36,7 @@ The first month was brutal. His body rebelled. His mind generated endless excuse
 
 **The Principle Rule**: Before making any decision, he would ask: "What principle am I operating from? Is this principle one I want to govern my life?" If not, he would act according to a better principle, regardless of his immediate desires.
 
-### Year Two: The Testing
+## Year Two: The Testing
 
 The tests came gradually, then suddenly.
 
@@ -48,7 +48,7 @@ A woman he was attracted to showed interest, but he could sense she was the type
 
 Each decision reinforced his developing character. Each choice made the next similar choice easier.
 
-### Year Three: The Recognition
+## Year Three: The Recognition
 
 People began to notice Daniel differently. Not because he was perfect—he made mistakes, faced failures, encountered setbacks like anyone else. But his responses became predictable in the best way.
 
@@ -62,7 +62,7 @@ What surprised Daniel most was how much mental energy he'd freed up. The old Dan
 
 The consistent Daniel had established systems that removed those decisions from daily consideration. His principles decided for him.
 
-### Year Four: The Challenge
+## Year Four: The Challenge
 
 The real test came during his father's illness.
 
@@ -76,7 +76,7 @@ He worked extra hours at his current job, took on freelance projects, sold posse
 
 Most importantly, he slept well each night, knowing he was handling the crisis in alignment with the person he'd chosen to become.
 
-### Year Five: The Template
+## Year Five: The Template
 
 Daniel had become what he'd once thought impossible: utterly predictable and completely free.
 
@@ -96,7 +96,7 @@ His teaching method was simple:
 
 **Remember the Purpose**: "The goal isn't rigidity—it's reliability. You become someone others can count on because you've become someone you can count on."
 
-### The Example
+## The Example
 
 Years later, a young man approached Daniel at a coffee shop. "My life is chaos," he said. "I make different decisions every day based on how I feel. I don't trust myself anymore. How did you become so... solid?"
 
