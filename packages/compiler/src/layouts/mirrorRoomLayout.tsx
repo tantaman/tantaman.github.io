@@ -58,10 +58,6 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
         content="https://tantaman.com/the-mirror-room/cover.png"
       />
 
-      <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;700&display=swap"
-        rel="stylesheet"
-      />
       <link rel="stylesheet" href="/the-mirror-room/styles.css" />
     </head>,
     <body>
