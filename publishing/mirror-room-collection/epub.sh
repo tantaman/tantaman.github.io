@@ -28,18 +28,16 @@ do
   ' "$file" >> $COMBINED_FILE
   
   # Add a page break between files
-  echo -e "\n\n" >> $COMBINED_FILE
+  echo "\n\n" >> $COMBINED_FILE
 done
 
-pandoc --metadata-file=./metadata.yml \
-  --from markdown \
+pandoc --from markdown \
   --to epub3 \
-  --toc \
-  --split-level=2 \
   -o book.epub \
+  --defaults=defaults.yml \
+  --metadata-file=metadata.yml \
   --epub-embed-font="CormorantGaramond-Italic-VariableFont_wght.ttf" \
   --epub-embed-font="CormorantGaramond-VariableFont_wght.ttf" \
-  ./copyright.md \
   $COMBINED_FILE
 
 # Clean up
