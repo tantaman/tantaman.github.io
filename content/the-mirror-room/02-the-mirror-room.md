@@ -4,7 +4,7 @@ title: The Mirror Room
 description: Part 2 of the Mirror Room Collection. A mystic identity.
 ---
 
-# The Mirror Room
+## The Mirror Room
 
 Sarah had always known exactly who she was. "I'm a progressive activist," she'd say at parties. "I'm a vegan. I'm someone who fights for social justice." Each label felt like armor, protecting her from the chaos of an uncertain world.
 
@@ -60,4 +60,4 @@ For the first time in years, that felt like freedom.
 
 ---
 
-_Who am I? I am. Any other description is slavery._
+*Who am I? I am. Any other description is slavery.*
