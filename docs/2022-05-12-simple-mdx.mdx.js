@@ -340,14 +340,14 @@ function _createMdxContent(props) {
         children: [_jsx(_components.a, {
           href: "https://github.com/remarkjs/remark-rehype",
           children: "remark-rehype"
-        }), " - to convert the markdown ast to an html ast for futher processing. Already included by ", _jsx(_components.code, {
+        }), " - to convert the markdown ast to an html ast for further processing. Already included by ", _jsx(_components.code, {
           children: "@mdx-js/mdx"
         }), "."]
       }), "\n", _jsxs(_components.li, {
         children: [_jsx(_components.a, {
           href: "https://github.com/rehypejs/rehype-highlight",
           children: "rehype-highlight"
-        }), " - to eanble code highlighting"]
+        }), " - to enable code highlighting"]
       }), "\n"]
     }), "\n", _jsxs(_components.h3, {
       id: "applying-transformations",

@@ -65,17 +65,17 @@ function _createMdxContent(props) {
         children: "free"
       }), "."]
     }), "\n", _jsxs(_components.p, {
-      children: ["Well I don't think that those professors were entirely wrong. Of course you want to take advantage of all the abstractions available to you in the modern era but you'll inevitbly have to face low level problems at some point in your career. Joel Spolsky has some great writing on this topic. While I think Joel goes a bit overboard (we're surrounded by abstraction that rarely, if ever, leak) all of this reminds me of his article on ", _jsx(_components.a, {
+      children: ["Well I don't think that those professors were entirely wrong. Of course you want to take advantage of all the abstractions available to you in the modern era but you'll inevitably have to face low level problems at some point in your career. Joel Spolsky has some great writing on this topic. While I think Joel goes a bit overboard (we're surrounded by abstraction that rarely, if ever, leak) all of this reminds me of his article on ", _jsx(_components.a, {
         href: "https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/",
         children: "leaky abstractions"
-      }), ". Tldr: at some point something lower in the stack breaks (or bubbles up), requiring you to understand how it works so you can fix (or accomodate) it."]
+      }), ". Tldr: at some point something lower in the stack breaks (or bubbles up), requiring you to understand how it works so you can fix (or accommodate) it."]
     }), "\n", _jsxs(_components.p, {
       children: ["The most spectacular example I've seen of a leaky abstraction in production was a bug we had generating hashes of passwords. Developers in the ", _jsx(_components.code, {
         children: "PHP"
       }), " stack would call ", _jsx(_components.code, {
         children: "hash_password"
       }), " (when registering a user) or ", _jsx(_components.code, {
-        children: "check_pasword($user_input, $stored_hash)"
+        children: "check_password($user_input, $stored_hash)"
       }), " when checking credentials. New accounts would get created, but the users could never log in. At the same time, the number of failed login attempts for previously registered users increased. Ultimately, the cause of the bug ended up being new servers we had installed which contained Intel chips that were generating incorrect SHA values. The abstraction leaked from the metal all the way up to application developers."]
     }), "\n", _jsx(_components.p, {
       children: "All that being said, you don't know which part of the stack is going to end up breaking in your future but some part, deep down, will break. Given that, a good developer should have a passing familiarity with all levels of the stack."
