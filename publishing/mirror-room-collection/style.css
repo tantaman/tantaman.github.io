@@ -1,7 +1,11 @@
-#copyright p {
+#copyright {
   text-align: center;
   font-size: 0.95em;
-  margin: 0.5em 0;
+  margin-top: 50%;
+}
+
+#toc ol {
+  margin-top: 50%;
 }
 
 /* Base */

@@ -33,6 +33,8 @@ done
 
 pandoc --from markdown \
   --to epub3 \
+  -s \
+  --template=../epub3.template \
   --lua-filter ../pagebreak.lua \
   -o book.epub \
   --defaults=defaults.yml \
