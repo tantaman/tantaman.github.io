@@ -20,7 +20,7 @@ Daniel has achieved something that most men never approach—he has developed wi
 
 But here is where Daniel reveals his fundamental misunderstanding: he has confused the development of one center with the development of being.
 
-Daniel has trained his moving center to override his emotional center, but he has not developed his emotional center itself. When faced with questions of value and meaning, he finds himself empty because his emotional center remains as mechanical and undeveloped as it was before his "transformation." He can force himself to act consistently, but he cannot feel consistently or think consistently.
+Daniel has trained his moving center to override his emotional center, but he has not developed his emotional center, nor intellectual, centers. When faced with questions of value and meaning, he finds himself empty because his emotional and intellectual centers remains as mechanical and undeveloped as they were before his "transformation." He can force himself to act consistently, but he cannot feel consistently or think consistently.
 
 This is why he feels purposeless despite his discipline—he is constantly suppressing rather than harmonizing his centers. Real will comes not from the domination of one center over others, but from their conscious cooperation.
 
@@ -36,9 +36,7 @@ Sarah has achieved something equally rare—she has seen through the illusion of
 
 But Sarah has made the classical error of the intellectual center working alone: she has confused the absence of false identity with the presence of real identity.
 
-Sarah believes that because she can see through her personas, she has transcended the need for any organizing principle of being. She mistakes fluidity for freedom, not understanding that without some conscious organizing force, she is simply at the mercy of whatever influence happens to be strongest in any given moment.
-
-**Sarah's trap:** She has achieved what she thinks is freedom from mechanical identity, but she has not created conscious identity to replace it. She floats, thinking herself free, not realizing she is simply drifting.
+**Sarah's trap:** Sarah believes that because she can see through her personas, she has transcended the need for any organizing principle of being. She mistakes fluidity for freedom, not understanding that without some conscious organizing force, she is simply at the mercy of whatever influence happens to be strongest in any given moment.
 
 **What Sarah must understand:** The destruction of false personality is only the first step. Nature abhors a vacuum. If conscious personality is not developed to fill the space left by the removal of false personality, then mechanical influences will simply fill that space in new and more subtle ways.
 
@@ -96,7 +94,7 @@ For all these characters, I would prescribe the same fundamental practices:
 
 **First:** Learn to observe without changing. Before you can transform anything, you must see what is actually there, not what you think is there or what you wish were there.
 
-**Second:** Study the relationship between your centers. Notice when you think with your emotional center, feel with your moving center, act from your intellectual center. Begin to see these mixtures as they occur.
+**Second:** Study the relationship between your centers. Notice when you think with your emotional (rather than intellectual) center, feel with your moving (rather than emotional) center, act from your intellectual (rather than moving) center. Begin to see these mixtures as they occur.
 
 **Third:** Practice what we call "divided attention"—the simultaneous awareness of inner state and outer activity. This is the foundation of all conscious work.
 
@@ -108,7 +106,7 @@ For all these characters, I would prescribe the same fundamental practices:
 
 These individuals believe themselves to be advanced because they have seen through certain obvious illusions. But seeing through illusions is only the beginning of work, not its completion. The path from sleeping personality to conscious individuality is long and requires constant vigilance against the cleverness of false personality, which can turn even genuine insights into new forms of self-deception.
 
-Each of these people has touched something real, but none has learned to live from that reality consistently. They remain what we call "obyvateli with philosophical pretensions"—ordinary people who have read books about higher possibilities but who have not submitted to the conditions necessary for their realization.
+Each of these people has touched something real, but none has learned to live from that reality consistently. They remain what we call "obyvatelia with philosophical pretensions"—ordinary people who have read books about higher possibilities but who have not submitted to the conditions necessary for their realization.
 
 This is not criticism but diagnosis. One cannot heal a disease by pretending it does not exist. The first requirement for conscious development is the accurate assessment of one's current state, without the consolations of philosophical sophistication or psychological insight.
 
