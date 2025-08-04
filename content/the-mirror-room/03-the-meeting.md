@@ -96,7 +96,7 @@ They stood there for a moment, two strangers who had shared something nameless.
 
 "Same time tomorrow?" Daniel asked.
 
-Sarah smiled. "I don't know. We'll see what wants to happen." (note: maybe cut the mystical or have gjieff comment on it?)
+Sarah smiled. "I don't know. We'll see what wants to happen."
 
 ### The Stranger
 
