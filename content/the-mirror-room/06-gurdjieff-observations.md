@@ -96,7 +96,7 @@ For all these characters, I would prescribe the same fundamental practices:
 
 **Second:** Practice what we call "divided attention"—the simultaneous awareness of inner state and outer activity. This is the foundation of all conscious work.
 
-**Third:** Study the relationship between your centers. Notice when you think with your emotional (rather than intellectual) center, feel with your moving (rather than emotional) center, act from your intellectual (rather than moving) center, etc. Begin to see these mixtures as they occur. Observing decisions made from emotion, rather than intellect, should be the most obvious and easiest place to start. Observing _sensing_ (physical) being mistaken for _feeling_ (emotional) is harder but of vital importance. E.g., mistaking the being hot or hungrey for being angry. The hardest may be seeing your moving center acting for your intellectual center.
+**Third:** Study the relationship between your centers. Notice when you think with your emotional (rather than intellectual) center, feel with your moving (rather than emotional) center, act from your intellectual (rather than moving) center, etc. Begin to see these mixtures as they occur. Observing decisions made from emotion, rather than intellect, should be the most obvious and easiest place to start. Observing _sensing_ (physical) being mistaken for _feeling_ (emotional) is harder but of vital importance. E.g., mistaking the being hot or hungry for being angry. The hardest may be seeing your moving center acting for your intellectual center.
 
 **Fourth:** Find others who are engaged in similar work. Individual transformation is impossible without collective effort, just as collective transformation is impossible without individual work.
 
