@@ -30,7 +30,7 @@ They stood in comfortable silence for a moment, two strangers who had somehow by
 
 Daniel's hand tightened on his coffee cup. "Every day."
 
-"I used to know exactly who I was," Sarah continued, staring at the bookstore. "Had it all mapped out—my values, my identity, my purpose. Then I realized it was all just... costume. I learned to see through the identities we wear, but now..." She gestured vaguely at the air. "I'm free, but I don't know what to do with the freedom."
+"I used to know exactly who I was," Sarah continued, staring at the bookstore. "Had it all mapped out—my values, my identity, my purpose. But it felt so rigid, like a trap. I didn't know where that identity had come from. It was just something that built up over time. Then I realized it was all just... costume. I learned to see through the identities we wear, but now..." She gestured vaguely at the air. "I'm free from some fixed notion of me, but I don't know what to do with that freedom."
 
 They began walking, neither quite sure why they were walking together, but neither questioning it.
 
@@ -96,7 +96,7 @@ They stood there for a moment, two strangers who had shared something nameless.
 
 "Same time tomorrow?" Daniel asked.
 
-Sarah smiled. "I don't know. We'll see what wants to happen."
+Sarah smiled. "I don't know. We'll see what wants to happen." (note: maybe cut the mystical or have gjieff comment on it?)
 
 ### The Stranger
 
