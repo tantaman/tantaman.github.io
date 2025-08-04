@@ -20,7 +20,7 @@ Daniel has achieved something that most men never approach—he has developed wi
 
 But here is where Daniel reveals his fundamental misunderstanding: he has confused the development of one center with the development of being.
 
-Daniel has trained his moving center to override his emotional center, but he has not developed his emotional center, nor intellectual, centers. When faced with questions of value and meaning, he finds himself empty because his emotional and intellectual centers remains as mechanical and undeveloped as they were before his "transformation." He can force himself to act consistently, but he cannot feel consistently or think consistently.
+Daniel has trained his moving center to override all others. He has not developed his emotional, nor intellectual, centers. When faced with questions of value and meaning, he finds himself empty because his emotional and intellectual centers remains as mechanical and undeveloped as they were before his "transformation." He can force himself to act consistently, but he cannot feel or think consistently.
 
 This is why he feels purposeless despite his discipline—he is constantly suppressing rather than harmonizing his centers. Real will comes not from the domination of one center over others, but from their conscious cooperation.
 
@@ -40,7 +40,7 @@ But Sarah has made the classical error of the intellectual center working alone:
 
 **What Sarah must understand:** The destruction of false personality is only the first step. Nature abhors a vacuum. If conscious personality is not developed to fill the space left by the removal of false personality, then mechanical influences will simply fill that space in new and more subtle ways.
 
-**Sarah's prescription:** She must begin the work of conscious construction. Having learned to dissolve, she must now learn to crystallize—but consciously. She must develop what we call "magnetic center"—a conscious organizing principle that can make genuine choices based on objective values rather than subjective preferences or external influences.
+**Sarah's prescription:** She must begin the work of conscious construction. Having learned to dissolve, she must now learn to crystallize—but consciously. She must develop what we call the "magnetic center"—a conscious organizing principle that can make genuine choices based on objective values rather than subjective preferences or external influences.
 
 ### On the Meeting
 
@@ -80,11 +80,11 @@ But Maya also demonstrates something hopeful: she has the capacity for self-obse
 
 All of these individuals suffer from the same fundamental problem: they mistake partial development for complete transformation. Each has made progress in one area while remaining asleep in others.
 
-This is the nature of contemporary seeking: people achieve genuine insights or develop real capacities, but they remain fragmentary. They develop one center while neglecting others, or they develop understanding without corresponding being, or being without corresponding understanding.
+This is the nature of contemporary seeking: people achieve genuine insights or develop real capacities, but they remain fragmentary. They develop one center while neglecting others, or they develop understanding without corresponding being.
 
 ### The Missing Element
 
-What is absent from all these stories is any mention of conscious school, of work with others under guidance, of submission to a teaching that is larger than personal preferences and individual insights.
+What is absent from all these stories is any mention of a conscious school, of work with others under guidance, of submission to a teaching that is larger than personal preferences and individual insights.
 
 Each character imagines himself or herself to be self-directing, self-teaching, self-transforming. This is like a person trying to see the back of his own head without a mirror. Certain things can only be seen from outside, can only be learned in relationship with others who are doing the same work.
 
@@ -94,13 +94,13 @@ For all these characters, I would prescribe the same fundamental practices:
 
 **First:** Learn to observe without changing. Before you can transform anything, you must see what is actually there, not what you think is there or what you wish were there.
 
-**Second:** Study the relationship between your centers. Notice when you think with your emotional (rather than intellectual) center, feel with your moving (rather than emotional) center, act from your intellectual (rather than moving) center. Begin to see these mixtures as they occur.
+**Second:** Practice what we call "divided attention"—the simultaneous awareness of inner state and outer activity. This is the foundation of all conscious work.
 
-**Third:** Practice what we call "divided attention"—the simultaneous awareness of inner state and outer activity. This is the foundation of all conscious work.
+**Third:** Study the relationship between your centers. Notice when you think with your emotional (rather than intellectual) center, feel with your moving (rather than emotional) center, act from your intellectual (rather than moving) center, etc. Begin to see these mixtures as they occur. Observing decisions made from emotion, rather than intellect, should be the most obvious and easiest place to start. Observing _sensing_ (physical) being mistaken for _feeling_ (emotional) is harder but of vital importance. E.g., mistaking the being hot or hungrey for being angry. The hardest may be seeing your moving center acting for your intellectual center.
 
 **Fourth:** Find others who are engaged in similar work. Individual transformation is impossible without collective effort, just as collective transformation is impossible without individual work.
 
-**Fifth:** Submit to conditions that go against your mechanical preferences. Comfort and convenience are the enemies of consciousness. Only through voluntary suffering can higher centers be developed.
+**Fifth:** Submit to conditions that go against your mechanical preferences. Comfort and convenience are the enemies of consciousness. Only through voluntary suffering can higher centers be developed. Recognize that what is best for us is often what is hardest for us.
 
 ### A Final Word
 

@@ -45,4 +45,4 @@ pandoc --from markdown \
   $COMBINED_FILE
 
 # Clean up
-rm -f $COMBINED_FILE
+# rm -f $COMBINED_FILE
