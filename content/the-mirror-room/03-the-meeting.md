@@ -30,25 +30,25 @@ They stood in comfortable silence for a moment, two strangers who had somehow by
 
 Daniel's hand tightened on his coffee cup. "Every day."
 
-"I used to know exactly who I was," Sarah continued, staring at the bookstore. "Had it all mapped out—my values, my identity, my purpose. But it felt so rigid, like a trap. I didn't know where that identity had come from. It was just something that built up over time. Then I realized it was all just... costume. I learned to see through the identities we wear, but now..." She gestured vaguely at the air. "I'm free from some fixed notion of me, but I don't know what to do with that freedom."
+"I used to know exactly who I was," Sarah continued, staring at the bookstore. "Had it all mapped out—my values, my identity, my purpose. But then I realized that I didn't know where that identity had come from. That it wasn't me. It was just something that built up over time. A value from a friend there, an opinion from an article there, a taste from a critic over there. Then I realized it was all just... costume. I learned to see through, to not identify with, the identities we wear. But now..." She gestured vaguely at the air. "I'm free from false identity, and I don't know what to do with that freedom."
 
 They began walking, neither quite sure why they were walking together, but neither questioning it.
 
-"I'm disciplined. I can choose any habit and stick to it day after day. No internal negotiations, no backsliding. If I decide something is important, I can make it happen." He kicked at a piece of gravel.
+"I'm free in a different way. I'm free in that I'm disciplined. I can choose any habit and stick to it day after day. No internal negotiations, no backsliding. If I decide something is important, I can make it happen." He kicked at a piece of gravel.
 
 "I sense a but"
 
 Daniel half grinned, beginning to really like Sarah. "But..." he continued. "I don't know where to direct that discipline. To borrow your words, the discipline is a how not a why. When I started my journey, the how was the why. I needed to become consistent to be able to _do_ in this world. Now that I've arrived, what shall I do? What is a worthy goal? My personal joy? That seems arbitrary and subject to change as I change my habits. The benefit of another? Is that not just delegating my purpose to someone else who has no valid purpose either?"
 
-Sarah nodded slowly. "I have a similar, but mirrored, problem. I can see that any identity, any goal, any purpose could be valid. I'm not trapped by the need to be consistent with who I was yesterday. But that means..." She trailed off.
+Sarah nodded slowly. "It sounds like you're realizing there may not be a fixed you. That the principles you chose could have been otherwise and created a different you. I'm in the same boat. I see that I can put on any identity. That everything is open to me and..."
 
-"That means you could choose anything, so you choose nothing?"
+"Because you could choose anything, you choose nothing?"
 
 "Exactly. If everything is possible, how do you pick? And who is doing the picking anyway? If there's no fixed 'me' to serve, what would choosing even mean?"
 
 They had stopped walking. Daniel realized they were standing in front of a small park—just a few benches and some trees, squeezed between two office buildings.
 
-"Mind if we sit?" Daniel asked. "This feels like a conversation that needs sitting."
+"Mind if we sit?" Daniel asked.
 
 They settled on a bench facing the street, watching the city wake up around them.
 
@@ -100,7 +100,7 @@ Sarah smiled. "I don't know. We'll see what wants to happen."
 
 ### The Stranger
 
-"Wait."
+"Wait!!"
 
 They both turned at the sharp, confident voice. An older woman approached them, perhaps in her seventies, wearing a tailored coat and carrying herself with the bearing of someone accustomed to being listened to. Her gray hair was pulled back severely, and her eyes held a fierce intelligence that seemed to dissect everything they landed on.
 

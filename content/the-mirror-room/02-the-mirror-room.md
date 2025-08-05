@@ -32,7 +32,7 @@ More mirrors. Sarah the mother, fierce and protective, having abandoned her acti
 
 "Yes," the voice said gently. "And who you choose not to be limits you just as much."
 
-Sarah stared at the progressive activist in the mirror directly in front of her—the "real" Sarah. But now she could see the invisible chains: the ideas she'd never allow herself to consider, the people she'd never befriend, the experiences she'd never permit herself to have.
+Sarah stared at the progressive activist in the mirror directly in front of her—the "real" Sarah. But now she could see the invisible chains: the ideas she'd never allow herself to consider, the people she'd never befriend, the experiences she'd never permit herself to have. She could see that this was never a life she chose for herself. It was accumulated cruft, handed to her by her family, society, friends. Not something of her own. Not her.
 
 "If I'm not my identity," she asked the empty room, "then what am I?"
 

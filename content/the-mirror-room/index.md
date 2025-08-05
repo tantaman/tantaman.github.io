@@ -44,3 +44,4 @@ title: The Mirror Room Collection
 ![Observations on the Sleep of Seekers](./06-gurdjieff-observations.md)
 
 # ❦
+
