@@ -142,19 +142,9 @@ She gestured at both of them.
 
 "You're asking 'what should I live for?' when you should be asking 'what does living require of me?' The answer isn't mystical."
 
-"But what if we choose wrong?" Daniel asked.
-
-"Then you learn and choose better! But choosing nothing is not avoiding error—it's choosing the error of a wasted life. You're both so afraid of making the wrong choice that you're making the worst choice: no choice at all."
-
-Alicia stopped pacing and looked directly at each of them.
-
-"You've both made the same error in opposite directions. Daniel, you've developed the capacity for self-direction but refused to direct yourself. Sarah, you've gained freedom from imposed identity but refused to use that freedom to consciously create your own identity. Both of you are standing at the threshold of genuine self-ownership and turning away because it requires you to take responsibility for your own lives."
-
 The morning sun had fully risen now, and the street was filling with people heading to work, all of them seemingly certain of their destinations.
 
 "But what about uncertainty?" Sarah asked. "What about the fact that we can't know everything, can't be sure of all our choices?"
-
-"Of course you can't know everything in advance. But you can know the standard: does this choice serve my life or undermine it? Does this relationship make me stronger or weaker? Does this work engage my mind or waste it? Does this goal require me to become better or allow me to stagnate?"
 
 Alicia's voice grew more intense.
 
@@ -173,10 +163,6 @@ With that, she walked briskly away, leaving Daniel and Sarah standing in stunned
 After a long moment, Daniel spoke quietly. "Do you think she's right?"
 
 Sarah watched Alicia's retreating figure. "I think... she's certainly sure of herself."
-
-"That's not the same thing."
-
-"No, it's not." Sarah turned back to Daniel.
 
 They stood there as the city moved around them, two people who had just been offered a different framework for their dilemmas.
 
