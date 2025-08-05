@@ -144,6 +144,8 @@ She gestured at both of them.
 
 The morning sun had fully risen now, and the street was filling with people heading to work, all of them seemingly certain of their destinations.
 
+“Both of you are standing at the threshold of genuine self-ownership and turning away because it requires you to take responsibility for your own lives.”
+
 "But what about uncertainty?" Sarah asked. "What about the fact that we can't know everything, can't be sure of all our choices?"
 
 Alicia's voice grew more intense.
