@@ -168,9 +168,9 @@ Sarah watched Alicia's retreating figure. "I think... she's certainly sure of he
 
 They stood there as the city moved around them, two people who had just been offered a different framework for their dilemmas.
 
-"Same time tomorrow?" Daniel asked, but his voice carried a different quality now—not the uncertainty of someone hoping something would happen to them, but the intentionality of someone considering what they wanted to make happen.
+"Same time tomorrow?" Daniel asked, but his voice carried a different quality now—not the uncertainty of someone hoping something would happen to them, but the intentionality of someone considering what his life required.
 
-Sarah smiled, and this time the smile carried decision rather than drift. "Yes. Same time tomorrow. I choose to be here."
+Sarah smiled, and this time the smile carried decision rather than drift. "Yes. Same time tomorrow."
 
 As they walked away in different directions, both carried something new. The seeking continued, but now it felt less like wandering and more like hunting.
 
