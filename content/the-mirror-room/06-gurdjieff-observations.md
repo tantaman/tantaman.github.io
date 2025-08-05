@@ -54,7 +54,7 @@ When Alicia appears and speaks of objective values based on the requirements of 
 
 **What they must understand:** Talking about consciousness is not consciousness. Understanding concepts about higher being is not higher being. Real work requires sustained effort against mechanical habits, not clever conversation about philosophical positions.
 
-### On the Kierkegaardian Intervention
+### On the Kierkegaardian Analysis
 
 The Danish melancholic speaks truly about the necessity of choice without guarantee, but he speaks only to one center—the intellectual center that craves systematic understanding. His emphasis on "fear and trembling" points toward something real, but it remains too abstract, too philosophical.
 
