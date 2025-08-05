@@ -2,7 +2,7 @@
 
 ::: {#copyright}
 
-© 2025 One Law LLC
+© 2025 Matthew Wonlaw
 
 All rights reserved
 
