@@ -1,19 +1,19 @@
+#!/bin/bash
+
 # Generate combined content using shared script
 ./combine-content.sh
 COMBINED_FILE=combined-content.md
 
 pandoc --from markdown \
-  --to epub3 \
+  --to pdf \
   -s \
-  --template=../epub3.template \
   --lua-filter ../pagebreak.lua \
-  -o book.epub \
+  -o book.pdf \
   --defaults=defaults.yml \
   --metadata-file=metadata.yml \
-  --epub-embed-font="CormorantGaramond-Italic-VariableFont_wght.ttf" \
-  --epub-embed-font="CormorantGaramond-VariableFont_wght.ttf" \
+  -V geometry:"paperwidth=6in,paperheight=9in,margin=0.75in" \
   start.md \
   $COMBINED_FILE
 
 # Clean up
-rm -f $COMBINED_FILE
+# rm -f $COMBINED_FILE

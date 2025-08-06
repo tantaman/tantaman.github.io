@@ -4,3 +4,6 @@ date: 2025-08-01
 language: en-US
 subject: 'Identity and Becoming'
 rights: © 2025 Tantaman LLC. All rights reserved.
+header-includes: |
+  \usepackage{titlesec}
+  \titleformat{\subsection}{\normalfont\large\bfseries\centering}{\thesubsection}{1em}{}
