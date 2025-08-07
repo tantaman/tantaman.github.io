@@ -13,8 +13,8 @@ pandoc --from markdown \
   -o book.pdf \
   --defaults=defaults.yml \
   --metadata-file=metadata.yml \
-  -V geometry:"paperwidth=6in,paperheight=9in,margin=0.75in" \
-  copyright.md \
+  -V geometry:"paperwidth=5in,paperheight=8in,top=0.5in,bottom=0.5in,inner=0.5in,outer=0.5in" \
+  -B copyright.md \
   $COMBINED_FILE
 
 # Clean up
