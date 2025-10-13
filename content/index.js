@@ -62,6 +62,10 @@ function renderCollection(collection, index) {
       collectionId = 'stories';
       collectionName = 'Stories';
       break;
+    case 'chats/':
+      collectionId = 'chats';
+      collectionName = 'Chats';
+      break;
   }
   return `
 <section id="${collectionId}">
