@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as cheerio from 'cheerio';
+import { chromium } from 'playwright';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -14,78 +14,113 @@ interface ParsedConversation {
   messages: Message[];
 }
 
-async function fetchChatGPTConversation(url: string): Promise<string> {
+async function fetchChatGPTConversation(url: string): Promise<ParsedConversation> {
   console.log(`Fetching conversation from: ${url}`);
+  console.log('Launching browser...');
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
-  }
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage();
 
-  return await response.text();
-}
+  try {
+    // Navigate to the page
+    await page.goto(url, { waitUntil: 'networkidle' });
 
-function parseConversation(html: string): ParsedConversation {
-  const $ = cheerio.load(html);
+    // Wait for the conversation to load
+    console.log('Waiting for conversation to load...');
+    await page.waitForSelector('article', { timeout: 10000 });
 
-  // Try to find the title
-  const title = $('title').text().replace(' - ChatGPT', '').trim() || 'Untitled Chat';
+    // Extract title from page title
+    const title = await page.title();
+    const cleanTitle = title.replace('ChatGPT - ', '').replace(' - ChatGPT', '').trim() || 'Untitled Chat';
 
-  const messages: Message[] = [];
+    console.log(`Found title: ${cleanTitle}`);
+    console.log('Extracting messages...');
 
-  // ChatGPT's shared conversations have a specific structure
-  // This is a best-effort parser that may need adjustment based on actual HTML structure
+    // Extract all conversation messages
+    const messages: Message[] = await page.evaluate(() => {
+      const results: Message[] = [];
+      const articles = document.querySelectorAll('article');
 
-  // Look for conversation messages in the HTML
-  // Common selectors for ChatGPT shared links (these may need adjustment):
-  $('[data-testid^="conversation-turn-"]').each((_, element) => {
-    const $el = $(element);
-    const text = $el.text().trim();
+      articles.forEach((article) => {
+        // Try to determine if this is a user or assistant message
+        const text = article.textContent?.trim() || '';
 
-    // Try to determine role based on structure
-    const isUser = $el.find('[data-message-author-role="user"]').length > 0;
-    const isAssistant = $el.find('[data-message-author-role="assistant"]').length > 0;
+        if (!text) return;
 
-    if (text && (isUser || isAssistant)) {
-      messages.push({
-        role: isUser ? 'user' : 'assistant',
-        content: text
+        // Check for data attributes that indicate role
+        const dataRole = article.getAttribute('data-message-author-role');
+
+        // Look for role indicators in the DOM structure
+        let role: 'user' | 'assistant' = 'user';
+
+        if (dataRole === 'assistant' || dataRole === 'system') {
+          role = 'assistant';
+        } else if (dataRole === 'user') {
+          role = 'user';
+        } else {
+          // Fallback: check parent elements or nearby elements for clues
+          const parent = article.parentElement;
+          const hasAssistantIndicator = article.querySelector('[class*="assistant"]') ||
+                                       parent?.querySelector('[class*="assistant"]');
+          const hasUserIndicator = article.querySelector('[class*="user"]') ||
+                                  parent?.querySelector('[class*="user"]');
+
+          if (hasAssistantIndicator) {
+            role = 'assistant';
+          } else if (hasUserIndicator) {
+            role = 'user';
+          } else {
+            // Alternate based on position (user usually starts)
+            role = results.length % 2 === 0 ? 'user' : 'assistant';
+          }
+        }
+
+        results.push({ role, content: text });
       });
-    }
-  });
 
-  // Fallback: Try alternative selectors if no messages found
-  if (messages.length === 0) {
-    $('.min-h-\\[20px\\]').each((_, element) => {
-      const $el = $(element);
-      const content = $el.text().trim();
-
-      if (content) {
-        // Alternate between user and assistant (starting with user)
-        const role = messages.length % 2 === 0 ? 'user' : 'assistant';
-        messages.push({ role, content });
-      }
+      return results;
     });
-  }
 
-  return { title, messages };
+    await browser.close();
+
+    console.log(`Found ${messages.length} messages`);
+
+    return { title: cleanTitle, messages };
+
+  } catch (error) {
+    await browser.close();
+    throw error;
+  }
 }
 
 function generateMarkdown(conversation: ParsedConversation, customTitle?: string, tags?: string[]): string {
   const title = customTitle || conversation.title;
   const date = new Date().toISOString().split('T')[0];
-  const description = conversation.messages[0]?.content.substring(0, 150) || 'A conversation with ChatGPT';
+
+  // Get description and clean it for YAML (remove newlines, escape quotes)
+  let description = conversation.messages[0]?.content || 'A conversation with ChatGPT';
+  description = description
+    .replace(/\n/g, ' ') // Replace newlines with spaces
+    .replace(/\s+/g, ' ') // Collapse multiple spaces
+    .replace(/"/g, '\\"')  // Escape quotes
+    .trim()
+    .substring(0, 150);
+
   const tagList = tags || ['chatgpt', 'llm'];
 
   let markdown = '---\n';
   markdown += `title: "${title}"\n`;
+  markdown += `layout: "chat"\n`;
   markdown += `description: "${description}"\n`;
   markdown += `tags: [${tagList.map(t => `"${t}"`).join(', ')}]\n`;
   markdown += '---\n\n';
 
-  conversation.messages.forEach((msg) => {
-    const header = msg.role === 'user' ? '## User' : '## Assistant';
-    markdown += `${header}\n\n${msg.content}\n\n`;
+  conversation.messages.forEach((msg, index) => {
+    markdown += msg.content;
+    // Add spacing between messages
+    if (index < conversation.messages.length - 1) {
+      markdown += '\n\n---\n\n';
+    }
   });
 
   return markdown;
@@ -121,6 +156,9 @@ Options:
 Examples:
   fetch-chat https://chatgpt.com/share/abc123
   fetch-chat https://chatgpt.com/share/abc123 --title "My Chat" --tags "ai,discussion"
+
+Note: This tool uses Playwright to render the JavaScript-heavy ChatGPT share pages.
+      On first run, you may need to install browser binaries with: pnpm playwright install chromium
 `);
     process.exit(0);
   }
@@ -145,12 +183,12 @@ Examples:
   }
 
   try {
-    const html = await fetchChatGPTConversation(url);
-    const conversation = parseConversation(html);
+    const conversation = await fetchChatGPTConversation(url);
 
     if (conversation.messages.length === 0) {
-      console.error('Warning: No messages found in conversation. The HTML structure may have changed.');
-      console.error('Consider using a browser automation tool like Playwright instead.');
+      console.error('\n❌ Error: No messages found in conversation.');
+      console.error('The ChatGPT HTML structure may have changed.');
+      console.error('Try running: pnpm playwright install chromium');
       process.exit(1);
     }
 
@@ -170,7 +208,16 @@ Examples:
     console.log(`\nRun 'pnpm build' to compile the new chat post.`);
 
   } catch (error) {
-    console.error('Error fetching conversation:', error);
+    console.error('\n❌ Error fetching conversation:');
+    if (error instanceof Error) {
+      console.error(error.message);
+      if (error.message.includes('browserType.launch') || error.message.includes('Executable doesn\'t exist')) {
+        console.error('\nPlaywright browsers not installed. Run:');
+        console.error('  pnpm playwright install chromium');
+      }
+    } else {
+      console.error(error);
+    }
     process.exit(1);
   }
 }

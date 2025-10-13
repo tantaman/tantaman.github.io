@@ -1,0 +1,121 @@
+/* Chat layout styles */
+.chat-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.chat-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.chat-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.chat-header .published {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chat-message {
+  display: flex;
+  width: 100%;
+}
+
+/* User messages - pulled to the right with background */
+.user-message {
+  justify-content: flex-end;
+}
+
+.user-message .message-content {
+  max-width: 70%;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Assistant messages - full width, no background */
+.assistant-message {
+  justify-content: flex-start;
+}
+
+.assistant-message .message-content {
+  width: 100%;
+  padding: 0;
+}
+
+/* Remove "You said:" and "ChatGPT said:" prefixes from display */
+.message-content p:first-child {
+  margin-top: 0;
+}
+
+.message-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Code blocks in messages */
+.message-content pre {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.user-message pre {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Lists in messages */
+.message-content ul,
+.message-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+/* Blockquotes */
+.message-content blockquote {
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+}
+
+.user-message blockquote {
+  border-left-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .user-message .message-content {
+    max-width: 85%;
+  }
+
+  .chat-container {
+    padding: 1rem 0.5rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .assistant-message .message-content {
+    color: #e0e0e0;
+  }
+
+  .assistant-message pre {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .assistant-message blockquote {
+    border-left-color: rgba(255, 255, 255, 0.2);
+  }
+}
