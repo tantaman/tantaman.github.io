@@ -20,6 +20,7 @@
     "build:watch": "sitecompiler-watch",
     "dev": "sitecompiler-watch",
     "serve": "cd docs && serve",
+    "fetch-chat": "fetch-chat",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"
   }
