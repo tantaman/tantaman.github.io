@@ -1,1 +1,1 @@
-export const collections = ['', 'bookmarks/', 'notes/', 'the-mirror-room/'];
+export const collections = ['', 'bookmarks/', 'notes/', 'the-mirror-room/', 'chats/'];
