@@ -43,7 +43,7 @@ async function fetchChatGPTConversation(url: string): Promise<ParsedConversation
 
       articles.forEach((article) => {
         // Try to determine if this is a user or assistant message
-        const text = article.textContent?.trim() || '';
+        let text = article.textContent?.trim() || '';
 
         if (!text) return;
 
@@ -74,6 +74,10 @@ async function fetchChatGPTConversation(url: string): Promise<ParsedConversation
             role = results.length % 2 === 0 ? 'user' : 'assistant';
           }
         }
+
+        // Remove "You said:" and "ChatGPT said:" prefixes
+        text = text.replace(/^You said:\s*/i, '');
+        text = text.replace(/^ChatGPT said:\s*/i, '');
 
         results.push({ role, content: text });
       });

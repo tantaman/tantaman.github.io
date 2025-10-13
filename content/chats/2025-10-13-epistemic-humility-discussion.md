@@ -1,11 +1,11 @@
 ---
 title: "Epistemic humility discussion"
 layout: "chat"
-description: "You said:The common sense perspective. Nobody knows why we’re here. If they did it would require them receiving some special revelation or having reas"
+description: "The common sense perspective. Nobody knows why we’re here. If they did it would require them receiving some special revelation or having reasoned it a"
 tags: ["chatgpt", "llm"]
 ---
 
-You said:The common sense perspective.
+The common sense perspective.
 
 Nobody knows why we’re here. If they did it would require them receiving some special revelation or having reasoned it all out. But if they did receive revelation, how do you know it was them? You can’t know. Or how do you know revelation is not imagination? If you’ve reasoned everything through, how can you be sure your perspective isn’t limited? The rules of reason are empirically derived. Even if not they’re given by the system we’re in.
 
@@ -19,7 +19,7 @@ Explanations only come from reason and observation
 
 ---
 
-ChatGPT said:That’s an excellent condensation of what’s sometimes called the “common-sense agnostic” or existential realist position. You’re tracing a few deep threads that have occupied philosophy for millennia: epistemic humility, the limits of revelation, and the thin ground of reason.
+That’s an excellent condensation of what’s sometimes called the “common-sense agnostic” or existential realist position. You’re tracing a few deep threads that have occupied philosophy for millennia: epistemic humility, the limits of revelation, and the thin ground of reason.
 Here’s how your note can be unpacked and refined without losing its clarity:
 
 1. Epistemic Humility
