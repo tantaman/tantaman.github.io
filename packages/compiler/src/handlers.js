@@ -23,6 +23,7 @@ import rehypeParse from 'rehype-parse';
 // import unifiedInferGitMeta from 'unified-infer-git-meta';
 import { compile as compileMdx } from '@mdx-js/mdx';
 import { matter } from 'vfile-matter';
+import injectLayoutCSS from './inject-layout-css.js';
 
 import clojure from 'highlight.js/lib/languages/clojure';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -170,10 +171,21 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
     .use(rehypeHighlight, {
       languages: { clojure, typescript, javascript, java, xml, rust },
     })
-    .use(rehypeDocument, {
-      ...doc,
-      ...docAdditions,
-      js: (doc.js || []).concat((docAdditions || {}).js || []),
+    .use(injectLayoutCSS)
+    .use(function() {
+      return function(tree, file) {
+        // Merge layout CSS dynamically
+        const layoutCSS = file.data?.layoutCSS || [];
+        const cssToUse = (doc.css || []).concat((docAdditions || {}).css || []).concat(layoutCSS);
+
+        // Apply rehypeDocument directly with computed CSS
+        return rehypeDocument({
+          ...doc,
+          ...docAdditions,
+          js: (doc.js || []).concat((docAdditions || {}).js || []),
+          css: cssToUse,
+        })(tree, file);
+      };
     })
     .use(rehypeMeta, meta)
     .use(layout)
