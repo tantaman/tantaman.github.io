@@ -2,6 +2,7 @@
 layout: mirrorRoom
 title: The Mirror Room
 description: Part 2 of the Mirror Room Collection. A mystic identity.
+tags: [fiction, philosophy]
 ---
 
 ## The Mirror Room

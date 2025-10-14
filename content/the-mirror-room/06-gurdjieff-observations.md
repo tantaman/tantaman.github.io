@@ -3,6 +3,7 @@ title: Observations on the Sleep of Seekers
 layout: mirrorRoom
 draft: true
 description: Draft. Practical advice in response to The Mirror Room collection.
+tags: [fiction, philosophy]
 ---
 
 ## Observations on the Sleep of Seekers

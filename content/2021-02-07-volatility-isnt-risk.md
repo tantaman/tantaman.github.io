@@ -1,7 +1,7 @@
 ---
 slug: 2021-02-07-volatility-isnt-risk
 title: "Volatility isn't Risk"
-tags: [finance, math]
+tags: [finance]
 css:
   - /blog-assets/volatility-is-not-risk/style.css
 image: /assets/posts/volatility-is-not-risk/cover.svg

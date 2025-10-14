@@ -1,6 +1,6 @@
 ---
 title: 'Meta / Facebook - How a graph model can scale your relational DBs'
-tags: [programming, distributed]
+tags: [distributed-systems, databases, software-engineering]
 ---
 
 Did you know that still, to this day, the majority of [Meta's](https://www.facebook.com/) data needs are serviced by MySQL?

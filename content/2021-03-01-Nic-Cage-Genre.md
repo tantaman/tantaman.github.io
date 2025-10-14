@@ -1,7 +1,7 @@
 ---
 slug: 2021-03-01-Nic-Cage-Genre
 title: 'Nicolas Cage is Creating a new Movie Genre'
-tags: [entertainment]
+tags: [fiction]
 ---
 
 Not many people realize this but [Nicolas Cage](https://www.reddit.com/r/onetruegod/) is slowly but surely carving out and defining a whole new genre of trippy and artistic horror movies. Is he doing this intentionally or acidentally?

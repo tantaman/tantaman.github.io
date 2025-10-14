@@ -1,7 +1,7 @@
 ---
 slug: 2021-04-05-Religion-Last
 title:  "What if Religion is last?"
-tags: [pontification]
+tags: [philosophy, politics]
 ---
 
 The popular view of religion is as being the first development of a civilization. The thing that predates a people before they discover reason & science.

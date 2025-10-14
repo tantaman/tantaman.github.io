@@ -1,6 +1,6 @@
 ---
 title: '📀 Large Local Storage'
-tags: [software-engineering, project]
+tags: [software-engineering]
 ---
 
 Way way back in 2013 there wasn't a common way to save large blobs in all browser. Back then, all of these were true:
