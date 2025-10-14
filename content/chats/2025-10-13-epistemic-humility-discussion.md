@@ -1,6 +1,7 @@
 ---
 title: "Epistemic humility discussion"
 layout: "chat"
+source: "https://chatgpt.com/share/68ed182d-c474-8004-b090-5ac92d543fe1"
 description: "The common sense perspective. Nobody knows why we’re here. If they did it would require them receiving some special revelation or having reasoned it a"
 tags: ["chatgpt", "llm"]
 ---
