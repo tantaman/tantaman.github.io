@@ -1,7 +1,7 @@
 ---
 slug: 2020-06-29-all-things-are-permitted
 title: All Things are Permitted
-tags: [pontification]
+tags: [philosophy]
 ---
 
 Its been said that _"if there is no God then all things are permitted."_

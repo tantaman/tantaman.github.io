@@ -1,7 +1,7 @@
 ---
 slug: 2020-09-13-declarative
 title: 'Filter, Map, etc. vs For Each & While'
-tags: [software-engineering]
+tags: [programming]
 image: /assets/posts/filter-map-reduce-vs.svg
 ---
 

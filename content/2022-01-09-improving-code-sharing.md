@@ -1,7 +1,7 @@
 ---
 slug: 2022-01-09-improving-code-sharing
 title: '🧶 Improving Code Sharing with Yarn Workspaces'
-tags: [software-engineering, sharing-code]
+tags: [software-engineering]
 ---
 
 Sharing code between `JavaScript` & `TypeScript` projects has always been more trouble than it should be.

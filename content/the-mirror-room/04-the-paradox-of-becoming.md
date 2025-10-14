@@ -2,6 +2,7 @@
 layout: mirrorRoom
 title: The Paradox of Becoming
 description: Part 4 of the Mirror Room Collection. Choice as primary.
+tags: [fiction, philosophy]
 ---
 
 ## The Paradox of Becoming

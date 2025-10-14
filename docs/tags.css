@@ -1,0 +1,158 @@
+/* Tags Page Styling */
+
+#tags-page {
+  padding: 4rem 1.5rem;
+  min-height: 70vh;
+}
+
+.page-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.page-description {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  margin-bottom: 4rem;
+}
+
+.tags-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Tag Section (Accordion) */
+.tag-section {
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(217, 106, 55, 0.3);
+  border-radius: 8px;
+  background: rgba(37, 26, 21, 0.6);
+  transition: all 0.3s ease;
+}
+
+.tag-section:hover {
+  border-color: rgba(217, 106, 55, 0.6);
+  box-shadow: 0 0 20px rgba(217, 106, 55, 0.2);
+}
+
+.tag-section[open] {
+  border-color: var(--accent);
+}
+
+/* Tag Header (Summary) */
+.tag-header {
+  cursor: pointer;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  user-select: none;
+  list-style: none; /* Remove default marker */
+  transition: background 0.2s ease;
+}
+
+.tag-header::-webkit-details-marker {
+  display: none;
+}
+
+.tag-header:hover {
+  background: rgba(217, 106, 55, 0.1);
+}
+
+.tag-arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+  color: var(--accent);
+}
+
+.tag-section[open] .tag-arrow {
+  transform: rotate(90deg);
+}
+
+.tag-name {
+  flex: 1;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.tag-count {
+  font-size: 1rem;
+  color: var(--text-muted);
+  background: rgba(217, 106, 55, 0.2);
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+}
+
+/* Tag Posts List */
+.tag-posts {
+  list-style: none;
+  padding: 0 2rem 2rem 2rem;
+  margin: 0;
+  border-top: 1px solid rgba(217, 106, 55, 0.2);
+}
+
+.tag-post {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(217, 106, 55, 0.1);
+}
+
+.tag-post:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.tag-post a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.tag-post a:hover {
+  transform: translateX(8px);
+}
+
+.tag-post a:hover .post-title {
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(217, 106, 55, 0.5);
+}
+
+.post-title {
+  display: block;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.post-description {
+  display: block;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .tag-header {
+    padding: 1.2rem 1.5rem;
+  }
+
+  .tag-posts {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+
+  .tag-name {
+    font-size: 1.3rem;
+  }
+
+  .post-title {
+    font-size: 1.2rem;
+  }
+}

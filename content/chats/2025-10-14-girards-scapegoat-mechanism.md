@@ -3,7 +3,7 @@ title: "Girard's scapegoat mechanism"
 layout: "chat"
 source: "https://chatgpt.com/share/68ed9783-cfc4-8004-95f5-7576b5540d4a"
 description: "explain girard's scape-goat mechanism and give examples"
-tags: ["chatgpt", "llm"]
+tags: ["philosophy", "chatgpt", "llm"]
 ---
 
 explain girard's scape-goat mechanism and give examples

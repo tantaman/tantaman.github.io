@@ -1,7 +1,7 @@
 ---
 slug: 2021-12-28-Color-Picker-From-Scratch
 title: '🌈 Understanding Color by Writing a Color Picker'
-tags: [software-engineering, demo]
+tags: [software-engineering]
 standalone: html
 ---
 

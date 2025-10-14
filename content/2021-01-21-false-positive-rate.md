@@ -1,7 +1,7 @@
 ---
 slug: 2021-01-21-false-positive-rate
 title: 'Understanding False Positive Rate'
-tags: [math, demo]
+tags: [programming, math]
 image: /assets/posts/understanding-fp-rate.svg
 standalone: html
 ---

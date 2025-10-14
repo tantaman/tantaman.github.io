@@ -1,6 +1,6 @@
 ---
 title: 'Lamport Clock 🕥'
-tags: [programming, distributed]
+tags: [distributed-systems, programming]
 ---
 
 The Lamport clock was originally described in 1978 in the paper ["Time, Clocks, and the Ordering of Events in a Distributed System"](./blog-assets/lamport-clock/paper.pdf). It is a logical clock that was created as a way to order events in a distributed system.

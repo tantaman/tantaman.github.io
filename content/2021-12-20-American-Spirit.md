@@ -1,7 +1,7 @@
 ---
 slug: 2021-12-20-American-Spirit
 title: '👐 American Spirit'
-tags: [pontification]
+tags: [politics, philosophy]
 ---
 
 > Note -- I just finished reading ["Beyond Good and Evil"](https://en.wikipedia.org/wiki/Beyond_Good_and_Evil) and was curious what something of that nature would read like if [Nietzsche](https://en.wikipedia.org/wiki/Friedrich_Nietzsche) wrote it today. Below is that reproduction of that (me channeling my conception of Nietzsche) and not an expression of my own views.

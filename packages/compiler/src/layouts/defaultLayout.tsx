@@ -31,6 +31,7 @@ export default function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
           <a href="/#blog">Blog</a>
           <a href="/#stories">Stories</a>
           <a href="/#chats">Chats</a>
+          <a href="/tags.html">Tags</a>
           {/* <a href="/#notes">Notes</a> */}
           {/* <a href="/#synthesis">Synthesis</a> */}
           {/* <a href="/#about">About</a> */}

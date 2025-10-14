@@ -2,6 +2,7 @@
 layout: mirrorRoom
 title: The Reader's Crisis
 description: Part 5 of the Mirror Room Collection. A 21st century leftish critique.
+tags: [fiction, philosophy]
 ---
 
 ## The Reader's Crisis

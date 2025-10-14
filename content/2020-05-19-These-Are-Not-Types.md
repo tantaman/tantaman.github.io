@@ -1,7 +1,7 @@
 ---
 slug: 2020-05-19-These-Are-Not-Types
 title: These are not types
-tags: [software-engineering]
+tags: [software-engineering, programming]
 ---
 
 Is an **int** a type? A **float**? A **double**?

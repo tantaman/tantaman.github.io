@@ -1,7 +1,7 @@
 ---
 slug: 2020-05-17-dangerous-ideas
 title:  Dangerous. Ideas.
-tags: [pontification]
+tags: [philosophy]
 ---
 
 "A little bit of knowledge is a dangerous thing"
