@@ -332,3 +332,88 @@ blockquote span {
 img {
   max-width: 100%;
 }
+
+/* Related Posts Footer */
+#footer {
+  margin-top: 4rem;
+  padding: 3rem 0 2rem 0;
+  border-top: 1px solid rgba(217, 106, 55, 0.3);
+}
+
+.related-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.related-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.related-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+.related-posts-list li {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.related-posts-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.related-posts-list a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.related-posts-list a:hover {
+  color: var(--accent);
+  transform: translateX(5px);
+  text-shadow: 0 0 10px rgba(217, 106, 55, 0.4);
+}
+
+.view-graph-link {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  transition: all 0.2s ease;
+}
+
+.view-graph-link:hover {
+  text-shadow: 0 0 10px rgba(217, 106, 55, 0.5);
+  transform: translateX(3px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  #footer {
+    margin-top: 3rem;
+    padding: 2rem 0 1.5rem 0;
+  }
+
+  .related-title {
+    font-size: 1.5rem;
+  }
+
+  .related-posts-list a {
+    font-size: 1.1rem;
+  }
+}

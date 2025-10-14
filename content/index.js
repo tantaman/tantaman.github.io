@@ -13,7 +13,7 @@ import rehypeParse from 'rehype-parse';
 export default async function index(file, cwd, files) {
   return {
     content: async () => {
-      return unified()
+      const result = await unified()
         .use(rehypeParse)
         .use(rehypeDocument, {
           ...doc,
@@ -23,8 +23,9 @@ export default async function index(file, cwd, files) {
         .use(rehypeMeta, meta)
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
-        .processSync(await siteIndex())
-        .toString();
+        .process(await siteIndex());
+
+      return result.toString();
     },
     frontmatter: {},
     greymatter: {},

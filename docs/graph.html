@@ -1,0 +1,1410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Content Graph - Tantamanlands - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+<link rel="stylesheet" href="/graph.css">
+
+<meta name="description" content="Explore connections between posts, stories, and chats">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2025 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Content Graph - Tantamanlands">
+<meta property="og:description" content="Explore connections between posts, stories, and chats">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+</head>
+<body><header><div class="container"><h1><a href="/">Tantaman</a></h1><nav><a href="/#blog">Blog</a><a href="/#stories">Stories</a><a href="/#chats">Chats</a><a href="/tags.html">Tags</a><a href="/graph.html">Graph</a></nav></div></header><main id="static">
+<html><head></head><body><section id="graph-page">
+  <div class="graph-header">
+    <h1 class="page-title">Content Graph</h1>
+    <p class="page-description">Explore connections between posts, stories, and chats. Click nodes to navigate.</p>
+    <div class="graph-legend">
+      <div class="legend-item">
+        <span class="legend-color blog-color"></span>
+        <span>Blog Posts</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color stories-color"></span>
+        <span>Stories</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color chats-color"></span>
+        <span>Chats</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line strong-edge"></span>
+        <span>Manual relation</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line weak-edge"></span>
+        <span>Tag similarity</span>
+      </div>
+    </div>
+  </div>
+  <div id="graph-container"></div>
+  <script id="graph-data" type="application/json">
+{
+  "nodes": [
+    {
+      "id": "2013-06-28-services-and-coupling.md",
+      "label": "Services and Coupling",
+      "title": "Services and Coupling\nblog\nTags: software-engineering",
+      "url": "2013-06-28-services-and-coupling.html",
+      "fullTitle": "Services and Coupling",
+      "description": "Lines of code like:\n\n> PositionCalculator calc = new MercatorPositionCalculator();\n\n(where **_PositionCalculator_** is an interface and **_MercatorPositionCalculator_** the implementation) have always bugged me and probably any other astute prog...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx",
+      "label": "Inheritance, Aggregation, and Pipelines",
+      "title": "Inheritance, Aggregation, and Pipelines\nblog\nTags: software-engineering",
+      "url": "2013-07-30-Inheritance-Aggregation-and-Pipelines.html",
+      "fullTitle": "Inheritance, Aggregation, and Pipelines",
+      "description": "How does one write software that can be extended?\n\nI think many developer’s first instinct is to set up some form of inheritance hierarchy. Inheritance is a step in the right direction but it is very restrictive. The problem with inheritance is...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2013-08-15-Oh-Lisp.md",
+      "label": "Oh Lisp",
+      "title": "Oh Lisp\nblog\nTags: programming",
+      "url": "2013-08-15-Oh-Lisp.html",
+      "fullTitle": "Oh Lisp",
+      "description": "If you ever tell someone you like Lisp and that Lisp is a more suitable language for the work you are doing most of the time you’ll get weird looks and comments like:\n\n> “Isn’t that… old?”\n>\n> “All I know is that it has parenthesis everywhere.”\n...",
+      "group": 1,
+      "tags": [
+        "programming"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2014-01-01-The-Almighty-Function.md",
+      "label": "The Almighty Function",
+      "title": "The Almighty Function\nblog\nTags: programming",
+      "url": "2014-01-01-The-Almighty-Function.html",
+      "fullTitle": "The Almighty Function",
+      "description": "> Objects are a poor man’s closures. Closures are a poor man’s objects.\n\nSome people say everything is an object. I used to too but these days I think everything is actually a function.\n\n1. A map? Isn’t that just a function that maps from one va...",
+      "group": 1,
+      "tags": [
+        "programming"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2014-01-03-Practical-Laziness-in-Programming.md",
+      "label": "Practical Laziness in Programming",
+      "title": "Practical Laziness in Programming\nblog\nTags: programming, software-engineering",
+      "url": "2014-01-03-Practical-Laziness-in-Programming.html",
+      "fullTitle": "Practical Laziness in Programming",
+      "description": "When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder.\n\nLaziness improves API design.\n\nI’ll illustrate with a program I wrote to convert Javadoc comments to JS...",
+      "group": 1,
+      "tags": [
+        "programming",
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2018-10-23-typed-literals-are-constants.md",
+      "label": "Typed Literals ARE Constants!",
+      "title": "Typed Literals ARE Constants!\nblog\nTags: programming",
+      "url": "2018-10-23-typed-literals-are-constants.html",
+      "fullTitle": "Typed Literals ARE Constants!",
+      "description": "```\n(option 1) display.setLayout(Layouts.FIXED);\n(option 2) display.setLayout('FIXED');\n```\n\n# **Are both lines of code above using constants?**\n\nI keep getting push-back that the first line is better practice than the second line. When reviewer...",
+      "group": 1,
+      "tags": [
+        "programming"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2020-05-17-I-Am-You-Are.md",
+      "label": "I am. You are?",
+      "title": "I am. You are?\nblog\nTags: philosophy",
+      "url": "2020-05-17-I-Am-You-Are.html",
+      "fullTitle": "I am. You are?",
+      "description": "When we describe how we're feeling we say \"I am angry\", \"I am upset\", \"I am X\"\n\nBut you aren't _angry_ nor _upset_. You are feeling angry or upset. Describing emotions the way we currently do is incorrect in that it equates and identifies our sta...",
+      "group": 1,
+      "tags": [
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2020-05-17-dangerous-ideas.md",
+      "label": "Dangerous. Ideas.",
+      "title": "Dangerous. Ideas.\nblog\nTags: philosophy",
+      "url": "2020-05-17-dangerous-ideas.html",
+      "fullTitle": "Dangerous. Ideas.",
+      "description": "\"A little bit of knowledge is a dangerous thing\"\n\nHow do yo interpret that?\n* Does that mean knowledge is power and even with a little bit one can become a dangerous advesary?\n* Or does it mean if you only know a little, rather than a lot, you a...",
+      "group": 1,
+      "tags": [
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2020-05-19-These-Are-Not-Types.md",
+      "label": "These are not types",
+      "title": "These are not types\nblog\nTags: software-engineering, programming",
+      "url": "2020-05-19-These-Are-Not-Types.html",
+      "fullTitle": "These are not types",
+      "description": "Is an **int** a type? A **float**? A **double**?\n\nThese are **storage** types, not **application level** types.\n\nFor many software projects, `int`, `float`, `double`, `string`, etc. exist at the wrong level of abstraction to be conidered proper ...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "programming"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2020-05-25-Non-Conceptual-Definitions.md",
+      "label": "Non Conceptual Definitions",
+      "title": "Non Conceptual Definitions\nblog\nTags: philosophy",
+      "url": "2020-05-25-Non-Conceptual-Definitions.html",
+      "fullTitle": "Non Conceptual Definitions",
+      "description": "Philopsophers often question what is \"art\" or \"love\" or other words for humanity has never had a solid definition.\n\nThe quest to finding a general principle which can define these words is always admirable and bears much fruit (e.g., reading Hei...",
+      "group": 1,
+      "tags": [
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2020-06-29-all-things-are-permitted.md",
+      "label": "All Things are Permitted",
+      "title": "All Things are Permitted\nblog\nTags: philosophy",
+      "url": "2020-06-29-all-things-are-permitted.html",
+      "fullTitle": "All Things are Permitted",
+      "description": "Its been said that _\"if there is no God then all things are permitted.\"_\n\nWell, that's why we have laws. Precisely because all things _are_ permitted (by nature). Murder, adultery, theft, war, etc. All of these things happen and are able to happ...",
+      "group": 1,
+      "tags": [
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2020-09-13-declarative.md",
+      "label": "Filter, Map, etc. vs For Each & While",
+      "title": "Filter, Map, etc. vs For Each & While\nblog\nTags: programming",
+      "url": "2020-09-13-declarative.html",
+      "fullTitle": "Filter, Map, etc. vs For Each & While",
+      "description": "I've run into the occasional programmer that finds the functional way of transforming collections (`map`, `filter`, `reduce`, `zip`, `pull`, etc.)\nharder to understand than the imperative style of `for`, `while` and `for-each` loops.\n\nI.e.,\n\n```...",
+      "group": 1,
+      "tags": [
+        "programming"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-01-21-false-positive-rate.md",
+      "label": "Understanding False Positive Rate",
+      "title": "Understanding False Positive Rate\nblog\nTags: programming, math",
+      "url": "2021-01-21-false-positive-rate.html",
+      "fullTitle": "Understanding False Positive Rate",
+      "description": "@import url(\"/blog-assets/false-positive-rate.css\");\n\n\n\n\nJump to the simulation\n\nThroughout the Coronavirus pandemic, the most distressing thing has been the cherry picking of statistics.\n\nThings have gotten better. Cases, deaths, and hospita...",
+      "group": 1,
+      "tags": [
+        "programming",
+        "math"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-01-26-regression-mean-vs-gambler.md",
+      "label": "Regression to the Mean & the Gambler'...",
+      "title": "Regression to the Mean & the Gambler's Fallacy - Simulated\nblog\nTags: programming, math",
+      "url": "2021-01-26-regression-mean-vs-gambler.html",
+      "fullTitle": "Regression to the Mean & the Gambler's Fallacy - Simulated",
+      "description": "@import url(\"/blog-assets/regression-mean-vs-gambler.css\");\n\n\n\n\nJump to the simulation\n\nThere are two seemingly contradictory findings in statistics which apply to independent events:\n\n1. Regression to the Mean\n2. The Gambler's Fallacy\n\n**Regre...",
+      "group": 1,
+      "tags": [
+        "programming",
+        "math"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-02-07-volatility-isnt-risk.md",
+      "label": "Volatility isn't Risk",
+      "title": "Volatility isn't Risk\nblog\nTags: finance",
+      "url": "2021-02-07-volatility-isnt-risk.html",
+      "fullTitle": "Volatility isn't Risk",
+      "description": "@import url(\"/blog-assets/volatility-is-not-risk/style.css\");\n\n\nThe biggest lie in investing is that volatiliy = risk.\n\nThis is bogus. It misses the point of risk. Risk is about the chance of losing your principal in an investment. Volatility...",
+      "group": 1,
+      "tags": [
+        "finance"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-02-08-reactive-markdown.md",
+      "label": "Reactive Markdown",
+      "title": "Reactive Markdown\nblog\nTags: software-engineering",
+      "url": "2021-02-08-reactive-markdown.html",
+      "fullTitle": "Reactive Markdown",
+      "description": "@import url(\"/blog-assets/reactive-markdown/main.css\");\n\n\n\n\nMany of my blog posts contain interactive demos or content that is generated via `JavaScript`. The prose of my posts, however, is written in `Markdown`. Shuttling data back and forth f...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-02-12-Todo-MVC.md",
+      "label": "The Shortest, Framework Free, TODO App",
+      "title": "The Shortest, Framework Free, TODO App\nblog\nTags: software-engineering",
+      "url": "2021-02-12-Todo-MVC.html",
+      "fullTitle": "The Shortest, Framework Free, TODO App",
+      "description": "@import url(\"/blog-assets/todo-mvc/base.css\");\n@import url(\"/blog-assets/todo-mvc/todo.css\");\n\n\n\n\n**A TodoMVC App in ~200 lines of plain JavaScript and 0 dependencies.**\n\n\n\n\n\n\n\nSource:\n\n```js\nconst tempEl = document.createElement('div');\nconst ...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-02-14-Pi-Cloud.mdx",
+      "label": "Pi Cloud",
+      "title": "Pi Cloud\nblog\nTags: production-engineering",
+      "url": "2021-02-14-Pi-Cloud.html",
+      "fullTitle": "Pi Cloud",
+      "description": "With services like `Herkou`, `AWS`, `Azure` and `Google Cloud`, creating and managing your own cloud architecture may be a dying art. Some might accuse me of showing my age, like professors of old who swore that their students must learn `C` and...",
+      "group": 1,
+      "tags": [
+        "production-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-03-01-Nic-Cage-Genre.md",
+      "label": "Nicolas Cage is Creating a new Movie...",
+      "title": "Nicolas Cage is Creating a new Movie Genre\nblog\nTags: fiction",
+      "url": "2021-03-01-Nic-Cage-Genre.html",
+      "fullTitle": "Nicolas Cage is Creating a new Movie Genre",
+      "description": "Not many people realize this but Nicolas Cage is slowly but surely carving out and defining a whole new genre of trippy and artistic horror movies. Is he doing this intentionally or acidentally?\n\nOne word to describe it? Purple.\n\n\n  \n    \n  \n  \n...",
+      "group": 1,
+      "tags": [
+        "fiction"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-04-05-Religion-Last.md",
+      "label": "What if Religion is last?",
+      "title": "What if Religion is last?\nblog\nTags: philosophy, politics",
+      "url": "2021-04-05-Religion-Last.html",
+      "fullTitle": "What if Religion is last?",
+      "description": "The popular view of religion is as being the first development of a civilization. The thing that predates a people before they discover reason & science.\n\nWhat if we thought of it instead as the culmination of a civilation? A civilization's peak...",
+      "group": 1,
+      "tags": [
+        "philosophy",
+        "politics"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-08-22-Understanding-Generics.md",
+      "label": "Understanding Generics",
+      "title": "Understanding Generics\nblog\nTags: programming, software-engineering",
+      "url": "2021-08-22-Understanding-Generics.html",
+      "fullTitle": "Understanding Generics",
+      "description": "```js\nfunction identity(x: T): T;\n```\n\nWhat is the essence of a generic?\n\n> Generics are for the **caller** rather than for what is being called. They allow the **caller** to retain type information. To retain information about types given to wh...",
+      "group": 1,
+      "tags": [
+        "programming",
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-15-React-Anemic-Models.md",
+      "label": "Reacting Better. Intro: Anemic Models",
+      "title": "Reacting Better. Intro: Anemic Models\nblog\nTags: software-engineering, programming, react",
+      "url": "2021-12-15-React-Anemic-Models.html",
+      "fullTitle": "Reacting Better. Intro: Anemic Models",
+      "description": "React eschews models that have any attached functionality. The “model” for a react app is usually anemic — just a bare set of properties with no methods attached.\n\n```typescript\ntype Slide = {\n  selected: boolean;\n  embeds: Embed[];\n  text: stri...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "programming",
+        "react"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-16-Missing-Mutation-Primitives.md",
+      "label": "🧬 Missing Mutation Primitives",
+      "title": "🧬 Missing Mutation Primitives\nblog\nTags: software-engineering, programming",
+      "url": "2021-12-16-Missing-Mutation-Primitives.html",
+      "fullTitle": "🧬 Missing Mutation Primitives",
+      "description": "I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.\n\nImmutable models solve endless numbers of problems but what...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "programming"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-17-Object-Identity.mdx",
+      "label": "⛵️ Reference Equality - What is it Re...",
+      "title": "⛵️ Reference Equality - What is it Really?\nblog\nTags: software-engineering, framework",
+      "url": "2021-12-17-Object-Identity.html",
+      "fullTitle": "⛵️ Reference Equality - What is it Really?",
+      "description": "In programming we're met with things that are completely new. Even though they're new, they're familiar enough to grasp with existing concepts. This converting the new to something familiar helps us to understand things at one level but if the ...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "framework"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-20-American-Spirit.md",
+      "label": "👐 American Spirit",
+      "title": "👐 American Spirit\nblog\nTags: politics, philosophy",
+      "url": "2021-12-20-American-Spirit.html",
+      "fullTitle": "👐 American Spirit",
+      "description": "> Note -- I just finished reading \"Beyond Good and Evil\" and was curious what something of that nature would read like if Nietzsche wrote it today. Below is that reproduction of that (me channeling my conception of Nietzsche) and not an expressi...",
+      "group": 1,
+      "tags": [
+        "politics",
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-20-mathematician-running-the-world.md",
+      "label": "🧮 No, Mathematical Government is not...",
+      "title": "🧮 No, Mathematical Government is not a Logical Government\nblog\nTags: philosophy",
+      "url": "2021-12-20-mathematician-running-the-world.html",
+      "fullTitle": "🧮 No, Mathematical Government is not a Logical Government",
+      "description": "Listening to Freakonomics s11e16 there was some commentary about \"if the world was run by mathematicians it'd be so logical.\"\n\nWhat an absurd statement.\n\nI'll just focus on two ways this is wrong. The first is that mathematics is irrational thro...",
+      "group": 1,
+      "tags": [
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-23-Deeply-Nested-Updates-React.mdx",
+      "label": "☢️ Reacting Better - Deeply Nested Up...",
+      "title": "☢️ Reacting Better - Deeply Nested Update Problem\nblog\nTags: software-engineering, react, framework",
+      "url": "2021-12-23-Deeply-Nested-Updates-React.html",
+      "fullTitle": "☢️ Reacting Better - Deeply Nested Update Problem",
+      "description": "Something irks me about React. It's how inefficiently it handles deeply nested updates.\n\nReact apps, like any app, will have a display hierarchy of deeply nested components. The root component being the entrypoint of the app, the leaves being t...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "react",
+        "framework"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-27-Observability-Driven-Development.md",
+      "label": "👀 Observability Driven Development",
+      "title": "👀 Observability Driven Development\nblog\nTags: software-engineering",
+      "url": "2021-12-27-Observability-Driven-Development.html",
+      "fullTitle": "👀 Observability Driven Development",
+      "description": "One of the things I learned quickly while working on large scale systems at `Facebook (Meta)` was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as int...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-27-Personal-Vision.mdx",
+      "label": "👀 Vision",
+      "title": "👀 Vision\nblog\nTags: vision",
+      "url": "2021-12-27-Personal-Vision.html",
+      "fullTitle": "👀 Vision",
+      "description": "After ~8 years working at Meta and ~15 years professionally programming post college, I'm departing the workforce to puruse my own ideas full time.\n\n## Vision 1\n\n> **Create software to help people think more deeply.**\n\n> Creating assisted memor...",
+      "group": 1,
+      "tags": [
+        "vision"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-27-urls-as-display-data.md",
+      "label": "👨‍💻 URLs As Display Data",
+      "title": "👨‍💻 URLs As Display Data\nblog\nTags: software-engineering, react",
+      "url": "2021-12-27-urls-as-display-data.html",
+      "fullTitle": "👨‍💻 URLs As Display Data",
+      "description": "I've been toying with the idea that we get something wrong when it comes to URL management and routing in single page applications (SPAs).\n\nThe current state of the art in SPAs is to let the URL (the route) drive application logic. We do this by...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "react"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2021-12-28-Color-Picker-From-Scratch.md",
+      "label": "🌈 Understanding Color by Writing a C...",
+      "title": "🌈 Understanding Color by Writing a Color Picker\nblog\nTags: software-engineering",
+      "url": "2021-12-28-Color-Picker-From-Scratch.html",
+      "fullTitle": "🌈 Understanding Color by Writing a Color Picker",
+      "description": "@import url(\"/blog-assets/color-picker-from-scratch/color-field.css\");\n\n\n\n\n> \"Programmers re-invent the wheel so they can understand how the wheel works\" - unknown\n\nWhy write a color picker from scratch? To understand color theory better and to...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-01-09-improving-code-sharing.md",
+      "label": "🧶 Improving Code Sharing with Yarn W...",
+      "title": "🧶 Improving Code Sharing with Yarn Workspaces\nblog\nTags: software-engineering",
+      "url": "2022-01-09-improving-code-sharing.html",
+      "fullTitle": "🧶 Improving Code Sharing with Yarn Workspaces",
+      "description": "Sharing code between `JavaScript` & `TypeScript` projects has always been more trouble than it should be.\n\nSay you create a common library and you want to use it in `N > 1` of your other projects.\n\nYou could publish it to `NPM` and install it li...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-01-17-why-fetching-earliy-is-difficult-to-express.md",
+      "label": "🌅 Expressing Early Fetches - React",
+      "title": "🌅 Expressing Early Fetches - React\nblog\nTags: software-engineering, react",
+      "url": "2022-01-17-why-fetching-earliy-is-difficult-to-express.html",
+      "fullTitle": "🌅 Expressing Early Fetches - React",
+      "description": "draft post--\n\nFetching early is difficult to express and get right in all places in React.\n\nThis is because a lack of domain models. That everything is anemic. That we've moved business logic into display.\n\nRender-as-you-fetch rather than fetch-...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "react"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-04-07-your-package-is-two.mdx",
+      "label": "📦 Your One Package Might Be Two",
+      "title": "📦 Your One Package Might Be Two\nblog\nTags: software-engineering",
+      "url": "2022-04-07-your-package-is-two.html",
+      "fullTitle": "📦 Your One Package Might Be Two",
+      "description": "When creating a software package (or module or bundle, pick your term) for others to reuse, there's often a _second_ package in the package that developers overlook.\n\nThe second package is the _interface_ package. I.e., the interface that overl...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-04-25-doing-for-others.md",
+      "label": "🧚‍♂️ Past, Present, Future - Doing f...",
+      "title": "🧚‍♂️ Past, Present, Future - Doing for Others\nblog\nTags: philosophy",
+      "url": "2022-04-25-doing-for-others.html",
+      "fullTitle": "🧚‍♂️ Past, Present, Future - Doing for Others",
+      "description": "Our current state of affairs is almost entirely determined by those who came before us. What institutions they created, what they've invented, what infrastructure & dwellings they've built, how they've spent the resources of the society, how the...",
+      "group": 1,
+      "tags": [
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-04-25-foundational-myths.md",
+      "label": "🧟‍♂️ Memes & Themes - 1619 Project",
+      "title": "🧟‍♂️ Memes & Themes - 1619 Project\nblog\nTags: politics, philosophy",
+      "url": "2022-04-25-foundational-myths.html",
+      "fullTitle": "🧟‍♂️ Memes & Themes - 1619 Project",
+      "description": "Coincidentally I came across all of these three things below around the same time\n\n\n\n\n\n\nThis was a good critique, from 2010: “why Avater is a truly dangerous film” https://t.co/5ZeJIWndG8&mdash; Kent William Innholt (@oerhoert) April 23, 2022\n\n\n\n...",
+      "group": 1,
+      "tags": [
+        "politics",
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-05-12-simple-mdx.mdx",
+      "label": "😌 Simple MDX",
+      "title": "😌 Simple MDX\nblog\nTags: software-engineering",
+      "url": "2022-05-12-simple-mdx.html",
+      "fullTitle": "😌 Simple MDX",
+      "description": "> tldr; skip to full sample code\n\nSo you want to deploy a site that uses `MDX`? Outside of using Nextjs, this process is much more difficult than it aught to be.\n\n\n  \n\n\nTechnically we don't even need to mess with `mdx-bundler` (see Building Wit...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-05-12-skipping-the-bundling.md",
+      "label": "🧶 Skipping the Bundling",
+      "title": "🧶 Skipping the Bundling\nblog\nTags: software-engineering",
+      "url": "2022-05-12-skipping-the-bundling.html",
+      "fullTitle": "🧶 Skipping the Bundling",
+      "description": "We're in the era of ES6 modules, esm.sh and Typescript.\n\nDo you _really_ need to spin up that webpack/snowpack/rollup/vite/parcel/_insert other bundler here_ for your small scale project?\n\nI think not. These days, module management is built righ...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-05-13-large-local-storage.md",
+      "label": "📀 Large Local Storage",
+      "title": "📀 Large Local Storage\nblog\nTags: software-engineering",
+      "url": "2022-05-13-large-local-storage.html",
+      "fullTitle": "📀 Large Local Storage",
+      "description": "Way way back in 2013 there wasn't a common way to save large blobs in all browser. Back then, all of these were true:\n\n* DOMStorage only gives you 5mb\n* Chrome doesn't let you store blobs in IndexedDB\n* Safari doesn't support IndexedDB,\n* IE and...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-05-26-chunk-iterable.md",
+      "label": "🪨 Chunk Iterable",
+      "title": "🪨 Chunk Iterable\nblog\nTags: software-engineering, databases",
+      "url": "2022-05-26-chunk-iterable.html",
+      "fullTitle": "🪨 Chunk Iterable",
+      "description": "Today I'll be discussing the `Chunk Iterable Framework`. This is a core component of Aphrodite and is used to speed up the processing of data returned by queries.\n\nThe main idea behind a chunk iterable is to be able to iterate over some source o...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "databases"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-05-26-query-builder.mdx",
+      "label": "⛓ Query Builder",
+      "title": "⛓ Query Builder\nblog\nTags: software-engineering, aphrodite",
+      "url": "2022-05-26-query-builder.html",
+      "fullTitle": "⛓ Query Builder",
+      "description": "Aphrodite generates rich and type safe query builders (example) from your schemas.\nThe query builders not only query for nodes of a given type but also traverse edges, apply filters, do pagination and more.\n\nAs an example, we can traverse from ...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "aphrodite"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-05-26-query-plan-optimization.mdx",
+      "label": "💨 Query Plan Optimization",
+      "title": "💨 Query Plan Optimization\nblog\nTags: software-engineering, aphrodite",
+      "url": "2022-05-26-query-plan-optimization.html",
+      "fullTitle": "💨 Query Plan Optimization",
+      "description": "This is the third part in a deep dive into Aphrodite's query layer.\n\n- [[2022-05-26-query-builder:Part 1]] we talked about the query builder\n- [[2022-05-26-query-planning:Part 2]] covered query plans\n\nNow we'll cover how we optimize query plans...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "aphrodite"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-05-26-query-planning.mdx",
+      "label": "📝 Query Planning",
+      "title": "📝 Query Planning\nblog\nTags: software-engineering, aphrodite",
+      "url": "2022-05-26-query-planning.html",
+      "fullTitle": "📝 Query Planning",
+      "description": "# Review\n\nPreviously we discussed the query builder.\n\nTo recap, when a user interacts with the query builder a linked list of queries is built up behind the scenes. Eaech query in the list holds a reference to the prior query and an expression ...",
+      "group": 1,
+      "tags": [
+        "software-engineering",
+        "aphrodite"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-06-02-this-time-is-different.md",
+      "label": "🧶 HTML, CSS & JS. All mixed up toget...",
+      "title": "🧶 HTML, CSS & JS. All mixed up together. This time it's different.\nblog\nTags: software-engineering",
+      "url": "2022-06-02-this-time-is-different.html",
+      "fullTitle": "🧶 HTML, CSS & JS. All mixed up together. This time it's different.",
+      "description": "From time to time I run across people decrying the current state of web development with words like:\n\n> We've gone completely backwards! We've gone from separating our structure, style and logic to putting them all into the same file! inline sty...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-06-06-not-machine-readable.md",
+      "label": "📚 Not Machine Readable?",
+      "title": "📚 Not Machine Readable?\nblog\nTags: software-engineering",
+      "url": "2022-06-06-not-machine-readable.html",
+      "fullTitle": "📚 Not Machine Readable?",
+      "description": "Was watching https://www.youtube.com/watch?v=AHblHPLoKKE&t=139s and this dawned on me.\n\nWhen we say \"something isn't machine readable\" we're not speaking accurately. What we really mean is that the content is not readable for the way that progra...",
+      "group": 1,
+      "tags": [
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-06-16-always-a-body.md",
+      "label": "You'll always have a body",
+      "title": "You'll always have a body\nblog\nTags: philosophy",
+      "url": "2022-06-16-always-a-body.html",
+      "fullTitle": "You'll always have a body",
+      "description": "> Prompted after reading https://www.physics.princeton.edu/ph115/LQ.pdf and https://www.quantamagazine.org/how-to-make-the-universe-think-for-us-20220531/\n\nSorry to break the news but even when you figure out how to upload your consciousness to ...",
+      "group": 1,
+      "tags": [
+        "philosophy"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-08-23-why-sqlite-why-now.md",
+      "label": "Why SQLite? Why Now? 🐇",
+      "title": "Why SQLite? Why Now? 🐇\nblog\nTags: distributed-systems, databases, software-engineering",
+      "url": "2022-08-23-why-sqlite-why-now.html",
+      "fullTitle": "Why SQLite? Why Now? 🐇",
+      "description": "I've been sucked down a `sqlite` rabbithole and I'm all-in on it.\n\nSo why `SQLite`? And why now?\n\nFor me, its about re-architecting how we write code so it can fit the coming world of edge, distributed and local-first computing.\n\nIn one way, `sq...",
+      "group": 1,
+      "tags": [
+        "distributed-systems",
+        "databases",
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-10-18-lamport-clock.md",
+      "label": "Lamport Clock 🕥",
+      "title": "Lamport Clock 🕥\nblog\nTags: distributed-systems, programming",
+      "url": "2022-10-18-lamport-clock.html",
+      "fullTitle": "Lamport Clock 🕥",
+      "description": "The Lamport clock was originally described in 1978 in the paper \"Time, Clocks, and the Ordering of Events in a Distributed System\". It is a logical clock that was created as a way to order events in a distributed system.\n\nWhy not use wall/physic...",
+      "group": 1,
+      "tags": [
+        "distributed-systems",
+        "programming"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-10-18-lamport-sufficient-for-lww.md",
+      "label": "Do LWW Registers Need Vector Clocks o...",
+      "title": "Do LWW Registers Need Vector Clocks or Causal Graphs? 💭\nblog\nTags: distributed-systems, programming",
+      "url": "2022-10-18-lamport-sufficient-for-lww.html",
+      "fullTitle": "Do LWW Registers Need Vector Clocks or Causal Graphs? 💭",
+      "description": "Short answer: No. When it comes to a LWW register, Lamport clocks offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW.\n\nA last write wins register is a register where the \"last\" ...",
+      "group": 1,
+      "tags": [
+        "distributed-systems",
+        "programming"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "2022-10-19-meta-scales-mysql.md",
+      "label": "Meta / Facebook - How a graph model c...",
+      "title": "Meta / Facebook - How a graph model can scale your relational DBs\nblog\nTags: distributed-systems, databases, software-engineering",
+      "url": "2022-10-19-meta-scales-mysql.html",
+      "fullTitle": "Meta / Facebook - How a graph model can scale your relational DBs",
+      "description": "Did you know that still, to this day, the majority of Meta's data needs are serviced by MySQL?\n\nThere is a caching layer atop it (called TAO) that services all queries, sending requests to MySQL only on a cache miss but what enabled TAO and MySQ...",
+      "group": 1,
+      "tags": [
+        "distributed-systems",
+        "databases",
+        "software-engineering"
+      ],
+      "collection": "blog",
+      "related": []
+    },
+    {
+      "id": "01-the-consistent-man.md",
+      "label": "The Consistent Man",
+      "title": "The Consistent Man\nstories\nTags: fiction, philosophy",
+      "url": "the-mirror-room/01-the-consistent-man.html",
+      "fullTitle": "The Consistent Man",
+      "description": "Part 1 of the Mirror Room Collection. A rational identity.",
+      "group": 2,
+      "tags": [
+        "fiction",
+        "philosophy"
+      ],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "02-the-mirror-room.md",
+      "label": "The Mirror Room",
+      "title": "The Mirror Room\nstories\nTags: fiction, philosophy",
+      "url": "the-mirror-room/02-the-mirror-room.html",
+      "fullTitle": "The Mirror Room",
+      "description": "Part 2 of the Mirror Room Collection. A mystic identity.",
+      "group": 2,
+      "tags": [
+        "fiction",
+        "philosophy"
+      ],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "03-the-meeting.md",
+      "label": "The Meeting",
+      "title": "The Meeting\nstories\nTags: fiction, philosophy",
+      "url": "the-mirror-room/03-the-meeting.html",
+      "fullTitle": "The Meeting",
+      "description": "Part 3 of the Mirror Room Collection. The Identities Meet.",
+      "group": 2,
+      "tags": [
+        "fiction",
+        "philosophy"
+      ],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "04-the-paradox-of-becoming.md",
+      "label": "The Paradox of Becoming",
+      "title": "The Paradox of Becoming\nstories\nTags: fiction, philosophy",
+      "url": "the-mirror-room/04-the-paradox-of-becoming.html",
+      "fullTitle": "The Paradox of Becoming",
+      "description": "Part 4 of the Mirror Room Collection. Choice as primary.",
+      "group": 2,
+      "tags": [
+        "fiction",
+        "philosophy"
+      ],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "05-the-readers-crisis.md",
+      "label": "The Reader's Crisis",
+      "title": "The Reader's Crisis\nstories\nTags: fiction, philosophy",
+      "url": "the-mirror-room/05-the-readers-crisis.html",
+      "fullTitle": "The Reader's Crisis",
+      "description": "Part 5 of the Mirror Room Collection. A 21st century leftish critique.",
+      "group": 2,
+      "tags": [
+        "fiction",
+        "philosophy"
+      ],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "06-gurdjieff-observations.md",
+      "label": "Observations on the Sleep of Seekers",
+      "title": "Observations on the Sleep of Seekers\nstories\nTags: fiction, philosophy",
+      "url": "the-mirror-room/06-gurdjieff-observations.html",
+      "fullTitle": "Observations on the Sleep of Seekers",
+      "description": "Draft. Practical advice in response to The Mirror Room collection.",
+      "group": 2,
+      "tags": [
+        "fiction",
+        "philosophy"
+      ],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "audio.md",
+      "label": "The Mirror Room Collection - Audiobook",
+      "title": "The Mirror Room Collection - Audiobook\nstories\nTags: ",
+      "url": "the-mirror-room/audio.html",
+      "fullTitle": "The Mirror Room Collection - Audiobook",
+      "description": "Please read the print version. The audiobook is currently many revision behind.",
+      "group": 2,
+      "tags": [],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "index.md",
+      "label": "The Mirror Room Collection",
+      "title": "The Mirror Room Collection\nstories\nTags: ",
+      "url": "the-mirror-room/index.html",
+      "fullTitle": "The Mirror Room Collection",
+      "description": "A collection of short stories about identity and becoming.",
+      "group": 2,
+      "tags": [],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "scratch.md",
+      "label": "scratch.md",
+      "title": "scratch.md\nstories\nTags: ",
+      "url": "the-mirror-room/scratch.html",
+      "fullTitle": "scratch.md",
+      "description": "",
+      "group": 2,
+      "tags": [],
+      "collection": "stories",
+      "related": []
+    },
+    {
+      "id": "2025-10-13-adding-chats-section.md",
+      "label": "Adding a Chats Section to My Blog",
+      "title": "Adding a Chats Section to My Blog\nchats\nTags: software-engineering, llm, claude",
+      "url": "chats/2025-10-13-adding-chats-section.html",
+      "fullTitle": "Adding a Chats Section to My Blog",
+      "description": "A conversation with Claude about setting up a new section to document interesting LLM chats",
+      "group": 3,
+      "tags": [
+        "software-engineering",
+        "llm",
+        "claude"
+      ],
+      "collection": "chats",
+      "related": []
+    },
+    {
+      "id": "2025-10-13-epistemic-humility-discussion.md",
+      "label": "Epistemic humility discussion",
+      "title": "Epistemic humility discussion\nchats\nTags: philosophy, chatgpt, llm",
+      "url": "chats/2025-10-13-epistemic-humility-discussion.html",
+      "fullTitle": "Epistemic humility discussion",
+      "description": "The common sense perspective. Nobody knows why we're here. If they did it would require them receiving some special revelation or having reasoned it a",
+      "group": 3,
+      "tags": [
+        "philosophy",
+        "chatgpt",
+        "llm"
+      ],
+      "collection": "chats",
+      "related": []
+    },
+    {
+      "id": "2025-10-14-girards-scapegoat-mechanism.md",
+      "label": "Girard's scapegoat mechanism",
+      "title": "Girard's scapegoat mechanism\nchats\nTags: philosophy, chatgpt, llm",
+      "url": "chats/2025-10-14-girards-scapegoat-mechanism.html",
+      "fullTitle": "Girard's scapegoat mechanism",
+      "description": "explain girard's scape-goat mechanism and give examples",
+      "group": 3,
+      "tags": [
+        "philosophy",
+        "chatgpt",
+        "llm"
+      ],
+      "collection": "chats",
+      "related": []
+    }
+  ],
+  "edges": [
+    {
+      "from": "2014-01-03-Practical-Laziness-in-Programming.md",
+      "to": "2020-05-19-These-Are-Not-Types.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: programming, software-engineering"
+    },
+    {
+      "from": "2014-01-03-Practical-Laziness-in-Programming.md",
+      "to": "2021-08-22-Understanding-Generics.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: programming, software-engineering"
+    },
+    {
+      "from": "2014-01-03-Practical-Laziness-in-Programming.md",
+      "to": "2021-12-15-React-Anemic-Models.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: programming, software-engineering"
+    },
+    {
+      "from": "2014-01-03-Practical-Laziness-in-Programming.md",
+      "to": "2021-12-16-Missing-Mutation-Primitives.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: programming, software-engineering"
+    },
+    {
+      "from": "2020-05-19-These-Are-Not-Types.md",
+      "to": "2021-08-22-Understanding-Generics.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, programming"
+    },
+    {
+      "from": "2020-05-19-These-Are-Not-Types.md",
+      "to": "2021-12-15-React-Anemic-Models.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, programming"
+    },
+    {
+      "from": "2020-05-19-These-Are-Not-Types.md",
+      "to": "2021-12-16-Missing-Mutation-Primitives.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, programming"
+    },
+    {
+      "from": "2021-01-21-false-positive-rate.md",
+      "to": "2021-01-26-regression-mean-vs-gambler.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: programming, math"
+    },
+    {
+      "from": "2021-04-05-Religion-Last.md",
+      "to": "2021-12-20-American-Spirit.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: philosophy, politics"
+    },
+    {
+      "from": "2021-04-05-Religion-Last.md",
+      "to": "2022-04-25-foundational-myths.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: philosophy, politics"
+    },
+    {
+      "from": "2021-08-22-Understanding-Generics.md",
+      "to": "2021-12-15-React-Anemic-Models.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: programming, software-engineering"
+    },
+    {
+      "from": "2021-08-22-Understanding-Generics.md",
+      "to": "2021-12-16-Missing-Mutation-Primitives.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: programming, software-engineering"
+    },
+    {
+      "from": "2021-12-15-React-Anemic-Models.md",
+      "to": "2021-12-16-Missing-Mutation-Primitives.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, programming"
+    },
+    {
+      "from": "2021-12-15-React-Anemic-Models.md",
+      "to": "2021-12-23-Deeply-Nested-Updates-React.mdx",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, react"
+    },
+    {
+      "from": "2021-12-15-React-Anemic-Models.md",
+      "to": "2021-12-27-urls-as-display-data.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, react"
+    },
+    {
+      "from": "2021-12-15-React-Anemic-Models.md",
+      "to": "2022-01-17-why-fetching-earliy-is-difficult-to-express.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, react"
+    },
+    {
+      "from": "2021-12-17-Object-Identity.mdx",
+      "to": "2021-12-23-Deeply-Nested-Updates-React.mdx",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, framework"
+    },
+    {
+      "from": "2021-12-20-American-Spirit.md",
+      "to": "2022-04-25-foundational-myths.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: politics, philosophy"
+    },
+    {
+      "from": "2021-12-23-Deeply-Nested-Updates-React.mdx",
+      "to": "2021-12-27-urls-as-display-data.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, react"
+    },
+    {
+      "from": "2021-12-23-Deeply-Nested-Updates-React.mdx",
+      "to": "2022-01-17-why-fetching-earliy-is-difficult-to-express.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, react"
+    },
+    {
+      "from": "2021-12-27-urls-as-display-data.md",
+      "to": "2022-01-17-why-fetching-earliy-is-difficult-to-express.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, react"
+    },
+    {
+      "from": "2022-05-26-chunk-iterable.md",
+      "to": "2022-08-23-why-sqlite-why-now.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, databases"
+    },
+    {
+      "from": "2022-05-26-chunk-iterable.md",
+      "to": "2022-10-19-meta-scales-mysql.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, databases"
+    },
+    {
+      "from": "2022-05-26-query-builder.mdx",
+      "to": "2022-05-26-query-plan-optimization.mdx",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, aphrodite"
+    },
+    {
+      "from": "2022-05-26-query-builder.mdx",
+      "to": "2022-05-26-query-planning.mdx",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, aphrodite"
+    },
+    {
+      "from": "2022-05-26-query-plan-optimization.mdx",
+      "to": "2022-05-26-query-planning.mdx",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: software-engineering, aphrodite"
+    },
+    {
+      "from": "2022-08-23-why-sqlite-why-now.md",
+      "to": "2022-10-19-meta-scales-mysql.md",
+      "value": 3,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.6000000000000001
+      },
+      "title": "Shared tags: distributed-systems, databases, software-engineering"
+    },
+    {
+      "from": "2022-10-18-lamport-clock.md",
+      "to": "2022-10-18-lamport-sufficient-for-lww.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: distributed-systems, programming"
+    },
+    {
+      "from": "01-the-consistent-man.md",
+      "to": "02-the-mirror-room.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "01-the-consistent-man.md",
+      "to": "03-the-meeting.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "01-the-consistent-man.md",
+      "to": "04-the-paradox-of-becoming.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "01-the-consistent-man.md",
+      "to": "05-the-readers-crisis.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "01-the-consistent-man.md",
+      "to": "06-gurdjieff-observations.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "02-the-mirror-room.md",
+      "to": "03-the-meeting.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "02-the-mirror-room.md",
+      "to": "04-the-paradox-of-becoming.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "02-the-mirror-room.md",
+      "to": "05-the-readers-crisis.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "02-the-mirror-room.md",
+      "to": "06-gurdjieff-observations.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "03-the-meeting.md",
+      "to": "04-the-paradox-of-becoming.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "03-the-meeting.md",
+      "to": "05-the-readers-crisis.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "03-the-meeting.md",
+      "to": "06-gurdjieff-observations.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "04-the-paradox-of-becoming.md",
+      "to": "05-the-readers-crisis.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "04-the-paradox-of-becoming.md",
+      "to": "06-gurdjieff-observations.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "05-the-readers-crisis.md",
+      "to": "06-gurdjieff-observations.md",
+      "value": 2,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.5
+      },
+      "title": "Shared tags: fiction, philosophy"
+    },
+    {
+      "from": "2025-10-13-epistemic-humility-discussion.md",
+      "to": "2025-10-14-girards-scapegoat-mechanism.md",
+      "value": 3,
+      "color": {
+        "color": "#d96a37",
+        "opacity": 0.6000000000000001
+      },
+      "title": "Shared tags: philosophy, chatgpt, llm"
+    }
+  ]
+}
+  </script>
+</section></body></html>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+<script src="https://unpkg.com/vis-network@latest/standalone/umd/vis-network.min.js"></script>
+<script src="/graph.js"></script>
+</main><footer id="footer"></footer></body>
+</html>
