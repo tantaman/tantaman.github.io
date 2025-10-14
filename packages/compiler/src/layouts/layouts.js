@@ -9,7 +9,7 @@ export const layouts = {
 };
 
 export default function layout() {
-  return (tree, file) => {
+  return async (tree, file) => {
     const layoutName = file.data?.matter?.layout || 'default';
 
     // Add layout-specific CSS if needed
@@ -23,6 +23,6 @@ export default function layout() {
       }
     }
 
-    layouts[layoutName](tree, file);
+    await layouts[layoutName](tree, file);
   };
 }

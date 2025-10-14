@@ -13,7 +13,7 @@ import rehypeParse from 'rehype-parse';
 export default async function tags(file, cwd, files) {
   return {
     content: async () => {
-      return unified()
+      const result = await unified()
         .use(rehypeParse)
         .use(rehypeDocument, {
           ...doc,
@@ -27,8 +27,9 @@ export default async function tags(file, cwd, files) {
         })
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
-        .processSync(await tagsPage())
-        .toString();
+        .process(await tagsPage());
+
+      return result.toString();
     },
     frontmatter: {
       title: 'Browse by Tag',

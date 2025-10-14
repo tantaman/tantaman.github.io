@@ -1,0 +1,133 @@
+/* Graph Page Styling */
+
+#graph-page {
+  padding: 0;
+  margin: 0;
+  height: calc(100vh - 80px); /* Full height minus header */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.graph-header {
+  padding: 2rem 1.5rem 1rem 1.5rem;
+  background: rgba(37, 26, 21, 0.4);
+  border-bottom: 1px solid rgba(217, 106, 55, 0.3);
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.page-description {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Legend */
+.graph-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.blog-color {
+  background: #4a90e2;
+}
+
+.stories-color {
+  background: #9b59b6;
+}
+
+.chats-color {
+  background: #e67e22;
+}
+
+.legend-line {
+  width: 40px;
+  height: 3px;
+  display: block;
+}
+
+.strong-edge {
+  background: #d96a37;
+  opacity: 1;
+}
+
+.weak-edge {
+  background: #d96a37;
+  opacity: 0.4;
+}
+
+/* Graph Container */
+#graph-container {
+  flex: 1;
+  width: 100%;
+  background: rgba(26, 18, 14, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Vis.js Network Overrides */
+.vis-network {
+  outline: none;
+}
+
+.vis-network:focus {
+  outline: none;
+}
+
+/* Tooltip styling */
+.vis-tooltip {
+  background: rgba(37, 26, 21, 0.95);
+  border: 1px solid #d96a37;
+  border-radius: 4px;
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  max-width: 300px;
+  white-space: pre-wrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  #graph-page {
+    height: calc(100vh - 60px); /* Smaller header on mobile */
+  }
+
+  .graph-header {
+    padding: 1.5rem 1rem 0.75rem 1rem;
+  }
+
+  .graph-legend {
+    gap: 1rem;
+  }
+
+  .legend-item {
+    font-size: 0.9rem;
+  }
+}
