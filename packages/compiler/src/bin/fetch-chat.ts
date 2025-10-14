@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { chromium } from 'playwright';
-import { writeFileSync } from 'fs';
+import { writeFileSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 interface Message {
@@ -97,7 +97,7 @@ async function fetchChatGPTConversation(url: string): Promise<ParsedConversation
   }
 }
 
-function generateMarkdown(conversation: ParsedConversation, customTitle?: string, tags?: string[]): string {
+function generateMarkdown(conversation: ParsedConversation, sourceUrl: string, customTitle?: string, tags?: string[]): string {
   const title = customTitle || conversation.title;
   const date = new Date().toISOString().split('T')[0];
 
@@ -115,6 +115,7 @@ function generateMarkdown(conversation: ParsedConversation, customTitle?: string
   let markdown = '---\n';
   markdown += `title: "${title}"\n`;
   markdown += `layout: "chat"\n`;
+  markdown += `source: "${sourceUrl}"\n`;
   markdown += `description: "${description}"\n`;
   markdown += `tags: [${tagList.map(t => `"${t}"`).join(', ')}]\n`;
   markdown += '---\n\n';
@@ -128,6 +129,34 @@ function generateMarkdown(conversation: ParsedConversation, customTitle?: string
   });
 
   return markdown;
+}
+
+function findExistingChatFile(outputDir: string, sourceUrl: string, cwd: string): string | null {
+  try {
+    const fullOutputDir = join(cwd, outputDir);
+    const files = readdirSync(fullOutputDir);
+
+    for (const file of files) {
+      if (!file.endsWith('.md')) continue;
+
+      const filepath = join(fullOutputDir, file);
+      const content = readFileSync(filepath, 'utf-8');
+
+      // Extract frontmatter source URL
+      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+      if (frontmatterMatch) {
+        const frontmatter = frontmatterMatch[1];
+        const sourceMatch = frontmatter.match(/source:\s*"([^"]+)"/);
+        if (sourceMatch && sourceMatch[1] === sourceUrl) {
+          return filepath;
+        }
+      }
+    }
+  } catch (error) {
+    // Directory doesn't exist or other error - return null
+  }
+
+  return null;
 }
 
 function slugify(text: string): string {
@@ -187,6 +216,11 @@ Note: This tool uses Playwright to render the JavaScript-heavy ChatGPT share pag
   }
 
   try {
+    const cwd = process.cwd();
+
+    // Check if this URL has already been fetched
+    const existingFile = findExistingChatFile(outputDir, url, cwd);
+
     const conversation = await fetchChatGPTConversation(url);
 
     if (conversation.messages.length === 0) {
@@ -196,17 +230,27 @@ Note: This tool uses Playwright to render the JavaScript-heavy ChatGPT share pag
       process.exit(1);
     }
 
-    const markdown = generateMarkdown(conversation, customTitle, tags);
+    const markdown = generateMarkdown(conversation, url, customTitle, tags);
+
+    let filepath: string;
+
+    if (existingFile) {
+      // Update existing file
+      filepath = existingFile;
+      writeFileSync(filepath, markdown);
+      console.log(`\n✓ Updated existing chat: ${filepath}`);
+    } else {
+      // Create new file
+      const title = customTitle || conversation.title;
+      const date = new Date().toISOString().split('T')[0];
+      const slug = slugify(title);
+      const filename = `${date}-${slug}.md`;
+      filepath = join(cwd, outputDir, filename);
+      writeFileSync(filepath, markdown);
+      console.log(`\n✓ Successfully created: ${filepath}`);
+    }
 
     const title = customTitle || conversation.title;
-    const date = new Date().toISOString().split('T')[0];
-    const slug = slugify(title);
-    const filename = `${date}-${slug}.md`;
-    const filepath = join(process.cwd(), outputDir, filename);
-
-    writeFileSync(filepath, markdown);
-
-    console.log(`\n✓ Successfully created: ${filepath}`);
     console.log(`  Title: ${title}`);
     console.log(`  Messages: ${conversation.messages.length}`);
     console.log(`\nRun 'pnpm build' to compile the new chat post.`);
