@@ -22,12 +22,12 @@ async function fetchChatGPTConversation(url: string): Promise<ParsedConversation
   const page = await browser.newPage();
 
   try {
-    // Navigate to the page
-    await page.goto(url, { waitUntil: 'networkidle' });
+    // Navigate to the page - use 'domcontentloaded' instead of 'networkidle' for more reliability
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
     // Wait for the conversation to load
     console.log('Waiting for conversation to load...');
-    await page.waitForSelector('article', { timeout: 10000 });
+    await page.waitForSelector('article', { timeout: 15000 });
 
     // Extract title from page title
     const title = await page.title();
