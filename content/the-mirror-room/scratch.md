@@ -1,3 +1,8 @@
+---
+title: scratch
+date: 2025-07-25
+---
+
 - The solution. Gurdjieff provides practical instruction. Sees all the traps. Calls out that we cannot do this alone.
   - Gurdjieff framework for picking values?
 - The meta-observation: almost like the point of life is as a moral test. That anything good for us is what is hard. That if life were not a moral test the good would be the easy and the automatic.

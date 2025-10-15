@@ -2,6 +2,7 @@
 layout: mirrorRoom
 description: A collection of short stories about identity and becoming.
 title: The Mirror Room Collection
+date: 2025-07-20
 ---
 
 # The Mirror Room
