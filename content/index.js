@@ -54,9 +54,13 @@ async function siteIndex() {
       });
   });
 
-  // Sort by filename (which includes date) and take most recent 12
+  // Sort by date (from frontmatter if available, otherwise from filename) and take most recent 12
   const recentPosts = allPosts
-    .sort((a, b) => b.meta.compiledFilename.localeCompare(a.meta.compiledFilename))
+    .sort((a, b) => {
+      const dateA = a.meta.frontmatter?.date || a.meta.compiledFilename.substring(0, 10);
+      const dateB = b.meta.frontmatter?.date || b.meta.compiledFilename.substring(0, 10);
+      return dateB.localeCompare(dateA);
+    })
     .slice(0, 12);
 
   return `
@@ -77,6 +81,7 @@ async function siteIndex() {
 
 function renderCard(collection, meta) {
   const collectionLabel = getCollectionName(collection);
+  const date = meta.frontmatter?.date || extractDate(meta.compiledFilename);
 
   return `
     <a class="card" href="${meta.compiledFilename}">
@@ -84,7 +89,7 @@ function renderCard(collection, meta) {
         ${meta.frontmatter?.title || meta.filename}
       </h4>
       <div class="subtext">
-        ${extractDate(meta.compiledFilename)} · ${collectionLabel} · ${joinTags(meta.frontmatter)}
+        ${date} · ${collectionLabel} · ${joinTags(meta.frontmatter)}
       </div>
       <p>
           ${meta.frontmatter?.description || meta.description || ''}

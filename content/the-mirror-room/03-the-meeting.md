@@ -3,6 +3,7 @@ layout: mirrorRoom
 title: The Meeting
 description: Part 3 of the Mirror Room Collection. The Identities Meet.
 tags: [fiction, philosophy]
+date: 2025-07-20
 ---
 
 ## The Meeting
