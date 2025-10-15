@@ -34,20 +34,78 @@ export default async function index(file, cwd, files) {
 
 async function siteIndex() {
   const indices = await indexFrontmatter();
-  const index = indices[''];
-  // get all front matter from all md & mdx files in `content/`
+
+  // Collect all posts from relevant sections
+  const allPosts = [];
+
+  Object.entries(indices).forEach(([collection, index]) => {
+    if (collection === 'bookmarks/' || collection === 'notes/') return;
+
+    Object.entries(index)
+      .filter(([key, _]) =>
+        key !== 'index.js' && key !== 'README.md' && key !== '404.md'
+      )
+      .forEach(([key, meta]) => {
+        allPosts.push({
+          collection,
+          key,
+          meta,
+        });
+      });
+  });
+
+  // Sort by filename (which includes date) and take most recent 12
+  const recentPosts = allPosts
+    .sort((a, b) => b.meta.compiledFilename.localeCompare(a.meta.compiledFilename))
+    .slice(0, 12);
+
   return `
 <section id="hero">
   <img src="/img/avatar-angry.png" alt="Stoic guardian meditating" />
   <!-- <h2>Words&nbsp;Forged&nbsp;in&nbsp;Fire</h2> -->
   <p>tales, reflections, and evolving ideas.</p>
 </section>
-${Object.entries(indices)
-  .map(([collection, index]) => renderCollection(collection, index))
-  .join('\n')}`;
+<section id="recent">
+  <div class="container">
+    <h3 class="section-title">Recent</h3>
+    <div class="grid">
+      ${recentPosts.map(({ collection, key, meta }) => renderCard(collection, meta)).join('\n')}
+    </div>
+  </div>
+</section>`;
 }
 
-function renderCollection(collection, index) {
+function renderCard(collection, meta) {
+  const collectionLabel = getCollectionName(collection);
+
+  return `
+    <a class="card" href="${meta.compiledFilename}">
+      <h4>
+        ${meta.frontmatter?.title || meta.filename}
+      </h4>
+      <div class="subtext">
+        ${extractDate(meta.compiledFilename)} · ${collectionLabel} · ${joinTags(meta.frontmatter)}
+      </div>
+      <p>
+          ${meta.frontmatter?.description || meta.description || ''}
+      </p>
+    </a>`;
+}
+
+function getCollectionName(collection) {
+  switch (collection) {
+    case '':
+      return 'Blog';
+    case 'the-mirror-room/':
+      return 'Stories';
+    case 'chats/':
+      return 'Chats';
+    default:
+      return collection;
+  }
+}
+
+export function renderCollection(collection, index, showAll = false) {
   let collectionId = collection;
   let collectionName = collection;
   switch (collection) {
@@ -68,32 +126,21 @@ function renderCollection(collection, index) {
       collectionName = 'Chats';
       break;
   }
+
+  const posts = Object.entries(index)
+    .reverse()
+    .filter(
+      ([key, _]) =>
+        key !== 'index.js' && key !== 'README.md' && key !== '404.md',
+    );
+
   return `
 <section id="${collectionId}">
   <div class="container">
     <h3 class="section-title">${collectionName}</h3>
-    <div className="grid">
-      ${Object.entries(index)
-        .reverse()
-        .filter(
-          ([key, _]) =>
-            key !== 'index.js' && key !== 'README.md' && key !== '404.md',
-        )
-        .map(
-          ([key, meta]) =>
-            `
-    <a class="card" href="${meta.compiledFilename}">
-      <h4>
-        ${meta.frontmatter?.title || key}
-      </h4>
-      <div class="subtext">
-        ${extractDate(meta.compiledFilename)} · ${joinTags(meta.frontmatter)}
-      </div>
-      <p>
-          ${meta.frontmatter?.description || meta.description || ''}
-      </p>
-    </a>`,
-        )
+    <div class="grid">
+      ${posts
+        .map(([key, meta]) => renderCard(collection, meta))
         .join('\n')}
     </div>
   </div>
