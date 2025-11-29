@@ -53,6 +53,18 @@ a {
   color: inherit;
 }
 
+/* Underline links in main content area */
+#static a {
+  text-decoration: underline;
+}
+
+/* Keep certain links without underline */
+#static h1 a,
+#static .toc a,
+#static .icon-link {
+  text-decoration: none;
+}
+
 /* Navigation Links */
 nav a {
   color: #f4e9d8;
