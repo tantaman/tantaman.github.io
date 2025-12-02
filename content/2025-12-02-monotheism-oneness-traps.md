@@ -1,3 +1,9 @@
+---
+title: 'Monotheism to Now'
+tags: [religion, philosophy, life, politics]
+---
+
+
 Monotheism has created an obsessive focus for singular explanations. Grand unifying forces. One-ness. A removal of distinctions and thus a removal of thought and judgment. A multiculturalism that is an abdication of definition and drunkenness.
 
 ---
