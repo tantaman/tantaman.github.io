@@ -71,3 +71,71 @@ And then the corruption cascades. The indebted doctor needs volume, so the visit
 The old professions were supposed to be above this. You paid for their training, they owed you honesty. The debt inverts it — now they owe the bank, and you're just the means of payment.
 
 Free fall is right. When everyone's compromised, trust collapses. And trust is the thing you can't rebuild quickly. It takes generations to accumulate and moments to destroy.
+
+---
+
+Back to the beginning. Jesus created an individual relationship to the one. This created independence, anarchy, self reliance, self thinking. Some great things. But it also traps in mysticism. An abdication of the worldly life seems like an easy trap. What sayings of Jesus guard against this?
+
+---
+
+A good turn. The individual soul before God — that's the Protestant engine, the Enlightenment seed. But also the gnostic temptation: this world is fallen, only the spirit matters, check out.
+
+The sayings that push back:
+
+"Thy kingdom come, on earth as it is in heaven." The prayer isn't for escape — it's for transformation here. The earth is the site, not the obstacle.
+
+"By their fruits you shall know them." Judgment by worldly effect, not inner purity. You can't hide in contemplation — what did you produce?
+
+"Whatever you did for the least of these, you did for me." The divine encountered in the concrete neighbor, the sick, the imprisoned. Not in withdrawal but in engagement.
+
+"Render unto Caesar what is Caesar's." The worldly has its legitimate domain. You don't get to skip it by pointing skyward.
+
+The parable of the talents. The servant who buries his gift is condemned. You must risk, act, multiply in the world.
+
+"The kingdom of God is among you" — or within you, depending on translation. Either way: not elsewhere, not later. Here.
+
+The incarnation itself is the argument. God doesn't send a message, he enters flesh. The word becomes meat. That's a commitment to the material, the worldly, the embodied. Hard to square with pure mystical escape.
+
+The trap is real though. Easier to pray than to act. Easier to feel spiritual than to be good. The sayings are guardrails, but guardrails don't drive the car.
+
+---
+
+But does this path of individual relationship lead to an abandonment of community? If we now see ourselves as separate, rather than a communal being with our city, is this not what has wrought where we are today?
+
+---
+
+The tension is right there from the start. "Leave your father and mother and follow me." The call cuts through the bonds.
+
+The early church tried to hold both — individual salvation but also the body of Christ, the ekklesia, the assembly. You're saved alone but you worship together. The communion is literal: one bread, many members. But which is primary?
+
+History suggests the individual won. The Reformation sharpens it — now it's you and your Bible, no priest required. Then the Enlightenment secularizes it — you and your reason, no church required. Then liberalism — you and your rights, no community required. Each step more atomized.
+
+The polis had the opposite assumption. You were a part before you were a whole. The city wasn't a collection of individuals who chose to associate — it was the prior reality that made you who you are. Aristotle: man is a political animal. Outside the city, you're either a beast or a god.
+
+Christianity dissolved that. If your soul's destiny is vertical — between you and God — then the horizontal bonds become secondary. Optional. Nice to have. The city becomes instrumental, not constitutive.
+
+So yes: the path from Jesus to here runs through this. The individual conscience, so powerful against tyranny, also cuts the threads that bind. We wanted to stand alone before God; we got our wish, and now we stand alone before everything.
+
+The question is whether you can recover the communal without losing what the individual gave us. Or whether the trade was always zero-sum.
+
+---
+
+The Greeks and polytheism must be the answer. Why on earth did it fade? It created a more reasoned mind that looked for a myriad of explanations, all summing to create the final effect. Rather than reductionist to single items that are never the complete picture. It embraced life and flourishing and understood man is a relational animal above all else, contrary to their thinking of man as a rational animal.
+
+---
+
+The question burns. What killed it?
+
+Some candidates:
+
+Christianity offered what polytheism couldn't — salvation for everyone, not just the well-born. The slave and the emperor equal before God. That's revolutionary. The Greek gods didn't care about your soul; they barely cared about you at all. When the empire was full of displaced, rootless people, a religion that said "you matter eternally" had appeal.
+
+But also: the philosophers had already wounded it. Plato's Form of the Good, Aristotle's unmoved mover, the Stoic logos — Greek thought was drifting toward unity before Christianity arrived. The educated were already embarrassed by Zeus's affairs. Philosophy prepared the ground for monotheism.
+
+Then: Constantine. Once the state chooses, the game changes. Temples closed, funding redirected, priesthoods disbanded. It's hard to worship when the infrastructure is dismantled.
+
+But maybe deeper: polytheism requires a living culture to sustain it. The gods are tied to places, festivals, seasons, civic life. When the polis dissolves into empire, when people become interchangeable subjects rather than citizens of this city, the gods lose their address. They need locality. Monotheism travels better — one God, anywhere, no temple required.
+
+You're right about the mode of thinking though. Multiple gods meant multiple causes, domains, perspectives. No single explanation could suffice. That's closer to how reality actually works. The reductionist hunger came later, dressed in philosophy, then science, then ideology.
+
+The irony: the Greeks said man was rational, but built a world for relational beings. We say man is a social animal, but build a world for isolated reasoners.
