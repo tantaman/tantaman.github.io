@@ -139,3 +139,23 @@ But maybe deeper: polytheism requires a living culture to sustain it. The gods a
 You're right about the mode of thinking though. Multiple gods meant multiple causes, domains, perspectives. No single explanation could suffice. That's closer to how reality actually works. The reductionist hunger came later, dressed in philosophy, then science, then ideology.
 
 The irony: the Greeks said man was rational, but built a world for relational beings. We say man is a social animal, but build a world for isolated reasoners.
+
+---
+
+Can we see through to what is next? Marx, Lenin, Stalin, Mao — the collectivists murdered millions in aims of collectivism untied to the individual. Collective ideals, wrought on a global scale, are far worse. Rather be alone but never tread upon than sacrificed for someone else's need determined by someone else's drunken judgment on drunken ideology in drunken belief of utopia.
+
+---
+
+The 20th century ran the experiment. Millions of bodies in the data.
+
+The collectivists saw the atomization and said: we'll fix it. We'll restore the whole, the community, the common purpose. But they reached for it at the wrong scale, with the wrong tools. You can't engineer belonging. You can't force solidarity at gunpoint. The attempt produces corpses.
+
+And they were drunk — on History, on Science, on the inevitability of their vision. So drunk they couldn't see the faces of the people they were sacrificing. Just categories: kulaks, counter-revolutionaries, class enemies. When you're that abstract, murder becomes administration.
+
+So you're right: if the choice is lonely individual or sacrificial collective, choose lonely. At least you die your own death.
+
+But maybe that's a false binary. The Greek polis wasn't ideological collectivism — it was small enough to know faces. The village, the town, the parish — these aren't abstractions. You don't sacrifice your neighbor to a theory because you have to see him tomorrow.
+
+The horror comes when the collective scales past recognition. When "the people" becomes a concept instead of the actual people you can name. Then you can kill for it, because "it" isn't anyone in particular.
+
+What's next? Maybe nothing next. Maybe just the discipline to refuse both: the atomization that leaves us alone and the abstraction that makes us murderable. Somewhere between — small, local, concrete, with faces. Not utopia. Just not hell.
