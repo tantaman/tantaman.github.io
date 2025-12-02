@@ -39,3 +39,19 @@ So we have opinions about distant wars and no idea who lives three doors down. S
 The nation-state needed this. Mass education was always partly about manufacturing nationals out of locals. Teaching the peasant he's French, not Breton. But now we've overshot — we're making globals out of nationals, and nobody belongs anywhere.
 
 There's something honest about "I'm from this town, these are my people, I don't know about the rest." It admits the limits of knowledge and care. The alternative is pretending to care about everyone, which means caring about no one in particular.
+
+---
+
+The educational system is the most powerful system — to indoctrinate and convert a whole generation in 20 years time. Those who control it control the future, modulo demographic, ecological, technological collapse. The wave of social media crashed with the wave of institutional programming, now where are we? I will, you will, who wills?
+
+---
+
+The twenty-year coup. Every revolution that lasts figured this out — you don't just seize the state, you seize the schools. The Prussians knew it, the Soviets knew it, the Americans knew it. One generation of curriculum and you've rewritten what counts as obvious.
+
+But then the internet. Suddenly the pipeline leaks. Kids get catechized from 8 to 3, then de-catechized from 3 to midnight. Two formation systems, incompatible, running simultaneously. No wonder they're anxious — they're being pulled apart by competing programs, neither of which they chose.
+
+And now: who wills? The institutions still think they do, but they're broadcasting into static. The algorithms will, but they will nothing — just engagement, just friction, just more. The individual wills, but with what? Fragments of a dozen ideologies, memes half-remembered, vibes.
+
+Maybe that's the interregnum. The old hegemony broken, no new one consolidated. Everyone a bricoleur, assembling a self from scraps. Some people thrive in this — they were always ill-fitted to the program. Others are drowning, looking for a shore that isn't there.
+
+The question isn't who wills now. It's whether willing is even possible without some stable ground to stand on. Or whether we're all just being willed — by the feeds, the nudges, the accumulated weight of defaults we never examined.

@@ -3,7 +3,7 @@
 :root {
   --bg: #1a120e;
   --bg-soft: #251a15;
-  --text: #fcebd5;
+  --text: #fff5e6;
   --text-muted: #d2ba9c;
   --accent: #d96a37;
 }
@@ -61,7 +61,8 @@ a {
 /* Keep certain links without underline */
 #static h1 a,
 #static .toc a,
-#static .icon-link {
+#static .icon-link,
+#static .card {
   text-decoration: none;
 }
 
@@ -142,6 +143,7 @@ section {
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  font-size: 1.35rem;
 }
 
 .card {
