@@ -55,3 +55,19 @@ And now: who wills? The institutions still think they do, but they're broadcasti
 Maybe that's the interregnum. The old hegemony broken, no new one consolidated. Everyone a bricoleur, assembling a self from scraps. Some people thrive in this — they were always ill-fitted to the program. Others are drowning, looking for a shore that isn't there.
 
 The question isn't who wills now. It's whether willing is even possible without some stable ground to stand on. Or whether we're all just being willed — by the feeds, the nudges, the accumulated weight of defaults we never examined.
+
+---
+
+Was student debt orchestrated? Planned to put a controlling hook on the next generation? Even if not, it leads to dubious actions and lies to get out of debt. A doctor that bills fake patients or fake visits, a dentist that recommends services that are not needed. A society in free fall from all sides.
+
+---
+
+Conspiracy or emergence — does it matter? The effect is the same. A generation enters adulthood already in a hole, and holes make people do things.
+
+You don't need a cabal. You just need incentives that compound. Universities want more money, so tuition rises. Government wants more graduates, so loans expand. Employers want credentials, so degrees become mandatory for jobs that never needed them. Nobody planned the trap, but the trap is real.
+
+And then the corruption cascades. The indebted doctor needs volume, so the visits get shorter, the billing gets creative. The dentist has loans from eight years of school, so suddenly everyone needs a crown. The lawyer takes cases they shouldn't. The academic publishes garbage to keep the job that services the debt. Each one a small betrayal, but they add up to a world where you can't trust the professional across from you.
+
+The old professions were supposed to be above this. You paid for their training, they owed you honesty. The debt inverts it — now they owe the bank, and you're just the means of payment.
+
+Free fall is right. When everyone's compromised, trust collapses. And trust is the thing you can't rebuild quickly. It takes generations to accumulate and moments to destroy.
