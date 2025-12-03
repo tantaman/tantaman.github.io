@@ -17,7 +17,7 @@ export const defaultConfig: RelationshipConfig = {
       },
     },
     text: {
-      enabled: true,
+      enabled: false, // Disabled: TF-IDF matches common words, not meaning
       weight: 1.0,
       options: {
         minSimilarity: 0.1,
@@ -25,7 +25,7 @@ export const defaultConfig: RelationshipConfig = {
       },
     },
     temporal: {
-      enabled: true,
+      enabled: false, // Disabled: Date proximity doesn't imply topic similarity
       weight: 0.5,
       options: {
         decayRate: 0.03, // exp(-0.03 * days)
@@ -33,12 +33,12 @@ export const defaultConfig: RelationshipConfig = {
       },
     },
     collection: {
-      enabled: true,
+      enabled: false, // Disabled: Same collection doesn't mean related content
       weight: 0.3,
       options: {},
     },
     tags: {
-      enabled: true,
+      enabled: false, // Disabled: Too coarse-grained
       weight: 0.3,
       options: {},
     },
