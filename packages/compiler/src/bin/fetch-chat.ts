@@ -42,42 +42,42 @@ async function fetchChatGPTConversation(url: string): Promise<ParsedConversation
       const articles = document.querySelectorAll('article');
 
       articles.forEach((article) => {
-        // Try to determine if this is a user or assistant message
-        let text = article.textContent?.trim() || '';
+        // Find the message container with the role attribute
+        const messageDiv = article.querySelector('[data-message-author-role]');
+        const dataRole = messageDiv?.getAttribute('data-message-author-role');
 
-        if (!text) return;
-
-        // Check for data attributes that indicate role
-        const dataRole = article.getAttribute('data-message-author-role');
-
-        // Look for role indicators in the DOM structure
         let role: 'user' | 'assistant' = 'user';
+        let text = '';
 
         if (dataRole === 'assistant' || dataRole === 'system') {
           role = 'assistant';
+          // Assistant messages have formatted content in .markdown.prose
+          const contentEl = article.querySelector('.markdown.prose');
+          text = contentEl?.innerHTML?.trim() || '';
         } else if (dataRole === 'user') {
           role = 'user';
+          // User messages are in .whitespace-pre-wrap
+          const contentEl = article.querySelector('.whitespace-pre-wrap');
+          text = contentEl?.innerHTML?.trim() || '';
         } else {
-          // Fallback: check parent elements or nearby elements for clues
-          const parent = article.parentElement;
-          const hasAssistantIndicator = article.querySelector('[class*="assistant"]') ||
-                                       parent?.querySelector('[class*="assistant"]');
-          const hasUserIndicator = article.querySelector('[class*="user"]') ||
-                                  parent?.querySelector('[class*="user"]');
+          // Fallback: try to find content in either location
+          const assistantContent = article.querySelector('.markdown.prose');
+          const userContent = article.querySelector('.whitespace-pre-wrap');
 
-          if (hasAssistantIndicator) {
+          if (assistantContent) {
             role = 'assistant';
-          } else if (hasUserIndicator) {
+            text = assistantContent.innerHTML?.trim() || '';
+          } else if (userContent) {
             role = 'user';
+            text = userContent.innerHTML?.trim() || '';
           } else {
-            // Alternate based on position (user usually starts)
+            // Last resort: use article text content
+            text = article.textContent?.trim() || '';
             role = results.length % 2 === 0 ? 'user' : 'assistant';
           }
         }
 
-        // Remove "You said:" and "ChatGPT said:" prefixes
-        text = text.replace(/^You said:\s*/i, '');
-        text = text.replace(/^ChatGPT said:\s*/i, '');
+        if (!text) return;
 
         results.push({ role, content: text });
       });
@@ -101,9 +101,10 @@ function generateMarkdown(conversation: ParsedConversation, sourceUrl: string, c
   const title = customTitle || conversation.title;
   const date = new Date().toISOString().split('T')[0];
 
-  // Get description and clean it for YAML (remove newlines, escape quotes)
+  // Get description and clean it for YAML (strip HTML, remove newlines, escape quotes)
   let description = conversation.messages[0]?.content || 'A conversation with ChatGPT';
   description = description
+    .replace(/<[^>]*>/g, '') // Strip HTML tags
     .replace(/\n/g, ' ') // Replace newlines with spaces
     .replace(/\s+/g, ' ') // Collapse multiple spaces
     .replace(/"/g, '\\"')  // Escape quotes

@@ -12,15 +12,36 @@ import rehypeParse from 'rehype-parse';
 import fs from 'fs';
 import path from 'path';
 
-// Try to load computed relationships
+// Try to load computed relationships (with clustering support)
 let relationships = null;
 try {
   const relationshipsPath = path.join(process.cwd(), '.relationships.json');
   const data = fs.readFileSync(relationshipsPath, 'utf8');
   relationships = JSON.parse(data);
   console.log(`Loaded ${relationships.edges?.length || 0} computed relationships`);
+  if (relationships.clusters) {
+    console.log(`Loaded ${relationships.clusters.clusterMeta?.length || 0} clusters`);
+  }
 } catch (e) {
   console.log('No .relationships.json found, using tag-based relationships only');
+}
+
+// Helper to compute node position within cluster (golden angle spiral)
+function computeNodePosition(clusterId, clusterMeta, nodeIndexInCluster, totalNodesInCluster) {
+  const cluster = clusterMeta.find(c => c.id === clusterId);
+  if (!cluster) {
+    return { x: 0, y: 0 };
+  }
+
+  const clusterRadius = Math.sqrt(totalNodesInCluster) * 50;
+  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+  const angle = nodeIndexInCluster * goldenAngle;
+  const r = clusterRadius * Math.sqrt(nodeIndexInCluster / Math.max(totalNodesInCluster, 1));
+
+  return {
+    x: cluster.centerX + Math.cos(angle) * r,
+    y: cluster.centerY + Math.sin(angle) * r,
+  };
 }
 
 export default async function graph(file, cwd, files) {
@@ -64,6 +85,23 @@ async function graphPage() {
   const edges = [];
   const postsByFilename = new Map();
 
+  // Get cluster data if available
+  const clusterData = relationships?.clusters;
+  const nodeCluster = clusterData?.nodeCluster || {};
+  const clusterMeta = clusterData?.clusterMeta || [];
+
+  // Track node counts per cluster for positioning
+  const clusterNodeCounts = new Map();
+  const clusterNodeIndices = new Map();
+
+  // Count nodes per cluster first
+  if (clusterMeta.length > 0) {
+    for (const meta of clusterMeta) {
+      clusterNodeCounts.set(meta.id, meta.nodeCount);
+      clusterNodeIndices.set(meta.id, 0);
+    }
+  }
+
   // First pass: create nodes
   Object.entries(indices).forEach(([collection, index]) => {
     // Skip bookmarks and notes
@@ -103,6 +141,18 @@ async function graphPage() {
       const description = postMeta.frontmatter?.description || postMeta.description || '';
       const related = postMeta.frontmatter?.related || [];
 
+      // Get cluster info - nodeCluster keys include collection prefix
+      const nodeId = collection + filename;
+      const clusterId = nodeCluster[nodeId] ?? nodeCluster[filename] ?? 0;
+      const clusterNodeCount = clusterNodeCounts.get(clusterId) || 1;
+      const nodeIndexInCluster = clusterNodeIndices.get(clusterId) || 0;
+      clusterNodeIndices.set(clusterId, nodeIndexInCluster + 1);
+
+      // Compute initial position based on cluster
+      const position = clusterMeta.length > 0
+        ? computeNodePosition(clusterId, clusterMeta, nodeIndexInCluster, clusterNodeCount)
+        : { x: undefined, y: undefined };
+
       const nodeData = {
         id: filename,
         label: truncateTitle(title, 40),
@@ -114,6 +164,9 @@ async function graphPage() {
         tags: tags,
         collection: collectionName,
         related: related,
+        cluster: clusterId,
+        x: position.x,
+        y: position.y,
       };
 
       nodes.push(nodeData);

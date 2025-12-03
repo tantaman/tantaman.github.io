@@ -32,6 +32,7 @@ import {
   createCache,
 } from './cache.js';
 import { createEmbeddingService } from './embeddings/index.js';
+import { computeClusters } from './clustering.js';
 
 const OUTPUT_FILE = '.relationships.json';
 
@@ -204,6 +205,13 @@ export async function buildRelationshipGraph(
   // Sort edges by score
   edges.sort((a, b) => b.score - a.score);
 
+  // Compute clusters using Louvain community detection
+  console.log('Computing clusters...');
+  const clusterResult = computeClusters(
+    edges,
+    nodes.map((n) => n.id)
+  );
+
   // Build per-post data
   const posts: Record<string, PostRelationships> = {};
   const textGlobalData = globalData.get('text') as { idf: Map<string, number> } | undefined;
@@ -248,6 +256,7 @@ export async function buildRelationshipGraph(
     },
     posts,
     edges: edges.slice(0, 1000), // Limit edges to top 1000
+    clusters: clusterResult,
     metadata: {
       totalNodes: nodes.length,
       totalEdges: edges.length,

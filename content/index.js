@@ -92,7 +92,7 @@ function renderCard(collection, meta) {
         ${date} · ${collectionLabel} · ${joinTags(meta.frontmatter)}
       </div>
       <p>
-          ${meta.frontmatter?.description || meta.description || ''}
+          ${stripTags(meta.frontmatter?.description || meta.description || '')}
       </p>
     </a>`;
 }
@@ -160,4 +160,8 @@ function extractDate(filename) {
 
 function joinTags(frontmatter) {
   return (frontmatter?.tags || []).join(', ');
+}
+
+function stripTags(html) {
+  return (html || '').replace(/<[^>]*>/g, '');
 }
