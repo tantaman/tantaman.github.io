@@ -63,20 +63,39 @@
       }))
     );
 
-    // Process edges with cross-cluster styling
+    // Build adjacency map for quick neighbor lookup
+    const adjacencyMap = new Map();
+    graphData.edges.forEach(edge => {
+      if (!adjacencyMap.has(edge.from)) adjacencyMap.set(edge.from, new Set());
+      if (!adjacencyMap.has(edge.to)) adjacencyMap.set(edge.to, new Set());
+      adjacencyMap.get(edge.from).add(edge.to);
+      adjacencyMap.get(edge.to).add(edge.from);
+    });
+
+    // Color gradient: green (weak) → blue (medium) → red (strong)
+    function scoreToColor(score) {
+      // Hue: 120 (green) → 240 (blue) → 360 (red)
+      const hue = 120 + (score * 240);
+      return `hsl(${hue}, 70%, 50%)`;
+    }
+
+    // Process edges: color gradient shows strength, uniform thin width
     const edges = new vis.DataSet(
       graphData.edges.map(edge => {
         const fromCluster = nodeClusterMap.get(edge.from);
         const toCluster = nodeClusterMap.get(edge.to);
         const isCrossCluster = fromCluster !== toCluster;
 
+        // Score was stored as value * 5, so normalize back to 0-1
+        const score = (edge.value || 1) / 5;
+
         return {
           from: edge.from,
           to: edge.to,
-          value: edge.value,
+          width: 1,  // Fixed thin width
           color: {
-            ...edge.color,
-            opacity: isCrossCluster ? 0.05 : edge.color.opacity,
+            color: scoreToColor(score),
+            opacity: isCrossCluster ? 0.25 : 0.8,
           },
           title: edge.title,
           smooth: isCrossCluster
@@ -122,8 +141,42 @@
     // Create network
     const network = new vis.Network(container, { nodes, edges }, options);
 
-    // Handle node clicks - navigate to post
+    // Single click: show only clicked node and its connections
     network.on('click', function(params) {
+      if (params.nodes.length > 0) {
+        const nodeId = params.nodes[0];
+        const connectedIds = adjacencyMap.get(nodeId) || new Set();
+
+        // Hide unconnected nodes
+        nodes.forEach(node => {
+          const isConnected = node.id === nodeId || connectedIds.has(node.id);
+          nodes.update({
+            id: node.id,
+            hidden: !isConnected,
+          });
+        });
+
+        // Hide unconnected edges
+        edges.forEach(edge => {
+          const isConnected = edge.from === nodeId || edge.to === nodeId;
+          edges.update({
+            id: edge.id,
+            hidden: !isConnected,
+          });
+        });
+      } else {
+        // Clicked empty space: show all nodes and edges
+        nodes.forEach(node => {
+          nodes.update({ id: node.id, hidden: false });
+        });
+        edges.forEach(edge => {
+          edges.update({ id: edge.id, hidden: false });
+        });
+      }
+    });
+
+    // Double click: navigate to post
+    network.on('doubleClick', function(params) {
       if (params.nodes.length > 0) {
         const nodeId = params.nodes[0];
         const node = nodes.get(nodeId);

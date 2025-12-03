@@ -33,7 +33,7 @@ function computeNodePosition(clusterId, clusterMeta, nodeIndexInCluster, totalNo
     return { x: 0, y: 0 };
   }
 
-  const clusterRadius = Math.sqrt(totalNodesInCluster) * 25;
+  const clusterRadius = Math.sqrt(totalNodesInCluster) * 80;
   const goldenAngle = Math.PI * (3 - Math.sqrt(5));
   const angle = nodeIndexInCluster * goldenAngle;
   const r = clusterRadius * Math.sqrt(nodeIndexInCluster / Math.max(totalNodesInCluster, 1));
