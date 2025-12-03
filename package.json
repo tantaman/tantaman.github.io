@@ -23,6 +23,7 @@
     "serve": "cd docs && serve",
     "fetch-chat": "fetch-chat",
     "relationships": "cd packages/compiler && pnpm build && cd ../.. && relationships",
+    "search-index": "cd packages/compiler && pnpm build && cd ../.. && search-index",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"
   }

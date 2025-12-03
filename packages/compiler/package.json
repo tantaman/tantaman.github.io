@@ -9,7 +9,8 @@
     "sitecompiler": "./dist/bin/sitecompiler.js",
     "sitecompiler-watch": "./dist/bin/watch.js",
     "fetch-chat": "./dist/bin/fetch-chat.js",
-    "relationships": "./dist/bin/relationships.js"
+    "relationships": "./dist/bin/relationships.js",
+    "search-index": "./dist/bin/search-index.js"
   },
   "type": "module",
   "dependencies": {
