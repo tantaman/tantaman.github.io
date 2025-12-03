@@ -96,8 +96,8 @@ function computeClusterPositions(
     return [];
   }
 
-  // Canvas radius for cluster centers
-  const radius = 400;
+  // Canvas radius for cluster centers - wide spacing for visual separation
+  const radius = 800;
 
   // Arrange clusters in a circle
   const clusterMeta: ClusterMeta[] = [];
@@ -142,7 +142,7 @@ export function computeNodePosition(
   // Spread nodes within the cluster using a spiral pattern
   // This gives better initial distribution than random
   const nodeCount = cluster.nodeCount;
-  const clusterRadius = Math.sqrt(nodeCount) * 40; // Scale with cluster size
+  const clusterRadius = Math.sqrt(nodeCount) * 25; // Tight clusters, well separated
 
   // Use golden angle spiral for even distribution
   const goldenAngle = Math.PI * (3 - Math.sqrt(5));
