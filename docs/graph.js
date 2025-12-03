@@ -1,5 +1,5 @@
 // Graph visualization using vis-network
-(function() {
+(function () {
   'use strict';
 
   // Wait for DOM and vis library to be ready
@@ -28,20 +28,32 @@
 
     // Configure node colors by group
     const nodeColors = {
-      1: { background: '#4a90e2', border: '#2e5f99', highlight: { background: '#5ba3ff', border: '#4a90e2' } }, // blog
-      2: { background: '#9b59b6', border: '#6c3483', highlight: { background: '#b370cf', border: '#9b59b6' } }, // stories
-      3: { background: '#e67e22', border: '#a85a1a', highlight: { background: '#ff9138', border: '#e67e22' } }, // chats
+      1: {
+        background: '#4a90e2',
+        border: '#2e5f99',
+        highlight: { background: '#5ba3ff', border: '#4a90e2' },
+      }, // blog
+      2: {
+        background: '#9b59b6',
+        border: '#6c3483',
+        highlight: { background: '#b370cf', border: '#9b59b6' },
+      }, // stories
+      3: {
+        background: '#e67e22',
+        border: '#a85a1a',
+        highlight: { background: '#ff9138', border: '#e67e22' },
+      }, // chats
     };
 
     // Build a map for cluster lookup
     const nodeClusterMap = new Map();
-    graphData.nodes.forEach(node => {
+    graphData.nodes.forEach((node) => {
       nodeClusterMap.set(node.id, node.cluster);
     });
 
     // Process nodes
     const nodes = new vis.DataSet(
-      graphData.nodes.map(node => ({
+      graphData.nodes.map((node) => ({
         id: node.id,
         label: node.label,
         title: node.title,
@@ -63,12 +75,12 @@
         fullTitle: node.fullTitle,
         description: node.description,
         cluster: node.cluster,
-      }))
+      })),
     );
 
     // Build adjacency map for quick neighbor lookup
     const adjacencyMap = new Map();
-    graphData.edges.forEach(edge => {
+    graphData.edges.forEach((edge) => {
       if (!adjacencyMap.has(edge.from)) adjacencyMap.set(edge.from, new Set());
       if (!adjacencyMap.has(edge.to)) adjacencyMap.set(edge.to, new Set());
       adjacencyMap.get(edge.from).add(edge.to);
@@ -76,36 +88,34 @@
     });
 
     // Color gradient: green (weak) → blue (medium) → red (strong)
-    function scoreToColor(score) {
+    function scoreToColor(score, alpha) {
       // Hue: 120 (green) → 240 (blue) → 360 (red)
-      const hue = 120 + (score * 240);
-      return `hsl(${hue}, 70%, 50%)`;
+      const hue = 120 + score * 240;
+      return `hsla(${hue}, 70%, 50%, ${alpha})`;
     }
 
     // Process edges: color gradient shows strength, uniform thin width
     const edges = new vis.DataSet(
-      graphData.edges.map(edge => {
+      graphData.edges.map((edge) => {
         const fromCluster = nodeClusterMap.get(edge.from);
         const toCluster = nodeClusterMap.get(edge.to);
         const isCrossCluster = fromCluster !== toCluster;
 
         // Score was stored as value * 5, so normalize back to 0-1
         const score = (edge.value || 1) / 5;
+        const alpha = isCrossCluster ? 0.15 : 0.7;
 
         return {
           from: edge.from,
           to: edge.to,
-          width: 1 + (score * 3),  // 1px to 4px based on strength
-          color: {
-            color: scoreToColor(score),
-            opacity: isCrossCluster ? 0.25 : 0.8,
-          },
+          width: 1 + score * 3, // 1px to 4px based on strength
+          color: scoreToColor(score, alpha),
           title: edge.title,
           smooth: isCrossCluster
             ? { type: 'curvedCW', roundness: 0.15 }
             : { type: 'continuous', roundness: 0.5 },
         };
-      })
+      }),
     );
 
     // Network options
@@ -131,7 +141,7 @@
         shadow: false,
       },
       physics: {
-        enabled: false,  // Rely entirely on pre-computed cluster positions
+        enabled: false, // Rely entirely on pre-computed cluster positions
       },
       interaction: {
         hover: true,
@@ -145,13 +155,13 @@
     const network = new vis.Network(container, { nodes, edges }, options);
 
     // Single click: show only clicked node and its connections
-    network.on('click', function(params) {
+    network.on('click', function (params) {
       if (params.nodes.length > 0) {
         const nodeId = params.nodes[0];
         const connectedIds = adjacencyMap.get(nodeId) || new Set();
 
         // Hide unconnected nodes
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           const isConnected = node.id === nodeId || connectedIds.has(node.id);
           nodes.update({
             id: node.id,
@@ -160,7 +170,7 @@
         });
 
         // Hide unconnected edges
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           const isConnected = edge.from === nodeId || edge.to === nodeId;
           edges.update({
             id: edge.id,
@@ -169,17 +179,17 @@
         });
       } else {
         // Clicked empty space: show all nodes and edges
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           nodes.update({ id: node.id, hidden: false });
         });
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           edges.update({ id: edge.id, hidden: false });
         });
       }
     });
 
     // Double click: navigate to post
-    network.on('doubleClick', function(params) {
+    network.on('doubleClick', function (params) {
       if (params.nodes.length > 0) {
         const nodeId = params.nodes[0];
         const node = nodes.get(nodeId);
@@ -190,16 +200,16 @@
     });
 
     // Change cursor on hover
-    network.on('hoverNode', function() {
+    network.on('hoverNode', function () {
       container.style.cursor = 'pointer';
     });
 
-    network.on('blurNode', function() {
+    network.on('blurNode', function () {
       container.style.cursor = 'default';
     });
 
     // Fit network when stabilized
-    network.once('stabilizationIterationsDone', function() {
+    network.once('stabilizationIterationsDone', function () {
       network.fit({
         animation: {
           duration: 1000,
@@ -208,7 +218,13 @@
       });
     });
 
-    console.log('Graph initialized with', nodes.length, 'nodes and', edges.length, 'edges');
+    console.log(
+      'Graph initialized with',
+      nodes.length,
+      'nodes and',
+      edges.length,
+      'edges',
+    );
   }
 
   // Initialize when DOM is ready
