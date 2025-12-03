@@ -113,6 +113,44 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
+/* Graph Search */
+.graph-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0 0.5rem 0;
+}
+
+#graph-search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--bg-soft);
+  border: 1px solid rgba(217, 106, 55, 0.3);
+  border-radius: 6px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+#graph-search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+#graph-search-input:focus {
+  border-color: var(--accent);
+}
+
+#graph-search-status {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  min-width: 80px;
+}
+
 /* Mobile Responsive */
 @media (max-width: 640px) {
   #graph-page {
