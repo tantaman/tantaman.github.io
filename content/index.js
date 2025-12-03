@@ -57,8 +57,8 @@ async function siteIndex() {
   // Sort by date (from frontmatter if available, otherwise from filename) and take most recent 12
   const recentPosts = allPosts
     .sort((a, b) => {
-      const dateA = a.meta.frontmatter?.date || a.meta.compiledFilename.substring(0, 10);
-      const dateB = b.meta.frontmatter?.date || b.meta.compiledFilename.substring(0, 10);
+      const dateA = a.meta.frontmatter?.date || extractDate(a.meta.compiledFilename);
+      const dateB = b.meta.frontmatter?.date || extractDate(b.meta.compiledFilename);
       return dateB.localeCompare(dateA);
     })
     .slice(0, 12);
@@ -153,7 +153,9 @@ export function renderCollection(collection, index, showAll = false) {
 }
 
 function extractDate(filename) {
-  return filename.substring(0, 10);
+  // Strip any path prefix (e.g., "chats/", "the-mirror-room/")
+  const basename = filename.includes('/') ? filename.split('/').pop() : filename;
+  return basename.substring(0, 10);
 }
 
 function joinTags(frontmatter) {

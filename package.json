@@ -13,6 +13,7 @@
     "rehype-parse": "^8.0.5",
     "rehype-stringify": "^9.0.3",
     "serve": "^13.0.2",
+    "sharp": "^0.34.5",
     "unified": "^10.1.2"
   },
   "scripts": {
@@ -21,6 +22,7 @@
     "dev": "sitecompiler-watch",
     "serve": "cd docs && serve",
     "fetch-chat": "fetch-chat",
+    "relationships": "cd packages/compiler && pnpm build && cd ../.. && relationships",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm"
   }

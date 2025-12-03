@@ -9,6 +9,19 @@ import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
 import rehypeMeta from 'rehype-meta';
 import rehypeParse from 'rehype-parse';
+import fs from 'fs';
+import path from 'path';
+
+// Try to load computed relationships
+let relationships = null;
+try {
+  const relationshipsPath = path.join(process.cwd(), '.relationships.json');
+  const data = fs.readFileSync(relationshipsPath, 'utf8');
+  relationships = JSON.parse(data);
+  console.log(`Loaded ${relationships.edges?.length || 0} computed relationships`);
+} catch (e) {
+  console.log('No .relationships.json found, using tag-based relationships only');
+}
 
 export default async function graph(file, cwd, files) {
   return {
@@ -111,45 +124,88 @@ async function graphPage() {
   // Second pass: create edges
   const edgeSet = new Set(); // Track unique edges
 
-  // 1. Manual relationships (strong edges)
-  postsByFilename.forEach((post, filename) => {
-    post.related.forEach(relatedFilename => {
-      if (postsByFilename.has(relatedFilename)) {
-        const edgeKey = [filename, relatedFilename].sort().join('->');
-        if (!edgeSet.has(edgeKey)) {
-          edges.push({
-            from: filename,
-            to: relatedFilename,
-            value: 5, // Thick edge
-            color: { color: '#d96a37', opacity: 1 },
-            title: 'Manual relationship',
-          });
-          edgeSet.add(edgeKey);
-        }
+  // Use computed relationships if available
+  if (relationships && relationships.edges) {
+    for (const edge of relationships.edges) {
+      // Extract just the filename from the source/target (remove collection prefix)
+      const sourceFile = edge.source.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/)/, '');
+      const targetFile = edge.target.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/)/, '');
+
+      // Check if both nodes exist in our graph
+      if (!postsByFilename.has(edge.source) && !postsByFilename.has(sourceFile)) continue;
+      if (!postsByFilename.has(edge.target) && !postsByFilename.has(targetFile)) continue;
+
+      const fromId = postsByFilename.has(edge.source) ? edge.source : sourceFile;
+      const toId = postsByFilename.has(edge.target) ? edge.target : targetFile;
+
+      const edgeKey = [fromId, toId].sort().join('->');
+      if (edgeSet.has(edgeKey)) continue;
+
+      // Style based on edge type
+      let edgeStyle = {
+        color: '#6b9bd1', // Blue for semantic
+        opacity: 0.3 + (edge.score * 0.5),
+      };
+      let title = `Similarity: ${Math.round(edge.score * 100)}%`;
+
+      if (edge.edgeType === 'explicit') {
+        edgeStyle = { color: '#d96a37', opacity: 1 }; // Orange for explicit
+        title = 'Explicit link';
+      } else if (edge.edgeType === 'inferred') {
+        edgeStyle = { color: '#888888', opacity: 0.3 + (edge.score * 0.4) }; // Gray for inferred
+        title = `Inferred: ${Math.round(edge.score * 100)}%`;
       }
+
+      edges.push({
+        from: fromId,
+        to: toId,
+        value: Math.round(edge.score * 5),
+        color: edgeStyle,
+        title: title,
+      });
+      edgeSet.add(edgeKey);
+    }
+  } else {
+    // Fallback: Manual relationships (strong edges)
+    postsByFilename.forEach((post, filename) => {
+      post.related.forEach(relatedFilename => {
+        if (postsByFilename.has(relatedFilename)) {
+          const edgeKey = [filename, relatedFilename].sort().join('->');
+          if (!edgeSet.has(edgeKey)) {
+            edges.push({
+              from: filename,
+              to: relatedFilename,
+              value: 5, // Thick edge
+              color: { color: '#d96a37', opacity: 1 },
+              title: 'Manual relationship',
+            });
+            edgeSet.add(edgeKey);
+          }
+        }
+      });
     });
-  });
 
-  // 2. Tag-based relationships (weak edges)
-  const posts = Array.from(postsByFilename.values());
-  for (let i = 0; i < posts.length; i++) {
-    for (let j = i + 1; j < posts.length; j++) {
-      const post1 = posts[i];
-      const post2 = posts[j];
+    // Fallback: Tag-based relationships (weak edges)
+    const posts = Array.from(postsByFilename.values());
+    for (let i = 0; i < posts.length; i++) {
+      for (let j = i + 1; j < posts.length; j++) {
+        const post1 = posts[i];
+        const post2 = posts[j];
 
-      const sharedTags = post1.tags.filter(tag => post2.tags.includes(tag));
+        const sharedTags = post1.tags.filter(tag => post2.tags.includes(tag));
 
-      if (sharedTags.length >= 2) {
-        const edgeKey = [post1.id, post2.id].sort().join('->');
-        if (!edgeSet.has(edgeKey)) {
-          edges.push({
-            from: post1.id,
-            to: post2.id,
-            value: sharedTags.length,
-            color: { color: '#d96a37', opacity: 0.3 + (sharedTags.length * 0.1) },
-            title: `Shared tags: ${sharedTags.join(', ')}`,
-          });
-          edgeSet.add(edgeKey);
+        if (sharedTags.length >= 2) {
+          const edgeKey = [post1.id, post2.id].sort().join('->');
+          if (!edgeSet.has(edgeKey)) {
+            edges.push({
+              from: post1.id,
+              to: post2.id,
+              value: sharedTags.length,
+              color: { color: '#d96a37', opacity: 0.3 + (sharedTags.length * 0.1) },
+              title: `Shared tags: ${sharedTags.join(', ')}`,
+            });
+            edgeSet.add(edgeKey);
+          }
         }
       }
     }
@@ -177,11 +233,15 @@ async function graphPage() {
       </div>
       <div class="legend-item">
         <span class="legend-line strong-edge"></span>
-        <span>Manual relation</span>
+        <span>Explicit link</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line semantic-edge"></span>
+        <span>Semantic similarity</span>
       </div>
       <div class="legend-item">
         <span class="legend-line weak-edge"></span>
-        <span>Tag similarity</span>
+        <span>Inferred</span>
       </div>
     </div>
   </div>

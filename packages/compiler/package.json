@@ -8,10 +8,12 @@
   "bin": {
     "sitecompiler": "./dist/bin/sitecompiler.js",
     "sitecompiler-watch": "./dist/bin/watch.js",
-    "fetch-chat": "./dist/bin/fetch-chat.js"
+    "fetch-chat": "./dist/bin/fetch-chat.js",
+    "relationships": "./dist/bin/relationships.js"
   },
   "type": "module",
   "dependencies": {
+    "@xenova/transformers": "^2.17.0",
     "@jsdevtools/rehype-toc": "^3.0.2",
     "@mdx-js/mdx": "^2.1.1",
     "@types/compression": "^1.7.2",
