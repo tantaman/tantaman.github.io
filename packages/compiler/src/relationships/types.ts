@@ -41,6 +41,19 @@ export interface PostRelationships {
   embedding?: number[]; // cached embedding vector
 }
 
+export interface ClusterMeta {
+  id: number;
+  centerX: number;
+  centerY: number;
+  nodeCount: number;
+}
+
+export interface ClusterData {
+  nodeCluster: Record<string, number>; // nodeId -> clusterId
+  clusterMeta: ClusterMeta[];
+  modularity: number;
+}
+
 export interface RelationshipGraph {
   version: string;
   generatedAt: string;
@@ -51,6 +64,7 @@ export interface RelationshipGraph {
   };
   posts: Record<string, PostRelationships>;
   edges: RelationshipEdge[];
+  clusters?: ClusterData;
   metadata: {
     totalNodes: number;
     totalEdges: number;

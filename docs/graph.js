@@ -33,6 +33,12 @@
       3: { background: '#e67e22', border: '#a85a1a', highlight: { background: '#ff9138', border: '#e67e22' } }, // chats
     };
 
+    // Build a map for cluster lookup
+    const nodeClusterMap = new Map();
+    graphData.nodes.forEach(node => {
+      nodeClusterMap.set(node.id, node.cluster);
+    });
+
     // Process nodes
     const nodes = new vis.DataSet(
       graphData.nodes.map(node => ({
@@ -46,26 +52,38 @@
           size: 14,
           face: 'Cormorant Garamond',
         },
+        // Pre-seeded positions from cluster layout
+        x: node.x,
+        y: node.y,
         // Store metadata for click handling
         url: node.url,
         fullTitle: node.fullTitle,
         description: node.description,
+        cluster: node.cluster,
       }))
     );
 
-    // Process edges
+    // Process edges with cross-cluster styling
     const edges = new vis.DataSet(
-      graphData.edges.map(edge => ({
-        from: edge.from,
-        to: edge.to,
-        value: edge.value,
-        color: edge.color,
-        title: edge.title,
-        smooth: {
-          type: 'continuous',
-          roundness: 0.5,
-        },
-      }))
+      graphData.edges.map(edge => {
+        const fromCluster = nodeClusterMap.get(edge.from);
+        const toCluster = nodeClusterMap.get(edge.to);
+        const isCrossCluster = fromCluster !== toCluster;
+
+        return {
+          from: edge.from,
+          to: edge.to,
+          value: edge.value,
+          color: {
+            ...edge.color,
+            opacity: isCrossCluster ? Math.min(edge.color.opacity * 0.4, 0.25) : edge.color.opacity,
+          },
+          title: edge.title,
+          smooth: isCrossCluster
+            ? { type: 'curvedCW', roundness: 0.15 }
+            : { type: 'continuous', roundness: 0.5 },
+        };
+      })
     );
 
     // Network options
@@ -93,16 +111,16 @@
       physics: {
         enabled: true,
         stabilization: {
-          iterations: 200,
+          iterations: 100,
           updateInterval: 25,
         },
         barnesHut: {
-          gravitationalConstant: -8000,
-          centralGravity: 0.3,
-          springLength: 150,
-          springConstant: 0.04,
-          damping: 0.09,
-          avoidOverlap: 0.1,
+          gravitationalConstant: -2000,  // Reduced: clusters already positioned
+          centralGravity: 0.02,          // Minimal: keep clusters in place
+          springLength: 80,              // Tighter within clusters
+          springConstant: 0.02,
+          damping: 0.15,
+          avoidOverlap: 0.3,
         },
       },
       interaction: {
