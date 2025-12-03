@@ -69,8 +69,9 @@ export const semanticSignal: SignalExtractor<SemanticData> = {
     }
 
     // Normalize to 0-1 range
-    // Embedding similarities typically range from 0.3-0.9 for related content
-    const normalizedScore = Math.min(Math.max((similarity - 0.3) / 0.6, 0), 1);
+    // Embedding similarities typically range from 0.3-0.6 for related content
+    // (the 0.3-0.9 range was too aggressive, most real matches are 0.3-0.5)
+    const normalizedScore = Math.min(Math.max((similarity - 0.3) / 0.3, 0), 1);
 
     return {
       name: 'semantic',
