@@ -76,7 +76,7 @@
           value: edge.value,
           color: {
             ...edge.color,
-            opacity: isCrossCluster ? Math.min(edge.color.opacity * 0.4, 0.25) : edge.color.opacity,
+            opacity: isCrossCluster ? 0.05 : edge.color.opacity,
           },
           title: edge.title,
           smooth: isCrossCluster
@@ -109,19 +109,7 @@
         shadow: false,
       },
       physics: {
-        enabled: true,
-        stabilization: {
-          iterations: 100,
-          updateInterval: 25,
-        },
-        barnesHut: {
-          gravitationalConstant: -2000,  // Reduced: clusters already positioned
-          centralGravity: 0.02,          // Minimal: keep clusters in place
-          springLength: 80,              // Tighter within clusters
-          springConstant: 0.02,
-          damping: 0.15,
-          avoidOverlap: 0.3,
-        },
+        enabled: false,  // Rely entirely on pre-computed cluster positions
       },
       interaction: {
         hover: true,
