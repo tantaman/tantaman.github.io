@@ -50,6 +50,7 @@ export default async function defaultLayout(tree: ReturnType<typeof h>, file: VF
           <a href="/chats.html">Chats</a>
           <a href="/tags.html">Tags</a>
           <a href="/graph.html">Graph</a>
+          <a href="/search.html">Search</a>
           {/* <a href="/#notes">Notes</a> */}
           {/* <a href="/#synthesis">Synthesis</a> */}
           {/* <a href="/#about">About</a> */}

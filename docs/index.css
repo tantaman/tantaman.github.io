@@ -62,7 +62,8 @@ a {
 #static h1 a,
 #static .toc a,
 #static .icon-link,
-#static .card {
+#static .card,
+#static .search-result a {
   text-decoration: none;
 }
 
