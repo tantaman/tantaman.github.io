@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2025-12-03T17:20:25.389Z",
+  "generatedAt": "2025-12-03T17:32:03.687Z",
   "config": {
     "model": "Xenova/all-MiniLM-L6-v2",
     "minScore": 0.25,
@@ -355,6 +355,11 @@
           "id": "2022-04-25-doing-for-others.md",
           "score": 0.398,
           "type": "semantic"
+        },
+        {
+          "id": "chats/2025-12-03-paul-and-roman-conspiracy.md",
+          "score": 0.287,
+          "type": "inferred"
         }
       ],
       "backlinks": [],
@@ -3030,6 +3035,11 @@
       "backlinks": [],
       "keywords": []
     },
+    "notes/scratch.md": {
+      "related": [],
+      "backlinks": [],
+      "keywords": []
+    },
     "notes/streaming systems.md": {
       "related": [
         {
@@ -3567,6 +3577,11 @@
           "id": "the-mirror-room/01-the-consistent-man.md",
           "score": 0.401,
           "type": "semantic"
+        },
+        {
+          "id": "chats/2025-12-03-paul-and-roman-conspiracy.md",
+          "score": 0.375,
+          "type": "semantic"
         }
       ],
       "backlinks": [],
@@ -3574,6 +3589,11 @@
     },
     "chats/2025-10-14-2k-years-christiantiy.md": {
       "related": [
+        {
+          "id": "chats/2025-12-03-paul-and-roman-conspiracy.md",
+          "score": 0.675,
+          "type": "semantic"
+        },
         {
           "id": "chats/2025-10-13-epistemic-humility-discussion.md",
           "score": 0.602,
@@ -3667,6 +3687,27 @@
     },
     "chats/2025-10-15-ai-impact-on-labor.md": {
       "related": [],
+      "backlinks": [],
+      "keywords": []
+    },
+    "chats/2025-12-03-paul-and-roman-conspiracy.md": {
+      "related": [
+        {
+          "id": "chats/2025-10-14-2k-years-christiantiy.md",
+          "score": 0.675,
+          "type": "semantic"
+        },
+        {
+          "id": "chats/2025-10-13-epistemic-humility-discussion.md",
+          "score": 0.375,
+          "type": "semantic"
+        },
+        {
+          "id": "2021-04-05-Religion-Last.md",
+          "score": 0.287,
+          "type": "inferred"
+        }
+      ],
       "backlinks": [],
       "keywords": []
     }
@@ -5747,6 +5788,32 @@
           "details": {
             "similarity": 0.48863944477320215,
             "normalizedScore": 0.6287981492440072
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "chats/2025-10-14-2k-years-christiantiy.md",
+      "target": "chats/2025-12-03-paul-and-roman-conspiracy.md",
+      "score": 0.6749127404101293,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6249127404101292,
+          "weight": 2,
+          "details": {
+            "similarity": 0.48747382212303875,
+            "normalizedScore": 0.6249127404101292
           }
         }
       ],
@@ -9081,6 +9148,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "chats/2025-10-13-epistemic-humility-discussion.md",
+      "target": "chats/2025-12-03-paul-and-roman-conspiracy.md",
+      "score": 0.37543721297280114,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.32543721297280115,
+          "weight": 2,
+          "details": {
+            "similarity": 0.39763116389184033,
+            "normalizedScore": 0.32543721297280115
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "the-mirror-room/scratch.md",
       "target": "chats/2025-10-14-2k-years-christiantiy.md",
       "score": 0.3751730779145636,
@@ -10797,6 +10890,32 @@
       "edgeType": "inferred"
     },
     {
+      "source": "2021-04-05-Religion-Last.md",
+      "target": "chats/2025-12-03-paul-and-roman-conspiracy.md",
+      "score": 0.2874780661274704,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.2374780661274704,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3712434198382411,
+            "normalizedScore": 0.2374780661274704
+          }
+        }
+      ],
+      "edgeType": "inferred"
+    },
+    {
       "source": "bookmarks/pketh.org.md",
       "target": "notes/streaming systems.md",
       "score": 0.287074375842245,
@@ -12143,6 +12262,7 @@
       "notes/logical clocks.md": 3,
       "notes/monotheism and oneness.md": 6,
       "notes/query builder arguments.md": 14,
+      "notes/scratch.md": 24,
       "notes/streaming systems.md": 3,
       "notes/tla+.md": 16,
       "notes/type systems.md": 3,
@@ -12161,7 +12281,8 @@
       "chats/2025-10-14-2k-years-christiantiy.md": 6,
       "chats/2025-10-14-girards-scapegoat-mechanism.md": 6,
       "chats/2025-10-14-summarize-fear-of-falling.md": 6,
-      "chats/2025-10-15-ai-impact-on-labor.md": 24
+      "chats/2025-10-15-ai-impact-on-labor.md": 25,
+      "chats/2025-12-03-paul-and-roman-conspiracy.md": 6
     },
     "clusterMeta": [
       {
@@ -12172,155 +12293,161 @@
       },
       {
         "id": 1,
-        "centerX": 198.9519097318838,
-        "centerY": -774.8665289029049,
+        "centerX": 191.45253143004626,
+        "centerY": -776.7534539408416,
         "nodeCount": 4
       },
       {
         "id": 2,
-        "centerX": 385.4029392813723,
-        "centerY": -701.0453440350909,
+        "centerX": 371.7785376350149,
+        "centerY": -708.3648205225679,
         "nodeCount": 1
       },
       {
         "id": 3,
-        "centerX": 547.637684742951,
-        "centerY": -583.1749019371292,
+        "centerX": 530.4981265926363,
+        "centerY": -598.8085985368808,
         "nodeCount": 25
       },
       {
         "id": 4,
-        "centerX": 675.4623404016121,
-        "centerY": -428.66143598319724,
+        "centerX": 658.3870927149251,
+        "centerY": -454.45179738492465,
         "nodeCount": 1
       },
       {
         "id": 5,
-        "centerX": 760.8452130361228,
-        "centerY": -247.2135954999579,
+        "centerX": 748.0129941483318,
+        "centerY": -283.6839096340284,
         "nodeCount": 1
       },
       {
         "id": 6,
-        "centerX": 798.4213827426172,
-        "centerY": -50.23241562345076,
-        "nodeCount": 20
+        "centerX": 794.1670992784432,
+        "centerY": -96.42934420425836,
+        "nodeCount": 21
       },
       {
         "id": 7,
-        "centerX": 785.829800582951,
-        "centerY": 149.90505166857972,
+        "centerX": 794.1670992784432,
+        "centerY": 96.42934420425836,
         "nodeCount": 1
       },
       {
         "id": 8,
-        "centerX": 723.8616419728156,
-        "centerY": 340.6234332520582,
+        "centerX": 748.0129941483318,
+        "centerY": 283.6839096340284,
         "nodeCount": 1
       },
       {
         "id": 9,
-        "centerX": 616.4105942206313,
-        "centerY": 509.9391917989518,
+        "centerX": 658.3870927149252,
+        "centerY": 454.4517973849246,
         "nodeCount": 1
       },
       {
         "id": 10,
-        "centerX": 470.2282018339785,
-        "centerY": 647.2135954999579,
+        "centerX": 530.498126592636,
+        "centerY": 598.8085985368809,
         "nodeCount": 2
       },
       {
         "id": 11,
-        "centerX": 294.49964214774246,
-        "centerY": 743.8211887106011,
+        "centerX": 371.7785376350152,
+        "centerY": 708.3648205225677,
         "nodeCount": 1
       },
       {
         "id": 12,
-        "centerX": 100.26658685144358,
-        "centerY": 793.6917610515823,
+        "centerX": 191.4525314300461,
+        "centerY": 776.7534539408416,
         "nodeCount": 1
       },
       {
         "id": 13,
-        "centerX": -100.26658685144349,
-        "centerY": 793.6917610515823,
+        "centerX": -3.0628549591415593e-13,
+        "centerY": 800,
         "nodeCount": 1
       },
       {
         "id": 14,
-        "centerX": -294.4996421477424,
-        "centerY": 743.8211887106012,
+        "centerX": -191.45253143004598,
+        "centerY": 776.7534539408417,
         "nodeCount": 7
       },
       {
         "id": 15,
-        "centerX": -470.2282018339782,
-        "centerY": 647.2135954999582,
+        "centerX": -371.7785376350145,
+        "centerY": 708.3648205225682,
         "nodeCount": 1
       },
       {
         "id": 16,
-        "centerX": -616.4105942206315,
-        "centerY": 509.93919179895164,
+        "centerX": -530.498126592636,
+        "centerY": 598.808598536881,
         "nodeCount": 23
       },
       {
         "id": 17,
-        "centerX": -723.8616419728158,
-        "centerY": 340.6234332520577,
+        "centerX": -658.3870927149251,
+        "centerY": 454.45179738492465,
         "nodeCount": 3
       },
       {
         "id": 18,
-        "centerX": -785.829800582951,
-        "centerY": 149.90505166857966,
+        "centerX": -748.0129941483318,
+        "centerY": 283.6839096340287,
         "nodeCount": 1
       },
       {
         "id": 19,
-        "centerX": -798.4213827426172,
-        "centerY": -50.23241562345032,
+        "centerX": -794.1670992784432,
+        "centerY": 96.42934420425881,
         "nodeCount": 1
       },
       {
         "id": 20,
-        "centerX": -760.8452130361229,
-        "centerY": -247.21359549995782,
+        "centerX": -794.1670992784432,
+        "centerY": -96.42934420425861,
         "nodeCount": 1
       },
       {
         "id": 21,
-        "centerX": -675.462340401612,
-        "centerY": -428.6614359831974,
+        "centerX": -748.0129941483318,
+        "centerY": -283.6839096340285,
         "nodeCount": 1
       },
       {
         "id": 22,
-        "centerX": -547.6376847429511,
-        "centerY": -583.1749019371291,
+        "centerX": -658.3870927149256,
+        "centerY": -454.45179738492396,
         "nodeCount": 1
       },
       {
         "id": 23,
-        "centerX": -385.4029392813728,
-        "centerY": -701.0453440350905,
+        "centerX": -530.4981265926364,
+        "centerY": -598.8085985368807,
         "nodeCount": 1
       },
       {
         "id": 24,
-        "centerX": -198.95190973188423,
-        "centerY": -774.8665289029047,
+        "centerX": -371.7785376350147,
+        "centerY": -708.364820522568,
+        "nodeCount": 1
+      },
+      {
+        "id": 25,
+        "centerX": -191.45253143004618,
+        "centerY": -776.7534539408416,
         "nodeCount": 1
       }
     ],
-    "modularity": 0.6755915107511348
+    "modularity": 0.6770472711208192
   },
   "metadata": {
-    "totalNodes": 115,
-    "totalEdges": 322,
-    "buildTimeMs": 157,
+    "totalNodes": 117,
+    "totalEdges": 325,
+    "buildTimeMs": 198,
     "signalsUsed": [
       "wikilink",
       "semantic"

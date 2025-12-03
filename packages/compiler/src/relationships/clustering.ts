@@ -142,7 +142,7 @@ export function computeNodePosition(
   // Spread nodes within the cluster using a spiral pattern
   // This gives better initial distribution than random
   const nodeCount = cluster.nodeCount;
-  const clusterRadius = Math.sqrt(nodeCount) * 25; // Tight clusters, well separated
+  const clusterRadius = Math.sqrt(nodeCount) * 80; // Room for labels within clusters
 
   // Use golden angle spiral for even distribution
   const goldenAngle = Math.PI * (3 - Math.sqrt(5));
