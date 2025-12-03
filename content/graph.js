@@ -297,6 +297,10 @@ async function graphPage() {
         <span>Inferred</span>
       </div>
     </div>
+    <div class="graph-search">
+      <input type="text" id="graph-search-input" placeholder="Filter by keyword..." autocomplete="off" />
+      <span id="graph-search-status"></span>
+    </div>
   </div>
   <div id="graph-container"></div>
   <script id="graph-data" type="application/json">
