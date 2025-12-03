@@ -3,6 +3,18 @@ import { select } from 'hast-util-select';
 import { h } from 'hastscript';
 import { VFile } from 'vfile';
 import { indexFrontmatter } from '../index-frontmatter.js';
+import fs from 'fs';
+import path from 'path';
+
+// Try to load computed relationships
+let relationships: any = null;
+try {
+  const relationshipsPath = path.join(process.cwd(), '.relationships.json');
+  const data = fs.readFileSync(relationshipsPath, 'utf8');
+  relationships = JSON.parse(data);
+} catch (e) {
+  // No relationships file, will fall back to tag-based
+}
 
 export default async function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
   const body = select('body', tree);
@@ -54,14 +66,9 @@ async function buildFooter(file: VFile) {
   const relatedFilenames = matter?.related || [];
   const currentTags = matter?.tags || [];
 
-  if (relatedFilenames.length === 0 && currentTags.length === 0) {
-    return null;
-  }
-
-  // Get all posts to resolve related filenames to URLs and find tag-based suggestions
+  // Get all posts to resolve related filenames to URLs
   const indices = await indexFrontmatter();
-  const relatedPosts = [];
-  const allPosts = [];
+  const allPosts: Map<string, { filename: string; title: string; url: string; tags: string[] }> = new Map();
 
   // Collect all posts
   Object.entries(indices).forEach(([collection, index]) => {
@@ -72,7 +79,15 @@ async function buildFooter(file: VFile) {
           filename === '404.md' || filename === 'tags.js' || filename === 'graph.js' ||
           filename === file.basename) return;
 
-      allPosts.push({
+      const fullId = collection + filename;
+      allPosts.set(fullId, {
+        filename,
+        title: postMeta.frontmatter?.title || filename,
+        url: postMeta.compiledFilename,
+        tags: postMeta.frontmatter?.tags || [],
+      });
+      // Also index by just filename for backward compatibility
+      allPosts.set(filename, {
         filename,
         title: postMeta.frontmatter?.title || filename,
         url: postMeta.compiledFilename,
@@ -81,26 +96,59 @@ async function buildFooter(file: VFile) {
     });
   });
 
-  // Add manually related posts
-  relatedFilenames.forEach(relatedFilename => {
-    const post = allPosts.find(p => p.filename === relatedFilename);
-    if (post) {
-      relatedPosts.push({ ...post, source: 'manual' });
+  const relatedPosts: Array<{ title: string; url: string; source: string }> = [];
+
+  // Try to use computed relationships first
+  const currentFileId = file.basename || '';
+  const computedRelated = relationships?.posts?.[currentFileId]?.related ||
+                          relationships?.posts?.['/' + currentFileId]?.related ||
+                          null;
+
+  if (computedRelated && computedRelated.length > 0) {
+    // Use computed relationships
+    for (const rel of computedRelated.slice(0, 5)) {
+      const post = allPosts.get(rel.id) || allPosts.get(rel.id.replace(/^(the-mirror-room\/|chats\/)/, ''));
+      if (post) {
+        relatedPosts.push({
+          title: post.title,
+          url: post.url,
+          source: rel.type,
+        });
+      }
     }
-  });
+  } else {
+    // Fallback to manual + tag-based relationships
+    // Add manually related posts
+    relatedFilenames.forEach((relatedFilename: string) => {
+      const post = allPosts.get(relatedFilename);
+      if (post) {
+        relatedPosts.push({ title: post.title, url: post.url, source: 'manual' });
+      }
+    });
 
-  // Add tag-based suggestions if we don't have many manual ones
-  if (relatedPosts.length < 5 && currentTags.length > 0) {
-    const tagBasedPosts = allPosts
-      .map(post => {
-        const sharedTags = post.tags.filter(tag => currentTags.includes(tag));
-        return { ...post, sharedTags, source: 'tags' };
-      })
-      .filter(post => post.sharedTags.length >= 2)
-      .sort((a, b) => b.sharedTags.length - a.sharedTags.length)
-      .slice(0, 5 - relatedPosts.length);
+    // Add tag-based suggestions if we don't have many manual ones
+    if (relatedPosts.length < 5 && currentTags.length > 0) {
+      const tagBasedPosts = Array.from(allPosts.values())
+        .filter(post => post.filename !== file.basename)
+        .map(post => {
+          const sharedTags = post.tags.filter((tag: string) => currentTags.includes(tag));
+          return { ...post, sharedTagCount: sharedTags.length };
+        })
+        .filter(post => post.sharedTagCount >= 2)
+        .sort((a, b) => b.sharedTagCount - a.sharedTagCount)
+        .slice(0, 5 - relatedPosts.length);
 
-    relatedPosts.push(...tagBasedPosts);
+      for (const post of tagBasedPosts) {
+        // Avoid duplicates
+        if (!relatedPosts.some(r => r.url === post.url)) {
+          relatedPosts.push({ title: post.title, url: post.url, source: 'tags' });
+        }
+      }
+    }
+  }
+
+  if (relatedPosts.length === 0 && currentTags.length === 0 && relatedFilenames.length === 0) {
+    return null;
   }
 
   if (relatedPosts.length === 0) {

@@ -1,3 +1,6 @@
 packages:
   - packages/compiler
   - packages/frontend
+
+onlyBuiltDependencies:
+  - sharp
