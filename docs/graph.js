@@ -51,6 +51,9 @@
           color: '#fcebd5',
           size: 14,
           face: 'Cormorant Garamond',
+          mod: 'bold',
+          strokeWidth: 3,
+          strokeColor: '#000000',
         },
         // Pre-seeded positions from cluster layout
         x: node.x,
@@ -92,7 +95,7 @@
         return {
           from: edge.from,
           to: edge.to,
-          width: 1,  // Fixed thin width
+          width: 1 + (score * 3),  // 1px to 4px based on strength
           color: {
             color: scoreToColor(score),
             opacity: isCrossCluster ? 0.25 : 0.8,
