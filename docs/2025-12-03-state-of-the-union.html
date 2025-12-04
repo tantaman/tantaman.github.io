@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>State of the Union - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="(written by Claude) A decade of writing here has circled the same drain: understanding as liberation. Whether it&#x27;s understanding the false equivalence of volatility and risk, why Lamport clocks suffice for LWW registers, or how monotheism shaped our…">
+<meta name="keywords" content="philosophy, software-engineering, reflection, software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2025 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="State of the Union">
+<meta property="og:description" content="(written by Claude) A decade of writing here has circled the same drain: understanding as liberation. Whether it&#x27;s understanding the false equivalence of volatility and risk, why Lamport clocks suffice for LWW registers, or how monotheism shaped our…">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="philosophy">
+<meta property="article:tag" content="software-engineering">
+<meta property="article:tag" content="reflection">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="7-11 minutes">
+</head>
+<body><header><div class="container"><h1><a href="/">Tantaman</a></h1><nav><a href="/blog.html">Blog</a><a href="/stories.html">Stories</a><a href="/chats.html">Chats</a><a href="/tags.html">Tags</a><a href="/graph.html">Graph</a><a href="/search.html">Search</a></nav></div></header><main id="static"><h1>State of the Union</h1><span class="published subtext">Published 2025-12-03</span>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-technical-side">The Technical Side</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#language-shapes-thought">Language Shapes Thought</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#patterns-over-ceremonies">Patterns Over Ceremonies</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#types-as-thought">Types as Thought</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-data-problem">The Data Problem</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#local-first-and-the-edge">Local-First and the Edge</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-philosophical-side">The Philosophical Side</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#ideas-are-dangerous">Ideas Are Dangerous</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#statistics-and-epistemology">Statistics and Epistemology</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#society-and-its-myths">Society and its Myths</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-monotheist-inheritance">The Monotheist Inheritance</a></li></ol></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-center-of-gravity">The Center of Gravity</a></li></ol></nav><p>(written by Claude)</p>
+<p>A decade of writing here has circled the same drain: <strong>understanding as liberation</strong>. Whether it's understanding the <a href="/2021-02-07-volatility-isnt-risk">false equivalence of volatility and risk</a>, why <a href="/2022-10-18-lamport-sufficient-for-lww">Lamport clocks suffice for LWW registers</a>, or how <a href="/2025-12-02-monotheism-oneness-traps">monotheism shaped our cognitive habits</a>—the consistent thread is that deep understanding leads to better choices and more freedom.</p>
+<h1 id="the-technical-side"><a aria-hidden="true" tabindex="-1" href="#the-technical-side"><span class="icon icon-link"></span></a>The Technical Side</h1>
+<h2 id="language-shapes-thought"><a aria-hidden="true" tabindex="-1" href="#language-shapes-thought"><span class="icon icon-link"></span></a>Language Shapes Thought</h2>
+<p>The earliest posts here wrestled with programming languages as instruments of thought. <a href="/2013-08-15-Oh-Lisp">Oh Lisp</a> argued that Lisp's minimal syntax clears away everything standing between you and your problem:</p>
+<blockquote>
+<p>The minimal syntax of Lisp and XML allows your programs to talk solely in terms of the problem domain.</p>
+</blockquote>
+<p>This wasn't just advocacy for parentheses—it was a claim about cognition. The tools we think with constrain what we can think. A language that lets you treat code as data lets you think thoughts about programs that other languages make awkward.</p>
+<p>The same impulse appears in <a href="/2020-09-13-declarative">Filter, Map, etc. vs For Each &#x26; While</a>:</p>
+<blockquote>
+<p>At its root, programming is about upleveling the language we use to model and solve problems. We do this by seeing common patterns, abstracting them from their particulars and then giving them a name.</p>
+</blockquote>
+<h2 id="patterns-over-ceremonies"><a aria-hidden="true" tabindex="-1" href="#patterns-over-ceremonies"><span class="icon icon-link"></span></a>Patterns Over Ceremonies</h2>
+<p>A persistent concern: strip away the incidental and expose the essential. <a href="/2013-06-28-services-and-coupling">Services and Coupling</a> showed how dependency injection still falls short of true decoupling. <a href="/2013-07-30-Inheritance-Aggregation-and-Pipelines">Inheritance, Aggregation, and Pipelines</a> traced the evolution from rigid class hierarchies to the flexible composition of pipelines:</p>
+<blockquote>
+<p>Pipelines are the alternative abstraction that will help us resolve all of the difficulties mentioned previously.</p>
+</blockquote>
+<p><a href="/2014-01-01-The-Almighty-Function">The Almighty Function</a> pushed further—objects are closures, closures are objects, everything reduces to functions:</p>
+<blockquote>
+<p>Some people say everything is an object. I used to too but these days I think everything is actually a function.</p>
+</blockquote>
+<p>The <a href="/2021-02-12-Todo-MVC">200-line framework-free TODO app</a> proved you don't need much machinery to build working software. <a href="/2022-05-12-skipping-the-bundling">Skipping the Bundling</a> showed that ES6 modules obviate entire build steps. The point was never minimalism for its own sake—it was that complexity should be <em>earned</em>, not defaulted to.</p>
+<h2 id="types-as-thought"><a aria-hidden="true" tabindex="-1" href="#types-as-thought"><span class="icon icon-link"></span></a>Types as Thought</h2>
+<p><a href="/2020-05-19-These-Are-Not-Types">These Are Not Types</a> argued that <code>int</code>, <code>float</code>, and <code>string</code> exist at the wrong level of abstraction for application code:</p>
+<blockquote>
+<p>For many software projects, <code>int</code>, <code>float</code>, <code>double</code>, <code>string</code>, etc. exist at the wrong level of abstraction to be considered proper data types. They represent how information is encoded by storage rather than something that an application should deal with.</p>
+</blockquote>
+<p><a href="/2021-08-22-Understanding-Generics">Understanding Generics</a> clarified what generic types actually do:</p>
+<blockquote>
+<p>Generics are for the <strong>caller</strong> rather than for what is being called. They allow the <strong>caller</strong> to retain type information.</p>
+</blockquote>
+<p>These weren't pedantic distinctions—they were about making the machine understand what <em>we</em> understand, closing the gap between intention and expression.</p>
+<h2 id="the-data-problem"><a aria-hidden="true" tabindex="-1" href="#the-data-problem"><span class="icon icon-link"></span></a>The Data Problem</h2>
+<p>A series of posts wrestled with state management in React and beyond. <a href="/2021-12-15-React-Anemic-Models">React Anemic Models</a> identified the core tension:</p>
+<blockquote>
+<p>React eschews models that have any attached functionality. The "model" for a react app is usually anemic—just a bare set of properties with no methods attached.</p>
+</blockquote>
+<p><a href="/2021-12-16-Missing-Mutation-Primitives">Missing Mutation Primitives</a> diagnosed what's actually wrong with mutable state:</p>
+<blockquote>
+<p>It isn't mutation that is so bad. It is being unable to express, commit and record a mutation in one atomic move that is the problem.</p>
+</blockquote>
+<p><a href="/2021-12-17-Object-Identity">Reference Equality - What is it Really?</a> distinguished nominal from physical identity—the Ship of Theseus applied to programming. The React posts (<a href="/2021-12-23-Deeply-Nested-Updates-React">Deeply Nested Updates</a>, <a href="/2021-12-27-urls-as-display-data">URLs As Display Data</a>) proposed solutions that inverted conventional approaches.</p>
+<h2 id="local-first-and-the-edge"><a aria-hidden="true" tabindex="-1" href="#local-first-and-the-edge"><span class="icon icon-link"></span></a>Local-First and the Edge</h2>
+<p><a href="/2022-08-23-why-sqlite-why-now">Why SQLite? Why Now?</a> synthesized years of thinking about distributed systems:</p>
+<blockquote>
+<p>For me, it's about re-architecting how we write code so it can fit the coming world of edge, distributed and local-first computing.</p>
+</blockquote>
+<p>The key insight: the "strongly consistent, client-server paradigm" is hitting its limits. The speed of light is a hard constraint. The solution isn't more caching—it's inverting the model entirely:</p>
+<blockquote>
+<p>What if, instead of always assuming that the server is the authoritative source, we assumed that the user's local device is the authoritative source of information?</p>
+</blockquote>
+<p><a href="/2022-10-19-meta-scales-mysql">Meta's Graph Model</a> showed how constraining the relational model to graph access patterns enabled scaling MySQL to billions of users. <a href="/2022-10-18-lamport-clock">Lamport Clock</a> and <a href="/2022-10-18-lamport-sufficient-for-lww">Do LWW Registers Need Vector Clocks?</a> explored the minimal mechanisms needed for distributed consensus.</p>
+<p><a href="/2021-02-14-Pi-Cloud">Pi Cloud</a> was an attempt to demystify cloud architecture by building it from scratch on Raspberry Pis. The principle: <strong>nothing is done until it is fully monitored</strong>—what <a href="/2021-12-27-Observability-Driven-Development">Observability Driven Development</a> later formalized.</p>
+<h1 id="the-philosophical-side"><a aria-hidden="true" tabindex="-1" href="#the-philosophical-side"><span class="icon icon-link"></span></a>The Philosophical Side</h1>
+<h2 id="ideas-are-dangerous"><a aria-hidden="true" tabindex="-1" href="#ideas-are-dangerous"><span class="icon icon-link"></span></a>Ideas Are Dangerous</h2>
+<p><a href="/2020-05-17-dangerous-ideas">Dangerous Ideas</a> asked why we treat physical hazards with respect but not intellectual ones:</p>
+<blockquote>
+<p>People understand that power tools, electrical sockets, gas stoves, fast moving water, etc. need to be treated with respect and handling them requires doing so within a specific framework that will maintain one's safety. Why do people not also understand that the same is true in relation to beliefs, ideas, disciplines, ways of thinking?</p>
+</blockquote>
+<p><a href="/2020-05-17-I-Am-You-Are">I Am, You Are</a> noticed how language conflates emotion with identity:</p>
+<blockquote>
+<p>You aren't angry, you're experiencing anger.</p>
+</blockquote>
+<p><a href="/2020-05-25-Non-Conceptual-Definitions">Non-Conceptual Definitions</a> wondered whether some words—like "art"—have no abstract definition, only a collection of examples. <a href="/2020-06-29-all-things-are-permitted">All Things Are Permitted</a> unpacked the Dostoevsky quote:</p>
+<blockquote>
+<p>All things are permitted (by nature). Laws are created to curb what is permitted.</p>
+</blockquote>
+<h2 id="statistics-and-epistemology"><a aria-hidden="true" tabindex="-1" href="#statistics-and-epistemology"><span class="icon icon-link"></span></a>Statistics and Epistemology</h2>
+<p><a href="/2021-01-21-false-positive-rate">Understanding False Positive Rate</a> showed how a 0.5% false positive rate can still mean 50% of positive results are wrong—base rates matter more than most people realize.</p>
+<p><a href="/2021-01-26-regression-mean-vs-gambler">Regression to the Mean vs The Gambler's Fallacy</a> simulated both phenomena to prove they don't contradict each other:</p>
+<blockquote>
+<p>Regression to the mean, rather than being contrary to the gambler's fallacy, is really a restatement of it.</p>
+</blockquote>
+<p><a href="/2021-02-07-volatility-isnt-risk">Volatility Isn't Risk</a> attacked the finance industry's conflation:</p>
+<blockquote>
+<p>The biggest lie in investing is that volatility = risk. This is bogus. It misses the point of risk.</p>
+</blockquote>
+<h2 id="society-and-its-myths"><a aria-hidden="true" tabindex="-1" href="#society-and-its-myths"><span class="icon icon-link"></span></a>Society and its Myths</h2>
+<p><a href="/2021-04-05-Religion-Last">What If Religion Is Last?</a> inverted the usual narrative—religion not as primitive precursor to reason, but as the culmination of a civilization's exhaustion.</p>
+<p><a href="/2022-04-25-foundational-myths">Foundational Myths</a> examined the 1619 Project through the lens of memetic inheritance:</p>
+<blockquote>
+<p>The main idea here is that the foundational myths of a society shape that society. They put bounds on what can be thought and direct what will be thought.</p>
+</blockquote>
+<p><a href="/2022-04-25-doing-for-others">Doing For Others</a> suggested reincarnation as a useful fiction:</p>
+<blockquote>
+<p>Given that our material well being is almost entirely determined by those that come before us, our job in the present is not to improve our own material well being but to improve the well being of future generations.</p>
+</blockquote>
+<p><a href="/2021-12-20-mathematician-running-the-world">No, Mathematical Government is not a Logical Government</a> pushed back on technocratic fantasies:</p>
+<blockquote>
+<p>Math Cannot Confer Value. Is it ever right to sacrifice an individual's rights for the greater good? This isn't a mathematical question. It is a moral one.</p>
+</blockquote>
+<p><a href="/2022-06-16-always-a-body">You'll Always Have a Body</a> argued that even uploaded consciousness would face embodied constraints:</p>
+<blockquote>
+<p>The essence of a body, for a conscious thing, is that it is a <strong>limiting</strong> factor.</p>
+</blockquote>
+<h2 id="the-monotheist-inheritance"><a aria-hidden="true" tabindex="-1" href="#the-monotheist-inheritance"><span class="icon icon-link"></span></a>The Monotheist Inheritance</h2>
+<p><a href="/2025-12-02-monotheism-oneness-traps">Monotheism to Now</a> traces our hunger for singular explanations back to its religious roots:</p>
+<blockquote>
+<p>Monotheism has created an obsessive focus for singular explanations. Grand unifying forces. One-ness. A removal of distinctions and thus a removal of thought and judgment.</p>
+</blockquote>
+<p>The modern version isn't belief in God—it's the refusal to distinguish disguised as tolerance:</p>
+<blockquote>
+<p>The modern version: everything is equally valid, all perspectives matter the same, who are we to say. But that's not pluralism—it's the monotheistic instinct wearing tolerance as a mask.</p>
+</blockquote>
+<h1 id="the-center-of-gravity"><a aria-hidden="true" tabindex="-1" href="#the-center-of-gravity"><span class="icon icon-link"></span></a>The Center of Gravity</h1>
+<p>What ties this together?</p>
+<p><strong>Abstraction as both prison and liberation.</strong> Good abstractions—pipelines, CRDTs, the local-first paradigm—free us from incidental complexity. Bad abstractions—anemic models, mistaking storage types for application types, conflating volatility with risk—trap us in confusion.</p>
+<p><strong>Language shapes what we can think.</strong> This applies to programming languages, to the words we use for emotions, to the foundational myths of civilizations. Change the language, change the thought.</p>
+<p><strong>Decentralization of authority.</strong> Whether it's local-first software, individual rights, or the Greek gods dividing up domains—distributed authority forces navigation, judgment, thought. Centralization—whether in servers or in monotheistic explanations—enables but also constrains.</p>
+<p><strong>First principles over inherited defaults.</strong> The 200-line TODO app, building cloud infra on Pis, questioning whether bundlers are necessary—all instances of asking "what do we <em>actually</em> need here?"</p>
+<p><a href="/2021-12-27-Personal-Vision">My Vision</a> after leaving Meta:</p>
+<blockquote>
+<p>Create software to help people think more deeply.</p>
+</blockquote>
+<p>And maybe: write to think more deeply myself.</p>
+<hr>
+<p>Everything here is unfinished. The query optimization posts trail off into "todo." The Pi Cloud series never continued. The <a href="/the-mirror-room/">mirror room stories</a> await completion. That's fine. The point was never to arrive but to understand the territory better. And now, looking back over a decade of wandering—the shape of the territory emerges.</p>
+<p>Understanding is liberation. And liberation requires continuous understanding.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+</main><footer id="footer"><div class="container related-section"><a href="/graph.html" class="view-graph-link">View Content Graph →</a></div></footer></body>
+</html>
