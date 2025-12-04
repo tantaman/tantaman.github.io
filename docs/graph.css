@@ -77,9 +77,14 @@
   opacity: 1;
 }
 
+.semantic-edge {
+  background: #6b9bd1;
+  opacity: 0.6;
+}
+
 .weak-edge {
-  background: #d96a37;
-  opacity: 0.4;
+  background: #888888;
+  opacity: 0.5;
 }
 
 /* Graph Container */
