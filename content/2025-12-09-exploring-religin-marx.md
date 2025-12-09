@@ -3,9 +3,6 @@ title: 'Why Marxism Is Impossible Without Christian Eschatology'
 tags: [philosophy, religion, economics]
 ---
 
-# CHAPTER 8
-# Why Marxism Is Impossible Without Christian Eschatology
-
 ### I. The Strangest Lineage in Intellectual History
 
 If you were to ask a standard Marxist theoretician about the origins of their worldview, they would likely point you toward the Enlightenment. They would cite the materialism of Feuerbach, the economics of Ricardo, and the scientific rigour of Darwin. They would present Marxism as the final shattering of the theological chains that held humanity back—a triumph of pure, atheistic reason.
