@@ -158,32 +158,32 @@ When an ideology inherits a religious narrative structure, it also inherits that
 
 ## Bibliography
 
-Berdyaev, Nikolai. *The Origins of Russian Communism*. London: Geoffrey Bles, 1937.
+Berdyaev, Nikolai. The Origin of Russian Communism. London: Geoffrey Bles, 1937.
 
-Blumenberg, Hans. *The Legitimacy of the Modern Age*. Translated by Robert M. Wallace. Cambridge, MA: MIT Press, 1983.
+Blumenberg, Hans. The Legitimacy of the Modern Age. Trans. Robert M. Wallace. Cambridge, MA: MIT Press, 1983.
 
-Engels, Friedrich. "On the History of Early Christianity." *Die Neue Zeit*, 1894-95.
+Engels, Friedrich. “On the History of Early Christianity.” Die Neue Zeit, 1894–95.
 
-Gentile, Emilio. *Politics as Religion*. Translated by George Staunton. Princeton: Princeton University Press, 2006.
+Gentile, Emilio. Politics as Religion. Trans. George Staunton. Princeton: Princeton University Press, 2006.
 
-Löwith, Karl. *Meaning in History: The Theological Implications of the Philosophy of History*. Chicago: University of Chicago Press, 1949.
+Löwith, Karl. Meaning in History: The Theological Implications of the Philosophy of History. Chicago: University of Chicago Press, 1949.
 
-MacIntyre, Alasdair. *Marxism and Christianity*. Notre Dame, IN: University of Notre Dame Press, 1968.
+MacIntyre, Alasdair. Marxism and Christianity. Notre Dame, IN: University of Notre Dame Press, 1968.
 
-Mao Zedong. *Quotations from Chairman Mao Tse-tung* ("The Little Red Book"). Beijing: Foreign Languages Press, 1966.
+Mao Zedong. Quotations from Chairman Mao Tse-tung. Beijing: Foreign Languages Press, 1964.
 
-Marx, Karl. "A Contribution to the Critique of Hegel's Philosophy of Right: Introduction." *Deutsch-Französische Jahrbücher*, 1844.
+Marx, Karl. “A Contribution to the Critique of Hegel’s Philosophy of Right: Introduction.” Deutsch-Französische Jahrbücher, 1844.
 
-Stalin, Joseph. *The Foundations of Leninism*. Moscow: Foreign Languages Publishing House, 1924.
+Stalin, Joseph. The Foundations of Leninism. Moscow: Foreign Languages Publishing House, 1924.
 
-Stalin, Joseph. "Against Vulgarising the Slogan of Self-Criticism." *Pravda*, 1928.
+Stalin, Joseph. “Against Vulgarising the Slogan of Self-Criticism.” Pravda, 1928.
 
-Talmon, J.L. *The Origins of Totalitarian Democracy*. London: Secker & Warburg, 1952.
+Talmon, J. L. The Origins of Totalitarian Democracy. London: Secker & Warburg, 1952.
 
-Talmon, J.L. *Political Messianism: The Romantic Phase*. London: Secker & Warburg, 1960.
+Talmon, J. L. Political Messianism: The Romantic Phase. London: Secker & Warburg, 1960.
 
-Voegelin, Eric. *Die politischen Religionen* (The Political Religions). Vienna: Bermann-Fischer, 1938.
+Voegelin, Eric. Die politischen Religionen. Vienna: Bermann-Fischer, 1938.
 
-Voegelin, Eric. *The New Science of Politics*. Chicago: University of Chicago Press, 1952.
+Voegelin, Eric. The New Science of Politics. Chicago: University of Chicago Press, 1952.
 
-Voegelin, Eric. *Science, Politics and Gnosticism*. Chicago: Henry Regnery, 1968.
+Voegelin, Eric. Science, Politics, and Gnosticism. Chicago: Henry Regnery, 1968.
