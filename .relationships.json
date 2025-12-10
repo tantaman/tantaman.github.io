@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2025-12-09T21:24:26.541Z",
+  "generatedAt": "2025-12-10T16:49:25.416Z",
   "config": {
     "model": "Xenova/all-MiniLM-L6-v2",
     "minScore": 0.25,
@@ -189,7 +189,13 @@
       "keywords": []
     },
     "2020-06-29-all-things-are-permitted.md": {
-      "related": [],
+      "related": [
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.301,
+          "type": "inferred"
+        }
+      ],
       "backlinks": [],
       "keywords": []
     },
@@ -351,6 +357,11 @@
     },
     "2021-04-05-Religion-Last.md": {
       "related": [
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.85,
+          "type": "semantic"
+        },
         {
           "id": "2025-12-09-exploring-religin-marx.md",
           "score": 0.706,
@@ -851,6 +862,11 @@
           "type": "semantic"
         },
         {
+          "id": "2025-12-09-monstrous_doubles_girard_essay.md",
+          "score": 0.732,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-02-monotheism-oneness-traps.md",
           "score": 0.71,
           "type": "semantic"
@@ -858,6 +874,11 @@
         {
           "id": "notes/monotheism and oneness.md",
           "score": 0.695,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.651,
           "type": "semantic"
         },
         {
@@ -1452,6 +1473,11 @@
           "type": "semantic"
         },
         {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.446,
+          "type": "semantic"
+        },
+        {
           "id": "chats/2025-10-14-girards-scapegoat-mechanism.md",
           "score": 0.326,
           "type": "inferred"
@@ -1459,6 +1485,11 @@
         {
           "id": "2021-12-20-American-Spirit.md",
           "score": 0.326,
+          "type": "inferred"
+        },
+        {
+          "id": "2025-12-09-monstrous_doubles_girard_essay.md",
+          "score": 0.31,
           "type": "inferred"
         },
         {
@@ -1529,8 +1560,18 @@
           "type": "semantic"
         },
         {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.699,
+          "type": "semantic"
+        },
+        {
           "id": "chats/2025-10-14-2k-years-christiantiy.md",
-          "score": 0.545,
+          "score": 0.546,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-monstrous_doubles_girard_essay.md",
+          "score": 0.362,
           "type": "semantic"
         },
         {
@@ -1547,11 +1588,57 @@
       "backlinks": [],
       "keywords": []
     },
+    "2025-12-09-monstrous_doubles_girard_essay.md": {
+      "related": [
+        {
+          "id": "2022-04-25-foundational-myths.md",
+          "score": 0.732,
+          "type": "semantic"
+        },
+        {
+          "id": "chats/2025-10-14-girards-scapegoat-mechanism.md",
+          "score": 0.658,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.448,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-exploring-religin-marx.md",
+          "score": 0.362,
+          "type": "semantic"
+        },
+        {
+          "id": "notes/monotheism and oneness.md",
+          "score": 0.332,
+          "type": "inferred"
+        },
+        {
+          "id": "2025-12-02-monotheism-oneness-traps.md",
+          "score": 0.31,
+          "type": "inferred"
+        },
+        {
+          "id": "2025-12-09-secular_eschaton_essay.md",
+          "score": 0.29,
+          "type": "inferred"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
     "2025-12-09-secular_eschaton_essay.md": {
       "related": [
         {
           "id": "2025-12-09-exploring-religin-marx.md",
           "score": 1,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.811,
           "type": "semantic"
         },
         {
@@ -1561,7 +1648,68 @@
         },
         {
           "id": "chats/2025-10-14-2k-years-christiantiy.md",
+          "score": 0.49,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-monstrous_doubles_girard_essay.md",
+          "score": 0.29,
+          "type": "inferred"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2025-12-10-arhictecture-of-harm.md": {
+      "related": [
+        {
+          "id": "2021-04-05-Religion-Last.md",
+          "score": 0.85,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-secular_eschaton_essay.md",
+          "score": 0.811,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-exploring-religin-marx.md",
+          "score": 0.699,
+          "type": "semantic"
+        },
+        {
+          "id": "2022-04-25-foundational-myths.md",
+          "score": 0.651,
+          "type": "semantic"
+        },
+        {
+          "id": "chats/2025-10-14-2k-years-christiantiy.md",
+          "score": 0.561,
+          "type": "semantic"
+        },
+        {
+          "id": "the-mirror-room/scratch.md",
           "score": 0.489,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-monstrous_doubles_girard_essay.md",
+          "score": 0.448,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-02-monotheism-oneness-traps.md",
+          "score": 0.446,
+          "type": "semantic"
+        },
+        {
+          "id": "notes/monotheism and oneness.md",
+          "score": 0.417,
+          "type": "semantic"
+        },
+        {
+          "id": "chats/2025-10-13-epistemic-humility-discussion.md",
+          "score": 0.398,
           "type": "semantic"
         }
       ],
@@ -3205,6 +3353,16 @@
           "type": "semantic"
         },
         {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.417,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-monstrous_doubles_girard_essay.md",
+          "score": 0.332,
+          "type": "inferred"
+        },
+        {
           "id": "2021-12-20-American-Spirit.md",
           "score": 0.313,
           "type": "inferred"
@@ -3736,6 +3894,11 @@
           "type": "semantic"
         },
         {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.489,
+          "type": "semantic"
+        },
+        {
           "id": "the-mirror-room/04-the-paradox-of-becoming.md",
           "score": 0.473,
           "type": "semantic"
@@ -3803,6 +3966,11 @@
           "type": "semantic"
         },
         {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.398,
+          "type": "semantic"
+        },
+        {
           "id": "chats/2025-12-03-paul-and-roman-conspiracy.md",
           "score": 0.375,
           "type": "semantic"
@@ -3829,18 +3997,23 @@
           "type": "semantic"
         },
         {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.561,
+          "type": "semantic"
+        },
+        {
           "id": "2021-04-05-Religion-Last.md",
           "score": 0.558,
           "type": "semantic"
         },
         {
           "id": "2025-12-09-exploring-religin-marx.md",
-          "score": 0.545,
+          "score": 0.546,
           "type": "semantic"
         },
         {
           "id": "2025-12-09-secular_eschaton_essay.md",
-          "score": 0.489,
+          "score": 0.49,
           "type": "semantic"
         },
         {
@@ -3862,6 +4035,11 @@
         {
           "id": "chats/2025-10-14-summarize-fear-of-falling.md",
           "score": 0.661,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-monstrous_doubles_girard_essay.md",
+          "score": 0.658,
           "type": "semantic"
         },
         {
@@ -4205,7 +4383,7 @@
           "score": 1,
           "weight": 2,
           "details": {
-            "similarity": 0.7546469840587215,
+            "similarity": 0.754680946471192,
             "normalizedScore": 1
           }
         }
@@ -5019,6 +5197,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2021-04-05-Religion-Last.md",
+      "target": "2025-12-10-arhictecture-of-harm.md",
+      "score": 0.8497892367580083,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7997892367580083,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5399367710274025,
+            "normalizedScore": 0.7997892367580083
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2021-12-23-Deeply-Nested-Updates-React.mdx",
       "target": "2022-01-17-why-fetching-earliy-is-difficult-to-express.md",
       "score": 0.8318162347080392,
@@ -5095,6 +5299,32 @@
         }
       ],
       "edgeType": "explicit"
+    },
+    {
+      "source": "2025-12-09-secular_eschaton_essay.md",
+      "target": "2025-12-10-arhictecture-of-harm.md",
+      "score": 0.8107919322167177,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7607919322167177,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5282375796650153,
+            "normalizedScore": 0.7607919322167177
+          }
+        }
+      ],
+      "edgeType": "semantic"
     },
     {
       "source": "notes/calm.md",
@@ -5747,6 +5977,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2022-04-25-foundational-myths.md",
+      "target": "2025-12-09-monstrous_doubles_girard_essay.md",
+      "score": 0.7318377675786508,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6818377675786508,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5045513302735952,
+            "normalizedScore": 0.6818377675786508
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "bookmarks/skiff.com.md",
       "target": "notes/future jobs.md",
       "score": 0.7274792026985749,
@@ -5983,7 +6239,7 @@
     {
       "source": "2021-04-05-Religion-Last.md",
       "target": "2025-12-09-exploring-religin-marx.md",
-      "score": 0.7055694028995539,
+      "score": 0.7056343332007398,
       "signals": [
         {
           "name": "wikilink",
@@ -5996,11 +6252,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.6555694028995539,
+          "score": 0.6556343332007397,
           "weight": 2,
           "details": {
-            "similarity": 0.49667082086986614,
-            "normalizedScore": 0.6555694028995539
+            "similarity": 0.4966902999602219,
+            "normalizedScore": 0.6556343332007397
           }
         }
       ],
@@ -6027,6 +6283,32 @@
           "details": {
             "similarity": 0.49541765384269876,
             "normalizedScore": 0.6513921794756626
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-09-exploring-religin-marx.md",
+      "target": "2025-12-10-arhictecture-of-harm.md",
+      "score": 0.699025670205025,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.649025670205025,
+          "weight": 2,
+          "details": {
+            "similarity": 0.49470770106150747,
+            "normalizedScore": 0.649025670205025
           }
         }
       ],
@@ -6345,6 +6627,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-09-monstrous_doubles_girard_essay.md",
+      "target": "chats/2025-10-14-girards-scapegoat-mechanism.md",
+      "score": 0.6581976215674623,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6081976215674623,
+          "weight": 2,
+          "details": {
+            "similarity": 0.48245928647023867,
+            "normalizedScore": 0.6081976215674623
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx",
       "target": "2021-12-23-Deeply-Nested-Updates-React.mdx",
       "score": 0.6546393117006774,
@@ -6417,6 +6725,32 @@
           "details": {
             "similarity": 0.48074108458690445,
             "normalizedScore": 0.6024702819563482
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2022-04-25-foundational-myths.md",
+      "target": "2025-12-10-arhictecture-of-harm.md",
+      "score": 0.6511534333676169,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6011534333676168,
+          "weight": 2,
+          "details": {
+            "similarity": 0.48034603001028503,
+            "normalizedScore": 0.6011534333676168
           }
         }
       ],
@@ -7151,6 +7485,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-10-arhictecture-of-harm.md",
+      "target": "chats/2025-10-14-2k-years-christiantiy.md",
+      "score": 0.561221934801201,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5112219348012009,
+          "weight": 2,
+          "details": {
+            "similarity": 0.45336658044036027,
+            "normalizedScore": 0.5112219348012009
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2022-05-26-query-plan-optimization.mdx",
       "target": "notes/query builder arguments.md",
       "score": 0.5587488133646401,
@@ -7335,7 +7695,7 @@
     {
       "source": "2025-12-09-exploring-religin-marx.md",
       "target": "chats/2025-10-14-2k-years-christiantiy.md",
-      "score": 0.5453684692094583,
+      "score": 0.5455639167384413,
       "signals": [
         {
           "name": "wikilink",
@@ -7348,11 +7708,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.49536846920945826,
+          "score": 0.49556391673844125,
           "weight": 2,
           "details": {
-            "similarity": 0.44861054076283746,
-            "normalizedScore": 0.49536846920945826
+            "similarity": 0.44866917502153236,
+            "normalizedScore": 0.49556391673844125
           }
         }
       ],
@@ -7907,7 +8267,7 @@
     {
       "source": "2021-04-05-Religion-Last.md",
       "target": "2025-12-09-secular_eschaton_essay.md",
-      "score": 0.49720657534971563,
+      "score": 0.4972394531757127,
       "signals": [
         {
           "name": "wikilink",
@@ -7920,11 +8280,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.44720657534971564,
+          "score": 0.44723945317571273,
           "weight": 2,
           "details": {
-            "similarity": 0.4341619726049147,
-            "normalizedScore": 0.44720657534971564
+            "similarity": 0.4341718359527138,
+            "normalizedScore": 0.44723945317571273
           }
         }
       ],
@@ -8063,7 +8423,7 @@
     {
       "source": "2025-12-09-secular_eschaton_essay.md",
       "target": "chats/2025-10-14-2k-years-christiantiy.md",
-      "score": 0.48946580600221606,
+      "score": 0.48953278245573434,
       "signals": [
         {
           "name": "wikilink",
@@ -8076,11 +8436,37 @@
         },
         {
           "name": "semantic",
-          "score": 0.4394658060022161,
+          "score": 0.43953278245573435,
           "weight": 2,
           "details": {
-            "similarity": 0.4318397418006648,
-            "normalizedScore": 0.4394658060022161
+            "similarity": 0.4318598347367203,
+            "normalizedScore": 0.43953278245573435
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-10-arhictecture-of-harm.md",
+      "target": "the-mirror-room/scratch.md",
+      "score": 0.48940307151694445,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.43940307151694447,
+          "weight": 2,
+          "details": {
+            "similarity": 0.43182092145508333,
+            "normalizedScore": 0.43940307151694447
           }
         }
       ],
@@ -8685,6 +9071,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-09-monstrous_doubles_girard_essay.md",
+      "target": "2025-12-10-arhictecture-of-harm.md",
+      "score": 0.44816698205140815,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.39816698205140816,
+          "weight": 2,
+          "details": {
+            "similarity": 0.41945009461542243,
+            "normalizedScore": 0.39816698205140816
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "bookmarks/desolenator.com.md",
       "target": "bookmarks/netfuture.ch.md",
       "score": 0.4466733048333352,
@@ -8705,6 +9117,32 @@
           "details": {
             "similarity": 0.41900199145000055,
             "normalizedScore": 0.39667330483333524
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-02-monotheism-oneness-traps.md",
+      "target": "2025-12-10-arhictecture-of-harm.md",
+      "score": 0.4460076296047268,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3960076296047268,
+          "weight": 2,
+          "details": {
+            "similarity": 0.418802288881418,
+            "normalizedScore": 0.3960076296047268
           }
         }
       ],
@@ -9101,6 +9539,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-10-arhictecture-of-harm.md",
+      "target": "notes/monotheism and oneness.md",
+      "score": 0.41661721113567857,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3666172111356786,
+          "weight": 2,
+          "details": {
+            "similarity": 0.40998516334070356,
+            "normalizedScore": 0.3666172111356786
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "bookmarks/alecmuffet.com.md",
       "target": "bookmarks/unpaywall.org.md",
       "score": 0.4133905822454353,
@@ -9381,6 +9845,32 @@
           "details": {
             "similarity": 0.40450320345924307,
             "normalizedScore": 0.3483440115308103
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-10-arhictecture-of-harm.md",
+      "target": "chats/2025-10-13-epistemic-humility-discussion.md",
+      "score": 0.39818189622115563,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.34818189622115564,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4044545688663467,
+            "normalizedScore": 0.34818189622115564
           }
         }
       ],
@@ -10349,6 +10839,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-09-exploring-religin-marx.md",
+      "target": "2025-12-09-monstrous_doubles_girard_essay.md",
+      "score": 0.3619006323925635,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3119006323925635,
+          "weight": 2,
+          "details": {
+            "similarity": 0.393570189717769,
+            "normalizedScore": 0.3119006323925635
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2022-10-18-lamport-sufficient-for-lww.md",
       "target": "2025-12-03-state-of-the-union.md",
       "score": 0.35707874120319355,
@@ -10533,7 +11049,7 @@
     {
       "source": "2025-12-09-exploring-religin-marx.md",
       "target": "chats/2025-10-13-epistemic-humility-discussion.md",
-      "score": 0.3457586770560391,
+      "score": 0.34578802157008054,
       "signals": [
         {
           "name": "wikilink",
@@ -10546,11 +11062,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.2957586770560391,
+          "score": 0.29578802157008055,
           "weight": 2,
           "details": {
-            "similarity": 0.3887276031168117,
-            "normalizedScore": 0.2957586770560391
+            "similarity": 0.38873640647102414,
+            "normalizedScore": 0.29578802157008055
           }
         }
       ],
@@ -10759,6 +11275,32 @@
           "details": {
             "similarity": 0.38464079406844087,
             "normalizedScore": 0.2821359802281363
+          }
+        }
+      ],
+      "edgeType": "inferred"
+    },
+    {
+      "source": "2025-12-09-monstrous_doubles_girard_essay.md",
+      "target": "notes/monotheism and oneness.md",
+      "score": 0.33192787117834927,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.2819278711783493,
+          "weight": 2,
+          "details": {
+            "similarity": 0.38457836135350476,
+            "normalizedScore": 0.2819278711783493
           }
         }
       ],
@@ -11259,6 +11801,32 @@
       "edgeType": "inferred"
     },
     {
+      "source": "2025-12-02-monotheism-oneness-traps.md",
+      "target": "2025-12-09-monstrous_doubles_girard_essay.md",
+      "score": 0.3104569585422282,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.2604569585422282,
+          "weight": 2,
+          "details": {
+            "similarity": 0.37813708756266845,
+            "normalizedScore": 0.2604569585422282
+          }
+        }
+      ],
+      "edgeType": "inferred"
+    },
+    {
       "source": "bookmarks/netfuture.ch.md",
       "target": "notes/tla+.md",
       "score": 0.3093367391702028,
@@ -11519,6 +12087,32 @@
       "edgeType": "inferred"
     },
     {
+      "source": "2020-06-29-all-things-are-permitted.md",
+      "target": "2025-12-10-arhictecture-of-harm.md",
+      "score": 0.30085005673294823,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.25085005673294825,
+          "weight": 2,
+          "details": {
+            "similarity": 0.37525501701988445,
+            "normalizedScore": 0.25085005673294825
+          }
+        }
+      ],
+      "edgeType": "inferred"
+    },
+    {
       "source": "2021-12-15-React-Anemic-Models.md",
       "target": "start-here.md",
       "score": 0.29894713656469946,
@@ -11747,6 +12341,32 @@
           "details": {
             "similarity": 0.37213790671318714,
             "normalizedScore": 0.24045968904395718
+          }
+        }
+      ],
+      "edgeType": "inferred"
+    },
+    {
+      "source": "2025-12-09-monstrous_doubles_girard_essay.md",
+      "target": "2025-12-09-secular_eschaton_essay.md",
+      "score": 0.2900123104906637,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.24001231049066374,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3720036931471991,
+            "normalizedScore": 0.24001231049066374
           }
         }
       ],
@@ -13081,7 +13701,7 @@
     {
       "source": "2025-12-09-exploring-religin-marx.md",
       "target": "the-mirror-room/scratch.md",
-      "score": 0.25227276316889197,
+      "score": 0.2522816147600326,
       "signals": [
         {
           "name": "wikilink",
@@ -13094,11 +13714,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.20227276316889198,
+          "score": 0.2022816147600326,
           "weight": 2,
           "details": {
-            "similarity": 0.3606818289506676,
-            "normalizedScore": 0.20227276316889198
+            "similarity": 0.36068448442800977,
+            "normalizedScore": 0.2022816147600326
           }
         }
       ],
@@ -13195,117 +13815,119 @@
       "2020-05-17-dangerous-ideas.md": 6,
       "2020-05-19-These-Are-Not-Types.md": 3,
       "2020-05-25-Non-Conceptual-Definitions.md": 7,
-      "2020-06-29-all-things-are-permitted.md": 8,
+      "2020-06-29-all-things-are-permitted.md": 6,
       "2020-09-13-declarative.md": 1,
-      "2021-01-21-false-positive-rate.md": 9,
-      "2021-01-26-regression-mean-vs-gambler.md": 10,
-      "2021-02-07-volatility-isnt-risk.md": 10,
+      "2021-01-21-false-positive-rate.md": 8,
+      "2021-01-26-regression-mean-vs-gambler.md": 9,
+      "2021-02-07-volatility-isnt-risk.md": 9,
       "2021-02-08-reactive-markdown.md": 0,
       "2021-02-12-Todo-MVC.md": 0,
       "2021-02-14-Pi-Cloud.mdx": 3,
-      "2021-03-01-Nic-Cage-Genre.md": 11,
-      "2021-04-05-Religion-Last.md": 12,
+      "2021-03-01-Nic-Cage-Genre.md": 10,
+      "2021-04-05-Religion-Last.md": 6,
       "2021-08-22-Understanding-Generics.md": 3,
       "2021-12-15-React-Anemic-Models.md": 0,
       "2021-12-16-Missing-Mutation-Primitives.md": 3,
       "2021-12-17-Object-Identity.mdx": 1,
       "2021-12-20-American-Spirit.md": 6,
-      "2021-12-20-mathematician-running-the-world.md": 13,
+      "2021-12-20-mathematician-running-the-world.md": 11,
       "2021-12-23-Deeply-Nested-Updates-React.mdx": 0,
       "2021-12-27-Observability-Driven-Development.md": 3,
       "2021-12-27-Personal-Vision.mdx": 1,
       "2021-12-27-urls-as-display-data.md": 0,
-      "2021-12-28-Color-Picker-From-Scratch.md": 14,
+      "2021-12-28-Color-Picker-From-Scratch.md": 12,
       "2022-01-09-improving-code-sharing.md": 0,
       "2022-01-17-why-fetching-earliy-is-difficult-to-express.md": 0,
       "2022-04-07-your-package-is-two.mdx": 0,
-      "2022-04-25-doing-for-others.md": 12,
+      "2022-04-25-doing-for-others.md": 6,
       "2022-04-25-foundational-myths.md": 6,
       "2022-05-12-simple-mdx.mdx": 0,
       "2022-05-12-skipping-the-bundling.md": 0,
       "2022-05-13-large-local-storage.md": 0,
       "2022-05-26-chunk-iterable.md": 3,
-      "2022-05-26-query-builder.mdx": 15,
-      "2022-05-26-query-plan-optimization.mdx": 15,
-      "2022-05-26-query-planning.mdx": 15,
+      "2022-05-26-query-builder.mdx": 13,
+      "2022-05-26-query-plan-optimization.mdx": 13,
+      "2022-05-26-query-planning.mdx": 13,
       "2022-06-02-this-time-is-different.md": 0,
       "2022-06-06-not-machine-readable.md": 3,
-      "2022-06-16-always-a-body.md": 16,
+      "2022-06-16-always-a-body.md": 14,
       "2022-08-23-why-sqlite-why-now.md": 3,
       "2022-10-18-lamport-clock.md": 3,
       "2022-10-18-lamport-sufficient-for-lww.md": 3,
       "2022-10-19-meta-scales-mysql.md": 3,
       "2025-12-02-monotheism-oneness-traps.md": 6,
       "2025-12-03-state-of-the-union.md": 1,
-      "2025-12-09-exploring-religin-marx.md": 12,
-      "2025-12-09-secular_eschaton_essay.md": 12,
+      "2025-12-09-exploring-religin-marx.md": 6,
+      "2025-12-09-monstrous_doubles_girard_essay.md": 6,
+      "2025-12-09-secular_eschaton_essay.md": 6,
+      "2025-12-10-arhictecture-of-harm.md": 6,
       "start-here.md": 3,
-      "bookmarks/alecmuffet.com.md": 17,
-      "bookmarks/allenfarrington.medium.com.md": 17,
-      "bookmarks/antonz.org.md": 18,
-      "bookmarks/assemblyai.com.md": 17,
+      "bookmarks/alecmuffet.com.md": 15,
+      "bookmarks/allenfarrington.medium.com.md": 15,
+      "bookmarks/antonz.org.md": 16,
+      "bookmarks/assemblyai.com.md": 15,
       "bookmarks/bartoszsypytkowski.com.md": 3,
-      "bookmarks/beautifulracket.com.md": 17,
-      "bookmarks/blockprotocol.org.md": 3,
+      "bookmarks/beautifulracket.com.md": 15,
+      "bookmarks/blockprotocol.org.md": 17,
       "bookmarks/cgi.luddy.indiana.edu.md": 3,
       "bookmarks/cs.utexas.edu.md": 3,
-      "bookmarks/daveliepmann.com.md": 19,
-      "bookmarks/david-dahan.com.md": 20,
-      "bookmarks/david.rothlis.net.md": 18,
-      "bookmarks/desolenator.com.md": 17,
-      "bookmarks/developers.soundcloud.com.md": 21,
-      "bookmarks/devever.net.md": 17,
+      "bookmarks/daveliepmann.com.md": 18,
+      "bookmarks/david-dahan.com.md": 19,
+      "bookmarks/david.rothlis.net.md": 16,
+      "bookmarks/desolenator.com.md": 15,
+      "bookmarks/developers.soundcloud.com.md": 20,
+      "bookmarks/devever.net.md": 15,
       "bookmarks/dist-prog-book.com.md": 3,
-      "bookmarks/dwitter.net.md": 17,
-      "bookmarks/edwardtufte.github.io.md": 22,
-      "bookmarks/fly.io.md": 18,
-      "bookmarks/glitch.com.md": 17,
+      "bookmarks/dwitter.net.md": 15,
+      "bookmarks/edwardtufte.github.io.md": 21,
+      "bookmarks/fly.io.md": 16,
+      "bookmarks/glitch.com.md": 15,
       "bookmarks/hal.inria.fr.md": 3,
-      "bookmarks/hash.ai.md": 17,
-      "bookmarks/kinopio.club.md": 17,
-      "bookmarks/lago.com.md": 17,
-      "bookmarks/nature.com.md": 17,
-      "bookmarks/netfuture.ch.md": 17,
-      "bookmarks/philo.substack.com.md": 17,
-      "bookmarks/pketh.org.md": 17,
-      "bookmarks/pouet.net.md": 17,
-      "bookmarks/sigbus.info.md": 23,
-      "bookmarks/skiff.com.md": 17,
-      "bookmarks/unpaywall.org.md": 17,
-      "bookmarks/wundergraph.hasnode.dev.md": 17,
-      "notes/2025-gift-list.md": 24,
-      "notes/a protocol for integrations.md": 3,
+      "bookmarks/hash.ai.md": 15,
+      "bookmarks/kinopio.club.md": 15,
+      "bookmarks/lago.com.md": 15,
+      "bookmarks/nature.com.md": 15,
+      "bookmarks/netfuture.ch.md": 15,
+      "bookmarks/philo.substack.com.md": 15,
+      "bookmarks/pketh.org.md": 15,
+      "bookmarks/pouet.net.md": 15,
+      "bookmarks/sigbus.info.md": 22,
+      "bookmarks/skiff.com.md": 15,
+      "bookmarks/unpaywall.org.md": 15,
+      "bookmarks/wundergraph.hasnode.dev.md": 15,
+      "notes/2025-gift-list.md": 23,
+      "notes/a protocol for integrations.md": 17,
       "notes/bloom.md": 3,
-      "notes/bookmark management.md": 17,
+      "notes/bookmark management.md": 15,
       "notes/calm.md": 3,
       "notes/crdts.md": 3,
       "notes/delta state crdts.md": 3,
       "notes/distributed systems.md": 3,
-      "notes/future jobs.md": 17,
+      "notes/future jobs.md": 15,
       "notes/logical clocks.md": 3,
       "notes/monotheism and oneness.md": 6,
-      "notes/query builder arguments.md": 15,
-      "notes/scratch.md": 25,
+      "notes/query builder arguments.md": 13,
+      "notes/scratch.md": 24,
       "notes/streaming systems.md": 3,
-      "notes/tla+.md": 17,
+      "notes/tla+.md": 15,
       "notes/type systems.md": 3,
       "notes/vector clock growth.md": 3,
-      "the-mirror-room/01-the-consistent-man.md": 12,
-      "the-mirror-room/02-the-mirror-room.md": 12,
-      "the-mirror-room/03-the-meeting.md": 12,
-      "the-mirror-room/04-the-paradox-of-becoming.md": 12,
+      "the-mirror-room/01-the-consistent-man.md": 6,
+      "the-mirror-room/02-the-mirror-room.md": 6,
+      "the-mirror-room/03-the-meeting.md": 6,
+      "the-mirror-room/04-the-paradox-of-becoming.md": 6,
       "the-mirror-room/05-the-readers-crisis.md": 6,
-      "the-mirror-room/06-gurdjieff-observations.md": 12,
-      "the-mirror-room/audio.md": 12,
-      "the-mirror-room/index.md": 12,
-      "the-mirror-room/scratch.md": 12,
-      "chats/2025-10-13-adding-chats-section.md": 17,
-      "chats/2025-10-13-epistemic-humility-discussion.md": 12,
-      "chats/2025-10-14-2k-years-christiantiy.md": 12,
+      "the-mirror-room/06-gurdjieff-observations.md": 6,
+      "the-mirror-room/audio.md": 6,
+      "the-mirror-room/index.md": 6,
+      "the-mirror-room/scratch.md": 6,
+      "chats/2025-10-13-adding-chats-section.md": 15,
+      "chats/2025-10-13-epistemic-humility-discussion.md": 6,
+      "chats/2025-10-14-2k-years-christiantiy.md": 6,
       "chats/2025-10-14-girards-scapegoat-mechanism.md": 6,
       "chats/2025-10-14-summarize-fear-of-falling.md": 6,
-      "chats/2025-10-15-ai-impact-on-labor.md": 26,
-      "chats/2025-12-03-paul-and-roman-conspiracy.md": 12
+      "chats/2025-10-15-ai-impact-on-labor.md": 25,
+      "chats/2025-12-03-paul-and-roman-conspiracy.md": 6
     },
     "clusterMeta": [
       {
@@ -13316,167 +13938,161 @@
       },
       {
         "id": 1,
-        "centerX": 184.4926965939522,
-        "centerY": -778.4358964638591,
+        "centerX": 191.45253143004626,
+        "centerY": -776.7534539408416,
         "nodeCount": 5
       },
       {
         "id": 2,
-        "centerX": 359.0393441603698,
-        "centerY": -714.9061122587298,
+        "centerX": 371.7785376350149,
+        "centerY": -708.3648205225679,
         "nodeCount": 1
       },
       {
         "id": 3,
-        "centerX": 514.2300877492315,
-        "centerY": -612.8355544951825,
-        "nodeCount": 29
+        "centerX": 530.4981265926363,
+        "centerY": -598.8085985368808,
+        "nodeCount": 27
       },
       {
         "id": 4,
-        "centerX": 641.6985542040351,
-        "centerY": -477.72687336222896,
+        "centerX": 658.3870927149251,
+        "centerY": -454.45179738492465,
         "nodeCount": 1
       },
       {
         "id": 5,
-        "centerX": 734.5728855042192,
-        "centerY": -316.8638128313255,
+        "centerX": 748.0129941483318,
+        "centerY": -283.6839096340284,
         "nodeCount": 1
       },
       {
         "id": 6,
-        "centerX": 787.8462024097664,
-        "centerY": -138.9185421335443,
-        "nodeCount": 8
+        "centerX": 794.1670992784432,
+        "centerY": -96.42934420425836,
+        "nodeCount": 26
       },
       {
         "id": 7,
-        "centerX": 798.6465266170145,
-        "centerY": 46.515863128380666,
+        "centerX": 794.1670992784432,
+        "centerY": 96.42934420425836,
         "nodeCount": 1
       },
       {
         "id": 8,
-        "centerX": 766.3916098523911,
-        "centerY": 229.4425861688722,
+        "centerX": 748.0129941483318,
+        "centerY": 283.6839096340284,
         "nodeCount": 1
       },
       {
         "id": 9,
-        "centerX": 692.820323027551,
-        "centerY": 399.9999999999999,
-        "nodeCount": 1
-      },
-      {
-        "id": 10,
-        "centerX": 581.8989132584389,
-        "centerY": 548.9933102949868,
+        "centerX": 658.3870927149252,
+        "centerY": 454.4517973849246,
         "nodeCount": 2
       },
       {
+        "id": 10,
+        "centerX": 530.498126592636,
+        "centerY": 598.8085985368809,
+        "nodeCount": 1
+      },
+      {
         "id": 11,
-        "centerX": 439.6071824566449,
-        "centerY": 668.390249130349,
+        "centerX": 371.7785376350152,
+        "centerY": 708.3648205225677,
         "nodeCount": 1
       },
       {
         "id": 12,
-        "centerX": 273.61611466053506,
-        "centerY": 751.7540966287266,
-        "nodeCount": 15
-      },
-      {
-        "id": 13,
-        "centerX": 92.87433130018388,
-        "centerY": 794.5906861935545,
+        "centerX": 191.4525314300461,
+        "centerY": 776.7534539408416,
         "nodeCount": 1
       },
       {
+        "id": 13,
+        "centerX": -3.0628549591415593e-13,
+        "centerY": 800,
+        "nodeCount": 4
+      },
+      {
         "id": 14,
-        "centerX": -92.87433130018414,
-        "centerY": 794.5906861935545,
+        "centerX": -191.45253143004598,
+        "centerY": 776.7534539408417,
         "nodeCount": 1
       },
       {
         "id": 15,
-        "centerX": -273.6161146605346,
-        "centerY": 751.7540966287269,
-        "nodeCount": 4
-      },
-      {
-        "id": 16,
-        "centerX": -439.6071824566448,
-        "centerY": 668.390249130349,
-        "nodeCount": 1
-      },
-      {
-        "id": 17,
-        "centerX": -581.8989132584389,
-        "centerY": 548.9933102949868,
+        "centerX": -371.7785376350145,
+        "centerY": 708.3648205225682,
         "nodeCount": 23
       },
       {
-        "id": 18,
-        "centerX": -692.8203230275508,
-        "centerY": 400.0000000000003,
+        "id": 16,
+        "centerX": -530.498126592636,
+        "centerY": 598.808598536881,
         "nodeCount": 3
       },
       {
+        "id": 17,
+        "centerX": -658.3870927149251,
+        "centerY": 454.45179738492465,
+        "nodeCount": 2
+      },
+      {
+        "id": 18,
+        "centerX": -748.0129941483318,
+        "centerY": 283.6839096340287,
+        "nodeCount": 1
+      },
+      {
         "id": 19,
-        "centerX": -766.3916098523911,
-        "centerY": 229.44258616887248,
+        "centerX": -794.1670992784432,
+        "centerY": 96.42934420425881,
         "nodeCount": 1
       },
       {
         "id": 20,
-        "centerX": -798.6465266170145,
-        "centerY": 46.51586312838094,
+        "centerX": -794.1670992784432,
+        "centerY": -96.42934420425861,
         "nodeCount": 1
       },
       {
         "id": 21,
-        "centerX": -787.8462024097663,
-        "centerY": -138.91854213354472,
+        "centerX": -748.0129941483318,
+        "centerY": -283.6839096340285,
         "nodeCount": 1
       },
       {
         "id": 22,
-        "centerX": -734.5728855042192,
-        "centerY": -316.8638128313253,
+        "centerX": -658.3870927149256,
+        "centerY": -454.45179738492396,
         "nodeCount": 1
       },
       {
         "id": 23,
-        "centerX": -641.6985542040352,
-        "centerY": -477.7268733622288,
+        "centerX": -530.4981265926364,
+        "centerY": -598.8085985368807,
         "nodeCount": 1
       },
       {
         "id": 24,
-        "centerX": -514.2300877492315,
-        "centerY": -612.8355544951824,
+        "centerX": -371.7785376350147,
+        "centerY": -708.364820522568,
         "nodeCount": 1
       },
       {
         "id": 25,
-        "centerX": -359.0393441603699,
-        "centerY": -714.9061122587298,
-        "nodeCount": 1
-      },
-      {
-        "id": 26,
-        "centerX": -184.49269659395162,
-        "centerY": -778.4358964638592,
+        "centerX": -191.45253143004618,
+        "centerY": -776.7534539408416,
         "nodeCount": 1
       }
     ],
-    "modularity": 0.6683425722286754
+    "modularity": 0.6751475698266364
   },
   "metadata": {
-    "totalNodes": 121,
-    "totalEdges": 355,
-    "buildTimeMs": 273,
+    "totalNodes": 123,
+    "totalEdges": 372,
+    "buildTimeMs": 293,
     "signalsUsed": [
       "wikilink",
       "semantic"

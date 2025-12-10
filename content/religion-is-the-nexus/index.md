@@ -3,3 +3,14 @@ Synthesis is beginning of this chat: https://chatgpt.com/g/g-p-693876fa683481919
 Persistence of eschatology: https://chatgpt.com/s/t_693844789ad081918ebe77cecd47af8a
 
 AI cut at chapters: https://chatgpt.com/g/g-p-693876fa683481919b0b50588f4a6b1d/c/693867d2-53d8-8332-b45a-863f97eefdec
+
+Markets vs Capitalism: https://chatgpt.com/c/6938777c-dc88-8328-837b-4f948eea7a63
+
+Girard's anthropological evidence / why sacrifice satisfied: https://chatgpt.com/c/6938d617-a964-8325-8faf-a8ca689265c8
+
+Identity politics as breakdown and cohesion: https://chatgpt.com/c/6936040e-ffd4-832e-9f58-1a86b38e367d
+> Your intuition is right: identity politics is both a response to social breakdown and a driver of further breakdown.
+
+
+Educational system by Jesuits to re-Catholicize elites: https://chatgpt.com/c/693993d0-6d98-832b-bc2e-e72ea5910f37
+
