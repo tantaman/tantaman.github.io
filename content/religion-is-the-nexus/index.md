@@ -14,3 +14,7 @@ Identity politics as breakdown and cohesion: https://chatgpt.com/c/6936040e-ffd4
 
 Educational system by Jesuits to re-Catholicize elites: https://chatgpt.com/c/693993d0-6d98-832b-bc2e-e72ea5910f37
 
+
+Ruling class religions: https://chatgpt.com/c/69398bc6-1ddc-832b-beb6-0b99e795780a
+
+Capital as cosmic principle: https://chatgpt.com/c/6935ecc2-ed0c-8332-95fd-b183a5cc1187
