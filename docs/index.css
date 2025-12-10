@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=IM+Fell+English+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=IM+Fell+English+SC&display=swap');
 
 :root {
   --bg: #1a120e;
@@ -25,6 +25,8 @@ body {
   margin: 0;
   font-size: 1.225rem;
   font-family: 'Cormorant Garamond', 'IM Fell English', serif;
+  font-weight: 500;
+  line-height: 1.5;
   background-color: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -140,11 +142,20 @@ section {
 }
 
 #static {
-  max-width: 1024px;
+  max-width: 68ch;
   margin-left: auto;
   margin-right: auto;
   position: relative;
   font-size: 1.35rem;
+}
+
+#static p {
+  margin-bottom: 1.4em;
+}
+
+#static h1,
+#static h2 {
+  letter-spacing: 0.05em;
 }
 
 .card {
@@ -172,7 +183,7 @@ section {
 }
 
 hr {
-  border: 1px solid var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   height: 0px;
 }
 
