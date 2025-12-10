@@ -102,7 +102,7 @@ async function tagsPage() {
     });
 
   return `
-<section id="tags-page">
+<section id="tags-page" class="wide-layout">
   <div class="container">
     <h1 class="page-title">Browse by Tag</h1>
     <p class="page-description">Explore posts organized by topic. Click to expand each tag.</p>

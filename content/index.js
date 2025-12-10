@@ -64,12 +64,12 @@ async function siteIndex() {
     .slice(0, 12);
 
   return `
-<section id="hero">
+<section id="hero" class="wide-layout">
   <img src="/img/avatar-angry.png" alt="Stoic guardian meditating" />
   <!-- <h2>Words&nbsp;Forged&nbsp;in&nbsp;Fire</h2> -->
   <p>tales, reflections, and evolving ideas.</p>
 </section>
-<section id="recent">
+<section id="recent" class="wide-layout">
   <div class="container">
     <h3 class="section-title">Recent</h3>
     <div class="grid">
@@ -140,7 +140,7 @@ export function renderCollection(collection, index, showAll = false) {
     );
 
   return `
-<section id="${collectionId}">
+<section id="${collectionId}" class="wide-layout">
   <div class="container">
     <h3 class="section-title">${collectionName}</h3>
     <div class="grid">

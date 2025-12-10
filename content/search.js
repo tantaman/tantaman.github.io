@@ -41,7 +41,7 @@ export default async function search(file, cwd, files) {
 
 function searchPage() {
   return `
-<section id="search-page">
+<section id="search-page" class="wide-layout">
   <div class="search-header">
     <h1 class="page-title">Search</h1>
     <p class="page-description">Find posts by keyword</p>
