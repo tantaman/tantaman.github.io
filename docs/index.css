@@ -142,11 +142,16 @@ section {
 }
 
 #static {
-  max-width: 68ch;
+  max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
   font-size: 1.35rem;
+}
+
+/* Narrow width for blog posts (pages without .wide-layout) */
+#static:not(:has(> .wide-layout)) {
+  max-width: 68ch;
 }
 
 #static p {
