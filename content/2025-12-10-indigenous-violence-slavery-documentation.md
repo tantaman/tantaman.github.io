@@ -1,4 +1,7 @@
-# Indigenous Slavery, Conquest, and Child Soldiers: Primary Source Documentation
+---
+title: 'Indigenous Slavery, Conquest, and Child Soldiers: Primary Source Documentation'
+tags: [politics, religion, revolt]
+---
 
 ## Research Objective
 This document compiles primary source documentation supporting the thesis that **violence permeates all cultures and none is above another**, focusing on slavery, conquest, human sacrifice, and child soldiers as perpetrated by indigenous African kingdoms (Dahomey, Zulu, Benin) and Indian civilizations (Delhi Sultanate, ancient India).
