@@ -40,3 +40,6 @@ https://claude.ai/chat/9aef0e4b-b121-466e-b7bc-df3a8684f6bf
 https://claude.ai/chat/6aa1074d-d5c6-462f-884e-293b90bc3c52
 https://chatgpt.com/c/693c4563-f1f8-832d-ae84-4d068344b0ba
 
+## Expaond on "Phase 3":
+https://claude.ai/chat/c4500da0-8faf-443a-b979-e82a2998c93b
+
