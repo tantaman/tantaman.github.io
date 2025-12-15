@@ -43,3 +43,22 @@ https://chatgpt.com/c/693c4563-f1f8-832d-ae84-4d068344b0ba
 ## Expaond on "Phase 3":
 https://claude.ai/chat/c4500da0-8faf-443a-b979-e82a2998c93b
 
+
+---
+
+Building the different psychological pictures
+- Greek
+- Roman
+- Peasant
+- Capitalist Managerial Class
+
+Start: https://chatgpt.com/c/69402558-ad5c-8331-b1a4-6532daa3de11
+  Expand:
+    - https://chatgpt.com/c/69402b94-20a8-832c-9f89-4e3709ceabe9
+    - https://claude.ai/chat/54c2ea77-dad1-431b-bf82-b4f35138c653
+    - https://claude.ai/chat/94694b94-03ee-4a0f-b253-9724d73e6f97
+    - https://claude.ai/chat/cbb3c964-ecdd-4ad9-98f9-4c07af351897
+      ^ Essay on burnout
+
+What shall we do with Christ's second coming? Is it because Christianity is eating itself? 
+How does one come to the divine spark without succumbing to productivity culture? Or any cultural influence of their time? Knowledge? Meditation? Self reflection? Or is there no divine spark and it is just imagination?
