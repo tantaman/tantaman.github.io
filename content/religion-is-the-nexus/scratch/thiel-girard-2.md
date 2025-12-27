@@ -2,11 +2,13 @@
 
 ## Introduction: A New Class of Elite
 
-Something shifted in American power over the past decade. The Epstein-class--figures whose influence derived from finance, institutional access, and the murky leverage of compromising information—-has given way to the Thiel class. Technologists who understood, at least a decade before most, that whoever controlled the emerging digital infrastructure would control the conditions of future governance itself.
+Something shifted in the topology of American power over the past decade. The Epstein-class elite—figures whose influence derived from finance, institutional access, and the murky leverage of compromising information—has given way to a new configuration. Call it the Thiel class: technologists who understood, at least a decade before most, that whoever controlled the emerging digital infrastructure would control the conditions of future governance itself.
 
-This is not a story of conspiracy but of a strategy informed by the mimetic theory of René Girard, the Stanford literary critic and anthropologist who became Peter Thiel's most important intellectual influence. Girard's insights into desire, rivalry, and the scapegoat mechanism have become, in Thiel's hands, an operational framework for accumulating and exercising power in the twenty-first century.
+This is not a story of conspiracy but of strategy—specifically, a strategy informed by the mimetic theory of René Girard, the Stanford literary critic and anthropologist who became Peter Thiel's most important intellectual influence. Girard's insights into desire, rivalry, and the scapegoat mechanism have become, in Thiel's hands, an operational framework for accumulating and exercising power in the twenty-first century.
 
-This is not speculation or inference from behavior. In his 2007 essay "The Straussian Moment," Thiel laid out his intellectual framework explicitly. Articulating his understanding of Girardian theory, his belief in the necessity of founding violence, his endorsement of surveillance over democratic deliberation, and his embrace of Straussian esoteric communication. The essay is a Rosetta Stone for understanding his subsequent actions: the Palantir founding, the Facebook investment, the Trump alliance, the DOGE project. What follows is an analysis of the strategy Thiel has openly described.
+Crucially, this is not speculation or inference from behavior. In his 2007 essay "The Straussian Moment," Thiel laid out his intellectual framework explicitly—articulating his understanding of Girardian theory, his belief in the necessity of founding violence, his endorsement of surveillance over democratic deliberation, and his embrace of Straussian esoteric communication. The essay is a Rosetta Stone for understanding his subsequent actions: the Palantir founding, the Facebook investment, the Trump alliance, the DOGE project. What follows is not a theory about what Thiel might believe but an analysis of a strategy he has openly described, for those willing to read carefully.
+
+This essay traces the development and deployment of this framework: from Girard's theory through Thiel's explicit adoption of it, to its application in electoral politics, platform governance, and the systematic transformation of the American federal government from an instrument of positive governance into a purely negative—coercive and protective—apparatus that serves oligarchic interests while providing the theater of democratic contestation.
 
 ---
 
@@ -14,13 +16,11 @@ This is not speculation or inference from behavior. In his 2007 essay "The Strau
 
 ### The Mimetic Foundation
 
-René Girard's central insight was that human desire is not autonomous but imitative. We do not want things because of their intrinsic qualities; we want them because others want them.
+René Girard's central insight was deceptively simple: human desire is not autonomous but imitative. We do not want things because of their intrinsic qualities; we want them because others want them. Desire is triangulated—it flows through a model whose wanting makes the object desirable.
 
-When we desire what others desire, we inevitably become rivals with the very people who inspired our desire. The person(s) we imitate—whom Girard calls the "model" or "mediator"—becomes an obstacle standing between us and the object we now both want. E.g., in the case of an exclusive good like status.
+This has profound implications for understanding conflict. If we desire what others desire, we inevitably become rivals with the very person who inspired our desire. The person we imitate—whom Girard calls the "model" or "mediator"—becomes an obstacle standing between us and the object we now both want. 
 
-The crucial next step: rivalry is contagious. When the original model sees the imitator's intense desire for the object, that very intensity increases the model's desire in turn. Now the model is imitating the imitator's wanting. Each party's desire inflames the other's. The imitation becomes reciprocal, the escalation becomes symmetrical, and both parties become increasingly similar even as their opposition intensifies—what Girard called "mimetic doubles." 
-
-As examples of this doubling, consider the Cold War: the United States and Soviet Union, each defining itself against the other, gradually came to mirror each other in their security apparatuses, their surveillance states, their nuclear arsenals, their imperial reach. Or consider bitter divorces, where spouses who once seemed complementary become indistinguishable in their tactics of mutual destruction. The very intensity of opposition produces convergence.
+But here is the crucial next step: rivalry is contagious. When the original model sees the imitator's intense desire for the object, that very intensity *increases* the model's desire in turn. Now the model is imitating the imitator's wanting. Each party's desire inflames the other's. The imitation becomes reciprocal, the escalation becomes symmetrical, and both parties become increasingly similar even as their opposition intensifies—what Girard called "mimetic doubles." Consider the Cold War: the United States and Soviet Union, each defining itself against the other, gradually came to mirror each other in their security apparatuses, their surveillance states, their nuclear arsenals, their imperial reach. Or consider bitter divorces, where spouses who once seemed complementary become indistinguishable in their tactics of mutual destruction. The very intensity of opposition produces convergence.
 
 Girard observed that cultures have a natural mechanism for resolving the escalating violence of mimetic rivalry: the scapegoat. Communities achieve temporary peace by collectively turning on a victim whose expulsion or sacrifice unifies the group. The victim must be both inside enough to be blamed and outside enough to be sacrificed without triggering further retaliation.
 
@@ -448,6 +448,74 @@ The Thiel project has vulnerabilities:
 
 **Alternative models**: Mamdani's success suggests appetite for a politics of material provision that is neither captured by tech capital nor reducible to culture war. Whether this can scale and survive federal opposition is unclear, but the model exists.
 
+### The Countervailing Forces: Real or Illusory?
+
+The Thiel project assumes that traditional state institutions will simply cede control to private technological infrastructure. But the state has its own power centers, its own interests, and its own theorists of what is happening—and they are beginning to articulate what sounds like resistance.
+
+On December 15, 2025, Blaise Metreweli, the new chief of MI6, delivered her first major public address. The speech is remarkable for how precisely it identifies the threat—in terms that are, whether consciously or not, deeply Girardian:
+
+> "Power itself is becoming more diffuse and more unpredictable, as control over these technologies shifts from states to corporations—and sometimes to individuals."
+
+> "As some algorithms become as powerful as states, those hyper-personalised tools could become a new vector for conflict and control."
+
+> "The algorithms flatter our biases and fracture our public squares. And as trust collapses, so too does our shared sense of truth—one of the greatest losses a society can suffer."
+
+This is a senior intelligence official describing exactly what our essay describes: algorithms as desire-shaping machines that "flatter our biases" (mimetic reinforcement), "fracture our public squares" (the destruction of shared models), and collapse "our shared sense of truth" (the erosion of the common reality that makes politics possible).
+
+Metreweli's speech came weeks after Elon Musk publicly called for the overthrow of the UK government at a far-right rally—an event that "rattled politicians" and made vivid the stakes of private platform power. The MI6 chief stopped short of naming Musk, but the target was unmistakable.
+
+At first glance, this suggests genuine resistance from the security state. The "parallel history" Thiel himself describes—the world of intelligence services, covert operations, and strategic manipulation—has its own protagonists, its own agendas, and its own reasons to resist subordination to tech billionaires. Metreweli explicitly frames technological mastery as an intelligence priority: "AI is a domain in which we will excel." This is the security state announcing its intention to master the new terrain, not surrender it.
+
+But we should be cautious about interpreting this as meaningful opposition to the underlying project.
+
+### The Deeper Structure: Transnational Capital Alignment
+
+What if the apparent geopolitical rivalry—US vs. China, democracy vs. authoritarianism, Western platforms vs. TikTok—is itself mimetic theater? What if the "competition" between great powers is a scapegoat mechanism that manages domestic populations while a deeper class consolidation proceeds across borders?
+
+Consider the actual capital relationships:
+
+- **Apple's entire supply chain depends on China.** The company that symbolizes American technological supremacy cannot make its products without Chinese manufacturing. "Decoupling" would be corporate suicide.
+
+- **Tesla has massive Chinese investment and production.** Musk is notably friendly with Beijing—hardly the posture of someone engaged in civilizational conflict.
+
+- **BlackRock, Vanguard, and major institutional investors hold significant positions in both American and Chinese tech.** The same pools of capital profit regardless of which "side" wins.
+
+- **ByteDance (TikTok's parent) has significant Western venture capital investment.** The "Chinese threat" is substantially owned by American and European investors.
+
+- **Thiel himself holds New Zealand citizenship**—an escape hatch that transcends any single nation-state's jurisdiction.
+
+The nationalist framing obscures what Girard would immediately recognize: mimetic convergence at the elite level. American and Chinese tech oligarchs have more in common with each other than with their respective populations. They share interests in:
+
+- Surveillance infrastructure (both governments want it; both tech sectors build it)
+- AI development without meaningful constraint (neither Washington nor Beijing is seriously limiting their tech sectors)
+- Labor arbitrage across borders (the same workers in Shenzhen build devices for Apple and Huawei)
+- Avoiding genuine regulation in either system (tech giants play governments against each other)
+- Maintaining platform control over their respective populations (the methods differ; the function is identical)
+
+From this perspective, the TikTok panic looks less like geopolitical resistance and more like a *scapegoat*—nationalist theater that provides both governments justification for expanded surveillance and control while the underlying capital relationships remain intact. The "threat" framing rallies domestic populations behind their respective elites. The actual class consolidation proceeds undisturbed.
+
+### Mimetic Rivals or Mimetic Doubles?
+
+Girard would note the irony: the US and China, ostensibly locked in conflict, are becoming increasingly *similar*. Both are developing AI surveillance systems. Both are building social credit mechanisms (America's are privatized through credit scores, platform bans, and employment screening, but the function converges). Both are hollowing out the state's positive capacity while preserving its coercive apparatus. Both have tech oligarchs with massive political influence operating alongside and sometimes above nominal government authority.
+
+This is the signature of mimetic rivalry: the antagonists converge even as their opposition intensifies. But it is also, potentially, the signature of something else—coordinated management of global populations by a transnational class whose internal competition is real but whose shared interests in maintaining platform control are more fundamental.
+
+The MI6 speech, in this light, reads differently. Metreweli's critique of platform power may be genuine—but it may be a conflict *within* elite structures rather than a challenge *to* them. The intelligence community and the tech oligarchs are competing for control of the same surveillance infrastructure. That is a real conflict with real stakes. But it is not a conflict that offers ordinary people any path to liberation. Whichever faction wins, the infrastructure of control remains—and likely expands.
+
+European regulation tells a similar story. The EU's GDPR and Digital Markets Act do impose friction on American tech giants. But they do not challenge the fundamental model of platform-mediated social control; they merely demand that European states and European companies get a larger share of the data and the leverage. This is inter-elite bargaining, not democratic resistance.
+
+### The Scapegoat of Geopolitical Conflict
+
+If this analysis is correct, the "China threat" narrative serves a Girardian function: it provides a shared enemy that unifies otherwise fractious domestic coalitions, justifies the expansion of surveillance and security apparatus, and directs attention away from the class consolidation happening in plain sight.
+
+The American worker losing their job to automation is told to blame China. The Chinese worker in a Foxconn factory is told to blame American containment. Both are managed through nationalist narratives that obscure their shared position relative to transnational capital.
+
+This does not mean geopolitical conflict is fake or that great power competition has no real stakes. Wars can start, people can die, and the outcomes matter. But it does suggest that the *framing* of this conflict as a battle between fundamentally different systems is misleading. Both systems are converging on platform-mediated techno-authoritarianism. The question is not *whether* this future arrives but *which configuration of elites* administers it.
+
+The MI6 speech ends with a call that could have come from a Girardian theorist: "Let's all check sources, consider evidence, and be alive to those algorithms that trigger intense reactions, like fear." This is an appeal to resist mimetic capture—to recognize the manipulation and refuse it. It is good advice. But coming from the head of a foreign intelligence service—an institution whose history includes 42 coup attempts in 27 countries—one might wonder whether the appeal to resist manipulation is itself a form of manipulation, redirecting attention toward foreign algorithms while domestic ones operate undisturbed.
+
+The darkest possibility is that there are no countervailing forces—only competing factions within a global elite that has already consolidated control over the infrastructure of desire. The theater of national rivalry provides narrative cover. The scapegoats are rotated as needed. And the populations of all nations remain captured, their desires triangulated through platforms that answer to no democratic authority anywhere.
+
 ### The Alternatives
 
 A genuine alternative would need to:
@@ -523,6 +591,20 @@ That is the race we are in. Understanding the game being played is the first ste
 > "The period between 1945 and the present could conceivably be rendered in two parallel histories: that of the historians... and that of the secret services, telling of murders, traps, betrayals, assassinations, cover-ups, and weapons shipments."
 >
 > — "The Straussian Moment," 2007 (quoting Roberto Calasso)
+
+### MI6 Chief Blaise Metreweli on Algorithmic Power
+
+> "Power itself is becoming more diffuse and more unpredictable, as control over these technologies shifts from states to corporations—and sometimes to individuals."
+>
+> — Speech, December 15, 2025
+
+> "As some algorithms become as powerful as states, those hyper-personalised tools could become a new vector for conflict and control."
+>
+> — Speech, December 15, 2025
+
+> "The algorithms flatter our biases and fracture our public squares. And as trust collapses, so too does our shared sense of truth—one of the greatest losses a society can suffer."
+>
+> — Speech, December 15, 2025
 
 ### René Girard on Mimetic Desire
 
