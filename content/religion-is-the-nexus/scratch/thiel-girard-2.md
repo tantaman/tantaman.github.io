@@ -68,7 +68,7 @@ Thiel's business philosophy, articulated most clearly in his book *Zero to One* 
 
 > "All happy companies are different: each one earns a monopoly by solving a unique problem. All failed companies are the same: they failed to escape competition."
 
-This sounds like contrarian business advice, but it is Girardian strategy applied to markets. Competitive markets are mimetic bloodbaths—everyone imitating everyone else, margins driven to zero, no one achieving escape velocity. Monopoly is the only position from which you can be a model without being caught in rivalry.
+This sounds like contrarian business advice, but it is Girardian strategy applied to markets. Competitive markets are mimetic bloodbaths—internal mediation at industrial scale, everyone imitating everyone else, margins driven to zero, no one achieving escape velocity. Monopoly is the only position from which you can remain an *externally* mediated model: others may imitate your general posture of success, but there is no contested object, no direct competition, no proximity that would collapse the relationship into symmetric rivalry. The monopolist is imitated but never rivaled.
 
 PayPal, Palantir, Facebook (as first outside investor), SpaceX (as early backer)—the through-line is the pursuit of monopoly positions in domains that would become infrastructural. Not competing within existing markets but creating new ones where you are the only player.
 
