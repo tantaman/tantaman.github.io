@@ -20,7 +20,11 @@ René Girard's central insight was deceptively simple: human desire is not auton
 
 This has profound implications for understanding conflict. If we desire what others desire, we inevitably become rivals with the very person who inspired our desire. The person we imitate—whom Girard calls the "model" or "mediator"—becomes an obstacle standing between us and the object we now both want. 
 
-But here is the crucial next step: rivalry is contagious. When the original model sees the imitator's intense desire for the object, that very intensity *increases* the model's desire in turn. Now the model is imitating the imitator's wanting. Each party's desire inflames the other's. The imitation becomes reciprocal, the escalation becomes symmetrical, and both parties become increasingly similar even as their opposition intensifies—what Girard called "mimetic doubles." Consider the Cold War: the United States and Soviet Union, each defining itself against the other, gradually came to mirror each other in their security apparatuses, their surveillance states, their nuclear arsenals, their imperial reach. Or consider bitter divorces, where spouses who once seemed complementary become indistinguishable in their tactics of mutual destruction. The very intensity of opposition produces convergence.
+But here is the crucial next step: rivalry is contagious. When model and imitator are close enough—when they occupy the same social space and contest the same objects—the model can be infected by the imitator's desire. The imitator's intensity *increases* the model's attachment to the contested object. Now the model is imitating the imitator's wanting. Each party's desire inflames the other's. The imitation becomes reciprocal, the escalation becomes symmetrical, and both parties become increasingly similar even as their opposition intensifies—what Girard called "mimetic doubles."
+
+Girard distinguished this dynamic—which he called *internal mediation*—from *external mediation*, where the model is distant enough (socially, temporally, or categorically) that no rivalry develops. Don Quixote imitates Amadis of Gaul; a teenager imitates a celebrity. The model doesn't know they're being imitated, or doesn't care. There is no contested object, no collapse into symmetric rivalry. This distinction will prove crucial for understanding Thiel's strategy: the monopolist seeks to remain an externally mediated model—imitated but never rivaled.
+
+Consider the Cold War as an example of internal mediation at civilizational scale: the United States and Soviet Union, each occupying the same contested space of global influence, gradually came to mirror each other in their security apparatuses, their surveillance states, their nuclear arsenals, their imperial reach. Or consider bitter divorces, where spouses who once seemed complementary become indistinguishable in their tactics of mutual destruction. The very intensity of opposition produces convergence.
 
 Girard observed that cultures have a natural mechanism for resolving the escalating violence of mimetic rivalry: the scapegoat. Communities achieve temporary peace by collectively turning on a victim whose expulsion or sacrifice unifies the group. The victim must be both inside enough to be blamed and outside enough to be sacrificed without triggering further retaliation.
 
@@ -537,6 +541,93 @@ None of these are near-term plausible. The Thiel faction is winning because they
 But mimetic theory itself suggests a possibility: desire is contagious, and so is the desire for a different world. The Mamdani campaign showed that enthusiasm can shift rapidly when an alternative model emerges. The question is whether such models can proliferate faster than the centralizing logic of AI-enabled governance can close the remaining spaces for alternatives.
 
 That is the race we are in. Understanding the game being played is the first step toward playing a different one.
+
+---
+
+## Case Study: Operation Metro Surge (January 2026)
+
+As this essay was being written, events in Minnesota provided a real-time demonstration of its thesis—a case study in the praetorian state operating against domestic political opposition.
+
+### The Operation
+
+In December 2025, the Department of Homeland Security initiated "Operation Metro Surge," deploying 2,000 federal agents to the Minneapolis-St. Paul area—the largest immigration enforcement operation in American history. DHS Secretary Kristi Noem stated explicitly that Minnesota was targeted because it was a "sanctuary" jurisdiction with Democratic leadership. By mid-January 2026, DHS claimed 3,000 arrests.
+
+The rhetorical justification was familiar: DHS released daily press statements highlighting arrests of "the worst of the worst"—murderers, rapists, drug traffickers. But the numbers told a different story. Of 3,000 arrests, only about 10% fit the "worst" category. Among those detained: a 5-year-old child, taken into custody with his father in their driveway moments after the boy returned home from preschool.
+
+### The Killing
+
+On January 7, 2026, ICE agent Jonathan Ross shot and killed Renée Good, a 37-year-old American citizen and mother of three. Video footage shows Good sitting in her SUV as agents approached. As she began driving away, Ross fired three shots into the vehicle.
+
+DHS claimed Good had "weaponized" her SUV against the agent. Minneapolis Mayor Jacob Frey, having viewed the footage, responded: "That is bullshit." The Hennepin County Medical Examiner ruled the death a homicide.
+
+### The Prosecutorial Response
+
+What followed revealed the architecture of the praetorian state more clearly than any theoretical analysis could.
+
+The Department of Justice, under Attorney General Pam Bondi and Deputy Attorney General Todd Blanche, ordered federal prosecutors in Minnesota to:
+
+- Investigate Becca Good, the widow of the woman killed, for possible ties to activist groups—activity protected under the First Amendment
+- Exclude state and local authorities from the investigation
+- Decline to investigate the ICE agent who killed an unarmed citizen
+
+Twelve federal prosecutors refused. They resigned, including Joseph Thompson, the No. 2 official in the Minnesota U.S. Attorney's Office and lead prosecutor on the high-profile Feeding Our Future fraud case. Members of the Civil Rights Division in Washington also resigned. Those who did not resign voluntarily were terminated.
+
+Governor Tim Walz called Thompson "a principled public servant" and the resignations "the latest sign that President Trump is pushing nonpartisan career professionals out of the Department of Justice."
+
+### The Subpoenas
+
+When Minnesota officials responded to the operation—filing lawsuits, making public statements, documenting constitutional violations—the federal government escalated.
+
+On January 20, 2026, the FBI served grand jury subpoenas to:
+
+- Governor Tim Walz
+- Attorney General Keith Ellison
+- Minneapolis Mayor Jacob Frey
+- St. Paul Mayor Kaohly Her
+- Officials in Ramsey and Hennepin counties
+
+The investigation: whether their *public statements* criticizing ICE constituted obstruction of federal law enforcement.
+
+Deputy Attorney General Blanche told Fox News: "When the governor or the mayor threaten our officers, when the mayor suggests that he's encouraging citizens to call 911 when they see ICE officers, that is very close to a federal crime."
+
+A former federal prosecutor offered the obvious response: "A grand jury subpoena should not be issued to an individual who is merely exercising their First Amendment rights. Impeding an investigation is not done by words. It is done by actions."
+
+But the subpoenas were not issued to secure convictions. They were issued to demonstrate power—to show that any elected official who opposes federal operations will face the full weight of prosecutorial machinery.
+
+### The Asymmetry
+
+Minnesota deployed every tool available to a state government:
+
+- A federal lawsuit alleging First Amendment viewpoint discrimination and Tenth Amendment violations
+- Public documentation of harms: businesses reporting 50-80% revenue drops, schools forced into lockdown, over $2 million in police overtime in four days
+- A statewide general strike
+- The governor declaring "Renee Good Day"
+
+The federal response: deny injunctive relief, continue operations, subpoena the officials who complained, investigate them for their speech, purge prosecutors who refused to cooperate.
+
+The essay's claim that state-level resistance is largely illusory found its proof. A governor, an attorney general, two mayors, and county officials—all elected, all exercising their constitutional duties—face federal investigation for disagreeing with an administration policy. The "competitive federalism" that libertarian theory assumes simply does not exist when one level of government controls prosecutorial power and deploys it against the other.
+
+### What the Case Reveals
+
+Operation Metro Surge demonstrates every element of the praetorian state:
+
+**Violence preserved**: The federal government can deploy 2,000 armed agents to any American city. It can kill citizens and face no accountability.
+
+**Positive capacity absent**: The same government cannot build a rail line or provide healthcare efficiently. The capacity flows in one direction only.
+
+**Prosecution as political weapon**: The DOJ investigates elected officials for their speech while declining to investigate an agent who killed an unarmed citizen. The coercive apparatus serves factional interests.
+
+**Scapegoat mechanics**: "The worst of the worst" justifies operations that also detain kindergarteners. The rhetorical victim—the dangerous criminal—bears little relation to the operational reality.
+
+**Guardrail elimination**: Career prosecutors who resist are purged. The institution is hollowed from within.
+
+**Federalism as theater**: States can sue, protest, document—and be investigated for it. The asymmetry is absolute.
+
+The essay asked what happens when "the hollowed-out state cannot provide basic functions" while retaining "the power to block, punish, prosecute, exclude, and destroy." Minnesota provides the answer: it deploys that power against American citizens and their elected representatives, daring anyone to stop it.
+
+Representative Robin Kelly of Illinois introduced articles of impeachment against DHS Secretary Noem on January 14, citing obstruction of congressional oversight, warrantless arrests without due process, and self-dealing. The articles will not pass. The operation continues. The scapegoats rotate. The infrastructure of control expands.
+
+This is not a future to be warned against. It is the present, documented in real time.
 
 ---
 
