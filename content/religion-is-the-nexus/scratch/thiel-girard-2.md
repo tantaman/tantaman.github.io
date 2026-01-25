@@ -239,8 +239,6 @@ This is not subtext. Thiel is stating directly that global order should be achie
 
 This is not "small government." It is government that retains its most coercive powers while outsourcing the technical means to exercise them. The state can still watch, track, target, and kill—but it does so using tools it does not own, cannot fully understand, and cannot replace.
 
-Anthropic's recent partnership with Palantir to provide AI capabilities to defense and intelligence agencies represents the next phase: the most advanced AI systems, nominally developed by a "safety-focused" company, integrated into military and surveillance operations through infrastructure controlled by a Thiel-founded company, all running on Amazon Web Services (Amazon being Anthropic's major investor).
-
 ### The TikTok Problem: When the Model Becomes the Rival
 
 The platform control strategy has a significant vulnerability, and it has a name: TikTok.
@@ -254,7 +252,7 @@ For a decade, Facebook occupied the position Thiel's strategy requires—the mod
 
 In Girardian terms, the roles reversed. TikTok became the model; Facebook became the mimetic rival—increasingly similar to its competitor, increasingly desperate. This is precisely the position Thiel's "competition is for losers" philosophy was designed to avoid. The company that was supposed to be the unchallengeable infrastructure of social desire is now locked in exactly the kind of mimetic bloodbath that destroys margins and eliminates strategic advantage.
 
-More critically, 170 million Americans—disproportionately young, disproportionately the Mamdani coalition—now have their desire triangulated by an algorithm controlled from Beijing. Whatever content strategy American elites design for domestic platforms, it doesn't reach the demographic that will matter most in coming elections.
+More critically, 170 million Americans—disproportionately young—now have their desire triangulated by an algorithm controlled from Beijing. Whatever content strategy American elites design for domestic platforms, it doesn't reach the demographic that will matter most in coming elections.
 
 This explains the bipartisan panic over TikTok—a rare point of consensus among factions that agree on almost nothing else. The concern is not really "data security" in any conventional sense; American platforms harvest user data just as aggressively. The concern is that a foreign power controls the most powerful desire-shaping machine for the next generation of American voters.
 
@@ -285,26 +283,6 @@ His political success can be analyzed in Girardian terms:
 **Scapegoat Maintenance**: Girardian unity requires a sacrificial victim. Trump's rhetoric consistently provides scapegoats—immigrants, elites, the "deep state," various minority groups—whose symbolic expulsion unifies his coalition. The scapegoat must be threatening enough to require collective action but not so powerful as to actually threaten.
 
 **Persecution Narrative as Inoculation**: Trump has successfully positioned himself as already-persecuted—the victim of witch hunts, hoaxes, unfair treatment. This inoculates against further scapegoating: you cannot sacrifice someone who has already been martyred. The base sees every attack as confirmation of his victim status rather than legitimate criticism.
-
-### The Mamdani Meeting: A Case Study
-
-The November 2025 meeting between Trump and New York City Mayor-elect Zohran Mamdani illustrates these dynamics in action.
-
-Mamdani—a 34-year-old democratic socialist who won the largest vote total in a New York mayoral race in over 50 years—represents everything the MAGA movement ostensibly opposes. Trump had called him "my little communist," threatened to cut federal funding to New York, and even suggested stripping him of citizenship.
-
-Yet the Oval Office meeting was, by all accounts, remarkably cordial. Trump praised Mamdani's campaign, said they "agree on a lot more than I would have thought," and expressed confidence in his future success. Mamdani, for his part, focused on shared concerns about affordability and cost of living.
-
-What explains this? Several Girardian dynamics:
-
-1. **Mamdani is not a mimetic rival**: Unlike DeSantis, Mamdani is not competing for Trump's base. He occupies a completely different symbolic space. This makes him safe to praise—his success does not threaten Trump's position as model.
-
-2. **Co-optation over confrontation**: When a rising figure cannot be defeated, one option is absorption—claiming a share of whatever they represent. By embracing Mamdani rather than attacking him, Trump associates himself with youth, momentum, outsider energy.
-
-3. **Denying Democrats their antagonist**: If Trump attacks Mamdani relentlessly, Mamdani becomes the face of resistance—the anti-Trump around whom opposition can crystallize. By praising him instead, Trump denies Democrats the clear antagonist they need. It's hard to rally the base against a president who keeps complimenting your mayor.
-
-4. **Affordability as shared territory**: Both Trump and Mamdani ran on cost-of-living concerns. Rather than ceding this ground to a successful progressive, Trump claims common cause—confusing the narrative about who represents working people.
-
-This is mimetic strategy in real-time: managing rivalry, claiming desire, refusing the confrontation that would clarify opposition.
 
 ---
 
@@ -344,41 +322,11 @@ This is not unique to any political valence—these dynamics operate across the 
 
 ## Part VIII: The Opposition Landscape
 
-### Rivals, Not Alternatives
-
-The opposition to the Thiel project fails for a Girardian reason: they are rivals, not alternatives. They are caught in the same mimetic structure, competing for the same prizes, imitating the same moves. Hoffman wants to be Thiel for the Democrats. Democratic tech donors want platform power for their side. The AI safety faction partners with the same defense contractors as the acceleration faction.
+The opposition to the Thiel project fails for a Girardian reason: they are rivals, not alternatives. They are caught in the same mimetic structure, competing for the same prizes, imitating the same moves. Reid Hoffman wants to be Thiel for the Democrats. Democratic tech donors want platform power for their side. The AI safety faction partners with the same defense contractors as the acceleration faction.
 
 Girard would recognize this immediately: mimetic rivals become doubles. The more intensely they oppose each other, the more they converge. And neither can offer escape from the game because both are playing it.
 
-### The Absence of Alternatives
-
-If the Thiel faction has a coherent theory of power and is executing it, where is the opposition? The landscape is fragmented and largely ineffective.
-
-**Reid Hoffman**: The most direct anti-Thiel within the PayPal Mafia itself. Stanford classmates, co-workers at PayPal, now publicly feuding. Hoffman called supporting Trump "a moral issue." But Hoffman is not offering an alternative model—he wants to be Thiel for the other team. He is a rival, not an alternative.
-
-**Democratic Tech Donors**: Dustin Moskovitz (Facebook co-founder, largest Bay Area Democratic donor in 2024), Pierre Omidyar (eBay founder, funds journalism and democracy initiatives), Laurene Powell Jobs—these figures oppose Trump but share much of the techno-optimism that drives the Thiel faction. They're competing for the same prizes with different aesthetics.
-
-The striking fact is that Democratic tech donors have largely gone dormant in 2025. Moskovitz gave $51 million in 2024 but nothing in 2025 so far. The demoralization is palpable—they backed a losing candidate, lost the presidency, and have no clear theory of what to do next.
-
-**The AI Safety/Acceleration Split**: A new fault line has emerged around AI regulation:
-
-- **Leading the Future** ($100M PAC): Pro-acceleration, anti-regulation. Backed by Greg Brockman (OpenAI), Marc Andreessen, Joe Lonsdale (Palantir co-founder, Thiel ally).
-
-- **Public First** (targeting $50M): Pro-regulation. Backed by Jack Clark (Anthropic co-founder), Omidyar network, loosely EA-aligned donors.
-
-But this split is less significant than it appears. Anthropic, the "safety-focused" AI company, just partnered with Palantir to provide AI to defense and intelligence agencies. The safety faction and the acceleration faction are converging on the same state-adjacent power structure. They argue about velocity and guardrails; they agree on destination.
-
-### Genuine Alternatives?
-
-What would a genuine alternative look like? It would need to escape the mimetic structure entirely—to offer a different game rather than competing within Thiel's game.
-
-**Labor Revivalism**: The Teamsters' flirtation with Trump, UAW's growing militancy, new organizing at Amazon and Starbucks—there is something here. Organized labor offers power rooted in production rather than tech capital or credentials. But unions are institutionally weak, lack a theory of technology, and are often fighting the last war.
-
-**Religious Traditionalism**: Patrick Deneen, the post-liberal Catholics, some Orthodox communities reject both progressive techno-liberalism and MAGA nationalism. They're building parallel institutions—classical schools, intentional communities, alternative economies. But they lack a political vehicle, are deliberately anti-political in many cases, and remain tiny in scale.
-
-**Municipal Socialism**: The Mamdani model—pragmatic, multiracial left populism focused on material conditions. Rent freezes, free transit, public childcare. This addresses real needs without culture-war positioning. But cities cannot control monetary policy, immigration, or trade. The federal government can crush any municipal experiment. Scaling from mayor to president requires navigating a captured party apparatus.
-
-**Genuine Decentralization**: Not crypto (which is Thiel-adjacent and mostly captured by the same VC class), but actual localism. State-level resistance, parallel institutions that don't depend on federal recognition, communities that opt out of platform dependence. The homeschooling movement, community land trusts, credit unions, mutual aid networks. These don't aggregate into political power. They are exit strategies, not voice strategies.
+A genuine alternative would need to escape the mimetic structure entirely—to offer a different game rather than competing within Thiel's game. Labor organizing, religious communities building parallel institutions, municipal politics focused on material provision, genuine localism that opts out of platform dependence—these exist but remain fragmented, lack a theory of technology, and struggle to aggregate into political power.
 
 ---
 
@@ -450,184 +398,19 @@ The Thiel project has vulnerabilities:
 
 **Material failure**: If the hollowed-out state cannot provide basic functions—if infrastructure collapses, if pandemic response fails, if economic instability grows—the legitimacy of the arrangement may collapse.
 
-**Alternative models**: Mamdani's success suggests appetite for a politics of material provision that is neither captured by tech capital nor reducible to culture war. Whether this can scale and survive federal opposition is unclear, but the model exists.
-
-### The Countervailing Forces: Real or Illusory?
-
-The Thiel project assumes that traditional state institutions will simply cede control to private technological infrastructure. But the state has its own power centers, its own interests, and its own theorists of what is happening—and they are beginning to articulate what sounds like resistance.
-
-On December 15, 2025, Blaise Metreweli, the new chief of MI6, delivered her first major public address. The speech is remarkable for how precisely it identifies the threat—in terms that are, whether consciously or not, deeply Girardian:
-
-> "Power itself is becoming more diffuse and more unpredictable, as control over these technologies shifts from states to corporations—and sometimes to individuals."
-
-> "As some algorithms become as powerful as states, those hyper-personalised tools could become a new vector for conflict and control."
-
-> "The algorithms flatter our biases and fracture our public squares. And as trust collapses, so too does our shared sense of truth—one of the greatest losses a society can suffer."
-
-This is a senior intelligence official describing exactly what our essay describes: algorithms as desire-shaping machines that "flatter our biases" (mimetic reinforcement), "fracture our public squares" (the destruction of shared models), and collapse "our shared sense of truth" (the erosion of the common reality that makes politics possible).
-
-Metreweli's speech came weeks after Elon Musk publicly called for the overthrow of the UK government at a far-right rally—an event that "rattled politicians" and made vivid the stakes of private platform power. The MI6 chief stopped short of naming Musk, but the target was unmistakable.
-
-At first glance, this suggests genuine resistance from the security state. The "parallel history" Thiel himself describes—the world of intelligence services, covert operations, and strategic manipulation—has its own protagonists, its own agendas, and its own reasons to resist subordination to tech billionaires. Metreweli explicitly frames technological mastery as an intelligence priority: "AI is a domain in which we will excel." This is the security state announcing its intention to master the new terrain, not surrender it.
-
-But we should be cautious about interpreting this as meaningful opposition to the underlying project.
-
-### The Deeper Structure: Transnational Capital Alignment
-
-What if the apparent geopolitical rivalry—US vs. China, democracy vs. authoritarianism, Western platforms vs. TikTok—is itself mimetic theater? What if the "competition" between great powers is a scapegoat mechanism that manages domestic populations while a deeper class consolidation proceeds across borders?
-
-Consider the actual capital relationships:
-
-- **Apple's entire supply chain depends on China.** The company that symbolizes American technological supremacy cannot make its products without Chinese manufacturing. "Decoupling" would be corporate suicide.
-
-- **Tesla has massive Chinese investment and production.** Musk is notably friendly with Beijing—hardly the posture of someone engaged in civilizational conflict.
-
-- **BlackRock, Vanguard, and major institutional investors hold significant positions in both American and Chinese tech.** The same pools of capital profit regardless of which "side" wins.
-
-- **ByteDance (TikTok's parent) has significant Western venture capital investment.** The "Chinese threat" is substantially owned by American and European investors.
-
-- **Thiel himself holds New Zealand citizenship**—an escape hatch that transcends any single nation-state's jurisdiction.
-
-The nationalist framing obscures what Girard would immediately recognize: mimetic convergence at the elite level. American and Chinese tech oligarchs have more in common with each other than with their respective populations. They share interests in:
-
-- Surveillance infrastructure (both governments want it; both tech sectors build it)
-- AI development without meaningful constraint (neither Washington nor Beijing is seriously limiting their tech sectors)
-- Labor arbitrage across borders (the same workers in Shenzhen build devices for Apple and Huawei)
-- Avoiding genuine regulation in either system (tech giants play governments against each other)
-- Maintaining platform control over their respective populations (the methods differ; the function is identical)
-
-From this perspective, the TikTok panic looks less like geopolitical resistance and more like a *scapegoat*—nationalist theater that provides both governments justification for expanded surveillance and control while the underlying capital relationships remain intact. The "threat" framing rallies domestic populations behind their respective elites. The actual class consolidation proceeds undisturbed.
-
-### Mimetic Rivals or Mimetic Doubles?
-
-Girard would note the irony: the US and China, ostensibly locked in conflict, are becoming increasingly *similar* in certain dimensions even as their structures diverge. Both are developing AI surveillance systems. Both are building social credit mechanisms (America's are privatized through credit scores, platform bans, and employment screening, but the function converges). Both use platforms to shape information environments and manage dissent. The *experience* of being a surveilled subject is converging even if the institutional arrangements differ.
-
-Yet the configuration of power differs fundamentally. China's state disciplines capital—Jack Ma's Ant Financial IPO was cancelled, tech giants were brought to heel, "common prosperity" campaigns explicitly subordinate billionaires to Party priorities. The Chinese state retains and expands its positive capacity through massive infrastructure investment and industrial policy. The American trajectory is the inverse: capital captures the state, hollows its positive functions, and leaves only the coercive apparatus intact.
-
-The *outcome* for ordinary people may converge—surveilled, algorithmically managed, desires triangulated through platforms—but the *structure* differs. China is techno-authoritarian state capitalism. The US is evolving toward techno-feudal oligarchy with a praetorian rump state. These are not identical systems but they are *compatible* systems—and crucially, they are systems whose ruling classes can do business with each other even while performing civilizational conflict for domestic audiences.
-
-This is the signature of mimetic rivalry: the antagonists converge even as their opposition intensifies. But it is also, potentially, the signature of something else—coordinated management of global populations by elites whose internal competition is real but whose shared interests in maintaining control are more fundamental than their differences.
-
-The MI6 speech, in this light, reads differently. Metreweli's critique of platform power may be genuine—but it may be a conflict *within* elite structures rather than a challenge *to* them. The intelligence community and the tech oligarchs are competing for control of the same surveillance infrastructure. That is a real conflict with real stakes. But it is not a conflict that offers ordinary people any path to liberation. Whichever faction wins, the infrastructure of control remains—and likely expands.
-
-European regulation tells a similar story. The EU's GDPR and Digital Markets Act do impose friction on American tech giants. But they do not challenge the fundamental model of platform-mediated social control; they merely demand that European states and European companies get a larger share of the data and the leverage. This is inter-elite bargaining, not democratic resistance.
-
-### The Scapegoat of Geopolitical Conflict
-
-If this analysis is correct, the "China threat" narrative serves a Girardian function: it provides a shared enemy that unifies otherwise fractious domestic coalitions, justifies the expansion of surveillance and security apparatus, and directs attention away from the class consolidation happening in plain sight.
-
-The American worker losing their job to automation is told to blame China. The Chinese worker in a Foxconn factory is told to blame American containment. Both are managed through nationalist narratives that obscure their shared position relative to transnational capital.
-
-This does not mean geopolitical conflict is fake or that great power competition has no real stakes. Wars can start, people can die, and the outcomes matter. But it does suggest that the *framing* of this conflict as a battle between fundamentally different systems is misleading. Both systems are converging on platform-mediated techno-authoritarianism. The question is not *whether* this future arrives but *which configuration of elites* administers it.
-
-The MI6 speech ends with a call that could have come from a Girardian theorist: "Let's all check sources, consider evidence, and be alive to those algorithms that trigger intense reactions, like fear." This is an appeal to resist mimetic capture—to recognize the manipulation and refuse it. It is good advice. But coming from the head of a foreign intelligence service—an institution whose history includes 42 coup attempts in 27 countries—one might wonder whether the appeal to resist manipulation is itself a form of manipulation, redirecting attention toward foreign algorithms while domestic ones operate undisturbed.
-
-The darkest possibility is that there are no countervailing forces—only competing factions within a global elite that has already consolidated control over the infrastructure of desire. The theater of national rivalry provides narrative cover. The scapegoats are rotated as needed. And the populations of all nations remain captured, their desires triangulated through platforms that answer to no democratic authority anywhere.
-
-### The Alternatives
-
-A genuine alternative would need to:
-
-1. **Offer a different theory of technology**: Neither acceleration nor mere safety, but perhaps limitation—actually choosing not to build certain things, or building them under genuinely public control.
-
-2. **Build power outside the tech stack**: Harder every year as more of life is platform-mediated, but not impossible. Labor organizing, community land trusts, local currencies, parallel institutions.
-
-3. **Capture the state and restore its positive capacity**: The reverse of the Thiel maneuver—use political power to rebuild the public's ability to regulate, provide, and build. This requires winning elections with candidates committed to this project, which requires a party apparatus and donor class that currently do not exist.
-
-4. **Constitutional refounding**: The American federal structure may simply be incapable of responding to these challenges. Some form of reconstitution—regional reorganization, constitutional convention, something new—may be necessary.
-
-None of these are near-term plausible. The Thiel faction is winning because they have a coherent theory of power and are executing it, while their opponents are still arguing about whether to break up Facebook.
-
-But mimetic theory itself suggests a possibility: desire is contagious, and so is the desire for a different world. The Mamdani campaign showed that enthusiasm can shift rapidly when an alternative model emerges. The question is whether such models can proliferate faster than the centralizing logic of AI-enabled governance can close the remaining spaces for alternatives.
-
-That is the race we are in. Understanding the game being played is the first step toward playing a different one.
+Understanding the game being played is the first step toward playing a different one.
 
 ---
 
-## Case Study: Operation Metro Surge (January 2026)
+## Postscript: Operation Metro Surge (January 2026)
 
-As this essay was being written, events in Minnesota provided a real-time demonstration of its thesis—a case study in the praetorian state operating against domestic political opposition.
+In December 2025, the Department of Homeland Security deployed 2,000 federal agents to Minneapolis-St. Paul—the largest immigration enforcement operation in American history. DHS Secretary Kristi Noem stated explicitly that Minnesota was targeted because it was a "sanctuary" jurisdiction with Democratic leadership.
 
-### The Operation
+On January 7, 2026, ICE agent Jonathan Ross shot and killed Renée Good, a 37-year-old American citizen. The DOJ ordered federal prosecutors to investigate the victim's widow for ties to activist groups while declining to investigate the agent. Twelve federal prosecutors resigned in protest; the rest were terminated.
 
-In December 2025, the Department of Homeland Security initiated "Operation Metro Surge," deploying 2,000 federal agents to the Minneapolis-St. Paul area—the largest immigration enforcement operation in American history. DHS Secretary Kristi Noem stated explicitly that Minnesota was targeted because it was a "sanctuary" jurisdiction with Democratic leadership. By mid-January 2026, DHS claimed 3,000 arrests.
+When Minnesota officials filed lawsuits and made public statements criticizing the operation, the FBI served grand jury subpoenas to Governor Tim Walz, Attorney General Keith Ellison, and the mayors of Minneapolis and St. Paul. The investigation: whether their *public statements* constituted obstruction of federal law enforcement.
 
-The rhetorical justification was familiar: DHS released daily press statements highlighting arrests of "the worst of the worst"—murderers, rapists, drug traffickers. But the numbers told a different story. Of 3,000 arrests, only about 10% fit the "worst" category. Among those detained: a 5-year-old child, taken into custody with his father in their driveway moments after the boy returned home from preschool.
-
-### The Killing
-
-On January 7, 2026, ICE agent Jonathan Ross shot and killed Renée Good, a 37-year-old American citizen and mother of three. Video footage shows Good sitting in her SUV as agents approached. As she began driving away, Ross fired three shots into the vehicle.
-
-DHS claimed Good had "weaponized" her SUV against the agent. Minneapolis Mayor Jacob Frey, having viewed the footage, responded: "That is bullshit." The Hennepin County Medical Examiner ruled the death a homicide.
-
-### The Prosecutorial Response
-
-What followed revealed the architecture of the praetorian state more clearly than any theoretical analysis could.
-
-The Department of Justice, under Attorney General Pam Bondi and Deputy Attorney General Todd Blanche, ordered federal prosecutors in Minnesota to:
-
-- Investigate Becca Good, the widow of the woman killed, for possible ties to activist groups—activity protected under the First Amendment
-- Exclude state and local authorities from the investigation
-- Decline to investigate the ICE agent who killed an unarmed citizen
-
-Twelve federal prosecutors refused. They resigned, including Joseph Thompson, the No. 2 official in the Minnesota U.S. Attorney's Office and lead prosecutor on the high-profile Feeding Our Future fraud case. Members of the Civil Rights Division in Washington also resigned. Those who did not resign voluntarily were terminated.
-
-Governor Tim Walz called Thompson "a principled public servant" and the resignations "the latest sign that President Trump is pushing nonpartisan career professionals out of the Department of Justice."
-
-### The Subpoenas
-
-When Minnesota officials responded to the operation—filing lawsuits, making public statements, documenting constitutional violations—the federal government escalated.
-
-On January 20, 2026, the FBI served grand jury subpoenas to:
-
-- Governor Tim Walz
-- Attorney General Keith Ellison
-- Minneapolis Mayor Jacob Frey
-- St. Paul Mayor Kaohly Her
-- Officials in Ramsey and Hennepin counties
-
-The investigation: whether their *public statements* criticizing ICE constituted obstruction of federal law enforcement.
-
-Deputy Attorney General Blanche told Fox News: "When the governor or the mayor threaten our officers, when the mayor suggests that he's encouraging citizens to call 911 when they see ICE officers, that is very close to a federal crime."
-
-A former federal prosecutor offered the obvious response: "A grand jury subpoena should not be issued to an individual who is merely exercising their First Amendment rights. Impeding an investigation is not done by words. It is done by actions."
-
-But the subpoenas were not issued to secure convictions. They were issued to demonstrate power—to show that any elected official who opposes federal operations will face the full weight of prosecutorial machinery.
-
-### The Asymmetry
-
-Minnesota deployed every tool available to a state government:
-
-- A federal lawsuit alleging First Amendment viewpoint discrimination and Tenth Amendment violations
-- Public documentation of harms: businesses reporting 50-80% revenue drops, schools forced into lockdown, over $2 million in police overtime in four days
-- A statewide general strike
-- The governor declaring "Renee Good Day"
-
-The federal response: deny injunctive relief, continue operations, subpoena the officials who complained, investigate them for their speech, purge prosecutors who refused to cooperate.
-
-The essay's claim that state-level resistance is largely illusory found its proof. A governor, an attorney general, two mayors, and county officials—all elected, all exercising their constitutional duties—face federal investigation for disagreeing with an administration policy. The "competitive federalism" that libertarian theory assumes simply does not exist when one level of government controls prosecutorial power and deploys it against the other.
-
-### What the Case Reveals
-
-Operation Metro Surge demonstrates every element of the praetorian state:
-
-**Violence preserved**: The federal government can deploy 2,000 armed agents to any American city. It can kill citizens and face no accountability.
-
-**Positive capacity absent**: The same government cannot build a rail line or provide healthcare efficiently. The capacity flows in one direction only.
-
-**Prosecution as political weapon**: The DOJ investigates elected officials for their speech while declining to investigate an agent who killed an unarmed citizen. The coercive apparatus serves factional interests.
-
-**Scapegoat mechanics**: "The worst of the worst" justifies operations that also detain kindergarteners. The rhetorical victim—the dangerous criminal—bears little relation to the operational reality.
-
-**Guardrail elimination**: Career prosecutors who resist are purged. The institution is hollowed from within.
-
-**Federalism as theater**: States can sue, protest, document—and be investigated for it. The asymmetry is absolute.
-
-The essay asked what happens when "the hollowed-out state cannot provide basic functions" while retaining "the power to block, punish, prosecute, exclude, and destroy." Minnesota provides the answer: it deploys that power against American citizens and their elected representatives, daring anyone to stop it.
-
-Representative Robin Kelly of Illinois introduced articles of impeachment against DHS Secretary Noem on January 14, citing obstruction of congressional oversight, warrantless arrests without due process, and self-dealing. The articles will not pass. The operation continues. The scapegoats rotate. The infrastructure of control expands.
-
-This is not a future to be warned against. It is the present, documented in real time.
+A governor, an attorney general, and two mayors—all exercising their constitutional duties—now face federal investigation for disagreeing with an administration policy. The "competitive federalism" that libertarian theory assumes does not exist when one level of government controls prosecutorial power and deploys it against the other.
 
 ---
 
@@ -686,20 +469,6 @@ This is not a future to be warned against. It is the present, documented in real
 > "The period between 1945 and the present could conceivably be rendered in two parallel histories: that of the historians... and that of the secret services, telling of murders, traps, betrayals, assassinations, cover-ups, and weapons shipments."
 >
 > — "The Straussian Moment," 2007 (quoting Roberto Calasso)
-
-### MI6 Chief Blaise Metreweli on Algorithmic Power
-
-> "Power itself is becoming more diffuse and more unpredictable, as control over these technologies shifts from states to corporations—and sometimes to individuals."
->
-> — Speech, December 15, 2025
-
-> "As some algorithms become as powerful as states, those hyper-personalised tools could become a new vector for conflict and control."
->
-> — Speech, December 15, 2025
-
-> "The algorithms flatter our biases and fracture our public squares. And as trust collapses, so too does our shared sense of truth—one of the greatest losses a society can suffer."
->
-> — Speech, December 15, 2025
 
 ### René Girard on Mimetic Desire
 
