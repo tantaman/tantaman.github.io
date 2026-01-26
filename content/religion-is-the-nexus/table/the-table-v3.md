@@ -18,25 +18,27 @@
 
 ¹ This is not a peace between enemies.
 
-² Do not read what follows as the joining of left and right, the healing of the tribes.
+² Do not read what follows as a plan for the world. It is not about policy. It is not about who should hold power.
 
-³ When Christ came, he did not choose between Pharisee and Sadducee. He did not find the middle ground.
+³ Those questions assume the game is worth playing.
 
-⁴ He said: my kingdom is not of this world.
+⁴ When Christ came, he did not choose between Pharisee and Sadducee. He did not find the middle ground.
 
-⁵ And their positions became small. Their wars became beside the point.
+⁵ He said: my kingdom is not of this world.
 
-⁶ The new thing does not win by defeating the old. It wins by making the old irrelevant.
+⁶ And their positions became small. Their wars became beside the point.
 
-⁷ You will be tempted to place what follows on the line between left and right. Resist. The line is a cage. Step out of it.
+⁷ The new thing does not win by defeating the old. It wins by making the old irrelevant.
 
-⁸ What is offered here is not a way to fix the world. It is a way to live while the world remains broken.
+⁸ You will be tempted to ask where this stands. Let it stand nowhere. It is not a position in the debate. It is a way to live while the debate continues without you.
 
-⁹ The table is set now. The bread is here now. The community is possible now.
+⁹ What is offered here is not a way to fix the world. It is a way to live while the world remains broken.
 
-¹⁰ Not after we fix the system. Not after we defeat the enemy. Now.
+¹⁰ The table is set now. The bread is here now. The community is possible now.
 
-¹¹ This is the rupture: to stop waiting for what can only be received as gift.
+¹¹ Not after we fix the system. Not after we defeat the enemy. Now.
+
+¹² This is the rupture: to stop waiting for what can only be received as gift.
 
 ---
 
