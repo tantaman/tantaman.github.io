@@ -43,5 +43,5 @@ getComments(id: int): List<int>;
 ## For another day:
 
 * A new issue here is the `List` type. It is completely the wrong type to use to represent potentially unbounded collections.
-* Counts, measurements, phone numbers, etc. can all be refined futher and further. And even more so once you start to consider data flow, policy and legal restrictions that should be factored into data types.
+* Counts, measurements, phone numbers, etc. can all be refined further and further. And even more so once you start to consider data flow, policy and legal restrictions that should be factored into data types.
 * Invariants. Invariants are a symptom of poor types.
