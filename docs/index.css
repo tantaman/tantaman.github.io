@@ -142,16 +142,32 @@ section {
 }
 
 #static {
-  max-width: 1024px;
-  margin-left: auto;
-  margin-right: auto;
+  display: grid;
+  grid-template-columns: 1fr min(68ch, 100% - 3rem) 1fr;
   position: relative;
   font-size: 1.35rem;
 }
 
-/* Narrow width for blog posts (pages without .wide-layout) */
-#static:not(.wide-layout):not(:has(> .wide-layout)) {
-  max-width: 68ch;
+#static > * {
+  grid-column: 2;
+}
+
+/* Wide breakout — wider than content, still constrained */
+#static > .wide {
+  grid-column: 1 / -1;
+  width: min(100%, 1200px);
+  margin-inline: auto;
+}
+
+/* Full bleed — edge to edge */
+#static > .full-bleed {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+/* Wide-layout pages (frontmatter `wide: true`) get a wider content column */
+#static.wide-layout {
+  grid-template-columns: 1fr min(1024px, 100% - 3rem) 1fr;
 }
 
 #static p {
@@ -225,6 +241,7 @@ pre {
 }
 
 .toc {
+  grid-column: 2;
   position: absolute;
   right: 0px;
   transform: translateX(100%);

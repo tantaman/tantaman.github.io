@@ -239,7 +239,7 @@ export function LuckSimulation() {
   });
   const finalProbability = (1 - Math.pow(1 - effectiveProb, effectiveAttempts)) * 100;
   return _jsx("div", {
-    className: "text-gray-100 p-6",
+    className: "full-bleed text-gray-100 p-6",
     children: _jsxs("div", {
       className: "max-w-6xl mx-auto",
       children: [_jsx(IntroArticle, {}), _jsx("div", {
