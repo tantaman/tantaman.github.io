@@ -150,7 +150,7 @@ section {
 }
 
 /* Narrow width for blog posts (pages without .wide-layout) */
-#static:not(:has(> .wide-layout)) {
+#static:not(.wide-layout):not(:has(> .wide-layout)) {
   max-width: 68ch;
 }
 

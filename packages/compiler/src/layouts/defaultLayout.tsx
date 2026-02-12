@@ -57,7 +57,7 @@ export default async function defaultLayout(tree: ReturnType<typeof h>, file: VF
         </nav>
       </div>
     </header>,
-    <main id="static">{newChildren}</main>,
+    <main id="static" class={matter?.wide ? 'wide-layout' : undefined}>{newChildren}</main>,
     <footer id="footer">{footerContent}</footer>,
   ];
 }
