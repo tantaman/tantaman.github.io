@@ -25,5 +25,8 @@ export const doc = {
     {
       src: '/ga.js',
     },
+    {
+      src: '/toc.js',
+    },
   ],
 };

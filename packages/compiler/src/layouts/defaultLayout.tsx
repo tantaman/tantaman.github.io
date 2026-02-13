@@ -16,7 +16,10 @@ try {
   // No relationships file, will fall back to tag-based
 }
 
-export default async function defaultLayout(tree: ReturnType<typeof h>, file: VFile) {
+export default async function defaultLayout(
+  tree: ReturnType<typeof h>,
+  file: VFile,
+) {
   const body = select('body', tree);
   if (!body) {
     throw new Error(
@@ -52,7 +55,6 @@ export default async function defaultLayout(tree: ReturnType<typeof h>, file: VF
         <nav>
           <a href="/blog.html">Blog</a>
           <a href="/stories.html">Stories</a>
-          <a href="/chats.html">Chats</a>
           <a href="/tags.html">Tags</a>
           <a href="/graph.html">Graph</a>
           <a href="/search.html">Search</a>
@@ -63,7 +65,9 @@ export default async function defaultLayout(tree: ReturnType<typeof h>, file: VF
 
   body.children = [
     header,
-    <main id="static" class={matter?.wide ? 'wide-layout' : undefined}>{newChildren}</main>,
+    <main id="static" class={matter?.wide ? 'wide-layout' : undefined}>
+      {newChildren}
+    </main>,
     <footer id="footer">{footerContent}</footer>,
   ];
 }
@@ -75,16 +79,25 @@ async function buildFooter(file: VFile) {
 
   // Get all posts to resolve related filenames to URLs
   const indices = await indexFrontmatter();
-  const allPosts: Map<string, { filename: string; title: string; url: string; tags: string[] }> = new Map();
+  const allPosts: Map<
+    string,
+    { filename: string; title: string; url: string; tags: string[] }
+  > = new Map();
 
   // Collect all posts
   Object.entries(indices).forEach(([collection, index]) => {
     if (collection === 'bookmarks/' || collection === 'notes/') return;
 
     Object.entries(index).forEach(([filename, postMeta]) => {
-      if (filename === 'index.js' || filename === 'README.md' ||
-          filename === '404.md' || filename === 'tags.js' || filename === 'graph.js' ||
-          filename === file.basename) return;
+      if (
+        filename === 'index.js' ||
+        filename === 'README.md' ||
+        filename === '404.md' ||
+        filename === 'tags.js' ||
+        filename === 'graph.js' ||
+        filename === file.basename
+      )
+        return;
 
       const fullId = collection + filename;
       allPosts.set(fullId, {
@@ -103,18 +116,22 @@ async function buildFooter(file: VFile) {
     });
   });
 
-  const relatedPosts: Array<{ title: string; url: string; source: string }> = [];
+  const relatedPosts: Array<{ title: string; url: string; source: string }> =
+    [];
 
   // Try to use computed relationships first
   const currentFileId = file.basename || '';
-  const computedRelated = relationships?.posts?.[currentFileId]?.related ||
-                          relationships?.posts?.['/' + currentFileId]?.related ||
-                          null;
+  const computedRelated =
+    relationships?.posts?.[currentFileId]?.related ||
+    relationships?.posts?.['/' + currentFileId]?.related ||
+    null;
 
   if (computedRelated && computedRelated.length > 0) {
     // Use computed relationships
     for (const rel of computedRelated.slice(0, 5)) {
-      const post = allPosts.get(rel.id) || allPosts.get(rel.id.replace(/^(the-mirror-room\/|chats\/)/, ''));
+      const post =
+        allPosts.get(rel.id) ||
+        allPosts.get(rel.id.replace(/^(the-mirror-room\/|chats\/)/, ''));
       if (post) {
         relatedPosts.push({
           title: post.title,
@@ -129,39 +146,55 @@ async function buildFooter(file: VFile) {
     relatedFilenames.forEach((relatedFilename: string) => {
       const post = allPosts.get(relatedFilename);
       if (post) {
-        relatedPosts.push({ title: post.title, url: post.url, source: 'manual' });
+        relatedPosts.push({
+          title: post.title,
+          url: post.url,
+          source: 'manual',
+        });
       }
     });
 
     // Add tag-based suggestions if we don't have many manual ones
     if (relatedPosts.length < 5 && currentTags.length > 0) {
       const tagBasedPosts = Array.from(allPosts.values())
-        .filter(post => post.filename !== file.basename)
-        .map(post => {
-          const sharedTags = post.tags.filter((tag: string) => currentTags.includes(tag));
+        .filter((post) => post.filename !== file.basename)
+        .map((post) => {
+          const sharedTags = post.tags.filter((tag: string) =>
+            currentTags.includes(tag),
+          );
           return { ...post, sharedTagCount: sharedTags.length };
         })
-        .filter(post => post.sharedTagCount >= 2)
+        .filter((post) => post.sharedTagCount >= 2)
         .sort((a, b) => b.sharedTagCount - a.sharedTagCount)
         .slice(0, 5 - relatedPosts.length);
 
       for (const post of tagBasedPosts) {
         // Avoid duplicates
-        if (!relatedPosts.some(r => r.url === post.url)) {
-          relatedPosts.push({ title: post.title, url: post.url, source: 'tags' });
+        if (!relatedPosts.some((r) => r.url === post.url)) {
+          relatedPosts.push({
+            title: post.title,
+            url: post.url,
+            source: 'tags',
+          });
         }
       }
     }
   }
 
-  if (relatedPosts.length === 0 && currentTags.length === 0 && relatedFilenames.length === 0) {
+  if (
+    relatedPosts.length === 0 &&
+    currentTags.length === 0 &&
+    relatedFilenames.length === 0
+  ) {
     return null;
   }
 
   if (relatedPosts.length === 0) {
     return (
       <div class="container related-section">
-        <a href="/graph.html" class="view-graph-link">View Content Graph →</a>
+        <a href="/graph.html" class="view-graph-link">
+          View Content Graph →
+        </a>
       </div>
     );
   }
@@ -170,13 +203,15 @@ async function buildFooter(file: VFile) {
     <div class="container related-section">
       <h3 class="related-title">Related Posts</h3>
       <ul class="related-posts-list">
-        {relatedPosts.map(post => (
+        {relatedPosts.map((post) => (
           <li>
             <a href={'/' + post.url}>{post.title}</a>
           </li>
         ))}
       </ul>
-      <a href="/graph.html" class="view-graph-link">View Content Graph →</a>
+      <a href="/graph.html" class="view-graph-link">
+        View Content Graph →
+      </a>
     </div>
   );
 }
