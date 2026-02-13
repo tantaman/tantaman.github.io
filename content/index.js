@@ -139,7 +139,7 @@ export function renderCollection(collection, index, showAll = false) {
     );
 
   return `
-<section id="${collectionId}" class="wide-layout">
+<section id="${collectionId}" class="wide-layout wide">
   <div class="container">
     <h3 class="section-title">${collectionName}</h3>
     <div class="grid">
