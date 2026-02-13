@@ -26,7 +26,8 @@ export default async function defaultLayout(tree: ReturnType<typeof h>, file: VF
   const newChildren = [body.children];
   const matter = file.data.matter;
   const maybeDate = file.basename?.substring(0, 10);
-  if (/[0-9]{4}-[0-9]{2}-[0-9]{2}/.exec(maybeDate)) {
+  const isPost = /[0-9]{4}-[0-9]{2}-[0-9]{2}/.exec(maybeDate);
+  if (isPost) {
     newChildren.unshift(
       <span class="published subtext">Published {maybeDate}</span>,
     );
@@ -38,7 +39,11 @@ export default async function defaultLayout(tree: ReturnType<typeof h>, file: VF
   // Build related posts footer
   const footerContent = await buildFooter(file);
 
-  body.children = [
+  const header = isPost ? (
+    <header class="post-header">
+      <a href="/">tantaman</a>
+    </header>
+  ) : (
     <header>
       <div class="container">
         <h1>
@@ -51,12 +56,13 @@ export default async function defaultLayout(tree: ReturnType<typeof h>, file: VF
           <a href="/tags.html">Tags</a>
           <a href="/graph.html">Graph</a>
           <a href="/search.html">Search</a>
-          {/* <a href="/#notes">Notes</a> */}
-          {/* <a href="/#synthesis">Synthesis</a> */}
-          {/* <a href="/#about">About</a> */}
         </nav>
       </div>
-    </header>,
+    </header>
+  );
+
+  body.children = [
+    header,
     <main id="static" class={matter?.wide ? 'wide-layout' : undefined}>{newChildren}</main>,
     <footer id="footer">{footerContent}</footer>,
   ];
