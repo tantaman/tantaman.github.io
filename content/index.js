@@ -65,7 +65,7 @@ async function siteIndex() {
   const remaining = sortedPosts.slice(5);
 
   return `
-<div class="home">
+<div class="home wide">
   <div class="masonry">
     ${featured.map(({ collection, meta }) => renderCard(collection, meta)).join('\n')}
   </div>
