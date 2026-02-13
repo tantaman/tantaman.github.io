@@ -54,29 +54,26 @@ async function siteIndex() {
       });
   });
 
-  // Sort by date (from frontmatter if available, otherwise from filename) and take most recent 12
-  const recentPosts = allPosts
+  const sortedPosts = allPosts
     .sort((a, b) => {
       const dateA = a.meta.frontmatter?.date || extractDate(a.meta.compiledFilename);
       const dateB = b.meta.frontmatter?.date || extractDate(b.meta.compiledFilename);
       return dateB.localeCompare(dateA);
-    })
-    .slice(0, 12);
+    });
+
+  const featured = sortedPosts.slice(0, 5);
+  const remaining = sortedPosts.slice(5);
 
   return `
-<section id="hero" class="wide-layout">
-  <img src="/img/avatar-angry.png" alt="Stoic guardian meditating" />
-  <!-- <h2>Words&nbsp;Forged&nbsp;in&nbsp;Fire</h2> -->
-  <p>tales, reflections, and evolving ideas.</p>
-</section>
-<section id="recent" class="wide-layout">
-  <div class="container">
-    <h3 class="section-title">Recent</h3>
-    <div class="grid">
-      ${recentPosts.map(({ collection, key, meta }) => renderCard(collection, meta)).join('\n')}
-    </div>
+<div class="home">
+  <div class="masonry">
+    ${featured.map(({ collection, meta }) => renderCard(collection, meta)).join('\n')}
   </div>
-</section>`;
+  ${remaining.length > 0 ? `
+  <div class="more-grid">
+    ${remaining.map(({ collection, meta }) => renderCard(collection, meta)).join('\n')}
+  </div>` : ''}
+</div>`;
 }
 
 function renderCard(collection, meta) {
