@@ -280,8 +280,7 @@ nav.toc {
   border-radius: 1px;
 }
 
-.toc-dash-h2 { width: 20px; }
-.toc-dash-h3 { width: 12px; }
+.toc-dash { width: 20px; }
 
 .toc-panel {
   display: none;
@@ -310,9 +309,7 @@ nav.toc {
   font-size: 1.05rem;
   transition: color 0.2s;
 }
-.toc-panel .toc-link-h2 { color: var(--text); }
 .toc-panel a:hover { color: var(--accent); }
-.toc-panel .toc-level-2 { padding-left: 1rem; }
 
 .toc-widget-open .toc-minimap { display: none; }
 .toc-widget-open .toc-panel { display: block; }
