@@ -244,6 +244,7 @@ pre {
 
 .published {
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .logo > img {
@@ -460,6 +461,22 @@ img {
 .view-graph-link:hover {
   color: var(--text);
   transform: translateX(3px);
+}
+
+/* Minimal post header — centered site name */
+.post-header {
+  text-align: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+}
+
+.post-header a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 /* Mobile Responsive */

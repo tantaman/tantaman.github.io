@@ -69,20 +69,8 @@ export default async function chatLayout(tree: ReturnType<typeof h>, file: VFile
   const footerContent = await buildFooter(file);
 
   body.children = [
-    <header>
-      <div class="container">
-        <h1>
-          <a href="/">Tantaman</a>
-        </h1>
-        <nav>
-          <a href="/blog.html">Blog</a>
-          <a href="/stories.html">Stories</a>
-          <a href="/chats.html">Chats</a>
-          <a href="/tags.html">Tags</a>
-          <a href="/graph.html">Graph</a>
-          <a href="/search.html">Search</a>
-        </nav>
-      </div>
+    <header class="post-header">
+      <a href="/">tantaman</a>
     </header>,
     <main id="static" class="chat-container">
       <div class="chat-header">
