@@ -20,95 +20,34 @@ function _createMdxContent(props) {
       className: "toc",
       children: _jsxs(_components.ol, {
         className: "toc-level toc-level-1",
-        children: [_jsxs(_components.li, {
+        children: [_jsx(_components.li, {
           className: "toc-item toc-item-h2",
-          children: [_jsx(_components.a, {
+          children: _jsx(_components.a, {
             className: "toc-link toc-link-h2",
             href: "#vision-1",
             children: "Vision 1"
-          }), _jsxs(_components.ol, {
-            className: "toc-level toc-level-2",
-            children: [_jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#strategy",
-                children: "Strategy"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#why-two-prongs",
-                children: "Why two prongs?"
-              })
-            })]
-          })]
-        }), _jsxs(_components.li, {
+          })
+        }), _jsx(_components.li, {
           className: "toc-item toc-item-h2",
-          children: [_jsx(_components.a, {
+          children: _jsx(_components.a, {
             className: "toc-link toc-link-h2",
             href: "#vision-2",
             children: "Vision 2"
-          }), _jsx(_components.ol, {
-            className: "toc-level toc-level-2",
-            children: _jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#strategy-1",
-                children: "Strategy"
-              })
-            })
-          })]
-        }), _jsxs(_components.li, {
+          })
+        }), _jsx(_components.li, {
           className: "toc-item toc-item-h2",
-          children: [_jsx(_components.a, {
+          children: _jsx(_components.a, {
             className: "toc-link toc-link-h2",
             href: "#vision-3",
             children: "Vision 3"
-          }), _jsxs(_components.ol, {
-            className: "toc-level toc-level-2",
-            children: [_jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#why",
-                children: "Why?"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#strategy-2",
-                children: "Strategy"
-              })
-            })]
-          })]
-        }), _jsxs(_components.li, {
+          })
+        }), _jsx(_components.li, {
           className: "toc-item toc-item-h2",
-          children: [_jsx(_components.a, {
+          children: _jsx(_components.a, {
             className: "toc-link toc-link-h2",
             href: "#vision-4",
             children: "Vision 4"
-          }), _jsxs(_components.ol, {
-            className: "toc-level toc-level-2",
-            children: [_jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#why-1",
-                children: "Why?"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#strategy-3",
-                children: "Strategy"
-              })
-            })]
-          })]
+          })
         }), _jsx(_components.li, {
           className: "toc-item toc-item-h2",
           children: _jsx(_components.a, {

@@ -21,44 +21,13 @@ function _createMdxContent(props) {
       className: "toc",
       children: _jsxs(_components.ol, {
         className: "toc-level toc-level-1",
-        children: [_jsxs(_components.li, {
+        children: [_jsx(_components.li, {
           className: "toc-item toc-item-h2",
-          children: [_jsx(_components.a, {
+          children: _jsx(_components.a, {
             className: "toc-link toc-link-h2",
             href: "#getting-started",
             children: "Getting Started"
-          }), _jsxs(_components.ol, {
-            className: "toc-level toc-level-2",
-            children: [_jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#ingesting-content",
-                children: "Ingesting Content"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#picking-transformations",
-                children: "Picking Transformations"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#applying-transformations",
-                children: "Applying Transformations"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h3",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h3",
-                href: "#supplying-jsx--using-the-component",
-                children: "Supplying JSX & Using the Component"
-              })
-            })]
-          })]
+          })
         }), _jsx(_components.li, {
           className: "toc-item toc-item-h2",
           children: _jsx(_components.a, {

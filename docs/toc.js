@@ -15,11 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   items.forEach(function (item) {
     var dash = document.createElement('div');
     dash.className = 'toc-dash';
-    if (item.classList.contains('toc-item-h3')) {
-      dash.classList.add('toc-dash-h3');
-    } else {
-      dash.classList.add('toc-dash-h2');
-    }
+    dash.style.width = '20px';
     minimap.appendChild(dash);
   });
 
@@ -35,13 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var list = nav.querySelector('ol');
   if (list) {
     var cloned = list.cloneNode(true);
-    // Add level classes to links for styling
-    cloned.querySelectorAll('.toc-link-h2').forEach(function (a) {
-      a.className = 'toc-link-h2';
-    });
-    cloned.querySelectorAll('.toc-level-2').forEach(function (ol) {
-      ol.className = 'toc-level-2';
-    });
     panel.appendChild(cloned);
   }
 

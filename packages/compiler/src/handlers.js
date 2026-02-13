@@ -57,7 +57,7 @@ export default {
       rehypePlugins: [
         [rehypeInferDescriptionMeta, { truncateSize: 255 }],
         rehypeSlug,
-        toc,
+        [toc, { headings: ['h1', 'h2'] }],
         rehypeAutolinkHeadings,
         [
           rehypeHighlight,
@@ -165,7 +165,7 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
     .use(rehypeInferDescriptionMeta, { truncateSize: 255 })
     .use(rehypeInferTitleMeta)
     .use(rehypeSlug)
-    .use(toc)
+    .use(toc, { headings: ['h1', 'h2'] })
     .use(rehypeInferReadingTimeMeta)
     .use(rehypeAutolinkHeadings)
     .use(rehypeHighlight, {
