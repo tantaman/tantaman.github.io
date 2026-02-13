@@ -1,5 +1,5 @@
 ---
-title: 'Principalities And Powers'
+title: 'Principalities and Powers'
 tags: [substack]
 ---
 

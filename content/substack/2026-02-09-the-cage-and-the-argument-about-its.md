@@ -1,5 +1,5 @@
 ---
-title: 'The Cage And The Argument About Its'
+title: 'The Cage and the Argument About Its Curtains'
 tags: [substack]
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 'Burnout Is A Modern Invention'
+title: 'Burnout is a Modern Invention'
 tags: [substack]
 ---
 

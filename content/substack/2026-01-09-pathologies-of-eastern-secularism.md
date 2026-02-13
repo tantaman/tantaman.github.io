@@ -1,5 +1,5 @@
 ---
-title: 'Pathologies Of Eastern Secularism'
+title: 'Pathologies of Eastern Secularism'
 tags: [substack]
 ---
 

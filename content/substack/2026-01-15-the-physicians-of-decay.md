@@ -1,5 +1,5 @@
 ---
-title: 'The Physicians Of Decay'
+title: 'The Physicians of Decay'
 tags: [substack]
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 'Meaning At The Boundary'
+title: 'Meaning at the Boundary'
 tags: [substack]
 ---
 

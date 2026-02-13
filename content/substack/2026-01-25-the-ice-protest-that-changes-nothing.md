@@ -1,5 +1,5 @@
 ---
-title: 'The Ice Protest That Changes Nothing'
+title: 'The ICE Protest That Changes Nothing'
 tags: [substack]
 ---
 

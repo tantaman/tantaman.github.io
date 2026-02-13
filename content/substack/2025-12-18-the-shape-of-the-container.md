@@ -1,5 +1,5 @@
 ---
-title: 'The Shape Of The Container'
+title: 'Secularized Worship'
 tags: [substack]
 ---
 

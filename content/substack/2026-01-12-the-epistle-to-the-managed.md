@@ -1,5 +1,5 @@
 ---
-title: 'The Epistle To The Managed'
+title: 'The Epistle to the Managed'
 tags: [substack]
 ---
 

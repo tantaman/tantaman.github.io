@@ -1,5 +1,5 @@
 ---
-title: 'Know Thyself No Self'
+title: 'Know Thyself: No Self'
 tags: [substack]
 ---
 

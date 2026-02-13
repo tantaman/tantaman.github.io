@@ -1,0 +1,18 @@
+post_id,timestamp,email,post_type,post_audience,active_subscription,country,city,region,device_type,client_os,client_type,user_agent
+187220052,2026-02-07T18:46:01.520Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-07T19:25:12.458Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-07T19:54:03.217Z,hello@shawnabrea.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0
+187220052,2026-02-07T20:02:15.988Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-07T20:08:02.668Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-07T20:08:08.945Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T01:02:18.447Z,van.dambich24@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T01:08:17.402Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T14:59:30.456Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T15:00:12.422Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T15:08:17.753Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T17:35:05.411Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T17:42:46.375Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T19:29:41.637Z,matt.wonlaw@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0
+187220052,2026-02-08T22:39:01.998Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-08T22:43:25.056Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+187220052,2026-02-11T23:45:18.648Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)

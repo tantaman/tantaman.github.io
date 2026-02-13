@@ -1,0 +1,13 @@
+post_id,timestamp,email,post_type,post_audience,active_subscription,country,city,region,device_type,client_os,client_type,user_agent
+186026258,2026-01-27T23:52:54.688Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-01-28T00:01:21.580Z,cesara@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-01-28T00:12:45.217Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-01-28T00:16:54.623Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-01-28T00:16:56.024Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-01-28T01:47:52.868Z,elizabethprevou@gmail.com,newsletter,everyone,true,LB,,,,,,Mozilla/5.0
+186026258,2026-01-28T11:56:17.662Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-01-28T20:43:47.471Z,matt.wonlaw@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0
+186026258,2026-01-29T12:56:18.001Z,matt.wonlaw@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-01-29T13:14:36.539Z,Fnvogt@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-01-29T13:18:38.039Z,Fnvogt@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+186026258,2026-02-11T00:31:32.632Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)

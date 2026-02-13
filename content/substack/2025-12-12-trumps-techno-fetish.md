@@ -1,5 +1,5 @@
 ---
-title: 'Trumps Techno Fetish'
+title: 'Trump''s Techno-Fetish'
 tags: [substack]
 ---
 

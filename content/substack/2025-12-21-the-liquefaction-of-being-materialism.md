@@ -1,5 +1,5 @@
 ---
-title: 'Part I: The Genealogy of Reduction'
+title: 'The Liquefaction of Being: Materialism, Technology, and the Dissolution of the Self'
 tags: [substack]
 ---
 
@@ -25,6 +25,8 @@ The thesis of this essay is that liquid modernity is _downstream_ of a deeper me
 Bauman’s liquidity presupposes that the self has already been stripped of essence, telos, and transcendent anchoring. The technological mindset, as defined by Heidegger, creates the conditions for liquid modernity—not the reverse. What follows is a genealogy of this reduction, tracing the pivotal shifts in philosophy, religion, economics, and education that culminated in our present condition, followed by an examination of the counter-traditions that resist this trajectory and the formidable obstacles they face.
 
 ---
+
+# Part I: The Genealogy of Reduction
 
 ## The Medieval Anchor
 

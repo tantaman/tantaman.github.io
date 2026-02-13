@@ -1,5 +1,5 @@
 ---
-title: 'To My Friends On The Left A Difficult'
+title: 'To My Friends on the Left: A Difficult Reckoning'
 tags: [substack]
 ---
 

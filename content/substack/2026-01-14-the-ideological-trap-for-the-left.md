@@ -1,5 +1,5 @@
 ---
-title: 'The Ideological Trap For The Left'
+title: 'The Ideological Trap for the Left'
 tags: [substack]
 ---
 

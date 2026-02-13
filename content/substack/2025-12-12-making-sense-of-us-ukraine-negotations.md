@@ -1,9 +1,11 @@
 ---
-title: 'I. “The U.S. aligning with Russia” is not what’s happening'
+title: 'Making Sense of US-Ukraine Negotations'
 tags: [substack]
 ---
 
 Trump withholds aid, berates Zelensky, negotiates with Putin first, praises Putin (see “[Why Christian Russia is a Fantasy](https://tantaman.substack.com/i/181393055/the-geopolitical-trap-why-christian-russia-is-a-fantasy)” on this point). Is the US aligning with Russia?
+
+# **I. “The U.S. aligning with Russia” is not what’s happening**
 
 Even when U.S. aid to Ukraine changes pace or tone under different administrations, this does **not** imply:
 

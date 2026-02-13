@@ -1,5 +1,5 @@
 ---
-title: 'Debugging The Confusion Liberalism'
+title: 'Debugging the Confusion: Liberalism vs Leftism'
 tags: [substack]
 ---
 

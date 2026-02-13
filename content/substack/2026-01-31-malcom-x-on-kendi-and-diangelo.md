@@ -1,5 +1,5 @@
 ---
-title: 'Malcom X On Kendi And Diangelo'
+title: 'Malcom X on Kendi, DiAngelo and the DEI Complex'
 tags: [substack]
 ---
 

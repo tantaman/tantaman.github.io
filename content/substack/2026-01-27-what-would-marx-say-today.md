@@ -1,9 +1,11 @@
 ---
-title: 'The Specter of the Credentialed'
+title: 'What Would Marx Say Today?'
 tags: [substack]
 ---
 
 ![](/blog-assets/substack/b7a8bdad-7a1a-4c93-acf6-d7f6e10e46f0_2000x1603.webp)
+
+# The Specter of the Credentialed
 
 ## A Critique of the Professional-Managerial Class
 

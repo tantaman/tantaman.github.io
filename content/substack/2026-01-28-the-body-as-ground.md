@@ -1,5 +1,5 @@
 ---
-title: 'The Body As Ground'
+title: 'The Body as Ground'
 tags: [substack]
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 'Grammar As Alignment The World Economic'
+title: 'Grammar as Alignment: The World Economic Forum'
 tags: [substack]
 ---
 

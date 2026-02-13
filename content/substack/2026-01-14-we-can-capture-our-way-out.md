@@ -1,5 +1,5 @@
 ---
-title: 'Appendix: Sources'
+title: 'We Can Capture Our Way Out'
 tags: [substack]
 ---
 
@@ -129,5 +129,7 @@ The bounds of the problem are known. The solution lies within them. And the mark
 _We do not lack the resources to solve climate change. We do not even lack the coordination mechanism. We have capitalism, and capitalism follows profit. The only question is how much damage we sustain before the price signal becomes undeniable._
 
 ---
+
+# Appendix: Sources
 
 ![](/blog-assets/substack/3108e960-839c-46cd-891c-b0a115d80859_676x793.png)

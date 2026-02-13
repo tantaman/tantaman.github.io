@@ -1,0 +1,8 @@
+post_id,timestamp,email,post_type,post_audience,active_subscription,country,city,region,device_type,client_os,client_type,user_agent
+184353795,2026-01-12T19:40:07.624Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+184353795,2026-01-12T20:38:37.533Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+184353795,2026-01-12T20:58:51.518Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+184353795,2026-01-13T09:16:44.740Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+184353795,2026-01-16T02:17:11.118Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+184353795,2026-01-18T01:44:53.298Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+184353795,2026-01-23T12:19:18.631Z,matt.wonlaw@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0

@@ -1,5 +1,5 @@
 ---
-title: 'Know Thyself Through What'
+title: 'Know Thyself: Through What?'
 tags: [substack]
 ---
 

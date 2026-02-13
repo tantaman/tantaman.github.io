@@ -1,5 +1,5 @@
 ---
-title: 'The Battlefield Of Attention'
+title: 'The Battlefield of Attention'
 tags: [substack]
 ---
 

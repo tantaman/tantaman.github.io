@@ -1,5 +1,5 @@
 ---
-title: 'The Alchemy Of Power'
+title: 'The Alchemy of Power'
 tags: [substack]
 ---
 

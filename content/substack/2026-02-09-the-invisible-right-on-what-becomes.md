@@ -1,5 +1,5 @@
 ---
-title: 'The Invisible Right On What Becomes'
+title: 'The Invisible Right: On What Becomes Synonymous With Reality'
 tags: [substack]
 ---
 

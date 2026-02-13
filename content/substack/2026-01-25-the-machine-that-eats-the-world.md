@@ -1,5 +1,5 @@
 ---
-title: 'The Machine That Eats The World'
+title: 'The Machine That Eats the World'
 tags: [substack]
 ---
 

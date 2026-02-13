@@ -54,6 +54,7 @@ export default async function defaultLayout(
         </h1>
         <nav>
           <a href="/blog.html">Blog</a>
+          <a href="/substack.html">Substack</a>
           <a href="/stories.html">Stories</a>
           <a href="/tags.html">Tags</a>
           <a href="/graph.html">Graph</a>

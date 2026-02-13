@@ -1,5 +1,5 @@
 ---
-title: 'The Socialists Convenient Blindness'
+title: 'The Socialists'' Convenient Blindness'
 tags: [substack]
 ---
 

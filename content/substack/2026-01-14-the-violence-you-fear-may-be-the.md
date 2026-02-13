@@ -1,5 +1,5 @@
 ---
-title: 'The Violence You Fear May Be The'
+title: 'The Violence You Fear May Be the Violence You’re Creating'
 tags: [substack]
 ---
 

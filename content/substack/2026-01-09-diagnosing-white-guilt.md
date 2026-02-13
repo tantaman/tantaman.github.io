@@ -1,5 +1,5 @@
 ---
-title: 'Diagnosing White Guilt'
+title: 'Diagnosing "White Guilt"'
 tags: [substack]
 ---
 

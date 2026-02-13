@@ -1,5 +1,5 @@
 ---
-title: 'Know Thyself Gurdjieff Kierkegaard'
+title: 'Know Thyself: Gurdjieff, Kierkegaard, Eckhart'
 tags: [substack]
 ---
 

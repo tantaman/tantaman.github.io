@@ -1,5 +1,5 @@
 ---
-title: 'The Recurring Pattern Left Islamist'
+title: 'The Recurring Pattern: Left-Islamist Alliances and the Triumph of Islam'
 tags: [substack]
 ---
 

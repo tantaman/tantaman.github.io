@@ -1,0 +1,14 @@
+post_id,timestamp,email,post_type,post_audience,active_subscription,country,city,region,device_type,client_os,client_type,user_agent
+185736630,2026-01-25T16:11:29.878Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T16:27:01.800Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T16:30:32.308Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T16:31:00.672Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T16:36:16.225Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T16:43:51.008Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T17:52:37.410Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T18:47:24.961Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T19:22:13.075Z,elizabethprevou@gmail.com,newsletter,everyone,true,LB,,,,,,Mozilla/5.0
+185736630,2026-01-25T21:03:58.983Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T21:14:11.936Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-25T23:46:34.698Z,emy@emilyruth.health,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185736630,2026-01-26T18:12:22.951Z,matt.wonlaw@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0

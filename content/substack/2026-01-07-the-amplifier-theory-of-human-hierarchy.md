@@ -1,5 +1,5 @@
 ---
-title: 'The Amplifier Theory Of Human Hierarchy'
+title: 'The Amplifier Theory of Human Hierarchy'
 tags: [substack]
 ---
 

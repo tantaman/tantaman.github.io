@@ -1,5 +1,5 @@
 ---
-title: 'The Selection Of Souls'
+title: 'Why Power Chose Materialism—and What Was Lost'
 tags: [substack]
 ---
 

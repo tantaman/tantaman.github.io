@@ -1,5 +1,5 @@
 ---
-title: 'Structure Not Vibes The Real State'
+title: 'Structure, Not Vibes: The Real State of the World'
 tags: [substack]
 ---
 
