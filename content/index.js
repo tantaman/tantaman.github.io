@@ -82,14 +82,16 @@ async function siteIndex() {
 function renderCard(collection, meta) {
   const collectionLabel = getCollectionName(collection);
   const date = meta.frontmatter?.date || extractDate(meta.compiledFilename);
+  const image = meta.frontmatter?.image;
 
   return `
     <a class="card" href="${meta.compiledFilename}">
+      ${image ? `<img src="${image}" alt="" />` : ''}
       <h4>
         ${meta.frontmatter?.title || meta.filename}
       </h4>
       <div class="subtext">
-        ${date} · ${collectionLabel} · ${joinTags(meta.frontmatter)}
+        ${date} · ${collectionLabel}
       </div>
       <p>
           ${stripTags(meta.frontmatter?.description || meta.description || '')}
