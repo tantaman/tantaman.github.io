@@ -114,8 +114,11 @@ section {
 /* section titles */
 .section-title {
   font-size: clamp(2rem, 4vw, 2.5rem);
-  margin-bottom: 3rem;
+  margin-bottom: 3rem !important;
+  margin-top: -3rem;
   font-weight: 700;
+  font-style: italic;
+  color: orange;
 }
 
 /* grid of cards */
@@ -280,14 +283,16 @@ nav.toc {
   border-radius: 1px;
 }
 
-.toc-dash { width: 20px; }
+.toc-dash {
+  width: 20px;
+}
 
 .toc-panel {
   display: none;
   background: #fff;
   border-radius: 0 16px 16px 0;
   padding: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   min-width: 220px;
   max-width: 320px;
 }
@@ -301,18 +306,30 @@ nav.toc {
   margin-bottom: 1rem;
 }
 
-.toc-panel ol { list-style: none; padding: 0; margin: 0; }
-.toc-panel li { margin-bottom: 0.6rem; }
+.toc-panel ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toc-panel li {
+  margin-bottom: 0.6rem;
+}
 .toc-panel a {
   text-decoration: none;
   color: var(--text-muted);
   font-size: 1.05rem;
   transition: color 0.2s;
 }
-.toc-panel a:hover { color: var(--accent); }
+.toc-panel a:hover {
+  color: var(--accent);
+}
 
-.toc-widget-open .toc-minimap { display: none; }
-.toc-widget-open .toc-panel { display: block; }
+.toc-widget-open .toc-minimap {
+  display: none;
+}
+.toc-widget-open .toc-panel {
+  display: block;
+}
 
 blockquote {
   margin: 10px auto;
@@ -532,7 +549,9 @@ img {
 }
 
 @media (max-width: 640px) {
-  .toc-widget { display: none; }
+  .toc-widget {
+    display: none;
+  }
 }
 
 /* Mobile Responsive */
