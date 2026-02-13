@@ -6,7 +6,7 @@ body {
 .home {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 2rem 4rem;
+  padding: 4rem 2rem;
 }
 
 /* Masonry layout for top 5 featured posts */
