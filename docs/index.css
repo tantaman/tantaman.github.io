@@ -140,7 +140,7 @@ section {
   display: grid;
   grid-template-columns: 1fr min(68ch, 100% - 3rem) 1fr;
   position: relative;
-  font-size: 1.35rem;
+  font-size: 1rem;
 }
 
 #static > * {
@@ -165,8 +165,18 @@ section {
   grid-template-columns: 1fr min(1024px, 100% - 3rem) 1fr;
 }
 
+#static h1,
+#static h2,
+#static h3,
+#static h4 {
+  margin-bottom: 0.25em;
+  line-height: 1.1;
+}
+
 #static p {
-  margin-bottom: 1.4em;
+  margin-top: 0;
+  margin-bottom: 0.8em;
+  font-weight: 100;
 }
 
 #static h1,
@@ -206,6 +216,7 @@ section {
 hr {
   border: 1px solid #d0d0d0;
   height: 0px;
+  width: 100%;
 }
 
 iframe {
@@ -233,7 +244,6 @@ pre {
 
 .published {
   position: relative;
-  top: -30px;
 }
 
 .logo > img {

@@ -1,0 +1,10 @@
+post_id,timestamp,email,post_type,post_audience,active_subscription,country,city,region,device_type,client_os,client_type,user_agent
+185563805,2026-01-23T19:07:37.504Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185563805,2026-01-23T19:59:44.440Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185563805,2026-01-23T20:09:39.781Z,aperture345@gmail.com,newsletter,everyone,false,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185563805,2026-01-23T20:22:27.630Z,elizabethprevou@gmail.com,newsletter,everyone,true,LB,,,,,,Mozilla/5.0
+185563805,2026-01-23T22:59:18.407Z,emy@emilyruth.health,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185563805,2026-01-24T01:49:59.451Z,lesliegvogt@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185563805,2026-01-25T11:46:55.838Z,matt.wonlaw@gmail.com,newsletter,everyone,false,NL,,,,,,Mozilla/5.0
+185563805,2026-01-25T14:54:30.893Z,Ljhwon@gmail.com,newsletter,everyone,true,US,,,,,,Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)
+185563805,2026-01-30T22:29:46.661Z,elizabethprevou@gmail.com,newsletter,everyone,true,LB,,,,,,Mozilla/5.0

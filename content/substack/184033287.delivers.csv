@@ -1,0 +1,9 @@
+post_id,timestamp,email,post_type,post_audience,active_subscription
+184033287,2026-01-09T15:56:30.873Z,matt.wonlaw@gmail.com,newsletter,everyone,false
+184033287,2026-01-09T15:56:31.719Z,cesara@gmail.com,newsletter,everyone,true
+184033287,2026-01-09T15:56:31.763Z,lesliegvogt@gmail.com,newsletter,everyone,true
+184033287,2026-01-09T15:56:31.814Z,ehman@tutamail.com,newsletter,everyone,true
+184033287,2026-01-09T15:56:31.836Z,mgalica@gmail.com,newsletter,everyone,true
+184033287,2026-01-09T15:56:31.912Z,aperture345@gmail.com,newsletter,everyone,true
+184033287,2026-01-09T15:56:32.163Z,dfinc003@gmail.com,newsletter,everyone,true
+184033287,2026-01-09T15:56:32.544Z,wesley.kane.tate@gmail.com,newsletter,everyone,true
