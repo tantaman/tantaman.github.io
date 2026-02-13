@@ -1,0 +1,7 @@
+post_id,timestamp,email,post_type,post_audience,active_subscription
+184314183,2026-01-12T13:49:35.435Z,aperture345@gmail.com,newsletter,everyone,false
+184314183,2026-01-12T13:49:35.805Z,matt.wonlaw@gmail.com,newsletter,everyone,false
+184314183,2026-01-12T13:49:37.701Z,lesliegvogt@gmail.com,newsletter,everyone,true
+184314183,2026-01-12T13:49:37.748Z,cesara@gmail.com,newsletter,everyone,true
+184314183,2026-01-12T13:49:38.128Z,mgalica@gmail.com,newsletter,everyone,true
+184314183,2026-01-12T13:49:40.667Z,kobie@pm.me,newsletter,everyone,true

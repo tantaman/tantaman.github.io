@@ -1,5 +1,5 @@
 ---
-title: 'How Power Weaponizes Mass Education'
+title: 'How Power Uses Mass Education and Literature'
 tags: [substack]
 ---
 

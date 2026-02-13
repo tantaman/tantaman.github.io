@@ -9,22 +9,22 @@ const SUBSTACK_DIR = path.join(ROOT, 'content', 'substack');
 const IMAGE_DIR = path.join(ROOT, 'docs', 'blog-assets', 'substack');
 const SUBSTACK_API = 'https://tantaman.substack.com/api/v1/posts';
 
-// ── Fetch post dates from Substack API ──────────────────────────────────────
+// ── Fetch post metadata from Substack API ───────────────────────────────────
 
-async function fetchPostDates() {
-  const dateMap = {};
+async function fetchPostMeta() {
+  const metaMap = {};
   let offset = 0;
   while (true) {
     const res = await fetch(`${SUBSTACK_API}?offset=${offset}&limit=50`);
     const posts = await res.json();
     if (!posts.length) break;
     for (const p of posts) {
-      dateMap[p.id] = p.post_date;
+      metaMap[p.id] = { post_date: p.post_date, title: p.title };
     }
     offset += posts.length;
     if (posts.length < 50) break;
   }
-  return dateMap;
+  return metaMap;
 }
 
 // ── Image downloading ───────────────────────────────────────────────────────
@@ -80,7 +80,7 @@ function createTurndown() {
 
 // ── Process a single file ───────────────────────────────────────────────────
 
-async function processFile(filename, dateMap) {
+async function processFile(filename, metaMap) {
   const match = filename.match(/^(\d+)\.(.+)\.html$/);
   if (!match) return;
   const [, postId, slug] = match;
@@ -96,7 +96,8 @@ async function processFile(filename, dateMap) {
   }
 
   // Derive date from API data
-  const postDate = dateMap[postId];
+  const meta = metaMap[postId];
+  const postDate = meta?.post_date;
   let dateStr;
   if (postDate) {
     const d = new Date(postDate);
@@ -174,14 +175,14 @@ async function processFile(filename, dateMap) {
     }
   }
 
-  // Extract title: first <h1>, or derive from slug
-  let title;
+  // Get title from API metadata, falling back to slug
+  const title = meta?.title || titleCase(slug.replace(/-/g, ' '));
+
+  // Remove first <h1> only if it matches the API title (avoids duplicating
+  // the title while preserving section headings that happen to be <h1>)
   const $h1 = $('h1').first();
-  if ($h1.length) {
-    title = $h1.text().trim();
+  if ($h1.length && $h1.text().trim() === title) {
     $h1.remove();
-  } else {
-    title = titleCase(slug.replace(/-/g, ' '));
   }
 
   // Escape single quotes in title for YAML
@@ -212,9 +213,9 @@ ${cleanedMarkdown}
 // ── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
-  console.log('Fetching post dates from Substack API...');
-  const dateMap = await fetchPostDates();
-  console.log(`Got dates for ${Object.keys(dateMap).length} posts\n`);
+  console.log('Fetching post metadata from Substack API...');
+  const metaMap = await fetchPostMeta();
+  console.log(`Got metadata for ${Object.keys(metaMap).length} posts\n`);
 
   await mkdir(IMAGE_DIR, { recursive: true });
 
@@ -222,7 +223,7 @@ async function main() {
   console.log(`Processing ${files.length} HTML files...\n`);
 
   for (const file of files.sort()) {
-    await processFile(file, dateMap);
+    await processFile(file, metaMap);
   }
 
   console.log('\nDone!');

@@ -1,5 +1,5 @@
 ---
-title: 'Know Thyself The Kingdom Within'
+title: 'Know Thyself: The Kingdom Within'
 tags: [substack]
 ---
 

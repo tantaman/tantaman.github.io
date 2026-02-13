@@ -1,5 +1,5 @@
 ---
-title: 'Preface: On Forbidden Comparisons'
+title: 'Leftism Is Worse Than Fascism'
 tags: [substack]
 ---
 
@@ -8,6 +8,8 @@ tags: [substack]
 > ‘leftism’ - the institutional moral regime that converts compassion into administrative control and dissent into pathology.
 
 > _There was some pushback on the use of “leftism” vs “liberalism.” The terminology is fully explored here:_
+
+# Preface: On Forbidden Comparisons
 
 You will recoil from this title. You are trained to recoil. The training is precise: any comparison that does not conclude with fascism as the supreme evil is itself fascism. This is convenient for those who wish to forestall analysis. It is not convenient for those who wish to understand.
 

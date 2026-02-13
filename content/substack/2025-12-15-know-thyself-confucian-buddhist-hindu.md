@@ -1,5 +1,5 @@
 ---
-title: 'Know Thyself Confucian Buddhist Hindu'
+title: 'Know Thyself: Confucian, Buddhist, Hindu'
 tags: [substack]
 ---
 

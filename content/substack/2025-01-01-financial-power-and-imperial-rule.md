@@ -1,7 +1,9 @@
 ---
-title: 'I. Introduction: The Nature of Financial Power'
+title: 'Financial Power And Imperial Rule'
 tags: [substack]
 ---
+
+# I. Introduction: The Nature of Financial Power
 
 Financial power, in its most consequential form, is not merely the possession of wealth. It is the capacity to _mobilize other people’s purchasing power at scale_\-cheaply, reliably, and across borders. The state or institution that commands financial power controls four interlocking capabilities: the ability to issue widely-accepted liabilities that function as near-money, the authority to set terms of credit, the capacity to provide ultimate liquidity in crises, and the means to enforce claims through law, taxation, and geopolitics. Britain’s rise to global hegemony between the Glorious Revolution and the First World War represents perhaps the clearest historical case study of how financial architecture translates into political dominion.
 

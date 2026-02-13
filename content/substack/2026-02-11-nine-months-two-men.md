@@ -1,5 +1,5 @@
 ---
-title: 'Nine Months Two Men'
+title: 'Nine Months, Two Men'
 tags: [substack]
 ---
 

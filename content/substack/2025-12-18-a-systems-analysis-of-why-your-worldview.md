@@ -1,5 +1,5 @@
 ---
-title: 'A Systems Analysis Of Why Your Worldview'
+title: 'Materialism Is Killing You'
 tags: [substack]
 ---
 

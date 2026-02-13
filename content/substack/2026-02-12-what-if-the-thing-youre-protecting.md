@@ -1,5 +1,5 @@
 ---
-title: 'What If The Thing Youre Protecting'
+title: 'What If the Thing You’re Protecting Yourself From Is the Only Thing That Can Save You?'
 tags: [substack]
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 'Know Thyself Greek Vs Christian'
+title: 'Know Thyself: Greek vs Christian'
 tags: [substack]
 ---
 

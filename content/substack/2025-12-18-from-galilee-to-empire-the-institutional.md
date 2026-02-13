@@ -1,5 +1,5 @@
 ---
-title: 'From Galilee To Empire The Institutional'
+title: 'From Galilee to Empire: The Institutional Capture of Christianity'
 tags: [substack]
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 'Postscript: On the 1999 Tyler Durden'
+title: 'Tyler Durden: How They Broke You'
 tags: [substack]
 ---
 
@@ -168,6 +168,8 @@ That’s the way out. Not through another theory. Not through another framework.
 _Go._
 
 ---
+
+# Postscript: On the 1999 Tyler Durden
 
 Tyler saw the cage. Give him that. Most never see it.
 

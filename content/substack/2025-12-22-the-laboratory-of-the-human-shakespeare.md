@@ -1,5 +1,5 @@
 ---
-title: 'The Laboratory Of The Human Shakespeare'
+title: 'The Laboratory of the Human: Shakespeare as Knowledge'
 tags: [substack]
 ---
 

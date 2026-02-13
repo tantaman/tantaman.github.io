@@ -1,5 +1,5 @@
 ---
-title: 'The Epistemology Of Impotence How'
+title: 'The Epistemology of Impotence: How Identity Politics Guarantees Its Own Failure'
 tags: [substack]
 ---
 

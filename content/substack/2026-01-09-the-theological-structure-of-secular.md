@@ -1,9 +1,11 @@
 ---
-title: 'Abstract'
+title: 'The Theological Structure of Secular Progressivism'
 tags: [substack]
 ---
 
 ![](/blog-assets/substack/296bbbed-c943-4170-9838-8bdcf9b716ac_1024x1536.png)
+
+# Abstract
 
 This essay argues that contemporary progressive politics, particularly among white liberals in the United States, operates according to a fundamentally Christian moral psychology that persists despite—and perhaps because of—the abandonment of Christian theology. Drawing on Nietzsche’s critique of slave morality, Girard’s analysis of the scapegoat mechanism, and recent empirical research on racial attitudes, I demonstrate that the valorization of victimhood, the imperative toward self-sacrifice, and the structure of confession and penance that characterize modern progressivism represent not a departure from Christianity but its unconscious continuation. The result is a political theology that retains Christianity’s crucifixion while eliminating its resurrection—producing perpetual guilt without the possibility of grace.
 

@@ -1,5 +1,5 @@
 ---
-title: 'Part I: The Monotheistic Trap'
+title: 'What Modernity Needs: A Return to Polytheism'
 tags: [substack]
 ---
 
@@ -16,6 +16,8 @@ The name for this capacity, borrowed from an older vocabulary, is _polytheism_.
 This is not a proposal to worship Zeus. It is a proposal to recognize what the polytheistic worldview understood and what monotheism—theological and secular—has trained us to forget: that human life involves irreducibly plural goods, that these goods make competing claims on us, that the competition cannot be resolved by reducing all values to one, and that the attempt to escape this tension is itself the source of our pathology.
 
 ---
+
+# Part I: The Monotheistic Trap
 
 ## One God, One Metric
 

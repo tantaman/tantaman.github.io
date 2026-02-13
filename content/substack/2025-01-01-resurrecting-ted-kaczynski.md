@@ -1,7 +1,9 @@
 ---
-title: 'The Psychology of the Therapeutic-Managerial System'
+title: 'Resurrecting Ted Kaczynski'
 tags: [substack]
 ---
+
+# The Psychology of the Therapeutic-Managerial System
 
 ## An Analysis of Liberal Control Mechanisms in Post-Industrial Society
 

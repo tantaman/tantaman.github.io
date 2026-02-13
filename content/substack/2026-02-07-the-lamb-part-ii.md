@@ -1,5 +1,5 @@
 ---
-title: 'The Lamb Part Ii'
+title: 'The Lamb, Part II'
 tags: [substack]
 ---
 

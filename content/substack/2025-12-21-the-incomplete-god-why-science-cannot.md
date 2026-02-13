@@ -1,5 +1,5 @@
 ---
-title: 'The Incomplete God Why Science Cannot'
+title: 'The Incomplete God: Why Science Cannot Ground Itself'
 tags: [substack]
 ---
 

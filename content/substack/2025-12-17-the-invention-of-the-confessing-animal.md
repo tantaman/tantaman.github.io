@@ -1,5 +1,5 @@
 ---
-title: 'The Invention Of The Confessing Animal'
+title: 'The Invention of the Confessing Animal'
 tags: [substack]
 ---
 

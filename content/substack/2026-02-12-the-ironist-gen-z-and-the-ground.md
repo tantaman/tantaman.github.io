@@ -1,5 +1,5 @@
 ---
-title: 'The Ironist Gen Z And The Ground'
+title: 'The Ironist (Gen-Z) and the Ground'
 tags: [substack]
 ---
 

@@ -1,9 +1,11 @@
 ---
-title: 'Part I — The Clearing'
+title: 'The Return'
 tags: [substack]
 ---
 
 ![](/blog-assets/substack/f0a8205d-2349-42fe-bee9-083e970e5504_960x1253.jpeg)
+
+# Part I — The Clearing
 
 ## I. The Beginning
 

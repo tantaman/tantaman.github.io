@@ -1,5 +1,5 @@
 ---
-title: 'Trauma Culture White Guilt Checkmate'
+title: 'Trauma Culture + White Guilt = Checkmate'
 tags: [substack]
 ---
 

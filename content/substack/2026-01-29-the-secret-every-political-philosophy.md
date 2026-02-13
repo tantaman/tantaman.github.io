@@ -1,5 +1,5 @@
 ---
-title: 'The Secret Every Political Philosophy'
+title: 'The Secret Every Political Philosophy Shares'
 tags: [substack]
 ---
 

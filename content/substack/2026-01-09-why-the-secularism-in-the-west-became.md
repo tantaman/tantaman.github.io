@@ -1,5 +1,5 @@
 ---
-title: 'Why The Secularism In The West Became'
+title: 'Pathologies of Western Secularism'
 tags: [substack]
 ---
 

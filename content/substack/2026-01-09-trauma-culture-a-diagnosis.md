@@ -1,5 +1,5 @@
 ---
-title: 'Trauma Culture A Diagnosis'
+title: 'Diagnosing "Trauma Culture"'
 tags: [substack]
 ---
 

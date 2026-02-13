@@ -1,5 +1,5 @@
 ---
-title: 'The Two Filters Why Reasonable Ideas'
+title: 'The Two Filters: Why Reasonable Ideas Die'
 tags: [substack]
 ---
 

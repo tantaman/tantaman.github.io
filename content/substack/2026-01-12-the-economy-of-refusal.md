@@ -1,5 +1,5 @@
 ---
-title: 'The Economy Of Refusal'
+title: 'The Economy of Refusal'
 tags: [substack]
 ---
 
