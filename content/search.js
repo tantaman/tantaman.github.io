@@ -43,8 +43,7 @@ function searchPage() {
   return `
 <section id="search-page" class="wide-layout">
   <div class="search-header">
-    <h1 class="page-title">Search</h1>
-    <p class="page-description">Find posts by keyword</p>
+    <h3 class="section-title">Search</h3>
   </div>
   <div class="search-container">
     <input

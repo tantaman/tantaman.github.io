@@ -18,11 +18,11 @@ export default async function tags(file, cwd, files) {
         .use(rehypeDocument, {
           ...doc,
           css: doc.css.concat(['/tags.css']),
-          title: 'Browse by Tag',
+          title: 'Tags',
         })
         .use(rehypeMeta, {
           ...meta,
-          title: 'Browse by Tag - Tantamanlands',
+          title: 'Tags - Tantamanlands',
           description: 'Explore posts organized by topic',
         })
         .use(layout)
@@ -32,7 +32,7 @@ export default async function tags(file, cwd, files) {
       return result.toString();
     },
     frontmatter: {
-      title: 'Browse by Tag',
+      title: 'Tags',
       description: 'Explore posts organized by topic',
     },
     greymatter: {},
@@ -104,8 +104,7 @@ async function tagsPage() {
   return `
 <section id="tags-page" class="wide-layout">
   <div class="container">
-    <h1 class="page-title">Browse by Tag</h1>
-    <p class="page-description">Explore posts organized by topic. Click to expand each tag.</p>
+    <h3 class="section-title">Tags</h3>
 
     <div class="tags-list">
       ${sortedTags.map(([tag, posts]) => renderTagSection(tag, posts)).join('\n')}

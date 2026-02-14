@@ -5,20 +5,6 @@
   min-height: 70vh;
 }
 
-.page-title {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  margin-bottom: 1rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.page-description {
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 1.2rem;
-  margin-bottom: 4rem;
-}
-
 .tags-list {
   max-width: 900px;
   margin: 0 auto;
