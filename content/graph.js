@@ -63,6 +63,9 @@ export default async function graph(file, cwd, files) {
           title: 'Content Graph - Tantamanlands',
           description: 'Explore connections between posts, stories, and chats',
         })
+        .use(() => (tree, file) => {
+          file.data.matter = { ...file.data.matter, minimalHeader: true };
+        })
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(await graphPage());
@@ -72,6 +75,7 @@ export default async function graph(file, cwd, files) {
     frontmatter: {
       title: 'Content Graph',
       description: 'Explore connections between posts, stories, and chats',
+      minimalHeader: true,
     },
     greymatter: {},
   };
@@ -124,6 +128,10 @@ async function graphPage() {
       case 'chats/':
         collectionName = 'chats';
         collectionGroup = 3;
+        break;
+      case 'substack/':
+        collectionName = 'substack';
+        collectionGroup = 4;
         break;
     }
 
@@ -181,8 +189,8 @@ async function graphPage() {
   if (relationships && relationships.edges) {
     for (const edge of relationships.edges) {
       // Extract just the filename from the source/target (remove collection prefix)
-      const sourceFile = edge.source.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/)/, '');
-      const targetFile = edge.target.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/)/, '');
+      const sourceFile = edge.source.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/|substack\/)/, '');
+      const targetFile = edge.target.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/|substack\/)/, '');
 
       // Check if both nodes exist in our graph
       if (!postsByFilename.has(edge.source) && !postsByFilename.has(sourceFile)) continue;
@@ -281,6 +289,10 @@ async function graphPage() {
       <div class="legend-item">
         <span class="legend-color chats-color"></span>
         <span>Chats</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-color substack-color"></span>
+        <span>Substack</span>
       </div>
       <div class="legend-item">
         <span class="legend-line strong-edge"></span>

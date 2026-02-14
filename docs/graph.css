@@ -49,6 +49,10 @@
   background: #e67e22;
 }
 
+.substack-color {
+  background: #27ae60;
+}
+
 .legend-line {
   width: 40px;
   height: 3px;
