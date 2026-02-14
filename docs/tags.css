@@ -26,26 +26,18 @@
 
 /* Tag Section (Accordion) */
 .tag-section {
-  margin-bottom: 1.5rem;
-  border: 1px solid rgba(217, 106, 55, 0.3);
-  border-radius: 8px;
-  background: rgba(37, 26, 21, 0.6);
-  transition: all 0.3s ease;
-}
-
-.tag-section:hover {
-  border-color: rgba(217, 106, 55, 0.6);
-  box-shadow: 0 0 20px rgba(217, 106, 55, 0.2);
+  margin-bottom: 0;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .tag-section[open] {
-  border-color: var(--accent);
+  border-bottom: 1px solid #e5e5e5;
 }
 
 /* Tag Header (Summary) */
 .tag-header {
   cursor: pointer;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 0;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -58,14 +50,10 @@
   display: none;
 }
 
-.tag-header:hover {
-  background: rgba(217, 106, 55, 0.1);
-}
-
 .tag-arrow {
   font-size: 1.2rem;
   transition: transform 0.3s ease;
-  color: var(--accent);
+  color: var(--text-muted);
 }
 
 .tag-section[open] .tag-arrow {
@@ -82,23 +70,20 @@
 .tag-count {
   font-size: 1rem;
   color: var(--text-muted);
-  background: rgba(217, 106, 55, 0.2);
-  padding: 0.3rem 0.8rem;
-  border-radius: 12px;
 }
 
 /* Tag Posts List */
 .tag-posts {
   list-style: none;
-  padding: 0 2rem 2rem 2rem;
+  padding: 0 0 1.5rem 2rem;
   margin: 0;
-  border-top: 1px solid rgba(217, 106, 55, 0.2);
+  border-top: 1px solid #e5e5e5;
 }
 
 .tag-post {
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(217, 106, 55, 0.1);
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .tag-post:last-child {
@@ -114,13 +99,8 @@
   transition: all 0.2s ease;
 }
 
-.tag-post a:hover {
-  transform: translateX(8px);
-}
-
 .tag-post a:hover .post-title {
-  color: var(--accent);
-  text-shadow: 0 0 10px rgba(217, 106, 55, 0.5);
+  color: var(--text-muted);
 }
 
 .post-title {
@@ -141,11 +121,11 @@
 /* Mobile Responsive */
 @media (max-width: 640px) {
   .tag-header {
-    padding: 1.2rem 1.5rem;
+    padding: 1.2rem 0;
   }
 
   .tag-posts {
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    padding: 0 0 1.5rem 1.5rem;
   }
 
   .tag-name {
