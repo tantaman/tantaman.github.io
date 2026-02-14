@@ -267,10 +267,8 @@ async function graphPage() {
   const graphData = { nodes, edges };
 
   return `
-<section id="graph-page" class="wide-layout">
+<section id="graph-page" class="full-bleed">
   <div class="graph-header">
-    <h1 class="page-title">Content Graph</h1>
-    <p class="page-description">Explore connections between posts, stories, and chats. Click nodes to navigate.</p>
     <div class="graph-legend">
       <div class="legend-item">
         <span class="legend-color blog-color"></span>
