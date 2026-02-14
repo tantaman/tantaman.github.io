@@ -42,7 +42,7 @@ export default async function defaultLayout(
   // Build related posts footer
   const footerContent = await buildFooter(file);
 
-  const header = isPost ? (
+  const header = isPost || matter?.minimalHeader ? (
     <header class="post-header">
       <a href="/">tantaman</a>
     </header>
@@ -132,7 +132,7 @@ async function buildFooter(file: VFile) {
     for (const rel of computedRelated.slice(0, 5)) {
       const post =
         allPosts.get(rel.id) ||
-        allPosts.get(rel.id.replace(/^(the-mirror-room\/|chats\/)/, ''));
+        allPosts.get(rel.id.replace(/^(the-mirror-room\/|chats\/|substack\/)/, ''));
       if (post) {
         relatedPosts.push({
           title: post.title,
