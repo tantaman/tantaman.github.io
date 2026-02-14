@@ -42,27 +42,27 @@ export default async function defaultLayout(
   // Build related posts footer
   const footerContent = await buildFooter(file);
 
-  const header = isPost || matter?.minimalHeader ? (
-    <header class="post-header">
-      <a href="/">tantaman</a>
-    </header>
-  ) : (
-    <header>
-      <div class="container">
-        <h1>
-          <a href="/">Tantaman</a>
-        </h1>
-        <nav>
-          <a href="/blog.html">Blog</a>
-          <a href="/substack.html">Substack</a>
-          <a href="/stories.html">Stories</a>
-          <a href="/tags.html">Tags</a>
-          <a href="/graph.html">Graph</a>
-          <a href="/search.html">Search</a>
-        </nav>
-      </div>
-    </header>
-  );
+  const header =
+    isPost || matter?.minimalHeader ? (
+      <header class="post-header">
+        <a href="/">tantaman</a>
+      </header>
+    ) : (
+      <header>
+        <div class="container">
+          <h1>
+            <a href="/">Tantaman</a>
+          </h1>
+          <nav>
+            <a href="/blog.html">Blog</a>
+            <a href="/substack.html">Substack</a>
+            <a href="/stories.html">Stories</a>
+            <a href="/tags.html">Tags</a>
+            <a href="/search.html">Search</a>
+          </nav>
+        </div>
+      </header>
+    );
 
   body.children = [
     header,
@@ -132,7 +132,9 @@ async function buildFooter(file: VFile) {
     for (const rel of computedRelated.slice(0, 5)) {
       const post =
         allPosts.get(rel.id) ||
-        allPosts.get(rel.id.replace(/^(the-mirror-room\/|chats\/|substack\/)/, ''));
+        allPosts.get(
+          rel.id.replace(/^(the-mirror-room\/|chats\/|substack\/)/, ''),
+        );
       if (post) {
         relatedPosts.push({
           title: post.title,
