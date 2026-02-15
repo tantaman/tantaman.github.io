@@ -1,7 +1,7 @@
 ---
 slug: 2021-08-22-Understanding-Generics
 title: "Understanding Generics"
-tags: [programming, software-engineering]
+tags: [software]
 ---
 
 ```js

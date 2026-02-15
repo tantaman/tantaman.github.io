@@ -1,5 +1,7 @@
 # TODO
 
+1. Move collections to be tag based? `Stories` are just tagged posts.
+
 1. Cleanup tts code
   2. Convert the-mirror-room to most high quality audio
 3. Print a booklet for wonderland books

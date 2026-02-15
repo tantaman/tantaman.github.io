@@ -1,6 +1,6 @@
 ---
 title: 'State of the Union'
-tags: [philosophy, software-engineering, reflection]
+tags: [philosophy, software]
 ---
 
 (written by Claude)

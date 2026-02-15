@@ -1,6 +1,6 @@
 ---
 title: 'We Can Capture Our Way Out'
-tags: [substack]
+tags: [economics]
 ---
 
 The climate debate suffers from a failure of imagination about scale. Critics of carbon capture argue it cannot possibly scale to meet the challenge. Defeatists argue the problem is simply too large. Both are wrong.

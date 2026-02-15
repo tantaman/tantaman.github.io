@@ -1,6 +1,6 @@
 ---
 title: 'Grammar Rules All'
-tags: [substack]
+tags: [philosophy, culture]
 ---
 
 ![](/blog-assets/substack/db74b0cf-4cdd-4ca7-bbbd-0db00e73f515_1000x609.jpeg)

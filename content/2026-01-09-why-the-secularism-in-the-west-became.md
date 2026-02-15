@@ -1,6 +1,6 @@
 ---
 title: 'Pathologies of Western Secularism'
-tags: [substack]
+tags: [religion, culture]
 ---
 
 ![](/blog-assets/substack/b062454f-ebda-4279-a8e4-a4f31549cc79_1536x1024.png)

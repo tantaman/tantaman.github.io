@@ -1,6 +1,6 @@
 ---
 title: 'The Return'
-tags: [substack]
+tags: [religion, philosophy]
 ---
 
 ![](/blog-assets/substack/f0a8205d-2349-42fe-bee9-083e970e5504_960x1253.jpeg)

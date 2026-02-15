@@ -1,6 +1,6 @@
 ---
 title: 'Nine Months, Two Men'
-tags: [substack]
+tags: [fiction]
 ---
 
 They are the same man. Same wife, same two boys, same memory of blood on linoleum and a doctor’s voice gone flat. Same moment eighteen months later when she holds up the test and her eyes are half-joy, half-terror. Same kitchen. Same light through the window.

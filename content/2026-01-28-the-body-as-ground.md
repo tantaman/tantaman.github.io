@@ -1,6 +1,6 @@
 ---
 title: 'The Body as Ground'
-tags: [substack]
+tags: [religion, culture]
 ---
 
 ![](/blog-assets/substack/0799a9d3-2d15-4e24-b8ea-f9bf3e51d2df_1200x902.webp)

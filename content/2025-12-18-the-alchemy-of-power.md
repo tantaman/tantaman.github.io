@@ -1,6 +1,6 @@
 ---
 title: 'The Alchemy of Power'
-tags: [substack]
+tags: [religion, politics]
 ---
 
 ![](/blog-assets/substack/5846dcbf-cf1b-4b97-84b3-396bfd30d693_1024x1536.png)

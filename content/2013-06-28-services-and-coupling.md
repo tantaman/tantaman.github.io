@@ -1,7 +1,7 @@
 ---
 slug: 2013-06-28-services-and-coupling
 title: Services and Coupling
-tags: [software-engineering]
+tags: [software]
 ---
 
 Lines of code like:

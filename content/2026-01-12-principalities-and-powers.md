@@ -1,6 +1,6 @@
 ---
 title: 'Principalities and Powers'
-tags: [substack]
+tags: [religion, politics]
 ---
 
 ![](/blog-assets/substack/bf3ef707-ee92-46a2-aa77-4511d89515ff_900x1173.jpeg)

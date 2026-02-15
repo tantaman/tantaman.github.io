@@ -1,6 +1,6 @@
 ---
 title: 'The Employable Subject'
-tags: [substack]
+tags: [culture, economics]
 ---
 
 ![](/blog-assets/substack/8b80d5d0-1c7c-4c67-90ac-3ffa3c830fb6_1024x1536.png)

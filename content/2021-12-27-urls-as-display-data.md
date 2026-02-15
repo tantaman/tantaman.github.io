@@ -1,7 +1,7 @@
 ---
 slug: 2021-12-27-urls-as-display-data
 title: '👨‍💻 URLs As Display Data'
-tags: [software-engineering, react]
+tags: [software]
 ---
 
 I've been toying with the idea that we get something wrong when it comes to URL management and routing in [single page applications (SPAs)](https://developer.mozilla.org/en-US/docs/Glossary/SPA).

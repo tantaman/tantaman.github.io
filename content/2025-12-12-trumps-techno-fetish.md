@@ -1,6 +1,6 @@
 ---
 title: 'Trump''s Techno-Fetish'
-tags: [substack]
+tags: [politics, economics]
 ---
 
 ![Commission building ('the Berlaymont building') in Brussels - CVCE Website](/blog-assets/substack/0298655b-f75a-4e15-aac2-2302570cf08a_474x342.jpeg)

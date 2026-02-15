@@ -1,6 +1,6 @@
 ---
 title: 'Know Thyself: Greek vs Christian'
-tags: [substack]
+tags: [philosophy, religion]
 ---
 
 ![](/blog-assets/substack/5d15cd7e-55e8-4920-a5ac-02dcc73a10d9_1024x1024.png)

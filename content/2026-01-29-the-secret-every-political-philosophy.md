@@ -1,6 +1,6 @@
 ---
 title: 'The Secret Every Political Philosophy Shares'
-tags: [substack]
+tags: [politics, philosophy]
 ---
 
 ![](/blog-assets/substack/836d8b4a-779c-4031-8c1c-18fc00e9d020_1092x830.jpeg)

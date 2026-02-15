@@ -1,6 +1,6 @@
 ---
 title: 'David Graeber The Utopia Of Rules'
-tags: [substack]
+tags: [economics, politics]
 ---
 
 ## I. An Awkward Confession from Beyond the Grave

@@ -1,6 +1,6 @@
 ---
 title: 📚 Not Machine Readable?
-tags: [software-engineering]
+tags: [software]
 ---
 
 Was watching https://www.youtube.com/watch?v=AHblHPLoKKE&t=139s and this dawned on me.

@@ -1,6 +1,6 @@
 ---
 title: 'Burnout is a Modern Invention'
-tags: [substack]
+tags: [culture, economics, history]
 ---
 
 I argue that burnout is a symptom of today’s moralizing of labor. Something new, not experienced in prior centuries.

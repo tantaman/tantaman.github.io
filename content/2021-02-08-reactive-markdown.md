@@ -1,7 +1,7 @@
 ---
 slug: 2021-02-08-reactive-markdown
 title: 'Reactive Markdown'
-tags: [software-engineering]
+tags: [software]
 image: /assets/posts/reactive-markdown/cover.svg
 standalone: html
 ---

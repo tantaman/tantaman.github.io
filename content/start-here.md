@@ -1,6 +1,6 @@
 ---
 title: 'Start Here'
-tags: [guide]
+tags: [philosophy, software]
 description: A curated path through a decade of writing on software, philosophy, and the spaces between.
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: 'Debugging the Confusion: Liberalism vs Leftism'
-tags: [substack]
+tags: [politics]
 ---
 
 ### I. The Confusion

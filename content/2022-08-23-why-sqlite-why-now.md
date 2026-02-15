@@ -1,6 +1,6 @@
 ---
 title: 'Why SQLite? Why Now? 🐇'
-tags: [distributed-systems, databases, software-engineering]
+tags: [software]
 ---
 
 I've been sucked down a `sqlite` rabbithole and I'm all-in on it.

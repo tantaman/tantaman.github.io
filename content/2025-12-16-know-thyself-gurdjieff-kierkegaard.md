@@ -1,6 +1,6 @@
 ---
 title: 'Know Thyself: Gurdjieff, Kierkegaard, Eckhart'
-tags: [substack]
+tags: [philosophy, religion]
 ---
 
 -   Pt 1: [Greek vs Christian](https://tantaman.substack.com/p/know-thyself-greek-vs-christian)

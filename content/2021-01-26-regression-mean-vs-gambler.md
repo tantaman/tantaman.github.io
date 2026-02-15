@@ -1,7 +1,7 @@
 ---
 slug: 2021-01-26-regression-mean-vs-gambler
 title: "Regression to the Mean & the Gambler's Fallacy - Simulated"
-tags: [programming, math]
+tags: [software, math]
 image: /assets/posts/gambler-vs-mean.svg
 standalone: html
 ---

@@ -1,6 +1,6 @@
 ---
 title: 'You Are Not Your Diagnosis'
-tags: [substack]
+tags: [culture]
 ---
 
 Look at you. Look at all of you.

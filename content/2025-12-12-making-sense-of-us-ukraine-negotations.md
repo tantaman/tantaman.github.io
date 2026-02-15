@@ -1,6 +1,6 @@
 ---
 title: 'Making Sense of US-Ukraine Negotations'
-tags: [substack]
+tags: [politics]
 ---
 
 Trump withholds aid, berates Zelensky, negotiates with Putin first, praises Putin (see “[Why Christian Russia is a Fantasy](https://tantaman.substack.com/i/181393055/the-geopolitical-trap-why-christian-russia-is-a-fantasy)” on this point). Is the US aligning with Russia?

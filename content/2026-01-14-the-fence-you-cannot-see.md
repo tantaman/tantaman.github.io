@@ -1,6 +1,6 @@
 ---
 title: 'The Fence You Cannot See'
-tags: [substack]
+tags: [philosophy, culture]
 ---
 
 ![](/blog-assets/substack/7d9dbd9e-2dbe-4951-b316-90053e8c1fdd_1100x733.jpeg)

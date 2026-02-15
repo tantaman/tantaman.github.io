@@ -1,6 +1,6 @@
 ---
 title: 'The Battlefield of Attention'
-tags: [substack]
+tags: [religion, culture]
 ---
 
 ![](/blog-assets/substack/b93f6479-af82-42e1-897b-d0d266cea068_1024x1536.png)

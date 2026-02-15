@@ -1,6 +1,6 @@
 ---
 title: 'The Theological Structure of Secular Progressivism'
-tags: [substack]
+tags: [religion, politics]
 ---
 
 ![](/blog-assets/substack/296bbbed-c943-4170-9838-8bdcf9b716ac_1024x1536.png)

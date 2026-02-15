@@ -1,6 +1,6 @@
 ---
 title: 'The Lamb, Part II'
-tags: [substack]
+tags: [fiction, philosophy]
 ---
 
 ---
