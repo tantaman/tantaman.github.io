@@ -104,8 +104,6 @@ function getCollectionName(collection) {
       return 'Stories';
     case 'chats/':
       return 'Chats';
-    case 'substack/':
-      return 'Substack';
     default:
       return collection;
   }
@@ -130,10 +128,6 @@ export function renderCollection(collection, index, showAll = false) {
     case 'chats/':
       collectionId = 'chats';
       collectionName = 'Chats';
-      break;
-    case 'substack/':
-      collectionId = 'substack';
-      collectionName = 'Substack';
       break;
   }
 

@@ -55,7 +55,6 @@ export default async function defaultLayout(
           </h1>
           <nav>
             <a href="/blog.html">Blog</a>
-            <a href="/substack.html">Substack</a>
             <a href="/stories.html">Stories</a>
             <a href="/tags.html">Tags</a>
             <a href="/search.html">Search</a>
@@ -133,7 +132,7 @@ async function buildFooter(file: VFile) {
       const post =
         allPosts.get(rel.id) ||
         allPosts.get(
-          rel.id.replace(/^(the-mirror-room\/|chats\/|substack\/)/, ''),
+          rel.id.replace(/^(the-mirror-room\/|chats\/)/, ''),
         );
       if (post) {
         relatedPosts.push({

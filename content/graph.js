@@ -129,10 +129,6 @@ async function graphPage() {
         collectionName = 'chats';
         collectionGroup = 3;
         break;
-      case 'substack/':
-        collectionName = 'substack';
-        collectionGroup = 4;
-        break;
     }
 
     // Process each post in the collection
@@ -189,8 +185,8 @@ async function graphPage() {
   if (relationships && relationships.edges) {
     for (const edge of relationships.edges) {
       // Extract just the filename from the source/target (remove collection prefix)
-      const sourceFile = edge.source.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/|substack\/)/, '');
-      const targetFile = edge.target.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/|substack\/)/, '');
+      const sourceFile = edge.source.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/)/, '');
+      const targetFile = edge.target.replace(/^(the-mirror-room\/|chats\/|notes\/|bookmarks\/)/, '');
 
       // Check if both nodes exist in our graph
       if (!postsByFilename.has(edge.source) && !postsByFilename.has(sourceFile)) continue;
@@ -289,10 +285,6 @@ async function graphPage() {
       <div class="legend-item">
         <span class="legend-color chats-color"></span>
         <span>Chats</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color substack-color"></span>
-        <span>Substack</span>
       </div>
       <div class="legend-item">
         <span class="legend-line strong-edge"></span>

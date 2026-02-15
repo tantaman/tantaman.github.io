@@ -160,11 +160,6 @@
         border: '#a85a1a',
         highlight: { background: '#ff9138', border: '#e67e22' },
       }, // chats
-      4: {
-        background: '#27ae60',
-        border: '#1e8449',
-        highlight: { background: '#2ecc71', border: '#27ae60' },
-      }, // substack
     };
 
     // Build a map for cluster lookup
