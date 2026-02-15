@@ -1,6 +1,7 @@
 # TODO
 
 1. Move collections to be tag based? `Stories` are just tagged posts.
+2. Compose relevant posts into a book. geo-theological and self series.
 
 1. Cleanup tts code
   2. Convert the-mirror-room to most high quality audio

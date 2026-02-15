@@ -1,124 +1,183 @@
-/* Tags Page Styling */
+/* Tags Page — Two-Panel Browse Layout */
 
 #tags-page {
-  padding: 6rem 1.5rem;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 3rem;
+  padding: 2rem 0;
   min-height: 70vh;
 }
 
-.tags-list {
-  max-width: 900px;
-  margin: 0 auto;
+/* Override default link underlines inside tags page */
+#static #tags-page a {
+  text-decoration: none;
 }
 
-/* Tag Section (Accordion) */
-.tag-section {
-  margin-bottom: 0;
-  border-bottom: 1px solid #e5e5e5;
+/* ── Sidebar ── */
+.tags-sidebar {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
 }
 
-.tag-section[open] {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-/* Tag Header (Summary) */
-.tag-header {
-  cursor: pointer;
-  padding: 1.5rem 0;
+.tag-tab {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  user-select: none;
-  list-style: none; /* Remove default marker */
-  transition: background 0.2s ease;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  border-radius: 4px;
+  z-index: 0;
 }
 
-.tag-header::-webkit-details-marker {
+.tag-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: var(--fill, 0%);
+  background: var(--bg-soft);
+  border-radius: 4px;
+  z-index: -1;
+  transition: width 0.2s ease;
+}
+
+.tag-tab:hover {
+  background: var(--bg-soft);
+}
+
+.tag-tab.active {
+  font-weight: 600;
+  background: var(--text);
+  color: var(--bg);
+}
+
+.tag-tab.active::before {
   display: none;
 }
 
-.tag-arrow {
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
-  color: var(--text-muted);
+.tag-tab .tag-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  opacity: 0.6;
 }
 
-.tag-section[open] .tag-arrow {
-  transform: rotate(90deg);
+.tag-tab.active .tag-count {
+  opacity: 0.8;
 }
 
-.tag-name {
-  flex: 1;
+/* ── Panels ── */
+.tags-panels {
+  min-width: 0;
+}
+
+.panel-title {
   font-size: 1.5rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
 }
 
-.tag-count {
-  font-size: 1rem;
-  color: var(--text-muted);
-}
-
-/* Tag Posts List */
 .tag-posts {
   list-style: none;
-  padding: 0 0 1.5rem 2rem;
+  padding: 0;
   margin: 0;
-  border-top: 1px solid #e5e5e5;
 }
 
 .tag-post {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
   border-bottom: 1px solid #e5e5e5;
 }
 
 .tag-post:last-child {
   border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
 }
 
 .tag-post a {
   display: block;
+  padding: 1rem 0;
   color: inherit;
-  text-decoration: none;
-  transition: all 0.2s ease;
+  transition: opacity 0.15s ease;
 }
 
-.tag-post a:hover .post-title {
-  color: var(--text-muted);
+.tag-post a:hover {
+  opacity: 0.7;
 }
 
 .post-title {
   display: block;
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+}
+
+.post-date {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
 }
 
 .post-description {
   display: block;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
-  line-height: 1.5;
+  margin-top: 0.3rem;
+  line-height: 1.4;
 }
 
-/* Mobile Responsive */
-@media (max-width: 640px) {
-  .tag-header {
-    padding: 1.2rem 0;
+/* ── Mobile (<768px) ── */
+@media (max-width: 768px) {
+  #tags-page {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem 0;
   }
 
-  .tag-posts {
-    padding: 0 0 1.5rem 1.5rem;
+  .tags-sidebar {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: none;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
-  .tag-name {
+  .tags-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tag-tab {
+    flex-shrink: 0;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    border: 1px solid #e5e5e5;
+  }
+
+  /* Hide fill bars on mobile */
+  .tag-tab::before {
+    display: none;
+  }
+
+  .tag-tab.active {
+    border-color: var(--text);
+  }
+
+  .panel-title {
     font-size: 1.3rem;
-  }
-
-  .post-title {
-    font-size: 1.2rem;
+    margin-bottom: 1rem;
   }
 }
