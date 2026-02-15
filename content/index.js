@@ -99,7 +99,7 @@ function renderCard(collection, meta) {
 function getCollectionName(collection) {
   switch (collection) {
     case '':
-      return 'Blog';
+      return 'Posts';
     case 'the-mirror-room/':
       return 'Stories';
     case 'chats/':
@@ -115,7 +115,7 @@ export function renderCollection(collection, index, showAll = false) {
   switch (collection) {
     case '':
       collectionId = 'blog';
-      collectionName = 'Blog';
+      collectionName = 'Posts';
       break;
     case 'bookmarks/':
       return '';

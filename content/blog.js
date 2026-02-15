@@ -29,7 +29,7 @@ export default async function blog(file, cwd, files) {
       return result.toString();
     },
     frontmatter: {
-      title: 'Blog',
+      title: 'Posts',
       description: 'All blog posts',
     },
     greymatter: {},
