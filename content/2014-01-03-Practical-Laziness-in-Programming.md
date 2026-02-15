@@ -1,7 +1,7 @@
 ---
 slug: 2014-01-03-Practical-Laziness-in-Programming
 title: Practical Laziness in Programming
-tags: [programming, software-engineering]
+tags: [software]
 ---
 
 When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder.

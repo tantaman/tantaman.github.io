@@ -1,6 +1,6 @@
 ---
 title: 'Mystical Meaning'
-tags: [substack]
+tags: [philosophy, religion]
 ---
 
 [Part 1 provided a technical analysis of meaning](https://tantaman.substack.com/p/meaning-at-the-boundary). Here we dive into the lived experience of meaning.

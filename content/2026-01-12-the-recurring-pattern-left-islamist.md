@@ -1,6 +1,6 @@
 ---
 title: 'The Recurring Pattern: Left-Islamist Alliances and the Triumph of Islam'
-tags: [substack]
+tags: [politics, religion, history]
 ---
 
 ## Introduction: The Structural Logic of Temporary Alliance

@@ -1,6 +1,6 @@
 ---
 title: 'The Architecture Of Meaning A Deeper'
-tags: [substack]
+tags: [philosophy, religion]
 ---
 
 ## For Those Who Have Seen

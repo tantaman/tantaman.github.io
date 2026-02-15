@@ -1,6 +1,6 @@
 ---
 title: 'Secularized Worship'
-tags: [substack]
+tags: [religion, politics, culture]
 ---
 
 ![](/blog-assets/substack/e89b58dc-0e8d-40b6-8a08-89a06f8cacb1_1536x1024.png)

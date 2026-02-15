@@ -1,6 +1,6 @@
 ---
 title: 'Malcom X on Kendi, DiAngelo and the DEI Complex'
-tags: [substack]
+tags: [politics, culture]
 ---
 
 ![](/blog-assets/substack/b9304136-e7a3-4c0b-9ab4-54a8ec680b87_1080x617.webp)

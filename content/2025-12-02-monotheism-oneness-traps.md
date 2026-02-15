@@ -1,6 +1,6 @@
 ---
 title: 'Monotheism to Now'
-tags: [religion, philosophy, life, politics]
+tags: [religion, philosophy, politics]
 ---
 
 

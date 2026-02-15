@@ -1,6 +1,6 @@
 ---
 title: 'Why Power Chose Materialism—and What Was Lost'
-tags: [substack]
+tags: [philosophy, politics]
 ---
 
 ![](/blog-assets/substack/ac652242-2284-4017-b812-c6a150974386_1024x1536.png)

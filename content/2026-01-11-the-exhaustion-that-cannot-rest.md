@@ -1,6 +1,6 @@
 ---
 title: 'The Exhaustion That Cannot Rest'
-tags: [substack]
+tags: [culture, philosophy]
 ---
 
 ![](/blog-assets/substack/7b2f300f-7330-4e13-8ca6-0661fc440db7_1024x1310.png)

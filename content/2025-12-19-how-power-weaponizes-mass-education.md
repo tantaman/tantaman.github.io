@@ -1,6 +1,6 @@
 ---
 title: 'How Power Uses Mass Education and Literature'
-tags: [substack]
+tags: [politics, history, culture]
 ---
 
 ## **Introduction: The Myth of Neutral Schooling**

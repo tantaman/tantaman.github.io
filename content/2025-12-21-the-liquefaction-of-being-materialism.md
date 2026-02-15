@@ -1,6 +1,6 @@
 ---
 title: 'The Liquefaction of Being: Materialism, Technology, and the Dissolution of the Self'
-tags: [substack]
+tags: [philosophy, culture]
 ---
 
 ![](/blog-assets/substack/0ef667d7-70ff-4163-a280-0f74d4720196_1024x1536.png)

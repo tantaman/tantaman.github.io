@@ -1,6 +1,6 @@
 ---
 title: 'The Letter To The Therapeutics'
-tags: [substack]
+tags: [religion, culture]
 ---
 
 1.  To those who labor in the work that has no end, who tend the wound that must not heal, who confess and are not forgiven: Grace and peace from no one.

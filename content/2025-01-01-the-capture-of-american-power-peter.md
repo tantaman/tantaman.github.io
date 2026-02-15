@@ -1,6 +1,6 @@
 ---
 title: 'The Capture Of American Power Peter'
-tags: [substack]
+tags: [politics, philosophy]
 ---
 
 ![](/blog-assets/substack/e8eb43ba-eb53-473f-9ad8-304038198a63_2560x2522.jpeg)

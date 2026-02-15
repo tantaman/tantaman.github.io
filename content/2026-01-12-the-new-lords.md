@@ -1,6 +1,6 @@
 ---
 title: 'The New Lords'
-tags: [substack]
+tags: [politics]
 ---
 
 ### I. The Parallel Confusion

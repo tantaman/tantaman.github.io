@@ -3,7 +3,7 @@ title: "Summarize fear of falling"
 layout: "chat"
 source: "https://chatgpt.com/share/68eea919-072c-8004-88ca-870624ccb329"
 description: "summarize \"the fear of falling: the inner life of the middle class\""
-tags: ["philosophy", "politics", "chatgpt", "llm"]
+tags: ["philosophy", "politics", "ai"]
 ---
 
 summarize "the fear of falling: the inner life of the middle class"

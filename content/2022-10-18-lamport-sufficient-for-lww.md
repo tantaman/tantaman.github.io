@@ -1,6 +1,6 @@
 ---
 title: 'Do LWW Registers Need Vector Clocks or Causal Graphs? 💭'
-tags: [distributed-systems, programming]
+tags: [software]
 ---
 
 Short answer: No. When it comes to a LWW register, [Lamport clock](./2022-10-18-lamport-clock)s offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW.

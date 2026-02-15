@@ -1,6 +1,6 @@
 ---
 title: 'The Geo-Theological Feedback Engine'
-tags: [power]
+tags: [politics, religion, history]
 ---
 
 # Why the World Keeps Re-Polarizing

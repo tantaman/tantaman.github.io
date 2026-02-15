@@ -1,6 +1,6 @@
 ---
 title: 'Meaning at the Boundary'
-tags: [substack]
+tags: [philosophy, ai]
 ---
 
 ![](/blog-assets/substack/db97c892-29ad-414e-85c0-f22d3ce948a4_640x369.jpeg)

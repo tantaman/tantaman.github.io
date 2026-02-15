@@ -1,6 +1,6 @@
 ---
 title: 'The Language That Thinks For You'
-tags: [substack]
+tags: [culture, philosophy]
 ---
 
 ![](/blog-assets/substack/75733f6e-3d62-4448-bb14-993c7b575f18_720x481.jpeg)

@@ -1,6 +1,6 @@
 ---
 title: 'Resurrecting Ted Kaczynski'
-tags: [substack]
+tags: [politics, culture]
 ---
 
 # The Psychology of the Therapeutic-Managerial System

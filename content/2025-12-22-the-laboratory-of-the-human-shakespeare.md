@@ -1,6 +1,6 @@
 ---
 title: 'The Laboratory of the Human: Shakespeare as Knowledge'
-tags: [substack]
+tags: [culture, philosophy]
 ---
 
 ![15 top Shakespeare facts! | National Geographic Kids](/blog-assets/substack/3ec1ae72-adaf-44ab-91e4-40fcccbb0154_635x404.jpeg)

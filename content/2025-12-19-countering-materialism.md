@@ -1,6 +1,6 @@
 ---
 title: 'Countering Materialism'
-tags: [substack]
+tags: [philosophy, religion]
 ---
 
 ![](/blog-assets/substack/ad577a23-b3b8-4275-ab87-ec16c82a17d3_1024x1536.png)

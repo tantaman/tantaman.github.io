@@ -1,6 +1,6 @@
 ---
 title: 'From Galilee to Empire: The Institutional Capture of Christianity'
-tags: [substack]
+tags: [religion, history, politics]
 ---
 
 ![Major Events in the Life of Constantine I | Britannica](/blog-assets/substack/6b42d223-4a87-4ba2-989a-79ba693868fe_1600x1065.jpeg)

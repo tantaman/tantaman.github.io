@@ -1,6 +1,6 @@
 ---
 title: 'Indigenous Slavery, Conquest, and Child Soldiers: Primary Source Documentation'
-tags: [politics, religion, revolt]
+tags: [politics, religion]
 ---
 
 ## Research Objective

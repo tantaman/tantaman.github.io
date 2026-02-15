@@ -1,6 +1,6 @@
 ---
 title: 'The Violence You Fear May Be the Violence You’re Creating'
-tags: [substack]
+tags: [politics]
 ---
 
 ![](/blog-assets/substack/1d88c7cd-8ea2-4393-9d20-6cffcab6d310_3051x1405.jpeg)
