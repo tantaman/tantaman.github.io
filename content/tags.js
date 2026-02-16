@@ -26,6 +26,7 @@ export default async function tags(file, cwd, files) {
           title: 'Browse - Tantamanlands',
           description: 'Explore posts by subject, concern, and form',
         })
+        .use(() => (tree, file) => { file.data.matter = { noHeader: true }; })
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(await tagsPage());
@@ -35,6 +36,7 @@ export default async function tags(file, cwd, files) {
     frontmatter: {
       title: 'Browse',
       description: 'Explore posts by subject, concern, and form',
+      noHeader: true,
     },
     greymatter: {},
   };
@@ -100,6 +102,7 @@ async function tagsPage() {
   // Generate sidebar HTML
   const sidebar = `
     <nav class="tags-sidebar" aria-label="Filters">
+      <a class="sidebar-home" href="/">← tantaman</a>
       ${facetGroup('Subject', sortedSubjects, 'subject')}
       ${facetGroup('Concern', sortedConcerns, 'concern')}
       ${facetGroup('Form', sortedForms, 'form')}
