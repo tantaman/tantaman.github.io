@@ -43,6 +43,7 @@ export default async function defaultLayout(
   const footerContent = await buildFooter(file);
 
   const header =
+    matter?.noHeader ? null :
     isPost || matter?.minimalHeader ? (
       <header class="post-header">
         <a href="/">tantaman</a>
@@ -69,7 +70,7 @@ export default async function defaultLayout(
       {newChildren}
     </main>,
     <footer id="footer">{footerContent}</footer>,
-  ];
+  ].filter(Boolean);
 }
 
 async function buildFooter(file: VFile) {
