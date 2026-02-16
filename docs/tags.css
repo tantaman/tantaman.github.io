@@ -203,11 +203,19 @@
 }
 
 .post-description {
-  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font-size: 0.95rem;
   color: var(--text-muted);
   margin-top: 0.3rem;
   line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+.tag-post:hover .post-description {
+  -webkit-line-clamp: unset;
 }
 
 /* ── No-JS Fallback ── */
