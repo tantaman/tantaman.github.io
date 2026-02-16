@@ -1,6 +1,7 @@
 ---
 title: 'The Exhaustion That Cannot Rest'
 tags: [culture, philosophy]
+concern: [modernity, self]
 ---
 
 ![](/blog-assets/substack/7b2f300f-7330-4e13-8ca6-0661fc440db7_1024x1310.png)

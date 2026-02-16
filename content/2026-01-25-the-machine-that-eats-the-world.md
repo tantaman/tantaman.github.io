@@ -1,6 +1,7 @@
 ---
 title: 'The Machine That Eats the World'
 tags: [politics, culture]
+concern: [power, modernity]
 ---
 
 ![](/blog-assets/substack/6d71b641-1d54-479d-bbdc-3ed4aef62ce8_960x1763.jpeg)

@@ -4,6 +4,7 @@ title: The Reader's Crisis
 description: Part 5 of the Mirror Room Collection. A 21st century leftish critique.
 tags: [fiction, philosophy]
 date: 2025-07-25
+concern: [self, modernity]
 ---
 
 ## The Reader's Crisis

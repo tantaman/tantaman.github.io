@@ -1,6 +1,7 @@
 ---
 title: 'You Are Not Your Diagnosis'
 tags: [culture]
+concern: [modernity, self]
 ---
 
 Look at you. Look at all of you.

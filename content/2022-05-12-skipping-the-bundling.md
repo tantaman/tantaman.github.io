@@ -1,6 +1,7 @@
 ---
 title: 🧶 Skipping the Bundling
 tags: [software]
+concern: [craft]
 ---
 
 We're in the era of [ES6 modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules), [esm.sh](https://esm.sh) and [Typescript](https://www.typescriptlang.org/).

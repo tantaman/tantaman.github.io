@@ -1,6 +1,7 @@
 ---
 title: 'The Amplifier Theory of Human Hierarchy'
 tags: [history, politics]
+concern: [power]
 ---
 
 Human beings possess competing dispositions: a drive toward dominance and a drive to resist domination by others. In a “fair fight” (without external leverage) the collective can suppress would-be dominators, producing egalitarian social arrangements. This is not utopian speculation; it describes the documented reality of immediate-return hunter-gatherer societies across multiple continents. However, when environmental, technological, or social conditions provide _amplifiers_ (mechanisms that extend individual power beyond what collective resistance can counter) hierarchy emerges and becomes self-reinforcing. This essay argues that the near-universal pattern of stratification and exploitation in human history is caused by near-universally available amplifiers. The historical record, examined through this lens, reveals that the same species produces radical egalitarianism and brutal hierarchy depending on amplifier availability.

@@ -3,6 +3,7 @@ slug: 2021-12-16-Missing-Mutation-Primitives
 title: '🧬 Missing Mutation Primitives'
 tags: [software]
 image: /assets/images/mutation.jpg
+concern: [craft]
 ---
 
 I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.

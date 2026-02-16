@@ -2,6 +2,7 @@
 slug: 2022-04-25-foundational-myths
 title: '🧟‍♂️ Memes & Themes - 1619 Project'
 tags: [politics, philosophy]
+concern: [power]
 ---
 Coincidentally I came across all of these three things below around the same time
 

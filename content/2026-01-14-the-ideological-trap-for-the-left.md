@@ -1,6 +1,7 @@
 ---
 title: 'The Ideological Trap for the Left'
 tags: [politics]
+concern: [power]
 ---
 
 ![](/blog-assets/substack/187b40af-ed6f-4704-af97-48ef3654396b_1079x1439.jpeg)

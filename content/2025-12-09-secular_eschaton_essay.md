@@ -1,6 +1,7 @@
 ---
 title: "The Secular Eschaton: Christianity's Structural Inheritance in Marxist Thought and Practice"
 tags: [philosophy, religion, economics]
+concern: [power, ground]
 ---
 
 

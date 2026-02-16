@@ -4,6 +4,7 @@ title: The Paradox of Becoming
 description: Part 4 of the Mirror Room Collection. Choice as primary.
 tags: [fiction, philosophy]
 date: 2025-07-25
+concern: [self]
 ---
 
 ## The Paradox of Becoming

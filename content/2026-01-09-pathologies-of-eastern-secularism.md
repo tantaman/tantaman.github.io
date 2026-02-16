@@ -1,6 +1,7 @@
 ---
 title: 'Pathologies of Eastern Secularism'
 tags: [religion, philosophy]
+concern: [ground, modernity]
 ---
 
 “[Why Secularism in the West Became Pathological](https://tantaman.substack.com/p/why-the-secularism-in-the-west-became)” dealt with pathologies arising from a secularism with a Christian inheritance. Here we explore the pathologies arising from a secularism with a Buddhist inheritance.

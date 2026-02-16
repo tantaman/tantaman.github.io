@@ -1,6 +1,7 @@
 ---
 title: 'Why Marxism Is Impossible Without Christian Eschatology'
 tags: [philosophy, religion, economics]
+concern: [power, ground]
 ---
 
 ### I. The Strangest Lineage in Intellectual History

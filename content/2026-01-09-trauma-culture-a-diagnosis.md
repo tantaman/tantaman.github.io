@@ -1,6 +1,7 @@
 ---
 title: 'Diagnosing "Trauma Culture"'
 tags: [culture, religion]
+concern: [modernity, power]
 ---
 
 ![](/blog-assets/substack/334b5fe5-dbb2-4526-93c8-1c5db5be1e42_1022x1446.png)

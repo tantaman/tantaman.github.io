@@ -1,6 +1,7 @@
 ---
 title: 'Grammar as Alignment: The World Economic Forum'
 tags: [politics, economics]
+concern: [power, knowledge]
 ---
 
 ![](/blog-assets/substack/63f02e8a-5ad6-4e5d-94b8-8ba3e3a9d300_2560x1873.jpeg)

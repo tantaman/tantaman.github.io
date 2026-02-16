@@ -1,6 +1,7 @@
 ---
 title: 'The Epistemology of Impotence: How Identity Politics Guarantees Its Own Failure'
 tags: [philosophy, politics]
+concern: [knowledge, power]
 ---
 
 ![](/blog-assets/substack/158c9f37-79da-4d81-80a3-24a98686efc1_1024x1536.png)

@@ -1,6 +1,7 @@
 ---
 title: 'Materialism Is Killing You'
 tags: [philosophy, culture]
+concern: [ground, modernity]
 ---
 
 ![](/blog-assets/substack/b1f9435b-7dda-4d5f-a93f-86e3e9b000f5_1024x1536.png)

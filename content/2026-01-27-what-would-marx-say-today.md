@@ -1,6 +1,7 @@
 ---
 title: 'What Would Marx Say Today?'
 tags: [economics, politics]
+concern: [power]
 ---
 
 ![](/blog-assets/substack/b7a8bdad-7a1a-4c93-acf6-d7f6e10e46f0_2000x1603.webp)

@@ -2,6 +2,7 @@
 slug: 2021-12-20-mathematician-running-the-world
 title: '🧮 No, Mathematical Government is not a Logical Government'
 tags: [philosophy]
+concern: [knowledge]
 ---
 
 Listening to [Freakonomics s11e16](https://freakonomics.com/podcast/season-11-episode-16/) there was some commentary about "if the world was run by mathematicians it'd be so logical."

@@ -1,6 +1,7 @@
 ---
 title: 'Financial Power And Imperial Rule'
 tags: [economics, history]
+concern: [power]
 ---
 
 # I. Introduction: The Nature of Financial Power

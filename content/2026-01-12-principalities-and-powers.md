@@ -1,6 +1,7 @@
 ---
 title: 'Principalities and Powers'
 tags: [religion, politics]
+concern: [power, ground]
 ---
 
 ![](/blog-assets/substack/bf3ef707-ee92-46a2-aa77-4511d89515ff_900x1173.jpeg)

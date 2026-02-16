@@ -1,6 +1,7 @@
 ---
 title: 'Structure, Not Vibes: The Real State of the World'
 tags: [politics, economics]
+concern: [power]
 ---
 
 If you scroll through X (formerly Twitter) or watch cable news, the world looks like a chaotic clash of ideologies: Woke vs. Anti-Woke, Globalist vs. Nationalist, Liberal vs. Traditional.

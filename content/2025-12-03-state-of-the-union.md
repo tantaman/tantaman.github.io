@@ -1,6 +1,7 @@
 ---
 title: 'State of the Union'
 tags: [philosophy, software]
+concern: [self]
 ---
 
 (written by Claude)

@@ -19,12 +19,12 @@ export default async function tags(file, cwd, files) {
           ...doc,
           css: doc.css.concat(['/tags.css']),
           js: doc.js.concat(['/tags-browse.js']),
-          title: 'Tags',
+          title: 'Browse',
         })
         .use(rehypeMeta, {
           ...meta,
-          title: 'Tags - Tantamanlands',
-          description: 'Explore posts organized by topic',
+          title: 'Browse - Tantamanlands',
+          description: 'Explore posts by subject, concern, and form',
         })
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
@@ -33,8 +33,8 @@ export default async function tags(file, cwd, files) {
       return result.toString();
     },
     frontmatter: {
-      title: 'Tags',
-      description: 'Explore posts organized by topic',
+      title: 'Browse',
+      description: 'Explore posts by subject, concern, and form',
     },
     greymatter: {},
   };
@@ -43,90 +43,150 @@ export default async function tags(file, cwd, files) {
 async function tagsPage() {
   const indices = await indexFrontmatter();
 
-  // Group all posts by tag
-  const tagMap = new Map();
+  // Collect all posts with their facet data
+  const allPosts = [];
 
   Object.entries(indices).forEach(([collection, index]) => {
     if (collection === 'bookmarks/' || collection === 'notes/') return;
 
-    let collectionName = collection;
-    switch (collection) {
-      case '':
-        collectionName = 'blog';
-        break;
-      case 'the-mirror-room/':
-        collectionName = 'stories';
-        break;
-      case 'chats/':
-        collectionName = 'chats';
-        break;
-    }
-
     Object.entries(index).forEach(([key, postMeta]) => {
       if (key === 'index.js' || key === 'README.md' || key === '404.md' || key === 'tags.js') return;
+      if (key === 'index.md' || key === 'audio.md' || key === 'scratch.md') return;
 
-      const tags = postMeta.frontmatter?.tags || [];
-      const title = postMeta.frontmatter?.title || key;
+      const fm = postMeta.frontmatter || {};
+      if (fm.draft) return;
+
+      const title = fm.title || key;
       const url = postMeta.compiledFilename;
-      const description = postMeta.frontmatter?.description || postMeta.description || '';
-      const date = postMeta.frontmatter?.date || extractDate(postMeta.compiledFilename);
+      const description = fm.description || postMeta.description || '';
+      const date = fm.date
+        ? String(fm.date).substring(0, 10)
+        : extractDate(postMeta.compiledFilename);
+      const subjects = fm.tags || [];
+      const concerns = fm.concern || [];
 
-      tags.forEach(tag => {
-        if (!tagMap.has(tag)) {
-          tagMap.set(tag, []);
-        }
-        tagMap.get(tag).push({ title, url, description, date, collection: collectionName });
-      });
+      // Form detection: explicit > collection inference > default
+      let form = fm.form;
+      if (!form) {
+        if (collection === 'the-mirror-room/') form = 'story';
+        else if (collection === 'chats/') form = 'chat';
+        else if (fm.standalone === 'html') form = 'interactive';
+        else form = 'essay';
+      }
+
+      allPosts.push({ title, url, description, date, subjects, concerns, form });
     });
   });
 
-  // Sort posts within each tag by date descending
-  for (const posts of tagMap.values()) {
-    posts.sort((a, b) => b.date.localeCompare(a.date));
-  }
+  // Sort by date descending
+  allPosts.sort((a, b) => b.date.localeCompare(a.date));
 
-  // Sort tags by count descending, then alphabetically
-  const sortedTags = Array.from(tagMap.entries())
-    .sort((a, b) => {
-      const countDiff = b[1].length - a[1].length;
-      if (countDiff !== 0) return countDiff;
-      return a[0].localeCompare(b[0]);
+  // Collect facet values with counts
+  const subjectCounts = new Map();
+  const concernCounts = new Map();
+  const formCounts = new Map();
+
+  allPosts.forEach(post => {
+    post.subjects.forEach(s => subjectCounts.set(s, (subjectCounts.get(s) || 0) + 1));
+    post.concerns.forEach(c => concernCounts.set(c, (concernCounts.get(c) || 0) + 1));
+    formCounts.set(post.form, (formCounts.get(post.form) || 0) + 1);
+  });
+
+  // Sort facet values by count descending
+  const sortedSubjects = sortFacet(subjectCounts);
+  const sortedConcerns = sortFacet(concernCounts);
+  const sortedForms = sortFacet(formCounts);
+
+  // Generate sidebar HTML
+  const sidebar = `
+    <nav class="tags-sidebar" aria-label="Filters">
+      ${facetGroup('Subject', sortedSubjects, 'subject')}
+      ${facetGroup('Concern', sortedConcerns, 'concern')}
+      ${facetGroup('Form', sortedForms, 'form')}
+    </nav>`;
+
+  // Generate no-JS fallback panels (grouped by subject)
+  const tagMap = new Map();
+  allPosts.forEach(post => {
+    post.subjects.forEach(s => {
+      if (!tagMap.has(s)) tagMap.set(s, []);
+      tagMap.get(s).push(post);
     });
+  });
 
-  const maxCount = sortedTags.length > 0 ? sortedTags[0][1].length : 1;
-  const firstTagId = sortedTags.length > 0 ? tagId(sortedTags[0][0]) : '';
+  const fallbackPanels = sortedSubjects.map(([subject], i) => {
+    const posts = tagMap.get(subject) || [];
+    const id = tagId(subject);
+    return `
+    <div class="tag-panel" id="panel-${id}" data-tag="${id}">
+      <h3 class="panel-title">${subject}</h3>
+      <ul class="tag-posts">
+        ${posts.map(post => postItem(post)).join('')}
+      </ul>
+    </div>`;
+  }).join('');
+
+  // Embed JSON data for client-side filtering
+  const postsJson = JSON.stringify(allPosts.map(p => ({
+    title: p.title,
+    url: p.url,
+    date: p.date,
+    description: truncate(stripTags(p.description), 120),
+    subjects: p.subjects,
+    concerns: p.concerns,
+    form: p.form,
+  })));
 
   return `
+<script type="application/json" id="posts-data">${postsJson}</script>
 <section id="tags-page" class="wide">
-  <nav class="tags-sidebar" role="tablist" aria-label="Tags">
-    ${sortedTags.map(([tag, posts], i) => {
-      const id = tagId(tag);
-      const fill = Math.round((posts.length / maxCount) * 100);
-      const active = i === 0;
-      return `<button class="tag-tab${active ? ' active' : ''}" role="tab" aria-selected="${active}" aria-controls="panel-${id}" data-tag="${id}" style="--fill: ${fill}%">${tag} <span class="tag-count">${posts.length}</span></button>`;
-    }).join('\n    ')}
-  </nav>
+  ${sidebar}
   <div class="tags-panels">
-    ${sortedTags.map(([tag, posts], i) => {
-      const id = tagId(tag);
-      const hidden = i !== 0;
-      return `
-    <div class="tag-panel${!hidden ? ' active' : ''}" id="panel-${id}" role="tabpanel" data-tag="${id}"${hidden ? ' hidden' : ''}>
-      <h3 class="panel-title">${tag}</h3>
+    <div class="result-count">${allPosts.length} posts</div>
+    <div id="filtered-posts">
       <ul class="tag-posts">
-        ${posts.map(post => `
+        ${allPosts.map(post => postItem(post)).join('')}
+      </ul>
+    </div>
+    <noscript>
+      ${fallbackPanels}
+    </noscript>
+  </div>
+</section>`;
+}
+
+function facetGroup(label, sortedEntries, facetName) {
+  if (sortedEntries.length === 0) return '';
+  const maxCount = sortedEntries[0][1];
+  return `
+      <div class="facet-group" data-facet="${facetName}">
+        <div class="facet-label">${label}</div>
+        ${sortedEntries.map(([value, count]) => {
+          const fill = Math.round((count / maxCount) * 100);
+          const id = tagId(value);
+          return `<button class="tag-tab" data-facet="${facetName}" data-value="${id}" style="--fill: ${fill}%">${value} <span class="tag-count">${count}</span></button>`;
+        }).join('\n        ')}
+      </div>`;
+}
+
+function postItem(post) {
+  return `
         <li class="tag-post">
           <a href="${post.url}">
             <span class="post-title">${post.title}</span>
             ${post.date ? `<span class="post-date">${post.date}</span>` : ''}
             ${post.description ? `<span class="post-description">${truncate(stripTags(post.description), 120)}</span>` : ''}
           </a>
-        </li>`).join('')}
-      </ul>
-    </div>`;
-    }).join('')}
-  </div>
-</section>`;
+        </li>`;
+}
+
+function sortFacet(countMap) {
+  return Array.from(countMap.entries())
+    .sort((a, b) => {
+      const countDiff = b[1] - a[1];
+      if (countDiff !== 0) return countDiff;
+      return a[0].localeCompare(b[0]);
+    });
 }
 
 function tagId(tag) {

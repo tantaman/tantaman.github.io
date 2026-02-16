@@ -2,6 +2,7 @@
 title: "Adding a Chats Section to My Blog"
 description: "A conversation with Claude about setting up a new section to document interesting LLM chats"
 tags: ["software", "ai"]
+concern: [craft]
 ---
 
 This is a sample chat post demonstrating the new chats section. This section is designed to document interesting conversations with LLMs.

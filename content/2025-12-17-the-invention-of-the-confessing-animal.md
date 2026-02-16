@@ -1,6 +1,7 @@
 ---
 title: 'The Invention of the Confessing Animal'
 tags: [religion, philosophy, politics]
+concern: [self, power]
 ---
 
 ![](/blog-assets/substack/2327ceb5-c4ef-4776-9440-0e08b16cd086_1988x2552.jpeg)

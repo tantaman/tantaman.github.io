@@ -1,6 +1,8 @@
 ---
 title: You'll always have a body
 tags: [philosophy]
+concern: [ground]
+form: meditation
 ---
 
 > Prompted after reading https://www.physics.princeton.edu/ph115/LQ.pdf and https://www.quantamagazine.org/how-to-make-the-universe-think-for-us-20220531/

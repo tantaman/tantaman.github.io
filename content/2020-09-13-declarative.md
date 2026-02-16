@@ -3,6 +3,7 @@ slug: 2020-09-13-declarative
 title: 'Filter, Map, etc. vs For Each & While'
 tags: [software]
 image: /assets/posts/filter-map-reduce-vs.svg
+concern: [craft]
 ---
 
 I've run into the occasional programmer that finds the functional way of transforming collections (`map`, `filter`, `reduce`, `zip`, `pull`, etc.)

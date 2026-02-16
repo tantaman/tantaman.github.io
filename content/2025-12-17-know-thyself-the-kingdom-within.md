@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: The Kingdom Within'
 tags: [religion, philosophy]
+concern: [self, ground]
 ---
 
 ![](/blog-assets/substack/17e2ec16-47bd-4e61-bd8c-613c5a25e851_1024x1536.png)

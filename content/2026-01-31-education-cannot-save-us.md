@@ -1,6 +1,7 @@
 ---
 title: 'Education Cannot Save Us'
 tags: [philosophy, culture]
+concern: [knowledge, modernity]
 ---
 
 ![](/blog-assets/substack/a3d88592-e079-42ca-9ed7-836738b25aa3_2560x1929.jpeg)

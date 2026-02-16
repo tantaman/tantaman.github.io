@@ -1,6 +1,7 @@
 ---
 title: 'What Holds You'
 tags: [philosophy, culture]
+concern: [self, modernity]
 ---
 
 ![](/blog-assets/substack/c9566603-6bd4-4d1a-b829-8b4ab8913c10_2560x1457.jpeg)

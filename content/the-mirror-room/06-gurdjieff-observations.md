@@ -5,6 +5,7 @@ draft: true
 description: Draft. Practical advice in response to The Mirror Room collection.
 tags: [fiction, philosophy]
 date: 2025-07-23
+concern: [self]
 ---
 
 ## Observations on the Sleep of Seekers

@@ -1,6 +1,7 @@
 ---
 title: 'From Calvinism to Capitalism'
 tags: [politics, religion, economics]
+concern: [power, ground]
 ---
 
 Picture this as a kind of long historical drama, with one central “spell” spreading through Europe:

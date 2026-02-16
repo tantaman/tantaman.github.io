@@ -1,6 +1,7 @@
 ---
 title: '🕊️ The Architecture of Harm: How Modern Secular Ideologies Recapitulate Religious Logic'
 tags: [philosophy, religion]
+concern: [power]
 ---
 
 The 20th and 21st centuries have been characterized by the rise of powerful, ostensibly "rational" or "scientific" ideologies—Marxism, Liberalism, Technocracy, and Nationalism. These systems explicitly rejected traditional religious authority, proclaiming themselves the harbingers of a new, scientifically managed, or rationally ordered age.

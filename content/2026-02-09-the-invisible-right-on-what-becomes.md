@@ -1,6 +1,7 @@
 ---
 title: 'The Invisible Right: On What Becomes Synonymous With Reality'
 tags: [economics, politics, culture]
+concern: [power, modernity]
 ---
 
 ![](/blog-assets/substack/adeb6c43-0aba-47c5-ad0d-c1ae541c2214_271x367.jpeg)

@@ -1,6 +1,7 @@
 ---
 title: 🧶 HTML, CSS & JS. All mixed up together. This time it's different.
 tags: [software]
+concern: [craft]
 ---
 
 From time to time I run across people decrying the current state of web development with words like:

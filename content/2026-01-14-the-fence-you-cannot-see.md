@@ -1,6 +1,7 @@
 ---
 title: 'The Fence You Cannot See'
 tags: [philosophy, culture]
+concern: [knowledge, modernity]
 ---
 
 ![](/blog-assets/substack/7d9dbd9e-2dbe-4951-b316-90053e8c1fdd_1100x733.jpeg)

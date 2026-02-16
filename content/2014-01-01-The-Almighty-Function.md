@@ -2,6 +2,7 @@
 slug: 2014-01-01-The-Almighty-Function
 title: The Almighty Function
 tags: [software]
+concern: [craft]
 ---
 
 > Objects are a poor man’s closures. Closures are a poor man’s objects.

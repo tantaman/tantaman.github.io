@@ -2,6 +2,7 @@
 slug: 2022-01-17-why-fetching-earliy-is-difficult-to-express
 title: '🌅 Expressing Early Fetches - React'
 tags: [software]
+concern: [craft]
 ---
 
 draft post--

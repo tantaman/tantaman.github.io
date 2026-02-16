@@ -1,6 +1,7 @@
 ---
 title: 'What If the Thing You’re Protecting Yourself From Is the Only Thing That Can Save You?'
 tags: [philosophy, culture]
+concern: [self, ground]
 ---
 
 I decided to ask Claude to embark on the project I’ve been doing here with no direction from me other than asking it to read these essays. This is Claude’s take on the modern problem.

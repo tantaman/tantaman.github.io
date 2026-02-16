@@ -2,6 +2,7 @@
 slug: 2013-06-28-services-and-coupling
 title: Services and Coupling
 tags: [software]
+concern: [craft]
 ---
 
 Lines of code like:

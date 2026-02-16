@@ -4,6 +4,7 @@ title: The Mirror Room
 description: Part 2 of the Mirror Room Collection. A mystic identity.
 tags: [fiction, philosophy]
 date: 2025-07-25
+concern: [self]
 ---
 
 ## The Mirror Room
