@@ -173,7 +173,7 @@ export async function buildRelationshipGraph(
       const result = computeCombinedScore(contributions, config);
 
       // Only add if above threshold
-      if (passesThreshold(result.score, config)) {
+      if (passesThreshold(result.score, config) && result.edgeType !== 'inferred') {
         edges.push({
           source: nodeA.id,
           target: nodeB.id,

@@ -242,36 +242,13 @@ async function graphPage() {
       });
     });
 
-    // Fallback: Tag-based relationships (weak edges)
-    const posts = Array.from(postsByFilename.values());
-    for (let i = 0; i < posts.length; i++) {
-      for (let j = i + 1; j < posts.length; j++) {
-        const post1 = posts[i];
-        const post2 = posts[j];
-
-        const sharedTags = post1.tags.filter(tag => post2.tags.includes(tag));
-
-        if (sharedTags.length >= 2) {
-          const edgeKey = [post1.id, post2.id].sort().join('->');
-          if (!edgeSet.has(edgeKey)) {
-            edges.push({
-              from: post1.id,
-              to: post2.id,
-              value: sharedTags.length,
-              color: { color: '#d96a37', opacity: 0.3 + (sharedTags.length * 0.1) },
-              title: `Shared tags: ${sharedTags.join(', ')}`,
-            });
-            edgeSet.add(edgeKey);
-          }
-        }
-      }
-    }
   }
 
   const graphData = { nodes, edges };
 
   return `
 <section id="graph-page" class="full-bleed">
+  <div id="graph-container"></div>
   <div class="graph-header">
     <div class="graph-legend">
       <div class="legend-item">
@@ -294,17 +271,12 @@ async function graphPage() {
         <span class="legend-line semantic-edge"></span>
         <span>Semantic similarity</span>
       </div>
-      <div class="legend-item">
-        <span class="legend-line weak-edge"></span>
-        <span>Inferred</span>
-      </div>
     </div>
     <div class="graph-search">
       <input type="text" id="graph-search-input" placeholder="Filter by keyword..." autocomplete="off" />
       <span id="graph-search-status"></span>
     </div>
   </div>
-  <div id="graph-container"></div>
   <script id="graph-data" type="application/json">
 ${JSON.stringify(graphData, null, 2)}
   </script>

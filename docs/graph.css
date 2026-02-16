@@ -1,17 +1,43 @@
 /* Graph Page Styling */
 
-#graph-page {
-  padding: 0;
-  margin: 0;
-  height: calc(100vh - 80px);
-  display: flex;
-  flex-direction: column;
+/* Hide site header and prevent scroll on graph page */
+body:has(#graph-page) .post-header {
+  display: none;
+}
+
+body:has(#graph-page) {
   overflow: hidden;
 }
 
+#graph-page {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Graph Container */
+#graph-container {
+  flex: 1;
+  width: 100%;
+  background: #1a1a1a;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Legend + search as bottom overlay */
 .graph-header {
-  padding: 0.75rem 1.5rem;
-  flex-shrink: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(6px);
+  padding: 0.5rem 1.5rem;
 }
 
 /* Legend */
@@ -20,7 +46,7 @@
   justify-content: center;
   gap: 2rem;
   flex-wrap: wrap;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
 }
 
 .legend-item {
@@ -65,20 +91,6 @@
   opacity: 0.6;
 }
 
-.weak-edge {
-  background: #888888;
-  opacity: 0.5;
-}
-
-/* Graph Container */
-#graph-container {
-  flex: 1;
-  width: 100%;
-  background: #1a1a1a;
-  position: relative;
-  overflow: hidden;
-}
-
 /* Vis.js Network Overrides */
 .vis-network {
   outline: none;
@@ -107,7 +119,7 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
 }
 
 #graph-search-input {
@@ -141,10 +153,6 @@
 
 /* Mobile Responsive */
 @media (max-width: 640px) {
-  #graph-page {
-    height: calc(100vh - 60px);
-  }
-
   .graph-header {
     padding: 0.5rem 1rem;
   }

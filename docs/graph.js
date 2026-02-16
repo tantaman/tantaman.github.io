@@ -258,7 +258,20 @@
         shadow: false,
       },
       physics: {
-        enabled: false, // Rely entirely on pre-computed cluster positions
+        enabled: true,
+        solver: 'forceAtlas2Based',
+        forceAtlas2Based: {
+          gravitationalConstant: -80,
+          centralGravity: 0.005,
+          springLength: 150,
+          springConstant: 0.02,
+          avoidOverlap: 0.5,
+        },
+        stabilization: {
+          enabled: true,
+          iterations: 300,
+          updateInterval: 25,
+        },
       },
       interaction: {
         hover: true,
@@ -386,8 +399,9 @@
       container.style.cursor = 'default';
     });
 
-    // Fit network when stabilized
+    // After physics stabilizes, freeze layout and fit to view
     network.once('stabilizationIterationsDone', function () {
+      network.setOptions({ physics: { enabled: false } });
       network.fit({
         animation: {
           duration: 1000,
