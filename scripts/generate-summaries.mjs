@@ -94,7 +94,7 @@ async function generateSummary(title, body) {
     messages: [
       {
         role: 'user',
-        content: `Write a 2-3 sentence summary of this blog post. Be concise and informative. Focus on what the post argues or explores. Do not start with "This post" or "The author". Just state the ideas directly.
+        content: `Write a 2-3 sentence summary of this blog post. Be concise and informative. Focus on what the post argues or explores. Do not start with "This post" or "The author". Just state the ideas directly. Return ONLY the plain text summary — no markdown, no headers, no bullet points, no formatting. Everything on a single line.
 
 Title: ${title}
 
@@ -103,7 +103,12 @@ ${truncatedBody}`,
     ],
   });
 
-  return response.content[0].text.trim();
+  // Collapse to a single line and strip any markdown formatting
+  return response.content[0].text
+    .replace(/\n+/g, ' ')
+    .replace(/^#+\s*/g, '')
+    .replace(/\*+/g, '')
+    .trim();
 }
 
 function insertSummary(content, fm, summary) {
