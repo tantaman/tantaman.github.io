@@ -5,8 +5,8 @@
   var posts = JSON.parse(dataEl.textContent);
   var sidebar = document.querySelector('.tags-sidebar');
   var listContainer = document.getElementById('filtered-posts');
-  var resultCount = document.querySelector('.result-count');
-  if (!sidebar || !listContainer || !resultCount) return;
+  var breadcrumbBar = document.getElementById('breadcrumb-bar');
+  if (!sidebar || !listContainer || !breadcrumbBar) return;
 
   // State: active filters per facet
   var state = { subject: new Set(), concern: new Set(), form: new Set() };
@@ -57,8 +57,23 @@
     var filtered = filterPosts();
     var counts = countFacetValues(filtered);
 
-    // Update result count
-    resultCount.textContent = filtered.length + ' post' + (filtered.length !== 1 ? 's' : '');
+    // Update breadcrumb bar
+    var crumbs = [];
+    ['subject', 'concern', 'form'].forEach(function (facet) {
+      state[facet].forEach(function (val) {
+        var btn = sidebar.querySelector('.tag-tab[data-facet="' + facet + '"][data-value="' + val + '"]');
+        var label = btn ? btn.childNodes[0].textContent.trim() : val;
+        crumbs.push('<button class="crumb" data-facet="' + facet + '" data-value="' + val + '">' + esc(label) + ' ×</button>');
+      });
+    });
+    var countText = filtered.length + ' post' + (filtered.length !== 1 ? 's' : '');
+    if (crumbs.length > 0) {
+      breadcrumbBar.innerHTML = crumbs.join('') + '<span class="result-count">' + countText + '</span>';
+      breadcrumbBar.classList.add('has-crumbs');
+    } else {
+      breadcrumbBar.innerHTML = '<span class="result-count">' + countText + '</span>';
+      breadcrumbBar.classList.remove('has-crumbs');
+    }
 
     // Update post list
     if (filtered.length === 0) {
@@ -114,6 +129,20 @@
     d.textContent = s;
     return d.innerHTML;
   }
+
+  // Breadcrumb click to remove filter
+  breadcrumbBar.addEventListener('click', function (e) {
+    var crumb = e.target.closest('.crumb');
+    if (!crumb) return;
+
+    var facet = crumb.getAttribute('data-facet');
+    var value = crumb.getAttribute('data-value');
+    if (state[facet]) {
+      state[facet].delete(value);
+      render();
+      updateHash();
+    }
+  });
 
   // Event delegation for button clicks
   sidebar.addEventListener('click', function (e) {
