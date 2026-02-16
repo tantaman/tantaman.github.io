@@ -2,6 +2,7 @@
 title: '🪨 Chunk Iterable'
 tags: [software]
 concern: [craft]
+summary: 'The Chunk Iterable Framework in Aphrodite processes large or unbounded data streams by dividing them into manageable chunks rather than processing items one at a time or all at once, which improves performance while preventing resource overload. By conforming to an Iterable interface, ChunkIterable allows operations like filter and map to be performed on chunks, enabling Aphrodite to transform raw data streams into models and apply database-level filtering efficiently.'
 ---
 
 Today I'll be discussing the [`Chunk Iterable Framework`](https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/ChunkIterable.ts). This is a core component of [Aphrodite](http://aphrodite.sh) and is used to speed up the processing of data returned by queries.

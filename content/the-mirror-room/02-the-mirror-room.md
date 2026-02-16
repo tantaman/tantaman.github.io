@@ -5,6 +5,7 @@ description: Part 2 of the Mirror Room Collection. A mystic identity.
 tags: [fiction, philosophy]
 date: 2025-07-25
 concern: [self]
+summary: 'Sarah encounters a mysterious mirror room that shows her countless alternative versions of herself—a capitalist, a soldier, a mother, a lawyer—each representing different identities she could have adopted but rejected in favor of her progressive activist persona. The experience reveals that her carefully constructed identity, like all identities, is simply accumulated constraints handed down by society and others rather than something authentically chosen, and she realizes that true freedom comes from existing beyond any fixed identity or label. By the end, Sarah steps into the undefined space at the room''s center and emerges changed, finally able to make choices unconstrained by the armor of identity she''d worn her entire life.'
 ---
 
 ## The Mirror Room

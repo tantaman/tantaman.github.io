@@ -2,6 +2,7 @@
 title: 'You Are Not Your Diagnosis'
 tags: [culture]
 concern: [modernity, self]
+summary: 'Modern society encourages young people to adopt diagnostic labels and trauma narratives as core identities rather than using them as starting points for growth and change, but this approach traps them in suffering rather than leading to healing. The author argues that pain and struggle are inherent to human existence and should be catalysts for action and resilience, not comfortable identities to inhabit, and that overreliance on therapy language, algorithms designed to exploit vulnerability, and the performance of mental illness on social media have replaced genuine strength-building with performative victimhood. True acceptance means treating diagnoses as information to act upon and move through, not as permanent definitions of self, and the path forward requires stepping away from the comfort of labels and returning to the fundamental human capacity to struggle, build, and become something new.'
 ---
 
 Look at you. Look at all of you.

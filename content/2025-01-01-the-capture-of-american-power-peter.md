@@ -2,6 +2,7 @@
 title: 'The Capture Of American Power Peter'
 tags: [politics, philosophy]
 concern: [power]
+summary: 'American power has shifted from the Epstein-class elite to a new "Thiel class" of technologists who control digital infrastructure, guided by Peter Thiel''s sophisticated operationalization of René Girard''s mimetic theory—which explains desire as imitative and rivalry as contagious—to achieve monopolistic positions, manipulate scapegoating mechanisms, and systematically transform the American state from positive governance into a coercive apparatus serving oligarchic interests. Thiel has openly articulated this framework in his 2007 essay "The Straussian Moment," and his subsequent ventures including Palantir, Facebook investment, Trump alliance, and DOGE project represent deliberate applications of Girardian principles to accumulate power through understanding and engineering mimetic desire, preventing rivals, and controlling the conditions of future governance.'
 ---
 
 ![](/blog-assets/substack/e8eb43ba-eb53-473f-9ad8-304038198a63_2560x2522.jpeg)

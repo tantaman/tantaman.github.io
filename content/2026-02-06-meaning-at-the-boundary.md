@@ -2,6 +2,7 @@
 title: 'Meaning at the Boundary'
 tags: [philosophy, ai]
 concern: [knowledge]
+summary: 'Meaning emerges from the statistical structure of language—patterns of how words relate to and constrain each other—which allows vast amounts of linguistic knowledge to be extracted from text alone, as demonstrated by large language models that learn from pure co-occurrence statistics. However, this relational knowledge remains fundamentally untethered to reality unless the system can engage in perception-action loops where it acts on the world and receives corrective feedback, creating alignment between its internal representations and external systems. Grounding—and therefore meaning—isn''t a binary philosophical property but a spectrum of how tightly coupled a system is to reality through feedback channels that allow continuous calibration against something beyond itself.'
 ---
 
 ![](/blog-assets/substack/db97c892-29ad-414e-85c0-f22d3ce948a4_640x369.jpeg)

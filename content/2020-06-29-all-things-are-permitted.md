@@ -3,6 +3,7 @@ slug: 2020-06-29-all-things-are-permitted
 title: All Things are Permitted
 tags: [philosophy]
 concern: [ground]
+summary: 'The post reinterprets the phrase "if there is no God then all things are permitted" by arguing that all things are naturally permitted by physical reality regardless of God''s existence, and that laws exist specifically to restrict these naturally permitted actions; the real meaning of the quote is therefore an appeal to moral authority and how things ought to be, distinguishing between the permissible in nature and the permissible in an ethical framework.'
 ---
 
 Its been said that _"if there is no God then all things are permitted."_

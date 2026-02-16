@@ -3,6 +3,7 @@ slug: 2022-04-07-your-package-is-two
 title: '📦 Your One Package Might Be Two'
 tags: [software]
 concern: [craft]
+summary: 'When creating reusable software packages, developers often overlook that there''s actually a second package within—the interface package that defines the contract separate from the implementation. Extracting the interface into its own separate package allows other developers to create alternative implementations and enables downstream packages to depend only on the interface types without pulling in the heavy implementation details. The interface package should have no dependencies on the implementation, while the implementation package depends on the interface, creating a clean separation of concerns.'
 ---
 
 import Mermaid from '/dist/components/Mermaid.js';

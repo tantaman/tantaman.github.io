@@ -3,6 +3,7 @@ slug: 2014-01-03-Practical-Laziness-in-Programming
 title: Practical Laziness in Programming
 tags: [software]
 concern: [craft]
+summary: 'Lazy evaluation enables more composable and maintainable APIs by allowing developers to chain operations on collections without forcing immediate computation or consuming excessive memory. The author demonstrates this through a Javadoc-to-JSON conversion project, showing how lazy sequences let you write clean, functional-style code that processes data in streaming fashion rather than requiring imperative loops with callback hooks. Languages like Clojure and Scala provide built-in lazy evaluation, offering a practical alternative to the verbose callback patterns that would otherwise be necessary in eager languages like Java.'
 ---
 
 When I first heard about lazy evaluation I thought it was cool but not of much practical use. That is until I thought about it a bit harder.

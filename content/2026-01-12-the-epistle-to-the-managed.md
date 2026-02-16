@@ -3,6 +3,7 @@ title: 'The Epistle to the Managed'
 tags: [religion, culture, politics]
 concern: [power, modernity]
 form: prophecy
+summary: 'Modern systems of control have evolved beyond visible oppression into two sophisticated forms: therapeutic management that colonizes the mind by treating the self as perpetually wounded, and technological platforms that control behavior through invisible architecture while claiming to offer freedom. Together these "beasts" divide and manage human existence by making citizens complicit in their own subjugation—one through endless diagnosis and treatment, the other through convenient dependency—leaving resistance nearly unthinkable by making the cage appear to be the world itself.'
 ---
 
 ![](/blog-assets/substack/79b9b603-4114-4c12-929a-47a648f213a7_1920x937.jpeg)

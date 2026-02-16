@@ -5,6 +5,7 @@ tags: [software, math]
 image: /assets/posts/understanding-fp-rate.svg
 standalone: html
 concern: [knowledge]
+summary: 'A positive test result does not necessarily reflect your actual probability of having a disease because the false positive rate alone is misleading without accounting for disease prevalence in the population. For example, a test with a 0.5% false positive rate could still result in 50-90% of positive results being incorrect if the disease is rare, since most people tested don''t have the disease. Understanding this relationship between prevalence, false positive rate, and true positive probability is essential for correctly interpreting test results and case numbers during health crises.'
 ---
 
 <style type="text/css">

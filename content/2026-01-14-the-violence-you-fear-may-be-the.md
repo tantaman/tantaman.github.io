@@ -2,6 +2,7 @@
 title: 'The Violence You Fear May Be the Violence You’re Creating'
 tags: [politics]
 concern: [power]
+summary: 'Educated progressives dramatically overestimate Republican support for political violence—by a factor of nearly four according to research—and this perception gap paradoxically makes them more likely to accept or justify violence against conservatives, creating a self-fulfilling prophecy where their own behavior validates the threat they fear. The post argues that this distortion stems from media consumption and partisan social networks rather than actual facts, and that epistemic humility and genuine dialogue with political opponents is necessary to break the cycle of escalating violence.'
 ---
 
 ![](/blog-assets/substack/1d88c7cd-8ea2-4393-9d20-6cffcab6d310_3051x1405.jpeg)

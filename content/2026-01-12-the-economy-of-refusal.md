@@ -2,6 +2,7 @@
 title: 'The Economy of Refusal'
 tags: [religion, economics]
 concern: [ground, power]
+summary: 'Resistance to institutional power requires not individual heroism but alternative communal structures—specifically, an alternative economy that can sustain people when they refuse the rituals and demands of dominant systems. The early church exemplified this through shared resources and networks of mutual aid that made martyrdom possible by catching those who fell; similarly, Rome tolerated Christian belief but persecuted Christian structure because a community with its own economy and social infrastructure posed a genuine threat to imperial dominion. Modern institutions exploit the same principle in reverse, using economic dependence to coerce conformity through demanding confessions and rituals, making collective alternatives essential for any meaningful refusal.'
 ---
 
 ![](/blog-assets/substack/18e27dd8-3455-48e6-ab5c-ea1aaae59194_960x1417.jpeg)

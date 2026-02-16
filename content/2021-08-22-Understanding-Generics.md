@@ -3,6 +3,7 @@ slug: 2021-08-22-Understanding-Generics
 title: "Understanding Generics"
 tags: [software]
 concern: [knowledge]
+summary: 'Generics exist primarily to allow callers to preserve and pass along type information through function calls and containers, rather than to serve the implementation of the called function itself. Whether a function accepts `any`, `number`, or `Object`, the implementation remains the same, but using generics enables callers to retain knowledge of the actual types involved and use that information for subsequent operations. This is demonstrated through simple examples like the identity function and generic containers, where the caller benefits from type safety even after wrapping values in generic structures.'
 ---
 
 ```js

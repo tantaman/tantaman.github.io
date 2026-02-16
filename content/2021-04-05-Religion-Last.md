@@ -3,6 +3,7 @@ slug: 2021-04-05-Religion-Last
 title:  "What if Religion is last?"
 tags: [philosophy, politics]
 concern: [ground]
+summary: 'Religion might represent either a civilization''s final stage before collapse, as exemplified by Rome''s transition from rationalism to Christianity amid decadence, or conversely, a peak cultural achievement representing humanity''s mature understanding that reason alone cannot determine how people choose to live and believe. The post explores whether contemporary American hyper-partisanship and ideological tribalism constitute a new religion emerging from societal breakdown, while acknowledging that this theory requires substantial historical evidence across multiple civilizations and assumes conditions in past societies that may never have actually existed.'
 ---
 
 The popular view of religion is as being the first development of a civilization. The thing that predates a people before they discover reason & science.

@@ -2,6 +2,7 @@
 title: 'Grammar Rules All'
 tags: [philosophy, culture]
 concern: [knowledge, power]
+summary: 'Grammar functions as a pre-reflective constraint that determines which values are available for people to "choose" rather than values existing first and then finding linguistic expression. People absorb grammars unconsciously through imitation of high-status speakers, and these grammars—whether therapy-based, corporate, or traditional moral language—create fixed menus of expressible values while rendering other values grammatically unintelligible, creating the illusion of independent reasoning when people from similar social positions arrive at similar values. The choice of values is real but radically constrained by the grammar one has absorbed, meaning people select from menus they didn''t write and often don''t recognize they''re using.'
 ---
 
 ![](/blog-assets/substack/db74b0cf-4cdd-4ca7-bbbd-0db00e73f515_1000x609.jpeg)

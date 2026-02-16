@@ -5,6 +5,7 @@ source: "https://chatgpt.com/share/68ed9783-cfc4-8004-95f5-7576b5540d4a"
 description: "explain girard's scape-goat mechanism and give examples"
 tags: ["philosophy", "ai"]
 concern: [power]
+summary: 'René Girard''s scapegoat mechanism explains how societies unconsciously unite against a single victim to resolve internal conflict caused by mimetic desire—the human tendency to imitate what others want—which escalates rivalries and threatens social order, and the victim''s expulsion or death temporarily restores peace while the pattern becomes sacralized through myth and ritual. Modern examples include the 2008 financial crisis where "greedy bankers" became the focal point for collective outrage despite systemic complicity, and social media cancel culture where viral moral outrage converges on isolated individuals whose public shaming creates temporary social catharsis, demonstrating that scapegoating remains a fundamental mechanism of social order even in contemporary secular societies where the mechanism is visible but still psychologically potent.'
 ---
 
 explain girard's scape-goat mechanism and give examples

@@ -2,6 +2,7 @@
 title: 'Why Marxism Is Impossible Without Christian Eschatology'
 tags: [philosophy, religion, economics]
 concern: [power, ground]
+summary: 'Marxism is not a rejection of Christianity but a secular heresy that retains the Christian narrative structure of linear history moving toward apocalyptic salvation, replacing God with material dialectics and the proletariat with the messianic suffering servant. The ideology''s dependence on linear time, deterministic historical inevitability, and the promise of a final classless paradise reveals its theological roots in Christian eschatology, transmitted through German philosophy from Luther through Hegel to Marx. By attempting to realize the biblical eschaton (kingdom of God) as an immanent earthly utopia, Marxism represents a gnostic error that inevitably produces tyranny when imperfect humanity fails to match the perfect theoretical vision.'
 ---
 
 ### I. The Strangest Lineage in Intellectual History

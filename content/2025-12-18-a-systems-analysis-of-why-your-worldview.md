@@ -2,6 +2,7 @@
 title: 'Materialism Is Killing You'
 tags: [philosophy, culture]
 concern: [ground, modernity]
+summary: 'The post argues that materialism—the worldview that reality is fundamentally physical and meaning is illusory—is failing as a fitness strategy for human populations, regardless of whether it''s metaphysically true. The author presents data showing that modernization correlates with epidemic levels of depression, loneliness, fertility collapse, and institutional distrust, none of which standard explanations adequately account for. He then proposes that humans evolved to require meaning embedded in community and sacred narrative, and that the materialist removal of these structures has created an evolutionary mismatch causing widespread psychological and social dysfunction.'
 ---
 
 ![](/blog-assets/substack/b1f9435b-7dda-4d5f-a93f-86e3e9b000f5_1024x1536.png)

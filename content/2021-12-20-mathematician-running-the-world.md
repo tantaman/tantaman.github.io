@@ -3,6 +3,7 @@ slug: 2021-12-20-mathematician-running-the-world
 title: '🧮 No, Mathematical Government is not a Logical Government'
 tags: [philosophy]
 concern: [knowledge]
+summary: 'Mathematics cannot serve as the basis for government because mathematical models inevitably omit crucial details and variables through both intentional simplification and human ignorance, leading to irrational outcomes when viewed in broader context. Additionally, mathematics cannot determine moral values or what constitutes "the greater good," since these are fundamentally aesthetic and subjective judgments that cannot be derived from logic alone, and appeals to collective good often mask the abdication of individual responsibility and theft of natural rights.'
 ---
 
 Listening to [Freakonomics s11e16](https://freakonomics.com/podcast/season-11-episode-16/) there was some commentary about "if the world was run by mathematicians it'd be so logical."

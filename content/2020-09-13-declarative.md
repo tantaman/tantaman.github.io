@@ -4,6 +4,7 @@ title: 'Filter, Map, etc. vs For Each & While'
 tags: [software]
 image: /assets/posts/filter-map-reduce-vs.svg
 concern: [craft]
+summary: 'Some programmers find functional collection methods like map and filter harder to understand than imperative loops, but this resistance stems from unfamiliarity rather than actual complexity. Programming fundamentally involves upleveling language by identifying common patterns, abstracting them, and naming them, so adopting functional methods expands our ability to express solutions clearly and concisely. Refusing to learn these concepts is refusing to grow, much like a language that stops evolving; encountering unfamiliar ideas should prompt learning rather than recasting them in familiar terms.'
 ---
 
 I've run into the occasional programmer that finds the functional way of transforming collections (`map`, `filter`, `reduce`, `zip`, `pull`, etc.)

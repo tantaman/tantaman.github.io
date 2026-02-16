@@ -2,6 +2,7 @@
 title: 'Education Cannot Save Us'
 tags: [philosophy, culture]
 concern: [knowledge, modernity]
+summary: 'Across the political spectrum, there is a shared faith that ignorance is the root of society''s problems and education is the solution, but this assumes reason alone can resolve fundamental disagreements about values that have no rational foundation. Education cannot bridge axioms that go all the way down—it can transmit culture and skills, but it cannot compel agreement on contested moral beliefs, and attempting to do so often backfires by triggering resistance to what feels like forced ideology. The dream of education as salvation is ultimately a fantasy of bypassing politics through knowledge, when fundamental disagreements about values can only be resolved through persuasion, negotiation, or power.'
 ---
 
 ![](/blog-assets/substack/a3d88592-e079-42ca-9ed7-836738b25aa3_2560x1929.jpeg)

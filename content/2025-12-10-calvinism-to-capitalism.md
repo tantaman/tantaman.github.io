@@ -2,6 +2,7 @@
 title: 'From Calvinism to Capitalism'
 tags: [politics, religion, economics]
 concern: [power, ground]
+summary: 'Calvin''s doctrine of predestination and calling created a psychological and ethical framework that transformed work into a morally mandated, God-accountable activity, spreading from 16th-century Geneva through Protestant Europe and eventually shaping the modern capitalist worker—disciplined, self-policing, frugal, and convinced that diligence in one''s vocation both pleases God and signals election. By the 17th century, Puritan preachers had intensified this into an inescapable moral economy where idleness becomes sin, profit becomes legitimate when paired with sobriety and honesty, and economic success becomes readable as divine approval, producing the perfect subject for capitalism: punctual, reliable, self-motivated, and perpetually anxious to prove worth through restless labor.'
 ---
 
 Picture this as a kind of long historical drama, with one central “spell” spreading through Europe:

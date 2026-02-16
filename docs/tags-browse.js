@@ -18,16 +18,20 @@
 
   function filterPosts() {
     return posts.filter(function (p) {
-      // AND across facets, OR within each facet
+      // AND across facets, AND within subject/concern, OR within form
       if (state.subject.size > 0) {
-        var match = false;
-        p.subjects.forEach(function (s) { if (state.subject.has(tagId(s))) match = true; });
-        if (!match) return false;
+        var slugged = new Set();
+        p.subjects.forEach(function (s) { slugged.add(tagId(s)); });
+        var allMatch = true;
+        state.subject.forEach(function (v) { if (!slugged.has(v)) allMatch = false; });
+        if (!allMatch) return false;
       }
       if (state.concern.size > 0) {
-        var match = false;
-        p.concerns.forEach(function (c) { if (state.concern.has(tagId(c))) match = true; });
-        if (!match) return false;
+        var slugged = new Set();
+        p.concerns.forEach(function (c) { slugged.add(tagId(c)); });
+        var allMatch = true;
+        state.concern.forEach(function (v) { if (!slugged.has(v)) allMatch = false; });
+        if (!allMatch) return false;
       }
       if (state.form.size > 0) {
         if (!state.form.has(tagId(p.form))) return false;

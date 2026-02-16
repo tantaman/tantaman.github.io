@@ -2,6 +2,7 @@
 title: 'David Graeber The Utopia Of Rules'
 tags: [economics, politics]
 concern: [power]
+summary: 'Graeber argues that while his earlier work correctly identified how modern economic and political structures are historically contingent rather than natural, he missed the crucial insight that knowing another world is possible doesn''t mean humans are capable of building it, because the same will to power and informal hierarchies that characterize formal systems inevitably emerge in supposedly egalitarian spaces like Occupy Wall Street. The problem isn''t just the structures we''ve inherited but the human tendency toward domination that persists regardless of ideology, making even anarchist movements reproduce the hierarchies they claim to oppose.'
 ---
 
 ## I. An Awkward Confession from Beyond the Grave

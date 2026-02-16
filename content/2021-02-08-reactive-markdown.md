@@ -5,6 +5,7 @@ tags: [software]
 image: /assets/posts/reactive-markdown/cover.svg
 standalone: html
 concern: [craft]
+summary: 'The author explores a system called "Reactive Markdown" that allows markdown content in blog posts to automatically update when underlying JavaScript variables change, eliminating the need to manually shuttle data between markdown and JavaScript code. The current implementation is JavaScript-first, requiring markdown to be written within JS templates, but the author plans to eventually create a markdown-first version that would be more ergonomic for blog writing. This approach aims to minimize boilerplate code while keeping display formatting concerns centralized in the markdown document.'
 ---
 
 <style type="text/css">

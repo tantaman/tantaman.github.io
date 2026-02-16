@@ -2,6 +2,7 @@
 title: 'The Machine That Eats the World'
 tags: [politics, culture]
 concern: [power, modernity]
+summary: 'Every institution built to help people becomes a system of control, creating surveillance and discipline that extends beyond its original purpose—welfare systems monitor the poor, public health systems enforce mandates, and child protective services remove children based on subjective judgments. The machine corrupts those who build it by allowing them to feel virtuous about abstract causes while remaining indifferent to particular people, and it operates through hidden violence backed by state force that citizens authorize through voting without witnessing its actual implementation. Most dangerously, the powerful tools created by one political faction for their purposes will inevitably be inherited and weaponized by opposing factions, yet both sides fail to recognize that the tools themselves are the fundamental problem.'
 ---
 
 ![](/blog-assets/substack/6d71b641-1d54-479d-bbdc-3ed4aef62ce8_960x1763.jpeg)

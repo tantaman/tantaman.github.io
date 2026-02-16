@@ -3,6 +3,7 @@ slug: 2020-05-17-dangerous-ideas
 title:  Dangerous. Ideas.
 tags: [philosophy]
 concern: [knowledge]
+summary: 'The phrase "a little bit of knowledge is a dangerous thing" can mean either that partial knowledge grants dangerous power or that incomplete knowledge puts oneself at risk, yet people recognize the need for proper frameworks when handling physical dangers like power tools but fail to apply the same caution to beliefs and ideas, which require equally respectful and informed approaches to avoid harm.'
 ---
 
 "A little bit of knowledge is a dangerous thing"
