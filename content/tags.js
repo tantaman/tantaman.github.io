@@ -134,7 +134,7 @@ async function tagsPage() {
     title: p.title,
     url: p.url,
     date: p.date,
-    description: truncate(stripTags(p.description), 480),
+    description: stripTags(p.description),
     subjects: p.subjects,
     concerns: p.concerns,
     form: p.form,
@@ -178,7 +178,7 @@ function postItem(post) {
           <a href="${post.url}">
             <span class="post-title">${post.title}</span>
             ${post.date ? `<span class="post-date">${post.date}</span>` : ''}
-            ${post.description ? `<span class="post-description">${truncate(stripTags(post.description), 480)}</span>` : ''}
+            ${post.description ? `<span class="post-description">${stripTags(post.description)}</span>` : ''}
           </a>
         </li>`;
 }
