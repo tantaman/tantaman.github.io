@@ -69,7 +69,7 @@ export default async function defaultLayout(
     <main id="static" class={matter?.wide ? 'wide-layout' : undefined}>
       {newChildren}
     </main>,
-    <footer id="footer">{footerContent}</footer>,
+    matter?.noHeader ? null : <footer id="footer">{footerContent}</footer>,
   ].filter(Boolean);
 }
 
