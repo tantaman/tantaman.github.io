@@ -91,7 +91,7 @@ function renderCard(collection, meta) {
         ${date} · ${collectionLabel}
       </div>
       <p>
-          ${stripTags(meta.frontmatter?.description || meta.description || '')}
+          ${stripTags(meta.frontmatter?.summary || meta.frontmatter?.description || meta.description || '')}
       </p>
     </a>`;
 }
