@@ -2,6 +2,7 @@
 slug: 2021-12-27-Observability-Driven-Development
 title: '👀 Observability Driven Development'
 tags: [software]
+concern: [craft]
 ---
 
 One of the things I learned quickly while working on large scale systems at `Facebook (Meta)` was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as intended. Without observation in prod, you don't even have a baseline to know what "normal" operation looks like.

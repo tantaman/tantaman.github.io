@@ -1,6 +1,7 @@
 ---
 title: 'When Equations See What Eyes Cannot'
 tags: [math, philosophy]
+concern: [knowledge]
 ---
 
 ![](/blog-assets/substack/179bac54-1723-48a3-98d3-1e671c01697a_1536x1024.png)

@@ -1,6 +1,8 @@
 ---
 title: 'The Epistle to the Managed'
 tags: [religion, culture, politics]
+concern: [power, modernity]
+form: prophecy
 ---
 
 ![](/blog-assets/substack/79b9b603-4114-4c12-929a-47a648f213a7_1920x937.jpeg)

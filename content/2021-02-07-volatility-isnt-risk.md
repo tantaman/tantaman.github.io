@@ -5,6 +5,7 @@ tags: [economics]
 css:
   - /blog-assets/volatility-is-not-risk/style.css
 image: /assets/posts/volatility-is-not-risk/cover.svg
+concern: [knowledge]
 ---
 
 <style type="text/css">

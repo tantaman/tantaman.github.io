@@ -4,6 +4,7 @@ title: The Consistent Man
 description: Part 1 of the Mirror Room Collection. A rational identity.
 tags: [fiction, philosophy]
 date: 2025-07-25
+concern: [self]
 ---
 
 ## The Consistent Man

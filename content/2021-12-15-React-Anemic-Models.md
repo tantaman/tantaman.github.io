@@ -2,6 +2,7 @@
 slug: 2021-12-15-React-Anemic-Models
 title: 'Reacting Better. Intro: Anemic Models'
 tags: [software]
+concern: [craft]
 ---
 
 [React](https://reactjs.org/) eschews models that have any attached functionality. The “model” for a react app is usually [anemic](https://martinfowler.com/bliki/AnemicDomainModel.html) — just a bare set of properties with no methods attached.

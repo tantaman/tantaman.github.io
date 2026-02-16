@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: No Self'
 tags: [philosophy]
+concern: [self]
 ---
 
 ![](/blog-assets/substack/9f25c54c-2c78-43aa-9516-128263d9aed9_1024x1536.png)

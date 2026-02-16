@@ -1,6 +1,7 @@
 ---
 title: 'The New Lords'
 tags: [politics]
+concern: [power]
 ---
 
 ### I. The Parallel Confusion

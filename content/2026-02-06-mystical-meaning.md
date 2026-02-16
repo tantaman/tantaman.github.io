@@ -1,6 +1,8 @@
 ---
 title: 'Mystical Meaning'
 tags: [philosophy, religion]
+concern: [ground, knowledge]
+form: meditation
 ---
 
 [Part 1 provided a technical analysis of meaning](https://tantaman.substack.com/p/meaning-at-the-boundary). Here we dive into the lived experience of meaning.

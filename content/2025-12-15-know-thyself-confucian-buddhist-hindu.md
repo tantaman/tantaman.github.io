@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: Confucian, Buddhist, Hindu'
 tags: [philosophy, religion]
+concern: [self]
 ---
 
 ![](/blog-assets/substack/ee4bc8e0-da93-4cee-9893-cca79bbe7367_1024x1024.png)

@@ -2,6 +2,8 @@
 slug: 2020-05-17-I-Am-You-Are
 title: I am. You are?
 tags: [philosophy]
+concern: [self]
+form: meditation
 ---
 When we describe how we're feeling we say "I am angry", "I am upset", "I am X"
 

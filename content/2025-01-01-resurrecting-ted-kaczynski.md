@@ -1,6 +1,7 @@
 ---
 title: 'Resurrecting Ted Kaczynski'
 tags: [politics, culture]
+concern: [power, modernity]
 ---
 
 # The Psychology of the Therapeutic-Managerial System

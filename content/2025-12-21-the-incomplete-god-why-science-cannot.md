@@ -1,6 +1,7 @@
 ---
 title: 'The Incomplete God: Why Science Cannot Ground Itself'
 tags: [philosophy, math]
+concern: [ground, knowledge]
 ---
 
 ![](/blog-assets/substack/3eb4ac86-430e-448d-b8ce-1ccac078081f_1024x1536.png)

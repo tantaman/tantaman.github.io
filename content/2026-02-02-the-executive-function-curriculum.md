@@ -1,6 +1,7 @@
 ---
 title: 'The Executive Function Curriculum Problem'
 tags: [culture, philosophy]
+concern: [self, modernity]
 ---
 
 ![](/blog-assets/substack/cbd1bb96-7d1e-442a-8ba7-5344813692d8_2560x1859.jpeg)

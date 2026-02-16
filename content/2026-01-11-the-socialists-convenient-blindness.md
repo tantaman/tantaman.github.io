@@ -1,6 +1,7 @@
 ---
 title: 'The Socialists'' Convenient Blindness'
 tags: [politics, philosophy, history]
+concern: [power]
 ---
 
 ![](/blog-assets/substack/0f99c0cd-0f77-4626-b3e8-740e595f3067_1024x1536.png)

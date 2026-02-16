@@ -1,6 +1,7 @@
 ---
 title: 'The Physicians of Decay'
 tags: [philosophy, culture]
+concern: [modernity, ground]
 ---
 
 ![](/blog-assets/substack/6750cb08-349c-43f0-8690-faffd1405faf_3811x2809.jpeg)

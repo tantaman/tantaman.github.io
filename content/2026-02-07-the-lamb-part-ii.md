@@ -1,6 +1,8 @@
 ---
 title: 'The Lamb, Part II'
 tags: [fiction, philosophy]
+concern: [self, ground]
+form: story
 ---
 
 ---

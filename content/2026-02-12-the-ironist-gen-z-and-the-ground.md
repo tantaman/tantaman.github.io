@@ -1,6 +1,8 @@
 ---
 title: 'The Ironist (Gen-Z) and the Ground'
 tags: [fiction, culture]
+concern: [self, modernity]
+form: story
 ---
 
 ![](/blog-assets/substack/2e601069-25a2-41b8-8d4c-50246a2ed894_2000x1339.jpeg)

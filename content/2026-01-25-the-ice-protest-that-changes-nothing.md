@@ -1,6 +1,7 @@
 ---
 title: 'The ICE Protest That Changes Nothing'
 tags: [politics, culture]
+concern: [power, modernity]
 ---
 
 ![](/blog-assets/substack/0febe7d0-18e2-419b-a1c5-cac5dc8607d5_600x400.webp)

@@ -2,6 +2,7 @@
 slug: 2018-10-23-typed-literals-are-constants
 title: Typed Literals ARE Constants!
 tags: [software]
+concern: [knowledge]
 ---
 
 ```

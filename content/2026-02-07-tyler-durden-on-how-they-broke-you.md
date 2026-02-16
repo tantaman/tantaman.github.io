@@ -1,6 +1,7 @@
 ---
 title: 'Tyler Durden: How They Broke You'
 tags: [culture, philosophy]
+concern: [modernity, ground]
 ---
 
 ![](/blog-assets/substack/06c0311f-fa6a-4054-a31f-7d5de23423e9_519x650.jpeg)

@@ -1,6 +1,7 @@
 ---
 title: 'The Husk of God: Why Atheists Think in Christian'
 tags: [politics, religion, history]
+concern: [ground, knowledge]
 ---
 
 > *God is dead; but given the way of men, there may still be caves for thousands of years in which his shadow will be shown. — And we — we must still defeat his shadow as well!*

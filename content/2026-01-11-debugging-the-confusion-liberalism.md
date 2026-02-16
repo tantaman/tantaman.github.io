@@ -1,6 +1,7 @@
 ---
 title: 'Debugging the Confusion: Liberalism vs Leftism'
 tags: [politics]
+concern: [power, knowledge]
 ---
 
 ### I. The Confusion

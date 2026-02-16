@@ -1,6 +1,7 @@
 ---
 title: 'Trauma Culture + White Guilt = Checkmate'
 tags: [politics, culture]
+concern: [modernity, power]
 ---
 
 ![](/blog-assets/substack/273099dc-2cfc-4341-9626-5e9e4de1c7e6_1536x1024.png)

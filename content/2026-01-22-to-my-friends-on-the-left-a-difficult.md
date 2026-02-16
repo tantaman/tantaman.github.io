@@ -1,6 +1,7 @@
 ---
 title: 'To My Friends on the Left: A Difficult Reckoning'
 tags: [politics, culture]
+concern: [power, modernity]
 ---
 
 ![](/blog-assets/substack/06623ed0-d2a0-46be-88ff-817d126e4a49_2560x1441.jpeg)

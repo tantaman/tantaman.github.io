@@ -1,6 +1,7 @@
 ---
 title: 'Grammar Rules All'
 tags: [philosophy, culture]
+concern: [knowledge, power]
 ---
 
 ![](/blog-assets/substack/db74b0cf-4cdd-4ca7-bbbd-0db00e73f515_1000x609.jpeg)

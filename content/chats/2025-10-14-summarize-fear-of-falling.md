@@ -4,6 +4,7 @@ layout: "chat"
 source: "https://chatgpt.com/share/68eea919-072c-8004-88ca-870624ccb329"
 description: "summarize \"the fear of falling: the inner life of the middle class\""
 tags: ["philosophy", "politics", "ai"]
+concern: [modernity, power]
 ---
 
 summarize "the fear of falling: the inner life of the middle class"

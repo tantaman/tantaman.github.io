@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: Through What?'
 tags: [philosophy]
+concern: [self, knowledge]
 ---
 
 ![](/blog-assets/substack/f6fbd96c-9b1c-4b15-b4f1-ee738069a624_1024x1536.png)

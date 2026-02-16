@@ -1,6 +1,7 @@
 ---
 title: 'Leftism Is Worse Than Fascism'
 tags: [politics, culture]
+concern: [power, modernity]
 ---
 
 ![](/blog-assets/substack/0a378a84-137b-449c-8c16-79e9d70f8ba6_1536x1024.png)

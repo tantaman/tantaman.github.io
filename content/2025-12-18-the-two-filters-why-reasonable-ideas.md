@@ -1,6 +1,7 @@
 ---
 title: 'The Two Filters: Why Reasonable Ideas Die'
 tags: [politics, history]
+concern: [power]
 ---
 
 ![](/blog-assets/substack/01d718c2-ad53-4c5a-bae9-a19f2462dfce_1536x1024.png)

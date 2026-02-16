@@ -1,6 +1,7 @@
 ---
 title: 'What Modernity Needs: A Return to Polytheism'
 tags: [philosophy, culture]
+concern: [modernity, knowledge]
 ---
 
 ![](/blog-assets/substack/83bc6024-a788-4d03-b9d6-a662cd8f2a88_1024x1536.png)

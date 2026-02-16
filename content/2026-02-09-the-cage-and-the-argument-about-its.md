@@ -1,6 +1,7 @@
 ---
 title: 'The Cage and the Argument About Its Curtains'
 tags: [economics, politics, culture]
+concern: [power, modernity]
 ---
 
 ![](/blog-assets/substack/514b2df3-f758-4223-99f6-823060bf4690_2560x1849.jpeg)

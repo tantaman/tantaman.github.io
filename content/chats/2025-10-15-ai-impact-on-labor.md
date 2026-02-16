@@ -4,6 +4,7 @@ layout: "chat"
 source: "https://chatgpt.com/share/68ef0b14-24b4-8004-b1f9-63d6ab97023c"
 description: "the exponential of ai + robotics means there is soon to be no need for human labor. Company values presumably stick around if those companies turn ove"
 tags: ["ai", "economics", "philosophy", "politics", "software"]
+concern: [modernity, power]
 ---
 
 the exponential of ai + robotics means there is soon to be no need for human labor. 

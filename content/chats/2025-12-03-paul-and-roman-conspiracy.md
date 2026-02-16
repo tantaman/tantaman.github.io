@@ -4,6 +4,7 @@ layout: "chat"
 source: "https://chatgpt.com/share/692fd78c-0fb4-8004-8535-b7f8ceb15bc3"
 description: "Paul conspired with Romans to organize and spread Christianity?"
 tags: ["ai"]
+concern: [power, ground]
 ---
 
 Paul conspired with Romans to organize and spread Christianity?

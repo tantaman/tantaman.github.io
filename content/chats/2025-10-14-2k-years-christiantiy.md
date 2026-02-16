@@ -4,6 +4,7 @@ layout: "chat"
 source: https://chatgpt.com/share/68eead84-09a0-8004-8fe2-87337cb58a77
 description: "summarize \"the fear of falling: the inner life of the middle class\""
 tags: ["philosophy", "religion", "ai"]
+concern: [ground, power]
 ---
 
 Christian is an impossible term to define today. For most on the left it conjures images of bigots, nazis, christian nationalists, mysogenists, willfully ignorant. For others it is a deeply academic discipline, understanding the limits of interpretation by pouring over 2,000 years of interpretations of the same text. Heidegger saw it as revealing what thinking is. Others it is all allegory. Others it is strictly about the new testament and what Jesus directly said. For some all religions are pointing at the same thing. To others, this statement is an abomination. Some believe Christianity literally or literally believe the bible and try to find where the text is explicit while at the same time not being open to their own limitations.

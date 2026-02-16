@@ -1,6 +1,7 @@
 ---
 title: 'The Architecture Of Meaning A Deeper'
 tags: [philosophy, religion]
+concern: [self, ground]
 ---
 
 ## For Those Who Have Seen

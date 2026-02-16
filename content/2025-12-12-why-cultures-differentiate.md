@@ -1,6 +1,7 @@
 ---
 title: 'Why Cultures Differentiate'
 tags: [history, culture]
+concern: [knowledge]
 ---
 
 ![](/blog-assets/substack/589b2f14-39a0-49cf-a7b7-57a784fb367e_1024x1536.png)

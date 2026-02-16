@@ -1,6 +1,7 @@
 ---
 title: "Monstrous Doubles: René Girard and the Mimetic Inheritance of Religious Structure"
 tags: [philosophy, religion, economics]
+concern: [power, ground]
 ---
 
 ## Preface: A Theory for Our Moment

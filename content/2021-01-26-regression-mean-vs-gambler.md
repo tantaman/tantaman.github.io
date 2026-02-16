@@ -4,6 +4,7 @@ title: "Regression to the Mean & the Gambler's Fallacy - Simulated"
 tags: [software, math]
 image: /assets/posts/gambler-vs-mean.svg
 standalone: html
+concern: [knowledge]
 ---
 
 <style type="text/css">

@@ -2,6 +2,7 @@
 slug: 2020-05-25-Non-Conceptual-Definitions
 title: Non Conceptual Definitions
 tags: [philosophy]
+concern: [knowledge]
 ---
 
 Philopsophers often question what is "art" or "love" or other words for humanity has never had a solid definition.

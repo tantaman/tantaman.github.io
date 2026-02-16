@@ -1,6 +1,7 @@
 ---
 title: 📚 Not Machine Readable?
 tags: [software]
+concern: [craft]
 ---
 
 Was watching https://www.youtube.com/watch?v=AHblHPLoKKE&t=139s and this dawned on me.

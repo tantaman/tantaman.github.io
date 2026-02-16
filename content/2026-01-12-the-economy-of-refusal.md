@@ -1,6 +1,7 @@
 ---
 title: 'The Economy of Refusal'
 tags: [religion, economics]
+concern: [ground, power]
 ---
 
 ![](/blog-assets/substack/18e27dd8-3455-48e6-ab5c-ea1aaae59194_960x1417.jpeg)

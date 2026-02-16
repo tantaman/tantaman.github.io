@@ -1,6 +1,7 @@
 ---
 title: 'Diagnosing "White Guilt"'
 tags: [religion, culture]
+concern: [modernity, power]
 ---
 
 ![](/blog-assets/substack/e59a092e-3a07-43fe-ba91-abca4030342d_1024x1536.png)

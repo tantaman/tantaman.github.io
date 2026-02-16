@@ -4,6 +4,7 @@ title: 'Reactive Markdown'
 tags: [software]
 image: /assets/posts/reactive-markdown/cover.svg
 standalone: html
+concern: [craft]
 ---
 
 <style type="text/css">

@@ -1,6 +1,7 @@
 ---
 title: 'Monotheism to Now'
 tags: [religion, philosophy, politics]
+concern: [knowledge, ground]
 ---
 
 

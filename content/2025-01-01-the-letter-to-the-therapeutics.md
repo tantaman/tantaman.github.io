@@ -1,6 +1,8 @@
 ---
 title: 'The Letter To The Therapeutics'
 tags: [religion, culture]
+concern: [modernity, power]
+form: prophecy
 ---
 
 1.  To those who labor in the work that has no end, who tend the wound that must not heal, who confess and are not forgiven: Grace and peace from no one.

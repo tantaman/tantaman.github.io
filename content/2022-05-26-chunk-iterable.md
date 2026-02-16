@@ -1,6 +1,7 @@
 ---
 title: '🪨 Chunk Iterable'
 tags: [software]
+concern: [craft]
 ---
 
 Today I'll be discussing the [`Chunk Iterable Framework`](https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/ChunkIterable.ts). This is a core component of [Aphrodite](http://aphrodite.sh) and is used to speed up the processing of data returned by queries.

@@ -2,6 +2,7 @@
 title: 'Start Here'
 tags: [philosophy, software]
 description: A curated path through a decade of writing on software, philosophy, and the spaces between.
+concern: [self, craft]
 ---
 
 New here? This guide organizes a decade of posts into thematic paths. Pick what interests you, or wander.
