@@ -145,7 +145,7 @@ async function tagsPage() {
 <section id="tags-page" class="wide">
   ${sidebar}
   <div class="tags-panels">
-    <div class="result-count">${allPosts.length} posts</div>
+    <div class="breadcrumb-bar" id="breadcrumb-bar"></div>
     <div id="filtered-posts">
       <ul class="tag-posts">
         ${allPosts.map(post => postItem(post)).join('')}
