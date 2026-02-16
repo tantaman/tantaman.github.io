@@ -4,6 +4,7 @@ title: I am. You are?
 tags: [philosophy]
 concern: [self]
 form: meditation
+summary: 'The post argues that we misidentify ourselves with our emotions when we say "I am angry" or "I am upset," when more accurately we are experiencing those emotions without being defined by them, and that this linguistic distinction matters for how we understand our relationship to our feelings.'
 ---
 When we describe how we're feeling we say "I am angry", "I am upset", "I am X"
 

@@ -2,6 +2,7 @@
 title: 'Countering Materialism'
 tags: [philosophy, religion]
 concern: [ground]
+summary: 'Materialism, while scientifically productive, is incomplete as a framework for human existence, and pre-modern thinkers like Pascal, Kierkegaard, Dostoevsky, and Simone Weil understood this limitation not from ignorance but from rigorous engagement with materialist logic itself. These thinkers diagnosed specific pathologies that emerge when materialism becomes totalizing—Pascal''s compulsive diversion from confronting meaninglessness, Kierkegaard''s observation that objective knowledge cannot address the existing individual who must choose and act—and their predictions about human suffering align with observable contemporary symptoms. The essay argues that dismissing these thinkers as pre-scientific is a defensive error that prevents us from recognizing what they saw: materialism solves certain problems while creating others it has no tools to address, particularly regarding meaning, purpose, and how to live.'
 ---
 
 ![](/blog-assets/substack/ad577a23-b3b8-4275-ab87-ec16c82a17d3_1024x1536.png)

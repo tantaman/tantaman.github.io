@@ -2,6 +2,7 @@
 title: 'The ICE Protest That Changes Nothing'
 tags: [politics, culture]
 concern: [power, modernity]
+summary: 'Political protests and social media advocacy about immigration create an illusion of moral action while leaving the actual problems unchanged—both pro-enforcement and anti-enforcement crowds outsource solutions to state violence rather than engaging in direct personal responsibility. The author argues that most people have formed their immigration opinions from curated media rather than actual encounters with immigrants, and true moral commitment would require concrete sacrifice, such as housing an undocumented immigrant in one''s own home, which would collapse abstract ideologies through the reality of seeing another person as a full human rather than a policy category.'
 ---
 
 ![](/blog-assets/substack/0febe7d0-18e2-419b-a1c5-cac5dc8607d5_600x400.webp)

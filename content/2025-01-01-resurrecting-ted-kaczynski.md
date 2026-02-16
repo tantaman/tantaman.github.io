@@ -2,6 +2,7 @@
 title: 'Resurrecting Ted Kaczynski'
 tags: [politics, culture]
 concern: [power, modernity]
+summary: 'The post argues that modern liberal society has systematized psychological control through two interlocking mechanisms: trauma culture, which institutionalizes suffering and creates permanent dependency on therapeutic systems, and white guilt, which weaponizes oversocialization to silence and ensure compliance from those designated as oppressors while granting unquestionable moral authority to designated victims. Together these create a closed ideological system that disables rational discourse and makes rebellion structurally impossible by making subjugated individuals demand their own subjugation while rendering the controllers invisible.'
 ---
 
 # The Psychology of the Therapeutic-Managerial System

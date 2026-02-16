@@ -2,6 +2,7 @@
 title: 'Why SQLite? Why Now? 🐇'
 tags: [software]
 concern: [systems]
+summary: 'SQLite is well-suited for edge and distributed computing because it can be embedded directly on devices, but it lacks sync protocols and eventual consistency support—problems that can be solved by adding an eventually consistent layer on top of it. The author argues that by enabling eventual consistency in relational databases, developers can build local-first applications where data lives on users'' devices first and syncs later, eliminating the need for constant round-trips to centralized servers and overcoming latency limitations imposed by the speed of light.'
 ---
 
 I've been sucked down a `sqlite` rabbithole and I'm all-in on it.

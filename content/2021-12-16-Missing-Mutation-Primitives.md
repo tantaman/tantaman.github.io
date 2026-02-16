@@ -4,6 +4,7 @@ title: '🧬 Missing Mutation Primitives'
 tags: [software]
 image: /assets/images/mutation.jpg
 concern: [craft]
+summary: 'Object-oriented languages lack proper mutation primitives to express, commit, and record changes atomically, making it impossible to handle rollbacks on partial failures, prevent intermediate observations by listeners, or support undo functionality reliably. The author proposes introducing changesets as a language feature that represent all intended mutations without performing them, allowing mutations to be composed and committed atomically in a single operation, thereby solving the core problems with mutable state in OO design.'
 ---
 
 I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.

@@ -3,6 +3,7 @@ slug: 2021-12-17-Object-Identity
 title: '⛵️ Reference Equality - What is it Really?'
 tags: [software]
 concern: [knowledge]
+summary: 'Reference equality is commonly conflated with identity, but this conflation breaks down when examining the philosophical distinction between nominal identity (continuity of concept over time) and physical identity (exact composition at a moment). In mutable systems, reference equality functions as nominal identity because a reference can point to an object as it changes over time, but in immutable systems, reference equality only captures physical identity since every change requires creating a new object with a new reference. The solution adopted by relational databases—using stable IDs as nominal identities while allowing mutation and version history—offers a model that software systems with immutable data structures lack.'
 ---
 
 import Figure from '/dist/components/Figure.js';

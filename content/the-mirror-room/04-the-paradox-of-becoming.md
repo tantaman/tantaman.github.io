@@ -5,6 +5,7 @@ description: Part 4 of the Mirror Room Collection. Choice as primary.
 tags: [fiction, philosophy]
 date: 2025-07-25
 concern: [self]
+summary: 'Authentic selfhood emerges paradoxically through repeated choosing rather than self-discovery, requiring individuals to commit to becoming themselves before knowing who they are, a process marked by anguish and freedom from external certainties. The self is not a fixed entity to be uncovered but an ongoing task that demands continuous choice and responsibility, renewed again and again without rational guarantees or systematic blueprints.'
 ---
 
 ## The Paradox of Becoming

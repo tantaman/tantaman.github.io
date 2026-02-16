@@ -3,6 +3,7 @@ title: 'The Lamb, Part II'
 tags: [fiction, philosophy]
 concern: [self, ground]
 form: story
+summary: 'A data-entry contractor discovers evidence of insurance fraud in his company''s freight records but faces the devastating personal cost of whistleblowing—the loss of his job, apartment, and the hard-won peace he found in quiet, anonymous work—as he grapples with whether revealing the truth is worth destroying the stable life he built. The essay explores how genuine awareness of wrongdoing strips away the comfortable ignorance that allowed him to survive, forcing him to choose between his fragile peace and his moral obligation to prevent potential harm.'
 ---
 
 ---

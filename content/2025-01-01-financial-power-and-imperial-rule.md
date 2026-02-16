@@ -2,6 +2,7 @@
 title: 'Financial Power And Imperial Rule'
 tags: [economics, history]
 concern: [power]
+summary: 'Financial power fundamentally rests on the capacity to mobilize other people''s purchasing power at scale through control of money creation, credit terms, and liquidity provision, and Britain''s rise to global dominance between 1688 and World War I exemplifies how this financial architecture translates into imperial control. Britain''s constitutional settlement after the Glorious Revolution made the state''s debt credible by binding the Crown to parliamentary consent for taxation, dramatically lowering borrowing costs and enabling sustained military expenditure that rivals could not match. The founding of the Bank of England in 1694 operationalized this advantage by converting future tax revenues into present purchasing power for war finance, while nineteenth-century London became the world''s financial clearing house through sterling-denominated bills of exchange and bank acceptances, granting Britain seigniorage on global commerce and the ability to finance activity far beyond its actual wealth.'
 ---
 
 # I. Introduction: The Nature of Financial Power

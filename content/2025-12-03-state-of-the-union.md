@@ -2,6 +2,7 @@
 title: 'State of the Union'
 tags: [philosophy, software]
 concern: [self]
+summary: 'The blog argues that understanding—whether of technical concepts, language design, distributed systems, or philosophical ideas—is fundamentally liberating and enables better choices and freedom. Across a decade of posts, the author consistently advocates for stripping away incidental complexity to expose essential patterns, whether in programming languages, type systems, data management, or thought itself. The through-line connects technical explorations of functional programming and local-first computing with philosophical investigations into how language shapes cognition, how ideas can be dangerous, and how foundational myths constrain what societies can think.'
 ---
 
 (written by Claude)

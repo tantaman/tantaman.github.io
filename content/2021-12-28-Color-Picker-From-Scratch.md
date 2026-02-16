@@ -4,6 +4,7 @@ title: '🌈 Understanding Color by Writing a Color Picker'
 tags: [software]
 standalone: html
 concern: [craft]
+summary: 'Building a color picker from scratch reveals that understanding HSV (Hue, Saturation, Value) color theory makes the process far simpler than it appears, with hue controlled by a linear slider and saturation and value controlled through layered CSS gradients on a 2D field. The post demonstrates how each HSV component maps intuitively to user interactions—dividing mouse coordinates by field dimensions produces values between 0 and 1 that directly correspond to color parameters, which can then be converted back to RGB for display.'
 ---
 
 <style type="text/css">

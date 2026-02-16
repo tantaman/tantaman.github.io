@@ -3,6 +3,7 @@ slug: 2021-12-15-React-Anemic-Models
 title: 'Reacting Better. Intro: Anemic Models'
 tags: [software]
 concern: [craft]
+summary: 'React applications typically use anemic data models—plain objects with properties but no attached methods—which works well for simple apps but becomes problematic when most business logic lives client-side, models need type-specific behavior, or third parties need to extend functionality. As anemic models accumulate type fields and require scattered switch statements across functions, they create code organization issues and the expression problem where new types force modifications to existing functions, yet introducing traditional classes with behavior conflicts with React''s immutability expectations and data fetching patterns. The post explores how to bridge this gap by developing mutation primitives that enable immutable domain models within the React ecosystem.'
 ---
 
 [React](https://reactjs.org/) eschews models that have any attached functionality. The “model” for a react app is usually [anemic](https://martinfowler.com/bliki/AnemicDomainModel.html) — just a bare set of properties with no methods attached.

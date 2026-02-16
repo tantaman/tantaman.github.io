@@ -3,6 +3,7 @@ title: 'The Return'
 tags: [religion, philosophy]
 concern: [ground]
 form: prophecy
+summary: 'The essay traces how the systematic philosophical critique of Western metaphysical foundations—from Nietzsche through postmodern thinkers—successfully demolished traditional sources of meaning and ground, leaving successive generations experiencing genuine psychological collapse not as illness but as accurate perception of an emptied world. Rather than liberating humanity, this demolition of absolute values and stable identity has produced anxiety, depression, and meaninglessness in those raised without the traditional frameworks their ancestors inhabited, while the modern tendency to blame only contemporary causes like technology or capitalism blinds people to the deeper metaphysical and theological crisis underlying their condition.'
 ---
 
 ![](/blog-assets/substack/f0a8205d-2349-42fe-bee9-083e970e5504_960x1253.jpeg)

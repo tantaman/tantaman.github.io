@@ -3,6 +3,7 @@ slug: 2013-07-30-Inheritance-Aggregation-and-Pipelines
 title: Inheritance, Aggregation, and Pipelines
 tags: [software]
 concern: [craft]
+summary: 'Inheritance is too rigid for extensible software because relationships are fixed at compile time, while aggregation allows flexible runtime composition but makes it difficult to add or remove components mid-chain. Pipelines solve these problems by having a separate class manage a list of composable handlers, enabling easy modification of the processing chain without touching individual components and allowing flexible control flow through context objects.'
 ---
 
 import Figure from '/dist/components/Figure.js';

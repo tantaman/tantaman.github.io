@@ -3,6 +3,7 @@ title: 'Start Here'
 tags: [philosophy, software]
 description: A curated path through a decade of writing on software, philosophy, and the spaces between.
 concern: [self, craft]
+summary: 'This is a curated guide organizing a decade of blog posts into thematic paths covering programming fundamentals, distributed systems, epistemology, and societal ideas, with the underlying premise that deep understanding across these domains leads to better decision-making and liberation from confusion. The guide directs readers to explore topics ranging from functional programming and React state management to local-first architecture, statistical reasoning, and how foundational myths shape civilizations.'
 ---
 
 New here? This guide organizes a decade of posts into thematic paths. Pick what interests you, or wander.

@@ -2,6 +2,7 @@
 title: 'Grammar as Alignment: The World Economic Forum'
 tags: [politics, economics]
 concern: [power, knowledge]
+summary: 'The World Economic Forum functions as a grammar-generating institution that produces distinctive ways of speaking—characterized by abstract nouns, process nominalizations, agent erasure, and stakeholder proliferation—which cascade through elite networks and constrain what can be thought by determining what can be said. Comparing the 1973 and 2020 Davos Manifestos reveals how the grammar has shifted from concrete, accountable language ("management serves clients") to vague, identity-based language ("companies engage stakeholders in value creation"), making it impossible to assess whether stated goals are actually being met. This grammar spreads from Davos through intermediaries who codify it into corporate standards, government policies, and professional discourse, ultimately embedding elite interests into the common sense of educated professionals worldwide without explicit coercion or transparent deliberation.'
 ---
 
 ![](/blog-assets/substack/63f02e8a-5ad6-4e5d-94b8-8ba3e3a9d300_2560x1873.jpeg)

@@ -5,6 +5,7 @@ tags: [software, math]
 image: /assets/posts/gambler-vs-mean.svg
 standalone: html
 concern: [knowledge]
+summary: 'Regression to the mean and the gambler''s fallacy appear contradictory but are actually compatible phenomena that both apply to independent events like coin tosses. Using a simulation of coin flips, the post demonstrates that while the next single flip after a streak has a 50/50 probability of heads or tails (disproving the gambler''s fallacy), a sequence of flips immediately following an extreme streak tends to be closer to the mean of 50/50 split (confirming regression to the mean). The key distinction is that regression to the mean describes what happens across multiple future events while the gambler''s fallacy incorrectly assumes past results influence individual future outcomes.'
 ---
 
 <style type="text/css">

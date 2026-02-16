@@ -3,6 +3,7 @@ slug: 2021-12-20-American-Spirit
 title: '👐 American Spirit'
 tags: [politics, philosophy]
 concern: [modernity, self]
+summary: 'A Nietzschean critique argues that contemporary American culture has become fundamentally weakened by its intolerance for pain and struggle, instead seeking constant comfort through technology and distraction while paradoxically blaming external forces for its failures. The author claims both conservative and liberal Americans are hypocrites who profess ideals while embodying their opposites—conservatives claim Christian self-reliance while supporting immoral leaders, while liberals preach individual freedom while enforcing conformity to group identities and victimhood narratives. This represents the ultimate degradation of Western thought: a civilization so disconnected from itself that it can no longer recognize greatness or cultivate the discipline required for genuine personal transformation and freedom.'
 ---
 
 > Note -- I just finished reading ["Beyond Good and Evil"](https://en.wikipedia.org/wiki/Beyond_Good_and_Evil) and was curious what something of that nature would read like if [Nietzsche](https://en.wikipedia.org/wiki/Friedrich_Nietzsche) wrote it today. Below is that reproduction of that (me channeling my conception of Nietzsche) and not an expression of my own views.

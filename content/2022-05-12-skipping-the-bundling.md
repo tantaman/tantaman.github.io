@@ -2,6 +2,7 @@
 title: 🧶 Skipping the Bundling
 tags: [software]
 concern: [craft]
+summary: 'Modern JavaScript with ES6 modules, TypeScript, and services like esm.sh eliminate the need for bundlers on small-scale projects, allowing developers to import dependencies directly via URL without complex build tools. For simple projects like personal blogs, skipping bundlers entirely is practical and aligns with the principle of not adding unnecessary complexity until it''s truly needed. The author demonstrates this approach by building their own blog without any bundler, importing all dependencies directly from URLs.'
 ---
 
 We're in the era of [ES6 modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules), [esm.sh](https://esm.sh) and [Typescript](https://www.typescriptlang.org/).
