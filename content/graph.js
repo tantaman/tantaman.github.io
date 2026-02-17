@@ -169,6 +169,7 @@ async function graphPage() {
         collection: collectionName,
         related: related,
         cluster: clusterId,
+        sentimentColor: postMeta.sentimentColor,
         x: position.x,
         y: position.y,
       };
@@ -250,28 +251,6 @@ async function graphPage() {
 <section id="graph-page" class="full-bleed">
   <div id="graph-container"></div>
   <div class="graph-header">
-    <div class="graph-legend">
-      <div class="legend-item">
-        <span class="legend-color blog-color"></span>
-        <span>Blog Posts</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color stories-color"></span>
-        <span>Stories</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color chats-color"></span>
-        <span>Chats</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-line strong-edge"></span>
-        <span>Explicit link</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-line semantic-edge"></span>
-        <span>Semantic similarity</span>
-      </div>
-    </div>
     <div class="graph-search">
       <input type="text" id="graph-search-input" placeholder="Filter by keyword..." autocomplete="off" />
       <span id="graph-search-status"></span>

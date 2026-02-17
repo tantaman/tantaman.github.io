@@ -143,24 +143,35 @@
       return;
     }
 
-    // Configure node colors by group
-    const nodeColors = {
-      1: {
-        background: '#4a90e2',
-        border: '#2e5f99',
-        highlight: { background: '#5ba3ff', border: '#4a90e2' },
-      }, // blog
-      2: {
-        background: '#9b59b6',
-        border: '#6c3483',
-        highlight: { background: '#b370cf', border: '#9b59b6' },
-      }, // stories
-      3: {
-        background: '#e67e22',
-        border: '#a85a1a',
-        highlight: { background: '#ff9138', border: '#e67e22' },
-      }, // chats
-    };
+    // Helpers for per-node sentiment colors
+    function parseHex(hex) {
+      const h = hex.replace('#', '');
+      return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+    }
+
+    function toHex(r, g, b) {
+      return '#' + [r, g, b].map(c => Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, '0')).join('');
+    }
+
+    function darken(hex, amount) {
+      const [r, g, b] = parseHex(hex);
+      const f = 1 - amount;
+      return toHex(r * f, g * f, b * f);
+    }
+
+    function lighten(hex, amount) {
+      const [r, g, b] = parseHex(hex);
+      return toHex(r + (255 - r) * amount, g + (255 - g) * amount, b + (255 - b) * amount);
+    }
+
+    function sentimentNodeColor(hex) {
+      const bg = hex || '#4a90e2';
+      return {
+        background: bg,
+        border: darken(bg, 0.35),
+        highlight: { background: lighten(bg, 0.15), border: bg },
+      };
+    }
 
     // Build a map for cluster lookup
     const nodeClusterMap = new Map();
@@ -175,7 +186,7 @@
         label: node.label,
         title: node.title,
         group: node.group,
-        color: nodeColors[node.group],
+        color: sentimentNodeColor(node.sentimentColor),
         font: {
           color: '#fcebd5',
           size: 14,
