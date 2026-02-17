@@ -84,11 +84,16 @@ function inferForm(collection, meta) {
 }
 
 function renderPills(collection, meta) {
-  const subjects = (meta.frontmatter?.tags || []).map(s => `<span class="pill pill-subject">${s}</span>`);
-  const concerns = (meta.frontmatter?.concern || []).map(c => `<span class="pill pill-concern">${c}</span>`);
-  const form = `<span class="pill pill-form">${inferForm(collection, meta)}</span>`;
+  const subjects = (meta.frontmatter?.tags || []).map(s => `<span class="pill pill-subject" data-facet="subject" data-value="${tagId(s)}">${s}</span>`);
+  const concerns = (meta.frontmatter?.concern || []).map(c => `<span class="pill pill-concern" data-facet="concern" data-value="${tagId(c)}">${c}</span>`);
+  const formValue = inferForm(collection, meta);
+  const form = `<span class="pill pill-form" data-facet="form" data-value="${tagId(formValue)}">${formValue}</span>`;
   const pills = [...subjects, ...concerns, form];
   return `<div class="card-pills">${pills.join('')}</div>`;
+}
+
+function tagId(s) {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 function renderCard(collection, meta) {

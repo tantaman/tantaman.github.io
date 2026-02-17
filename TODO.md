@@ -3,7 +3,10 @@
 2. build cache understands index.js stuff deps...
 1. Move collections to be tag based? `Stories` are just tagged posts.
 2. Compose relevant posts into a book. geo-theological and self series.
-3. post summaries on search page?
+4. Update start here
+5. Change summaries to 2-3 bold phrases being pulled from actual content?
+
+Each pill name should have color instead... so easier to see philio at a glance.
 
 1. Cleanup tts code
   2. Convert the-mirror-room to most high quality audio

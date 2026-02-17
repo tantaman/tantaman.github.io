@@ -215,6 +215,11 @@ section {
   padding: 0.1rem 0.5rem;
   border-radius: 999px;
   white-space: nowrap;
+  cursor: pointer;
+}
+
+.pill:hover {
+  opacity: 0.7;
 }
 
 /* Subject (tags) — blue-gray */
