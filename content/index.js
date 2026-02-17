@@ -42,8 +42,9 @@ async function siteIndex() {
     if (collection === 'bookmarks/' || collection === 'notes/') return;
 
     Object.entries(index)
-      .filter(([key, _]) =>
-        key !== 'index.js' && key !== 'README.md' && key !== '404.md'
+      .filter(
+        ([key, _]) =>
+          key !== 'index.js' && key !== 'README.md' && key !== '404.md',
       )
       .forEach(([key, meta]) => {
         allPosts.push({
@@ -54,12 +55,13 @@ async function siteIndex() {
       });
   });
 
-  const sortedPosts = allPosts
-    .sort((a, b) => {
-      const dateA = a.meta.frontmatter?.date || extractDate(a.meta.compiledFilename);
-      const dateB = b.meta.frontmatter?.date || extractDate(b.meta.compiledFilename);
-      return dateB.localeCompare(dateA);
-    });
+  const sortedPosts = allPosts.sort((a, b) => {
+    const dateA =
+      a.meta.frontmatter?.date || extractDate(a.meta.compiledFilename);
+    const dateB =
+      b.meta.frontmatter?.date || extractDate(b.meta.compiledFilename);
+    return dateB.localeCompare(dateA);
+  });
 
   const featured = sortedPosts.slice(0, 5);
   const remaining = sortedPosts.slice(5);
@@ -69,10 +71,14 @@ async function siteIndex() {
   <div class="masonry">
     ${featured.map(({ collection, meta }) => renderCard(collection, meta)).join('\n')}
   </div>
-  ${remaining.length > 0 ? `
+  ${
+    remaining.length > 0
+      ? `
   <div class="more-grid">
     ${remaining.map(({ collection, meta }) => renderCard(collection, meta)).join('\n')}
-  </div>` : ''}
+  </div>`
+      : ''
+  }
 </div>`;
 }
 
@@ -84,8 +90,14 @@ function inferForm(collection, meta) {
 }
 
 function renderPills(collection, meta) {
-  const subjects = (meta.frontmatter?.tags || []).map(s => `<span class="pill pill-subject" data-facet="subject" data-value="${tagId(s)}">${s}</span>`);
-  const concerns = (meta.frontmatter?.concern || []).map(c => `<span class="pill pill-concern" data-facet="concern" data-value="${tagId(c)}">${c}</span>`);
+  const subjects = (meta.frontmatter?.tags || []).map(
+    (s) =>
+      `<span class="pill pill-subject" data-facet="subject" data-value="${tagId(s)}">${s}</span>`,
+  );
+  const concerns = (meta.frontmatter?.concern || []).map(
+    (c) =>
+      `<span class="pill pill-concern" data-facet="concern" data-value="${tagId(c)}">${c}</span>`,
+  );
   const formValue = inferForm(collection, meta);
   const form = `<span class="pill pill-form" data-facet="form" data-value="${tagId(formValue)}">${formValue}</span>`;
   const pills = [...subjects, ...concerns, form];
@@ -93,12 +105,20 @@ function renderPills(collection, meta) {
 }
 
 function tagId(s) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
 }
 
 const CONCERN_ICON = {
-  self: '👁', power: '⚡', craft: '🔧', ground: '⚓',
-  knowledge: '💡', modernity: '⚙️', systems: '🔗',
+  self: '👁',
+  power: '⚡',
+  craft: '🔧',
+  ground: '⚓',
+  knowledge: '💡',
+  modernity: '⚙️',
+  systems: '🔗',
 };
 
 function readingTime(wordCount) {
@@ -109,7 +129,10 @@ function renderCard(collection, meta) {
   const collectionLabel = getCollectionName(collection);
   const date = meta.frontmatter?.date || extractDate(meta.compiledFilename);
   const image = meta.frontmatter?.image;
-  const concernIcons = (meta.frontmatter?.concern || []).map(c => CONCERN_ICON[c]).filter(Boolean).join(' ');
+  const concernIcons = (meta.frontmatter?.concern || [])
+    .map((c) => CONCERN_ICON[c])
+    .filter(Boolean)
+    .join(' ');
   const mins = readingTime(meta.wordCount);
 
   return `
@@ -120,7 +143,7 @@ function renderCard(collection, meta) {
         ${meta.frontmatter?.title || meta.filename}
       </h4>
       <div class="subtext">
-        ${date} · ${collectionLabel}${concernIcons ? ` · ${concernIcons}` : ''} · ${mins} min
+        ${date} · ${mins} min
       </div>
       ${renderPills(collection, meta)}
       <p>
@@ -176,9 +199,7 @@ export function renderCollection(collection, index, showAll = false) {
   <div class="container">
     <h3 class="section-title">${collectionName}</h3>
     <div class="grid">
-      ${posts
-        .map(([key, meta]) => renderCard(collection, meta))
-        .join('\n')}
+      ${posts.map(([key, meta]) => renderCard(collection, meta)).join('\n')}
     </div>
   </div>
 </section>`;
@@ -186,7 +207,9 @@ export function renderCollection(collection, index, showAll = false) {
 
 function extractDate(filename) {
   // Strip any path prefix (e.g., "chats/", "the-mirror-room/")
-  const basename = filename.includes('/') ? filename.split('/').pop() : filename;
+  const basename = filename.includes('/')
+    ? filename.split('/').pop()
+    : filename;
   return basename.substring(0, 10);
 }
 

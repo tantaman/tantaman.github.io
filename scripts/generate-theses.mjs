@@ -3,6 +3,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join, extname } from 'node:path';
+import 'dotenv/config';
 
 const CONTENT_DIR = new URL('../content/', import.meta.url).pathname;
 const CACHE_FILE = new URL('../.meme-cache.json', import.meta.url).pathname;
