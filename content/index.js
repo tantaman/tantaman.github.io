@@ -91,7 +91,7 @@ function renderCard(collection, meta) {
         ${date} · ${collectionLabel}
       </div>
       <p>
-          ${stripTags(meta.frontmatter?.summary || meta.frontmatter?.description || meta.description || '')}
+          ${truncate(stripTags(meta.frontmatter?.summary || meta.frontmatter?.description || meta.description || ''), 500)}
       </p>
     </a>`;
 }
@@ -163,4 +163,10 @@ function joinTags(frontmatter) {
 
 function stripTags(html) {
   return (html || '').replace(/<[^>]*>/g, '');
+}
+
+function truncate(str, max) {
+  if (str.length <= max) return str;
+  const cut = str.lastIndexOf(' ', max);
+  return str.slice(0, cut > 0 ? cut : max) + '…';
 }

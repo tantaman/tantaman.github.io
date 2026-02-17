@@ -568,3 +568,196 @@ img {
     font-size: 1.1rem;
   }
 }
+
+/* ── Print-Friendly 2-Column Layout ── */
+@media print {
+  @page {
+    size: letter;
+    margin: 0.75in 0.625in;
+  }
+
+  /* Hide web-only chrome */
+  .post-header,
+  .toc-widget,
+  nav.toc,
+  #footer,
+  .icon-link {
+    display: none !important;
+  }
+
+  /* Base typography — serif for print */
+  body {
+    font-family: Georgia, "Times New Roman", "Palatino Linotype", serif;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    color: #000;
+    background: #fff;
+    min-height: auto;
+  }
+
+  /* 2-column layout */
+  #static {
+    display: block;
+    columns: 2;
+    column-gap: 0.3in;
+    column-rule: 0.5pt solid #ccc;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    orphans: 3;
+    widows: 3;
+    padding: 0;
+    font-size: 9.5pt;
+  }
+
+  /* Title and date span both columns */
+  #static h1 {
+    column-span: all;
+    text-align: center;
+    font-size: 18pt;
+    font-family: Georgia, "Times New Roman", "Palatino Linotype", serif;
+    margin: 0 0 0.15in 0;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+
+  #static .published {
+    column-span: all;
+    text-align: center;
+    font-size: 9pt;
+    color: #555;
+    margin-bottom: 0.2in;
+    padding-bottom: 0.15in;
+    border-bottom: 0.5pt solid #ccc;
+  }
+
+  /* Heading hierarchy */
+  #static h2 {
+    font-size: 13pt;
+    margin-top: 0.8em;
+    margin-bottom: 0.3em;
+    letter-spacing: 0.02em;
+    break-after: avoid;
+  }
+
+  #static h3 {
+    font-size: 11.5pt;
+    margin-top: 0.7em;
+    margin-bottom: 0.25em;
+    break-after: avoid;
+  }
+
+  #static h4 {
+    font-size: 10.5pt;
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+    break-after: avoid;
+  }
+
+  #static h2,
+  #static h3,
+  #static h4 {
+    font-family: Georgia, "Times New Roman", "Palatino Linotype", serif;
+  }
+
+  /* Body text */
+  #static p {
+    font-family: Georgia, "Times New Roman", "Palatino Linotype", serif;
+    font-weight: normal;
+    margin-bottom: 0.5em;
+  }
+
+  /* Code blocks */
+  #static pre {
+    font-size: 7.5pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    break-inside: avoid;
+    background: none;
+    border: 0.5pt solid #ccc;
+    border-radius: 2pt;
+    padding: 6pt;
+    margin: 0.4em 0;
+  }
+
+  #static code {
+    font-size: 8pt;
+    font-family: "Courier New", Courier, monospace;
+  }
+
+  /* Blockquotes */
+  #static blockquote {
+    break-inside: avoid;
+    font-style: italic;
+    background: none;
+    border-left: 2pt solid #999;
+    padding: 0.3em 0.5em;
+    margin: 0.5em 0;
+    color: #333;
+  }
+
+  /* Links — show URL for external links */
+  #static a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  #static a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 7pt;
+    font-style: italic;
+    color: #555;
+    word-break: break-all;
+  }
+
+  /* Don't annotate anchor links or heading links */
+  #static a[href^="#"]::after,
+  #static h1 a::after,
+  #static h2 a::after,
+  #static h3 a::after,
+  #static h4 a::after {
+    content: none;
+  }
+
+  /* Images */
+  #static img {
+    max-height: 3in;
+    max-width: 100%;
+    break-inside: avoid;
+    display: block;
+    margin: 0.3em auto;
+  }
+
+  /* Lists */
+  #static ul,
+  #static ol {
+    padding-left: 1.2em;
+    margin: 0.4em 0;
+  }
+
+  #static li {
+    margin-bottom: 0.2em;
+  }
+
+  /* Tables */
+  #static table {
+    break-inside: avoid;
+    font-size: 8.5pt;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #static th,
+  #static td {
+    border: 0.5pt solid #ccc;
+    padding: 3pt 5pt;
+  }
+
+  /* Horizontal rules */
+  #static hr {
+    border: none;
+    border-top: 0.5pt solid #ccc;
+    margin: 0.5em 0;
+  }
+}
