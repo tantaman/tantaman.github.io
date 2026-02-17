@@ -31,6 +31,7 @@
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
     "cheerio": "^1.1.2",
+    "dotenv": "^17.3.1",
     "turndown": "^7.2.2"
   }
 }

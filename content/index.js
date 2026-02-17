@@ -114,6 +114,7 @@ function renderCard(collection, meta) {
 
   return `
     <a class="card" href="${meta.compiledFilename}">
+      ${meta.sentimentColor ? `<div class="sentiment-strip" style="background:${meta.sentimentColor}"></div>` : ''}
       ${image ? `<img src="${image}" alt="" />` : ''}
       <h4>
         ${meta.frontmatter?.title || meta.filename}

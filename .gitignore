@@ -11,6 +11,9 @@ node_modules/
 # Relationships cache (regenerated)
 .relationships-cache.json
 
+# Meme thesis cache (regenerated via API)
+.meme-cache.json
+
 # Misc
 .DS_Store
 .env.local
@@ -23,3 +26,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .next/
+.env
