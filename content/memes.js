@@ -22,7 +22,7 @@ export default async function memes(file, cwd, files) {
   return {
     content: async () => {
       const result = await unified()
-        .use(rehypeParse)
+        .use(rehypeParse, { fragment: true })
         .use(rehypeDocument, {
           ...doc,
           css: doc.css.concat(['/memes.css']),
