@@ -7,6 +7,9 @@
 5. Change summaries to 2-3 bold phrases being pulled from actual content?
 6. scroll zoom way too sensitive
 7. memes page is empty
+8. consolidate card code: (1) summary, (2) pills, (3) color banner  | on: search, tags, posts, home
+
+-> Extract memes into meme card. Use on home and posts.
 
 Syndicator.
 Use Substack API and such to auto-push your posts out to each platform.

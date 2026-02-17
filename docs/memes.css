@@ -18,6 +18,7 @@
   border-radius: 8px;
   text-decoration: none;
   background: #1a1a2e;
+  container-type: inline-size;
 }
 
 .meme-card.no-image {
@@ -40,7 +41,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 4cqw;
   transition: background 0.2s;
 }
 
@@ -50,7 +51,7 @@
 
 .meme-thesis {
   color: #fff;
-  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-size: clamp(1rem, 4.5cqw, 3.5rem);
   font-weight: 700;
   text-align: center;
   line-height: 1.2;
@@ -61,7 +62,7 @@
 
 .meme-title {
   color: rgba(255, 255, 255, 0.8);
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  font-size: clamp(0.7rem, 1.6cqw, 1.2rem);
   text-align: center;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
@@ -74,13 +75,5 @@
 
   .meme-card {
     aspect-ratio: 4 / 3;
-  }
-
-  .meme-overlay {
-    padding: 1rem;
-  }
-
-  .meme-thesis {
-    max-width: 95%;
   }
 }
