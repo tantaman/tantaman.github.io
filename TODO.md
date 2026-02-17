@@ -11,6 +11,8 @@
 
 Thesis sentences instead of summaries on home page?
 
+Less forced rebuilding?
+
 -> Extract memes into meme card. Use on home and posts.
 -> Scale meme images for fast load.
 -> STtories page from stories tag
