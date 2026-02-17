@@ -20,7 +20,7 @@ export function renderMemeCard({
   sentimentColor?: string;
 }): string {
   const imgTag = image
-    ? `<img src="${image}" alt="" class="meme-bg" />`
+    ? `<img src="${image}" alt="" class="meme-bg" loading="lazy" />`
     : '';
   const noImageClass = image ? '' : ' no-image';
   const inlineStyle =
