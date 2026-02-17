@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "esnext",
+    "moduleResolution": "Node",
+    "target": "es2017",
+    "lib": ["ESNext"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  },
+  "include": ["./src"]
+}

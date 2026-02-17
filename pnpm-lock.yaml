@@ -203,6 +203,15 @@ importers:
         specifier: ^19.1.6
         version: 19.2.2(@types/react@19.2.2)
 
+  packages/server:
+    dependencies:
+      '@types/node':
+        specifier: ^17.0.19
+        version: 17.0.45
+      typescript:
+        specifier: ^4.5.5
+        version: 4.9.5
+
 packages:
 
   '@ampproject/remapping@2.3.0':

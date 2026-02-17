@@ -1,8 +1,9 @@
 # TODO
 
+2. build cache understands index.js stuff deps...
 1. Move collections to be tag based? `Stories` are just tagged posts.
 2. Compose relevant posts into a book. geo-theological and self series.
-3. Post summaries to show on the tag search? 
+3. post summaries on search page?
 
 1. Cleanup tts code
   2. Convert the-mirror-room to most high quality audio
