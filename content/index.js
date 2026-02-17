@@ -109,7 +109,7 @@ function renderCard(collection, meta) {
   const collectionLabel = getCollectionName(collection);
   const date = meta.frontmatter?.date || extractDate(meta.compiledFilename);
   const image = meta.frontmatter?.image;
-  const concernIcon = CONCERN_ICON[meta.frontmatter?.concern?.[0]] || '';
+  const concernIcons = (meta.frontmatter?.concern || []).map(c => CONCERN_ICON[c]).filter(Boolean).join(' ');
   const mins = readingTime(meta.wordCount);
 
   return `
@@ -119,7 +119,7 @@ function renderCard(collection, meta) {
         ${meta.frontmatter?.title || meta.filename}
       </h4>
       <div class="subtext">
-        ${date} · ${collectionLabel}${concernIcon ? ` · ${concernIcon}` : ''} · ${mins} min
+        ${date} · ${collectionLabel}${concernIcons ? ` · ${concernIcons}` : ''} · ${mins} min
       </div>
       ${renderPills(collection, meta)}
       <p>
