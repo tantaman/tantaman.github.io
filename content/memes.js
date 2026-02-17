@@ -10,14 +10,11 @@ import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
 import rehypeMeta from 'rehype-meta';
 import rehypeParse from 'rehype-parse';
-import Anthropic from '@anthropic-ai/sdk';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import 'dotenv/config';
 
 const CACHE_FILE = '.meme-cache.json';
 const CONTENT_DIR = './content/';
-const TOP_N = 5;
 
 export default async function memes(file, cwd, files) {
   return {
@@ -59,36 +56,6 @@ async function loadCache() {
   }
 }
 
-async function saveCache(cache) {
-  await writeFile(CACHE_FILE, JSON.stringify(cache, null, 2));
-}
-
-async function getThesis(title, body, cache) {
-  if (cache[title]) return cache[title];
-
-  const client = new Anthropic();
-  const truncatedBody = body.slice(0, 8000);
-
-  const response = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 100,
-    messages: [
-      {
-        role: 'user',
-        content: `Distill this essay into a single provocative sentence — the kind of line that makes someone stop scrolling. No more than 15 words. Think meme caption, not academic abstract. Return ONLY the sentence, no quotes, no punctuation at the end unless it's a question mark.
-
-Title: ${title}
-
-${truncatedBody}`,
-      },
-    ],
-  });
-
-  const thesis = response.content[0].text.trim();
-  cache[title] = thesis;
-  return thesis;
-}
-
 async function memesPage() {
   const indices = await indexFrontmatter();
 
@@ -114,35 +81,36 @@ async function memesPage() {
     });
   });
 
-  // Sort by date descending, take top 5
+  // Sort by date descending
   allPosts.sort((a, b) => b.date.localeCompare(a.date));
 
-  const top = allPosts.slice(0, TOP_N);
-
-  // Load cache and generate thesis lines
+  // Load cache — only render posts that already have a cached thesis
   const cache = await loadCache();
 
-  const cards = await Promise.all(
-    top.map(async ({ collection, key, meta: postMeta }) => {
-      const fm = postMeta.frontmatter || {};
-      const title = fm.title || key;
-      const url = postMeta.compiledFilename;
+  const cards = (
+    await Promise.all(
+      allPosts.map(async ({ collection, key, meta: postMeta }) => {
+        const fm = postMeta.frontmatter || {};
+        const title = fm.title || key;
 
-      // Read full markdown content for thesis generation
-      const filePath = join(CONTENT_DIR, collection, key);
-      const content = await readFile(filePath, 'utf-8');
-      const body = content.replace(/^---\n[\s\S]*?\n---\n/, '');
+        // Skip posts without a pre-generated thesis (run `pnpm theses` first)
+        if (!cache[title]) return null;
 
-      // Hero image: frontmatter `image` field, or first markdown image in body
-      const image = fm.image || extractFirstImage(body);
+        const url = postMeta.compiledFilename;
+        const thesis = cache[title];
 
-      const thesis = await getThesis(title, body, cache);
+        // Read markdown body for hero image extraction
+        const filePath = join(CONTENT_DIR, collection, key);
+        const content = await readFile(filePath, 'utf-8');
+        const body = content.replace(/^---\n[\s\S]*?\n---\n/, '');
 
-      return renderMemeCard({ url, title, thesis, image });
-    }),
-  );
+        const image = fm.image || extractFirstImage(body);
+        const sentimentColor = postMeta.sentimentColor;
 
-  await saveCache(cache);
+        return renderMemeCard({ url, title, thesis, image, sentimentColor });
+      }),
+    )
+  ).filter(Boolean);
 
   return `
 <div class="memes-page">
