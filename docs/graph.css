@@ -28,7 +28,7 @@ body:has(#graph-page) {
   overflow: hidden;
 }
 
-/* Legend + search as bottom overlay */
+/* Search bar as bottom overlay */
 .graph-header {
   position: absolute;
   bottom: 0;
@@ -38,57 +38,6 @@ body:has(#graph-page) {
   background: rgba(26, 26, 26, 0.85);
   backdrop-filter: blur(6px);
   padding: 0.5rem 1.5rem;
-}
-
-/* Legend */
-.graph-legend {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  padding: 0.25rem 0;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.legend-color {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-}
-
-.blog-color {
-  background: #4a90e2;
-}
-
-.stories-color {
-  background: #9b59b6;
-}
-
-.chats-color {
-  background: #e67e22;
-}
-
-.legend-line {
-  width: 40px;
-  height: 3px;
-  display: block;
-}
-
-.strong-edge {
-  background: #d96a37;
-  opacity: 1;
-}
-
-.semantic-edge {
-  background: #6b9bd1;
-  opacity: 0.6;
 }
 
 /* Vis.js Network Overrides */
@@ -155,13 +104,5 @@ body:has(#graph-page) {
 @media (max-width: 640px) {
   .graph-header {
     padding: 0.5rem 1rem;
-  }
-
-  .graph-legend {
-    gap: 1rem;
-  }
-
-  .legend-item {
-    font-size: 0.85rem;
   }
 }

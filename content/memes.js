@@ -104,16 +104,17 @@ async function memesPage() {
       const fm = postMeta.frontmatter || {};
       if (fm.draft) return;
 
-      allPosts.push({ collection, key, meta: postMeta });
+      const date = fm.date
+        ? String(fm.date).substring(0, 10)
+        : extractDate(postMeta.compiledFilename);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+
+      allPosts.push({ collection, key, meta: postMeta, date });
     });
   });
 
   // Sort by date descending, take top 5
-  allPosts.sort((a, b) => {
-    const dateA = a.meta.frontmatter?.date || extractDate(a.meta.compiledFilename);
-    const dateB = b.meta.frontmatter?.date || extractDate(b.meta.compiledFilename);
-    return dateB.localeCompare(dateA);
-  });
+  allPosts.sort((a, b) => b.date.localeCompare(a.date));
 
   const top = allPosts.slice(0, TOP_N);
 
@@ -124,13 +125,15 @@ async function memesPage() {
     top.map(async ({ collection, key, meta: postMeta }) => {
       const fm = postMeta.frontmatter || {};
       const title = fm.title || key;
-      const image = fm.image;
       const url = postMeta.compiledFilename;
 
       // Read full markdown content for thesis generation
       const filePath = join(CONTENT_DIR, collection, key);
       const content = await readFile(filePath, 'utf-8');
       const body = content.replace(/^---\n[\s\S]*?\n---\n/, '');
+
+      // Hero image: frontmatter `image` field, or first markdown image in body
+      const image = fm.image || extractFirstImage(body);
 
       const thesis = await getThesis(title, body, cache);
 
@@ -156,6 +159,11 @@ async function memesPage() {
 <div class="memes-page">
   ${cards.join('\n')}
 </div>`;
+}
+
+function extractFirstImage(markdownBody) {
+  const match = markdownBody.match(/!\[[^\]]*\]\(([^)]+)\)/);
+  return match ? match[1] : null;
 }
 
 function extractDate(filename) {
