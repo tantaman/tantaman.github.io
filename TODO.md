@@ -9,6 +9,70 @@
   2. Convert the-mirror-room to most high quality audio
 3. Print a booklet for wonderland books
 
+
+Visual at a glance prose:
+Approaches to "Gist at a Glance" for Prose                            
+                                                                        
+  1. Keyword/Topic Pills
+
+  The most practical and widely-used approach. Extract 3-5 key terms
+  from each post and display them as small pill/chip badges beneath the
+  title. Instead of reading a paragraph, you instantly see: React State
+  Management Architecture. This leverages the https://smart-interface-de
+  sign-patterns.com/articles/badges-chips-tags-pills/ pattern. You
+  already have tags in frontmatter - this would be cheap to implement.
+
+  2. Sentiment/Emotional Color Strips
+
+  The most interesting academic work here is
+  https://arxiv.org/abs/2002.10096 - it maps text emotion onto color
+  using a 3-dimensional model (valence -> hue, arousal -> saturation,
+  dominance -> brightness). A tiny colored strip per card could show the
+   emotional texture of a piece - a calm technical tutorial would look
+  very different from an opinionated rant. Novel, but possibly too
+  abstract to be useful for readers who haven't learned the encoding.
+
+  3. Narrative Arc Sparklines (Vonnegut's Story Shapes)
+
+  https://www.technologyreview.com/2016/07/06/158961/data-mining-reveals
+  -the-six-basic-emotional-arcs-of-storytelling/ validated Vonnegut's
+  idea that stories follow a small number of emotional arc shapes (e.g.,
+   "rags to riches", "man in a hole"). You could render a tiny sparkline
+   per card showing the sentiment trajectory of the piece. This is
+  essentially what you were alluding to with "sparklines but for prose"
+  - and it does exist as a research concept. The challenge is that blog
+  posts are shorter and more varied than novels, so the arcs may be
+  noisy.
+
+  4. Visual Abstracts
+
+  Common in https://pmc.ncbi.nlm.nih.gov/articles/PMC10833524/ - a
+  single graphic with icons, arrows, and minimal text that captures the
+  essence of a paper. Effective but labor-intensive to create per-post
+  (unless generated).
+
+  5. Micro-typography / Structural Signals
+
+  Simpler than the above: use https://blog.tubikstudio.com/ux-design-how
+  -to-make-web-interface-scannable/ to encode content type. A reading
+  time estimate, a content-type icon (wrench for technical, pen for
+  opinion, lightbulb for idea), and 2-3 bold key phrases pulled from the
+   text. Less novel, but this is what actually works at scale - the
+  https://www.nngroup.com/articles/information-scent/ research from
+  Nielsen Norman Group shows users forage based on these lightweight
+  cues.
+
+  6. Mini Word Clouds
+
+  A compact https://en.wikipedia.org/wiki/Tag_cloud of the top ~10 terms
+   weighted by TF-IDF importance. More visual than text, but has fallen
+  out of fashion and research shows users primarily notice
+  https://www.researchgate.net/publication/215660707_Seeing_things_in_th
+  e_clouds_The_effect_of_visual_features_on_tag_cloud_selections rather
+  than actually scanning words.
+
+  ---
+
 - rm old src: 58fd02e
 - https://unifiedjs.com/explore/package/rehype-meta/ for open graph
   - auto-tweet, macro blog -- https://alecmuffett.com/article/13253
