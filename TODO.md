@@ -9,6 +9,8 @@
 7. memes page is empty
 8. consolidate card code: (1) summary, (2) pills, (3) color banner  | on: search, tags, posts, home
 
+Thesis sentences instead of summaries on home page?
+
 -> Extract memes into meme card. Use on home and posts.
 -> Scale meme images for fast load.
 -> STtories page from stories tag
