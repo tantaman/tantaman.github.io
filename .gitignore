@@ -12,7 +12,6 @@ node_modules/
 .relationships-cache.json
 
 # Meme thesis cache (regenerated via API)
-.meme-cache.json
 
 # Misc
 .DS_Store
