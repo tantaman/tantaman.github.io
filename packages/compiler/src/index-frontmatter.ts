@@ -14,6 +14,7 @@ export type IndexShape = {
 export type FileMeta = {
   compiledFilename: string;
   frontmatter: Record<string, any>;
+  wordCount: number;
 };
 
 export async function indexFrontmatter(): Promise<IndexShape> {
@@ -53,6 +54,7 @@ export async function indexFrontmatter(): Promise<IndexShape> {
                     '.html',
                   frontmatter: matterAndDesc.frontmatter,
                   description: matterAndDesc.description,
+                  wordCount: matterAndDesc.wordCount ?? 0,
                 },
               ] as const;
             }),
@@ -64,7 +66,7 @@ export async function indexFrontmatter(): Promise<IndexShape> {
     ),
   );
 
-  return cached;
+  return cached!;
 }
 
 function parseFrontmatterAndDescription(content: string) {
@@ -85,8 +87,17 @@ function parseFrontmatterAndDescription(content: string) {
   } else {
     filteredContent = filteredContent.slice(0, 250);
   }
+  const bodyText = (match[2] ?? '')
+    .split('\n')
+    .filter((line) => !line.trim().startsWith('import '))
+    .join('\n')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
+  const wordCount = bodyText.split(/\s+/).filter(Boolean).length;
+
   return {
     frontmatter: parse(frontmatter),
     description: filteredContent.trim(),
+    wordCount,
   };
 }

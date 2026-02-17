@@ -96,10 +96,21 @@ function tagId(s) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
+const CONCERN_ICON = {
+  self: '👁', power: '⚡', craft: '🔧', ground: '⚓',
+  knowledge: '💡', modernity: '⚙️', systems: '🔗',
+};
+
+function readingTime(wordCount) {
+  return Math.max(1, Math.round((wordCount || 0) / 200));
+}
+
 function renderCard(collection, meta) {
   const collectionLabel = getCollectionName(collection);
   const date = meta.frontmatter?.date || extractDate(meta.compiledFilename);
   const image = meta.frontmatter?.image;
+  const concernIcon = CONCERN_ICON[meta.frontmatter?.concern?.[0]] || '';
+  const mins = readingTime(meta.wordCount);
 
   return `
     <a class="card" href="${meta.compiledFilename}">
@@ -108,7 +119,7 @@ function renderCard(collection, meta) {
         ${meta.frontmatter?.title || meta.filename}
       </h4>
       <div class="subtext">
-        ${date} · ${collectionLabel}
+        ${date} · ${collectionLabel}${concernIcon ? ` · ${concernIcon}` : ''} · ${mins} min
       </div>
       ${renderPills(collection, meta)}
       <p>
