@@ -222,22 +222,23 @@ section {
   opacity: 0.7;
 }
 
-/* Subject (tags) — blue-gray */
+/* Subject (tags) — white with border */
 .pill-subject {
-  background: #e8eef4;
-  color: #3a5a7c;
+  background: #fff;
+  color: #333;
+  border: 1px solid #999;
 }
 
-/* Concern — warm amber */
+/* Concern — mid gray */
 .pill-concern {
-  background: #fef3e2;
-  color: #8a6520;
+  background: #999;
+  color: #fff;
 }
 
-/* Form — soft green */
+/* Form — black */
 .pill-form {
-  background: #e6f4ea;
-  color: #2d6a3f;
+  background: #000;
+  color: #fff;
 }
 
 .sentiment-strip {

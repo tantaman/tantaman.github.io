@@ -3,7 +3,7 @@ title: 'Start Here'
 tags: [philosophy, software]
 description: A curated path through a decade of writing on philosophy, religion, power, software, and fiction.
 concern: [self, craft]
-summary: 'This guide organizes ~130 posts into thematic paths covering contemporary malaise, religious genealogy, power structures, language and epistemology, cultural diagnosis, constructive philosophy, software engineering, distributed systems, and fiction. The arc moves from diagnosis to ground: feel it, trace its history, see the mechanism, understand language, name the pathology, build something. The throughline is that understanding is liberation—but understanding alone is not enough. Something must be built.'
+summary: 'New here? This blog began in software engineering, then expanded into philosophy, religion, politics, and fiction. This guide organizes the writing into thematic paths. Pick what interests you, or follow the arc from diagnosis to ground.'
 ---
 
 New here? This blog began in software engineering, then expanded into philosophy, religion, politics, and fiction. This guide organizes the writing into thematic paths. Pick what interests you, or follow the arc from diagnosis to ground.

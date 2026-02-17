@@ -28,6 +28,10 @@ body {
   text-align: center;
 }
 
+.masonry .card:nth-child(1) .card-pills {
+  justify-content: center;
+}
+
 .masonry .card:nth-child(1) img {
   aspect-ratio: auto;
 }
