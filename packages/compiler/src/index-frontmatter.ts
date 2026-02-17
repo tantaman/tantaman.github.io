@@ -2,6 +2,7 @@ import path from 'path';
 import { collections } from './collections.js';
 import fs from 'fs';
 import { parse } from 'yaml';
+import { loadEmbeddings, pcaProject, toRgbHex } from './pca-colors.js';
 
 let cached: IndexShape | null = null;
 
@@ -15,6 +16,7 @@ export type FileMeta = {
   compiledFilename: string;
   frontmatter: Record<string, any>;
   wordCount: number;
+  sentimentColor?: string;
 };
 
 export async function indexFrontmatter(): Promise<IndexShape> {
@@ -65,6 +67,23 @@ export async function indexFrontmatter(): Promise<IndexShape> {
       }),
     ),
   );
+
+  // Compute sentiment colors from cached embeddings
+  try {
+    const embeddings = await loadEmbeddings();
+    const projected = pcaProject(embeddings);
+    for (const [collection, files] of Object.entries(cached!)) {
+      for (const [filename, meta] of Object.entries(files)) {
+        const key = collection + filename;
+        const proj = projected.get(key);
+        if (proj) {
+          meta.sentimentColor = toRgbHex(proj);
+        }
+      }
+    }
+  } catch {
+    // Cache file missing — skip colors
+  }
 
   return cached!;
 }
