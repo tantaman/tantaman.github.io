@@ -155,5 +155,7 @@
   "Typed Literals ARE Constants!": "TypeScript literal types are constants—your linter just doesn't recognize it yet.",
   "Practical Laziness in Programming": "Laziness makes your code composable without destroying your memory",
   "The Almighty Function": "Everything you think is an object is actually just a function wearing a disguise",
-  "Oh Lisp": "Lisp lets you write code that rewrites itself, making every language problem yours to solve"
+  "Oh Lisp": "Lisp lets you write code that rewrites itself, making every language problem yours to solve",
+  "Inheritance, Aggregation, and Pipelines": "Inheritance locks you in at compile time; pipelines let you compose behavior dynamically at runtime",
+  "Services and Coupling": "Your code's still tightly coupled even if you're pretending it's not"
 }
