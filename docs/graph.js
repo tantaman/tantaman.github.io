@@ -289,6 +289,7 @@
         tooltipDelay: 100,
         navigationButtons: true,
         keyboard: true,
+        zoomSpeed: 0.3,
       },
     };
 
