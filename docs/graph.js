@@ -300,12 +300,12 @@
 
     // Function to show all nodes and edges
     function showAll() {
-      nodes.forEach((node) => {
-        nodes.update({ id: node.id, hidden: false });
-      });
-      edges.forEach((edge) => {
-        edges.update({ id: edge.id, hidden: false });
-      });
+      const nodeUpdates = [];
+      const edgeUpdates = [];
+      nodes.forEach((node) => { nodeUpdates.push({ id: node.id, hidden: false }); });
+      edges.forEach((edge) => { edgeUpdates.push({ id: edge.id, hidden: false }); });
+      nodes.update(nodeUpdates);
+      edges.update(edgeUpdates);
       isSearchFiltered = false;
     }
 
@@ -323,12 +323,12 @@
 
       if (scores.size === 0) {
         // No matches - hide all nodes
-        nodes.forEach((node) => {
-          nodes.update({ id: node.id, hidden: true });
-        });
-        edges.forEach((edge) => {
-          edges.update({ id: edge.id, hidden: true });
-        });
+        const nodeUpdates = [];
+        const edgeUpdates = [];
+        nodes.forEach((node) => { nodeUpdates.push({ id: node.id, hidden: true }); });
+        edges.forEach((edge) => { edgeUpdates.push({ id: edge.id, hidden: true }); });
+        nodes.update(nodeUpdates);
+        edges.update(edgeUpdates);
         if (searchStatus) searchStatus.textContent = 'No matches';
         isSearchFiltered = true;
         return;
@@ -336,21 +336,25 @@
 
       // Show matching nodes, hide others
       const visibleNodes = new Set();
+      const nodeUpdates = [];
       nodes.forEach((node) => {
         // Node ID in graph is just filename, search index has collection + filename
         // Try both formats
         const hasMatch = scores.has(node.id) ||
           [...scores.keys()].some(k => k.endsWith(node.id));
 
-        nodes.update({ id: node.id, hidden: !hasMatch });
+        nodeUpdates.push({ id: node.id, hidden: !hasMatch });
         if (hasMatch) visibleNodes.add(node.id);
       });
+      nodes.update(nodeUpdates);
 
       // Show edges where both endpoints are visible
+      const edgeUpdates = [];
       edges.forEach((edge) => {
         const bothVisible = visibleNodes.has(edge.from) && visibleNodes.has(edge.to);
-        edges.update({ id: edge.id, hidden: !bothVisible });
+        edgeUpdates.push({ id: edge.id, hidden: !bothVisible });
       });
+      edges.update(edgeUpdates);
 
       if (searchStatus) {
         searchStatus.textContent = `${visibleNodes.size} match${visibleNodes.size === 1 ? '' : 'es'}`;
@@ -368,22 +372,20 @@
         const connectedIds = adjacencyMap.get(nodeId) || new Set();
 
         // Hide unconnected nodes
+        const nodeUpdates = [];
+        const edgeUpdates = [];
         nodes.forEach((node) => {
           const isConnected = node.id === nodeId || connectedIds.has(node.id);
-          nodes.update({
-            id: node.id,
-            hidden: !isConnected,
-          });
+          nodeUpdates.push({ id: node.id, hidden: !isConnected });
         });
 
         // Hide unconnected edges
         edges.forEach((edge) => {
           const isConnected = edge.from === nodeId || edge.to === nodeId;
-          edges.update({
-            id: edge.id,
-            hidden: !isConnected,
-          });
+          edgeUpdates.push({ id: edge.id, hidden: !isConnected });
         });
+        nodes.update(nodeUpdates);
+        edges.update(edgeUpdates);
       } else {
         // Clicked empty space: show all nodes and edges
         showAll();

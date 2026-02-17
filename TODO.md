@@ -5,6 +5,11 @@
 2. Compose relevant posts into a book. geo-theological and self series.
 4. Update start here
 5. Change summaries to 2-3 bold phrases being pulled from actual content?
+6. scroll zoom way too sensitive
+7. memes page is empty
+
+Syndicator.
+Use Substack API and such to auto-push your posts out to each platform.
 
 Each pill name should have color instead... so easier to see philio at a glance.
 
