@@ -10,6 +10,8 @@
 8. consolidate card code: (1) summary, (2) pills, (3) color banner  | on: search, tags, posts, home
 
 -> Extract memes into meme card. Use on home and posts.
+-> Scale meme images for fast load.
+-> STtories page from stories tag
 
 Syndicator.
 Use Substack API and such to auto-push your posts out to each platform.

@@ -4,6 +4,7 @@ import {
   layout,
   rehypeDocument,
   indexFrontmatter,
+  renderMemeCard,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
@@ -137,19 +138,7 @@ async function memesPage() {
 
       const thesis = await getThesis(title, body, cache);
 
-      const imgTag = image
-        ? `<img src="${image}" alt="" class="meme-bg" />`
-        : '';
-      const noImageClass = image ? '' : ' no-image';
-
-      return `
-    <a class="meme-card${noImageClass}" href="${url}">
-      ${imgTag}
-      <div class="meme-overlay">
-        <p class="meme-thesis">${thesis}</p>
-        <span class="meme-title">${escapeHtml(title)} &rarr;</span>
-      </div>
-    </a>`;
+      return renderMemeCard({ url, title, thesis, image });
     }),
   );
 
@@ -169,12 +158,4 @@ function extractFirstImage(markdownBody) {
 function extractDate(filename) {
   const basename = filename.includes('/') ? filename.split('/').pop() : filename;
   return basename.substring(0, 10);
-}
-
-function escapeHtml(str) {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
 }

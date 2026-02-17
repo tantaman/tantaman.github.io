@@ -4,3 +4,4 @@ export { doc, meta } from './layouts/global.js';
 export { default as layout } from './layouts/layouts.js';
 export { default as rehypeDocument } from './rehype-document.js';
 export * from './index-frontmatter.js';
+export * from './meme-card.js';
