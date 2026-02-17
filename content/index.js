@@ -76,6 +76,21 @@ async function siteIndex() {
 </div>`;
 }
 
+function inferForm(collection, meta) {
+  if (meta.frontmatter?.form) return meta.frontmatter.form;
+  if (collection === 'the-mirror-room/') return 'story';
+  if (collection === 'chats/') return 'chat';
+  return 'essay';
+}
+
+function renderPills(collection, meta) {
+  const subjects = (meta.frontmatter?.tags || []).map(s => `<span class="pill pill-subject">${s}</span>`);
+  const concerns = (meta.frontmatter?.concern || []).map(c => `<span class="pill pill-concern">${c}</span>`);
+  const form = `<span class="pill pill-form">${inferForm(collection, meta)}</span>`;
+  const pills = [...subjects, ...concerns, form];
+  return `<div class="card-pills">${pills.join('')}</div>`;
+}
+
 function renderCard(collection, meta) {
   const collectionLabel = getCollectionName(collection);
   const date = meta.frontmatter?.date || extractDate(meta.compiledFilename);
@@ -90,6 +105,7 @@ function renderCard(collection, meta) {
       <div class="subtext">
         ${date} · ${collectionLabel}
       </div>
+      ${renderPills(collection, meta)}
       <p>
           ${truncate(stripTags(meta.frontmatter?.summary || meta.frontmatter?.description || meta.description || ''), 500)}
       </p>
