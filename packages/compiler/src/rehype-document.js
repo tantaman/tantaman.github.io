@@ -31,6 +31,8 @@
  *   [`properties`](https://github.com/syntax-tree/hastscript#hselector-properties-children)
  *   to [`hastscript`](https://github.com/syntax-tree/hastscript) with a `link`
  *   element.
+ * @property {string|Array<string>|undefined} [headScript=[]]
+ *   Inline scripts to include in `head` (before stylesheets).
  * @property {string|Array<string>|undefined} [script=[]]
  *   Inline scripts to include at end of `body` in `<script>`s.
  * @property {string|Array<string>|undefined} [js=[]]
@@ -47,6 +49,7 @@ import { h } from 'hastscript';
 export default function rehypeDocument(options = {}) {
   const meta = cast(options.meta);
   const link = cast(options.link);
+  const headScripts = cast(options.headScript);
   const styles = cast(options.style);
   const css = cast(options.css);
   const scripts = cast(options.script);
@@ -86,6 +89,13 @@ export default function rehypeDocument(options = {}) {
 
     while (++index < link.length) {
       head.push({ type: 'text', value: '\n' }, h('link', link[index]));
+    }
+
+    // Inject head scripts (before stylesheets to avoid FOUC)
+    index = -1;
+
+    while (++index < headScripts.length) {
+      head.push({ type: 'text', value: '\n' }, h('script', headScripts[index]));
     }
 
     // Inject style tags before linked CSS

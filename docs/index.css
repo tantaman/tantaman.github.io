@@ -4,6 +4,42 @@
   --text: #1a1a1a;
   --text-muted: #6b6b6b;
   --accent: #1a1a1a;
+  --border: #e5e5e5;
+  --border-heavy: #d0d0d0;
+  --code-bg: #f6f6f6;
+  --toc-bg: #f0f0f0;
+  --toc-panel-bg: #fff;
+  --toc-dash: #999;
+  --subtext: #888;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --pill-subject-bg: #fff;
+  --pill-subject-text: #333;
+  --pill-subject-border: #999;
+  --pill-concern-bg: #999;
+  --pill-form-bg: #000;
+  --pill-form-text: #fff;
+}
+
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --bg-soft: #242424;
+  --text: #e0e0e0;
+  --text-muted: #999;
+  --accent: #e0e0e0;
+  --border: #333;
+  --border-heavy: #444;
+  --code-bg: #242424;
+  --toc-bg: #242424;
+  --toc-panel-bg: #1e1e1e;
+  --toc-dash: #666;
+  --subtext: #888;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --pill-subject-bg: #2a2a2a;
+  --pill-subject-text: #ccc;
+  --pill-subject-border: #555;
+  --pill-concern-bg: #555;
+  --pill-form-bg: #e0e0e0;
+  --pill-form-text: #1a1a1a;
 }
 
 *,
@@ -46,7 +82,7 @@ header .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid var(--border);
 }
 
 a {
@@ -224,21 +260,21 @@ section {
 
 /* Subject (tags) — white with border */
 .pill-subject {
-  background: #fff;
-  color: #333;
-  border: 1px solid #999;
+  background: var(--pill-subject-bg);
+  color: var(--pill-subject-text);
+  border: 1px solid var(--pill-subject-border);
 }
 
 /* Concern — mid gray */
 .pill-concern {
-  background: #999;
+  background: var(--pill-concern-bg);
   color: #fff;
 }
 
 /* Form — black */
 .pill-form {
-  background: #000;
-  color: #fff;
+  background: var(--pill-form-bg);
+  color: var(--pill-form-text);
 }
 
 .sentiment-strip {
@@ -261,7 +297,7 @@ section {
 }
 
 hr {
-  border: 1px solid #d0d0d0;
+  border: 1px solid var(--border-heavy);
   height: 0px;
   width: 100%;
 }
@@ -272,7 +308,7 @@ iframe {
 
 pre {
   padding: 0.75em;
-  background: #f6f6f6;
+  background: var(--code-bg);
   border-radius: 6px;
   white-space: pre-wrap;
 }
@@ -285,7 +321,7 @@ pre {
 }
 
 .subtext {
-  color: #888;
+  color: var(--subtext);
   font-size: 0.75em;
 }
 
@@ -317,13 +353,13 @@ nav.toc {
   flex-direction: column;
   gap: 8px;
   padding: 12px 8px;
-  background: #f0f0f0;
+  background: var(--toc-bg);
   border-radius: 0 12px 12px 0;
 }
 
 .toc-dash {
   height: 2px;
-  background: #999;
+  background: var(--toc-dash);
   border-radius: 1px;
 }
 
@@ -333,10 +369,10 @@ nav.toc {
 
 .toc-panel {
   display: none;
-  background: #fff;
+  background: var(--toc-panel-bg);
   border-radius: 0 16px 16px 0;
   padding: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px var(--shadow-color);
   min-width: 220px;
   max-width: 320px;
 }
@@ -380,7 +416,7 @@ blockquote {
   /* font-family: 'DM Sans', sans-serif; */
   color: var(--text-muted);
   padding: 0.75em;
-  border-left: 8px solid #d0d0d0;
+  border-left: 8px solid var(--border-heavy);
   position: relative;
   background: var(--bg-soft);
 }
@@ -512,7 +548,7 @@ img {
 #footer {
   margin-top: 4rem;
   padding: 3rem 0 2rem 0;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid var(--border);
 }
 
 .related-section {
@@ -580,9 +616,10 @@ img {
 .post-header {
   text-align: center;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid var(--border);
   letter-spacing: 0.05em;
   text-transform: lowercase;
+  position: relative;
 }
 
 .post-header a {
@@ -591,6 +628,90 @@ img {
   font-weight: 700;
   font-size: 1.1rem;
 }
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.25rem 0.5rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+}
+
+.post-header .theme-toggle {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.theme-toggle-fixed {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+/* Dark Syntax Highlighting (GitHub Dark) */
+[data-theme="dark"] .hljs { color: #c9d1d9; }
+[data-theme="dark"] .hljs-doctag,
+[data-theme="dark"] .hljs-keyword,
+[data-theme="dark"] .hljs-meta .hljs-keyword,
+[data-theme="dark"] .hljs-template-tag,
+[data-theme="dark"] .hljs-template-variable,
+[data-theme="dark"] .hljs-type,
+[data-theme="dark"] .hljs-variable.language_ { color: #ff7b72; }
+[data-theme="dark"] .hljs-title,
+[data-theme="dark"] .hljs-title.class_,
+[data-theme="dark"] .hljs-title.class_.inherited__,
+[data-theme="dark"] .hljs-title.function_ { color: #d2a8ff; }
+[data-theme="dark"] .hljs-attr,
+[data-theme="dark"] .hljs-attribute,
+[data-theme="dark"] .hljs-literal,
+[data-theme="dark"] .hljs-meta,
+[data-theme="dark"] .hljs-number,
+[data-theme="dark"] .hljs-operator,
+[data-theme="dark"] .hljs-variable,
+[data-theme="dark"] .hljs-selector-attr,
+[data-theme="dark"] .hljs-selector-class,
+[data-theme="dark"] .hljs-selector-id { color: #79c0ff; }
+[data-theme="dark"] .hljs-regexp,
+[data-theme="dark"] .hljs-string,
+[data-theme="dark"] .hljs-meta .hljs-string { color: #a5d6ff; }
+[data-theme="dark"] .hljs-built_in,
+[data-theme="dark"] .hljs-symbol { color: #ffa657; }
+[data-theme="dark"] .hljs-comment,
+[data-theme="dark"] .hljs-code,
+[data-theme="dark"] .hljs-formula { color: #8b949e; }
+[data-theme="dark"] .hljs-name,
+[data-theme="dark"] .hljs-quote,
+[data-theme="dark"] .hljs-selector-tag,
+[data-theme="dark"] .hljs-selector-pseudo { color: #7ee787; }
+[data-theme="dark"] .hljs-subst { color: #c9d1d9; }
+[data-theme="dark"] .hljs-section { color: #79c0ff; font-weight: bold; }
+[data-theme="dark"] .hljs-bullet { color: #f2cc60; }
+[data-theme="dark"] .hljs-emphasis { color: #c9d1d9; font-style: italic; }
+[data-theme="dark"] .hljs-strong { color: #c9d1d9; font-weight: bold; }
+[data-theme="dark"] .hljs-addition { color: #aff5b4; background-color: #033a16; }
+[data-theme="dark"] .hljs-deletion { color: #ffdcd7; background-color: #67060c; }
 
 @media (max-width: 640px) {
   .toc-widget {
@@ -626,7 +747,9 @@ img {
   .toc-widget,
   nav.toc,
   #footer,
-  .icon-link {
+  .icon-link,
+  .theme-toggle,
+  .theme-toggle-fixed {
     display: none !important;
   }
 

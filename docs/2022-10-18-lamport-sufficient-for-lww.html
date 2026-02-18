@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Do LWW Registers Need Vector Clocks or Causal Graphs? 💭 - Tantamanlands</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
 <link rel="stylesheet" href="/index.css">
 
 <meta name="description" content="Short answer: No. When it comes to a LWW register, Lamport clocks offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW. A last write wins register is a register where the &#x22;last&#x22; write…">
@@ -26,7 +27,7 @@
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="3-4 minutes">
 </head>
-<body><header class="post-header"><a href="/">tantaman</a></header><main id="static"><h1>Do LWW Registers Need Vector Clocks or Causal Graphs? 💭</h1><span class="published subtext">Published 2022-10-18</span>
+<body><header class="post-header"><a href="/">tantaman</a><button class="theme-toggle" type="button"></button></header><main id="static"><h1>Do LWW Registers Need Vector Clocks or Causal Graphs? 💭</h1><span class="published subtext">Published 2022-10-18</span>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#why-is-lamport-sufficient">Why is Lamport Sufficient?</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#many-lwws">Many LWWs</a></li></ol></nav><p>Short answer: No. When it comes to a LWW register, <a href="./2022-10-18-lamport-clock">Lamport clock</a>s offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW.</p>
 <p>A last write wins register is a register where the "last" write always wins. Determining when a write happens is usually done via a logical clock. Lamport clocks, vector clocks and causal graphs are a few options here. Lamport clocks being the simplest option.</p>
 <p>While a Lamport clock is simple it has a few drawbacks. When comparing two Lamport clocks from two different nodes in a distributed system, we can't tell if an event happened strictly before another event or not. In other words, if a Lamport clock from system A is less than a Lamport clock from system B, A either happened before <strong>or at the same time as</strong> B. We <strong>do know</strong>, however, that B did not happen before A.</p>
@@ -54,5 +55,6 @@ hold as well, since that would imply that any two concurrent events must occur a
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
 <script src="/toc.js"></script>
+<script src="/theme.js"></script>
 </main><footer id="footer"><div class="container related-section"><h3 class="related-title">Related Posts</h3><ul class="related-posts-list"><li><a href="/2022-10-18-lamport-clock.html">Lamport Clock 🕥</a></li><li><a href="/2025-12-03-state-of-the-union.html">State of the Union</a></li></ul><a href="/graph.html" class="view-graph-link">View Content Graph →</a></div></footer></body>
 </html>
