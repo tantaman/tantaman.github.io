@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>The Shortest, Framework Free, TODO App - Tantamanlands</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
 <link rel="stylesheet" href="/index.css">
 
 <meta name="description" content="A TodoMVC App in ~200 lines of plain JavaScript and 0 dependencies. Source:
@@ -38,7 +39,7 @@ const sanitize = (value) => {
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="3-5 minutes">
 </head>
-<body><header class="post-header"><a href="/">tantaman</a></header><main id="static"><h1>The Shortest, Framework Free, TODO App</h1><span class="published subtext">Published 2021-02-12</span>
+<body><header class="post-header"><a href="/">tantaman</a><button class="theme-toggle" type="button"></button></header><main id="static"><h1>The Shortest, Framework Free, TODO App</h1><span class="published subtext">Published 2021-02-12</span>
 <nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><style type="text/css">
 @import url("/blog-assets/todo-mvc/base.css");
 @import url("/blog-assets/todo-mvc/todo.css");
@@ -285,5 +286,6 @@ const sanitize = (value) => {
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
 <script src="/toc.js"></script>
+<script src="/theme.js"></script>
 </main><footer id="footer"><div class="container related-section"><h3 class="related-title">Related Posts</h3><ul class="related-posts-list"><li><a href="/2022-05-12-skipping-the-bundling.html">🧶 Skipping the Bundling</a></li></ul><a href="/graph.html" class="view-graph-link">View Content Graph →</a></div></footer></body>
 </html>

@@ -45,6 +45,7 @@ export default async function defaultLayout(
   const header = matter?.noHeader ? null : isPost || matter?.minimalHeader ? (
     <header class="post-header">
       <a href="/">tantaman</a>
+      <button class="theme-toggle" type="button"></button>
     </header>
   ) : (
     <header>
@@ -55,6 +56,7 @@ export default async function defaultLayout(
         <nav>
           <a href="/tags.html">Browse</a>
           <a href="/graph.html">Graph</a>
+          <button class="theme-toggle" type="button"></button>
         </nav>
       </div>
     </header>

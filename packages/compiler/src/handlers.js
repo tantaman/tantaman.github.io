@@ -184,6 +184,7 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
           ...docAdditions,
           js: (doc.js || []).concat((docAdditions || {}).js || []),
           css: cssToUse,
+          headScript: (doc.headScript || []).concat((docAdditions || {}).headScript || []),
         })(tree, file);
       };
     })

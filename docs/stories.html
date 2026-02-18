@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
 <link rel="stylesheet" href="/index.css">
 <link rel="stylesheet" href="/home.css">
 
@@ -21,7 +22,7 @@
 <meta name="twitter:image:alt" content="Tantaman">
 <meta name="twitter:site" content="@tantaman">
 </head>
-<body><header><div class="container"><h1><a href="/">Tantaman</a></h1><nav><a href="/tags.html">Browse</a><a href="/graph.html">Graph</a></nav></div></header><main id="static">
+<body><header><div class="container"><h1><a href="/">Tantaman</a></h1><nav><a href="/tags.html">Browse</a><a href="/graph.html">Graph</a><button class="theme-toggle" type="button"></button></nav></div></header><main id="static">
 <html><head></head><body><section id="stories" class="wide-layout wide">
   <div class="container">
     <h3 class="section-title">Stories</h3>
@@ -169,6 +170,7 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
 <script src="/toc.js"></script>
+<script src="/theme.js"></script>
 <script src="/home.js"></script>
 </main><footer id="footer"></footer></body>
 </html>

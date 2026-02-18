@@ -17,6 +17,9 @@ export const meta = {
 
 export const doc = {
   css: ['/index.css'],
+  headScript: [
+    `(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()`,
+  ],
   js: [
     {
       src: 'https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS',
@@ -27,6 +30,9 @@ export const doc = {
     },
     {
       src: '/toc.js',
+    },
+    {
+      src: '/theme.js',
     },
   ],
 };

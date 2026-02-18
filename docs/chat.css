@@ -106,16 +106,14 @@
 }
 
 /* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .assistant-message .message-content {
-    color: #e0e0e0;
-  }
+[data-theme="dark"] .assistant-message .message-content {
+  color: #e0e0e0;
+}
 
-  .assistant-message pre {
-    background: rgba(255, 255, 255, 0.05);
-  }
+[data-theme="dark"] .assistant-message pre {
+  background: rgba(255, 255, 255, 0.05);
+}
 
-  .assistant-message blockquote {
-    border-left-color: rgba(255, 255, 255, 0.2);
-  }
+[data-theme="dark"] .assistant-message blockquote {
+  border-left-color: rgba(255, 255, 255, 0.2);
 }
