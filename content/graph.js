@@ -218,6 +218,7 @@ async function graphPage() {
         from: fromId,
         to: toId,
         value: Math.round(edge.score * 5),
+        score: edge.score,
         color: edgeStyle,
         title: title,
       });
@@ -251,9 +252,16 @@ async function graphPage() {
 <section id="graph-page" class="full-bleed">
   <div id="graph-container"></div>
   <div class="graph-header">
-    <div class="graph-search">
-      <input type="text" id="graph-search-input" placeholder="Filter by keyword..." autocomplete="off" />
-      <span id="graph-search-status"></span>
+    <div class="graph-controls">
+      <div class="graph-search">
+        <input type="text" id="graph-search-input" placeholder="Filter by keyword..." autocomplete="off" />
+        <span id="graph-search-status"></span>
+      </div>
+      <div class="graph-slider">
+        <label for="graph-threshold">Similarity</label>
+        <input type="range" id="graph-threshold" min="0" max="100" value="0" />
+        <span id="graph-threshold-value">0%</span>
+      </div>
     </div>
   </div>
   <script id="graph-data" type="application/json">

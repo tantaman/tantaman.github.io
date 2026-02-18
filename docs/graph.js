@@ -128,6 +128,8 @@
     const dataElement = document.getElementById('graph-data');
     const searchInput = document.getElementById('graph-search-input');
     const searchStatus = document.getElementById('graph-search-status');
+    const thresholdSlider = document.getElementById('graph-threshold');
+    const thresholdLabel = document.getElementById('graph-threshold-value');
 
     if (!container || !dataElement) {
       console.error('Graph container or data not found');
@@ -239,6 +241,7 @@
           width: 1 + score * 3, // 1px to 4px based on strength
           color: scoreToColor(score, alpha),
           title: edge.title,
+          score: edge.score != null ? edge.score : score,
           smooth: isCrossCluster
             ? { type: 'curvedCW', roundness: 0.15 }
             : { type: 'continuous', roundness: 0.5 },
@@ -298,13 +301,17 @@
 
     // Track if we're in search filter mode
     let isSearchFiltered = false;
+    let currentThreshold = 0;
 
-    // Function to show all nodes and edges
+    // Function to show all nodes and edges (respecting threshold)
     function showAll() {
       const nodeUpdates = [];
       const edgeUpdates = [];
       nodes.forEach((node) => { nodeUpdates.push({ id: node.id, hidden: false }); });
-      edges.forEach((edge) => { edgeUpdates.push({ id: edge.id, hidden: false }); });
+      edges.forEach((edge) => {
+        const belowThreshold = edge.score != null && edge.score < currentThreshold;
+        edgeUpdates.push({ id: edge.id, hidden: belowThreshold });
+      });
       nodes.update(nodeUpdates);
       edges.update(edgeUpdates);
       isSearchFiltered = false;
@@ -349,11 +356,12 @@
       });
       nodes.update(nodeUpdates);
 
-      // Show edges where both endpoints are visible
+      // Show edges where both endpoints are visible and above threshold
       const edgeUpdates = [];
       edges.forEach((edge) => {
         const bothVisible = visibleNodes.has(edge.from) && visibleNodes.has(edge.to);
-        edgeUpdates.push({ id: edge.id, hidden: !bothVisible });
+        const belowThreshold = edge.score != null && edge.score < currentThreshold;
+        edgeUpdates.push({ id: edge.id, hidden: !bothVisible || belowThreshold });
       });
       edges.update(edgeUpdates);
 
@@ -441,6 +449,28 @@
           searchInput.value = '';
           showAll();
           if (searchStatus) searchStatus.textContent = '';
+        }
+      });
+    }
+
+    // Set up threshold slider
+    if (thresholdSlider) {
+      thresholdSlider.addEventListener('input', function () {
+        const value = parseInt(thresholdSlider.value, 10);
+        currentThreshold = value / 100;
+        if (thresholdLabel) thresholdLabel.textContent = value + '%';
+
+        // Re-apply: if search is active, re-filter; otherwise show all with threshold
+        if (isSearchFiltered && searchInput && searchInput.value.trim()) {
+          filterBySearch(searchInput.value);
+        } else {
+          // Apply threshold to all edges, keep nodes visible
+          const edgeUpdates = [];
+          edges.forEach((edge) => {
+            const belowThreshold = edge.score != null && edge.score < currentThreshold;
+            edgeUpdates.push({ id: edge.id, hidden: belowThreshold });
+          });
+          edges.update(edgeUpdates);
         }
       });
     }
