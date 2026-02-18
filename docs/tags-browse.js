@@ -17,6 +17,124 @@
     return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
+  // --- TF-IDF full-text search infrastructure ---
+
+  var STOP_WORDS = new Set([
+    'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of',
+    'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been', 'be', 'have',
+    'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may',
+    'might', 'must', 'shall', 'can', 'need', 'it', 'its', 'this', 'that', 'these',
+    'those', 'i', 'you', 'he', 'she', 'we', 'they', 'what', 'which', 'who', 'when',
+    'where', 'why', 'how', 'all', 'each', 'every', 'both', 'few', 'more', 'most',
+    'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so',
+    'than', 'too', 'very', 'just', 'also', 'now', 'here', 'there', 'about', 'after',
+    'before', 'above', 'below', 'between', 'into', 'through', 'during', 'under',
+    'again', 'further', 'then', 'once', 'any', 'if', 'because', 'while', 'until',
+    'although', 'though', 'even', 'being', 'having', 'doing', 'their', 'his', 'her',
+    'him', 'my', 'your', 'our', 'me', 'us', 'them', 'myself', 'yourself', 'himself',
+    'herself', 'itself', 'ourselves', 'themselves',
+    'example', 'like', 'using', 'use', 'used', 'way', 'want', 'get', 'see', 'new',
+    'one', 'two', 'first', 'last', 'well', 'much', 'actually', 'really', 'say',
+    'said', 'thing', 'things', 'something', 'lot', 'make', 'made', 'going', 'know',
+    'think', 'still', 'back', 'take', 'look', 'come', 'since',
+  ]);
+
+  var SUFFIXES = [
+    'ingly', 'edly', 'ness', 'ment', 'able', 'ible', 'tion', 'sion',
+    'ance', 'ence', 'ally', 'ful', 'ous', 'ive', 'ing', 'ion', 'ity',
+    'ies', 'ly', 'ed', 'er', 'es', 's',
+  ];
+
+  function stem(word) {
+    if (word.length < 4) return word;
+    for (var i = 0; i < SUFFIXES.length; i++) {
+      var suffix = SUFFIXES[i];
+      if (word.length - suffix.length >= 3 && word.slice(-suffix.length) === suffix) {
+        return word.slice(0, -suffix.length);
+      }
+    }
+    return word;
+  }
+
+  function tokenize(text) {
+    if (!text) return [];
+    return text
+      .toLowerCase()
+      .replace(/[^a-z\s]/g, ' ')
+      .split(/\s+/)
+      .filter(function (w) { return w.length > 2 && !STOP_WORDS.has(w); })
+      .map(stem);
+  }
+
+  function computeQueryVector(terms) {
+    var counts = {};
+    for (var i = 0; i < terms.length; i++) {
+      counts[terms[i]] = (counts[terms[i]] || 0) + 1;
+    }
+    var total = terms.length;
+    var vector = {};
+    for (var term in counts) {
+      var idf = searchIndex.idf[term];
+      if (idf !== undefined) {
+        vector[term] = (counts[term] / total) * idf;
+      }
+    }
+    return vector;
+  }
+
+  function cosineSimilarity(vecA, vecB) {
+    var dot = 0, normA = 0, normB = 0;
+    for (var t in vecA) {
+      var a = vecA[t];
+      normA += a * a;
+      if (vecB[t] !== undefined) dot += a * vecB[t];
+    }
+    for (var t in vecB) {
+      var b = vecB[t];
+      normB += b * b;
+    }
+    if (normA === 0 || normB === 0) return 0;
+    return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+  }
+
+  // Lazy-loaded search index
+  var searchIndex = null;
+  var searchIndexLoading = false;
+  var searchScores = {}; // url -> score, populated per query
+
+  function loadSearchIndex() {
+    if (searchIndex || searchIndexLoading) return;
+    searchIndexLoading = true;
+    fetch('/search.json')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        searchIndex = data;
+        searchIndexLoading = false;
+        // Re-render now that the index is available
+        if (state.q) render();
+      })
+      .catch(function () { searchIndexLoading = false; });
+  }
+
+  function runTfidfSearch(query) {
+    searchScores = {};
+    var terms = tokenize(query);
+    if (terms.length === 0) return;
+    var queryVec = computeQueryVector(terms);
+    if (Object.keys(queryVec).length === 0) return;
+    for (var i = 0; i < searchIndex.documents.length; i++) {
+      var doc = searchIndex.documents[i];
+      var docVec = searchIndex.tfidf[doc.id];
+      if (!docVec) continue;
+      var score = cosineSimilarity(queryVec, docVec);
+      if (score > 0.01) {
+        // Normalize URL: search.json uses leading /, tags data does not
+        var url = doc.url.charAt(0) === '/' ? doc.url.slice(1) : doc.url;
+        searchScores[url] = score;
+      }
+    }
+  }
+
   function filterPosts() {
     return posts.filter(function (p) {
       // AND across facets, AND within subject/concern, OR within form
@@ -37,10 +155,9 @@
       if (state.form.size > 0) {
         if (!state.form.has(tagId(p.form))) return false;
       }
-      // Text search filter
-      if (state.q) {
-        var haystack = (p.title + ' ' + p.description).toLowerCase();
-        if (haystack.indexOf(state.q) === -1) return false;
+      // TF-IDF full-text search filter
+      if (state.q && searchIndex) {
+        if (!(p.url in searchScores)) return false;
       }
       return true;
     });
@@ -64,7 +181,22 @@
   }
 
   function render() {
+    // Compute TF-IDF scores before filtering
+    if (state.q && searchIndex) {
+      runTfidfSearch(state.q);
+    } else {
+      searchScores = {};
+    }
+
     var filtered = filterPosts();
+
+    // Sort by relevance when searching, otherwise keep date order
+    if (state.q && searchIndex) {
+      filtered.sort(function (a, b) {
+        return (searchScores[b.url] || 0) - (searchScores[a.url] || 0);
+      });
+    }
+
     var counts = countFacetValues(filtered);
 
     // Update breadcrumb bar
@@ -154,13 +286,17 @@
     }
   });
 
-  // Search input with debounce
+  // Search input with debounce + lazy index loading
   var searchTimer = null;
   if (searchInput) {
     searchInput.addEventListener('input', function () {
       clearTimeout(searchTimer);
+      var val = searchInput.value.trim().toLowerCase();
+      if (val && !searchIndex && !searchIndexLoading) {
+        loadSearchIndex();
+      }
       searchTimer = setTimeout(function () {
-        state.q = searchInput.value.trim().toLowerCase();
+        state.q = val;
         render();
         updateHash();
       }, 150);
@@ -237,7 +373,8 @@
     render();
   });
 
-  // Init: parse hash, render
+  // Init: parse hash, load index if needed, render
   parseHash();
+  if (state.q) loadSearchIndex();
   render();
 })();

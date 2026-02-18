@@ -9,6 +9,7 @@
 5. thumb on search
 6. do not rebuild all on serve
 7. thumb on browse page, tags, read time.
+8. new search page should show relevance / % match.
 9. version of thesis that pulls most powerful quote. Update meme cache.
 
 Thesis sentences instead of summaries on home page?
