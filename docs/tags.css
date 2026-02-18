@@ -222,10 +222,18 @@
 }
 
 .post-date {
-  display: block;
+  display: inline;
   font-size: 0.85rem;
   color: var(--text-muted);
   margin-top: 0.2rem;
+}
+
+.post-match {
+  display: inline;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin-left: 0.5rem;
 }
 
 .post-description {
