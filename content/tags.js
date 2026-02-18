@@ -4,11 +4,22 @@ import {
   layout,
   rehypeDocument,
   indexFrontmatter,
+  generateThumbnail,
+  renderPills,
+  readingTime,
+  inferForm,
+  tagId,
+  stripTags,
+  truncate,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
 import rehypeMeta from 'rehype-meta';
 import rehypeParse from 'rehype-parse';
+
+const THUMB_DIR = './docs/meme-thumbs';
+const THUMB_URL_PREFIX = '/meme-thumbs';
+const THUMB_WIDTH = 960;
 
 export default async function tags(file, cwd, files) {
   return {
@@ -48,7 +59,7 @@ async function tagsPage() {
   const indices = await indexFrontmatter();
 
   // Collect all posts with their facet data
-  const allPosts = [];
+  const postPromises = [];
 
   Object.entries(indices).forEach(([collection, index]) => {
     if (collection === 'bookmarks/' || collection === 'notes/') return;
@@ -76,6 +87,8 @@ async function tagsPage() {
         : extractDate(postMeta.compiledFilename);
       const subjects = fm.tags || [];
       const concerns = fm.concern || [];
+      const sentimentColor = postMeta.sentimentColor || '';
+      const wordCount = postMeta.wordCount || 0;
 
       // Form detection: explicit > collection inference > default
       let form = fm.form;
@@ -86,17 +99,27 @@ async function tagsPage() {
         else form = 'essay';
       }
 
-      allPosts.push({
-        title,
-        url,
-        description,
-        date,
-        subjects,
-        concerns,
-        form,
-      });
+      const rawImage = fm.image || postMeta.firstImage;
+      postPromises.push(
+        generateThumbnail(rawImage, THUMB_DIR, THUMB_URL_PREFIX, THUMB_WIDTH).then(
+          (image) => ({
+            title,
+            url,
+            description,
+            date,
+            subjects,
+            concerns,
+            form,
+            image,
+            sentimentColor,
+            wordCount,
+          }),
+        ),
+      );
     });
   });
+
+  const allPosts = await Promise.all(postPromises);
 
   // Sort by date descending
   allPosts.sort((a, b) => b.date.localeCompare(a.date));
@@ -162,6 +185,9 @@ async function tagsPage() {
       subjects: p.subjects,
       concerns: p.concerns,
       form: p.form,
+      image: p.image,
+      sentimentColor: p.sentimentColor,
+      wordCount: p.wordCount,
     })),
   );
 
@@ -203,12 +229,22 @@ function facetGroup(label, sortedEntries, facetName) {
 }
 
 function postItem(post) {
+  const mins = readingTime(post.wordCount);
+  const pills = renderPills({ subjects: post.subjects, concerns: post.concerns, form: post.form });
+  const desc = stripTags(post.description);
   return `
         <li class="tag-post">
           <a href="${post.url}">
-            <span class="post-title">${post.title}</span>
-            ${post.date ? `<span class="post-date">${post.date}</span>` : ''}
-            ${post.description ? `<span class="post-description">${stripTags(post.description)}</span>` : ''}
+            ${post.sentimentColor ? `<div class="sentiment-strip" style="background:${post.sentimentColor}"></div>` : ''}
+            <div class="tag-post-body">
+              ${post.image ? `<img class="tag-post-thumb" src="${post.image}" alt="" loading="lazy" />` : ''}
+              <div class="tag-post-info">
+                <span class="post-title">${post.title}</span>
+                <div class="subtext">${post.date} &middot; ${mins} min</div>
+                ${pills}
+                ${desc ? `<span class="post-description">${truncate(desc, 300)}</span>` : ''}
+              </div>
+            </div>
           </a>
         </li>`;
 }
@@ -221,26 +257,10 @@ function sortFacet(countMap) {
   });
 }
 
-function tagId(tag) {
-  return tag
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
 function extractDate(filename) {
   const basename = filename.includes('/')
     ? filename.split('/').pop()
     : filename;
   const candidate = basename.substring(0, 10);
   return /^\d{4}-\d{2}-\d{2}$/.test(candidate) ? candidate : '';
-}
-
-function truncate(text, length) {
-  if (text.length <= length) return text;
-  return text.substring(0, length).trim() + '...';
-}
-
-function stripTags(html) {
-  return (html || '').replace(/<[^>]*>/g, '');
 }

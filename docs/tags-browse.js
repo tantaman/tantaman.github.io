@@ -17,6 +17,28 @@
     return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
+  function readingTime(wc) {
+    return Math.max(1, Math.round((wc || 0) / 200));
+  }
+
+  function renderPillsHtml(p) {
+    var pills = '';
+    (p.subjects || []).forEach(function (s) {
+      pills += '<span class="pill pill-subject">' + esc(s) + '</span>';
+    });
+    (p.concerns || []).forEach(function (c) {
+      pills += '<span class="pill pill-concern">' + esc(c) + '</span>';
+    });
+    if (p.form) pills += '<span class="pill pill-form">' + esc(p.form) + '</span>';
+    return pills ? '<div class="card-pills">' + pills + '</div>' : '';
+  }
+
+  function truncateText(str, max) {
+    if (!str || str.length <= max) return str || '';
+    var cut = str.lastIndexOf(' ', max);
+    return str.slice(0, cut > 0 ? cut : max) + '\u2026';
+  }
+
   // --- TF-IDF full-text search infrastructure ---
 
   var STOP_WORDS = new Set([
@@ -223,13 +245,19 @@
     } else {
       var html = '<ul class="tag-posts">';
       filtered.forEach(function (p) {
-        html += '<li class="tag-post"><a href="' + p.url + '">';
-        html += '<span class="post-title">' + esc(p.title) + '</span>';
-        if (p.date) html += '<span class="post-date">' + p.date + '</span>';
+        var mins = readingTime(p.wordCount);
         var score = searchScores[p.url];
-        if (score) html += '<span class="post-match">' + Math.round(score * 100) + '% match</span>';
-        if (p.description) html += '<span class="post-description">' + esc(p.description) + '</span>';
-        html += '</a></li>';
+        var matchText = score ? ' &middot; ' + Math.round(score * 100) + '% match' : '';
+        html += '<li class="tag-post"><a href="' + p.url + '">';
+        if (p.sentimentColor) html += '<div class="sentiment-strip" style="background:' + p.sentimentColor + '"></div>';
+        html += '<div class="tag-post-body">';
+        if (p.image) html += '<img class="tag-post-thumb" src="' + p.image + '" alt="" loading="lazy" />';
+        html += '<div class="tag-post-info">';
+        html += '<span class="post-title">' + esc(p.title) + '</span>';
+        html += '<div class="subtext">' + p.date + ' &middot; ' + mins + ' min' + matchText + '</div>';
+        html += renderPillsHtml(p);
+        if (p.description) html += '<span class="post-description">' + esc(truncateText(p.description, 300)) + '</span>';
+        html += '</div></div></a></li>';
       });
       html += '</ul>';
       listContainer.innerHTML = html;

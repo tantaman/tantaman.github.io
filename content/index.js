@@ -6,6 +6,12 @@ import {
   indexFrontmatter,
   renderMemeCard,
   generateThumbnail,
+  tagId,
+  readingTime,
+  inferForm,
+  renderPills,
+  stripTags,
+  truncate,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
@@ -130,34 +136,6 @@ async function siteIndex() {
 </div>`;
 }
 
-function inferForm(collection, meta) {
-  if (meta.frontmatter?.form) return meta.frontmatter.form;
-  if (collection === 'the-mirror-room/') return 'story';
-  if (collection === 'chats/') return 'chat';
-  return 'essay';
-}
-
-function renderPills(collection, meta) {
-  const subjects = (meta.frontmatter?.tags || []).map(
-    (s) =>
-      `<span class="pill pill-subject" data-facet="subject" data-value="${tagId(s)}">${s}</span>`,
-  );
-  const concerns = (meta.frontmatter?.concern || []).map(
-    (c) =>
-      `<span class="pill pill-concern" data-facet="concern" data-value="${tagId(c)}">${c}</span>`,
-  );
-  const formValue = inferForm(collection, meta);
-  const form = `<span class="pill pill-form" data-facet="form" data-value="${tagId(formValue)}">${formValue}</span>`;
-  const pills = [...subjects, ...concerns, form];
-  return `<div class="card-pills">${pills.join('')}</div>`;
-}
-
-function tagId(s) {
-  return s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
 
 const CONCERN_ICON = {
   self: '👁',
@@ -168,10 +146,6 @@ const CONCERN_ICON = {
   modernity: '⚙️',
   systems: '🔗',
 };
-
-function readingTime(wordCount) {
-  return Math.max(1, Math.round((wordCount || 0) / 200));
-}
 
 function renderCard(collection, meta, resolvedImage) {
   const collectionLabel = getCollectionName(collection);
@@ -193,7 +167,7 @@ function renderCard(collection, meta, resolvedImage) {
       <div class="subtext">
         ${date} · ${mins} min
       </div>
-      ${renderPills(collection, meta)}
+      ${renderPills({ subjects: meta.frontmatter?.tags || [], concerns: meta.frontmatter?.concern || [], form: inferForm(collection, meta) })}
       <p>
           ${truncate(stripTags(meta.frontmatter?.summary || meta.frontmatter?.description || meta.description || ''), 500)}
       </p>
@@ -261,16 +235,3 @@ function extractDate(filename) {
   return basename.substring(0, 10);
 }
 
-function joinTags(frontmatter) {
-  return (frontmatter?.tags || []).join(', ');
-}
-
-function stripTags(html) {
-  return (html || '').replace(/<[^>]*>/g, '');
-}
-
-function truncate(str, max) {
-  if (str.length <= max) return str;
-  const cut = str.lastIndexOf(' ', max);
-  return str.slice(0, cut > 0 ? cut : max) + '…';
-}
