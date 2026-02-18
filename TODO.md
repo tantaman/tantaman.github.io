@@ -7,6 +7,8 @@
 3. toggle to rm orphans
 4. dbl click node open new window
 5. thumb on search
+6. do not rebuild all on serve
+7. thumb on browse page, tags, read time.
 9. version of thesis that pulls most powerful quote. Update meme cache.
 
 Thesis sentences instead of summaries on home page?

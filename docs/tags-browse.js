@@ -8,8 +8,9 @@
   var breadcrumbBar = document.getElementById('breadcrumb-bar');
   if (!sidebar || !listContainer || !breadcrumbBar) return;
 
-  // State: active filters per facet
-  var state = { subject: new Set(), concern: new Set(), form: new Set() };
+  // State: active filters per facet + search query
+  var state = { subject: new Set(), concern: new Set(), form: new Set(), q: '' };
+  var searchInput = document.getElementById('tags-search-input');
 
   // Slug helper matching server-side tagId()
   function tagId(s) {
@@ -35,6 +36,11 @@
       }
       if (state.form.size > 0) {
         if (!state.form.has(tagId(p.form))) return false;
+      }
+      // Text search filter
+      if (state.q) {
+        var haystack = (p.title + ' ' + p.description).toLowerCase();
+        if (haystack.indexOf(state.q) === -1) return false;
       }
       return true;
     });
@@ -148,6 +154,19 @@
     }
   });
 
+  // Search input with debounce
+  var searchTimer = null;
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(function () {
+        state.q = searchInput.value.trim().toLowerCase();
+        render();
+        updateHash();
+      }, 150);
+    });
+  }
+
   // Event delegation for button clicks
   sidebar.addEventListener('click', function (e) {
     var btn = e.target.closest('.tag-tab');
@@ -177,6 +196,7 @@
     state.subject = new Set();
     state.concern = new Set();
     state.form = new Set();
+    state.q = '';
 
     var hash = location.hash.slice(1);
     if (!hash) return;
@@ -185,11 +205,15 @@
       var eq = part.indexOf('=');
       if (eq === -1) return;
       var key = decodeURIComponent(part.slice(0, eq));
-      var vals = decodeURIComponent(part.slice(eq + 1)).split(',').filter(Boolean);
-      if (state[key]) {
-        vals.forEach(function (v) { state[key].add(v); });
+      var val = decodeURIComponent(part.slice(eq + 1));
+      if (key === 'q') {
+        state.q = val.toLowerCase();
+      } else if (state[key]) {
+        val.split(',').filter(Boolean).forEach(function (v) { state[key].add(v); });
       }
     });
+
+    if (searchInput) searchInput.value = state.q;
   }
 
   function updateHash() {
@@ -199,6 +223,9 @@
         parts.push(facet + '=' + Array.from(state[facet]).join(','));
       }
     });
+    if (state.q) {
+      parts.push('q=' + encodeURIComponent(state.q));
+    }
     var newHash = parts.length > 0 ? '#' + parts.join('&') : '';
     if (newHash !== location.hash && !(newHash === '' && location.hash === '')) {
       history.replaceState(null, '', newHash || location.pathname);

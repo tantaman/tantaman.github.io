@@ -26,7 +26,9 @@ export default async function tags(file, cwd, files) {
           title: 'Browse - Tantamanlands',
           description: 'Explore posts by subject, concern, and form',
         })
-        .use(() => (tree, file) => { file.data.matter = { noHeader: true }; })
+        .use(() => (tree, file) => {
+          file.data.matter = { noHeader: true };
+        })
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(await tagsPage());
@@ -52,15 +54,23 @@ async function tagsPage() {
     if (collection === 'bookmarks/' || collection === 'notes/') return;
 
     Object.entries(index).forEach(([key, postMeta]) => {
-      if (key === 'index.js' || key === 'README.md' || key === '404.md' || key === 'tags.js') return;
-      if (key === 'index.md' || key === 'audio.md' || key === 'scratch.md') return;
+      if (
+        key === 'index.js' ||
+        key === 'README.md' ||
+        key === '404.md' ||
+        key === 'tags.js'
+      )
+        return;
+      if (key === 'index.md' || key === 'audio.md' || key === 'scratch.md')
+        return;
 
       const fm = postMeta.frontmatter || {};
       if (fm.draft) return;
 
       const title = fm.title || key;
       const url = postMeta.compiledFilename;
-      const description = fm.summary || fm.description || postMeta.description || '';
+      const description =
+        fm.summary || fm.description || postMeta.description || '';
       const date = fm.date
         ? String(fm.date).substring(0, 10)
         : extractDate(postMeta.compiledFilename);
@@ -76,7 +86,15 @@ async function tagsPage() {
         else form = 'essay';
       }
 
-      allPosts.push({ title, url, description, date, subjects, concerns, form });
+      allPosts.push({
+        title,
+        url,
+        description,
+        date,
+        subjects,
+        concerns,
+        form,
+      });
     });
   });
 
@@ -88,9 +106,13 @@ async function tagsPage() {
   const concernCounts = new Map();
   const formCounts = new Map();
 
-  allPosts.forEach(post => {
-    post.subjects.forEach(s => subjectCounts.set(s, (subjectCounts.get(s) || 0) + 1));
-    post.concerns.forEach(c => concernCounts.set(c, (concernCounts.get(c) || 0) + 1));
+  allPosts.forEach((post) => {
+    post.subjects.forEach((s) =>
+      subjectCounts.set(s, (subjectCounts.get(s) || 0) + 1),
+    );
+    post.concerns.forEach((c) =>
+      concernCounts.set(c, (concernCounts.get(c) || 0) + 1),
+    );
     formCounts.set(post.form, (formCounts.get(post.form) || 0) + 1);
   });
 
@@ -102,7 +124,6 @@ async function tagsPage() {
   // Generate sidebar HTML
   const sidebar = `
     <nav class="tags-sidebar" aria-label="Filters">
-      <a class="sidebar-home" href="/">← tantaman</a>
       ${facetGroup('Subject', sortedSubjects, 'subject')}
       ${facetGroup('Concern', sortedConcerns, 'concern')}
       ${facetGroup('Form', sortedForms, 'form')}
@@ -110,45 +131,52 @@ async function tagsPage() {
 
   // Generate no-JS fallback panels (grouped by subject)
   const tagMap = new Map();
-  allPosts.forEach(post => {
-    post.subjects.forEach(s => {
+  allPosts.forEach((post) => {
+    post.subjects.forEach((s) => {
       if (!tagMap.has(s)) tagMap.set(s, []);
       tagMap.get(s).push(post);
     });
   });
 
-  const fallbackPanels = sortedSubjects.map(([subject], i) => {
-    const posts = tagMap.get(subject) || [];
-    const id = tagId(subject);
-    return `
+  const fallbackPanels = sortedSubjects
+    .map(([subject], i) => {
+      const posts = tagMap.get(subject) || [];
+      const id = tagId(subject);
+      return `
     <div class="tag-panel" id="panel-${id}" data-tag="${id}">
       <h3 class="panel-title">${subject}</h3>
       <ul class="tag-posts">
-        ${posts.map(post => postItem(post)).join('')}
+        ${posts.map((post) => postItem(post)).join('')}
       </ul>
     </div>`;
-  }).join('');
+    })
+    .join('');
 
   // Embed JSON data for client-side filtering
-  const postsJson = JSON.stringify(allPosts.map(p => ({
-    title: p.title,
-    url: p.url,
-    date: p.date,
-    description: stripTags(p.description),
-    subjects: p.subjects,
-    concerns: p.concerns,
-    form: p.form,
-  })));
+  const postsJson = JSON.stringify(
+    allPosts.map((p) => ({
+      title: p.title,
+      url: p.url,
+      date: p.date,
+      description: stripTags(p.description),
+      subjects: p.subjects,
+      concerns: p.concerns,
+      form: p.form,
+    })),
+  );
 
   return `
 <script type="application/json" id="posts-data">${postsJson}</script>
 <section id="tags-page" class="wide">
   ${sidebar}
   <div class="tags-panels">
+    <div class="tags-search">
+      <input type="text" id="tags-search-input" placeholder="Search..." autocomplete="off" />
+    </div>
     <div class="breadcrumb-bar" id="breadcrumb-bar"></div>
     <div id="filtered-posts">
       <ul class="tag-posts">
-        ${allPosts.map(post => postItem(post)).join('')}
+        ${allPosts.map((post) => postItem(post)).join('')}
       </ul>
     </div>
     <noscript>
@@ -164,11 +192,13 @@ function facetGroup(label, sortedEntries, facetName) {
   return `
       <div class="facet-group" data-facet="${facetName}">
         <div class="facet-label">${label}</div>
-        ${sortedEntries.map(([value, count]) => {
-          const fill = Math.round((count / maxCount) * 100);
-          const id = tagId(value);
-          return `<button class="tag-tab" data-facet="${facetName}" data-value="${id}" style="--fill: ${fill}%">${value} <span class="tag-count">${count}</span></button>`;
-        }).join('\n        ')}
+        ${sortedEntries
+          .map(([value, count]) => {
+            const fill = Math.round((count / maxCount) * 100);
+            const id = tagId(value);
+            return `<button class="tag-tab" data-facet="${facetName}" data-value="${id}" style="--fill: ${fill}%">${value} <span class="tag-count">${count}</span></button>`;
+          })
+          .join('\n        ')}
       </div>`;
 }
 
@@ -184,20 +214,24 @@ function postItem(post) {
 }
 
 function sortFacet(countMap) {
-  return Array.from(countMap.entries())
-    .sort((a, b) => {
-      const countDiff = b[1] - a[1];
-      if (countDiff !== 0) return countDiff;
-      return a[0].localeCompare(b[0]);
-    });
+  return Array.from(countMap.entries()).sort((a, b) => {
+    const countDiff = b[1] - a[1];
+    if (countDiff !== 0) return countDiff;
+    return a[0].localeCompare(b[0]);
+  });
 }
 
 function tagId(tag) {
-  return tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return tag
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
 }
 
 function extractDate(filename) {
-  const basename = filename.includes('/') ? filename.split('/').pop() : filename;
+  const basename = filename.includes('/')
+    ? filename.split('/').pop()
+    : filename;
   const candidate = basename.substring(0, 10);
   return /^\d{4}-\d{2}-\d{2}$/.test(candidate) ? candidate : '';
 }
