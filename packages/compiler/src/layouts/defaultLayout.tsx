@@ -53,10 +53,7 @@ export default async function defaultLayout(
           <a href="/">Tantaman</a>
         </h1>
         <nav>
-          <a href="/blog.html">Posts</a>
-          <a href="/stories.html">Stories</a>
-          <a href="/tags.html">Tags</a>
-          <a href="/search.html">Search</a>
+          <a href="/tags.html">Browse</a>
           <a href="/graph.html">Graph</a>
         </nav>
       </div>
