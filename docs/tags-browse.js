@@ -226,6 +226,8 @@
         html += '<li class="tag-post"><a href="' + p.url + '">';
         html += '<span class="post-title">' + esc(p.title) + '</span>';
         if (p.date) html += '<span class="post-date">' + p.date + '</span>';
+        var score = searchScores[p.url];
+        if (score) html += '<span class="post-match">' + Math.round(score * 100) + '% match</span>';
         if (p.description) html += '<span class="post-description">' + esc(p.description) + '</span>';
         html += '</a></li>';
       });
