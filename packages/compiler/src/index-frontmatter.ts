@@ -3,6 +3,7 @@ import { collections } from './collections.js';
 import fs from 'fs';
 import { parse } from 'yaml';
 import { loadEmbeddings, pcaProject, toRgbHex } from './pca-colors.js';
+import { extractFirstImage } from './image-utils.js';
 
 let cached: IndexShape | null = null;
 
@@ -17,6 +18,7 @@ export type FileMeta = {
   frontmatter: Record<string, any>;
   wordCount: number;
   sentimentColor?: string;
+  firstImage?: string | null;
 };
 
 export async function indexFrontmatter(): Promise<IndexShape> {
@@ -57,6 +59,7 @@ export async function indexFrontmatter(): Promise<IndexShape> {
                   frontmatter: matterAndDesc.frontmatter,
                   description: matterAndDesc.description,
                   wordCount: matterAndDesc.wordCount ?? 0,
+                  firstImage: matterAndDesc.firstImage,
                 },
               ] as const;
             }),
@@ -106,7 +109,10 @@ function parseFrontmatterAndDescription(content: string) {
   } else {
     filteredContent = filteredContent.slice(0, 250);
   }
-  const bodyText = (match[2] ?? '')
+  const rawBody = match[2] ?? '';
+  const firstImage = extractFirstImage(rawBody);
+
+  const bodyText = rawBody
     .split('\n')
     .filter((line) => !line.trim().startsWith('import '))
     .join('\n')
@@ -118,5 +124,6 @@ function parseFrontmatterAndDescription(content: string) {
     frontmatter: parse(frontmatter),
     description: filteredContent.trim(),
     wordCount,
+    firstImage,
   };
 }

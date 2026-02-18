@@ -153,6 +153,9 @@ importers:
       serve:
         specifier: ^13.0.2
         version: 13.0.4
+      sharp:
+        specifier: ^0.34.5
+        version: 0.34.5
       to-vfile:
         specifier: ^7.2.3
         version: 7.2.4

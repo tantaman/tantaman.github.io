@@ -1,13 +1,13 @@
 # TODO
 
+1. lazy images on index
 2. build cache understands index.js stuff deps...
 1. Move collections to be tag based? `Stories` are just tagged posts.
 2. Compose relevant posts into a book. geo-theological and self series.
-4. Update start here
-5. Change summaries to 2-3 bold phrases being pulled from actual content?
-6. scroll zoom way too sensitive
-7. memes page is empty
-8. consolidate card code: (1) summary, (2) pills, (3) color banner  | on: search, tags, posts, home
+3. toggle to rm orphans
+4. dbl click node open new window
+5. thumb on search
+9. version of thesis that pulls most powerful quote. Update meme cache.
 
 Thesis sentences instead of summaries on home page?
 

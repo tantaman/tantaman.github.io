@@ -4,11 +4,18 @@ import {
   layout,
   rehypeDocument,
   indexFrontmatter,
+  renderMemeCard,
+  generateThumbnail,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
 import rehypeMeta from 'rehype-meta';
 import rehypeParse from 'rehype-parse';
+import { readFile } from 'node:fs/promises';
+
+const THUMB_DIR = './docs/meme-thumbs';
+const THUMB_URL_PREFIX = '/meme-thumbs';
+const THUMB_WIDTH = 960;
 
 export default async function index(file, cwd, files) {
   return {
@@ -17,7 +24,7 @@ export default async function index(file, cwd, files) {
         .use(rehypeParse)
         .use(rehypeDocument, {
           ...doc,
-          css: doc.css.concat(['/home.css']),
+          css: doc.css.concat(['/home.css', '/memes.css']),
           js: doc.js.concat(['/home.js']),
         })
         .use(rehypeMeta, meta)
@@ -32,8 +39,18 @@ export default async function index(file, cwd, files) {
   };
 }
 
+async function loadCache() {
+  try {
+    const data = await readFile('.meme-cache.json', 'utf-8');
+    return JSON.parse(data);
+  } catch {
+    return {};
+  }
+}
+
 async function siteIndex() {
   const indices = await indexFrontmatter();
+  const cache = await loadCache();
 
   // Collect all posts from relevant sections
   const allPosts = [];
@@ -63,19 +80,50 @@ async function siteIndex() {
     return dateB.localeCompare(dateA);
   });
 
-  const featured = sortedPosts.slice(0, 5);
-  const remaining = sortedPosts.slice(5);
+  const pinned = sortedPosts.filter(p => p.key === 'start-here.md');
+  const unpinned = sortedPosts.filter(p => p.key !== 'start-here.md');
+
+  const featured = unpinned.slice(0, 3);
+  const remaining = [...pinned, ...unpinned.slice(3)];
+
+  const featuredCards = await Promise.all(
+    featured.map(async ({ collection, meta: postMeta }) => {
+      const title = postMeta.frontmatter?.title || '';
+      const thesis = cache[title];
+      const rawImage = postMeta.frontmatter?.image || postMeta.firstImage;
+      const image = await generateThumbnail(rawImage, THUMB_DIR, THUMB_URL_PREFIX, THUMB_WIDTH);
+
+      if (thesis) {
+        return renderMemeCard({
+          url: postMeta.compiledFilename,
+          title,
+          thesis,
+          image,
+          sentimentColor: postMeta.sentimentColor,
+        });
+      }
+      return renderCard(collection, postMeta, image);
+    }),
+  );
+
+  const remainingCards = await Promise.all(
+    remaining.map(async ({ collection, meta: postMeta }) => {
+      const rawImage = postMeta.frontmatter?.image || postMeta.firstImage;
+      const image = await generateThumbnail(rawImage, THUMB_DIR, THUMB_URL_PREFIX, THUMB_WIDTH);
+      return renderCard(collection, postMeta, image);
+    }),
+  );
 
   return `
 <div class="home wide">
   <div class="masonry">
-    ${featured.map(({ collection, meta }) => renderCard(collection, meta)).join('\n')}
+    ${featuredCards.join('\n')}
   </div>
   ${
-    remaining.length > 0
+    remainingCards.length > 0
       ? `
   <div class="more-grid">
-    ${remaining.map(({ collection, meta }) => renderCard(collection, meta)).join('\n')}
+    ${remainingCards.join('\n')}
   </div>`
       : ''
   }
@@ -125,10 +173,10 @@ function readingTime(wordCount) {
   return Math.max(1, Math.round((wordCount || 0) / 200));
 }
 
-function renderCard(collection, meta) {
+function renderCard(collection, meta, resolvedImage) {
   const collectionLabel = getCollectionName(collection);
   const date = meta.frontmatter?.date || extractDate(meta.compiledFilename);
-  const image = meta.frontmatter?.image;
+  const image = resolvedImage !== undefined ? resolvedImage : meta.frontmatter?.image;
   const concernIcons = (meta.frontmatter?.concern || [])
     .map((c) => CONCERN_ICON[c])
     .filter(Boolean)
@@ -138,7 +186,7 @@ function renderCard(collection, meta) {
   return `
     <a class="card" href="${meta.compiledFilename}">
       ${meta.sentimentColor ? `<div class="sentiment-strip" style="background:${meta.sentimentColor}"></div>` : ''}
-      ${image ? `<img src="${image}" alt="" />` : ''}
+      ${image ? `<img src="${image}" alt="" loading="lazy" />` : ''}
       <h4>
         ${meta.frontmatter?.title || meta.filename}
       </h4>

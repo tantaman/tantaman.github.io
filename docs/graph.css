@@ -62,13 +62,45 @@ body:has(#graph-page) {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-/* Graph Search */
-.graph-search {
+/* Graph Controls */
+.graph-controls {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 0.25rem 0;
+}
+
+/* Graph Search */
+.graph-search {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Graph Slider */
+.graph-slider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.graph-slider label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+#graph-threshold {
+  width: 120px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+#graph-threshold-value {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-width: 2.5em;
 }
 
 #graph-search-input {
@@ -104,5 +136,10 @@ body:has(#graph-page) {
 @media (max-width: 640px) {
   .graph-header {
     padding: 0.5rem 1rem;
+  }
+
+  .graph-controls {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
