@@ -163,6 +163,13 @@
     charCount.textContent = input.value.length + ' / 1000';
   });
 
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
   function updateFileLabel() {
     var files = fileInput.files;
     if (files && files.length > 0) {
