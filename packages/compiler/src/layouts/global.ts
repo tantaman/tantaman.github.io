@@ -16,6 +16,9 @@ export const meta = {
 };
 
 export const doc = {
+  link: [
+    { rel: 'alternate', type: 'application/rss+xml', title: 'Tantaman', href: '/feed.xml' },
+  ],
   css: ['/index.css'],
   headScript: [
     `(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()`,
