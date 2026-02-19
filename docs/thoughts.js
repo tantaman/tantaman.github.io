@@ -294,8 +294,7 @@
 
         // Reply form if authed
         if (getSecret()) {
-          var replyForm = createReplyForm(id);
-          listEl.parentNode.insertBefore(replyForm, loadMoreBtn);
+          listEl.appendChild(createReplyForm(id));
         }
       })
       .catch(function () {
