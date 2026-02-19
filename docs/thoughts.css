@@ -1,0 +1,154 @@
+#thoughts-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.thoughts-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.thoughts-back {
+  display: inline-block;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  margin-bottom: 0.5rem;
+}
+
+.thoughts-back:hover {
+  color: var(--text);
+}
+
+.thoughts-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0.25rem 0 0;
+  letter-spacing: 0.02em;
+}
+
+/* Form */
+.thoughts-form-wrap {
+  margin-bottom: 2rem;
+}
+
+#thoughts-form textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-soft);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+#thoughts-form textarea:focus {
+  outline: none;
+  border-color: var(--border-heavy);
+}
+
+.thoughts-form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.char-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+#thought-submit {
+  padding: 0.4rem 1.2rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#thought-submit:hover {
+  opacity: 0.85;
+}
+
+#thought-submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Thought entries */
+.thought {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.thought:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.thought-body {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.thought-time {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Load more */
+#load-more {
+  display: block;
+  margin: 1.5rem auto;
+  padding: 0.5rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+#load-more:hover {
+  color: var(--text);
+  border-color: var(--border-heavy);
+}
+
+/* Secret toggle */
+.secret-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  box-shadow: 0 2px 8px var(--shadow-color);
+  z-index: 100;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.secret-toggle:hover {
+  opacity: 1;
+}

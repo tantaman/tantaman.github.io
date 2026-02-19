@@ -19,6 +19,7 @@ interface Env {
   DB: D1Database;
   WHATSAPP_VERIFY_TOKEN: string;
   ALLOWED_SENDERS: string;
+  THOUGHT_SECRET: string;
 }
 
 interface WhatsAppMessage {
@@ -156,6 +157,51 @@ app.post("/webhook", async (c) => {
   return c.text("OK", 200);
 });
 
+app.get("/thoughts", async (c) => {
+  const limitParam = Math.min(parseInt(c.req.query("limit") || "50", 10) || 50, 200);
+  const offsetParam = parseInt(c.req.query("offset") || "0", 10) || 0;
+
+  const results = await c.env.DB.prepare(
+    "SELECT id, body, timestamp, created_at FROM thought ORDER BY timestamp DESC LIMIT ? OFFSET ?"
+  ).bind(limitParam, offsetParam).all();
+
+  const hasMore = results.results.length === limitParam;
+
+  return c.json({
+    thoughts: results.results,
+    meta: { limit: limitParam, offset: offsetParam, hasMore },
+  });
+});
+
+app.post("/thoughts", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const { body } = await c.req.json<{ body: string }>();
+  const trimmed = (body || "").trim();
+  if (!trimmed || trimmed.length > 1000) {
+    return c.json({ error: "Body must be non-empty and at most 1000 characters" }, 400);
+  }
+
+  const sourceId = `web-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const timestamp = Math.floor(Date.now() / 1000);
+
+  const result = await c.env.DB.prepare(
+    "INSERT INTO thought (source_id, sender, body, timestamp) VALUES (?, ?, ?, ?)"
+  ).bind(sourceId, "web", trimmed, timestamp).run();
+
+  const thought = {
+    id: result.meta.last_row_id,
+    body: trimmed,
+    timestamp,
+    created_at: new Date().toISOString().replace("T", " ").slice(0, 19),
+  };
+
+  return c.json(thought, 201);
+});
+
 async function processWebhook(body: WhatsAppWebhookBody, env: Env) {
   if (body.object !== "whatsapp_business_account") return;
 
@@ -170,7 +216,7 @@ async function processWebhook(body: WhatsAppWebhookBody, env: Env) {
 
         statements.push(
           env.DB.prepare(
-            "INSERT OR IGNORE INTO messages (wa_message_id, sender, body, timestamp) VALUES (?, ?, ?, ?)"
+            "INSERT OR IGNORE INTO thought (source_id, sender, body, timestamp) VALUES (?, ?, ?, ?)"
           ).bind(msg.id, msg.from, msg.text.body, parseInt(msg.timestamp, 10))
         );
       }
