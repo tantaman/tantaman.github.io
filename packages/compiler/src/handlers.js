@@ -24,6 +24,7 @@ import rehypeParse from 'rehype-parse';
 import { compile as compileMdx } from '@mdx-js/mdx';
 import { matter } from 'vfile-matter';
 import injectLayoutCSS from './inject-layout-css.js';
+import rehypeSocialPreview from './rehype-social-preview.js';
 
 import clojure from 'highlight.js/lib/languages/clojure';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -188,6 +189,7 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
         })(tree, file);
       };
     })
+    .use(rehypeSocialPreview)
     .use(rehypeMeta, meta)
     .use(layout)
     .use(rehypeStringify, { allowDangerousHtml: true });

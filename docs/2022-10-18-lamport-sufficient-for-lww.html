@@ -7,22 +7,18 @@
 <script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
 <link rel="stylesheet" href="/index.css">
 
-<meta name="description" content="Short answer: No. When it comes to a LWW register, Lamport clocks offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW. A last write wins register is a register where the &#x22;last&#x22; write…">
+<meta name="description" content="Lamport clocks suffice for LWW because losing information doesn&#x27;t matter when you only keep one value anyway">
 <meta name="keywords" content="software, statistics, economics">
 <meta name="author" content="Matt Wonlaw">
 <meta name="copyright" content="© 2026 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tantamanlands">
 <meta property="og:title" content="Do LWW Registers Need Vector Clocks or Causal Graphs? 💭">
-<meta property="og:description" content="Short answer: No. When it comes to a LWW register, Lamport clocks offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW. A last write wins register is a register where the &#x22;last&#x22; write…">
-<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
-<meta property="og:image:alt" content="Tantaman">
-<meta property="og:image:width" content="312">
-<meta property="og:image:height" content="369">
+<meta property="og:description" content="Lamport clocks suffice for LWW because losing information doesn&#x27;t matter when you only keep one value anyway">
+<meta property="og:image" content="https://tantaman.com/./blog-assets/lamport-sufficient/view-of-time.png">
 <meta property="article:tag" content="software">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
-<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:image" content="https://tantaman.com/./blog-assets/lamport-sufficient/view-of-time.png">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="3-4 minutes">
