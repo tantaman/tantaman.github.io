@@ -41,6 +41,12 @@
         <div class="compose-area">
           <textarea id="thought-input" placeholder="What&#x27;s on your mind?" maxlength="1000" rows="3"></textarea>
         </div>
+        <div class="compose-file-row">
+          <label class="compose-file-btn" for="thought-file">Attach files</label>
+          <input type="file" id="thought-file" multiple style="display:none">
+          <span class="compose-file-name" id="thought-file-label"></span>
+          <button type="button" class="compose-file-clear" id="thought-file-clear">&times;</button>
+        </div>
         <div class="thoughts-form-footer">
           <span class="char-count" id="char-count">0 / 1000</span>
           <button type="submit" id="thought-submit">Post</button>

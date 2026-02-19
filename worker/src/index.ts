@@ -17,8 +17,11 @@ interface Env {
   AI: Ai;
   EMBEDDINGS: KVNamespace;
   DB: D1Database;
+  BUCKET: R2Bucket;
   THOUGHT_SECRET: string;
 }
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 // Module-level cache for embeddings data
 let cachedChunks: Chunk[] | null = null;
@@ -127,8 +130,32 @@ app.get("/thoughts", async (c) => {
 
   const hasMore = results.results.length === limitParam;
 
+  const thoughts = results.results as Record<string, unknown>[];
+  if (thoughts.length > 0) {
+    const ids = thoughts.map((t) => t.id);
+    const placeholders = ids.map(() => "?").join(",");
+    const attachments = await c.env.DB.prepare(
+      `SELECT thought_id, attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id IN (${placeholders})`
+    ).bind(...ids).all();
+
+    const byThought = new Map<number, { key: string; type: string; name: string }[]>();
+    for (const a of attachments.results) {
+      const tid = a.thought_id as number;
+      if (!byThought.has(tid)) byThought.set(tid, []);
+      byThought.get(tid)!.push({
+        key: a.attachment_key as string,
+        type: a.attachment_type as string,
+        name: a.attachment_name as string,
+      });
+    }
+
+    for (const t of thoughts) {
+      t.attachments = byThought.get(t.id as number) || [];
+    }
+  }
+
   return c.json({
-    thoughts: results.results,
+    thoughts,
     meta: { limit: limitParam, offset: offsetParam, hasMore },
   });
 });
@@ -139,10 +166,27 @@ app.post("/thoughts", async (c) => {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
-  const { body } = await c.req.json<{ body: string }>();
-  const trimmed = (body || "").trim();
+  let trimmed: string;
+  let files: File[] = [];
+
+  const contentType = c.req.header("Content-Type") || "";
+  if (contentType.includes("multipart/form-data")) {
+    const formData = await c.req.formData();
+    trimmed = ((formData.get("body") as string) || "").trim();
+    files = formData.getAll("file") as File[];
+  } else {
+    const { body } = await c.req.json<{ body: string }>();
+    trimmed = (body || "").trim();
+  }
+
   if (!trimmed || trimmed.length > 1000) {
     return c.json({ error: "Body must be non-empty and at most 1000 characters" }, 400);
+  }
+
+  for (const file of files) {
+    if (file.size > MAX_FILE_SIZE) {
+      return c.json({ error: `File "${file.name}" exceeds 5MB limit` }, 400);
+    }
   }
 
   const timestamp = Math.floor(Date.now() / 1000);
@@ -151,11 +195,27 @@ app.post("/thoughts", async (c) => {
     "INSERT INTO thought (body, timestamp) VALUES (?, ?)"
   ).bind(trimmed, timestamp).run();
 
+  const thoughtId = result.meta.last_row_id;
+  const attachments: { key: string; type: string; name: string }[] = [];
+
+  for (const file of files) {
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const key = `thoughts/${thoughtId}/${safeName}`;
+    await c.env.BUCKET.put(key, file.stream(), {
+      httpMetadata: { contentType: file.type },
+    });
+    await c.env.DB.prepare(
+      "INSERT INTO thought_attachment (thought_id, attachment_key, attachment_type, attachment_name) VALUES (?, ?, ?, ?)"
+    ).bind(thoughtId, key, file.type, file.name).run();
+    attachments.push({ key, type: file.type, name: file.name });
+  }
+
   const thought = {
-    id: result.meta.last_row_id,
+    id: thoughtId,
     body: trimmed,
     timestamp,
     created_at: new Date().toISOString().replace("T", " ").slice(0, 19),
+    attachments,
   };
 
   return c.json(thought, 201);
@@ -168,6 +228,16 @@ app.delete("/thoughts/:id", async (c) => {
   }
 
   const id = c.req.param("id");
+
+  const attachments = await c.env.DB.prepare(
+    "SELECT attachment_key FROM thought_attachment WHERE thought_id = ?"
+  ).bind(id).all();
+
+  const keys = attachments.results.map((a) => a.attachment_key as string);
+  if (keys.length > 0) {
+    await c.env.BUCKET.delete(keys);
+  }
+
   const result = await c.env.DB.prepare(
     "DELETE FROM thought WHERE id = ?"
   ).bind(id).run();
@@ -177,6 +247,20 @@ app.delete("/thoughts/:id", async (c) => {
   }
 
   return c.body(null, 204);
+});
+
+app.get("/attachments/*", async (c) => {
+  const key = c.req.path.replace(/^\/attachments\//, "");
+  if (!key) return c.json({ error: "Not found" }, 404);
+
+  const object = await c.env.BUCKET.get(key);
+  if (!object) return c.json({ error: "Not found" }, 404);
+
+  const headers = new Headers();
+  headers.set("Content-Type", object.httpMetadata?.contentType || "application/octet-stream");
+  headers.set("Cache-Control", "public, max-age=31536000, immutable");
+
+  return new Response(object.body, { headers });
 });
 
 export default app;
