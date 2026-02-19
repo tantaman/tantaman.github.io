@@ -166,39 +166,29 @@ body:has(#graph-page) {
   background: rgba(217, 106, 55, 0.3);
 }
 
-.preview-pane__header {
+.preview-pane__collapse-btn {
+  position: absolute;
+  top: 6px;
+  left: -28px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
+  justify-content: center;
   background: var(--bg-soft);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  min-height: 40px;
-}
-
-.preview-pane__title {
-  flex: 1;
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.preview-pane__collapse-btn {
-  flex-shrink: 0;
-  background: none;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: none;
+  border-radius: 6px 0 0 6px;
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  padding: 0;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.3);
 }
 
 .preview-pane__collapse-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(217, 106, 55, 0.2);
   color: var(--text);
 }
 
@@ -213,23 +203,27 @@ body:has(#graph-page) {
 .preview-pane-expand {
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 6px;
   z-index: 20;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--bg-soft);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-right: none;
   border-radius: 6px 0 0 6px;
-  color: var(--text);
-  font-size: 0.85rem;
-  padding: 0.5rem 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 0;
   cursor: pointer;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
-  writing-mode: horizontal-tb;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.3);
 }
 
 .preview-pane-expand:hover {
   background: rgba(217, 106, 55, 0.2);
+  color: var(--text);
 }
 
 .preview-pane-expand--hidden {
@@ -258,9 +252,7 @@ body:has(#graph-page) {
   }
 
   .preview-pane-expand {
-    top: auto;
-    bottom: 56px;
-    transform: none;
-    right: 8px;
+    top: 6px;
+    right: 0;
   }
 }

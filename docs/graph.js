@@ -131,7 +131,6 @@
     const thresholdSlider = document.getElementById('graph-threshold');
     const thresholdLabel = document.getElementById('graph-threshold-value');
     const previewPane = document.getElementById('preview-pane');
-    const previewTitle = previewPane?.querySelector('.preview-pane__title');
     const previewIframe = previewPane?.querySelector('.preview-pane__iframe');
     const previewCollapseBtn = previewPane?.querySelector('.preview-pane__collapse-btn');
     const previewResizeHandle = previewPane?.querySelector('.preview-pane__resize-handle');
@@ -461,7 +460,6 @@
 
     function showPreview(node) {
       if (!previewPane || !node) return;
-      if (previewTitle) previewTitle.textContent = node.fullTitle || node.label || '';
       if (previewIframe) {
         const newSrc = '/' + node.url;
         if (previewIframe.src !== new URL(newSrc, location.origin).href) {
