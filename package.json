@@ -24,6 +24,7 @@
     "fetch-chat": "fetch-chat",
     "relationships": "cd packages/compiler && pnpm build && cd ../.. && relationships",
     "search-index": "cd packages/compiler && pnpm build && cd ../.. && search-index",
+    "chat-embeddings": "node scripts/generate-embeddings.mjs",
     "summaries": "node scripts/generate-summaries.mjs",
     "theses": "node scripts/generate-theses.mjs",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",

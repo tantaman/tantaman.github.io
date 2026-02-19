@@ -26,3 +26,7 @@ yarn-error.log*
 
 .next/
 .env
+
+# Chat embeddings (regenerated via API)
+.chat-embeddings.json
+.chat-embeddings-cache.json
