@@ -3,16 +3,14 @@
 1. no blue on select on graph
 2. remember similairty dial
 3. default sim to 70
-4. larger separation btwn clusters?
-5. better cluster titles
 6. drag and move a cluster?
-7. make cluster title selectable? prunes graph to just those nodes
 8. Clust label color should match node colors?? avg?
 9. embeddings auto build and deploy
 10. social cards use image from post
 
 2. build cache understands index.js stuff deps...
 2. Compose relevant posts into a book. geo-theological and self series.
+ - https://claude.ai/chat/b7b8115e-972e-4818-9d17-767583675805
 3. toggle to rm orphans
 4. dbl click node open new window
 6. do not rebuild all on serve
@@ -23,7 +21,6 @@
 
 Thesis sentences instead of summaries on home page?
 
-Less forced rebuilding?
 
 -> Extract memes into meme card. Use on home and posts.
 -> Scale meme images for fast load.
