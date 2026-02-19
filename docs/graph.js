@@ -130,6 +130,12 @@
     const searchStatus = document.getElementById('graph-search-status');
     const thresholdSlider = document.getElementById('graph-threshold');
     const thresholdLabel = document.getElementById('graph-threshold-value');
+    const previewPane = document.getElementById('preview-pane');
+    const previewTitle = previewPane?.querySelector('.preview-pane__title');
+    const previewIframe = previewPane?.querySelector('.preview-pane__iframe');
+    const previewCollapseBtn = previewPane?.querySelector('.preview-pane__collapse-btn');
+    const previewResizeHandle = previewPane?.querySelector('.preview-pane__resize-handle');
+    const previewExpandBtn = document.getElementById('preview-pane-expand');
 
     if (!container || !dataElement) {
       console.error('Graph container or data not found');
@@ -436,6 +442,7 @@
     let selectedClusterId = null;
     let clusterLabelBounds = []; // rebuilt each frame in afterDrawing
     let clusterGeometry = []; // rebuilt each frame in beforeDrawing
+    let previewCollapsed = false;
 
     // Function to show all nodes and edges (respecting threshold)
     function showAll() {
@@ -450,6 +457,46 @@
       nodes.update(nodeUpdates);
       edges.update(edgeUpdates);
       isSearchFiltered = false;
+    }
+
+    function showPreview(node) {
+      if (!previewPane || !node) return;
+      if (previewTitle) previewTitle.textContent = node.fullTitle || node.label || '';
+      if (previewIframe) {
+        const newSrc = '/' + node.url;
+        if (previewIframe.src !== new URL(newSrc, location.origin).href) {
+          previewIframe.src = newSrc;
+        }
+      }
+      if (previewCollapsed) {
+        previewPane.classList.add('preview-pane--collapsed');
+        previewPane.classList.remove('preview-pane--hidden');
+        if (previewExpandBtn) previewExpandBtn.classList.remove('preview-pane-expand--hidden');
+      } else {
+        previewPane.classList.remove('preview-pane--hidden', 'preview-pane--collapsed');
+        if (previewExpandBtn) previewExpandBtn.classList.add('preview-pane-expand--hidden');
+      }
+    }
+
+    function hidePreview() {
+      if (previewPane) previewPane.classList.add('preview-pane--hidden');
+      if (previewExpandBtn) previewExpandBtn.classList.add('preview-pane-expand--hidden');
+      if (previewIframe) previewIframe.src = 'about:blank';
+    }
+
+    function collapsePreview() {
+      previewCollapsed = true;
+      if (previewPane) previewPane.classList.add('preview-pane--collapsed');
+      if (selectedNodeId && previewExpandBtn) {
+        previewExpandBtn.classList.remove('preview-pane-expand--hidden');
+      }
+    }
+
+    function expandPreview() {
+      previewCollapsed = false;
+      if (selectedNodeId) {
+        showPreview(nodes.get(selectedNodeId));
+      }
     }
 
     // Function to filter to a single cluster
@@ -475,6 +522,8 @@
     // Function to filter nodes by search
     function filterBySearch(query) {
       selectedClusterId = null;
+      selectedNodeId = null;
+      hidePreview();
       if (!searchIndex) return;
 
       if (!query.trim()) {
@@ -539,11 +588,13 @@
         if (nodeId === selectedNodeId) {
           selectedNodeId = null;
           showAll();
+          hidePreview();
           return;
         }
 
         selectedClusterId = null;
         selectedNodeId = nodeId;
+        showPreview(nodes.get(nodeId));
         const connectedIds = adjacencyMap.get(nodeId) || new Set();
 
         // Hide unconnected nodes
@@ -574,11 +625,13 @@
             // Toggle off
             selectedClusterId = null;
             selectedNodeId = null;
+            hidePreview();
             showAll();
           } else {
             // Filter to cluster
             selectedClusterId = hitCluster.cid;
             selectedNodeId = null;
+            hidePreview();
             filterByCluster(hitCluster.cid);
           }
           return;
@@ -587,6 +640,7 @@
         // Clicked empty space: show all nodes and edges
         if (selectedNodeId != null || selectedClusterId != null) {
           selectedNodeId = null;
+          hidePreview();
           showAll();
         }
       }
@@ -602,6 +656,48 @@
         }
       }
     });
+
+    // Preview pane button handlers
+    if (previewCollapseBtn) {
+      previewCollapseBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        collapsePreview();
+      });
+    }
+    if (previewExpandBtn) {
+      previewExpandBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        expandPreview();
+      });
+    }
+
+    // Preview pane resize handle
+    if (previewResizeHandle && previewPane) {
+      previewResizeHandle.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startWidth = previewPane.offsetWidth;
+
+        document.body.style.cursor = 'col-resize';
+        if (previewIframe) previewIframe.style.pointerEvents = 'none';
+
+        function onMouseMove(e) {
+          const delta = startX - e.clientX;
+          const newWidth = Math.min(window.innerWidth * 0.8, Math.max(280, startWidth + delta));
+          previewPane.style.width = newWidth + 'px';
+        }
+
+        function onMouseUp() {
+          document.body.style.cursor = '';
+          if (previewIframe) previewIframe.style.pointerEvents = '';
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+    }
 
     // Change cursor on hover
     let hoveringNode = false;

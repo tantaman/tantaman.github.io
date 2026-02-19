@@ -252,6 +252,15 @@ async function graphPage() {
   return `
 <section id="graph-page" class="full-bleed">
   <div id="graph-container"></div>
+  <div id="preview-pane" class="preview-pane preview-pane--hidden">
+    <div class="preview-pane__resize-handle"></div>
+    <div class="preview-pane__header">
+      <span class="preview-pane__title"></span>
+      <button class="preview-pane__collapse-btn" type="button" title="Collapse preview">&#x2715;</button>
+    </div>
+    <iframe class="preview-pane__iframe" sandbox="allow-same-origin allow-scripts"></iframe>
+  </div>
+  <button id="preview-pane-expand" class="preview-pane-expand preview-pane-expand--hidden" type="button" title="Show article preview">&#x25c0; Preview</button>
   <div class="graph-header">
     <div class="graph-controls">
       <div class="graph-search">

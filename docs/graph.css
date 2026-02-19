@@ -132,6 +132,110 @@ body:has(#graph-page) {
   min-width: 80px;
 }
 
+/* Preview Pane */
+.preview-pane {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 48px;
+  width: 420px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.4);
+}
+
+.preview-pane--hidden,
+.preview-pane--collapsed {
+  display: none;
+}
+
+.preview-pane__resize-handle {
+  position: absolute;
+  left: -4px;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  z-index: 1;
+}
+
+.preview-pane__resize-handle:hover {
+  background: rgba(217, 106, 55, 0.3);
+}
+
+.preview-pane__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-soft);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  min-height: 40px;
+}
+
+.preview-pane__title {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-pane__collapse-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.preview-pane__collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+.preview-pane__iframe {
+  flex: 1;
+  border: none;
+  width: 100%;
+  background: var(--bg);
+}
+
+/* Expand tab (visible when pane is user-collapsed and node selected) */
+.preview-pane-expand {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.6rem;
+  cursor: pointer;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
+  writing-mode: horizontal-tb;
+}
+
+.preview-pane-expand:hover {
+  background: rgba(217, 106, 55, 0.2);
+}
+
+.preview-pane-expand--hidden {
+  display: none;
+}
+
 /* Mobile Responsive */
 @media (max-width: 640px) {
   .graph-header {
@@ -141,5 +245,22 @@ body:has(#graph-page) {
   .graph-controls {
     flex-direction: column;
     gap: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .preview-pane {
+    width: 100% !important;
+  }
+
+  .preview-pane__resize-handle {
+    display: none;
+  }
+
+  .preview-pane-expand {
+    top: auto;
+    bottom: 56px;
+    transform: none;
+    right: 8px;
   }
 }
