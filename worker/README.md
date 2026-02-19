@@ -2,7 +2,7 @@
 
 Remote MCP server for [tantaman.com](https://tantaman.com) that lets visitors search the blog using their own Claude account. Runs on Cloudflare Workers with vector similarity search over pre-computed embeddings.
 
-Also accepts incoming WhatsApp messages from allowlisted phone numbers and stores them in a D1 database for ephemeral note-taking on the go.
+Also exposes a thoughts API — ephemeral micro-posts stored in Cloudflare D1, protected by a bearer token.
 
 ## How it works
 
@@ -11,6 +11,7 @@ Also accepts incoming WhatsApp messages from allowlisted phone numbers and store
 3. A Cloudflare Worker exposes an MCP server with a `search_blog` tool
 4. Visitors connect the MCP server to Claude Desktop or claude.ai and ask questions about the blog
 5. Claude calls `search_blog`, retrieves relevant passages, and synthesizes answers with citations
+6. A D1-backed thoughts API allows posting and reading ephemeral micro-posts, authenticated via bearer token
 
 Zero LLM cost for the site owner — visitors use their own Claude subscription.
 
@@ -113,15 +114,15 @@ Add to `claude_desktop_config.json`:
 
 Add as a remote MCP integration in Settings (available on Pro/Max/Team/Enterprise plans).
 
-## WhatsApp Message Ingestion
+## Thoughts API
 
-Receive-only WhatsApp integration. Messages from allowlisted numbers are stored in Cloudflare D1 (SQLite). Meta's webhook retries are handled idempotently via `INSERT OR IGNORE` on the WhatsApp message ID.
+Ephemeral micro-posts stored in Cloudflare D1 (SQLite). `POST` requires a bearer token; `GET` is public.
 
 ### 1. Create the D1 database
 
 ```sh
 cd worker
-wrangler d1 create whatsapp-messages
+wrangler d1 create thought
 ```
 
 Copy the `database_id` from the output and update `wrangler.toml`:
@@ -129,7 +130,7 @@ Copy the `database_id` from the output and update `wrangler.toml`:
 ```toml
 [[d1_databases]]
 binding = "DB"
-database_name = "whatsapp-messages"
+database_name = "thought"
 database_id = "your-database-id-here"
 ```
 
@@ -137,76 +138,39 @@ database_id = "your-database-id-here"
 
 ```sh
 # Locally (for dev)
-wrangler d1 migrations apply whatsapp-messages --local
+wrangler d1 migrations apply thought --local
 
 # Remote (for production)
-wrangler d1 migrations apply whatsapp-messages --remote
+wrangler d1 migrations apply thought --remote
 ```
 
-### 3. Configure allowed senders
+### 3. Set the secret
 
-Update `wrangler.toml` with the phone numbers that are allowed to send messages. Numbers should be without the `+` prefix to match WhatsApp's format (e.g., `15551234567`):
-
-```toml
-[vars]
-ALLOWED_SENDERS = "15551234567,15559876543"
-```
-
-### 4. Set the webhook verify token
-
-Choose a secret string and set it as a Cloudflare secret:
+Set the bearer token used to authenticate `POST /thoughts`. Secrets are stored encrypted and injected at runtime — do not put the real value in `wrangler.toml`.
 
 ```sh
-wrangler secret put WHATSAPP_VERIFY_TOKEN
+wrangler secret put THOUGHT_SECRET
 ```
 
-### 5. Deploy
+### 4. Deploy
 
 ```sh
 npx wrangler deploy
 ```
 
-### 6. Meta Business / WhatsApp setup
-
-1. Create a Meta Business account at [business.facebook.com](https://business.facebook.com)
-2. Create a developer app at [developers.facebook.com/apps](https://developers.facebook.com/apps) with type "Business"
-3. Add the **WhatsApp** product to the app
-4. Meta provisions a test phone number automatically
-5. Go to **WhatsApp > Configuration** in the app dashboard:
-   - Set the callback URL to `https://tantamanlands.tantaman.workers.dev/webhook`
-   - Enter the same verify token you set in step 4
-   - Subscribe to the **messages** webhook field
-6. No app review is needed for testing with your own numbers (up to 5 recipients in dev mode)
-
 ### Verifying the setup
 
 ```sh
-# Test the verification handshake
-curl "https://tantamanlands.tantaman.workers.dev/webhook?hub.mode=subscribe&hub.verify_token=YOUR_TOKEN&hub.challenge=test123"
-# Should return: test123
+# Fetch thoughts (public)
+curl https://tantamanlands.tantaman.workers.dev/thoughts
+# → 200 with { thoughts: [], meta: { ... } }
 
-# Test message ingestion locally
-curl -X POST http://localhost:8787/webhook \
+# Post a thought (requires secret)
+curl -X POST https://tantamanlands.tantaman.workers.dev/thoughts \
   -H "Content-Type: application/json" \
-  -d '{
-    "object": "whatsapp_business_account",
-    "entry": [{
-      "changes": [{
-        "value": {
-          "messages": [{
-            "from": "15551234567",
-            "id": "wamid.test",
-            "timestamp": "1700000000",
-            "type": "text",
-            "text": {"body": "test thought"}
-          }]
-        }
-      }]
-    }]
-  }'
-
-# Check stored messages locally
-wrangler d1 execute whatsapp-messages --local --command "SELECT * FROM messages"
+  -H "Authorization: Bearer <your-secret>" \
+  -d '{"body": "hello world"}'
+# → 201 with { id, body, timestamp, created_at }
 ```
 
 ## Cost
