@@ -314,7 +314,7 @@
     // Draw cluster boundaries and labels on the canvas
     let _dbgCount = 0;
     network.on('beforeDrawing', function (ctx) {
-      clusterLabelBounds = [];
+      clusterGeometry = [];
 
       if (clusterInfo.length === 0) {
         if (_dbgCount++ < 3) console.log('[cluster-dbg] clusterInfo is empty');
@@ -383,38 +383,48 @@
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Draw label above the circle
+        // Store geometry for label drawing in afterDrawing
+        clusterGeometry.push({ cid, cx, cy, radius });
+      });
+    });
+
+    // Draw cluster labels on top of edges and nodes
+    network.on('afterDrawing', function (ctx) {
+      clusterLabelBounds = [];
+      const scale = network.getScale();
+
+      clusterGeometry.forEach(function ({ cid, cx, cy, radius }) {
         const name = clusterNameMap.get(cid);
-        if (name) {
-          const fontSize = 14 / scale;
-          const labelY = cy - radius - 8 / scale;
-          ctx.font = `bold ${fontSize}px Cormorant Garamond, serif`;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'bottom';
+        if (!name) return;
 
-          const isSelected = selectedClusterId === cid;
-          ctx.fillStyle = isSelected ? clusterColor(cid, 1.0) : clusterColor(cid, 0.85);
-          ctx.fillText(name, cx, labelY);
+        const fontSize = 14 / scale;
+        const labelY = cy - radius - 8 / scale;
+        ctx.font = `bold ${fontSize}px Cormorant Garamond, serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
 
-          // Store bounding box for click detection
-          const textWidth = ctx.measureText(name).width;
-          clusterLabelBounds.push({
-            cid,
-            x: cx - textWidth / 2,
-            y: labelY - fontSize,
-            width: textWidth,
-            height: fontSize * 1.3,
-          });
+        const isSelected = selectedClusterId === cid;
+        ctx.fillStyle = isSelected ? clusterColor(cid, 1.0) : clusterColor(cid, 0.85);
+        ctx.fillText(name, cx, labelY);
 
-          // Draw underline for selected cluster
-          if (isSelected) {
-            ctx.beginPath();
-            ctx.moveTo(cx - textWidth / 2, labelY + 2 / scale);
-            ctx.lineTo(cx + textWidth / 2, labelY + 2 / scale);
-            ctx.strokeStyle = clusterColor(cid, 1.0);
-            ctx.lineWidth = 2 / scale;
-            ctx.stroke();
-          }
+        // Store bounding box for click detection
+        const textWidth = ctx.measureText(name).width;
+        clusterLabelBounds.push({
+          cid,
+          x: cx - textWidth / 2,
+          y: labelY - fontSize,
+          width: textWidth,
+          height: fontSize * 1.3,
+        });
+
+        // Draw underline for selected cluster
+        if (isSelected) {
+          ctx.beginPath();
+          ctx.moveTo(cx - textWidth / 2, labelY + 2 / scale);
+          ctx.lineTo(cx + textWidth / 2, labelY + 2 / scale);
+          ctx.strokeStyle = clusterColor(cid, 1.0);
+          ctx.lineWidth = 2 / scale;
+          ctx.stroke();
         }
       });
     });
@@ -424,7 +434,8 @@
     let currentThreshold = 0;
     let selectedNodeId = null;
     let selectedClusterId = null;
-    let clusterLabelBounds = []; // rebuilt each frame in beforeDrawing
+    let clusterLabelBounds = []; // rebuilt each frame in afterDrawing
+    let clusterGeometry = []; // rebuilt each frame in beforeDrawing
 
     // Function to show all nodes and edges (respecting threshold)
     function showAll() {
@@ -593,12 +604,28 @@
     });
 
     // Change cursor on hover
+    let hoveringNode = false;
     network.on('hoverNode', function () {
+      hoveringNode = true;
       container.style.cursor = 'pointer';
     });
 
     network.on('blurNode', function () {
+      hoveringNode = false;
       container.style.cursor = 'default';
+    });
+
+    // Change cursor when hovering over cluster labels
+    container.addEventListener('mousemove', function (event) {
+      if (hoveringNode) return;
+      const rect = container.getBoundingClientRect();
+      const domPos = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+      const canvasPos = network.DOMtoCanvas(domPos);
+      const overLabel = clusterLabelBounds.some(b =>
+        canvasPos.x >= b.x && canvasPos.x <= b.x + b.width &&
+        canvasPos.y >= b.y && canvasPos.y <= b.y + b.height
+      );
+      container.style.cursor = overLabel ? 'pointer' : 'default';
     });
 
     // After physics stabilizes, freeze layout and fit to view
