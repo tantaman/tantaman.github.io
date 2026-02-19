@@ -373,6 +373,43 @@
 
 .thought-loading { padding: 2rem 0; text-align: center; color: var(--text-muted); }
 
+/* ── Thread nesting ── */
+.thought-children {
+  margin-left: 1.25rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--border);
+}
+
+/* Cap indentation at depth 4 */
+.thought-children[data-depth="4"] {
+  margin-left: 0;
+  padding-left: 0.5rem;
+}
+
+/* Nested thoughts: lighter spacing, no bottom border */
+.thought-children .thought {
+  border-bottom: none;
+  padding: 0.75rem 0;
+}
+
+/* Inline reply form inside a thought */
+.thought > .reply-form-wrap {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+/* Reply action button */
+.thought-reply-btn {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  text-decoration: none;
+}
+.thought-reply-btn:hover {
+  opacity: 1;
+  color: var(--text);
+}
+
 /* ── Mobile: sidebar collapses to top bar ── */
 @media (max-width: 768px) {
   #thoughts-page {
@@ -404,5 +441,10 @@
     padding: 1.5rem 1rem;
     max-width: 100%;
     margin: 0;
+  }
+
+  .thought-children {
+    margin-left: 0.75rem;
+    padding-left: 0.75rem;
   }
 }

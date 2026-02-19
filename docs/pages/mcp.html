@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MCP - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<link rel="stylesheet" href="/index.css">
+
+<meta name="description" content="Connect to this blog&#x27;s MCP server">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2026 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="MCP">
+<meta property="og:description" content="Connect to this blog&#x27;s MCP server">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="1 minute">
+</head>
+<body><header class="post-header"><a href="/">tantaman</a><button class="theme-toggle" type="button"></button></header><main id="static"><h1>MCP</h1>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#claude-desktop">Claude Desktop</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#claudeai">Claude.ai</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#other-clients">Other Clients</a></li></ol></nav><p>This site has an <a href="https://modelcontextprotocol.io/">MCP</a> server that lets you search the blog from any MCP-compatible AI client.</p>
+<p><strong>Endpoint:</strong> <code>https://tantamanlands.tantaman.workers.dev/mcp</code></p>
+<h2 id="claude-desktop"><a aria-hidden="true" tabindex="-1" href="#claude-desktop"><span class="icon icon-link"></span></a>Claude Desktop</h2>
+<p>Add this to your <code>claude_desktop_config.json</code>:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"mcpServers"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"tantaman-blog"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"command"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"npx"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"args"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-string">"-y"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"mcp-remote"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">"https://tantamanlands.tantaman.workers.dev/mcp"</span>
+      <span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="claudeai"><a aria-hidden="true" tabindex="-1" href="#claudeai"><span class="icon icon-link"></span></a>Claude.ai</h2>
+<p>Go to <strong>Settings > Integrations > Add remote MCP server</strong> and enter the endpoint URL above.</p>
+<h2 id="other-clients"><a aria-hidden="true" tabindex="-1" href="#other-clients"><span class="icon icon-link"></span></a>Other Clients</h2>
+<p>Any MCP-compatible client can connect using the endpoint URL. The server exposes a <code>search_blog</code> tool that returns relevant passages from blog posts.</p>
+<script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
+<script src="/ga.js"></script>
+<script src="/toc.js"></script>
+<script src="/theme.js"></script>
+</main><footer id="footer"></footer></body>
+</html>

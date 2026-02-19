@@ -10,6 +10,8 @@
 13. thought search
 14. thought graph?
 15. thought header?
+16. Thought clustering, thought semantic labels?
+
 
 2. build cache understands index.js stuff deps...
 2. Compose relevant posts into a book. geo-theological and self series.

@@ -56,6 +56,8 @@ export default async function defaultLayout(
         <nav>
           <a href="/tags.html">Browse</a>
           <a href="/graph.html">Graph</a>
+          <a href="/thoughts.html">Thoughts</a>
+          <a href="/pages/mcp.html">MCP</a>
           <button class="theme-toggle" type="button"></button>
         </nav>
       </div>
@@ -85,7 +87,7 @@ async function buildFooter(file: VFile) {
 
   // Collect all posts
   Object.entries(indices).forEach(([collection, index]) => {
-    if (collection === 'bookmarks/' || collection === 'notes/') return;
+    if (collection === 'bookmarks/' || collection === 'notes/' || collection === 'pages/') return;
 
     Object.entries(index).forEach(([filename, postMeta]) => {
       if (

@@ -6,6 +6,7 @@
 
   var currentView = 'feed';
   var currentThreadId = null;
+  var activeInlineForm = null;
 
   var listEl = document.getElementById('thoughts-list');
   var loadMoreBtn = document.getElementById('load-more');
@@ -56,6 +57,7 @@
 
   function renderThought(t, options) {
     var isParent = options && options.isParent;
+    var inThread = options && options.inThread;
     var div = document.createElement('div');
     div.className = 'thought' + (isParent ? ' thought--parent' : '');
     div.dataset.id = t.id;
@@ -63,7 +65,15 @@
       ? '<button class="thought-delete" aria-label="Delete thought">&times;</button>'
       : '';
     var footerHtml = '';
-    if (!isParent) {
+    if (inThread && !isParent) {
+      // In thread view: show "Reply" link for authed users
+      if (getSecret()) {
+        footerHtml = '<div class="thought-footer">' +
+          '<a href="javascript:void(0)" class="thought-reply-btn">Reply</a>' +
+          '</div>';
+      }
+    } else if (!isParent) {
+      // Feed view: show reply count link
       var count = t.reply_count || 0;
       if (count > 0) {
         footerHtml = '<div class="thought-footer">' +
@@ -92,7 +102,70 @@
         deleteThought(t.id, div);
       });
     }
+
+    var replyBtn = div.querySelector('.thought-reply-btn');
+    if (replyBtn) {
+      replyBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        showInlineReplyForm(t.id, div);
+      });
+    }
+
     return div;
+  }
+
+  function buildTree(flatReplies) {
+    var childrenMap = {};
+    for (var i = 0; i < flatReplies.length; i++) {
+      var r = flatReplies[i];
+      var pid = r.parent_id;
+      if (!childrenMap[pid]) childrenMap[pid] = [];
+      childrenMap[pid].push(r);
+    }
+    return childrenMap;
+  }
+
+  function renderThreadThought(t, childrenMap, depth) {
+    var div = renderThought(t, { inThread: true, depth: depth });
+    var children = childrenMap[t.id];
+    if (children && children.length > 0) {
+      var container = document.createElement('div');
+      container.className = 'thought-children';
+      var nextDepth = Math.min(depth + 1, 4);
+      container.dataset.depth = nextDepth;
+      for (var i = 0; i < children.length; i++) {
+        container.appendChild(renderThreadThought(children[i], childrenMap, nextDepth));
+      }
+      div.appendChild(container);
+    }
+    return div;
+  }
+
+  function showInlineReplyForm(parentId, thoughtEl) {
+    // Remove existing inline form
+    if (activeInlineForm) {
+      activeInlineForm.remove();
+      activeInlineForm = null;
+    }
+
+    var depthAttr = 0;
+    var parentChildren = thoughtEl.closest('.thought-children');
+    if (parentChildren) {
+      depthAttr = parseInt(parentChildren.dataset.depth, 10) || 0;
+    }
+
+    var wrap = createReplyForm(parentId, { inline: true, thoughtEl: thoughtEl, depth: depthAttr });
+    activeInlineForm = wrap;
+
+    var existingChildren = thoughtEl.querySelector(':scope > .thought-children');
+    if (existingChildren) {
+      thoughtEl.insertBefore(wrap, existingChildren);
+    } else {
+      thoughtEl.appendChild(wrap);
+    }
+
+    var textarea = wrap.querySelector('textarea');
+    if (textarea) textarea.focus();
   }
 
   function deleteThought(id, el) {
@@ -216,6 +289,7 @@
   function showFeed() {
     currentView = 'feed';
     currentThreadId = null;
+    activeInlineForm = null;
 
     // Remove thread-specific elements
     var backBar = listEl.parentNode.querySelector('.thread-back');
@@ -235,6 +309,7 @@
   function loadThread(id) {
     currentView = 'thread';
     currentThreadId = id;
+    activeInlineForm = null;
 
     // Hide main form and load-more
     formWrap.style.display = 'none';
@@ -287,12 +362,14 @@
         label.textContent = count > 0 ? count + (count === 1 ? ' Reply' : ' Replies') : 'No replies yet';
         listEl.appendChild(label);
 
-        // Replies
-        data.replies.forEach(function (r) {
-          listEl.appendChild(renderThought(r));
-        });
+        // Build tree and render recursively
+        var childrenMap = buildTree(data.replies);
+        var rootChildren = childrenMap[parseInt(id, 10)] || childrenMap[id] || [];
+        for (var i = 0; i < rootChildren.length; i++) {
+          listEl.appendChild(renderThreadThought(rootChildren[i], childrenMap, 0));
+        }
 
-        // Reply form if authed
+        // Root reply form if authed
         if (getSecret()) {
           listEl.appendChild(createReplyForm(id));
         }
@@ -311,7 +388,11 @@
       });
   }
 
-  function createReplyForm(parentId) {
+  function createReplyForm(parentId, options) {
+    var inline = options && options.inline;
+    var thoughtEl = options && options.thoughtEl;
+    var depth = (options && options.depth) || 0;
+
     var wrap = document.createElement('div');
     wrap.className = 'reply-form-wrap';
 
@@ -333,7 +414,7 @@
     replyFileInput.type = 'file';
     replyFileInput.multiple = true;
     replyFileInput.style.display = 'none';
-    replyFileInput.id = 'reply-file-' + parentId;
+    replyFileInput.id = 'reply-file-' + parentId + '-' + Date.now();
     var replyFileLabel = document.createElement('label');
     replyFileLabel.className = 'compose-file-btn';
     replyFileLabel.setAttribute('for', replyFileInput.id);
@@ -443,8 +524,26 @@
           return r.json();
         })
         .then(function (t) {
-          var replyEl = renderThought(t);
-          listEl.insertBefore(replyEl, wrap);
+          var replyEl = renderThought(t, { inThread: true });
+
+          if (inline && thoughtEl) {
+            // Inline mode: append to this thought's children container
+            var childrenContainer = thoughtEl.querySelector(':scope > .thought-children');
+            if (!childrenContainer) {
+              childrenContainer = document.createElement('div');
+              childrenContainer.className = 'thought-children';
+              var nextDepth = Math.min(depth + 1, 4);
+              childrenContainer.dataset.depth = nextDepth;
+              thoughtEl.appendChild(childrenContainer);
+            }
+            childrenContainer.appendChild(replyEl);
+            wrap.remove();
+            activeInlineForm = null;
+          } else {
+            // Root reply form: insert before the form wrap
+            listEl.insertBefore(replyEl, wrap);
+          }
+
           textarea.value = '';
           replyCharCount.textContent = '0 / 1000';
           replyFileInput.value = '';
