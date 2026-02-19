@@ -18,6 +18,8 @@
   },
   "scripts": {
     "build": "cd packages/compiler && pnpm build && cd ../frontend && pnpm build && cd ../.. && sitecompiler",
+    "build:cloudflare": "cd worker",
+    "deploy:cloudflare": "cd worker && wrangler publish",
     "build:watch": "sitecompiler-watch",
     "dev": "sitecompiler-watch",
     "serve": "cd docs && serve",
