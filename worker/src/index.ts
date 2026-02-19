@@ -16,6 +16,28 @@ interface Chunk {
 interface Env {
   AI: Ai;
   EMBEDDINGS: KVNamespace;
+  DB: D1Database;
+  WHATSAPP_VERIFY_TOKEN: string;
+  ALLOWED_SENDERS: string;
+}
+
+interface WhatsAppMessage {
+  from: string;
+  id: string;
+  timestamp: string;
+  type: string;
+  text?: { body: string };
+}
+
+interface WhatsAppWebhookBody {
+  object: string;
+  entry?: {
+    changes?: {
+      value?: {
+        messages?: WhatsAppMessage[];
+      };
+    }[];
+  }[];
 }
 
 // Module-level cache for embeddings data
@@ -114,5 +136,50 @@ app.get("/", (c) => {
     mcp: "/mcp",
   });
 });
+
+app.get("/webhook", (c) => {
+  const mode = c.req.query("hub.mode");
+  const token = c.req.query("hub.verify_token");
+  const challenge = c.req.query("hub.challenge");
+
+  if (mode === "subscribe" && token === c.env.WHATSAPP_VERIFY_TOKEN) {
+    return c.text(challenge ?? "", 200);
+  }
+  return c.text("Forbidden", 403);
+});
+
+app.post("/webhook", async (c) => {
+  const body = await c.req.json<WhatsAppWebhookBody>();
+
+  c.executionCtx.waitUntil(processWebhook(body, c.env));
+
+  return c.text("OK", 200);
+});
+
+async function processWebhook(body: WhatsAppWebhookBody, env: Env) {
+  if (body.object !== "whatsapp_business_account") return;
+
+  const allowedSenders = new Set(env.ALLOWED_SENDERS.split(",").map((s) => s.trim()));
+  const statements: D1PreparedStatement[] = [];
+
+  for (const entry of body.entry ?? []) {
+    for (const change of entry.changes ?? []) {
+      for (const msg of change.value?.messages ?? []) {
+        if (msg.type !== "text" || !msg.text?.body) continue;
+        if (!allowedSenders.has(msg.from)) continue;
+
+        statements.push(
+          env.DB.prepare(
+            "INSERT OR IGNORE INTO messages (wa_message_id, sender, body, timestamp) VALUES (?, ?, ?, ?)"
+          ).bind(msg.id, msg.from, msg.text.body, parseInt(msg.timestamp, 10))
+        );
+      }
+    }
+  }
+
+  if (statements.length > 0) {
+    await env.DB.batch(statements);
+  }
+}
 
 export default app;
