@@ -57,7 +57,7 @@ function createMcpServer(env: Env) {
       // Embed the query using Workers AI
       const queryEmbedding = await env.AI.run("@cf/baai/bge-base-en-v1.5", {
         text: [query],
-      });
+      }) as { data: number[][] };
 
       const queryVec = queryEmbedding.data[0];
 
