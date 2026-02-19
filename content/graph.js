@@ -4,6 +4,7 @@ import {
   layout,
   rehypeDocument,
   indexFrontmatter,
+  contentDirs,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
@@ -78,6 +79,7 @@ export default async function graph(file, cwd, files) {
       minimalHeader: true,
     },
     greymatter: {},
+    dependencies: [...contentDirs(), '.relationships.json'],
   };
 }
 

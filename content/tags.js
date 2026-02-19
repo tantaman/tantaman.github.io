@@ -11,6 +11,7 @@ import {
   tagId,
   stripTags,
   truncate,
+  contentDirs,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
@@ -52,6 +53,7 @@ export default async function tags(file, cwd, files) {
       noHeader: true,
     },
     greymatter: {},
+    dependencies: [...contentDirs()],
   };
 }
 
