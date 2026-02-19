@@ -12,6 +12,7 @@ import {
   renderPills,
   stripTags,
   truncate,
+  contentDirs,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
@@ -42,6 +43,7 @@ export default async function index(file, cwd, files) {
     },
     frontmatter: {},
     greymatter: {},
+    dependencies: [...contentDirs(), '.meme-cache.json'],
   };
 }
 

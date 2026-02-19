@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { spawn } from 'child_process';
 import { startDevServer, notifyReload } from './dev-server.js';
+import { collections } from './collections.js';
 
 function spawnAsync(command, args = [], options = {}) {
   return new Promise((resolve, reject) => {
@@ -18,7 +19,7 @@ function spawnAsync(command, args = [], options = {}) {
 const DEBOUNCE_DELAY = 300; // ms
 let buildTimeout = null;
 
-const collections = ['', 'bookmarks/', 'notes/', 'the-mirror-room/'];
+// collections imported from ./collections.js
 
 export default async function watch() {
   console.log('Starting watch mode and dev server...');
@@ -76,7 +77,7 @@ export default async function watch() {
 
           // Also rebuild content after compiler changes
           console.log('Rebuilding all content...');
-          await spawnAsync('sitecompiler', ['--force']);
+          await spawnAsync('sitecompiler');
           console.log('Content build complete');
         } else if (type === 'content') {
           console.log(

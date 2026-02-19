@@ -4,6 +4,7 @@ import {
   layout,
   rehypeDocument,
   indexFrontmatter,
+  contentDirs,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
@@ -33,6 +34,7 @@ export default async function stories(file, cwd, files) {
       description: 'All stories from The Mirror Room',
     },
     greymatter: {},
+    dependencies: [...contentDirs()],
   };
 }
 
