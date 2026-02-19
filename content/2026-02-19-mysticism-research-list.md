@@ -5,8 +5,6 @@ concern: [self, ground]
 summary: 'The crack to dissolving the self. Losing nothing and gaining everything'
 ---
 
-# Wanting Without Willing: A Collection of Primary Sources
-
 I experienced the cessation of the will while wishing for our newborn daughter to be soothed and stop crying. I saw the self dissolve. It was as if a glass was removed from the one and reality. I could still want but wanting was without will and all the machinations of the self were gone and proven draining and illusory. What have other traditions said about this throughout time?
 
 ---
