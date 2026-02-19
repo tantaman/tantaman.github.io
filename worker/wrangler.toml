@@ -1,4 +1,4 @@
-name = "tantaman-api"
+name = "tantamanlands"
 main = "src/index.ts"
 compatibility_date = "2025-03-03"
 
