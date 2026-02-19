@@ -1,12 +1,10 @@
 # TODO
 
-1. no blue on select on graph
 2. remember similairty dial
 3. default sim to 70
 6. drag and move a cluster?
 8. Clust label color should match node colors?? avg?
 9. embeddings auto build and deploy
-10. social cards use image from post
 11. put meme information into post frontmatter instead
 12. reply to a thought to form a string of thoughts.
 13. thought search
