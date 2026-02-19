@@ -11,8 +11,9 @@ binding = "AI"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "whatsapp-messages"
+database_name = "thought"
 database_id = "<from wrangler d1 create>"
 
 [vars]
 ALLOWED_SENDERS = "<your-number>"
+THOUGHT_SECRET = "<your-secret>"
