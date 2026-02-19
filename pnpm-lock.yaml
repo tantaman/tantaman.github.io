@@ -32,7 +32,7 @@ importers:
     devDependencies:
       '@anthropic-ai/sdk':
         specifier: ^0.74.0
-        version: 0.74.0
+        version: 0.74.0(zod@3.25.76)
       cheerio:
         specifier: ^1.1.2
         version: 1.1.2
@@ -2747,6 +2747,9 @@ packages:
     engines: {node: '>= 14.6'}
     hasBin: true
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
   zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
 
@@ -2760,9 +2763,11 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.12
       '@jridgewell/trace-mapping': 0.3.29
 
-  '@anthropic-ai/sdk@0.74.0':
+  '@anthropic-ai/sdk@0.74.0(zod@3.25.76)':
     dependencies:
       json-schema-to-ts: 3.1.1
+    optionalDependencies:
+      zod: 3.25.76
 
   '@babel/code-frame@7.27.1':
     dependencies:
@@ -5820,6 +5825,9 @@ snapshots:
   yallist@3.1.1: {}
 
   yaml@2.8.0: {}
+
+  zod@3.25.76:
+    optional: true
 
   zwitch@1.0.5: {}
 

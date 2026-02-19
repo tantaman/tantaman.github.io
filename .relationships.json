@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-02-19T13:08:05.665Z",
+  "generatedAt": "2026-02-19T14:25:55.408Z",
   "config": {
     "model": "Xenova/all-MiniLM-L6-v2",
     "minScore": 0.25,
@@ -34771,7 +34771,7 @@
       "2025-12-10-calvinism-to-capitalism.md": 5,
       "2025-12-10-husk-of-god.md": 5,
       "2025-12-10-indigenous-violence-slavery-documentation.md": 12,
-      "2025-12-10-peasent-uprisings.md": 5,
+      "2025-12-10-peasent-uprisings.md": 4,
       "2025-12-12-making-sense-of-us-ukraine-negotations.md": 4,
       "2025-12-12-structure-not-vibes-the-real-state.md": 4,
       "2025-12-12-the-vulnerability-principle.md": 4,
@@ -34801,7 +34801,7 @@
       "2025-12-21-the-incomplete-god-why-science-cannot.md": 5,
       "2025-12-21-the-liquefaction-of-being-materialism.md": 4,
       "2025-12-21-what-modernity-needs-a-return-to.md": 5,
-      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 4,
+      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 9,
       "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 4,
       "2026-01-09-diagnosing-white-guilt.md": 4,
       "2026-01-09-leftism-is-worse-than-fascism.md": 4,
@@ -34827,8 +34827,8 @@
       "2026-01-15-the-return.md": 5,
       "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 4,
       "2026-01-23-grammar-as-alignment-the-world-economic.md": 4,
-      "2026-01-23-grammar-rules-all.md": 4,
-      "2026-01-23-the-language-that-thinks-for-you.md": 4,
+      "2026-01-23-grammar-rules-all.md": 9,
+      "2026-01-23-the-language-that-thinks-for-you.md": 9,
       "2026-01-25-the-ice-protest-that-changes-nothing.md": 4,
       "2026-01-25-the-machine-that-eats-the-world.md": 4,
       "2026-01-26-the-table.md": 5,
@@ -34849,8 +34849,8 @@
       "2026-02-09-what-holds-you.md": 4,
       "2026-02-11-nine-months-two-men.md": 9,
       "2026-02-11-the-gaze.md": 9,
-      "2026-02-12-the-ironist-gen-z-and-the-ground.md": 4,
-      "2026-02-12-what-if-the-thing-youre-protecting.md": 4,
+      "2026-02-12-the-ironist-gen-z-and-the-ground.md": 9,
+      "2026-02-12-what-if-the-thing-youre-protecting.md": 9,
       "start-here.md": 5,
       "bookmarks/alecmuffet.com.md": 0,
       "bookmarks/allenfarrington.medium.com.md": 0,
@@ -34926,7 +34926,7 @@
         "centerX": 4.898587196589413e-14,
         "centerY": -800,
         "nodeCount": 71,
-        "name": "Reacting / Query / Clock"
+        "name": "Software"
       },
       {
         "id": 1,
@@ -34950,15 +34950,15 @@
         "id": 4,
         "centerX": 710.3081747219002,
         "centerY": -368.0520301849217,
-        "nodeCount": 48,
-        "name": "World / Left / Ideas"
+        "nodeCount": 44,
+        "name": "Politics & Culture"
       },
       {
         "id": 5,
         "centerX": 783.2672701458583,
         "centerY": -162.76481044210695,
-        "nodeCount": 51,
-        "name": "Christian / Thyself / Secular"
+        "nodeCount": 50,
+        "name": "Religion & Philosophy"
       },
       {
         "id": 6,
@@ -34971,7 +34971,7 @@
         "centerX": 753.8087376950564,
         "centerY": 267.903689736789,
         "nodeCount": 3,
-        "name": "Regression / Gambler / Fallacy"
+        "name": "Math & Software"
       },
       {
         "id": 8,
@@ -34983,8 +34983,8 @@
         "id": 9,
         "centerX": 504.8703554608424,
         "centerY": 620.5690325635358,
-        "nodeCount": 19,
-        "name": "Mirror / Room / Trauma"
+        "nodeCount": 24,
+        "name": "Culture & Philosophy"
       },
       {
         "id": 10,
@@ -35009,14 +35009,14 @@
         "centerX": -318.7208718769933,
         "centerY": 733.7690412043623,
         "nodeCount": 3,
-        "name": "Trump / Techno / Fetish"
+        "name": "Economics & Politics"
       },
       {
         "id": 14,
         "centerX": -504.8703554608423,
         "centerY": 620.5690325635359,
         "nodeCount": 3,
-        "name": "Antonz / Rothlis / David"
+        "name": "Sqlite & Json"
       },
       {
         "id": 15,
@@ -35067,12 +35067,12 @@
         "nodeCount": 1
       }
     ],
-    "modularity": 0.3181915334669822
+    "modularity": 0.3197303565353474
   },
   "metadata": {
     "totalNodes": 214,
     "totalEdges": 2301,
-    "buildTimeMs": 215,
+    "buildTimeMs": 256,
     "signalsUsed": [
       "wikilink",
       "semantic"

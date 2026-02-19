@@ -77,7 +77,9 @@ export function computeClusters(
 }
 
 /**
- * Generate human-readable names for clusters using TF-IDF on member titles.
+ * Generate human-readable names for clusters.
+ * Primary: tag-based naming using TF-ICF when >= 3 nodes have tags.
+ * Fallback: body TF-IDF for clusters without sufficient tag coverage.
  * Only names clusters with 3+ nodes.
  */
 export function generateClusterNames(
@@ -101,90 +103,156 @@ export function generateClusterNames(
 
   if (eligibleClusters.length === 0) return;
 
-  // Build per-cluster "documents" from concatenated titles
-  // Track stemmed -> original form mapping with counts
-  const clusterTermCounts = new Map<number, Map<string, number>>();
-  const stemToOriginal = new Map<string, Map<string, number>>(); // stem -> (original -> count)
+  // Determine which clusters have enough tag coverage (>= 3 nodes with tags)
+  const clusterTagCounts = new Map<number, Map<string, number>>();
+  const tagEligibleClusters: Array<[number, ContentNode[]]> = [];
+  const fallbackClusters: Array<[number, ContentNode[]]> = [];
 
   for (const [clusterId, members] of eligibleClusters) {
-    const termCounts = new Map<string, number>();
-    for (const node of members) {
-      // Tokenize title without stemming first, to track originals
-      const rawTitle = node.title || '';
-      const cleaned = rawTitle
-        .replace(/[^a-zA-Z\s]/g, ' ')
-        .toLowerCase();
-      const rawTokens = cleaned
-        .split(/\s+/)
-        .filter((w) => w.length > 2 && !STOP_WORDS.has(w));
-
-      for (const rawToken of rawTokens) {
-        const stemmed = stem(rawToken);
-        // Track original forms
-        if (!stemToOriginal.has(stemmed)) stemToOriginal.set(stemmed, new Map());
-        const origMap = stemToOriginal.get(stemmed)!;
-        origMap.set(rawToken, (origMap.get(rawToken) || 0) + 1);
+    const nodesWithTags = members.filter((n) => n.tags && n.tags.length > 0);
+    if (nodesWithTags.length >= 3) {
+      tagEligibleClusters.push([clusterId, members]);
+      // Count tag frequencies
+      const tagCounts = new Map<string, number>();
+      for (const node of members) {
+        for (const tag of node.tags) {
+          const normalized = tag.toLowerCase().trim();
+          if (normalized) {
+            tagCounts.set(normalized, (tagCounts.get(normalized) || 0) + 1);
+          }
+        }
       }
-
-      // Use extractTerms for the actual TF-IDF terms (these are stemmed)
-      const terms = extractTerms(node.title);
-      for (const term of terms) {
-        termCounts.set(term, (termCounts.get(term) || 0) + 1);
-      }
-    }
-    clusterTermCounts.set(clusterId, termCounts);
-  }
-
-  // Compute document frequency across clusters
-  const df = new Map<string, number>();
-  for (const [, termCounts] of clusterTermCounts) {
-    for (const term of termCounts.keys()) {
-      df.set(term, (df.get(term) || 0) + 1);
+      clusterTagCounts.set(clusterId, tagCounts);
+    } else {
+      fallbackClusters.push([clusterId, members]);
     }
   }
 
-  const totalDocs = eligibleClusters.length;
-
-  // Helper to get the best original (unstemmed) form for a stemmed term
-  function bestOriginal(stemmed: string): string {
-    const origMap = stemToOriginal.get(stemmed);
-    if (!origMap || origMap.size === 0) return stemmed;
-    // Pick the most common original form
-    let best = stemmed;
-    let bestCount = 0;
-    for (const [orig, count] of origMap) {
-      if (count > bestCount) {
-        best = orig;
-        bestCount = count;
+  // --- Primary: Tag-based naming with TF-ICF ---
+  if (tagEligibleClusters.length > 0) {
+    // Compute inverse-cluster-frequency for each tag
+    const tagClusterFreq = new Map<string, number>();
+    for (const [, tagCounts] of clusterTagCounts) {
+      for (const tag of tagCounts.keys()) {
+        tagClusterFreq.set(tag, (tagClusterFreq.get(tag) || 0) + 1);
       }
     }
-    // Capitalize first letter
-    return best.charAt(0).toUpperCase() + best.slice(1);
+    const totalTagClusters = tagEligibleClusters.length;
+
+    for (const [clusterId] of tagEligibleClusters) {
+      const tagCounts = clusterTagCounts.get(clusterId)!;
+      const totalTags = [...tagCounts.values()].reduce((a, b) => a + b, 0);
+      const scored: [string, number][] = [];
+
+      for (const [tag, count] of tagCounts) {
+        const tf = count / totalTags;
+        const icf =
+          Math.log((totalTagClusters + 1) / ((tagClusterFreq.get(tag) || 0) + 1)) + 1;
+        scored.push([tag, tf * icf]);
+      }
+
+      scored.sort((a, b) => b[1] - a[1]);
+
+      let name: string;
+      if (scored.length === 0) {
+        name = `Cluster ${clusterId}`;
+      } else if (scored.length === 1 || scored[0][1] > 3 * scored[1][1]) {
+        // Single dominant tag
+        name = capitalize(scored[0][0]);
+      } else {
+        name = scored
+          .slice(0, 2)
+          .map(([t]) => capitalize(t))
+          .join(' & ');
+      }
+
+      const meta = clusterMeta.find((c) => c.id === clusterId);
+      if (meta) {
+        meta.name = name;
+      }
+    }
   }
 
-  // Compute TF-IDF per cluster and pick top terms
-  for (const [clusterId, termCounts] of clusterTermCounts) {
-    const totalTerms = [...termCounts.values()].reduce((a, b) => a + b, 0);
-    const scored: [string, number][] = [];
+  // --- Fallback: Body TF-IDF for clusters without enough tags ---
+  if (fallbackClusters.length > 0) {
+    const clusterTermCounts = new Map<number, Map<string, number>>();
+    const stemToOriginal = new Map<string, Map<string, number>>();
 
-    for (const [term, count] of termCounts) {
-      // Skip very short stems that produce unreadable labels
-      if (term.length < 4) continue;
-      const tf = count / totalTerms;
-      const idf = Math.log((totalDocs + 1) / ((df.get(term) || 0) + 1)) + 1;
-      scored.push([term, tf * idf]);
+    for (const [clusterId, members] of fallbackClusters) {
+      const termCounts = new Map<string, number>();
+      for (const node of members) {
+        // Track original forms from body text
+        const rawBody = node.body || '';
+        const cleaned = rawBody.replace(/[^a-zA-Z\s]/g, ' ').toLowerCase();
+        const rawTokens = cleaned
+          .split(/\s+/)
+          .filter((w) => w.length > 2 && !STOP_WORDS.has(w))
+          .slice(0, 500);
+
+        for (const rawToken of rawTokens) {
+          const stemmed = stem(rawToken);
+          if (!stemToOriginal.has(stemmed)) stemToOriginal.set(stemmed, new Map());
+          const origMap = stemToOriginal.get(stemmed)!;
+          origMap.set(rawToken, (origMap.get(rawToken) || 0) + 1);
+        }
+
+        // Use extractTerms on body, capped at 500 terms
+        const terms = extractTerms(node.body).slice(0, 500);
+        for (const term of terms) {
+          termCounts.set(term, (termCounts.get(term) || 0) + 1);
+        }
+      }
+      clusterTermCounts.set(clusterId, termCounts);
     }
 
-    scored.sort((a, b) => b[1] - a[1]);
-    const topTerms = scored.slice(0, 3).map(([t]) => bestOriginal(t));
-    const name = topTerms.join(' / ');
+    // Compute document frequency across fallback clusters
+    const df = new Map<string, number>();
+    for (const [, termCounts] of clusterTermCounts) {
+      for (const term of termCounts.keys()) {
+        df.set(term, (df.get(term) || 0) + 1);
+      }
+    }
+    const totalDocs = fallbackClusters.length;
 
-    // Attach name to the corresponding clusterMeta entry
-    const meta = clusterMeta.find((c) => c.id === clusterId);
-    if (meta) {
-      meta.name = name;
+    function bestOriginal(stemmed: string): string {
+      const origMap = stemToOriginal.get(stemmed);
+      if (!origMap || origMap.size === 0) return stemmed;
+      let best = stemmed;
+      let bestCount = 0;
+      for (const [orig, count] of origMap) {
+        if (count > bestCount) {
+          best = orig;
+          bestCount = count;
+        }
+      }
+      return best.charAt(0).toUpperCase() + best.slice(1);
+    }
+
+    for (const [clusterId, termCounts] of clusterTermCounts) {
+      const totalTerms = [...termCounts.values()].reduce((a, b) => a + b, 0);
+      const scored: [string, number][] = [];
+
+      for (const [term, count] of termCounts) {
+        if (term.length < 4) continue;
+        const tf = count / totalTerms;
+        const idf = Math.log((totalDocs + 1) / ((df.get(term) || 0) + 1)) + 1;
+        scored.push([term, tf * idf]);
+      }
+
+      scored.sort((a, b) => b[1] - a[1]);
+      const topTerms = scored.slice(0, 2).map(([t]) => bestOriginal(t));
+      const name = topTerms.length > 0 ? topTerms.join(' & ') : `Cluster ${clusterId}`;
+
+      const meta = clusterMeta.find((c) => c.id === clusterId);
+      if (meta) {
+        meta.name = name;
+      }
     }
   }
+}
+
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 /**
