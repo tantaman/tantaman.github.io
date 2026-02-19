@@ -187,7 +187,6 @@
         id: node.id,
         label: node.label,
         title: node.title,
-        group: node.group,
         color: sentimentNodeColor(node.sentimentColor),
         font: {
           color: '#fcebd5',
@@ -397,6 +396,7 @@
     // Track if we're in search filter mode
     let isSearchFiltered = false;
     let currentThreshold = 0;
+    let selectedNodeId = null;
 
     // Function to show all nodes and edges (respecting threshold)
     function showAll() {
@@ -473,6 +473,15 @@
 
       if (params.nodes.length > 0) {
         const nodeId = params.nodes[0];
+
+        // Clicking the already-selected node: deselect and show all
+        if (nodeId === selectedNodeId) {
+          selectedNodeId = null;
+          showAll();
+          return;
+        }
+
+        selectedNodeId = nodeId;
         const connectedIds = adjacencyMap.get(nodeId) || new Set();
 
         // Hide unconnected nodes
@@ -490,8 +499,9 @@
         });
         nodes.update(nodeUpdates);
         edges.update(edgeUpdates);
-      } else {
+      } else if (selectedNodeId != null) {
         // Clicked empty space: show all nodes and edges
+        selectedNodeId = null;
         showAll();
       }
     });
