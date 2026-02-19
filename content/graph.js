@@ -252,6 +252,10 @@ async function graphPage() {
   return `
 <section id="graph-page" class="full-bleed">
   <div id="graph-container"></div>
+  <div id="breadcrumbs" class="breadcrumbs breadcrumbs--hidden">
+    <div class="breadcrumbs__trail"></div>
+    <button class="breadcrumbs__clear" type="button" title="Clear trail">Clear</button>
+  </div>
   <div id="preview-pane" class="preview-pane preview-pane--hidden">
     <div class="preview-pane__resize-handle"></div>
     <button class="preview-pane__collapse-btn" type="button" title="Collapse preview">&#x2715;</button>

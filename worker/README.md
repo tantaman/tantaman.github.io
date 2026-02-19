@@ -57,7 +57,7 @@ id = "your-namespace-id-here"
 ### 3. Upload embeddings to KV
 
 ```sh
-wrangler kv key put --namespace-id=<your-namespace-id> "embeddings:all" --path=../.chat-embeddings.json
+wrangler kv key put --namespace-id=<your-namespace-id> "embeddings:all" --path=../.chat-embeddings.json --remote
 ```
 
 ### 4. Install dependencies and deploy
@@ -101,7 +101,7 @@ Add to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "tantaman-blog": {
-      "url": "https://tantaman-api.<subdomain>.workers.dev/mcp"
+      "url": "https://tantamanlands.tantaman.workers.dev/mcp"
     }
   }
 }
