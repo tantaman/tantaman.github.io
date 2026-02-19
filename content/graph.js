@@ -117,19 +117,15 @@ async function graphPage() {
 
     // Get collection name for display
     let collectionName = collection;
-    let collectionGroup = 0;
     switch (collection) {
       case '':
         collectionName = 'blog';
-        collectionGroup = 1;
         break;
       case 'the-mirror-room/':
         collectionName = 'stories';
-        collectionGroup = 2;
         break;
       case 'chats/':
         collectionName = 'chats';
-        collectionGroup = 3;
         break;
     }
 
@@ -166,7 +162,6 @@ async function graphPage() {
         url: url,
         fullTitle: title,
         description: description,
-        group: collectionGroup,
         tags: tags,
         collection: collectionName,
         related: related,
@@ -248,7 +243,11 @@ async function graphPage() {
 
   }
 
-  const graphData = { nodes, edges };
+  const clusters = clusterMeta
+    .filter(c => c.nodeCount >= 3)
+    .map(c => ({ id: c.id, name: c.name || null, nodeCount: c.nodeCount }));
+
+  const graphData = { nodes, edges, clusters };
 
   return `
 <section id="graph-page" class="full-bleed">

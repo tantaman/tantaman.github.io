@@ -46,6 +46,7 @@ export interface ClusterMeta {
   centerX: number;
   centerY: number;
   nodeCount: number;
+  name?: string;
 }
 
 export interface ClusterData {
