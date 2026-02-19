@@ -135,6 +135,9 @@
     const previewCollapseBtn = previewPane?.querySelector('.preview-pane__collapse-btn');
     const previewResizeHandle = previewPane?.querySelector('.preview-pane__resize-handle');
     const previewExpandBtn = document.getElementById('preview-pane-expand');
+    const breadcrumbs = document.getElementById('breadcrumbs');
+    const breadcrumbTrail = breadcrumbs?.querySelector('.breadcrumbs__trail');
+    const breadcrumbClear = breadcrumbs?.querySelector('.breadcrumbs__clear');
 
     if (!container || !dataElement) {
       console.error('Graph container or data not found');
@@ -442,6 +445,7 @@
     let clusterLabelBounds = []; // rebuilt each frame in afterDrawing
     let clusterGeometry = []; // rebuilt each frame in beforeDrawing
     let previewCollapsed = false;
+    let visitedNodes = []; // array of { id, label } in visit order
 
     // Function to show all nodes and edges (respecting threshold)
     function showAll() {
@@ -497,6 +501,71 @@
       }
     }
 
+    function addBreadcrumb(node) {
+      if (!node) return;
+      const entry = { id: node.id, label: node.fullTitle || node.label };
+      if (visitedNodes.length > 0 && visitedNodes[visitedNodes.length - 1].id === entry.id) return;
+      visitedNodes.push(entry);
+      renderBreadcrumbs();
+    }
+
+    function renderBreadcrumbs() {
+      if (!breadcrumbTrail || !breadcrumbs) return;
+      breadcrumbTrail.innerHTML = '';
+      if (visitedNodes.length === 0) {
+        breadcrumbs.classList.add('breadcrumbs--hidden');
+        return;
+      }
+      breadcrumbs.classList.remove('breadcrumbs--hidden');
+      visitedNodes.forEach(function (entry, i) {
+        if (i > 0) {
+          const sep = document.createElement('span');
+          sep.className = 'breadcrumbs__separator';
+          sep.textContent = '\u203a';
+          breadcrumbTrail.appendChild(sep);
+        }
+        const btn = document.createElement('button');
+        btn.className = 'breadcrumbs__item';
+        if (i === visitedNodes.length - 1) btn.classList.add('breadcrumbs__item--active');
+        btn.type = 'button';
+        const label = entry.label.length > 30 ? entry.label.substring(0, 27) + '...' : entry.label;
+        btn.textContent = label;
+        btn.title = entry.label;
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          // Truncate forward history
+          visitedNodes = visitedNodes.slice(0, i + 1);
+          // Select node and filter graph
+          selectedClusterId = null;
+          selectedNodeId = entry.id;
+          var node = nodes.get(entry.id);
+          if (!node) return;
+          showPreview(node);
+          var connectedIds = adjacencyMap.get(entry.id) || new Set();
+          var nodeUpdates = [];
+          var edgeUpdates = [];
+          nodes.forEach(function (n) {
+            var isConnected = n.id === entry.id || connectedIds.has(n.id);
+            nodeUpdates.push({ id: n.id, hidden: !isConnected });
+          });
+          edges.forEach(function (edge) {
+            var isConnected = edge.from === entry.id || edge.to === entry.id;
+            edgeUpdates.push({ id: edge.id, hidden: !isConnected });
+          });
+          nodes.update(nodeUpdates);
+          edges.update(edgeUpdates);
+          renderBreadcrumbs();
+        });
+        breadcrumbTrail.appendChild(btn);
+      });
+      breadcrumbTrail.scrollLeft = breadcrumbTrail.scrollWidth;
+    }
+
+    function clearBreadcrumbs() {
+      visitedNodes = [];
+      renderBreadcrumbs();
+    }
+
     // Function to filter to a single cluster
     function filterByCluster(cid) {
       const visibleNodes = new Set();
@@ -521,6 +590,7 @@
     function filterBySearch(query) {
       selectedClusterId = null;
       selectedNodeId = null;
+      clearBreadcrumbs();
       hidePreview();
       if (!searchIndex) return;
 
@@ -592,6 +662,7 @@
 
         selectedClusterId = null;
         selectedNodeId = nodeId;
+        addBreadcrumb(nodes.get(nodeId));
         showPreview(nodes.get(nodeId));
         const connectedIds = adjacencyMap.get(nodeId) || new Set();
 
@@ -666,6 +737,13 @@
       previewExpandBtn.addEventListener('click', function (e) {
         e.stopPropagation();
         expandPreview();
+      });
+    }
+
+    if (breadcrumbClear) {
+      breadcrumbClear.addEventListener('click', function (e) {
+        e.stopPropagation();
+        clearBreadcrumbs();
       });
     }
 
