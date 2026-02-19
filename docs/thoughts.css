@@ -311,6 +311,68 @@
   opacity: 1;
 }
 
+/* ── Thread view ── */
+.thread-back { margin-bottom: 1rem; }
+.thread-back-link { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; }
+.thread-back-link:hover { color: var(--text); }
+
+.thought--parent { padding-bottom: 1.5rem; border-bottom: 2px solid var(--border-heavy); }
+
+.replies-label {
+  padding: 0.75rem 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+}
+
+.thought-footer { margin-top: 0.5rem; }
+.thought-replies-link { font-size: 0.85rem; color: var(--text-muted); text-decoration: none; }
+.thought-replies-link:hover { color: var(--text); }
+.thought-replies-link--subtle { opacity: 0.5; }
+
+.reply-form-wrap {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.reply-form textarea {
+  width: 100%;
+  resize: none;
+  font-family: inherit;
+  font-size: 1.1rem;
+  padding: 1rem 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  line-height: 1.5;
+  border-bottom: 1px solid var(--border);
+}
+
+.reply-form textarea::placeholder { color: var(--text-muted); }
+.reply-form textarea:focus { outline: none; border-bottom-color: var(--text); }
+
+.reply-submit {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.reply-submit:hover { opacity: 0.85; }
+.reply-submit:disabled { opacity: 0.4; cursor: default; }
+
+.thought-loading { padding: 2rem 0; text-align: center; color: var(--text-muted); }
+
 /* ── Mobile: sidebar collapses to top bar ── */
 @media (max-width: 768px) {
   #thoughts-page {

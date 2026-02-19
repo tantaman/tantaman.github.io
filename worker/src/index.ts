@@ -167,6 +167,31 @@ app.get("/thoughts", async (c) => {
 app.get("/thoughts/:id/replies", async (c) => {
   const parentId = c.req.param("id");
 
+  // Fetch parent thought
+  const parentRow = await c.env.DB.prepare(
+    `SELECT t.id, t.body, t.timestamp, t.created_at,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+     FROM thought t
+     WHERE t.id = ?`
+  ).bind(parentId).first();
+
+  if (!parentRow) {
+    return c.json({ error: "Thought not found" }, 404);
+  }
+
+  const parent = parentRow as Record<string, unknown>;
+
+  // Fetch parent attachments
+  const parentAttachments = await c.env.DB.prepare(
+    `SELECT thought_id, attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id = ?`
+  ).bind(parentId).all();
+  parent.attachments = parentAttachments.results.map((a) => ({
+    key: a.attachment_key as string,
+    type: a.attachment_type as string,
+    name: a.attachment_name as string,
+  }));
+
+  // Fetch replies
   const results = await c.env.DB.prepare(
     `SELECT t.id, t.body, t.timestamp, t.created_at,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
@@ -199,7 +224,7 @@ app.get("/thoughts/:id/replies", async (c) => {
     }
   }
 
-  return c.json({ replies });
+  return c.json({ parent, replies });
 });
 
 app.post("/thoughts", async (c) => {
@@ -216,7 +241,7 @@ app.post("/thoughts", async (c) => {
   if (contentType.includes("multipart/form-data")) {
     const formData = await c.req.formData();
     trimmed = ((formData.get("body") as string) || "").trim();
-    files = formData.getAll("file") as File[];
+    files = formData.getAll("file").filter((f): f is File => f instanceof File);
     const parentIdStr = formData.get("parent_id") as string | null;
     if (parentIdStr) parentId = parseInt(parentIdStr, 10);
   } else {
