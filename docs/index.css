@@ -713,14 +713,22 @@ img {
 [data-theme="dark"] .hljs-addition { color: #aff5b4; background-color: #033a16; }
 [data-theme="dark"] .hljs-deletion { color: #ffdcd7; background-color: #67060c; }
 
-@media (max-width: 640px) {
+@media (max-width: 660px) {
   .toc-widget {
     display: none;
   }
 }
 
 /* Mobile Responsive */
-@media (max-width: 640px) {
+@media (max-width: 660px) {
+  header .container h1 {
+    display: none;
+  }
+
+  header .container {
+    justify-content: center;
+  }
+
   #footer {
     margin-top: 3rem;
     padding: 2rem 0 1.5rem 0;
