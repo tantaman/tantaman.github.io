@@ -36,8 +36,12 @@
     var div = document.createElement('div');
     div.className = 'thought';
     div.innerHTML =
-      '<div class="thought-body">' + escapeHtml(t.body) + '</div>' +
-      '<div class="thought-time">' + escapeHtml(formatTime(t.timestamp)) + '</div>';
+      '<div class="thought-header">' +
+        '<span class="thought-author">tantaman</span>' +
+        '<span class="thought-meta-sep">&middot;</span>' +
+        '<span class="thought-time">' + escapeHtml(formatTime(t.timestamp)) + '</span>' +
+      '</div>' +
+      '<div class="thought-body">' + escapeHtml(t.body) + '</div>';
     return div;
   }
 
