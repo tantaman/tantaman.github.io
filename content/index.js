@@ -64,7 +64,7 @@ async function siteIndex() {
   const allPosts = [];
 
   Object.entries(indices).forEach(([collection, index]) => {
-    if (collection === 'bookmarks/' || collection === 'notes/') return;
+    if (collection === 'bookmarks/' || collection === 'notes/' || collection === 'pages/') return;
 
     Object.entries(index)
       .filter(
@@ -200,6 +200,8 @@ export function renderCollection(collection, index, showAll = false) {
     case 'bookmarks/':
       return '';
     case 'notes/':
+      return '';
+    case 'pages/':
       return '';
     case 'the-mirror-room/':
       collectionId = 'stories';

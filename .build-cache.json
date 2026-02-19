@@ -1,5 +1,5 @@
 {
-  "_compilerMtime": 1771526464680,
+  "_compilerMtime": 1771540888046,
   "the-mirror-room//01-the-consistent-man.md": 1771210416385,
   "notes//2025-gift-list.md": 1764377076104,
   "bookmarks//README.md": 1753056386472,
@@ -549,16 +549,16 @@
           "chats": 1764784793979,
           "crumbs": 1753056386474,
           "graph.js": 1771514905162,
-          "index.js": 1771464984540,
+          "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1753056386475,
+          "pages": 1771540864002,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771464991887,
+          "tags.js": 1771540865897,
           "the-mirror-room": 1760493898024,
-          "thoughts.js": 1771539158076,
+          "thoughts.js": 1771540868145,
           "tweets": 1753056386475
         }
       },
@@ -730,6 +730,19 @@
           "2025-12-03-paul-and-roman-conspiracy.md": 1771210447026
         }
       },
+      "./content/pages/": {
+        "type": "dir",
+        "listing": [
+          "README.md",
+          "mcp.md",
+          "yagni.md"
+        ],
+        "mtimes": {
+          "README.md": 1753056386475,
+          "mcp.md": 1771540440622,
+          "yagni.md": 1753056386475
+        }
+      },
       ".relationships.json": {
         "type": "file",
         "mtime": 1771511155420
@@ -737,7 +750,7 @@
     }
   },
   "/index.js": {
-    "mtime": 1771464984540,
+    "mtime": 1771540877303,
     "deps": {
       "./content/": {
         "type": "dir",
@@ -1067,16 +1080,16 @@
           "chats": 1764784793979,
           "crumbs": 1753056386474,
           "graph.js": 1771514905162,
-          "index.js": 1771464984540,
+          "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1753056386475,
+          "pages": 1771540864002,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771464991887,
+          "tags.js": 1771540865897,
           "the-mirror-room": 1760493898024,
-          "thoughts.js": 1771539158076,
+          "thoughts.js": 1771540868145,
           "tweets": 1753056386475
         }
       },
@@ -1246,6 +1259,19 @@
           "2025-10-14-summarize-fear-of-falling.md": 1771210439713,
           "2025-10-15-ai-impact-on-labor.md": 1771210444307,
           "2025-12-03-paul-and-roman-conspiracy.md": 1771210447026
+        }
+      },
+      "./content/pages/": {
+        "type": "dir",
+        "listing": [
+          "README.md",
+          "mcp.md",
+          "yagni.md"
+        ],
+        "mtimes": {
+          "README.md": 1753056386475,
+          "mcp.md": 1771540440622,
+          "yagni.md": 1753056386475
         }
       },
       ".meme-cache.json": {
@@ -1586,16 +1612,16 @@
           "chats": 1764784793979,
           "crumbs": 1753056386474,
           "graph.js": 1771514905162,
-          "index.js": 1771464984540,
+          "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1753056386475,
+          "pages": 1771540864002,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771464991887,
+          "tags.js": 1771540865897,
           "the-mirror-room": 1760493898024,
-          "thoughts.js": 1771539158076,
+          "thoughts.js": 1771540868145,
           "tweets": 1753056386475
         }
       },
@@ -1766,11 +1792,24 @@
           "2025-10-15-ai-impact-on-labor.md": 1771210444307,
           "2025-12-03-paul-and-roman-conspiracy.md": 1771210447026
         }
+      },
+      "./content/pages/": {
+        "type": "dir",
+        "listing": [
+          "README.md",
+          "mcp.md",
+          "yagni.md"
+        ],
+        "mtimes": {
+          "README.md": 1753056386475,
+          "mcp.md": 1771540440622,
+          "yagni.md": 1753056386475
+        }
       }
     }
   },
   "/tags.js": {
-    "mtime": 1771464991887,
+    "mtime": 1771540865897,
     "deps": {
       "./content/": {
         "type": "dir",
@@ -2100,16 +2139,16 @@
           "chats": 1764784793979,
           "crumbs": 1753056386474,
           "graph.js": 1771514905162,
-          "index.js": 1771464984540,
+          "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1753056386475,
+          "pages": 1771540864002,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771464991887,
+          "tags.js": 1771540865897,
           "the-mirror-room": 1760493898024,
-          "thoughts.js": 1771539158076,
+          "thoughts.js": 1771540868145,
           "tweets": 1753056386475
         }
       },
@@ -2280,11 +2319,28 @@
           "2025-10-15-ai-impact-on-labor.md": 1771210444307,
           "2025-12-03-paul-and-roman-conspiracy.md": 1771210447026
         }
+      },
+      "./content/pages/": {
+        "type": "dir",
+        "listing": [
+          "README.md",
+          "mcp.md",
+          "yagni.md"
+        ],
+        "mtimes": {
+          "README.md": 1753056386475,
+          "mcp.md": 1771540440622,
+          "yagni.md": 1753056386475
+        }
       }
     }
   },
   "/thoughts.js": {
-    "mtime": 1771539158076,
+    "mtime": 1771540868145,
     "deps": {}
-  }
+  },
+  "/mcp.md": 1771540440622,
+  "pages//README.md": 1753056386475,
+  "pages//mcp.md": 1771540440622,
+  "pages//yagni.md": 1753056386475
 }

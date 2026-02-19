@@ -169,7 +169,7 @@ app.get("/thoughts/:id/replies", async (c) => {
 
   // Fetch parent thought
   const parentRow = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.timestamp, t.created_at,
+    `SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
      FROM thought t
      WHERE t.id = ?`
@@ -191,13 +191,19 @@ app.get("/thoughts/:id/replies", async (c) => {
     name: a.attachment_name as string,
   }));
 
-  // Fetch replies
+  // Fetch all descendants recursively
   const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.timestamp, t.created_at,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
-     FROM thought t
-     WHERE t.parent_id = ?
-     ORDER BY t.timestamp ASC`
+    `WITH RECURSIVE descendants(id, parent_id, body, timestamp, created_at, depth) AS (
+       SELECT id, parent_id, body, timestamp, created_at, 0
+       FROM thought WHERE parent_id = ?
+       UNION ALL
+       SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, d.depth + 1
+       FROM thought t JOIN descendants d ON t.parent_id = d.id
+     )
+     SELECT d.id, d.parent_id, d.body, d.timestamp, d.created_at, d.depth,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id) AS reply_count
+     FROM descendants d
+     ORDER BY d.depth ASC, d.timestamp ASC`
   ).bind(parentId).all();
 
   const replies = results.results as Record<string, unknown>[];

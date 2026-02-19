@@ -64,7 +64,7 @@ async function tagsPage() {
   const postPromises = [];
 
   Object.entries(indices).forEach(([collection, index]) => {
-    if (collection === 'bookmarks/' || collection === 'notes/') return;
+    if (collection === 'bookmarks/' || collection === 'notes/' || collection === 'pages/') return;
 
     Object.entries(index).forEach(([key, postMeta]) => {
       if (

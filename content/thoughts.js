@@ -53,6 +53,7 @@ function thoughtsPage() {
       <a href="/tags.html" class="thoughts-nav-link">Browse</a>
       <a href="/graph.html" class="thoughts-nav-link">Graph</a>
       <a href="/thoughts.html" class="thoughts-nav-link active">Thoughts</a>
+      <a href="/pages/mcp.html" class="thoughts-nav-link">MCP</a>
     </nav>
   </aside>
   <main class="thoughts-feed">
