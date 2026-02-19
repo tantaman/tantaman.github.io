@@ -125,7 +125,11 @@ app.get("/thoughts", async (c) => {
   const offsetParam = parseInt(c.req.query("offset") || "0", 10) || 0;
 
   const results = await c.env.DB.prepare(
-    "SELECT id, body, timestamp, created_at FROM thought ORDER BY timestamp DESC LIMIT ? OFFSET ?"
+    `SELECT t.id, t.body, t.timestamp, t.created_at,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+     FROM thought t
+     WHERE t.parent_id IS NULL
+     ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
   ).bind(limitParam, offsetParam).all();
 
   const hasMore = results.results.length === limitParam;
@@ -160,6 +164,44 @@ app.get("/thoughts", async (c) => {
   });
 });
 
+app.get("/thoughts/:id/replies", async (c) => {
+  const parentId = c.req.param("id");
+
+  const results = await c.env.DB.prepare(
+    `SELECT t.id, t.body, t.timestamp, t.created_at,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+     FROM thought t
+     WHERE t.parent_id = ?
+     ORDER BY t.timestamp ASC`
+  ).bind(parentId).all();
+
+  const replies = results.results as Record<string, unknown>[];
+  if (replies.length > 0) {
+    const ids = replies.map((t) => t.id);
+    const placeholders = ids.map(() => "?").join(",");
+    const attachments = await c.env.DB.prepare(
+      `SELECT thought_id, attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id IN (${placeholders})`
+    ).bind(...ids).all();
+
+    const byThought = new Map<number, { key: string; type: string; name: string }[]>();
+    for (const a of attachments.results) {
+      const tid = a.thought_id as number;
+      if (!byThought.has(tid)) byThought.set(tid, []);
+      byThought.get(tid)!.push({
+        key: a.attachment_key as string,
+        type: a.attachment_type as string,
+        name: a.attachment_name as string,
+      });
+    }
+
+    for (const t of replies) {
+      t.attachments = byThought.get(t.id as number) || [];
+    }
+  }
+
+  return c.json({ replies });
+});
+
 app.post("/thoughts", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
@@ -168,19 +210,32 @@ app.post("/thoughts", async (c) => {
 
   let trimmed: string;
   let files: File[] = [];
+  let parentId: number | null = null;
 
   const contentType = c.req.header("Content-Type") || "";
   if (contentType.includes("multipart/form-data")) {
     const formData = await c.req.formData();
     trimmed = ((formData.get("body") as string) || "").trim();
     files = formData.getAll("file") as File[];
+    const parentIdStr = formData.get("parent_id") as string | null;
+    if (parentIdStr) parentId = parseInt(parentIdStr, 10);
   } else {
-    const { body } = await c.req.json<{ body: string }>();
-    trimmed = (body || "").trim();
+    const json = await c.req.json<{ body: string; parent_id?: number }>();
+    trimmed = (json.body || "").trim();
+    if (json.parent_id != null) parentId = json.parent_id;
   }
 
   if (!trimmed || trimmed.length > 1000) {
     return c.json({ error: "Body must be non-empty and at most 1000 characters" }, 400);
+  }
+
+  if (parentId != null) {
+    const parent = await c.env.DB.prepare(
+      "SELECT id FROM thought WHERE id = ?"
+    ).bind(parentId).first();
+    if (!parent) {
+      return c.json({ error: "Parent thought not found" }, 404);
+    }
   }
 
   for (const file of files) {
@@ -192,8 +247,8 @@ app.post("/thoughts", async (c) => {
   const timestamp = Math.floor(Date.now() / 1000);
 
   const result = await c.env.DB.prepare(
-    "INSERT INTO thought (body, timestamp) VALUES (?, ?)"
-  ).bind(trimmed, timestamp).run();
+    "INSERT INTO thought (body, timestamp, parent_id) VALUES (?, ?, ?)"
+  ).bind(trimmed, timestamp, parentId).run();
 
   const thoughtId = result.meta.last_row_id;
   const attachments: { key: string; type: string; name: string }[] = [];
@@ -215,6 +270,7 @@ app.post("/thoughts", async (c) => {
     body: trimmed,
     timestamp,
     created_at: new Date().toISOString().replace("T", " ").slice(0, 19),
+    parent_id: parentId,
     attachments,
   };
 
@@ -230,7 +286,12 @@ app.delete("/thoughts/:id", async (c) => {
   const id = c.req.param("id");
 
   const attachments = await c.env.DB.prepare(
-    "SELECT attachment_key FROM thought_attachment WHERE thought_id = ?"
+    `WITH RECURSIVE descendants(id) AS (
+       SELECT id FROM thought WHERE id = ?
+       UNION ALL
+       SELECT t.id FROM thought t JOIN descendants d ON t.parent_id = d.id
+     )
+     SELECT attachment_key FROM thought_attachment WHERE thought_id IN (SELECT id FROM descendants)`
   ).bind(id).all();
 
   const keys = attachments.results.map((a) => a.attachment_key as string);
