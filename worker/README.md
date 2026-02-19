@@ -2,7 +2,7 @@
 
 Remote MCP server for [tantaman.com](https://tantaman.com) that lets visitors search the blog using their own Claude account. Runs on Cloudflare Workers with vector similarity search over pre-computed embeddings.
 
-Also exposes a thoughts API — ephemeral micro-posts stored in Cloudflare D1, protected by a bearer token.
+Also exposes a thoughts API — ephemeral micro-posts with file attachments, stored in Cloudflare D1 and R2, protected by a bearer token.
 
 ## How it works
 
@@ -11,7 +11,7 @@ Also exposes a thoughts API — ephemeral micro-posts stored in Cloudflare D1, p
 3. A Cloudflare Worker exposes an MCP server with a `search_blog` tool
 4. Visitors connect the MCP server to Claude Desktop or claude.ai and ask questions about the blog
 5. Claude calls `search_blog`, retrieves relevant passages, and synthesizes answers with citations
-6. A D1-backed thoughts API allows posting and reading ephemeral micro-posts, authenticated via bearer token
+6. A D1-backed thoughts API with R2-powered file attachments allows posting and reading ephemeral micro-posts, authenticated via bearer token
 
 Zero LLM cost for the site owner — visitors use their own Claude subscription.
 
@@ -134,7 +134,21 @@ database_name = "thought"
 database_id = "your-database-id-here"
 ```
 
-### 2. Run migrations
+### 2. Create the R2 bucket
+
+```sh
+wrangler r2 bucket create thought-attachments
+```
+
+Update `wrangler.toml`:
+
+```toml
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "thought-attachments"
+```
+
+### 3. Run migrations
 
 ```sh
 # Locally (for dev)
@@ -144,7 +158,7 @@ wrangler d1 migrations apply thought --local
 wrangler d1 migrations apply thought --remote
 ```
 
-### 3. Set the secret
+### 4. Set the secret
 
 Set the bearer token used to authenticate `POST /thoughts`. Secrets are stored encrypted and injected at runtime — do not put the real value in `wrangler.toml`.
 
@@ -152,7 +166,7 @@ Set the bearer token used to authenticate `POST /thoughts`. Secrets are stored e
 wrangler secret put THOUGHT_SECRET
 ```
 
-### 4. Deploy
+### 5. Deploy
 
 ```sh
 npx wrangler deploy
@@ -171,6 +185,13 @@ curl -X POST https://tantamanlands.tantaman.workers.dev/thoughts \
   -H "Authorization: Bearer <your-secret>" \
   -d '{"body": "hello world"}'
 # → 201 with { id, body, timestamp, created_at }
+
+# Post a thought with file attachments (multipart/form-data)
+curl -X POST https://tantamanlands.tantaman.workers.dev/thoughts \
+  -H "Authorization: Bearer <your-secret>" \
+  -F "body=hello with an image" \
+  -F "file=@photo.jpg"
+# → 201 with { id, body, timestamp, created_at, attachments: [...] }
 ```
 
 ## Cost
@@ -180,3 +201,4 @@ Everything runs within Cloudflare's free tier:
 - **KV**: 100K reads/day, 1GB storage
 - **Workers AI**: Free tier for `bge-base-en-v1.5` embeddings
 - **D1**: 5M rows read/day, 100K rows written/day, 5GB storage
+- **R2**: 10GB storage, 10M Class A ops/month, 10M Class B ops/month
