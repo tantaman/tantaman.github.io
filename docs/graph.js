@@ -299,6 +299,101 @@
     // Create network
     const network = new vis.Network(container, { nodes, edges }, options);
 
+    // Parse cluster metadata for boundary drawing
+    const clusterInfo = (graphData.clusters || []).filter(c => c.name);
+
+    // Build clusterId -> name map
+    const clusterNameMap = new Map();
+    clusterInfo.forEach(c => { clusterNameMap.set(c.id, c.name); });
+
+    // Deterministic color per cluster ID using golden angle
+    function clusterColor(clusterId, alpha) {
+      const hue = (clusterId * 137.5) % 360;
+      return `hsla(${hue}, 50%, 55%, ${alpha})`;
+    }
+
+    // Draw cluster boundaries and labels on the canvas
+    let _dbgCount = 0;
+    network.on('beforeDrawing', function (ctx) {
+      if (clusterInfo.length === 0) {
+        if (_dbgCount++ < 3) console.log('[cluster-dbg] clusterInfo is empty');
+        return;
+      }
+
+      const positions = network.getPositions();
+      const scale = network.getScale();
+      const posKeys = Object.keys(positions);
+
+      if (_dbgCount < 3) {
+        console.log('[cluster-dbg] clusterInfo:', clusterInfo.length,
+          'clusterNameMap keys:', [...clusterNameMap.keys()],
+          'positions count:', posKeys.length,
+          'scale:', scale);
+      }
+
+      // Group visible nodes by cluster
+      const clusterPositions = new Map(); // clusterId -> [{x, y}]
+      let _skippedHidden = 0, _skippedNoPos = 0, _skippedNoCid = 0, _added = 0;
+      nodes.forEach(function (node) {
+        if (node.hidden) { _skippedHidden++; return; }
+        const pos = positions[node.id];
+        if (!pos) { _skippedNoPos++; return; }
+        const cid = node.cluster;
+        if (cid == null || !clusterNameMap.has(cid)) { _skippedNoCid++; return; }
+        if (!clusterPositions.has(cid)) clusterPositions.set(cid, []);
+        clusterPositions.get(cid).push(pos);
+        _added++;
+      });
+
+      if (_dbgCount < 3) {
+        console.log('[cluster-dbg] nodes: added=' + _added, 'hidden=' + _skippedHidden,
+          'noPos=' + _skippedNoPos, 'noCid=' + _skippedNoCid,
+          'clusters with points:', [...clusterPositions.entries()].map(([k,v]) => k + ':' + v.length));
+      }
+      _dbgCount++;
+
+      clusterPositions.forEach(function (points, cid) {
+        if (points.length < 3) return;
+
+        // Compute centroid
+        let cx = 0, cy = 0;
+        for (const p of points) { cx += p.x; cy += p.y; }
+        cx /= points.length;
+        cy /= points.length;
+
+        // Compute bounding radius (max distance from centroid + padding)
+        let maxR = 0;
+        for (const p of points) {
+          const d = Math.sqrt((p.x - cx) ** 2 + (p.y - cy) ** 2);
+          if (d > maxR) maxR = d;
+        }
+        const radius = maxR + 60; // padding
+
+        // Draw filled circle
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = clusterColor(cid, 0.08);
+        ctx.fill();
+
+        // Draw dashed border
+        ctx.setLineDash([8 / scale, 6 / scale]);
+        ctx.strokeStyle = clusterColor(cid, 0.4);
+        ctx.lineWidth = 1.5 / scale;
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw label above the circle
+        const name = clusterNameMap.get(cid);
+        if (name) {
+          ctx.font = `bold ${14 / scale}px Cormorant Garamond, serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillStyle = clusterColor(cid, 0.85);
+          ctx.fillText(name, cx, cy - radius - 8 / scale);
+        }
+      });
+    });
+
     // Track if we're in search filter mode
     let isSearchFiltered = false;
     let currentThreshold = 0;
