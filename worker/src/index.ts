@@ -161,4 +161,22 @@ app.post("/thoughts", async (c) => {
   return c.json(thought, 201);
 });
 
+app.delete("/thoughts/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = c.req.param("id");
+  const result = await c.env.DB.prepare(
+    "DELETE FROM thought WHERE id = ?"
+  ).bind(id).run();
+
+  if (result.meta.changes === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  return c.body(null, 204);
+});
+
 export default app;

@@ -35,14 +35,68 @@
   function renderThought(t) {
     var div = document.createElement('div');
     div.className = 'thought';
+    div.dataset.id = t.id;
+    var deleteBtn = getSecret()
+      ? '<button class="thought-delete" aria-label="Delete thought">&times;</button>'
+      : '';
     div.innerHTML =
       '<div class="thought-header">' +
         '<span class="thought-author">tantaman</span>' +
         '<span class="thought-meta-sep">&middot;</span>' +
         '<span class="thought-time">' + escapeHtml(formatTime(t.timestamp)) + '</span>' +
+        deleteBtn +
       '</div>' +
       '<div class="thought-body">' + escapeHtml(t.body) + '</div>';
+
+    var btn = div.querySelector('.thought-delete');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        deleteThought(t.id, div);
+      });
+    }
     return div;
+  }
+
+  function deleteThought(id, el) {
+    if (!confirm('Delete this thought?')) return;
+    fetch(API + '/thoughts/' + id, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + getSecret() },
+    }).then(function (r) {
+      if (r.status === 401) {
+        setSecret(null);
+        updateFormVisibility();
+        updateDeleteButtons();
+        return;
+      }
+      if (r.ok) {
+        el.remove();
+        offset -= 1;
+      }
+    });
+  }
+
+  function updateDeleteButtons() {
+    var authed = !!getSecret();
+    var thoughts = listEl.querySelectorAll('.thought');
+    for (var i = 0; i < thoughts.length; i++) {
+      var header = thoughts[i].querySelector('.thought-header');
+      var existing = header.querySelector('.thought-delete');
+      if (authed && !existing) {
+        var btn = document.createElement('button');
+        btn.className = 'thought-delete';
+        btn.setAttribute('aria-label', 'Delete thought');
+        btn.innerHTML = '&times;';
+        var thoughtId = thoughts[i].dataset.id;
+        var thoughtEl = thoughts[i];
+        (function (id, el) {
+          btn.addEventListener('click', function () { deleteThought(id, el); });
+        })(thoughtId, thoughtEl);
+        header.appendChild(btn);
+      } else if (!authed && existing) {
+        existing.remove();
+      }
+    }
   }
 
   function getSecret() {
@@ -136,6 +190,7 @@
     if (val !== null) {
       setSecret(val || null);
       updateFormVisibility();
+      updateDeleteButtons();
     }
   });
 
