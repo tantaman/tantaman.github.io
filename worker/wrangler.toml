@@ -1,0 +1,10 @@
+name = "tantaman-api"
+main = "src/index.ts"
+compatibility_date = "2025-03-03"
+
+[[kv_namespaces]]
+binding = "EMBEDDINGS"
+id = "<kv-namespace-id>"
+
+[ai]
+binding = "AI"
