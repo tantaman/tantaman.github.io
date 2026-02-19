@@ -7,6 +7,7 @@
 5. better cluster titles
 6. drag and move a cluster?
 7. make cluster title selectable? prunes graph to just those nodes
+8. Clust label color should match node colors?? avg?
 
 2. build cache understands index.js stuff deps...
 2. Compose relevant posts into a book. geo-theological and self series.

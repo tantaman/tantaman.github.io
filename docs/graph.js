@@ -314,6 +314,8 @@
     // Draw cluster boundaries and labels on the canvas
     let _dbgCount = 0;
     network.on('beforeDrawing', function (ctx) {
+      clusterLabelBounds = [];
+
       if (clusterInfo.length === 0) {
         if (_dbgCount++ < 3) console.log('[cluster-dbg] clusterInfo is empty');
         return;
@@ -384,11 +386,35 @@
         // Draw label above the circle
         const name = clusterNameMap.get(cid);
         if (name) {
-          ctx.font = `bold ${14 / scale}px Cormorant Garamond, serif`;
+          const fontSize = 14 / scale;
+          const labelY = cy - radius - 8 / scale;
+          ctx.font = `bold ${fontSize}px Cormorant Garamond, serif`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'bottom';
-          ctx.fillStyle = clusterColor(cid, 0.85);
-          ctx.fillText(name, cx, cy - radius - 8 / scale);
+
+          const isSelected = selectedClusterId === cid;
+          ctx.fillStyle = isSelected ? clusterColor(cid, 1.0) : clusterColor(cid, 0.85);
+          ctx.fillText(name, cx, labelY);
+
+          // Store bounding box for click detection
+          const textWidth = ctx.measureText(name).width;
+          clusterLabelBounds.push({
+            cid,
+            x: cx - textWidth / 2,
+            y: labelY - fontSize,
+            width: textWidth,
+            height: fontSize * 1.3,
+          });
+
+          // Draw underline for selected cluster
+          if (isSelected) {
+            ctx.beginPath();
+            ctx.moveTo(cx - textWidth / 2, labelY + 2 / scale);
+            ctx.lineTo(cx + textWidth / 2, labelY + 2 / scale);
+            ctx.strokeStyle = clusterColor(cid, 1.0);
+            ctx.lineWidth = 2 / scale;
+            ctx.stroke();
+          }
         }
       });
     });
@@ -397,9 +423,12 @@
     let isSearchFiltered = false;
     let currentThreshold = 0;
     let selectedNodeId = null;
+    let selectedClusterId = null;
+    let clusterLabelBounds = []; // rebuilt each frame in beforeDrawing
 
     // Function to show all nodes and edges (respecting threshold)
     function showAll() {
+      selectedClusterId = null;
       const nodeUpdates = [];
       const edgeUpdates = [];
       nodes.forEach((node) => { nodeUpdates.push({ id: node.id, hidden: false }); });
@@ -412,8 +441,29 @@
       isSearchFiltered = false;
     }
 
+    // Function to filter to a single cluster
+    function filterByCluster(cid) {
+      const visibleNodes = new Set();
+      const nodeUpdates = [];
+      nodes.forEach((node) => {
+        const visible = node.cluster === cid;
+        nodeUpdates.push({ id: node.id, hidden: !visible });
+        if (visible) visibleNodes.add(node.id);
+      });
+      nodes.update(nodeUpdates);
+
+      const edgeUpdates = [];
+      edges.forEach((edge) => {
+        const bothVisible = visibleNodes.has(edge.from) && visibleNodes.has(edge.to);
+        const belowThreshold = edge.score != null && edge.score < currentThreshold;
+        edgeUpdates.push({ id: edge.id, hidden: !bothVisible || belowThreshold });
+      });
+      edges.update(edgeUpdates);
+    }
+
     // Function to filter nodes by search
     function filterBySearch(query) {
+      selectedClusterId = null;
       if (!searchIndex) return;
 
       if (!query.trim()) {
@@ -481,6 +531,7 @@
           return;
         }
 
+        selectedClusterId = null;
         selectedNodeId = nodeId;
         const connectedIds = adjacencyMap.get(nodeId) || new Set();
 
@@ -499,10 +550,34 @@
         });
         nodes.update(nodeUpdates);
         edges.update(edgeUpdates);
-      } else if (selectedNodeId != null) {
+      } else {
+        // No node clicked — check if a cluster label was clicked
+        const canvasPos = params.pointer.canvas;
+        const hitCluster = clusterLabelBounds.find(b =>
+          canvasPos.x >= b.x && canvasPos.x <= b.x + b.width &&
+          canvasPos.y >= b.y && canvasPos.y <= b.y + b.height
+        );
+
+        if (hitCluster) {
+          if (hitCluster.cid === selectedClusterId) {
+            // Toggle off
+            selectedClusterId = null;
+            selectedNodeId = null;
+            showAll();
+          } else {
+            // Filter to cluster
+            selectedClusterId = hitCluster.cid;
+            selectedNodeId = null;
+            filterByCluster(hitCluster.cid);
+          }
+          return;
+        }
+
         // Clicked empty space: show all nodes and edges
-        selectedNodeId = null;
-        showAll();
+        if (selectedNodeId != null || selectedClusterId != null) {
+          selectedNodeId = null;
+          showAll();
+        }
       }
     });
 
