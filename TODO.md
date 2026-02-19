@@ -1,5 +1,10 @@
 # TODO
 
+1. no blue on select on graph
+2. remember similairty dial
+3. default sim to 70
+4. 
+
 2. build cache understands index.js stuff deps...
 2. Compose relevant posts into a book. geo-theological and self series.
 3. toggle to rm orphans

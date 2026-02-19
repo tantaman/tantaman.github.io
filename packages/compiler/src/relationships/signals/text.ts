@@ -15,7 +15,7 @@ interface GlobalTextData {
 }
 
 // Common English stop words
-const STOP_WORDS = new Set([
+export const STOP_WORDS = new Set([
   'a',
   'an',
   'the',
@@ -331,7 +331,7 @@ export const textSignal: SignalExtractor<TextData> = {
 /**
  * Extract terms from text, removing markdown and stopwords
  */
-function extractTerms(text: string): string[] {
+export function extractTerms(text: string): string[] {
   if (!text) return [];
 
   // Remove code blocks
@@ -363,7 +363,7 @@ function extractTerms(text: string): string[] {
 /**
  * Simple Porter-like stemmer
  */
-function stem(word: string): string {
+export function stem(word: string): string {
   if (word.length < 4) return word;
 
   // Remove common suffixes

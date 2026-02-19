@@ -32,7 +32,7 @@ import {
   createCache,
 } from './cache.js';
 import { createEmbeddingService } from './embeddings/index.js';
-import { computeClusters } from './clustering.js';
+import { computeClusters, generateClusterNames } from './clustering.js';
 
 const OUTPUT_FILE = '.relationships.json';
 
@@ -211,6 +211,9 @@ export async function buildRelationshipGraph(
     edges,
     nodes.map((n) => n.id)
   );
+
+  // Generate cluster names from member titles using TF-IDF
+  generateClusterNames(nodes, clusterResult.nodeCluster, clusterResult.clusterMeta);
 
   // Build per-post data
   const posts: Record<string, PostRelationships> = {};

@@ -248,7 +248,11 @@ async function graphPage() {
 
   }
 
-  const graphData = { nodes, edges };
+  const clusters = clusterMeta
+    .filter(c => c.nodeCount >= 3)
+    .map(c => ({ id: c.id, name: c.name || null, nodeCount: c.nodeCount }));
+
+  const graphData = { nodes, edges, clusters };
 
   return `
 <section id="graph-page" class="full-bleed">

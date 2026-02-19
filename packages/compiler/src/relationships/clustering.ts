@@ -3,14 +3,8 @@
  */
 import Graph from 'graphology';
 import louvain from 'graphology-communities-louvain';
-import type { RelationshipEdge } from './types.js';
-
-export interface ClusterMeta {
-  id: number;
-  centerX: number;
-  centerY: number;
-  nodeCount: number;
-}
+import type { RelationshipEdge, ClusterMeta, ContentNode } from './types.js';
+import { extractTerms, stem, STOP_WORDS } from './signals/text.js';
 
 export interface ClusterResult {
   nodeCluster: Record<string, number>; // nodeId -> clusterId
@@ -80,6 +74,117 @@ export function computeClusters(
     clusterMeta,
     modularity,
   };
+}
+
+/**
+ * Generate human-readable names for clusters using TF-IDF on member titles.
+ * Only names clusters with 3+ nodes.
+ */
+export function generateClusterNames(
+  nodes: ContentNode[],
+  nodeCluster: Record<string, number>,
+  clusterMeta: ClusterMeta[]
+): void {
+  // Group nodes by cluster
+  const clusterNodes = new Map<number, ContentNode[]>();
+  for (const node of nodes) {
+    const clusterId = nodeCluster[node.id];
+    if (clusterId == null) continue;
+    if (!clusterNodes.has(clusterId)) clusterNodes.set(clusterId, []);
+    clusterNodes.get(clusterId)!.push(node);
+  }
+
+  // Only name clusters with 3+ nodes
+  const eligibleClusters = [...clusterNodes.entries()].filter(
+    ([, members]) => members.length >= 3
+  );
+
+  if (eligibleClusters.length === 0) return;
+
+  // Build per-cluster "documents" from concatenated titles
+  // Track stemmed -> original form mapping with counts
+  const clusterTermCounts = new Map<number, Map<string, number>>();
+  const stemToOriginal = new Map<string, Map<string, number>>(); // stem -> (original -> count)
+
+  for (const [clusterId, members] of eligibleClusters) {
+    const termCounts = new Map<string, number>();
+    for (const node of members) {
+      // Tokenize title without stemming first, to track originals
+      const rawTitle = node.title || '';
+      const cleaned = rawTitle
+        .replace(/[^a-zA-Z\s]/g, ' ')
+        .toLowerCase();
+      const rawTokens = cleaned
+        .split(/\s+/)
+        .filter((w) => w.length > 2 && !STOP_WORDS.has(w));
+
+      for (const rawToken of rawTokens) {
+        const stemmed = stem(rawToken);
+        // Track original forms
+        if (!stemToOriginal.has(stemmed)) stemToOriginal.set(stemmed, new Map());
+        const origMap = stemToOriginal.get(stemmed)!;
+        origMap.set(rawToken, (origMap.get(rawToken) || 0) + 1);
+      }
+
+      // Use extractTerms for the actual TF-IDF terms (these are stemmed)
+      const terms = extractTerms(node.title);
+      for (const term of terms) {
+        termCounts.set(term, (termCounts.get(term) || 0) + 1);
+      }
+    }
+    clusterTermCounts.set(clusterId, termCounts);
+  }
+
+  // Compute document frequency across clusters
+  const df = new Map<string, number>();
+  for (const [, termCounts] of clusterTermCounts) {
+    for (const term of termCounts.keys()) {
+      df.set(term, (df.get(term) || 0) + 1);
+    }
+  }
+
+  const totalDocs = eligibleClusters.length;
+
+  // Helper to get the best original (unstemmed) form for a stemmed term
+  function bestOriginal(stemmed: string): string {
+    const origMap = stemToOriginal.get(stemmed);
+    if (!origMap || origMap.size === 0) return stemmed;
+    // Pick the most common original form
+    let best = stemmed;
+    let bestCount = 0;
+    for (const [orig, count] of origMap) {
+      if (count > bestCount) {
+        best = orig;
+        bestCount = count;
+      }
+    }
+    // Capitalize first letter
+    return best.charAt(0).toUpperCase() + best.slice(1);
+  }
+
+  // Compute TF-IDF per cluster and pick top terms
+  for (const [clusterId, termCounts] of clusterTermCounts) {
+    const totalTerms = [...termCounts.values()].reduce((a, b) => a + b, 0);
+    const scored: [string, number][] = [];
+
+    for (const [term, count] of termCounts) {
+      // Skip very short stems that produce unreadable labels
+      if (term.length < 4) continue;
+      const tf = count / totalTerms;
+      const idf = Math.log((totalDocs + 1) / ((df.get(term) || 0) + 1)) + 1;
+      scored.push([term, tf * idf]);
+    }
+
+    scored.sort((a, b) => b[1] - a[1]);
+    const topTerms = scored.slice(0, 3).map(([t]) => bestOriginal(t));
+    const name = topTerms.join(' / ');
+
+    // Attach name to the corresponding clusterMeta entry
+    const meta = clusterMeta.find((c) => c.id === clusterId);
+    if (meta) {
+      meta.name = name;
+    }
+  }
 }
 
 /**
