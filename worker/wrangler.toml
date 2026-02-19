@@ -14,6 +14,10 @@ binding = "DB"
 database_name = "thought"
 database_id = "a1190a47-fe1e-4fdb-8d7a-06dd5714fc6b"
 
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "thought-attachments"
+
 [observability]
 [observability.logs]
 enabled = false

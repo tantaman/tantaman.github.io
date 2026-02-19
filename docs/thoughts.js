@@ -12,11 +12,30 @@
   var charCount = document.getElementById('char-count');
   var submitBtn = document.getElementById('thought-submit');
   var secretToggle = document.getElementById('secret-toggle');
+  var fileInput = document.getElementById('thought-file');
+  var fileLabel = document.getElementById('thought-file-label');
+  var fileClear = document.getElementById('thought-file-clear');
 
   function escapeHtml(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
+  }
+
+  function renderAttachments(t) {
+    if (!t.attachments || !t.attachments.length) return '';
+    var html = '<div class="thought-attachments">';
+    for (var i = 0; i < t.attachments.length; i++) {
+      var att = t.attachments[i];
+      var url = API + '/attachments/' + att.key;
+      if (att.type && att.type.startsWith('image/')) {
+        html += '<img src="' + escapeHtml(url) + '" alt="' + escapeHtml(att.name) + '" loading="lazy">';
+      } else {
+        html += '<a class="thought-file-link" href="' + escapeHtml(url) + '" download="' + escapeHtml(att.name) + '">' + escapeHtml(att.name) + '</a>';
+      }
+    }
+    html += '</div>';
+    return html;
   }
 
   function formatTime(timestamp) {
@@ -46,7 +65,8 @@
         '<span class="thought-time">' + escapeHtml(formatTime(t.timestamp)) + '</span>' +
         deleteBtn +
       '</div>' +
-      '<div class="thought-body">' + escapeHtml(t.body) + '</div>';
+      '<div class="thought-body">' + escapeHtml(t.body) + '</div>' +
+      renderAttachments(t);
 
     var btn = div.querySelector('.thought-delete');
     if (btn) {
@@ -143,6 +163,39 @@
     charCount.textContent = input.value.length + ' / 1000';
   });
 
+  function updateFileLabel() {
+    var files = fileInput.files;
+    if (files && files.length > 0) {
+      var names = [];
+      for (var i = 0; i < files.length; i++) names.push(files[i].name);
+      fileLabel.textContent = names.join(', ');
+      fileClear.style.display = '';
+    } else {
+      fileLabel.textContent = '';
+      fileClear.style.display = 'none';
+    }
+  }
+
+  fileInput.addEventListener('change', function () {
+    var files = fileInput.files;
+    for (var i = 0; i < files.length; i++) {
+      if (files[i].size > 5 * 1024 * 1024) {
+        alert('File "' + files[i].name + '" exceeds 5MB limit');
+        fileInput.value = '';
+        updateFileLabel();
+        return;
+      }
+    }
+    updateFileLabel();
+  });
+
+  fileClear.addEventListener('click', function () {
+    fileInput.value = '';
+    updateFileLabel();
+  });
+
+  updateFileLabel();
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var body = input.value.trim();
@@ -151,14 +204,24 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Posting...';
 
-    fetch(API + '/thoughts', {
+    var files = fileInput.files;
+    var hasFiles = files && files.length > 0;
+    var fetchOpts = {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + getSecret(),
-      },
-      body: JSON.stringify({ body: body }),
-    })
+      headers: { 'Authorization': 'Bearer ' + getSecret() },
+    };
+
+    if (hasFiles) {
+      var fd = new FormData();
+      fd.append('body', body);
+      for (var i = 0; i < files.length; i++) fd.append('file', files[i]);
+      fetchOpts.body = fd;
+    } else {
+      fetchOpts.headers['Content-Type'] = 'application/json';
+      fetchOpts.body = JSON.stringify({ body: body });
+    }
+
+    fetch(API + '/thoughts', fetchOpts)
       .then(function (r) {
         if (r.status === 401) {
           setSecret(null);
@@ -171,6 +234,8 @@
         listEl.insertBefore(renderThought(t), listEl.firstChild);
         input.value = '';
         charCount.textContent = '0 / 1000';
+        fileInput.value = '';
+        updateFileLabel();
         offset += 1;
       })
       .catch(function (err) {

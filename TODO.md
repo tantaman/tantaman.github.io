@@ -8,6 +8,10 @@
 9. embeddings auto build and deploy
 10. social cards use image from post
 11. put meme information into post frontmatter instead
+12. reply to a thought to form a string of thoughts.
+13. thought search
+14. thought graph?
+15. thought header?
 
 2. build cache understands index.js stuff deps...
 2. Compose relevant posts into a book. geo-theological and self series.
