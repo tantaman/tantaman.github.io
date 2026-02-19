@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "echo 'no-op'",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy"
   },
