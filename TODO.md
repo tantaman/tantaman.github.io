@@ -7,6 +7,7 @@
 8. Clust label color should match node colors?? avg?
 9. embeddings auto build and deploy
 10. social cards use image from post
+11. put meme information into post frontmatter instead
 
 2. build cache understands index.js stuff deps...
 2. Compose relevant posts into a book. geo-theological and self series.
