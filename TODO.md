@@ -1,16 +1,14 @@
 # TODO
 
-1. lazy images on index
 2. build cache understands index.js stuff deps...
-1. Move collections to be tag based? `Stories` are just tagged posts.
 2. Compose relevant posts into a book. geo-theological and self series.
 3. toggle to rm orphans
 4. dbl click node open new window
-5. thumb on search
 6. do not rebuild all on serve
-7. thumb on browse page, tags, read time.
-8. new search page should show relevance / % match.
 9. version of thesis that pulls most powerful quote. Update meme cache.
+10. API server:
+  - MCP
+  - WhatsApp
 
 Thesis sentences instead of summaries on home page?
 
