@@ -46,22 +46,30 @@ export default async function thoughts(file, cwd, files) {
 
 function thoughtsPage() {
   return `
-<section id="thoughts-page">
-  <header class="thoughts-header">
-    <a href="/" class="thoughts-back">tantaman</a>
-    <h1>Thoughts</h1>
-  </header>
-  <div class="thoughts-form-wrap" id="thoughts-form-wrap" style="display:none">
-    <form id="thoughts-form">
-      <textarea id="thought-input" placeholder="What's on your mind?" maxlength="1000" rows="3"></textarea>
-      <div class="thoughts-form-footer">
-        <span class="char-count" id="char-count">0 / 1000</span>
-        <button type="submit" id="thought-submit">Post</button>
-      </div>
-    </form>
-  </div>
-  <div id="thoughts-list"></div>
-  <button id="load-more" style="display:none">Load more</button>
+<div id="thoughts-page">
+  <aside class="thoughts-sidebar">
+    <nav class="thoughts-nav">
+      <a href="/" class="thoughts-nav-link">Home</a>
+      <a href="/tags.html" class="thoughts-nav-link">Browse</a>
+      <a href="/graph.html" class="thoughts-nav-link">Graph</a>
+      <a href="/thoughts.html" class="thoughts-nav-link active">Thoughts</a>
+    </nav>
+  </aside>
+  <main class="thoughts-feed">
+    <div class="thoughts-form-wrap" id="thoughts-form-wrap" style="display:none">
+      <form id="thoughts-form">
+        <div class="compose-area">
+          <textarea id="thought-input" placeholder="What's on your mind?" maxlength="1000" rows="3"></textarea>
+        </div>
+        <div class="thoughts-form-footer">
+          <span class="char-count" id="char-count">0 / 1000</span>
+          <button type="submit" id="thought-submit">Post</button>
+        </div>
+      </form>
+    </div>
+    <div id="thoughts-list"></div>
+    <button id="load-more" style="display:none">Load more</button>
+  </main>
   <button id="secret-toggle" class="secret-toggle" title="Set secret">&#128274;</button>
-</section>`;
+</div>`;
 }

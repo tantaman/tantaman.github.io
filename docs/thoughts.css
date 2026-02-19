@@ -1,79 +1,121 @@
+/* Override #static link underlines for nav */
+#thoughts-page a {
+  text-decoration: none;
+}
+
+/* Break out of #static grid constraint */
 #thoughts-page {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+  grid-column: 1 / -1;
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
 }
 
-.thoughts-header {
-  text-align: center;
-  margin-bottom: 2rem;
+/* ── Sidebar ── */
+.thoughts-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  padding: 2.5rem 1.5rem;
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
 }
 
-.thoughts-back {
-  display: inline-block;
+.thoughts-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.thoughts-nav-link {
+  display: block;
+  padding: 0.5rem 0.75rem;
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
-  text-transform: lowercase;
-  margin-bottom: 0.5rem;
-}
-
-.thoughts-back:hover {
-  color: var(--text);
-}
-
-.thoughts-header h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
   letter-spacing: 0.02em;
 }
 
-/* Form */
+.thoughts-nav-link:hover {
+  color: var(--text);
+  background: var(--bg-soft);
+}
+
+.thoughts-nav-link.active {
+  color: var(--text);
+  font-weight: 600;
+  background: var(--bg-soft);
+}
+
+/* ── Feed area ── */
+.thoughts-feed {
+  flex: 1;
+  min-width: 0;
+  max-width: 680px;
+  padding: 2.5rem 2rem;
+  margin: 0 auto;
+}
+
+/* ── Compose ── */
 .thoughts-form-wrap {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.compose-area {
+  position: relative;
 }
 
 #thoughts-form textarea {
   width: 100%;
-  resize: vertical;
+  resize: none;
   font-family: inherit;
-  font-size: 0.95rem;
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg-soft);
+  font-size: 1.1rem;
+  padding: 1rem 0;
+  border: none;
+  background: transparent;
   color: var(--text);
   line-height: 1.5;
+  border-bottom: 1px solid var(--border);
+}
+
+#thoughts-form textarea::placeholder {
+  color: var(--text-muted);
 }
 
 #thoughts-form textarea:focus {
   outline: none;
-  border-color: var(--border-heavy);
+  border-bottom-color: var(--text);
 }
 
 .thoughts-form-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .char-count {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
 }
 
 #thought-submit {
-  padding: 0.4rem 1.2rem;
-  font-size: 0.85rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
   font-family: inherit;
   background: var(--accent);
   color: var(--bg);
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   cursor: pointer;
+  transition: opacity 0.15s;
 }
 
 #thought-submit:hover {
@@ -81,45 +123,65 @@
 }
 
 #thought-submit:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: default;
 }
 
-/* Thought entries */
+/* ── Thought entries ── */
 .thought {
-  padding: 1rem 0;
+  padding: 1.25rem 0;
   border-bottom: 1px solid var(--border);
 }
 
-.thought:first-child {
-  border-top: 1px solid var(--border);
+.thought:last-child {
+  border-bottom: none;
+}
+
+.thought-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.thought-author {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.thought-meta-sep {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.thought-time {
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
 .thought-body {
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-size: 0.95rem;
-  line-height: 1.55;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text);
 }
 
-.thought-time {
-  margin-top: 0.35rem;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-/* Load more */
+/* ── Load more ── */
 #load-more {
   display: block;
-  margin: 1.5rem auto;
-  padding: 0.5rem 1.5rem;
+  margin: 2rem auto;
+  padding: 0.6rem 2rem;
   font-family: inherit;
   font-size: 0.85rem;
   background: none;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 20px;
   color: var(--text-muted);
   cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: color 0.2s, border-color 0.2s;
 }
 
 #load-more:hover {
@@ -127,7 +189,7 @@
   border-color: var(--border-heavy);
 }
 
-/* Secret toggle */
+/* ── Secret toggle ── */
 .secret-toggle {
   position: fixed;
   bottom: 1.5rem;
@@ -151,4 +213,36 @@
 
 .secret-toggle:hover {
   opacity: 1;
+}
+
+/* ── Mobile: sidebar collapses to top bar ── */
+@media (max-width: 768px) {
+  #thoughts-page {
+    flex-direction: column;
+  }
+
+  .thoughts-sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    padding: 1rem 1rem 0;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .thoughts-nav {
+    flex-direction: row;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .thoughts-nav-link {
+    white-space: nowrap;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .thoughts-feed {
+    padding: 1.5rem 1rem;
+  }
 }
