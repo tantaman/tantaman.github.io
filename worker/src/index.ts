@@ -5,7 +5,7 @@ import { extractEvents } from "./events";
 import { extractTasks } from "./tasks";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
-import { upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
+import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
 
 export interface Env {
   AI: Ai;
@@ -36,6 +36,66 @@ app.get("/", (c) => {
     description: "API for tantaman.com blog, including MCP server for AI-assisted search",
     mcp: "/mcp",
   });
+});
+
+app.get("/thoughts/search", async (c) => {
+  const query = c.req.query("q");
+  if (!query) {
+    return c.json({ error: "Missing q parameter" }, 400);
+  }
+
+  const queryVec = await embedText(c.env.AI, query);
+  const vecResults = await c.env.VECTORIZE.query(queryVec, {
+    topK: 20,
+    returnMetadata: "all",
+  });
+
+  if (vecResults.matches.length === 0) {
+    return c.json({ thoughts: [] });
+  }
+
+  const ids = vecResults.matches.map((m) => parseInt(m.id, 10));
+  const scoreById = new Map(
+    vecResults.matches.map((m) => [parseInt(m.id, 10), m.score])
+  );
+
+  const placeholders = ids.map(() => "?").join(",");
+  const results = await c.env.DB.prepare(
+    `SELECT t.id, t.body, t.timestamp, t.created_at, t.parent_id,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+     FROM thought t
+     WHERE t.id IN (${placeholders})`
+  ).bind(...ids).all();
+
+  const thoughts = results.results as Record<string, unknown>[];
+
+  if (thoughts.length > 0) {
+    const tIds = thoughts.map((t) => t.id);
+    const aPlaceholders = tIds.map(() => "?").join(",");
+    const attachments = await c.env.DB.prepare(
+      `SELECT thought_id, attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id IN (${aPlaceholders})`
+    ).bind(...tIds).all();
+
+    const byThought = new Map<number, { key: string; type: string; name: string }[]>();
+    for (const a of attachments.results) {
+      const tid = a.thought_id as number;
+      if (!byThought.has(tid)) byThought.set(tid, []);
+      byThought.get(tid)!.push({
+        key: a.attachment_key as string,
+        type: a.attachment_type as string,
+        name: a.attachment_name as string,
+      });
+    }
+
+    for (const t of thoughts) {
+      t.attachments = byThought.get(t.id as number) || [];
+      t.score = scoreById.get(t.id as number) || 0;
+    }
+  }
+
+  thoughts.sort((a, b) => (b.score as number) - (a.score as number));
+
+  return c.json({ thoughts });
 });
 
 app.get("/thoughts", async (c) => {

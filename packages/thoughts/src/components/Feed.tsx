@@ -1,12 +1,16 @@
-import { useContext } from 'react';
+import { useContext, useState, useCallback } from 'react';
 import type { Thought } from '../types';
 import { AuthContext } from '../App';
 import { useThoughts } from '../hooks/useThoughts';
+import { useSearch } from '../hooks/useCache';
 import { ThoughtCard } from './ThoughtCard';
 import { ComposeForm } from './ComposeForm';
+import { SearchBar } from './SearchBar';
 
 export function Feed({ tags }: { tags: string[] }) {
   const { secret } = useContext(AuthContext);
+  const [searchQuery, setSearchQuery] = useState('');
+  const handleSearch = useCallback((q: string) => setSearchQuery(q), []);
   const { thoughts, hasMore, isLoadingInitial, isLoadingMore, loadMore, mutate } =
     useThoughts(tags);
 
@@ -37,41 +41,99 @@ export function Feed({ tags }: { tags: string[] }) {
     );
   };
 
+  const isSearching = searchQuery.length > 0;
+
   return (
     <>
-      {secret && (
+      <SearchBar onSearch={handleSearch} />
+
+      {!isSearching && secret && (
         <div className="thoughts-form-wrap">
           <ComposeForm onPosted={handlePosted} />
         </div>
       )}
 
-      <div>
-        {thoughts.map((t) => (
-          <ThoughtCard
-            key={t.id}
-            thought={t}
-            onDelete={() => handleDelete(t.id)}
-            footer={
-              <ThoughtFooter thought={t} secret={secret} />
-            }
-          />
-        ))}
-      </div>
+      {isSearching ? (
+        <SearchResults query={searchQuery} />
+      ) : (
+        <>
+          <div>
+            {thoughts.map((t) => (
+              <ThoughtCard
+                key={t.id}
+                thought={t}
+                onDelete={() => handleDelete(t.id)}
+                footer={
+                  <ThoughtFooter thought={t} secret={secret} />
+                }
+              />
+            ))}
+          </div>
 
-      {isLoadingInitial && (
-        <div className="thought-loading">Loading...</div>
-      )}
+          {isLoadingInitial && (
+            <div className="thought-loading">Loading...</div>
+          )}
 
-      {hasMore && !isLoadingInitial && (
-        <button
-          className="load-more"
-          onClick={loadMore}
-          disabled={isLoadingMore}
-        >
-          {isLoadingMore ? 'Loading...' : 'Load more'}
-        </button>
+          {hasMore && !isLoadingInitial && (
+            <button
+              className="load-more"
+              onClick={loadMore}
+              disabled={isLoadingMore}
+            >
+              {isLoadingMore ? 'Loading...' : 'Load more'}
+            </button>
+          )}
+        </>
       )}
     </>
+  );
+}
+
+function SearchResults({ query }: { query: string }) {
+  const { data, isLoading } = useSearch(query);
+
+  if (isLoading) {
+    return <div className="thought-loading">Searching...</div>;
+  }
+
+  if (!data || data.thoughts.length === 0) {
+    return <div className="thought-loading">No results found</div>;
+  }
+
+  return (
+    <div>
+      {data.thoughts.map((t) => (
+        <ThoughtCard
+          key={t.id}
+          thought={t}
+          footer={
+            <SearchFooter score={t.score} thoughtId={t.id} replyCount={t.reply_count} />
+          }
+        />
+      ))}
+    </div>
+  );
+}
+
+function SearchFooter({
+  score,
+  thoughtId,
+  replyCount,
+}: {
+  score: number;
+  thoughtId: number;
+  replyCount: number;
+}) {
+  const pct = Math.round(score * 100);
+  return (
+    <div className="thought-footer">
+      <span className="search-score">{pct}% match</span>
+      {replyCount > 0 && (
+        <a href={`#thought-${thoughtId}`} className="thought-replies-link">
+          {replyCount} {replyCount === 1 ? 'reply' : 'replies'}
+        </a>
+      )}
+    </div>
   );
 }
 

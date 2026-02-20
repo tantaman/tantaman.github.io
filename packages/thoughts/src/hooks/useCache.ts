@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { getThread, getTags, getTasks, getEvents } from '../api';
+import { getThread, getTags, getTasks, getEvents, searchThoughts } from '../api';
 
 export function useThread(id: number) {
   return useSWR(`thread-${id}`, () => getThread(id));
@@ -14,6 +14,11 @@ export function useTasks(showAll: boolean, tags: string[]) {
   const status = showAll ? 'all' : 'incomplete';
   const key = `tasks-${status}-${tags.join(',')}`;
   return useSWR(key, () => getTasks(status, tags.length > 0 ? tags : undefined));
+}
+
+export function useSearch(query: string) {
+  const key = query ? `search-${query}` : null;
+  return useSWR(key, () => searchThoughts(query));
 }
 
 export function useEvents(year: number, month: number) {
