@@ -33,8 +33,10 @@ export function getThread(id: number): Promise<ThreadResponse> {
   });
 }
 
-export function getTags(): Promise<TagsResponse> {
-  return fetch(`${API}/thoughts/tags`).then((r) => r.json());
+export function getTags(tags?: string[]): Promise<TagsResponse> {
+  let url = `${API}/thoughts/tags`;
+  if (tags && tags.length > 0) url += `?tags=${tags.map(encodeURIComponent).join(',')}`;
+  return fetch(url).then((r) => r.json());
 }
 
 export async function postThought(

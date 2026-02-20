@@ -225,14 +225,37 @@ app.get("/thoughts", async (c) => {
 });
 
 app.get("/thoughts/tags", async (c) => {
-  const results = await c.env.DB.prepare(
-    `SELECT t.name, COUNT(tt.thought_id) AS count
-     FROM tag t
-     JOIN thought_tag tt ON tt.tag_id = t.id
-     JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL
-     GROUP BY t.id
-     ORDER BY count DESC`
-  ).all();
+  const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
+
+  let results;
+  if (tags.length > 0) {
+    const placeholders = tags.map(() => "?").join(",");
+    results = await c.env.DB.prepare(
+      `SELECT tg.name, COUNT(DISTINCT tt.thought_id) AS count
+       FROM tag tg
+       JOIN thought_tag tt ON tt.tag_id = tg.id
+       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL
+       WHERE tt.thought_id IN (
+         SELECT tt2.thought_id FROM thought_tag tt2
+         JOIN tag tg2 ON tg2.id = tt2.tag_id
+         WHERE tg2.name IN (${placeholders})
+         GROUP BY tt2.thought_id
+         HAVING COUNT(DISTINCT tg2.name) = ?
+       )
+       GROUP BY tg.id
+       ORDER BY count DESC`
+    ).bind(...tags, tags.length).all();
+  } else {
+    results = await c.env.DB.prepare(
+      `SELECT t.name, COUNT(tt.thought_id) AS count
+       FROM tag t
+       JOIN thought_tag tt ON tt.tag_id = t.id
+       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL
+       GROUP BY t.id
+       ORDER BY count DESC`
+    ).all();
+  }
+
   return c.json({ tags: results.results });
 });
 

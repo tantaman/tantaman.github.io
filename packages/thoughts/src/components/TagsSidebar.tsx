@@ -12,8 +12,8 @@ export function TagsSidebar({
   const [tags, setTags] = useState<Tag[]>([]);
 
   useEffect(() => {
-    getTags().then((data) => setTags(data.tags || []));
-  }, []);
+    getTags(selectedTags).then((data) => setTags(data.tags || []));
+  }, [selectedTags.join(',')]);
 
   if (tags.length === 0) return null;
 
