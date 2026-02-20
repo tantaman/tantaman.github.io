@@ -1,15 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import type { Thought } from '../types';
-import { getThread } from '../api';
 import { AuthContext } from '../App';
+import { useThread } from '../hooks/useCache';
 import { ThoughtCard } from './ThoughtCard';
 import { ThreadThought } from './ThreadThought';
 import { ComposeForm } from './ComposeForm';
-
-interface ThreadData {
-  parent: Thought;
-  replies: Thought[];
-}
 
 function buildChildrenMap(replies: Thought[]): Map<number, Thought[]> {
   const map = new Map<number, Thought[]>();
@@ -27,34 +22,31 @@ function navigateToFeed() {
   window.dispatchEvent(new HashChangeEvent('hashchange'));
 }
 
+function BackLink() {
+  return (
+    <div className="thread-back">
+      <a
+        href="#"
+        className="thread-back-link"
+        onClick={(e) => {
+          e.preventDefault();
+          navigateToFeed();
+        }}
+      >
+        &larr; Back
+      </a>
+    </div>
+  );
+}
+
 export function ThreadView({ id }: { id: number }) {
   const { secret } = useContext(AuthContext);
-  const [data, setData] = useState<ThreadData | null>(null);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    setData(null);
-    setError(false);
-    getThread(id)
-      .then(setData)
-      .catch(() => setError(true));
-  }, [id]);
+  const { data, error, mutate } = useThread(id);
 
   if (error) {
     return (
       <>
-        <div className="thread-back">
-          <a
-            href="#"
-            className="thread-back-link"
-            onClick={(e) => {
-              e.preventDefault();
-              navigateToFeed();
-            }}
-          >
-            &larr; Back
-          </a>
-        </div>
+        <BackLink />
         <div className="thought-loading">
           Thought not found.{' '}
           <a
@@ -75,18 +67,7 @@ export function ThreadView({ id }: { id: number }) {
   if (!data) {
     return (
       <>
-        <div className="thread-back">
-          <a
-            href="#"
-            className="thread-back-link"
-            onClick={(e) => {
-              e.preventDefault();
-              navigateToFeed();
-            }}
-          >
-            &larr; Back
-          </a>
-        </div>
+        <BackLink />
         <div className="thought-loading">Loading...</div>
       </>
     );
@@ -101,36 +82,19 @@ export function ThreadView({ id }: { id: number }) {
   };
 
   const handleReplyPosted = (t: Thought) => {
-    setData((prev) => {
-      if (!prev) return prev;
-      return { ...prev, replies: [...prev.replies, t] };
-    });
+    mutate({ ...data, replies: [...data.replies, t] }, false);
   };
 
   const handleReplyDelete = (deletedId: number) => {
-    setData((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        replies: prev.replies.filter((r) => r.id !== deletedId),
-      };
-    });
+    mutate(
+      { ...data, replies: data.replies.filter((r) => r.id !== deletedId) },
+      false,
+    );
   };
 
   return (
     <>
-      <div className="thread-back">
-        <a
-          href="#"
-          className="thread-back-link"
-          onClick={(e) => {
-            e.preventDefault();
-            navigateToFeed();
-          }}
-        >
-          &larr; Back
-        </a>
-      </div>
+      <BackLink />
 
       <ThoughtCard
         thought={data.parent}

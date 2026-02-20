@@ -5,12 +5,14 @@ import { extractEvents } from "./events";
 import { extractTasks } from "./tasks";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
+import { upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
 
 export interface Env {
   AI: Ai;
   EMBEDDINGS: KVNamespace;
   DB: D1Database;
   BUCKET: R2Bucket;
+  VECTORIZE: Vectorize;
   THOUGHT_SECRET: string;
 }
 
@@ -289,6 +291,8 @@ app.post("/thoughts", async (c) => {
     attachments.push({ key, type: file.type, name: file.name });
   }
 
+  await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
+
   const thought = {
     id: thoughtId,
     body: trimmed,
@@ -309,14 +313,25 @@ app.delete("/thoughts/:id", async (c) => {
 
   const id = c.req.param("id");
 
-  const attachments = await c.env.DB.prepare(
+  const descendants = await c.env.DB.prepare(
     `WITH RECURSIVE descendants(id) AS (
        SELECT id FROM thought WHERE id = ?
        UNION ALL
        SELECT t.id FROM thought t JOIN descendants d ON t.parent_id = d.id
      )
-     SELECT attachment_key FROM thought_attachment WHERE thought_id IN (SELECT id FROM descendants)`
+     SELECT id FROM descendants`
   ).bind(id).all();
+
+  const descendantIds = descendants.results.map((r) => r.id as number);
+
+  if (descendantIds.length === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  const placeholders = descendantIds.map(() => "?").join(",");
+  const attachments = await c.env.DB.prepare(
+    `SELECT attachment_key FROM thought_attachment WHERE thought_id IN (${placeholders})`
+  ).bind(...descendantIds).all();
 
   const keys = attachments.results.map((a) => a.attachment_key as string);
   if (keys.length > 0) {
@@ -334,6 +349,8 @@ app.delete("/thoughts/:id", async (c) => {
   await c.env.DB.prepare(
     "DELETE FROM tag WHERE id NOT IN (SELECT DISTINCT tag_id FROM thought_tag)"
   ).run();
+
+  await deleteThoughtEmbeddings(c.env, descendantIds);
 
   return c.body(null, 204);
 });
@@ -431,6 +448,45 @@ app.get("/attachments/*", async (c) => {
   headers.set("Cache-Control", "public, max-age=31536000, immutable");
 
   return new Response(object.body, { headers });
+});
+
+app.post("/admin/backfill-embeddings", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const allThoughts = await c.env.DB.prepare(
+    "SELECT id, body, timestamp, parent_id FROM thought"
+  ).all();
+
+  const thoughts = allThoughts.results;
+  let upserted = 0;
+  const BATCH_SIZE = 50;
+
+  for (let i = 0; i < thoughts.length; i += BATCH_SIZE) {
+    const batch = thoughts.slice(i, i + BATCH_SIZE);
+    const texts = batch.map((t) => t.body as string);
+
+    const result = (await c.env.AI.run("@cf/baai/bge-base-en-v1.5", {
+      text: texts,
+    })) as { data: number[][] };
+
+    const vectors = batch.map((t, idx) => ({
+      id: String(t.id),
+      values: result.data[idx],
+      metadata: {
+        body: (t.body as string).slice(0, 100),
+        timestamp: t.timestamp as number,
+        ...(t.parent_id != null ? { parent_id: t.parent_id as number } : {}),
+      },
+    }));
+
+    await c.env.VECTORIZE.upsert(vectors);
+    upserted += vectors.length;
+  }
+
+  return c.json({ ok: true, upserted });
 });
 
 export default app;

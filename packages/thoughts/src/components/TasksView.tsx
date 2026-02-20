@@ -1,42 +1,34 @@
-import { useContext, useEffect, useState } from 'react';
-import type { Task } from '../types';
-import { getTasks, patchTask } from '../api';
+import { useContext, useState } from 'react';
+import { patchTask } from '../api';
 import { AuthContext } from '../App';
+import { useTasks } from '../hooks/useCache';
 
 export function TasksView({ tags }: { tags: string[] }) {
   const { secret } = useContext(AuthContext);
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [showAll, setShowAll] = useState(false);
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const tagsKey = tags.join(',');
 
-  useEffect(() => {
-    setLoading(true);
-    getTasks(showAll ? 'all' : 'incomplete', tags.length > 0 ? tags : undefined)
-      .then((r) => setTasks(r.tasks))
-      .finally(() => setLoading(false));
-  }, [showAll, tagsKey]);
+  const { data, mutate } = useTasks(showAll, tags);
+  const tasks = data?.tasks ?? [];
+  const loading = !data;
 
-  const toggleComplete = async (task: Task) => {
+  const toggleComplete = async (task: typeof tasks[number]) => {
     if (!secret) return;
     const completed = task.completed_at === null;
     // Optimistic update
-    setTasks((prev) =>
-      prev.map((t) =>
-        t.id === task.id
-          ? { ...t, completed_at: completed ? Math.floor(Date.now() / 1000) : null }
-          : t,
-      ),
+    mutate(
+      { tasks: tasks.map((t) => t.id === task.id ? { ...t, completed_at: completed ? Math.floor(Date.now() / 1000) : null } : t) },
+      false,
     );
     try {
       const updated = await patchTask(task.id, completed, secret);
-      setTasks((prev) => prev.map((t) => (t.id === task.id ? updated : t)));
-    } catch {
-      // Revert on failure
-      setTasks((prev) =>
-        prev.map((t) => (t.id === task.id ? task : t)),
+      mutate(
+        { tasks: tasks.map((t) => (t.id === task.id ? updated : t)) },
+        false,
       );
+    } catch {
+      // Revert by revalidating from server
+      mutate();
     }
   };
 

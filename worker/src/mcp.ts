@@ -2,6 +2,7 @@ import { StreamableHTTPTransport } from "@hono/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { Env } from "./index";
+import { embedText } from "./embeddings";
 
 interface Chunk {
   id: string;
@@ -48,12 +49,7 @@ export function createMcpServer(env: Env) {
     "Search Matt Wonlaw's blog (tantaman.com) for relevant content. Returns passages from blog posts matching the query. Use this to answer questions about topics the blog covers, including CRDTs, local-first software, SQLite, distributed systems, and other technical topics.",
     { query: z.string().describe("The search query or question to find relevant blog content for") },
     async ({ query }) => {
-      // Embed the query using Workers AI
-      const queryEmbedding = await env.AI.run("@cf/baai/bge-base-en-v1.5", {
-        text: [query],
-      }) as { data: number[][] };
-
-      const queryVec = queryEmbedding.data[0];
+      const queryVec = await embedText(env.AI, query);
 
       // Load chunks from KV
       const chunks = await loadChunks(env.EMBEDDINGS);
@@ -77,6 +73,65 @@ export function createMcpServer(env: Env) {
           `--- [${i + 1}] From "${chunk.postTitle}" (${chunk.postUrl}) [relevance: ${score.toFixed(3)}] ---`
         );
         lines.push(chunk.text);
+        lines.push("");
+      }
+
+      return {
+        content: [{ type: "text" as const, text: lines.join("\n") }],
+      };
+    }
+  );
+
+  server.tool(
+    "search_thoughts",
+    "Search Matt Wonlaw's thoughts (short-form posts on tantaman.com) for relevant content. Returns thoughts matching the query via semantic search. Use this to find thoughts about topics like CRDTs, local-first software, SQLite, distributed systems, and other technical topics.",
+    {
+      query: z.string().describe("The search query or question to find relevant thoughts for"),
+      topK: z.number().min(1).max(20).default(10).describe("Number of results to return (1-20, default 10)"),
+    },
+    async ({ query, topK }) => {
+      const queryVec = await embedText(env.AI, query);
+
+      const results = await env.VECTORIZE.query(queryVec, {
+        topK,
+        returnMetadata: "all",
+      });
+
+      if (results.matches.length === 0) {
+        return {
+          content: [{ type: "text" as const, text: "No matching thoughts found." }],
+        };
+      }
+
+      const ids = results.matches.map((m) => parseInt(m.id, 10));
+      const placeholders = ids.map(() => "?").join(",");
+      const rows = await env.DB.prepare(
+        `SELECT id, body, timestamp, parent_id FROM thought WHERE id IN (${placeholders})`
+      ).bind(...ids).all();
+
+      const bodyById = new Map<number, { body: string; timestamp: number; parent_id: number | null }>();
+      for (const r of rows.results) {
+        bodyById.set(r.id as number, {
+          body: r.body as string,
+          timestamp: r.timestamp as number,
+          parent_id: r.parent_id as number | null,
+        });
+      }
+
+      const lines = [`Found ${results.matches.length} relevant thoughts:\n`];
+
+      for (let i = 0; i < results.matches.length; i++) {
+        const match = results.matches[i];
+        const id = parseInt(match.id, 10);
+        const thought = bodyById.get(id);
+        const body = thought?.body ?? (match.metadata?.body as string) ?? "(body unavailable)";
+        const timestamp = thought?.timestamp ?? (match.metadata?.timestamp as number);
+        const date = timestamp ? new Date(timestamp * 1000).toISOString().slice(0, 10) : "unknown";
+
+        lines.push(
+          `--- [${i + 1}] Thought #${id} (${date}) [relevance: ${match.score.toFixed(3)}] ---`
+        );
+        lines.push(body);
         lines.push("");
       }
 

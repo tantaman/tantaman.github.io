@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import type { Tag } from '../types';
-import { getTags } from '../api';
+import { useTags } from '../hooks/useCache';
 
 export function TagsSidebar({
   selectedTags,
@@ -9,11 +7,8 @@ export function TagsSidebar({
   selectedTags: string[];
   toggleTag: (tag: string) => void;
 }) {
-  const [tags, setTags] = useState<Tag[]>([]);
-
-  useEffect(() => {
-    getTags(selectedTags).then((data) => setTags(data.tags || []));
-  }, [selectedTags.join(',')]);
+  const { data } = useTags(selectedTags);
+  const tags = data?.tags ?? [];
 
   if (tags.length === 0) return null;
 
