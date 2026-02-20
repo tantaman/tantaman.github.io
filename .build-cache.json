@@ -1,5 +1,5 @@
 {
-  "_compilerMtime": 1771600530178,
+  "_compilerMtime": 1771602080756,
   "the-mirror-room//01-the-consistent-man.md": 1771210416385,
   "notes//2025-gift-list.md": 1764377076104,
   "bookmarks//README.md": 1753056386472,
@@ -552,7 +552,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771600921693,
+          "pages": 1771601923653,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -734,14 +734,16 @@
         "type": "dir",
         "listing": [
           "README.md",
+          "artifacts",
           "mcp.md",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
+          "artifacts": 1771601912123,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771600921693,
+          "nyc-budget-simulator.mdx": 1771601923653,
           "yagni.md": 1753056386475
         }
       },
@@ -1085,7 +1087,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771600921693,
+          "pages": 1771601923653,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -1267,14 +1269,16 @@
         "type": "dir",
         "listing": [
           "README.md",
+          "artifacts",
           "mcp.md",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
+          "artifacts": 1771601912123,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771600921693,
+          "nyc-budget-simulator.mdx": 1771601923653,
           "yagni.md": 1753056386475
         }
       },
@@ -1619,7 +1623,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771600921693,
+          "pages": 1771601923653,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -1801,14 +1805,16 @@
         "type": "dir",
         "listing": [
           "README.md",
+          "artifacts",
           "mcp.md",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
+          "artifacts": 1771601912123,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771600921693,
+          "nyc-budget-simulator.mdx": 1771601923653,
           "yagni.md": 1753056386475
         }
       }
@@ -2148,7 +2154,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771600921693,
+          "pages": 1771601923653,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -2330,14 +2336,16 @@
         "type": "dir",
         "listing": [
           "README.md",
+          "artifacts",
           "mcp.md",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
+          "artifacts": 1771601912123,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771600921693,
+          "nyc-budget-simulator.mdx": 1771601923653,
           "yagni.md": 1753056386475
         }
       }
@@ -2685,7 +2693,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771600921693,
+          "pages": 1771601923653,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -2867,18 +2875,21 @@
         "type": "dir",
         "listing": [
           "README.md",
+          "artifacts",
           "mcp.md",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
+          "artifacts": 1771601912123,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771600921693,
+          "nyc-budget-simulator.mdx": 1771601923653,
           "yagni.md": 1753056386475
         }
       }
     }
   },
-  "pages//nyc-budget-simulator.mdx": 1771600921693
+  "pages//nyc-budget-simulator.mdx": 1771601923653,
+  "pages/artifacts/NYCBudgetSimulator.jsx": 1771601912122
 }
