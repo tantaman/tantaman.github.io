@@ -12,7 +12,7 @@ export function Layout({
 }) {
   return (
     <div id="thoughts-page">
-      <Sidebar />
+      <Sidebar route={route} />
       <main className="thoughts-feed">{children}</main>
       <TagsSidebar activeTag={route.view === 'tag' ? route.tag : null} />
     </div>

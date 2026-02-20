@@ -4,6 +4,7 @@ import { getSecret, setSecret } from './auth';
 import { Layout } from './components/Layout';
 import { Feed } from './components/Feed';
 import { ThreadView } from './components/ThreadView';
+import { TasksView } from './components/TasksView';
 import { SecretToggle } from './components/SecretToggle';
 
 export const AuthContext = createContext<{
@@ -13,6 +14,7 @@ export const AuthContext = createContext<{
 
 function parseHash(): Route {
   const hash = location.hash;
+  if (hash === '#tasks') return { view: 'tasks' };
   const threadMatch = hash.match(/^#thought-(\d+)$/);
   if (threadMatch) return { view: 'thread', id: parseInt(threadMatch[1], 10) };
   const tagMatch = hash.match(/^#tag-(.+)$/);
@@ -43,7 +45,9 @@ export function App() {
   return (
     <AuthContext.Provider value={{ secret, updateSecret }}>
       <Layout route={route}>
-        {route.view === 'thread' ? (
+        {route.view === 'tasks' ? (
+          <TasksView />
+        ) : route.view === 'thread' ? (
           <ThreadView id={route.id} onBack={navigateToFeed} />
         ) : (
           <Feed
