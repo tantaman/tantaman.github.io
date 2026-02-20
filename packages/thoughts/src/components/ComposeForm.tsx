@@ -1,5 +1,6 @@
 import {
   useContext,
+  useMemo,
   useRef,
   useState,
   type FormEvent,
@@ -7,6 +8,7 @@ import {
 } from 'react';
 import { postThought } from '../api';
 import { AuthContext } from '../App';
+import { renderMarkdown } from '../markdown';
 
 export function ComposeForm({
   parentId,
@@ -22,6 +24,7 @@ export function ComposeForm({
   const { secret, updateSecret } = useContext(AuthContext);
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [preview, setPreview] = useState(false);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -88,14 +91,40 @@ export function ComposeForm({
   return (
     <form className={parentId != null ? 'reply-form' : undefined} onSubmit={handleSubmit}>
       <div className="compose-area">
-        <textarea
-          placeholder={placeholder || "What's on your mind?"}
-          maxLength={1000}
-          rows={3}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
+        <div className="compose-tabs">
+          <button
+            type="button"
+            className={'compose-tab' + (!preview ? ' compose-tab--active' : '')}
+            onClick={() => setPreview(false)}
+          >
+            Write
+          </button>
+          <button
+            type="button"
+            className={'compose-tab' + (preview ? ' compose-tab--active' : '')}
+            onClick={() => setPreview(true)}
+          >
+            Preview
+          </button>
+        </div>
+        {preview ? (
+          <div
+            className="thought-body thought-body--md compose-preview"
+            dangerouslySetInnerHTML={useMemo(
+              () => ({ __html: renderMarkdown(text) }),
+              [text],
+            )}
+          />
+        ) : (
+          <textarea
+            placeholder={placeholder || "What's on your mind? (markdown supported)"}
+            maxLength={1000}
+            rows={3}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+        )}
       </div>
       <div className="compose-file-row">
         <label className="compose-file-btn" htmlFor={fileInputId}>
