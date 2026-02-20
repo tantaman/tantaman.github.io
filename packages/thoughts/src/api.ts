@@ -19,10 +19,10 @@ interface TagsResponse {
 export function getThoughts(
   offset: number,
   limit: number,
-  tag?: string,
+  tags?: string[],
 ): Promise<ThoughtsResponse> {
   let url = `${API}/thoughts?limit=${limit}&offset=${offset}`;
-  if (tag) url += `&tag=${encodeURIComponent(tag)}`;
+  if (tags && tags.length > 0) url += `&tags=${tags.map(encodeURIComponent).join(',')}`;
   return fetch(url).then((r) => r.json());
 }
 
@@ -86,8 +86,11 @@ export async function deleteThought(
 
 export function getTasks(
   status: 'incomplete' | 'all' = 'incomplete',
+  tags?: string[],
 ): Promise<{ tasks: Task[] }> {
-  return fetch(`${API}/tasks?status=${status}`).then((r) => r.json());
+  let url = `${API}/tasks?status=${status}`;
+  if (tags && tags.length > 0) url += `&tags=${tags.map(encodeURIComponent).join(',')}`;
+  return fetch(url).then((r) => r.json());
 }
 
 export async function patchTask(

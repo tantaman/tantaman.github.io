@@ -22,13 +22,12 @@ function buildChildrenMap(replies: Thought[]): Map<number, Thought[]> {
   return map;
 }
 
-export function ThreadView({
-  id,
-  onBack,
-}: {
-  id: number;
-  onBack: () => void;
-}) {
+function navigateToFeed() {
+  history.pushState(null, '', location.pathname);
+  window.dispatchEvent(new HashChangeEvent('hashchange'));
+}
+
+export function ThreadView({ id }: { id: number }) {
   const { secret } = useContext(AuthContext);
   const [data, setData] = useState<ThreadData | null>(null);
   const [error, setError] = useState(false);
@@ -50,7 +49,7 @@ export function ThreadView({
             className="thread-back-link"
             onClick={(e) => {
               e.preventDefault();
-              onBack();
+              navigateToFeed();
             }}
           >
             &larr; Back
@@ -63,7 +62,7 @@ export function ThreadView({
             className="thread-back-link"
             onClick={(e) => {
               e.preventDefault();
-              onBack();
+              navigateToFeed();
             }}
           >
             Back to feed
@@ -82,7 +81,7 @@ export function ThreadView({
             className="thread-back-link"
             onClick={(e) => {
               e.preventDefault();
-              onBack();
+              navigateToFeed();
             }}
           >
             &larr; Back
@@ -98,7 +97,7 @@ export function ThreadView({
   const replyCount = data.replies.length;
 
   const handleParentDelete = () => {
-    onBack();
+    navigateToFeed();
   };
 
   const handleReplyPosted = (t: Thought) => {
@@ -126,7 +125,7 @@ export function ThreadView({
           className="thread-back-link"
           onClick={(e) => {
             e.preventDefault();
-            onBack();
+            navigateToFeed();
           }}
         >
           &larr; Back

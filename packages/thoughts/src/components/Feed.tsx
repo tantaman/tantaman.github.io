@@ -7,25 +7,20 @@ import { ComposeForm } from './ComposeForm';
 
 const LIMIT = 50;
 
-export function Feed({
-  tag,
-  onBack,
-}: {
-  tag?: string;
-  onBack: () => void;
-}) {
+export function Feed({ tags }: { tags: string[] }) {
   const { secret } = useContext(AuthContext);
   const [thoughts, setThoughts] = useState<Thought[]>([]);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(false);
   const offsetRef = useRef(0);
+  const tagsKey = tags.join(',');
 
   const load = useCallback(
     (reset?: boolean) => {
       if (loading) return;
       setLoading(true);
       const off = reset ? 0 : offsetRef.current;
-      getThoughts(off, LIMIT, tag)
+      getThoughts(off, LIMIT, tags.length > 0 ? tags : undefined)
         .then((data) => {
           if (reset) {
             setThoughts(data.thoughts);
@@ -37,7 +32,7 @@ export function Feed({
         })
         .finally(() => setLoading(false));
     },
-    [tag, loading],
+    [tagsKey, loading],
   );
 
   useEffect(() => {
@@ -45,13 +40,12 @@ export function Feed({
     setThoughts([]);
     setHasMore(false);
     setLoading(false);
-    // Need a fresh load — can't rely on `load` since it captures stale `loading`
-    getThoughts(0, LIMIT, tag).then((data) => {
+    getThoughts(0, LIMIT, tags.length > 0 ? tags : undefined).then((data) => {
       setThoughts(data.thoughts);
       offsetRef.current = data.thoughts.length;
       setHasMore(data.meta.hasMore);
     });
-  }, [tag]);
+  }, [tagsKey]);
 
   const handlePosted = (t: Thought) => {
     setThoughts((prev) => [t, ...prev]);
@@ -65,23 +59,7 @@ export function Feed({
 
   return (
     <>
-      {tag && (
-        <div className="thread-back">
-          <a
-            href="#"
-            className="thread-back-link"
-            onClick={(e) => {
-              e.preventDefault();
-              onBack();
-            }}
-          >
-            &larr; Back
-          </a>
-          <span className="tag-view-label">#{tag}</span>
-        </div>
-      )}
-
-      {!tag && secret && (
+      {secret && (
         <div className="thoughts-form-wrap">
           <ComposeForm onPosted={handlePosted} />
         </div>

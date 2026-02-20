@@ -17,18 +17,23 @@ function parseHash(): Route {
   if (hash === '#tasks') return { view: 'tasks' };
   const threadMatch = hash.match(/^#thought-(\d+)$/);
   if (threadMatch) return { view: 'thread', id: parseInt(threadMatch[1], 10) };
-  const tagMatch = hash.match(/^#tag-(.+)$/);
-  if (tagMatch) return { view: 'tag', tag: decodeURIComponent(tagMatch[1]) };
   return { view: 'feed' };
 }
 
 export function App() {
   const [secret, setSecretState] = useState<string | null>(getSecret);
   const [route, setRoute] = useState<Route>(parseHash);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const updateSecret = useCallback((s: string | null) => {
     setSecret(s);
     setSecretState(s);
+  }, []);
+
+  const toggleTag = useCallback((tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
   }, []);
 
   useEffect(() => {
@@ -37,23 +42,15 @@ export function App() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  const navigateToFeed = useCallback(() => {
-    history.pushState(null, '', location.pathname);
-    setRoute({ view: 'feed' });
-  }, []);
-
   return (
     <AuthContext.Provider value={{ secret, updateSecret }}>
-      <Layout route={route}>
+      <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag}>
         {route.view === 'tasks' ? (
-          <TasksView />
+          <TasksView tags={selectedTags} />
         ) : route.view === 'thread' ? (
-          <ThreadView id={route.id} onBack={navigateToFeed} />
+          <ThreadView id={route.id} />
         ) : (
-          <Feed
-            tag={route.view === 'tag' ? route.tag : undefined}
-            onBack={navigateToFeed}
-          />
+          <Feed tags={selectedTags} />
         )}
       </Layout>
       <SecretToggle />
