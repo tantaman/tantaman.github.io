@@ -395,6 +395,30 @@ app.patch("/tasks/:id", async (c) => {
   return c.json(task);
 });
 
+app.get("/events", async (c) => {
+  const from = c.req.query("from");
+  const to = c.req.query("to");
+
+  let query = "SELECT id, thought_id, title, description, date_text, date_epoch, created_at FROM event";
+  const bindings: (string | number)[] = [];
+
+  if (from && to) {
+    query += " WHERE date_epoch >= ? AND date_epoch < ?";
+    bindings.push(parseInt(from, 10), parseInt(to, 10));
+  } else if (from) {
+    query += " WHERE date_epoch >= ?";
+    bindings.push(parseInt(from, 10));
+  } else if (to) {
+    query += " WHERE date_epoch < ?";
+    bindings.push(parseInt(to, 10));
+  }
+
+  query += " ORDER BY date_epoch ASC";
+
+  const results = await c.env.DB.prepare(query).bind(...bindings).all();
+  return c.json({ events: results.results });
+});
+
 app.get("/attachments/*", async (c) => {
   const key = c.req.path.replace(/^\/attachments\//, "");
   if (!key) return c.json({ error: "Not found" }, 404);

@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task } from './types';
+import type { Thought, Tag, Task, Event } from './types';
 
 const API = 'https://tantamanlands.tantaman.workers.dev';
 
@@ -111,6 +111,18 @@ export async function patchTask(
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Update failed');
   return r.json();
+}
+
+export function getEvents(
+  from?: number,
+  to?: number,
+): Promise<{ events: Event[] }> {
+  let url = `${API}/events`;
+  const params: string[] = [];
+  if (from != null) params.push(`from=${from}`);
+  if (to != null) params.push(`to=${to}`);
+  if (params.length > 0) url += `?${params.join('&')}`;
+  return fetch(url).then((r) => r.json());
 }
 
 export function attachmentUrl(key: string): string {
