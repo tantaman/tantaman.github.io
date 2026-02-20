@@ -52,9 +52,11 @@ function resolveDateTime(dateText: string, referenceEpoch: number): number {
       d.setUTCDate(d.getUTCDate() + daysAhead);
       dayEpoch = startOfDayUTC(d);
     } else {
-      const fullMatch = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      const fullMatch = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
       if (fullMatch) {
-        dayEpoch = Math.floor(Date.UTC(+fullMatch[3], +fullMatch[1] - 1, +fullMatch[2]) / 1000);
+        let year = +fullMatch[3];
+        if (year < 100) year += 2000;
+        dayEpoch = Math.floor(Date.UTC(year, +fullMatch[1] - 1, +fullMatch[2]) / 1000);
       } else {
         const shortMatch = text.match(/^(\d{1,2})\/(\d{1,2})$/);
         if (shortMatch) {
@@ -69,7 +71,7 @@ function resolveDateTime(dateText: string, referenceEpoch: number): number {
   return dayEpoch + timeOffset;
 }
 
-const DATE_PAT = '(?:today|tomorrow|sunday|monday|tuesday|wednesday|thursday|friday|saturday|\\d{1,2}\\/\\d{1,2}(?:\\/\\d{4})?)';
+const DATE_PAT = '(?:today|tomorrow|sunday|monday|tuesday|wednesday|thursday|friday|saturday|\\d{1,2}\\/\\d{1,2}(?:\\/\\d{2,4})?)';
 const TIME_PAT = '\\d{1,2}(?::\\d{2})?';
 export const EVENT_RE = new RegExp(`^#e\\s+(${DATE_PAT})(?:\\s+(${TIME_PAT}))?\\s+(.+)`, 'i');
 
