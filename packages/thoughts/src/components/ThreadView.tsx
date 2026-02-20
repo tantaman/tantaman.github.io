@@ -39,7 +39,7 @@ function BackLink() {
   );
 }
 
-export function ThreadView({ id }: { id: number }) {
+export function ThreadView({ id, onTagClick }: { id: number; onTagClick: (tag: string) => void }) {
   const { secret } = useContext(AuthContext);
   const { data, error, mutate } = useThread(id);
 
@@ -100,6 +100,7 @@ export function ThreadView({ id }: { id: number }) {
         thought={data.parent}
         isParent
         onDelete={handleParentDelete}
+        onTagClick={onTagClick}
       />
 
       <div className="replies-label">
@@ -116,6 +117,7 @@ export function ThreadView({ id }: { id: number }) {
           depth={0}
           onReplyPosted={handleReplyPosted}
           onDelete={handleReplyDelete}
+          onTagClick={onTagClick}
         />
       ))}
 

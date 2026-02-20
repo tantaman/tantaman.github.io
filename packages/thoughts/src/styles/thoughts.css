@@ -531,6 +531,8 @@
 
 /* -- Hashtag styling -- */
 .thought-tag { color: var(--text); font-weight: 500; }
+.thought-tag--link { cursor: pointer; text-decoration: none; }
+.thought-tag--link:hover { text-decoration: underline; }
 
 /* -- Markdown body -- */
 .thought-body--md {

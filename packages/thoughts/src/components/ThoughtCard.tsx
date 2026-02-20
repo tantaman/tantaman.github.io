@@ -1,4 +1,4 @@
-import { useContext, useMemo, type ReactNode } from 'react';
+import { useCallback, useContext, useMemo, type ReactNode } from 'react';
 import type { Thought } from '../types';
 import { attachmentUrl } from '../api';
 import * as api from '../api';
@@ -28,12 +28,14 @@ export function ThoughtCard({
   inThread,
   footer,
   onDelete,
+  onTagClick,
 }: {
   thought: Thought;
   isParent?: boolean;
   inThread?: boolean;
   footer?: ReactNode;
   onDelete?: () => void;
+  onTagClick?: (tag: string) => void;
 }) {
   const { secret, updateSecret } = useContext(AuthContext);
 
@@ -48,6 +50,20 @@ export function ThoughtCard({
       }
     }
   };
+
+  const handleBodyClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!onTagClick) return;
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[data-tag]') as HTMLAnchorElement | null;
+      if (link) {
+        e.preventDefault();
+        const tag = link.dataset.tag;
+        if (tag) onTagClick(tag);
+      }
+    },
+    [onTagClick],
+  );
 
   return (
     <div
@@ -70,6 +86,7 @@ export function ThoughtCard({
       </div>
       <div
         className="thought-body thought-body--md"
+        onClick={handleBodyClick}
         dangerouslySetInnerHTML={useMemo(
           () => ({ __html: renderMarkdown(thought.body) }),
           [thought.body],
