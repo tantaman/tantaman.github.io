@@ -411,8 +411,8 @@
 }
 
 /* ── Hashtag links ── */
-.thought-tag { color: var(--text-muted); text-decoration: none; font-weight: 500; }
-.thought-tag:hover { color: var(--text); text-decoration: underline; }
+#thoughts-page a.thought-tag { color: var(--text); text-decoration: underline; text-decoration-color: var(--text-muted); text-underline-offset: 2px; font-weight: 500; }
+#thoughts-page a.thought-tag:hover { text-decoration-color: var(--text); }
 
 /* ── Tag view header ── */
 .tag-view-label { margin-left: 1rem; font-size: 1.1rem; font-weight: 600; color: var(--text); }
