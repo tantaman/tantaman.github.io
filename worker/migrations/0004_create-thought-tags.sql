@@ -1,0 +1,12 @@
+CREATE TABLE tag (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE COLLATE NOCASE
+);
+
+CREATE TABLE thought_tag (
+  thought_id INTEGER NOT NULL REFERENCES thought(id) ON DELETE CASCADE,
+  tag_id INTEGER NOT NULL REFERENCES tag(id) ON DELETE CASCADE,
+  PRIMARY KEY (thought_id, tag_id)
+);
+
+CREATE INDEX idx_thought_tag_tag ON thought_tag(tag_id);

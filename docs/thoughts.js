@@ -6,6 +6,7 @@
 
   var currentView = 'feed';
   var currentThreadId = null;
+  var currentTag = null;
   var activeInlineForm = null;
 
   var listEl = document.getElementById('thoughts-list');
@@ -19,11 +20,20 @@
   var fileInput = document.getElementById('thought-file');
   var fileLabel = document.getElementById('thought-file-label');
   var fileClear = document.getElementById('thought-file-clear');
+  var tagsListEl = document.getElementById('tags-list');
+  var tagsSidebar = document.getElementById('tags-sidebar');
 
   function escapeHtml(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
+  }
+
+  function formatBody(text) {
+    var escaped = escapeHtml(text);
+    return escaped.replace(/(^|[\s])#([a-zA-Z][a-zA-Z0-9_-]*)/g, function(match, prefix, tag) {
+      return prefix + '<a class="thought-tag" href="#tag-' + encodeURIComponent(tag.toLowerCase()) + '">#' + tag + '</a>';
+    });
   }
 
   function renderAttachments(t) {
@@ -92,7 +102,7 @@
         '<span class="thought-time">' + escapeHtml(formatTime(t.timestamp)) + '</span>' +
         deleteBtn +
       '</div>' +
-      '<div class="thought-body">' + escapeHtml(t.body) + '</div>' +
+      '<div class="thought-body">' + formatBody(t.body) + '</div>' +
       renderAttachments(t) +
       footerHtml;
 
@@ -190,6 +200,7 @@
           el.remove();
           offset -= 1;
         }
+        loadTags();
       }
     });
   }
@@ -248,7 +259,12 @@
     loading = true;
     loadMoreBtn.textContent = 'Loading...';
 
-    fetch(API + '/thoughts?limit=' + limit + '&offset=' + offset)
+    var url = API + '/thoughts?limit=' + limit + '&offset=' + offset;
+    if (currentView === 'tag' && currentTag) {
+      url += '&tag=' + encodeURIComponent(currentTag);
+    }
+
+    fetch(url)
       .then(function (r) { return r.json(); })
       .then(function (data) {
         data.thoughts.forEach(function (t) {
@@ -270,8 +286,11 @@
   function route() {
     var hash = location.hash;
     var match = hash.match(/^#thought-(\d+)$/);
+    var tagMatch = hash.match(/^#tag-(.+)$/);
     if (match) {
       loadThread(match[1]);
+    } else if (tagMatch) {
+      showTagFeed(decodeURIComponent(tagMatch[1]));
     } else {
       showFeed();
     }
@@ -289,6 +308,7 @@
   function showFeed() {
     currentView = 'feed';
     currentThreadId = null;
+    currentTag = null;
     activeInlineForm = null;
 
     // Remove thread-specific elements
@@ -303,7 +323,94 @@
     formWrap.style.display = getSecret() ? '' : 'none';
     loadMoreBtn.style.display = 'none';
 
+    updateActiveTag(null);
+
     loadThoughts();
+  }
+
+  function showTagFeed(tag) {
+    currentView = 'tag';
+    currentTag = tag;
+    currentThreadId = null;
+    activeInlineForm = null;
+
+    // Remove thread-specific elements
+    var backBar = listEl.parentNode.querySelector('.thread-back');
+    if (backBar) backBar.remove();
+    var replyForm = listEl.parentNode.querySelector('.reply-form-wrap');
+    if (replyForm) replyForm.remove();
+
+    listEl.innerHTML = '';
+    offset = 0;
+
+    formWrap.style.display = 'none';
+    loadMoreBtn.style.display = 'none';
+
+    // Insert back bar with tag label
+    var tagBar = document.createElement('div');
+    tagBar.className = 'thread-back';
+    var backLink = document.createElement('a');
+    backLink.className = 'thread-back-link';
+    backLink.href = '#';
+    backLink.textContent = '\u2190 Back';
+    backLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      navigateToFeed();
+    });
+    tagBar.appendChild(backLink);
+    var tagLabel = document.createElement('span');
+    tagLabel.className = 'tag-view-label';
+    tagLabel.textContent = '#' + tag;
+    tagBar.appendChild(tagLabel);
+    listEl.parentNode.insertBefore(tagBar, listEl);
+
+    // Highlight active tag in sidebar
+    updateActiveTag(tag);
+
+    loadThoughts();
+  }
+
+  function loadTags() {
+    fetch(API + '/thoughts/tags')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        tagsListEl.innerHTML = '';
+        if (!data.tags || data.tags.length === 0) {
+          tagsSidebar.style.display = 'none';
+          return;
+        }
+        tagsSidebar.style.display = '';
+        for (var i = 0; i < data.tags.length; i++) {
+          var tag = data.tags[i];
+          var a = document.createElement('a');
+          a.className = 'tags-list-item';
+          a.href = '#tag-' + encodeURIComponent(tag.name);
+          if (currentView === 'tag' && currentTag === tag.name) {
+            a.className += ' active';
+          }
+          var nameSpan = document.createElement('span');
+          nameSpan.textContent = '#' + tag.name;
+          var countSpan = document.createElement('span');
+          countSpan.className = 'tags-list-count';
+          countSpan.textContent = tag.count;
+          a.appendChild(nameSpan);
+          a.appendChild(countSpan);
+          tagsListEl.appendChild(a);
+        }
+      });
+  }
+
+  function updateActiveTag(tag) {
+    var items = tagsListEl.querySelectorAll('.tags-list-item');
+    for (var i = 0; i < items.length; i++) {
+      var href = items[i].getAttribute('href');
+      var itemTag = href ? decodeURIComponent(href.replace('#tag-', '')) : '';
+      if (itemTag === tag) {
+        items[i].className = 'tags-list-item active';
+      } else {
+        items[i].className = 'tags-list-item';
+      }
+    }
   }
 
   function loadThread(id) {
@@ -652,6 +759,7 @@
         fileInput.value = '';
         updateFileLabel();
         offset += 1;
+        loadTags();
       })
       .catch(function (err) {
         if (err.message !== 'Unauthorized') {
@@ -677,5 +785,6 @@
   window.addEventListener('hashchange', route);
 
   updateFormVisibility();
+  loadTags();
   route();
 })();

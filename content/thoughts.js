@@ -77,6 +77,10 @@ function thoughtsPage() {
     <div id="thoughts-list"></div>
     <button id="load-more" style="display:none">Load more</button>
   </main>
+  <aside class="thoughts-tags-sidebar" id="tags-sidebar">
+    <div class="tags-sidebar-title">Tags</div>
+    <div id="tags-list"></div>
+  </aside>
   <button id="secret-toggle" class="secret-toggle" title="Set secret">&#128274;</button>
 </div>`;
 }

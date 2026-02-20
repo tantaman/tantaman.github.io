@@ -410,6 +410,54 @@
   color: var(--text);
 }
 
+/* ── Hashtag links ── */
+.thought-tag { color: var(--text-muted); text-decoration: none; font-weight: 500; }
+.thought-tag:hover { color: var(--text); text-decoration: underline; }
+
+/* ── Tag view header ── */
+.tag-view-label { margin-left: 1rem; font-size: 1.1rem; font-weight: 600; color: var(--text); }
+
+/* ── Right sidebar (tags column) ── */
+.thoughts-tags-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  padding: 2.5rem 1.5rem;
+  border-left: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.tags-sidebar-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.tags-list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+
+.tags-list-item:hover { color: var(--text); background: var(--bg-soft); }
+.tags-list-item.active { color: var(--text); font-weight: 600; background: var(--bg-soft); }
+
+.tags-list-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
 /* ── Mobile: sidebar collapses to top bar ── */
 @media (max-width: 768px) {
   #thoughts-page {
@@ -441,6 +489,10 @@
     padding: 1.5rem 1rem;
     max-width: 100%;
     margin: 0;
+  }
+
+  .thoughts-tags-sidebar {
+    display: none;
   }
 
   .thought-children {

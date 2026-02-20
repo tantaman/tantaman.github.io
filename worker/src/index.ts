@@ -100,6 +100,13 @@ function createMcpServer(env: Env) {
   return server;
 }
 
+function extractTags(body: string): string[] {
+  const matches = body.matchAll(/(^|[\s])#([a-zA-Z][a-zA-Z0-9_-]*)/g);
+  const tags = new Set<string>();
+  for (const m of matches) tags.add(m[2].toLowerCase());
+  return [...tags];
+}
+
 const app = new Hono<{ Bindings: Env }>();
 
 app.use("*", cors());
@@ -123,14 +130,28 @@ app.get("/", (c) => {
 app.get("/thoughts", async (c) => {
   const limitParam = Math.min(parseInt(c.req.query("limit") || "50", 10) || 50, 200);
   const offsetParam = parseInt(c.req.query("offset") || "0", 10) || 0;
+  const tag = c.req.query("tag");
 
-  const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.timestamp, t.created_at,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
-     FROM thought t
-     WHERE t.parent_id IS NULL
-     ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
-  ).bind(limitParam, offsetParam).all();
+  let results;
+  if (tag) {
+    results = await c.env.DB.prepare(
+      `SELECT t.id, t.body, t.timestamp, t.created_at,
+         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+       FROM thought t
+       JOIN thought_tag tt ON tt.thought_id = t.id
+       JOIN tag tg ON tg.id = tt.tag_id AND tg.name = ?
+       WHERE t.parent_id IS NULL
+       ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
+    ).bind(tag, limitParam, offsetParam).all();
+  } else {
+    results = await c.env.DB.prepare(
+      `SELECT t.id, t.body, t.timestamp, t.created_at,
+         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+       FROM thought t
+       WHERE t.parent_id IS NULL
+       ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
+    ).bind(limitParam, offsetParam).all();
+  }
 
   const hasMore = results.results.length === limitParam;
 
@@ -162,6 +183,18 @@ app.get("/thoughts", async (c) => {
     thoughts,
     meta: { limit: limitParam, offset: offsetParam, hasMore },
   });
+});
+
+app.get("/thoughts/tags", async (c) => {
+  const results = await c.env.DB.prepare(
+    `SELECT t.name, COUNT(tt.thought_id) AS count
+     FROM tag t
+     JOIN thought_tag tt ON tt.tag_id = t.id
+     JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL
+     GROUP BY t.id
+     ORDER BY count DESC`
+  ).all();
+  return c.json({ tags: results.results });
 });
 
 app.get("/thoughts/:id/replies", async (c) => {
@@ -282,6 +315,14 @@ app.post("/thoughts", async (c) => {
   ).bind(trimmed, timestamp, parentId).run();
 
   const thoughtId = result.meta.last_row_id;
+
+  const tags = extractTags(trimmed);
+  for (const tagName of tags) {
+    await c.env.DB.prepare("INSERT OR IGNORE INTO tag (name) VALUES (?)").bind(tagName).run();
+    const tagRow = await c.env.DB.prepare("SELECT id FROM tag WHERE name = ?").bind(tagName).first();
+    await c.env.DB.prepare("INSERT OR IGNORE INTO thought_tag (thought_id, tag_id) VALUES (?, ?)").bind(thoughtId, tagRow!.id).run();
+  }
+
   const attachments: { key: string; type: string; name: string }[] = [];
 
   for (const file of files) {
@@ -337,6 +378,10 @@ app.delete("/thoughts/:id", async (c) => {
   if (result.meta.changes === 0) {
     return c.json({ error: "Not found" }, 404);
   }
+
+  await c.env.DB.prepare(
+    "DELETE FROM tag WHERE id NOT IN (SELECT DISTINCT tag_id FROM thought_tag)"
+  ).run();
 
   return c.body(null, 204);
 });
