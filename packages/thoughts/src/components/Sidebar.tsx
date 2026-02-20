@@ -6,7 +6,7 @@ export function Sidebar({ route }: { route: Route }) {
       <nav className="thoughts-nav">
         <a href="/thoughts/" className={`thoughts-nav-link${route.view === 'feed' ? ' active' : ''}`}>Home</a>
         <a href="#tasks" className={`thoughts-nav-link${route.view === 'tasks' ? ' active' : ''}`}>Tasks</a>
-        <a href="/thoughts/events" className="thoughts-nav-link">Events</a>
+        <a href="#events" className={`thoughts-nav-link${route.view === 'events' ? ' active' : ''}`}>Events</a>
         <a href="/thoughts/locations" className="thoughts-nav-link">Locations</a>
       </nav>
     </aside>

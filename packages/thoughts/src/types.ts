@@ -27,7 +27,18 @@ export interface Task {
   completed_at: number | null;
 }
 
+export interface Event {
+  id: number;
+  thought_id: number;
+  title: string;
+  description: string | null;
+  date_text: string;
+  date_epoch: number;
+  created_at: number;
+}
+
 export type Route =
   | { view: 'feed' }
   | { view: 'thread'; id: number }
-  | { view: 'tasks' };
+  | { view: 'tasks' }
+  | { view: 'events' };
