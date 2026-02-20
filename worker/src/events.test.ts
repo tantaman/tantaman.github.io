@@ -56,6 +56,14 @@ describe('extractEvents', () => {
     expect(events[0].dateEpoch).toBe(startOfDayUTC(2026, 11, 25));
   });
 
+  test('explicit date MM/DD/YY (2-digit year)', () => {
+    const events = extractEvents('#e 02/26/27 13:00 eye', REF_EPOCH);
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe('eye');
+    expect(events[0].dateText).toBe('02/26/27 13:00');
+    expect(events[0].dateEpoch).toBe(startOfDayUTC(2027, 1, 26) + 13 * 3600);
+  });
+
   test('multi-line description', () => {
     const input = '#e today Meeting\nBring notes\nAsk about budget';
     const events = extractEvents(input, REF_EPOCH);
@@ -94,6 +102,7 @@ describe('EVENT_RE', () => {
     expect('#e friday Standup').toMatch(EVENT_RE);
     expect('#e 3/15 Launch').toMatch(EVENT_RE);
     expect('#e 12/25/2026 Christmas').toMatch(EVENT_RE);
+    expect('#e 02/26/27 13:00 eye').toMatch(EVENT_RE); // 2-digit year
     expect('#E today Meeting').toMatch(EVENT_RE); // case insensitive
   });
 
