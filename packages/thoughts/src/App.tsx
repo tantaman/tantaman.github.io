@@ -1,6 +1,7 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 import type { Route } from './types';
 import { getSecret, setSecret } from './auth';
+import { SWRProvider } from './swr-config';
 import { Layout } from './components/Layout';
 import { Feed } from './components/Feed';
 import { ThreadView } from './components/ThreadView';
@@ -45,19 +46,21 @@ export function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ secret, updateSecret }}>
-      <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag}>
-        {route.view === 'events' ? (
-          <EventsView />
-        ) : route.view === 'tasks' ? (
-          <TasksView tags={selectedTags} />
-        ) : route.view === 'thread' ? (
-          <ThreadView id={route.id} />
-        ) : (
-          <Feed tags={selectedTags} />
-        )}
-      </Layout>
-      <SecretToggle />
-    </AuthContext.Provider>
+    <SWRProvider>
+      <AuthContext.Provider value={{ secret, updateSecret }}>
+        <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag}>
+          {route.view === 'events' ? (
+            <EventsView />
+          ) : route.view === 'tasks' ? (
+            <TasksView tags={selectedTags} />
+          ) : route.view === 'thread' ? (
+            <ThreadView id={route.id} />
+          ) : (
+            <Feed tags={selectedTags} />
+          )}
+        </Layout>
+        <SecretToggle />
+      </AuthContext.Provider>
+    </SWRProvider>
   );
 }

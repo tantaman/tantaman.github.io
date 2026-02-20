@@ -18,6 +18,10 @@ database_id = "a1190a47-fe1e-4fdb-8d7a-06dd5714fc6b"
 binding = "BUCKET"
 bucket_name = "thought-attachments"
 
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "thought-embeddings"
+
 [observability]
 [observability.logs]
 enabled = false

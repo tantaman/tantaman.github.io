@@ -1,60 +1,40 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useContext } from 'react';
 import type { Thought } from '../types';
-import { getThoughts } from '../api';
 import { AuthContext } from '../App';
+import { useThoughts } from '../hooks/useThoughts';
 import { ThoughtCard } from './ThoughtCard';
 import { ComposeForm } from './ComposeForm';
 
-const LIMIT = 50;
-
 export function Feed({ tags }: { tags: string[] }) {
   const { secret } = useContext(AuthContext);
-  const [thoughts, setThoughts] = useState<Thought[]>([]);
-  const [hasMore, setHasMore] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const offsetRef = useRef(0);
-  const tagsKey = tags.join(',');
-
-  const load = useCallback(
-    (reset?: boolean) => {
-      if (loading) return;
-      setLoading(true);
-      const off = reset ? 0 : offsetRef.current;
-      getThoughts(off, LIMIT, tags.length > 0 ? tags : undefined)
-        .then((data) => {
-          if (reset) {
-            setThoughts(data.thoughts);
-          } else {
-            setThoughts((prev) => [...prev, ...data.thoughts]);
-          }
-          offsetRef.current = (reset ? 0 : offsetRef.current) + data.thoughts.length;
-          setHasMore(data.meta.hasMore);
-        })
-        .finally(() => setLoading(false));
-    },
-    [tagsKey, loading],
-  );
-
-  useEffect(() => {
-    offsetRef.current = 0;
-    setThoughts([]);
-    setHasMore(false);
-    setLoading(false);
-    getThoughts(0, LIMIT, tags.length > 0 ? tags : undefined).then((data) => {
-      setThoughts(data.thoughts);
-      offsetRef.current = data.thoughts.length;
-      setHasMore(data.meta.hasMore);
-    });
-  }, [tagsKey]);
+  const { thoughts, hasMore, isLoadingInitial, isLoadingMore, loadMore, mutate } =
+    useThoughts(tags);
 
   const handlePosted = (t: Thought) => {
-    setThoughts((prev) => [t, ...prev]);
-    offsetRef.current += 1;
+    mutate(
+      (pages) => {
+        if (!pages || pages.length === 0) return pages;
+        const first = pages[0];
+        return [
+          { ...first, thoughts: [t, ...first.thoughts] },
+          ...pages.slice(1),
+        ];
+      },
+      false,
+    );
   };
 
   const handleDelete = (id: number) => {
-    setThoughts((prev) => prev.filter((t) => t.id !== id));
-    offsetRef.current -= 1;
+    mutate(
+      (pages) => {
+        if (!pages) return pages;
+        return pages.map((page) => ({
+          ...page,
+          thoughts: page.thoughts.filter((t) => t.id !== id),
+        }));
+      },
+      false,
+    );
   };
 
   return (
@@ -78,13 +58,17 @@ export function Feed({ tags }: { tags: string[] }) {
         ))}
       </div>
 
-      {hasMore && (
+      {isLoadingInitial && (
+        <div className="thought-loading">Loading...</div>
+      )}
+
+      {hasMore && !isLoadingInitial && (
         <button
           className="load-more"
-          onClick={() => load()}
-          disabled={loading}
+          onClick={loadMore}
+          disabled={isLoadingMore}
         >
-          {loading ? 'Loading...' : 'Load more'}
+          {isLoadingMore ? 'Loading...' : 'Load more'}
         </button>
       )}
     </>

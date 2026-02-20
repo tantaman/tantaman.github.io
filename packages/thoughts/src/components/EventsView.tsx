@@ -1,13 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { Event } from '../types';
-import { getEvents } from '../api';
+import { useEvents } from '../hooks/useCache';
 
 const DAY_SECONDS = 86400;
 const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-function startOfMonthUTC(year: number, month: number): number {
-  return Date.UTC(year, month, 1) / 1000;
-}
 
 function daysInMonthUTC(year: number, month: number): number {
   return new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
@@ -34,18 +30,11 @@ export function EventsView() {
   const now = new Date();
   const [year, setYear] = useState(now.getUTCFullYear());
   const [month, setMonth] = useState(now.getUTCMonth());
-  const [events, setEvents] = useState<Event[]>([]);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
-    const from = startOfMonthUTC(year, month);
-    const to = startOfMonthUTC(month === 11 ? year + 1 : year, month === 11 ? 0 : month + 1);
-    getEvents(from, to)
-      .then((r) => setEvents(r.events))
-      .finally(() => setLoading(false));
-  }, [year, month]);
+  const { data } = useEvents(year, month);
+  const events: Event[] = data?.events ?? [];
+  const loading = !data;
 
   const prevMonth = () => {
     if (month === 0) { setYear(year - 1); setMonth(11); }
@@ -70,7 +59,7 @@ export function EventsView() {
   const numDays = daysInMonthUTC(year, month);
   const startDow = startDowUTC(year, month);
   const today = todayEpoch();
-  const monthStart = startOfMonthUTC(year, month);
+  const monthStart = Date.UTC(year, month, 1) / 1000;
 
   const selectedEvents = selectedDay != null ? (byDay.get(selectedDay) || []) : [];
 
