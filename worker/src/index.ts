@@ -100,6 +100,39 @@ function createMcpServer(env: Env) {
   return server;
 }
 
+interface TaskDef {
+  title: string;
+  description: string | null;
+}
+
+function extractTasks(body: string): TaskDef[] {
+  const lines = body.split('\n');
+  const tasks: TaskDef[] = [];
+  let current: TaskDef | null = null;
+  let descLines: string[] = [];
+
+  for (const line of lines) {
+    const match = line.match(/^#t\s+(.+)/);
+    if (match) {
+      if (current) {
+        current.description = descLines.join('\n').trim() || null;
+        tasks.push(current);
+      }
+      current = { title: match[1].trim(), description: null };
+      descLines = [];
+    } else if (current) {
+      descLines.push(line);
+    }
+  }
+
+  if (current) {
+    current.description = descLines.join('\n').trim() || null;
+    tasks.push(current);
+  }
+
+  return tasks;
+}
+
 function extractTags(body: string): string[] {
   const matches = body.matchAll(/(^|[\s])#([a-zA-Z][a-zA-Z0-9_-]*)/g);
   const tags = new Set<string>();
@@ -321,6 +354,13 @@ app.post("/thoughts", async (c) => {
     await c.env.DB.prepare("INSERT OR IGNORE INTO tag (name) VALUES (?)").bind(tagName).run();
     const tagRow = await c.env.DB.prepare("SELECT id FROM tag WHERE name = ?").bind(tagName).first();
     await c.env.DB.prepare("INSERT OR IGNORE INTO thought_tag (thought_id, tag_id) VALUES (?, ?)").bind(thoughtId, tagRow!.id).run();
+  }
+
+  const tasks = extractTasks(trimmed);
+  for (const task of tasks) {
+    await c.env.DB.prepare(
+      "INSERT INTO task (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
+    ).bind(thoughtId, task.title, task.description, timestamp).run();
   }
 
   const attachments: { key: string; type: string; name: string }[] = [];
