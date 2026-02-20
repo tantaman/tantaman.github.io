@@ -17,7 +17,7 @@
     "unified": "^10.1.2"
   },
   "scripts": {
-    "build": "cd packages/compiler && pnpm build && cd ../frontend && pnpm build && cd ../.. && sitecompiler",
+    "build": "cd packages/compiler && pnpm build && cd ../frontend && pnpm build && cd ../thoughts && pnpm build && cd ../.. && sitecompiler",
     "build:cloudflare": "cd worker",
     "deploy:cloudflare": "cd worker && wrangler publish",
     "build:watch": "sitecompiler-watch",
