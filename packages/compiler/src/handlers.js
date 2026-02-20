@@ -143,7 +143,7 @@ root.render(React.createElement(MDXContent, {}, null));
   async jsx(file, cwd) {
     const result = await esbuild.build({
       entryPoints: [file],
-      bundle: false,
+      bundle: true,
       format: 'esm',
       jsx: 'automatic',
       jsxImportSource: 'https://esm.sh/react',
@@ -152,13 +152,15 @@ root.render(React.createElement(MDXContent, {}, null));
       plugins: [{
         name: 'esm-sh',
         setup(build) {
-          // Bare specifiers → esm.sh
-          build.onResolve({ filter: /^[^./]/ }, args => ({
-            path: `https://esm.sh/${args.path}`,
-            external: true,
-          }));
-          // .jsx → .js for relative imports
-          build.onResolve({ filter: /\.jsx$/ }, args => ({
+          // Bare specifiers → esm.sh (skip URLs)
+          build.onResolve({ filter: /^[^./]/ }, args => {
+            if (args.path.startsWith('https://') || args.path.startsWith('http://')) {
+              return { path: args.path, external: true };
+            }
+            return { path: `https://esm.sh/${args.path}`, external: true };
+          });
+          // .jsx → .js for relative imports (only relative paths)
+          build.onResolve({ filter: /^\..*\.jsx$/ }, args => ({
             path: args.path.replace(/\.jsx$/, '.js'),
             external: true,
           }));

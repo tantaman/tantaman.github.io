@@ -1,0 +1,588 @@
+import { useState, useMemo, useCallback } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, BarChart, Bar, ComposedChart, ReferenceLine } from 'recharts';
+
+export const DEFAULTS = {
+  budget: 127,
+  budgetGrowth: 4.5,
+  numMillionaires: 34000,
+  millionaireTaxRate: 3.876,
+  corpTaxRate: 7.75,
+  propertyTaxRate: 12.28,
+  migrationSensitivity: 1.5,
+  pensionGrowthRate: 5.5,
+  benefitsGrowthRate: 8.0,
+  salaryGrowthRate: 3.2,
+  revenueGrowth: 2.8,
+  yearsToProject: 10,
+};
+
+export const BASELINE = {
+  millionaireTaxRate: 3.876,
+  corpTaxRate: 7.75,
+  propertyTaxRate: 12.28,
+};
+
+export const fmt = (n) => {
+  if (Math.abs(n) >= 1000) return `$${(n / 1000).toFixed(1)}T`;
+  if (Math.abs(n) >= 1) return `$${n.toFixed(1)}B`;
+  return `$${(n * 1000).toFixed(0)}M`;
+};
+
+export const fmtK = (n) => n.toLocaleString();
+
+export function formatDescription(desc) {
+  if (!desc) return null;
+  const parts = desc.split(/(Current:|Mamdani:)/g);
+  return parts.map((part, i) => {
+    if (part === "Current:") return <span key={i} style={{ color: "#5cb85c", fontWeight: 700, fontStyle: "normal" }}>{part}</span>;
+    if (part === "Mamdani:") return <span key={i} style={{ color: "#e85d4a", fontWeight: 700, fontStyle: "normal" }}>{part}</span>;
+    return <span key={i}>{part}</span>;
+  });
+}
+
+export function Knob({ label, value, onChange, min, max, step, unit, description }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 3 }}>
+        <label style={{ fontSize: 11, fontWeight: 600, color: "#c4b5a0", letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "'JetBrains Mono', monospace" }}>
+          {label}
+        </label>
+        <span style={{ fontSize: 14, fontWeight: 700, color: "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" }}>
+          {typeof value === "number" && value % 1 !== 0 ? value.toFixed(2) : value.toLocaleString()}
+          {unit}
+        </span>
+      </div>
+      {description && (
+        <div style={{ fontSize: 10, color: "#8a7e6e", marginBottom: 4, fontStyle: "italic" }}>{formatDescription(description)}</div>
+      )}
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        style={{ width: "100%", accentColor: "#d4a556", height: 3, cursor: "pointer" }}
+      />
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 9, color: "#6b6157" }}>
+        <span>{min}{unit}</span>
+        <span>{max}{unit}</span>
+      </div>
+    </div>
+  );
+}
+
+export function StatBox({ label, value, sub, color }) {
+  return (
+    <div style={{
+      background: "rgba(30,27,22,0.7)",
+      border: "1px solid #3a342a",
+      borderRadius: 6,
+      padding: "10px 12px",
+      minWidth: 140,
+      flex: 1,
+    }}>
+      <div style={{ fontSize: 10, color: "#8a7e6e", textTransform: "uppercase", letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 4 }}>
+        {label}
+      </div>
+      <div style={{ fontSize: 20, fontWeight: 700, color: color || "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" }}>
+        {value}
+      </div>
+      {sub && <div style={{ fontSize: 10, color: "#6b6157", marginTop: 2 }}>{sub}</div>}
+    </div>
+  );
+}
+
+export function SectionTitle({ children }) {
+  return (
+    <h3 style={{
+      fontSize: 13,
+      fontWeight: 700,
+      color: "#d4a556",
+      textTransform: "uppercase",
+      letterSpacing: "0.12em",
+      fontFamily: "'JetBrains Mono', monospace",
+      marginBottom: 12,
+      marginTop: 24,
+      borderBottom: "1px solid #3a342a",
+      paddingBottom: 8,
+    }}>
+      {children}
+    </h3>
+  );
+}
+
+export function simulate(params) {
+  const {
+    budget, budgetGrowth, numMillionaires, millionaireTaxRate, corpTaxRate,
+    propertyTaxRate, migrationSensitivity, pensionGrowthRate, benefitsGrowthRate, salaryGrowthRate,
+    revenueGrowth, yearsToProject,
+  } = params;
+
+  const currentYear = 2026;
+  const data = [];
+  let currentMillionaires = numMillionaires;
+
+  const startingPropertyTaxRev = 35;
+  const startingIncomePersonalRev = 16.5;
+  const startingCorpTaxRev = 8.5;
+  const startingOtherRev = 20;
+  const startingStateAid = 20.9;
+  const startingFedAid = 11;
+  const startingSalary = 56.9;
+  const startingPension = 10.5;
+  const startingBenefits = 10.4;
+  const startingDebtService = 7.5;
+  const millionaireShareOfIncomeTax = 0.40;
+  const avgMillionaireIncome = 4.2;
+
+  const taxDelta = millionaireTaxRate - BASELINE.millionaireTaxRate;
+  const corpDelta = corpTaxRate - BASELINE.corpTaxRate;
+  const propDelta = propertyTaxRate - BASELINE.propertyTaxRate;
+
+  for (let i = 0; i <= yearsToProject; i++) {
+    const year = currentYear + i;
+    const t = i;
+
+    const annualMigrationRate = taxDelta > 0
+      ? (migrationSensitivity * taxDelta * 0.012) + (propDelta > 0 ? propDelta * 0.003 : 0)
+      : Math.max(taxDelta * 0.005, -0.01);
+
+    if (i > 0) {
+      const netMigration = Math.round(currentMillionaires * annualMigrationRate);
+      currentMillionaires = Math.max(5000, currentMillionaires - netMigration);
+    }
+
+    const millionaireRatio = currentMillionaires / numMillionaires;
+    const incomeFromMillionaires = currentMillionaires * avgMillionaireIncome * (millionaireTaxRate / 100) / 1000;
+    const incomeFromOthers = startingIncomePersonalRev * (1 - millionaireShareOfIncomeTax) * Math.pow(1 + revenueGrowth / 100, t);
+    const personalIncomeTaxRev = incomeFromMillionaires + incomeFromOthers;
+
+    const corpRevenue = startingCorpTaxRev * (corpTaxRate / BASELINE.corpTaxRate) * Math.pow(1 + revenueGrowth / 100, t) * (0.85 + 0.15 * millionaireRatio);
+
+    const propertyTaxRev = startingPropertyTaxRev * (propertyTaxRate / BASELINE.propertyTaxRate) * Math.pow(1 + 0.02, t);
+
+    const otherRev = startingOtherRev * Math.pow(1 + revenueGrowth / 100, t);
+    const stateAid = startingStateAid * Math.pow(1 + 0.015, t);
+    const fedAid = startingFedAid * Math.pow(1 - 0.02, t);
+
+    const totalRevenue = personalIncomeTaxRev + corpRevenue + propertyTaxRev + otherRev + stateAid + fedAid;
+
+    const totalBudget = budget * Math.pow(1 + budgetGrowth / 100, t);
+    const salarySpend = startingSalary * Math.pow(1 + salaryGrowthRate / 100, t);
+    const pensionSpend = startingPension * Math.pow(1 + pensionGrowthRate / 100, t);
+    const benefitsSpend = startingBenefits * Math.pow(1 + benefitsGrowthRate / 100, t);
+    const debtService = startingDebtService * Math.pow(1 + 0.03, t);
+    const fixedCosts = salarySpend + pensionSpend + benefitsSpend + debtService;
+    const otherSpend = totalBudget - fixedCosts;
+
+    const gap = totalBudget - totalRevenue;
+
+    data.push({
+      year,
+      totalBudget: parseFloat(totalBudget.toFixed(1)),
+      totalRevenue: parseFloat(totalRevenue.toFixed(1)),
+      salarySpend: parseFloat(salarySpend.toFixed(1)),
+      pensionSpend: parseFloat(pensionSpend.toFixed(1)),
+      benefitsSpend: parseFloat(benefitsSpend.toFixed(1)),
+      debtService: parseFloat(debtService.toFixed(1)),
+      fixedCosts: parseFloat(fixedCosts.toFixed(1)),
+      fixedCostPct: parseFloat(((fixedCosts / totalBudget) * 100).toFixed(1)),
+      otherSpend: parseFloat(Math.max(0, otherSpend).toFixed(1)),
+      gap: parseFloat(gap.toFixed(1)),
+      millionaires: currentMillionaires,
+      millionaireRevenue: parseFloat(incomeFromMillionaires.toFixed(1)),
+      corpRevenue: parseFloat(corpRevenue.toFixed(1)),
+      propertyTaxRev: parseFloat(propertyTaxRev.toFixed(1)),
+      personalIncomeTaxRev: parseFloat(personalIncomeTaxRev.toFixed(1)),
+      otherRev: parseFloat((otherRev + stateAid + fedAid).toFixed(1)),
+      cumulativeGap: 0,
+    });
+  }
+
+  let cum = 0;
+  for (const d of data) {
+    cum += d.gap;
+    d.cumulativeGap = parseFloat(cum.toFixed(1));
+  }
+
+  return data;
+}
+
+export const chartMargin = { top: 10, right: 20, left: 10, bottom: 5 };
+
+export function CustomTooltip({ active, payload, label }) {
+  if (!active || !payload) return null;
+  return (
+    <div style={{
+      background: "#1e1b16",
+      border: "1px solid #3a342a",
+      borderRadius: 6,
+      padding: "8px 12px",
+      fontSize: 11,
+      fontFamily: "'JetBrains Mono', monospace",
+    }}>
+      <div style={{ color: "#d4a556", fontWeight: 700, marginBottom: 4 }}>{label}</div>
+      {payload.map((p, i) => (
+        <div key={i} style={{ color: p.color, marginBottom: 2 }}>
+          {p.name}: {typeof p.value === "number" && p.value > 500 ? fmtK(p.value) : fmt(p.value)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function NYCBudgetSimulator() {
+  const [params, setParams] = useState(DEFAULTS);
+  const [showMamdani, setShowMamdani] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(true);
+
+  const set = useCallback((key) => (val) => setParams((p) => ({ ...p, [key]: val })), []);
+
+  const applyMamdani = () => {
+    setParams((p) => ({
+      ...p,
+      millionaireTaxRate: 5.876,
+      corpTaxRate: 11.5,
+      propertyTaxRate: 13.45,
+    }));
+    setShowMamdani(true);
+  };
+
+  const resetDefaults = () => {
+    setParams(DEFAULTS);
+    setShowMamdani(false);
+  };
+
+  const data = useMemo(() => simulate(params), [params]);
+  const lastYear = data[data.length - 1];
+  const firstYear = data[0];
+
+  const totalMillionaireLoss = firstYear.millionaires - lastYear.millionaires;
+  const finalGap = lastYear.gap;
+  const pensionPctFinal = ((lastYear.pensionSpend / lastYear.totalBudget) * 100).toFixed(1);
+  const benefitsPctFinal = ((lastYear.benefitsSpend / lastYear.totalBudget) * 100).toFixed(1);
+  const salaryPctFinal = ((lastYear.salarySpend / lastYear.totalBudget) * 100).toFixed(1);
+  const fixedCostPctFinal = lastYear.fixedCostPct;
+
+  const brackets = useMemo(() => {
+    const cityRate = params.millionaireTaxRate;
+    const stateRates = { bottom50: 4.0, middle: 6.5, top10: 8.82, top1: 10.9 };
+    const fedRates = { bottom50: 10, middle: 22, top10: 32, top1: 37 };
+    return [
+      { bracket: "Bottom 50%\n(<$50K)", cityRate: 3.078, stateRate: stateRates.bottom50, fedRate: fedRates.bottom50, shareOfRevenue: 0.2 },
+      { bracket: "Middle\n($50K-$200K)", cityRate: 3.5, stateRate: stateRates.middle, fedRate: fedRates.middle, shareOfRevenue: 18.5 },
+      { bracket: "Top 10%\n($200K-$1M)", cityRate: 3.876, stateRate: stateRates.top10, fedRate: fedRates.top10, shareOfRevenue: 42 },
+      { bracket: "Top 1%\n(>$1M)", cityRate: cityRate, stateRate: stateRates.top1, fedRate: fedRates.top1, shareOfRevenue: 39.3 },
+    ].map((b) => ({
+      ...b,
+      totalRate: parseFloat((b.cityRate + b.stateRate + b.fedRate).toFixed(1)),
+      label: b.bracket,
+    }));
+  }, [params.millionaireTaxRate]);
+
+  return (
+    <div style={{
+      background: "#141210",
+      color: "#f0e6d3",
+      minHeight: "100vh",
+      fontFamily: "'Georgia', 'Times New Roman', serif",
+      padding: "24px 20px",
+    }}>
+      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+
+      {/* Header */}
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ borderBottom: "2px solid #d4a556", paddingBottom: 16, marginBottom: 24 }}>
+          <h1 style={{
+            fontSize: 22,
+            fontWeight: 700,
+            fontFamily: "'JetBrains Mono', monospace",
+            color: "#d4a556",
+            letterSpacing: "0.08em",
+            margin: 0,
+          }}>
+            NYC FISCAL DEATH SPIRAL SIMULATOR
+          </h1>
+          <p style={{ fontSize: 12, color: "#8a7e6e", margin: "6px 0 0 0", fontFamily: "'JetBrains Mono', monospace" }}>
+            Modeling the structural trap of progressive municipal governance
+          </p>
+        </div>
+
+        {/* Intro box */}
+        <div style={{
+          background: "rgba(212,165,86,0.06)",
+          border: "1px solid #3a342a",
+          borderLeft: "3px solid #d4a556",
+          borderRadius: 6,
+          marginBottom: 20,
+          overflow: "hidden",
+        }}>
+          <button
+            onClick={() => setInfoOpen(!infoOpen)}
+            style={{
+              width: "100%",
+              background: "none",
+              border: "none",
+              padding: "12px 16px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              cursor: "pointer",
+              color: "#d4a556",
+            }}
+          >
+            <span style={{ fontSize: 12, fontWeight: 700, fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.06em" }}>
+              WHAT YOU'RE LOOKING AT
+            </span>
+            <span style={{ fontSize: 14, fontFamily: "'JetBrains Mono', monospace", color: "#8a7e6e", transform: infoOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
+              ▼
+            </span>
+          </button>
+          {infoOpen && (
+            <div style={{ padding: "0 16px 14px 16px", fontSize: 13, lineHeight: 1.7, color: "#c4b5a0" }}>
+              <p style={{ margin: "0 0 10px 0" }}>
+                NYC spends more per capita than almost any city on earth — comparable to the <em>entire state of Florida</em> with a third the population — yet delivers middling outcomes.
+                The city spends <span style={{ color: "#e85d4a", fontWeight: 600 }}>$36,000 per student</span> (2.3x the national average) for below-average test scores. Tokyo runs a safer, cleaner, better-connected city of 14 million at a fraction of the cost.
+              </p>
+              <p style={{ margin: "0 0 10px 0" }}>
+                The core problem: <span style={{ color: "#e088a8", fontWeight: 600 }}>salaries</span>, <span style={{ color: "#b088d4", fontWeight: 600 }}>pensions</span>, and <span style={{ color: "#e088a8", fontWeight: 600 }}>health benefits</span> for
+                302,000 city employees consume an ever-growing share of the budget.
+                These are <em>exactly</em> the costs a socialist coalition built on public-sector unions cannot cut.
+                The unfunded retiree healthcare liability alone is <span style={{ color: "#e85d4a", fontWeight: 600 }}>~$100 billion</span>.
+              </p>
+              <p style={{ margin: "0 0 10px 0" }}>
+                Watch the <span style={{ color: "#e8a84a", fontWeight: 700 }}>Fixed Costs % Budget</span> stat. As personnel costs compound faster than revenue, they crowd out
+                everything else — parks, transit, housing, actual services. The city increasingly exists to pay its own employees, not to serve residents.
+                Raising taxes on the rich provides a one-time sugar hit, but the spending treadmill outruns it within years, especially as millionaires leave.
+              </p>
+              <p style={{ margin: 0, fontSize: 12, color: "#8a7e6e", fontStyle: "italic" }}>
+                Use the knobs to test different scenarios. Hit "Apply Mamdani Proposal" to see his plan in action.
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Preset buttons */}
+        <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap" }}>
+          <button onClick={applyMamdani} style={{
+            background: showMamdani ? "#d4a556" : "transparent",
+            color: showMamdani ? "#141210" : "#d4a556",
+            border: "1px solid #d4a556",
+            borderRadius: 4,
+            padding: "6px 14px",
+            fontSize: 11,
+            fontFamily: "'JetBrains Mono', monospace",
+            fontWeight: 700,
+            cursor: "pointer",
+            letterSpacing: "0.05em",
+          }}>
+            APPLY MAMDANI PROPOSAL
+          </button>
+          <button onClick={resetDefaults} style={{
+            background: "transparent",
+            color: "#8a7e6e",
+            border: "1px solid #3a342a",
+            borderRadius: 4,
+            padding: "6px 14px",
+            fontSize: 11,
+            fontFamily: "'JetBrains Mono', monospace",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}>
+            RESET TO CURRENT
+          </button>
+        </div>
+
+        {/* Main layout */}
+        <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+          {/* Controls */}
+          <div style={{
+            width: 280,
+            flexShrink: 0,
+            background: "rgba(20,18,16,0.8)",
+            border: "1px solid #2a2520",
+            borderRadius: 8,
+            padding: 16,
+          }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "#d4a556", letterSpacing: "0.1em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 16, textTransform: "uppercase" }}>
+              Controls
+            </div>
+            <Knob label="Total Budget" value={params.budget} onChange={set("budget")} min={100} max={180} step={1} unit="B" description="FY2026 starting budget" />
+            <Knob label="Budget YoY Growth" value={params.budgetGrowth} onChange={set("budgetGrowth")} min={0} max={10} step={0.1} unit="%" description="Annual spending growth rate" />
+            <Knob label="Millionaires" value={params.numMillionaires} onChange={set("numMillionaires")} min={10000} max={60000} step={1000} unit="" description="Starting millionaire tax filers" />
+            <Knob label="City Income Tax (>$1M)" value={params.millionaireTaxRate} onChange={set("millionaireTaxRate")} min={1} max={10} step={0.1} unit="%" description={`Current: 3.876% · Mamdani: 5.876%`} />
+            <Knob label="Corporate Tax Rate" value={params.corpTaxRate} onChange={set("corpTaxRate")} min={5} max={15} step={0.25} unit="%" description={`Current: 7.75% · Mamdani: 11.5%`} />
+            <Knob label="Property Tax Rate" value={params.propertyTaxRate} onChange={set("propertyTaxRate")} min={10} max={18} step={0.1} unit="%" description={`Current: 12.28% · Mamdani: 13.45%`} />
+            <Knob label="Migration Sensitivity" value={params.migrationSensitivity} onChange={set("migrationSensitivity")} min={0} max={5} step={0.1} unit="x" description="Elasticity of out-migration to tax hikes" />
+            <Knob label="Pension Growth" value={params.pensionGrowthRate} onChange={set("pensionGrowthRate")} min={1} max={10} step={0.1} unit="%" description="Annual pension obligation growth" />
+            <Knob label="Benefits Growth" value={params.benefitsGrowthRate} onChange={set("benefitsGrowthRate")} min={1} max={15} step={0.1} unit="%" description="Health insurance & OPEB growth (12.2% approved for FY26)" />
+            <Knob label="Salary Growth" value={params.salaryGrowthRate} onChange={set("salaryGrowthRate")} min={0} max={8} step={0.1} unit="%" description="Annual salary/wage growth for 302K employees" />
+            <Knob label="Base Revenue Growth" value={params.revenueGrowth} onChange={set("revenueGrowth")} min={0} max={6} step={0.1} unit="%" description="Non-tax revenue annual growth" />
+            <Knob label="Years to Project" value={params.yearsToProject} onChange={set("yearsToProject")} min={5} max={20} step={1} unit="yr" />
+          </div>
+
+          {/* Charts */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {/* Summary stats */}
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
+              <StatBox label="FY2036 Gap" value={fmt(finalGap)} sub="annual shortfall" color={finalGap > 0 ? "#e85d4a" : "#5cb85c"} />
+              <StatBox label="Cumulative Gap" value={fmt(lastYear.cumulativeGap)} sub={`over ${params.yearsToProject} years`} color={lastYear.cumulativeGap > 0 ? "#e85d4a" : "#5cb85c"} />
+              <StatBox label="Millionaire Exodus" value={fmtK(totalMillionaireLoss)} sub={`${((totalMillionaireLoss / firstYear.millionaires) * 100).toFixed(1)}% of base`} color={totalMillionaireLoss > 0 ? "#e8a84a" : "#5cb85c"} />
+              <StatBox label="Fixed Costs % Budget" value={`${fixedCostPctFinal}%`} sub={`salary+pension+benefits+debt by ${lastYear.year}`} color={fixedCostPctFinal > 75 ? "#e85d4a" : "#e8a84a"} />
+              <StatBox label="Pension" value={`${pensionPctFinal}%`} sub={`${fmt(lastYear.pensionSpend)} by ${lastYear.year}`} color="#b088d4" />
+              <StatBox label="Benefits" value={`${benefitsPctFinal}%`} sub={`${fmt(lastYear.benefitsSpend)} by ${lastYear.year}`} color="#e088a8" />
+              <StatBox label="Salaries" value={`${salaryPctFinal}%`} sub={`${fmt(lastYear.salarySpend)} by ${lastYear.year}`} color="#6ab0d4" />
+            </div>
+
+            {/* Chart 1: Budget vs Revenue with Pension/Salary */}
+            <SectionTitle>Budget vs Revenue · Pension & Salary Overlay</SectionTitle>
+            <div style={{ background: "rgba(20,18,16,0.6)", border: "1px solid #2a2520", borderRadius: 8, padding: "16px 8px" }}>
+              <ResponsiveContainer width="100%" height={320}>
+                <ComposedChart data={data} margin={chartMargin}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2520" />
+                  <XAxis dataKey="year" tick={{ fill: "#6b6157", fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                  <YAxis tick={{ fill: "#6b6157", fontSize: 10, fontFamily: "JetBrains Mono" }} tickFormatter={(v) => `${v}B`} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: 10, fontFamily: "JetBrains Mono" }} />
+                  <Area type="monotone" dataKey="pensionSpend" name="Pension" fill="#b088d4" fillOpacity={0.25} stroke="#b088d4" strokeWidth={1.5} />
+                  <Area type="monotone" dataKey="benefitsSpend" name="Benefits" fill="#e088a8" fillOpacity={0.2} stroke="#e088a8" strokeWidth={1.5} />
+                  <Area type="monotone" dataKey="salarySpend" name="Salaries" fill="#6ab0d4" fillOpacity={0.2} stroke="#6ab0d4" strokeWidth={1.5} />
+                  <Line type="monotone" dataKey="totalBudget" name="Total Spend" stroke="#e85d4a" strokeWidth={2.5} dot={false} />
+                  <Line type="monotone" dataKey="totalRevenue" name="Total Revenue" stroke="#5cb85c" strokeWidth={2.5} dot={false} />
+                  <Area type="monotone" dataKey="debtService" name="Debt Service" fill="#e8a84a" fillOpacity={0.15} stroke="#e8a84a" strokeWidth={1} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Chart 2: Annual Budget Gap */}
+            <SectionTitle>Annual Budget Gap</SectionTitle>
+            <div style={{ background: "rgba(20,18,16,0.6)", border: "1px solid #2a2520", borderRadius: 8, padding: "16px 8px" }}>
+              <ResponsiveContainer width="100%" height={200}>
+                <BarChart data={data} margin={chartMargin}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2520" />
+                  <XAxis dataKey="year" tick={{ fill: "#6b6157", fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                  <YAxis tick={{ fill: "#6b6157", fontSize: 10, fontFamily: "JetBrains Mono" }} tickFormatter={(v) => `${v}B`} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <ReferenceLine y={0} stroke="#3a342a" />
+                  <Bar dataKey="gap" name="Budget Gap" fill="#e85d4a" fillOpacity={0.7} radius={[3, 3, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Chart 3: Millionaire Migration */}
+            <SectionTitle>Millionaire Exodus</SectionTitle>
+            <div style={{ background: "rgba(20,18,16,0.6)", border: "1px solid #2a2520", borderRadius: 8, padding: "16px 8px" }}>
+              <ResponsiveContainer width="100%" height={220}>
+                <ComposedChart data={data} margin={chartMargin}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2520" />
+                  <XAxis dataKey="year" tick={{ fill: "#6b6157", fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                  <YAxis yAxisId="left" tick={{ fill: "#6b6157", fontSize: 10, fontFamily: "JetBrains Mono" }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`} />
+                  <YAxis yAxisId="right" orientation="right" tick={{ fill: "#6b6157", fontSize: 10, fontFamily: "JetBrains Mono" }} tickFormatter={(v) => `${v}B`} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: 10, fontFamily: "JetBrains Mono" }} />
+                  <Area yAxisId="left" type="monotone" dataKey="millionaires" name="Millionaires" fill="#d4a556" fillOpacity={0.2} stroke="#d4a556" strokeWidth={2} />
+                  <Line yAxisId="right" type="monotone" dataKey="millionaireRevenue" name="Millionaire Tax Rev" stroke="#e85d4a" strokeWidth={2} dot={false} strokeDasharray="5 5" />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Chart 4: Revenue Breakdown */}
+            <SectionTitle>Revenue Composition</SectionTitle>
+            <div style={{ background: "rgba(20,18,16,0.6)", border: "1px solid #2a2520", borderRadius: 8, padding: "16px 8px" }}>
+              <ResponsiveContainer width="100%" height={260}>
+                <AreaChart data={data} margin={chartMargin}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2520" />
+                  <XAxis dataKey="year" tick={{ fill: "#6b6157", fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                  <YAxis tick={{ fill: "#6b6157", fontSize: 10, fontFamily: "JetBrains Mono" }} tickFormatter={(v) => `${v}B`} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: 10, fontFamily: "JetBrains Mono" }} />
+                  <Area type="monotone" dataKey="propertyTaxRev" name="Property Tax" stackId="1" fill="#d4a556" fillOpacity={0.6} stroke="#d4a556" />
+                  <Area type="monotone" dataKey="personalIncomeTaxRev" name="Income Tax" stackId="1" fill="#6ab0d4" fillOpacity={0.6} stroke="#6ab0d4" />
+                  <Area type="monotone" dataKey="corpRevenue" name="Corporate Tax" stackId="1" fill="#b088d4" fillOpacity={0.6} stroke="#b088d4" />
+                  <Area type="monotone" dataKey="otherRev" name="Other + State + Fed" stackId="1" fill="#5cb85c" fillOpacity={0.4} stroke="#5cb85c" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Tax burden table */}
+            <SectionTitle>Total Tax Burden by Income Bracket</SectionTitle>
+            <div style={{ background: "rgba(20,18,16,0.6)", border: "1px solid #2a2520", borderRadius: 8, padding: 16, overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, fontFamily: "'JetBrains Mono', monospace" }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid #3a342a" }}>
+                    {["Bracket", "Federal", "State", "City", "Total Rate", "Share of City Rev"].map((h) => (
+                      <th key={h} style={{ textAlign: "left", padding: "8px 10px", color: "#8a7e6e", fontWeight: 600, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {brackets.map((b, i) => (
+                    <tr key={i} style={{ borderBottom: "1px solid #1e1b16" }}>
+                      <td style={{ padding: "8px 10px", color: "#c4b5a0", whiteSpace: "pre-line", lineHeight: 1.3 }}>{b.label}</td>
+                      <td style={{ padding: "8px 10px", color: "#6b6157" }}>{b.fedRate}%</td>
+                      <td style={{ padding: "8px 10px", color: "#6b6157" }}>{b.stateRate}%</td>
+                      <td style={{ padding: "8px 10px", color: b.cityRate > BASELINE.millionaireTaxRate ? "#e85d4a" : "#d4a556", fontWeight: b.cityRate > BASELINE.millionaireTaxRate ? 700 : 400 }}>
+                        {b.cityRate.toFixed(2)}%
+                      </td>
+                      <td style={{ padding: "8px 10px", color: "#f0e6d3", fontWeight: 700 }}>{b.totalRate}%</td>
+                      <td style={{ padding: "8px 10px", color: "#d4a556" }}>{b.shareOfRevenue}%</td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: "1px solid #3a342a" }}>
+                    <td style={{ padding: "8px 10px", color: "#b088d4", fontWeight: 600 }}>Corporations</td>
+                    <td style={{ padding: "8px 10px", color: "#6b6157" }}>21%</td>
+                    <td style={{ padding: "8px 10px", color: "#6b6157" }}>7.25%</td>
+                    <td style={{ padding: "8px 10px", color: params.corpTaxRate > BASELINE.corpTaxRate ? "#e85d4a" : "#d4a556", fontWeight: params.corpTaxRate > BASELINE.corpTaxRate ? 700 : 400 }}>
+                      {params.corpTaxRate.toFixed(2)}%
+                    </td>
+                    <td style={{ padding: "8px 10px", color: "#f0e6d3", fontWeight: 700 }}>{(21 + 7.25 + params.corpTaxRate).toFixed(1)}%</td>
+                    <td style={{ padding: "8px 10px", color: "#6b6157" }}>—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Final year breakdown */}
+            <SectionTitle>FY{lastYear.year} Projected Breakdown</SectionTitle>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <StatBox label="Total Budget" value={fmt(lastYear.totalBudget)} color="#e85d4a" />
+              <StatBox label="Total Revenue" value={fmt(lastYear.totalRevenue)} color="#5cb85c" />
+              <StatBox label="Salaries" value={fmt(lastYear.salarySpend)} sub={`${salaryPctFinal}% of budget`} color="#6ab0d4" />
+              <StatBox label="Pensions" value={fmt(lastYear.pensionSpend)} sub={`${pensionPctFinal}% of budget`} color="#b088d4" />
+              <StatBox label="Benefits" value={fmt(lastYear.benefitsSpend)} sub={`${benefitsPctFinal}% of budget`} color="#e088a8" />
+              <StatBox label="Debt Service" value={fmt(lastYear.debtService)} color="#e8a84a" />
+              <StatBox label="All Other Spending" value={fmt(lastYear.otherSpend)} sub={`${((lastYear.otherSpend / lastYear.totalBudget) * 100).toFixed(1)}% of budget`} color="#6b6157" />
+              <StatBox label="Property Tax Rev" value={fmt(lastYear.propertyTaxRev)} color="#d4a556" />
+              <StatBox label="Income Tax Rev" value={fmt(lastYear.personalIncomeTaxRev)} color="#6ab0d4" />
+              <StatBox label="Corporate Tax Rev" value={fmt(lastYear.corpRevenue)} color="#b088d4" />
+              <StatBox label="Remaining Millionaires" value={fmtK(lastYear.millionaires)} sub={`started at ${fmtK(firstYear.millionaires)}`} color="#d4a556" />
+            </div>
+
+            {/* Methodology note */}
+            <div style={{
+              marginTop: 28,
+              padding: 14,
+              background: "rgba(20,18,16,0.6)",
+              border: "1px solid #2a2520",
+              borderRadius: 8,
+              fontSize: 10,
+              color: "#6b6157",
+              fontFamily: "'JetBrains Mono', monospace",
+              lineHeight: 1.6,
+            }}>
+              <strong style={{ color: "#8a7e6e" }}>METHODOLOGY NOTE:</strong> This is a simplified model for illustrative purposes. Migration elasticity is based on academic literature
+              (~1.5% out-migration per 1% tax increase, adjustable). Revenue projections assume Wall Street returns normalize. Pension growth reflects historical NYC actuarial trends.
+              Benefits growth default of 8% reflects the 12.2% premium increase approved for FY2026 blended with long-term trends; the city's unfunded OPEB liability is ~$100B.
+              Federal aid modeled as declining 2%/yr under current policy trajectory. Property tax revenue grows with assessed values at 2%/yr baseline.
+              Starting figures derived from FY2025-2026 NYC budget data, Comptroller reports, CBC reports, and IBO analyses. The model does not account for recession scenarios,
+              one-time federal shocks, or potential state bailouts.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
