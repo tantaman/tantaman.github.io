@@ -1,4 +1,5 @@
 import fs from 'fs';
+import * as esbuild from 'esbuild';
 
 import layout from './layouts/layouts.js';
 import { read } from 'to-vfile';
@@ -137,6 +138,37 @@ root.render(React.createElement(MDXContent, {}, null));
     const ret = await module.default(file, cwd, files);
     ret.compiledFilename = ret.compiledFilename || compiledFilename(file);
     return ret;
+  },
+
+  async jsx(file, cwd) {
+    const result = await esbuild.build({
+      entryPoints: [file],
+      bundle: false,
+      format: 'esm',
+      jsx: 'automatic',
+      jsxImportSource: 'https://esm.sh/react',
+      write: false,
+      outdir: '.',
+      plugins: [{
+        name: 'esm-sh',
+        setup(build) {
+          // Bare specifiers → esm.sh
+          build.onResolve({ filter: /^[^./]/ }, args => ({
+            path: `https://esm.sh/${args.path}`,
+            external: true,
+          }));
+          // .jsx → .js for relative imports
+          build.onResolve({ filter: /\.jsx$/ }, args => ({
+            path: args.path.replace(/\.jsx$/, '.js'),
+            external: true,
+          }));
+        },
+      }],
+    });
+    return {
+      content: result.outputFiles[0].text,
+      compiledFilename: path.basename(file).replace(/\.jsx$/, '.js'),
+    };
   },
 };
 

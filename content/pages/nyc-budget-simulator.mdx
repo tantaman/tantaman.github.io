@@ -1,22 +1,12 @@
-import { useState, useMemo, useCallback } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  ComposedChart,
-  ReferenceLine,
-} from "recharts";
+---
+title: NYC Budget Simulator
+layout: bare
+---
 
-const DEFAULTS = {
+import { useState, useMemo, useCallback } from 'https://esm.sh/react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, BarChart, Bar, ComposedChart, ReferenceLine } from 'https://esm.sh/recharts';
+
+export const DEFAULTS = {
   budget: 127,
   budgetGrowth: 4.5,
   numMillionaires: 34000,
@@ -31,98 +21,103 @@ const DEFAULTS = {
   yearsToProject: 10,
 };
 
-const BASELINE = {
+export const BASELINE = {
   millionaireTaxRate: 3.876,
   corpTaxRate: 7.75,
   propertyTaxRate: 12.28,
 };
 
-const fmt = (n) => {
+export const fmt = (n) => {
   if (Math.abs(n) >= 1000) return `$${(n / 1000).toFixed(1)}T`;
   if (Math.abs(n) >= 1) return `$${n.toFixed(1)}B`;
   return `$${(n * 1000).toFixed(0)}M`;
 };
 
-const fmtK = (n) => n.toLocaleString();
+export const fmtK = (n) => n.toLocaleString();
 
-const formatDescription = (desc) => {
+export function formatDescription(desc) {
   if (!desc) return null;
-  // Color "Current:" in teal and "Mamdani:" in red-orange
   const parts = desc.split(/(Current:|Mamdani:)/g);
   return parts.map((part, i) => {
     if (part === "Current:") return <span key={i} style={{ color: "#5cb85c", fontWeight: 700, fontStyle: "normal" }}>{part}</span>;
     if (part === "Mamdani:") return <span key={i} style={{ color: "#e85d4a", fontWeight: 700, fontStyle: "normal" }}>{part}</span>;
     return <span key={i}>{part}</span>;
   });
-};
+}
 
-const Knob = ({ label, value, onChange, min, max, step, unit, description }) => (
-  <div style={{ marginBottom: 14 }}>
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 3 }}>
-      <label style={{ fontSize: 11, fontWeight: 600, color: "#c4b5a0", letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "'JetBrains Mono', monospace" }}>
+export function Knob({ label, value, onChange, min, max, step, unit, description }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 3 }}>
+        <label style={{ fontSize: 11, fontWeight: 600, color: "#c4b5a0", letterSpacing: "0.05em", textTransform: "uppercase", fontFamily: "'JetBrains Mono', monospace" }}>
+          {label}
+        </label>
+        <span style={{ fontSize: 14, fontWeight: 700, color: "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" }}>
+          {typeof value === "number" && value % 1 !== 0 ? value.toFixed(2) : value.toLocaleString()}
+          {unit}
+        </span>
+      </div>
+      {description && (
+        <div style={{ fontSize: 10, color: "#8a7e6e", marginBottom: 4, fontStyle: "italic" }}>{formatDescription(description)}</div>
+      )}
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        style={{ width: "100%", accentColor: "#d4a556", height: 3, cursor: "pointer" }}
+      />
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 9, color: "#6b6157" }}>
+        <span>{min}{unit}</span>
+        <span>{max}{unit}</span>
+      </div>
+    </div>
+  );
+}
+
+export function StatBox({ label, value, sub, color }) {
+  return (
+    <div style={{
+      background: "rgba(30,27,22,0.7)",
+      border: "1px solid #3a342a",
+      borderRadius: 6,
+      padding: "10px 12px",
+      minWidth: 140,
+      flex: 1,
+    }}>
+      <div style={{ fontSize: 10, color: "#8a7e6e", textTransform: "uppercase", letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 4 }}>
         {label}
-      </label>
-      <span style={{ fontSize: 14, fontWeight: 700, color: "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" }}>
-        {typeof value === "number" && value % 1 !== 0 ? value.toFixed(2) : value.toLocaleString()}
-        {unit}
-      </span>
+      </div>
+      <div style={{ fontSize: 20, fontWeight: 700, color: color || "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" }}>
+        {value}
+      </div>
+      {sub && <div style={{ fontSize: 10, color: "#6b6157", marginTop: 2 }}>{sub}</div>}
     </div>
-    {description && (
-      <div style={{ fontSize: 10, color: "#8a7e6e", marginBottom: 4, fontStyle: "italic" }}>{formatDescription(description)}</div>
-    )}
-    <input
-      type="range"
-      min={min}
-      max={max}
-      step={step}
-      value={value}
-      onChange={(e) => onChange(parseFloat(e.target.value))}
-      style={{ width: "100%", accentColor: "#d4a556", height: 3, cursor: "pointer" }}
-    />
-    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 9, color: "#6b6157" }}>
-      <span>{min}{unit}</span>
-      <span>{max}{unit}</span>
-    </div>
-  </div>
-);
+  );
+}
 
-const StatBox = ({ label, value, sub, color }) => (
-  <div style={{
-    background: "rgba(30,27,22,0.7)",
-    border: "1px solid #3a342a",
-    borderRadius: 6,
-    padding: "10px 12px",
-    minWidth: 140,
-    flex: 1,
-  }}>
-    <div style={{ fontSize: 10, color: "#8a7e6e", textTransform: "uppercase", letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 4 }}>
-      {label}
-    </div>
-    <div style={{ fontSize: 20, fontWeight: 700, color: color || "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" }}>
-      {value}
-    </div>
-    {sub && <div style={{ fontSize: 10, color: "#6b6157", marginTop: 2 }}>{sub}</div>}
-  </div>
-);
+export function SectionTitle({ children }) {
+  return (
+    <h3 style={{
+      fontSize: 13,
+      fontWeight: 700,
+      color: "#d4a556",
+      textTransform: "uppercase",
+      letterSpacing: "0.12em",
+      fontFamily: "'JetBrains Mono', monospace",
+      marginBottom: 12,
+      marginTop: 24,
+      borderBottom: "1px solid #3a342a",
+      paddingBottom: 8,
+    }}>
+      {children}
+    </h3>
+  );
+}
 
-const SectionTitle = ({ children }) => (
-  <h3 style={{
-    fontSize: 13,
-    fontWeight: 700,
-    color: "#d4a556",
-    textTransform: "uppercase",
-    letterSpacing: "0.12em",
-    fontFamily: "'JetBrains Mono', monospace",
-    marginBottom: 12,
-    marginTop: 24,
-    borderBottom: "1px solid #3a342a",
-    paddingBottom: 8,
-  }}>
-    {children}
-  </h3>
-);
-
-function simulate(params) {
+export function simulate(params) {
   const {
     budget, budgetGrowth, numMillionaires, millionaireTaxRate, corpTaxRate,
     propertyTaxRate, migrationSensitivity, pensionGrowthRate, benefitsGrowthRate, salaryGrowthRate,
@@ -133,22 +128,19 @@ function simulate(params) {
   const data = [];
   let currentMillionaires = numMillionaires;
 
-  // Starting values (FY2026 actuals from data)
   const startingPropertyTaxRev = 35;
   const startingIncomePersonalRev = 16.5;
   const startingCorpTaxRev = 8.5;
   const startingOtherRev = 20;
   const startingStateAid = 20.9;
   const startingFedAid = 11;
-  const startingSalary = 56.9; // 47% of ~121B
+  const startingSalary = 56.9;
   const startingPension = 10.5;
-  const startingBenefits = 10.4; // Health insurance ~$10.4B in FY2026
+  const startingBenefits = 10.4;
   const startingDebtService = 7.5;
   const millionaireShareOfIncomeTax = 0.40;
-  const avgMillionaireIncome = 4.2; // $4.2M average income
+  const avgMillionaireIncome = 4.2;
 
-  // Migration model: elasticity of out-migration to tax rate changes
-  // Based on literature: ~1.5% of millionaires leave per 1% tax increase
   const taxDelta = millionaireTaxRate - BASELINE.millionaireTaxRate;
   const corpDelta = corpTaxRate - BASELINE.corpTaxRate;
   const propDelta = propertyTaxRate - BASELINE.propertyTaxRate;
@@ -157,33 +149,30 @@ function simulate(params) {
     const year = currentYear + i;
     const t = i;
 
-    // Migration: compound annual out-migration based on tax differential
     const annualMigrationRate = taxDelta > 0
       ? (migrationSensitivity * taxDelta * 0.012) + (propDelta > 0 ? propDelta * 0.003 : 0)
-      : Math.max(taxDelta * 0.005, -0.01); // slight in-migration if taxes drop
-    
+      : Math.max(taxDelta * 0.005, -0.01);
+
     if (i > 0) {
       const netMigration = Math.round(currentMillionaires * annualMigrationRate);
       currentMillionaires = Math.max(5000, currentMillionaires - netMigration);
     }
 
-    // Revenue calculations
     const millionaireRatio = currentMillionaires / numMillionaires;
     const incomeFromMillionaires = currentMillionaires * avgMillionaireIncome * (millionaireTaxRate / 100) / 1000;
     const incomeFromOthers = startingIncomePersonalRev * (1 - millionaireShareOfIncomeTax) * Math.pow(1 + revenueGrowth / 100, t);
     const personalIncomeTaxRev = incomeFromMillionaires + incomeFromOthers;
-    
+
     const corpRevenue = startingCorpTaxRev * (corpTaxRate / BASELINE.corpTaxRate) * Math.pow(1 + revenueGrowth / 100, t) * (0.85 + 0.15 * millionaireRatio);
-    
+
     const propertyTaxRev = startingPropertyTaxRev * (propertyTaxRate / BASELINE.propertyTaxRate) * Math.pow(1 + 0.02, t);
-    
+
     const otherRev = startingOtherRev * Math.pow(1 + revenueGrowth / 100, t);
     const stateAid = startingStateAid * Math.pow(1 + 0.015, t);
-    const fedAid = startingFedAid * Math.pow(1 - 0.02, t); // declining federal aid
+    const fedAid = startingFedAid * Math.pow(1 - 0.02, t);
 
     const totalRevenue = personalIncomeTaxRev + corpRevenue + propertyTaxRev + otherRev + stateAid + fedAid;
 
-    // Spending calculations
     const totalBudget = budget * Math.pow(1 + budgetGrowth / 100, t);
     const salarySpend = startingSalary * Math.pow(1 + salaryGrowthRate / 100, t);
     const pensionSpend = startingPension * Math.pow(1 + pensionGrowthRate / 100, t);
@@ -216,7 +205,6 @@ function simulate(params) {
     });
   }
 
-  // Compute cumulative gap
   let cum = 0;
   for (const d of data) {
     cum += d.gap;
@@ -226,9 +214,9 @@ function simulate(params) {
   return data;
 }
 
-const chartMargin = { top: 10, right: 20, left: 10, bottom: 5 };
+export const chartMargin = { top: 10, right: 20, left: 10, bottom: 5 };
 
-const CustomTooltip = ({ active, payload, label }) => {
+export function CustomTooltip({ active, payload, label }) {
   if (!active || !payload) return null;
   return (
     <div style={{
@@ -247,9 +235,9 @@ const CustomTooltip = ({ active, payload, label }) => {
       ))}
     </div>
   );
-};
+}
 
-export default function NYCBudgetSimulator() {
+export function NYCBudgetSimulator() {
   const [params, setParams] = useState(DEFAULTS);
   const [showMamdani, setShowMamdani] = useState(false);
   const [infoOpen, setInfoOpen] = useState(true);
@@ -282,7 +270,6 @@ export default function NYCBudgetSimulator() {
   const salaryPctFinal = ((lastYear.salarySpend / lastYear.totalBudget) * 100).toFixed(1);
   const fixedCostPctFinal = lastYear.fixedCostPct;
 
-  // Tax burden by bracket (simplified model)
   const brackets = useMemo(() => {
     const cityRate = params.millionaireTaxRate;
     const stateRates = { bottom50: 4.0, middle: 6.5, top10: 8.82, top1: 10.9 };
@@ -323,7 +310,7 @@ export default function NYCBudgetSimulator() {
             NYC FISCAL DEATH SPIRAL SIMULATOR
           </h1>
           <p style={{ fontSize: 12, color: "#8a7e6e", margin: "6px 0 0 0", fontFamily: "'JetBrains Mono', monospace" }}>
-            Modeling the structural trap of progressive municipal governance · FY2026–{2026 + params.yearsToProject}
+            Modeling the structural trap of progressive municipal governance
           </p>
         </div>
 
@@ -361,7 +348,7 @@ export default function NYCBudgetSimulator() {
             <div style={{ padding: "0 16px 14px 16px", fontSize: 13, lineHeight: 1.7, color: "#c4b5a0" }}>
               <p style={{ margin: "0 0 10px 0" }}>
                 NYC spends more per capita than almost any city on earth — comparable to the <em>entire state of Florida</em> with a third the population — yet delivers middling outcomes.
-                The city spends <span style={{ color: "#e85d4a", fontWeight: 600 }}>$36,000 per student</span> (2.3× the national average) for below-average test scores. Tokyo runs a safer, cleaner, better-connected city of 14 million at a fraction of the cost.
+                The city spends <span style={{ color: "#e85d4a", fontWeight: 600 }}>$36,000 per student</span> (2.3x the national average) for below-average test scores. Tokyo runs a safer, cleaner, better-connected city of 14 million at a fraction of the cost.
               </p>
               <p style={{ margin: "0 0 10px 0" }}>
                 The core problem: <span style={{ color: "#e088a8", fontWeight: 600 }}>salaries</span>, <span style={{ color: "#b088d4", fontWeight: 600 }}>pensions</span>, and <span style={{ color: "#e088a8", fontWeight: 600 }}>health benefits</span> for
@@ -604,3 +591,5 @@ export default function NYCBudgetSimulator() {
     </div>
   );
 }
+
+<NYCBudgetSimulator />
