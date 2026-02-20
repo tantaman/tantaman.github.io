@@ -395,9 +395,8 @@
   color: var(--text);
 }
 
-/* -- Hashtag links -- */
-#thoughts-page a.thought-tag { color: var(--text); text-decoration: underline; text-decoration-color: var(--text-muted); text-underline-offset: 2px; font-weight: 500; }
-#thoughts-page a.thought-tag:hover { text-decoration-color: var(--text); }
+/* -- Hashtag styling -- */
+.thought-tag { color: var(--text); font-weight: 500; }
 
 /* -- Tag view header -- */
 .tag-view-label { margin-left: 1rem; font-size: 1.1rem; font-weight: 600; color: var(--text); }
@@ -426,9 +425,13 @@
 .tags-list-item {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   padding: 0.35rem 0.75rem;
   font-size: 0.9rem;
+  font-family: inherit;
   color: var(--text-muted);
+  background: none;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
   text-decoration: none;
@@ -441,6 +444,40 @@
 .tags-list-count {
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+/* -- Tag pills -- */
+.tag-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--bg-soft);
+  border-radius: 20px;
+}
+
+.tag-pill-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--text-muted);
+  padding: 0 0.1rem;
+  transition: color 0.15s;
+}
+
+.tag-pill-remove:hover {
+  color: var(--text);
 }
 
 /* -- Tasks view -- */

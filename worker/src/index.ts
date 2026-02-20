@@ -163,19 +163,25 @@ app.get("/", (c) => {
 app.get("/thoughts", async (c) => {
   const limitParam = Math.min(parseInt(c.req.query("limit") || "50", 10) || 50, 200);
   const offsetParam = parseInt(c.req.query("offset") || "0", 10) || 0;
-  const tag = c.req.query("tag");
+  const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
 
   let results;
-  if (tag) {
+  if (tags.length > 0) {
+    const placeholders = tags.map(() => "?").join(",");
     results = await c.env.DB.prepare(
       `SELECT t.id, t.body, t.timestamp, t.created_at,
          (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
        FROM thought t
-       JOIN thought_tag tt ON tt.thought_id = t.id
-       JOIN tag tg ON tg.id = tt.tag_id AND tg.name = ?
        WHERE t.parent_id IS NULL
+       AND t.id IN (
+         SELECT tt.thought_id FROM thought_tag tt
+         JOIN tag tg ON tg.id = tt.tag_id
+         WHERE tg.name IN (${placeholders})
+         GROUP BY tt.thought_id
+         HAVING COUNT(DISTINCT tg.name) = ?
+       )
        ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
-    ).bind(tag, limitParam, offsetParam).all();
+    ).bind(...tags, tags.length, limitParam, offsetParam).all();
   } else {
     results = await c.env.DB.prepare(
       `SELECT t.id, t.body, t.timestamp, t.created_at,
@@ -428,17 +434,26 @@ app.delete("/thoughts/:id", async (c) => {
 
 app.get("/tasks", async (c) => {
   const status = c.req.query("status") || "incomplete";
+  const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
 
-  let results;
-  if (status === "all") {
-    results = await c.env.DB.prepare(
-      "SELECT id, thought_id, title, description, created_at, completed_at FROM task ORDER BY created_at DESC"
-    ).all();
-  } else {
-    results = await c.env.DB.prepare(
-      "SELECT id, thought_id, title, description, created_at, completed_at FROM task WHERE completed_at IS NULL ORDER BY created_at DESC"
-    ).all();
+  let baseWhere = status === "all" ? "" : "WHERE tk.completed_at IS NULL";
+  let tagFilter = "";
+
+  if (tags.length > 0) {
+    const placeholders = tags.map(() => "?").join(",");
+    tagFilter = `${baseWhere ? " AND" : " WHERE"} tk.thought_id IN (
+      SELECT tt.thought_id FROM thought_tag tt
+      JOIN tag tg ON tg.id = tt.tag_id
+      WHERE tg.name IN (${placeholders})
+      GROUP BY tt.thought_id
+      HAVING COUNT(DISTINCT tg.name) = ?
+    )`;
   }
+
+  const query = `SELECT tk.id, tk.thought_id, tk.title, tk.description, tk.created_at, tk.completed_at FROM task tk ${baseWhere}${tagFilter} ORDER BY tk.created_at DESC`;
+  const bindings = tags.length > 0 ? [...tags, tags.length] : [];
+
+  const results = await c.env.DB.prepare(query).bind(...bindings).all();
 
   return c.json({ tasks: results.results });
 });

@@ -3,19 +3,20 @@ import type { Task } from '../types';
 import { getTasks, patchTask } from '../api';
 import { AuthContext } from '../App';
 
-export function TasksView() {
+export function TasksView({ tags }: { tags: string[] }) {
   const { secret } = useContext(AuthContext);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showAll, setShowAll] = useState(false);
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const tagsKey = tags.join(',');
 
   useEffect(() => {
     setLoading(true);
-    getTasks(showAll ? 'all' : 'incomplete')
+    getTasks(showAll ? 'all' : 'incomplete', tags.length > 0 ? tags : undefined)
       .then((r) => setTasks(r.tasks))
       .finally(() => setLoading(false));
-  }, [showAll]);
+  }, [showAll, tagsKey]);
 
   const toggleComplete = async (task: Task) => {
     if (!secret) return;

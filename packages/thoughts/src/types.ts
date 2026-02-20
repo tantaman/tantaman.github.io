@@ -30,5 +30,4 @@ export interface Task {
 export type Route =
   | { view: 'feed' }
   | { view: 'thread'; id: number }
-  | { view: 'tag'; tag: string }
   | { view: 'tasks' };

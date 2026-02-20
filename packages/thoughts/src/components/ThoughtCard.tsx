@@ -33,13 +33,9 @@ function formatBody(text: string): ReactNode[] {
     parts.push(match[1]);
     const tag = match[2];
     parts.push(
-      <a
-        key={match.index}
-        className="thought-tag"
-        href={`#tag-${encodeURIComponent(tag.toLowerCase())}`}
-      >
+      <span key={match.index} className="thought-tag">
         #{tag}
-      </a>,
+      </span>,
     );
     lastIndex = match.index + match[0].length;
   }
