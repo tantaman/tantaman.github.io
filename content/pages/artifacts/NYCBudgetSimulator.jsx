@@ -2045,8 +2045,352 @@ export default function NYCBudgetSimulator() {
               </ResponsiveContainer>
             </div>
 
+            {/* Chart 4: Revenue Breakdown */}
+            <SectionTitle>Revenue Composition</SectionTitle>
+            <div
+              style={{
+                background: 'rgba(20,18,16,0.6)',
+                border: '1px solid #2a2520',
+                borderRadius: 8,
+                padding: '16px 8px',
+              }}
+            >
+              <ResponsiveContainer width="100%" height={260}>
+                <AreaChart data={data} margin={chartMargin}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2520" />
+                  <XAxis
+                    dataKey="year"
+                    tick={{
+                      fill: '#6b6157',
+                      fontSize: 11,
+                      fontFamily: 'JetBrains Mono',
+                    }}
+                  />
+                  <YAxis
+                    tick={{
+                      fill: '#6b6157',
+                      fontSize: 10,
+                      fontFamily: 'JetBrains Mono',
+                    }}
+                    tickFormatter={(v) => `${v}B`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend
+                    wrapperStyle={{
+                      fontSize: 10,
+                      fontFamily: 'JetBrains Mono',
+                    }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="propertyTaxRev"
+                    name="Property Tax"
+                    stackId="1"
+                    fill="#d4a556"
+                    fillOpacity={0.6}
+                    stroke="#d4a556"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="personalIncomeTaxRev"
+                    name="Income Tax"
+                    stackId="1"
+                    fill="#6ab0d4"
+                    fillOpacity={0.6}
+                    stroke="#6ab0d4"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="corpRevenue"
+                    name="Corporate Tax"
+                    stackId="1"
+                    fill="#b088d4"
+                    fillOpacity={0.6}
+                    stroke="#b088d4"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="otherRev"
+                    name="Other + State + Fed"
+                    stackId="1"
+                    fill="#5cb85c"
+                    fillOpacity={0.4}
+                    stroke="#5cb85c"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Tax burden table */}
+            <SectionTitle>Total Tax Burden by Income Bracket</SectionTitle>
+            <div
+              style={{
+                background: 'rgba(20,18,16,0.6)',
+                border: '1px solid #2a2520',
+                borderRadius: 8,
+                padding: 16,
+                overflowX: 'auto',
+              }}
+            >
+              <table
+                style={{
+                  width: '100%',
+                  borderCollapse: 'collapse',
+                  fontSize: 12,
+                  fontFamily: "'JetBrains Mono', monospace",
+                }}
+              >
+                <thead>
+                  <tr style={{ borderBottom: '1px solid #3a342a' }}>
+                    {[
+                      'Bracket',
+                      'Federal',
+                      'State',
+                      'City',
+                      'Total Rate',
+                      'Share of City Tax',
+                    ].map((h) => (
+                      <th
+                        key={h}
+                        style={{
+                          textAlign: 'left',
+                          padding: '8px 10px',
+                          color: '#8a7e6e',
+                          fontWeight: 600,
+                          fontSize: 10,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                        }}
+                      >
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {brackets.map((b, i) => (
+                    <tr key={i} style={{ borderBottom: '1px solid #1e1b16' }}>
+                      <td
+                        style={{
+                          padding: '8px 10px',
+                          color: '#c4b5a0',
+                          whiteSpace: 'pre-line',
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {b.label}
+                      </td>
+                      <td style={{ padding: '8px 10px', color: '#6b6157' }}>
+                        {b.fedRate}%
+                      </td>
+                      <td style={{ padding: '8px 10px', color: '#6b6157' }}>
+                        {b.stateRate}%
+                      </td>
+                      <td
+                        style={{
+                          padding: '8px 10px',
+                          color:
+                            b.cityRate > BASELINE.millionaireTaxRate
+                              ? '#e85d4a'
+                              : '#d4a556',
+                          fontWeight:
+                            b.cityRate > BASELINE.millionaireTaxRate
+                              ? 700
+                              : 400,
+                        }}
+                      >
+                        {b.cityRate.toFixed(2)}%
+                      </td>
+                      <td
+                        style={{
+                          padding: '8px 10px',
+                          color: '#f0e6d3',
+                          fontWeight: 700,
+                        }}
+                      >
+                        {b.totalRate}%
+                      </td>
+                      <td style={{ padding: '8px 10px', color: '#d4a556' }}>
+                        {b.shareOfRevenue}%
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: '1px solid #3a342a' }}>
+                    <td
+                      style={{
+                        padding: '8px 10px',
+                        color: '#b088d4',
+                        fontWeight: 600,
+                      }}
+                    >
+                      Corporations
+                    </td>
+                    <td style={{ padding: '8px 10px', color: '#6b6157' }}>
+                      21%
+                    </td>
+                    <td style={{ padding: '8px 10px', color: '#6b6157' }}>
+                      7.25%
+                    </td>
+                    <td
+                      style={{
+                        padding: '8px 10px',
+                        color:
+                          params.corpTaxRate > BASELINE.corpTaxRate
+                            ? '#e85d4a'
+                            : '#d4a556',
+                        fontWeight:
+                          params.corpTaxRate > BASELINE.corpTaxRate ? 700 : 400,
+                      }}
+                    >
+                      {params.corpTaxRate.toFixed(2)}%
+                    </td>
+                    <td
+                      style={{
+                        padding: '8px 10px',
+                        color: '#f0e6d3',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {(21 + 7.25 + params.corpTaxRate).toFixed(1)}%
+                    </td>
+                    <td style={{ padding: '8px 10px', color: '#6b6157' }}>—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Final year breakdown */}
+            <SectionTitle>FY{lastYear.year} Projected Breakdown</SectionTitle>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <StatBox
+                label="Total Budget"
+                value={fmt(lastYear.totalBudget)}
+                color="#e85d4a"
+              />
+              <StatBox
+                label="Total Revenue"
+                value={fmt(lastYear.totalRevenue)}
+                color="#5cb85c"
+              />
+              <StatBox
+                label={`FY${lastYear.year} Gap`}
+                value={fmt(finalGap)}
+                sub="annual shortfall"
+                color={finalGap > 0 ? '#e85d4a' : '#5cb85c'}
+              />
+              <StatBox
+                label="Cumulative Gap"
+                value={fmt(lastYear.cumulativeGap)}
+                sub={`over ${params.yearsToProject} years`}
+                color={lastYear.cumulativeGap > 0 ? '#e85d4a' : '#5cb85c'}
+              />
+              <div
+                style={{
+                  border: '2px solid #4a9de8',
+                  borderRadius: 8,
+                  padding: 8,
+                  flex: '1 1 100%',
+                  background: 'rgba(74,157,232,0.04)',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: '#4a9de8',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    marginBottom: 6,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'baseline',
+                  }}
+                >
+                  <span>⬤ FIXED COSTS — {fixedCostPctFinal}% of budget</span>
+                  <span
+                    style={{
+                      fontSize: 16,
+                      color: fixedCostPctFinal > 75 ? '#e85d4a' : '#4a9de8',
+                    }}
+                  >
+                    {fmt(lastYear.fixedCosts)}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <StatBox
+                    label="Compensation"
+                    value={fmt(lastYear.salarySpend)}
+                    sub={`${salaryPctFinal}% of budget`}
+                    color="#6ab0d4"
+                  />
+                  <StatBox
+                    label="Pensions"
+                    value={fmt(lastYear.pensionSpend)}
+                    sub={`${pensionPctFinal}% of budget`}
+                    color="#b088d4"
+                  />
+                  <StatBox
+                    label="Benefits"
+                    value={fmt(lastYear.benefitsSpend)}
+                    sub={`${benefitsPctFinal}% of budget`}
+                    color="#e088a8"
+                  />
+                  <StatBox
+                    label="Debt Service"
+                    value={fmt(lastYear.debtService)}
+                    sub={`${((lastYear.debtService / lastYear.totalBudget) * 100).toFixed(1)}% of budget`}
+                    color="#e8a84a"
+                  />
+                </div>
+              </div>
+              <StatBox
+                label="All Other Spending"
+                value={fmt(lastYear.otherSpend)}
+                sub={`${((lastYear.otherSpend / lastYear.totalBudget) * 100).toFixed(1)}% of budget — parks, transit, housing, services`}
+                color="#6b6157"
+              />
+              {params.includeNewSpending && lastYear.newSpend > 0 && (
+                <StatBox
+                  label="New Commitments"
+                  value={fmt(lastYear.newSpend)}
+                  sub={`${((lastYear.newSpend / lastYear.totalBudget) * 100).toFixed(1)}% of budget — childcare, buses, housing, class size, etc.`}
+                  color="#e85d4a"
+                />
+              )}
+              <StatBox
+                label="Property Tax Rev"
+                value={fmt(lastYear.propertyTaxRev)}
+                color="#d4a556"
+              />
+              <StatBox
+                label="Income Tax Rev"
+                value={fmt(lastYear.personalIncomeTaxRev)}
+                color="#6ab0d4"
+              />
+              <StatBox
+                label="Corporate Tax Rev"
+                value={fmt(lastYear.corpRevenue)}
+                color="#b088d4"
+              />
+              <StatBox
+                label="Remaining Millionaires"
+                value={fmtK(lastYear.millionaires)}
+                sub={`started at ${fmtK(firstYear.millionaires)}`}
+                color="#d4a556"
+              />
+              <StatBox
+                label="Millionaire Exodus"
+                value={fmtK(totalMillionaireLoss)}
+                sub={`${((totalMillionaireLoss / firstYear.millionaires) * 100).toFixed(1)}% of base`}
+                color={totalMillionaireLoss > 0 ? '#e8a84a' : '#5cb85c'}
+              />
+            </div>
+
             {/* Who Gets Paid section */}
-            <SectionTitle>Who Gets Paid</SectionTitle>
+            <SectionTitle>
+              Who Gets Paid — FY{lastYear.year} Projected
+            </SectionTitle>
             <div
               style={{
                 background: 'rgba(20,18,16,0.6)',
@@ -2563,349 +2907,6 @@ export default function NYCBudgetSimulator() {
                 workers ($100B unfunded liability).
               </div>
             </div>
-
-            {/* Chart 4: Revenue Breakdown */}
-            <SectionTitle>Revenue Composition</SectionTitle>
-            <div
-              style={{
-                background: 'rgba(20,18,16,0.6)',
-                border: '1px solid #2a2520',
-                borderRadius: 8,
-                padding: '16px 8px',
-              }}
-            >
-              <ResponsiveContainer width="100%" height={260}>
-                <AreaChart data={data} margin={chartMargin}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2520" />
-                  <XAxis
-                    dataKey="year"
-                    tick={{
-                      fill: '#6b6157',
-                      fontSize: 11,
-                      fontFamily: 'JetBrains Mono',
-                    }}
-                  />
-                  <YAxis
-                    tick={{
-                      fill: '#6b6157',
-                      fontSize: 10,
-                      fontFamily: 'JetBrains Mono',
-                    }}
-                    tickFormatter={(v) => `${v}B`}
-                  />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend
-                    wrapperStyle={{
-                      fontSize: 10,
-                      fontFamily: 'JetBrains Mono',
-                    }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="propertyTaxRev"
-                    name="Property Tax"
-                    stackId="1"
-                    fill="#d4a556"
-                    fillOpacity={0.6}
-                    stroke="#d4a556"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="personalIncomeTaxRev"
-                    name="Income Tax"
-                    stackId="1"
-                    fill="#6ab0d4"
-                    fillOpacity={0.6}
-                    stroke="#6ab0d4"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="corpRevenue"
-                    name="Corporate Tax"
-                    stackId="1"
-                    fill="#b088d4"
-                    fillOpacity={0.6}
-                    stroke="#b088d4"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="otherRev"
-                    name="Other + State + Fed"
-                    stackId="1"
-                    fill="#5cb85c"
-                    fillOpacity={0.4}
-                    stroke="#5cb85c"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Tax burden table */}
-            <SectionTitle>Total Tax Burden by Income Bracket</SectionTitle>
-            <div
-              style={{
-                background: 'rgba(20,18,16,0.6)',
-                border: '1px solid #2a2520',
-                borderRadius: 8,
-                padding: 16,
-                overflowX: 'auto',
-              }}
-            >
-              <table
-                style={{
-                  width: '100%',
-                  borderCollapse: 'collapse',
-                  fontSize: 12,
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}
-              >
-                <thead>
-                  <tr style={{ borderBottom: '1px solid #3a342a' }}>
-                    {[
-                      'Bracket',
-                      'Federal',
-                      'State',
-                      'City',
-                      'Total Rate',
-                      'Share of City Rev',
-                    ].map((h) => (
-                      <th
-                        key={h}
-                        style={{
-                          textAlign: 'left',
-                          padding: '8px 10px',
-                          color: '#8a7e6e',
-                          fontWeight: 600,
-                          fontSize: 10,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em',
-                        }}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {brackets.map((b, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid #1e1b16' }}>
-                      <td
-                        style={{
-                          padding: '8px 10px',
-                          color: '#c4b5a0',
-                          whiteSpace: 'pre-line',
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        {b.label}
-                      </td>
-                      <td style={{ padding: '8px 10px', color: '#6b6157' }}>
-                        {b.fedRate}%
-                      </td>
-                      <td style={{ padding: '8px 10px', color: '#6b6157' }}>
-                        {b.stateRate}%
-                      </td>
-                      <td
-                        style={{
-                          padding: '8px 10px',
-                          color:
-                            b.cityRate > BASELINE.millionaireTaxRate
-                              ? '#e85d4a'
-                              : '#d4a556',
-                          fontWeight:
-                            b.cityRate > BASELINE.millionaireTaxRate
-                              ? 700
-                              : 400,
-                        }}
-                      >
-                        {b.cityRate.toFixed(2)}%
-                      </td>
-                      <td
-                        style={{
-                          padding: '8px 10px',
-                          color: '#f0e6d3',
-                          fontWeight: 700,
-                        }}
-                      >
-                        {b.totalRate}%
-                      </td>
-                      <td style={{ padding: '8px 10px', color: '#d4a556' }}>
-                        {b.shareOfRevenue}%
-                      </td>
-                    </tr>
-                  ))}
-                  <tr style={{ borderTop: '1px solid #3a342a' }}>
-                    <td
-                      style={{
-                        padding: '8px 10px',
-                        color: '#b088d4',
-                        fontWeight: 600,
-                      }}
-                    >
-                      Corporations
-                    </td>
-                    <td style={{ padding: '8px 10px', color: '#6b6157' }}>
-                      21%
-                    </td>
-                    <td style={{ padding: '8px 10px', color: '#6b6157' }}>
-                      7.25%
-                    </td>
-                    <td
-                      style={{
-                        padding: '8px 10px',
-                        color:
-                          params.corpTaxRate > BASELINE.corpTaxRate
-                            ? '#e85d4a'
-                            : '#d4a556',
-                        fontWeight:
-                          params.corpTaxRate > BASELINE.corpTaxRate ? 700 : 400,
-                      }}
-                    >
-                      {params.corpTaxRate.toFixed(2)}%
-                    </td>
-                    <td
-                      style={{
-                        padding: '8px 10px',
-                        color: '#f0e6d3',
-                        fontWeight: 700,
-                      }}
-                    >
-                      {(21 + 7.25 + params.corpTaxRate).toFixed(1)}%
-                    </td>
-                    <td style={{ padding: '8px 10px', color: '#6b6157' }}>—</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            {/* Final year breakdown */}
-            <SectionTitle>FY{lastYear.year} Projected Breakdown</SectionTitle>
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <StatBox
-                label="Total Budget"
-                value={fmt(lastYear.totalBudget)}
-                color="#e85d4a"
-              />
-              <StatBox
-                label="Total Revenue"
-                value={fmt(lastYear.totalRevenue)}
-                color="#5cb85c"
-              />
-              <StatBox
-                label={`FY${lastYear.year} Gap`}
-                value={fmt(finalGap)}
-                sub="annual shortfall"
-                color={finalGap > 0 ? '#e85d4a' : '#5cb85c'}
-              />
-              <StatBox
-                label="Cumulative Gap"
-                value={fmt(lastYear.cumulativeGap)}
-                sub={`over ${params.yearsToProject} years`}
-                color={lastYear.cumulativeGap > 0 ? '#e85d4a' : '#5cb85c'}
-              />
-              <div
-                style={{
-                  border: '2px solid #4a9de8',
-                  borderRadius: 8,
-                  padding: 8,
-                  flex: '1 1 100%',
-                  background: 'rgba(74,157,232,0.04)',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    color: '#4a9de8',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    marginBottom: 6,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'baseline',
-                  }}
-                >
-                  <span>⬤ FIXED COSTS — {fixedCostPctFinal}% of budget</span>
-                  <span
-                    style={{
-                      fontSize: 16,
-                      color: fixedCostPctFinal > 75 ? '#e85d4a' : '#4a9de8',
-                    }}
-                  >
-                    {fmt(lastYear.fixedCosts)}
-                  </span>
-                </div>
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <StatBox
-                    label="Compensation"
-                    value={fmt(lastYear.salarySpend)}
-                    sub={`${salaryPctFinal}% of budget`}
-                    color="#6ab0d4"
-                  />
-                  <StatBox
-                    label="Pensions"
-                    value={fmt(lastYear.pensionSpend)}
-                    sub={`${pensionPctFinal}% of budget`}
-                    color="#b088d4"
-                  />
-                  <StatBox
-                    label="Benefits"
-                    value={fmt(lastYear.benefitsSpend)}
-                    sub={`${benefitsPctFinal}% of budget`}
-                    color="#e088a8"
-                  />
-                  <StatBox
-                    label="Debt Service"
-                    value={fmt(lastYear.debtService)}
-                    sub={`${((lastYear.debtService / lastYear.totalBudget) * 100).toFixed(1)}% of budget`}
-                    color="#e8a84a"
-                  />
-                </div>
-              </div>
-              <StatBox
-                label="All Other Spending"
-                value={fmt(lastYear.otherSpend)}
-                sub={`${((lastYear.otherSpend / lastYear.totalBudget) * 100).toFixed(1)}% of budget — parks, transit, housing, services`}
-                color="#6b6157"
-              />
-              {params.includeNewSpending && lastYear.newSpend > 0 && (
-                <StatBox
-                  label="New Commitments"
-                  value={fmt(lastYear.newSpend)}
-                  sub={`${((lastYear.newSpend / lastYear.totalBudget) * 100).toFixed(1)}% of budget — childcare, buses, housing, class size, etc.`}
-                  color="#e85d4a"
-                />
-              )}
-              <StatBox
-                label="Property Tax Rev"
-                value={fmt(lastYear.propertyTaxRev)}
-                color="#d4a556"
-              />
-              <StatBox
-                label="Income Tax Rev"
-                value={fmt(lastYear.personalIncomeTaxRev)}
-                color="#6ab0d4"
-              />
-              <StatBox
-                label="Corporate Tax Rev"
-                value={fmt(lastYear.corpRevenue)}
-                color="#b088d4"
-              />
-              <StatBox
-                label="Remaining Millionaires"
-                value={fmtK(lastYear.millionaires)}
-                sub={`started at ${fmtK(firstYear.millionaires)}`}
-                color="#d4a556"
-              />
-              <StatBox
-                label="Millionaire Exodus"
-                value={fmtK(totalMillionaireLoss)}
-                sub={`${((totalMillionaireLoss / firstYear.millionaires) * 100).toFixed(1)}% of base`}
-                color={totalMillionaireLoss > 0 ? '#e8a84a' : '#5cb85c'}
-              />
-            </div>
-
             {/* Methodology note */}
             <div
               style={{
