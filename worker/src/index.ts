@@ -6,6 +6,7 @@ import { extractTasks } from "./tasks";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
+import { computeEdgesForThought, deleteEdgesForThoughts, getGraph } from "./graph";
 
 export interface Env {
   AI: Ai;
@@ -232,6 +233,11 @@ app.get("/thoughts/tags", async (c) => {
   return c.json({ tags: results.results });
 });
 
+app.get("/thoughts/graph", async (c) => {
+  const graph = await getGraph(c.env);
+  return c.json(graph);
+});
+
 app.get("/thoughts/:id/replies", async (c) => {
   const parentId = c.req.param("id");
 
@@ -389,6 +395,11 @@ app.post("/thoughts", async (c) => {
   await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
   await bumpVersion(c.env.DB);
 
+  // Compute similarity edges in the background (non-blocking)
+  c.executionCtx.waitUntil(
+    computeEdgesForThought(c.env, thoughtId, trimmed)
+  );
+
   const thought = {
     id: thoughtId,
     body: trimmed,
@@ -447,6 +458,7 @@ app.delete("/thoughts/:id", async (c) => {
   ).run();
 
   await deleteThoughtEmbeddings(c.env, descendantIds);
+  await deleteEdgesForThoughts(c.env, descendantIds);
   await bumpVersion(c.env.DB);
 
   return c.body(null, 204);
