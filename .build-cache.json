@@ -1,5 +1,5 @@
 {
-  "_compilerMtime": 1771584050953,
+  "_compilerMtime": 1771600530178,
   "the-mirror-room//01-the-consistent-man.md": 1771210416385,
   "notes//2025-gift-list.md": 1764377076104,
   "bookmarks//README.md": 1753056386472,
@@ -552,7 +552,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771540864002,
+          "pages": 1771600921693,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -735,11 +735,13 @@
         "listing": [
           "README.md",
           "mcp.md",
+          "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
           "mcp.md": 1771540440622,
+          "nyc-budget-simulator.mdx": 1771600921693,
           "yagni.md": 1753056386475
         }
       },
@@ -1083,7 +1085,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771540864002,
+          "pages": 1771600921693,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -1266,11 +1268,13 @@
         "listing": [
           "README.md",
           "mcp.md",
+          "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
           "mcp.md": 1771540440622,
+          "nyc-budget-simulator.mdx": 1771600921693,
           "yagni.md": 1753056386475
         }
       },
@@ -1615,7 +1619,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771540864002,
+          "pages": 1771600921693,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -1798,11 +1802,13 @@
         "listing": [
           "README.md",
           "mcp.md",
+          "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
           "mcp.md": 1771540440622,
+          "nyc-budget-simulator.mdx": 1771600921693,
           "yagni.md": 1753056386475
         }
       }
@@ -2142,7 +2148,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771540864002,
+          "pages": 1771600921693,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -2325,11 +2331,13 @@
         "listing": [
           "README.md",
           "mcp.md",
+          "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
           "mcp.md": 1771540440622,
+          "nyc-budget-simulator.mdx": 1771600921693,
           "yagni.md": 1753056386475
         }
       }
@@ -2677,7 +2685,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771540864002,
+          "pages": 1771600921693,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -2860,14 +2868,17 @@
         "listing": [
           "README.md",
           "mcp.md",
+          "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           "README.md": 1753056386475,
           "mcp.md": 1771540440622,
+          "nyc-budget-simulator.mdx": 1771600921693,
           "yagni.md": 1753056386475
         }
       }
     }
-  }
+  },
+  "pages//nyc-budget-simulator.mdx": 1771600921693
 }

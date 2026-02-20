@@ -96,6 +96,39 @@ export default async function build(collection, forceRebuild = false) {
   const effectiveForce = forceRebuild || forceFromCompiler;
   const dest = builtDir + collection;
   const contentDir = './content/' + collection;
+
+  // Compile artifacts (e.g. .jsx files) before processing content
+  const artifactsDir = path.join(contentDir, 'artifacts');
+  try {
+    const artifactFiles = await fs.promises.readdir(artifactsDir);
+    const jsxFiles = artifactFiles.filter(f => f.endsWith('.jsx'));
+    if (jsxFiles.length > 0) {
+      const artifactsDest = path.join(dest, 'artifacts');
+      await fs.promises.mkdir(artifactsDest, { recursive: true });
+      await Promise.all(jsxFiles.map(async (file) => {
+        const filePath = path.join(artifactsDir, file);
+        const cacheKey = `${collection}artifacts/${file}`;
+        const stat = await fs.promises.stat(filePath);
+        const lastModified = stat.mtime.getTime();
+        if (!effectiveForce && buildCache[cacheKey] === lastModified) {
+          const outPath = path.join(artifactsDest, file.replace(/\.jsx$/, '.js'));
+          try { await fs.promises.access(outPath); return; } catch (e) { /* rebuild */ }
+        }
+        try {
+          const result = await handlers.jsx(path.resolve(filePath), path.resolve(artifactsDir));
+          await fs.promises.writeFile(path.join(artifactsDest, result.compiledFilename), result.content);
+          buildCache[cacheKey] = lastModified;
+          console.log(`  artifact: ${file} → ${result.compiledFilename}`);
+        } catch (e) {
+          console.error(`Failed compiling artifact ${file}`);
+          console.error(e);
+        }
+      }));
+    }
+  } catch (e) {
+    // No artifacts directory — that's fine
+  }
+
   const files = await fs.promises.readdir(contentDir);
 
   const filesToProcess = [];
