@@ -400,4 +400,43 @@ app.get("/attachments/*", async (c) => {
   return new Response(object.body, { headers });
 });
 
+app.post("/admin/backfill-tags", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const allThoughts = await c.env.DB.prepare(
+    "SELECT id, body FROM thought"
+  ).all();
+
+  let tagsCreated = 0;
+  let linksCreated = 0;
+
+  for (const thought of allThoughts.results) {
+    const tags = extractTags(thought.body as string);
+    for (const tagName of tags) {
+      const tagResult = await c.env.DB.prepare(
+        "INSERT OR IGNORE INTO tag (name) VALUES (?)"
+      ).bind(tagName).run();
+      if (tagResult.meta.changes > 0) tagsCreated++;
+
+      const tagRow = await c.env.DB.prepare(
+        "SELECT id FROM tag WHERE name = ?"
+      ).bind(tagName).first();
+
+      const linkResult = await c.env.DB.prepare(
+        "INSERT OR IGNORE INTO thought_tag (thought_id, tag_id) VALUES (?, ?)"
+      ).bind(thought.id, tagRow!.id).run();
+      if (linkResult.meta.changes > 0) linksCreated++;
+    }
+  }
+
+  return c.json({
+    thoughtsScanned: allThoughts.results.length,
+    tagsCreated,
+    linksCreated,
+  });
+});
+
 export default app;
