@@ -393,7 +393,7 @@
           "tweets"
         ],
         "mtimes": {
-          ".DS_Store": 1771530747142,
+          ".DS_Store": 1771602577738,
           "2013-06-28-services-and-coupling.md": 1771210006288,
           "2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx": 1771210008836,
           "2013-08-15-Oh-Lisp.md": 1771210010985,
@@ -552,7 +552,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771601923653,
+          "pages": 1771602577736,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -733,6 +733,7 @@
       "./content/pages/": {
         "type": "dir",
         "listing": [
+          ".DS_Store",
           "README.md",
           "artifacts",
           "mcp.md",
@@ -740,10 +741,11 @@
           "yagni.md"
         ],
         "mtimes": {
+          ".DS_Store": 1771602577736,
           "README.md": 1753056386475,
-          "artifacts": 1771601912123,
+          "artifacts": 1771602616381,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771601923653,
+          "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
       },
@@ -928,7 +930,7 @@
           "tweets"
         ],
         "mtimes": {
-          ".DS_Store": 1771530747142,
+          ".DS_Store": 1771602577738,
           "2013-06-28-services-and-coupling.md": 1771210006288,
           "2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx": 1771210008836,
           "2013-08-15-Oh-Lisp.md": 1771210010985,
@@ -1087,7 +1089,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771601923653,
+          "pages": 1771602577736,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -1268,6 +1270,7 @@
       "./content/pages/": {
         "type": "dir",
         "listing": [
+          ".DS_Store",
           "README.md",
           "artifacts",
           "mcp.md",
@@ -1275,10 +1278,11 @@
           "yagni.md"
         ],
         "mtimes": {
+          ".DS_Store": 1771602577736,
           "README.md": 1753056386475,
-          "artifacts": 1771601912123,
+          "artifacts": 1771602616381,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771601923653,
+          "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
       },
@@ -1464,7 +1468,7 @@
           "tweets"
         ],
         "mtimes": {
-          ".DS_Store": 1771530747142,
+          ".DS_Store": 1771602577738,
           "2013-06-28-services-and-coupling.md": 1771210006288,
           "2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx": 1771210008836,
           "2013-08-15-Oh-Lisp.md": 1771210010985,
@@ -1623,7 +1627,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771601923653,
+          "pages": 1771602577736,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -1804,6 +1808,7 @@
       "./content/pages/": {
         "type": "dir",
         "listing": [
+          ".DS_Store",
           "README.md",
           "artifacts",
           "mcp.md",
@@ -1811,10 +1816,11 @@
           "yagni.md"
         ],
         "mtimes": {
+          ".DS_Store": 1771602577736,
           "README.md": 1753056386475,
-          "artifacts": 1771601912123,
+          "artifacts": 1771602616381,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771601923653,
+          "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
       }
@@ -1995,7 +2001,7 @@
           "tweets"
         ],
         "mtimes": {
-          ".DS_Store": 1771530747142,
+          ".DS_Store": 1771602577738,
           "2013-06-28-services-and-coupling.md": 1771210006288,
           "2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx": 1771210008836,
           "2013-08-15-Oh-Lisp.md": 1771210010985,
@@ -2154,7 +2160,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771601923653,
+          "pages": 1771602577736,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -2335,6 +2341,7 @@
       "./content/pages/": {
         "type": "dir",
         "listing": [
+          ".DS_Store",
           "README.md",
           "artifacts",
           "mcp.md",
@@ -2342,10 +2349,11 @@
           "yagni.md"
         ],
         "mtimes": {
+          ".DS_Store": 1771602577736,
           "README.md": 1753056386475,
-          "artifacts": 1771601912123,
+          "artifacts": 1771602616381,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771601923653,
+          "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
       }
@@ -2534,7 +2542,7 @@
           "tweets"
         ],
         "mtimes": {
-          ".DS_Store": 1771530747142,
+          ".DS_Store": 1771602577738,
           "2013-06-28-services-and-coupling.md": 1771210006288,
           "2013-07-30-Inheritance-Aggregation-and-Pipelines.mdx": 1771210008836,
           "2013-08-15-Oh-Lisp.md": 1771210010985,
@@ -2693,7 +2701,7 @@
           "graph.js": 1771514905162,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771601923653,
+          "pages": 1771602577736,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -2874,6 +2882,7 @@
       "./content/pages/": {
         "type": "dir",
         "listing": [
+          ".DS_Store",
           "README.md",
           "artifacts",
           "mcp.md",
@@ -2881,15 +2890,17 @@
           "yagni.md"
         ],
         "mtimes": {
+          ".DS_Store": 1771602577736,
           "README.md": 1753056386475,
-          "artifacts": 1771601912123,
+          "artifacts": 1771602616381,
           "mcp.md": 1771540440622,
-          "nyc-budget-simulator.mdx": 1771601923653,
+          "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
       }
     }
   },
-  "pages//nyc-budget-simulator.mdx": 1771601923653,
-  "pages/artifacts/NYCBudgetSimulator.jsx": 1771601912122
+  "pages//nyc-budget-simulator.mdx": 1771602828055,
+  "pages/artifacts/NYCBudgetSimulator.jsx": 1771602540399,
+  "pages/artifacts/nyc-budget-simulator.jsx": 1771602540399
 }

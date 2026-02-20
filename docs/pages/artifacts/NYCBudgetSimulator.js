@@ -1,7 +1,22 @@
 // content/pages/artifacts/NYCBudgetSimulator.jsx
 import { useState, useMemo, useCallback } from "https://esm.sh/react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, BarChart, Bar, ComposedChart, ReferenceLine } from "https://esm.sh/recharts";
-import { jsx, jsxs } from "https://esm.sh/react/jsx-runtime";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  ComposedChart,
+  ReferenceLine
+} from "https://esm.sh/recharts";
+import { Fragment, jsx, jsxs } from "https://esm.sh/react/jsx-runtime";
 var DEFAULTS = {
   budget: 127,
   budgetGrowth: 4.5,
@@ -29,7 +44,7 @@ var fmt = (n) => {
   return `$${(n * 1e3).toFixed(0)}M`;
 };
 var fmtK = (n) => n.toLocaleString();
-function formatDescription(desc) {
+var formatDescription = (desc) => {
   if (!desc)
     return null;
   const parts = desc.split(/(Current:|Mamdani:)/g);
@@ -48,8 +63,20 @@ function formatDescription(desc) {
       children: part
     }, i);
   });
-}
-function Knob({ label, value, onChange, min, max, step, unit, description }) {
+};
+var logToLinear = (value, min, max) => {
+  return Math.round(1e3 * Math.log(value / min) / Math.log(max / min));
+};
+var linearToLog = (position, min, max) => {
+  return min * Math.pow(max / min, position / 1e3);
+};
+var Knob = ({ label, value, onChange, min, max, step, unit, description, logScale }) => {
+  const sliderVal = logScale ? logToLinear(value, min, max) : void 0;
+  const handleChange = logScale ? (e) => {
+    const raw = linearToLog(parseFloat(e.target.value), min, max);
+    const factor = 1 / step;
+    onChange(Math.round(raw * factor) / factor);
+  } : (e) => onChange(parseFloat(e.target.value));
   return /* @__PURE__ */ jsxs("div", {
     style: { marginBottom: 14 },
     children: [
@@ -75,11 +102,11 @@ function Knob({ label, value, onChange, min, max, step, unit, description }) {
       }),
       /* @__PURE__ */ jsx("input", {
         type: "range",
-        min,
-        max,
-        step,
-        value,
-        onChange: (e) => onChange(parseFloat(e.target.value)),
+        min: logScale ? 0 : min,
+        max: logScale ? 1e3 : max,
+        step: logScale ? 1 : step,
+        value: logScale ? sliderVal : value,
+        onChange: handleChange,
         style: { width: "100%", accentColor: "#d4a556", height: 3, cursor: "pointer" }
       }),
       /* @__PURE__ */ jsxs("div", {
@@ -101,50 +128,46 @@ function Knob({ label, value, onChange, min, max, step, unit, description }) {
       })
     ]
   });
-}
-function StatBox({ label, value, sub, color }) {
-  return /* @__PURE__ */ jsxs("div", {
-    style: {
-      background: "rgba(30,27,22,0.7)",
-      border: "1px solid #3a342a",
-      borderRadius: 6,
-      padding: "10px 12px",
-      minWidth: 140,
-      flex: 1
-    },
-    children: [
-      /* @__PURE__ */ jsx("div", {
-        style: { fontSize: 10, color: "#8a7e6e", textTransform: "uppercase", letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 4 },
-        children: label
-      }),
-      /* @__PURE__ */ jsx("div", {
-        style: { fontSize: 20, fontWeight: 700, color: color || "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" },
-        children: value
-      }),
-      sub && /* @__PURE__ */ jsx("div", {
-        style: { fontSize: 10, color: "#6b6157", marginTop: 2 },
-        children: sub
-      })
-    ]
-  });
-}
-function SectionTitle({ children }) {
-  return /* @__PURE__ */ jsx("h3", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: "#d4a556",
-      textTransform: "uppercase",
-      letterSpacing: "0.12em",
-      fontFamily: "'JetBrains Mono', monospace",
-      marginBottom: 12,
-      marginTop: 24,
-      borderBottom: "1px solid #3a342a",
-      paddingBottom: 8
-    },
-    children
-  });
-}
+};
+var StatBox = ({ label, value, sub, color, labelColor }) => /* @__PURE__ */ jsxs("div", {
+  style: {
+    background: "rgba(30,27,22,0.7)",
+    border: "1px solid #3a342a",
+    borderRadius: 6,
+    padding: "10px 12px",
+    minWidth: 140,
+    flex: 1
+  },
+  children: [
+    /* @__PURE__ */ jsx("div", {
+      style: { fontSize: 10, color: labelColor || "#8a7e6e", textTransform: "uppercase", letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 4, fontWeight: labelColor ? 700 : 400 },
+      children: label
+    }),
+    /* @__PURE__ */ jsx("div", {
+      style: { fontSize: 20, fontWeight: 700, color: color || "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" },
+      children: value
+    }),
+    sub && /* @__PURE__ */ jsx("div", {
+      style: { fontSize: 10, color: "#6b6157", marginTop: 2 },
+      children: sub
+    })
+  ]
+});
+var SectionTitle = ({ children }) => /* @__PURE__ */ jsx("h3", {
+  style: {
+    fontSize: 13,
+    fontWeight: 700,
+    color: "#d4a556",
+    textTransform: "uppercase",
+    letterSpacing: "0.12em",
+    fontFamily: "'JetBrains Mono', monospace",
+    marginBottom: 12,
+    marginTop: 24,
+    borderBottom: "1px solid #3a342a",
+    paddingBottom: 8
+  },
+  children
+});
 function simulate(params) {
   const {
     budget,
@@ -233,7 +256,7 @@ function simulate(params) {
   return data;
 }
 var chartMargin = { top: 10, right: 20, left: 10, bottom: 5 };
-function CustomTooltip({ active, payload, label }) {
+var CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload)
     return null;
   return /* @__PURE__ */ jsxs("div", {
@@ -260,7 +283,7 @@ function CustomTooltip({ active, payload, label }) {
       }, i))
     ]
   });
-}
+};
 function NYCBudgetSimulator() {
   const [params, setParams] = useState(DEFAULTS);
   const [showMamdani, setShowMamdani] = useState(false);
@@ -333,9 +356,12 @@ function NYCBudgetSimulator() {
                 },
                 children: "NYC FISCAL DEATH SPIRAL SIMULATOR"
               }),
-              /* @__PURE__ */ jsx("p", {
+              /* @__PURE__ */ jsxs("p", {
                 style: { fontSize: 12, color: "#8a7e6e", margin: "6px 0 0 0", fontFamily: "'JetBrains Mono', monospace" },
-                children: "Modeling the structural trap of progressive municipal governance"
+                children: [
+                  "Modeling the structural trap of progressive municipal governance \xB7 FY2026\u2013",
+                  2026 + params.yearsToProject
+                ]
               })
             ]
           }),
@@ -388,7 +414,7 @@ function NYCBudgetSimulator() {
                         style: { color: "#e85d4a", fontWeight: 600 },
                         children: "$36,000 per student"
                       }),
-                      " (2.3x the national average) for below-average test scores. Tokyo runs a safer, cleaner, better-connected city of 14 million at a fraction of the cost."
+                      " (2.3\xD7 the national average) for below-average test scores. Tokyo runs a safer, cleaner, better-connected city of 14 million at ~$4K/resident (though Japan handles healthcare and welfare nationally, the gap is still vast)."
                     ]
                   }),
                   /* @__PURE__ */ jsxs("p", {
@@ -426,8 +452,8 @@ function NYCBudgetSimulator() {
                     children: [
                       "Watch the ",
                       /* @__PURE__ */ jsx("span", {
-                        style: { color: "#e8a84a", fontWeight: 700 },
-                        children: "Fixed Costs % Budget"
+                        style: { color: "#4a9de8", fontWeight: 700 },
+                        children: "\u2B24 FIXED COSTS % BUDGET"
                       }),
                       " stat. As personnel costs compound faster than revenue, they crowd out everything else \u2014 parks, transit, housing, actual services. The city increasingly exists to pay its own employees, not to serve residents. Raising taxes on the rich provides a one-time sugar hit, but the spending treadmill outruns it within years, especially as millionaires leave."
                     ]
@@ -528,29 +554,32 @@ function NYCBudgetSimulator() {
                     value: params.millionaireTaxRate,
                     onChange: set("millionaireTaxRate"),
                     min: 1,
-                    max: 10,
+                    max: 75,
                     step: 0.1,
                     unit: "%",
+                    logScale: true,
                     description: `Current: 3.876% \xB7 Mamdani: 5.876%`
                   }),
                   /* @__PURE__ */ jsx(Knob, {
                     label: "Corporate Tax Rate",
                     value: params.corpTaxRate,
                     onChange: set("corpTaxRate"),
-                    min: 5,
-                    max: 15,
+                    min: 2,
+                    max: 75,
                     step: 0.25,
                     unit: "%",
+                    logScale: true,
                     description: `Current: 7.75% \xB7 Mamdani: 11.5%`
                   }),
                   /* @__PURE__ */ jsx(Knob, {
                     label: "Property Tax Rate",
                     value: params.propertyTaxRate,
                     onChange: set("propertyTaxRate"),
-                    min: 10,
-                    max: 18,
+                    min: 2,
+                    max: 75,
                     step: 0.1,
                     unit: "%",
+                    logScale: true,
                     description: `Current: 12.28% \xB7 Mamdani: 13.45%`
                   }),
                   /* @__PURE__ */ jsx(Knob, {
@@ -632,40 +661,277 @@ function NYCBudgetSimulator() {
                         sub: `over ${params.yearsToProject} years`,
                         color: lastYear.cumulativeGap > 0 ? "#e85d4a" : "#5cb85c"
                       }),
+                      /* @__PURE__ */ jsxs("div", {
+                        style: {
+                          border: "2px solid #4a9de8",
+                          borderRadius: 8,
+                          padding: 8,
+                          flex: 3,
+                          minWidth: 320,
+                          background: "rgba(74,157,232,0.04)"
+                        },
+                        children: [
+                          /* @__PURE__ */ jsxs("div", {
+                            style: { fontSize: 10, fontWeight: 700, color: "#4a9de8", textTransform: "uppercase", letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "baseline" },
+                            children: [
+                              /* @__PURE__ */ jsxs("span", {
+                                children: [
+                                  "\u2B24 FIXED COSTS \u2014 ",
+                                  fixedCostPctFinal,
+                                  "% of budget"
+                                ]
+                              }),
+                              /* @__PURE__ */ jsx("span", {
+                                style: { fontSize: 16, color: fixedCostPctFinal > 75 ? "#e85d4a" : "#4a9de8" },
+                                children: fmt(lastYear.fixedCosts)
+                              })
+                            ]
+                          }),
+                          /* @__PURE__ */ jsxs("div", {
+                            style: { display: "flex", gap: 8, flexWrap: "wrap" },
+                            children: [
+                              /* @__PURE__ */ jsx(StatBox, {
+                                label: "Salaries",
+                                value: `${salaryPctFinal}%`,
+                                sub: fmt(lastYear.salarySpend),
+                                color: "#6ab0d4"
+                              }),
+                              /* @__PURE__ */ jsx(StatBox, {
+                                label: "Pensions",
+                                value: `${pensionPctFinal}%`,
+                                sub: fmt(lastYear.pensionSpend),
+                                color: "#b088d4"
+                              }),
+                              /* @__PURE__ */ jsx(StatBox, {
+                                label: "Benefits",
+                                value: `${benefitsPctFinal}%`,
+                                sub: fmt(lastYear.benefitsSpend),
+                                color: "#e088a8"
+                              }),
+                              /* @__PURE__ */ jsx(StatBox, {
+                                label: "Debt Service",
+                                value: `${(lastYear.debtService / lastYear.totalBudget * 100).toFixed(1)}%`,
+                                sub: fmt(lastYear.debtService),
+                                color: "#e8a84a"
+                              })
+                            ]
+                          })
+                        ]
+                      }),
                       /* @__PURE__ */ jsx(StatBox, {
                         label: "Millionaire Exodus",
                         value: fmtK(totalMillionaireLoss),
                         sub: `${(totalMillionaireLoss / firstYear.millionaires * 100).toFixed(1)}% of base`,
                         color: totalMillionaireLoss > 0 ? "#e8a84a" : "#5cb85c"
-                      }),
-                      /* @__PURE__ */ jsx(StatBox, {
-                        label: "Fixed Costs % Budget",
-                        value: `${fixedCostPctFinal}%`,
-                        sub: `salary+pension+benefits+debt by ${lastYear.year}`,
-                        color: fixedCostPctFinal > 75 ? "#e85d4a" : "#e8a84a"
-                      }),
-                      /* @__PURE__ */ jsx(StatBox, {
-                        label: "Pension",
-                        value: `${pensionPctFinal}%`,
-                        sub: `${fmt(lastYear.pensionSpend)} by ${lastYear.year}`,
-                        color: "#b088d4"
-                      }),
-                      /* @__PURE__ */ jsx(StatBox, {
-                        label: "Benefits",
-                        value: `${benefitsPctFinal}%`,
-                        sub: `${fmt(lastYear.benefitsSpend)} by ${lastYear.year}`,
-                        color: "#e088a8"
-                      }),
-                      /* @__PURE__ */ jsx(StatBox, {
-                        label: "Salaries",
-                        value: `${salaryPctFinal}%`,
-                        sub: `${fmt(lastYear.salarySpend)} by ${lastYear.year}`,
-                        color: "#6ab0d4"
                       })
                     ]
                   }),
                   /* @__PURE__ */ jsx(SectionTitle, {
-                    children: "Budget vs Revenue \xB7 Pension & Salary Overlay"
+                    children: "Who Gets Paid"
+                  }),
+                  /* @__PURE__ */ jsxs("div", {
+                    style: {
+                      background: "rgba(20,18,16,0.6)",
+                      border: "1px solid #2a2520",
+                      borderRadius: 8,
+                      padding: 16,
+                      marginBottom: 4
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxs("div", {
+                        style: { marginBottom: 16 },
+                        children: [
+                          /* @__PURE__ */ jsx("div", {
+                            style: { fontSize: 10, color: "#8a7e6e", fontFamily: "'JetBrains Mono', monospace", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" },
+                            children: "Population breakdown \u2014 8.3M residents"
+                          }),
+                          /* @__PURE__ */ jsxs("div", {
+                            style: { display: "flex", height: 36, borderRadius: 4, overflow: "hidden", border: "1px solid #2a2520" },
+                            children: [
+                              /* @__PURE__ */ jsx("div", {
+                                style: {
+                                  width: `${(302e3 / 83e5 * 100).toFixed(1)}%`,
+                                  minWidth: 48,
+                                  background: "#4a9de8",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  fontSize: 9,
+                                  fontWeight: 700,
+                                  fontFamily: "'JetBrains Mono', monospace",
+                                  color: "#141210"
+                                },
+                                children: "302K"
+                              }),
+                              /* @__PURE__ */ jsx("div", {
+                                style: {
+                                  width: `${(1e6 / 83e5 * 100).toFixed(1)}%`,
+                                  minWidth: 48,
+                                  background: "#b088d4",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  fontSize: 9,
+                                  fontWeight: 700,
+                                  fontFamily: "'JetBrains Mono', monospace",
+                                  color: "#141210"
+                                },
+                                children: "1M"
+                              }),
+                              /* @__PURE__ */ jsx("div", {
+                                style: {
+                                  flex: 1,
+                                  background: "#2a2520",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  fontSize: 9,
+                                  fontWeight: 600,
+                                  fontFamily: "'JetBrains Mono', monospace",
+                                  color: "#6b6157"
+                                },
+                                children: "7M other residents"
+                              })
+                            ]
+                          }),
+                          /* @__PURE__ */ jsxs("div", {
+                            style: { display: "flex", gap: 16, marginTop: 6, fontSize: 10, fontFamily: "'JetBrains Mono', monospace" },
+                            children: [
+                              /* @__PURE__ */ jsxs("span", {
+                                children: [
+                                  /* @__PURE__ */ jsx("span", {
+                                    style: { color: "#4a9de8" },
+                                    children: "\u25A0"
+                                  }),
+                                  " ",
+                                  /* @__PURE__ */ jsx("span", {
+                                    style: { color: "#8a7e6e" },
+                                    children: "City employees (3.6%)"
+                                  })
+                                ]
+                              }),
+                              /* @__PURE__ */ jsxs("span", {
+                                children: [
+                                  /* @__PURE__ */ jsx("span", {
+                                    style: { color: "#b088d4" },
+                                    children: "\u25A0"
+                                  }),
+                                  " ",
+                                  /* @__PURE__ */ jsx("span", {
+                                    style: { color: "#8a7e6e" },
+                                    children: "Public school students (~1M)"
+                                  })
+                                ]
+                              }),
+                              /* @__PURE__ */ jsxs("span", {
+                                children: [
+                                  /* @__PURE__ */ jsx("span", {
+                                    style: { color: "#3a342a" },
+                                    children: "\u25A0"
+                                  }),
+                                  " ",
+                                  /* @__PURE__ */ jsx("span", {
+                                    style: { color: "#6b6157" },
+                                    children: "Everyone else"
+                                  })
+                                ]
+                              })
+                            ]
+                          })
+                        ]
+                      }),
+                      /* @__PURE__ */ jsx("div", {
+                        style: { display: "flex", gap: 10, flexWrap: "wrap" },
+                        children: (() => {
+                          const perEmployee = lastYear.fixedCosts / 0.302 * 1e3;
+                          const perResident = lastYear.totalBudget / 8.3 * 1e3;
+                          const perStudent = lastYear.totalBudget * 0.22 / 1 * 1e3;
+                          const fmtDollar = (d) => d >= 1e6 ? `$${(d / 1e6).toFixed(1)}M` : d >= 1e3 ? `$${(d / 1e3).toFixed(0)}K` : `$${d.toFixed(0)}`;
+                          return /* @__PURE__ */ jsxs(Fragment, {
+                            children: [
+                              /* @__PURE__ */ jsxs("div", {
+                                style: { flex: 1, minWidth: 150, background: "rgba(74,157,232,0.08)", border: "1px solid #4a9de8", borderRadius: 6, padding: "10px 12px" },
+                                children: [
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 10, color: "#4a9de8", fontWeight: 700, fontFamily: "'JetBrains Mono', monospace", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 },
+                                    children: "Per City Employee"
+                                  }),
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 22, fontWeight: 700, color: "#4a9de8", fontFamily: "'JetBrains Mono', monospace" },
+                                    children: fmtDollar(perEmployee)
+                                  }),
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 10, color: "#6b6157", marginTop: 2 },
+                                    children: "fixed costs \xF7 302K workers"
+                                  })
+                                ]
+                              }),
+                              /* @__PURE__ */ jsxs("div", {
+                                style: { flex: 1, minWidth: 150, background: "rgba(30,27,22,0.7)", border: "1px solid #3a342a", borderRadius: 6, padding: "10px 12px" },
+                                children: [
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 10, color: "#8a7e6e", fontWeight: 600, fontFamily: "'JetBrains Mono', monospace", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 },
+                                    children: "Per Resident"
+                                  }),
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 22, fontWeight: 700, color: "#f0e6d3", fontFamily: "'JetBrains Mono', monospace" },
+                                    children: fmtDollar(perResident)
+                                  }),
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 10, color: "#6b6157", marginTop: 2 },
+                                    children: "total budget \xF7 8.3M people"
+                                  })
+                                ]
+                              }),
+                              /* @__PURE__ */ jsxs("div", {
+                                style: { flex: 1, minWidth: 150, background: "rgba(176,136,212,0.08)", border: "1px solid #b088d4", borderRadius: 6, padding: "10px 12px" },
+                                children: [
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 10, color: "#b088d4", fontWeight: 700, fontFamily: "'JetBrains Mono', monospace", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 },
+                                    children: "Per Student"
+                                  }),
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 22, fontWeight: 700, color: "#b088d4", fontFamily: "'JetBrains Mono', monospace" },
+                                    children: fmtDollar(perStudent)
+                                  }),
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 10, color: "#6b6157", marginTop: 2 },
+                                    children: "22% of budget \xF7 ~1M students \xB7 middling outcomes"
+                                  })
+                                ]
+                              }),
+                              /* @__PURE__ */ jsxs("div", {
+                                style: { flex: 1, minWidth: 150, background: "rgba(30,27,22,0.7)", border: "1px dashed #3a342a", borderRadius: 6, padding: "10px 12px" },
+                                children: [
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 10, color: "#6b6157", fontWeight: 600, fontFamily: "'JetBrains Mono', monospace", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 },
+                                    children: "Tokyo comparison*"
+                                  }),
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 22, fontWeight: 700, color: "#6b6157", fontFamily: "'JetBrains Mono', monospace" },
+                                    children: "~$4K"
+                                  }),
+                                  /* @__PURE__ */ jsx("div", {
+                                    style: { fontSize: 10, color: "#6b6157", marginTop: 2, lineHeight: 1.4 },
+                                    children: "TMG budget \xF7 14M people \xB7 *Healthcare, pensions & welfare are national-level in Japan; NYC handles them locally, inflating the comparison \u2014 but the gap is still enormous"
+                                  })
+                                ]
+                              })
+                            ]
+                          });
+                        })()
+                      })
+                    ]
+                  }),
+                  /* @__PURE__ */ jsxs(SectionTitle, {
+                    children: [
+                      "Budget vs Revenue \xB7 ",
+                      /* @__PURE__ */ jsx("span", {
+                        style: { color: "#4a9de8" },
+                        children: "Fixed Costs"
+                      }),
+                      " Overlay"
+                    ]
                   }),
                   /* @__PURE__ */ jsx("div", {
                     style: { background: "rgba(20,18,16,0.6)", border: "1px solid #2a2520", borderRadius: 8, padding: "16px 8px" },
@@ -736,6 +1002,15 @@ function NYCBudgetSimulator() {
                             stroke: "#5cb85c",
                             strokeWidth: 2.5,
                             dot: false
+                          }),
+                          /* @__PURE__ */ jsx(Line, {
+                            type: "monotone",
+                            dataKey: "fixedCosts",
+                            name: "\u2B24 FIXED COSTS",
+                            stroke: "#4a9de8",
+                            strokeWidth: 2.5,
+                            dot: false,
+                            strokeDasharray: "6 3"
                           }),
                           /* @__PURE__ */ jsx(Area, {
                             type: "monotone",
@@ -1046,33 +1321,66 @@ function NYCBudgetSimulator() {
                         value: fmt(lastYear.totalRevenue),
                         color: "#5cb85c"
                       }),
-                      /* @__PURE__ */ jsx(StatBox, {
-                        label: "Salaries",
-                        value: fmt(lastYear.salarySpend),
-                        sub: `${salaryPctFinal}% of budget`,
-                        color: "#6ab0d4"
-                      }),
-                      /* @__PURE__ */ jsx(StatBox, {
-                        label: "Pensions",
-                        value: fmt(lastYear.pensionSpend),
-                        sub: `${pensionPctFinal}% of budget`,
-                        color: "#b088d4"
-                      }),
-                      /* @__PURE__ */ jsx(StatBox, {
-                        label: "Benefits",
-                        value: fmt(lastYear.benefitsSpend),
-                        sub: `${benefitsPctFinal}% of budget`,
-                        color: "#e088a8"
-                      }),
-                      /* @__PURE__ */ jsx(StatBox, {
-                        label: "Debt Service",
-                        value: fmt(lastYear.debtService),
-                        color: "#e8a84a"
+                      /* @__PURE__ */ jsxs("div", {
+                        style: {
+                          border: "2px solid #4a9de8",
+                          borderRadius: 8,
+                          padding: 8,
+                          flex: "1 1 100%",
+                          background: "rgba(74,157,232,0.04)"
+                        },
+                        children: [
+                          /* @__PURE__ */ jsxs("div", {
+                            style: { fontSize: 10, fontWeight: 700, color: "#4a9de8", textTransform: "uppercase", letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 6, display: "flex", justifyContent: "space-between", alignItems: "baseline" },
+                            children: [
+                              /* @__PURE__ */ jsxs("span", {
+                                children: [
+                                  "\u2B24 FIXED COSTS \u2014 ",
+                                  fixedCostPctFinal,
+                                  "% of budget"
+                                ]
+                              }),
+                              /* @__PURE__ */ jsx("span", {
+                                style: { fontSize: 16, color: fixedCostPctFinal > 75 ? "#e85d4a" : "#4a9de8" },
+                                children: fmt(lastYear.fixedCosts)
+                              })
+                            ]
+                          }),
+                          /* @__PURE__ */ jsxs("div", {
+                            style: { display: "flex", gap: 8, flexWrap: "wrap" },
+                            children: [
+                              /* @__PURE__ */ jsx(StatBox, {
+                                label: "Salaries",
+                                value: fmt(lastYear.salarySpend),
+                                sub: `${salaryPctFinal}% of budget`,
+                                color: "#6ab0d4"
+                              }),
+                              /* @__PURE__ */ jsx(StatBox, {
+                                label: "Pensions",
+                                value: fmt(lastYear.pensionSpend),
+                                sub: `${pensionPctFinal}% of budget`,
+                                color: "#b088d4"
+                              }),
+                              /* @__PURE__ */ jsx(StatBox, {
+                                label: "Benefits",
+                                value: fmt(lastYear.benefitsSpend),
+                                sub: `${benefitsPctFinal}% of budget`,
+                                color: "#e088a8"
+                              }),
+                              /* @__PURE__ */ jsx(StatBox, {
+                                label: "Debt Service",
+                                value: fmt(lastYear.debtService),
+                                sub: `${(lastYear.debtService / lastYear.totalBudget * 100).toFixed(1)}% of budget`,
+                                color: "#e8a84a"
+                              })
+                            ]
+                          })
+                        ]
                       }),
                       /* @__PURE__ */ jsx(StatBox, {
                         label: "All Other Spending",
                         value: fmt(lastYear.otherSpend),
-                        sub: `${(lastYear.otherSpend / lastYear.totalBudget * 100).toFixed(1)}% of budget`,
+                        sub: `${(lastYear.otherSpend / lastYear.totalBudget * 100).toFixed(1)}% of budget \u2014 this is parks, transit, housing, services`,
                         color: "#6b6157"
                       }),
                       /* @__PURE__ */ jsx(StatBox, {
@@ -1128,16 +1436,5 @@ function NYCBudgetSimulator() {
   });
 }
 export {
-  BASELINE,
-  CustomTooltip,
-  DEFAULTS,
-  Knob,
-  NYCBudgetSimulator,
-  SectionTitle,
-  StatBox,
-  chartMargin,
-  fmt,
-  fmtK,
-  formatDescription,
-  simulate
+  NYCBudgetSimulator as default
 };
