@@ -313,7 +313,7 @@ app.post("/thoughts", async (c) => {
   if (contentType.includes("multipart/form-data")) {
     const formData = await c.req.formData();
     trimmed = ((formData.get("body") as string) || "").trim();
-    files = formData.getAll("file").filter((f): f is File => f instanceof File);
+    files = (formData.getAll("file") as unknown as (string | File)[]).filter((f): f is File => typeof f !== "string");
     const parentIdStr = formData.get("parent_id") as string | null;
     if (parentIdStr) parentId = parseInt(parentIdStr, 10);
   } else {
