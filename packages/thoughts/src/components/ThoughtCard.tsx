@@ -1,8 +1,9 @@
-import { useContext, type ReactNode } from 'react';
+import { useContext, useMemo, type ReactNode } from 'react';
 import type { Thought } from '../types';
 import { attachmentUrl } from '../api';
 import * as api from '../api';
 import { AuthContext } from '../App';
+import { renderMarkdown } from '../markdown';
 
 function formatTime(timestamp: number): string {
   const d = new Date(timestamp * 1000);
@@ -19,30 +20,6 @@ function formatTime(timestamp: number): string {
     day: 'numeric',
     year: d.getFullYear() !== now.getFullYear() ? 'numeric' : undefined,
   });
-}
-
-function formatBody(text: string): ReactNode[] {
-  const parts: ReactNode[] = [];
-  const regex = /(^|[\s])#([a-zA-Z][a-zA-Z0-9_-]*)/g;
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-
-  while ((match = regex.exec(text)) !== null) {
-    const before = text.slice(lastIndex, match.index);
-    if (before) parts.push(before);
-    parts.push(match[1]);
-    const tag = match[2];
-    parts.push(
-      <span key={match.index} className="thought-tag">
-        #{tag}
-      </span>,
-    );
-    lastIndex = match.index + match[0].length;
-  }
-
-  const rest = text.slice(lastIndex);
-  if (rest) parts.push(rest);
-  return parts;
 }
 
 export function ThoughtCard({
@@ -91,7 +68,13 @@ export function ThoughtCard({
           </button>
         )}
       </div>
-      <div className="thought-body">{formatBody(thought.body)}</div>
+      <div
+        className="thought-body thought-body--md"
+        dangerouslySetInnerHTML={useMemo(
+          () => ({ __html: renderMarkdown(thought.body) }),
+          [thought.body],
+        )}
+      />
       {thought.attachments && thought.attachments.length > 0 && (
         <div className="thought-attachments">
           {thought.attachments.map((att) => {
