@@ -1,4 +1,4 @@
-import type { Thought, Tag } from './types';
+import type { Thought, Tag, Task } from './types';
 
 const API = 'https://tantamanlands.tantaman.workers.dev';
 
@@ -82,6 +82,30 @@ export async function deleteThought(
   });
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Delete failed');
+}
+
+export function getTasks(
+  status: 'incomplete' | 'all' = 'incomplete',
+): Promise<{ tasks: Task[] }> {
+  return fetch(`${API}/tasks?status=${status}`).then((r) => r.json());
+}
+
+export async function patchTask(
+  id: number,
+  completed: boolean,
+  secret: string,
+): Promise<Task> {
+  const r = await fetch(`${API}/tasks/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ completed }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
 }
 
 export function attachmentUrl(key: string): string {

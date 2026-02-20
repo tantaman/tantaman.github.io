@@ -426,6 +426,54 @@ app.delete("/thoughts/:id", async (c) => {
   return c.body(null, 204);
 });
 
+app.get("/tasks", async (c) => {
+  const status = c.req.query("status") || "incomplete";
+
+  let results;
+  if (status === "all") {
+    results = await c.env.DB.prepare(
+      "SELECT id, thought_id, title, description, created_at, completed_at FROM task ORDER BY created_at DESC"
+    ).all();
+  } else {
+    results = await c.env.DB.prepare(
+      "SELECT id, thought_id, title, description, created_at, completed_at FROM task WHERE completed_at IS NULL ORDER BY created_at DESC"
+    ).all();
+  }
+
+  return c.json({ tasks: results.results });
+});
+
+app.patch("/tasks/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = c.req.param("id");
+  const { completed } = await c.req.json<{ completed: boolean }>();
+
+  if (completed) {
+    const now = Math.floor(Date.now() / 1000);
+    await c.env.DB.prepare(
+      "UPDATE task SET completed_at = ? WHERE id = ?"
+    ).bind(now, id).run();
+  } else {
+    await c.env.DB.prepare(
+      "UPDATE task SET completed_at = NULL WHERE id = ?"
+    ).bind(id).run();
+  }
+
+  const task = await c.env.DB.prepare(
+    "SELECT id, thought_id, title, description, created_at, completed_at FROM task WHERE id = ?"
+  ).bind(id).first();
+
+  if (!task) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  return c.json(task);
+});
+
 app.get("/attachments/*", async (c) => {
   const key = c.req.path.replace(/^\/attachments\//, "");
   if (!key) return c.json({ error: "Not found" }, 404);
