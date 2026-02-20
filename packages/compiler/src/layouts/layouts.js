@@ -1,11 +1,13 @@
 import defaultLayout from './defaultLayout.js';
 import mirrorRoomLayout from './mirrorRoomLayout.js';
 import chatLayout from './chatLayout.js';
+import bareLayout from './bareLayout.js';
 
 export const layouts = {
   default: defaultLayout,
   mirrorRoom: mirrorRoomLayout,
   chat: chatLayout,
+  bare: bareLayout,
 };
 
 export default function layout() {
