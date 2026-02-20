@@ -37,6 +37,10 @@ export interface Event {
   created_at: number;
 }
 
+export interface SearchResult extends Thought {
+  score: number;
+}
+
 export type Route =
   | { view: 'feed' }
   | { view: 'thread'; id: number }

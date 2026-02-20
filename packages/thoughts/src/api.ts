@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task, Event } from './types';
+import type { Thought, Tag, Task, Event, SearchResult } from './types';
 
 const API = 'https://tantamanlands.tantaman.workers.dev';
 
@@ -14,6 +14,12 @@ interface ThreadResponse {
 
 interface TagsResponse {
   tags: Tag[];
+}
+
+export function searchThoughts(
+  query: string,
+): Promise<{ thoughts: SearchResult[] }> {
+  return fetch(`${API}/thoughts/search?q=${encodeURIComponent(query)}`).then((r) => r.json());
 }
 
 export function getThoughts(
