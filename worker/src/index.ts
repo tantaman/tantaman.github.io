@@ -450,43 +450,4 @@ app.get("/attachments/*", async (c) => {
   return new Response(object.body, { headers });
 });
 
-app.post("/admin/backfill-embeddings", async (c) => {
-  const auth = c.req.header("Authorization");
-  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
-    return c.json({ error: "Unauthorized" }, 401);
-  }
-
-  const allThoughts = await c.env.DB.prepare(
-    "SELECT id, body, timestamp, parent_id FROM thought"
-  ).all();
-
-  const thoughts = allThoughts.results;
-  let upserted = 0;
-  const BATCH_SIZE = 50;
-
-  for (let i = 0; i < thoughts.length; i += BATCH_SIZE) {
-    const batch = thoughts.slice(i, i + BATCH_SIZE);
-    const texts = batch.map((t) => t.body as string);
-
-    const result = (await c.env.AI.run("@cf/baai/bge-base-en-v1.5", {
-      text: texts,
-    })) as { data: number[][] };
-
-    const vectors = batch.map((t, idx) => ({
-      id: String(t.id),
-      values: result.data[idx],
-      metadata: {
-        body: (t.body as string).slice(0, 100),
-        timestamp: t.timestamp as number,
-        ...(t.parent_id != null ? { parent_id: t.parent_id as number } : {}),
-      },
-    }));
-
-    await c.env.VECTORIZE.upsert(vectors);
-    upserted += vectors.length;
-  }
-
-  return c.json({ ok: true, upserted });
-});
-
 export default app;
