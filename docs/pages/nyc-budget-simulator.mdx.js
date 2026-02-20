@@ -1,6 +1,6 @@
 /*@jsxRuntime automatic @jsxImportSource https://esm.sh/react*/
 import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "https://esm.sh/react/jsx-runtime";
-import {NYCBudgetSimulator} from './artifacts/NYCBudgetSimulator.js';
+import NYCBudgetSimulator from './artifacts/NYCBudgetSimulator.js';
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
