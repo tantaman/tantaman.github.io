@@ -25,7 +25,7 @@ async function loadChunks(kv: KVNamespace): Promise<Chunk[]> {
   return cachedChunks;
 }
 
-function cosineSimilarity(a: number[], b: number[]): number {
+export function cosineSimilarity(a: number[], b: number[]): number {
   let dot = 0;
   let normA = 0;
   let normB = 0;
