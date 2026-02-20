@@ -8,4 +8,12 @@ export default defineConfig({
     outDir: '../../docs/thoughts',
     emptyOutDir: true,
   },
+  server: {
+    proxy: {
+      '^(?!/thoughts/)': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+  },
 });
