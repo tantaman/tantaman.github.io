@@ -56,7 +56,7 @@ export default async function defaultLayout(
         <nav>
           <a href="/tags.html">Browse</a>
           <a href="/graph.html">Graph</a>
-          <a href="/thoughts.html">Thoughts</a>
+          <a href="/thoughts/">Thoughts</a>
           <a href="/pages/mcp.html">MCP</a>
           <button class="theme-toggle" type="button"></button>
         </nav>
