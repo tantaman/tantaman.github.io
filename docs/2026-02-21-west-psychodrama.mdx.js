@@ -107,6 +107,30 @@ function _createMdxContent(props) {
     overflow-x: auto;
   }
 `
+    }), "\n", _jsxs("figure", {
+      style: {
+        margin: '0 0 2.5rem',
+        textAlign: 'center'
+      },
+      children: [_jsx("img", {
+        src: "/img/durer-four-horsemen.jpg",
+        alt: "Albrecht Dürer, The Four Horsemen of the Apocalypse (1498)",
+        style: {
+          maxWidth: '100%'
+        }
+      }), _jsx("figcaption", {
+        style: {
+          fontStyle: 'italic',
+          color: 'var(--text-muted, #999)',
+          fontSize: '0.85rem',
+          marginTop: '0.5rem'
+        },
+        children: _jsxs(_components.p, {
+          children: ["Albrecht Dürer, ", _jsx("em", {
+            children: "The Four Horsemen of the Apocalypse"
+          }), " (1498)"]
+        })
+      })]
     }), "\n", _jsx(_components.p, {
       children: "It does not matter whether the prophecies are true. What matters is that the people with the most power and the most weapons believe they are — or find it useful to act as though they do. Once you bracket the question of theological truth and ask instead what happens when nuclear-armed civilizations organize their foreign policy around incompatible end-times narratives, the landscape of global conflict becomes legible in ways that conventional geopolitical analysis cannot account for."
     }), "\n", _jsx(_components.p, {
