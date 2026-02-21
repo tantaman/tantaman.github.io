@@ -1,5 +1,5 @@
 // content/pages/artifacts/NYCBudgetSimulator.jsx
-import { useState, useMemo, useCallback } from "https://esm.sh/react";
+import { useState, useMemo, useCallback, useEffect } from "https://esm.sh/react";
 import {
   LineChart,
   Line,
@@ -290,8 +290,8 @@ var StatBox = ({ label, value, sub, color, labelColor }) => /* @__PURE__ */ jsxs
     border: "1px solid #3a342a",
     borderRadius: 6,
     padding: "10px 12px",
-    minWidth: 140,
-    flex: 1
+    minWidth: 0,
+    flex: "1 1 calc(50% - 6px)"
   },
   children: [
     /* @__PURE__ */ jsx("div", {
@@ -517,6 +517,19 @@ function NYCBudgetSimulator() {
   const [showMamdani, setShowMamdani] = useState(false);
   const [infoOpen, setInfoOpen] = useState(true);
   const [newSpendInfoOpen, setNewSpendInfoOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [controlsOpen, setControlsOpen] = useState(false);
+  useEffect(() => {
+    const check = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+    };
+    check();
+    if (window.innerWidth < 768)
+      setInfoOpen(false);
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
   const set = useCallback(
     (key) => (val) => setParams((p) => ({ ...p, [key]: val })),
     []
@@ -620,7 +633,7 @@ function NYCBudgetSimulator() {
       color: "#f0e6d3",
       minHeight: "100vh",
       fontFamily: "'Georgia', 'Times New Roman', serif",
-      padding: "24px 20px"
+      padding: isMobile ? "16px 10px" : "24px 20px"
     },
     children: [
       /* @__PURE__ */ jsx("link", {
@@ -639,7 +652,7 @@ function NYCBudgetSimulator() {
             children: [
               /* @__PURE__ */ jsx("h1", {
                 style: {
-                  fontSize: 22,
+                  fontSize: isMobile ? 15 : 22,
                   fontWeight: 700,
                   fontFamily: "'JetBrains Mono', monospace",
                   color: "#d4a556",
@@ -802,7 +815,7 @@ function NYCBudgetSimulator() {
           /* @__PURE__ */ jsxs("div", {
             style: {
               display: "flex",
-              gap: 10,
+              gap: isMobile ? 6 : 10,
               marginBottom: 10,
               flexWrap: "wrap",
               alignItems: "center"
@@ -905,261 +918,265 @@ function NYCBudgetSimulator() {
                 style: { fontSize: 11, color: "#8a7e6e", marginBottom: 12 },
                 children: "Requires Albany approval. Hochul has flatly rejected tax hikes. If blocked, Mamdani's fallback is the 9.5% property tax increase."
               }),
-              /* @__PURE__ */ jsxs("table", {
-                style: {
-                  width: "100%",
-                  borderCollapse: "collapse",
-                  fontSize: 11,
-                  marginBottom: 16
-                },
-                children: [
-                  /* @__PURE__ */ jsx("thead", {
-                    children: /* @__PURE__ */ jsxs("tr", {
-                      style: { borderBottom: "1px solid #3a342a" },
-                      children: [
-                        /* @__PURE__ */ jsx("th", {
-                          style: {
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            color: "#c4b5a0",
-                            fontWeight: 600
-                          },
-                          children: "Tax"
-                        }),
-                        /* @__PURE__ */ jsx("th", {
-                          style: {
-                            textAlign: "right",
-                            padding: "6px 8px",
-                            color: "#c4b5a0",
-                            fontWeight: 600
-                          },
-                          children: "Current"
-                        }),
-                        /* @__PURE__ */ jsx("th", {
-                          style: {
-                            textAlign: "right",
-                            padding: "6px 8px",
-                            color: "#c4b5a0",
-                            fontWeight: 600
-                          },
-                          children: "Proposed"
-                        }),
-                        /* @__PURE__ */ jsx("th", {
-                          style: {
-                            textAlign: "right",
-                            padding: "6px 8px",
-                            color: "#c4b5a0",
-                            fontWeight: 600
-                          },
-                          children: "Combined*"
-                        }),
-                        /* @__PURE__ */ jsx("th", {
-                          style: {
-                            textAlign: "right",
-                            padding: "6px 8px",
-                            color: "#c4b5a0",
-                            fontWeight: 600
-                          },
-                          children: "Est. Revenue"
-                        }),
-                        /* @__PURE__ */ jsx("th", {
-                          style: {
-                            textAlign: "left",
-                            padding: "6px 8px",
-                            color: "#c4b5a0",
-                            fontWeight: 600
-                          },
-                          children: "Notes"
-                        })
-                      ]
-                    })
-                  }),
-                  /* @__PURE__ */ jsxs("tbody", {
-                    children: [
-                      /* @__PURE__ */ jsxs("tr", {
-                        style: { borderBottom: "1px solid #2a2520" },
+              /* @__PURE__ */ jsx("div", {
+                style: { overflowX: "auto", WebkitOverflowScrolling: "touch" },
+                children: /* @__PURE__ */ jsxs("table", {
+                  style: {
+                    width: "100%",
+                    minWidth: isMobile ? 600 : void 0,
+                    borderCollapse: "collapse",
+                    fontSize: 11,
+                    marginBottom: 16
+                  },
+                  children: [
+                    /* @__PURE__ */ jsx("thead", {
+                      children: /* @__PURE__ */ jsxs("tr", {
+                        style: { borderBottom: "1px solid #3a342a" },
                         children: [
-                          /* @__PURE__ */ jsx("td", {
-                            style: { padding: "6px 8px", color: "#f0e6d3" },
-                            children: "City income tax (>$1M)"
+                          /* @__PURE__ */ jsx("th", {
+                            style: {
+                              textAlign: "left",
+                              padding: "6px 8px",
+                              color: "#c4b5a0",
+                              fontWeight: 600
+                            },
+                            children: "Tax"
                           }),
-                          /* @__PURE__ */ jsx("td", {
+                          /* @__PURE__ */ jsx("th", {
                             style: {
                               textAlign: "right",
                               padding: "6px 8px",
-                              color: "#5cb85c"
+                              color: "#c4b5a0",
+                              fontWeight: 600
                             },
-                            children: "3.876%"
+                            children: "Current"
                           }),
-                          /* @__PURE__ */ jsx("td", {
+                          /* @__PURE__ */ jsx("th", {
                             style: {
                               textAlign: "right",
                               padding: "6px 8px",
-                              color: "#e85d4a",
-                              fontWeight: 700
+                              color: "#c4b5a0",
+                              fontWeight: 600
                             },
-                            children: "5.876%"
+                            children: "Proposed"
                           }),
-                          /* @__PURE__ */ jsx("td", {
+                          /* @__PURE__ */ jsx("th", {
                             style: {
                               textAlign: "right",
                               padding: "6px 8px",
-                              color: "#e85d4a"
+                              color: "#c4b5a0",
+                              fontWeight: 600
                             },
-                            children: "~16.8%"
+                            children: "Combined*"
                           }),
-                          /* @__PURE__ */ jsx("td", {
+                          /* @__PURE__ */ jsx("th", {
                             style: {
                               textAlign: "right",
                               padding: "6px 8px",
-                              color: "#d4a556"
+                              color: "#c4b5a0",
+                              fontWeight: 600
                             },
-                            children: "~$4B/yr"
+                            children: "Est. Revenue"
                           }),
-                          /* @__PURE__ */ jsx("td", {
+                          /* @__PURE__ */ jsx("th", {
                             style: {
+                              textAlign: "left",
                               padding: "6px 8px",
-                              color: "#6b6157",
-                              fontSize: 10
+                              color: "#c4b5a0",
+                              fontWeight: 600
                             },
-                            children: "+2pp on ~33K filers. Combined fed+state+city = highest in US. SALT cap makes non-deductible."
-                          })
-                        ]
-                      }),
-                      /* @__PURE__ */ jsxs("tr", {
-                        style: { borderBottom: "1px solid #2a2520" },
-                        children: [
-                          /* @__PURE__ */ jsx("td", {
-                            style: { padding: "6px 8px", color: "#f0e6d3" },
-                            children: "Corporate tax"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#5cb85c"
-                            },
-                            children: "7.75%"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#e85d4a",
-                              fontWeight: 700
-                            },
-                            children: "11.5%"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#e85d4a"
-                            },
-                            children: "~38.8%"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#d4a556"
-                            },
-                            children: "~$5B/yr"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              padding: "6px 8px",
-                              color: "#6b6157",
-                              fontSize: 10
-                            },
-                            children: "Combined fed (21%) + state (7.25%) + city. Subject to base erosion via profit-shifting."
-                          })
-                        ]
-                      }),
-                      /* @__PURE__ */ jsxs("tr", {
-                        style: { borderBottom: "1px solid #2a2520" },
-                        children: [
-                          /* @__PURE__ */ jsx("td", {
-                            style: { padding: "6px 8px", color: "#f0e6d3" },
-                            children: "Property tax (fallback)"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#5cb85c"
-                            },
-                            children: "12.28%"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#e85d4a",
-                              fontWeight: 700
-                            },
-                            children: "13.45%"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#6b6157"
-                            },
-                            children: "\u2014"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#d4a556"
-                            },
-                            children: "~$3.7B/yr"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              padding: "6px 8px",
-                              color: "#6b6157",
-                              fontSize: 10
-                            },
-                            children: "9.5% hike. Hits 3M+ residential units, 100K commercial. Landlords pass to tenants \u2014 contradicts rent freeze."
-                          })
-                        ]
-                      }),
-                      /* @__PURE__ */ jsxs("tr", {
-                        style: { borderTop: "2px solid #d4a556" },
-                        children: [
-                          /* @__PURE__ */ jsx("td", {
-                            colSpan: 4,
-                            style: {
-                              padding: "6px 8px",
-                              color: "#d4a556",
-                              fontWeight: 700
-                            },
-                            children: "TOTAL ESTIMATED NEW TAX REVENUE (static)"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              textAlign: "right",
-                              padding: "6px 8px",
-                              color: "#d4a556",
-                              fontWeight: 700
-                            },
-                            children: "~$9B/yr"
-                          }),
-                          /* @__PURE__ */ jsx("td", {
-                            style: {
-                              padding: "6px 8px",
-                              color: "#6b6157",
-                              fontSize: 10
-                            },
-                            children: "Before migration & base erosion"
+                            children: "Notes"
                           })
                         ]
                       })
-                    ]
-                  })
-                ]
+                    }),
+                    /* @__PURE__ */ jsxs("tbody", {
+                      children: [
+                        /* @__PURE__ */ jsxs("tr", {
+                          style: { borderBottom: "1px solid #2a2520" },
+                          children: [
+                            /* @__PURE__ */ jsx("td", {
+                              style: { padding: "6px 8px", color: "#f0e6d3" },
+                              children: "City income tax (>$1M)"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#5cb85c"
+                              },
+                              children: "3.876%"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#e85d4a",
+                                fontWeight: 700
+                              },
+                              children: "5.876%"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#e85d4a"
+                              },
+                              children: "~16.8%"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#d4a556"
+                              },
+                              children: "~$4B/yr"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                padding: "6px 8px",
+                                color: "#6b6157",
+                                fontSize: 10
+                              },
+                              children: "+2pp on ~33K filers. Combined fed+state+city = highest in US. SALT cap makes non-deductible."
+                            })
+                          ]
+                        }),
+                        /* @__PURE__ */ jsxs("tr", {
+                          style: { borderBottom: "1px solid #2a2520" },
+                          children: [
+                            /* @__PURE__ */ jsx("td", {
+                              style: { padding: "6px 8px", color: "#f0e6d3" },
+                              children: "Corporate tax"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#5cb85c"
+                              },
+                              children: "7.75%"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#e85d4a",
+                                fontWeight: 700
+                              },
+                              children: "11.5%"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#e85d4a"
+                              },
+                              children: "~38.8%"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#d4a556"
+                              },
+                              children: "~$5B/yr"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                padding: "6px 8px",
+                                color: "#6b6157",
+                                fontSize: 10
+                              },
+                              children: "Combined fed (21%) + state (7.25%) + city. Subject to base erosion via profit-shifting."
+                            })
+                          ]
+                        }),
+                        /* @__PURE__ */ jsxs("tr", {
+                          style: { borderBottom: "1px solid #2a2520" },
+                          children: [
+                            /* @__PURE__ */ jsx("td", {
+                              style: { padding: "6px 8px", color: "#f0e6d3" },
+                              children: "Property tax (fallback)"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#5cb85c"
+                              },
+                              children: "12.28%"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#e85d4a",
+                                fontWeight: 700
+                              },
+                              children: "13.45%"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#6b6157"
+                              },
+                              children: "\u2014"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#d4a556"
+                              },
+                              children: "~$3.7B/yr"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                padding: "6px 8px",
+                                color: "#6b6157",
+                                fontSize: 10
+                              },
+                              children: "9.5% hike. Hits 3M+ residential units, 100K commercial. Landlords pass to tenants \u2014 contradicts rent freeze."
+                            })
+                          ]
+                        }),
+                        /* @__PURE__ */ jsxs("tr", {
+                          style: { borderTop: "2px solid #d4a556" },
+                          children: [
+                            /* @__PURE__ */ jsx("td", {
+                              colSpan: 4,
+                              style: {
+                                padding: "6px 8px",
+                                color: "#d4a556",
+                                fontWeight: 700
+                              },
+                              children: "TOTAL ESTIMATED NEW TAX REVENUE (static)"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                textAlign: "right",
+                                padding: "6px 8px",
+                                color: "#d4a556",
+                                fontWeight: 700
+                              },
+                              children: "~$9B/yr"
+                            }),
+                            /* @__PURE__ */ jsx("td", {
+                              style: {
+                                padding: "6px 8px",
+                                color: "#6b6157",
+                                fontSize: 10
+                              },
+                              children: "Before migration & base erosion"
+                            })
+                          ]
+                        })
+                      ]
+                    })
+                  ]
+                })
               }),
               /* @__PURE__ */ jsx("div", {
                 style: {
@@ -1188,151 +1205,155 @@ function NYCBudgetSimulator() {
                     style: { fontSize: 11, color: "#8a7e6e", marginBottom: 12 },
                     children: "Not all items are in the preliminary budget \u2014 free buses, grocery stores, and the mental health department are deferred to the April executive budget. Housing is a $100B capital plan ($70B borrowed) modeled here as debt service. Childcare cost is the campaign's own estimate at full scale."
                   }),
-                  /* @__PURE__ */ jsxs("table", {
-                    style: {
-                      width: "100%",
-                      borderCollapse: "collapse",
-                      fontSize: 11
-                    },
-                    children: [
-                      /* @__PURE__ */ jsx("thead", {
-                        children: /* @__PURE__ */ jsxs("tr", {
-                          style: { borderBottom: "1px solid #3a342a" },
+                  /* @__PURE__ */ jsx("div", {
+                    style: { overflowX: "auto", WebkitOverflowScrolling: "touch" },
+                    children: /* @__PURE__ */ jsxs("table", {
+                      style: {
+                        width: "100%",
+                        minWidth: isMobile ? 550 : void 0,
+                        borderCollapse: "collapse",
+                        fontSize: 11
+                      },
+                      children: [
+                        /* @__PURE__ */ jsx("thead", {
+                          children: /* @__PURE__ */ jsxs("tr", {
+                            style: { borderBottom: "1px solid #3a342a" },
+                            children: [
+                              /* @__PURE__ */ jsx("th", {
+                                style: {
+                                  textAlign: "left",
+                                  padding: "6px 8px",
+                                  color: "#c4b5a0",
+                                  fontWeight: 600
+                                },
+                                children: "Program"
+                              }),
+                              /* @__PURE__ */ jsx("th", {
+                                style: {
+                                  textAlign: "right",
+                                  padding: "6px 8px",
+                                  color: "#c4b5a0",
+                                  fontWeight: 600
+                                },
+                                children: "Yr 1"
+                              }),
+                              /* @__PURE__ */ jsx("th", {
+                                style: {
+                                  textAlign: "right",
+                                  padding: "6px 8px",
+                                  color: "#c4b5a0",
+                                  fontWeight: 600
+                                },
+                                children: "Yr 2"
+                              }),
+                              /* @__PURE__ */ jsx("th", {
+                                style: {
+                                  textAlign: "right",
+                                  padding: "6px 8px",
+                                  color: "#c4b5a0",
+                                  fontWeight: 600
+                                },
+                                children: "Yr 3"
+                              }),
+                              /* @__PURE__ */ jsx("th", {
+                                style: {
+                                  textAlign: "right",
+                                  padding: "6px 8px",
+                                  color: "#c4b5a0",
+                                  fontWeight: 600
+                                },
+                                children: "Yr 4+"
+                              }),
+                              /* @__PURE__ */ jsx("th", {
+                                style: {
+                                  textAlign: "left",
+                                  padding: "6px 8px",
+                                  color: "#c4b5a0",
+                                  fontWeight: 600
+                                },
+                                children: "Source"
+                              })
+                            ]
+                          })
+                        }),
+                        /* @__PURE__ */ jsxs("tbody", {
                           children: [
-                            /* @__PURE__ */ jsx("th", {
-                              style: {
-                                textAlign: "left",
-                                padding: "6px 8px",
-                                color: "#c4b5a0",
-                                fontWeight: 600
-                              },
-                              children: "Program"
-                            }),
-                            /* @__PURE__ */ jsx("th", {
-                              style: {
-                                textAlign: "right",
-                                padding: "6px 8px",
-                                color: "#c4b5a0",
-                                fontWeight: 600
-                              },
-                              children: "Yr 1"
-                            }),
-                            /* @__PURE__ */ jsx("th", {
-                              style: {
-                                textAlign: "right",
-                                padding: "6px 8px",
-                                color: "#c4b5a0",
-                                fontWeight: 600
-                              },
-                              children: "Yr 2"
-                            }),
-                            /* @__PURE__ */ jsx("th", {
-                              style: {
-                                textAlign: "right",
-                                padding: "6px 8px",
-                                color: "#c4b5a0",
-                                fontWeight: 600
-                              },
-                              children: "Yr 3"
-                            }),
-                            /* @__PURE__ */ jsx("th", {
-                              style: {
-                                textAlign: "right",
-                                padding: "6px 8px",
-                                color: "#c4b5a0",
-                                fontWeight: 600
-                              },
-                              children: "Yr 4+"
-                            }),
-                            /* @__PURE__ */ jsx("th", {
-                              style: {
-                                textAlign: "left",
-                                padding: "6px 8px",
-                                color: "#c4b5a0",
-                                fontWeight: 600
-                              },
-                              children: "Source"
+                            NEW_COMMITMENTS.map((c, i) => /* @__PURE__ */ jsxs("tr", {
+                              style: { borderBottom: "1px solid #2a2520" },
+                              children: [
+                                /* @__PURE__ */ jsxs("td", {
+                                  style: { padding: "6px 8px", color: "#f0e6d3" },
+                                  children: [
+                                    /* @__PURE__ */ jsx("div", {
+                                      children: c.label
+                                    }),
+                                    /* @__PURE__ */ jsx("div", {
+                                      style: {
+                                        fontSize: 10,
+                                        color: "#6b6157",
+                                        fontStyle: "italic"
+                                      },
+                                      children: c.desc
+                                    })
+                                  ]
+                                }),
+                                c.amounts.map((a, j) => /* @__PURE__ */ jsxs("td", {
+                                  style: {
+                                    textAlign: "right",
+                                    padding: "6px 8px",
+                                    color: a > 0 ? "#e85d4a" : "#3a342a",
+                                    fontWeight: 600
+                                  },
+                                  children: [
+                                    "$",
+                                    a.toFixed(1),
+                                    "B"
+                                  ]
+                                }, j)),
+                                /* @__PURE__ */ jsx("td", {
+                                  style: {
+                                    padding: "6px 8px",
+                                    color: "#6b6157",
+                                    fontSize: 10
+                                  },
+                                  children: c.source
+                                })
+                              ]
+                            }, i)),
+                            /* @__PURE__ */ jsxs("tr", {
+                              style: { borderTop: "2px solid #e85d4a" },
+                              children: [
+                                /* @__PURE__ */ jsx("td", {
+                                  style: {
+                                    padding: "6px 8px",
+                                    color: "#e85d4a",
+                                    fontWeight: 700
+                                  },
+                                  children: "TOTAL NEW SPENDING"
+                                }),
+                                [0, 1, 2, 3].map((yr) => /* @__PURE__ */ jsxs("td", {
+                                  style: {
+                                    textAlign: "right",
+                                    padding: "6px 8px",
+                                    color: "#e85d4a",
+                                    fontWeight: 700
+                                  },
+                                  children: [
+                                    "$",
+                                    NEW_COMMITMENTS.reduce(
+                                      (s, c) => s + c.amounts[yr],
+                                      0
+                                    ).toFixed(1),
+                                    "B"
+                                  ]
+                                }, yr)),
+                                /* @__PURE__ */ jsx("td", {})
+                              ]
                             })
                           ]
                         })
-                      }),
-                      /* @__PURE__ */ jsxs("tbody", {
-                        children: [
-                          NEW_COMMITMENTS.map((c, i) => /* @__PURE__ */ jsxs("tr", {
-                            style: { borderBottom: "1px solid #2a2520" },
-                            children: [
-                              /* @__PURE__ */ jsxs("td", {
-                                style: { padding: "6px 8px", color: "#f0e6d3" },
-                                children: [
-                                  /* @__PURE__ */ jsx("div", {
-                                    children: c.label
-                                  }),
-                                  /* @__PURE__ */ jsx("div", {
-                                    style: {
-                                      fontSize: 10,
-                                      color: "#6b6157",
-                                      fontStyle: "italic"
-                                    },
-                                    children: c.desc
-                                  })
-                                ]
-                              }),
-                              c.amounts.map((a, j) => /* @__PURE__ */ jsxs("td", {
-                                style: {
-                                  textAlign: "right",
-                                  padding: "6px 8px",
-                                  color: a > 0 ? "#e85d4a" : "#3a342a",
-                                  fontWeight: 600
-                                },
-                                children: [
-                                  "$",
-                                  a.toFixed(1),
-                                  "B"
-                                ]
-                              }, j)),
-                              /* @__PURE__ */ jsx("td", {
-                                style: {
-                                  padding: "6px 8px",
-                                  color: "#6b6157",
-                                  fontSize: 10
-                                },
-                                children: c.source
-                              })
-                            ]
-                          }, i)),
-                          /* @__PURE__ */ jsxs("tr", {
-                            style: { borderTop: "2px solid #e85d4a" },
-                            children: [
-                              /* @__PURE__ */ jsx("td", {
-                                style: {
-                                  padding: "6px 8px",
-                                  color: "#e85d4a",
-                                  fontWeight: 700
-                                },
-                                children: "TOTAL NEW SPENDING"
-                              }),
-                              [0, 1, 2, 3].map((yr) => /* @__PURE__ */ jsxs("td", {
-                                style: {
-                                  textAlign: "right",
-                                  padding: "6px 8px",
-                                  color: "#e85d4a",
-                                  fontWeight: 700
-                                },
-                                children: [
-                                  "$",
-                                  NEW_COMMITMENTS.reduce(
-                                    (s, c) => s + c.amounts[yr],
-                                    0
-                                  ).toFixed(1),
-                                  "B"
-                                ]
-                              }, yr)),
-                              /* @__PURE__ */ jsx("td", {})
-                            ]
-                          })
-                        ]
-                      })
-                    ]
+                      ]
+                    })
                   }),
                   /* @__PURE__ */ jsx("div", {
                     style: {
@@ -1347,11 +1368,61 @@ function NYCBudgetSimulator() {
               })
             ]
           }),
+          isMobile && /* @__PURE__ */ jsx("button", {
+            onClick: () => setControlsOpen(true),
+            style: {
+              position: "fixed",
+              bottom: 20,
+              right: 20,
+              zIndex: 1e3,
+              background: "#d4a556",
+              color: "#141210",
+              border: "none",
+              borderRadius: "50%",
+              width: 56,
+              height: 56,
+              fontSize: 20,
+              fontWeight: 700,
+              fontFamily: "'JetBrains Mono', monospace",
+              cursor: "pointer",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.5)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            },
+            title: "Open controls",
+            children: "\u2699"
+          }),
+          isMobile && controlsOpen && /* @__PURE__ */ jsx("div", {
+            onClick: () => setControlsOpen(false),
+            style: {
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.6)",
+              zIndex: 1001
+            }
+          }),
           /* @__PURE__ */ jsxs("div", {
             style: { display: "flex", gap: 24, flexWrap: "wrap" },
             children: [
               /* @__PURE__ */ jsxs("div", {
-                style: {
+                style: isMobile ? {
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  width: "85vw",
+                  maxWidth: 320,
+                  zIndex: 1002,
+                  background: "#141210",
+                  border: "none",
+                  borderRight: "1px solid #2a2520",
+                  borderRadius: 0,
+                  padding: "16px 16px 80px 16px",
+                  overflowY: "auto",
+                  transform: controlsOpen ? "translateX(0)" : "translateX(-100%)",
+                  transition: "transform 0.3s ease"
+                } : {
                   width: 280,
                   flexShrink: 0,
                   background: "rgba(20,18,16,0.8)",
@@ -1360,7 +1431,7 @@ function NYCBudgetSimulator() {
                   padding: 16
                 },
                 children: [
-                  /* @__PURE__ */ jsx("div", {
+                  /* @__PURE__ */ jsxs("div", {
                     style: {
                       fontSize: 11,
                       fontWeight: 700,
@@ -1368,9 +1439,28 @@ function NYCBudgetSimulator() {
                       letterSpacing: "0.1em",
                       fontFamily: "'JetBrains Mono', monospace",
                       marginBottom: 16,
-                      textTransform: "uppercase"
+                      textTransform: "uppercase",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center"
                     },
-                    children: "Controls"
+                    children: [
+                      "Controls",
+                      isMobile && /* @__PURE__ */ jsx("button", {
+                        onClick: () => setControlsOpen(false),
+                        style: {
+                          background: "none",
+                          border: "1px solid #3a342a",
+                          borderRadius: 4,
+                          color: "#8a7e6e",
+                          fontSize: 14,
+                          cursor: "pointer",
+                          padding: "2px 8px",
+                          fontFamily: "'JetBrains Mono', monospace"
+                        },
+                        children: "\u2715"
+                      })
+                    ]
                   }),
                   /* @__PURE__ */ jsx(Knob, {
                     label: "Other Spend Growth",
@@ -1656,7 +1746,7 @@ function NYCBudgetSimulator() {
                     },
                     children: /* @__PURE__ */ jsx(ResponsiveContainer, {
                       width: "100%",
-                      height: 320,
+                      height: isMobile ? 260 : 320,
                       children: /* @__PURE__ */ jsxs(ComposedChart, {
                         data: dataWithGhost,
                         margin: chartMargin,
@@ -2069,6 +2159,7 @@ function NYCBudgetSimulator() {
                     children: /* @__PURE__ */ jsxs("table", {
                       style: {
                         width: "100%",
+                        minWidth: 500,
                         borderCollapse: "collapse",
                         fontSize: 12,
                         fontFamily: "'JetBrains Mono', monospace"
@@ -2693,7 +2784,7 @@ function NYCBudgetSimulator() {
                               /* @__PURE__ */ jsxs("div", {
                                 style: {
                                   flex: 1.3,
-                                  minWidth: 180,
+                                  minWidth: 140,
                                   background: "rgba(74,157,232,0.08)",
                                   border: "1px solid #4a9de8",
                                   borderRadius: 6,
@@ -2735,7 +2826,7 @@ function NYCBudgetSimulator() {
                               /* @__PURE__ */ jsxs("div", {
                                 style: {
                                   flex: 1.3,
-                                  minWidth: 180,
+                                  minWidth: 140,
                                   background: "rgba(224,136,168,0.08)",
                                   border: "1px solid #e088a8",
                                   borderRadius: 6,
@@ -2777,7 +2868,7 @@ function NYCBudgetSimulator() {
                               /* @__PURE__ */ jsxs("div", {
                                 style: {
                                   flex: 1,
-                                  minWidth: 150,
+                                  minWidth: 140,
                                   background: "rgba(30,27,22,0.7)",
                                   border: "1px solid #3a342a",
                                   borderRadius: 6,
@@ -2818,7 +2909,7 @@ function NYCBudgetSimulator() {
                               /* @__PURE__ */ jsxs("div", {
                                 style: {
                                   flex: 1,
-                                  minWidth: 150,
+                                  minWidth: 140,
                                   background: "rgba(176,136,212,0.08)",
                                   border: "1px solid #b088d4",
                                   borderRadius: 6,

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import {
   LineChart,
   Line,
@@ -314,8 +314,8 @@ const StatBox = ({ label, value, sub, color, labelColor }) => (
       border: '1px solid #3a342a',
       borderRadius: 6,
       padding: '10px 12px',
-      minWidth: 140,
-      flex: 1,
+      minWidth: 0,
+      flex: '1 1 calc(50% - 6px)',
     }}
   >
     <div
@@ -610,6 +610,19 @@ export default function NYCBudgetSimulator() {
   const [showMamdani, setShowMamdani] = useState(false);
   const [infoOpen, setInfoOpen] = useState(true);
   const [newSpendInfoOpen, setNewSpendInfoOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [controlsOpen, setControlsOpen] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+    };
+    check();
+    if (window.innerWidth < 768) setInfoOpen(false);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const set = useCallback(
     (key) => (val) => setParams((p) => ({ ...p, [key]: val })),
@@ -734,7 +747,7 @@ export default function NYCBudgetSimulator() {
         color: '#f0e6d3',
         minHeight: '100vh',
         fontFamily: "'Georgia', 'Times New Roman', serif",
-        padding: '24px 20px',
+        padding: isMobile ? '16px 10px' : '24px 20px',
       }}
     >
       <link
@@ -753,7 +766,7 @@ export default function NYCBudgetSimulator() {
         >
           <h1
             style={{
-              fontSize: 22,
+              fontSize: isMobile ? 15 : 22,
               fontWeight: 700,
               fontFamily: "'JetBrains Mono', monospace",
               color: '#d4a556',
@@ -895,7 +908,7 @@ export default function NYCBudgetSimulator() {
         <div
           style={{
             display: 'flex',
-            gap: 10,
+            gap: isMobile ? 6 : 10,
             marginBottom: 10,
             flexWrap: 'wrap',
             alignItems: 'center',
@@ -1001,9 +1014,11 @@ export default function NYCBudgetSimulator() {
               Requires Albany approval. Hochul has flatly rejected tax hikes. If
               blocked, Mamdani's fallback is the 9.5% property tax increase.
             </div>
+            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <table
               style={{
                 width: '100%',
+                minWidth: isMobile ? 600 : undefined,
                 borderCollapse: 'collapse',
                 fontSize: 11,
                 marginBottom: 16,
@@ -1263,6 +1278,7 @@ export default function NYCBudgetSimulator() {
                 </tr>
               </tbody>
             </table>
+            </div>
             <div
               style={{
                 fontSize: 10,
@@ -1298,9 +1314,11 @@ export default function NYCBudgetSimulator() {
                 ($70B borrowed) modeled here as debt service. Childcare cost is
                 the campaign's own estimate at full scale.
               </div>
+              <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
               <table
                 style={{
                   width: '100%',
+                  minWidth: isMobile ? 550 : undefined,
                   borderCollapse: 'collapse',
                   fontSize: 11,
                 }}
@@ -1440,6 +1458,7 @@ export default function NYCBudgetSimulator() {
                   </tr>
                 </tbody>
               </table>
+              </div>
               <div
                 style={{
                   fontSize: 10,
@@ -1459,11 +1478,70 @@ export default function NYCBudgetSimulator() {
           </div>
         )}
 
+        {/* Mobile controls toggle */}
+        {isMobile && (
+          <button
+            onClick={() => setControlsOpen(true)}
+            style={{
+              position: 'fixed',
+              bottom: 20,
+              right: 20,
+              zIndex: 1000,
+              background: '#d4a556',
+              color: '#141210',
+              border: 'none',
+              borderRadius: '50%',
+              width: 56,
+              height: 56,
+              fontSize: 20,
+              fontWeight: 700,
+              fontFamily: "'JetBrains Mono', monospace",
+              cursor: 'pointer',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            title="Open controls"
+          >
+            ⚙
+          </button>
+        )}
+
+        {/* Mobile backdrop */}
+        {isMobile && controlsOpen && (
+          <div
+            onClick={() => setControlsOpen(false)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0,0,0,0.6)',
+              zIndex: 1001,
+            }}
+          />
+        )}
+
         {/* Main layout */}
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           {/* Controls */}
           <div
-            style={{
+            style={isMobile ? {
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              width: '85vw',
+              maxWidth: 320,
+              zIndex: 1002,
+              background: '#141210',
+              border: 'none',
+              borderRight: '1px solid #2a2520',
+              borderRadius: 0,
+              padding: '16px 16px 80px 16px',
+              overflowY: 'auto',
+              transform: controlsOpen ? 'translateX(0)' : 'translateX(-100%)',
+              transition: 'transform 0.3s ease',
+            } : {
               width: 280,
               flexShrink: 0,
               background: 'rgba(20,18,16,0.8)',
@@ -1481,9 +1559,29 @@ export default function NYCBudgetSimulator() {
                 fontFamily: "'JetBrains Mono', monospace",
                 marginBottom: 16,
                 textTransform: 'uppercase',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}
             >
               Controls
+              {isMobile && (
+                <button
+                  onClick={() => setControlsOpen(false)}
+                  style={{
+                    background: 'none',
+                    border: '1px solid #3a342a',
+                    borderRadius: 4,
+                    color: '#8a7e6e',
+                    fontSize: 14,
+                    cursor: 'pointer',
+                    padding: '2px 8px',
+                    fontFamily: "'JetBrains Mono', monospace",
+                  }}
+                >
+                  ✕
+                </button>
+              )}
             </div>
             <Knob
               label="Other Spend Growth"
@@ -1761,7 +1859,7 @@ export default function NYCBudgetSimulator() {
                 padding: '16px 8px',
               }}
             >
-              <ResponsiveContainer width="100%" height={320}>
+              <ResponsiveContainer width="100%" height={isMobile ? 260 : 320}>
                 <ComposedChart data={dataWithGhost} margin={chartMargin}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#2a2520" />
                   <XAxis
@@ -2135,6 +2233,7 @@ export default function NYCBudgetSimulator() {
               <table
                 style={{
                   width: '100%',
+                  minWidth: 500,
                   borderCollapse: 'collapse',
                   fontSize: 12,
                   fontFamily: "'JetBrains Mono', monospace",
@@ -2713,7 +2812,7 @@ export default function NYCBudgetSimulator() {
                       <div
                         style={{
                           flex: 1.3,
-                          minWidth: 180,
+                          minWidth: 140,
                           background: 'rgba(74,157,232,0.08)',
                           border: '1px solid #4a9de8',
                           borderRadius: 6,
@@ -2758,7 +2857,7 @@ export default function NYCBudgetSimulator() {
                       <div
                         style={{
                           flex: 1.3,
-                          minWidth: 180,
+                          minWidth: 140,
                           background: 'rgba(224,136,168,0.08)',
                           border: '1px solid #e088a8',
                           borderRadius: 6,
@@ -2803,7 +2902,7 @@ export default function NYCBudgetSimulator() {
                       <div
                         style={{
                           flex: 1,
-                          minWidth: 150,
+                          minWidth: 140,
                           background: 'rgba(30,27,22,0.7)',
                           border: '1px solid #3a342a',
                           borderRadius: 6,
@@ -2846,7 +2945,7 @@ export default function NYCBudgetSimulator() {
                       <div
                         style={{
                           flex: 1,
-                          minWidth: 150,
+                          minWidth: 140,
                           background: 'rgba(176,136,212,0.08)',
                           border: '1px solid #b088d4',
                           borderRadius: 6,
