@@ -1166,6 +1166,27 @@ export function NYCBudgetEssay() {
         children: "The defaults reflect current policy: no new taxes, no new programs, just the existing budget growing at its structural rates. The gap widens every year even doing nothing. Toggle on the taxes and revenue lines jump — then sag as millionaires leave and corporate bases erode. Toggle on spending and the gap explodes. Apply both and you see the structural trap in full: the taxes can't keep up with the spending, and both grow faster than the economy that funds them."
       }), _jsx(P, {
         children: "Every knob has a citation. The model is deliberately simplified — it doesn't account for recessions, federal shocks, or state bailouts — but the structural dynamics it captures are real, documented, and on their current trajectory, inescapable."
+      }), _jsx("div", {
+        style: {
+          textAlign: 'center',
+          margin: '36px 0'
+        },
+        children: _jsx("a", {
+          href: "/pages/nyc-budget-simulator.html",
+          style: {
+            display: 'inline-block',
+            fontFamily: T.mono,
+            fontSize: 13,
+            color: T.bg,
+            background: T.gold,
+            padding: '12px 28px',
+            borderRadius: 6,
+            textDecoration: 'none',
+            fontWeight: 700,
+            letterSpacing: '0.04em'
+          },
+          children: "Launch the Budget Simulator →"
+        })
       }), _jsxs("div", {
         style: {
           marginTop: 56,
