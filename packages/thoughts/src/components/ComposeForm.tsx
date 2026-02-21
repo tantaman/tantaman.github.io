@@ -87,6 +87,7 @@ export function ComposeForm({
   };
 
   const fileInputId = `file-${parentId ?? 'root'}-${Date.now()}`;
+  const previewHtml = useMemo(() => ({ __html: renderMarkdown(text) }), [text]);
 
   return (
     <form className={parentId != null ? 'reply-form' : undefined} onSubmit={handleSubmit}>
@@ -110,10 +111,7 @@ export function ComposeForm({
         {preview ? (
           <div
             className="thought-body thought-body--md compose-preview"
-            dangerouslySetInnerHTML={useMemo(
-              () => ({ __html: renderMarkdown(text) }),
-              [text],
-            )}
+            dangerouslySetInnerHTML={previewHtml}
           />
         ) : (
           <textarea
