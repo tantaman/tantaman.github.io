@@ -87,6 +87,7 @@
 }
 
 .comment-form input[type="text"],
+.comment-form input[type="email"],
 .comment-form textarea {
   width: 100%;
   padding: 0.5rem;
@@ -101,6 +102,7 @@
 }
 
 .comment-form input[type="text"]:focus,
+.comment-form input[type="email"]:focus,
 .comment-form textarea:focus {
   outline: none;
   border-color: var(--accent);
@@ -137,4 +139,33 @@
 .comment-form-actions button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.comment-auth-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.comment-sign-out {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.comment-sign-out:hover {
+  color: var(--text);
+}
+
+.comment-auth-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
 }

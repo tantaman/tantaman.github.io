@@ -1,7 +1,33 @@
 import { useState, useEffect, useRef, type FormEvent } from 'react';
-import { fetchComments, postComment, type Comment } from './api';
+import {
+  fetchComments,
+  postComment,
+  requestCode,
+  verifyCode,
+  checkSession,
+  type Comment,
+  type Session,
+} from './api';
 
-const STORAGE_KEY = 'comments-author-name';
+const SESSION_KEY = 'comments-session';
+
+function loadSession(): Session | null {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function saveSession(session: Session) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+}
+
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+}
 
 export function App() {
   const slug = window.location.pathname;
@@ -9,6 +35,7 @@ export function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [replyTo, setReplyTo] = useState<number | null>(null);
+  const [session, setSession] = useState<Session | null>(loadSession);
 
   useEffect(() => {
     fetchComments(slug)
@@ -17,13 +44,37 @@ export function App() {
       .finally(() => setLoading(false));
   }, [slug]);
 
-  const handleSubmit = async (
-    name: string,
-    body: string,
-    parentId: number | null,
-  ) => {
+  // Validate stored session on mount
+  useEffect(() => {
+    if (!session) return;
+    checkSession(session.session_token).then((result) => {
+      if (!result) {
+        clearSession();
+        setSession(null);
+      }
+    });
+  }, []);
+
+  const handleLogin = (s: Session) => {
+    saveSession(s);
+    setSession(s);
+  };
+
+  const handleLogout = () => {
+    clearSession();
+    setSession(null);
+  };
+
+  const handleSubmit = async (body: string, parentId: number | null) => {
+    if (!session) return;
     setError('');
-    const comment = await postComment(slug, name, body, parentId, '');
+    const comment = await postComment(
+      slug,
+      body,
+      parentId,
+      session.session_token,
+      '',
+    );
     if (comment) {
       setComments((prev) => [...prev, comment]);
       setReplyTo(null);
@@ -62,11 +113,25 @@ export function App() {
             replyTo={replyTo}
             onReply={setReplyTo}
             onSubmit={handleSubmit}
+            session={session}
+            onLogin={handleLogin}
           />
         ))}
       </div>
-      <CommentForm
-        onSubmit={(name, body) => handleSubmit(name, body, null)}
+      {session ? (
+        <div className="comment-auth-status">
+          <span className="comment-auth-name">
+            Commenting as <strong>{session.name}</strong>
+          </span>
+          <button className="comment-sign-out" onClick={handleLogout}>
+            Sign out
+          </button>
+        </div>
+      ) : null}
+      <CommentFormOrAuth
+        session={session}
+        onLogin={handleLogin}
+        onSubmit={(body) => handleSubmit(body, null)}
       />
     </div>
   );
@@ -78,12 +143,16 @@ function CommentNode({
   replyTo,
   onReply,
   onSubmit,
+  session,
+  onLogin,
 }: {
   comment: Comment;
   replyMap: Map<number, Comment[]>;
   replyTo: number | null;
   onReply: (id: number | null) => void;
-  onSubmit: (name: string, body: string, parentId: number | null) => void;
+  onSubmit: (body: string, parentId: number | null) => void;
+  session: Session | null;
+  onLogin: (s: Session) => void;
 }) {
   const childReplies = replyMap.get(comment.id) || [];
   const date = new Date(comment.created_at * 1000);
@@ -101,12 +170,17 @@ function CommentNode({
         </span>
       </div>
       <div className="comment-body">{comment.body}</div>
-      <button className="comment-reply-btn" onClick={() => onReply(comment.id)}>
+      <button
+        className="comment-reply-btn"
+        onClick={() => onReply(replyTo === comment.id ? null : comment.id)}
+      >
         Reply
       </button>
       {replyTo === comment.id && (
-        <CommentForm
-          onSubmit={(name, body) => onSubmit(name, body, comment.id)}
+        <CommentFormOrAuth
+          session={session}
+          onLogin={onLogin}
+          onSubmit={(body) => onSubmit(body, comment.id)}
           onCancel={() => onReply(null)}
         />
       )}
@@ -120,6 +194,8 @@ function CommentNode({
               replyTo={replyTo}
               onReply={onReply}
               onSubmit={onSubmit}
+              session={session}
+              onLogin={onLogin}
             />
           ))}
         </div>
@@ -128,38 +204,112 @@ function CommentNode({
   );
 }
 
-function CommentForm({
+// Renders the auth flow or the comment form depending on session state
+function CommentFormOrAuth({
+  session,
+  onLogin,
   onSubmit,
   onCancel,
 }: {
-  onSubmit: (name: string, body: string) => void;
+  session: Session | null;
+  onLogin: (s: Session) => void;
+  onSubmit: (body: string) => void;
   onCancel?: () => void;
 }) {
-  const [name, setName] = useState(
-    () => localStorage.getItem(STORAGE_KEY) || '',
-  );
-  const [body, setBody] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const hpRef = useRef<HTMLInputElement>(null);
+  if (session) {
+    return <PostForm onSubmit={onSubmit} onCancel={onCancel} />;
+  }
+  return <AuthFlow onLogin={onLogin} onCancel={onCancel} />;
+}
 
-  const handleSubmit = async (e: FormEvent) => {
+// Auth flow: email/name → code → verified
+function AuthFlow({
+  onLogin,
+  onCancel,
+}: {
+  onLogin: (s: Session) => void;
+  onCancel?: () => void;
+}) {
+  const [step, setStep] = useState<'email' | 'code'>('email');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleRequestCode = async (e: FormEvent) => {
     e.preventDefault();
-    const trimmedName = name.trim();
-    const trimmedBody = body.trim();
-    if (!trimmedName || !trimmedBody) return;
-
-    // If honeypot is filled, silently do nothing
-    if (hpRef.current?.value) return;
-
-    localStorage.setItem(STORAGE_KEY, trimmedName);
-    setSubmitting(true);
-    await onSubmit(trimmedName, trimmedBody);
-    setBody('');
-    setSubmitting(false);
+    if (!name.trim() || !email.trim()) return;
+    setError('');
+    setLoading(true);
+    const result = await requestCode(email.trim(), name.trim());
+    setLoading(false);
+    if (result.ok) {
+      setStep('code');
+    } else {
+      setError(result.error || 'Failed to send code.');
+    }
   };
 
+  const handleVerifyCode = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!code.trim()) return;
+    setError('');
+    setLoading(true);
+    const result = await verifyCode(email.trim(), code.trim());
+    setLoading(false);
+    if ('error' in result) {
+      setError(result.error);
+    } else {
+      onLogin(result);
+    }
+  };
+
+  if (step === 'code') {
+    return (
+      <form className="comment-form" onSubmit={handleVerifyCode}>
+        <p className="comment-auth-hint">
+          Code sent to <strong>{email}</strong>. Check your inbox.
+        </p>
+        {error && <p className="comments-error">{error}</p>}
+        <input
+          type="text"
+          placeholder="6-digit code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          required
+          maxLength={6}
+          pattern="[0-9]{6}"
+          autoComplete="one-time-code"
+          inputMode="numeric"
+        />
+        <div className="comment-form-actions">
+          <button
+            type="button"
+            onClick={() => {
+              setStep('email');
+              setCode('');
+              setError('');
+            }}
+          >
+            Back
+          </button>
+          {onCancel && (
+            <button type="button" onClick={onCancel}>
+              Cancel
+            </button>
+          )}
+          <button type="submit" disabled={loading}>
+            {loading ? 'Verifying...' : 'Verify'}
+          </button>
+        </div>
+      </form>
+    );
+  }
+
   return (
-    <form className="comment-form" onSubmit={handleSubmit}>
+    <form className="comment-form" onSubmit={handleRequestCode}>
+      {error && <p className="comments-error">{error}</p>}
       <input
         type="text"
         placeholder="Name"
@@ -168,7 +318,51 @@ function CommentForm({
         required
         maxLength={100}
       />
-      {/* Honeypot field - hidden from real users */}
+      <input
+        type="email"
+        placeholder="Email (for verification, not displayed)"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <div className="comment-form-actions">
+        {onCancel && (
+          <button type="button" onClick={onCancel}>
+            Cancel
+          </button>
+        )}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Sending code...' : 'Verify email to comment'}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+// Simple comment form for authenticated users
+function PostForm({
+  onSubmit,
+  onCancel,
+}: {
+  onSubmit: (body: string) => void;
+  onCancel?: () => void;
+}) {
+  const [body, setBody] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const hpRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!body.trim()) return;
+    if (hpRef.current?.value) return;
+    setSubmitting(true);
+    await onSubmit(body.trim());
+    setBody('');
+    setSubmitting(false);
+  };
+
+  return (
+    <form className="comment-form" onSubmit={handleSubmit}>
       <input
         type="text"
         ref={hpRef}

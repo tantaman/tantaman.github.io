@@ -26,3 +26,6 @@ index_name = "thought-embeddings"
 [observability.logs]
 enabled = false
 invocation_logs = true
+
+[[send_email]]
+name = "EMAIL"
