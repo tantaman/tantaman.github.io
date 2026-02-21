@@ -6,6 +6,8 @@ import { indexFrontmatter } from '../index-frontmatter.js';
 import fs from 'fs';
 import path from 'path';
 
+const commentsLoaderScript = `(function(){var el=document.getElementById('comments');if(!el)return;var obs=new IntersectionObserver(function(entries){if(entries[0].isIntersecting){obs.disconnect();var l=document.createElement('link');l.rel='stylesheet';l.href='/comments/comments.css';document.head.appendChild(l);import('/comments/comments.js')}});obs.observe(el)})();`;
+
 // Try to load computed relationships
 let relationships: any = null;
 try {
@@ -70,6 +72,8 @@ export default async function defaultLayout(
       {newChildren}
     </main>,
     matter?.noHeader ? null : <footer id="footer">{footerContent}</footer>,
+    isPost ? h('section', { id: 'comments' }) : null,
+    isPost ? h('script', { type: 'module' }, commentsLoaderScript) : null,
   ].filter(Boolean);
 }
 

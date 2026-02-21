@@ -39,7 +39,7 @@ app.use("*", async (c, next) => {
 
   // Skip non-API routes (attachments have their own cache headers, MCP is not cacheable)
   const path = c.req.path;
-  if (path.startsWith("/attachments/") || path === "/mcp" || path === "/") {
+  if (path.startsWith("/attachments/") || path.startsWith("/comments") || path === "/mcp" || path === "/") {
     return next();
   }
 
@@ -533,6 +533,99 @@ app.get("/events", async (c) => {
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
   return c.json({ events: results.results });
+});
+
+// --- Comments ---
+
+app.get("/comments", async (c) => {
+  const slug = c.req.query("slug");
+  if (!slug) {
+    return c.json({ error: "Missing slug parameter" }, 400);
+  }
+
+  const results = await c.env.DB.prepare(
+    `SELECT id, post_slug, author_name, body, created_at, parent_id
+     FROM comment
+     WHERE post_slug = ?
+     ORDER BY created_at ASC`
+  ).bind(slug).all();
+
+  return c.json({ comments: results.results });
+});
+
+app.post("/comments", async (c) => {
+  const json = await c.req.json<{
+    slug: string;
+    author_name: string;
+    body: string;
+    parent_id?: number | null;
+    hp?: string;
+  }>();
+
+  // Honeypot check
+  if (json.hp) {
+    // Silently accept but don't store (fool bots into thinking it worked)
+    return c.json({ id: 0, post_slug: json.slug, author_name: json.author_name, body: json.body, created_at: 0, parent_id: null }, 201);
+  }
+
+  const slug = (json.slug || "").trim();
+  const authorName = (json.author_name || "").trim();
+  const body = (json.body || "").trim();
+  const parentId = json.parent_id ?? null;
+
+  if (!slug) {
+    return c.json({ error: "slug is required" }, 400);
+  }
+  if (!authorName || authorName.length > 100) {
+    return c.json({ error: "author_name must be 1-100 characters" }, 400);
+  }
+  if (!body || body.length > 2000) {
+    return c.json({ error: "body must be 1-2000 characters" }, 400);
+  }
+
+  if (parentId != null) {
+    const parent = await c.env.DB.prepare(
+      "SELECT id FROM comment WHERE id = ?"
+    ).bind(parentId).first();
+    if (!parent) {
+      return c.json({ error: "Parent comment not found" }, 404);
+    }
+  }
+
+  const createdAt = Math.floor(Date.now() / 1000);
+
+  const result = await c.env.DB.prepare(
+    "INSERT INTO comment (post_slug, author_name, body, created_at, parent_id) VALUES (?, ?, ?, ?, ?)"
+  ).bind(slug, authorName, body, createdAt, parentId).run();
+
+  return c.json({
+    id: result.meta.last_row_id,
+    post_slug: slug,
+    author_name: authorName,
+    body,
+    created_at: createdAt,
+    parent_id: parentId,
+  }, 201);
+});
+
+app.delete("/comments/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = c.req.param("id");
+
+  // Delete the comment and all its replies (CASCADE handles replies)
+  const result = await c.env.DB.prepare(
+    "DELETE FROM comment WHERE id = ?"
+  ).bind(id).run();
+
+  if (result.meta.changes === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  return c.body(null, 204);
 });
 
 app.get("/attachments/*", async (c) => {
