@@ -276,9 +276,17 @@ async function graphPage() {
     </div>
   </div>
   <script id="graph-data" type="application/json">
-${JSON.stringify(graphData, null, 2)}
+${jsonObjectOfArrays(graphData)}
   </script>
 </section>`;
+}
+
+function jsonObjectOfArrays(obj) {
+  const entries = Object.entries(obj).map(([key, val]) => {
+    const items = val.map(item => JSON.stringify(item)).join(',\n');
+    return `"${key}": [\n${items}\n]`;
+  });
+  return '{\n' + entries.join(',\n') + '\n}';
 }
 
 function truncateTitle(title, maxLength) {

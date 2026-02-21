@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://tantaman.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title></title>
+      <link>https://tantaman.com/2026-02-21-west-psychodrama.html</link>
+      <guid>https://tantaman.com/2026-02-21-west-psychodrama.html</guid>
+      <pubDate>Sat, 21 Feb 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
       <title>The Structural Trap: NYC&apos;s $127 Billion Budget</title>
       <link>https://tantaman.com/2026-02-20-nyc-mamdani-budget.html</link>
       <guid>https://tantaman.com/2026-02-20-nyc-mamdani-budget.html</guid>
@@ -212,19 +219,6 @@ This is the thing none of them say out loud. They speak of freedom, emancipation
 ### The Given Body and the Colonized Body
 
 The ancients did not need a philosophy of the body because they had bodies that functioned. Their material conditions — real food, physical labor, darkness at night, silence as the default — produced...</description>
-    </item>
-    <item>
-      <title>Manufacturing Luck</title>
-      <link>https://tantaman.com/2026-01-27-manufacturing-luck.html</link>
-      <guid>https://tantaman.com/2026-01-27-manufacturing-luck.html</guid>
-      <pubDate>Tue, 27 Jan 2026 00:00:00 GMT</pubDate>
-      <description>export function IntroArticle() {
-  const [expanded, setExpanded] = useState(true);
-
-  return (
-    
-       setExpanded(!expanded)}
-        className=&quot;w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-800/80 transition-c...</description>
     </item>
   </channel>
 </rss>
