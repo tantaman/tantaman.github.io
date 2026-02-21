@@ -37,6 +37,11 @@ export function App() {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
+    // Navigate to feed view so the tag filter is visible
+    if (location.hash) {
+      history.pushState(null, '', location.pathname);
+      setRoute({ view: 'feed' });
+    }
   }, []);
 
   useEffect(() => {
@@ -54,9 +59,9 @@ export function App() {
           ) : route.view === 'tasks' ? (
             <TasksView tags={selectedTags} />
           ) : route.view === 'thread' ? (
-            <ThreadView id={route.id} />
+            <ThreadView id={route.id} onTagClick={toggleTag} />
           ) : (
-            <Feed tags={selectedTags} />
+            <Feed tags={selectedTags} onTagClick={toggleTag} />
           )}
         </Layout>
         <SecretToggle />

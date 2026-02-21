@@ -10,12 +10,14 @@ export function ThreadThought({
   depth,
   onReplyPosted,
   onDelete,
+  onTagClick,
 }: {
   thought: Thought;
   childrenMap: Map<number, Thought[]>;
   depth: number;
   onReplyPosted: (t: Thought) => void;
   onDelete: (id: number) => void;
+  onTagClick?: (tag: string) => void;
 }) {
   const { secret } = useContext(AuthContext);
   const [showReply, setShowReply] = useState(false);
@@ -43,6 +45,7 @@ export function ThreadThought({
         thought={thought}
         inThread
         onDelete={() => onDelete(thought.id)}
+        onTagClick={onTagClick}
         footer={footer}
       />
 
@@ -70,6 +73,7 @@ export function ThreadThought({
               depth={nextDepth}
               onReplyPosted={onReplyPosted}
               onDelete={onDelete}
+              onTagClick={onTagClick}
             />
           ))}
         </div>

@@ -7,7 +7,7 @@ import { ThoughtCard } from './ThoughtCard';
 import { ComposeForm } from './ComposeForm';
 import { SearchBar } from './SearchBar';
 
-export function Feed({ tags }: { tags: string[] }) {
+export function Feed({ tags, onTagClick }: { tags: string[]; onTagClick: (tag: string) => void }) {
   const { secret } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
   const handleSearch = useCallback((q: string) => setSearchQuery(q), []);
@@ -54,7 +54,7 @@ export function Feed({ tags }: { tags: string[] }) {
       )}
 
       {isSearching ? (
-        <SearchResults query={searchQuery} />
+        <SearchResults query={searchQuery} onTagClick={onTagClick} />
       ) : (
         <>
           <div>
@@ -63,6 +63,7 @@ export function Feed({ tags }: { tags: string[] }) {
                 key={t.id}
                 thought={t}
                 onDelete={() => handleDelete(t.id)}
+                onTagClick={onTagClick}
                 footer={
                   <ThoughtFooter thought={t} secret={secret} />
                 }
@@ -89,7 +90,7 @@ export function Feed({ tags }: { tags: string[] }) {
   );
 }
 
-function SearchResults({ query }: { query: string }) {
+function SearchResults({ query, onTagClick }: { query: string; onTagClick: (tag: string) => void }) {
   const { data, isLoading } = useSearch(query);
 
   if (isLoading) {
@@ -106,6 +107,7 @@ function SearchResults({ query }: { query: string }) {
         <ThoughtCard
           key={t.id}
           thought={t}
+          onTagClick={onTagClick}
           footer={
             <SearchFooter score={t.score} thoughtId={t.id} replyCount={t.reply_count} />
           }

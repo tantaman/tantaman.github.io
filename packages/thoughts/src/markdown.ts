@@ -15,7 +15,7 @@ function highlightTags(html: string): string {
   return html.replace(/(>[^<]*)/g, (segment) => {
     return segment.replace(
       /(^|[\s])#([a-zA-Z][a-zA-Z0-9_-]*)/g,
-      '$1<span class="thought-tag">#$2</span>',
+      '$1<a class="thought-tag thought-tag--link" href="#tag-$2" data-tag="$2">#$2</a>',
     );
   });
 }
