@@ -178,20 +178,18 @@ async function tagsPage() {
     .join('');
 
   // Embed JSON data for client-side filtering
-  const postsJson = JSON.stringify(
-    allPosts.map((p) => ({
-      title: p.title,
-      url: p.url,
-      date: p.date,
-      description: stripTags(p.description),
-      subjects: p.subjects,
-      concerns: p.concerns,
-      form: p.form,
-      image: p.image,
-      sentimentColor: p.sentimentColor,
-      wordCount: p.wordCount,
-    })),
-  );
+  const postsJson = '[\n' + allPosts.map((p) => JSON.stringify({
+    title: p.title,
+    url: p.url,
+    date: p.date,
+    description: stripTags(p.description),
+    subjects: p.subjects,
+    concerns: p.concerns,
+    form: p.form,
+    image: p.image,
+    sentimentColor: p.sentimentColor,
+    wordCount: p.wordCount,
+  })).join(',\n') + '\n]';
 
   return `
 <script type="application/json" id="posts-data">${postsJson}</script>

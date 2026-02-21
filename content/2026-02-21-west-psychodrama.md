@@ -1,0 +1,101 @@
+# The West Is Trapped in a Religious Psychodrama It Can't Escape
+
+It does not matter whether the prophecies are true. What matters is that the people with the most power and the most weapons believe they are — or find it useful to act as though they do. Once you bracket the question of theological truth and ask instead what happens when nuclear-armed civilizations organize their foreign policy around incompatible end-times narratives, the landscape of global conflict becomes legible in ways that conventional geopolitical analysis cannot account for.
+
+The coming US-Iran war is the clearest case. No application of the Powell Doctrine — clear strategic interest, defined objectives, overwhelming superiority, public support — can explain why America is assembling maximum lethality in the Persian Gulf to topple a regime that poses no existential threat to the homeland. No rational-actor model can explain why Iran's theocracy courts annihilation rather than negotiate. And no realist framework can explain why Israel's strategic class openly discusses rebuilding Solomon's Temple on the ruins of the Al-Aqsa Mosque.
+
+But eschatology can explain all of it.
+
+---
+
+## Three Scripts, One Stage
+
+Three of the world's major civilizational actors are operating on apocalyptic timelines that require the same trigger events in the same geography, yet promise victory to entirely different peoples.
+
+**Christian Zionism**, the dominant eschatological force in American evangelical politics, requires that the Jewish people hold sovereignty over the Holy Land, that the Third Temple be rebuilt, and that a final conflagration be fought on the plains of Armageddon — after which Christ returns, the faithful are raptured, and history ends. In this script the Jews are instrumental. They are the necessary precondition for someone else's salvation. The awkward truth that Christian Zionism's endgame includes the conversion or destruction of the Jewish people is politely left unspoken in the churches that raise money for Israeli settlements.
+
+**Messianic Jewish nationalism**, the strain represented by organizations like the Temple Institute, shares the near-term checklist — sovereignty, Temple, Red Heifer sacrifice — but rewrites the ending. The Mashiach comes, the kingdom is restored, and permanent Jewish sovereignty is established. No rapture. No Christ. The Christians were useful allies for a season, nothing more. That the Temple Institute has reportedly constructed furnishings for the Third Temple and that Red Heifer candidates have been procured and inspected is not fringe speculation; it is documented organizational activity carried out in the open, funded by donations from both Jewish and Christian Zionist sources.
+
+**Shia Islamic eschatology** holds that the Hidden Imam, the Mahdi, will return during a period of great tribulation and injustice. Jesus also returns — but as a Muslim prophet, subordinate to the Mahdi. The Dajjal, a deceiver roughly analogous to the Antichrist, is defeated. In many Shia traditions the Dajjal is associated with a deceptive global power centered in the West. The Iranian regime's willingness to absorb catastrophic costs rather than capitulate is inexplicable through the lens of rational self-preservation, but entirely coherent if the leadership believes — sincerely, not performatively — that retreat would mean abandoning their role in the Mahdi's return. The burning of statues of Baal, the rhetoric about the Great Satan: these are not propaganda. They are liturgy.
+
+All three scripts require apocalyptic war in roughly the same place. All three promise that their community alone inherits the earth. And all three are held, to varying degrees of sincerity, by people with access to nuclear weapons, carrier strike groups, and ballistic missile programs.
+
+The result is a self-reinforcing escalation spiral. Each side's actions confirm the other sides' prophecies. American military buildup in the Gulf looks, from Tehran, exactly like the Dajjal marshaling his forces. Iranian threats to sink carriers look, from Washington's evangelical base, exactly like the gathering of the armies of Gog. Israeli archaeological activity beneath the Al-Aqsa Mosque looks, from the entire Muslim world, like the desecration that precedes the final war. Every escalation validates every prophecy, which justifies further escalation, which validates further prophecy.
+
+No choreographer is needed. The scripts choreograph themselves.
+
+---
+
+## The Fourth Actor
+
+And yet the self-reinforcing spiral is not the whole story. Left to their own devices, eschatological communities tend toward insularity, not global war. Someone — or something — has to fund the armies, arm the proxies, and ensure that the trigger events keep approaching without ever quite arriving.
+
+There are two compelling candidates for this "fourth actor," and they may ultimately be the same thing.
+
+The first is **the structural logic of debt-based finance**. War is the most reliable mechanism for sovereign debt expansion, and sovereign debt is the primary instrument through which financial power disciplines nation-states. The entity that finances all sides of a conflict and collects interest regardless of outcome does not need the conflict to resolve. It needs the conflict to *continue*. The petrodollar system specifically requires Middle Eastern instability to be chronic but manageable — a unified Middle East trading oil in non-dollar currencies would be an existential threat to dollar hegemony. A Middle East locked in perpetual eschatological tension can never unify. From this angle, the fourth actor is not a person or a cabal but the structural incentive of capital itself: perpetual growth requires perpetual crisis, which requires perpetual war.
+
+This also explains the curious feature of eschatological politics — that the apocalypse must be imminent but must never actually arrive. The Third Temple can be dangled but never quite completed. The Mahdi can be anticipated but never appear. The Second Coming can be imminent but perpetually deferred. The profitable state is permanent anticipation. Fulfillment would end the cycle, and ending the cycle would end the debt service.
+
+The second candidate comes from René Girard's theory of mimetic rivalry — an especially resonant framework given how deeply Girardian thinking has penetrated the strategic class through figures like Peter Thiel. Girard would argue that there is no fourth actor, or rather that the fourth actor is mimetic rivalry itself. The three eschatological communities are locked in a triangle of imitation. Each defines itself against the others while becoming structurally identical to them. All three require the same sacred geography. All three believe they are the righteous remnant. All three are willing to destroy the world to save it. The escalation is not planned; it is emergent, a mechanical consequence of reciprocal imitation that *feels* scripted because the pattern is archetypal.
+
+In Girard's framework, this kind of spiraling crisis resolves through the scapegoat mechanism: all parties converge their violence onto a single victim, and the resulting catharsis temporarily restores order. The question his theory forces us to ask — who is the designated scapegoat in this cycle? — points toward an answer too obvious and too terrible to be comfortable: the Palestinian people, onto whom all three eschatological projects converge their violence, and whose suffering is instrumentally necessary for all three scripts to advance.
+
+Capital and mimesis may be two descriptions of the same engine. Capital provides the material incentive structure; mimetic rivalry provides the psychological one. Together they produce a dynamic that looks like a conspiracy because it is so patterned and self-reinforcing, but requires no single directing intelligence. It is worse than a conspiracy. It is a system that nobody fully controls but that channels enormous human energy toward destruction because the incentives and the psychology all point the same direction.
+
+---
+
+## The Civilizations That Declined to Audition
+
+Not every major power is trapped in this psychodrama. The most consequential geopolitical fact of the twenty-first century may be that the world's rising power operates on a civilizational logic that is structurally immune to eschatological manipulation.
+
+**China has no eschatology.** Chinese civilizational thinking is cyclical, not apocalyptic. The Mandate of Heaven rotates. Dynasties rise and fall across centuries. Confucian statecraft is oriented toward managing cycles, not accelerating toward a final confrontation. Even Chinese Marxism, which imported a Western teleological framework, has been quietly sinicized back into something resembling dynastic management with socialist characteristics. The CPC plans in five-year increments and thinks in fifty-year arcs. Nobody in Beijing is reading Revelation for strategic guidance.
+
+This means China is the one major power that cannot be manipulated by eschatological levers. You cannot motivate Beijing with prophecy. You cannot panic them with apocalyptic framing. They observe three civilizations rushing toward a shared sacred geography to fight over whose God wins, and they see — correctly — an extraordinary strategic opportunity.
+
+If the US-Iran war happens and drags America into another multi-trillion-dollar quagmire, China benefits enormously without firing a shot. Every dollar America spends projecting power into the Persian Gulf is a dollar not spent on the Pacific. Every carrier strike group in the Arabian Sea is one absent from the South China Sea. Every year America spends entangled in Middle Eastern eschatological conflict is a year China spends building infrastructure, consolidating Belt and Road partnerships, and deepening its technological base. This is Sun Tzu, not Clausewitz — supreme excellence is making your rival's battles unnecessary for you.
+
+China is not merely watching, however. The Shanghai Cooperation Organization, BRICS expansion, yuan-denominated oil trades — these are the architecture of a post-eschatological order. The implicit pitch to the Global South is devastatingly simple: *The West is trapped in a religious psychodrama it can't escape. We offer roads, ports, and trade without requiring you to pick a side in someone else's apocalypse.*
+
+Iran itself is a key node. China signed a 25-year strategic cooperation agreement with Tehran. If Iran survives American regime change, it becomes a Chinese client state and a critical link in the Belt and Road corridor to the Mediterranean. If Iran falls, China loses a partner but gains leverage from the chaos, because whoever replaces the theocracy will still need to sell oil, and China will be the buyer with the deepest pockets and the fewest ideological demands.
+
+The deepest irony is this: if the fourth actor is the debt-based financial system that profits from perpetual eschatological tension, then China is the entity most actively building an exit — not by confronting the system directly, but by making it irrelevant. Yuan-denominated trade, overland routes bypassing American naval dominance, bilateral currency swaps that never touch the dollar. China is not fighting the wheel. It is building a road that goes somewhere else.
+
+---
+
+## The Katechon: Russia's Dangerous Sophistication
+
+If China is the actor that stands outside the Abrahamic eschatological frame entirely, Russia is something far more complex and far more dangerous: the actor that operates *within* the frame but reaches opposite conclusions from everyone else.
+
+Orthodox eschatology is formally apocalyptic — it affirms the Second Coming, the Antichrist, the final judgment. But the Orthodox posture toward the end times is radically different from the Western Protestant tradition that drives Christian Zionism. Orthodoxy emphasizes that the timing is unknowable, that attempting to accelerate or decode it is spiritually perilous, and that the proper human response is *theosis* — ongoing spiritual transformation — not political activism toward prophetic fulfillment. The eschaton is real, but it is God's business, not yours.
+
+Russian Orthodoxy, however, has developed a political theology that departs from this quietism in a critical way. The doctrine of Moscow as the Third Rome — articulated by the monk Philotheus in the sixteenth century — holds that after Rome fell to heresy and Constantinople fell to the Ottomans, Moscow became the last guardian of authentic Christian civilization. There shall be no fourth Rome. If Russia falls, there is no backstop before the Antichrist.
+
+This yields a strategic posture unique among all the eschatological actors. Zionism is about *building* something — the Temple, the restored kingdom. Christian nationalism is about *accelerating* something — the conditions for Christ's return. Shia eschatology is about *preparing* for something — the Mahdi's arrival. Russian Orthodoxy is about *preventing* something. Holding the line. Restraining the forces of dissolution. Buying time for humanity.
+
+The theological term is the *katechon* — from 2 Thessalonians, "the one who restrains," the mysterious force that holds back the Antichrist until the appointed time. In the hands of thinkers like Alexander Dugin, drawing on Carl Schmitt and the Orthodox mystical tradition of Gregory Palamas, Russia *is* the katechon. The liberal world order — globalization, individual rights as highest value, the dissolution of traditional identity — is identified not metaphorically but ontologically with the Antichrist system. Russia's civilizational mission is to restrain this dissolution.
+
+This maps onto Russian strategic behavior with unsettling precision. Russia maintains relationships with Israel, Iran, Turkey, Saudi Arabia, and the Palestinians simultaneously. It intervened in Syria not to win but to prevent resolution — to ensure that no single actor achieved dominance. In any US-Iran confrontation, Russia's optimal outcome is neither American victory nor Iranian victory but prolonged stalemate: American power exhausted, Iran preserved as a partner, energy prices elevated to fund the Russian state, and — crucially — no eschatological project reaching completion.
+
+This is katechon strategy translated into realpolitik. Restrain all sides. Prevent any apocalypse from actually arriving. Maintain the holding pattern.
+
+Russia is arguably the most dangerous actor in this drama precisely because it *understands* the eschatological dynamics better than any other player. It is not a bemused outsider like China. It is not a true believer racing toward fulfillment like the Christian Zionists or the Iranian theocrats. It is a civilizational actor that has theologized its own strategic interest into a cosmic mission of restraint — which conveniently justifies maintaining its own power indefinitely. The katechon can never retire. The restrainer must always restrain. And so Russia needs the eschatological conflict to continue, just as capital does, but for theological rather than monetary reasons.
+
+Here the Sino-Russian partnership reveals its structural fragility. In the short term, Moscow and Beijing agree that American hegemony must end. But they disagree fundamentally about what follows. China wants a post-metaphysical multipolar trading order. Russia wants a renewed Christendom, or at least a world in which traditional civilizations maintain spiritual sovereignty against liberal dissolution. China says *your apocalypse is irrelevant to us*. Russia says *your apocalypse is real, and it is our sacred duty to prevent it*. These are not reconcilable positions in the long run.
+
+---
+
+## The Wheel and the Exit
+
+Lay the board flat and the geometry is stark. Three Abrahamic civilizations are locked in a mimetic spiral, each acting out an eschatological script that requires the same catastrophic trigger events. A financial system profits from the perpetual tension. An intelligence apparatus has the operational means to accelerate or decelerate each script. Russia positions itself as the theological restrainer, needing the crisis to continue in order to justify its own existence. And China waits, building an alternative order for whoever survives.
+
+The most disquieting feature of this arrangement is its stability. Every actor's rational self-interest aligns with the perpetuation of the cycle. The true believers need the tension because their prophecies demand it. The financiers need the tension because their balance sheets demand it. The restrainer needs the tension because its identity demands it. And the patient outsider needs the tension because its strategy depends on rivals exhausting themselves.
+
+No one is incentivized to stop.
+
+This suggests that the conventional frameworks for understanding the US-Iran confrontation — deterrence theory, balance of power, rational-actor models — are not wrong so much as incomplete. They describe the surface mechanics while missing the engine beneath. The engine is eschatological, and it runs on a fuel that rational analysis cannot neutralize: *faith*. Not faith in God, necessarily, but faith in the script. Faith that history has a direction, that one's own civilization is the protagonist, and that the final act is near. Against this faith, diplomatic cables and arms-control treaties are gossamer.
+
+The question, then, is whether there exists a posture that is neither acceleration nor restraint nor patient observation. Whether it is possible to step off the wheel entirely — not by denying its existence or pretending the eschatological commitments are merely rhetorical, but by refusing to accept the premise that history must converge on a single sacred geography and a single final battle.
+
+The mystics of every tradition — Meister Eckhart in the Christian West, the Sufis in Islam, the apophatic theologians of Orthodoxy — have always insisted that the deepest encounter with the divine is not an event in history but a transformation of the person. That the kingdom of God is within. That the apocalypse the scriptures describe is an interior catastrophe and an interior renewal, not a geopolitical program. These voices have always been marginal, always been suspected of heresy by the institutional powers that prefer an apocalypse they can schedule and fund.
+
+But they may be the only voices offering an actual exit, rather than another turn of the wheel. The alternative is to remain trapped in the psychodrama — spectators at best, casualties at worst — while civilizations older than any of our institutions grind against each other in pursuit of endings that never come, enriching the systems that ensure they never do.
