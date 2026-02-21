@@ -18,9 +18,44 @@ export interface Env {
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
+async function getVersion(db: D1Database): Promise<number> {
+  const row = await db.prepare("SELECT counter FROM version WHERE id = 1").first<{ counter: number }>();
+  return row?.counter ?? 0;
+}
+
+async function bumpVersion(db: D1Database): Promise<void> {
+  await db.prepare("UPDATE version SET counter = counter + 1 WHERE id = 1").run();
+}
+
 const app = new Hono<{ Bindings: Env }>();
 
 app.use("*", cors());
+
+// ETag / 304 Not Modified for GET requests
+app.use("*", async (c, next) => {
+  if (c.req.method !== "GET") {
+    return next();
+  }
+
+  // Skip non-API routes (attachments have their own cache headers, MCP is not cacheable)
+  const path = c.req.path;
+  if (path.startsWith("/attachments/") || path === "/mcp" || path === "/") {
+    return next();
+  }
+
+  const version = await getVersion(c.env.DB);
+  const etag = `"${version}"`;
+  const ifNoneMatch = c.req.header("If-None-Match");
+
+  if (ifNoneMatch === etag) {
+    return new Response(null, { status: 304 });
+  }
+
+  await next();
+
+  c.res.headers.set("ETag", etag);
+  c.res.headers.set("Cache-Control", "private, no-cache");
+});
 
 app.all("/mcp", async (c) => {
   const server = createMcpServer(c.env);
@@ -352,6 +387,7 @@ app.post("/thoughts", async (c) => {
   }
 
   await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
+  await bumpVersion(c.env.DB);
 
   const thought = {
     id: thoughtId,
@@ -411,6 +447,7 @@ app.delete("/thoughts/:id", async (c) => {
   ).run();
 
   await deleteThoughtEmbeddings(c.env, descendantIds);
+  await bumpVersion(c.env.DB);
 
   return c.body(null, 204);
 });
@@ -468,6 +505,8 @@ app.patch("/tasks/:id", async (c) => {
   if (!task) {
     return c.json({ error: "Not found" }, 404);
   }
+
+  await bumpVersion(c.env.DB);
 
   return c.json(task);
 });
