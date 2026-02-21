@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-02-21T01:21:12.323Z",
+  "config": {
+    "model": "Xenova/all-MiniLM-L6-v2",
+    "minScore": 0.25,
+    "maxRelated": 10
+  },
+  "posts": {},
+  "edges": [],
+  "clusters": {
+    "nodeCluster": {},
+    "clusterMeta": [],
+    "modularity": null
+  },
+  "metadata": {
+    "totalNodes": 0,
+    "totalEdges": 0,
+    "buildTimeMs": 174,
+    "signalsUsed": [
+      "wikilink",
+      "semantic"
+    ]
+  }
+}
