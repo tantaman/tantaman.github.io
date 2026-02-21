@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-02-19T14:25:55.408Z",
+  "generatedAt": "2026-02-21T14:02:12.684Z",
   "config": {
     "model": "Xenova/all-MiniLM-L6-v2",
     "minScore": 0.25,
@@ -641,6 +641,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-20-nyc-mamdani-budget.mdx",
+          "score": 0.449,
+          "type": "semantic"
+        },
+        {
           "id": "2022-05-26-query-planning.mdx",
           "score": 0.403,
           "type": "semantic"
@@ -859,6 +864,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-west-psychodrama.md",
+          "score": 0.743,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-09-diagnosing-white-guilt.md",
           "score": 0.741,
           "type": "semantic"
@@ -866,11 +876,6 @@
         {
           "id": "2025-12-09-monstrous_doubles_girard_essay.md",
           "score": 0.732,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-the-selection-of-souls.md",
-          "score": 0.725,
           "type": "semantic"
         }
       ],
@@ -2161,6 +2166,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-west-psychodrama.md",
+          "score": 0.812,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-09-monstrous_doubles_girard_essay.md",
           "score": 0.74,
           "type": "semantic"
@@ -2193,6 +2203,11 @@
       "related": [
         {
           "id": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
+          "score": 1,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-west-psychodrama.md",
           "score": 1,
           "type": "semantic"
         },
@@ -2234,11 +2249,6 @@
         {
           "id": "2026-01-09-leftism-is-worse-than-fascism.md",
           "score": 0.606,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-29-the-secret-every-political-philosophy.md",
-          "score": 0.601,
           "type": "semantic"
         }
       ],
@@ -4652,6 +4662,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-west-psychodrama.md",
+          "score": 0.64,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-12-the-new-lords.md",
           "score": 0.545,
           "type": "semantic"
@@ -4734,6 +4749,11 @@
     "2026-01-14-the-ideological-trap-for-the-left.md": {
       "related": [
         {
+          "id": "2026-02-21-west-psychodrama.md",
+          "score": 1,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-12-structure-not-vibes-the-real-state.md",
           "score": 0.822,
           "type": "semantic"
@@ -4777,11 +4797,6 @@
           "id": "2026-01-11-the-socialists-convenient-blindness.md",
           "score": 0.631,
           "type": "semantic"
-        },
-        {
-          "id": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
-          "score": 0.593,
-          "type": "semantic"
         }
       ],
       "backlinks": [],
@@ -4820,6 +4835,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-west-psychodrama.md",
+          "score": 0.535,
+          "type": "semantic"
+        },
+        {
           "id": "2026-02-12-what-if-the-thing-youre-protecting.md",
           "score": 0.527,
           "type": "semantic"
@@ -4832,11 +4852,6 @@
         {
           "id": "2026-01-26-the-table.md",
           "score": 0.453,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
-          "score": 0.45,
           "type": "semantic"
         }
       ],
@@ -6322,6 +6337,129 @@
       "backlinks": [],
       "keywords": []
     },
+    "2026-02-19-mysticism-research-list.md": {
+      "related": [
+        {
+          "id": "the-mirror-room/04-the-paradox-of-becoming.md",
+          "score": 0.795,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-what-modernity-needs-a-return-to.md",
+          "score": 0.719,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
+          "score": 0.67,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-15-know-thyself-confucian-buddhist-hindu.md",
+          "score": 0.63,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-15-know-thyself-greek-vs-christian.md",
+          "score": 0.628,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-calvinism-to-capitalism.md",
+          "score": 0.61,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-15-the-return.md",
+          "score": 0.609,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-01-01-the-letter-to-the-therapeutics.md",
+          "score": 0.581,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-17-know-thyself-no-self.md",
+          "score": 0.573,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-battlefield-of-attention.md",
+          "score": 0.556,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-02-20-nyc-mamdani-budget.mdx": {
+      "related": [
+        {
+          "id": "2021-12-23-Deeply-Nested-Updates-React.mdx",
+          "score": 0.449,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-02-21-west-psychodrama.md": {
+      "related": [
+        {
+          "id": "2025-12-12-structure-not-vibes-the-real-state.md",
+          "score": 1,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-14-the-ideological-trap-for-the-left.md",
+          "score": 1,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
+          "score": 0.812,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.768,
+          "type": "semantic"
+        },
+        {
+          "id": "2022-04-25-foundational-myths.md",
+          "score": 0.743,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-12-the-recurring-pattern-left-islamist.md",
+          "score": 0.64,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-29-the-secret-every-political-philosophy.md",
+          "score": 0.599,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-14-the-violence-you-fear-may-be-the.md",
+          "score": 0.535,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-12-the-vulnerability-principle.md",
+          "score": 0.524,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.516,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
     "start-here.md": {
       "related": [
         {
@@ -6408,6 +6546,11 @@
         {
           "id": "bookmarks/philo.substack.com.md",
           "score": 0.5,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/mcp.md",
+          "score": 0.43,
           "type": "semantic"
         },
         {
@@ -8150,6 +8293,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-19-mysticism-research-list.md",
+          "score": 0.795,
+          "type": "semantic"
+        },
+        {
           "id": "the-mirror-room/06-gurdjieff-observations.md",
           "score": 0.691,
           "type": "semantic"
@@ -8172,11 +8320,6 @@
         {
           "id": "2026-01-09-pathologies-of-eastern-secularism.md",
           "score": 0.65,
-          "type": "semantic"
-        },
-        {
-          "id": "chats/2025-10-13-epistemic-humility-discussion.md",
-          "score": 0.636,
           "type": "semantic"
         }
       ],
@@ -8697,6 +8840,27 @@
           "type": "semantic"
         }
       ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/mcp.md": {
+      "related": [
+        {
+          "id": "bookmarks/alecmuffet.com.md",
+          "score": 0.43,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/nyc-budget-simulator.mdx": {
+      "related": [],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/yagni.md": {
+      "related": [],
       "backlinks": [],
       "keywords": []
     }
@@ -9658,6 +9822,32 @@
           "weight": 2,
           "details": {
             "similarity": 0.7408286030582717,
+            "normalizedScore": 1
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
+      "target": "2026-02-21-west-psychodrama.md",
+      "score": 1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 1,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6190647965082666,
             "normalizedScore": 1
           }
         }
@@ -11348,6 +11538,32 @@
           "weight": 2,
           "details": {
             "similarity": 0.6302383646772396,
+            "normalizedScore": 1
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-14-the-ideological-trap-for-the-left.md",
+      "target": "2026-02-21-west-psychodrama.md",
+      "score": 1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 1,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6129429964418356,
             "normalizedScore": 1
           }
         }
@@ -17647,6 +17863,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
+      "target": "2026-02-21-west-psychodrama.md",
+      "score": 0.8116779626362746,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7616779626362745,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5285033887908823,
+            "normalizedScore": 0.7616779626362745
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-01-01-the-capture-of-american-power-peter.md",
       "target": "2026-01-27-what-would-marx-say-today.md",
       "score": 0.8115400671541223,
@@ -18681,6 +18923,32 @@
           "details": {
             "similarity": 0.5241490217419905,
             "normalizedScore": 0.7471634058066351
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-19-mysticism-research-list.md",
+      "target": "the-mirror-room/04-the-paradox-of-becoming.md",
+      "score": 0.7952031350210352,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7452031350210352,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5235609405063105,
+            "normalizedScore": 0.7452031350210352
           }
         }
       ],
@@ -20267,6 +20535,32 @@
           "details": {
             "similarity": 0.5156720974329522,
             "normalizedScore": 0.7189069914431739
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-10-arhictecture-of-harm.md",
+      "target": "2026-02-21-west-psychodrama.md",
+      "score": 0.7678354519299585,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7178354519299585,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5153506355789875,
+            "normalizedScore": 0.7178354519299585
           }
         }
       ],
@@ -22353,6 +22647,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2022-04-25-foundational-myths.md",
+      "target": "2026-02-21-west-psychodrama.md",
+      "score": 0.7428547416679723,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6928547416679722,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5078564225003916,
+            "normalizedScore": 0.6928547416679722
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-19-the-employable-subject.md",
       "target": "2026-02-09-the-invisible-right-on-what-becomes.md",
       "score": 0.7426768404032656,
@@ -24063,6 +24383,32 @@
           "details": {
             "similarity": 0.5006854018160523,
             "normalizedScore": 0.6689513393868409
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
+      "target": "2026-02-19-mysticism-research-list.md",
+      "score": 0.7188491055719842,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6688491055719842,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5006547316715952,
+            "normalizedScore": 0.6688491055719842
           }
         }
       ],
@@ -27631,6 +27977,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
+      "target": "2026-02-19-mysticism-research-list.md",
+      "score": 0.6703875044730397,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6203875044730397,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4861162513419119,
+            "normalizedScore": 0.6203875044730397
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-17-know-thyself-no-self.md",
       "target": "2026-01-15-the-physicians-of-decay.md",
       "score": 0.6703693970452002,
@@ -30023,6 +30395,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-12-the-recurring-pattern-left-islamist.md",
+      "target": "2026-02-21-west-psychodrama.md",
+      "score": 0.63988294790492,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5898829479049199,
+          "weight": 2,
+          "details": {
+            "similarity": 0.47696488437147594,
+            "normalizedScore": 0.5898829479049199
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-01-11-debugging-the-confusion-liberalism.md",
       "score": 0.6394777737743487,
@@ -31089,6 +31487,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-15-know-thyself-confucian-buddhist-hindu.md",
+      "target": "2026-02-19-mysticism-research-list.md",
+      "score": 0.6298190137972198,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5798190137972198,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4739457041391659,
+            "normalizedScore": 0.5798190137972198
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-16-know-thyself-gurdjieff-kierkegaard.md",
       "target": "2026-01-12-principalities-and-powers.md",
       "score": 0.6290532681291066,
@@ -31109,6 +31533,32 @@
           "details": {
             "similarity": 0.4737159804387319,
             "normalizedScore": 0.5790532681291065
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-15-know-thyself-greek-vs-christian.md",
+      "target": "2026-02-19-mysticism-research-list.md",
+      "score": 0.6284867036538038,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5784867036538037,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4735460110961411,
+            "normalizedScore": 0.5784867036538037
           }
         }
       ],
@@ -32988,6 +33438,32 @@
     },
     {
       "source": "2025-12-10-calvinism-to-capitalism.md",
+      "target": "2026-02-19-mysticism-research-list.md",
+      "score": 0.6104723331389345,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5604723331389344,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4681416999416803,
+            "normalizedScore": 0.5604723331389344
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-10-calvinism-to-capitalism.md",
       "target": "2025-12-17-the-invention-of-the-confessing-animal.md",
       "score": 0.6102211588802819,
       "signals": [
@@ -33059,6 +33535,32 @@
           "details": {
             "similarity": 0.46791996504207894,
             "normalizedScore": 0.5597332168069299
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-15-the-return.md",
+      "target": "2026-02-19-mysticism-research-list.md",
+      "score": 0.6094463740894378,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5594463740894378,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4678339122268313,
+            "normalizedScore": 0.5594463740894378
           }
         }
       ],
@@ -34313,6 +34815,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-29-the-secret-every-political-philosophy.md",
+      "target": "2026-02-21-west-psychodrama.md",
+      "score": 0.5994174153899301,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.54941741538993,
+          "weight": 2,
+          "details": {
+            "similarity": 0.464825224616979,
+            "normalizedScore": 0.54941741538993
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2020-09-13-declarative.md",
       "target": "2021-12-17-Object-Identity.mdx",
       "score": 0.5990283598314294,
@@ -34333,370 +34861,6 @@
           "details": {
             "similarity": 0.4647085079494288,
             "normalizedScore": 0.5490283598314294
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-10-calvinism-to-capitalism.md",
-      "target": "2026-01-11-debugging-the-confusion-liberalism.md",
-      "score": 0.5989698823362979,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5489698823362978,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46469096470088933,
-            "normalizedScore": 0.5489698823362978
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "notes/logical clocks.md",
-      "target": "notes/vector clock growth.md",
-      "score": 0.5988438411508583,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5488438411508583,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46465315234525745,
-            "normalizedScore": 0.5488438411508583
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-      "target": "2025-12-18-the-battlefield-of-attention.md",
-      "score": 0.5987747932287751,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5487747932287751,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4646324379686325,
-            "normalizedScore": 0.5487747932287751
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-15-know-thyself-greek-vs-christian.md",
-      "target": "2026-01-26-the-table.md",
-      "score": 0.598583746399969,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.548583746399969,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4645751239199907,
-            "normalizedScore": 0.548583746399969
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-      "target": "2026-02-07-the-lamb.md",
-      "score": 0.5979967900649867,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5479967900649867,
-          "weight": 2,
-          "details": {
-            "similarity": 0.464399037019496,
-            "normalizedScore": 0.5479967900649867
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2022-01-09-improving-code-sharing.md",
-      "target": "2022-04-07-your-package-is-two.mdx",
-      "score": 0.597894908537181,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5478949085371809,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46436847256115427,
-            "normalizedScore": 0.5478949085371809
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-david-graeber-the-utopia-of-rules.md",
-      "target": "2026-01-25-the-ice-protest-that-changes-nothing.md",
-      "score": 0.5975645460553077,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5475645460553077,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4642693638165923,
-            "normalizedScore": 0.5475645460553077
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-09-trauma-culture-white-guilt-checkmate.md",
-      "target": "2026-01-11-debugging-the-confusion-liberalism.md",
-      "score": 0.597187006825146,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.547187006825146,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46415610204754376,
-            "normalizedScore": 0.547187006825146
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-17-know-thyself-no-self.md",
-      "target": "2026-02-11-the-gaze.md",
-      "score": 0.5969347583646772,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5469347583646772,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46408042750940315,
-            "normalizedScore": 0.5469347583646772
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-the-selection-of-souls.md",
-      "target": "2025-12-21-the-incomplete-god-why-science-cannot.md",
-      "score": 0.5965289570002957,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5465289570002957,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4639586871000887,
-            "normalizedScore": 0.5465289570002957
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2021-12-17-Object-Identity.mdx",
-      "target": "2025-12-17-know-thyself-no-self.md",
-      "score": 0.5964897808078251,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5464897808078251,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4639469342423475,
-            "normalizedScore": 0.5464897808078251
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-      "target": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
-      "score": 0.5963329572730496,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5463329572730495,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4638998871819148,
-            "normalizedScore": 0.5463329572730495
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2022-04-25-foundational-myths.md",
-      "target": "2026-01-11-the-socialists-convenient-blindness.md",
-      "score": 0.5962671832217458,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5462671832217457,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4638801549665237,
-            "normalizedScore": 0.5462671832217457
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-02-monotheism-oneness-traps.md",
-      "target": "2025-12-21-the-liquefaction-of-being-materialism.md",
-      "score": 0.5960377855701642,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5460377855701641,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4638113356710492,
-            "normalizedScore": 0.5460377855701641
           }
         }
       ],
@@ -34775,9 +34939,9 @@
       "2025-12-12-making-sense-of-us-ukraine-negotations.md": 4,
       "2025-12-12-structure-not-vibes-the-real-state.md": 4,
       "2025-12-12-the-vulnerability-principle.md": 4,
-      "2025-12-12-trumps-techno-fetish.md": 13,
+      "2025-12-12-trumps-techno-fetish.md": 4,
       "2025-12-12-why-cultures-differentiate.md": 5,
-      "2025-12-15-burnout-is-a-modern-invention.md": 5,
+      "2025-12-15-burnout-is-a-modern-invention.md": 9,
       "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 5,
       "2025-12-15-know-thyself-greek-vs-christian.md": 5,
       "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 5,
@@ -34799,11 +34963,11 @@
       "2025-12-19-when-equations-see-what-eyes-cannot.md": 5,
       "2025-12-20-summarizing-19-12-2025.md": 5,
       "2025-12-21-the-incomplete-god-why-science-cannot.md": 5,
-      "2025-12-21-the-liquefaction-of-being-materialism.md": 4,
+      "2025-12-21-the-liquefaction-of-being-materialism.md": 9,
       "2025-12-21-what-modernity-needs-a-return-to.md": 5,
-      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 9,
+      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 5,
       "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 4,
-      "2026-01-09-diagnosing-white-guilt.md": 4,
+      "2026-01-09-diagnosing-white-guilt.md": 9,
       "2026-01-09-leftism-is-worse-than-fascism.md": 4,
       "2026-01-09-pathologies-of-eastern-secularism.md": 5,
       "2026-01-09-the-epistemology-of-impotence-how.md": 4,
@@ -34819,10 +34983,10 @@
       "2026-01-12-the-epistle-to-the-managed.md": 5,
       "2026-01-12-the-new-lords.md": 4,
       "2026-01-12-the-recurring-pattern-left-islamist.md": 4,
-      "2026-01-14-the-fence-you-cannot-see.md": 4,
+      "2026-01-14-the-fence-you-cannot-see.md": 9,
       "2026-01-14-the-ideological-trap-for-the-left.md": 4,
       "2026-01-14-the-violence-you-fear-may-be-the.md": 4,
-      "2026-01-14-we-can-capture-our-way-out.md": 13,
+      "2026-01-14-we-can-capture-our-way-out.md": 4,
       "2026-01-15-the-physicians-of-decay.md": 9,
       "2026-01-15-the-return.md": 5,
       "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 4,
@@ -34831,46 +34995,49 @@
       "2026-01-23-the-language-that-thinks-for-you.md": 9,
       "2026-01-25-the-ice-protest-that-changes-nothing.md": 4,
       "2026-01-25-the-machine-that-eats-the-world.md": 4,
-      "2026-01-26-the-table.md": 5,
+      "2026-01-26-the-table.md": 9,
       "2026-01-27-manufacturing-luck.mdx": 7,
       "2026-01-27-what-would-marx-say-today.md": 4,
       "2026-01-28-the-body-as-ground.md": 5,
       "2026-01-29-the-secret-every-political-philosophy.md": 4,
       "2026-01-31-education-cannot-save-us.md": 4,
-      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 4,
+      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 9,
       "2026-02-02-the-executive-function-curriculum.md": 4,
       "2026-02-06-meaning-at-the-boundary.md": 5,
       "2026-02-06-mystical-meaning.md": 5,
       "2026-02-07-the-lamb-part-ii.md": 9,
       "2026-02-07-the-lamb.md": 9,
       "2026-02-07-tyler-durden-on-how-they-broke-you.md": 9,
-      "2026-02-09-the-cage-and-the-argument-about-its.md": 4,
+      "2026-02-09-the-cage-and-the-argument-about-its.md": 9,
       "2026-02-09-the-invisible-right-on-what-becomes.md": 4,
-      "2026-02-09-what-holds-you.md": 4,
+      "2026-02-09-what-holds-you.md": 9,
       "2026-02-11-nine-months-two-men.md": 9,
       "2026-02-11-the-gaze.md": 9,
       "2026-02-12-the-ironist-gen-z-and-the-ground.md": 9,
       "2026-02-12-what-if-the-thing-youre-protecting.md": 9,
+      "2026-02-19-mysticism-research-list.md": 5,
+      "2026-02-20-nyc-mamdani-budget.mdx": 0,
+      "2026-02-21-west-psychodrama.md": 4,
       "start-here.md": 5,
       "bookmarks/alecmuffet.com.md": 0,
       "bookmarks/allenfarrington.medium.com.md": 0,
-      "bookmarks/antonz.org.md": 14,
-      "bookmarks/assemblyai.com.md": 15,
+      "bookmarks/antonz.org.md": 13,
+      "bookmarks/assemblyai.com.md": 14,
       "bookmarks/bartoszsypytkowski.com.md": 0,
       "bookmarks/beautifulracket.com.md": 0,
       "bookmarks/blockprotocol.org.md": 0,
       "bookmarks/cgi.luddy.indiana.edu.md": 0,
       "bookmarks/cs.utexas.edu.md": 0,
-      "bookmarks/daveliepmann.com.md": 16,
-      "bookmarks/david-dahan.com.md": 17,
-      "bookmarks/david.rothlis.net.md": 14,
+      "bookmarks/daveliepmann.com.md": 15,
+      "bookmarks/david-dahan.com.md": 16,
+      "bookmarks/david.rothlis.net.md": 13,
       "bookmarks/desolenator.com.md": 0,
-      "bookmarks/developers.soundcloud.com.md": 18,
+      "bookmarks/developers.soundcloud.com.md": 17,
       "bookmarks/devever.net.md": 0,
       "bookmarks/dist-prog-book.com.md": 0,
       "bookmarks/dwitter.net.md": 0,
-      "bookmarks/edwardtufte.github.io.md": 19,
-      "bookmarks/fly.io.md": 14,
+      "bookmarks/edwardtufte.github.io.md": 18,
+      "bookmarks/fly.io.md": 13,
       "bookmarks/glitch.com.md": 0,
       "bookmarks/hal.inria.fr.md": 0,
       "bookmarks/hash.ai.md": 0,
@@ -34881,11 +35048,11 @@
       "bookmarks/philo.substack.com.md": 0,
       "bookmarks/pketh.org.md": 0,
       "bookmarks/pouet.net.md": 0,
-      "bookmarks/sigbus.info.md": 20,
+      "bookmarks/sigbus.info.md": 19,
       "bookmarks/skiff.com.md": 0,
       "bookmarks/unpaywall.org.md": 0,
       "bookmarks/wundergraph.hasnode.dev.md": 0,
-      "notes/2025-gift-list.md": 21,
+      "notes/2025-gift-list.md": 20,
       "notes/2025-murder-mystery.md": 4,
       "notes/a protocol for integrations.md": 0,
       "notes/bloom.md": 0,
@@ -34898,17 +35065,17 @@
       "notes/logical clocks.md": 0,
       "notes/monotheism and oneness.md": 4,
       "notes/query builder arguments.md": 0,
-      "notes/scratch.md": 22,
+      "notes/scratch.md": 21,
       "notes/streaming systems.md": 0,
       "notes/tla+.md": 0,
       "notes/type systems.md": 0,
       "notes/vector clock growth.md": 0,
-      "the-mirror-room/01-the-consistent-man.md": 9,
+      "the-mirror-room/01-the-consistent-man.md": 5,
       "the-mirror-room/02-the-mirror-room.md": 9,
       "the-mirror-room/03-the-meeting.md": 9,
-      "the-mirror-room/04-the-paradox-of-becoming.md": 9,
-      "the-mirror-room/05-the-readers-crisis.md": 4,
-      "the-mirror-room/06-gurdjieff-observations.md": 9,
+      "the-mirror-room/04-the-paradox-of-becoming.md": 5,
+      "the-mirror-room/05-the-readers-crisis.md": 9,
+      "the-mirror-room/06-gurdjieff-observations.md": 5,
       "the-mirror-room/audio.md": 9,
       "the-mirror-room/index.md": 9,
       "the-mirror-room/scratch.md": 5,
@@ -34917,162 +35084,170 @@
       "chats/2025-10-14-2k-years-christiantiy.md": 5,
       "chats/2025-10-14-girards-scapegoat-mechanism.md": 4,
       "chats/2025-10-14-summarize-fear-of-falling.md": 4,
-      "chats/2025-10-15-ai-impact-on-labor.md": 13,
-      "chats/2025-12-03-paul-and-roman-conspiracy.md": 5
+      "chats/2025-10-15-ai-impact-on-labor.md": 4,
+      "chats/2025-12-03-paul-and-roman-conspiracy.md": 5,
+      "pages/mcp.md": 0,
+      "pages/nyc-budget-simulator.mdx": 22,
+      "pages/yagni.md": 23
     },
     "clusterMeta": [
       {
         "id": 0,
         "centerX": 4.898587196589413e-14,
         "centerY": -800,
-        "nodeCount": 71,
+        "nodeCount": 73,
         "name": "Software"
       },
       {
         "id": 1,
-        "centerX": 215.83741692561938,
-        "centerY": -770.3338298782395,
+        "centerX": 207.0552360820166,
+        "centerY": -772.7406610312546,
         "nodeCount": 1
       },
       {
         "id": 2,
-        "centerX": 415.66716002834687,
-        "centerY": -683.5355236371909,
+        "centerX": 399.9999999999999,
+        "centerY": -692.820323027551,
         "nodeCount": 1
       },
       {
         "id": 3,
-        "centerX": 584.6687714224993,
-        "centerY": -546.0425145749233,
+        "centerX": 565.685424949238,
+        "centerY": -565.6854249492379,
         "nodeCount": 1
       },
       {
         "id": 4,
-        "centerX": 710.3081747219002,
-        "centerY": -368.0520301849217,
-        "nodeCount": 44,
-        "name": "Politics & Culture"
+        "centerX": 692.8203230275509,
+        "centerY": -400,
+        "nodeCount": 41,
+        "name": "Politics & Philosophy"
       },
       {
         "id": 5,
-        "centerX": 783.2672701458583,
-        "centerY": -162.76481044210695,
-        "nodeCount": 50,
+        "centerX": 772.7406610312546,
+        "centerY": -207.05523608201653,
+        "nodeCount": 53,
         "name": "Religion & Philosophy"
       },
       {
         "id": 6,
-        "centerX": 798.1350153524313,
-        "centerY": 54.59393069173676,
+        "centerX": 800,
+        "centerY": 0,
         "nodeCount": 1
       },
       {
         "id": 7,
-        "centerX": 753.8087376950564,
-        "centerY": 267.903689736789,
+        "centerX": 772.7406610312546,
+        "centerY": 207.05523608201653,
         "nodeCount": 3,
         "name": "Math & Software"
       },
       {
         "id": 8,
-        "centerX": 653.5759144083537,
-        "centerY": 461.3442576918937,
+        "centerX": 692.820323027551,
+        "centerY": 399.9999999999999,
         "nodeCount": 1
       },
       {
         "id": 9,
-        "centerX": 504.8703554608424,
-        "centerY": 620.5690325635358,
-        "nodeCount": 24,
+        "centerX": 565.685424949238,
+        "centerY": 565.6854249492379,
+        "nodeCount": 29,
         "name": "Culture & Philosophy"
       },
       {
         "id": 10,
-        "centerX": 318.7208718769931,
-        "centerY": 733.7690412043625,
+        "centerX": 399.9999999999999,
+        "centerY": 692.820323027551,
         "nodeCount": 1
       },
       {
         "id": 11,
-        "centerX": 108.93331927699764,
-        "centerY": 792.5487568290645,
+        "centerX": 207.05523608201676,
+        "centerY": 772.7406610312546,
         "nodeCount": 1
       },
       {
         "id": 12,
-        "centerX": -108.93331927699717,
-        "centerY": 792.5487568290646,
+        "centerX": 4.898587196589413e-14,
+        "centerY": 800,
         "nodeCount": 1
       },
       {
         "id": 13,
-        "centerX": -318.7208718769933,
-        "centerY": 733.7690412043623,
-        "nodeCount": 3,
-        "name": "Economics & Politics"
-      },
-      {
-        "id": 14,
-        "centerX": -504.8703554608423,
-        "centerY": 620.5690325635359,
+        "centerX": -207.05523608201668,
+        "centerY": 772.7406610312546,
         "nodeCount": 3,
         "name": "Sqlite & Json"
       },
       {
+        "id": 14,
+        "centerX": -399.99999999999983,
+        "centerY": 692.820323027551,
+        "nodeCount": 1
+      },
+      {
         "id": 15,
-        "centerX": -653.5759144083536,
-        "centerY": 461.34425769189374,
+        "centerX": -565.6854249492377,
+        "centerY": 565.6854249492383,
         "nodeCount": 1
       },
       {
         "id": 16,
-        "centerX": -753.8087376950563,
-        "centerY": 267.9036897367891,
+        "centerX": -692.8203230275508,
+        "centerY": 400.0000000000003,
         "nodeCount": 1
       },
       {
         "id": 17,
-        "centerX": -798.1350153524314,
-        "centerY": 54.593930691736325,
+        "centerX": -772.7406610312546,
+        "centerY": 207.05523608201645,
         "nodeCount": 1
       },
       {
         "id": 18,
-        "centerX": -783.2672701458584,
-        "centerY": -162.7648104421067,
+        "centerX": -800,
+        "centerY": 9.797174393178826e-14,
         "nodeCount": 1
       },
       {
         "id": 19,
-        "centerX": -710.3081747219004,
-        "centerY": -368.0520301849213,
+        "centerX": -772.7406610312547,
+        "centerY": -207.05523608201628,
         "nodeCount": 1
       },
       {
         "id": 20,
-        "centerX": -584.6687714224992,
-        "centerY": -546.0425145749234,
+        "centerX": -692.8203230275509,
+        "centerY": -400.0000000000001,
         "nodeCount": 1
       },
       {
         "id": 21,
-        "centerX": -415.66716002834687,
-        "centerY": -683.5355236371909,
+        "centerX": -565.6854249492382,
+        "centerY": -565.6854249492379,
         "nodeCount": 1
       },
       {
         "id": 22,
-        "centerX": -215.83741692562012,
-        "centerY": -770.3338298782393,
+        "centerX": -400.00000000000034,
+        "centerY": -692.8203230275508,
+        "nodeCount": 1
+      },
+      {
+        "id": 23,
+        "centerX": -207.05523608201722,
+        "centerY": -772.7406610312545,
         "nodeCount": 1
       }
     ],
-    "modularity": 0.3197303565353474
+    "modularity": 0.3090491925713448
   },
   "metadata": {
-    "totalNodes": 214,
-    "totalEdges": 2301,
-    "buildTimeMs": 256,
+    "totalNodes": 220,
+    "totalEdges": 2362,
+    "buildTimeMs": 376,
     "signalsUsed": [
       "wikilink",
       "semantic"

@@ -1,3 +1,10 @@
+---
+title: "The West Is Trapped in a Religious Psychodrama It Can't Escape"
+tags: [geopolitics, religion, eschatology, mimetic-theory]
+description: 'Three Abrahamic civilizations are locked in an escalation spiral driven by incompatible end-times narratives, while a financial system profits from the tension and China builds an alternative order.'
+date: '2026-02-21'
+---
+
 # The West Is Trapped in a Religious Psychodrama It Can't Escape
 
 It does not matter whether the prophecies are true. What matters is that the people with the most power and the most weapons believe they are — or find it useful to act as though they do. Once you bracket the question of theological truth and ask instead what happens when nuclear-armed civilizations organize their foreign policy around incompatible end-times narratives, the landscape of global conflict becomes legible in ways that conventional geopolitical analysis cannot account for.
