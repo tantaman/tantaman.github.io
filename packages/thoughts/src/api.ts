@@ -49,7 +49,7 @@ export async function postThought(
   body: string,
   secret: string,
   parentId?: number,
-  files?: FileList | null,
+  files?: File[],
 ): Promise<Thought> {
   const headers: Record<string, string> = {
     Authorization: `Bearer ${secret}`,
@@ -61,7 +61,7 @@ export async function postThought(
     const fd = new FormData();
     fd.append('body', body);
     if (parentId != null) fd.append('parent_id', String(parentId));
-    for (let i = 0; i < files.length; i++) fd.append('file', files[i]);
+    for (const file of files) fd.append('file', file);
     reqBody = fd;
   } else {
     headers['Content-Type'] = 'application/json';
