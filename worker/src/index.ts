@@ -6,6 +6,8 @@ import { extractTasks } from "./tasks";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
+import { createMimeMessage } from "mimetext/browser";
+import { EmailMessage } from "cloudflare:email";
 
 export interface Env {
   AI: Ai;
@@ -14,6 +16,7 @@ export interface Env {
   BUCKET: R2Bucket;
   VECTORIZE: Vectorize;
   THOUGHT_SECRET: string;
+  EMAIL: SendEmail;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -39,7 +42,7 @@ app.use("*", async (c, next) => {
 
   // Skip non-API routes (attachments have their own cache headers, MCP is not cacheable)
   const path = c.req.path;
-  if (path.startsWith("/attachments/") || path === "/mcp" || path === "/") {
+  if (path.startsWith("/attachments/") || path.startsWith("/comments") || path === "/mcp" || path === "/") {
     return next();
   }
 
@@ -533,6 +536,233 @@ app.get("/events", async (c) => {
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
   return c.json({ events: results.results });
+});
+
+// --- Comments ---
+
+app.get("/comments", async (c) => {
+  const slug = c.req.query("slug");
+  if (!slug) {
+    return c.json({ error: "Missing slug parameter" }, 400);
+  }
+
+  const results = await c.env.DB.prepare(
+    `SELECT id, post_slug, author_name, body, created_at, parent_id
+     FROM comment
+     WHERE post_slug = ?
+     ORDER BY created_at ASC`
+  ).bind(slug).all();
+
+  return c.json({ comments: results.results });
+});
+
+// Send a verification code to an email address
+app.post("/comments/auth", async (c) => {
+  const json = await c.req.json<{ email: string; name: string }>();
+
+  const email = (json.email || "").trim().toLowerCase();
+  const name = (json.name || "").trim();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return c.json({ error: "Valid email is required" }, 400);
+  }
+  if (!name || name.length > 100) {
+    return c.json({ error: "Name must be 1-100 characters" }, 400);
+  }
+
+  // Generate 6-digit code
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const expiresAt = Math.floor(Date.now() / 1000) + 600; // 10 minutes
+
+  // Clean up old codes for this email
+  await c.env.DB.prepare(
+    "DELETE FROM email_verification WHERE email = ?"
+  ).bind(email).run();
+
+  await c.env.DB.prepare(
+    "INSERT INTO email_verification (email, name, code, expires_at) VALUES (?, ?, ?, ?)"
+  ).bind(email, name, code, expiresAt).run();
+
+  // Send email
+  const msg = createMimeMessage();
+  msg.setSender({ name: "Tantamanlands", addr: "noreply@tantaman.com" });
+  msg.setRecipient(email);
+  msg.setSubject("Your verification code");
+  msg.addMessage({
+    contentType: "text/plain",
+    data: `Your verification code is: ${code}\n\nEnter this code on the page to verify your email and post your comment.\n\nThis code expires in 10 minutes.`,
+  });
+
+  const message = new EmailMessage("noreply@tantaman.com", email, msg.asRaw());
+  await c.env.EMAIL.send(message);
+
+  return c.json({ ok: true });
+});
+
+// Verify a code and return a session token
+app.post("/comments/auth/verify", async (c) => {
+  const json = await c.req.json<{ email: string; code: string }>();
+
+  const email = (json.email || "").trim().toLowerCase();
+  const code = (json.code || "").trim();
+
+  if (!email || !code) {
+    return c.json({ error: "Email and code are required" }, 400);
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+
+  const verification = await c.env.DB.prepare(
+    "SELECT id, name, code, expires_at FROM email_verification WHERE email = ? ORDER BY id DESC LIMIT 1"
+  ).bind(email).first<{ id: number; name: string; code: string; expires_at: number }>();
+
+  if (!verification) {
+    return c.json({ error: "No verification pending for this email" }, 400);
+  }
+
+  if (now > verification.expires_at) {
+    await c.env.DB.prepare("DELETE FROM email_verification WHERE email = ?").bind(email).run();
+    return c.json({ error: "Code expired. Please request a new one." }, 400);
+  }
+
+  if (verification.code !== code) {
+    return c.json({ error: "Invalid code" }, 400);
+  }
+
+  // Clean up verification
+  await c.env.DB.prepare("DELETE FROM email_verification WHERE email = ?").bind(email).run();
+
+  // Create or update commenter
+  const existing = await c.env.DB.prepare(
+    "SELECT id, session_token FROM commenter WHERE email = ?"
+  ).bind(email).first<{ id: number; session_token: string }>();
+
+  let commenterId: number;
+  let sessionToken: string;
+
+  if (existing) {
+    // Update name, keep existing session token
+    commenterId = existing.id;
+    sessionToken = existing.session_token;
+    await c.env.DB.prepare(
+      "UPDATE commenter SET name = ? WHERE id = ?"
+    ).bind(verification.name, commenterId).run();
+  } else {
+    sessionToken = crypto.randomUUID();
+    const result = await c.env.DB.prepare(
+      "INSERT INTO commenter (email, name, session_token, created_at) VALUES (?, ?, ?, ?)"
+    ).bind(email, verification.name, sessionToken, now).run();
+    commenterId = result.meta.last_row_id;
+  }
+
+  return c.json({
+    session_token: sessionToken,
+    commenter_id: commenterId,
+    name: verification.name,
+    email,
+  });
+});
+
+// Check if a session token is still valid
+app.get("/comments/auth/session", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth?.startsWith("Bearer ")) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const token = auth.slice(7);
+  const commenter = await c.env.DB.prepare(
+    "SELECT id, email, name FROM commenter WHERE session_token = ?"
+  ).bind(token).first<{ id: number; email: string; name: string }>();
+
+  if (!commenter) {
+    return c.json({ error: "Invalid session" }, 401);
+  }
+
+  return c.json({ commenter_id: commenter.id, email: commenter.email, name: commenter.name });
+});
+
+// Post a comment (requires verified session)
+app.post("/comments", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth?.startsWith("Bearer ")) {
+    return c.json({ error: "Unauthorized. Verify your email first." }, 401);
+  }
+
+  const token = auth.slice(7);
+  const commenter = await c.env.DB.prepare(
+    "SELECT id, name FROM commenter WHERE session_token = ?"
+  ).bind(token).first<{ id: number; name: string }>();
+
+  if (!commenter) {
+    return c.json({ error: "Invalid session. Please verify your email again." }, 401);
+  }
+
+  const json = await c.req.json<{
+    slug: string;
+    body: string;
+    parent_id?: number | null;
+    hp?: string;
+  }>();
+
+  // Honeypot check
+  if (json.hp) {
+    return c.json({ id: 0, post_slug: json.slug, author_name: commenter.name, body: json.body, created_at: 0, parent_id: null }, 201);
+  }
+
+  const slug = (json.slug || "").trim();
+  const body = (json.body || "").trim();
+  const parentId = json.parent_id ?? null;
+
+  if (!slug) {
+    return c.json({ error: "slug is required" }, 400);
+  }
+  if (!body || body.length > 2000) {
+    return c.json({ error: "body must be 1-2000 characters" }, 400);
+  }
+
+  if (parentId != null) {
+    const parent = await c.env.DB.prepare(
+      "SELECT id FROM comment WHERE id = ?"
+    ).bind(parentId).first();
+    if (!parent) {
+      return c.json({ error: "Parent comment not found" }, 404);
+    }
+  }
+
+  const createdAt = Math.floor(Date.now() / 1000);
+
+  const result = await c.env.DB.prepare(
+    "INSERT INTO comment (post_slug, author_name, body, created_at, parent_id, commenter_id) VALUES (?, ?, ?, ?, ?, ?)"
+  ).bind(slug, commenter.name, body, createdAt, parentId, commenter.id).run();
+
+  return c.json({
+    id: result.meta.last_row_id,
+    post_slug: slug,
+    author_name: commenter.name,
+    body,
+    created_at: createdAt,
+    parent_id: parentId,
+  }, 201);
+});
+
+app.delete("/comments/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = c.req.param("id");
+
+  const result = await c.env.DB.prepare(
+    "DELETE FROM comment WHERE id = ?"
+  ).bind(id).run();
+
+  if (result.meta.changes === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  return c.body(null, 204);
 });
 
 app.get("/attachments/*", async (c) => {

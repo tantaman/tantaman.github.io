@@ -2,6 +2,7 @@ packages:
   - packages/compiler
   - packages/frontend
   - packages/thoughts
+  - packages/comments
   - packages/server
   - worker
 
