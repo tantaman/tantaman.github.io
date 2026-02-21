@@ -175,6 +175,17 @@ js: ['/custom.js']             # Optional: additional JS to inject (mainly for M
 ---
 ```
 
+### Content Taxonomy
+
+The browse/tags page uses a three-facet taxonomy. Use existing values — do not introduce new tags without intent.
+
+**Subject** (frontmatter `tags`): philosophy, politics, software, culture, religion, economics, fiction, history, ai, math
+
+**Concern** (frontmatter `concern`): power, ground, modernity, self, knowledge, craft, systems
+
+**Form** (frontmatter `form`): essay, story, chat, interactive, meditation, prophecy
+- When `form` is omitted it is inferred: `the-mirror-room/` → story, `chats/` → chat, `standalone: html` → interactive, otherwise → essay
+
 ### Special Markdown Features
 
 - **Wiki links**: `[[page-name]]` converts to a link to `/page-name`
