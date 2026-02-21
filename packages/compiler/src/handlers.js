@@ -3,6 +3,7 @@ import * as esbuild from 'esbuild';
 
 import layout from './layouts/layouts.js';
 import { read } from 'to-vfile';
+import { VFile } from 'vfile';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkFrontmatter from 'remark-frontmatter';
@@ -71,7 +72,7 @@ export default {
     });
     const companionScriptName = path.basename(file) + '.js';
     const parsed = await processMarkdown(
-      '<div id="mdx"></div>',
+      new VFile({ value: '<div id="mdx"></div>', path: file }),
       {
         script: `import MDXContent from "./${companionScriptName}";
 import React from 'https://esm.sh/react';
