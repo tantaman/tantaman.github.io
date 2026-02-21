@@ -5,8 +5,8 @@ A personal content-driven website (tantaman.com) with a custom static site compi
 ## Development
 
 - `pnpm build` - Build the compiler (TypeScript), frontend, thoughts packages, then compile all content
-- `pnpm dev` or `pnpm build:watch` - Watch mode: rebuilds on compiler or content changes, with live reload
-- `pnpm serve` - Start a static server serving `./docs/` (run in a separate terminal alongside `pnpm dev`)
+- `pnpm dev` - Watch mode: rebuilds on compiler or content changes, runs dev server with live reload
+- `pnpm serve` - Start a static server serving `./docs/`. `pnpm dev` already serves by default.
 - `pnpm build --force` - Force rebuild all content (bypasses mtime cache)
 
 The build uses a file modification time cache (`.build-cache.json`) to skip unchanged files. The compiler auto-detects its own changes via `.tsbuildinfo` and forces a full rebuild when needed.
