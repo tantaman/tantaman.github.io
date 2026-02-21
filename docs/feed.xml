@@ -7,6 +7,19 @@
     <language>en</language>
     <atom:link href="https://tantaman.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>The Structural Trap: NYC&apos;s $127 Billion Budget</title>
+      <link>https://tantaman.com/2026-02-20-nyc-mamdani-budget.html</link>
+      <guid>https://tantaman.com/2026-02-20-nyc-mamdani-budget.html</guid>
+      <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
+      <description>BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area,
+  LineChart, Line, Legend,
+} from &apos;https://esm.sh/recharts&apos;;
+
+export function NYCBudgetEssay() {
+  // ─── Design Tokens ─────────...</description>
+    </item>
+    <item>
       <title>Wanting Without Willing: A Collection of Primary Sources</title>
       <link>https://tantaman.com/2026-02-19-mysticism-research-list.html</link>
       <guid>https://tantaman.com/2026-02-19-mysticism-research-list.html</guid>
@@ -212,23 +225,6 @@ The ancients did not need a philosophy of the body because they had bodies that 
     
        setExpanded(!expanded)}
         className=&quot;w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-800/80 transition-c...</description>
-    </item>
-    <item>
-      <title>What Would Marx Say Today?</title>
-      <link>https://tantaman.com/2026-01-27-what-would-marx-say-today.html</link>
-      <guid>https://tantaman.com/2026-01-27-what-would-marx-say-today.html</guid>
-      <pubDate>Tue, 27 Jan 2026 00:00:00 GMT</pubDate>
-      <description>!
-
-# The Specter of the Credentialed
-
-## A Critique of the Professional-Managerial Class
-
----
-
-A specter is haunting the left—the specter of its own class interest.
-
-All the powers of the old critique have entered into a holy alliance to avoid t...</description>
     </item>
   </channel>
 </rss>
