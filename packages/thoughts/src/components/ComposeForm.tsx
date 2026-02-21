@@ -3,12 +3,22 @@ import {
   useMemo,
   useRef,
   useState,
+  useCallback,
+  useEffect,
   type FormEvent,
   type KeyboardEvent,
+  type DragEvent,
+  type ClipboardEvent,
 } from 'react';
 import { postThought } from '../api';
 import { AuthContext } from '../App';
 import { renderMarkdown } from '../markdown';
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+function isImageType(type: string): boolean {
+  return type.startsWith('image/');
+}
 
 export function ComposeForm({
   parentId,
@@ -25,31 +35,132 @@ export function ComposeForm({
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [fileNames, setFileNames] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [dragging, setDragging] = useState(false);
+  const [previews, setPreviews] = useState<Map<File, string>>(new Map());
   const fileRef = useRef<HTMLInputElement>(null);
+  const dragCounter = useRef(0);
 
   const label = submitLabel || (parentId != null ? 'Reply' : 'Post');
 
-  const handleFileChange = () => {
-    const files = fileRef.current?.files;
-    if (!files || files.length === 0) {
-      setFileNames([]);
-      return;
+  // Revoke object URLs on cleanup
+  useEffect(() => {
+    return () => {
+      previews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previews]);
+
+  const addFiles = useCallback((incoming: File[]) => {
+    const valid: File[] = [];
+    for (const file of incoming) {
+      if (file.size > MAX_FILE_SIZE) {
+        alert(`File "${file.name}" exceeds 5MB limit`);
+        continue;
+      }
+      valid.push(file);
     }
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].size > 5 * 1024 * 1024) {
-        alert(`File "${files[i].name}" exceeds 5MB limit`);
-        if (fileRef.current) fileRef.current.value = '';
-        setFileNames([]);
-        return;
+    if (valid.length === 0) return;
+
+    setFiles((prev) => [...prev, ...valid]);
+
+    // Generate previews for image files
+    const newPreviews = new Map<File, string>();
+    for (const file of valid) {
+      if (isImageType(file.type)) {
+        newPreviews.set(file, URL.createObjectURL(file));
       }
     }
-    setFileNames(Array.from(files).map((f) => f.name));
+    if (newPreviews.size > 0) {
+      setPreviews((prev) => {
+        const merged = new Map(prev);
+        newPreviews.forEach((url, file) => merged.set(file, url));
+        return merged;
+      });
+    }
+  }, []);
+
+  const removeFile = useCallback((index: number) => {
+    setFiles((prev) => {
+      const file = prev[index];
+      setPreviews((prevPreviews) => {
+        const url = prevPreviews.get(file);
+        if (url) {
+          URL.revokeObjectURL(url);
+          const next = new Map(prevPreviews);
+          next.delete(file);
+          return next;
+        }
+        return prevPreviews;
+      });
+      return prev.filter((_, i) => i !== index);
+    });
+  }, []);
+
+  const clearFiles = useCallback(() => {
+    previews.forEach((url) => URL.revokeObjectURL(url));
+    setPreviews(new Map());
+    setFiles([]);
+    if (fileRef.current) fileRef.current.value = '';
+  }, [previews]);
+
+  const handleFileChange = () => {
+    const input = fileRef.current;
+    if (!input?.files || input.files.length === 0) return;
+    addFiles(Array.from(input.files));
+    input.value = '';
   };
 
-  const clearFiles = () => {
-    if (fileRef.current) fileRef.current.value = '';
-    setFileNames([]);
+  const handlePaste = (e: ClipboardEvent) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    const imageFiles: File[] = [];
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.kind === 'file' && isImageType(item.type)) {
+        const file = item.getAsFile();
+        if (file) imageFiles.push(file);
+      }
+    }
+    if (imageFiles.length > 0) {
+      e.preventDefault();
+      addFiles(imageFiles);
+    }
+  };
+
+  const handleDragEnter = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current++;
+    if (e.dataTransfer.types.includes('Files')) {
+      setDragging(true);
+    }
+  };
+
+  const handleDragLeave = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current--;
+    if (dragCounter.current === 0) {
+      setDragging(false);
+    }
+  };
+
+  const handleDragOver = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter.current = 0;
+    setDragging(false);
+
+    const dropped = e.dataTransfer?.files;
+    if (dropped && dropped.length > 0) {
+      addFiles(Array.from(dropped));
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -63,7 +174,7 @@ export function ComposeForm({
         body,
         secret,
         parentId,
-        fileRef.current?.files,
+        files.length > 0 ? files : undefined,
       );
       setText('');
       clearFiles();
@@ -91,7 +202,13 @@ export function ComposeForm({
 
   return (
     <form className={parentId != null ? 'reply-form' : undefined} onSubmit={handleSubmit}>
-      <div className="compose-area">
+      <div
+        className={`compose-area${dragging ? ' compose-area--drag-over' : ''}`}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
         <div className="compose-tabs">
           <button
             type="button"
@@ -121,9 +238,39 @@ export function ComposeForm({
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleKeyDown}
+            onPaste={handlePaste}
           />
         )}
+        {dragging && (
+          <div className="compose-drop-overlay">
+            Drop files here
+          </div>
+        )}
       </div>
+      {files.length > 0 && (
+        <div className="compose-previews">
+          {files.map((file, i) => (
+            <div key={`${file.name}-${file.size}-${i}`} className="compose-preview-item">
+              {previews.has(file) ? (
+                <img
+                  src={previews.get(file)}
+                  alt={file.name}
+                  className="compose-preview-img"
+                />
+              ) : (
+                <span className="compose-preview-name">{file.name}</span>
+              )}
+              <button
+                type="button"
+                className="compose-preview-remove"
+                onClick={() => removeFile(i)}
+              >
+                &times;
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="compose-file-row">
         <label className="compose-file-btn" htmlFor={fileInputId}>
           Attach files
@@ -136,17 +283,14 @@ export function ComposeForm({
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
-        <span className="compose-file-name">
-          {fileNames.join(', ')}
-        </span>
-        {fileNames.length > 0 && (
+        {files.length > 0 && (
           <button
             type="button"
             className="compose-file-clear"
             style={{ display: 'inline' }}
             onClick={clearFiles}
           >
-            &times;
+            Clear all
           </button>
         )}
       </div>
