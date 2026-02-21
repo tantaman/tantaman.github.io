@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-02-21T15:35:28.856Z",
+  "generatedAt": "2026-02-21T15:42:55.749Z",
   "config": {
     "model": "Xenova/all-MiniLM-L6-v2",
     "minScore": 0.25,
@@ -2172,7 +2172,7 @@
         },
         {
           "id": "2026-02-21-west-psychodrama.mdx",
-          "score": 0.602,
+          "score": 0.601,
           "type": "semantic"
         },
         {
@@ -6423,7 +6423,7 @@
         },
         {
           "id": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
-          "score": 0.602,
+          "score": 0.601,
           "type": "semantic"
         },
         {
@@ -16279,7 +16279,7 @@
     {
       "source": "2026-01-14-the-ideological-trap-for-the-left.md",
       "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.8405957518175569,
+      "score": 0.8405163189885295,
       "signals": [
         {
           "name": "wikilink",
@@ -16292,11 +16292,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.7905957518175568,
+          "score": 0.7905163189885295,
           "weight": 2,
           "details": {
-            "similarity": 0.537178725545267,
-            "normalizedScore": 0.7905957518175568
+            "similarity": 0.5371548956965588,
+            "normalizedScore": 0.7905163189885295
           }
         }
       ],
@@ -16435,7 +16435,7 @@
     {
       "source": "2025-12-12-structure-not-vibes-the-real-state.md",
       "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.835571776802052,
+      "score": 0.8355594036768312,
       "signals": [
         {
           "name": "wikilink",
@@ -16448,11 +16448,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.7855717768020519,
+          "score": 0.7855594036768312,
           "weight": 2,
           "details": {
-            "similarity": 0.5356715330406155,
-            "normalizedScore": 0.7855717768020519
+            "similarity": 0.5356678211030493,
+            "normalizedScore": 0.7855594036768312
           }
         }
       ],
@@ -28603,7 +28603,7 @@
     {
       "source": "2025-12-10-arhictecture-of-harm.md",
       "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.661545273230952,
+      "score": 0.6615603553052076,
       "signals": [
         {
           "name": "wikilink",
@@ -28616,11 +28616,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.611545273230952,
+          "score": 0.6115603553052076,
           "weight": 2,
           "details": {
-            "similarity": 0.48346358196928557,
-            "normalizedScore": 0.611545273230952
+            "similarity": 0.48346810659156225,
+            "normalizedScore": 0.6115603553052076
           }
         }
       ],
@@ -34425,32 +34425,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
-      "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.6015613637798758,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5515613637798757,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4654684091339627,
-            "normalizedScore": 0.5515613637798757
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "chats/2025-10-13-epistemic-humility-discussion.md",
       "target": "chats/2025-10-14-2k-years-christiantiy.md",
       "score": 0.6015293147641221,
@@ -34471,6 +34445,32 @@
           "details": {
             "similarity": 0.4654587944292366,
             "normalizedScore": 0.551529314764122
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
+      "target": "2026-02-21-west-psychodrama.mdx",
+      "score": 0.6014178029272782,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5514178029272782,
+          "weight": 2,
+          "details": {
+            "similarity": 0.46542534087818344,
+            "normalizedScore": 0.5514178029272782
           }
         }
       ],
@@ -34935,13 +34935,13 @@
       "2025-12-10-calvinism-to-capitalism.md": 5,
       "2025-12-10-husk-of-god.md": 5,
       "2025-12-10-indigenous-violence-slavery-documentation.md": 12,
-      "2025-12-10-peasent-uprisings.md": 4,
+      "2025-12-10-peasent-uprisings.md": 5,
       "2025-12-12-making-sense-of-us-ukraine-negotations.md": 4,
       "2025-12-12-structure-not-vibes-the-real-state.md": 4,
       "2025-12-12-the-vulnerability-principle.md": 4,
       "2025-12-12-trumps-techno-fetish.md": 13,
       "2025-12-12-why-cultures-differentiate.md": 5,
-      "2025-12-15-burnout-is-a-modern-invention.md": 9,
+      "2025-12-15-burnout-is-a-modern-invention.md": 4,
       "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 5,
       "2025-12-15-know-thyself-greek-vs-christian.md": 5,
       "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 5,
@@ -34965,7 +34965,7 @@
       "2025-12-21-the-incomplete-god-why-science-cannot.md": 5,
       "2025-12-21-the-liquefaction-of-being-materialism.md": 4,
       "2025-12-21-what-modernity-needs-a-return-to.md": 5,
-      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 4,
+      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 5,
       "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 4,
       "2026-01-09-diagnosing-white-guilt.md": 4,
       "2026-01-09-leftism-is-worse-than-fascism.md": 4,
@@ -34987,12 +34987,12 @@
       "2026-01-14-the-ideological-trap-for-the-left.md": 4,
       "2026-01-14-the-violence-you-fear-may-be-the.md": 4,
       "2026-01-14-we-can-capture-our-way-out.md": 13,
-      "2026-01-15-the-physicians-of-decay.md": 9,
+      "2026-01-15-the-physicians-of-decay.md": 5,
       "2026-01-15-the-return.md": 5,
       "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 4,
       "2026-01-23-grammar-as-alignment-the-world-economic.md": 4,
-      "2026-01-23-grammar-rules-all.md": 4,
-      "2026-01-23-the-language-that-thinks-for-you.md": 4,
+      "2026-01-23-grammar-rules-all.md": 9,
+      "2026-01-23-the-language-that-thinks-for-you.md": 9,
       "2026-01-25-the-ice-protest-that-changes-nothing.md": 4,
       "2026-01-25-the-machine-that-eats-the-world.md": 4,
       "2026-01-26-the-table.md": 5,
@@ -35013,7 +35013,7 @@
       "2026-02-09-what-holds-you.md": 4,
       "2026-02-11-nine-months-two-men.md": 9,
       "2026-02-11-the-gaze.md": 9,
-      "2026-02-12-the-ironist-gen-z-and-the-ground.md": 4,
+      "2026-02-12-the-ironist-gen-z-and-the-ground.md": 9,
       "2026-02-12-what-if-the-thing-youre-protecting.md": 4,
       "2026-02-19-mysticism-research-list.md": 5,
       "2026-02-20-nyc-mamdani-budget.mdx": 0,
@@ -35120,14 +35120,14 @@
         "id": 4,
         "centerX": 675.4623404016121,
         "centerY": -428.66143598319724,
-        "nodeCount": 50,
+        "nodeCount": 46,
         "name": "Politics & Culture"
       },
       {
         "id": 5,
         "centerX": 760.8452130361228,
         "centerY": -247.2135954999579,
-        "nodeCount": 50,
+        "nodeCount": 53,
         "name": "Religion & Philosophy"
       },
       {
@@ -35153,7 +35153,7 @@
         "id": 9,
         "centerX": 616.4105942206313,
         "centerY": 509.9391917989518,
-        "nodeCount": 20,
+        "nodeCount": 21,
         "name": "Fiction & Culture"
       },
       {
@@ -35249,12 +35249,12 @@
         "nodeCount": 1
       }
     ],
-    "modularity": 0.31715811197861865
+    "modularity": 0.3168509880747757
   },
   "metadata": {
     "totalNodes": 220,
     "totalEdges": 2355,
-    "buildTimeMs": 282,
+    "buildTimeMs": 217,
     "signalsUsed": [
       "wikilink",
       "semantic"
