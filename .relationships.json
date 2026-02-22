@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-02-22T00:00:59.460Z",
+  "generatedAt": "2026-02-22T01:52:37.606Z",
   "config": {
     "model": "Xenova/all-MiniLM-L6-v2",
     "minScore": 0.25,
@@ -394,8 +394,8 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-          "score": 0.54,
+          "id": "the-mirror-room/scratch.md",
+          "score": 0.539,
           "type": "semantic"
         }
       ],
@@ -1769,11 +1769,6 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-          "score": 1,
-          "type": "semantic"
-        },
-        {
           "id": "start-here.md",
           "score": 1,
           "type": "semantic"
@@ -1796,6 +1791,11 @@
         {
           "id": "2026-01-27-what-would-marx-say-today.md",
           "score": 0.827,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.759,
           "type": "semantic"
         },
         {
@@ -1906,11 +1906,6 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-          "score": 0.756,
-          "type": "semantic"
-        },
-        {
           "id": "2026-01-09-why-the-secularism-in-the-west-became.md",
           "score": 0.732,
           "type": "semantic"
@@ -1918,6 +1913,11 @@
         {
           "id": "2025-12-10-husk-of-god.md",
           "score": 0.702,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-27-what-would-marx-say-today.md",
+          "score": 0.639,
           "type": "semantic"
         }
       ],
@@ -2222,12 +2222,12 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-21-west-psychodrama.mdx",
+          "id": "notes/2025-murder-mystery.md",
           "score": 0.747,
           "type": "semantic"
         },
         {
-          "id": "notes/2025-murder-mystery.md",
+          "id": "2026-02-21-west-psychodrama.mdx",
           "score": 0.747,
           "type": "semantic"
         },
@@ -2951,6 +2951,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-desire-engine-table.mdx",
+          "score": 0.666,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-12-the-economy-of-refusal.md",
           "score": 0.663,
           "type": "semantic"
@@ -2963,11 +2968,6 @@
         {
           "id": "2025-12-18-the-battlefield-of-attention.md",
           "score": 0.647,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-the-alchemy-of-power.md",
-          "score": 0.628,
           "type": "semantic"
         }
       ],
@@ -3073,13 +3073,13 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-11-the-gaze.md",
-          "score": 0.756,
+          "id": "2026-02-21-desire-engine-table.mdx",
+          "score": 0.758,
           "type": "semantic"
         },
         {
-          "id": "2025-12-17-know-thyself-no-self.md",
-          "score": 0.752,
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.756,
           "type": "semantic"
         }
       ],
@@ -3689,13 +3689,13 @@
           "type": "semantic"
         },
         {
-          "id": "2026-01-12-the-economy-of-refusal.md",
-          "score": 0.918,
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.927,
           "type": "semantic"
         },
         {
-          "id": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
-          "score": 0.885,
+          "id": "2026-01-12-the-economy-of-refusal.md",
+          "score": 0.918,
           "type": "semantic"
         }
       ],
@@ -4841,7 +4841,7 @@
         },
         {
           "id": "2026-02-21-west-psychodrama.mdx",
-          "score": 0.481,
+          "score": 0.48,
           "type": "semantic"
         },
         {
@@ -6355,6 +6355,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-desire-engine-table.mdx",
+          "score": 0.657,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-15-know-thyself-confucian-buddhist-hindu.md",
           "score": 0.63,
           "type": "semantic"
@@ -6383,11 +6388,6 @@
           "id": "2025-12-17-know-thyself-no-self.md",
           "score": 0.573,
           "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-the-battlefield-of-attention.md",
-          "score": 0.556,
-          "type": "semantic"
         }
       ],
       "backlinks": [],
@@ -6404,56 +6404,112 @@
       "backlinks": [],
       "keywords": []
     },
+    "2026-02-21-desire-engine-table.mdx": {
+      "related": [
+        {
+          "id": "2025-12-18-the-alchemy-of-power.md",
+          "score": 0.813,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-15-the-return.md",
+          "score": 0.795,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.793,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-12-the-epistle-to-the-managed.md",
+          "score": 0.769,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-battlefield-of-attention.md",
+          "score": 0.758,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.726,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-calvinism-to-capitalism.md",
+          "score": 0.72,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-26-the-table.md",
+          "score": 0.704,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-20-summarizing-19-12-2025.md",
+          "score": 0.703,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-from-galilee-to-empire-the-institutional.md",
+          "score": 0.666,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
     "2026-02-21-structural-wisdom-biblical-eschatology.mdx": {
       "related": [
         {
-          "id": "2025-12-09-exploring-religin-marx.md",
-          "score": 1,
-          "type": "semantic"
-        },
-        {
-          "id": "start-here.md",
-          "score": 0.923,
-          "type": "semantic"
-        },
-        {
           "id": "2025-12-21-what-modernity-needs-a-return-to.md",
-          "score": 0.757,
+          "score": 0.927,
           "type": "semantic"
         },
         {
-          "id": "2025-12-09-secular_eschaton_essay.md",
-          "score": 0.756,
+          "id": "2026-01-15-the-return.md",
+          "score": 0.809,
           "type": "semantic"
         },
         {
-          "id": "2025-12-10-arhictecture-of-harm.md",
-          "score": 0.729,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-11-debugging-the-confusion-liberalism.md",
-          "score": 0.717,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-17-meta-summary-17-12-2025.md",
-          "score": 0.642,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
-          "score": 0.608,
+          "id": "2026-02-21-desire-engine-table.mdx",
+          "score": 0.793,
           "type": "semantic"
         },
         {
           "id": "2026-01-12-principalities-and-powers.md",
-          "score": 0.598,
+          "score": 0.767,
           "type": "semantic"
         },
         {
-          "id": "2026-01-27-what-would-marx-say-today.md",
-          "score": 0.583,
+          "id": "2025-12-09-exploring-religin-marx.md",
+          "score": 0.759,
+          "type": "semantic"
+        },
+        {
+          "id": "start-here.md",
+          "score": 0.758,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.708,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.707,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-battlefield-of-attention.md",
+          "score": 0.686,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-15-the-physicians-of-decay.md",
+          "score": 0.672,
           "type": "semantic"
         }
       ],
@@ -6478,6 +6534,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.524,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
           "score": 0.52,
           "type": "semantic"
@@ -6494,7 +6555,7 @@
         },
         {
           "id": "2026-01-14-the-violence-you-fear-may-be-the.md",
-          "score": 0.481,
+          "score": 0.48,
           "type": "semantic"
         },
         {
@@ -6559,8 +6620,8 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-          "score": 0.923,
+          "id": "2025-12-18-the-shape-of-the-container.md",
+          "score": 0.882,
           "type": "semantic"
         }
       ],
@@ -9640,32 +9701,6 @@
           "details": {
             "similarity": 0.5858846978325513,
             "normalizedScore": 0.952948992775171
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-09-exploring-religin-marx.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 1,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 1,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6002142208159811,
-            "normalizedScore": 1
           }
         }
       ],
@@ -13702,6 +13737,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.9273748983522178,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8773748983522177,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5632124695056653,
+            "normalizedScore": 0.8773748983522177
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-01-14-the-fence-you-cannot-see.md",
       "score": 0.9260931232866848,
@@ -13774,32 +13835,6 @@
           "details": {
             "similarity": 0.5626193431666375,
             "normalizedScore": 0.8753978105554585
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "target": "start-here.md",
-      "score": 0.9233801719593165,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.8733801719593165,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5620140515877949,
-            "normalizedScore": 0.8733801719593165
           }
         }
       ],
@@ -17862,6 +17897,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-18-the-alchemy-of-power.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.8126762189889483,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7626762189889482,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5288028656966844,
+            "normalizedScore": 0.7626762189889482
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-20-summarizing-19-12-2025.md",
       "target": "2026-01-09-the-theological-structure-of-secular.md",
       "score": 0.8124104743570709,
@@ -18012,6 +18073,32 @@
           "details": {
             "similarity": 0.5280499277315949,
             "normalizedScore": 0.760166425771983
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-15-the-return.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.8089855910243969,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7589855910243969,
+          "weight": 2,
+          "details": {
+            "similarity": 0.527695677307319,
+            "normalizedScore": 0.7589855910243969
           }
         }
       ],
@@ -18981,6 +19068,32 @@
     },
     {
       "source": "2026-01-15-the-return.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.7949625327278178,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7449625327278178,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5234887598183453,
+            "normalizedScore": 0.7449625327278178
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-15-the-return.md",
       "target": "2026-02-06-mystical-meaning.md",
       "score": 0.7948408151526023,
       "signals": [
@@ -19078,6 +19191,32 @@
           "details": {
             "similarity": 0.523265462362282,
             "normalizedScore": 0.7442182078742734
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-21-desire-engine-table.mdx",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7933387859407598,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7433387859407597,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5230016357822279,
+            "normalizedScore": 0.7433387859407597
           }
         }
       ],
@@ -20540,6 +20679,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-12-the-epistle-to-the-managed.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.7693747668898268,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7193747668898267,
+          "weight": 2,
+          "details": {
+            "similarity": 0.515812430066948,
+            "normalizedScore": 0.7193747668898267
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
       "score": 0.768906991443174,
@@ -20560,6 +20725,32 @@
           "details": {
             "similarity": 0.5156720974329522,
             "normalizedScore": 0.7189069914431739
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-12-principalities-and-powers.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7670603513507093,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7170603513507092,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5151181054052127,
+            "normalizedScore": 0.7170603513507092
           }
         }
       ],
@@ -21112,6 +21303,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-09-exploring-religin-marx.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7593774489963451,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.709377448996345,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5128132346989035,
+            "normalizedScore": 0.709377448996345
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-02-monotheism-oneness-traps.md",
       "target": "2026-01-14-the-fence-you-cannot-see.md",
       "score": 0.7593283600312716,
@@ -21216,6 +21433,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "target": "start-here.md",
+      "score": 0.7582377084967283,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7082377084967283,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5124713125490185,
+            "normalizedScore": 0.7082377084967283
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2020-09-13-declarative.md",
       "target": "2025-12-03-state-of-the-union.md",
       "score": 0.7582313933136041,
@@ -21262,6 +21505,32 @@
           "details": {
             "similarity": 0.5124620759536327,
             "normalizedScore": 0.7082069198454424
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-the-battlefield-of-attention.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.758120784158241,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.708120784158241,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5124362352474723,
+            "normalizedScore": 0.708120784158241
           }
         }
       ],
@@ -21424,32 +21693,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.7565131490192954,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7065131490192954,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5119539447057886,
-            "normalizedScore": 0.7065131490192954
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2025-12-18-the-battlefield-of-attention.md",
       "target": "2026-02-11-the-gaze.md",
       "score": 0.7564367434036137,
@@ -21496,32 +21739,6 @@
           "details": {
             "similarity": 0.5119246382138929,
             "normalizedScore": 0.7064154607129763
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-09-secular_eschaton_essay.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.7557747343172108,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7057747343172107,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5117324202951632,
-            "normalizedScore": 0.7057747343172107
           }
         }
       ],
@@ -22361,32 +22578,6 @@
     },
     {
       "source": "2025-12-12-structure-not-vibes-the-real-state.md",
-      "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.7470832746985773,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6970832746985772,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5091249824095732,
-            "normalizedScore": 0.6970832746985772
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
       "target": "notes/2025-murder-mystery.md",
       "score": 0.7470570627645314,
       "signals": [
@@ -22406,6 +22597,32 @@
           "details": {
             "similarity": 0.5091171188293594,
             "normalizedScore": 0.6970570627645314
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
+      "target": "2026-02-21-west-psychodrama.mdx",
+      "score": 0.7470191694487588,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6970191694487587,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5091057508346276,
+            "normalizedScore": 0.6970191694487587
           }
         }
       ],
@@ -23714,7 +23931,7 @@
     {
       "source": "2026-01-14-the-ideological-trap-for-the-left.md",
       "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.7309008770784392,
+      "score": 0.730960463840372,
       "signals": [
         {
           "name": "wikilink",
@@ -23727,11 +23944,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.6809008770784392,
+          "score": 0.680960463840372,
           "weight": 2,
           "details": {
-            "similarity": 0.5042702631235317,
-            "normalizedScore": 0.6809008770784392
+            "similarity": 0.5042881391521116,
+            "normalizedScore": 0.680960463840372
           }
         }
       ],
@@ -23784,32 +24001,6 @@
           "details": {
             "similarity": 0.5037615893860863,
             "normalizedScore": 0.6792052979536211
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-10-arhictecture-of-harm.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.7288867426341848,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6788867426341848,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5036660227902554,
-            "normalizedScore": 0.6788867426341848
           }
         }
       ],
@@ -23992,6 +24183,32 @@
           "details": {
             "similarity": 0.502879402146092,
             "normalizedScore": 0.6762646738203065
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.7262614167618507,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6762614167618507,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5028784250285552,
+            "normalizedScore": 0.6762614167618507
           }
         }
       ],
@@ -24414,6 +24631,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-10-calvinism-to-capitalism.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.7198034260133434,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6698034260133433,
+          "weight": 2,
+          "details": {
+            "similarity": 0.500941027804003,
+            "normalizedScore": 0.6698034260133433
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-12-the-new-lords.md",
       "target": "2026-01-29-the-secret-every-political-philosophy.md",
       "score": 0.7196696927729287,
@@ -24590,32 +24833,6 @@
           "details": {
             "similarity": 0.5002687922561915,
             "normalizedScore": 0.6675626408539717
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-11-debugging-the-confusion-liberalism.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.7168432215079762,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6668432215079761,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5000529664523928,
-            "normalizedScore": 0.6668432215079761
           }
         }
       ],
@@ -25272,6 +25489,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7078439985223706,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6578439985223705,
+          "weight": 2,
+          "details": {
+            "similarity": 0.49735319955671115,
+            "normalizedScore": 0.6578439985223705
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-14-the-fence-you-cannot-see.md",
       "target": "2026-01-27-what-would-marx-say-today.md",
       "score": 0.7077599759984481,
@@ -25292,6 +25535,32 @@
           "details": {
             "similarity": 0.4973279927995344,
             "normalizedScore": 0.657759975998448
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-10-arhictecture-of-harm.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7074256030341394,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6574256030341393,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4972276809102418,
+            "normalizedScore": 0.6574256030341393
           }
         }
       ],
@@ -25584,6 +25853,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-26-the-table.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.7039498661595933,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6539498661595933,
+          "weight": 2,
+          "details": {
+            "similarity": 0.49618495984787797,
+            "normalizedScore": 0.6539498661595933
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-22-the-laboratory-of-the-human-shakespeare.md",
       "target": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
       "score": 0.7039237928936123,
@@ -25682,6 +25977,32 @@
           "details": {
             "similarity": 0.4960317770073016,
             "normalizedScore": 0.6534392566910054
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-20-summarizing-19-12-2025.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.7026854724570335,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6526854724570335,
+          "weight": 2,
+          "details": {
+            "similarity": 0.49580564173711,
+            "normalizedScore": 0.6526854724570335
           }
         }
       ],
@@ -26832,6 +27153,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-18-the-battlefield-of-attention.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.68587101370811,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.63587101370811,
+          "weight": 2,
+          "details": {
+            "similarity": 0.49076130411243296,
+            "normalizedScore": 0.63587101370811
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-16-know-thyself-gurdjieff-kierkegaard.md",
       "target": "2026-01-15-the-return.md",
       "score": 0.6857215121482195,
@@ -27976,6 +28323,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-15-the-physicians-of-decay.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.672106587477912,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6221065874779119,
+          "weight": 2,
+          "details": {
+            "similarity": 0.48663197624337357,
+            "normalizedScore": 0.6221065874779119
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-12-the-new-lords.md",
       "target": "2026-01-15-the-physicians-of-decay.md",
       "score": 0.6713214403652035,
@@ -28522,6 +28895,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-18-from-galilee-to-empire-the-institutional.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.6658596967032443,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6158596967032443,
+          "weight": 2,
+          "details": {
+            "similarity": 0.48475790901097326,
+            "normalizedScore": 0.6158596967032443
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-15-burnout-is-a-modern-invention.md",
       "target": "2026-01-11-the-socialists-convenient-blindness.md",
       "score": 0.6654021758277547,
@@ -28964,6 +29363,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-01-01-the-letter-to-the-therapeutics.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.659977252239963,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6099772522399629,
+          "weight": 2,
+          "details": {
+            "similarity": 0.48299317567198885,
+            "normalizedScore": 0.6099772522399629
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-20-summarizing-19-12-2025.md",
       "target": "2026-02-07-the-lamb.md",
       "score": 0.6598767075639766,
@@ -29322,6 +29747,32 @@
           "details": {
             "similarity": 0.48207728658981663,
             "normalizedScore": 0.6069242886327222
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-19-mysticism-research-list.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.6568303962389274,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6068303962389273,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4820491188716782,
+            "normalizedScore": 0.6068303962389273
           }
         }
       ],
@@ -29738,6 +30189,32 @@
           "details": {
             "similarity": 0.48063175031046895,
             "normalizedScore": 0.60210583436823
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.6512757045318134,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6012757045318133,
+          "weight": 2,
+          "details": {
+            "similarity": 0.48038271135954397,
+            "normalizedScore": 0.6012757045318133
           }
         }
       ],
@@ -30186,6 +30663,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-12-the-economy-of-refusal.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.6441595716197235,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5941595716197234,
+          "weight": 2,
+          "details": {
+            "similarity": 0.478247871485917,
+            "normalizedScore": 0.5941595716197234
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-12-structure-not-vibes-the-real-state.md",
       "target": "2026-02-09-the-invisible-right-on-what-becomes.md",
       "score": 0.643565479803349,
@@ -30284,32 +30787,6 @@
           "details": {
             "similarity": 0.47773059938742674,
             "normalizedScore": 0.5924353312914226
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-17-meta-summary-17-12-2025.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.6422226546963591,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.592222654696359,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4776667964089077,
-            "normalizedScore": 0.592222654696359
           }
         }
       ],
@@ -32396,6 +32873,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-17-the-invention-of-the-confessing-animal.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.6225422899092274,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5725422899092274,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4717626869727682,
+            "normalizedScore": 0.5725422899092274
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-02-09-what-holds-you.md",
       "target": "chats/2025-10-14-girards-scapegoat-mechanism.md",
       "score": 0.6223163887892302,
@@ -32682,6 +33185,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-21-desire-engine-table.mdx",
+      "target": "start-here.md",
+      "score": 0.6202710465923225,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5702710465923224,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4710813139776967,
+            "normalizedScore": 0.5702710465923224
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-27-what-would-marx-say-today.md",
       "target": "start-here.md",
       "score": 0.620266557578269,
@@ -32832,6 +33361,32 @@
           "details": {
             "similarity": 0.47065481249209595,
             "normalizedScore": 0.5688493749736533
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-27-what-would-marx-say-today.md",
+      "target": "2026-02-21-desire-engine-table.mdx",
+      "score": 0.6186315415064494,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5686315415064493,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4705894624519348,
+            "normalizedScore": 0.5686315415064493
           }
         }
       ],
@@ -33248,6 +33803,32 @@
           "details": {
             "similarity": 0.46933024134482476,
             "normalizedScore": 0.5644341378160826
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-incomplete-god-why-science-cannot.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.6142532458167534,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5642532458167534,
+          "weight": 2,
+          "details": {
+            "similarity": 0.469275973745026,
+            "normalizedScore": 0.5642532458167534
           }
         }
       ],
@@ -33852,32 +34433,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.6082271366552454,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5582271366552454,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4674681409965736,
-            "normalizedScore": 0.5582271366552454
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2021-04-05-Religion-Last.md",
       "target": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
       "score": 0.6082164686019461,
@@ -34422,500 +34977,6 @@
         }
       ],
       "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-      "target": "2025-12-19-when-equations-see-what-eyes-cannot.md",
-      "score": 0.6034487890094467,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5534487890094466,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46603463670283396,
-            "normalizedScore": 0.5534487890094466
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-14-the-fence-you-cannot-see.md",
-      "target": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
-      "score": 0.6030789637581082,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5530789637581082,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4659236891274324,
-            "normalizedScore": 0.5530789637581082
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-      "target": "2025-12-10-husk-of-god.md",
-      "score": 0.6029862915958772,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5529862915958772,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46589588747876315,
-            "normalizedScore": 0.5529862915958772
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "target": "notes/monotheism and oneness.md",
-      "score": 0.6028783128434921,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5528783128434921,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4658634938530476,
-            "normalizedScore": 0.5528783128434921
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-10-husk-of-god.md",
-      "target": "2026-01-09-pathologies-of-eastern-secularism.md",
-      "score": 0.6022344074182934,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5522344074182933,
-          "weight": 2,
-          "details": {
-            "similarity": 0.465670322225488,
-            "normalizedScore": 0.5522344074182933
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "bookmarks/beautifulracket.com.md",
-      "target": "notes/tla+.md",
-      "score": 0.6019767218524767,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5519767218524767,
-          "weight": 2,
-          "details": {
-            "similarity": 0.465593016555743,
-            "normalizedScore": 0.5519767218524767
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-10-husk-of-god.md",
-      "target": "the-mirror-room/scratch.md",
-      "score": 0.6019698205429297,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5519698205429296,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4655909461628789,
-            "normalizedScore": 0.5519698205429296
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
-      "target": "2025-12-21-the-incomplete-god-why-science-cannot.md",
-      "score": 0.601802840986671,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.551802840986671,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4655408522960013,
-            "normalizedScore": 0.551802840986671
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-19-countering-materialism.md",
-      "target": "2026-01-28-the-body-as-ground.md",
-      "score": 0.6017556601740364,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5517556601740363,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46552669805221086,
-            "normalizedScore": 0.5517556601740363
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "chats/2025-10-13-epistemic-humility-discussion.md",
-      "target": "chats/2025-10-14-2k-years-christiantiy.md",
-      "score": 0.6015293147641221,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.551529314764122,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4654587944292366,
-            "normalizedScore": 0.551529314764122
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-17-meta-summary-17-12-2025.md",
-      "target": "2026-01-14-the-fence-you-cannot-see.md",
-      "score": 0.6012852353201237,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5512852353201236,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4653855705960371,
-            "normalizedScore": 0.5512852353201236
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-17-know-thyself-no-self.md",
-      "target": "2025-12-21-what-modernity-needs-a-return-to.md",
-      "score": 0.6008884925867912,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5508884925867912,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4652665477760373,
-            "normalizedScore": 0.5508884925867912
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
-      "target": "2026-01-29-the-secret-every-political-philosophy.md",
-      "score": 0.6008758609880642,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5508758609880642,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4652627582964192,
-            "normalizedScore": 0.5508758609880642
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-16-know-thyself-gurdjieff-kierkegaard.md",
-      "target": "2026-01-12-the-epistle-to-the-managed.md",
-      "score": 0.6007314465057902,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5507314465057902,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46521943395173704,
-            "normalizedScore": 0.5507314465057902
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-the-selection-of-souls.md",
-      "target": "2026-01-09-why-the-secularism-in-the-west-became.md",
-      "score": 0.6007201901185599,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5507201901185599,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46521605703556795,
-            "normalizedScore": 0.5507201901185599
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-resurrecting-ted-kaczynski.md",
-      "target": "2025-01-01-you-are-not-your-diagnosis.md",
-      "score": 0.6006828869395352,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5506828869395352,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4652048660818605,
-            "normalizedScore": 0.5506828869395352
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-the-selection-of-souls.md",
-      "target": "2026-01-09-the-epistemology-of-impotence-how.md",
-      "score": 0.6006023077858244,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5506023077858243,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46518069233574727,
-            "normalizedScore": 0.5506023077858243
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-14-the-fence-you-cannot-see.md",
-      "target": "chats/2025-10-14-summarize-fear-of-falling.md",
-      "score": 0.6005625192990404,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5505625192990403,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46516875578971206,
-            "normalizedScore": 0.5505625192990403
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-07-the-lamb-part-ii.md",
-      "target": "the-mirror-room/01-the-consistent-man.md",
-      "score": 0.6004874437283779,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5504874437283779,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46514623311851333,
-            "normalizedScore": 0.5504874437283779
-          }
-        }
-      ],
-      "edgeType": "semantic"
     }
   ],
   "clusters": {
@@ -34992,7 +35053,7 @@
       "2025-12-12-the-vulnerability-principle.md": 4,
       "2025-12-12-trumps-techno-fetish.md": 13,
       "2025-12-12-why-cultures-differentiate.md": 5,
-      "2025-12-15-burnout-is-a-modern-invention.md": 9,
+      "2025-12-15-burnout-is-a-modern-invention.md": 5,
       "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 5,
       "2025-12-15-know-thyself-greek-vs-christian.md": 5,
       "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 5,
@@ -35016,9 +35077,9 @@
       "2025-12-21-the-incomplete-god-why-science-cannot.md": 5,
       "2025-12-21-the-liquefaction-of-being-materialism.md": 4,
       "2025-12-21-what-modernity-needs-a-return-to.md": 5,
-      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 5,
+      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 9,
       "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 4,
-      "2026-01-09-diagnosing-white-guilt.md": 9,
+      "2026-01-09-diagnosing-white-guilt.md": 4,
       "2026-01-09-leftism-is-worse-than-fascism.md": 4,
       "2026-01-09-pathologies-of-eastern-secularism.md": 5,
       "2026-01-09-the-epistemology-of-impotence-how.md": 4,
@@ -35038,7 +35099,7 @@
       "2026-01-14-the-ideological-trap-for-the-left.md": 4,
       "2026-01-14-the-violence-you-fear-may-be-the.md": 4,
       "2026-01-14-we-can-capture-our-way-out.md": 13,
-      "2026-01-15-the-physicians-of-decay.md": 9,
+      "2026-01-15-the-physicians-of-decay.md": 5,
       "2026-01-15-the-return.md": 5,
       "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 4,
       "2026-01-23-grammar-as-alignment-the-world-economic.md": 4,
@@ -35046,13 +35107,13 @@
       "2026-01-23-the-language-that-thinks-for-you.md": 9,
       "2026-01-25-the-ice-protest-that-changes-nothing.md": 4,
       "2026-01-25-the-machine-that-eats-the-world.md": 4,
-      "2026-01-26-the-table.md": 9,
+      "2026-01-26-the-table.md": 5,
       "2026-01-27-manufacturing-luck.mdx": 7,
       "2026-01-27-what-would-marx-say-today.md": 4,
       "2026-01-28-the-body-as-ground.md": 5,
       "2026-01-29-the-secret-every-political-philosophy.md": 4,
       "2026-01-31-education-cannot-save-us.md": 4,
-      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 9,
+      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 4,
       "2026-02-02-the-executive-function-curriculum.md": 4,
       "2026-02-06-meaning-at-the-boundary.md": 5,
       "2026-02-06-mystical-meaning.md": 5,
@@ -35068,6 +35129,7 @@
       "2026-02-12-what-if-the-thing-youre-protecting.md": 9,
       "2026-02-19-mysticism-research-list.md": 5,
       "2026-02-20-nyc-mamdani-budget.mdx": 0,
+      "2026-02-21-desire-engine-table.mdx": 5,
       "2026-02-21-structural-wisdom-biblical-eschatology.mdx": 5,
       "2026-02-21-west-psychodrama.mdx": 4,
       "start-here.md": 5,
@@ -35172,14 +35234,14 @@
         "id": 4,
         "centerX": 675.4623404016121,
         "centerY": -428.66143598319724,
-        "nodeCount": 43,
-        "name": "Politics & Philosophy"
+        "nodeCount": 45,
+        "name": "Politics & Culture"
       },
       {
         "id": 5,
         "centerX": 760.8452130361228,
         "centerY": -247.2135954999579,
-        "nodeCount": 51,
+        "nodeCount": 54,
         "name": "Religion & Philosophy"
       },
       {
@@ -35205,8 +35267,8 @@
         "id": 9,
         "centerX": 616.4105942206313,
         "centerY": 509.9391917989518,
-        "nodeCount": 27,
-        "name": "Culture & Philosophy"
+        "nodeCount": 23,
+        "name": "Culture & Fiction"
       },
       {
         "id": 10,
@@ -35301,12 +35363,12 @@
         "nodeCount": 1
       }
     ],
-    "modularity": 0.31770989599090127
+    "modularity": 0.3161193372512271
   },
   "metadata": {
-    "totalNodes": 221,
-    "totalEdges": 2387,
-    "buildTimeMs": 344,
+    "totalNodes": 222,
+    "totalEdges": 2429,
+    "buildTimeMs": 331,
     "signalsUsed": [
       "wikilink",
       "semantic"

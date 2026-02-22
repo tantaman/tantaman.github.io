@@ -1,5 +1,22 @@
 /*@jsxRuntime automatic @jsxImportSource https://esm.sh/react*/
 import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "https://esm.sh/react/jsx-runtime";
+export function PullQuote({children}) {
+  return _jsx("div", {
+    style: {
+      borderTop: '2px solid var(--border-heavy, #555)',
+      borderBottom: '2px solid var(--border-heavy, #555)',
+      margin: '2.5rem auto',
+      padding: '1.5rem 2rem',
+      maxWidth: '80%',
+      textAlign: 'center',
+      fontStyle: 'italic',
+      fontSize: '1.2rem',
+      lineHeight: 1.6,
+      color: 'var(--text-muted, #999)'
+    },
+    children: children
+  });
+}
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
@@ -13,6 +30,12 @@ function _createMdxContent(props) {
     h2: "h2",
     p: "p",
     strong: "strong",
+    table: "table",
+    thead: "thead",
+    tr: "tr",
+    th: "th",
+    tbody: "tbody",
+    td: "td",
     blockquote: "blockquote"
   }, props.components);
   return _jsxs(_Fragment, {
@@ -71,7 +94,34 @@ function _createMdxContent(props) {
           })
         })]
       })
-    }), _jsxs(_components.h3, {
+    }), "\n", _jsx("style", {
+      children: `
+  #mdx table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9rem;
+  }
+  #mdx th {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  #mdx td {
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.8rem;
+  }
+  #mdx tr:nth-child(even) td {
+    background: var(--bg-soft);
+  }
+  #mdx table {
+    display: block;
+    overflow-x: auto;
+  }
+`
+    }), "\n", _jsxs(_components.h3, {
       id: "in-the-manner-of-walter-benjamins-theses--a-companion-to-the-unengineerable-rupture",
       children: [_jsx(_components.a, {
         "aria-hidden": "true",
@@ -150,6 +200,10 @@ function _createMdxContent(props) {
       children: ["The question that the structural analysis forces, and that no purely structural analysis can answer, is: ", _jsx(_components.strong, {
         children: "what posture does not feed the engine?"
       })]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"The engine does not care about the content of your will. Liberation, justice, holiness, equality — it metabolizes all of them.\""
+      })
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
       id: "ii-why-the-secular-answers-fail",
       children: [_jsx(_components.a, {
@@ -186,6 +240,78 @@ function _createMdxContent(props) {
       children: ["Each of these fails because each begins from the same assumption: that the solution must be ", _jsx(_components.em, {
         children: "produced by the subject."
       }), " The Stoic produces detachment. The Buddhist produces the extinction of craving. The post-structuralist produces the knowledge that no production is possible. But production — even the production of non-production — is will, and will is what the engine eats."]
+    }), "\n", _jsxs(_components.table, {
+      children: [_jsx(_components.thead, {
+        children: _jsxs(_components.tr, {
+          children: [_jsx(_components.th, {}), _jsx(_components.th, {
+            children: _jsx(_components.strong, {
+              children: "Stoicism"
+            })
+          }), _jsx(_components.th, {
+            children: _jsx(_components.strong, {
+              children: "Buddhism"
+            })
+          }), _jsx(_components.th, {
+            children: _jsx(_components.strong, {
+              children: "Post-structuralism"
+            })
+          })]
+        })
+      }), _jsxs(_components.tbody, {
+        children: [_jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Prescription"
+            })
+          }), _jsx(_components.td, {
+            children: "Detach from outcomes"
+          }), _jsx(_components.td, {
+            children: "Extinguish craving"
+          }), _jsx(_components.td, {
+            children: "Accept: no outside"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Mechanism"
+            })
+          }), _jsx(_components.td, {
+            children: "Disciplined will"
+          }), _jsx(_components.td, {
+            children: "Systematic path"
+          }), _jsx(_components.td, {
+            children: "Critical knowledge"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Why it fails"
+            })
+          }), _jsx(_components.td, {
+            children: "Detachment is a program"
+          }), _jsx(_components.td, {
+            children: "Extinction is a project"
+          }), _jsx(_components.td, {
+            children: "Knowledge is still will"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Historical capture"
+            })
+          }), _jsx(_components.td, {
+            children: "Roman imperial management"
+          }), _jsx(_components.td, {
+            children: "State religion across Asia"
+          }), _jsx(_components.td, {
+            children: "Academic institution"
+          })]
+        })]
+      })]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"Each begins from the same assumption: that the solution must be produced by the subject.\""
+      })
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
       id: "iii-eckhart-the-hand-that-opens",
       children: [_jsx(_components.a, {
@@ -234,6 +360,10 @@ function _createMdxContent(props) {
       children: ["Life that lives from its own ground. Desire that desires without terminus. This is not passivity — Eckhart was a preacher, a teacher, an administrator, a man of relentless activity. It is activity that has been ", _jsx(_components.em, {
         children: "released from the grasping structure"
       }), " that converts activity into fuel. The hand that opens is not the hand that has stopped moving. It is the hand that has found what it was actually looking for, and what it found cannot be held — only received, continuously, without end."]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"Life that lives from its own ground. Desire that desires without terminus.\""
+      })
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
       id: "iv-the-evidence-what-the-miracles-mean",
       children: [_jsx(_components.a, {
@@ -328,6 +458,10 @@ function _createMdxContent(props) {
       }), " And beneath the words, the posture: ", _jsx(_components.em, {
         children: "Come."
       })]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"You need bread. You need wine. You need a table. You need people.\""
+      })
     }), "\n", _jsx(_components.p, {
       children: "This is why the table cannot be captured in the way institutions are captured. There is nothing to seize. No power to accumulate, no administration to colonize, no program to redirect. The Eucharist has no strategic value. It produces nothing that can be leveraged. It scales only to the size of a table. It offers no career path, no credential, no return on investment. Every feature that makes an institution susceptible to the engine is absent. What remains is only presence — people in the posture of reception rather than production, around bread and wine that are given, not manufactured."
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
@@ -364,6 +498,62 @@ function _createMdxContent(props) {
       }), " Bread, wine, the people, the words, the cry: ", _jsx(_components.em, {
         children: "Come."
       })]
+    }), "\n", _jsxs(_components.table, {
+      children: [_jsx(_components.thead, {
+        children: _jsxs(_components.tr, {
+          children: [_jsx(_components.th, {
+            children: "Element"
+          }), _jsx(_components.th, {
+            children: "Name"
+          }), _jsx(_components.th, {
+            children: "Function"
+          }), _jsx(_components.th, {
+            children: "Without it..."
+          })]
+        })
+      }), _jsxs(_components.tbody, {
+        children: [_jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: "Diagnosis"
+          }), _jsx(_components.td, {
+            children: "The structural essay"
+          }), _jsx(_components.td, {
+            children: "Shows the engine"
+          }), _jsx(_components.td, {
+            children: "...the table is just church"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: "Evidence"
+          }), _jsx(_components.td, {
+            children: "The miracles"
+          }), _jsx(_components.td, {
+            children: "Shows the outside is real"
+          }), _jsx(_components.td, {
+            children: "...the posture is just mysticism"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: "Posture"
+          }), _jsx(_components.td, {
+            children: "Gelassenheit"
+          }), _jsx(_components.td, {
+            children: "Does not feed the engine"
+          }), _jsx(_components.td, {
+            children: "...the evidence is just religion"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: "Practice"
+          }), _jsx(_components.td, {
+            children: "The table"
+          }), _jsx(_components.td, {
+            children: "Social form of the posture"
+          }), _jsx(_components.td, {
+            children: "...the diagnosis is just critical theory"
+          })]
+        })]
+      })]
     }), "\n", _jsx(_components.p, {
       children: "Each element requires the others. The table without the diagnosis is just church — one more institution susceptible to capture, and captured so many times that the word itself now connotes the engine rather than the meal. The diagnosis without the table is just critical theory — the puppet without the dwarf, exquisitely diagnostic, completely impotent. The posture without the evidence is just mysticism — beautiful, private, unable to say whether the outside it orients toward is real or imagined. The evidence without the posture is just religion — miracles converted into institutional credentials, the breaking-through of the outside filed and administered by a professional class."
     }), "\n", _jsx(_components.p, {
@@ -378,6 +568,10 @@ function _createMdxContent(props) {
       children: "Not belief in propositions. Not confidence in a timeline. Not membership in an institution that claims to administer the sacred. Faith as what the structural analysis yields when it is pushed to its own limit — the recognition that the engine is real, that no act of will can escape it, that the outside is real, that it cannot be produced, and that the only coherent response is the open hand."
     }), "\n", _jsx(_components.p, {
       children: "The hand that does not grasp. The desire that does not terminate. The table that does not scale. The prayer that does not schedule."
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"The hand that does not grasp. The desire that does not terminate. The table that does not scale. The prayer that does not schedule.\""
+      })
     }), "\n", _jsx(_components.p, {
       children: _jsx(_components.em, {
         children: "Come."
