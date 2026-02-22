@@ -6,12 +6,12 @@ function _createMdxContent(props) {
     ol: "ol",
     li: "li",
     a: "a",
+    p: "p",
     h3: "h3",
     span: "span",
     em: "em",
     hr: "hr",
     h2: "h2",
-    p: "p",
     strong: "strong",
     blockquote: "blockquote"
   }, props.components);
@@ -92,7 +92,33 @@ function _createMdxContent(props) {
           })
         })]
       })
-    }), _jsxs(_components.h3, {
+    }), _jsxs("figure", {
+      style: {
+        margin: '0 0 2.5rem',
+        textAlign: 'center'
+      },
+      children: [_jsx("img", {
+        src: "/img/rota-fortunae.jpg",
+        alt: "Rota Fortunae, from Livres des cas des nobles hommes et femmes, Étienne Colaud (c. 1530)",
+        style: {
+          maxWidth: '100%'
+        }
+      }), _jsx("figcaption", {
+        style: {
+          fontStyle: 'italic',
+          color: 'var(--text-muted, #999)',
+          fontSize: '0.85rem',
+          marginTop: '0.5rem'
+        },
+        children: _jsxs(_components.p, {
+          children: ["Étienne Colaud, ", _jsx("em", {
+            children: "Rota Fortunae"
+          }), ", from ", _jsx("em", {
+            children: "Livres des cas des nobles hommes et femmes"
+          }), " (c. 1530)"]
+        })
+      })]
+    }), "\n", _jsxs(_components.h3, {
       id: "in-the-manner-of-walter-benjamins-theses",
       children: [_jsx(_components.a, {
         "aria-hidden": "true",
