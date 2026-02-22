@@ -1,22 +1,6 @@
 /*@jsxRuntime automatic @jsxImportSource https://esm.sh/react*/
 import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "https://esm.sh/react/jsx-runtime";
-export function PullQuote({children}) {
-  return _jsx("div", {
-    style: {
-      borderTop: '2px solid var(--border-heavy, #555)',
-      borderBottom: '2px solid var(--border-heavy, #555)',
-      margin: '2.5rem auto',
-      padding: '1.5rem 2rem',
-      maxWidth: '80%',
-      textAlign: 'center',
-      fontStyle: 'italic',
-      fontSize: '1.2rem',
-      lineHeight: 1.6,
-      color: 'var(--text-muted, #999)'
-    },
-    children: children
-  });
-}
+import PullQuote from '/dist/components/PullQuote.js';
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
