@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-02-21T15:42:55.749Z",
+  "generatedAt": "2026-02-22T00:00:59.460Z",
   "config": {
     "model": "Xenova/all-MiniLM-L6-v2",
     "minScore": 0.25,
@@ -394,8 +394,8 @@
           "type": "semantic"
         },
         {
-          "id": "the-mirror-room/scratch.md",
-          "score": 0.539,
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.54,
           "type": "semantic"
         }
       ],
@@ -1769,6 +1769,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 1,
+          "type": "semantic"
+        },
+        {
           "id": "start-here.md",
           "score": 1,
           "type": "semantic"
@@ -1801,11 +1806,6 @@
         {
           "id": "2026-01-11-the-socialists-convenient-blindness.md",
           "score": 0.709,
-          "type": "semantic"
-        },
-        {
-          "id": "2021-04-05-Religion-Last.md",
-          "score": 0.706,
           "type": "semantic"
         }
       ],
@@ -1906,6 +1906,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.756,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-09-why-the-secularism-in-the-west-became.md",
           "score": 0.732,
           "type": "semantic"
@@ -1913,11 +1918,6 @@
         {
           "id": "2025-12-10-husk-of-god.md",
           "score": 0.702,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-27-what-would-marx-say-today.md",
-          "score": 0.639,
           "type": "semantic"
         }
       ],
@@ -2171,13 +2171,13 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-21-west-psychodrama.mdx",
-          "score": 0.601,
+          "id": "2026-01-14-the-ideological-trap-for-the-left.md",
+          "score": 0.593,
           "type": "semantic"
         },
         {
-          "id": "2026-01-14-the-ideological-trap-for-the-left.md",
-          "score": 0.593,
+          "id": "2026-02-21-west-psychodrama.mdx",
+          "score": 0.52,
           "type": "semantic"
         },
         {
@@ -2207,11 +2207,6 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-21-west-psychodrama.mdx",
-          "score": 0.836,
-          "type": "semantic"
-        },
-        {
           "id": "2026-01-14-the-ideological-trap-for-the-left.md",
           "score": 0.822,
           "type": "semantic"
@@ -2224,6 +2219,11 @@
         {
           "id": "2022-04-25-foundational-myths.md",
           "score": 0.785,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-west-psychodrama.mdx",
+          "score": 0.747,
           "type": "semantic"
         },
         {
@@ -4749,11 +4749,6 @@
     "2026-01-14-the-ideological-trap-for-the-left.md": {
       "related": [
         {
-          "id": "2026-02-21-west-psychodrama.mdx",
-          "score": 0.841,
-          "type": "semantic"
-        },
-        {
           "id": "2025-12-12-structure-not-vibes-the-real-state.md",
           "score": 0.822,
           "type": "semantic"
@@ -4776,6 +4771,11 @@
         {
           "id": "2025-12-09-monstrous_doubles_girard_essay.md",
           "score": 0.735,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-west-psychodrama.mdx",
+          "score": 0.731,
           "type": "semantic"
         },
         {
@@ -4840,6 +4840,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-02-21-west-psychodrama.mdx",
+          "score": 0.481,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-31-education-cannot-save-us.md",
           "score": 0.468,
           "type": "semantic"
@@ -4847,11 +4852,6 @@
         {
           "id": "2026-01-26-the-table.md",
           "score": 0.453,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
-          "score": 0.45,
           "type": "semantic"
         }
       ],
@@ -6404,31 +6404,82 @@
       "backlinks": [],
       "keywords": []
     },
-    "2026-02-21-west-psychodrama.mdx": {
+    "2026-02-21-structural-wisdom-biblical-eschatology.mdx": {
       "related": [
         {
-          "id": "2026-01-14-the-ideological-trap-for-the-left.md",
-          "score": 0.841,
+          "id": "2025-12-09-exploring-religin-marx.md",
+          "score": 1,
           "type": "semantic"
         },
         {
-          "id": "2025-12-12-structure-not-vibes-the-real-state.md",
-          "score": 0.836,
+          "id": "start-here.md",
+          "score": 0.923,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-what-modernity-needs-a-return-to.md",
+          "score": 0.757,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-09-secular_eschaton_essay.md",
+          "score": 0.756,
           "type": "semantic"
         },
         {
           "id": "2025-12-10-arhictecture-of-harm.md",
-          "score": 0.662,
+          "score": 0.729,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-11-debugging-the-confusion-liberalism.md",
+          "score": 0.717,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-17-meta-summary-17-12-2025.md",
+          "score": 0.642,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
+          "score": 0.608,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-12-principalities-and-powers.md",
+          "score": 0.598,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-27-what-would-marx-say-today.md",
+          "score": 0.583,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-02-21-west-psychodrama.mdx": {
+      "related": [
+        {
+          "id": "2025-12-12-structure-not-vibes-the-real-state.md",
+          "score": 0.747,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-14-the-ideological-trap-for-the-left.md",
+          "score": 0.731,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.585,
           "type": "semantic"
         },
         {
           "id": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
-          "score": 0.601,
-          "type": "semantic"
-        },
-        {
-          "id": "2021-04-05-Religion-Last.md",
-          "score": 0.518,
+          "score": 0.52,
           "type": "semantic"
         },
         {
@@ -6437,23 +6488,23 @@
           "type": "semantic"
         },
         {
-          "id": "2026-01-09-why-the-secularism-in-the-west-became.md",
-          "score": 0.443,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-29-the-secret-every-political-philosophy.md",
-          "score": 0.443,
+          "id": "2021-04-05-Religion-Last.md",
+          "score": 0.487,
           "type": "semantic"
         },
         {
           "id": "2026-01-14-the-violence-you-fear-may-be-the.md",
-          "score": 0.434,
+          "score": 0.481,
+          "type": "semantic"
+        },
+        {
+          "id": "2022-04-25-foundational-myths.md",
+          "score": 0.428,
           "type": "semantic"
         },
         {
           "id": "2026-02-11-the-gaze.md",
-          "score": 0.425,
+          "score": 0.388,
           "type": "semantic"
         }
       ],
@@ -6508,8 +6559,8 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-18-the-shape-of-the-container.md",
-          "score": 0.882,
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.923,
           "type": "semantic"
         }
       ],
@@ -9589,6 +9640,32 @@
           "details": {
             "similarity": 0.5858846978325513,
             "normalizedScore": 0.952948992775171
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-09-exploring-religin-marx.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 1,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6002142208159811,
+            "normalizedScore": 1
           }
         }
       ],
@@ -13703,6 +13780,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "target": "start-here.md",
+      "score": 0.9233801719593165,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8733801719593165,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5620140515877949,
+            "normalizedScore": 0.8733801719593165
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "bookmarks/allenfarrington.medium.com.md",
       "target": "bookmarks/netfuture.ch.md",
       "score": 0.9225208785423646,
@@ -16277,32 +16380,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.8405163189885295,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7905163189885295,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5371548956965588,
-            "normalizedScore": 0.7905163189885295
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2026-01-31-malcom-x-on-kendi-and-diangelo.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
       "score": 0.838936317877253,
@@ -16427,32 +16504,6 @@
           "details": {
             "similarity": 0.5361649407738838,
             "normalizedScore": 0.7872164692462793
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
-      "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.8355594036768312,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7855594036768312,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5356678211030493,
-            "normalizedScore": 0.7855594036768312
           }
         }
       ],
@@ -21373,6 +21424,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7565131490192954,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7065131490192954,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5119539447057886,
+            "normalizedScore": 0.7065131490192954
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-18-the-battlefield-of-attention.md",
       "target": "2026-02-11-the-gaze.md",
       "score": 0.7564367434036137,
@@ -21419,6 +21496,32 @@
           "details": {
             "similarity": 0.5119246382138929,
             "normalizedScore": 0.7064154607129763
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-09-secular_eschaton_essay.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7557747343172108,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7057747343172107,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5117324202951632,
+            "normalizedScore": 0.7057747343172107
           }
         }
       ],
@@ -22251,6 +22354,32 @@
           "details": {
             "similarity": 0.5091491779659841,
             "normalizedScore": 0.6971639265532805
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
+      "target": "2026-02-21-west-psychodrama.mdx",
+      "score": 0.7470832746985773,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6970832746985772,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5091249824095732,
+            "normalizedScore": 0.6970832746985772
           }
         }
       ],
@@ -23583,6 +23712,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-14-the-ideological-trap-for-the-left.md",
+      "target": "2026-02-21-west-psychodrama.mdx",
+      "score": 0.7309008770784392,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6809008770784392,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5042702631235317,
+            "normalizedScore": 0.6809008770784392
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-09-trauma-culture-white-guilt-checkmate.md",
       "target": "2026-01-12-the-economy-of-refusal.md",
       "score": 0.7298464749869132,
@@ -23629,6 +23784,32 @@
           "details": {
             "similarity": 0.5037615893860863,
             "normalizedScore": 0.6792052979536211
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-10-arhictecture-of-harm.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7288867426341848,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6788867426341848,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5036660227902554,
+            "normalizedScore": 0.6788867426341848
           }
         }
       ],
@@ -24409,6 +24590,32 @@
           "details": {
             "similarity": 0.5002687922561915,
             "normalizedScore": 0.6675626408539717
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-11-debugging-the-confusion-liberalism.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.7168432215079762,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6668432215079761,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5000529664523928,
+            "normalizedScore": 0.6668432215079761
           }
         }
       ],
@@ -28601,32 +28808,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-10-arhictecture-of-harm.md",
-      "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.6615603553052076,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6115603553052076,
-          "weight": 2,
-          "details": {
-            "similarity": 0.48346810659156225,
-            "normalizedScore": 0.6115603553052076
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2026-01-11-the-socialists-convenient-blindness.md",
       "target": "2026-01-15-the-return.md",
       "score": 0.6614092375713279,
@@ -30103,6 +30284,32 @@
           "details": {
             "similarity": 0.47773059938742674,
             "normalizedScore": 0.5924353312914226
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-17-meta-summary-17-12-2025.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.6422226546963591,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.592222654696359,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4776667964089077,
+            "normalizedScore": 0.592222654696359
           }
         }
       ],
@@ -33645,6 +33852,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
+      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "score": 0.6082271366552454,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5582271366552454,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4674681409965736,
+            "normalizedScore": 0.5582271366552454
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2021-04-05-Religion-Last.md",
       "target": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
       "score": 0.6082164686019461,
@@ -34451,32 +34684,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
-      "target": "2026-02-21-west-psychodrama.mdx",
-      "score": 0.6014178029272782,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5514178029272782,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46542534087818344,
-            "normalizedScore": 0.5514178029272782
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2025-12-17-meta-summary-17-12-2025.md",
       "target": "2026-01-14-the-fence-you-cannot-see.md",
       "score": 0.6012852353201237,
@@ -34709,162 +34916,6 @@
         }
       ],
       "edgeType": "semantic"
-    },
-    {
-      "source": "bookmarks/dist-prog-book.com.md",
-      "target": "notes/distributed systems.md",
-      "score": 0.6004595819892816,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5504595819892816,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46513787459678446,
-            "normalizedScore": 0.5504595819892816
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
-      "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.5996275287380209,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5496275287380209,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46488825862140626,
-            "normalizedScore": 0.5496275287380209
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2020-09-13-declarative.md",
-      "target": "2021-12-17-Object-Identity.mdx",
-      "score": 0.5990283598314294,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5490283598314294,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4647085079494288,
-            "normalizedScore": 0.5490283598314294
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-10-calvinism-to-capitalism.md",
-      "target": "2026-01-11-debugging-the-confusion-liberalism.md",
-      "score": 0.5989698823362979,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5489698823362978,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46469096470088933,
-            "normalizedScore": 0.5489698823362978
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "notes/logical clocks.md",
-      "target": "notes/vector clock growth.md",
-      "score": 0.5988438411508583,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5488438411508583,
-          "weight": 2,
-          "details": {
-            "similarity": 0.46465315234525745,
-            "normalizedScore": 0.5488438411508583
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-      "target": "2025-12-18-the-battlefield-of-attention.md",
-      "score": 0.5987747932287751,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5487747932287751,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4646324379686325,
-            "normalizedScore": 0.5487747932287751
-          }
-        }
-      ],
-      "edgeType": "semantic"
     }
   ],
   "clusters": {
@@ -34935,13 +34986,13 @@
       "2025-12-10-calvinism-to-capitalism.md": 5,
       "2025-12-10-husk-of-god.md": 5,
       "2025-12-10-indigenous-violence-slavery-documentation.md": 12,
-      "2025-12-10-peasent-uprisings.md": 5,
+      "2025-12-10-peasent-uprisings.md": 4,
       "2025-12-12-making-sense-of-us-ukraine-negotations.md": 4,
       "2025-12-12-structure-not-vibes-the-real-state.md": 4,
       "2025-12-12-the-vulnerability-principle.md": 4,
       "2025-12-12-trumps-techno-fetish.md": 13,
       "2025-12-12-why-cultures-differentiate.md": 5,
-      "2025-12-15-burnout-is-a-modern-invention.md": 4,
+      "2025-12-15-burnout-is-a-modern-invention.md": 9,
       "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 5,
       "2025-12-15-know-thyself-greek-vs-christian.md": 5,
       "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 5,
@@ -34967,7 +35018,7 @@
       "2025-12-21-what-modernity-needs-a-return-to.md": 5,
       "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 5,
       "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 4,
-      "2026-01-09-diagnosing-white-guilt.md": 4,
+      "2026-01-09-diagnosing-white-guilt.md": 9,
       "2026-01-09-leftism-is-worse-than-fascism.md": 4,
       "2026-01-09-pathologies-of-eastern-secularism.md": 5,
       "2026-01-09-the-epistemology-of-impotence-how.md": 4,
@@ -34987,7 +35038,7 @@
       "2026-01-14-the-ideological-trap-for-the-left.md": 4,
       "2026-01-14-the-violence-you-fear-may-be-the.md": 4,
       "2026-01-14-we-can-capture-our-way-out.md": 13,
-      "2026-01-15-the-physicians-of-decay.md": 5,
+      "2026-01-15-the-physicians-of-decay.md": 9,
       "2026-01-15-the-return.md": 5,
       "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 4,
       "2026-01-23-grammar-as-alignment-the-world-economic.md": 4,
@@ -34995,13 +35046,13 @@
       "2026-01-23-the-language-that-thinks-for-you.md": 9,
       "2026-01-25-the-ice-protest-that-changes-nothing.md": 4,
       "2026-01-25-the-machine-that-eats-the-world.md": 4,
-      "2026-01-26-the-table.md": 5,
+      "2026-01-26-the-table.md": 9,
       "2026-01-27-manufacturing-luck.mdx": 7,
       "2026-01-27-what-would-marx-say-today.md": 4,
       "2026-01-28-the-body-as-ground.md": 5,
       "2026-01-29-the-secret-every-political-philosophy.md": 4,
       "2026-01-31-education-cannot-save-us.md": 4,
-      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 4,
+      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 9,
       "2026-02-02-the-executive-function-curriculum.md": 4,
       "2026-02-06-meaning-at-the-boundary.md": 5,
       "2026-02-06-mystical-meaning.md": 5,
@@ -35014,9 +35065,10 @@
       "2026-02-11-nine-months-two-men.md": 9,
       "2026-02-11-the-gaze.md": 9,
       "2026-02-12-the-ironist-gen-z-and-the-ground.md": 9,
-      "2026-02-12-what-if-the-thing-youre-protecting.md": 4,
+      "2026-02-12-what-if-the-thing-youre-protecting.md": 9,
       "2026-02-19-mysticism-research-list.md": 5,
       "2026-02-20-nyc-mamdani-budget.mdx": 0,
+      "2026-02-21-structural-wisdom-biblical-eschatology.mdx": 5,
       "2026-02-21-west-psychodrama.mdx": 4,
       "start-here.md": 5,
       "bookmarks/alecmuffet.com.md": 0,
@@ -35120,14 +35172,14 @@
         "id": 4,
         "centerX": 675.4623404016121,
         "centerY": -428.66143598319724,
-        "nodeCount": 46,
-        "name": "Politics & Culture"
+        "nodeCount": 43,
+        "name": "Politics & Philosophy"
       },
       {
         "id": 5,
         "centerX": 760.8452130361228,
         "centerY": -247.2135954999579,
-        "nodeCount": 53,
+        "nodeCount": 51,
         "name": "Religion & Philosophy"
       },
       {
@@ -35153,8 +35205,8 @@
         "id": 9,
         "centerX": 616.4105942206313,
         "centerY": 509.9391917989518,
-        "nodeCount": 21,
-        "name": "Fiction & Culture"
+        "nodeCount": 27,
+        "name": "Culture & Philosophy"
       },
       {
         "id": 10,
@@ -35249,12 +35301,12 @@
         "nodeCount": 1
       }
     ],
-    "modularity": 0.3168509880747757
+    "modularity": 0.31770989599090127
   },
   "metadata": {
-    "totalNodes": 220,
-    "totalEdges": 2355,
-    "buildTimeMs": 217,
+    "totalNodes": 221,
+    "totalEdges": 2387,
+    "buildTimeMs": 344,
     "signalsUsed": [
       "wikilink",
       "semantic"
