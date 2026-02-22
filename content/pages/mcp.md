@@ -6,7 +6,7 @@ minimalHeader: true
 
 This site has an [MCP](https://modelcontextprotocol.io/) server that lets you search the blog from any MCP-compatible AI client.
 
-**Endpoint:** `https://tantamanlands.tantaman.workers.dev/mcp`
+**Endpoint:** `https://tantaman.com/api/mcp`
 
 ## Claude Desktop
 
@@ -20,7 +20,7 @@ Add this to your `claude_desktop_config.json`:
       "args": [
         "-y",
         "mcp-remote",
-        "https://tantamanlands.tantaman.workers.dev/mcp"
+        "https://tantaman.com/api/mcp"
       ]
     }
   }
