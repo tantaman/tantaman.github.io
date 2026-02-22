@@ -29,10 +29,23 @@ async function bumpVersion(db: D1Database): Promise<void> {
 
 const app = new Hono<{ Bindings: Env }>();
 
+// Redirect www → bare domain
+app.use("*", async (c, next) => {
+  const url = new URL(c.req.url);
+  if (url.hostname === "www.tantaman.com") {
+    url.hostname = "tantaman.com";
+    return c.redirect(url.toString(), 301);
+  }
+  return next();
+});
+
 app.use("*", cors());
 
+// --- API sub-app ---
+const api = new Hono<{ Bindings: Env }>();
+
 // ETag / 304 Not Modified for GET requests
-app.use("*", async (c, next) => {
+api.use("*", async (c, next) => {
   if (c.req.method !== "GET") {
     return next();
   }
@@ -57,7 +70,7 @@ app.use("*", async (c, next) => {
   c.res.headers.set("Cache-Control", "private, no-cache");
 });
 
-app.all("/mcp", async (c) => {
+api.all("/mcp", async (c) => {
   const server = createMcpServer(c.env);
   const transport = new StreamableHTTPTransport();
 
@@ -65,15 +78,15 @@ app.all("/mcp", async (c) => {
   return transport.handleRequest(c);
 });
 
-app.get("/", (c) => {
+api.get("/", (c) => {
   return c.json({
     name: "tantaman-api",
     description: "API for tantaman.com blog, including MCP server for AI-assisted search",
-    mcp: "/mcp",
+    mcp: "/api/mcp",
   });
 });
 
-app.get("/thoughts/search", async (c) => {
+api.get("/thoughts/search", async (c) => {
   const query = c.req.query("q");
   if (!query) {
     return c.json({ error: "Missing q parameter" }, 400);
@@ -133,7 +146,7 @@ app.get("/thoughts/search", async (c) => {
   return c.json({ thoughts });
 });
 
-app.get("/thoughts", async (c) => {
+api.get("/thoughts", async (c) => {
   const limitParam = Math.min(parseInt(c.req.query("limit") || "50", 10) || 50, 200);
   const offsetParam = parseInt(c.req.query("offset") || "0", 10) || 0;
   const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
@@ -197,7 +210,7 @@ app.get("/thoughts", async (c) => {
   });
 });
 
-app.get("/thoughts/tags", async (c) => {
+api.get("/thoughts/tags", async (c) => {
   const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
 
   let results;
@@ -232,7 +245,7 @@ app.get("/thoughts/tags", async (c) => {
   return c.json({ tags: results.results });
 });
 
-app.get("/thoughts/:id/replies", async (c) => {
+api.get("/thoughts/:id/replies", async (c) => {
   const parentId = c.req.param("id");
 
   // Fetch parent thought
@@ -301,7 +314,7 @@ app.get("/thoughts/:id/replies", async (c) => {
   return c.json({ parent, replies });
 });
 
-app.post("/thoughts", async (c) => {
+api.post("/thoughts", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
     return c.json({ error: "Unauthorized" }, 401);
@@ -401,7 +414,7 @@ app.post("/thoughts", async (c) => {
   return c.json(thought, 201);
 });
 
-app.delete("/thoughts/:id", async (c) => {
+api.delete("/thoughts/:id", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
     return c.json({ error: "Unauthorized" }, 401);
@@ -452,7 +465,7 @@ app.delete("/thoughts/:id", async (c) => {
   return c.body(null, 204);
 });
 
-app.get("/tasks", async (c) => {
+api.get("/tasks", async (c) => {
   const status = c.req.query("status") || "incomplete";
   const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
 
@@ -478,7 +491,7 @@ app.get("/tasks", async (c) => {
   return c.json({ tasks: results.results });
 });
 
-app.patch("/tasks/:id", async (c) => {
+api.patch("/tasks/:id", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
     return c.json({ error: "Unauthorized" }, 401);
@@ -511,7 +524,7 @@ app.patch("/tasks/:id", async (c) => {
   return c.json(task);
 });
 
-app.get("/events", async (c) => {
+api.get("/events", async (c) => {
   const from = c.req.query("from");
   const to = c.req.query("to");
 
@@ -535,7 +548,7 @@ app.get("/events", async (c) => {
   return c.json({ events: results.results });
 });
 
-app.get("/attachments/*", async (c) => {
+api.get("/attachments/*", async (c) => {
   const key = c.req.path.replace(/^\/attachments\//, "");
   if (!key) return c.json({ error: "Not found" }, 404);
 
@@ -548,5 +561,8 @@ app.get("/attachments/*", async (c) => {
 
   return new Response(object.body, { headers });
 });
+
+// Mount API routes
+app.route("/api", api);
 
 export default app;

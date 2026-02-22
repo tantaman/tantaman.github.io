@@ -2,6 +2,11 @@ name = "tantamanlands"
 main = "src/index.ts"
 compatibility_date = "2025-03-03"
 
+routes = [
+  { pattern = "tantaman.com", custom_domain = true },
+  { pattern = "www.tantaman.com", custom_domain = true }
+]
+
 [assets]
 directory = "../docs"
 
