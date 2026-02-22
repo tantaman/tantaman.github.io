@@ -216,7 +216,7 @@ Site metadata is in `packages/compiler/src/layouts/global.ts`:
 - Author: Matt Wonlaw
 - Twitter: @tantaman
 - Global CSS: `/index.css`
-- Global JS: Google Analytics, `toc.js`, `theme.js`
+- Global JS: `toc.js`, `theme.js`
 - Theme detection: inline script in `<head>` reads `localStorage` or `prefers-color-scheme`
 - RSS feed link in `<head>`
 

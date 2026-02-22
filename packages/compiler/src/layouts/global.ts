@@ -25,13 +25,6 @@ export const doc = {
   ],
   js: [
     {
-      src: 'https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS',
-      async: true,
-    },
-    {
-      src: '/ga.js',
-    },
-    {
       src: '/toc.js',
     },
     {
