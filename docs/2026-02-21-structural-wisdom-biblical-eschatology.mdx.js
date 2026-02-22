@@ -195,8 +195,6 @@ function _createMdxContent(props) {
       children: "There is a well-known story about an automaton constructed to play chess. A puppet in Turkish attire, a hookah in its mouth, sat before the board and won every game. The truth was that a hunchbacked dwarf, a master of chess, sat inside and guided the puppet's hand. One can imagine a philosophical counterpart to this device. The puppet called \"critical theory\" is supposed to win all the time. It can easily be a match for anyone if it enlists the services of theology, which today, as we know, is small and ugly and has to keep out of sight."
     }), "\n", _jsx(_components.p, {
       children: "The puppet is secular critical theory — Marx, Foucault, the whole apparatus of modern power analysis. The dwarf is theology. Benjamin's claim, and the claim of this essay, is that the puppet has never moved on its own."
-    }), "\n", _jsx(_components.p, {
-      children: "The puppet is secular critical theory — Marx, Foucault, the whole apparatus of modern power analysis. The dwarf is theology. Benjamin's claim, and the claim of this essay, is that the puppet has never moved on its own."
     }), "\n", _jsxs(_components.p, {
       children: ["I wrote that in 1940, about historical materialism. I write now to make the case more explicit: the biblical tradition contains what may be the most sophisticated structural analysis of power ever produced — an analysis that anticipates Marx by two millennia and surpasses him on the decisive question, which is not ", _jsx(_components.em, {
         children: "how"
