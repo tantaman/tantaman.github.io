@@ -39,6 +39,32 @@ body {
   }
 }
 
+/* Pagination sentinel */
+#page-sentinel {
+  height: 1px;
+}
+
+#page-sentinel.loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  height: auto;
+}
+
+#page-sentinel.loading::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--fg);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Responsive: mobile */
 @media (max-width: 640px) {
   .home {

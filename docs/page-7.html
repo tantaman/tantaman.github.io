@@ -1,0 +1,300 @@
+
+    <a class="card" href="2022-06-06-not-machine-readable.html">
+      
+      
+      <h4>
+        📚 Not Machine Readable?
+      </h4>
+      <div class="subtext">
+        2022-06-06 · 1 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          The term "machine readable" is imprecise because it doesn't account for the semantic gap between data structures and specific consumer needs; data is only readable when a programmer's task aligns with both the structure's format and its underlying ontology, meaning even formally structured data fails to be "machine readable" if its terminology and concepts don't match the consumer's requirements.
+      </p>
+    </a>
+
+    <a class="card" href="2022-06-02-this-time-is-different.html">
+      
+      
+      <h4>
+        🧶 HTML, CSS & JS. All mixed up together. This time it's different.
+      </h4>
+      <div class="subtext">
+        2022-06-02 · 2 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Modern web development combines HTML, CSS, and JavaScript back together, but this represents genuine progress rather than regression because developers are now bundling these technologies at the component level rather than globally, allowing for proper code organization and reduced complexity after the evolution of templates, imports, and module systems made true component-based development possible. The criticism that inline styles and mixed code represent a step backward misses the key…
+      </p>
+    </a>
+
+    <a class="card" href="2022-05-26-chunk-iterable.html">
+      
+      
+      <h4>
+        🪨 Chunk Iterable
+      </h4>
+      <div class="subtext">
+        2022-05-26 · 1 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          The Chunk Iterable Framework in Aphrodite processes large or unbounded data streams by dividing them into manageable chunks rather than processing items one at a time or all at once, which improves performance while preventing resource overload. By conforming to an Iterable interface, ChunkIterable allows operations like filter and map to be performed on chunks, enabling Aphrodite to transform raw data streams into models and apply database-level filtering efficiently.
+      </p>
+    </a>
+
+    <a class="card" href="2022-05-26-query-builder.html">
+      
+      
+      <h4>
+        ⛓ Query Builder
+      </h4>
+      <div class="subtext">
+        2022-05-26 · 2 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="systems">systems</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Aphrodite generates type-safe query builders from schemas that enable fluent APIs for traversing graph relationships, applying filters, and performing pagination through a linked list structure where each method call returns a new query builder holding references to the previous query and its applied expression. This design allows seamless chaining of operations across different node types, such as querying users, their photos, and tagged users within those photos, with the linked list…
+      </p>
+    </a>
+
+    <a class="card" href="2022-05-26-query-plan-optimization.html">
+      
+      
+      <h4>
+        💨 Query Plan Optimization
+      </h4>
+      <div class="subtext">
+        2022-05-26 · 2 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="systems">systems</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Aphrodite's query optimizer aims to minimize database calls and reduce returned data by hoisting operations like filters, joins, and limits into database queries rather than handling them in the application layer, and by collapsing derived expressions and hop plans to their source equivalents. This optimization approach is particularly important for ORMs to avoid common performance pitfalls like the N+1 problem and becomes even more critical when queries span multiple data sources.
+      </p>
+    </a>
+
+    <a class="card" href="2022-05-26-query-planning.html">
+      
+      
+      <h4>
+        📝 Query Planning
+      </h4>
+      <div class="subtext">
+        2022-05-26 · 5 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="systems">systems</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Query planning converts the linked list of queries built by a query builder into executable plans by walking the list from end to start, collecting expressions into a plan structure. For simple queries, this produces a single Plan with a source expression and ordered derivations, but queries with edge traversals (hops) generate nested HopPlans that wrap source plans, allowing the system to handle queries that span multiple tables or storage types. The planning process establishes the foundation…
+      </p>
+    </a>
+
+    <a class="card" href="2022-05-13-large-local-storage.html">
+      
+      <img src="/meme-thumbs/large-local-storage-docs.webp" alt="" loading="lazy" />
+      <h4>
+        📀 Large Local Storage
+      </h4>
+      <div class="subtext">
+        2022-05-13 · 2 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="systems">systems</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          In 2013, the author created Large Local Storage, a library that provided a unified interface for storing large data blobs across all browsers by abstracting over incompatible storage APIs like FileSystemAPI, WebSQL, IndexedDB, and LocalStorage. The library used a pipeline architecture with pluggable layers for caching, logging, S3 uploads, and other features, though it's now obsolete due to improved browser support for IndexedDB and the FilesystemAPI. The post reflects on the project as a…
+      </p>
+    </a>
+
+    <a class="card" href="2022-05-12-simple-mdx.html">
+      
+      
+      <h4>
+        😌 Simple MDX
+      </h4>
+      <div class="subtext">
+        2022-05-12 · 5 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          MDX deployment outside of Next.js is unnecessarily complicated, but using @mdx-js/mdx directly without bundling offers a simpler alternative by processing MDX files through a pipeline of remark and rehype plugins, then compiling them to JavaScript modules that can be imported on the frontend. The post provides a practical guide to ingesting MDX content, selecting appropriate transformations, applying them during compilation, and using the resulting JavaScript components in your application.
+      </p>
+    </a>
+
+    <a class="card" href="2022-05-12-skipping-the-bundling.html">
+      
+      
+      <h4>
+        🧶 Skipping the Bundling
+      </h4>
+      <div class="subtext">
+        2022-05-12 · 1 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Modern JavaScript with ES6 modules, TypeScript, and services like esm.sh eliminate the need for bundlers on small-scale projects, allowing developers to import dependencies directly via URL without complex build tools. For simple projects like personal blogs, skipping bundlers entirely is practical and aligns with the principle of not adding unnecessary complexity until it's truly needed. The author demonstrates this approach by building their own blog without any bundler, importing all…
+      </p>
+    </a>
+
+    <a class="card" href="2022-04-25-doing-for-others.html">
+      
+      
+      <h4>
+        🧚‍♂️ Past, Present, Future - Doing for Others
+      </h4>
+      <div class="subtext">
+        2022-04-25 · 1 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="philosophy">philosophy</span><span class="pill pill-concern" data-facet="concern" data-value="self">self</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Our present circumstances are fundamentally shaped by the choices and creations of previous generations, so if we accept this reality, our responsibility should shift from improving our own material well-being to enhancing the well-being of future generations. Adopting this forward-looking perspective would foster greater respect for the past and more careful consideration of our environmental and social impacts, and cultivating beliefs like reincarnation—regardless of their literal truth—could…
+      </p>
+    </a>
+
+    <a class="card" href="2022-04-25-foundational-myths.html">
+      
+      
+      <h4>
+        🧟‍♂️ Memes & Themes - 1619 Project
+      </h4>
+      <div class="subtext">
+        2022-04-25 · 6 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="politics">politics</span><span class="pill pill-subject" data-facet="subject" data-value="philosophy">philosophy</span><span class="pill pill-concern" data-facet="concern" data-value="power">power</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Foundational myths shape societies' values and worldviews, as illustrated by how Russia and Ukraine adopted different poetic traditions leading to divergent ideologies, and the 1619 Project attempts to reshape America's foundational narrative to recognize marginalized groups' contributions. Rather than attempting a risky cultural rewrite that introduces new flaws, the author argues America should iteratively apply its existing principle of individual rights more fearlessly and consistently to…
+      </p>
+    </a>
+
+    <a class="card" href="2022-04-07-your-package-is-two.html">
+      
+      
+      <h4>
+        📦 Your One Package Might Be Two
+      </h4>
+      <div class="subtext">
+        2022-04-07 · 1 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          When creating reusable software packages, developers often overlook that there's actually a second package within—the interface package that defines the contract separate from the implementation. Extracting the interface into its own separate package allows other developers to create alternative implementations and enables downstream packages to depend only on the interface types without pulling in the heavy implementation details. The interface package should have no dependencies on the…
+      </p>
+    </a>
+
+    <a class="card" href="2022-01-17-why-fetching-earliy-is-difficult-to-express.html">
+      
+      
+      <h4>
+        🌅 Expressing Early Fetches - React
+      </h4>
+      <div class="subtext">
+        2022-01-17 · 1 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Early data fetching in React is difficult to express correctly across multiple entry points because of anemic domain models and business logic scattered in display components; the render-as-you-fetch pattern is more natural than fetch-before-render since it ensures fetches aren't missed, whereas fetch-before-render risks omitting fetch kickoffs when different events (clicks, taps, navigation) lead to the same view and require the same data, creating a challenge of how to guarantee all entry…
+      </p>
+    </a>
+
+    <a class="card" href="2022-01-09-improving-code-sharing.html">
+      
+      
+      <h4>
+        🧶 Improving Code Sharing with Yarn Workspaces
+      </h4>
+      <div class="subtext">
+        2022-01-09 · 3 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Yarn Workspaces solves the friction of sharing code between JavaScript and TypeScript projects by keeping shared libraries as git submodules within a monorepo structure while managing their dependencies and imports seamlessly through a single yarn install and lockfile. This approach eliminates the need to repeatedly publish, deploy, and upgrade shared libraries to NPM while avoiding the dependency conflicts and import complexity that arise from traditional git submodule setups. For projects with…
+      </p>
+    </a>
+
+    <a class="card" href="2021-12-28-Color-Picker-From-Scratch.html">
+      
+      
+      <h4>
+        🌈 Understanding Color by Writing a Color Picker
+      </h4>
+      <div class="subtext">
+        2021-12-28 · 5 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Building a color picker from scratch reveals that understanding HSV (Hue, Saturation, Value) color theory makes the process far simpler than it appears, with hue controlled by a linear slider and saturation and value controlled through layered CSS gradients on a 2D field. The post demonstrates how each HSV component maps intuitively to user interactions—dividing mouse coordinates by field dimensions produces values between 0 and 1 that directly correspond to color parameters, which can then be…
+      </p>
+    </a>
+
+    <a class="card" href="2021-12-27-Observability-Driven-Development.html">
+      
+      
+      <h4>
+        👀 Observability Driven Development
+      </h4>
+      <div class="subtext">
+        2021-12-27 · 1 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Observability Driven Development emphasizes that passing tests alone don't guarantee a system works correctly in production; teams must continuously monitor key metrics like request latency, throughput, memory usage, and performance trends to establish baselines, detect regressions, and maintain software quality. The author discovered this practice independently while working at Facebook and found that Honeycomb.io's CTO had already coined and formalized the same concept, which goes beyond…
+      </p>
+    </a>
+
+    <a class="card" href="2021-12-27-Personal-Vision.html">
+      
+      
+      <h4>
+        👀 Vision
+      </h4>
+      <div class="subtext">
+        2021-12-27 · 2 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="philosophy">philosophy</span><span class="pill pill-concern" data-facet="concern" data-value="self">self</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          After leaving Meta after eight years, the author outlines five ambitious visions for future work: creating software that enhances human thinking through better memory and idea encoding, developing documents as a primary platform for application development, simplifying peer-to-peer and end-to-end encrypted software development to decentralize power and reduce monopolistic control, mandating that government-funded software be open source for cost savings and transparency, and humorously, buying…
+      </p>
+    </a>
+
+    <a class="card" href="2021-12-27-urls-as-display-data.html">
+      
+      
+      <h4>
+        👨‍💻 URLs As Display Data
+      </h4>
+      <div class="subtext">
+        2021-12-27 · 2 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          Traditional single-page applications treat URLs as a source of truth that drives application logic, but this creates dual sources of state and unnecessary coupling between components. Instead, URLs should be treated as display output derived from application state—rendered from the app's domain model rather than driving it, which simplifies state management and makes URL handling consistent with all other UI updates.
+      </p>
+    </a>
+
+    <a class="card" href="2021-12-23-Deeply-Nested-Updates-React.html">
+      
+      
+      <h4>
+        ☢️ Reacting Better - Deeply Nested Update Problem
+      </h4>
+      <div class="subtext">
+        2021-12-23 · 4 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="software">software</span><span class="pill pill-concern" data-facet="concern" data-value="craft">craft</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          React inefficiently handles deeply nested updates by forcing entire component trees to re-render when a single deeply nested property changes, even though only the leaf components actually need updating. The author proposes distinguishing between nominal identity (causal links that persist over time) and physical identity (immutable snapshots) to allow components to subscribe only to the specific data they depend on, enabling selective re-renders without sacrificing unidirectional data flow.…
+      </p>
+    </a>
+
+    <a class="card" href="2021-12-20-American-Spirit.html">
+      
+      
+      <h4>
+        👐 American Spirit
+      </h4>
+      <div class="subtext">
+        2021-12-20 · 5 min
+      </div>
+      <div class="card-pills"><span class="pill pill-subject" data-facet="subject" data-value="politics">politics</span><span class="pill pill-subject" data-facet="subject" data-value="philosophy">philosophy</span><span class="pill pill-concern" data-facet="concern" data-value="modernity">modernity</span><span class="pill pill-concern" data-facet="concern" data-value="self">self</span><span class="pill pill-form" data-facet="form" data-value="essay">essay</span></div>
+      <p>
+          A Nietzschean critique argues that contemporary American culture has become fundamentally weakened by its intolerance for pain and struggle, instead seeking constant comfort through technology and distraction while paradoxically blaming external forces for its failures. The author claims both conservative and liberal Americans are hypocrites who profess ideals while embodying their opposites—conservatives claim Christian self-reliance while supporting immoral leaders, while liberals preach…
+      </p>
+    </a>

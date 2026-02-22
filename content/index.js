@@ -23,10 +23,14 @@ import { readFile } from 'node:fs/promises';
 const THUMB_DIR = './docs/meme-thumbs';
 const THUMB_URL_PREFIX = '/meme-thumbs';
 const THUMB_WIDTH = 960;
+const PAGE_SIZE = 20;
 
 export default async function index(file, cwd, files) {
-  return {
+  const artifact = {
     content: async () => {
+      const { html, companionFiles } = await buildPages();
+      artifact.companionFiles = companionFiles;
+
       const result = await unified()
         .use(rehypeParse)
         .use(rehypeDocument, {
@@ -37,14 +41,16 @@ export default async function index(file, cwd, files) {
         .use(rehypeMeta, meta)
         .use(layout)
         .use(rehypeStringify, { allowDangerousHtml: true })
-        .process(await siteIndex());
+        .process(html);
 
       return result.toString();
     },
+    companionFiles: [],
     frontmatter: {},
     greymatter: {},
     dependencies: [...contentDirs(), '.meme-cache.json'],
   };
+  return artifact;
 }
 
 async function loadCache() {
@@ -56,7 +62,7 @@ async function loadCache() {
   }
 }
 
-async function siteIndex() {
+async function buildPages() {
   const indices = await indexFrontmatter();
   const cache = await loadCache();
 
@@ -114,28 +120,58 @@ async function siteIndex() {
     }),
   );
 
-  const remainingCards = await Promise.all(
-    remaining.map(async ({ collection, meta: postMeta }) => {
+  // Split remaining posts into pages
+  const page1Remaining = remaining.slice(0, PAGE_SIZE);
+  const overflow = remaining.slice(PAGE_SIZE);
+  const totalPages = 1 + Math.ceil(overflow.length / PAGE_SIZE);
+
+  const page1Cards = await Promise.all(
+    page1Remaining.map(async ({ collection, meta: postMeta }) => {
       const rawImage = postMeta.frontmatter?.image || postMeta.firstImage;
       const image = await generateThumbnail(rawImage, THUMB_DIR, THUMB_URL_PREFIX, THUMB_WIDTH);
       return renderCard(collection, postMeta, image);
     }),
   );
 
-  return `
+  // Generate companion fragment files for pages 2+
+  const companionFiles = [];
+  for (let p = 2; p <= totalPages; p++) {
+    const start = (p - 2) * PAGE_SIZE;
+    const pageSlice = overflow.slice(start, start + PAGE_SIZE);
+    const cards = await Promise.all(
+      pageSlice.map(async ({ collection, meta: postMeta }) => {
+        const rawImage = postMeta.frontmatter?.image || postMeta.firstImage;
+        const image = await generateThumbnail(rawImage, THUMB_DIR, THUMB_URL_PREFIX, THUMB_WIDTH);
+        return renderCard(collection, postMeta, image);
+      }),
+    );
+    companionFiles.push({
+      name: `page-${p}.html`,
+      content: cards.join('\n'),
+    });
+  }
+
+  const sentinel = totalPages > 1
+    ? `<div id="page-sentinel" data-next-page="2" data-total-pages="${totalPages}"></div>`
+    : '';
+
+  const html = `
 <div class="home wide">
   <div class="masonry">
     ${featuredCards.join('\n')}
   </div>
   ${
-    remainingCards.length > 0
+    page1Cards.length > 0
       ? `
   <div class="more-grid">
-    ${remainingCards.join('\n')}
+    ${page1Cards.join('\n')}
   </div>`
       : ''
   }
+  ${sentinel}
 </div>`;
+
+  return { html, companionFiles };
 }
 
 
