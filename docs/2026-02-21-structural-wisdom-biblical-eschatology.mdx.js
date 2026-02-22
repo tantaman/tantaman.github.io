@@ -1,5 +1,23 @@
 /*@jsxRuntime automatic @jsxImportSource https://esm.sh/react*/
 import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "https://esm.sh/react/jsx-runtime";
+import Mermaid from '/dist/components/Mermaid.js';
+export function PullQuote({children}) {
+  return _jsx("div", {
+    style: {
+      borderTop: '2px solid var(--border-heavy, #555)',
+      borderBottom: '2px solid var(--border-heavy, #555)',
+      margin: '2.5rem auto',
+      padding: '1.5rem 2rem',
+      maxWidth: '80%',
+      textAlign: 'center',
+      fontStyle: 'italic',
+      fontSize: '1.2rem',
+      lineHeight: 1.6,
+      color: 'var(--text-muted, #999)'
+    },
+    children: children
+  });
+}
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
@@ -13,6 +31,12 @@ function _createMdxContent(props) {
     hr: "hr",
     h2: "h2",
     strong: "strong",
+    table: "table",
+    thead: "thead",
+    tr: "tr",
+    th: "th",
+    tbody: "tbody",
+    td: "td",
     blockquote: "blockquote"
   }, props.components);
   return _jsxs(_Fragment, {
@@ -92,7 +116,34 @@ function _createMdxContent(props) {
           })
         })]
       })
-    }), _jsxs("figure", {
+    }), "\n", "\n", _jsx("style", {
+      children: `
+  #mdx table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9rem;
+  }
+  #mdx th {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  #mdx td {
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.8rem;
+  }
+  #mdx tr:nth-child(even) td {
+    background: var(--bg-soft);
+  }
+  #mdx table {
+    display: block;
+    overflow-x: auto;
+  }
+`
+    }), "\n", _jsxs("figure", {
       style: {
         margin: '0 0 2.5rem',
         textAlign: 'center'
@@ -152,6 +203,10 @@ function _createMdxContent(props) {
       }), " systems of domination operate but ", _jsx(_components.em, {
         children: "why liberation movements invariably reproduce them."
       }), " Marx diagnosed the disease. The prophets diagnosed the diagnosis."]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"Marx diagnosed the disease. The prophets diagnosed the diagnosis.\""
+      })
     }), "\n", _jsx(_components.p, {
       children: "To make this case, I must first explain what is at stake in the theological term most abused and least understood by both its defenders and its critics."
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
@@ -194,6 +249,10 @@ function _createMdxContent(props) {
       children: ["This is the insight encoded in the doctrine of the Second Coming. Not a prediction about a man descending on clouds. A ", _jsx(_components.em, {
         children: "diagnosis"
       }), " of a permanent condition, expressed in the only language its authors had — and, I will argue, expressed better in that language than in any subsequent secular translation."]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"Every system designed to liberate will be captured by the very forces it was designed to overcome.\""
+      })
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
       id: "ii-the-engine-a-pattern-marx-discovered-in-one-century-that-scripture-traced-across-ten",
       children: [_jsx(_components.a, {
@@ -246,6 +305,10 @@ function _createMdxContent(props) {
       }), " It leaves the inner sanctuary, moves to the threshold, then to the east gate, then out of the city altogether (Ezekiel 10–11). God abandons God's own institution. This is not a punishment narrative. It is a ", _jsx(_components.em, {
         children: "theorem:"
       }), " an institution can continue to exist — performing all the correct rituals, maintaining all the formal structures, collecting all the usual revenues — while the thing that actually gave it authority has quietly departed. The Temple still stands. The priests still sacrifice. But the presence is gone. Anyone who has watched a university that still confers degrees but has lost free inquiry, a party that still claims to represent the working class but serves its professional administrators, a newspaper that still publishes but has lost the reader's trust — anyone who has seen the machinery continue to operate after the animating purpose has left the building — has seen Ezekiel's vision in secular dress. The institution built to house the divine presence has become inhospitable to it. The presence must leave in order to remain what it is."]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"An institution can continue to exist — performing all the correct rituals, maintaining all the formal structures — while the thing that actually gave it authority has quietly departed.\""
+      })
     }), "\n", _jsxs(_components.p, {
       children: ["No Marxist has ever stated the problem of institutional capture with this economy or this force. The means of spiritual production, we might say, have been seized by a priestly class that uses them to reproduce the conditions of spiritual domination. But the biblical framing is superior to the Marxist one for a reason I will return to: ", _jsx(_components.em, {
         children: "it includes the critique within its own scope."
@@ -262,6 +325,156 @@ function _createMdxContent(props) {
       }), " will do by its nature — extraction, conscription, the conversion of public authority into private accumulation. This is a theory of the state as such: political power concentrated in an institution will become an apparatus serving those who control it, regardless of its stated purpose. Engels arrived at the same conclusion in ", _jsx(_components.em, {
         children: "The Origin of the Family, Private Property and the State,"
       }), " working through Hegel and Morgan across hundreds of pages. Samuel gets there in seven verses."]
+    }), "\n", _jsxs(_components.h3, {
+      id: "the-cycle-of-institutional-capture",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#the-cycle-of-institutional-capture",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "The Cycle of Institutional Capture"]
+    }), "\n", _jsx("center", {
+      children: _jsx(Mermaid, {
+        id: "capture-cycle",
+        chart: `flowchart TD
+    A["Liberation System Created<br/><small>Torah · Early Church · Revolution</small>"] --> B["System Administered<br/>by Professional Class<br/><small>Priests · Clergy · Party officials</small>"]
+    B --> C["Administrators<br/>Capture System<br/><small>Temple ideology · Institutional religion · Bureaucracy</small>"]
+    C --> D["System Becomes<br/>New Oppression<br/><small>Law as bondage · Church as empire · State capitalism</small>"]
+    D --> E["Prophetic Critique<br/>Emerges<br/><small>Isaiah · Jeremiah · Jesus · Marx</small>"]
+    E --> F["Critique Itself Gets<br/>Institutionalized<br/><small>False prophets · Scholasticism · Academic Marxism</small>"]
+    F --> A
+    style A fill:#2d5016,stroke:#4a8c28,color:#fff
+    style D fill:#6b1a1a,stroke:#a03030,color:#fff
+    style E fill:#1a3a6b,stroke:#3060a0,color:#fff`
+      })
+    }), "\n", _jsxs(_components.h3, {
+      id: "the-pattern-across-domains",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#the-pattern-across-domains",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "The Pattern Across Domains"]
+    }), "\n", _jsxs(_components.table, {
+      children: [_jsx(_components.thead, {
+        children: _jsxs(_components.tr, {
+          children: [_jsx(_components.th, {
+            children: "Domain"
+          }), _jsx(_components.th, {
+            children: "Liberation System"
+          }), _jsx(_components.th, {
+            children: "Captured By"
+          }), _jsx(_components.th, {
+            children: "Diagnostic Voice"
+          }), _jsx(_components.th, {
+            children: "Citation"
+          })]
+        })
+      }), _jsxs(_components.tbody, {
+        children: [_jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Law"
+            })
+          }), _jsx(_components.td, {
+            children: "Torah / Sinai covenant"
+          }), _jsx(_components.td, {
+            children: "Priestly administration"
+          }), _jsx(_components.td, {
+            children: "Isaiah"
+          }), _jsx(_components.td, {
+            children: "Isa 1:11–17"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Temple"
+            })
+          }), _jsx(_components.td, {
+            children: "House of God's presence"
+          }), _jsx(_components.td, {
+            children: "Legitimation apparatus"
+          }), _jsx(_components.td, {
+            children: "Jeremiah"
+          }), _jsx(_components.td, {
+            children: "Jer 7:4"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Monarchy"
+            })
+          }), _jsx(_components.td, {
+            children: "Anointed kingship"
+          }), _jsx(_components.td, {
+            children: "Extractive state"
+          }), _jsx(_components.td, {
+            children: "Samuel / God"
+          }), _jsx(_components.td, {
+            children: "1 Sam 8:11–14"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Prophecy"
+            })
+          }), _jsx(_components.td, {
+            children: "Prophetic critique"
+          }), _jsx(_components.td, {
+            children: "False prophets"
+          }), _jsx(_components.td, {
+            children: "Jeremiah"
+          }), _jsx(_components.td, {
+            children: "Jer 23:16"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Early Church"
+            })
+          }), _jsx(_components.td, {
+            children: "Jesus's movement"
+          }), _jsx(_components.td, {
+            children: "Institutional religion"
+          }), _jsx(_components.td, {
+            children: "Revelation letters"
+          }), _jsx(_components.td, {
+            children: "Rev 2–3"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Modern Left"
+            })
+          }), _jsx(_components.td, {
+            children: "Liberation theology / MLK"
+          }), _jsx(_components.td, {
+            children: "Professional progressive class"
+          }), _jsx(_components.td, {
+            children: "(essay itself)"
+          }), _jsx(_components.td, {
+            children: "§ VIII"
+          })]
+        }), _jsxs(_components.tr, {
+          children: [_jsx(_components.td, {
+            children: _jsx(_components.strong, {
+              children: "Modern Right"
+            })
+          }), _jsx(_components.td, {
+            children: "Second Coming hope"
+          }), _jsx(_components.td, {
+            children: "Lobbying agenda / CUFI"
+          }), _jsx(_components.td, {
+            children: "(essay itself)"
+          }), _jsx(_components.td, {
+            children: "§ VIII"
+          })]
+        })]
+      })]
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
       id: "iii-jesus-as-structural-critic",
       children: [_jsx(_components.a, {
@@ -318,6 +531,10 @@ function _createMdxContent(props) {
       }), " built around the insight that matters most. The genuine rupture — the real interruption of the cycle of capture — ", _jsx(_components.em, {
         children: "cannot be known in advance"
       }), " because the moment it is known, scheduled, systematized, it has been absorbed into the operating system. It becomes one more item in the institutional calendar, one more lever of control. A known revolution is a captured revolution. A predicted interruption is no interruption at all."]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"A known revolution is a captured revolution. A predicted interruption is no interruption at all.\""
+      })
     }), "\n", _jsxs(_components.p, {
       children: ["Every failed revolutionary movement confirms this. The Bolsheviks knew exactly what the future held — the dictatorship of the proletariat, the withering of the state — and this knowledge ", _jsx(_components.em, {
         children: "became the instrument of domination."
@@ -374,6 +591,10 @@ function _createMdxContent(props) {
       }), " — something he calls ", _jsx(_components.em, {
         children: "grace,"
       }), " which he defines with the precision of a logician: \"If it is by grace, it is no longer on the basis of works, otherwise grace would no longer be grace\" (Romans 11:6). Grace is, by definition, that which cannot be earned, produced, or systematized. The moment you convert it into a set of conditions — a checklist, a program, a five-year plan — it ceases to be what it is. It has been captured."]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"The moment you convert it into a set of conditions — a checklist, a program, a five-year plan — it ceases to be what it is.\""
+      })
     }), "\n", _jsxs(_components.p, {
       children: ["This is why Paul reacts with such fury when the Galatian Christians return to Torah observance. The issue is not that circumcision is wrong. The issue is that it represents the ", _jsx(_components.em, {
         children: "re-systematization of what was meant to be unsystematizable."
@@ -499,7 +720,13 @@ function _createMdxContent(props) {
     }), "\n", _jsxs(_components.p, {
       children: ["The biblical tradition, read as structural analysis, says the same thing to both: ", _jsx(_components.em, {
         children: "the rupture you await will not come in the form you expect, cannot be produced by the methods you employ, and will disrupt your institution no less than the ones you oppose."
-      }), " \"The stone that the builders rejected has become the cornerstone\" (Psalm 118:22). The cornerstone is, by definition, the stone that ", _jsx(_components.em, {
+      }), " \"The stone that the builders rejected has become the cornerstone\" (Psalm 118:22)."]
+    }), "\n", _jsx(PullQuote, {
+      children: _jsx(_components.p, {
+        children: "\"The rupture you await will not come in the form you expect, cannot be produced by the methods you employ, and will disrupt your institution no less than the ones you oppose.\""
+      })
+    }), "\n", _jsxs(_components.p, {
+      children: ["The cornerstone is, by definition, the stone that ", _jsx(_components.em, {
         children: "no existing building program selected."
       }), " It comes from outside the architect's plan — every architect's plan, including yours."]
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {

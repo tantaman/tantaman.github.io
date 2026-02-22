@@ -7,6 +7,54 @@ summary: 'Written in the manner of Walter Benjamin''s Theses, this essay argues 
 image: '/img/rota-fortunae.jpg'
 ---
 
+import Mermaid from '/dist/components/Mermaid.js';
+
+export function PullQuote({ children }) {
+  return (
+    <div style={{
+      borderTop: '2px solid var(--border-heavy, #555)',
+      borderBottom: '2px solid var(--border-heavy, #555)',
+      margin: '2.5rem auto',
+      padding: '1.5rem 2rem',
+      maxWidth: '80%',
+      textAlign: 'center',
+      fontStyle: 'italic',
+      fontSize: '1.2rem',
+      lineHeight: 1.6,
+      color: 'var(--text-muted, #999)',
+    }}>
+      {children}
+    </div>
+  );
+}
+
+<style>{`
+  #mdx table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9rem;
+  }
+  #mdx th {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  #mdx td {
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.8rem;
+  }
+  #mdx tr:nth-child(even) td {
+    background: var(--bg-soft);
+  }
+  #mdx table {
+    display: block;
+    overflow-x: auto;
+  }
+`}</style>
+
 <figure style={{ margin: '0 0 2.5rem', textAlign: 'center' }}>
   <img src="/img/rota-fortunae.jpg" alt="Rota Fortunae, from Livres des cas des nobles hommes et femmes, Étienne Colaud (c. 1530)" style={{ maxWidth: '100%' }} />
   <figcaption style={{ fontStyle: 'italic', color: 'var(--text-muted, #999)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
@@ -28,6 +76,10 @@ The puppet is secular critical theory — Marx, Foucault, the whole apparatus of
 
 I wrote that in 1940, about historical materialism. I write now to make the case more explicit: the biblical tradition contains what may be the most sophisticated structural analysis of power ever produced — an analysis that anticipates Marx by two millennia and surpasses him on the decisive question, which is not *how* systems of domination operate but *why liberation movements invariably reproduce them.* Marx diagnosed the disease. The prophets diagnosed the diagnosis.
 
+<PullQuote>
+"Marx diagnosed the disease. The prophets diagnosed the diagnosis."
+</PullQuote>
+
 To make this case, I must first explain what is at stake in the theological term most abused and least understood by both its defenders and its critics.
 
 ---
@@ -47,6 +99,10 @@ The biblical tradition's eschatology is very good — not as a set of prediction
 **Every system designed to liberate will be captured by the very forces it was designed to overcome, and the genuine interruption of this cycle cannot come from within any system — including the one that names the problem.**
 
 This is the insight encoded in the doctrine of the Second Coming. Not a prediction about a man descending on clouds. A *diagnosis* of a permanent condition, expressed in the only language its authors had — and, I will argue, expressed better in that language than in any subsequent secular translation.
+
+<PullQuote>
+"Every system designed to liberate will be captured by the very forces it was designed to overcome."
+</PullQuote>
 
 ---
 
@@ -70,9 +126,40 @@ But Jeremiah goes further than Marx. His solution is not the construction of a b
 
 Ezekiel sees the same reality in a vision that should haunt anyone who has watched a revolutionary institution become a bureaucracy. The *kavod* — the glory of God, the visible divine presence in the Temple — *departs.* It leaves the inner sanctuary, moves to the threshold, then to the east gate, then out of the city altogether (Ezekiel 10–11). God abandons God's own institution. This is not a punishment narrative. It is a *theorem:* an institution can continue to exist — performing all the correct rituals, maintaining all the formal structures, collecting all the usual revenues — while the thing that actually gave it authority has quietly departed. The Temple still stands. The priests still sacrifice. But the presence is gone. Anyone who has watched a university that still confers degrees but has lost free inquiry, a party that still claims to represent the working class but serves its professional administrators, a newspaper that still publishes but has lost the reader's trust — anyone who has seen the machinery continue to operate after the animating purpose has left the building — has seen Ezekiel's vision in secular dress. The institution built to house the divine presence has become inhospitable to it. The presence must leave in order to remain what it is.
 
+<PullQuote>
+"An institution can continue to exist — performing all the correct rituals, maintaining all the formal structures — while the thing that actually gave it authority has quietly departed."
+</PullQuote>
+
 No Marxist has ever stated the problem of institutional capture with this economy or this force. The means of spiritual production, we might say, have been seized by a priestly class that uses them to reproduce the conditions of spiritual domination. But the biblical framing is superior to the Marxist one for a reason I will return to: *it includes the critique within its own scope.* The prophets know that the prophetic institution will itself be captured. Jeremiah denounces false prophets who "speak visions of their own minds, not from the mouth of the LORD" (Jeremiah 23:16). The system designed to critique captured systems gets captured. Marx never solved this problem — who critiques the critics? — because his framework could not accommodate it. The biblical tradition *begins* from it.
 
 **The Monarchy.** When Israel demands a king, God tells Samuel to warn them what will happen: "He will take your sons and appoint them to his chariots… He will take your daughters to be perfumers and cooks and bakers. He will take the best of your fields and vineyards" (1 Samuel 8:11–14). The monarchy is established *with a structural diagnosis built in.* God does not say this particular king will be corrupt. He describes what the *office* will do by its nature — extraction, conscription, the conversion of public authority into private accumulation. This is a theory of the state as such: political power concentrated in an institution will become an apparatus serving those who control it, regardless of its stated purpose. Engels arrived at the same conclusion in *The Origin of the Family, Private Property and the State,* working through Hegel and Morgan across hundreds of pages. Samuel gets there in seven verses.
+
+### The Cycle of Institutional Capture
+
+<center>
+<Mermaid id="capture-cycle" chart={`flowchart TD
+    A["Liberation System Created<br/><small>Torah · Early Church · Revolution</small>"] --> B["System Administered<br/>by Professional Class<br/><small>Priests · Clergy · Party officials</small>"]
+    B --> C["Administrators<br/>Capture System<br/><small>Temple ideology · Institutional religion · Bureaucracy</small>"]
+    C --> D["System Becomes<br/>New Oppression<br/><small>Law as bondage · Church as empire · State capitalism</small>"]
+    D --> E["Prophetic Critique<br/>Emerges<br/><small>Isaiah · Jeremiah · Jesus · Marx</small>"]
+    E --> F["Critique Itself Gets<br/>Institutionalized<br/><small>False prophets · Scholasticism · Academic Marxism</small>"]
+    F --> A
+    style A fill:#2d5016,stroke:#4a8c28,color:#fff
+    style D fill:#6b1a1a,stroke:#a03030,color:#fff
+    style E fill:#1a3a6b,stroke:#3060a0,color:#fff`} />
+</center>
+
+### The Pattern Across Domains
+
+| Domain | Liberation System | Captured By | Diagnostic Voice | Citation |
+|---|---|---|---|---|
+| **Law** | Torah / Sinai covenant | Priestly administration | Isaiah | Isa 1:11–17 |
+| **Temple** | House of God's presence | Legitimation apparatus | Jeremiah | Jer 7:4 |
+| **Monarchy** | Anointed kingship | Extractive state | Samuel / God | 1 Sam 8:11–14 |
+| **Prophecy** | Prophetic critique | False prophets | Jeremiah | Jer 23:16 |
+| **Early Church** | Jesus's movement | Institutional religion | Revelation letters | Rev 2–3 |
+| **Modern Left** | Liberation theology / MLK | Professional progressive class | (essay itself) | § VIII |
+| **Modern Right** | Second Coming hope | Lobbying agenda / CUFI | (essay itself) | § VIII |
 
 ---
 
@@ -98,6 +185,10 @@ Jesus's response is the most important sentence in the eschatological tradition:
 
 This is not epistemic humility. It is an *epistemological fortress* built around the insight that matters most. The genuine rupture — the real interruption of the cycle of capture — *cannot be known in advance* because the moment it is known, scheduled, systematized, it has been absorbed into the operating system. It becomes one more item in the institutional calendar, one more lever of control. A known revolution is a captured revolution. A predicted interruption is no interruption at all.
 
+<PullQuote>
+"A known revolution is a captured revolution. A predicted interruption is no interruption at all."
+</PullQuote>
+
 Every failed revolutionary movement confirms this. The Bolsheviks knew exactly what the future held — the dictatorship of the proletariat, the withering of the state — and this knowledge *became the instrument of domination.* Because they knew the destination, they could justify any means of arrival. Because they possessed the eschatological schedule, they could declare anyone who deviated from it a counter-revolutionary. The known future became the most powerful tool of present control.
 
 Karl Popper, writing in the shadow of both fascism and Stalinism, arrived at the same diagnosis in *The Open Society and Its Enemies*: **historicism** — the claim to know where history is heading — is the root of totalitarianism, because whoever possesses the destination controls the route. But Jesus had stated the anti-historicist position two millennia earlier, in the grammar of theology rather than philosophy: *no one knows the day or the hour.* Popper needed two volumes. Jesus needed one sentence.
@@ -119,6 +210,10 @@ Read this not as autobiography but as systems analysis. "Sin living in me" is no
 This is Marx's insight about ideology — the ruling ideas serving the ruling class — but stated with a universality Marx never achieved. Marx located the mechanism in a specific economic structure (capitalism) and predicted its resolution through a specific historical agent (the proletariat). Paul locates it in *the structure of law as such* — any law, any system, any institution, including the ones built to overthrow the previous ones. There is no privileged revolutionary class that escapes the cycle, because the cycle operates through the very act of systematization.
 
 Paul's proposed resolution is correspondingly more radical than Marx's. He does not propose a better system. He proposes an *interruption from outside all systems* — something he calls *grace,* which he defines with the precision of a logician: "If it is by grace, it is no longer on the basis of works, otherwise grace would no longer be grace" (Romans 11:6). Grace is, by definition, that which cannot be earned, produced, or systematized. The moment you convert it into a set of conditions — a checklist, a program, a five-year plan — it ceases to be what it is. It has been captured.
+
+<PullQuote>
+"The moment you convert it into a set of conditions — a checklist, a program, a five-year plan — it ceases to be what it is."
+</PullQuote>
 
 This is why Paul reacts with such fury when the Galatian Christians return to Torah observance. The issue is not that circumcision is wrong. The issue is that it represents the *re-systematization of what was meant to be unsystematizable.* "You who want to be justified by the law have cut yourselves off from Christ; you have fallen away from grace" (Galatians 5:4). To "fall from grace" is not to lose a transaction. It is to *re-enter the cycle that grace interrupted.* The engine has recaptured them.
 
@@ -166,7 +261,13 @@ And here the reader should notice: *this is the essay's own pattern, operating i
 
 The progressive who is certain that history moves toward decolonization has the same structural relationship to their eschaton as the dispensationalist who is certain that history moves toward the rapture. Both have converted the open future into a known destination. Both have captured the outside. Both use their eschatology to *legitimate present institutional power* — which is precisely the function Isaiah, Jeremiah, and Jesus diagnosed and condemned.
 
-The biblical tradition, read as structural analysis, says the same thing to both: *the rupture you await will not come in the form you expect, cannot be produced by the methods you employ, and will disrupt your institution no less than the ones you oppose.* "The stone that the builders rejected has become the cornerstone" (Psalm 118:22). The cornerstone is, by definition, the stone that *no existing building program selected.* It comes from outside the architect's plan — every architect's plan, including yours.
+The biblical tradition, read as structural analysis, says the same thing to both: *the rupture you await will not come in the form you expect, cannot be produced by the methods you employ, and will disrupt your institution no less than the ones you oppose.* "The stone that the builders rejected has become the cornerstone" (Psalm 118:22).
+
+<PullQuote>
+"The rupture you await will not come in the form you expect, cannot be produced by the methods you employ, and will disrupt your institution no less than the ones you oppose."
+</PullQuote>
+
+The cornerstone is, by definition, the stone that *no existing building program selected.* It comes from outside the architect's plan — every architect's plan, including yours.
 
 ---
 
