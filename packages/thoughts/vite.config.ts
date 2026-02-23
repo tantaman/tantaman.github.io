@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '^(?!/thoughts/)': {
-        target: 'http://localhost:3000',
+        target: 'https://tantaman.com',
         changeOrigin: true,
       },
     },
