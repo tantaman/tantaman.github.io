@@ -109,6 +109,69 @@ Scores 36–40 rather than higher because: (a) mainline Protestantism is often "
 
 ---
 
+## St. Mark Orthodox Church (stmarkoca.org)
+
+- **Location:** Bethesda, MD (7124 River Road)
+- **Denomination:** Orthodox Church in America (OCA)
+- **Website:** stmarkoca.org
+- **Eckhartian alignment score:** ~75
+- **Maps to Sankey node:** Eastern Orthodox (score 75)
+
+Pan-Orthodox, English-language. Theosis, apophatic theology, hesychasm — the whole participatory package. As OCA, holds the full Orthodox theological inheritance: humans participate in God's uncreated energies, becoming by grace what God is by nature. Apophatic theology insists God is known through what God is not. The essence/energies distinction preserves genuine participation without collapsing Creator and creature. Highest-scoring institutional church tradition on the diagram.
+
+---
+
+## St. George Greek Orthodox Church (stgeorge.org)
+
+- **Location:** Bethesda, MD (7701 Bradley Blvd)
+- **Denomination:** Greek Orthodox Archdiocese of America (Ecumenical Patriarchate)
+- **Website:** stgeorge.org
+- **Eckhartian alignment score:** ~75
+- **Maps to Sankey node:** Eastern Orthodox (score 75)
+
+Same Orthodox theological framework as St. Mark — theosis, apophatic theology, liturgical participation in divine life. Located on Bradley Blvd, near Bradley Hills Presbyterian. Greek Orthodox parishes tend toward stronger ethnic/cultural identity and more Greek liturgical language than OCA parishes, but the theology and score are identical.
+
+---
+
+## Grace Community Church, Fulton MD (grace.community)
+
+- **Location:** Fulton, MD (8200 Old Columbia Rd)
+- **Denomination:** Non-denominational evangelical
+- **Website:** grace.community
+- **Size:** ~3,000 weekend attendance
+- **Founded:** 1985
+- **Eckhartian alignment score:** ~18–22
+- **Maps to Sankey node:** Between American Evangelicalism (14) and Pietist/Methodist (30)
+
+### Theological markers
+- Biblical inerrancy: "verbally inspired in every word, absolutely inerrant in the original documents... only infallible rule of faith and practice"
+- Forensic justification language: "right standing before God, forgiveness of sin, and eternal life" through "repentance and personal faith in Jesus Christ as Savior and Lord"
+- Foundations class explicitly distinguishes justification from sanctification — salvation is not merely a legal declaration but includes ongoing transformation
+- **Emotionally Healthy Spirituality/Discipleship** (Peter Scazzero framework) integrated into church life — 8-week course teaching "being with God rather than doing for God," embracing limits, breaking power of the past, "love as the measure of maturity"
+- Explicit rejection of knowledge-accumulation model: "This isn't just about accumulating knowledge about God, but transformation"
+- Spiritual disciplines emphasis: Bible study, prayer, meditation on the Word, obedience, fellowship
+- Multi-ethnic identity as theological commitment, not demographic accident
+- Standard evangelical pneumatology: Spirit baptism at conversion (not charismatic second blessing), indwelling, sanctifying, empowering
+- Spiritual warfare framework: "reality and personality of Satan... attempt to defeat Christians"
+- Baptism by immersion; Lord's Supper as memorial (Zwinglian, not sacramental)
+- Premillennial eschatology: "personal and visible return of Jesus Christ could occur at any time"
+
+### Why ~18–22
+The doctrinal foundation is standard American Evangelicalism: inerrancy, forensic justification, conversion as personal decision, propositional faith. On paper, this is a ~14 church. What pushes it meaningfully higher is the **Emotionally Healthy Spirituality** integration.
+
+Scazzero's EHS framework is the closest most evangelical churches get to contemplative interiority. It explicitly draws on contemplative sources — John of the Cross, Teresa of Ávila, Henri Nouwen, Thomas Merton — and teaches practices that echo, however faintly, the participatory stream:
+
+- **"Being with God rather than doing for God"** — this is a genuine move from transactional to relational spirituality, from the God you work *for* toward the God you rest *in*. It's not Gelassenheit, but it's pointing in that direction.
+- **"Embracing God's gifts of limits"** — acceptance, letting go, recognizing finitude. A distant echo of Eckhartian detachment.
+- **"You cannot be spiritually mature while remaining emotionally immature"** — insistence that the interior life matters, that spiritual growth requires self-knowledge and emotional honesty. This is interiority, even if not apophatic interiority.
+- **"Slowing down... genuine depth"** — counter-cultural within evangelicalism's activist, productivity-oriented spirituality.
+
+The justification/sanctification distinction in Foundations also matters: they're teaching that salvation includes ongoing transformation (sanctification), not just a one-time legal verdict. This recovers a sliver of the participatory logic that forensic justification destroys — you are being *made* righteous, not merely *declared* righteous.
+
+Scores 18–22 rather than higher because: (a) the inerrancy commitment closes the epistemological system — you still *know* God through an infallible text, not through unknowing; (b) "meditation on the Word of God" is textual meditation, not apophatic contemplation; (c) the EHS framework operates within, not against, the evangelical superstructure — it enriches the interior life without questioning the metaphysical framework of God as external sovereign agent; (d) spiritual warfare language keeps God and Satan as competing external agents acting on you, not the ground you participate in. The EHS integration is real and significant — it makes Grace notably richer than McLean Bible or Catalyst — but it's grafting contemplative fruit onto a nominalist/voluntarist root system.
+
+---
+
 ## Scoring context
 
 For reference, nearby scores on the diagram:
