@@ -52,47 +52,47 @@ function scoreToColor(score) {
 // rather than stacking them all at score 2-5
 const nodesRaw = [
   { id: "early", label: "Early Church", sub: "1st–4th c.", col: 0, h: 220, color: "#c9a84c", score: 60,
-    note: "Mixed — Desert Fathers & institutional hierarchy coexist" },
+    note: "Desert Fathers practiced radical interiority and unknowing; Origen and Gregory of Nyssa developed apophatic theology. But simultaneously, councils codified doctrine into propositions and bishops consolidated institutional authority. Score reflects genuine coexistence of contemplative and institutional streams." },
   { id: "orthodox", label: "Eastern Orthodox", sub: "220M", col: 1, h: 75, color: "#7a6aad", score: 75,
-    note: "Theosis, apophatic theology, hesychasm — strong participatory DNA" },
+    note: "Theosis (divinization): humans participate in God's uncreated energies, becoming by grace what God is by nature. Apophatic theology insists God is known through what God is not. Hesychasm cultivates interior stillness. The essence/energies distinction preserves genuine participation without collapsing Creator and creature. Highest-scoring institutional church." },
   { id: "western", label: "Western Church", sub: "5th–13th c.", col: 1, h: 200, color: "#b8924a", score: 55,
-    note: "Aquinas's participation + growing institutional legalism" },
+    note: "Aquinas's analogia entis is genuinely participatory — all beings participate in God's being, and knowing is participation in divine intellect. But growing emphasis on canon law, merit theology, and sacramental gatekeeping pulls toward institutional control. Score reflects the real tension between Thomistic participation and legalistic practice." },
   { id: "mystical", label: "Mystical / Participatory", sub: "Eckhart, Rhineland Mystics", col: 2, h: 65, color: "#3ac5b5", score: 95, glow: true,
-    note: "The source — Gelassenheit, sunder warumbe, ground of being" },
+    note: "Eckhart's Gelassenheit (releasement/letting-be), sunder warumbe (living without why), and Grunt (the ground where soul and God are one). The Rhineland mystics — Tauler, Suso — continued this. This is the reference point of the entire diagram: radical interiority, detachment from all images of God, poverty of spirit, participation in the ground of being rather than relation to a supreme being." },
   { id: "nominalist", label: "Nominalist / Voluntarist", sub: "Ockham, Scotus — 14th c.", col: 2, h: 105, color: "#d48a4e", score: 12,
-    note: "THE FORK — God as supreme will, not ground of being" },
+    note: "Ockham denies real universals — only individual things exist, so participation in shared being is impossible. Scotus makes God's will primary over God's intellect, so God becomes an arbitrary sovereign who could have commanded the opposite. Together they destroy the metaphysical framework that made contemplative theology coherent. God is no longer the ground of being but a supreme agent issuing commands. This is the critical fork." },
   { id: "cathContinue", label: "Catholic Church", sub: "1.4B", col: 2, h: 170, color: "#b8924a", score: 55,
-    note: "Theology ~70% participatory, practice ~40% — holds both" },
+    note: "Officially retains Thomistic participation, sacramental real presence, and a living mystical tradition. But also: merit-based soteriology, indulgences, institutional authority claims, and legalistic moral theology. The theology is ~70% participatory (Aquinas, mystics, liturgy), but lived practice is ~40% (rule-following, guilt, transactional piety). Score reflects that it genuinely holds both streams." },
   { id: "contemplative", label: "Contemplative Tradition", sub: "John of Cross, Teresa, Cloud", col: 3, h: 45, color: "#3ac5b5", score: 90, glow: true,
-    note: "Preserves the interior, apophatic, detached tradition" },
+    note: "John of the Cross: the dark night strips away all consolation until nothing remains but naked faith in unknowing. Teresa of Ávila: the Interior Castle maps progressive interiority toward union. The Cloud of Unknowing: God is reached by love, not by thought. These preserve Eckhart's core: apophatic unknowing, radical detachment, and the soul's ground as God's ground." },
   { id: "reformation", label: "Reformation", sub: "1517 →", col: 3, h: 70, color: "#cc6644", score: 18,
-    note: "Sola scriptura + forensic justification = voluntarist framework" },
+    note: "Luther (trained as an Ockhamist) adopted forensic justification: you are declared righteous, not made righteous — breaking the participatory logic of theosis. Sola scriptura shifts authority from mystical encounter to textual interpretation. Faith becomes assent to correct propositions rather than participation in divine life. Built directly on nominalist foundations." },
   { id: "reformed", label: "Reformed / Calvinist", sub: "75M", col: 3, h: 55, color: "#b85a3e", score: 12,
-    note: "TULIP, divine sovereignty as will, double predestination" },
+    note: "TULIP: Total depravity (no capacity for God), Unconditional election (God arbitrarily chooses), Limited atonement, Irresistible grace, Perseverance. God is absolute sovereign will who decrees some to salvation and others to damnation before creation. The creature has zero participatory capacity — grace is imposed, not participated in. Pure voluntarism." },
   { id: "pietist", label: "Pietist / Methodist", sub: "80M", col: 3, h: 50, color: "#c48a5e", score: 30,
-    note: "Some interiority (heart religion) but experiential, not apophatic" },
+    note: "Wesley's \"heart strangely warmed\" and emphasis on personal holiness recover some interiority — this is \"heart religion,\" not head religion. But the interiority is experiential and emotional rather than apophatic and contemplative. Still operates within the forensic justification framework. Better than pure Reformed, but experience of God is not the same as participation in God's ground." },
   { id: "mainline", label: "Mainline Protestant", sub: "80M", col: 3, h: 50, color: "#8aaa6a", score: 35,
-    note: "Some recovered contemplative elements; less transactional" },
+    note: "Liberal theology partially recovered mystical elements — Schleiermacher's \"feeling of absolute dependence,\" Tillich's \"ground of being\" (explicitly Eckhartian). Social gospel reoriented faith toward justice rather than transaction. Less obsessed with forensic atonement. But often more cultural than contemplative — participation in a tradition rather than in the ground of being." },
   { id: "modContemp", label: "Modern Contemplatives", sub: "Merton, Keating, Rohr · ~10M", col: 4, h: 32, color: "#3ac5b5", score: 88, glow: true,
-    note: "Active recovery of Eckhartian interiority & participation" },
+    note: "Thomas Merton recovered contemplative prayer and East-West mystical dialogue. Thomas Keating developed centering prayer as accessible apophatic practice. Richard Rohr teaches non-dual Christianity and Eckhart explicitly. This is the conscious, intentional recovery of the participatory stream — interiority, unknowing, letting-go, the false self dissolving into the ground." },
   { id: "amEvang", label: "American Evangelicalism", sub: "Great Awakenings → incl. McLean Bible", col: 4, h: 68, color: "#d48a4e", score: 14,
-    note: "Propositional faith, forensic atonement, decisionism" },
+    note: "Faith as intellectual assent to correct propositions (\"Do you believe Jesus died for your sins?\"). Penal substitutionary atonement: God's wrath requires payment, Jesus pays it — a legal/commercial transaction. \"Accepting Jesus as personal savior\" is a one-time decision, not ongoing participation. Knowledge of God is propositional, not experiential or apophatic. Interiority is absent." },
   { id: "pentecostal", label: "Pentecostalism", sub: "300M", col: 4, h: 75, color: "#e06050", score: 10,
-    note: "Experiential but exteriorized — power, signs, spiritual combat" },
+    note: "Emphasis on spiritual gifts (tongues, healing, prophecy), spiritual warfare, and demonic encounters. Highly experiential, but the experience is exteriorized — the Spirit is power to be deployed, not ground to rest in. God is an interventionist agent who acts on you (slain in the Spirit, baptism of fire), not the ground you participate in. Power replaces participation." },
   { id: "fundamentalism", label: "Fundamentalism", sub: "~100M", col: 4, h: 65, color: "#cc5544", score: 6,
-    note: "Epistemological certainty replaces unknowing; inerrancy" },
+    note: "Biblical inerrancy as epistemological foundation — the text is a perfect propositional system. Certainty replaces apophatic unknowing entirely. To know God is to know correct doctrine. Anti-intellectual in practice but hyper-rationalist in method: proof-texting, systematic theology as a closed logical system. Eckhart's Cloud of Unknowing is replaced by a fortress of knowing." },
 
   // Last column: use yOverride to space evenly in the inverted zone
   { id: "prosperity", label: "Prosperity Gospel", sub: "Osteen, Copeland · ~300M", col: 5, h: 65, color: "#e84450", score: 2,
-    yOverride: 470, note: "Acquisition vs. poverty — most direct inversion of Gelassenheit" },
+    yOverride: 470, note: "God wants you wealthy and healthy; financial giving triggers divine return on investment. Eckhart's Gelassenheit (letting-go of all things) is directly inverted into grasping for all things. Poverty of spirit — the core of Eckhart and Jesus — is replaced by prosperity of wallet. The most direct, point-for-point inversion of contemplative Christianity." },
   { id: "wordOfFaith", label: "Word of Faith", sub: "name it, claim it · ~150M", col: 5, h: 55, color: "#dd3a4a", score: 3,
-    yOverride: 555, note: "Spoken words as causal magic — technique replaces contemplation" },
+    yOverride: 555, note: "\"Name it and claim it\" — spoken declarations create reality through a force called \"faith.\" Positive confession theology treats words as causal mechanisms. The contemplative's silence before ineffable mystery is replaced by verbal technique for manipulating reality. Faith is not surrender into unknowing but a tool you wield." },
   { id: "dispensationalism", label: "Dispensationalism", sub: "Darby → Scofield · ~50M", col: 5, h: 48, color: "#cc6654", score: 5,
-    yOverride: 630, note: "Obsessive timeline replaces Eckhart's eternal now" },
+    yOverride: 630, note: "History divided into discrete divine dispensations; obsessive focus on end-times chronology, rapture timing, and Israel prophecy charts. Eckhart's nunc stans (the eternal now, where all time is present in God's ground) is replaced by anxious future-scanning. God's relationship to time becomes a puzzle to decode, not a ground to inhabit." },
   { id: "nationalism", label: "Christian Nationalism", sub: "dominion + identity · ~35M", col: 5, h: 48, color: "#993a3a", score: 3,
-    yOverride: 698, note: "Exteriorizes faith into political conquest" },
+    yOverride: 698, note: "Christian identity fused with national and ethnic identity. Faith as cultural and political power rather than interior transformation. \"Taking the nation back for God\" inverts the contemplative's radical detachment from worldly power into grasping for it. The Kingdom of God — which Eckhart located in the soul's ground — is relocated to the ballot box." },
   { id: "dominion", label: "Dominion / 7 Mountains", sub: "cultural conquest · ~15M", col: 5, h: 42, color: "#aa5a4a", score: 2,
-    yOverride: 766, note: "Power over vs. participation in — institutional capture" },
+    yOverride: 766, note: "Christians must seize control of seven cultural \"mountains\" (government, media, education, business, arts, family, religion). Power over replaces participation in. The mystic's poverty of spirit — wanting nothing, holding nothing, being nothing — is replaced by a mandate to conquer and control everything. The most institutionally aggressive inversion." },
 ];
 
 const nodes = nodesRaw.map(n => ({
@@ -219,8 +219,8 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         y={node.y + node.h / 2 + 10} />
       {isHovered && node.note && (
         <foreignObject
-          x={x + (isRight ? -10 : -330)} y={node.y - 200}
-          width={330} height={192}
+          x={x + (isRight ? -10 : -380)} y={node.y - 300}
+          width={380} height={300}
           style={{ pointerEvents: "none", overflow: "visible" }}>
           <div xmlns="http://www.w3.org/1999/xhtml" style={{
             height: "100%", display: "flex", alignItems: "flex-end",
