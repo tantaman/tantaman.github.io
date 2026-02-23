@@ -222,6 +222,32 @@ section {
   letter-spacing: 0.05em;
 }
 
+#static table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.9rem;
+  display: block;
+  overflow-x: auto;
+}
+
+#static th {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+#static td {
+  border: 1px solid var(--border);
+  padding: 0.6rem 0.8rem;
+}
+
+#static tr:nth-child(even) td {
+  background: var(--bg-soft);
+}
+
 .card {
   cursor: pointer;
   margin-bottom: 2.5rem;

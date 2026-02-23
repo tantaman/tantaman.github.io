@@ -100,34 +100,7 @@ function _createMdxContent(props) {
           })
         })]
       })
-    }), "\n", "\n", _jsx("style", {
-      children: `
-  #mdx table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2rem 0;
-    font-size: 0.9rem;
-  }
-  #mdx th {
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    padding: 0.6rem 0.8rem;
-    text-align: left;
-    font-weight: 600;
-  }
-  #mdx td {
-    border: 1px solid var(--border);
-    padding: 0.6rem 0.8rem;
-  }
-  #mdx tr:nth-child(even) td {
-    background: var(--bg-soft);
-  }
-  #mdx table {
-    display: block;
-    overflow-x: auto;
-  }
-`
-    }), "\n", _jsxs("figure", {
+    }), "\n", "\n", _jsxs("figure", {
       style: {
         margin: '0 0 2.5rem',
         textAlign: 'center'
