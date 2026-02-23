@@ -6,47 +6,10 @@ description: 'Three Abrahamic civilizations are locked in an escalation spiral d
 image: '/img/durer-four-horsemen.jpg'
 ---
 
-import Mermaid from '/dist/components/Mermaid.js';
-
-import PullQuote from '/dist/components/PullQuote.js';
-
-<style>{`
-  #mdx table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2rem 0;
-    font-size: 0.9rem;
-  }
-  #mdx th {
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    padding: 0.6rem 0.8rem;
-    text-align: left;
-    font-weight: 600;
-  }
-  #mdx td {
-    border: 1px solid var(--border);
-    padding: 0.6rem 0.8rem;
-  }
-  #mdx tr:nth-child(even) td {
-    background: var(--bg-soft);
-  }
-  #mdx table {
-    display: block;
-    overflow-x: auto;
-  }
-`}</style>
-
-<figure style={{ margin: '0 0 2.5rem', textAlign: 'center' }}>
-  <img src="/img/durer-four-horsemen.jpg" alt="Albrecht Dürer, The Four Horsemen of the Apocalypse (1498)" style={{ maxWidth: '100%' }} />
-  <figcaption style={{ fontStyle: 'italic', color: 'var(--text-muted, #999)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-    Albrecht Dürer, <em>The Four Horsemen of the Apocalypse</em> (1498)
-  </figcaption>
-</figure>
-
-# The West Is Trapped in a Religious Psychodrama It Can't Escape
-
 ### How eschatology became the hidden operating system of great-power conflict
+---
+
+<img src="/img/durer-four-horsemen.jpg" alt="Albrecht Dürer, The Four Horsemen of the Apocalypse (1498)"/>
 
 ---
 
