@@ -1,3 +1,6 @@
+- [Church Notes](./church-notes.html)
+- [Same Week](./the-same-week.html)
+
 # What the Difference Actually Is
 
 You already care about a personal relationship with Jesus. That's the starting point, and it's the right one. The question is: what does "personal relationship" actually mean?

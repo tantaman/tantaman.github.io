@@ -1,3 +1,7 @@
+- [What Diff](./what-the-difference-actually-is.html)
+- [Same Week](./the-same-week.html)
+- [Sankey](./metaphysical-choices.html)
+
 # Church Placement Reference Notes
 
 Reference notes for placing specific churches on the theological Sankey diagram
