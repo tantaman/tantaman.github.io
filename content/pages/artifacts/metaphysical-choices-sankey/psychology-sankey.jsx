@@ -271,16 +271,28 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         x={anchor === "end" ? labelX - 48 : labelX}
         y={node.y + node.h / 2 + 10} />
       {isHovered && node.note && (
-        <g>
-          <rect x={x + (isRight ? -10 : -350)} y={node.y - 38}
-            width={350} height={30} rx={4}
-            fill="#1a1a18ee" stroke={scoreToColor(node.score)} strokeWidth={0.7} />
-          <text x={x + (isRight ? -10 : -350) + 8} y={node.y - 18}
-            fill={COLORS.textDim} fontSize="14"
-            fontFamily="'Crimson Pro', serif" fontStyle="italic">
-            {node.note}
-          </text>
-        </g>
+        <foreignObject
+          x={x + (isRight ? -10 : -350)} y={node.y - 200}
+          width={350} height={192}
+          style={{ pointerEvents: "none", overflow: "visible" }}>
+          <div xmlns="http://www.w3.org/1999/xhtml" style={{
+            height: "100%", display: "flex", alignItems: "flex-end",
+          }}>
+            <div style={{
+              background: "#1a1a18",
+              border: `0.7px solid ${scoreToColor(node.score)}`,
+              borderRadius: 4,
+              padding: "6px 10px",
+              color: "#9a9888",
+              fontSize: 14,
+              fontFamily: "'Crimson Pro', serif",
+              fontStyle: "italic",
+              lineHeight: 1.35,
+            }}>
+              {node.note}
+            </div>
+          </div>
+        </foreignObject>
       )}
     </g>
   );

@@ -574,28 +574,34 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsxs("g", {
-        children: [
-          /* @__PURE__ */ jsx("rect", {
-            x: x + (isRight ? -10 : -360),
-            y: node.y - 38,
-            width: 360,
-            height: 30,
-            rx: 4,
-            fill: "#1a1a18ee",
-            stroke: scoreToColor(node.score),
-            strokeWidth: 0.7
-          }),
-          /* @__PURE__ */ jsx("text", {
-            x: x + (isRight ? -10 : -360) + 8,
-            y: node.y - 18,
-            fill: COLORS.textDim,
-            fontSize: "14",
-            fontFamily: "'Crimson Pro', serif",
-            fontStyle: "italic",
+      isHovered && node.note && /* @__PURE__ */ jsx("foreignObject", {
+        x: x + (isRight ? -10 : -360),
+        y: node.y - 200,
+        width: 360,
+        height: 192,
+        style: { pointerEvents: "none", overflow: "visible" },
+        children: /* @__PURE__ */ jsx("div", {
+          xmlns: "http://www.w3.org/1999/xhtml",
+          style: {
+            height: "100%",
+            display: "flex",
+            alignItems: "flex-end"
+          },
+          children: /* @__PURE__ */ jsx("div", {
+            style: {
+              background: "#1a1a18",
+              border: `0.7px solid ${scoreToColor(node.score)}`,
+              borderRadius: 4,
+              padding: "6px 10px",
+              color: "#9a9888",
+              fontSize: 14,
+              fontFamily: "'Crimson Pro', serif",
+              fontStyle: "italic",
+              lineHeight: 1.35
+            },
             children: node.note
           })
-        ]
+        })
       })
     ]
   });
@@ -1626,28 +1632,34 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsxs2("g", {
-        children: [
-          /* @__PURE__ */ jsx2("rect", {
-            x: x + (isRight ? -10 : -360),
-            y: node.y - 38,
-            width: 360,
-            height: 30,
-            rx: 4,
-            fill: "#1a1a18ee",
-            stroke: scoreToColor2(node.score),
-            strokeWidth: 0.7
-          }),
-          /* @__PURE__ */ jsx2("text", {
-            x: x + (isRight ? -10 : -360) + 8,
-            y: node.y - 18,
-            fill: COLORS2.textDim,
-            fontSize: "14",
-            fontFamily: "'Crimson Pro', serif",
-            fontStyle: "italic",
+      isHovered && node.note && /* @__PURE__ */ jsx2("foreignObject", {
+        x: x + (isRight ? -10 : -360),
+        y: node.y - 200,
+        width: 360,
+        height: 192,
+        style: { pointerEvents: "none", overflow: "visible" },
+        children: /* @__PURE__ */ jsx2("div", {
+          xmlns: "http://www.w3.org/1999/xhtml",
+          style: {
+            height: "100%",
+            display: "flex",
+            alignItems: "flex-end"
+          },
+          children: /* @__PURE__ */ jsx2("div", {
+            style: {
+              background: "#1a1a18",
+              border: `0.7px solid ${scoreToColor2(node.score)}`,
+              borderRadius: 4,
+              padding: "6px 10px",
+              color: "#9a9888",
+              fontSize: 14,
+              fontFamily: "'Crimson Pro', serif",
+              fontStyle: "italic",
+              lineHeight: 1.35
+            },
             children: node.note
           })
-        ]
+        })
       })
     ]
   });
@@ -2551,28 +2563,34 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsxs3("g", {
-        children: [
-          /* @__PURE__ */ jsx3("rect", {
-            x: x + (isRight ? -10 : -330),
-            y: node.y - 38,
-            width: 330,
-            height: 30,
-            rx: 4,
-            fill: "#1a1a18ee",
-            stroke: scoreToColor3(node.score),
-            strokeWidth: 0.7
-          }),
-          /* @__PURE__ */ jsx3("text", {
-            x: x + (isRight ? -10 : -330) + 8,
-            y: node.y - 18,
-            fill: COLORS3.textDim,
-            fontSize: "14",
-            fontFamily: "'Crimson Pro', serif",
-            fontStyle: "italic",
+      isHovered && node.note && /* @__PURE__ */ jsx3("foreignObject", {
+        x: x + (isRight ? -10 : -330),
+        y: node.y - 200,
+        width: 330,
+        height: 192,
+        style: { pointerEvents: "none", overflow: "visible" },
+        children: /* @__PURE__ */ jsx3("div", {
+          xmlns: "http://www.w3.org/1999/xhtml",
+          style: {
+            height: "100%",
+            display: "flex",
+            alignItems: "flex-end"
+          },
+          children: /* @__PURE__ */ jsx3("div", {
+            style: {
+              background: "#1a1a18",
+              border: `0.7px solid ${scoreToColor3(node.score)}`,
+              borderRadius: 4,
+              padding: "6px 10px",
+              color: "#9a9888",
+              fontSize: 14,
+              fontFamily: "'Crimson Pro', serif",
+              fontStyle: "italic",
+              lineHeight: 1.35
+            },
             children: node.note
           })
-        ]
+        })
       })
     ]
   });
@@ -3545,28 +3563,34 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsxs4("g", {
-        children: [
-          /* @__PURE__ */ jsx4("rect", {
-            x: x + (isRight ? -10 : -350),
-            y: node.y - 38,
-            width: 350,
-            height: 30,
-            rx: 4,
-            fill: "#1a1a18ee",
-            stroke: scoreToColor4(node.score),
-            strokeWidth: 0.7
-          }),
-          /* @__PURE__ */ jsx4("text", {
-            x: x + (isRight ? -10 : -350) + 8,
-            y: node.y - 18,
-            fill: COLORS4.textDim,
-            fontSize: "14",
-            fontFamily: "'Crimson Pro', serif",
-            fontStyle: "italic",
+      isHovered && node.note && /* @__PURE__ */ jsx4("foreignObject", {
+        x: x + (isRight ? -10 : -350),
+        y: node.y - 200,
+        width: 350,
+        height: 192,
+        style: { pointerEvents: "none", overflow: "visible" },
+        children: /* @__PURE__ */ jsx4("div", {
+          xmlns: "http://www.w3.org/1999/xhtml",
+          style: {
+            height: "100%",
+            display: "flex",
+            alignItems: "flex-end"
+          },
+          children: /* @__PURE__ */ jsx4("div", {
+            style: {
+              background: "#1a1a18",
+              border: `0.7px solid ${scoreToColor4(node.score)}`,
+              borderRadius: 4,
+              padding: "6px 10px",
+              color: "#9a9888",
+              fontSize: 14,
+              fontFamily: "'Crimson Pro', serif",
+              fontStyle: "italic",
+              lineHeight: 1.35
+            },
             children: node.note
           })
-        ]
+        })
       })
     ]
   });
@@ -4569,28 +4593,34 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsxs5("g", {
-        children: [
-          /* @__PURE__ */ jsx5("rect", {
-            x: x + (isRight ? -10 : -360),
-            y: node.y - 38,
-            width: 360,
-            height: 30,
-            rx: 4,
-            fill: "#1a1a18ee",
-            stroke: scoreToColor5(node.score),
-            strokeWidth: 0.7
-          }),
-          /* @__PURE__ */ jsx5("text", {
-            x: x + (isRight ? -10 : -360) + 8,
-            y: node.y - 18,
-            fill: COLORS5.textDim,
-            fontSize: "14",
-            fontFamily: "'Crimson Pro', serif",
-            fontStyle: "italic",
+      isHovered && node.note && /* @__PURE__ */ jsx5("foreignObject", {
+        x: x + (isRight ? -10 : -360),
+        y: node.y - 200,
+        width: 360,
+        height: 192,
+        style: { pointerEvents: "none", overflow: "visible" },
+        children: /* @__PURE__ */ jsx5("div", {
+          xmlns: "http://www.w3.org/1999/xhtml",
+          style: {
+            height: "100%",
+            display: "flex",
+            alignItems: "flex-end"
+          },
+          children: /* @__PURE__ */ jsx5("div", {
+            style: {
+              background: "#1a1a18",
+              border: `0.7px solid ${scoreToColor5(node.score)}`,
+              borderRadius: 4,
+              padding: "6px 10px",
+              color: "#9a9888",
+              fontSize: 14,
+              fontFamily: "'Crimson Pro', serif",
+              fontStyle: "italic",
+              lineHeight: 1.35
+            },
             children: node.note
           })
-        ]
+        })
       })
     ]
   });
@@ -5539,28 +5569,34 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsxs6("g", {
-        children: [
-          /* @__PURE__ */ jsx6("rect", {
-            x: x + (isRight ? -10 : -340),
-            y: node.y - 38,
-            width: 340,
-            height: 30,
-            rx: 4,
-            fill: "#1a1a18ee",
-            stroke: scoreToColor6(node.score),
-            strokeWidth: 0.7
-          }),
-          /* @__PURE__ */ jsx6("text", {
-            x: x + (isRight ? -10 : -340) + 8,
-            y: node.y - 18,
-            fill: COLORS6.textDim,
-            fontSize: "14",
-            fontFamily: "'Crimson Pro', serif",
-            fontStyle: "italic",
+      isHovered && node.note && /* @__PURE__ */ jsx6("foreignObject", {
+        x: x + (isRight ? -10 : -340),
+        y: node.y - 200,
+        width: 340,
+        height: 192,
+        style: { pointerEvents: "none", overflow: "visible" },
+        children: /* @__PURE__ */ jsx6("div", {
+          xmlns: "http://www.w3.org/1999/xhtml",
+          style: {
+            height: "100%",
+            display: "flex",
+            alignItems: "flex-end"
+          },
+          children: /* @__PURE__ */ jsx6("div", {
+            style: {
+              background: "#1a1a18",
+              border: `0.7px solid ${scoreToColor6(node.score)}`,
+              borderRadius: 4,
+              padding: "6px 10px",
+              color: "#9a9888",
+              fontSize: 14,
+              fontFamily: "'Crimson Pro', serif",
+              fontStyle: "italic",
+              lineHeight: 1.35
+            },
             children: node.note
           })
-        ]
+        })
       })
     ]
   });
@@ -6560,28 +6596,34 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsxs7("g", {
-        children: [
-          /* @__PURE__ */ jsx7("rect", {
-            x: x + (isRight ? -10 : -360),
-            y: node.y - 38,
-            width: 360,
-            height: 30,
-            rx: 4,
-            fill: "#1a1a18ee",
-            stroke: scoreToColor7(node.score),
-            strokeWidth: 0.7
-          }),
-          /* @__PURE__ */ jsx7("text", {
-            x: x + (isRight ? -10 : -360) + 8,
-            y: node.y - 18,
-            fill: COLORS7.textDim,
-            fontSize: "14",
-            fontFamily: "'Crimson Pro', serif",
-            fontStyle: "italic",
+      isHovered && node.note && /* @__PURE__ */ jsx7("foreignObject", {
+        x: x + (isRight ? -10 : -360),
+        y: node.y - 200,
+        width: 360,
+        height: 192,
+        style: { pointerEvents: "none", overflow: "visible" },
+        children: /* @__PURE__ */ jsx7("div", {
+          xmlns: "http://www.w3.org/1999/xhtml",
+          style: {
+            height: "100%",
+            display: "flex",
+            alignItems: "flex-end"
+          },
+          children: /* @__PURE__ */ jsx7("div", {
+            style: {
+              background: "#1a1a18",
+              border: `0.7px solid ${scoreToColor7(node.score)}`,
+              borderRadius: 4,
+              padding: "6px 10px",
+              color: "#9a9888",
+              fontSize: 14,
+              fontFamily: "'Crimson Pro', serif",
+              fontStyle: "italic",
+              lineHeight: 1.35
+            },
             children: node.note
           })
-        ]
+        })
       })
     ]
   });
