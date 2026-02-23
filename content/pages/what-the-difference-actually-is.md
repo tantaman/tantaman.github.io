@@ -1,5 +1,6 @@
 - [Church Notes](./church-notes.html)
 - [Same Week](./the-same-week.html)
+- [Sankey](./metaphysical-choices.html)
 
 # What the Difference Actually Is
 
