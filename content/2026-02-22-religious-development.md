@@ -21,7 +21,7 @@ In **"Materialism Is Killing You"** (Dec 2025), the frame is still rationalist �
 
 > *"You pride yourself on not being fooled. You rejected the superstitions your ancestors believed. You follow the evidence. You think in terms of mechanisms, incentives, selection pressures. You are a rationalist. Good. Let's be rational. Let's examine, with the same skepticism you apply to religion, the framework you've adopted in its place."*
 >
-> — [Materialism Is Killing You](https://tantaman.com/2025-12-18-a-systems-analysis-of-why-your-worldview.html)
+> — [Materialism Is Killing You](/2025-12-18-a-systems-analysis-of-why-your-worldview.html)
 
 The argument is deliberately pitched to the secular reader: meaning isn't a luxury or an illusion — it's *functional*. Populations that lose it show measurable collapse. The essay ends with a test:
 
@@ -33,7 +33,7 @@ But what does the collapse *feel like* from inside? **"The Exhaustion That Canno
 
 > *"This is the riddle I place before you: a weariness that forbids rest. A depletion that demands more. A sickness that has made recovery itself into a symptom of the disease."*
 >
-> — [The Exhaustion That Cannot Rest](https://tantaman.com/2026-01-11-the-exhaustion-that-cannot-rest.html)
+> — [The Exhaustion That Cannot Rest](/2026-01-11-the-exhaustion-that-cannot-rest.html)
 
 The essay's most chilling insight is that the cage is *interior* — each poison blocks the exit the others leave open:
 
@@ -53,7 +53,7 @@ Before any constructive religious project, the blog undertakes a massive genealo
 
 > *"Most atheists believe they have escaped Christianity. They no longer pray, no longer attend services, no longer believe in resurrection or eternal life. They have rejected the supernatural and embraced reason. They are free. Or so they think."*
 >
-> — [The Husk of God](https://tantaman.com/2025-12-10-husk-of-god.html)
+> — [The Husk of God](/2025-12-10-husk-of-god.html)
 
 The essay shows that Western consciousness retains Christian architecture — linear history, victim-identification, the confessing self, eschatological hope — even after the theology has been abandoned:
 
@@ -65,11 +65,11 @@ Foucault's contribution deepens the diagnosis. Christianity didn't just give the
 
 **Key essays in this phase:**
 
-- *The Husk of God* — secular categories as Christian residue
-- *Monotheism to Now* — how "one God" became "one truth" became atomized individualism
-- *Why Marxism Is Impossible Without Christian Eschatology* — Marxism as a Christian heresy
-- *Monstrous Doubles* — Girard on why opposing movements mirror what they oppose
-- *From Galilee to Empire* — the institutional capture of Christianity itself
+- [*The Husk of God*](/2025-12-10-husk-of-god.html) — secular categories as Christian residue
+- [*Monotheism to Now*](/2025-12-02-monotheism-oneness-traps.html) — how "one God" became "one truth" became atomized individualism
+- [*Why Marxism Is Impossible Without Christian Eschatology*](/2025-12-09-secular_eschaton_essay.html) — Marxism as a Christian heresy
+- [*Monstrous Doubles*](/2025-12-09-monstrous_doubles_girard_essay.html) — Girard on why opposing movements mirror what they oppose
+- [*From Galilee to Empire*](/2025-12-18-from-galilee-to-empire-the-institutional.html) — the institutional capture of Christianity itself
 
 ### The Girardian Thread
 
@@ -77,7 +77,7 @@ René Girard becomes a recurring lens. **"Monstrous Doubles"** (Dec 2025) introd
 
 > *"Girard's foundational insight… is that human desire is not spontaneous but mediated. We do not simply want objects because they satisfy some pre-existing need. We want what others want, because they want it."*
 >
-> — [Monstrous Doubles](https://tantaman.com/2025-12-09-monstrous_doubles_girard_essay.html)
+> — [Monstrous Doubles](/2025-12-09-monstrous_doubles_girard_essay.html)
 
 This isn't just academic. The Girardian lens will later become central to understanding *why institutions capture everything* — and why the blog's final position requires escaping mimetic rivalry entirely.
 
@@ -93,7 +93,7 @@ Having traced the Christian inheritance through secularism, the blog pivots to c
 
 > *"I called for the revaluation of all values. They delivered the dissolution of all values and called it the same thing. But dissolution is not revaluation. Destruction is not creation. The void is not the Ubermensch. I wanted philosophers who could build. I got professors who could only burn."*
 >
-> — [The Physicians of Decay](https://tantaman.com/2026-01-15-the-physicians-of-decay.html)
+> — [The Physicians of Decay](/2026-01-15-the-physicians-of-decay.html)
 
 The key insight is that deconstruction *serves* the system it claims to oppose:
 
@@ -103,7 +103,7 @@ The key insight is that deconstruction *serves* the system it claims to oppose:
 
 > *"The deconstructionist who tears down every standard, every norm, every claim to truth, does not thereby escape the will to power. She merely exercises it through negation, defining herself as the arbiter of what is 'merely constructed' and therefore dismissable."*
 >
-> — [The Fence You Cannot See](https://tantaman.com/2026-01-14-the-fence-you-cannot-see.html)
+> — [The Fence You Cannot See](/2026-01-14-the-fence-you-cannot-see.html)
 
 The structures the deconstructors tore down turn out to have been *load-bearing*:
 
@@ -121,7 +121,7 @@ The structures the deconstructors tore down turn out to have been *load-bearing*
 
 > *"This is the arc: Thesis: naive faith, holding the transcendent without understanding it. Antithesis: critique, dissolving the transcendent, calling dissolution liberation. Synthesis: faith that has passed through the fire."*
 >
-> — [The Return](https://tantaman.com/2026-01-15-the-return.html)
+> — [The Return](/2026-01-15-the-return.html)
 
 The synthesis is not regression to pre-critical innocence:
 
@@ -141,7 +141,7 @@ Where "The Return" declares the principle, **"The Table"** (Jan 2026) gives it f
 
 > *"The new thing does not win by defeating the old. It wins by making the old irrelevant. By walking out of the colosseum while the crowd still screams."*
 >
-> — [The Table](https://tantaman.com/2026-01-26-the-table.html)
+> — [The Table](/2026-01-26-the-table.html)
 
 The essay names the Girardian trap at the level of desire — and identifies what breaks it:
 
@@ -165,7 +165,7 @@ Having returned to faith, the blog immediately confronts the question: *how do y
 
 > *"Paul is telling the early church: your enemy is not Nero. Kill Nero and another Nero appears. Your enemy is not the centurion or the tax collector or the provincial governor. These are flesh and blood, and flesh and blood is not your war. Your war is against the principality that produces endless Neros."*
 >
-> — [Principalities and Powers](https://tantaman.com/2026-01-12-principalities-and-powers.html)
+> — [Principalities and Powers](/2026-01-12-principalities-and-powers.html)
 
 The critical move is showing that Foucault's diagnosis of structural power was *anticipated* by Paul — but that Paul had something Foucault lacked:
 
@@ -175,7 +175,7 @@ The critical move is showing that Foucault's diagnosis of structural power was *
 
 > *"You cannot resist alone. This is the first and most important thing to understand about the principalities… An individual who refuses — who declines the ritual, who will not confess, who maintains the inner room against all pressure — will simply be destroyed. Fired, deplatformed, unpersoned. And then the principality continues, having lost nothing."*
 >
-> — [The Economy of Refusal](https://tantaman.com/2026-01-12-the-economy-of-refusal.html)
+> — [The Economy of Refusal](/2026-01-12-the-economy-of-refusal.html)
 
 The church's function is redefined:
 
@@ -193,7 +193,7 @@ The series begins with a genealogical insight about the modern self:
 
 > *"We moderns inherit a particular way of being selves. We assume that truth lives inside us — that authenticity means excavating our hidden desires, that mental health requires surfacing buried traumas… This interior orientation feels natural — like simply being human. But it is not. It was invented."*
 >
-> — [Know Thyself: Greek vs Christian](https://tantaman.com/2025-12-15-know-thyself-greek-vs-christian.html)
+> — [Know Thyself: Greek vs Christian](/2025-12-15-know-thyself-greek-vs-christian.html)
 
 The comparative framework surfaces a key realization: different traditions locate the problem *in different places*, so they prescribe different practices. The modern therapeutic model (derived from Augustine) assumes hidden *desires* are the problem. Buddhism dissolves the self entirely. Gurdjieff says you don't *have* a self yet — you must build one. And Eckhart...
 
@@ -213,7 +213,7 @@ Between the intellectual return to practice and the mystical turn, a critical br
 
 > *"The modern person inherits a body actively disordered by industrial and post-industrial conditions. Not merely neglected — colonized. Hyperpalatable food engineered to override satiety signals. Work that atrophies muscle while exhausting the nervous system. Light environments that scramble circadian architecture."*
 >
-> — [The Body as Ground](https://tantaman.com/2026-01-28-the-body-as-ground.html)
+> — [The Body as Ground](/2026-01-28-the-body-as-ground.html)
 
 The essay recovers the integration that modern Christianity abandoned:
 
@@ -237,7 +237,7 @@ The **"Know Thyself" series** introduces him:
 
 > *"There is something in the soul so closely akin to God that it is already one with Him and need never be united to Him… This something is so intimately one with God that it is already one with Him in unity, not merely in union."*
 >
-> — [Know Thyself: Gurdjieff, Kierkegaard, Eckhart](https://tantaman.com/2025-12-16-know-thyself-gurdjieff-kierkegaard.html)
+> — [Know Thyself: Gurdjieff, Kierkegaard, Eckhart](/2025-12-16-know-thyself-gurdjieff-kierkegaard.html)
 
 Where Augustine probes desires and confesses them, Eckhart *releases* them:
 
@@ -247,7 +247,7 @@ Where Augustine probes desires and confesses them, Eckhart *releases* them:
 
 > *"Eckhart's central teaching was about what happens when all distinctions collapse. He called it the Grunt — the Ground — and he described it as the place where the soul and God are one, prior to any relationship, any distinction, any meaning… His answer was not 'nothing.' It was something he struggled to name — the 'desert of the Godhead,' the 'silent stillness,' a reality so prior to distinction that even calling it 'God' was already too much."*
 >
-> — [Mystical Meaning](https://tantaman.com/2026-02-06-mystical-meaning.html)
+> — [Mystical Meaning](/2026-02-06-mystical-meaning.html)
 
 The essay also recovers prayer from its caricature:
 
@@ -269,7 +269,7 @@ A critical parallel thread runs through the blog's chats and essays: the distinc
 
 > *"Later Christianity interpreted the kingdom primarily as a future event — the end of the world, the Second Coming, the final judgment. This eschatological reading supports an institutional church: the church manages salvation between Jesus's departure and his return. But many of Jesus's sayings suggest the kingdom is already present."*
 >
-> — [The Kingdom Within](https://tantaman.com/2025-12-17-know-thyself-the-kingdom-within.html)
+> — [The Kingdom Within](/2025-12-17-know-thyself-the-kingdom-within.html)
 
 The Gospel of Thomas becomes a key text:
 
@@ -293,7 +293,7 @@ Before the arc can move from intellectual recognition to lived experience, a tra
 
 > *"The contemporary world is structured, at nearly every level, to prevent this from happening. Social media feeds you your own preferences back in an accelerating loop. Therapy, in its debased popular form, teaches you to establish boundaries against anything that would disrupt your equilibrium. The market transforms every relationship into a transaction where both parties retain full sovereignty."*
 >
-> — [What If the Thing You're Protecting...](https://tantaman.com/2026-02-12-what-if-the-thing-youre-protecting.html)
+> — [What If the Thing You're Protecting...](/2026-02-12-what-if-the-thing-youre-protecting.html)
 
 The essay recovers three lost arts — attention (Weil's "rarest form of generosity"), commitment (the voluntary narrowing that makes depth possible), and the proper relationship to suffering — and names why none of them can be *implemented*:
 
@@ -315,7 +315,7 @@ Here the experiential thread takes the lead. Three stories demonstrate — not a
 
 > *"Not stopped meditating. Not stopped in the way I'd 'stopped' before… I just stopped. The way a machine stops when you pull the plug. Not a decision. An absence of decision. The deciding part of me — the foreman, the project manager, the guy with the clipboard who turns every breath into a rep and every silence into a set — that part went quiet. Not quiet like it was resting. Quiet like it was gone."*
 >
-> — [The Lamb](https://tantaman.com/2026-02-07-the-lamb.html)
+> — [The Lamb](/2026-02-07-the-lamb.html)
 
 What he finds beneath is not something he built:
 
@@ -331,7 +331,7 @@ But the Ground doesn't let you stay comfortable. **"The Lamb, Part II"** (Feb 20
 
 > *"The ground just made it impossible to not see. That's all it did. It removed the thing that lets you not see. The comfortable film. The soft buffer between you and the way things actually are."*
 >
-> — [The Lamb, Part II](https://tantaman.com/2026-02-07-the-lamb-part-ii.html)
+> — [The Lamb, Part II](/2026-02-07-the-lamb-part-ii.html)
 
 He reports. He loses everything — the job, the apartment, the quiet life. Dennis is transferred, not fired. The system absorbs his complaint. Nothing changes except him. The Ground does not reward:
 
@@ -347,7 +347,7 @@ The first man *manages* — researching mortality statistics, building spreadshe
 
 > *"He's been so busy rehearsing her death that he's missed her life. Six months of her life. Six months of his own."*
 >
-> — [Nine Months, Two Men](https://tantaman.com/2026-02-11-nine-months-two-men.html)
+> — [Nine Months, Two Men](/2026-02-11-nine-months-two-men.html)
 
 The second man *meets* — feels the fear, names it, shares it, and stays in the room:
 
@@ -373,7 +373,7 @@ The eschatological turn represents the blog's most sophisticated theological wor
 
 > *"Eschatology is not a religious peculiarity. It is the structure of hope — the way any community imagines the relationship between the suffering of the present and the possibility of redemption. To have an eschatology is to believe that the way things are is not the way things must remain."*
 >
-> — [The Unengineerable Rupture](https://tantaman.com/2026-02-21-structural-wisdom-biblical-eschatology.html)
+> — [The Unengineerable Rupture](/2026-02-21-structural-wisdom-biblical-eschatology.html)
 
 The central insight is that Jesus's refusal to give a schedule is not evasion but *epistemological fortress*:
 
@@ -387,7 +387,7 @@ The failed prediction of the Second Coming becomes *the teaching*:
 
 > *"It does not matter whether the prophecies are true. What matters is that the people with the most power and the most weapons believe they are — or find it useful to act as though they do."*
 >
-> — [The West Is Trapped](https://tantaman.com/2026-02-21-west-psychodrama.html)
+> — [The West Is Trapped](/2026-02-21-west-psychodrama.html)
 
 The Girardian scapegoat mechanism returns at civilizational scale — and the blog identifies the designated scapegoat in the current cycle.
 
@@ -403,7 +403,7 @@ The **engine** is the mechanism of institutional capture itself:
 
 > *"Every act of institutional capture described in the previous essay shares a common fuel: will. Someone decides to build a system. Someone decides to administer it. Someone decides to reform it. Someone decides to overthrow it. Each of these is a project — an assertion of human agency aimed at an engineered outcome. And each is captured, because will is the operating system's native language."*
 >
-> — [The Open Hand](https://tantaman.com/2026-02-21-desire-engine-table.html)
+> — [The Open Hand](/2026-02-21-desire-engine-table.html)
 
 The essay names what every other thinker missed:
 
@@ -441,7 +441,7 @@ The intellectual synthesis could be the end. But the blog's deepest commitment �
 
 > *"I experienced the cessation of the will while wishing for our newborn daughter to be soothed and stop crying. I saw the self dissolve. It was as if a glass was removed from the one and reality. I could still want but wanting was without will. All the machinations of the self were gone and proven draining and illusory."*
 >
-> — [Wanting Without Willing](https://tantaman.com/2026-02-19-mysticism-research-list.html)
+> — [Wanting Without Willing](/2026-02-19-mysticism-research-list.html)
 
 Not in a monastery. Not in meditation. While soothing a crying infant.
 
