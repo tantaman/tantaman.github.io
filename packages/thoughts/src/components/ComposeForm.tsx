@@ -292,12 +292,10 @@ export function ComposeForm({
             Clear all
           </button>
         )}
-      </div>
-      <div className="thoughts-form-footer">
-        <span className="char-count">{text.length}</span>
         <button
           type="submit"
           className={parentId != null ? 'reply-submit' : 'thought-submit'}
+          style={{ marginLeft: 'auto' }}
           disabled={submitting}
         >
           {submitting ? 'Posting...' : label}

@@ -4,6 +4,7 @@ export function Sidebar({ route }: { route: Route }) {
   return (
     <aside className="thoughts-sidebar">
       <nav className="thoughts-nav">
+        <a href="/" className="thoughts-nav-link">Tantaman</a>
         <a href="/thoughts/" className={`thoughts-nav-link${route.view === 'feed' ? ' active' : ''}`} onClick={(e) => {
           e.preventDefault();
           history.pushState(null, '', location.pathname);

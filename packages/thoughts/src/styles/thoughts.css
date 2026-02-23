@@ -147,18 +147,6 @@
   border-bottom-color: var(--text);
 }
 
-.thoughts-form-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.75rem;
-}
-
-.char-count {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
 .thought-submit {
   padding: 0.5rem 1.5rem;
   font-size: 0.875rem;
