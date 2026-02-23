@@ -7,12 +7,13 @@ function _createMdxContent(props) {
     ol: "ol",
     li: "li",
     a: "a",
+    p: "p",
+    img: "img",
     h3: "h3",
     span: "span",
     em: "em",
     hr: "hr",
     h2: "h2",
-    p: "p",
     strong: "strong",
     table: "table",
     thead: "thead",
@@ -105,6 +106,11 @@ function _createMdxContent(props) {
     overflow-x: auto;
   }
 `
+    }), "\n", _jsx(_components.p, {
+      children: _jsx(_components.img, {
+        src: "/img/escher-stairs.webp",
+        alt: ""
+      })
     }), "\n", _jsxs(_components.h3, {
       id: "in-the-manner-of-walter-benjamins-theses--a-companion-to-the-unengineerable-rupture",
       children: [_jsx(_components.a, {
