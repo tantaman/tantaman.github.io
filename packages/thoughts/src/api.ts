@@ -1,6 +1,6 @@
 import type { Thought, Tag, Task, Event, SearchResult } from './types';
 
-const API = '/api';
+const API = 'https://tantaman.com/api';
 
 interface ThoughtsResponse {
   thoughts: Thought[];
