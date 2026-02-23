@@ -19,6 +19,7 @@ export function ThreadThought({
 }) {
   const { secret } = useContext(AuthContext);
   const [showReply, setShowReply] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const children = childrenMap.get(thought.id) || [];
   const nextDepth = Math.min(depth + 1, 4);
 
@@ -42,6 +43,12 @@ export function ThreadThought({
       <ThoughtCard
         thought={thought}
         inThread
+        maxBodyChars={expanded ? undefined : 1000}
+        readMore={
+          <button className="thought-read-more thought-read-more--btn" onClick={() => setExpanded(true)}>
+            show more
+          </button>
+        }
         onDelete={() => onDelete(thought.id)}
         footer={footer}
       />

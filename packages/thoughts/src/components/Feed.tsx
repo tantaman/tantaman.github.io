@@ -62,6 +62,10 @@ export function Feed({ tags }: { tags: string[] }) {
               <ThoughtCard
                 key={t.id}
                 thought={t}
+                maxBodyChars={1000}
+                readMore={
+                  <a href={`#thought-${t.id}`} className="thought-read-more">read more</a>
+                }
                 onDelete={() => handleDelete(t.id)}
                 footer={
                   <ThoughtFooter thought={t} secret={secret} />
@@ -106,6 +110,10 @@ function SearchResults({ query }: { query: string }) {
         <ThoughtCard
           key={t.id}
           thought={t}
+          maxBodyChars={1000}
+          readMore={
+            <a href={`#thought-${t.id}`} className="thought-read-more">read more</a>
+          }
           footer={
             <SearchFooter score={t.score} thoughtId={t.id} replyCount={t.reply_count} />
           }

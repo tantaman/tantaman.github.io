@@ -28,12 +28,16 @@ export function ThoughtCard({
   inThread,
   footer,
   onDelete,
+  maxBodyChars,
+  readMore,
 }: {
   thought: Thought;
   isParent?: boolean;
   inThread?: boolean;
   footer?: ReactNode;
   onDelete?: () => void;
+  maxBodyChars?: number;
+  readMore?: ReactNode;
 }) {
   const { secret, updateSecret } = useContext(AuthContext);
 
@@ -48,6 +52,9 @@ export function ThoughtCard({
       }
     }
   };
+
+  const isTruncated = maxBodyChars != null && thought.body.length > maxBodyChars;
+  const displayBody = isTruncated ? thought.body.slice(0, maxBodyChars) + '\u2026' : thought.body;
 
   return (
     <div
@@ -71,10 +78,11 @@ export function ThoughtCard({
       <div
         className="thought-body thought-body--md"
         dangerouslySetInnerHTML={useMemo(
-          () => ({ __html: renderMarkdown(thought.body) }),
-          [thought.body],
+          () => ({ __html: renderMarkdown(displayBody) }),
+          [displayBody],
         )}
       />
+      {isTruncated && readMore}
       {thought.attachments && thought.attachments.length > 0 && (
         <div className="thought-attachments">
           {thought.attachments.map((att) => {
