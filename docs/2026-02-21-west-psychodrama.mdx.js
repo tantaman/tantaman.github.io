@@ -9,60 +9,72 @@ function _createMdxContent(props) {
     li: "li",
     a: "a",
     p: "p",
-    hr: "hr",
-    h2: "h2",
+    h1: "h1",
     span: "span",
-    strong: "strong",
-    table: "table",
-    thead: "thead",
-    tr: "tr",
-    th: "th",
-    tbody: "tbody",
-    td: "td",
+    h3: "h3",
+    hr: "hr",
     em: "em",
-    blockquote: "blockquote"
+    h2: "h2",
+    strong: "strong"
   }, props.components);
   return _jsxs(_Fragment, {
     children: [_jsx(_components.nav, {
       className: "toc",
-      children: _jsxs(_components.ol, {
+      children: _jsx(_components.ol, {
         className: "toc-level toc-level-1",
-        children: [_jsx(_components.li, {
-          className: "toc-item toc-item-h2",
-          children: _jsx(_components.a, {
-            className: "toc-link toc-link-h2",
-            href: "#three-scripts-one-stage",
-            children: "Three Scripts, One Stage"
-          })
-        }), _jsx(_components.li, {
-          className: "toc-item toc-item-h2",
-          children: _jsx(_components.a, {
-            className: "toc-link toc-link-h2",
-            href: "#the-fourth-actor",
-            children: "The Fourth Actor"
-          })
-        }), _jsx(_components.li, {
-          className: "toc-item toc-item-h2",
-          children: _jsx(_components.a, {
-            className: "toc-link toc-link-h2",
-            href: "#the-civilizations-that-declined-to-audition",
-            children: "The Civilizations That Declined to Audition"
-          })
-        }), _jsx(_components.li, {
-          className: "toc-item toc-item-h2",
-          children: _jsx(_components.a, {
-            className: "toc-link toc-link-h2",
-            href: "#the-katechon-russias-dangerous-sophistication",
-            children: "The Katechon: Russia's Dangerous Sophistication"
-          })
-        }), _jsx(_components.li, {
-          className: "toc-item toc-item-h2",
-          children: _jsx(_components.a, {
-            className: "toc-link toc-link-h2",
-            href: "#the-wheel-and-the-exit",
-            children: "The Wheel and the Exit"
-          })
-        })]
+        children: _jsxs(_components.li, {
+          className: "toc-item toc-item-h1",
+          children: [_jsx(_components.a, {
+            className: "toc-link toc-link-h1",
+            href: "#the-west-is-trapped-in-a-religious-psychodrama-it-cant-escape",
+            children: "The West Is Trapped in a Religious Psychodrama It Can't Escape"
+          }), _jsxs(_components.ol, {
+            className: "toc-level toc-level-2",
+            children: [_jsx(_components.li, {
+              className: "toc-item toc-item-h2",
+              children: _jsx(_components.a, {
+                className: "toc-link toc-link-h2",
+                href: "#three-scripts-one-stage",
+                children: "Three Scripts, One Stage"
+              })
+            }), _jsx(_components.li, {
+              className: "toc-item toc-item-h2",
+              children: _jsx(_components.a, {
+                className: "toc-link toc-link-h2",
+                href: "#the-lever",
+                children: "The Lever"
+              })
+            }), _jsx(_components.li, {
+              className: "toc-item toc-item-h2",
+              children: _jsx(_components.a, {
+                className: "toc-link toc-link-h2",
+                href: "#the-fourth-actor",
+                children: "The Fourth Actor"
+              })
+            }), _jsx(_components.li, {
+              className: "toc-item toc-item-h2",
+              children: _jsx(_components.a, {
+                className: "toc-link toc-link-h2",
+                href: "#the-non-eschatological-power",
+                children: "The Non-Eschatological Power"
+              })
+            }), _jsx(_components.li, {
+              className: "toc-item toc-item-h2",
+              children: _jsx(_components.a, {
+                className: "toc-link toc-link-h2",
+                href: "#the-most-dangerous-actor",
+                children: "The Most Dangerous Actor"
+              })
+            }), _jsx(_components.li, {
+              className: "toc-item toc-item-h2",
+              children: _jsx(_components.a, {
+                className: "toc-link toc-link-h2",
+                href: "#the-wheel",
+                children: "The Wheel"
+              })
+            })]
+          })]
+        })
       })
     }), "\n", "\n", _jsx("style", {
       children: `
@@ -115,16 +127,32 @@ function _createMdxContent(props) {
           }), " (1498)"]
         })
       })]
+    }), "\n", _jsxs(_components.h1, {
+      id: "the-west-is-trapped-in-a-religious-psychodrama-it-cant-escape",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#the-west-is-trapped-in-a-religious-psychodrama-it-cant-escape",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "The West Is Trapped in a Religious Psychodrama It Can't Escape"]
+    }), "\n", _jsxs(_components.h3, {
+      id: "how-eschatology-became-the-hidden-operating-system-of-great-power-conflict",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#how-eschatology-became-the-hidden-operating-system-of-great-power-conflict",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "How eschatology became the hidden operating system of great-power conflict"]
+    }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.p, {
+      children: ["Suppose we bracket the question of whether any eschatology is true. Set aside, for the moment, whether the Messiah is coming, whether the Mahdi will return, whether Christ will descend from the clouds over Jerusalem. Ask instead a colder question: ", _jsx(_components.em, {
+        children: "if powerful actors believe these things, what are the strategic implications?"
+      })]
     }), "\n", _jsx(_components.p, {
-      children: "It does not matter whether the prophecies are true. What matters is that the people with the most power and the most weapons believe they are — or find it useful to act as though they do. Once you bracket the question of theological truth and ask instead what happens when nuclear-armed civilizations organize their foreign policy around incompatible end-times narratives, the landscape of global conflict becomes legible in ways that conventional geopolitical analysis cannot account for."
-    }), "\n", _jsx(_components.p, {
-      children: "The coming US-Iran war is the clearest case. No application of the Powell Doctrine — clear strategic interest, defined objectives, overwhelming superiority, public support — can explain why America is assembling maximum lethality in the Persian Gulf to topple a regime that poses no existential threat to the homeland. No rational-actor model can explain why Iran's theocracy courts annihilation rather than negotiate. And no realist framework can explain why Israel's strategic class openly discusses rebuilding Solomon's Temple on the ruins of the Al-Aqsa Mosque."
-    }), "\n", _jsx(_components.p, {
-      children: "But eschatology can explain all of it."
-    }), "\n", _jsx(PullQuote, {
-      children: _jsx(_components.p, {
-        children: "\"It does not matter whether the prophecies are true. What matters is that the people with the most power and the most weapons believe they are.\""
-      })
+      children: "The answer turns out to be staggering. Because the major eschatological traditions don't just share a vague apocalyptic mood — they converge on the same geography, require the same trigger events, and promise victory to mutually exclusive parties. The result is a system that generates conflict with an almost mechanical inevitability, regardless of whether any of the prophecies are genuine. Eschatology has become a lever, and the question of who is pulling it — and to what end — may be the most important geopolitical question no one is asking clearly."
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
       id: "three-scripts-one-stage",
       children: [_jsx(_components.a, {
@@ -136,121 +164,49 @@ function _createMdxContent(props) {
         })
       }), "Three Scripts, One Stage"]
     }), "\n", _jsx(_components.p, {
-      children: "Three of the world's major civilizational actors are operating on apocalyptic timelines that require the same trigger events in the same geography, yet promise victory to entirely different peoples."
+      children: "Begin with the scripts themselves."
     }), "\n", _jsxs(_components.p, {
       children: [_jsx(_components.strong, {
         children: "Christian Zionism"
-      }), ", the dominant eschatological force in American evangelical politics, requires that the Jewish people hold sovereignty over the Holy Land, that the Third Temple be rebuilt, and that a final conflagration be fought on the plains of Armageddon — after which Christ returns, the faithful are raptured, and history ends. In this script the Jews are instrumental. They are the necessary precondition for someone else's salvation. The awkward truth that Christian Zionism's endgame includes the conversion or destruction of the Jewish people is politely left unspoken in the churches that raise money for Israeli settlements."]
-    }), "\n", _jsx(PullQuote, {
-      children: _jsx(_components.p, {
-        children: "\"They are not propaganda. They are liturgy.\""
-      })
+      }), ", the dominant eschatological current in American evangelical politics, holds that the restoration of Israel, the rebuilding of Solomon's Temple, and a final apocalyptic war in the Holy Land are necessary preconditions for the Second Coming of Christ. This theology is not fringe. It shapes the beliefs of tens of millions of American voters and has had direct influence on U.S. foreign policy from the Balfour Declaration through the Trump administration's Jerusalem embassy move. For the Christian Zionist, supporting Israeli maximalism is not merely a policy preference — it is an act of prophetic obedience."]
     }), "\n", _jsxs(_components.p, {
       children: [_jsx(_components.strong, {
         children: "Messianic Jewish nationalism"
-      }), ", the strain represented by organizations like the Temple Institute, shares the near-term checklist — sovereignty, Temple, Red Heifer sacrifice — but rewrites the ending. The Mashiach comes, the kingdom is restored, and permanent Jewish sovereignty is established. No rapture. No Christ. The Christians were useful allies for a season, nothing more. That the Temple Institute has reportedly constructed furnishings for the Third Temple and that Red Heifer candidates have been procured and inspected is not fringe speculation; it is documented organizational activity carried out in the open, funded by donations from both Jewish and Christian Zionist sources."]
+      }), ", represented institutionally by organizations like the Temple Institute, shares the near-term objectives: sovereignty over the Temple Mount, the sacrifice of the Red Heifer, the construction of the Third Temple. But the endpoint diverges sharply. There is no Second Coming of Christ in this script. The culmination is the arrival of the Mashiach and the establishment of permanent Jewish sovereignty over a restored kingdom. The Christian Zionists are, from this perspective, useful allies whose own theology will simply prove incorrect when the time comes."]
     }), "\n", _jsxs(_components.p, {
       children: [_jsx(_components.strong, {
         children: "Shia Islamic eschatology"
-      }), " holds that the Hidden Imam, the Mahdi, will return during a period of great tribulation and injustice. Jesus also returns — but as a Muslim prophet, subordinate to the Mahdi. The Dajjal, a deceiver roughly analogous to the Antichrist, is defeated. In many Shia traditions the Dajjal is associated with a deceptive global power centered in the West. The Iranian regime's willingness to absorb catastrophic costs rather than capitulate is inexplicable through the lens of rational self-preservation, but entirely coherent if the leadership believes — sincerely, not performatively — that retreat would mean abandoning their role in the Mahdi's return. The burning of statues of Baal, the rhetoric about the Great Satan: these are not propaganda. They are liturgy."]
-    }), "\n", _jsxs(_components.table, {
-      children: [_jsx(_components.thead, {
-        children: _jsxs(_components.tr, {
-          children: [_jsx(_components.th, {}), _jsx(_components.th, {
-            children: _jsx(_components.strong, {
-              children: "Christian Zionism"
-            })
-          }), _jsx(_components.th, {
-            children: _jsx(_components.strong, {
-              children: "Messianic Judaism"
-            })
-          }), _jsx(_components.th, {
-            children: _jsx(_components.strong, {
-              children: "Shia Islam"
-            })
-          })]
+      }), " holds that the Hidden Imam — the Mahdi — will return during a period of great tribulation and injustice. In Shia tradition, Jesus also returns, but as a Muslim prophet subordinate to the Mahdi. The Dajjal, a deceiver roughly analogous to the Antichrist, is defeated. Critically, some strands of Shia thought specifically associate the Dajjal with a deceptive global power centered in the West. For the Iranian regime, the confrontation with America and Israel is not merely geopolitical — it is a rehearsal for, or participation in, the drama of the end times. Ahmadinejad reportedly told his cabinet that the Mahdi was guiding his presidency. The current regime's willingness to court destruction rather than negotiate may not be strategic irrationality — it may be eschatological rationality operating on entirely different premises."]
+    }), "\n", _jsxs(_components.p, {
+      children: ["Notice the structure. All three scripts require apocalyptic conflict in roughly the same place. All three require the Temple Mount to be contested. All three promise that ", _jsx(_components.em, {
+        children: "their"
+      }), " side wins in the final act. And all three regard the other two as unwitting participants in a drama whose true meaning only they understand. Each coalition believes the others are useful idiots."]
+    }), "\n", _jsx(_components.p, {
+      children: "This is not a stable equilibrium. It is a machine for generating escalation."
+    }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
+      id: "the-lever",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#the-lever",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
         })
-      }), _jsxs(_components.tbody, {
-        children: [_jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "Key Figure"
-            })
-          }), _jsx(_components.td, {
-            children: "Christ (Second Coming)"
-          }), _jsx(_components.td, {
-            children: "Mashiach"
-          }), _jsx(_components.td, {
-            children: "Hidden Imam (Mahdi)"
-          })]
-        }), _jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "Required Triggers"
-            })
-          }), _jsx(_components.td, {
-            children: "Jewish sovereignty, Temple, Armageddon"
-          }), _jsx(_components.td, {
-            children: "Sovereignty, Temple, Red Heifer"
-          }), _jsx(_components.td, {
-            children: "Tribulation & injustice"
-          })]
-        }), _jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "Promised End"
-            })
-          }), _jsx(_components.td, {
-            children: "Rapture, faithful saved"
-          }), _jsx(_components.td, {
-            children: "Permanent Jewish kingdom"
-          }), _jsx(_components.td, {
-            children: "Dajjal defeated, justice"
-          })]
-        }), _jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "Who Inherits"
-            })
-          }), _jsx(_components.td, {
-            children: "Christians"
-          }), _jsx(_components.td, {
-            children: "Jewish people"
-          }), _jsx(_components.td, {
-            children: "Muslims"
-          })]
-        }), _jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "Power Base"
-            })
-          }), _jsx(_components.td, {
-            children: "US nuclear arsenal"
-          }), _jsx(_components.td, {
-            children: "Israeli nuclear arsenal"
-          }), _jsx(_components.td, {
-            children: "Iranian missile program"
-          })]
-        })]
-      })]
+      }), "The Lever"]
     }), "\n", _jsx(_components.p, {
-      children: "All three scripts require apocalyptic war in roughly the same place. All three promise that their community alone inherits the earth. And all three are held, to varying degrees of sincerity, by people with access to nuclear weapons, carrier strike groups, and ballistic missile programs."
+      children: "Once you see eschatology as a strategic variable rather than a private belief, its utility as a lever becomes obvious."
+    }), "\n", _jsxs(_components.p, {
+      children: ["You can motivate Christian Zionists to support wars they would otherwise oppose, because the wars fulfill prophecy. You can motivate Israeli maximalists to take risks that are strategically suicidal by conventional analysis, because the Temple ", _jsx(_components.em, {
+        children: "must"
+      }), " be rebuilt regardless of cost. You can motivate the Iranian regime to embrace confrontation rather than negotiation, because retreat would mean abandoning their role in the Mahdi's return."]
     }), "\n", _jsx(_components.p, {
-      children: "The result is a self-reinforcing escalation spiral. Each side's actions confirm the other sides' prophecies. American military buildup in the Gulf looks, from Tehran, exactly like the Dajjal marshaling his forces. Iranian threats to sink carriers look, from Washington's evangelical base, exactly like the gathering of the armies of Gog. Israeli archaeological activity beneath the Al-Aqsa Mosque looks, from the entire Muslim world, like the desecration that precedes the final war. Every escalation validates every prophecy, which justifies further escalation, which validates further prophecy."
-    }), "\n", _jsx(Mermaid, {
-      id: "escalation-spiral",
-      chart: `flowchart TD
-    A["US Military Buildup in Gulf"] -->|"Tehran sees the Dajjal"| B["Iranian Threats & Preparation"]
-    B -->|"Evangelicals see armies of Gog"| C["Greater US Commitment"]
-    C --> A
-    D["Israeli Activity at Al-Aqsa"] -->|"Muslim world sees desecration"| E["Resistance & Retaliation"]
-    E -->|"Israel sees existential threat"| F["Increased Israeli Action"]
-    F --> D
-    C <-.->|"Both spirals reinforce each other"| F`
-    }), "\n", _jsx(PullQuote, {
-      children: _jsx(_components.p, {
-        children: "\"No choreographer is needed. The scripts choreograph themselves.\""
-      })
+      children: "None of this requires that the leaders pulling the levers personally believe the eschatologies. It only requires that they understand that millions of their constituents do — and that eschatological motivation is among the most powerful forces available for overriding rational cost-benefit analysis. A population that believes it is participating in sacred history will tolerate costs that no secular political program could justify."
+    }), "\n", _jsxs(_components.p, {
+      children: ["The result is that all three parties walk toward the same catastrophe for completely different reasons, each convinced that the outcome will vindicate them specifically. And the catastrophe never needs to ", _jsx(_components.em, {
+        children: "arrive"
+      }), " — the profitable condition is permanent anticipation. The Temple can be dangled but never quite completed. The Mahdi can be expected but never appear. The Second Coming can be imminent but never occur. As long as the eschatological tension is maintained, the levers keep working."]
+    }), "\n", _jsx(_components.p, {
+      children: "The question is: who benefits from maintaining this tension indefinitely?"
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
       id: "the-fourth-actor",
       children: [_jsx(_components.a, {
@@ -261,220 +217,172 @@ function _createMdxContent(props) {
           className: "icon icon-link"
         })
       }), "The Fourth Actor"]
-    }), "\n", _jsx(_components.p, {
-      children: "And yet the self-reinforcing spiral is not the whole story. Left to their own devices, eschatological communities tend toward insularity, not global war. Someone — or something — has to fund the armies, arm the proxies, and ensure that the trigger events keep approaching without ever quite arriving."
-    }), "\n", _jsx(_components.p, {
-      children: "There are two compelling candidates for this \"fourth actor,\" and they may ultimately be the same thing."
-    }), "\n", _jsxs(_components.p, {
-      children: ["The first is ", _jsx(_components.strong, {
-        children: "the structural logic of debt-based finance"
-      }), ". War is the most reliable mechanism for sovereign debt expansion, and sovereign debt is the primary instrument through which financial power disciplines nation-states. The entity that finances all sides of a conflict and collects interest regardless of outcome does not need the conflict to resolve. It needs the conflict to ", _jsx(_components.em, {
-        children: "continue"
-      }), ". The petrodollar system specifically requires Middle Eastern instability to be chronic but manageable — a unified Middle East trading oil in non-dollar currencies would be an existential threat to dollar hegemony. A Middle East locked in perpetual eschatological tension can never unify. From this angle, the fourth actor is not a person or a cabal but the structural incentive of capital itself: perpetual growth requires perpetual crisis, which requires perpetual war."]
-    }), "\n", _jsx(_components.p, {
-      children: "This also explains the curious feature of eschatological politics — that the apocalypse must be imminent but must never actually arrive. The Third Temple can be dangled but never quite completed. The Mahdi can be anticipated but never appear. The Second Coming can be imminent but perpetually deferred. The profitable state is permanent anticipation. Fulfillment would end the cycle, and ending the cycle would end the debt service."
-    }), "\n", _jsxs(_components.p, {
-      children: ["The second candidate comes from René Girard's theory of mimetic rivalry — an especially resonant framework given how deeply Girardian thinking has penetrated the strategic class through figures like Peter Thiel. Girard would argue that there is no fourth actor, or rather that the fourth actor is mimetic rivalry itself. The three eschatological communities are locked in a triangle of imitation. Each defines itself against the others while becoming structurally identical to them. All three require the same sacred geography. All three believe they are the righteous remnant. All three are willing to destroy the world to save it. The escalation is not planned; it is emergent, a mechanical consequence of reciprocal imitation that ", _jsx(_components.em, {
-        children: "feels"
-      }), " scripted because the pattern is archetypal."]
-    }), "\n", _jsx(_components.p, {
-      children: "In Girard's framework, this kind of spiraling crisis resolves through the scapegoat mechanism: all parties converge their violence onto a single victim, and the resulting catharsis temporarily restores order. The question his theory forces us to ask — who is the designated scapegoat in this cycle? — points toward an answer too obvious and too terrible to be comfortable: the Palestinian people, onto whom all three eschatological projects converge their violence, and whose suffering is instrumentally necessary for all three scripts to advance."
-    }), "\n", _jsx(_components.p, {
-      children: "Capital and mimesis may be two descriptions of the same engine. Capital provides the material incentive structure; mimetic rivalry provides the psychological one. Together they produce a dynamic that looks like a conspiracy because it is so patterned and self-reinforcing, but requires no single directing intelligence. It is worse than a conspiracy. It is a system that nobody fully controls but that channels enormous human energy toward destruction because the incentives and the psychology all point the same direction."
-    }), "\n", _jsx(PullQuote, {
-      children: _jsx(_components.p, {
-        children: "\"It is worse than a conspiracy. It is a system that nobody fully controls but that channels enormous human energy toward destruction.\""
-      })
-    }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
-      id: "the-civilizations-that-declined-to-audition",
+    }), "\n", _jsxs(_components.h3, {
+      id: "i-capital",
       children: [_jsx(_components.a, {
         "aria-hidden": "true",
         tabIndex: "-1",
-        href: "#the-civilizations-that-declined-to-audition",
+        href: "#i-capital",
         children: _jsx(_components.span, {
           className: "icon icon-link"
         })
-      }), "The Civilizations That Declined to Audition"]
+      }), "I. Capital"]
     }), "\n", _jsx(_components.p, {
-      children: "Not every major power is trapped in this psychodrama. The most consequential geopolitical fact of the twenty-first century may be that the world's rising power operates on a civilizational logic that is structurally immune to eschatological manipulation."
+      children: "The most parsimonious candidate for the hidden beneficiary is not a person or a cabal but a structural logic: the debt-based financial system itself."
     }), "\n", _jsxs(_components.p, {
-      children: [_jsx(_components.strong, {
-        children: "China has no eschatology."
-      }), " Chinese civilizational thinking is cyclical, not apocalyptic. The Mandate of Heaven rotates. Dynasties rise and fall across centuries. Confucian statecraft is oriented toward managing cycles, not accelerating toward a final confrontation. Even Chinese Marxism, which imported a Western teleological framework, has been quietly sinicized back into something resembling dynastic management with socialist characteristics. The CPC plans in five-year increments and thinks in fifty-year arcs. Nobody in Beijing is reading Revelation for strategic guidance."]
+      children: ["All three eschatological actors require funding. All three conflicts generate sovereign debt. War is the most reliable mechanism for debt expansion, and sovereign debt is the primary instrument through which financial power disciplines nation-states. The entity that finances all sides of a conflict and collects interest regardless of outcome doesn't need the conflict to resolve — it needs the conflict to ", _jsx(_components.em, {
+        children: "continue"
+      }), "."]
+    }), "\n", _jsx(_components.p, {
+      children: "The petrodollar system specifically requires Middle Eastern instability to be chronic but manageable. A unified Middle East trading oil in non-dollar currencies would be an existential threat to dollar hegemony. A Middle East locked in perpetual eschatological conflict can never unify. The eschatological psychodrama is, from this angle, the most effective mechanism ever devised for preventing the emergence of a post-dollar energy economy."
+    }), "\n", _jsx(_components.p, {
+      children: "This doesn't require conspiracy. It only requires that the incentive structures of global finance are aligned with the perpetuation of eschatological tension — which they demonstrably are. The Fourth Actor is not hidden because it is secret. It is hidden because it is structural, operating as the medium through which the eschatological conflicts are financed, prolonged, and made profitable for parties who have no stake in any of the prophecies coming true."
+    }), "\n", _jsxs(_components.h3, {
+      id: "ii-mimesis",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#ii-mimesis",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "II. Mimesis"]
+    }), "\n", _jsx(_components.p, {
+      children: "There is a deeper engine beneath the financial one, and René Girard identified it. The three eschatological communities are locked in a triangle of mimetic rivalry. Each defines itself against the others while becoming structurally identical to them. All three claim the same sacred geography. All three believe they are the righteous remnant. All three are willing to destroy the world to save it. All three regard suffering as confirmation of chosenness."
+    }), "\n", _jsxs(_components.p, {
+      children: ["Girard argued that escalating mimetic crisis — the kind where rivals become mirrors of each other — historically resolves through the scapegoat mechanism. All parties converge their violence onto a single victim, and the resulting catharsis temporarily restores order. The disturbing implication is that the eschatological \"script\" may not be ", _jsx(_components.em, {
+        children: "written"
+      }), " by anyone. It may be an emergent property of mimetic escalation that ", _jsx(_components.em, {
+        children: "feels"
+      }), " scripted because the pattern is archetypal. The participants experience themselves as free actors fulfilling prophecy, but they are caught in a mechanical process of reciprocal imitation."]
+    }), "\n", _jsx(_components.p, {
+      children: "Capital provides the material incentive structure. Mimetic rivalry provides the psychological engine. Together they produce a dynamic that looks like a conspiracy because it is so patterned and self-reinforcing, but requires no single directing intelligence. It is worse than a conspiracy — it is a system that nobody fully controls but that channels enormous human energy toward destruction because the incentive structures and the psychological dynamics all point in the same direction."
+    }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
+      id: "the-non-eschatological-power",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#the-non-eschatological-power",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "The Non-Eschatological Power"]
+    }), "\n", _jsx(_components.p, {
+      children: "Against this backdrop, China's position is extraordinary — and its strategic advantage may be civilizational rather than military or economic."
+    }), "\n", _jsx(_components.p, {
+      children: "China has no eschatology."
+    }), "\n", _jsxs(_components.p, {
+      children: ["Chinese civilizational thinking is cyclical, not apocalyptic. The Mandate of Heaven rotates. Dynasties rise and fall. The relevant timeframe is centuries, not end-times. Confucian statecraft is about ", _jsx(_components.em, {
+        children: "managing"
+      }), " cycles, not accelerating toward a final confrontation. Even Chinese Marxism, which imported a Western teleological framework, has been quietly sinicized back into something that looks more like dynastic management with Leninist characteristics."]
     }), "\n", _jsx(_components.p, {
       children: "This means China is the one major power that cannot be manipulated by eschatological levers. You cannot motivate Beijing with prophecy. You cannot panic them with apocalyptic framing. They observe three civilizations rushing toward a shared sacred geography to fight over whose God wins, and they see — correctly — an extraordinary strategic opportunity."
     }), "\n", _jsx(_components.p, {
-      children: "If the US-Iran war happens and drags America into another multi-trillion-dollar quagmire, China benefits enormously without firing a shot. Every dollar America spends projecting power into the Persian Gulf is a dollar not spent on the Pacific. Every carrier strike group in the Arabian Sea is one absent from the South China Sea. Every year America spends entangled in Middle Eastern eschatological conflict is a year China spends building infrastructure, consolidating Belt and Road partnerships, and deepening its technological base. This is Sun Tzu, not Clausewitz — supreme excellence is making your rival's battles unnecessary for you."
+      children: "The calculus is straightforward. Every dollar America spends projecting power into the Persian Gulf is a dollar not spent on the Pacific. Every carrier strike group in the Arabian Sea is one not in the South China Sea. Every year America spends entangled in Middle Eastern eschatological conflict is a year China spends building infrastructure, consolidating Belt and Road relationships, and deepening its technological base. This is the logic of Sun Tzu rather than Clausewitz — supreme excellence is not winning battles but making battles unnecessary."
     }), "\n", _jsxs(_components.p, {
-      children: ["China is not merely watching, however. The Shanghai Cooperation Organization, BRICS expansion, yuan-denominated oil trades — these are the architecture of a post-eschatological order. The implicit pitch to the Global South is devastatingly simple: ", _jsx(_components.em, {
+      children: ["China is not merely watching, however. The Shanghai Cooperation Organization, the BRICS expansion, the yuan-denominated oil trades — these are the architecture of a post-eschatological order. The implicit pitch to the Global South is plain: ", _jsx(_components.em, {
         children: "The West is trapped in a religious psychodrama it can't escape. We offer roads, ports, and trade without requiring you to pick a side in someone else's apocalypse."
       })]
-    }), "\n", _jsx(PullQuote, {
-      children: _jsx(_components.p, {
-        children: "\"The West is trapped in a religious psychodrama it can't escape. We offer roads, ports, and trade without requiring you to pick a side in someone else's apocalypse.\""
-      })
     }), "\n", _jsx(_components.p, {
-      children: "Iran itself is a key node. China signed a 25-year strategic cooperation agreement with Tehran. If Iran survives American regime change, it becomes a Chinese client state and a critical link in the Belt and Road corridor to the Mediterranean. If Iran falls, China loses a partner but gains leverage from the chaos, because whoever replaces the theocracy will still need to sell oil, and China will be the buyer with the deepest pockets and the fewest ideological demands."
+      children: "The 25-year strategic cooperation agreement with Iran is particularly telling. If Iran survives American regime change, it becomes a Chinese client state and a critical node in Belt and Road's path to the Mediterranean. If Iran falls, China loses a partner but gains leverage — because whoever replaces the theocracy will still need to sell oil, and China will be the buyer with the deepest pockets and the fewest theological demands."
     }), "\n", _jsx(_components.p, {
-      children: "The deepest irony is this: if the fourth actor is the debt-based financial system that profits from perpetual eschatological tension, then China is the entity most actively building an exit — not by confronting the system directly, but by making it irrelevant. Yuan-denominated trade, overland routes bypassing American naval dominance, bilateral currency swaps that never touch the dollar. China is not fighting the wheel. It is building a road that goes somewhere else."
+      children: "A civilization that thinks in centuries while its rivals think in prophecies has a structural advantage that no amount of military spending can overcome."
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
-      id: "the-katechon-russias-dangerous-sophistication",
+      id: "the-most-dangerous-actor",
       children: [_jsx(_components.a, {
         "aria-hidden": "true",
         tabIndex: "-1",
-        href: "#the-katechon-russias-dangerous-sophistication",
+        href: "#the-most-dangerous-actor",
         children: _jsx(_components.span, {
           className: "icon icon-link"
         })
-      }), "The Katechon: Russia's Dangerous Sophistication"]
+      }), "The Most Dangerous Actor"]
     }), "\n", _jsxs(_components.p, {
-      children: ["If China is the actor that stands outside the Abrahamic eschatological frame entirely, Russia is something far more complex and far more dangerous: the actor that operates ", _jsx(_components.em, {
-        children: "within"
-      }), " the frame but reaches opposite conclusions from everyone else."]
-    }), "\n", _jsxs(_components.p, {
-      children: ["Orthodox eschatology is formally apocalyptic — it affirms the Second Coming, the Antichrist, the final judgment. But the Orthodox posture toward the end times is radically different from the Western Protestant tradition that drives Christian Zionism. Orthodoxy emphasizes that the timing is unknowable, that attempting to accelerate or decode it is spiritually perilous, and that the proper human response is ", _jsx(_components.em, {
-        children: "theosis"
-      }), " — ongoing spiritual transformation — not political activism toward prophetic fulfillment. The eschaton is real, but it is God's business, not yours."]
-    }), "\n", _jsx(_components.p, {
-      children: "Russian Orthodoxy, however, has developed a political theology that departs from this quietism in a critical way. The doctrine of Moscow as the Third Rome — articulated by the monk Philotheus in the sixteenth century — holds that after Rome fell to heresy and Constantinople fell to the Ottomans, Moscow became the last guardian of authentic Christian civilization. There shall be no fourth Rome. If Russia falls, there is no backstop before the Antichrist."
-    }), "\n", _jsxs(_components.p, {
-      children: ["This yields a strategic posture unique among all the eschatological actors. Zionism is about ", _jsx(_components.em, {
-        children: "building"
-      }), " something — the Temple, the restored kingdom. Christian nationalism is about ", _jsx(_components.em, {
-        children: "accelerating"
-      }), " something — the conditions for Christ's return. Shia eschatology is about ", _jsx(_components.em, {
-        children: "preparing"
-      }), " for something — the Mahdi's arrival. Russian Orthodoxy is about ", _jsx(_components.em, {
-        children: "preventing"
-      }), " something. Holding the line. Restraining the forces of dissolution. Buying time for humanity."]
-    }), "\n", _jsxs(_components.blockquote, {
-      children: ["\n", _jsxs(_components.p, {
-        children: [_jsx(_components.strong, {
-          children: "Katechon"
-        }), " (2 Thessalonians) — \"the one who restrains,\" the mysterious force that holds back the Antichrist until the appointed time."]
-      }), "\n"]
-    }), "\n", _jsxs(_components.p, {
-      children: ["The theological term is the ", _jsx(_components.em, {
-        children: "katechon"
-      }), " — from 2 Thessalonians, \"the one who restrains,\" the mysterious force that holds back the Antichrist until the appointed time. In the hands of thinkers like Alexander Dugin, drawing on Carl Schmitt and the Orthodox mystical tradition of Gregory Palamas, Russia ", _jsx(_components.em, {
-        children: "is"
-      }), " the katechon. The liberal world order — globalization, individual rights as highest value, the dissolution of traditional identity — is identified not metaphorically but ontologically with the Antichrist system. Russia's civilizational mission is to restrain this dissolution."]
-    }), "\n", _jsx(_components.p, {
-      children: "This maps onto Russian strategic behavior with unsettling precision. Russia maintains relationships with Israel, Iran, Turkey, Saudi Arabia, and the Palestinians simultaneously. It intervened in Syria not to win but to prevent resolution — to ensure that no single actor achieved dominance. In any US-Iran confrontation, Russia's optimal outcome is neither American victory nor Iranian victory but prolonged stalemate: American power exhausted, Iran preserved as a partner, energy prices elevated to fund the Russian state, and — crucially — no eschatological project reaching completion."
-    }), "\n", _jsx(_components.p, {
-      children: "This is katechon strategy translated into realpolitik. Restrain all sides. Prevent any apocalypse from actually arriving. Maintain the holding pattern."
-    }), "\n", _jsxs(_components.p, {
-      children: ["Russia is arguably the most dangerous actor in this drama precisely because it ", _jsx(_components.em, {
+      children: ["Russia is arguably the most dangerous actor in this system precisely because it ", _jsx(_components.em, {
         children: "understands"
-      }), " the eschatological dynamics better than any other player. It is not a bemused outsider like China. It is not a true believer racing toward fulfillment like the Christian Zionists or the Iranian theocrats. It is a civilizational actor that has theologized its own strategic interest into a cosmic mission of restraint — which conveniently justifies maintaining its own power indefinitely. The katechon can never retire. The restrainer must always restrain. And so Russia needs the eschatological conflict to continue, just as capital does, but for theological rather than monetary reasons."]
+      }), " the eschatological dynamics better than any other player — while also being a nuclear-armed state willing to act on that understanding."]
     }), "\n", _jsxs(_components.p, {
-      children: ["Here the Sino-Russian partnership reveals its structural fragility. In the short term, Moscow and Beijing agree that American hegemony must end. But they disagree fundamentally about what follows. China wants a post-metaphysical multipolar trading order. Russia wants a renewed Christendom, or at least a world in which traditional civilizations maintain spiritual sovereignty against liberal dissolution. China says ", _jsx(_components.em, {
-        children: "your apocalypse is irrelevant to us"
-      }), ". Russia says ", _jsx(_components.em, {
-        children: "your apocalypse is real, and it is our sacred duty to prevent it"
-      }), ". These are not reconcilable positions in the long run."]
+      children: ["Russia is neither a bemused onlooker like China nor a true believer like the Christian Zionists or the Iranian regime. It is something more complex: a civilizational actor operating ", _jsx(_components.em, {
+        children: "within"
+      }), " the Abrahamic eschatological frame but reaching the opposite strategic conclusion from all the other participants."]
+    }), "\n", _jsxs(_components.p, {
+      children: ["Orthodox eschatology is formally apocalyptic — it affirms the Second Coming, the Antichrist, the final judgment. But the ", _jsx(_components.em, {
+        children: "posture"
+      }), " toward these events is radically different from Western Christianity. The Orthodox tradition emphasizes that the timing is unknowable, that attempting to accelerate or decode it is spiritually dangerous, and that the proper response is ", _jsx(_components.em, {
+        children: "theosis"
+      }), " — ongoing spiritual transformation — not political activism toward prophetic fulfillment."]
+    }), "\n", _jsx(_components.p, {
+      children: "Russian Orthodoxy, however, developed a specifically political eschatology. The doctrine of Moscow as the Third Rome — articulated by the monk Philotheus in the early sixteenth century — holds that Rome fell to heresy, Constantinople fell to the Turks, and Moscow is the last guardian of authentic Christianity. There shall be no Fourth Rome. If Moscow falls, there is no backstop before the Antichrist."
+    }), "\n", _jsxs(_components.p, {
+      children: ["This creates something unique among the eschatological actors. The Zionist project is about ", _jsx(_components.em, {
+        children: "building"
+      }), " something. Christian nationalism is about ", _jsx(_components.em, {
+        children: "accelerating"
+      }), " something. Shia eschatology is about ", _jsx(_components.em, {
+        children: "preparing"
+      }), " for something. Russian Orthodox political eschatology is about ", _jsx(_components.em, {
+        children: "preventing"
+      }), " something — holding the line against the Antichrist, which is identified with Western liberalism, secularism, and the dissolution of traditional civilization."]
+    }), "\n", _jsxs(_components.p, {
+      children: ["The key concept is the ", _jsx(_components.em, {
+        children: "katechon"
+      }), " — from Paul's Second Letter to the Thessalonians, \"the one who restrains,\" the mysterious force that holds back the Antichrist until the appointed time. Alexander Dugin, the most intellectually serious architect of Russian neo-conservative thought, identifies Russia as the katechon. His argument is that the liberal world order is not merely geopolitically hostile to Russia but ", _jsx(_components.em, {
+        children: "ontologically"
+      }), " constitutes the Antichrist system. Globalization, the dissolution of traditional identity, the flattening of all cultures into a single market — these are, for Dugin, the spiritual forces of the end times. Russia's civilizational mission is to ", _jsx(_components.em, {
+        children: "restrain"
+      }), " this dissolution, buying time for humanity."]
+    }), "\n", _jsx(_components.p, {
+      children: "This maps onto Russian strategic behavior with remarkable precision. Russia maintains relationships with Israel, Iran, Turkey, Saudi Arabia, and the Palestinians simultaneously. It intervened in Syria not to win but to prevent resolution — to ensure that no single eschatological actor achieved dominance. In any US-Iran confrontation, Russia's optimal outcome is neither an American victory nor an Iranian victory but a prolonged stalemate that exhausts American power, preserves Iran as a Russian partner, keeps energy prices high, and prevents any eschatological project from reaching completion."
+    }), "\n", _jsx(_components.p, {
+      children: "This is katechon strategy translated into realpolitik: restrain all sides, prevent any apocalypse from actually arriving, maintain the holding pattern indefinitely."
+    }), "\n", _jsxs(_components.p, {
+      children: ["And here lies the danger. If there is a fourth actor profiting from perpetual eschatological tension without wanting it to resolve, Russia's katechon doctrine is the most intellectually honest version of that position. It essentially says: ", _jsx(_components.em, {
+        children: "yes, the apocalyptic forces are real, and our sacred duty is to ensure they never reach their conclusion."
+      }), " Which means Russia needs the eschatological conflict to continue — just as the financial system does — but for theological rather than monetary reasons."]
+    }), "\n", _jsx(_components.p, {
+      children: "Whether this makes Russia a stabilizing force or merely the most self-aware participant in the cycle is the genuinely hard question."
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
-      id: "the-wheel-and-the-exit",
+      id: "the-wheel",
       children: [_jsx(_components.a, {
         "aria-hidden": "true",
         tabIndex: "-1",
-        href: "#the-wheel-and-the-exit",
+        href: "#the-wheel",
         children: _jsx(_components.span, {
           className: "icon icon-link"
         })
-      }), "The Wheel and the Exit"]
-    }), "\n", _jsxs(_components.table, {
-      children: [_jsx(_components.thead, {
-        children: _jsxs(_components.tr, {
-          children: [_jsx(_components.th, {
-            children: "Actor"
-          }), _jsx(_components.th, {
-            children: "Theology"
-          }), _jsx(_components.th, {
-            children: "Posture"
-          }), _jsx(_components.th, {
-            children: "Strategic Need"
-          })]
-        })
-      }), _jsxs(_components.tbody, {
-        children: [_jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "US (Evangelical)"
-            })
-          }), _jsx(_components.td, {
-            children: "Christian Zionism"
-          }), _jsx(_components.td, {
-            children: "Accelerate"
-          }), _jsx(_components.td, {
-            children: "Trigger Second Coming"
-          })]
-        }), _jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "Israel (Messianic)"
-            })
-          }), _jsx(_components.td, {
-            children: "Temple restoration"
-          }), _jsx(_components.td, {
-            children: "Build"
-          }), _jsx(_components.td, {
-            children: "Restore the kingdom"
-          })]
-        }), _jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "Iran (Shia)"
-            })
-          }), _jsx(_components.td, {
-            children: "Mahdi's return"
-          }), _jsx(_components.td, {
-            children: "Prepare"
-          }), _jsx(_components.td, {
-            children: "Endure for the Mahdi"
-          })]
-        }), _jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "Russia (Orthodox)"
-            })
-          }), _jsx(_components.td, {
-            children: "Katechon"
-          }), _jsx(_components.td, {
-            children: "Restrain"
-          }), _jsx(_components.td, {
-            children: "Prevent all apocalypses"
-          })]
-        }), _jsxs(_components.tr, {
-          children: [_jsx(_components.td, {
-            children: _jsx(_components.strong, {
-              children: "China"
-            })
-          }), _jsx(_components.td, {
-            children: "None (cyclical)"
-          }), _jsx(_components.td, {
-            children: "Wait"
-          }), _jsx(_components.td, {
-            children: "Build alternative order"
-          })]
-        })]
+      }), "The Wheel"]
+    }), "\n", _jsx(_components.p, {
+      children: "There is a pattern here that should trouble us."
+    }), "\n", _jsxs(_components.p, {
+      children: ["China says: ", _jsx(_components.em, {
+        children: "your apocalypse is irrelevant to us."
+      }), " Russia says: ", _jsx(_components.em, {
+        children: "your apocalypse is real, and it is our sacred duty to prevent it."
+      }), " America says: ", _jsx(_components.em, {
+        children: "your apocalypse is our prophecy, and we must fulfill it."
+      }), " Israel says: ", _jsx(_components.em, {
+        children: "your apocalypse is our restoration, and we will build it."
+      }), " Iran says: ", _jsx(_components.em, {
+        children: "your apocalypse is our liberation, and we will endure it."
       })]
     }), "\n", _jsx(_components.p, {
-      children: "Lay the board flat and the geometry is stark. Three Abrahamic civilizations are locked in a mimetic spiral, each acting out an eschatological script that requires the same catastrophic trigger events. A financial system profits from the perpetual tension. An intelligence apparatus has the operational means to accelerate or decelerate each script. Russia positions itself as the theological restrainer, needing the crisis to continue in order to justify its own existence. And China waits, building an alternative order for whoever survives."
-    }), "\n", _jsx(_components.p, {
-      children: "The most disquieting feature of this arrangement is its stability. Every actor's rational self-interest aligns with the perpetuation of the cycle. The true believers need the tension because their prophecies demand it. The financiers need the tension because their balance sheets demand it. The restrainer needs the tension because its identity demands it. And the patient outsider needs the tension because its strategy depends on rivals exhausting themselves."
-    }), "\n", _jsx(_components.p, {
-      children: "No one is incentivized to stop."
+      children: "Five civilizational actors. Five incompatible relationships to the same eschatological question. And beneath all five, the structural logic of debt-based finance and the psychological engine of mimetic rivalry, ensuring that the tension never resolves, the levers keep working, and the wheel keeps turning."
     }), "\n", _jsxs(_components.p, {
-      children: ["This suggests that the conventional frameworks for understanding the US-Iran confrontation — deterrence theory, balance of power, rational-actor models — are not wrong so much as incomplete. They describe the surface mechanics while missing the engine beneath. The engine is eschatological, and it runs on a fuel that rational analysis cannot neutralize: ", _jsx(_components.em, {
-        children: "faith"
-      }), ". Not faith in God, necessarily, but faith in the script. Faith that history has a direction, that one's own civilization is the protagonist, and that the final act is near. Against this faith, diplomatic cables and arms-control treaties are gossamer."]
+      children: ["The most unsettling insight is not that powerful actors are using eschatology cynically — though some are. It is that the system does not require cynicism to function. Sincere belief and cynical manipulation produce exactly the same strategic outcomes. The Christian Zionist who genuinely believes he is hastening the Second Coming and the defense contractor who sees an opportunity to sell missiles to the next Middle Eastern war are ", _jsx(_components.em, {
+        children: "pulling the same lever in the same direction"
+      }), ". The Iranian cleric who sincerely prepares for the Mahdi's return and the Russian strategist who needs oil prices above eighty dollars a barrel are ", _jsx(_components.em, {
+        children: "both served by the same escalation"
+      }), "."]
     }), "\n", _jsx(_components.p, {
-      children: "The question, then, is whether there exists a posture that is neither acceleration nor restraint nor patient observation. Whether it is possible to step off the wheel entirely — not by denying its existence or pretending the eschatological commitments are merely rhetorical, but by refusing to accept the premise that history must converge on a single sacred geography and a single final battle."
+      children: "This is why identifying the Fourth Actor doesn't solve the problem. Even if you name it — capital, mimesis, the intelligence apparatus, the will to power masquerading as the sacred — the three eschatological communities will each interpret that identification through their own framework, and the structural incentives will remain unchanged."
     }), "\n", _jsx(_components.p, {
-      children: "The mystics of every tradition — Meister Eckhart in the Christian West, the Sufis in Islam, the apophatic theologians of Orthodoxy — have always insisted that the deepest encounter with the divine is not an event in history but a transformation of the person. That the kingdom of God is within. That the apocalypse the scriptures describe is an interior catastrophe and an interior renewal, not a geopolitical program. These voices have always been marginal, always been suspected of heresy by the institutional powers that prefer an apocalypse they can schedule and fund."
+      children: "Perhaps the only genuine exit is the one that none of the five actors are offering: to step off the wheel entirely. Not to accelerate the apocalypse, not to restrain it, not to profit from it, not to ignore it — but to refuse the premise that human civilization must organize itself around the question of how the world ends."
+    }), "\n", _jsxs(_components.p, {
+      children: ["The mystics of every tradition — Meister Eckhart in the Christian West, the Sufi poets in Islam, the apophatic theologians of Orthodoxy — have always said that the eschaton is not an event in history but a transformation of consciousness. The kingdom is not coming in a way that can be observed. It is, as the Gospels say, ", _jsx(_components.em, {
+        children: "within you"
+      }), "."]
     }), "\n", _jsx(_components.p, {
-      children: "But they may be the only voices offering an actual exit, rather than another turn of the wheel. The alternative is to remain trapped in the psychodrama — spectators at best, casualties at worst — while civilizations older than any of our institutions grind against each other in pursuit of endings that never come, enriching the systems that ensure they never do."
+      children: "But that teaching has never been very useful to anyone who needs a population to march toward war."
     })]
   });
 }
