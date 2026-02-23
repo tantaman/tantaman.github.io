@@ -233,7 +233,6 @@ export function ComposeForm({
         ) : (
           <textarea
             placeholder={placeholder || "What's on your mind? (markdown supported)"}
-            maxLength={1000}
             rows={3}
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -295,7 +294,7 @@ export function ComposeForm({
         )}
       </div>
       <div className="thoughts-form-footer">
-        <span className="char-count">{text.length} / 1000</span>
+        <span className="char-count">{text.length}</span>
         <button
           type="submit"
           className={parentId != null ? 'reply-submit' : 'thought-submit'}

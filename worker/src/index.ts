@@ -337,8 +337,8 @@ api.post("/thoughts", async (c) => {
     if (json.parent_id != null) parentId = json.parent_id;
   }
 
-  if (!trimmed || trimmed.length > 1000) {
-    return c.json({ error: "Body must be non-empty and at most 1000 characters" }, 400);
+  if (!trimmed) {
+    return c.json({ error: "Body must be non-empty" }, 400);
   }
 
   if (parentId != null) {
