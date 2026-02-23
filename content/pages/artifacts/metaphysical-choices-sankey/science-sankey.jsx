@@ -32,11 +32,11 @@ const STREAM_COLORS = {
   reductionist: { start: "#e06050", end: "#d45a4a" },
 };
 
-const W = 1340;
+const W = 1700;
 const H = 880;
-const LEFT_MARGIN = 80;
-const COL_X = [LEFT_MARGIN + 10, LEFT_MARGIN + 200, LEFT_MARGIN + 400, LEFT_MARGIN + 600, LEFT_MARGIN + 830, LEFT_MARGIN + 1050];
-const NODE_W = 14;
+const LEFT_MARGIN = 100;
+const COL_X = [LEFT_MARGIN + 10, LEFT_MARGIN + 250, LEFT_MARGIN + 490, LEFT_MARGIN + 730, LEFT_MARGIN + 1000, LEFT_MARGIN + 1270];
+const NODE_W = 16;
 const TOP_Y = 25;
 const BOT_Y = 820;
 
@@ -241,7 +241,7 @@ function ScorePill({ score, x, y }) {
     <g>
       <rect x={x} y={y} width={pillW} height={pillH} rx={6} fill={color} opacity={0.15} />
       <rect x={x + 1} y={y + 1} width={Math.max(2, (pillW - 2) * (score / 100))} height={pillH - 2} rx={5} fill={color} opacity={0.55} />
-      <text x={x + pillW + 4} y={y + 10} fill={color} fontSize="8.5"
+      <text x={x + pillW + 4} y={y + 10} fill={color} fontSize="10.5"
         fontFamily="'JetBrains Mono', monospace" fontWeight="600">{score}</text>
     </g>
   );
@@ -268,11 +268,11 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
       <rect x={x} y={node.y} width={NODE_W} height={node.h} rx={3}
         fill={node.color} opacity={isHovered ? 1 : 0.9}
         stroke={isHovered ? "#fff" : "none"} strokeWidth={1.5} />
-      <text x={labelX} y={node.y + node.h / 2 - 12} fill={COLORS.text} fontSize="10.5" fontWeight="700"
+      <text x={labelX} y={node.y + node.h / 2 - 12} fill={COLORS.text} fontSize="13" fontWeight="700"
         fontFamily="'Crimson Pro', Georgia, serif" textAnchor={anchor} dominantBaseline="middle">
         {node.label}
       </text>
-      <text x={labelX} y={node.y + node.h / 2 + 1} fill={COLORS.textDim} fontSize="8"
+      <text x={labelX} y={node.y + node.h / 2 + 1} fill={COLORS.textDim} fontSize="10.5"
         fontFamily="'Crimson Pro', Georgia, serif" fontStyle="italic"
         textAnchor={anchor} dominantBaseline="middle">
         {node.sub}
@@ -286,7 +286,7 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
             width={320} height={24} rx={4}
             fill="#1a1a18ee" stroke={scoreToColor(node.score)} strokeWidth={0.7} />
           <text x={x + (isRight ? -10 : -320) + 8} y={node.y - 16}
-            fill={COLORS.textDim} fontSize="8.5"
+            fill={COLORS.textDim} fontSize="11"
             fontFamily="'Crimson Pro', serif" fontStyle="italic">
             {node.note}
           </text>
@@ -307,11 +307,11 @@ function InvertedBracket() {
         fill="none" stroke="#e84450" strokeWidth={0.8} />
       <path d={`M ${x} ${y2} Q ${x + 14} ${y2}, ${x + 14} ${y2 - 14} L ${x + 14} ${mid + 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`}
         fill="none" stroke="#e84450" strokeWidth={0.8} />
-      <text x={x + 28} y={mid - 6} fill="#e84450" fontSize="7.5"
+      <text x={x + 28} y={mid - 6} fill="#e84450" fontSize="9.5"
         fontFamily="'JetBrains Mono', monospace" fontWeight="600" letterSpacing="0.06em">
         ALL SCORE ≤ 8
       </text>
-      <text x={x + 28} y={mid + 6} fill={COLORS.textMuted} fontSize="7.5"
+      <text x={x + 28} y={mid + 6} fill={COLORS.textMuted} fontSize="9.5"
         fontFamily="'Crimson Pro', serif" fontStyle="italic">
         fully instrumentalized
       </text>
@@ -366,17 +366,17 @@ export default function ScienceSankey() {
     }}>
       <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
 
-      <h1 style={{ color: COLORS.text, fontSize: "24px", fontWeight: 300,
+      <h1 style={{ color: COLORS.text, fontSize: "30px", fontWeight: 300,
         letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "2px", textAlign: "center" }}>
         The Disenchantment of Wonder
       </h1>
-      <p style={{ color: COLORS.textDim, fontSize: "12px", fontWeight: 300,
+      <p style={{ color: COLORS.textDim, fontSize: "16px", fontWeight: 300,
         fontStyle: "italic", marginBottom: "12px", textAlign: "center", maxWidth: 700, lineHeight: 1.5 }}>
         From <em>thaumazein</em> to "move fast and break things" — how science lost participation
         and became instrumentation. The methodological bracket that ate the world. Hover for notes.
       </p>
 
-      <div style={{ display: "flex", gap: "16px", marginBottom: "12px", fontSize: "9.5px", flexWrap: "wrap", justifyContent: "center" }}>
+      <div style={{ display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" }}>
         {[
           { color: "#3ac5b5", label: "Participatory (70–100)" },
           { color: "#7aaa8a", label: "Moderate (50–69)" },
@@ -425,19 +425,19 @@ export default function ScienceSankey() {
           <path d="M 55 32 L 58 22 L 61 32" fill="none" stroke="#3ac5b5" strokeWidth={0.8} opacity={0.5} />
           <path d={`M 55 ${BOT_Y + 3} L 58 ${BOT_Y + 13} L 61 ${BOT_Y + 3}`}
             fill="none" stroke="#e84450" strokeWidth={0.8} opacity={0.5} />
-          <text x={25} y={TOP_Y + 12} fill="#3ac5b5" fontSize="8"
+          <text x={25} y={TOP_Y + 12} fill="#3ac5b5" fontSize="10"
             fontFamily="'JetBrains Mono', monospace" fontWeight="600"
             textAnchor="middle" letterSpacing="0.05em" opacity={0.65}>WONDER</text>
           {["thaumazein", "participation", "knowing as being", "intrinsic value"].map((w, i) => (
-            <text key={w} x={25} y={TOP_Y + 24 + i * 10} fill="#3ac5b5" fontSize="7"
+            <text key={w} x={25} y={TOP_Y + 24 + i * 10} fill="#3ac5b5" fontSize="9"
               fontFamily="'Crimson Pro', serif" fontStyle="italic"
               textAnchor="middle" opacity={0.45}>{w}</text>
           ))}
-          <text x={25} y={BOT_Y - 40} fill="#e84450" fontSize="8"
+          <text x={25} y={BOT_Y - 40} fill="#e84450" fontSize="10"
             fontFamily="'JetBrains Mono', monospace" fontWeight="600"
             textAnchor="middle" letterSpacing="0.05em" opacity={0.65}>CONTROL</text>
           {["extraction", "domination", "knowledge as power", "instrumental value"].map((w, i) => (
-            <text key={w} x={25} y={BOT_Y - 28 + i * 10} fill="#e84450" fontSize="7"
+            <text key={w} x={25} y={BOT_Y - 28 + i * 10} fill="#e84450" fontSize="9"
               fontFamily="'Crimson Pro', serif" fontStyle="italic"
               textAnchor="middle" opacity={0.45}>{w}</text>
           ))}
@@ -447,7 +447,7 @@ export default function ScienceSankey() {
           <g key={score}>
             <line x1={LEFT_MARGIN - 5} y1={scoreToY(score)} x2={W - 20} y2={scoreToY(score)}
               stroke={COLORS.textMuted} strokeWidth={0.3} strokeDasharray="4,12" opacity={0.18} />
-            <text x={63} y={scoreToY(score) + 3} fill={COLORS.textMuted} fontSize="7"
+            <text x={63} y={scoreToY(score) + 3} fill={COLORS.textMuted} fontSize="9"
               fontFamily="'JetBrains Mono', monospace" opacity={0.35} textAnchor="end">{score}</text>
           </g>
         ))}
@@ -456,7 +456,7 @@ export default function ScienceSankey() {
           <g key={i}>
             <line x1={COL_X[i]} y1={TOP_Y - 5} x2={COL_X[i]} y2={BOT_Y + 25}
               stroke={COLORS.textMuted} strokeWidth={0.3} strokeDasharray="2,8" opacity={0.2} />
-            <text x={era.x} y={BOT_Y + 45} fill={COLORS.textMuted} fontSize="7.5"
+            <text x={era.x} y={BOT_Y + 45} fill={COLORS.textMuted} fontSize="10"
               fontFamily="'JetBrains Mono', monospace" fontWeight="600" letterSpacing="0.08em">
               {era.label}</text>
           </g>
@@ -480,7 +480,7 @@ export default function ScienceSankey() {
         background: "rgba(255,255,255,0.025)", borderRadius: 8,
         border: "1px solid rgba(255,255,255,0.05)",
       }}>
-        <p style={{ color: COLORS.textDim, fontSize: "11px", lineHeight: 1.7,
+        <p style={{ color: COLORS.textDim, fontSize: "14px", lineHeight: 1.7,
           margin: 0, fontFamily: "'Crimson Pro', serif", fontWeight: 300 }}>
           <strong style={{ color: COLORS.text, fontWeight: 600 }}>The methodological bracket that ate the world:</strong>{" "}
           <span style={{ color: "#d48a4e" }}>Bacon</span> and{" "}

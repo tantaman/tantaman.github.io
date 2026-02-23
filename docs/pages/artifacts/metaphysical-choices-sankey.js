@@ -34,11 +34,11 @@ var STREAM_COLORS = {
   complexity: { start: "#2ee8d0", end: "#3ac5b5" },
   reductionist: { start: "#e06050", end: "#d45a4a" }
 };
-var W = 1340;
+var W = 1700;
 var H = 880;
-var LEFT_MARGIN = 80;
-var COL_X = [LEFT_MARGIN + 10, LEFT_MARGIN + 200, LEFT_MARGIN + 400, LEFT_MARGIN + 600, LEFT_MARGIN + 830, LEFT_MARGIN + 1050];
-var NODE_W = 14;
+var LEFT_MARGIN = 100;
+var COL_X = [LEFT_MARGIN + 10, LEFT_MARGIN + 250, LEFT_MARGIN + 490, LEFT_MARGIN + 730, LEFT_MARGIN + 1e3, LEFT_MARGIN + 1270];
+var NODE_W = 16;
 var TOP_Y = 25;
 var BOT_Y = 820;
 function scoreToY(score) {
@@ -491,7 +491,7 @@ function ScorePill({ score, x, y }) {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
-        fontSize: "8.5",
+        fontSize: "10.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         children: score
@@ -551,7 +551,7 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS.text,
-        fontSize: "10.5",
+        fontSize: "13",
         fontWeight: "700",
         fontFamily: "'Crimson Pro', Georgia, serif",
         textAnchor: anchor,
@@ -562,7 +562,7 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS.textDim,
-        fontSize: "8",
+        fontSize: "10.5",
         fontFamily: "'Crimson Pro', Georgia, serif",
         fontStyle: "italic",
         textAnchor: anchor,
@@ -590,7 +590,7 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
             x: x + (isRight ? -10 : -320) + 8,
             y: node.y - 16,
             fill: COLORS.textDim,
-            fontSize: "8.5",
+            fontSize: "11",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -624,7 +624,7 @@ function InvertedBracket() {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         letterSpacing: "0.06em",
@@ -634,7 +634,7 @@ function InvertedBracket() {
         x: x + 28,
         y: mid + 6,
         fill: COLORS.textMuted,
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'Crimson Pro', serif",
         fontStyle: "italic",
         children: "fully instrumentalized"
@@ -708,7 +708,7 @@ function ScienceSankey() {
       /* @__PURE__ */ jsx("h1", {
         style: {
           color: COLORS.text,
-          fontSize: "24px",
+          fontSize: "30px",
           fontWeight: 300,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -720,7 +720,7 @@ function ScienceSankey() {
       /* @__PURE__ */ jsxs("p", {
         style: {
           color: COLORS.textDim,
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: 300,
           fontStyle: "italic",
           marginBottom: "12px",
@@ -737,7 +737,7 @@ function ScienceSankey() {
         ]
       }),
       /* @__PURE__ */ jsx("div", {
-        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "9.5px", flexWrap: "wrap", justifyContent: "center" },
+        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Participatory (70\u2013100)" },
           { color: "#7aaa8a", label: "Moderate (50\u201369)" },
@@ -870,7 +870,7 @@ function ScienceSankey() {
                 x: 25,
                 y: TOP_Y + 12,
                 fill: "#3ac5b5",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -882,7 +882,7 @@ function ScienceSankey() {
                 x: 25,
                 y: TOP_Y + 24 + i * 10,
                 fill: "#3ac5b5",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -893,7 +893,7 @@ function ScienceSankey() {
                 x: 25,
                 y: BOT_Y - 40,
                 fill: "#e84450",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -905,7 +905,7 @@ function ScienceSankey() {
                 x: 25,
                 y: BOT_Y - 28 + i * 10,
                 fill: "#e84450",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -930,7 +930,7 @@ function ScienceSankey() {
                 x: 63,
                 y: scoreToY(score) + 3,
                 fill: COLORS.textMuted,
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'JetBrains Mono', monospace",
                 opacity: 0.35,
                 textAnchor: "end",
@@ -954,7 +954,7 @@ function ScienceSankey() {
                 x: era.x,
                 y: BOT_Y + 45,
                 fill: COLORS.textMuted,
-                fontSize: "7.5",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 letterSpacing: "0.08em",
@@ -989,7 +989,7 @@ function ScienceSankey() {
         children: /* @__PURE__ */ jsxs("p", {
           style: {
             color: COLORS.textDim,
-            fontSize: "11px",
+            fontSize: "14px",
             lineHeight: 1.7,
             margin: 0,
             fontFamily: "'Crimson Pro', serif",
@@ -1075,11 +1075,11 @@ var STREAM_COLORS2 = {
   unschool: { start: "#2ee8d0", end: "#3ac5b5" },
   stem: { start: "#aa5a4a", end: "#9a4a3a" }
 };
-var W2 = 1340;
+var W2 = 1700;
 var H2 = 880;
-var LEFT_MARGIN2 = 80;
-var COL_X2 = [LEFT_MARGIN2 + 10, LEFT_MARGIN2 + 200, LEFT_MARGIN2 + 400, LEFT_MARGIN2 + 600, LEFT_MARGIN2 + 830, LEFT_MARGIN2 + 1050];
-var NODE_W2 = 14;
+var LEFT_MARGIN2 = 100;
+var COL_X2 = [LEFT_MARGIN2 + 10, LEFT_MARGIN2 + 250, LEFT_MARGIN2 + 490, LEFT_MARGIN2 + 730, LEFT_MARGIN2 + 1e3, LEFT_MARGIN2 + 1270];
+var NODE_W2 = 16;
 var TOP_Y2 = 25;
 var BOT_Y2 = 820;
 function scoreToY2(score) {
@@ -1543,7 +1543,7 @@ function ScorePill2({ score, x, y }) {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
-        fontSize: "8.5",
+        fontSize: "10.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         children: score
@@ -1603,7 +1603,7 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS2.text,
-        fontSize: "10.5",
+        fontSize: "13",
         fontWeight: "700",
         fontFamily: "'Crimson Pro', Georgia, serif",
         textAnchor: anchor,
@@ -1614,7 +1614,7 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS2.textDim,
-        fontSize: "8",
+        fontSize: "10.5",
         fontFamily: "'Crimson Pro', Georgia, serif",
         fontStyle: "italic",
         textAnchor: anchor,
@@ -1642,7 +1642,7 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
             x: x + (isRight ? -10 : -320) + 8,
             y: node.y - 16,
             fill: COLORS2.textDim,
-            fontSize: "8.5",
+            fontSize: "11",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -1676,7 +1676,7 @@ function InvertedBracket2() {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         letterSpacing: "0.06em",
@@ -1686,7 +1686,7 @@ function InvertedBracket2() {
         x: x + 28,
         y: mid + 6,
         fill: COLORS2.textMuted,
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'Crimson Pro', serif",
         fontStyle: "italic",
         children: "formation eliminated"
@@ -1760,7 +1760,7 @@ function EducationSankey() {
       /* @__PURE__ */ jsx2("h1", {
         style: {
           color: COLORS2.text,
-          fontSize: "24px",
+          fontSize: "30px",
           fontWeight: 300,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -1772,7 +1772,7 @@ function EducationSankey() {
       /* @__PURE__ */ jsxs2("p", {
         style: {
           color: COLORS2.textDim,
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: 300,
           fontStyle: "italic",
           marginBottom: "12px",
@@ -1789,7 +1789,7 @@ function EducationSankey() {
         ]
       }),
       /* @__PURE__ */ jsx2("div", {
-        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "9.5px", flexWrap: "wrap", justifyContent: "center" },
+        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Formative (70\u2013100)" },
           { color: "#7aaa8a", label: "Moderate (50\u201369)" },
@@ -1922,7 +1922,7 @@ function EducationSankey() {
                 x: 25,
                 y: TOP_Y2 + 12,
                 fill: "#3ac5b5",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -1934,7 +1934,7 @@ function EducationSankey() {
                 x: 25,
                 y: TOP_Y2 + 24 + i * 10,
                 fill: "#3ac5b5",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -1945,7 +1945,7 @@ function EducationSankey() {
                 x: 25,
                 y: BOT_Y2 - 40,
                 fill: "#e84450",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -1957,7 +1957,7 @@ function EducationSankey() {
                 x: 25,
                 y: BOT_Y2 - 28 + i * 10,
                 fill: "#e84450",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -1982,7 +1982,7 @@ function EducationSankey() {
                 x: 63,
                 y: scoreToY2(score) + 3,
                 fill: COLORS2.textMuted,
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'JetBrains Mono', monospace",
                 opacity: 0.35,
                 textAnchor: "end",
@@ -2006,7 +2006,7 @@ function EducationSankey() {
                 x: era.x,
                 y: BOT_Y2 + 45,
                 fill: COLORS2.textMuted,
-                fontSize: "7.5",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 letterSpacing: "0.08em",
@@ -2041,7 +2041,7 @@ function EducationSankey() {
         children: /* @__PURE__ */ jsxs2("p", {
           style: {
             color: COLORS2.textDim,
-            fontSize: "11px",
+            fontSize: "14px",
             lineHeight: 1.7,
             margin: 0,
             fontFamily: "'Crimson Pro', serif",
@@ -2125,11 +2125,11 @@ var STREAM_COLORS3 = {
   dominion: { start: "#aa5a4a", end: "#9a4a3a" },
   wordOfFaith: { start: "#dd3a4a", end: "#cc2a3a" }
 };
-var W3 = 1340;
+var W3 = 1700;
 var H3 = 880;
-var LEFT_MARGIN3 = 80;
-var COL_X3 = [LEFT_MARGIN3 + 10, LEFT_MARGIN3 + 200, LEFT_MARGIN3 + 400, LEFT_MARGIN3 + 600, LEFT_MARGIN3 + 830, LEFT_MARGIN3 + 1050];
-var NODE_W3 = 14;
+var LEFT_MARGIN3 = 100;
+var COL_X3 = [LEFT_MARGIN3 + 10, LEFT_MARGIN3 + 250, LEFT_MARGIN3 + 490, LEFT_MARGIN3 + 730, LEFT_MARGIN3 + 1e3, LEFT_MARGIN3 + 1270];
+var NODE_W3 = 16;
 var TOP_Y3 = 25;
 var BOT_Y3 = 820;
 function scoreToY3(score) {
@@ -2468,7 +2468,7 @@ function ScorePill3({ score, x, y }) {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
-        fontSize: "8.5",
+        fontSize: "10.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         children: score
@@ -2528,7 +2528,7 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS3.text,
-        fontSize: "10.5",
+        fontSize: "13",
         fontWeight: "700",
         fontFamily: "'Crimson Pro', Georgia, serif",
         textAnchor: anchor,
@@ -2539,7 +2539,7 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS3.textDim,
-        fontSize: "8",
+        fontSize: "10.5",
         fontFamily: "'Crimson Pro', Georgia, serif",
         fontStyle: "italic",
         textAnchor: anchor,
@@ -2567,7 +2567,7 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
             x: x + (isRight ? -10 : -290) + 8,
             y: node.y - 16,
             fill: COLORS3.textDim,
-            fontSize: "8.5",
+            fontSize: "11",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -2601,7 +2601,7 @@ function InvertedBracket3() {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         letterSpacing: "0.06em",
@@ -2611,7 +2611,7 @@ function InvertedBracket3() {
         x: x + 28,
         y: mid + 6,
         fill: COLORS3.textMuted,
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'Crimson Pro', serif",
         fontStyle: "italic",
         children: "fully inverted"
@@ -2685,7 +2685,7 @@ function TheologicalSankey() {
       /* @__PURE__ */ jsx3("h1", {
         style: {
           color: COLORS3.text,
-          fontSize: "24px",
+          fontSize: "30px",
           fontWeight: 300,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -2697,7 +2697,7 @@ function TheologicalSankey() {
       /* @__PURE__ */ jsxs3("p", {
         style: {
           color: COLORS3.textDim,
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: 300,
           fontStyle: "italic",
           marginBottom: "12px",
@@ -2715,7 +2715,7 @@ function TheologicalSankey() {
         ]
       }),
       /* @__PURE__ */ jsx3("div", {
-        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "9.5px", flexWrap: "wrap", justifyContent: "center" },
+        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "High alignment (70\u2013100)" },
           { color: "#7aaa8a", label: "Moderate (50\u201369)" },
@@ -2848,7 +2848,7 @@ function TheologicalSankey() {
                 x: 25,
                 y: TOP_Y3 + 12,
                 fill: "#3ac5b5",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -2860,7 +2860,7 @@ function TheologicalSankey() {
                 x: 25,
                 y: TOP_Y3 + 24 + i * 10,
                 fill: "#3ac5b5",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -2871,7 +2871,7 @@ function TheologicalSankey() {
                 x: 25,
                 y: BOT_Y3 - 40,
                 fill: "#e84450",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -2883,7 +2883,7 @@ function TheologicalSankey() {
                 x: 25,
                 y: BOT_Y3 - 28 + i * 10,
                 fill: "#e84450",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -2908,7 +2908,7 @@ function TheologicalSankey() {
                 x: 63,
                 y: scoreToY3(score) + 3,
                 fill: COLORS3.textMuted,
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'JetBrains Mono', monospace",
                 opacity: 0.35,
                 textAnchor: "end",
@@ -2932,7 +2932,7 @@ function TheologicalSankey() {
                 x: era.x,
                 y: BOT_Y3 + 45,
                 fill: COLORS3.textMuted,
-                fontSize: "7.5",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 letterSpacing: "0.08em",
@@ -2967,7 +2967,7 @@ function TheologicalSankey() {
         children: /* @__PURE__ */ jsxs3("p", {
           style: {
             color: COLORS3.textDim,
-            fontSize: "11px",
+            fontSize: "14px",
             lineHeight: 1.7,
             margin: 0,
             fontFamily: "'Crimson Pro', serif",
@@ -3033,11 +3033,11 @@ var STREAM_COLORS4 = {
   mainPsych: { start: "#b8924a", end: "#9a7a4a" },
   attachment: { start: "#8aaa6a", end: "#3ac5b5" }
 };
-var W4 = 1340;
+var W4 = 1700;
 var H4 = 880;
-var LEFT_MARGIN4 = 80;
-var COL_X4 = [LEFT_MARGIN4 + 10, LEFT_MARGIN4 + 200, LEFT_MARGIN4 + 400, LEFT_MARGIN4 + 600, LEFT_MARGIN4 + 830, LEFT_MARGIN4 + 1050];
-var NODE_W4 = 14;
+var LEFT_MARGIN4 = 100;
+var COL_X4 = [LEFT_MARGIN4 + 10, LEFT_MARGIN4 + 250, LEFT_MARGIN4 + 490, LEFT_MARGIN4 + 730, LEFT_MARGIN4 + 1e3, LEFT_MARGIN4 + 1270];
+var NODE_W4 = 16;
 var TOP_Y4 = 25;
 var BOT_Y4 = 820;
 function scoreToY4(score) {
@@ -3462,7 +3462,7 @@ function ScorePill4({ score, x, y }) {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
-        fontSize: "8.5",
+        fontSize: "10.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         children: score
@@ -3522,7 +3522,7 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS4.text,
-        fontSize: "10.5",
+        fontSize: "13",
         fontWeight: "700",
         fontFamily: "'Crimson Pro', Georgia, serif",
         textAnchor: anchor,
@@ -3533,7 +3533,7 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS4.textDim,
-        fontSize: "8",
+        fontSize: "10.5",
         fontFamily: "'Crimson Pro', Georgia, serif",
         fontStyle: "italic",
         textAnchor: anchor,
@@ -3561,7 +3561,7 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
             x: x + (isRight ? -10 : -310) + 8,
             y: node.y - 16,
             fill: COLORS4.textDim,
-            fontSize: "8.5",
+            fontSize: "11",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -3595,7 +3595,7 @@ function InvertedBracket4() {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         letterSpacing: "0.06em",
@@ -3605,7 +3605,7 @@ function InvertedBracket4() {
         x: x + 28,
         y: mid + 6,
         fill: COLORS4.textMuted,
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'Crimson Pro', serif",
         fontStyle: "italic",
         children: "fully instrumentalized"
@@ -3679,7 +3679,7 @@ function PsychologySankey() {
       /* @__PURE__ */ jsx4("h1", {
         style: {
           color: COLORS4.text,
-          fontSize: "24px",
+          fontSize: "30px",
           fontWeight: 300,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -3691,7 +3691,7 @@ function PsychologySankey() {
       /* @__PURE__ */ jsx4("p", {
         style: {
           color: COLORS4.textDim,
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: 300,
           fontStyle: "italic",
           marginBottom: "12px",
@@ -3702,7 +3702,7 @@ function PsychologySankey() {
         children: 'From "know thyself" to "optimize your dopamine" \u2014 how psychology lost and sometimes recovered the participatory depths of the psyche. Hover for diagnostic notes.'
       }),
       /* @__PURE__ */ jsx4("div", {
-        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "9.5px", flexWrap: "wrap", justifyContent: "center" },
+        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Depth / participatory (70\u2013100)" },
           { color: "#7aaa8a", label: "Moderate (50\u201369)" },
@@ -3835,7 +3835,7 @@ function PsychologySankey() {
                 x: 25,
                 y: TOP_Y4 + 12,
                 fill: "#3ac5b5",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -3847,7 +3847,7 @@ function PsychologySankey() {
                 x: 25,
                 y: TOP_Y4 + 24 + i * 10,
                 fill: "#3ac5b5",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -3858,7 +3858,7 @@ function PsychologySankey() {
                 x: 25,
                 y: BOT_Y4 - 40,
                 fill: "#e84450",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -3870,7 +3870,7 @@ function PsychologySankey() {
                 x: 25,
                 y: BOT_Y4 - 28 + i * 10,
                 fill: "#e84450",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -3895,7 +3895,7 @@ function PsychologySankey() {
                 x: 63,
                 y: scoreToY4(score) + 3,
                 fill: COLORS4.textMuted,
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'JetBrains Mono', monospace",
                 opacity: 0.35,
                 textAnchor: "end",
@@ -3919,7 +3919,7 @@ function PsychologySankey() {
                 x: era.x,
                 y: BOT_Y4 + 45,
                 fill: COLORS4.textMuted,
-                fontSize: "7.5",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 letterSpacing: "0.08em",
@@ -3954,7 +3954,7 @@ function PsychologySankey() {
         children: /* @__PURE__ */ jsxs4("p", {
           style: {
             color: COLORS4.textDim,
-            fontSize: "11px",
+            fontSize: "14px",
             lineHeight: 1.7,
             margin: 0,
             fontFamily: "'Crimson Pro', serif",
@@ -4035,11 +4035,11 @@ var STREAM_COLORS5 = {
   institutional: { start: "#b8924a", end: "#cc6644" },
   app: { start: "#aa5a4a", end: "#9a4a3a" }
 };
-var W5 = 1340;
+var W5 = 1700;
 var H5 = 880;
-var LEFT_MARGIN5 = 80;
-var COL_X5 = [LEFT_MARGIN5 + 10, LEFT_MARGIN5 + 200, LEFT_MARGIN5 + 400, LEFT_MARGIN5 + 600, LEFT_MARGIN5 + 830, LEFT_MARGIN5 + 1050];
-var NODE_W5 = 14;
+var LEFT_MARGIN5 = 100;
+var COL_X5 = [LEFT_MARGIN5 + 10, LEFT_MARGIN5 + 250, LEFT_MARGIN5 + 490, LEFT_MARGIN5 + 730, LEFT_MARGIN5 + 1e3, LEFT_MARGIN5 + 1270];
+var NODE_W5 = 16;
 var TOP_Y5 = 25;
 var BOT_Y5 = 820;
 function scoreToY5(score) {
@@ -4486,7 +4486,7 @@ function ScorePill5({ score, x, y }) {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
-        fontSize: "8.5",
+        fontSize: "10.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         children: score
@@ -4546,7 +4546,7 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS5.text,
-        fontSize: "10.5",
+        fontSize: "13",
         fontWeight: "700",
         fontFamily: "'Crimson Pro', Georgia, serif",
         textAnchor: anchor,
@@ -4557,7 +4557,7 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS5.textDim,
-        fontSize: "8",
+        fontSize: "10.5",
         fontFamily: "'Crimson Pro', Georgia, serif",
         fontStyle: "italic",
         textAnchor: anchor,
@@ -4585,7 +4585,7 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
             x: x + (isRight ? -10 : -320) + 8,
             y: node.y - 16,
             fill: COLORS5.textDim,
-            fontSize: "8.5",
+            fontSize: "11",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -4619,7 +4619,7 @@ function InvertedBracket5() {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         letterSpacing: "0.06em",
@@ -4629,7 +4629,7 @@ function InvertedBracket5() {
         x: x + 28,
         y: mid + 6,
         fill: COLORS5.textMuted,
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'Crimson Pro', serif",
         fontStyle: "italic",
         children: "awakening commodified"
@@ -4703,7 +4703,7 @@ function BuddhismSankey() {
       /* @__PURE__ */ jsx5("h1", {
         style: {
           color: COLORS5.text,
-          fontSize: "24px",
+          fontSize: "30px",
           fontWeight: 300,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -4715,7 +4715,7 @@ function BuddhismSankey() {
       /* @__PURE__ */ jsx5("p", {
         style: {
           color: COLORS5.textDim,
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: 300,
           fontStyle: "italic",
           marginBottom: "12px",
@@ -4726,7 +4726,7 @@ function BuddhismSankey() {
         children: "From the Buddha's direct insight to corporate mindfulness \u2014 how a tradition of radical renunciation became a productivity tool. Hover for diagnostic notes."
       }),
       /* @__PURE__ */ jsx5("div", {
-        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "9.5px", flexWrap: "wrap", justifyContent: "center" },
+        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Awakened / participatory (70\u2013100)" },
           { color: "#7aaa8a", label: "Moderate (50\u201369)" },
@@ -4859,7 +4859,7 @@ function BuddhismSankey() {
                 x: 25,
                 y: TOP_Y5 + 12,
                 fill: "#3ac5b5",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -4871,7 +4871,7 @@ function BuddhismSankey() {
                 x: 25,
                 y: TOP_Y5 + 24 + i * 10,
                 fill: "#3ac5b5",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -4882,7 +4882,7 @@ function BuddhismSankey() {
                 x: 25,
                 y: BOT_Y5 - 40,
                 fill: "#e84450",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -4894,7 +4894,7 @@ function BuddhismSankey() {
                 x: 25,
                 y: BOT_Y5 - 28 + i * 10,
                 fill: "#e84450",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -4919,7 +4919,7 @@ function BuddhismSankey() {
                 x: 63,
                 y: scoreToY5(score) + 3,
                 fill: COLORS5.textMuted,
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'JetBrains Mono', monospace",
                 opacity: 0.35,
                 textAnchor: "end",
@@ -4943,7 +4943,7 @@ function BuddhismSankey() {
                 x: era.x,
                 y: BOT_Y5 + 45,
                 fill: COLORS5.textMuted,
-                fontSize: "7.5",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 letterSpacing: "0.08em",
@@ -4978,7 +4978,7 @@ function BuddhismSankey() {
         children: /* @__PURE__ */ jsxs5("p", {
           style: {
             color: COLORS5.textDim,
-            fontSize: "11px",
+            fontSize: "14px",
             lineHeight: 1.7,
             margin: 0,
             fontFamily: "'Crimson Pro', serif",
@@ -5066,11 +5066,11 @@ var STREAM_COLORS6 = {
   political: { start: "#aa5a4a", end: "#9a4a3a" },
   mainstream: { start: "#b8924a", end: "#9a7a4a" }
 };
-var W6 = 1340;
+var W6 = 1700;
 var H6 = 880;
-var LEFT_MARGIN6 = 80;
-var COL_X6 = [LEFT_MARGIN6 + 10, LEFT_MARGIN6 + 200, LEFT_MARGIN6 + 400, LEFT_MARGIN6 + 600, LEFT_MARGIN6 + 830, LEFT_MARGIN6 + 1050];
-var NODE_W6 = 14;
+var LEFT_MARGIN6 = 100;
+var COL_X6 = [LEFT_MARGIN6 + 10, LEFT_MARGIN6 + 250, LEFT_MARGIN6 + 490, LEFT_MARGIN6 + 730, LEFT_MARGIN6 + 1e3, LEFT_MARGIN6 + 1270];
+var NODE_W6 = 16;
 var TOP_Y6 = 25;
 var BOT_Y6 = 820;
 function scoreToY6(score) {
@@ -5456,7 +5456,7 @@ function ScorePill6({ score, x, y }) {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
-        fontSize: "8.5",
+        fontSize: "10.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         children: score
@@ -5516,7 +5516,7 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS6.text,
-        fontSize: "10.5",
+        fontSize: "13",
         fontWeight: "700",
         fontFamily: "'Crimson Pro', Georgia, serif",
         textAnchor: anchor,
@@ -5527,7 +5527,7 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS6.textDim,
-        fontSize: "8",
+        fontSize: "10.5",
         fontFamily: "'Crimson Pro', Georgia, serif",
         fontStyle: "italic",
         textAnchor: anchor,
@@ -5555,7 +5555,7 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
             x: x + (isRight ? -10 : -300) + 8,
             y: node.y - 16,
             fill: COLORS6.textDim,
-            fontSize: "8.5",
+            fontSize: "11",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -5589,7 +5589,7 @@ function InvertedBracket6() {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         letterSpacing: "0.06em",
@@ -5599,7 +5599,7 @@ function InvertedBracket6() {
         x: x + 28,
         y: mid + 6,
         fill: COLORS6.textMuted,
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'Crimson Pro', serif",
         fontStyle: "italic",
         children: "fully inverted"
@@ -5673,7 +5673,7 @@ function IslamicSankey() {
       /* @__PURE__ */ jsx6("h1", {
         style: {
           color: COLORS6.text,
-          fontSize: "24px",
+          fontSize: "30px",
           fontWeight: 300,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -5685,7 +5685,7 @@ function IslamicSankey() {
       /* @__PURE__ */ jsxs6("p", {
         style: {
           color: COLORS6.textDim,
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: 300,
           fontStyle: "italic",
           marginBottom: "12px",
@@ -5702,7 +5702,7 @@ function IslamicSankey() {
         ]
       }),
       /* @__PURE__ */ jsx6("div", {
-        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "9.5px", flexWrap: "wrap", justifyContent: "center" },
+        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "High alignment (70\u2013100)" },
           { color: "#7aaa8a", label: "Moderate (50\u201369)" },
@@ -5835,7 +5835,7 @@ function IslamicSankey() {
                 x: 25,
                 y: TOP_Y6 + 12,
                 fill: "#3ac5b5",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -5847,7 +5847,7 @@ function IslamicSankey() {
                 x: 25,
                 y: TOP_Y6 + 24 + i * 10,
                 fill: "#3ac5b5",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -5858,7 +5858,7 @@ function IslamicSankey() {
                 x: 25,
                 y: BOT_Y6 - 40,
                 fill: "#e84450",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -5870,7 +5870,7 @@ function IslamicSankey() {
                 x: 25,
                 y: BOT_Y6 - 28 + i * 10,
                 fill: "#e84450",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -5895,7 +5895,7 @@ function IslamicSankey() {
                 x: 63,
                 y: scoreToY6(score) + 3,
                 fill: COLORS6.textMuted,
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'JetBrains Mono', monospace",
                 opacity: 0.35,
                 textAnchor: "end",
@@ -5919,7 +5919,7 @@ function IslamicSankey() {
                 x: era.x,
                 y: BOT_Y6 + 45,
                 fill: COLORS6.textMuted,
-                fontSize: "7.5",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 letterSpacing: "0.08em",
@@ -5954,7 +5954,7 @@ function IslamicSankey() {
         children: /* @__PURE__ */ jsxs6("p", {
           style: {
             color: COLORS6.textDim,
-            fontSize: "11px",
+            fontSize: "14px",
             lineHeight: 1.7,
             margin: 0,
             fontFamily: "'Crimson Pro', serif",
@@ -6034,11 +6034,11 @@ var STREAM_COLORS7 = {
   welfare: { start: "#8aaa6a", end: "#b8924a" },
   development: { start: "#aa5a4a", end: "#9a4a3a" }
 };
-var W7 = 1340;
+var W7 = 1700;
 var H7 = 880;
-var LEFT_MARGIN7 = 80;
-var COL_X7 = [LEFT_MARGIN7 + 10, LEFT_MARGIN7 + 200, LEFT_MARGIN7 + 400, LEFT_MARGIN7 + 600, LEFT_MARGIN7 + 830, LEFT_MARGIN7 + 1050];
-var NODE_W7 = 14;
+var LEFT_MARGIN7 = 100;
+var COL_X7 = [LEFT_MARGIN7 + 10, LEFT_MARGIN7 + 250, LEFT_MARGIN7 + 490, LEFT_MARGIN7 + 730, LEFT_MARGIN7 + 1e3, LEFT_MARGIN7 + 1270];
+var NODE_W7 = 16;
 var TOP_Y7 = 25;
 var BOT_Y7 = 820;
 function scoreToY7(score) {
@@ -6477,7 +6477,7 @@ function ScorePill7({ score, x, y }) {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
-        fontSize: "8.5",
+        fontSize: "10.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         children: score
@@ -6537,7 +6537,7 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS7.text,
-        fontSize: "10.5",
+        fontSize: "13",
         fontWeight: "700",
         fontFamily: "'Crimson Pro', Georgia, serif",
         textAnchor: anchor,
@@ -6548,7 +6548,7 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS7.textDim,
-        fontSize: "8",
+        fontSize: "10.5",
         fontFamily: "'Crimson Pro', Georgia, serif",
         fontStyle: "italic",
         textAnchor: anchor,
@@ -6576,7 +6576,7 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
             x: x + (isRight ? -10 : -320) + 8,
             y: node.y - 16,
             fill: COLORS7.textDim,
-            fontSize: "8.5",
+            fontSize: "11",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -6610,7 +6610,7 @@ function InvertedBracket7() {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'JetBrains Mono', monospace",
         fontWeight: "600",
         letterSpacing: "0.06em",
@@ -6620,7 +6620,7 @@ function InvertedBracket7() {
         x: x + 28,
         y: mid + 6,
         fill: COLORS7.textMuted,
-        fontSize: "7.5",
+        fontSize: "9.5",
         fontFamily: "'Crimson Pro', serif",
         fontStyle: "italic",
         children: "pure chrematistike"
@@ -6694,7 +6694,7 @@ function EconomicsSankey() {
       /* @__PURE__ */ jsx7("h1", {
         style: {
           color: COLORS7.text,
-          fontSize: "24px",
+          fontSize: "30px",
           fontWeight: 300,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -6706,7 +6706,7 @@ function EconomicsSankey() {
       /* @__PURE__ */ jsxs7("p", {
         style: {
           color: COLORS7.textDim,
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: 300,
           fontStyle: "italic",
           marginBottom: "12px",
@@ -6728,7 +6728,7 @@ function EconomicsSankey() {
         ]
       }),
       /* @__PURE__ */ jsx7("div", {
-        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "9.5px", flexWrap: "wrap", justifyContent: "center" },
+        style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Embedded / participatory (70\u2013100)" },
           { color: "#7aaa8a", label: "Moderate (50\u201369)" },
@@ -6861,7 +6861,7 @@ function EconomicsSankey() {
                 x: 25,
                 y: TOP_Y7 + 12,
                 fill: "#3ac5b5",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -6873,7 +6873,7 @@ function EconomicsSankey() {
                 x: 25,
                 y: TOP_Y7 + 24 + i * 10,
                 fill: "#3ac5b5",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -6884,7 +6884,7 @@ function EconomicsSankey() {
                 x: 25,
                 y: BOT_Y7 - 40,
                 fill: "#e84450",
-                fontSize: "8",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 textAnchor: "middle",
@@ -6896,7 +6896,7 @@ function EconomicsSankey() {
                 x: 25,
                 y: BOT_Y7 - 28 + i * 10,
                 fill: "#e84450",
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'Crimson Pro', serif",
                 fontStyle: "italic",
                 textAnchor: "middle",
@@ -6921,7 +6921,7 @@ function EconomicsSankey() {
                 x: 63,
                 y: scoreToY7(score) + 3,
                 fill: COLORS7.textMuted,
-                fontSize: "7",
+                fontSize: "9",
                 fontFamily: "'JetBrains Mono', monospace",
                 opacity: 0.35,
                 textAnchor: "end",
@@ -6945,7 +6945,7 @@ function EconomicsSankey() {
                 x: era.x,
                 y: BOT_Y7 + 45,
                 fill: COLORS7.textMuted,
-                fontSize: "7.5",
+                fontSize: "10",
                 fontFamily: "'JetBrains Mono', monospace",
                 fontWeight: "600",
                 letterSpacing: "0.08em",
@@ -6980,7 +6980,7 @@ function EconomicsSankey() {
         children: /* @__PURE__ */ jsxs7("p", {
           style: {
             color: COLORS7.textDim,
-            fontSize: "11px",
+            fontSize: "14px",
             lineHeight: 1.7,
             margin: 0,
             fontFamily: "'Crimson Pro', serif",
@@ -7066,11 +7066,12 @@ var TABS = [
 ];
 function MetaphysicalChoices() {
   const [activeTab, setActiveTab] = useState8(0);
+  const [zoom, setZoom] = useState8(1.4);
   const ActiveComponent = TABS[activeTab].component;
   return /* @__PURE__ */ jsxs8("div", {
     style: { background: "#0f0f0e", minHeight: "100vh" },
     children: [
-      /* @__PURE__ */ jsx8("div", {
+      /* @__PURE__ */ jsxs8("div", {
         style: {
           position: "sticky",
           top: 0,
@@ -7079,41 +7080,119 @@ function MetaphysicalChoices() {
           borderBottom: "1px solid #2a2a28",
           padding: "0 16px",
           display: "flex",
+          alignItems: "center",
           gap: "4px",
           overflowX: "auto",
           WebkitOverflowScrolling: "touch",
           fontFamily: "'Crimson Pro', Georgia, serif"
         },
-        children: TABS.map((tab, i) => /* @__PURE__ */ jsx8("button", {
-          onClick: () => setActiveTab(i),
-          style: {
-            background: i === activeTab ? "#2a2a28" : "transparent",
-            color: i === activeTab ? "#c9a84c" : "#9a9888",
-            border: "none",
-            borderBottom: i === activeTab ? "2px solid #c9a84c" : "2px solid transparent",
-            padding: "12px 18px",
-            fontSize: "15px",
-            fontFamily: "inherit",
-            cursor: "pointer",
-            whiteSpace: "nowrap",
-            transition: "color 0.2s, background 0.2s"
-          },
-          onMouseEnter: (e) => {
-            if (i !== activeTab) {
-              e.currentTarget.style.color = "#e8e4da";
-              e.currentTarget.style.background = "#222220";
-            }
-          },
-          onMouseLeave: (e) => {
-            if (i !== activeTab) {
-              e.currentTarget.style.color = "#9a9888";
-              e.currentTarget.style.background = "transparent";
-            }
-          },
-          children: tab.label
-        }, tab.label))
+        children: [
+          TABS.map((tab, i) => /* @__PURE__ */ jsx8("button", {
+            onClick: () => setActiveTab(i),
+            style: {
+              background: i === activeTab ? "#2a2a28" : "transparent",
+              color: i === activeTab ? "#c9a84c" : "#9a9888",
+              border: "none",
+              borderBottom: i === activeTab ? "2px solid #c9a84c" : "2px solid transparent",
+              padding: "12px 18px",
+              fontSize: "15px",
+              fontFamily: "inherit",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+              transition: "color 0.2s, background 0.2s"
+            },
+            onMouseEnter: (e) => {
+              if (i !== activeTab) {
+                e.currentTarget.style.color = "#e8e4da";
+                e.currentTarget.style.background = "#222220";
+              }
+            },
+            onMouseLeave: (e) => {
+              if (i !== activeTab) {
+                e.currentTarget.style.color = "#9a9888";
+                e.currentTarget.style.background = "transparent";
+              }
+            },
+            children: tab.label
+          }, tab.label)),
+          /* @__PURE__ */ jsxs8("div", {
+            style: { marginLeft: "auto", display: "flex", alignItems: "center", gap: "6px", padding: "6px 0", flexShrink: 0 },
+            children: [
+              /* @__PURE__ */ jsx8("button", {
+                onClick: () => setZoom((z) => Math.max(0.8, +(z - 0.1).toFixed(1))),
+                style: {
+                  background: "#2a2a28",
+                  color: "#9a9888",
+                  border: "1px solid #3a3a38",
+                  borderRadius: 4,
+                  width: 28,
+                  height: 28,
+                  fontSize: "16px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "monospace"
+                },
+                children: "-"
+              }),
+              /* @__PURE__ */ jsxs8("span", {
+                style: { color: "#9a9888", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", minWidth: 40, textAlign: "center" },
+                children: [
+                  Math.round(zoom * 100),
+                  "%"
+                ]
+              }),
+              /* @__PURE__ */ jsx8("button", {
+                onClick: () => setZoom((z) => Math.min(2, +(z + 0.1).toFixed(1))),
+                style: {
+                  background: "#2a2a28",
+                  color: "#9a9888",
+                  border: "1px solid #3a3a38",
+                  borderRadius: 4,
+                  width: 28,
+                  height: 28,
+                  fontSize: "16px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "monospace"
+                },
+                children: "+"
+              }),
+              zoom !== 1.4 && /* @__PURE__ */ jsx8("button", {
+                onClick: () => setZoom(1.4),
+                style: {
+                  background: "#2a2a28",
+                  color: "#9a9888",
+                  border: "1px solid #3a3a38",
+                  borderRadius: 4,
+                  height: 28,
+                  padding: "0 8px",
+                  fontSize: "11px",
+                  cursor: "pointer",
+                  fontFamily: "'JetBrains Mono', monospace"
+                },
+                children: "Reset"
+              })
+            ]
+          })
+        ]
       }),
-      /* @__PURE__ */ jsx8(ActiveComponent, {})
+      /* @__PURE__ */ jsx8("div", {
+        style: { overflow: "auto", position: "relative" },
+        children: /* @__PURE__ */ jsx8("div", {
+          style: {
+            transform: `scale(${zoom})`,
+            transformOrigin: "top center",
+            width: `${100 / zoom}%`,
+            marginLeft: "auto",
+            marginRight: "auto"
+          },
+          children: /* @__PURE__ */ jsx8(ActiveComponent, {})
+        })
+      })
     ]
   });
 }

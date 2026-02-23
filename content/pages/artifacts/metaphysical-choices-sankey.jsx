@@ -19,6 +19,7 @@ const TABS = [
 
 export default function MetaphysicalChoices() {
   const [activeTab, setActiveTab] = useState(0);
+  const [zoom, setZoom] = useState(1.4);
   const ActiveComponent = TABS[activeTab].component;
 
   return (
@@ -32,6 +33,7 @@ export default function MetaphysicalChoices() {
           borderBottom: "1px solid #2a2a28",
           padding: "0 16px",
           display: "flex",
+          alignItems: "center",
           gap: "4px",
           overflowX: "auto",
           WebkitOverflowScrolling: "touch",
@@ -70,8 +72,51 @@ export default function MetaphysicalChoices() {
             {tab.label}
           </button>
         ))}
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "6px", padding: "6px 0", flexShrink: 0 }}>
+          <button
+            onClick={() => setZoom(z => Math.max(0.8, +(z - 0.1).toFixed(1)))}
+            style={{
+              background: "#2a2a28", color: "#9a9888", border: "1px solid #3a3a38",
+              borderRadius: 4, width: 28, height: 28, fontSize: "16px", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontFamily: "monospace",
+            }}
+          >-</button>
+          <span style={{ color: "#9a9888", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", minWidth: 40, textAlign: "center" }}>
+            {Math.round(zoom * 100)}%
+          </span>
+          <button
+            onClick={() => setZoom(z => Math.min(2.0, +(z + 0.1).toFixed(1)))}
+            style={{
+              background: "#2a2a28", color: "#9a9888", border: "1px solid #3a3a38",
+              borderRadius: 4, width: 28, height: 28, fontSize: "16px", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontFamily: "monospace",
+            }}
+          >+</button>
+          {zoom !== 1.4 && (
+            <button
+              onClick={() => setZoom(1.4)}
+              style={{
+                background: "#2a2a28", color: "#9a9888", border: "1px solid #3a3a38",
+                borderRadius: 4, height: 28, padding: "0 8px", fontSize: "11px", cursor: "pointer",
+                fontFamily: "'JetBrains Mono', monospace",
+              }}
+            >Reset</button>
+          )}
+        </div>
       </div>
-      <ActiveComponent />
+      <div style={{ overflow: "auto", position: "relative" }}>
+        <div style={{
+          transform: `scale(${zoom})`,
+          transformOrigin: "top center",
+          width: `${100 / zoom}%`,
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}>
+          <ActiveComponent />
+        </div>
+      </div>
     </div>
   );
 }
