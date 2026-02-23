@@ -6,7 +6,8 @@
     "build": "echo 'no-op'",
     "test": "vitest run",
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "dump-db": "bash -c 'set -a && source .env && set +a && wrangler d1 export thought --remote --output=thought-dump.sql'"
   },
   "dependencies": {
     "@hono/mcp": "^0.1.0",

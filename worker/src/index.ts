@@ -548,6 +548,341 @@ api.get("/events", async (c) => {
   return c.json({ events: results.results });
 });
 
+// --- Framings ---
+
+api.get("/framings", async (c) => {
+  const results = await c.env.DB.prepare(
+    "SELECT id, name, description, created_at, updated_at FROM framing ORDER BY updated_at DESC"
+  ).all();
+  return c.json({ framings: results.results });
+});
+
+api.post("/framings", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const { name, description } = await c.req.json<{ name: string; description?: string }>();
+  if (!name?.trim()) {
+    return c.json({ error: "Name is required" }, 400);
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  const result = await c.env.DB.prepare(
+    "INSERT INTO framing (name, description, created_at, updated_at) VALUES (?, ?, ?, ?)"
+  ).bind(name.trim(), description?.trim() || null, now, now).run();
+
+  await bumpVersion(c.env.DB);
+
+  return c.json({
+    id: result.meta.last_row_id,
+    name: name.trim(),
+    description: description?.trim() || null,
+    created_at: now,
+    updated_at: now,
+  }, 201);
+});
+
+api.get("/framings/:id", async (c) => {
+  const id = c.req.param("id");
+
+  const framing = await c.env.DB.prepare(
+    "SELECT id, name, description, created_at, updated_at FROM framing WHERE id = ?"
+  ).bind(id).first();
+
+  if (!framing) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  const thoughts = await c.env.DB.prepare(
+    `SELECT ft.thought_id, ft.x, ft.y, ft.w, ft.h, t.body, t.timestamp
+     FROM framing_thought ft
+     JOIN thought t ON t.id = ft.thought_id
+     WHERE ft.framing_id = ?`
+  ).bind(id).all();
+
+  const edges = await c.env.DB.prepare(
+    "SELECT id, source_thought_id, target_thought_id, label FROM framing_edge WHERE framing_id = ?"
+  ).bind(id).all();
+
+  return c.json({
+    framing,
+    thoughts: thoughts.results,
+    edges: edges.results,
+  });
+});
+
+api.patch("/framings/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = c.req.param("id");
+  const { name, description } = await c.req.json<{ name?: string; description?: string }>();
+
+  const existing = await c.env.DB.prepare(
+    "SELECT id FROM framing WHERE id = ?"
+  ).bind(id).first();
+  if (!existing) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  const sets: string[] = ["updated_at = ?"];
+  const bindings: (string | number | null)[] = [now];
+
+  if (name !== undefined) {
+    sets.push("name = ?");
+    bindings.push(name.trim());
+  }
+  if (description !== undefined) {
+    sets.push("description = ?");
+    bindings.push(description?.trim() || null);
+  }
+
+  bindings.push(parseInt(id));
+  await c.env.DB.prepare(
+    `UPDATE framing SET ${sets.join(", ")} WHERE id = ?`
+  ).bind(...bindings).run();
+
+  const updated = await c.env.DB.prepare(
+    "SELECT id, name, description, created_at, updated_at FROM framing WHERE id = ?"
+  ).bind(id).first();
+
+  await bumpVersion(c.env.DB);
+
+  return c.json(updated);
+});
+
+api.delete("/framings/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = c.req.param("id");
+  const result = await c.env.DB.prepare(
+    "DELETE FROM framing WHERE id = ?"
+  ).bind(id).run();
+
+  if (result.meta.changes === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  await bumpVersion(c.env.DB);
+  return c.body(null, 204);
+});
+
+// --- Framing Placements ---
+
+api.post("/framings/:id/thoughts", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const framingId = c.req.param("id");
+  const { thought_id, x, y, w, h } = await c.req.json<{
+    thought_id: number; x: number; y: number; w?: number; h?: number;
+  }>();
+
+  if (thought_id == null || x == null || y == null) {
+    return c.json({ error: "thought_id, x, and y are required" }, 400);
+  }
+
+  const framing = await c.env.DB.prepare("SELECT id FROM framing WHERE id = ?").bind(framingId).first();
+  if (!framing) {
+    return c.json({ error: "Framing not found" }, 404);
+  }
+
+  try {
+    await c.env.DB.prepare(
+      "INSERT INTO framing_thought (framing_id, thought_id, x, y, w, h) VALUES (?, ?, ?, ?, ?, ?)"
+    ).bind(parseInt(framingId), thought_id, x, y, w ?? null, h ?? null).run();
+  } catch (e: any) {
+    if (e.message?.includes("UNIQUE constraint")) {
+      return c.json({ error: "Thought already placed in this framing" }, 409);
+    }
+    throw e;
+  }
+
+  await bumpVersion(c.env.DB);
+
+  return c.json({ framing_id: parseInt(framingId), thought_id, x, y, w: w ?? null, h: h ?? null }, 201);
+});
+
+api.patch("/framings/:id/thoughts/:thoughtId", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const framingId = c.req.param("id");
+  const thoughtId = c.req.param("thoughtId");
+  const updates = await c.req.json<{ x?: number; y?: number; w?: number; h?: number }>();
+
+  const sets: string[] = [];
+  const bindings: (number | null)[] = [];
+
+  if (updates.x !== undefined) { sets.push("x = ?"); bindings.push(updates.x); }
+  if (updates.y !== undefined) { sets.push("y = ?"); bindings.push(updates.y); }
+  if (updates.w !== undefined) { sets.push("w = ?"); bindings.push(updates.w); }
+  if (updates.h !== undefined) { sets.push("h = ?"); bindings.push(updates.h); }
+
+  if (sets.length === 0) {
+    return c.json({ error: "No fields to update" }, 400);
+  }
+
+  bindings.push(parseInt(framingId), parseInt(thoughtId));
+  const result = await c.env.DB.prepare(
+    `UPDATE framing_thought SET ${sets.join(", ")} WHERE framing_id = ? AND thought_id = ?`
+  ).bind(...bindings).run();
+
+  if (result.meta.changes === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  await bumpVersion(c.env.DB);
+
+  const placement = await c.env.DB.prepare(
+    "SELECT framing_id, thought_id, x, y, w, h FROM framing_thought WHERE framing_id = ? AND thought_id = ?"
+  ).bind(framingId, thoughtId).first();
+
+  return c.json(placement);
+});
+
+api.delete("/framings/:id/thoughts/:thoughtId", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const framingId = c.req.param("id");
+  const thoughtId = c.req.param("thoughtId");
+
+  const result = await c.env.DB.prepare(
+    "DELETE FROM framing_thought WHERE framing_id = ? AND thought_id = ?"
+  ).bind(framingId, thoughtId).run();
+
+  if (result.meta.changes === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  await bumpVersion(c.env.DB);
+  return c.body(null, 204);
+});
+
+// --- Framing Edges ---
+
+api.post("/framings/:id/edges", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const framingId = c.req.param("id");
+  const { source_thought_id, target_thought_id, label } = await c.req.json<{
+    source_thought_id: number; target_thought_id: number; label?: string;
+  }>();
+
+  if (source_thought_id == null || target_thought_id == null) {
+    return c.json({ error: "source_thought_id and target_thought_id are required" }, 400);
+  }
+
+  const result = await c.env.DB.prepare(
+    "INSERT INTO framing_edge (framing_id, source_thought_id, target_thought_id, label) VALUES (?, ?, ?, ?)"
+  ).bind(parseInt(framingId), source_thought_id, target_thought_id, label?.trim() || null).run();
+
+  await bumpVersion(c.env.DB);
+
+  return c.json({
+    id: result.meta.last_row_id,
+    framing_id: parseInt(framingId),
+    source_thought_id,
+    target_thought_id,
+    label: label?.trim() || null,
+  }, 201);
+});
+
+api.patch("/framings/:id/edges/:edgeId", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const framingId = c.req.param("id");
+  const edgeId = c.req.param("edgeId");
+  const { label } = await c.req.json<{ label?: string }>();
+
+  const result = await c.env.DB.prepare(
+    "UPDATE framing_edge SET label = ? WHERE id = ? AND framing_id = ?"
+  ).bind(label?.trim() || null, edgeId, framingId).run();
+
+  if (result.meta.changes === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  await bumpVersion(c.env.DB);
+
+  const edge = await c.env.DB.prepare(
+    "SELECT id, framing_id, source_thought_id, target_thought_id, label FROM framing_edge WHERE id = ?"
+  ).bind(edgeId).first();
+
+  return c.json(edge);
+});
+
+api.delete("/framings/:id/edges/:edgeId", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const framingId = c.req.param("id");
+  const edgeId = c.req.param("edgeId");
+
+  const result = await c.env.DB.prepare(
+    "DELETE FROM framing_edge WHERE id = ? AND framing_id = ?"
+  ).bind(edgeId, framingId).run();
+
+  if (result.meta.changes === 0) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  await bumpVersion(c.env.DB);
+  return c.body(null, 204);
+});
+
+// --- Framing Batch ---
+
+api.patch("/framings/:id/batch", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const framingId = parseInt(c.req.param("id"));
+  const { thoughts } = await c.req.json<{
+    thoughts: { thought_id: number; x: number; y: number; w?: number; h?: number }[];
+  }>();
+
+  if (!Array.isArray(thoughts) || thoughts.length === 0) {
+    return c.json({ error: "thoughts array is required" }, 400);
+  }
+
+  const stmts = thoughts.map((t) =>
+    c.env.DB.prepare(
+      "UPDATE framing_thought SET x = ?, y = ?, w = ?, h = ? WHERE framing_id = ? AND thought_id = ?"
+    ).bind(t.x, t.y, t.w ?? null, t.h ?? null, framingId, t.thought_id)
+  );
+
+  await c.env.DB.batch(stmts);
+  await bumpVersion(c.env.DB);
+
+  return c.json({ updated: thoughts.length });
+});
+
 api.get("/attachments/*", async (c) => {
   const key = c.req.path.replace(/^\/attachments\//, "");
   if (!key) return c.json({ error: "Not found" }, 404);
