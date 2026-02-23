@@ -5,6 +5,8 @@ concern: [ground, self, power, modernity]
 description: 'A timeline tracing the arc from skepticism through analysis, recognition, and truth to the experience of cessation of will — braiding the intellectual and experiential threads of the blog.'
 ---
 
+![](/img/comet-earth.jpg)
+
 ## A Timeline of the Arc from Diagnosis to Ground
 
 Two threads run through this blog. One is **intellectual**: the essays, the genealogies, the theological arguments. The other is **experiential**: the stories, the felt texture of captivity and release, the first-person encounters with what the essays can only describe. Neither thread alone tells the whole story. The intellectual thread without the experiential is theology. The experiential without the intellectual is testimony. Braided together, they trace a single arc: from skepticism through analysis to recognition, from recognition to truth, from truth to the cessation of will.
@@ -459,20 +461,20 @@ The Ground was always there.
 
 |Phase|Period|Core Movement|Key Work|Thread|
 |---|---|---|---|---|
-|0. The Question|Late 2025|Materialism is killing us|*Materialism Is Killing You* / *The Exhaustion That Cannot Rest*|Intellectual + Experiential|
-|1. Genealogy|Dec 2025|Secularism runs on Christian code|*The Husk of God*|Intellectual|
-|2. Anti-Deconstruction|Jan 2026|The deconstructors serve the machine|*The Physicians of Decay*|Intellectual|
-|3. The Return|Jan 2026|Post-critical faith through practice|*The Return* / *The Table*|Intellectual|
-|4. Principalities|Jan 2026|Structural evil requires structural resistance|*Principalities and Powers*|Intellectual|
-|5. Know Thyself|Dec 2025|Eight psychologies, one comparative map|*Know Thyself* series|Intellectual|
-|6. The Body|Jan 2026|Reclaiming the substrate for spiritual life|*The Body as Ground*|Intellectual + Experiential|
-|7. Mysticism|Dec 2025 – Feb 2026|Eckhart's Ground beneath all systems|*Mystical Meaning*|Intellectual|
-|8. Kingdom Within|Dec 2025|Recovering pre-Pauline Jesus|*The Kingdom Within*|Intellectual|
-|9. The Encounter|Feb 2026|What transformation requires|*What If the Thing You're Protecting...*|Intellectual|
-|10. Narrative Turn|Feb 2026|Will vs. presence, shown not argued|*The Lamb* / *Nine Months, Two Men*|Experiential|
-|11. Eschatology|Feb 2026|The rupture that cannot be scheduled|*The Unengineerable Rupture*|Intellectual|
-|12. Synthesis|Feb 2026|Engine, evidence, posture, table|*The Open Hand*|Intellectual|
-|13. Arrival|Feb 2026|Cessation of will — experienced|*Wanting Without Willing*|Experiential|
+|0. The Question|Late 2025|Materialism is killing us|[*Materialism Is Killing You*](/2025-12-18-a-systems-analysis-of-why-your-worldview.html) / [*The Exhaustion That Cannot Rest*](/2026-01-11-the-exhaustion-that-cannot-rest.html)|Intellectual + Experiential|
+|1. Genealogy|Dec 2025|Secularism runs on Christian code|[*The Husk of God*](/2025-12-10-husk-of-god.html)|Intellectual|
+|2. Anti-Deconstruction|Jan 2026|The deconstructors serve the machine|[*The Physicians of Decay*](/2026-01-15-the-physicians-of-decay.html)|Intellectual|
+|3. The Return|Jan 2026|Post-critical faith through practice|[*The Return*](/2026-01-15-the-return.html) / [*The Table*](/2026-01-26-the-table.html)|Intellectual|
+|4. Principalities|Jan 2026|Structural evil requires structural resistance|[*Principalities and Powers*](/2026-01-12-principalities-and-powers.html)|Intellectual|
+|5. Know Thyself|Dec 2025|Eight psychologies, one comparative map|[*Know Thyself* series](/2025-12-15-know-thyself-greek-vs-christian.html)|Intellectual|
+|6. The Body|Jan 2026|Reclaiming the substrate for spiritual life|[*The Body as Ground*](/2026-01-28-the-body-as-ground.html)|Intellectual + Experiential|
+|7. Mysticism|Dec 2025 – Feb 2026|Eckhart's Ground beneath all systems|[*Mystical Meaning*](/2026-02-06-mystical-meaning.html)|Intellectual|
+|8. Kingdom Within|Dec 2025|Recovering pre-Pauline Jesus|[*The Kingdom Within*](/2025-12-17-know-thyself-the-kingdom-within.html)|Intellectual|
+|9. The Encounter|Feb 2026|What transformation requires|[*What If the Thing You're Protecting...*](/2026-02-12-what-if-the-thing-youre-protecting.html)|Intellectual|
+|10. Narrative Turn|Feb 2026|Will vs. presence, shown not argued|[*The Lamb*](/2026-02-07-the-lamb.html) / [*Nine Months, Two Men*](/2026-02-11-nine-months-two-men.html)|Experiential|
+|11. Eschatology|Feb 2026|The rupture that cannot be scheduled|[*The Unengineerable Rupture*](/2026-02-21-structural-wisdom-biblical-eschatology.html)|Intellectual|
+|12. Synthesis|Feb 2026|Engine, evidence, posture, table|[*The Open Hand*](/2026-02-21-desire-engine-table.html)|Intellectual|
+|13. Arrival|Feb 2026|Cessation of will — experienced|[*Wanting Without Willing*](/2026-02-19-mysticism-research-list.html)|Experiential|
 
 -----
 
