@@ -577,20 +577,20 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
       isHovered && node.note && /* @__PURE__ */ jsxs("g", {
         children: [
           /* @__PURE__ */ jsx("rect", {
-            x: x + (isRight ? -10 : -320),
-            y: node.y - 32,
-            width: 320,
-            height: 24,
+            x: x + (isRight ? -10 : -360),
+            y: node.y - 38,
+            width: 360,
+            height: 30,
             rx: 4,
             fill: "#1a1a18ee",
             stroke: scoreToColor(node.score),
             strokeWidth: 0.7
           }),
           /* @__PURE__ */ jsx("text", {
-            x: x + (isRight ? -10 : -320) + 8,
-            y: node.y - 16,
+            x: x + (isRight ? -10 : -360) + 8,
+            y: node.y - 18,
             fill: COLORS.textDim,
-            fontSize: "11",
+            fontSize: "14",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -1629,20 +1629,20 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
       isHovered && node.note && /* @__PURE__ */ jsxs2("g", {
         children: [
           /* @__PURE__ */ jsx2("rect", {
-            x: x + (isRight ? -10 : -320),
-            y: node.y - 32,
-            width: 320,
-            height: 24,
+            x: x + (isRight ? -10 : -360),
+            y: node.y - 38,
+            width: 360,
+            height: 30,
             rx: 4,
             fill: "#1a1a18ee",
             stroke: scoreToColor2(node.score),
             strokeWidth: 0.7
           }),
           /* @__PURE__ */ jsx2("text", {
-            x: x + (isRight ? -10 : -320) + 8,
-            y: node.y - 16,
+            x: x + (isRight ? -10 : -360) + 8,
+            y: node.y - 18,
             fill: COLORS2.textDim,
-            fontSize: "11",
+            fontSize: "14",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -2554,20 +2554,20 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
       isHovered && node.note && /* @__PURE__ */ jsxs3("g", {
         children: [
           /* @__PURE__ */ jsx3("rect", {
-            x: x + (isRight ? -10 : -290),
-            y: node.y - 32,
-            width: 290,
-            height: 24,
+            x: x + (isRight ? -10 : -330),
+            y: node.y - 38,
+            width: 330,
+            height: 30,
             rx: 4,
             fill: "#1a1a18ee",
             stroke: scoreToColor3(node.score),
             strokeWidth: 0.7
           }),
           /* @__PURE__ */ jsx3("text", {
-            x: x + (isRight ? -10 : -290) + 8,
-            y: node.y - 16,
+            x: x + (isRight ? -10 : -330) + 8,
+            y: node.y - 18,
             fill: COLORS3.textDim,
-            fontSize: "11",
+            fontSize: "14",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -3548,20 +3548,20 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
       isHovered && node.note && /* @__PURE__ */ jsxs4("g", {
         children: [
           /* @__PURE__ */ jsx4("rect", {
-            x: x + (isRight ? -10 : -310),
-            y: node.y - 32,
-            width: 310,
-            height: 24,
+            x: x + (isRight ? -10 : -350),
+            y: node.y - 38,
+            width: 350,
+            height: 30,
             rx: 4,
             fill: "#1a1a18ee",
             stroke: scoreToColor4(node.score),
             strokeWidth: 0.7
           }),
           /* @__PURE__ */ jsx4("text", {
-            x: x + (isRight ? -10 : -310) + 8,
-            y: node.y - 16,
+            x: x + (isRight ? -10 : -350) + 8,
+            y: node.y - 18,
             fill: COLORS4.textDim,
-            fontSize: "11",
+            fontSize: "14",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -4572,20 +4572,20 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
       isHovered && node.note && /* @__PURE__ */ jsxs5("g", {
         children: [
           /* @__PURE__ */ jsx5("rect", {
-            x: x + (isRight ? -10 : -320),
-            y: node.y - 32,
-            width: 320,
-            height: 24,
+            x: x + (isRight ? -10 : -360),
+            y: node.y - 38,
+            width: 360,
+            height: 30,
             rx: 4,
             fill: "#1a1a18ee",
             stroke: scoreToColor5(node.score),
             strokeWidth: 0.7
           }),
           /* @__PURE__ */ jsx5("text", {
-            x: x + (isRight ? -10 : -320) + 8,
-            y: node.y - 16,
+            x: x + (isRight ? -10 : -360) + 8,
+            y: node.y - 18,
             fill: COLORS5.textDim,
-            fontSize: "11",
+            fontSize: "14",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -5542,20 +5542,20 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
       isHovered && node.note && /* @__PURE__ */ jsxs6("g", {
         children: [
           /* @__PURE__ */ jsx6("rect", {
-            x: x + (isRight ? -10 : -300),
-            y: node.y - 32,
-            width: 300,
-            height: 24,
+            x: x + (isRight ? -10 : -340),
+            y: node.y - 38,
+            width: 340,
+            height: 30,
             rx: 4,
             fill: "#1a1a18ee",
             stroke: scoreToColor6(node.score),
             strokeWidth: 0.7
           }),
           /* @__PURE__ */ jsx6("text", {
-            x: x + (isRight ? -10 : -300) + 8,
-            y: node.y - 16,
+            x: x + (isRight ? -10 : -340) + 8,
+            y: node.y - 18,
             fill: COLORS6.textDim,
-            fontSize: "11",
+            fontSize: "14",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note
@@ -6563,20 +6563,20 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
       isHovered && node.note && /* @__PURE__ */ jsxs7("g", {
         children: [
           /* @__PURE__ */ jsx7("rect", {
-            x: x + (isRight ? -10 : -320),
-            y: node.y - 32,
-            width: 320,
-            height: 24,
+            x: x + (isRight ? -10 : -360),
+            y: node.y - 38,
+            width: 360,
+            height: 30,
             rx: 4,
             fill: "#1a1a18ee",
             stroke: scoreToColor7(node.score),
             strokeWidth: 0.7
           }),
           /* @__PURE__ */ jsx7("text", {
-            x: x + (isRight ? -10 : -320) + 8,
-            y: node.y - 16,
+            x: x + (isRight ? -10 : -360) + 8,
+            y: node.y - 18,
             fill: COLORS7.textDim,
-            fontSize: "11",
+            fontSize: "14",
             fontFamily: "'Crimson Pro', serif",
             fontStyle: "italic",
             children: node.note

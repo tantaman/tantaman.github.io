@@ -255,11 +255,11 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         y={node.y + node.h / 2 + 10} />
       {isHovered && node.note && (
         <g>
-          <rect x={x + (isRight ? -10 : -300)} y={node.y - 32}
-            width={300} height={24} rx={4}
+          <rect x={x + (isRight ? -10 : -340)} y={node.y - 38}
+            width={340} height={30} rx={4}
             fill="#1a1a18ee" stroke={scoreToColor(node.score)} strokeWidth={0.7} />
-          <text x={x + (isRight ? -10 : -300) + 8} y={node.y - 16}
-            fill={COLORS.textDim} fontSize="11"
+          <text x={x + (isRight ? -10 : -340) + 8} y={node.y - 18}
+            fill={COLORS.textDim} fontSize="14"
             fontFamily="'Crimson Pro', serif" fontStyle="italic">
             {node.note}
           </text>
