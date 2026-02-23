@@ -567,7 +567,7 @@
           "graph.js": 1771682034306,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771868657436,
+          "pages": 1771870084046,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -752,14 +752,16 @@
           "README.md",
           "artifacts",
           "mcp.md",
+          "metaphysical-choices.mdx",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           ".DS_Store": 1771868662439,
           "README.md": 1753056386475,
-          "artifacts": 1771868657436,
+          "artifacts": 1771870080092,
           "mcp.md": 1771766379796,
+          "metaphysical-choices.mdx": 1771870084045,
           "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
@@ -1110,7 +1112,7 @@
           "graph.js": 1771682034306,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771868657436,
+          "pages": 1771870084046,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -1295,14 +1297,16 @@
           "README.md",
           "artifacts",
           "mcp.md",
+          "metaphysical-choices.mdx",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           ".DS_Store": 1771868662439,
           "README.md": 1753056386475,
-          "artifacts": 1771868657436,
+          "artifacts": 1771870080092,
           "mcp.md": 1771766379796,
+          "metaphysical-choices.mdx": 1771870084045,
           "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
@@ -1657,7 +1661,7 @@
           "graph.js": 1771682034306,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771868657436,
+          "pages": 1771870084046,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -1842,14 +1846,16 @@
           "README.md",
           "artifacts",
           "mcp.md",
+          "metaphysical-choices.mdx",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           ".DS_Store": 1771868662439,
           "README.md": 1753056386475,
-          "artifacts": 1771868657436,
+          "artifacts": 1771870080092,
           "mcp.md": 1771766379796,
+          "metaphysical-choices.mdx": 1771870084045,
           "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
@@ -2205,7 +2211,7 @@
           "graph.js": 1771682034306,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771868657436,
+          "pages": 1771870084046,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -2390,14 +2396,16 @@
           "README.md",
           "artifacts",
           "mcp.md",
+          "metaphysical-choices.mdx",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           ".DS_Store": 1771868662439,
           "README.md": 1753056386475,
-          "artifacts": 1771868657436,
+          "artifacts": 1771870080092,
           "mcp.md": 1771766379796,
+          "metaphysical-choices.mdx": 1771870084045,
           "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
@@ -2748,7 +2756,7 @@
           "graph.js": 1771682034306,
           "index.js": 1771540877303,
           "notes": 1765646841322,
-          "pages": 1771868657436,
+          "pages": 1771870084046,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
@@ -2933,14 +2941,16 @@
           "README.md",
           "artifacts",
           "mcp.md",
+          "metaphysical-choices.mdx",
           "nyc-budget-simulator.mdx",
           "yagni.md"
         ],
         "mtimes": {
           ".DS_Store": 1771868662439,
           "README.md": 1753056386475,
-          "artifacts": 1771868657436,
+          "artifacts": 1771870080092,
           "mcp.md": 1771766379796,
+          "metaphysical-choices.mdx": 1771870084045,
           "nyc-budget-simulator.mdx": 1771602828055,
           "yagni.md": 1753056386475
         }
@@ -2954,5 +2964,7 @@
   "/2026-02-21-west-psychodrama.mdx": 1771811093463,
   "/2026-02-21-structural-wisdom-biblical-eschatology.mdx": 1771815303562,
   "/2026-02-21-desire-engine-table.mdx": 1771815346973,
-  "/2026-02-22-religious-development.md": 1771814898311
+  "/2026-02-22-religious-development.md": 1771814898311,
+  "pages//metaphysical-choices.mdx": 1771870084045,
+  "pages/artifacts/metaphysical-choices-sankey.jsx": 1771870080092
 }
