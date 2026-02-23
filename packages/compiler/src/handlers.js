@@ -160,11 +160,6 @@ root.render(React.createElement(MDXContent, {}, null));
             }
             return { path: `https://esm.sh/${args.path}`, external: true };
           });
-          // .jsx → .js for relative imports (only relative paths)
-          build.onResolve({ filter: /^\..*\.jsx$/ }, args => ({
-            path: args.path.replace(/\.jsx$/, '.js'),
-            external: true,
-          }));
         },
       }],
     });
