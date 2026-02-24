@@ -8,7 +8,8 @@ export const CreateThoughtBody = z.object({
 
 // PATCH /tasks/:id
 export const UpdateTaskBody = z.object({
-  completed: z.boolean(),
+  completed: z.boolean().optional(),
+  deprioritized: z.boolean().optional(),
 });
 
 // POST /framings

@@ -10,8 +10,7 @@ export function useTags(selectedTags: string[]) {
   return useSWR(key, () => getTags(selectedTags.length > 0 ? selectedTags : undefined));
 }
 
-export function useTasks(showAll: boolean, tags: string[]) {
-  const status = showAll ? 'all' : 'incomplete';
+export function useTasks(status: 'incomplete' | 'deprioritized' | 'all', tags: string[]) {
   const key = `tasks-${status}-${tags.join(',')}`;
   return useSWR(key, () => getTasks(status, tags.length > 0 ? tags : undefined));
 }

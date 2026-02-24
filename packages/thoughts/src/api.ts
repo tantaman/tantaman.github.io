@@ -93,7 +93,7 @@ export async function deleteThought(
 }
 
 export function getTasks(
-  status: 'incomplete' | 'all' = 'incomplete',
+  status: 'incomplete' | 'deprioritized' | 'all' = 'incomplete',
   tags?: string[],
 ): Promise<{ tasks: Task[] }> {
   let url = `${API}/tasks?status=${status}`;
@@ -103,7 +103,7 @@ export function getTasks(
 
 export async function patchTask(
   id: number,
-  completed: boolean,
+  action: { completed?: boolean; deprioritized?: boolean },
   secret: string,
 ): Promise<Task> {
   const r = await fetch(`${API}/tasks/${id}`, {
@@ -112,7 +112,7 @@ export async function patchTask(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${secret}`,
     },
-    body: JSON.stringify({ completed }),
+    body: JSON.stringify(action),
   });
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Update failed');

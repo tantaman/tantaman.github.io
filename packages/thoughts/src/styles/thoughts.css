@@ -750,6 +750,11 @@
   margin: 0;
 }
 
+.tasks-toggles {
+  display: flex;
+  gap: 1rem;
+}
+
 .tasks-toggle {
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -808,6 +813,45 @@
 .task-title--done {
   text-decoration: line-through;
   color: var(--text-muted);
+}
+
+.task-title--deprioritized {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.task-deprioritize-btn {
+  flex-shrink: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.task-deprioritize-btn:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.task-deprioritize-btn--active {
+  color: var(--text);
+  border-color: var(--text-muted);
+  background: var(--bg-soft);
+}
+
+.task-deprioritize-btn:disabled {
+  cursor: default;
+  opacity: 0.4;
 }
 
 .task-description {

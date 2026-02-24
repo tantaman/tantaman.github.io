@@ -26,6 +26,7 @@ export interface Task {
   description: string | null;
   created_at: number;
   completed_at: number | null;
+  deprioritized_at: number | null;
 }
 
 export interface Event {

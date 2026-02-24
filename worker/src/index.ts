@@ -487,9 +487,15 @@ api.get("/tasks", async (c) => {
   const status = c.req.query("status") || "incomplete";
   const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
 
-  let baseWhere = status === "all" ? "" : "WHERE tk.completed_at IS NULL";
-  let tagFilter = "";
+  let baseWhere = "";
+  if (status === "incomplete") {
+    baseWhere = "WHERE tk.completed_at IS NULL AND tk.deprioritized_at IS NULL";
+  } else if (status === "deprioritized") {
+    baseWhere = "WHERE tk.deprioritized_at IS NOT NULL AND tk.completed_at IS NULL";
+  }
+  // status === "all" → no filter
 
+  let tagFilter = "";
   if (tags.length > 0) {
     const placeholders = tags.map(() => "?").join(",");
     tagFilter = `${baseWhere ? " AND" : " WHERE"} tk.thought_id IN (
@@ -501,7 +507,7 @@ api.get("/tasks", async (c) => {
     )`;
   }
 
-  const query = `SELECT tk.id, tk.thought_id, tk.title, tk.description, tk.created_at, tk.completed_at FROM task tk ${baseWhere}${tagFilter} ORDER BY tk.created_at DESC`;
+  const query = `SELECT tk.id, tk.thought_id, tk.title, tk.description, tk.created_at, tk.completed_at, tk.deprioritized_at FROM task tk ${baseWhere}${tagFilter} ORDER BY tk.created_at DESC`;
   const bindings = tags.length > 0 ? [...tags, tags.length] : [];
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
@@ -516,21 +522,36 @@ api.patch("/tasks/:id", async (c) => {
   }
 
   const id = c.req.param("id");
-  const { completed } = UpdateTaskBody.parse(await c.req.json());
+  const { completed, deprioritized } = UpdateTaskBody.parse(await c.req.json());
 
-  if (completed) {
-    const now = Math.floor(Date.now() / 1000);
-    await c.env.DB.prepare(
-      "UPDATE task SET completed_at = ? WHERE id = ?"
-    ).bind(now, id).run();
-  } else {
-    await c.env.DB.prepare(
-      "UPDATE task SET completed_at = NULL WHERE id = ?"
-    ).bind(id).run();
+  if (completed !== undefined) {
+    if (completed) {
+      const now = Math.floor(Date.now() / 1000);
+      await c.env.DB.prepare(
+        "UPDATE task SET completed_at = ? WHERE id = ?"
+      ).bind(now, id).run();
+    } else {
+      await c.env.DB.prepare(
+        "UPDATE task SET completed_at = NULL WHERE id = ?"
+      ).bind(id).run();
+    }
+  }
+
+  if (deprioritized !== undefined) {
+    if (deprioritized) {
+      const now = Math.floor(Date.now() / 1000);
+      await c.env.DB.prepare(
+        "UPDATE task SET deprioritized_at = ? WHERE id = ?"
+      ).bind(now, id).run();
+    } else {
+      await c.env.DB.prepare(
+        "UPDATE task SET deprioritized_at = NULL WHERE id = ?"
+      ).bind(id).run();
+    }
   }
 
   const task = await c.env.DB.prepare(
-    "SELECT id, thought_id, title, description, created_at, completed_at FROM task WHERE id = ?"
+    "SELECT id, thought_id, title, description, created_at, completed_at, deprioritized_at FROM task WHERE id = ?"
   ).bind(id).first();
 
   if (!task) {
