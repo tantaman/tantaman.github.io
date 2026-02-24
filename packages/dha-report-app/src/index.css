@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@media print {
+  /* Force background colors to print */
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Hide interactive elements */
+  select,
+  input {
+    border: none !important;
+    background: transparent !important;
+  }
+
+  /* 2-column layout for main card grid */
+  .grid.lg\:grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* 2-column layout for expenditure details */
+  .grid.lg\:grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Remove shadows for cleaner print */
+  .shadow-md,
+  .shadow-sm {
+    box-shadow: none !important;
+  }
+
+  /* Prevent cards from splitting across pages */
+  .rounded-lg,
+  .rounded-xl {
+    break-inside: avoid;
+  }
+
+  /* Ensure page fits */
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
