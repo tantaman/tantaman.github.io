@@ -8,6 +8,7 @@ export type ThoughtNodeData = {
   body: string;
   timestamp: number;
   thoughtId: number;
+  color?: string | null;
   onRemove?: (thoughtId: number) => void;
 };
 
@@ -21,7 +22,7 @@ export const ThoughtNode = memo(function ThoughtNode({
   const html = renderMarkdown(body);
 
   return (
-    <div className="framing-thought-node">
+    <div className="framing-thought-node" style={data.color ? { backgroundColor: data.color + '14' } : undefined}>
       {secret && data.onRemove && (
         <button
           className="framing-node-remove"

@@ -31,7 +31,7 @@ function placementToNode(p: FramingPlacement, onRemove: (id: number) => void): N
     id: String(p.thought_id),
     type: 'thought',
     position: { x: p.x, y: p.y },
-    data: { body: p.body, timestamp: p.timestamp, thoughtId: p.thought_id, onRemove },
+    data: { body: p.body, timestamp: p.timestamp, thoughtId: p.thought_id, color: p.color ?? null, onRemove },
   };
 }
 
@@ -169,7 +169,7 @@ export function useFramingCanvas(framingId: number) {
     async (thoughtId: number, body: string, timestamp: number, x: number, y: number) => {
       if (!secret) return;
       const tempNode = placementToNode(
-        { thought_id: thoughtId, x, y, w: null, h: null, body, timestamp },
+        { thought_id: thoughtId, x, y, w: null, h: null, body, timestamp, color: null },
         handleRemoveThought,
       );
       setNodes((prev) => [...prev, tempNode]);

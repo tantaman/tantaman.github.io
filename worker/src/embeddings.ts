@@ -1,4 +1,5 @@
 import type { Env } from "./index";
+import { projectToColor } from "./color-projection";
 
 export async function embedText(ai: Ai, text: string): Promise<number[]> {
   const result = (await ai.run("@cf/baai/bge-base-en-v1.5", {
@@ -13,7 +14,7 @@ export async function upsertThoughtEmbedding(
   body: string,
   timestamp: number,
   parentId: number | null
-): Promise<void> {
+): Promise<string | null> {
   try {
     const vec = await embedText(env.AI, body);
     await env.VECTORIZE.upsert([
@@ -27,8 +28,16 @@ export async function upsertThoughtEmbedding(
         },
       },
     ]);
+    const color = projectToColor(vec);
+    if (color) {
+      await env.DB.prepare("UPDATE thought SET color = ? WHERE id = ?")
+        .bind(color, thoughtId)
+        .run();
+    }
+    return color;
   } catch (e) {
     console.error("Failed to upsert thought embedding:", e);
+    return null;
   }
 }
 

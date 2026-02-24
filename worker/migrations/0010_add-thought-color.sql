@@ -1,0 +1,1 @@
+ALTER TABLE thought ADD COLUMN color TEXT;

@@ -28,6 +28,7 @@
     "chat-embeddings": "node scripts/generate-embeddings.mjs",
     "summaries": "node scripts/generate-summaries.mjs",
     "theses": "node scripts/generate-theses.mjs",
+    "thought-projection": "node scripts/compute-thought-projection.mjs",
     "todos": "leasot '**/*.ts' --ignore '**/node_modules'",
     "preinstall": "npx only-allow pnpm",
     "prepare": "git config core.hooksPath .githooks"

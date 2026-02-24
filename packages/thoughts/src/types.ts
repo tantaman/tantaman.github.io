@@ -57,6 +57,7 @@ export interface FramingPlacement {
   h: number | null;
   body: string;
   timestamp: number;
+  color: string | null;
 }
 
 export interface FramingEdge {

@@ -20,6 +20,7 @@ The build uses a file modification time cache (`.build-cache.json`) to skip unch
 - `pnpm summaries` - Generate AI summaries for posts (uses Anthropic SDK)
 - `pnpm theses` - Generate thesis statements for posts (uses Anthropic SDK)
 - `pnpm todos` - Find TODO comments in TypeScript files
+- `pnpm thought-projection` - Compute PCA basis for thought embedding→color projection and backfill existing thought colors (requires `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`). The frozen PCA basis lives in `worker/src/color-projection.ts`. **Re-run periodically** (e.g. every few hundred new thoughts) to keep colors well-distributed as the corpus grows.
 
 ## Package Management
 

@@ -389,7 +389,7 @@ api.post("/thoughts", async (c) => {
     attachments.push({ key, type: file.type, name: file.name });
   }
 
-  await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
+  const color = await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
   await bumpVersion(c.env.DB);
 
   const thought = {
@@ -399,6 +399,7 @@ api.post("/thoughts", async (c) => {
     created_at: new Date().toISOString().replace("T", " ").slice(0, 19),
     parent_id: parentId,
     attachments,
+    color,
   };
 
   return c.json(thought, 201);
@@ -586,7 +587,7 @@ api.get("/framings/:id", async (c) => {
   }
 
   const thoughts = await c.env.DB.prepare(
-    `SELECT ft.thought_id, ft.x, ft.y, ft.w, ft.h, t.body, t.timestamp
+    `SELECT ft.thought_id, ft.x, ft.y, ft.w, ft.h, t.body, t.timestamp, t.color
      FROM framing_thought ft
      JOIN thought t ON t.id = ft.thought_id
      WHERE ft.framing_id = ?`
