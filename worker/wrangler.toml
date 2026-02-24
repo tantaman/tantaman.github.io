@@ -3,12 +3,9 @@ main = "src/index.ts"
 compatibility_date = "2025-03-03"
 
 routes = [
-  { pattern = "tantaman.com", custom_domain = true },
-  { pattern = "www.tantaman.com", custom_domain = true }
+  { pattern = "tantaman.com/api", zone_name = "tantaman.com" },
+  { pattern = "tantaman.com/api/*", zone_name = "tantaman.com" }
 ]
-
-[assets]
-directory = "../docs"
 
 [[kv_namespaces]]
 binding = "EMBEDDINGS"

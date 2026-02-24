@@ -29,16 +29,6 @@ async function bumpVersion(db: D1Database): Promise<void> {
 
 const app = new Hono<{ Bindings: Env }>();
 
-// Redirect www → bare domain
-app.use("*", async (c, next) => {
-  const url = new URL(c.req.url);
-  if (url.hostname === "www.tantaman.com") {
-    url.hostname = "tantaman.com";
-    return c.redirect(url.toString(), 301);
-  }
-  return next();
-});
-
 app.use("*", cors());
 
 // --- API sub-app ---
