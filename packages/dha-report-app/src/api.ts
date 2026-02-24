@@ -16,9 +16,16 @@ function getToken(): string {
   return localStorage.getItem(TOKEN_KEY) || "";
 }
 
-async function authedFetch(url: string): Promise<Response> {
+async function authedFetch(
+  url: string,
+  init?: RequestInit
+): Promise<Response> {
   const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${getToken()}` },
+    ...init,
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+      ...init?.headers,
+    },
   });
   if (res.status === 401) {
     clearToken();
@@ -82,6 +89,17 @@ export interface ReportData {
     spend: number;
     details: DetailItem[];
   };
+}
+
+export async function uploadReport(
+  reportDate: string,
+  data: Record<string, unknown>
+): Promise<Response> {
+  return authedFetch("/api/dha/reports", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ report_date: reportDate, data }),
+  });
 }
 
 export async function fetchReportDates(): Promise<string[]> {

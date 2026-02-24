@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { hasToken, clearToken, fetchReportDates, fetchReport, type ReportData, type BudgetAlert, type BudgetVariance } from './api';
 import Login from './Login';
+import Admin from './Admin';
 
 interface DetailItem {
   name: string;
@@ -23,12 +24,15 @@ interface BudgetCardProps {
   yearPercent?: number;
 }
 
+type View = 'dashboard' | 'admin';
+
 const App = () => {
   const [authenticated, setAuthenticated] = useState(hasToken());
   const [reportDates, setReportDates] = useState<string[]>([]);
   const [reportCache, setReportCache] = useState<Record<string, ReportData>>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [view, setView] = useState<View>('dashboard');
 
   const loadAllReports = useCallback(async (dates: string[]) => {
     setLoading(true);
@@ -97,24 +101,47 @@ const App = () => {
     );
   }
 
-  if (reportDates.length === 0) {
+  const handleUploaded = async () => {
+    try {
+      const dates = await fetchReportDates();
+      await loadAllReports(dates);
+    } catch {
+      // ignore — loadAllReports handles errors
+    }
+    setView('dashboard');
+  };
+
+  if (reportDates.length === 0 && view === 'dashboard') {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <p className="text-gray-500 text-lg">No reports available.</p>
+        <div className="text-center">
+          <p className="text-gray-500 text-lg mb-4">No reports available.</p>
+          <button
+            onClick={() => setView('admin')}
+            className="text-blue-600 hover:text-blue-800 underline text-sm"
+          >
+            Upload a report
+          </button>
+        </div>
       </div>
     );
   }
 
-  return <ReportDashboard reportDates={reportDates} reportCache={reportCache} onLogout={handleLogout} />;
+  if (view === 'admin') {
+    return <Admin reportDates={reportDates} onUploaded={handleUploaded} onBack={() => setView('dashboard')} />;
+  }
+
+  return <ReportDashboard reportDates={reportDates} reportCache={reportCache} onLogout={handleLogout} onAdmin={() => setView('admin')} />;
 };
 
 interface ReportDashboardProps {
   reportDates: string[];
   reportCache: Record<string, ReportData>;
   onLogout: () => void;
+  onAdmin: () => void;
 }
 
-const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCache, onLogout }) => {
+const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCache, onLogout, onAdmin }) => {
   const currentDate = new Date();
   const sortedDates = [...reportDates].sort().reverse();
 
@@ -631,7 +658,13 @@ const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCa
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex justify-end mb-2">
+          <div className="flex justify-end mb-2 gap-3">
+            <button
+              onClick={onAdmin}
+              className="text-sm text-blue-600 hover:text-blue-800 underline"
+            >
+              Upload Report
+            </button>
             <button
               onClick={onLogout}
               className="text-sm text-gray-500 hover:text-gray-700 underline"
