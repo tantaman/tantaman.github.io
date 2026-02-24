@@ -17,6 +17,7 @@ export const meta = {
 
 export const doc = {
   link: [
+    { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     { rel: 'alternate', type: 'application/rss+xml', title: 'Tantaman', href: '/feed.xml' },
   ],
   css: ['/index.css'],
