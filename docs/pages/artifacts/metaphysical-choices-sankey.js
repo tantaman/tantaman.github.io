@@ -1,5 +1,5 @@
 // content/pages/artifacts/metaphysical-choices-sankey.jsx
-import { useState } from "https://esm.sh/react";
+import { useState, useEffect } from "https://esm.sh/react";
 import SankeyDiagram from "/dist/components/SankeyDiagram.js";
 
 // content/pages/artifacts/metaphysical-choices-sankey/gravity-intro.jsx
@@ -883,18 +883,33 @@ var economics_default = {
 // content/pages/artifacts/metaphysical-choices-sankey.jsx
 import { jsx as jsx2, jsxs as jsxs2 } from "https://esm.sh/react/jsx-runtime";
 var TABS = [
-  { label: "Gravity", component: GravityIntro, isIntro: true },
-  { label: "Science", data: science_default },
-  { label: "Education", data: education_default },
-  { label: "Theology", data: theology_default },
-  { label: "Psychology", data: psychology_default },
-  { label: "Buddhism", data: buddhism_default },
-  { label: "Islam", data: islam_default },
-  { label: "Economics", data: economics_default }
+  { label: "Gravity", slug: "gravity", component: GravityIntro, isIntro: true },
+  { label: "Science", slug: "science", data: science_default },
+  { label: "Education", slug: "education", data: education_default },
+  { label: "Theology", slug: "theology", data: theology_default },
+  { label: "Psychology", slug: "psychology", data: psychology_default },
+  { label: "Buddhism", slug: "buddhism", data: buddhism_default },
+  { label: "Islam", slug: "islam", data: islam_default },
+  { label: "Economics", slug: "economics", data: economics_default }
 ];
 function MetaphysicalChoices() {
-  const [activeTab, setActiveTab] = useState(0);
+  const initialTab = () => {
+    const hash = window.location.hash.slice(1);
+    const idx = TABS.findIndex((t) => t.slug === hash);
+    return idx >= 0 ? idx : 0;
+  };
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [zoom, setZoom] = useState(1.4);
+  useEffect(() => {
+    const onHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      const idx = TABS.findIndex((t) => t.slug === hash);
+      if (idx >= 0)
+        setActiveTab(idx);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
   const tab = TABS[activeTab];
   const isIntro = tab.isIntro;
   return /* @__PURE__ */ jsxs2("div", {
@@ -917,7 +932,10 @@ function MetaphysicalChoices() {
         },
         children: [
           TABS.map((t, i) => /* @__PURE__ */ jsx2("button", {
-            onClick: () => setActiveTab(i),
+            onClick: () => {
+              setActiveTab(i);
+              window.location.hash = TABS[i].slug;
+            },
             style: {
               background: i === activeTab ? "#2a2a28" : "transparent",
               color: i === activeTab ? "#c9a84c" : "#9a9888",

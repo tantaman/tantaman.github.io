@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SankeyDiagram from "/dist/components/SankeyDiagram.js";
 import GravityIntro from "./metaphysical-choices-sankey/gravity-intro.jsx";
 import scienceData from "./metaphysical-choices-sankey/data/science.json";
@@ -10,19 +10,34 @@ import islamData from "./metaphysical-choices-sankey/data/islam.json";
 import economicsData from "./metaphysical-choices-sankey/data/economics.json";
 
 const TABS = [
-  { label: "Gravity", component: GravityIntro, isIntro: true },
-  { label: "Science", data: scienceData },
-  { label: "Education", data: educationData },
-  { label: "Theology", data: theologyData },
-  { label: "Psychology", data: psychologyData },
-  { label: "Buddhism", data: buddhismData },
-  { label: "Islam", data: islamData },
-  { label: "Economics", data: economicsData },
+  { label: "Gravity", slug: "gravity", component: GravityIntro, isIntro: true },
+  { label: "Science", slug: "science", data: scienceData },
+  { label: "Education", slug: "education", data: educationData },
+  { label: "Theology", slug: "theology", data: theologyData },
+  { label: "Psychology", slug: "psychology", data: psychologyData },
+  { label: "Buddhism", slug: "buddhism", data: buddhismData },
+  { label: "Islam", slug: "islam", data: islamData },
+  { label: "Economics", slug: "economics", data: economicsData },
 ];
 
 export default function MetaphysicalChoices() {
-  const [activeTab, setActiveTab] = useState(0);
+  const initialTab = () => {
+    const hash = window.location.hash.slice(1);
+    const idx = TABS.findIndex(t => t.slug === hash);
+    return idx >= 0 ? idx : 0;
+  };
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [zoom, setZoom] = useState(1.4);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      const idx = TABS.findIndex(t => t.slug === hash);
+      if (idx >= 0) setActiveTab(idx);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
   const tab = TABS[activeTab];
   const isIntro = tab.isIntro;
 
@@ -47,7 +62,10 @@ export default function MetaphysicalChoices() {
         {TABS.map((t, i) => (
           <button
             key={t.label}
-            onClick={() => setActiveTab(i)}
+            onClick={() => {
+              setActiveTab(i);
+              window.location.hash = TABS[i].slug;
+            }}
             style={{
               background: i === activeTab ? "#2a2a28" : "transparent",
               color: i === activeTab ? "#c9a84c" : "#9a9888",
