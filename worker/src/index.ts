@@ -7,6 +7,7 @@ import { extractTasks } from "./tasks";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
+import { dha } from "./dha";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -26,6 +27,7 @@ export interface Env {
   BUCKET: R2Bucket;
   VECTORIZE: Vectorize;
   THOUGHT_SECRET: string;
+  DHA_SECRET: string;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -61,7 +63,7 @@ api.use("*", async (c, next) => {
 
   // Skip non-API routes (attachments have their own cache headers, MCP is not cacheable)
   const path = c.req.path;
-  if (path.startsWith("/attachments/") || path === "/mcp" || path === "/") {
+  if (path.startsWith("/attachments/") || path.startsWith("/dha/") || path === "/mcp" || path === "/") {
     return next();
   }
 
@@ -897,6 +899,8 @@ api.get("/attachments/*", async (c) => {
 
   return new Response(object.body, { headers });
 });
+
+api.route("/dha", dha);
 
 // Mount API routes
 app.route("/api", api);

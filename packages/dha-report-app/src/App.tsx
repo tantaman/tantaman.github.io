@@ -1,31 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import data_2025_11_30 from '../data/2025-11-30.json';
-import data_2025_12_31 from '../data/2025-12-31.json';
-import data_2026_01_31 from '../data/2026-01-31.json';
-
-const reportDataMap: Record<string, typeof data_2025_11_30> = {
-  '2025-11-30': data_2025_11_30,
-  '2025-12-31': data_2025_12_31,
-  '2026-01-31': data_2026_01_31,
-};
+import React, { useState, useEffect, useCallback } from 'react';
+import { hasToken, clearToken, fetchReportDates, fetchReport, type ReportData, type BudgetAlert, type BudgetVariance } from './api';
+import Login from './Login';
 
 interface DetailItem {
   name: string;
   amount: number;
-}
-
-interface BudgetAlert {
-  category: string;
-  budget: number;
-  actual: number;
-  variance: number;
-  note?: string;
-}
-
-interface BudgetVariance {
-  name: string;
-  budget: number;
-  actual: number;
 }
 
 interface FormattedInputProps {
@@ -45,11 +24,103 @@ interface BudgetCardProps {
 }
 
 const App = () => {
+  const [authenticated, setAuthenticated] = useState(hasToken());
+  const [reportDates, setReportDates] = useState<string[]>([]);
+  const [reportCache, setReportCache] = useState<Record<string, ReportData>>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const loadAllReports = useCallback(async (dates: string[]) => {
+    setLoading(true);
+    setError('');
+    try {
+      const entries = await Promise.all(
+        dates.map(async (d) => [d, await fetchReport(d)] as const)
+      );
+      setReportCache(Object.fromEntries(entries));
+      setReportDates(dates);
+    } catch (e) {
+      if (!hasToken()) {
+        setAuthenticated(false);
+      } else {
+        setError('Failed to load reports');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // On mount, if we have a stored token, try to load
+  useEffect(() => {
+    if (authenticated) {
+      fetchReportDates()
+        .then((dates) => loadAllReports(dates))
+        .catch(() => {
+          if (!hasToken()) setAuthenticated(false);
+          else setError('Failed to load reports');
+        });
+    }
+  }, [authenticated, loadAllReports]);
+
+  const handleLogin = (dates: string[]) => {
+    setAuthenticated(true);
+    loadAllReports(dates);
+  };
+
+  const handleLogout = () => {
+    clearToken();
+    setAuthenticated(false);
+    setReportDates([]);
+    setReportCache({});
+  };
+
+  if (!authenticated) {
+    return <Login onLogin={handleLogin} />;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <p className="text-gray-500 text-lg">Loading reports...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 text-lg mb-4">{error}</p>
+          <button onClick={handleLogout} className="text-blue-600 underline">Sign out</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (reportDates.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <p className="text-gray-500 text-lg">No reports available.</p>
+      </div>
+    );
+  }
+
+  return <ReportDashboard reportDates={reportDates} reportCache={reportCache} onLogout={handleLogout} />;
+};
+
+interface ReportDashboardProps {
+  reportDates: string[];
+  reportCache: Record<string, ReportData>;
+  onLogout: () => void;
+}
+
+const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCache, onLogout }) => {
   const currentDate = new Date();
+  const sortedDates = [...reportDates].sort().reverse();
 
   // Date selector for report data
-  const [selectedDate, setSelectedDate] = useState('2026-01-31');
-  const reportData = reportDataMap[selectedDate];
+  const [selectedDate, setSelectedDate] = useState(sortedDates[0]);
+  const reportData = reportCache[selectedDate];
 
   // Total Budget
   const [totalBudget, setTotalBudget] = useState(reportData.totalBudget.budget);
@@ -82,7 +153,8 @@ const App = () => {
 
   // Update state when selected date changes
   useEffect(() => {
-    const data = reportDataMap[selectedDate];
+    const data = reportCache[selectedDate];
+    if (!data) return;
     setTotalBudget(data.totalBudget.budget);
     setTotalSpend(data.totalBudget.spend);
     setOperatingAcct(data.assets.operatingAccount);
@@ -98,7 +170,7 @@ const App = () => {
     setSocialSpend(data.socialCommittee.spend);
     setReserveContributions(data.reserveFund?.contributions ?? 0);
     setReserveExpenditures(data.reserveFund?.expenditures ?? 0);
-  }, [selectedDate]);
+  }, [selectedDate, reportCache]);
 
   const calcPercent = (spend: number, budget: number) => {
     if (!budget || budget === 0) return 0;
@@ -308,16 +380,16 @@ const App = () => {
   );
 
   const ReserveFundCard = () => {
-    const report = reportDataMap[selectedDate];
+    const report = reportCache[selectedDate];
     const reserveData = report.reserveFund;
     const netChange = reserveContributions - reserveExpenditures + (reserveData?.interestIncome ?? 0);
     const isNegative = netChange < 0;
 
     // Get previous period data for comparison
-    const dates = Object.keys(reportDataMap).sort();
+    const dates = [...reportDates].sort();
     const currentIndex = dates.indexOf(selectedDate);
     const previousDate = currentIndex > 0 ? dates[currentIndex - 1] : null;
-    const previousData = previousDate ? reportDataMap[previousDate] : null;
+    const previousData = previousDate ? reportCache[previousDate] : null;
 
     return (
       <div className={`bg-white rounded-lg shadow-md p-4 border ${isNegative ? 'border-amber-300' : 'border-gray-200'}`}>
@@ -364,7 +436,7 @@ const App = () => {
   };
 
   const ExpenditureDetails = () => {
-    const report = reportDataMap[selectedDate];
+    const report = reportCache[selectedDate];
     return (
       <div className="mt-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
@@ -462,7 +534,7 @@ const App = () => {
   };
 
   const VarianceSummary = () => {
-    const report = reportDataMap[selectedDate] as typeof reportDataMap[string] & { budgetVariances?: BudgetVariance[] };
+    const report = reportCache[selectedDate];
     const variances = report.budgetVariances;
     if (!variances) return null;
 
@@ -559,6 +631,14 @@ const App = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
+          <div className="flex justify-end mb-2">
+            <button
+              onClick={onLogout}
+              className="text-sm text-gray-500 hover:text-gray-700 underline"
+            >
+              Sign out
+            </button>
+          </div>
           <h1 className="text-3xl font-bold text-gray-800">Drumaldry HOA</h1>
           <h2 className="text-2xl text-gray-600 mt-1">Treasurer's Report</h2>
           <div className="mt-3 flex justify-center items-center gap-2">
@@ -569,7 +649,7 @@ const App = () => {
               onChange={(e) => setSelectedDate(e.target.value)}
               className="px-3 py-1 border border-gray-300 rounded-md text-blue-600 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {Object.keys(reportDataMap).sort().reverse().map((date) => (
+              {sortedDates.map((date) => (
                 <option key={date} value={date}>
                   {new Date(date + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </option>
@@ -620,7 +700,7 @@ const App = () => {
                 ({calcPercent(scapersSpend, lcSpend)}% of LC spend)
               </p>
             </div>
-            {(reportData as typeof reportData & { budgetAlerts?: BudgetAlert[] }).budgetAlerts?.map((alert, i) => (
+            {(reportData as ReportData & { budgetAlerts?: BudgetAlert[] }).budgetAlerts?.map((alert, i) => (
               <div key={i} className="mt-2 pt-2 border-t border-dashed text-sm">
                 <div className="flex items-center gap-1 text-amber-700">
                   <span>⚠️</span>

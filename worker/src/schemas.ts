@@ -55,6 +55,12 @@ export const UpdateEdgeBody = z.object({
   label: z.string().optional(),
 });
 
+// POST /dha/reports
+export const CreateDhaReportBody = z.object({
+  report_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD"),
+  data: z.record(z.unknown()),
+});
+
 // PATCH /framings/:id/batch
 export const BatchUpdateBody = z.object({
   nodes: z.array(z.object({
