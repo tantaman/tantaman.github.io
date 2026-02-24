@@ -34,42 +34,20 @@ function GravityIntro() {
         },
         children: "Gravity"
       }),
-      /* @__PURE__ */ jsxs("blockquote", {
-        style: {
-          borderLeft: "3px solid #c9a84c",
-          margin: "0 0 36px",
-          padding: "8px 0 8px 24px",
-          color: "#9a9888",
-          fontStyle: "italic",
-          fontSize: "17px"
-        },
-        children: [
-          /* @__PURE__ */ jsx("p", {
-            style: { margin: "0 0 0.5em" },
-            children: "All the natural movements of the soul are controlled by laws analogous to those of physical gravity. Grace is the only exception."
-          }),
-          /* @__PURE__ */ jsxs("p", {
-            style: { margin: 0, fontStyle: "normal", fontSize: "15px" },
-            children: [
-              "\u2014 Simone Weil, ",
-              /* @__PURE__ */ jsx("em", {
-                children: "Gravity and Grace"
-              }),
-              " (1947)"
-            ]
-          })
-        ]
-      }),
       /* @__PURE__ */ jsx("hr", {
-        style: { border: "none", borderTop: "1px solid #2a2a28", margin: "0 0 36px" }
+        style: {
+          border: "none",
+          borderTop: "1px solid #2a2a28",
+          margin: "0 0 36px"
+        }
       }),
       /* @__PURE__ */ jsx("p", {
         ...p,
-        children: "Each domain begins with depth and encounter. Each domain ends in instrumentalization."
+        children: "Poor metaphysical choices are being made in every field. Across every domain of human inquiry. The map is being mistaken for the territory, the tool for the thing itself."
       }),
       /* @__PURE__ */ jsx("p", {
         ...p,
-        children: "The pattern every time is:"
+        children: "The pattern is:"
       }),
       /* @__PURE__ */ jsxs("ol", {
         style: {
@@ -114,7 +92,8 @@ function GravityIntro() {
           b("In economics:"),
           " Marginal utility theory was a genuine technical advance \u2014 it lets you model price formation with calculus. But the methodological choice to treat humans as utility-maximizing rational agents hardened into the metaphysical claim that humans ",
           em("are"),
-          ` utility-maximizing rational agents, and that value is price. The math worked, so the reduction must be true. Meanwhile everything the math couldn't capture \u2014 dignity, meaning, community, the common good \u2014 got filed under "externalities," which is economics-speak for "real things our model isn't built to see."`
+          " ",
+          `utility-maximizing rational agents, and that value is price. The math worked, so the reduction must be true. Meanwhile everything the math couldn't capture \u2014 dignity, meaning, community, the common good \u2014 got filed under "externalities," which is economics-speak for "real things our model isn't built to see."`
         ]
       }),
       /* @__PURE__ */ jsxs("p", {
@@ -144,7 +123,11 @@ function GravityIntro() {
         children: "The knowledge gains are real. The metaphysical conclusion drawn from them \u2014 that the participatory, depth dimension of reality is illusory \u2014 is a non sequitur. It's like concluding from the success of your map that the territory doesn't exist."
       }),
       /* @__PURE__ */ jsx("hr", {
-        style: { border: "none", borderTop: "1px solid #2a2a28", margin: "36px 0" }
+        style: {
+          border: "none",
+          borderTop: "1px solid #2a2a28",
+          margin: "36px 0"
+        }
       }),
       /* @__PURE__ */ jsxs("p", {
         ...p,
