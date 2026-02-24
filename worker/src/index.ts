@@ -55,6 +55,14 @@ app.use("*", cors());
 // --- API sub-app ---
 const api = new Hono<{ Bindings: Env }>();
 
+// Auto-bump version after any successful mutation
+api.use("*", async (c, next) => {
+  await next();
+  if (c.req.method !== "GET" && c.res.ok) {
+    await bumpVersion(c.env.DB);
+  }
+});
+
 // ETag / 304 Not Modified for GET requests
 api.use("*", async (c, next) => {
   if (c.req.method !== "GET") {
@@ -411,7 +419,6 @@ api.post("/thoughts", async (c) => {
   }
 
   const color = await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
-  await bumpVersion(c.env.DB);
 
   const thought = {
     id: thoughtId,
@@ -472,7 +479,6 @@ api.delete("/thoughts/:id", async (c) => {
   ).run();
 
   await deleteThoughtEmbeddings(c.env, descendantIds);
-  await bumpVersion(c.env.DB);
 
   return c.body(null, 204);
 });
@@ -531,8 +537,6 @@ api.patch("/tasks/:id", async (c) => {
     return c.json({ error: "Not found" }, 404);
   }
 
-  await bumpVersion(c.env.DB);
-
   return c.json(task);
 });
 
@@ -581,8 +585,6 @@ api.post("/framings", async (c) => {
   const result = await c.env.DB.prepare(
     "INSERT INTO framing (name, description, created_at, updated_at) VALUES (?, ?, ?, ?)"
   ).bind(name.trim(), description?.trim() || null, now, now).run();
-
-  await bumpVersion(c.env.DB);
 
   return c.json({
     id: result.meta.last_row_id,
@@ -661,8 +663,6 @@ api.patch("/framings/:id", async (c) => {
     "SELECT id, name, description, created_at, updated_at FROM framing WHERE id = ?"
   ).bind(id).first();
 
-  await bumpVersion(c.env.DB);
-
   return c.json(updated);
 });
 
@@ -681,7 +681,6 @@ api.delete("/framings/:id", async (c) => {
     return c.json({ error: "Not found" }, 404);
   }
 
-  await bumpVersion(c.env.DB);
   return c.body(null, 204);
 });
 
@@ -705,8 +704,6 @@ api.post("/framings/:id/nodes", async (c) => {
     const result = await c.env.DB.prepare(
       "INSERT INTO framing_node (framing_id, node_type, item_id, x, y, w, h) VALUES (?, ?, ?, ?, ?, ?, ?)"
     ).bind(parseInt(framingId), node_type, item_id, x, y, w ?? null, h ?? null).run();
-
-    await bumpVersion(c.env.DB);
 
     return c.json({
       id: result.meta.last_row_id,
@@ -757,8 +754,6 @@ api.patch("/framings/:id/nodes/:nodeId", async (c) => {
     return c.json({ error: "Not found" }, 404);
   }
 
-  await bumpVersion(c.env.DB);
-
   const node = await c.env.DB.prepare(
     "SELECT id, framing_id, node_type, item_id, x, y, w, h FROM framing_node WHERE id = ?"
   ).bind(nodeId).first();
@@ -783,7 +778,6 @@ api.delete("/framings/:id/nodes/:nodeId", async (c) => {
     return c.json({ error: "Not found" }, 404);
   }
 
-  await bumpVersion(c.env.DB);
   return c.body(null, 204);
 });
 
@@ -801,8 +795,6 @@ api.post("/framings/:id/edges", async (c) => {
   const result = await c.env.DB.prepare(
     "INSERT INTO framing_edge (framing_id, source_node_id, target_node_id, label, source_handle, target_handle) VALUES (?, ?, ?, ?, ?, ?)"
   ).bind(parseInt(framingId), source_node_id, target_node_id, label?.trim() || null, source_handle || null, target_handle || null).run();
-
-  await bumpVersion(c.env.DB);
 
   return c.json({
     id: result.meta.last_row_id,
@@ -833,8 +825,6 @@ api.patch("/framings/:id/edges/:edgeId", async (c) => {
     return c.json({ error: "Not found" }, 404);
   }
 
-  await bumpVersion(c.env.DB);
-
   const edge = await c.env.DB.prepare(
     "SELECT id, framing_id, source_node_id, target_node_id, label, source_handle, target_handle FROM framing_edge WHERE id = ?"
   ).bind(edgeId).first();
@@ -859,7 +849,6 @@ api.delete("/framings/:id/edges/:edgeId", async (c) => {
     return c.json({ error: "Not found" }, 404);
   }
 
-  await bumpVersion(c.env.DB);
   return c.body(null, 204);
 });
 
@@ -881,7 +870,6 @@ api.patch("/framings/:id/batch", async (c) => {
   );
 
   await c.env.DB.batch(stmts);
-  await bumpVersion(c.env.DB);
 
   return c.json({ updated: nodes.length });
 });
