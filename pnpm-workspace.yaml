@@ -3,6 +3,7 @@ packages:
   - packages/frontend
   - packages/thoughts
   - packages/server
+  - packages/dha-report-app
   - worker
 
 onlyBuiltDependencies:

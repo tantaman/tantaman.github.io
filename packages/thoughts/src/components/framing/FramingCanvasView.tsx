@@ -9,6 +9,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import { useFramingCanvas } from './useFramingCanvas';
 import { ThoughtNode } from './ThoughtNode';
+import { PostNode } from './PostNode';
 import { LabeledEdge } from './LabeledEdge';
 import { ComposeNode } from './ComposeNode';
 import { FramingLeftPanel } from './FramingLeftPanel';
@@ -16,6 +17,7 @@ import { FramingLeftPanel } from './FramingLeftPanel';
 // Cast to any: @xyflow/react bundles @types/react@18 which conflicts with project's @types/react@19
 const nodeTypes = {
   thought: ThoughtNode,
+  post: PostNode,
   compose: ComposeNode,
 } as any;
 
@@ -32,9 +34,10 @@ export function FramingCanvasView({ id }: { id: number }) {
     onEdgesChange,
     onConnect,
     addThought,
+    addPost,
     deleteEdge,
     startCompose,
-    placedThoughtIds,
+    placedItemKeys,
     framing,
     loading,
   } = useFramingCanvas(id);
@@ -49,25 +52,27 @@ export function FramingCanvasView({ id }: { id: number }) {
   const onDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
-      const thoughtId = e.dataTransfer.getData('application/thought-id');
-      const body = e.dataTransfer.getData('application/thought-body');
-      const timestamp = e.dataTransfer.getData('application/thought-timestamp');
-      if (!thoughtId || !rfRef.current) return;
+      if (!rfRef.current) return;
 
+      const nodeType = e.dataTransfer.getData('application/node-type') || 'thought';
       const position = rfRef.current.screenToFlowPosition({
         x: e.clientX,
         y: e.clientY,
       });
 
-      addThought(
-        Number(thoughtId),
-        body,
-        Number(timestamp),
-        position.x,
-        position.y,
-      );
+      if (nodeType === 'post') {
+        const slug = e.dataTransfer.getData('application/item-id');
+        if (!slug) return;
+        addPost(slug, position.x, position.y);
+      } else {
+        const thoughtId = e.dataTransfer.getData('application/thought-id');
+        const body = e.dataTransfer.getData('application/thought-body');
+        const timestamp = e.dataTransfer.getData('application/thought-timestamp');
+        if (!thoughtId) return;
+        addThought(Number(thoughtId), body, Number(timestamp), position.x, position.y);
+      }
     },
-    [addThought],
+    [addThought, addPost],
   );
 
   const handleDoubleClick = useCallback(
@@ -106,7 +111,7 @@ export function FramingCanvasView({ id }: { id: number }) {
     <div className="framing-canvas-wrap">
       <FramingLeftPanel
         framingName={framing?.name ?? ''}
-        placedThoughtIds={placedThoughtIds}
+        placedItemKeys={placedItemKeys}
       />
       <div className="framing-canvas" onKeyDown={onKeyDown} tabIndex={0}>
         <ReactFlow

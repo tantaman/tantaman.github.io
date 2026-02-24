@@ -50,21 +50,36 @@ export interface Framing {
   updated_at: number;
 }
 
-export interface FramingPlacement {
-  thought_id: number;
+export interface FramingNodeBase {
+  id: number;
+  node_type: 'thought' | 'post';
+  item_id: string;
   x: number;
   y: number;
   w: number | null;
   h: number | null;
+}
+
+export interface FramingThoughtNode extends FramingNodeBase {
+  node_type: 'thought';
   body: string;
   timestamp: number;
   color: string | null;
 }
 
+export interface FramingPostNode extends FramingNodeBase {
+  node_type: 'post';
+  body: null;
+  timestamp: null;
+  color: null;
+}
+
+export type FramingNode = FramingThoughtNode | FramingPostNode;
+
 export interface FramingEdge {
   id: number;
-  source_thought_id: number;
-  target_thought_id: number;
+  source_node_id: number;
+  target_node_id: number;
   label: string | null;
   source_handle: string | null;
   target_handle: string | null;
@@ -72,8 +87,17 @@ export interface FramingEdge {
 
 export interface FramingDetail {
   framing: Framing;
-  thoughts: FramingPlacement[];
+  nodes: FramingNode[];
   edges: FramingEdge[];
+}
+
+export interface PostSummary {
+  slug: string;
+  title: string;
+  summary: string;
+  date: string;
+  tags: string[];
+  collection: string;
 }
 
 export type Route =

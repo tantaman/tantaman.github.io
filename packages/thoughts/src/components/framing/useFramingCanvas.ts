@@ -9,29 +9,61 @@ import {
   type OnConnect,
   type Connection,
 } from '@xyflow/react';
-import { useFraming } from '../../hooks/useCache';
+import { useFraming, usePostsManifest } from '../../hooks/useCache';
 import { AuthContext } from '../../App';
 import {
-  addThoughtToFraming,
-  removeThoughtFromFraming,
-  batchUpdatePlacements,
+  addNodeToFraming,
+  removeNodeFromFraming,
+  batchUpdateNodes,
   createFramingEdge,
   updateFramingEdge,
   deleteFramingEdge,
   postThought,
 } from '../../api';
 import type { ThoughtNodeData } from './ThoughtNode';
+import type { PostNodeData } from './PostNode';
 import type { LabeledEdgeData } from './LabeledEdge';
-import type { FramingPlacement, FramingEdge as FramingEdgeType } from '../../types';
+import type { FramingNode, FramingEdge as FramingEdgeType, PostSummary } from '../../types';
 
 const COMPOSE_NODE_ID = '__compose__';
 
-function placementToNode(p: FramingPlacement, onRemove: (id: number) => void): Node<ThoughtNodeData> {
+function framingNodeToRFNode(
+  n: FramingNode,
+  onRemove: (nodeId: number) => void,
+  postsMap: Map<string, PostSummary>,
+): Node<ThoughtNodeData | PostNodeData> | null {
+  if (n.node_type === 'thought') {
+    return {
+      id: String(n.id),
+      type: 'thought',
+      position: { x: n.x, y: n.y },
+      data: {
+        body: n.body,
+        timestamp: n.timestamp,
+        thoughtId: Number(n.item_id),
+        nodeId: n.id,
+        color: n.color ?? null,
+        onRemove,
+      },
+    };
+  }
+
+  const post = postsMap.get(n.item_id);
+  if (!post) return null; // post not in manifest — skip
+
   return {
-    id: String(p.thought_id),
-    type: 'thought',
-    position: { x: p.x, y: p.y },
-    data: { body: p.body, timestamp: p.timestamp, thoughtId: p.thought_id, color: p.color ?? null, onRemove },
+    id: String(n.id),
+    type: 'post',
+    position: { x: n.x, y: n.y },
+    data: {
+      nodeId: n.id,
+      slug: post.slug,
+      title: post.title,
+      summary: post.summary,
+      date: post.date,
+      tags: post.tags,
+      onRemove,
+    },
   };
 }
 
@@ -41,8 +73,8 @@ function framingEdgeToRFEdge(
 ): Edge<LabeledEdgeData> {
   return {
     id: `e-${e.id}`,
-    source: String(e.source_thought_id),
-    target: String(e.target_thought_id),
+    source: String(e.source_node_id),
+    target: String(e.target_node_id),
     sourceHandle: e.source_handle ?? undefined,
     targetHandle: e.target_handle ?? undefined,
     type: 'labeled',
@@ -52,25 +84,32 @@ function framingEdgeToRFEdge(
 
 export function useFramingCanvas(framingId: number) {
   const { data, mutate } = useFraming(framingId);
+  const { data: postsManifest } = usePostsManifest();
   const { secret } = useContext(AuthContext);
 
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [composePosition, setComposePosition] = useState<{ x: number; y: number } | null>(null);
 
+  const postsMap = useMemo(() => {
+    const m = new Map<string, PostSummary>();
+    if (postsManifest) {
+      for (const p of postsManifest) {
+        m.set(p.slug, p);
+      }
+    }
+    return m;
+  }, [postsManifest]);
+
   // Debounced batch position sync
-  const pendingPositions = useRef(new Map<string, { x: number; y: number }>());
+  const pendingPositions = useRef(new Map<string, { node_id: number; x: number; y: number }>());
   const flushTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const flushPositions = useCallback(() => {
     if (!secret || pendingPositions.current.size === 0) return;
-    const thoughts = Array.from(pendingPositions.current.entries()).map(([id, pos]) => ({
-      thought_id: Number(id),
-      x: pos.x,
-      y: pos.y,
-    }));
+    const items = Array.from(pendingPositions.current.values());
     pendingPositions.current.clear();
-    batchUpdatePlacements(framingId, thoughts, secret).catch(() => {});
+    batchUpdateNodes(framingId, items, secret).catch(() => {});
   }, [framingId, secret]);
 
   const scheduleFlush = useCallback(() => {
@@ -79,17 +118,18 @@ export function useFramingCanvas(framingId: number) {
   }, [flushPositions]);
 
   // Callbacks that need stable references
-  const handleRemoveThought = useCallback(
-    async (thoughtId: number) => {
+  const handleRemoveNode = useCallback(
+    async (nodeId: number) => {
       if (!secret) return;
-      setNodes((prev) => prev.filter((n) => n.id !== String(thoughtId)));
+      const nodeIdStr = String(nodeId);
+      setNodes((prev) => prev.filter((n) => n.id !== nodeIdStr));
       setEdges((prev) =>
         prev.filter(
-          (e) => e.source !== String(thoughtId) && e.target !== String(thoughtId),
+          (e) => e.source !== nodeIdStr && e.target !== nodeIdStr,
         ),
       );
       try {
-        await removeThoughtFromFraming(framingId, thoughtId, secret);
+        await removeNodeFromFraming(framingId, nodeId, secret);
       } catch {
         mutate(undefined);
       }
@@ -119,9 +159,12 @@ export function useFramingCanvas(framingId: number) {
   // Sync SWR data → local state on initial load / revalidation
   useEffect(() => {
     if (!data) return;
-    setNodes(data.thoughts.map((p) => placementToNode(p, handleRemoveThought)));
+    const rfNodes = data.nodes
+      .map((n) => framingNodeToRFNode(n, handleRemoveNode, postsMap))
+      .filter((n): n is Node => n !== null);
+    setNodes(rfNodes);
     setEdges(data.edges.map((e) => framingEdgeToRFEdge(e, handleLabelChange)));
-  }, [data, handleRemoveThought, handleLabelChange]);
+  }, [data, handleRemoveNode, handleLabelChange, postsMap]);
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => {
@@ -129,7 +172,11 @@ export function useFramingCanvas(framingId: number) {
       // Track position changes for batch sync
       for (const change of changes) {
         if (change.type === 'position' && change.position && change.id !== COMPOSE_NODE_ID) {
-          pendingPositions.current.set(change.id, change.position);
+          pendingPositions.current.set(change.id, {
+            node_id: Number(change.id),
+            x: change.position.x,
+            y: change.position.y,
+          });
         }
       }
     },
@@ -150,11 +197,11 @@ export function useFramingCanvas(framingId: number) {
   const onConnect: OnConnect = useCallback(
     async (connection: Connection) => {
       if (!secret) return;
-      const sourceId = Number(connection.source);
-      const targetId = Number(connection.target);
+      const sourceNodeId = Number(connection.source);
+      const targetNodeId = Number(connection.target);
       try {
         const edge = await createFramingEdge(
-          framingId, sourceId, targetId, secret,
+          framingId, sourceNodeId, targetNodeId, secret,
           undefined, connection.sourceHandle, connection.targetHandle,
         );
         setEdges((prev) => [...prev, framingEdgeToRFEdge(edge, handleLabelChange)]);
@@ -165,21 +212,66 @@ export function useFramingCanvas(framingId: number) {
     [framingId, secret, handleLabelChange],
   );
 
-  const addThought = useCallback(
-    async (thoughtId: number, body: string, timestamp: number, x: number, y: number) => {
+  const addNode = useCallback(
+    async (
+      nodeType: 'thought' | 'post',
+      itemId: string,
+      displayData: Partial<ThoughtNodeData & PostNodeData>,
+      x: number,
+      y: number,
+    ) => {
       if (!secret) return;
-      const tempNode = placementToNode(
-        { thought_id: thoughtId, x, y, w: null, h: null, body, timestamp, color: null },
-        handleRemoveThought,
-      );
+      // Use a temp negative id for optimistic UI
+      const tempId = -Date.now();
+      const tempNode: Node = {
+        id: String(tempId),
+        type: nodeType,
+        position: { x, y },
+        data: { ...displayData, nodeId: tempId, onRemove: handleRemoveNode },
+      };
       setNodes((prev) => [...prev, tempNode]);
       try {
-        await addThoughtToFraming(framingId, thoughtId, x, y, secret);
+        const result = await addNodeToFraming(framingId, nodeType, itemId, x, y, secret);
+        // Replace temp node with real one
+        setNodes((prev) =>
+          prev.map((n) =>
+            n.id === String(tempId)
+              ? { ...n, id: String(result.id), data: { ...n.data, nodeId: result.id } }
+              : n,
+          ),
+        );
       } catch {
-        setNodes((prev) => prev.filter((n) => n.id !== String(thoughtId)));
+        setNodes((prev) => prev.filter((n) => n.id !== String(tempId)));
       }
     },
-    [framingId, secret, handleRemoveThought],
+    [framingId, secret, handleRemoveNode],
+  );
+
+  const addThought = useCallback(
+    (thoughtId: number, body: string, timestamp: number, x: number, y: number) => {
+      return addNode('thought', String(thoughtId), {
+        body,
+        timestamp,
+        thoughtId,
+        color: null,
+      } as any, x, y);
+    },
+    [addNode],
+  );
+
+  const addPost = useCallback(
+    (slug: string, x: number, y: number) => {
+      const post = postsMap.get(slug);
+      if (!post) return;
+      return addNode('post', slug, {
+        slug: post.slug,
+        title: post.title,
+        summary: post.summary,
+        date: post.date,
+        tags: post.tags,
+      } as any, x, y);
+    },
+    [addNode, postsMap],
   );
 
   const deleteEdge = useCallback(
@@ -241,10 +333,19 @@ export function useFramingCanvas(framingId: number) {
     }
   }, [composePosition, submitCompose, cancelCompose]);
 
-  const placedThoughtIds = useMemo(
-    () => new Set(nodes.filter((n) => n.type === 'thought').map((n) => Number(n.id))),
-    [nodes],
-  );
+  const placedItemKeys = useMemo(() => {
+    const keys = new Set<string>();
+    for (const n of nodes) {
+      if (n.type === 'thought') {
+        const d = n.data as ThoughtNodeData;
+        keys.add(`thought:${d.thoughtId}`);
+      } else if (n.type === 'post') {
+        const d = n.data as PostNodeData;
+        keys.add(`post:${d.slug}`);
+      }
+    }
+    return keys;
+  }, [nodes]);
 
   return {
     nodes,
@@ -254,9 +355,10 @@ export function useFramingCanvas(framingId: number) {
     onEdgesChange,
     onConnect,
     addThought,
+    addPost,
     deleteEdge,
     startCompose,
-    placedThoughtIds,
+    placedItemKeys,
     framing: data?.framing ?? null,
     loading: !data,
   };

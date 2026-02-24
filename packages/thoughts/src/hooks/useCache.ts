@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { getThread, getTags, getTasks, getEvents, searchThoughts, getFramings, getFraming } from '../api';
+import { getThread, getTags, getTasks, getEvents, searchThoughts, getFramings, getFraming, getPostsManifest } from '../api';
 
 export function useThread(id: number) {
   return useSWR(`thread-${id}`, () => getThread(id));
@@ -33,4 +33,8 @@ export function useFramings() {
 
 export function useFraming(id: number) {
   return useSWR(`framing-${id}`, () => getFraming(id));
+}
+
+export function usePostsManifest() {
+  return useSWR('posts-manifest', getPostsManifest);
 }

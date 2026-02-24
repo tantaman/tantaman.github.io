@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task, Event, SearchResult, Framing, FramingDetail, FramingPlacement, FramingEdge } from './types';
+import type { Thought, Tag, Task, Event, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -177,49 +177,32 @@ export async function deleteFraming(
   if (!r.ok) throw new Error('Delete failed');
 }
 
-export async function addThoughtToFraming(
+export async function addNodeToFraming(
   framingId: number,
-  thoughtId: number,
+  nodeType: 'thought' | 'post',
+  itemId: string,
   x: number,
   y: number,
   secret: string,
-): Promise<FramingPlacement> {
-  const r = await fetch(`${API}/framings/${framingId}/thoughts`, {
+): Promise<{ id: number; framing_id: number; node_type: string; item_id: string; x: number; y: number }> {
+  const r = await fetch(`${API}/framings/${framingId}/nodes`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${secret}`,
     },
-    body: JSON.stringify({ thought_id: thoughtId, x, y }),
+    body: JSON.stringify({ node_type: nodeType, item_id: itemId, x, y }),
   });
   if (r.status === 401) throw new Error('Unauthorized');
   return r.json();
 }
 
-export async function updateThoughtPlacement(
+export async function removeNodeFromFraming(
   framingId: number,
-  thoughtId: number,
-  pos: { x?: number; y?: number },
-  secret: string,
-): Promise<FramingPlacement> {
-  const r = await fetch(`${API}/framings/${framingId}/thoughts/${thoughtId}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${secret}`,
-    },
-    body: JSON.stringify(pos),
-  });
-  if (r.status === 401) throw new Error('Unauthorized');
-  return r.json();
-}
-
-export async function removeThoughtFromFraming(
-  framingId: number,
-  thoughtId: number,
+  nodeId: number,
   secret: string,
 ): Promise<void> {
-  const r = await fetch(`${API}/framings/${framingId}/thoughts/${thoughtId}`, {
+  const r = await fetch(`${API}/framings/${framingId}/nodes/${nodeId}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${secret}` },
   });
@@ -227,9 +210,9 @@ export async function removeThoughtFromFraming(
   if (!r.ok) throw new Error('Remove failed');
 }
 
-export async function batchUpdatePlacements(
+export async function batchUpdateNodes(
   framingId: number,
-  thoughts: { thought_id: number; x: number; y: number }[],
+  nodes: { node_id: number; x: number; y: number }[],
   secret: string,
 ): Promise<{ updated: number }> {
   const r = await fetch(`${API}/framings/${framingId}/batch`, {
@@ -238,7 +221,7 @@ export async function batchUpdatePlacements(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${secret}`,
     },
-    body: JSON.stringify({ thoughts }),
+    body: JSON.stringify({ nodes }),
   });
   if (r.status === 401) throw new Error('Unauthorized');
   return r.json();
@@ -246,8 +229,8 @@ export async function batchUpdatePlacements(
 
 export async function createFramingEdge(
   framingId: number,
-  sourceThoughtId: number,
-  targetThoughtId: number,
+  sourceNodeId: number,
+  targetNodeId: number,
   secret: string,
   label?: string,
   sourceHandle?: string | null,
@@ -260,8 +243,8 @@ export async function createFramingEdge(
       Authorization: `Bearer ${secret}`,
     },
     body: JSON.stringify({
-      source_thought_id: sourceThoughtId,
-      target_thought_id: targetThoughtId,
+      source_node_id: sourceNodeId,
+      target_node_id: targetNodeId,
       label,
       source_handle: sourceHandle ?? null,
       target_handle: targetHandle ?? null,
@@ -300,4 +283,16 @@ export async function deleteFramingEdge(
   });
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Delete failed');
+}
+
+// --- Posts Manifest ---
+
+let postsManifestCache: PostSummary[] | null = null;
+
+export async function getPostsManifest(): Promise<PostSummary[]> {
+  if (postsManifestCache) return postsManifestCache;
+  const r = await fetch('/posts-manifest.json');
+  const data = await r.json() as PostSummary[];
+  postsManifestCache = data;
+  return data;
 }

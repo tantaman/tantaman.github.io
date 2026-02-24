@@ -8,8 +8,9 @@ export type ThoughtNodeData = {
   body: string;
   timestamp: number;
   thoughtId: number;
+  nodeId: number;
   color?: string | null;
-  onRemove?: (thoughtId: number) => void;
+  onRemove?: (nodeId: number) => void;
 };
 
 export type ThoughtNodeType = Node<ThoughtNodeData, 'thought'>;
@@ -26,7 +27,7 @@ export const ThoughtNode = memo(function ThoughtNode({
       {secret && data.onRemove && (
         <button
           className="framing-node-remove"
-          onClick={() => data.onRemove!(data.thoughtId)}
+          onClick={() => data.onRemove!(data.nodeId)}
           title="Remove from framing"
         >
           ×
