@@ -1,9 +1,175 @@
 // content/pages/artifacts/metaphysical-choices-sankey.jsx
 import { useState as useState8 } from "https://esm.sh/react";
 
+// content/pages/artifacts/metaphysical-choices-sankey/gravity-intro.jsx
+import { jsx, jsxs } from "https://esm.sh/react/jsx-runtime";
+function GravityIntro() {
+  const p = { style: { margin: "0 0 1.2em", lineHeight: 1.75 } };
+  const em = (text) => /* @__PURE__ */ jsx("em", {
+    children: text
+  });
+  const b = (text) => /* @__PURE__ */ jsx("strong", {
+    style: { color: "#e8e4da" },
+    children: text
+  });
+  return /* @__PURE__ */ jsxs("div", {
+    style: {
+      maxWidth: 720,
+      margin: "0 auto",
+      padding: "48px 24px 80px",
+      fontFamily: "'Crimson Pro', Georgia, serif",
+      fontSize: "18px",
+      color: "#c8c4b8",
+      lineHeight: 1.75
+    },
+    children: [
+      /* @__PURE__ */ jsx("h1", {
+        style: {
+          fontFamily: "'Crimson Pro', Georgia, serif",
+          fontSize: "42px",
+          fontWeight: 400,
+          color: "#e8e4da",
+          margin: "0 0 32px",
+          letterSpacing: "0.02em"
+        },
+        children: "Gravity"
+      }),
+      /* @__PURE__ */ jsxs("blockquote", {
+        style: {
+          borderLeft: "3px solid #c9a84c",
+          margin: "0 0 36px",
+          padding: "8px 0 8px 24px",
+          color: "#9a9888",
+          fontStyle: "italic",
+          fontSize: "17px"
+        },
+        children: [
+          /* @__PURE__ */ jsx("p", {
+            style: { margin: "0 0 0.5em" },
+            children: "All the natural movements of the soul are controlled by laws analogous to those of physical gravity. Grace is the only exception."
+          }),
+          /* @__PURE__ */ jsxs("p", {
+            style: { margin: 0, fontStyle: "normal", fontSize: "15px" },
+            children: [
+              "\u2014 Simone Weil, ",
+              /* @__PURE__ */ jsx("em", {
+                children: "Gravity and Grace"
+              }),
+              " (1947)"
+            ]
+          })
+        ]
+      }),
+      /* @__PURE__ */ jsx("hr", {
+        style: { border: "none", borderTop: "1px solid #2a2a28", margin: "0 0 36px" }
+      }),
+      /* @__PURE__ */ jsx("p", {
+        ...p,
+        children: "Each domain begins with depth and encounter. Each domain ends in instrumentalization."
+      }),
+      /* @__PURE__ */ jsx("p", {
+        ...p,
+        children: "The pattern every time is:"
+      }),
+      /* @__PURE__ */ jsxs("ol", {
+        style: {
+          margin: "0 0 1.4em",
+          paddingLeft: "1.4em",
+          lineHeight: 1.75,
+          color: "#c8c4b8"
+        },
+        children: [
+          /* @__PURE__ */ jsx("li", {
+            style: { margin: "0 0 0.5em" },
+            children: "A methodological reduction is made for practical purposes (bracket depth, study surfaces)"
+          }),
+          /* @__PURE__ */ jsx("li", {
+            style: { margin: "0 0 0.5em" },
+            children: "The method produces genuine results at the surface level"
+          }),
+          /* @__PURE__ */ jsx("li", {
+            style: { margin: "0 0 0.5em" },
+            children: "The success of the method is taken as evidence that the bracketed dimension doesn't exist"
+          }),
+          /* @__PURE__ */ jsx("li", {
+            style: { margin: "0 0 0.5em" },
+            children: "The reduction hardens into dogma"
+          }),
+          /* @__PURE__ */ jsx("li", {
+            style: { margin: "0 0 0.5em" },
+            children: "Anyone who points to the missing dimension is dismissed as prescientific or mystical"
+          })
+        ]
+      }),
+      /* @__PURE__ */ jsxs("p", {
+        ...p,
+        children: [
+          b("In science:"),
+          ` Bacon and Descartes made a methodological choice \u2014 let's bracket final causes and study only efficient causes, because efficient causes are the ones we can manipulate. This was brilliant as method. It produced the scientific revolution. But somewhere between 1600 and 1900 the methodological bracket hardened into a metaphysical claim: there are no final causes, no intrinsic meaning, no participation \u2014 only mechanism. The tool for ignoring depth got confused with proof that depth doesn't exist. Whitehead saw this clearly \u2014 he called it "the fallacy of misplaced concreteness." You mistake your abstraction for the concrete reality.`
+        ]
+      }),
+      /* @__PURE__ */ jsxs("p", {
+        ...p,
+        children: [
+          b("In economics:"),
+          " Marginal utility theory was a genuine technical advance \u2014 it lets you model price formation with calculus. But the methodological choice to treat humans as utility-maximizing rational agents hardened into the metaphysical claim that humans ",
+          em("are"),
+          ` utility-maximizing rational agents, and that value is price. The math worked, so the reduction must be true. Meanwhile everything the math couldn't capture \u2014 dignity, meaning, community, the common good \u2014 got filed under "externalities," which is economics-speak for "real things our model isn't built to see."`
+        ]
+      }),
+      /* @__PURE__ */ jsxs("p", {
+        ...p,
+        children: [
+          b("In psychology:"),
+          ' Behaviorism made genuine discoveries about conditioning. The cognitive revolution made genuine discoveries about information processing. But "we can model some aspects of behavior without reference to inner life" became "there ',
+          em("is"),
+          ' no inner life," and then "we can model some aspects of cognition as computation" became "cognition ',
+          em("is"),
+          ' computation." Each time, methodological success got laundered into metaphysical elimination.'
+        ]
+      }),
+      /* @__PURE__ */ jsxs("p", {
+        ...p,
+        children: [
+          b("In education:"),
+          ' Standardized testing genuinely does measure certain cognitive skills more reliably than subjective assessment. But "we can measure these specific skills" became "these specific skills are what education is ',
+          em("for"),
+          `," which became "anything we can't measure doesn't count." `,
+          em("Paideia"),
+          " \u2014 the formation of a whole human being \u2014 got eliminated not because anyone proved it was wrong, but because it couldn't be put on a spreadsheet."
+        ]
+      }),
+      /* @__PURE__ */ jsx("p", {
+        ...p,
+        children: "The knowledge gains are real. The metaphysical conclusion drawn from them \u2014 that the participatory, depth dimension of reality is illusory \u2014 is a non sequitur. It's like concluding from the success of your map that the territory doesn't exist."
+      }),
+      /* @__PURE__ */ jsx("hr", {
+        style: { border: "none", borderTop: "1px solid #2a2a28", margin: "36px 0" }
+      }),
+      /* @__PURE__ */ jsxs("p", {
+        ...p,
+        children: [
+          "Read these diagrams from top to bottom. The vertical axis is not a ranking of sophistication. It is a map of ",
+          b("metaphysical commitment"),
+          ". At the top: traditions that understand knowing as participation, the knower as transformed, reality as inexhaustible, and meaning as intrinsic. At the bottom: traditions that understand knowing as extraction, the knower as unchanged, reality as a resource, and meaning as instrumental."
+        ]
+      }),
+      /* @__PURE__ */ jsxs("p", {
+        style: { margin: 0, lineHeight: 1.75 },
+        children: [
+          "Read them from left to right. The horizontal axis is not progress. It is the operation of gravity over time. Each column is a sedimentation. The green flows are traditions that have, against the odds, maintained the participatory commitment. The red flows are what happens when gravity wins \u2014 not destruction, but ",
+          em("inversion"),
+          ". The corrupt form of the best thing is the worst thing. ",
+          em("Corruptio optimi pessima.")
+        ]
+      })
+    ]
+  });
+}
+
 // content/pages/artifacts/metaphysical-choices-sankey/science-sankey.jsx
 import { useState, useMemo } from "https://esm.sh/react";
-import { Fragment, jsx, jsxs } from "https://esm.sh/react/jsx-runtime";
+import { Fragment, jsx as jsx2, jsxs as jsxs2 } from "https://esm.sh/react/jsx-runtime";
 var COLORS = {
   bg: "#0f0f0e",
   text: "#e8e4da",
@@ -456,7 +622,7 @@ function FlowBand({ link, gradientId, dimmed, highlighted }) {
   const halfT = thickness / 2;
   const cp = (x2 - x1) * 0.42;
   const d = `M ${x1} ${y1 - halfT} C ${x1 + cp} ${y1 - halfT}, ${x2 - cp} ${y2 - halfT}, ${x2} ${y2 - halfT} L ${x2} ${y2 + halfT} C ${x2 - cp} ${y2 + halfT}, ${x1 + cp} ${y1 + halfT}, ${x1} ${y1 + halfT} Z`;
-  return /* @__PURE__ */ jsx("path", {
+  return /* @__PURE__ */ jsx2("path", {
     d,
     fill: `url(#${gradientId})`,
     opacity: dimmed ? 0.03 : highlighted ? 0.6 : 0.3,
@@ -467,9 +633,9 @@ function ScorePill({ score, x, y }) {
   const color = scoreToColor(score);
   const pillW = 30;
   const pillH = 12;
-  return /* @__PURE__ */ jsxs("g", {
+  return /* @__PURE__ */ jsxs2("g", {
     children: [
-      /* @__PURE__ */ jsx("rect", {
+      /* @__PURE__ */ jsx2("rect", {
         x,
         y,
         width: pillW,
@@ -478,7 +644,7 @@ function ScorePill({ score, x, y }) {
         fill: color,
         opacity: 0.15
       }),
-      /* @__PURE__ */ jsx("rect", {
+      /* @__PURE__ */ jsx2("rect", {
         x: x + 1,
         y: y + 1,
         width: Math.max(2, (pillW - 2) * (score / 100)),
@@ -487,7 +653,7 @@ function ScorePill({ score, x, y }) {
         fill: color,
         opacity: 0.55
       }),
-      /* @__PURE__ */ jsx("text", {
+      /* @__PURE__ */ jsx2("text", {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
@@ -505,14 +671,14 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
   const isLeft = node.col <= 1;
   const labelX = isRight ? x + NODE_W + 10 : isLeft ? x + NODE_W + 10 : x - 8;
   const anchor = isRight ? "start" : isLeft ? "start" : "end";
-  return /* @__PURE__ */ jsxs("g", {
+  return /* @__PURE__ */ jsxs2("g", {
     onMouseEnter: () => onHover(node.id),
     onMouseLeave: () => onHover(null),
     style: { cursor: "pointer", opacity: dimmed ? 0.1 : 1, transition: "opacity 0.4s ease" },
     children: [
-      node.glow && /* @__PURE__ */ jsxs(Fragment, {
+      node.glow && /* @__PURE__ */ jsxs2(Fragment, {
         children: [
-          /* @__PURE__ */ jsx("rect", {
+          /* @__PURE__ */ jsx2("rect", {
             x: x - 4,
             y: node.y - 4,
             width: NODE_W + 8,
@@ -523,7 +689,7 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
             strokeWidth: 1.5,
             opacity: 0.3
           }),
-          /* @__PURE__ */ jsx("rect", {
+          /* @__PURE__ */ jsx2("rect", {
             x: x - 8,
             y: node.y - 8,
             width: NODE_W + 16,
@@ -536,7 +702,7 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
           })
         ]
       }),
-      /* @__PURE__ */ jsx("rect", {
+      /* @__PURE__ */ jsx2("rect", {
         x,
         y: node.y,
         width: NODE_W,
@@ -547,7 +713,7 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         stroke: isHovered ? "#fff" : "none",
         strokeWidth: 1.5
       }),
-      /* @__PURE__ */ jsx("text", {
+      /* @__PURE__ */ jsx2("text", {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS.text,
@@ -558,7 +724,7 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.label
       }),
-      /* @__PURE__ */ jsx("text", {
+      /* @__PURE__ */ jsx2("text", {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS.textDim,
@@ -569,25 +735,25 @@ function NodeRect({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.sub
       }),
-      /* @__PURE__ */ jsx(ScorePill, {
+      /* @__PURE__ */ jsx2(ScorePill, {
         score: node.score,
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsx("foreignObject", {
+      isHovered && node.note && /* @__PURE__ */ jsx2("foreignObject", {
         x: x + (isRight ? -10 : -360),
         y: node.y - 200,
         width: 360,
         height: 192,
         style: { pointerEvents: "none", overflow: "visible" },
-        children: /* @__PURE__ */ jsx("div", {
+        children: /* @__PURE__ */ jsx2("div", {
           xmlns: "http://www.w3.org/1999/xhtml",
           style: {
             height: "100%",
             display: "flex",
             alignItems: "flex-end"
           },
-          children: /* @__PURE__ */ jsx("div", {
+          children: /* @__PURE__ */ jsx2("div", {
             style: {
               background: "#1a1a18",
               border: `0.7px solid ${scoreToColor(node.score)}`,
@@ -611,22 +777,22 @@ function InvertedBracket() {
   const y1 = 525;
   const y2 = 785;
   const mid = (y1 + y2) / 2;
-  return /* @__PURE__ */ jsxs("g", {
+  return /* @__PURE__ */ jsxs2("g", {
     opacity: 0.3,
     children: [
-      /* @__PURE__ */ jsx("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: `M ${x} ${y1} Q ${x + 14} ${y1}, ${x + 14} ${y1 + 14} L ${x + 14} ${mid - 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx("path", {
+      /* @__PURE__ */ jsx2("path", {
         d: `M ${x} ${y2} Q ${x + 14} ${y2}, ${x + 14} ${y2 - 14} L ${x + 14} ${mid + 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx("text", {
+      /* @__PURE__ */ jsx2("text", {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
@@ -636,7 +802,7 @@ function InvertedBracket() {
         letterSpacing: "0.06em",
         children: "ALL SCORE \u2264 8"
       }),
-      /* @__PURE__ */ jsx("text", {
+      /* @__PURE__ */ jsx2("text", {
         x: x + 28,
         y: mid + 6,
         fill: COLORS.textMuted,
@@ -696,7 +862,7 @@ function ScienceSankey() {
     return ids;
   }, [hovered, linkData]);
   const isLinkHL = (link) => hovered && connectedIds.has(link.from) && connectedIds.has(link.to);
-  return /* @__PURE__ */ jsxs("div", {
+  return /* @__PURE__ */ jsxs2("div", {
     style: {
       background: `radial-gradient(ellipse at 20% 15%, #1a1815 0%, ${COLORS.bg} 70%)`,
       minHeight: "100vh",
@@ -707,11 +873,11 @@ function ScienceSankey() {
       fontFamily: "'Crimson Pro', Georgia, serif"
     },
     children: [
-      /* @__PURE__ */ jsx("link", {
+      /* @__PURE__ */ jsx2("link", {
         href: "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap",
         rel: "stylesheet"
       }),
-      /* @__PURE__ */ jsx("h1", {
+      /* @__PURE__ */ jsx2("h1", {
         style: {
           color: COLORS.text,
           fontSize: "30px",
@@ -723,7 +889,7 @@ function ScienceSankey() {
         },
         children: "The Disenchantment of Wonder"
       }),
-      /* @__PURE__ */ jsxs("p", {
+      /* @__PURE__ */ jsxs2("p", {
         style: {
           color: COLORS.textDim,
           fontSize: "16px",
@@ -736,13 +902,13 @@ function ScienceSankey() {
         },
         children: [
           "From ",
-          /* @__PURE__ */ jsx("em", {
+          /* @__PURE__ */ jsx2("em", {
             children: "thaumazein"
           }),
           ' to "move fast and break things" \u2014 how science lost participation and became instrumentation. The methodological bracket that ate the world. Hover for notes.'
         ]
       }),
-      /* @__PURE__ */ jsx("div", {
+      /* @__PURE__ */ jsx2("div", {
         style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Participatory (70\u2013100)" },
@@ -751,10 +917,10 @@ function ScienceSankey() {
           { color: "#d48a4e", label: "Thinned (20\u201334)" },
           { color: "#cc6644", label: "Instrumental (10\u201319)" },
           { color: "#e84450", label: "Fully extractive (0\u20139)" }
-        ].map((item, i) => /* @__PURE__ */ jsxs("div", {
+        ].map((item, i) => /* @__PURE__ */ jsxs2("div", {
           style: { display: "flex", alignItems: "center", gap: "5px" },
           children: [
-            /* @__PURE__ */ jsx("div", {
+            /* @__PURE__ */ jsx2("div", {
               style: {
                 width: 14,
                 height: 5,
@@ -762,48 +928,48 @@ function ScienceSankey() {
                 background: `linear-gradient(90deg, ${item.color}cc, ${item.color}55)`
               }
             }),
-            /* @__PURE__ */ jsx("span", {
+            /* @__PURE__ */ jsx2("span", {
               style: { color: COLORS.textDim },
               children: item.label
             })
           ]
         }, i))
       }),
-      /* @__PURE__ */ jsxs("svg", {
+      /* @__PURE__ */ jsxs2("svg", {
         viewBox: `0 -10 ${W} ${H + 80}`,
         width: "100%",
         style: { maxWidth: W + 20, overflow: "visible" },
         children: [
-          /* @__PURE__ */ jsxs("defs", {
+          /* @__PURE__ */ jsxs2("defs", {
             children: [
-              /* @__PURE__ */ jsxs("linearGradient", {
+              /* @__PURE__ */ jsxs2("linearGradient", {
                 id: "bgVertGrad",
                 x1: "0",
                 y1: "0",
                 x2: "0",
                 y2: "1",
                 children: [
-                  /* @__PURE__ */ jsx("stop", {
+                  /* @__PURE__ */ jsx2("stop", {
                     offset: "0%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.05"
                   }),
-                  /* @__PURE__ */ jsx("stop", {
+                  /* @__PURE__ */ jsx2("stop", {
                     offset: "30%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx("stop", {
+                  /* @__PURE__ */ jsx2("stop", {
                     offset: "50%",
                     stopColor: "#b8924a",
                     stopOpacity: "0.01"
                   }),
-                  /* @__PURE__ */ jsx("stop", {
+                  /* @__PURE__ */ jsx2("stop", {
                     offset: "70%",
                     stopColor: "#e84450",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx("stop", {
+                  /* @__PURE__ */ jsx2("stop", {
                     offset: "100%",
                     stopColor: "#e84450",
                     stopOpacity: "0.07"
@@ -812,24 +978,24 @@ function ScienceSankey() {
               }),
               linkData.map((link, i) => {
                 const sc = STREAM_COLORS[link.stream] || { start: "#888", end: "#888" };
-                return /* @__PURE__ */ jsxs("linearGradient", {
+                return /* @__PURE__ */ jsxs2("linearGradient", {
                   id: `fg-${i}`,
                   x1: "0",
                   y1: "0",
                   x2: "1",
                   y2: "0",
                   children: [
-                    /* @__PURE__ */ jsx("stop", {
+                    /* @__PURE__ */ jsx2("stop", {
                       offset: "0%",
                       stopColor: sc.start,
                       stopOpacity: "0.8"
                     }),
-                    /* @__PURE__ */ jsx("stop", {
+                    /* @__PURE__ */ jsx2("stop", {
                       offset: "50%",
                       stopColor: sc.start,
                       stopOpacity: "0.4"
                     }),
-                    /* @__PURE__ */ jsx("stop", {
+                    /* @__PURE__ */ jsx2("stop", {
                       offset: "100%",
                       stopColor: sc.end,
                       stopOpacity: "0.8"
@@ -839,7 +1005,7 @@ function ScienceSankey() {
               })
             ]
           }),
-          /* @__PURE__ */ jsx("rect", {
+          /* @__PURE__ */ jsx2("rect", {
             x: LEFT_MARGIN - 10,
             y: TOP_Y - 15,
             width: W - LEFT_MARGIN + 10,
@@ -847,9 +1013,9 @@ function ScienceSankey() {
             fill: "url(#bgVertGrad)",
             rx: 8
           }),
-          /* @__PURE__ */ jsxs("g", {
+          /* @__PURE__ */ jsxs2("g", {
             children: [
-              /* @__PURE__ */ jsx("line", {
+              /* @__PURE__ */ jsx2("line", {
                 x1: 58,
                 y1: TOP_Y + 5,
                 x2: 58,
@@ -858,21 +1024,21 @@ function ScienceSankey() {
                 strokeWidth: 0.5,
                 opacity: 0.25
               }),
-              /* @__PURE__ */ jsx("path", {
+              /* @__PURE__ */ jsx2("path", {
                 d: "M 55 32 L 58 22 L 61 32",
                 fill: "none",
                 stroke: "#3ac5b5",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx("path", {
+              /* @__PURE__ */ jsx2("path", {
                 d: `M 55 ${BOT_Y + 3} L 58 ${BOT_Y + 13} L 61 ${BOT_Y + 3}`,
                 fill: "none",
                 stroke: "#e84450",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx("text", {
+              /* @__PURE__ */ jsx2("text", {
                 x: 25,
                 y: TOP_Y + 12,
                 fill: "#3ac5b5",
@@ -884,7 +1050,7 @@ function ScienceSankey() {
                 opacity: 0.65,
                 children: "WONDER"
               }),
-              ["thaumazein", "participation", "knowing as being", "intrinsic value"].map((w, i) => /* @__PURE__ */ jsx("text", {
+              ["thaumazein", "participation", "knowing as being", "intrinsic value"].map((w, i) => /* @__PURE__ */ jsx2("text", {
                 x: 25,
                 y: TOP_Y + 24 + i * 10,
                 fill: "#3ac5b5",
@@ -895,7 +1061,7 @@ function ScienceSankey() {
                 opacity: 0.45,
                 children: w
               }, w)),
-              /* @__PURE__ */ jsx("text", {
+              /* @__PURE__ */ jsx2("text", {
                 x: 25,
                 y: BOT_Y - 40,
                 fill: "#e84450",
@@ -907,7 +1073,7 @@ function ScienceSankey() {
                 opacity: 0.65,
                 children: "CONTROL"
               }),
-              ["extraction", "domination", "knowledge as power", "instrumental value"].map((w, i) => /* @__PURE__ */ jsx("text", {
+              ["extraction", "domination", "knowledge as power", "instrumental value"].map((w, i) => /* @__PURE__ */ jsx2("text", {
                 x: 25,
                 y: BOT_Y - 28 + i * 10,
                 fill: "#e84450",
@@ -920,9 +1086,9 @@ function ScienceSankey() {
               }, w))
             ]
           }),
-          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs("g", {
+          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs2("g", {
             children: [
-              /* @__PURE__ */ jsx("line", {
+              /* @__PURE__ */ jsx2("line", {
                 x1: LEFT_MARGIN - 5,
                 y1: scoreToY(score),
                 x2: W - 20,
@@ -932,7 +1098,7 @@ function ScienceSankey() {
                 strokeDasharray: "4,12",
                 opacity: 0.18
               }),
-              /* @__PURE__ */ jsx("text", {
+              /* @__PURE__ */ jsx2("text", {
                 x: 63,
                 y: scoreToY(score) + 3,
                 fill: COLORS.textMuted,
@@ -944,9 +1110,9 @@ function ScienceSankey() {
               })
             ]
           }, score)),
-          eraLabels.map((era, i) => /* @__PURE__ */ jsxs("g", {
+          eraLabels.map((era, i) => /* @__PURE__ */ jsxs2("g", {
             children: [
-              /* @__PURE__ */ jsx("line", {
+              /* @__PURE__ */ jsx2("line", {
                 x1: COL_X[i],
                 y1: TOP_Y - 5,
                 x2: COL_X[i],
@@ -956,7 +1122,7 @@ function ScienceSankey() {
                 strokeDasharray: "2,8",
                 opacity: 0.2
               }),
-              /* @__PURE__ */ jsx("text", {
+              /* @__PURE__ */ jsx2("text", {
                 x: era.x,
                 y: BOT_Y + 45,
                 fill: COLORS.textMuted,
@@ -968,14 +1134,14 @@ function ScienceSankey() {
               })
             ]
           }, i)),
-          /* @__PURE__ */ jsx(InvertedBracket, {}),
-          linkData.map((link, i) => /* @__PURE__ */ jsx(FlowBand, {
+          /* @__PURE__ */ jsx2(InvertedBracket, {}),
+          linkData.map((link, i) => /* @__PURE__ */ jsx2(FlowBand, {
             link,
             gradientId: `fg-${i}`,
             dimmed: hovered ? !isLinkHL(link) : false,
             highlighted: isLinkHL(link)
           }, i)),
-          nodes.map((node) => /* @__PURE__ */ jsx(NodeRect, {
+          nodes.map((node) => /* @__PURE__ */ jsx2(NodeRect, {
             node,
             onHover: setHovered,
             dimmed: hovered && !connectedIds.has(node.id),
@@ -983,7 +1149,7 @@ function ScienceSankey() {
           }, node.id))
         ]
       }),
-      /* @__PURE__ */ jsx("div", {
+      /* @__PURE__ */ jsx2("div", {
         style: {
           maxWidth: 750,
           marginTop: "8px",
@@ -992,7 +1158,7 @@ function ScienceSankey() {
           borderRadius: 8,
           border: "1px solid rgba(255,255,255,0.05)"
         },
-        children: /* @__PURE__ */ jsxs("p", {
+        children: /* @__PURE__ */ jsxs2("p", {
           style: {
             color: COLORS.textDim,
             fontSize: "14px",
@@ -1002,41 +1168,41 @@ function ScienceSankey() {
             fontWeight: 300
           },
           children: [
-            /* @__PURE__ */ jsx("strong", {
+            /* @__PURE__ */ jsx2("strong", {
               style: { color: COLORS.text, fontWeight: 600 },
               children: "The methodological bracket that ate the world:"
             }),
             " ",
-            /* @__PURE__ */ jsx("span", {
+            /* @__PURE__ */ jsx2("span", {
               style: { color: "#d48a4e" },
               children: "Bacon"
             }),
             " and",
             " ",
-            /* @__PURE__ */ jsx("span", {
+            /* @__PURE__ */ jsx2("span", {
               style: { color: "#cc6644" },
               children: "Descartes"
             }),
             " made a practical choice \u2014 study only what you can measure and manipulate. This produced genuine knowledge. But the bracket hardened into dogma: if you can't measure it, it doesn't exist.",
             " ",
-            /* @__PURE__ */ jsx("span", {
+            /* @__PURE__ */ jsx2("span", {
               style: { color: "#b8924a" },
               children: "Newton"
             }),
             " at 40 genuinely held both \u2014 alchemist and mechanist \u2014 paralleling Catholicism. ",
-            /* @__PURE__ */ jsx("span", {
+            /* @__PURE__ */ jsx2("span", {
               style: { color: "#8B72BE" },
               children: "Quantum mechanics"
             }),
             " at 68 broke the mechanist framework from within: the observer re-entered. The thin",
             " ",
-            /* @__PURE__ */ jsx("span", {
+            /* @__PURE__ */ jsx2("span", {
               style: { color: "#3ac5b5" },
               children: "teal stream"
             }),
             " \u2014 complexity science, deep ecology, enactivism \u2014 represents science recovering participation. The",
             " ",
-            /* @__PURE__ */ jsx("span", {
+            /* @__PURE__ */ jsx2("span", {
               style: { color: "#e84450" },
               children: "red zone"
             }),
@@ -1050,7 +1216,7 @@ function ScienceSankey() {
 
 // content/pages/artifacts/metaphysical-choices-sankey/education-sankey.jsx
 import { useState as useState2, useMemo as useMemo2 } from "https://esm.sh/react";
-import { Fragment as Fragment2, jsx as jsx2, jsxs as jsxs2 } from "https://esm.sh/react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx3, jsxs as jsxs3 } from "https://esm.sh/react/jsx-runtime";
 var COLORS2 = {
   bg: "#0f0f0e",
   text: "#e8e4da",
@@ -1514,7 +1680,7 @@ function FlowBand2({ link, gradientId, dimmed, highlighted }) {
   const halfT = thickness / 2;
   const cp = (x2 - x1) * 0.42;
   const d = `M ${x1} ${y1 - halfT} C ${x1 + cp} ${y1 - halfT}, ${x2 - cp} ${y2 - halfT}, ${x2} ${y2 - halfT} L ${x2} ${y2 + halfT} C ${x2 - cp} ${y2 + halfT}, ${x1 + cp} ${y1 + halfT}, ${x1} ${y1 + halfT} Z`;
-  return /* @__PURE__ */ jsx2("path", {
+  return /* @__PURE__ */ jsx3("path", {
     d,
     fill: `url(#${gradientId})`,
     opacity: dimmed ? 0.03 : highlighted ? 0.6 : 0.3,
@@ -1525,9 +1691,9 @@ function ScorePill2({ score, x, y }) {
   const color = scoreToColor2(score);
   const pillW = 30;
   const pillH = 12;
-  return /* @__PURE__ */ jsxs2("g", {
+  return /* @__PURE__ */ jsxs3("g", {
     children: [
-      /* @__PURE__ */ jsx2("rect", {
+      /* @__PURE__ */ jsx3("rect", {
         x,
         y,
         width: pillW,
@@ -1536,7 +1702,7 @@ function ScorePill2({ score, x, y }) {
         fill: color,
         opacity: 0.15
       }),
-      /* @__PURE__ */ jsx2("rect", {
+      /* @__PURE__ */ jsx3("rect", {
         x: x + 1,
         y: y + 1,
         width: Math.max(2, (pillW - 2) * (score / 100)),
@@ -1545,7 +1711,7 @@ function ScorePill2({ score, x, y }) {
         fill: color,
         opacity: 0.55
       }),
-      /* @__PURE__ */ jsx2("text", {
+      /* @__PURE__ */ jsx3("text", {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
@@ -1563,14 +1729,14 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
   const isLeft = node.col <= 1;
   const labelX = isRight ? x + NODE_W2 + 10 : isLeft ? x + NODE_W2 + 10 : x - 8;
   const anchor = isRight ? "start" : isLeft ? "start" : "end";
-  return /* @__PURE__ */ jsxs2("g", {
+  return /* @__PURE__ */ jsxs3("g", {
     onMouseEnter: () => onHover(node.id),
     onMouseLeave: () => onHover(null),
     style: { cursor: "pointer", opacity: dimmed ? 0.1 : 1, transition: "opacity 0.4s ease" },
     children: [
-      node.glow && /* @__PURE__ */ jsxs2(Fragment2, {
+      node.glow && /* @__PURE__ */ jsxs3(Fragment2, {
         children: [
-          /* @__PURE__ */ jsx2("rect", {
+          /* @__PURE__ */ jsx3("rect", {
             x: x - 4,
             y: node.y - 4,
             width: NODE_W2 + 8,
@@ -1581,7 +1747,7 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
             strokeWidth: 1.5,
             opacity: 0.3
           }),
-          /* @__PURE__ */ jsx2("rect", {
+          /* @__PURE__ */ jsx3("rect", {
             x: x - 8,
             y: node.y - 8,
             width: NODE_W2 + 16,
@@ -1594,7 +1760,7 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
           })
         ]
       }),
-      /* @__PURE__ */ jsx2("rect", {
+      /* @__PURE__ */ jsx3("rect", {
         x,
         y: node.y,
         width: NODE_W2,
@@ -1605,7 +1771,7 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
         stroke: isHovered ? "#fff" : "none",
         strokeWidth: 1.5
       }),
-      /* @__PURE__ */ jsx2("text", {
+      /* @__PURE__ */ jsx3("text", {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS2.text,
@@ -1616,7 +1782,7 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.label
       }),
-      /* @__PURE__ */ jsx2("text", {
+      /* @__PURE__ */ jsx3("text", {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS2.textDim,
@@ -1627,25 +1793,25 @@ function NodeRect2({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.sub
       }),
-      /* @__PURE__ */ jsx2(ScorePill2, {
+      /* @__PURE__ */ jsx3(ScorePill2, {
         score: node.score,
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsx2("foreignObject", {
+      isHovered && node.note && /* @__PURE__ */ jsx3("foreignObject", {
         x: x + (isRight ? -10 : -360),
         y: node.y - 200,
         width: 360,
         height: 192,
         style: { pointerEvents: "none", overflow: "visible" },
-        children: /* @__PURE__ */ jsx2("div", {
+        children: /* @__PURE__ */ jsx3("div", {
           xmlns: "http://www.w3.org/1999/xhtml",
           style: {
             height: "100%",
             display: "flex",
             alignItems: "flex-end"
           },
-          children: /* @__PURE__ */ jsx2("div", {
+          children: /* @__PURE__ */ jsx3("div", {
             style: {
               background: "#1a1a18",
               border: `0.7px solid ${scoreToColor2(node.score)}`,
@@ -1669,22 +1835,22 @@ function InvertedBracket2() {
   const y1 = 505;
   const y2 = 765;
   const mid = (y1 + y2) / 2;
-  return /* @__PURE__ */ jsxs2("g", {
+  return /* @__PURE__ */ jsxs3("g", {
     opacity: 0.3,
     children: [
-      /* @__PURE__ */ jsx2("path", {
+      /* @__PURE__ */ jsx3("path", {
         d: `M ${x} ${y1} Q ${x + 14} ${y1}, ${x + 14} ${y1 + 14} L ${x + 14} ${mid - 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx2("path", {
+      /* @__PURE__ */ jsx3("path", {
         d: `M ${x} ${y2} Q ${x + 14} ${y2}, ${x + 14} ${y2 - 14} L ${x + 14} ${mid + 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx2("text", {
+      /* @__PURE__ */ jsx3("text", {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
@@ -1694,7 +1860,7 @@ function InvertedBracket2() {
         letterSpacing: "0.06em",
         children: "ALL SCORE \u2264 8"
       }),
-      /* @__PURE__ */ jsx2("text", {
+      /* @__PURE__ */ jsx3("text", {
         x: x + 28,
         y: mid + 6,
         fill: COLORS2.textMuted,
@@ -1754,7 +1920,7 @@ function EducationSankey() {
     return ids;
   }, [hovered, linkData]);
   const isLinkHL = (link) => hovered && connectedIds.has(link.from) && connectedIds.has(link.to);
-  return /* @__PURE__ */ jsxs2("div", {
+  return /* @__PURE__ */ jsxs3("div", {
     style: {
       background: `radial-gradient(ellipse at 20% 15%, #1a1815 0%, ${COLORS2.bg} 70%)`,
       minHeight: "100vh",
@@ -1765,11 +1931,11 @@ function EducationSankey() {
       fontFamily: "'Crimson Pro', Georgia, serif"
     },
     children: [
-      /* @__PURE__ */ jsx2("link", {
+      /* @__PURE__ */ jsx3("link", {
         href: "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap",
         rel: "stylesheet"
       }),
-      /* @__PURE__ */ jsx2("h1", {
+      /* @__PURE__ */ jsx3("h1", {
         style: {
           color: COLORS2.text,
           fontSize: "30px",
@@ -1781,7 +1947,7 @@ function EducationSankey() {
         },
         children: "The Flattening of Formation"
       }),
-      /* @__PURE__ */ jsxs2("p", {
+      /* @__PURE__ */ jsxs3("p", {
         style: {
           color: COLORS2.textDim,
           fontSize: "16px",
@@ -1794,13 +1960,13 @@ function EducationSankey() {
         },
         children: [
           "From ",
-          /* @__PURE__ */ jsx2("em", {
+          /* @__PURE__ */ jsx3("em", {
             children: "paideia"
           }),
           " to micro-credentials \u2014 how education moved from forming whole persons to producing human capital. Hover for diagnostic notes."
         ]
       }),
-      /* @__PURE__ */ jsx2("div", {
+      /* @__PURE__ */ jsx3("div", {
         style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Formative (70\u2013100)" },
@@ -1809,10 +1975,10 @@ function EducationSankey() {
           { color: "#d48a4e", label: "Thinned (20\u201334)" },
           { color: "#cc6644", label: "Instrumental (10\u201319)" },
           { color: "#e84450", label: "Fully extractive (0\u20139)" }
-        ].map((item, i) => /* @__PURE__ */ jsxs2("div", {
+        ].map((item, i) => /* @__PURE__ */ jsxs3("div", {
           style: { display: "flex", alignItems: "center", gap: "5px" },
           children: [
-            /* @__PURE__ */ jsx2("div", {
+            /* @__PURE__ */ jsx3("div", {
               style: {
                 width: 14,
                 height: 5,
@@ -1820,48 +1986,48 @@ function EducationSankey() {
                 background: `linear-gradient(90deg, ${item.color}cc, ${item.color}55)`
               }
             }),
-            /* @__PURE__ */ jsx2("span", {
+            /* @__PURE__ */ jsx3("span", {
               style: { color: COLORS2.textDim },
               children: item.label
             })
           ]
         }, i))
       }),
-      /* @__PURE__ */ jsxs2("svg", {
+      /* @__PURE__ */ jsxs3("svg", {
         viewBox: `0 -10 ${W2} ${H2 + 80}`,
         width: "100%",
         style: { maxWidth: W2 + 20, overflow: "visible" },
         children: [
-          /* @__PURE__ */ jsxs2("defs", {
+          /* @__PURE__ */ jsxs3("defs", {
             children: [
-              /* @__PURE__ */ jsxs2("linearGradient", {
+              /* @__PURE__ */ jsxs3("linearGradient", {
                 id: "bgVertGrad",
                 x1: "0",
                 y1: "0",
                 x2: "0",
                 y2: "1",
                 children: [
-                  /* @__PURE__ */ jsx2("stop", {
+                  /* @__PURE__ */ jsx3("stop", {
                     offset: "0%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.05"
                   }),
-                  /* @__PURE__ */ jsx2("stop", {
+                  /* @__PURE__ */ jsx3("stop", {
                     offset: "30%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx2("stop", {
+                  /* @__PURE__ */ jsx3("stop", {
                     offset: "50%",
                     stopColor: "#b8924a",
                     stopOpacity: "0.01"
                   }),
-                  /* @__PURE__ */ jsx2("stop", {
+                  /* @__PURE__ */ jsx3("stop", {
                     offset: "70%",
                     stopColor: "#e84450",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx2("stop", {
+                  /* @__PURE__ */ jsx3("stop", {
                     offset: "100%",
                     stopColor: "#e84450",
                     stopOpacity: "0.07"
@@ -1870,24 +2036,24 @@ function EducationSankey() {
               }),
               linkData.map((link, i) => {
                 const sc = STREAM_COLORS2[link.stream] || { start: "#888", end: "#888" };
-                return /* @__PURE__ */ jsxs2("linearGradient", {
+                return /* @__PURE__ */ jsxs3("linearGradient", {
                   id: `fg-${i}`,
                   x1: "0",
                   y1: "0",
                   x2: "1",
                   y2: "0",
                   children: [
-                    /* @__PURE__ */ jsx2("stop", {
+                    /* @__PURE__ */ jsx3("stop", {
                       offset: "0%",
                       stopColor: sc.start,
                       stopOpacity: "0.8"
                     }),
-                    /* @__PURE__ */ jsx2("stop", {
+                    /* @__PURE__ */ jsx3("stop", {
                       offset: "50%",
                       stopColor: sc.start,
                       stopOpacity: "0.4"
                     }),
-                    /* @__PURE__ */ jsx2("stop", {
+                    /* @__PURE__ */ jsx3("stop", {
                       offset: "100%",
                       stopColor: sc.end,
                       stopOpacity: "0.8"
@@ -1897,7 +2063,7 @@ function EducationSankey() {
               })
             ]
           }),
-          /* @__PURE__ */ jsx2("rect", {
+          /* @__PURE__ */ jsx3("rect", {
             x: LEFT_MARGIN2 - 10,
             y: TOP_Y2 - 15,
             width: W2 - LEFT_MARGIN2 + 10,
@@ -1905,9 +2071,9 @@ function EducationSankey() {
             fill: "url(#bgVertGrad)",
             rx: 8
           }),
-          /* @__PURE__ */ jsxs2("g", {
+          /* @__PURE__ */ jsxs3("g", {
             children: [
-              /* @__PURE__ */ jsx2("line", {
+              /* @__PURE__ */ jsx3("line", {
                 x1: 58,
                 y1: TOP_Y2 + 5,
                 x2: 58,
@@ -1916,21 +2082,21 @@ function EducationSankey() {
                 strokeWidth: 0.5,
                 opacity: 0.25
               }),
-              /* @__PURE__ */ jsx2("path", {
+              /* @__PURE__ */ jsx3("path", {
                 d: "M 55 32 L 58 22 L 61 32",
                 fill: "none",
                 stroke: "#3ac5b5",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx2("path", {
+              /* @__PURE__ */ jsx3("path", {
                 d: `M 55 ${BOT_Y2 + 3} L 58 ${BOT_Y2 + 13} L 61 ${BOT_Y2 + 3}`,
                 fill: "none",
                 stroke: "#e84450",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx2("text", {
+              /* @__PURE__ */ jsx3("text", {
                 x: 25,
                 y: TOP_Y2 + 12,
                 fill: "#3ac5b5",
@@ -1942,7 +2108,7 @@ function EducationSankey() {
                 opacity: 0.65,
                 children: "FORMATION"
               }),
-              ["whole person", "encounter with truth", "inner transformation", "beauty & goodness"].map((w, i) => /* @__PURE__ */ jsx2("text", {
+              ["whole person", "encounter with truth", "inner transformation", "beauty & goodness"].map((w, i) => /* @__PURE__ */ jsx3("text", {
                 x: 25,
                 y: TOP_Y2 + 24 + i * 10,
                 fill: "#3ac5b5",
@@ -1953,7 +2119,7 @@ function EducationSankey() {
                 opacity: 0.45,
                 children: w
               }, w)),
-              /* @__PURE__ */ jsx2("text", {
+              /* @__PURE__ */ jsx3("text", {
                 x: 25,
                 y: BOT_Y2 - 40,
                 fill: "#e84450",
@@ -1965,7 +2131,7 @@ function EducationSankey() {
                 opacity: 0.65,
                 children: "EXTRACTION"
               }),
-              ["human capital", "content delivery", "credential production", "skill as commodity"].map((w, i) => /* @__PURE__ */ jsx2("text", {
+              ["human capital", "content delivery", "credential production", "skill as commodity"].map((w, i) => /* @__PURE__ */ jsx3("text", {
                 x: 25,
                 y: BOT_Y2 - 28 + i * 10,
                 fill: "#e84450",
@@ -1978,9 +2144,9 @@ function EducationSankey() {
               }, w))
             ]
           }),
-          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs2("g", {
+          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs3("g", {
             children: [
-              /* @__PURE__ */ jsx2("line", {
+              /* @__PURE__ */ jsx3("line", {
                 x1: LEFT_MARGIN2 - 5,
                 y1: scoreToY2(score),
                 x2: W2 - 20,
@@ -1990,7 +2156,7 @@ function EducationSankey() {
                 strokeDasharray: "4,12",
                 opacity: 0.18
               }),
-              /* @__PURE__ */ jsx2("text", {
+              /* @__PURE__ */ jsx3("text", {
                 x: 63,
                 y: scoreToY2(score) + 3,
                 fill: COLORS2.textMuted,
@@ -2002,9 +2168,9 @@ function EducationSankey() {
               })
             ]
           }, score)),
-          eraLabels2.map((era, i) => /* @__PURE__ */ jsxs2("g", {
+          eraLabels2.map((era, i) => /* @__PURE__ */ jsxs3("g", {
             children: [
-              /* @__PURE__ */ jsx2("line", {
+              /* @__PURE__ */ jsx3("line", {
                 x1: COL_X2[i],
                 y1: TOP_Y2 - 5,
                 x2: COL_X2[i],
@@ -2014,7 +2180,7 @@ function EducationSankey() {
                 strokeDasharray: "2,8",
                 opacity: 0.2
               }),
-              /* @__PURE__ */ jsx2("text", {
+              /* @__PURE__ */ jsx3("text", {
                 x: era.x,
                 y: BOT_Y2 + 45,
                 fill: COLORS2.textMuted,
@@ -2026,14 +2192,14 @@ function EducationSankey() {
               })
             ]
           }, i)),
-          /* @__PURE__ */ jsx2(InvertedBracket2, {}),
-          linkData.map((link, i) => /* @__PURE__ */ jsx2(FlowBand2, {
+          /* @__PURE__ */ jsx3(InvertedBracket2, {}),
+          linkData.map((link, i) => /* @__PURE__ */ jsx3(FlowBand2, {
             link,
             gradientId: `fg-${i}`,
             dimmed: hovered ? !isLinkHL(link) : false,
             highlighted: isLinkHL(link)
           }, i)),
-          nodes2.map((node) => /* @__PURE__ */ jsx2(NodeRect2, {
+          nodes2.map((node) => /* @__PURE__ */ jsx3(NodeRect2, {
             node,
             onHover: setHovered,
             dimmed: hovered && !connectedIds.has(node.id),
@@ -2041,7 +2207,7 @@ function EducationSankey() {
           }, node.id))
         ]
       }),
-      /* @__PURE__ */ jsx2("div", {
+      /* @__PURE__ */ jsx3("div", {
         style: {
           maxWidth: 750,
           marginTop: "8px",
@@ -2050,7 +2216,7 @@ function EducationSankey() {
           borderRadius: 8,
           border: "1px solid rgba(255,255,255,0.05)"
         },
-        children: /* @__PURE__ */ jsxs2("p", {
+        children: /* @__PURE__ */ jsxs3("p", {
           style: {
             color: COLORS2.textDim,
             fontSize: "14px",
@@ -2060,44 +2226,44 @@ function EducationSankey() {
             fontWeight: 300
           },
           children: [
-            /* @__PURE__ */ jsx2("strong", {
+            /* @__PURE__ */ jsx3("strong", {
               style: { color: COLORS2.text, fontWeight: 600 },
               children: "From souls to skills:"
             }),
             " ",
-            /* @__PURE__ */ jsx2("span", {
+            /* @__PURE__ */ jsx3("span", {
               style: { color: "#2ee8d0" },
               children: "Bildung"
             }),
             " at 90 is the Eckhart of education \u2014 self-cultivation as encounter with culture, the person unfolding into wholeness.",
             " ",
-            /* @__PURE__ */ jsx2("span", {
+            /* @__PURE__ */ jsx3("span", {
               style: { color: "#d48a4e" },
               children: "The Prussian model"
             }),
             " at 15 is the fork \u2014 compulsory state schooling designed to produce obedient citizens and factory workers.",
             " ",
-            /* @__PURE__ */ jsx2("span", {
+            /* @__PURE__ */ jsx3("span", {
               style: { color: "#8aaa6a" },
               children: "Dewey"
             }),
             " at 55 is this diagram's Catholicism \u2014 genuinely tried to hold both formation and function, with mixed results.",
             " ",
             "The contemporary teal stream \u2014 ",
-            /* @__PURE__ */ jsx2("span", {
+            /* @__PURE__ */ jsx3("span", {
               style: { color: "#3ac5b5" },
               children: "classical schools"
             }),
             ",",
             " ",
-            /* @__PURE__ */ jsx2("span", {
+            /* @__PURE__ */ jsx3("span", {
               style: { color: "#7a9aaa" },
               children: "Great Books seminars"
             }),
             ",",
             " ",
             "Charlotte Mason homeschoolers \u2014 is the contemplative remnant: small, underfunded, and irreplaceable. The ",
-            /* @__PURE__ */ jsx2("span", {
+            /* @__PURE__ */ jsx3("span", {
               style: { color: "#e84450" },
               children: "red zone"
             }),
@@ -2111,7 +2277,7 @@ function EducationSankey() {
 
 // content/pages/artifacts/metaphysical-choices-sankey/theological-sankey.jsx
 import { useState as useState3, useMemo as useMemo3 } from "https://esm.sh/react";
-import { Fragment as Fragment3, jsx as jsx3, jsxs as jsxs3 } from "https://esm.sh/react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx4, jsxs as jsxs4 } from "https://esm.sh/react/jsx-runtime";
 var COLORS3 = {
   bg: "#0f0f0e",
   text: "#e8e4da",
@@ -2445,7 +2611,7 @@ function FlowBand3({ link, gradientId, dimmed, highlighted }) {
   const halfT = thickness / 2;
   const cp = (x2 - x1) * 0.42;
   const d = `M ${x1} ${y1 - halfT} C ${x1 + cp} ${y1 - halfT}, ${x2 - cp} ${y2 - halfT}, ${x2} ${y2 - halfT} L ${x2} ${y2 + halfT} C ${x2 - cp} ${y2 + halfT}, ${x1 + cp} ${y1 + halfT}, ${x1} ${y1 + halfT} Z`;
-  return /* @__PURE__ */ jsx3("path", {
+  return /* @__PURE__ */ jsx4("path", {
     d,
     fill: `url(#${gradientId})`,
     opacity: dimmed ? 0.03 : highlighted ? 0.6 : 0.3,
@@ -2456,9 +2622,9 @@ function ScorePill3({ score, x, y }) {
   const color = scoreToColor3(score);
   const pillW = 30;
   const pillH = 12;
-  return /* @__PURE__ */ jsxs3("g", {
+  return /* @__PURE__ */ jsxs4("g", {
     children: [
-      /* @__PURE__ */ jsx3("rect", {
+      /* @__PURE__ */ jsx4("rect", {
         x,
         y,
         width: pillW,
@@ -2467,7 +2633,7 @@ function ScorePill3({ score, x, y }) {
         fill: color,
         opacity: 0.15
       }),
-      /* @__PURE__ */ jsx3("rect", {
+      /* @__PURE__ */ jsx4("rect", {
         x: x + 1,
         y: y + 1,
         width: Math.max(2, (pillW - 2) * (score / 100)),
@@ -2476,7 +2642,7 @@ function ScorePill3({ score, x, y }) {
         fill: color,
         opacity: 0.55
       }),
-      /* @__PURE__ */ jsx3("text", {
+      /* @__PURE__ */ jsx4("text", {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
@@ -2494,14 +2660,14 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
   const isLeft = node.col <= 1;
   const labelX = isRight ? x + NODE_W3 + 10 : isLeft ? x + NODE_W3 + 10 : x - 8;
   const anchor = isRight ? "start" : isLeft ? "start" : "end";
-  return /* @__PURE__ */ jsxs3("g", {
+  return /* @__PURE__ */ jsxs4("g", {
     onMouseEnter: () => onHover(node.id),
     onMouseLeave: () => onHover(null),
     style: { cursor: "pointer", opacity: dimmed ? 0.1 : 1, transition: "opacity 0.4s ease" },
     children: [
-      node.glow && /* @__PURE__ */ jsxs3(Fragment3, {
+      node.glow && /* @__PURE__ */ jsxs4(Fragment3, {
         children: [
-          /* @__PURE__ */ jsx3("rect", {
+          /* @__PURE__ */ jsx4("rect", {
             x: x - 4,
             y: node.y - 4,
             width: NODE_W3 + 8,
@@ -2512,7 +2678,7 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
             strokeWidth: 1.5,
             opacity: 0.3
           }),
-          /* @__PURE__ */ jsx3("rect", {
+          /* @__PURE__ */ jsx4("rect", {
             x: x - 8,
             y: node.y - 8,
             width: NODE_W3 + 16,
@@ -2525,7 +2691,7 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
           })
         ]
       }),
-      /* @__PURE__ */ jsx3("rect", {
+      /* @__PURE__ */ jsx4("rect", {
         x,
         y: node.y,
         width: NODE_W3,
@@ -2536,7 +2702,7 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
         stroke: isHovered ? "#fff" : "none",
         strokeWidth: 1.5
       }),
-      /* @__PURE__ */ jsx3("text", {
+      /* @__PURE__ */ jsx4("text", {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS3.text,
@@ -2547,7 +2713,7 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.label
       }),
-      /* @__PURE__ */ jsx3("text", {
+      /* @__PURE__ */ jsx4("text", {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS3.textDim,
@@ -2558,25 +2724,25 @@ function NodeRect3({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.sub
       }),
-      /* @__PURE__ */ jsx3(ScorePill3, {
+      /* @__PURE__ */ jsx4(ScorePill3, {
         score: node.score,
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsx3("foreignObject", {
+      isHovered && node.note && /* @__PURE__ */ jsx4("foreignObject", {
         x: x + (isRight ? -10 : -380),
         y: node.y - 300,
         width: 380,
         height: 300,
         style: { pointerEvents: "none", overflow: "visible" },
-        children: /* @__PURE__ */ jsx3("div", {
+        children: /* @__PURE__ */ jsx4("div", {
           xmlns: "http://www.w3.org/1999/xhtml",
           style: {
             height: "100%",
             display: "flex",
             alignItems: "flex-end"
           },
-          children: /* @__PURE__ */ jsx3("div", {
+          children: /* @__PURE__ */ jsx4("div", {
             style: {
               background: "#1a1a18",
               border: `0.7px solid ${scoreToColor3(node.score)}`,
@@ -2600,22 +2766,22 @@ function InvertedBracket3() {
   const y1 = 465;
   const y2 = 812;
   const mid = (y1 + y2) / 2;
-  return /* @__PURE__ */ jsxs3("g", {
+  return /* @__PURE__ */ jsxs4("g", {
     opacity: 0.3,
     children: [
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx4("path", {
         d: `M ${x} ${y1} Q ${x + 14} ${y1}, ${x + 14} ${y1 + 14} L ${x + 14} ${mid - 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx3("path", {
+      /* @__PURE__ */ jsx4("path", {
         d: `M ${x} ${y2} Q ${x + 14} ${y2}, ${x + 14} ${y2 - 14} L ${x + 14} ${mid + 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx3("text", {
+      /* @__PURE__ */ jsx4("text", {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
@@ -2625,7 +2791,7 @@ function InvertedBracket3() {
         letterSpacing: "0.06em",
         children: "ALL SCORE \u2264 5"
       }),
-      /* @__PURE__ */ jsx3("text", {
+      /* @__PURE__ */ jsx4("text", {
         x: x + 28,
         y: mid + 6,
         fill: COLORS3.textMuted,
@@ -2685,7 +2851,7 @@ function TheologicalSankey() {
     return ids;
   }, [hovered, linkData]);
   const isLinkHL = (link) => hovered && connectedIds.has(link.from) && connectedIds.has(link.to);
-  return /* @__PURE__ */ jsxs3("div", {
+  return /* @__PURE__ */ jsxs4("div", {
     style: {
       background: `radial-gradient(ellipse at 20% 15%, #1a1815 0%, ${COLORS3.bg} 70%)`,
       minHeight: "100vh",
@@ -2696,11 +2862,11 @@ function TheologicalSankey() {
       fontFamily: "'Crimson Pro', Georgia, serif"
     },
     children: [
-      /* @__PURE__ */ jsx3("link", {
+      /* @__PURE__ */ jsx4("link", {
         href: "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap",
         rel: "stylesheet"
       }),
-      /* @__PURE__ */ jsx3("h1", {
+      /* @__PURE__ */ jsx4("h1", {
         style: {
           color: COLORS3.text,
           fontSize: "30px",
@@ -2712,7 +2878,7 @@ function TheologicalSankey() {
         },
         children: "The Genealogy of Inversion"
       }),
-      /* @__PURE__ */ jsxs3("p", {
+      /* @__PURE__ */ jsxs4("p", {
         style: {
           color: COLORS3.textDim,
           fontSize: "16px",
@@ -2725,14 +2891,14 @@ function TheologicalSankey() {
         },
         children: [
           "Vertical position = alignment with Eckhart's participatory metaphysics. Each node shows an ",
-          /* @__PURE__ */ jsx3("strong", {
+          /* @__PURE__ */ jsx4("strong", {
             style: { color: COLORS3.text, fontWeight: 600 },
             children: "alignment score"
           }),
           " (0\u2013100). Hover for diagnostic notes."
         ]
       }),
-      /* @__PURE__ */ jsx3("div", {
+      /* @__PURE__ */ jsx4("div", {
         style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "High alignment (70\u2013100)" },
@@ -2741,10 +2907,10 @@ function TheologicalSankey() {
           { color: "#d48a4e", label: "Low (20\u201334)" },
           { color: "#cc6644", label: "Very low (10\u201319)" },
           { color: "#e84450", label: "Inverted (0\u20139)" }
-        ].map((item, i) => /* @__PURE__ */ jsxs3("div", {
+        ].map((item, i) => /* @__PURE__ */ jsxs4("div", {
           style: { display: "flex", alignItems: "center", gap: "5px" },
           children: [
-            /* @__PURE__ */ jsx3("div", {
+            /* @__PURE__ */ jsx4("div", {
               style: {
                 width: 14,
                 height: 5,
@@ -2752,48 +2918,48 @@ function TheologicalSankey() {
                 background: `linear-gradient(90deg, ${item.color}cc, ${item.color}55)`
               }
             }),
-            /* @__PURE__ */ jsx3("span", {
+            /* @__PURE__ */ jsx4("span", {
               style: { color: COLORS3.textDim },
               children: item.label
             })
           ]
         }, i))
       }),
-      /* @__PURE__ */ jsxs3("svg", {
+      /* @__PURE__ */ jsxs4("svg", {
         viewBox: `0 -10 ${W3} ${H3 + 80}`,
         width: "100%",
         style: { maxWidth: W3 + 20, overflow: "visible" },
         children: [
-          /* @__PURE__ */ jsxs3("defs", {
+          /* @__PURE__ */ jsxs4("defs", {
             children: [
-              /* @__PURE__ */ jsxs3("linearGradient", {
+              /* @__PURE__ */ jsxs4("linearGradient", {
                 id: "bgVertGrad",
                 x1: "0",
                 y1: "0",
                 x2: "0",
                 y2: "1",
                 children: [
-                  /* @__PURE__ */ jsx3("stop", {
+                  /* @__PURE__ */ jsx4("stop", {
                     offset: "0%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.05"
                   }),
-                  /* @__PURE__ */ jsx3("stop", {
+                  /* @__PURE__ */ jsx4("stop", {
                     offset: "30%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx3("stop", {
+                  /* @__PURE__ */ jsx4("stop", {
                     offset: "50%",
                     stopColor: "#b8924a",
                     stopOpacity: "0.01"
                   }),
-                  /* @__PURE__ */ jsx3("stop", {
+                  /* @__PURE__ */ jsx4("stop", {
                     offset: "70%",
                     stopColor: "#e84450",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx3("stop", {
+                  /* @__PURE__ */ jsx4("stop", {
                     offset: "100%",
                     stopColor: "#e84450",
                     stopOpacity: "0.07"
@@ -2802,24 +2968,24 @@ function TheologicalSankey() {
               }),
               linkData.map((link, i) => {
                 const sc = STREAM_COLORS3[link.stream] || { start: "#888", end: "#888" };
-                return /* @__PURE__ */ jsxs3("linearGradient", {
+                return /* @__PURE__ */ jsxs4("linearGradient", {
                   id: `fg-${i}`,
                   x1: "0",
                   y1: "0",
                   x2: "1",
                   y2: "0",
                   children: [
-                    /* @__PURE__ */ jsx3("stop", {
+                    /* @__PURE__ */ jsx4("stop", {
                       offset: "0%",
                       stopColor: sc.start,
                       stopOpacity: "0.8"
                     }),
-                    /* @__PURE__ */ jsx3("stop", {
+                    /* @__PURE__ */ jsx4("stop", {
                       offset: "50%",
                       stopColor: sc.start,
                       stopOpacity: "0.4"
                     }),
-                    /* @__PURE__ */ jsx3("stop", {
+                    /* @__PURE__ */ jsx4("stop", {
                       offset: "100%",
                       stopColor: sc.end,
                       stopOpacity: "0.8"
@@ -2829,7 +2995,7 @@ function TheologicalSankey() {
               })
             ]
           }),
-          /* @__PURE__ */ jsx3("rect", {
+          /* @__PURE__ */ jsx4("rect", {
             x: LEFT_MARGIN3 - 10,
             y: TOP_Y3 - 15,
             width: W3 - LEFT_MARGIN3 + 10,
@@ -2837,9 +3003,9 @@ function TheologicalSankey() {
             fill: "url(#bgVertGrad)",
             rx: 8
           }),
-          /* @__PURE__ */ jsxs3("g", {
+          /* @__PURE__ */ jsxs4("g", {
             children: [
-              /* @__PURE__ */ jsx3("line", {
+              /* @__PURE__ */ jsx4("line", {
                 x1: 58,
                 y1: TOP_Y3 + 5,
                 x2: 58,
@@ -2848,21 +3014,21 @@ function TheologicalSankey() {
                 strokeWidth: 0.5,
                 opacity: 0.25
               }),
-              /* @__PURE__ */ jsx3("path", {
+              /* @__PURE__ */ jsx4("path", {
                 d: "M 55 32 L 58 22 L 61 32",
                 fill: "none",
                 stroke: "#3ac5b5",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx3("path", {
+              /* @__PURE__ */ jsx4("path", {
                 d: `M 55 ${BOT_Y3 + 3} L 58 ${BOT_Y3 + 13} L 61 ${BOT_Y3 + 3}`,
                 fill: "none",
                 stroke: "#e84450",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx3("text", {
+              /* @__PURE__ */ jsx4("text", {
                 x: 25,
                 y: TOP_Y3 + 12,
                 fill: "#3ac5b5",
@@ -2874,7 +3040,7 @@ function TheologicalSankey() {
                 opacity: 0.65,
                 children: "ECKHARTIAN"
               }),
-              ["interiority", "detachment", "participation", "apophasis"].map((w, i) => /* @__PURE__ */ jsx3("text", {
+              ["interiority", "detachment", "participation", "apophasis"].map((w, i) => /* @__PURE__ */ jsx4("text", {
                 x: 25,
                 y: TOP_Y3 + 24 + i * 10,
                 fill: "#3ac5b5",
@@ -2885,7 +3051,7 @@ function TheologicalSankey() {
                 opacity: 0.45,
                 children: w
               }, w)),
-              /* @__PURE__ */ jsx3("text", {
+              /* @__PURE__ */ jsx4("text", {
                 x: 25,
                 y: BOT_Y3 - 40,
                 fill: "#e84450",
@@ -2897,7 +3063,7 @@ function TheologicalSankey() {
                 opacity: 0.65,
                 children: "INVERTED"
               }),
-              ["exteriority", "acquisition", "contract", "certainty"].map((w, i) => /* @__PURE__ */ jsx3("text", {
+              ["exteriority", "acquisition", "contract", "certainty"].map((w, i) => /* @__PURE__ */ jsx4("text", {
                 x: 25,
                 y: BOT_Y3 - 28 + i * 10,
                 fill: "#e84450",
@@ -2910,9 +3076,9 @@ function TheologicalSankey() {
               }, w))
             ]
           }),
-          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs3("g", {
+          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs4("g", {
             children: [
-              /* @__PURE__ */ jsx3("line", {
+              /* @__PURE__ */ jsx4("line", {
                 x1: LEFT_MARGIN3 - 5,
                 y1: scoreToY3(score),
                 x2: W3 - 20,
@@ -2922,7 +3088,7 @@ function TheologicalSankey() {
                 strokeDasharray: "4,12",
                 opacity: 0.18
               }),
-              /* @__PURE__ */ jsx3("text", {
+              /* @__PURE__ */ jsx4("text", {
                 x: 63,
                 y: scoreToY3(score) + 3,
                 fill: COLORS3.textMuted,
@@ -2934,9 +3100,9 @@ function TheologicalSankey() {
               })
             ]
           }, score)),
-          eraLabels3.map((era, i) => /* @__PURE__ */ jsxs3("g", {
+          eraLabels3.map((era, i) => /* @__PURE__ */ jsxs4("g", {
             children: [
-              /* @__PURE__ */ jsx3("line", {
+              /* @__PURE__ */ jsx4("line", {
                 x1: COL_X3[i],
                 y1: TOP_Y3 - 5,
                 x2: COL_X3[i],
@@ -2946,7 +3112,7 @@ function TheologicalSankey() {
                 strokeDasharray: "2,8",
                 opacity: 0.2
               }),
-              /* @__PURE__ */ jsx3("text", {
+              /* @__PURE__ */ jsx4("text", {
                 x: era.x,
                 y: BOT_Y3 + 45,
                 fill: COLORS3.textMuted,
@@ -2958,14 +3124,14 @@ function TheologicalSankey() {
               })
             ]
           }, i)),
-          /* @__PURE__ */ jsx3(InvertedBracket3, {}),
-          linkData.map((link, i) => /* @__PURE__ */ jsx3(FlowBand3, {
+          /* @__PURE__ */ jsx4(InvertedBracket3, {}),
+          linkData.map((link, i) => /* @__PURE__ */ jsx4(FlowBand3, {
             link,
             gradientId: `fg-${i}`,
             dimmed: hovered ? !isLinkHL(link) : false,
             highlighted: isLinkHL(link)
           }, i)),
-          nodes3.map((node) => /* @__PURE__ */ jsx3(NodeRect3, {
+          nodes3.map((node) => /* @__PURE__ */ jsx4(NodeRect3, {
             node,
             onHover: setHovered,
             dimmed: hovered && !connectedIds.has(node.id),
@@ -2973,7 +3139,7 @@ function TheologicalSankey() {
           }, node.id))
         ]
       }),
-      /* @__PURE__ */ jsx3("div", {
+      /* @__PURE__ */ jsx4("div", {
         style: {
           maxWidth: 750,
           marginTop: "10px",
@@ -2982,7 +3148,7 @@ function TheologicalSankey() {
           borderRadius: 8,
           border: "1px solid rgba(255,255,255,0.05)"
         },
-        children: /* @__PURE__ */ jsxs3("p", {
+        children: /* @__PURE__ */ jsxs4("p", {
           style: {
             color: COLORS3.textDim,
             fontSize: "14px",
@@ -2992,7 +3158,7 @@ function TheologicalSankey() {
             fontWeight: 300
           },
           children: [
-            /* @__PURE__ */ jsx3("strong", {
+            /* @__PURE__ */ jsx4("strong", {
               style: { color: COLORS3.text, fontWeight: 600 },
               children: "How to read this:"
             }),
@@ -3001,13 +3167,13 @@ function TheologicalSankey() {
             " ",
             "The five movements in the bottom-right are spaced for readability but all score \u2264 5 \u2014 they are each a distinct flavor of the same fundamental inversion.",
             " ",
-            /* @__PURE__ */ jsx3("span", {
+            /* @__PURE__ */ jsx4("span", {
               style: { color: "#b8924a" },
               children: "Catholicism"
             }),
             " at 55 genuinely holds both streams.",
             " ",
-            /* @__PURE__ */ jsx3("span", {
+            /* @__PURE__ */ jsx4("span", {
               style: { color: "#7a6aad" },
               children: "Eastern Orthodoxy"
             }),
@@ -3021,7 +3187,7 @@ function TheologicalSankey() {
 
 // content/pages/artifacts/metaphysical-choices-sankey/psychology-sankey.jsx
 import { useState as useState4, useMemo as useMemo4 } from "https://esm.sh/react";
-import { Fragment as Fragment4, jsx as jsx4, jsxs as jsxs4 } from "https://esm.sh/react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx5, jsxs as jsxs5 } from "https://esm.sh/react/jsx-runtime";
 var COLORS4 = {
   bg: "#0f0f0e",
   text: "#e8e4da",
@@ -3445,7 +3611,7 @@ function FlowBand4({ link, gradientId, dimmed, highlighted }) {
   const halfT = thickness / 2;
   const cp = (x2 - x1) * 0.42;
   const d = `M ${x1} ${y1 - halfT} C ${x1 + cp} ${y1 - halfT}, ${x2 - cp} ${y2 - halfT}, ${x2} ${y2 - halfT} L ${x2} ${y2 + halfT} C ${x2 - cp} ${y2 + halfT}, ${x1 + cp} ${y1 + halfT}, ${x1} ${y1 + halfT} Z`;
-  return /* @__PURE__ */ jsx4("path", {
+  return /* @__PURE__ */ jsx5("path", {
     d,
     fill: `url(#${gradientId})`,
     opacity: dimmed ? 0.03 : highlighted ? 0.6 : 0.3,
@@ -3456,9 +3622,9 @@ function ScorePill4({ score, x, y }) {
   const color = scoreToColor4(score);
   const pillW = 30;
   const pillH = 12;
-  return /* @__PURE__ */ jsxs4("g", {
+  return /* @__PURE__ */ jsxs5("g", {
     children: [
-      /* @__PURE__ */ jsx4("rect", {
+      /* @__PURE__ */ jsx5("rect", {
         x,
         y,
         width: pillW,
@@ -3467,7 +3633,7 @@ function ScorePill4({ score, x, y }) {
         fill: color,
         opacity: 0.15
       }),
-      /* @__PURE__ */ jsx4("rect", {
+      /* @__PURE__ */ jsx5("rect", {
         x: x + 1,
         y: y + 1,
         width: Math.max(2, (pillW - 2) * (score / 100)),
@@ -3476,7 +3642,7 @@ function ScorePill4({ score, x, y }) {
         fill: color,
         opacity: 0.55
       }),
-      /* @__PURE__ */ jsx4("text", {
+      /* @__PURE__ */ jsx5("text", {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
@@ -3494,14 +3660,14 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
   const isLeft = node.col <= 1;
   const labelX = isRight ? x + NODE_W4 + 10 : isLeft ? x + NODE_W4 + 10 : x - 8;
   const anchor = isRight ? "start" : isLeft ? "start" : "end";
-  return /* @__PURE__ */ jsxs4("g", {
+  return /* @__PURE__ */ jsxs5("g", {
     onMouseEnter: () => onHover(node.id),
     onMouseLeave: () => onHover(null),
     style: { cursor: "pointer", opacity: dimmed ? 0.1 : 1, transition: "opacity 0.4s ease" },
     children: [
-      node.glow && /* @__PURE__ */ jsxs4(Fragment4, {
+      node.glow && /* @__PURE__ */ jsxs5(Fragment4, {
         children: [
-          /* @__PURE__ */ jsx4("rect", {
+          /* @__PURE__ */ jsx5("rect", {
             x: x - 4,
             y: node.y - 4,
             width: NODE_W4 + 8,
@@ -3512,7 +3678,7 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
             strokeWidth: 1.5,
             opacity: 0.3
           }),
-          /* @__PURE__ */ jsx4("rect", {
+          /* @__PURE__ */ jsx5("rect", {
             x: x - 8,
             y: node.y - 8,
             width: NODE_W4 + 16,
@@ -3525,7 +3691,7 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
           })
         ]
       }),
-      /* @__PURE__ */ jsx4("rect", {
+      /* @__PURE__ */ jsx5("rect", {
         x,
         y: node.y,
         width: NODE_W4,
@@ -3536,7 +3702,7 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
         stroke: isHovered ? "#fff" : "none",
         strokeWidth: 1.5
       }),
-      /* @__PURE__ */ jsx4("text", {
+      /* @__PURE__ */ jsx5("text", {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS4.text,
@@ -3547,7 +3713,7 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.label
       }),
-      /* @__PURE__ */ jsx4("text", {
+      /* @__PURE__ */ jsx5("text", {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS4.textDim,
@@ -3558,25 +3724,25 @@ function NodeRect4({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.sub
       }),
-      /* @__PURE__ */ jsx4(ScorePill4, {
+      /* @__PURE__ */ jsx5(ScorePill4, {
         score: node.score,
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsx4("foreignObject", {
+      isHovered && node.note && /* @__PURE__ */ jsx5("foreignObject", {
         x: x + (isRight ? -10 : -350),
         y: node.y - 200,
         width: 350,
         height: 192,
         style: { pointerEvents: "none", overflow: "visible" },
-        children: /* @__PURE__ */ jsx4("div", {
+        children: /* @__PURE__ */ jsx5("div", {
           xmlns: "http://www.w3.org/1999/xhtml",
           style: {
             height: "100%",
             display: "flex",
             alignItems: "flex-end"
           },
-          children: /* @__PURE__ */ jsx4("div", {
+          children: /* @__PURE__ */ jsx5("div", {
             style: {
               background: "#1a1a18",
               border: `0.7px solid ${scoreToColor4(node.score)}`,
@@ -3600,22 +3766,22 @@ function InvertedBracket4() {
   const y1 = 525;
   const y2 = 790;
   const mid = (y1 + y2) / 2;
-  return /* @__PURE__ */ jsxs4("g", {
+  return /* @__PURE__ */ jsxs5("g", {
     opacity: 0.3,
     children: [
-      /* @__PURE__ */ jsx4("path", {
+      /* @__PURE__ */ jsx5("path", {
         d: `M ${x} ${y1} Q ${x + 14} ${y1}, ${x + 14} ${y1 + 14} L ${x + 14} ${mid - 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx4("path", {
+      /* @__PURE__ */ jsx5("path", {
         d: `M ${x} ${y2} Q ${x + 14} ${y2}, ${x + 14} ${y2 - 14} L ${x + 14} ${mid + 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx4("text", {
+      /* @__PURE__ */ jsx5("text", {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
@@ -3625,7 +3791,7 @@ function InvertedBracket4() {
         letterSpacing: "0.06em",
         children: "ALL SCORE \u2264 8"
       }),
-      /* @__PURE__ */ jsx4("text", {
+      /* @__PURE__ */ jsx5("text", {
         x: x + 28,
         y: mid + 6,
         fill: COLORS4.textMuted,
@@ -3685,7 +3851,7 @@ function PsychologySankey() {
     return ids;
   }, [hovered, linkData]);
   const isLinkHL = (link) => hovered && connectedIds.has(link.from) && connectedIds.has(link.to);
-  return /* @__PURE__ */ jsxs4("div", {
+  return /* @__PURE__ */ jsxs5("div", {
     style: {
       background: `radial-gradient(ellipse at 20% 15%, #1a1815 0%, ${COLORS4.bg} 70%)`,
       minHeight: "100vh",
@@ -3696,11 +3862,11 @@ function PsychologySankey() {
       fontFamily: "'Crimson Pro', Georgia, serif"
     },
     children: [
-      /* @__PURE__ */ jsx4("link", {
+      /* @__PURE__ */ jsx5("link", {
         href: "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap",
         rel: "stylesheet"
       }),
-      /* @__PURE__ */ jsx4("h1", {
+      /* @__PURE__ */ jsx5("h1", {
         style: {
           color: COLORS4.text,
           fontSize: "30px",
@@ -3712,7 +3878,7 @@ function PsychologySankey() {
         },
         children: "The Genealogy of Depth"
       }),
-      /* @__PURE__ */ jsx4("p", {
+      /* @__PURE__ */ jsx5("p", {
         style: {
           color: COLORS4.textDim,
           fontSize: "16px",
@@ -3725,7 +3891,7 @@ function PsychologySankey() {
         },
         children: 'From "know thyself" to "optimize your dopamine" \u2014 how psychology lost and sometimes recovered the participatory depths of the psyche. Hover for diagnostic notes.'
       }),
-      /* @__PURE__ */ jsx4("div", {
+      /* @__PURE__ */ jsx5("div", {
         style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Depth / participatory (70\u2013100)" },
@@ -3734,10 +3900,10 @@ function PsychologySankey() {
           { color: "#d48a4e", label: "Thinned (20\u201334)" },
           { color: "#cc6644", label: "Instrumental (10\u201319)" },
           { color: "#e84450", label: "Fully externalized (0\u20139)" }
-        ].map((item, i) => /* @__PURE__ */ jsxs4("div", {
+        ].map((item, i) => /* @__PURE__ */ jsxs5("div", {
           style: { display: "flex", alignItems: "center", gap: "5px" },
           children: [
-            /* @__PURE__ */ jsx4("div", {
+            /* @__PURE__ */ jsx5("div", {
               style: {
                 width: 14,
                 height: 5,
@@ -3745,48 +3911,48 @@ function PsychologySankey() {
                 background: `linear-gradient(90deg, ${item.color}cc, ${item.color}55)`
               }
             }),
-            /* @__PURE__ */ jsx4("span", {
+            /* @__PURE__ */ jsx5("span", {
               style: { color: COLORS4.textDim },
               children: item.label
             })
           ]
         }, i))
       }),
-      /* @__PURE__ */ jsxs4("svg", {
+      /* @__PURE__ */ jsxs5("svg", {
         viewBox: `0 -10 ${W4} ${H4 + 80}`,
         width: "100%",
         style: { maxWidth: W4 + 20, overflow: "visible" },
         children: [
-          /* @__PURE__ */ jsxs4("defs", {
+          /* @__PURE__ */ jsxs5("defs", {
             children: [
-              /* @__PURE__ */ jsxs4("linearGradient", {
+              /* @__PURE__ */ jsxs5("linearGradient", {
                 id: "bgVertGrad",
                 x1: "0",
                 y1: "0",
                 x2: "0",
                 y2: "1",
                 children: [
-                  /* @__PURE__ */ jsx4("stop", {
+                  /* @__PURE__ */ jsx5("stop", {
                     offset: "0%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.05"
                   }),
-                  /* @__PURE__ */ jsx4("stop", {
+                  /* @__PURE__ */ jsx5("stop", {
                     offset: "30%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx4("stop", {
+                  /* @__PURE__ */ jsx5("stop", {
                     offset: "50%",
                     stopColor: "#b8924a",
                     stopOpacity: "0.01"
                   }),
-                  /* @__PURE__ */ jsx4("stop", {
+                  /* @__PURE__ */ jsx5("stop", {
                     offset: "70%",
                     stopColor: "#e84450",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx4("stop", {
+                  /* @__PURE__ */ jsx5("stop", {
                     offset: "100%",
                     stopColor: "#e84450",
                     stopOpacity: "0.07"
@@ -3795,24 +3961,24 @@ function PsychologySankey() {
               }),
               linkData.map((link, i) => {
                 const sc = STREAM_COLORS4[link.stream] || { start: "#888", end: "#888" };
-                return /* @__PURE__ */ jsxs4("linearGradient", {
+                return /* @__PURE__ */ jsxs5("linearGradient", {
                   id: `fg-${i}`,
                   x1: "0",
                   y1: "0",
                   x2: "1",
                   y2: "0",
                   children: [
-                    /* @__PURE__ */ jsx4("stop", {
+                    /* @__PURE__ */ jsx5("stop", {
                       offset: "0%",
                       stopColor: sc.start,
                       stopOpacity: "0.8"
                     }),
-                    /* @__PURE__ */ jsx4("stop", {
+                    /* @__PURE__ */ jsx5("stop", {
                       offset: "50%",
                       stopColor: sc.start,
                       stopOpacity: "0.4"
                     }),
-                    /* @__PURE__ */ jsx4("stop", {
+                    /* @__PURE__ */ jsx5("stop", {
                       offset: "100%",
                       stopColor: sc.end,
                       stopOpacity: "0.8"
@@ -3822,7 +3988,7 @@ function PsychologySankey() {
               })
             ]
           }),
-          /* @__PURE__ */ jsx4("rect", {
+          /* @__PURE__ */ jsx5("rect", {
             x: LEFT_MARGIN4 - 10,
             y: TOP_Y4 - 15,
             width: W4 - LEFT_MARGIN4 + 10,
@@ -3830,9 +3996,9 @@ function PsychologySankey() {
             fill: "url(#bgVertGrad)",
             rx: 8
           }),
-          /* @__PURE__ */ jsxs4("g", {
+          /* @__PURE__ */ jsxs5("g", {
             children: [
-              /* @__PURE__ */ jsx4("line", {
+              /* @__PURE__ */ jsx5("line", {
                 x1: 58,
                 y1: TOP_Y4 + 5,
                 x2: 58,
@@ -3841,21 +4007,21 @@ function PsychologySankey() {
                 strokeWidth: 0.5,
                 opacity: 0.25
               }),
-              /* @__PURE__ */ jsx4("path", {
+              /* @__PURE__ */ jsx5("path", {
                 d: "M 55 32 L 58 22 L 61 32",
                 fill: "none",
                 stroke: "#3ac5b5",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx4("path", {
+              /* @__PURE__ */ jsx5("path", {
                 d: `M 55 ${BOT_Y4 + 3} L 58 ${BOT_Y4 + 13} L 61 ${BOT_Y4 + 3}`,
                 fill: "none",
                 stroke: "#e84450",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx4("text", {
+              /* @__PURE__ */ jsx5("text", {
                 x: 25,
                 y: TOP_Y4 + 12,
                 fill: "#3ac5b5",
@@ -3867,7 +4033,7 @@ function PsychologySankey() {
                 opacity: 0.65,
                 children: "DEPTH"
               }),
-              ["unfathomable psyche", "participatory knowing", "soul as whole", "transformation"].map((w, i) => /* @__PURE__ */ jsx4("text", {
+              ["unfathomable psyche", "participatory knowing", "soul as whole", "transformation"].map((w, i) => /* @__PURE__ */ jsx5("text", {
                 x: 25,
                 y: TOP_Y4 + 24 + i * 10,
                 fill: "#3ac5b5",
@@ -3878,7 +4044,7 @@ function PsychologySankey() {
                 opacity: 0.45,
                 children: w
               }, w)),
-              /* @__PURE__ */ jsx4("text", {
+              /* @__PURE__ */ jsx5("text", {
                 x: 25,
                 y: BOT_Y4 - 40,
                 fill: "#e84450",
@@ -3890,7 +4056,7 @@ function PsychologySankey() {
                 opacity: 0.65,
                 children: "SURFACE"
               }),
-              ["mechanism", "optimization", "productivity", "technique"].map((w, i) => /* @__PURE__ */ jsx4("text", {
+              ["mechanism", "optimization", "productivity", "technique"].map((w, i) => /* @__PURE__ */ jsx5("text", {
                 x: 25,
                 y: BOT_Y4 - 28 + i * 10,
                 fill: "#e84450",
@@ -3903,9 +4069,9 @@ function PsychologySankey() {
               }, w))
             ]
           }),
-          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs4("g", {
+          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs5("g", {
             children: [
-              /* @__PURE__ */ jsx4("line", {
+              /* @__PURE__ */ jsx5("line", {
                 x1: LEFT_MARGIN4 - 5,
                 y1: scoreToY4(score),
                 x2: W4 - 20,
@@ -3915,7 +4081,7 @@ function PsychologySankey() {
                 strokeDasharray: "4,12",
                 opacity: 0.18
               }),
-              /* @__PURE__ */ jsx4("text", {
+              /* @__PURE__ */ jsx5("text", {
                 x: 63,
                 y: scoreToY4(score) + 3,
                 fill: COLORS4.textMuted,
@@ -3927,9 +4093,9 @@ function PsychologySankey() {
               })
             ]
           }, score)),
-          eraLabels4.map((era, i) => /* @__PURE__ */ jsxs4("g", {
+          eraLabels4.map((era, i) => /* @__PURE__ */ jsxs5("g", {
             children: [
-              /* @__PURE__ */ jsx4("line", {
+              /* @__PURE__ */ jsx5("line", {
                 x1: COL_X4[i],
                 y1: TOP_Y4 - 5,
                 x2: COL_X4[i],
@@ -3939,7 +4105,7 @@ function PsychologySankey() {
                 strokeDasharray: "2,8",
                 opacity: 0.2
               }),
-              /* @__PURE__ */ jsx4("text", {
+              /* @__PURE__ */ jsx5("text", {
                 x: era.x,
                 y: BOT_Y4 + 45,
                 fill: COLORS4.textMuted,
@@ -3951,14 +4117,14 @@ function PsychologySankey() {
               })
             ]
           }, i)),
-          /* @__PURE__ */ jsx4(InvertedBracket4, {}),
-          linkData.map((link, i) => /* @__PURE__ */ jsx4(FlowBand4, {
+          /* @__PURE__ */ jsx5(InvertedBracket4, {}),
+          linkData.map((link, i) => /* @__PURE__ */ jsx5(FlowBand4, {
             link,
             gradientId: `fg-${i}`,
             dimmed: hovered ? !isLinkHL(link) : false,
             highlighted: isLinkHL(link)
           }, i)),
-          nodes4.map((node) => /* @__PURE__ */ jsx4(NodeRect4, {
+          nodes4.map((node) => /* @__PURE__ */ jsx5(NodeRect4, {
             node,
             onHover: setHovered,
             dimmed: hovered && !connectedIds.has(node.id),
@@ -3966,7 +4132,7 @@ function PsychologySankey() {
           }, node.id))
         ]
       }),
-      /* @__PURE__ */ jsx4("div", {
+      /* @__PURE__ */ jsx5("div", {
         style: {
           maxWidth: 750,
           marginTop: "8px",
@@ -3975,7 +4141,7 @@ function PsychologySankey() {
           borderRadius: 8,
           border: "1px solid rgba(255,255,255,0.05)"
         },
-        children: /* @__PURE__ */ jsxs4("p", {
+        children: /* @__PURE__ */ jsxs5("p", {
           style: {
             color: COLORS4.textDim,
             fontSize: "14px",
@@ -3985,35 +4151,35 @@ function PsychologySankey() {
             fontWeight: 300
           },
           children: [
-            /* @__PURE__ */ jsx4("strong", {
+            /* @__PURE__ */ jsx5("strong", {
               style: { color: COLORS4.text, fontWeight: 600 },
               children: "The same shape:"
             }),
             " ",
-            /* @__PURE__ */ jsx4("span", {
+            /* @__PURE__ */ jsx5("span", {
               style: { color: "#2ee8d0" },
               children: "Jung"
             }),
             " at 88 plays Eckhart's role \u2014 the psyche as unfathomable depth, individuation as participatory transformation.",
             " ",
-            /* @__PURE__ */ jsx4("span", {
+            /* @__PURE__ */ jsx5("span", {
               style: { color: "#d48a4e" },
               children: "Behaviorism"
             }),
             " at 8 is the nominalist fork \u2014 there IS no inner life, only stimulus and response.",
             " ",
-            /* @__PURE__ */ jsx4("span", {
+            /* @__PURE__ */ jsx5("span", {
               style: { color: "#8B72BE" },
               children: "Freud"
             }),
             " at 65 parallels Catholicism \u2014 recovered depth but reduced it to mechanism (drives, hydraulics).",
             " ",
-            /* @__PURE__ */ jsx4("span", {
+            /* @__PURE__ */ jsx5("span", {
               style: { color: "#cc5544" },
               children: "CBT"
             }),
             " at 20 is the Westminster Confession of psychology \u2014 swap bad propositions for correct ones. The bottom row is the prosperity gospel of the mind: optimize, hack, subscribe, produce. The thin ",
-            /* @__PURE__ */ jsx4("span", {
+            /* @__PURE__ */ jsx5("span", {
               style: { color: "#3ac5b5" },
               children: "teal stream"
             }),
@@ -4027,7 +4193,7 @@ function PsychologySankey() {
 
 // content/pages/artifacts/metaphysical-choices-sankey/buddhism-sankey.jsx
 import { useState as useState5, useMemo as useMemo5 } from "https://esm.sh/react";
-import { Fragment as Fragment5, jsx as jsx5, jsxs as jsxs5 } from "https://esm.sh/react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx6, jsxs as jsxs6 } from "https://esm.sh/react/jsx-runtime";
 var COLORS5 = {
   bg: "#0f0f0e",
   text: "#e8e4da",
@@ -4475,7 +4641,7 @@ function FlowBand5({ link, gradientId, dimmed, highlighted }) {
   const halfT = thickness / 2;
   const cp = (x2 - x1) * 0.42;
   const d = `M ${x1} ${y1 - halfT} C ${x1 + cp} ${y1 - halfT}, ${x2 - cp} ${y2 - halfT}, ${x2} ${y2 - halfT} L ${x2} ${y2 + halfT} C ${x2 - cp} ${y2 + halfT}, ${x1 + cp} ${y1 + halfT}, ${x1} ${y1 + halfT} Z`;
-  return /* @__PURE__ */ jsx5("path", {
+  return /* @__PURE__ */ jsx6("path", {
     d,
     fill: `url(#${gradientId})`,
     opacity: dimmed ? 0.03 : highlighted ? 0.6 : 0.3,
@@ -4486,9 +4652,9 @@ function ScorePill5({ score, x, y }) {
   const color = scoreToColor5(score);
   const pillW = 30;
   const pillH = 12;
-  return /* @__PURE__ */ jsxs5("g", {
+  return /* @__PURE__ */ jsxs6("g", {
     children: [
-      /* @__PURE__ */ jsx5("rect", {
+      /* @__PURE__ */ jsx6("rect", {
         x,
         y,
         width: pillW,
@@ -4497,7 +4663,7 @@ function ScorePill5({ score, x, y }) {
         fill: color,
         opacity: 0.15
       }),
-      /* @__PURE__ */ jsx5("rect", {
+      /* @__PURE__ */ jsx6("rect", {
         x: x + 1,
         y: y + 1,
         width: Math.max(2, (pillW - 2) * (score / 100)),
@@ -4506,7 +4672,7 @@ function ScorePill5({ score, x, y }) {
         fill: color,
         opacity: 0.55
       }),
-      /* @__PURE__ */ jsx5("text", {
+      /* @__PURE__ */ jsx6("text", {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
@@ -4524,14 +4690,14 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
   const isLeft = node.col <= 1;
   const labelX = isRight ? x + NODE_W5 + 10 : isLeft ? x + NODE_W5 + 10 : x - 8;
   const anchor = isRight ? "start" : isLeft ? "start" : "end";
-  return /* @__PURE__ */ jsxs5("g", {
+  return /* @__PURE__ */ jsxs6("g", {
     onMouseEnter: () => onHover(node.id),
     onMouseLeave: () => onHover(null),
     style: { cursor: "pointer", opacity: dimmed ? 0.1 : 1, transition: "opacity 0.4s ease" },
     children: [
-      node.glow && /* @__PURE__ */ jsxs5(Fragment5, {
+      node.glow && /* @__PURE__ */ jsxs6(Fragment5, {
         children: [
-          /* @__PURE__ */ jsx5("rect", {
+          /* @__PURE__ */ jsx6("rect", {
             x: x - 4,
             y: node.y - 4,
             width: NODE_W5 + 8,
@@ -4542,7 +4708,7 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
             strokeWidth: 1.5,
             opacity: 0.3
           }),
-          /* @__PURE__ */ jsx5("rect", {
+          /* @__PURE__ */ jsx6("rect", {
             x: x - 8,
             y: node.y - 8,
             width: NODE_W5 + 16,
@@ -4555,7 +4721,7 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
           })
         ]
       }),
-      /* @__PURE__ */ jsx5("rect", {
+      /* @__PURE__ */ jsx6("rect", {
         x,
         y: node.y,
         width: NODE_W5,
@@ -4566,7 +4732,7 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
         stroke: isHovered ? "#fff" : "none",
         strokeWidth: 1.5
       }),
-      /* @__PURE__ */ jsx5("text", {
+      /* @__PURE__ */ jsx6("text", {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS5.text,
@@ -4577,7 +4743,7 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.label
       }),
-      /* @__PURE__ */ jsx5("text", {
+      /* @__PURE__ */ jsx6("text", {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS5.textDim,
@@ -4588,25 +4754,25 @@ function NodeRect5({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.sub
       }),
-      /* @__PURE__ */ jsx5(ScorePill5, {
+      /* @__PURE__ */ jsx6(ScorePill5, {
         score: node.score,
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsx5("foreignObject", {
+      isHovered && node.note && /* @__PURE__ */ jsx6("foreignObject", {
         x: x + (isRight ? -10 : -360),
         y: node.y - 200,
         width: 360,
         height: 192,
         style: { pointerEvents: "none", overflow: "visible" },
-        children: /* @__PURE__ */ jsx5("div", {
+        children: /* @__PURE__ */ jsx6("div", {
           xmlns: "http://www.w3.org/1999/xhtml",
           style: {
             height: "100%",
             display: "flex",
             alignItems: "flex-end"
           },
-          children: /* @__PURE__ */ jsx5("div", {
+          children: /* @__PURE__ */ jsx6("div", {
             style: {
               background: "#1a1a18",
               border: `0.7px solid ${scoreToColor5(node.score)}`,
@@ -4630,22 +4796,22 @@ function InvertedBracket5() {
   const y1 = 505;
   const y2 = 770;
   const mid = (y1 + y2) / 2;
-  return /* @__PURE__ */ jsxs5("g", {
+  return /* @__PURE__ */ jsxs6("g", {
     opacity: 0.3,
     children: [
-      /* @__PURE__ */ jsx5("path", {
+      /* @__PURE__ */ jsx6("path", {
         d: `M ${x} ${y1} Q ${x + 14} ${y1}, ${x + 14} ${y1 + 14} L ${x + 14} ${mid - 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx5("path", {
+      /* @__PURE__ */ jsx6("path", {
         d: `M ${x} ${y2} Q ${x + 14} ${y2}, ${x + 14} ${y2 - 14} L ${x + 14} ${mid + 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx5("text", {
+      /* @__PURE__ */ jsx6("text", {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
@@ -4655,7 +4821,7 @@ function InvertedBracket5() {
         letterSpacing: "0.06em",
         children: "ALL SCORE \u2264 5"
       }),
-      /* @__PURE__ */ jsx5("text", {
+      /* @__PURE__ */ jsx6("text", {
         x: x + 28,
         y: mid + 6,
         fill: COLORS5.textMuted,
@@ -4715,7 +4881,7 @@ function BuddhismSankey() {
     return ids;
   }, [hovered, linkData]);
   const isLinkHL = (link) => hovered && connectedIds.has(link.from) && connectedIds.has(link.to);
-  return /* @__PURE__ */ jsxs5("div", {
+  return /* @__PURE__ */ jsxs6("div", {
     style: {
       background: `radial-gradient(ellipse at 20% 15%, #1a1815 0%, ${COLORS5.bg} 70%)`,
       minHeight: "100vh",
@@ -4726,11 +4892,11 @@ function BuddhismSankey() {
       fontFamily: "'Crimson Pro', Georgia, serif"
     },
     children: [
-      /* @__PURE__ */ jsx5("link", {
+      /* @__PURE__ */ jsx6("link", {
         href: "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap",
         rel: "stylesheet"
       }),
-      /* @__PURE__ */ jsx5("h1", {
+      /* @__PURE__ */ jsx6("h1", {
         style: {
           color: COLORS5.text,
           fontSize: "30px",
@@ -4742,7 +4908,7 @@ function BuddhismSankey() {
         },
         children: "The Commodification of Awakening"
       }),
-      /* @__PURE__ */ jsx5("p", {
+      /* @__PURE__ */ jsx6("p", {
         style: {
           color: COLORS5.textDim,
           fontSize: "16px",
@@ -4755,7 +4921,7 @@ function BuddhismSankey() {
         },
         children: "From the Buddha's direct insight to corporate mindfulness \u2014 how a tradition of radical renunciation became a productivity tool. Hover for diagnostic notes."
       }),
-      /* @__PURE__ */ jsx5("div", {
+      /* @__PURE__ */ jsx6("div", {
         style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Awakened / participatory (70\u2013100)" },
@@ -4764,10 +4930,10 @@ function BuddhismSankey() {
           { color: "#d48a4e", label: "Thinned (20\u201334)" },
           { color: "#cc6644", label: "Instrumental (10\u201319)" },
           { color: "#e84450", label: "Fully inverted (0\u20139)" }
-        ].map((item, i) => /* @__PURE__ */ jsxs5("div", {
+        ].map((item, i) => /* @__PURE__ */ jsxs6("div", {
           style: { display: "flex", alignItems: "center", gap: "5px" },
           children: [
-            /* @__PURE__ */ jsx5("div", {
+            /* @__PURE__ */ jsx6("div", {
               style: {
                 width: 14,
                 height: 5,
@@ -4775,48 +4941,48 @@ function BuddhismSankey() {
                 background: `linear-gradient(90deg, ${item.color}cc, ${item.color}55)`
               }
             }),
-            /* @__PURE__ */ jsx5("span", {
+            /* @__PURE__ */ jsx6("span", {
               style: { color: COLORS5.textDim },
               children: item.label
             })
           ]
         }, i))
       }),
-      /* @__PURE__ */ jsxs5("svg", {
+      /* @__PURE__ */ jsxs6("svg", {
         viewBox: `0 -10 ${W5} ${H5 + 80}`,
         width: "100%",
         style: { maxWidth: W5 + 20, overflow: "visible" },
         children: [
-          /* @__PURE__ */ jsxs5("defs", {
+          /* @__PURE__ */ jsxs6("defs", {
             children: [
-              /* @__PURE__ */ jsxs5("linearGradient", {
+              /* @__PURE__ */ jsxs6("linearGradient", {
                 id: "bgVertGrad",
                 x1: "0",
                 y1: "0",
                 x2: "0",
                 y2: "1",
                 children: [
-                  /* @__PURE__ */ jsx5("stop", {
+                  /* @__PURE__ */ jsx6("stop", {
                     offset: "0%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.05"
                   }),
-                  /* @__PURE__ */ jsx5("stop", {
+                  /* @__PURE__ */ jsx6("stop", {
                     offset: "30%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx5("stop", {
+                  /* @__PURE__ */ jsx6("stop", {
                     offset: "50%",
                     stopColor: "#b8924a",
                     stopOpacity: "0.01"
                   }),
-                  /* @__PURE__ */ jsx5("stop", {
+                  /* @__PURE__ */ jsx6("stop", {
                     offset: "70%",
                     stopColor: "#e84450",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx5("stop", {
+                  /* @__PURE__ */ jsx6("stop", {
                     offset: "100%",
                     stopColor: "#e84450",
                     stopOpacity: "0.07"
@@ -4825,24 +4991,24 @@ function BuddhismSankey() {
               }),
               linkData.map((link, i) => {
                 const sc = STREAM_COLORS5[link.stream] || { start: "#888", end: "#888" };
-                return /* @__PURE__ */ jsxs5("linearGradient", {
+                return /* @__PURE__ */ jsxs6("linearGradient", {
                   id: `fg-${i}`,
                   x1: "0",
                   y1: "0",
                   x2: "1",
                   y2: "0",
                   children: [
-                    /* @__PURE__ */ jsx5("stop", {
+                    /* @__PURE__ */ jsx6("stop", {
                       offset: "0%",
                       stopColor: sc.start,
                       stopOpacity: "0.8"
                     }),
-                    /* @__PURE__ */ jsx5("stop", {
+                    /* @__PURE__ */ jsx6("stop", {
                       offset: "50%",
                       stopColor: sc.start,
                       stopOpacity: "0.4"
                     }),
-                    /* @__PURE__ */ jsx5("stop", {
+                    /* @__PURE__ */ jsx6("stop", {
                       offset: "100%",
                       stopColor: sc.end,
                       stopOpacity: "0.8"
@@ -4852,7 +5018,7 @@ function BuddhismSankey() {
               })
             ]
           }),
-          /* @__PURE__ */ jsx5("rect", {
+          /* @__PURE__ */ jsx6("rect", {
             x: LEFT_MARGIN5 - 10,
             y: TOP_Y5 - 15,
             width: W5 - LEFT_MARGIN5 + 10,
@@ -4860,9 +5026,9 @@ function BuddhismSankey() {
             fill: "url(#bgVertGrad)",
             rx: 8
           }),
-          /* @__PURE__ */ jsxs5("g", {
+          /* @__PURE__ */ jsxs6("g", {
             children: [
-              /* @__PURE__ */ jsx5("line", {
+              /* @__PURE__ */ jsx6("line", {
                 x1: 58,
                 y1: TOP_Y5 + 5,
                 x2: 58,
@@ -4871,21 +5037,21 @@ function BuddhismSankey() {
                 strokeWidth: 0.5,
                 opacity: 0.25
               }),
-              /* @__PURE__ */ jsx5("path", {
+              /* @__PURE__ */ jsx6("path", {
                 d: "M 55 32 L 58 22 L 61 32",
                 fill: "none",
                 stroke: "#3ac5b5",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx5("path", {
+              /* @__PURE__ */ jsx6("path", {
                 d: `M 55 ${BOT_Y5 + 3} L 58 ${BOT_Y5 + 13} L 61 ${BOT_Y5 + 3}`,
                 fill: "none",
                 stroke: "#e84450",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx5("text", {
+              /* @__PURE__ */ jsx6("text", {
                 x: 25,
                 y: TOP_Y5 + 12,
                 fill: "#3ac5b5",
@@ -4897,7 +5063,7 @@ function BuddhismSankey() {
                 opacity: 0.65,
                 children: "AWAKENING"
               }),
-              ["sunyata / emptiness", "anatta / no-self", "prajna / insight", "liberation"].map((w, i) => /* @__PURE__ */ jsx5("text", {
+              ["sunyata / emptiness", "anatta / no-self", "prajna / insight", "liberation"].map((w, i) => /* @__PURE__ */ jsx6("text", {
                 x: 25,
                 y: TOP_Y5 + 24 + i * 10,
                 fill: "#3ac5b5",
@@ -4908,7 +5074,7 @@ function BuddhismSankey() {
                 opacity: 0.45,
                 children: w
               }, w)),
-              /* @__PURE__ */ jsx5("text", {
+              /* @__PURE__ */ jsx6("text", {
                 x: 25,
                 y: BOT_Y5 - 40,
                 fill: "#e84450",
@@ -4920,7 +5086,7 @@ function BuddhismSankey() {
                 opacity: 0.65,
                 children: "CRAVING"
               }),
-              ["acquisition", "commodification", "technique as product", "ego optimization"].map((w, i) => /* @__PURE__ */ jsx5("text", {
+              ["acquisition", "commodification", "technique as product", "ego optimization"].map((w, i) => /* @__PURE__ */ jsx6("text", {
                 x: 25,
                 y: BOT_Y5 - 28 + i * 10,
                 fill: "#e84450",
@@ -4933,9 +5099,9 @@ function BuddhismSankey() {
               }, w))
             ]
           }),
-          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs5("g", {
+          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs6("g", {
             children: [
-              /* @__PURE__ */ jsx5("line", {
+              /* @__PURE__ */ jsx6("line", {
                 x1: LEFT_MARGIN5 - 5,
                 y1: scoreToY5(score),
                 x2: W5 - 20,
@@ -4945,7 +5111,7 @@ function BuddhismSankey() {
                 strokeDasharray: "4,12",
                 opacity: 0.18
               }),
-              /* @__PURE__ */ jsx5("text", {
+              /* @__PURE__ */ jsx6("text", {
                 x: 63,
                 y: scoreToY5(score) + 3,
                 fill: COLORS5.textMuted,
@@ -4957,9 +5123,9 @@ function BuddhismSankey() {
               })
             ]
           }, score)),
-          eraLabels5.map((era, i) => /* @__PURE__ */ jsxs5("g", {
+          eraLabels5.map((era, i) => /* @__PURE__ */ jsxs6("g", {
             children: [
-              /* @__PURE__ */ jsx5("line", {
+              /* @__PURE__ */ jsx6("line", {
                 x1: COL_X5[i],
                 y1: TOP_Y5 - 5,
                 x2: COL_X5[i],
@@ -4969,7 +5135,7 @@ function BuddhismSankey() {
                 strokeDasharray: "2,8",
                 opacity: 0.2
               }),
-              /* @__PURE__ */ jsx5("text", {
+              /* @__PURE__ */ jsx6("text", {
                 x: era.x,
                 y: BOT_Y5 + 45,
                 fill: COLORS5.textMuted,
@@ -4981,14 +5147,14 @@ function BuddhismSankey() {
               })
             ]
           }, i)),
-          /* @__PURE__ */ jsx5(InvertedBracket5, {}),
-          linkData.map((link, i) => /* @__PURE__ */ jsx5(FlowBand5, {
+          /* @__PURE__ */ jsx6(InvertedBracket5, {}),
+          linkData.map((link, i) => /* @__PURE__ */ jsx6(FlowBand5, {
             link,
             gradientId: `fg-${i}`,
             dimmed: hovered ? !isLinkHL(link) : false,
             highlighted: isLinkHL(link)
           }, i)),
-          nodes5.map((node) => /* @__PURE__ */ jsx5(NodeRect5, {
+          nodes5.map((node) => /* @__PURE__ */ jsx6(NodeRect5, {
             node,
             onHover: setHovered,
             dimmed: hovered && !connectedIds.has(node.id),
@@ -4996,7 +5162,7 @@ function BuddhismSankey() {
           }, node.id))
         ]
       }),
-      /* @__PURE__ */ jsx5("div", {
+      /* @__PURE__ */ jsx6("div", {
         style: {
           maxWidth: 750,
           marginTop: "8px",
@@ -5005,7 +5171,7 @@ function BuddhismSankey() {
           borderRadius: 8,
           border: "1px solid rgba(255,255,255,0.05)"
         },
-        children: /* @__PURE__ */ jsxs5("p", {
+        children: /* @__PURE__ */ jsxs6("p", {
           style: {
             color: COLORS5.textDim,
             fontSize: "14px",
@@ -5015,47 +5181,47 @@ function BuddhismSankey() {
             fontWeight: 300
           },
           children: [
-            /* @__PURE__ */ jsx5("strong", {
+            /* @__PURE__ */ jsx6("strong", {
               style: { color: COLORS5.text, fontWeight: 600 },
               children: "The deepest irony:"
             }),
             " ",
             "Buddhism's core teaching is that ",
-            /* @__PURE__ */ jsx5("em", {
+            /* @__PURE__ */ jsx6("em", {
               children: "craving causes suffering"
             }),
             ". The contemporary inversion uses Buddhist technique to ",
-            /* @__PURE__ */ jsx5("em", {
+            /* @__PURE__ */ jsx6("em", {
               children: "optimize craving"
             }),
             " \u2014 meditate so you can want more effectively.",
             " ",
-            /* @__PURE__ */ jsx5("span", {
+            /* @__PURE__ */ jsx6("span", {
               style: { color: "#3ac5b5" },
               children: "Nagarjuna"
             }),
             " at 95 and",
             " ",
-            /* @__PURE__ */ jsx5("span", {
+            /* @__PURE__ */ jsx6("span", {
               style: { color: "#2ee8d0" },
               children: "Dzogchen"
             }),
             " at 92 are Buddhism's Eckhart \u2014 emptiness that dissolves even the concept of emptiness.",
             " ",
-            /* @__PURE__ */ jsx5("span", {
+            /* @__PURE__ */ jsx6("span", {
               style: { color: "#cc5544" },
               children: "Nichiren"
             }),
             " at 12 is the fork \u2014 chant the sutra title for material results, exactly paralleling the prosperity gospel.",
             " ",
-            /* @__PURE__ */ jsx5("span", {
+            /* @__PURE__ */ jsx6("span", {
               style: { color: "#993a3a" },
               children: "Buddhist nationalism"
             }),
             " at 3 weaponizes compassion for ethnic violence.",
             " ",
             "The ",
-            /* @__PURE__ */ jsx5("span", {
+            /* @__PURE__ */ jsx6("span", {
               style: { color: "#e84450" },
               children: "bottom row"
             }),
@@ -5069,7 +5235,7 @@ function BuddhismSankey() {
 
 // content/pages/artifacts/metaphysical-choices-sankey/islamic-sankey.jsx
 import { useState as useState6, useMemo as useMemo6 } from "https://esm.sh/react";
-import { Fragment as Fragment6, jsx as jsx6, jsxs as jsxs6 } from "https://esm.sh/react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx7, jsxs as jsxs7 } from "https://esm.sh/react/jsx-runtime";
 var COLORS6 = {
   bg: "#0f0f0e",
   text: "#e8e4da",
@@ -5451,7 +5617,7 @@ function FlowBand6({ link, gradientId, dimmed, highlighted }) {
   const halfT = thickness / 2;
   const cp = (x2 - x1) * 0.42;
   const d = `M ${x1} ${y1 - halfT} C ${x1 + cp} ${y1 - halfT}, ${x2 - cp} ${y2 - halfT}, ${x2} ${y2 - halfT} L ${x2} ${y2 + halfT} C ${x2 - cp} ${y2 + halfT}, ${x1 + cp} ${y1 + halfT}, ${x1} ${y1 + halfT} Z`;
-  return /* @__PURE__ */ jsx6("path", {
+  return /* @__PURE__ */ jsx7("path", {
     d,
     fill: `url(#${gradientId})`,
     opacity: dimmed ? 0.03 : highlighted ? 0.6 : 0.3,
@@ -5462,9 +5628,9 @@ function ScorePill6({ score, x, y }) {
   const color = scoreToColor6(score);
   const pillW = 30;
   const pillH = 12;
-  return /* @__PURE__ */ jsxs6("g", {
+  return /* @__PURE__ */ jsxs7("g", {
     children: [
-      /* @__PURE__ */ jsx6("rect", {
+      /* @__PURE__ */ jsx7("rect", {
         x,
         y,
         width: pillW,
@@ -5473,7 +5639,7 @@ function ScorePill6({ score, x, y }) {
         fill: color,
         opacity: 0.15
       }),
-      /* @__PURE__ */ jsx6("rect", {
+      /* @__PURE__ */ jsx7("rect", {
         x: x + 1,
         y: y + 1,
         width: Math.max(2, (pillW - 2) * (score / 100)),
@@ -5482,7 +5648,7 @@ function ScorePill6({ score, x, y }) {
         fill: color,
         opacity: 0.55
       }),
-      /* @__PURE__ */ jsx6("text", {
+      /* @__PURE__ */ jsx7("text", {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
@@ -5500,14 +5666,14 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
   const isLeft = node.col <= 1;
   const labelX = isRight ? x + NODE_W6 + 10 : isLeft ? x + NODE_W6 + 10 : x - 8;
   const anchor = isRight ? "start" : isLeft ? "start" : "end";
-  return /* @__PURE__ */ jsxs6("g", {
+  return /* @__PURE__ */ jsxs7("g", {
     onMouseEnter: () => onHover(node.id),
     onMouseLeave: () => onHover(null),
     style: { cursor: "pointer", opacity: dimmed ? 0.1 : 1, transition: "opacity 0.4s ease" },
     children: [
-      node.glow && /* @__PURE__ */ jsxs6(Fragment6, {
+      node.glow && /* @__PURE__ */ jsxs7(Fragment6, {
         children: [
-          /* @__PURE__ */ jsx6("rect", {
+          /* @__PURE__ */ jsx7("rect", {
             x: x - 4,
             y: node.y - 4,
             width: NODE_W6 + 8,
@@ -5518,7 +5684,7 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
             strokeWidth: 1.5,
             opacity: 0.3
           }),
-          /* @__PURE__ */ jsx6("rect", {
+          /* @__PURE__ */ jsx7("rect", {
             x: x - 8,
             y: node.y - 8,
             width: NODE_W6 + 16,
@@ -5531,7 +5697,7 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
           })
         ]
       }),
-      /* @__PURE__ */ jsx6("rect", {
+      /* @__PURE__ */ jsx7("rect", {
         x,
         y: node.y,
         width: NODE_W6,
@@ -5542,7 +5708,7 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
         stroke: isHovered ? "#fff" : "none",
         strokeWidth: 1.5
       }),
-      /* @__PURE__ */ jsx6("text", {
+      /* @__PURE__ */ jsx7("text", {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS6.text,
@@ -5553,7 +5719,7 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.label
       }),
-      /* @__PURE__ */ jsx6("text", {
+      /* @__PURE__ */ jsx7("text", {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS6.textDim,
@@ -5564,25 +5730,25 @@ function NodeRect6({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.sub
       }),
-      /* @__PURE__ */ jsx6(ScorePill6, {
+      /* @__PURE__ */ jsx7(ScorePill6, {
         score: node.score,
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsx6("foreignObject", {
+      isHovered && node.note && /* @__PURE__ */ jsx7("foreignObject", {
         x: x + (isRight ? -10 : -340),
         y: node.y - 200,
         width: 340,
         height: 192,
         style: { pointerEvents: "none", overflow: "visible" },
-        children: /* @__PURE__ */ jsx6("div", {
+        children: /* @__PURE__ */ jsx7("div", {
           xmlns: "http://www.w3.org/1999/xhtml",
           style: {
             height: "100%",
             display: "flex",
             alignItems: "flex-end"
           },
-          children: /* @__PURE__ */ jsx6("div", {
+          children: /* @__PURE__ */ jsx7("div", {
             style: {
               background: "#1a1a18",
               border: `0.7px solid ${scoreToColor6(node.score)}`,
@@ -5606,22 +5772,22 @@ function InvertedBracket6() {
   const y1 = 555;
   const y2 = 750;
   const mid = (y1 + y2) / 2;
-  return /* @__PURE__ */ jsxs6("g", {
+  return /* @__PURE__ */ jsxs7("g", {
     opacity: 0.3,
     children: [
-      /* @__PURE__ */ jsx6("path", {
+      /* @__PURE__ */ jsx7("path", {
         d: `M ${x} ${y1} Q ${x + 14} ${y1}, ${x + 14} ${y1 + 14} L ${x + 14} ${mid - 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx6("path", {
+      /* @__PURE__ */ jsx7("path", {
         d: `M ${x} ${y2} Q ${x + 14} ${y2}, ${x + 14} ${y2 - 14} L ${x + 14} ${mid + 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx6("text", {
+      /* @__PURE__ */ jsx7("text", {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
@@ -5631,7 +5797,7 @@ function InvertedBracket6() {
         letterSpacing: "0.06em",
         children: "ALL SCORE \u2264 6"
       }),
-      /* @__PURE__ */ jsx6("text", {
+      /* @__PURE__ */ jsx7("text", {
         x: x + 28,
         y: mid + 6,
         fill: COLORS6.textMuted,
@@ -5691,7 +5857,7 @@ function IslamicSankey() {
     return ids;
   }, [hovered, linkData]);
   const isLinkHL = (link) => hovered && connectedIds.has(link.from) && connectedIds.has(link.to);
-  return /* @__PURE__ */ jsxs6("div", {
+  return /* @__PURE__ */ jsxs7("div", {
     style: {
       background: `radial-gradient(ellipse at 20% 15%, #1a1815 0%, ${COLORS6.bg} 70%)`,
       minHeight: "100vh",
@@ -5702,11 +5868,11 @@ function IslamicSankey() {
       fontFamily: "'Crimson Pro', Georgia, serif"
     },
     children: [
-      /* @__PURE__ */ jsx6("link", {
+      /* @__PURE__ */ jsx7("link", {
         href: "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap",
         rel: "stylesheet"
       }),
-      /* @__PURE__ */ jsx6("h1", {
+      /* @__PURE__ */ jsx7("h1", {
         style: {
           color: COLORS6.text,
           fontSize: "30px",
@@ -5718,7 +5884,7 @@ function IslamicSankey() {
         },
         children: "The Parallel Inversion: Islam"
       }),
-      /* @__PURE__ */ jsxs6("p", {
+      /* @__PURE__ */ jsxs7("p", {
         style: {
           color: COLORS6.textDim,
           fontSize: "16px",
@@ -5731,13 +5897,13 @@ function IslamicSankey() {
         },
         children: [
           "From Ibn Arabi's ",
-          /* @__PURE__ */ jsx6("em", {
+          /* @__PURE__ */ jsx7("em", {
             children: "Wahdat al-Wujud"
           }),
           " to apocalyptic jihadism \u2014 the same metaphysical fork, the same cascade into instrumentalized religion. Scored against the mystical pole. Hover for diagnostic notes."
         ]
       }),
-      /* @__PURE__ */ jsx6("div", {
+      /* @__PURE__ */ jsx7("div", {
         style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "High alignment (70\u2013100)" },
@@ -5746,10 +5912,10 @@ function IslamicSankey() {
           { color: "#d48a4e", label: "Low (20\u201334)" },
           { color: "#cc6644", label: "Very low (10\u201319)" },
           { color: "#e84450", label: "Inverted (0\u20139)" }
-        ].map((item, i) => /* @__PURE__ */ jsxs6("div", {
+        ].map((item, i) => /* @__PURE__ */ jsxs7("div", {
           style: { display: "flex", alignItems: "center", gap: "5px" },
           children: [
-            /* @__PURE__ */ jsx6("div", {
+            /* @__PURE__ */ jsx7("div", {
               style: {
                 width: 14,
                 height: 5,
@@ -5757,48 +5923,48 @@ function IslamicSankey() {
                 background: `linear-gradient(90deg, ${item.color}cc, ${item.color}55)`
               }
             }),
-            /* @__PURE__ */ jsx6("span", {
+            /* @__PURE__ */ jsx7("span", {
               style: { color: COLORS6.textDim },
               children: item.label
             })
           ]
         }, i))
       }),
-      /* @__PURE__ */ jsxs6("svg", {
+      /* @__PURE__ */ jsxs7("svg", {
         viewBox: `0 -10 ${W6} ${H6 + 80}`,
         width: "100%",
         style: { maxWidth: W6 + 20, overflow: "visible" },
         children: [
-          /* @__PURE__ */ jsxs6("defs", {
+          /* @__PURE__ */ jsxs7("defs", {
             children: [
-              /* @__PURE__ */ jsxs6("linearGradient", {
+              /* @__PURE__ */ jsxs7("linearGradient", {
                 id: "bgVertGrad",
                 x1: "0",
                 y1: "0",
                 x2: "0",
                 y2: "1",
                 children: [
-                  /* @__PURE__ */ jsx6("stop", {
+                  /* @__PURE__ */ jsx7("stop", {
                     offset: "0%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.05"
                   }),
-                  /* @__PURE__ */ jsx6("stop", {
+                  /* @__PURE__ */ jsx7("stop", {
                     offset: "30%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx6("stop", {
+                  /* @__PURE__ */ jsx7("stop", {
                     offset: "50%",
                     stopColor: "#b8924a",
                     stopOpacity: "0.01"
                   }),
-                  /* @__PURE__ */ jsx6("stop", {
+                  /* @__PURE__ */ jsx7("stop", {
                     offset: "70%",
                     stopColor: "#e84450",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx6("stop", {
+                  /* @__PURE__ */ jsx7("stop", {
                     offset: "100%",
                     stopColor: "#e84450",
                     stopOpacity: "0.07"
@@ -5807,24 +5973,24 @@ function IslamicSankey() {
               }),
               linkData.map((link, i) => {
                 const sc = STREAM_COLORS6[link.stream] || { start: "#888", end: "#888" };
-                return /* @__PURE__ */ jsxs6("linearGradient", {
+                return /* @__PURE__ */ jsxs7("linearGradient", {
                   id: `fg-${i}`,
                   x1: "0",
                   y1: "0",
                   x2: "1",
                   y2: "0",
                   children: [
-                    /* @__PURE__ */ jsx6("stop", {
+                    /* @__PURE__ */ jsx7("stop", {
                       offset: "0%",
                       stopColor: sc.start,
                       stopOpacity: "0.8"
                     }),
-                    /* @__PURE__ */ jsx6("stop", {
+                    /* @__PURE__ */ jsx7("stop", {
                       offset: "50%",
                       stopColor: sc.start,
                       stopOpacity: "0.4"
                     }),
-                    /* @__PURE__ */ jsx6("stop", {
+                    /* @__PURE__ */ jsx7("stop", {
                       offset: "100%",
                       stopColor: sc.end,
                       stopOpacity: "0.8"
@@ -5834,7 +6000,7 @@ function IslamicSankey() {
               })
             ]
           }),
-          /* @__PURE__ */ jsx6("rect", {
+          /* @__PURE__ */ jsx7("rect", {
             x: LEFT_MARGIN6 - 10,
             y: TOP_Y6 - 15,
             width: W6 - LEFT_MARGIN6 + 10,
@@ -5842,9 +6008,9 @@ function IslamicSankey() {
             fill: "url(#bgVertGrad)",
             rx: 8
           }),
-          /* @__PURE__ */ jsxs6("g", {
+          /* @__PURE__ */ jsxs7("g", {
             children: [
-              /* @__PURE__ */ jsx6("line", {
+              /* @__PURE__ */ jsx7("line", {
                 x1: 58,
                 y1: TOP_Y6 + 5,
                 x2: 58,
@@ -5853,21 +6019,21 @@ function IslamicSankey() {
                 strokeWidth: 0.5,
                 opacity: 0.25
               }),
-              /* @__PURE__ */ jsx6("path", {
+              /* @__PURE__ */ jsx7("path", {
                 d: "M 55 32 L 58 22 L 61 32",
                 fill: "none",
                 stroke: "#3ac5b5",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx6("path", {
+              /* @__PURE__ */ jsx7("path", {
                 d: `M 55 ${BOT_Y6 + 3} L 58 ${BOT_Y6 + 13} L 61 ${BOT_Y6 + 3}`,
                 fill: "none",
                 stroke: "#e84450",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx6("text", {
+              /* @__PURE__ */ jsx7("text", {
                 x: 25,
                 y: TOP_Y6 + 12,
                 fill: "#3ac5b5",
@@ -5879,7 +6045,7 @@ function IslamicSankey() {
                 opacity: 0.65,
                 children: "MYSTICAL"
               }),
-              ["fana / union", "wahdat al-wujud", "interiority", "love beyond reason"].map((w, i) => /* @__PURE__ */ jsx6("text", {
+              ["fana / union", "wahdat al-wujud", "interiority", "love beyond reason"].map((w, i) => /* @__PURE__ */ jsx7("text", {
                 x: 25,
                 y: TOP_Y6 + 24 + i * 10,
                 fill: "#3ac5b5",
@@ -5890,7 +6056,7 @@ function IslamicSankey() {
                 opacity: 0.45,
                 children: w
               }, w)),
-              /* @__PURE__ */ jsx6("text", {
+              /* @__PURE__ */ jsx7("text", {
                 x: 25,
                 y: BOT_Y6 - 40,
                 fill: "#e84450",
@@ -5902,7 +6068,7 @@ function IslamicSankey() {
                 opacity: 0.65,
                 children: "INVERTED"
               }),
-              ["exteriority", "literalism", "political conquest", "apocalyptic violence"].map((w, i) => /* @__PURE__ */ jsx6("text", {
+              ["exteriority", "literalism", "political conquest", "apocalyptic violence"].map((w, i) => /* @__PURE__ */ jsx7("text", {
                 x: 25,
                 y: BOT_Y6 - 28 + i * 10,
                 fill: "#e84450",
@@ -5915,9 +6081,9 @@ function IslamicSankey() {
               }, w))
             ]
           }),
-          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs6("g", {
+          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs7("g", {
             children: [
-              /* @__PURE__ */ jsx6("line", {
+              /* @__PURE__ */ jsx7("line", {
                 x1: LEFT_MARGIN6 - 5,
                 y1: scoreToY6(score),
                 x2: W6 - 20,
@@ -5927,7 +6093,7 @@ function IslamicSankey() {
                 strokeDasharray: "4,12",
                 opacity: 0.18
               }),
-              /* @__PURE__ */ jsx6("text", {
+              /* @__PURE__ */ jsx7("text", {
                 x: 63,
                 y: scoreToY6(score) + 3,
                 fill: COLORS6.textMuted,
@@ -5939,9 +6105,9 @@ function IslamicSankey() {
               })
             ]
           }, score)),
-          eraLabels6.map((era, i) => /* @__PURE__ */ jsxs6("g", {
+          eraLabels6.map((era, i) => /* @__PURE__ */ jsxs7("g", {
             children: [
-              /* @__PURE__ */ jsx6("line", {
+              /* @__PURE__ */ jsx7("line", {
                 x1: COL_X6[i],
                 y1: TOP_Y6 - 5,
                 x2: COL_X6[i],
@@ -5951,7 +6117,7 @@ function IslamicSankey() {
                 strokeDasharray: "2,8",
                 opacity: 0.2
               }),
-              /* @__PURE__ */ jsx6("text", {
+              /* @__PURE__ */ jsx7("text", {
                 x: era.x,
                 y: BOT_Y6 + 45,
                 fill: COLORS6.textMuted,
@@ -5963,14 +6129,14 @@ function IslamicSankey() {
               })
             ]
           }, i)),
-          /* @__PURE__ */ jsx6(InvertedBracket6, {}),
-          linkData.map((link, i) => /* @__PURE__ */ jsx6(FlowBand6, {
+          /* @__PURE__ */ jsx7(InvertedBracket6, {}),
+          linkData.map((link, i) => /* @__PURE__ */ jsx7(FlowBand6, {
             link,
             gradientId: `fg-${i}`,
             dimmed: hovered ? !isLinkHL(link) : false,
             highlighted: isLinkHL(link)
           }, i)),
-          nodes6.map((node) => /* @__PURE__ */ jsx6(NodeRect6, {
+          nodes6.map((node) => /* @__PURE__ */ jsx7(NodeRect6, {
             node,
             onHover: setHovered,
             dimmed: hovered && !connectedIds.has(node.id),
@@ -5978,7 +6144,7 @@ function IslamicSankey() {
           }, node.id))
         ]
       }),
-      /* @__PURE__ */ jsx6("div", {
+      /* @__PURE__ */ jsx7("div", {
         style: {
           maxWidth: 750,
           marginTop: "8px",
@@ -5987,7 +6153,7 @@ function IslamicSankey() {
           borderRadius: 8,
           border: "1px solid rgba(255,255,255,0.05)"
         },
-        children: /* @__PURE__ */ jsxs6("p", {
+        children: /* @__PURE__ */ jsxs7("p", {
           style: {
             color: COLORS6.textDim,
             fontSize: "14px",
@@ -5997,34 +6163,34 @@ function IslamicSankey() {
             fontWeight: 300
           },
           children: [
-            /* @__PURE__ */ jsx6("strong", {
+            /* @__PURE__ */ jsx7("strong", {
               style: { color: COLORS6.text, fontWeight: 600 },
               children: "The parallel structure:"
             }),
             " ",
-            /* @__PURE__ */ jsx6("span", {
+            /* @__PURE__ */ jsx7("span", {
               style: { color: "#2ee8d0" },
               children: "Ibn Arabi"
             }),
             " (1165\u20131240) and",
             " ",
-            /* @__PURE__ */ jsx6("span", {
+            /* @__PURE__ */ jsx7("span", {
               style: { color: "#d48a4e" },
               children: "Ibn Taymiyyah"
             }),
             " (1263\u20131328) are almost exact contemporaries of Eckhart and Ockham \u2014 and play identical roles. The fork from participatory metaphysics (wahdat al-wujud) to divine voluntarism produces the same cascade: literalism \u2192 puritanical reform \u2192 political instrumentalization \u2192 apocalyptic violence.",
             " ",
-            /* @__PURE__ */ jsx6("span", {
+            /* @__PURE__ */ jsx7("span", {
               style: { color: "#8aaa6a" },
               children: "Al-Ghazali"
             }),
             " at 58 plays a role analogous to Catholicism \u2014 holding both streams. ",
-            /* @__PURE__ */ jsx6("span", {
+            /* @__PURE__ */ jsx7("span", {
               style: { color: "#7a6aad" },
               children: "Shia Islam"
             }),
             " preserved more mystical DNA through Irfan, paralleling Eastern Orthodoxy's preservation of theosis. The thin ",
-            /* @__PURE__ */ jsx6("span", {
+            /* @__PURE__ */ jsx7("span", {
               style: { color: "#3ac5b5" },
               children: "teal stream"
             }),
@@ -6038,7 +6204,7 @@ function IslamicSankey() {
 
 // content/pages/artifacts/metaphysical-choices-sankey/economics-sankey.jsx
 import { useState as useState7, useMemo as useMemo7 } from "https://esm.sh/react";
-import { Fragment as Fragment7, jsx as jsx7, jsxs as jsxs7 } from "https://esm.sh/react/jsx-runtime";
+import { Fragment as Fragment7, jsx as jsx8, jsxs as jsxs8 } from "https://esm.sh/react/jsx-runtime";
 var COLORS7 = {
   bg: "#0f0f0e",
   text: "#e8e4da",
@@ -6478,7 +6644,7 @@ function FlowBand7({ link, gradientId, dimmed, highlighted }) {
   const halfT = thickness / 2;
   const cp = (x2 - x1) * 0.42;
   const d = `M ${x1} ${y1 - halfT} C ${x1 + cp} ${y1 - halfT}, ${x2 - cp} ${y2 - halfT}, ${x2} ${y2 - halfT} L ${x2} ${y2 + halfT} C ${x2 - cp} ${y2 + halfT}, ${x1 + cp} ${y1 + halfT}, ${x1} ${y1 + halfT} Z`;
-  return /* @__PURE__ */ jsx7("path", {
+  return /* @__PURE__ */ jsx8("path", {
     d,
     fill: `url(#${gradientId})`,
     opacity: dimmed ? 0.03 : highlighted ? 0.6 : 0.3,
@@ -6489,9 +6655,9 @@ function ScorePill7({ score, x, y }) {
   const color = scoreToColor7(score);
   const pillW = 30;
   const pillH = 12;
-  return /* @__PURE__ */ jsxs7("g", {
+  return /* @__PURE__ */ jsxs8("g", {
     children: [
-      /* @__PURE__ */ jsx7("rect", {
+      /* @__PURE__ */ jsx8("rect", {
         x,
         y,
         width: pillW,
@@ -6500,7 +6666,7 @@ function ScorePill7({ score, x, y }) {
         fill: color,
         opacity: 0.15
       }),
-      /* @__PURE__ */ jsx7("rect", {
+      /* @__PURE__ */ jsx8("rect", {
         x: x + 1,
         y: y + 1,
         width: Math.max(2, (pillW - 2) * (score / 100)),
@@ -6509,7 +6675,7 @@ function ScorePill7({ score, x, y }) {
         fill: color,
         opacity: 0.55
       }),
-      /* @__PURE__ */ jsx7("text", {
+      /* @__PURE__ */ jsx8("text", {
         x: x + pillW + 4,
         y: y + 10,
         fill: color,
@@ -6527,14 +6693,14 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
   const isLeft = node.col <= 1;
   const labelX = isRight ? x + NODE_W7 + 10 : isLeft ? x + NODE_W7 + 10 : x - 8;
   const anchor = isRight ? "start" : isLeft ? "start" : "end";
-  return /* @__PURE__ */ jsxs7("g", {
+  return /* @__PURE__ */ jsxs8("g", {
     onMouseEnter: () => onHover(node.id),
     onMouseLeave: () => onHover(null),
     style: { cursor: "pointer", opacity: dimmed ? 0.1 : 1, transition: "opacity 0.4s ease" },
     children: [
-      node.glow && /* @__PURE__ */ jsxs7(Fragment7, {
+      node.glow && /* @__PURE__ */ jsxs8(Fragment7, {
         children: [
-          /* @__PURE__ */ jsx7("rect", {
+          /* @__PURE__ */ jsx8("rect", {
             x: x - 4,
             y: node.y - 4,
             width: NODE_W7 + 8,
@@ -6545,7 +6711,7 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
             strokeWidth: 1.5,
             opacity: 0.3
           }),
-          /* @__PURE__ */ jsx7("rect", {
+          /* @__PURE__ */ jsx8("rect", {
             x: x - 8,
             y: node.y - 8,
             width: NODE_W7 + 16,
@@ -6558,7 +6724,7 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
           })
         ]
       }),
-      /* @__PURE__ */ jsx7("rect", {
+      /* @__PURE__ */ jsx8("rect", {
         x,
         y: node.y,
         width: NODE_W7,
@@ -6569,7 +6735,7 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
         stroke: isHovered ? "#fff" : "none",
         strokeWidth: 1.5
       }),
-      /* @__PURE__ */ jsx7("text", {
+      /* @__PURE__ */ jsx8("text", {
         x: labelX,
         y: node.y + node.h / 2 - 12,
         fill: COLORS7.text,
@@ -6580,7 +6746,7 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.label
       }),
-      /* @__PURE__ */ jsx7("text", {
+      /* @__PURE__ */ jsx8("text", {
         x: labelX,
         y: node.y + node.h / 2 + 1,
         fill: COLORS7.textDim,
@@ -6591,25 +6757,25 @@ function NodeRect7({ node, onHover, dimmed, isHovered }) {
         dominantBaseline: "middle",
         children: node.sub
       }),
-      /* @__PURE__ */ jsx7(ScorePill7, {
+      /* @__PURE__ */ jsx8(ScorePill7, {
         score: node.score,
         x: anchor === "end" ? labelX - 48 : labelX,
         y: node.y + node.h / 2 + 10
       }),
-      isHovered && node.note && /* @__PURE__ */ jsx7("foreignObject", {
+      isHovered && node.note && /* @__PURE__ */ jsx8("foreignObject", {
         x: x + (isRight ? -10 : -360),
         y: node.y - 200,
         width: 360,
         height: 192,
         style: { pointerEvents: "none", overflow: "visible" },
-        children: /* @__PURE__ */ jsx7("div", {
+        children: /* @__PURE__ */ jsx8("div", {
           xmlns: "http://www.w3.org/1999/xhtml",
           style: {
             height: "100%",
             display: "flex",
             alignItems: "flex-end"
           },
-          children: /* @__PURE__ */ jsx7("div", {
+          children: /* @__PURE__ */ jsx8("div", {
             style: {
               background: "#1a1a18",
               border: `0.7px solid ${scoreToColor7(node.score)}`,
@@ -6633,22 +6799,22 @@ function InvertedBracket7() {
   const y1 = 525;
   const y2 = 783;
   const mid = (y1 + y2) / 2;
-  return /* @__PURE__ */ jsxs7("g", {
+  return /* @__PURE__ */ jsxs8("g", {
     opacity: 0.3,
     children: [
-      /* @__PURE__ */ jsx7("path", {
+      /* @__PURE__ */ jsx8("path", {
         d: `M ${x} ${y1} Q ${x + 14} ${y1}, ${x + 14} ${y1 + 14} L ${x + 14} ${mid - 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx7("path", {
+      /* @__PURE__ */ jsx8("path", {
         d: `M ${x} ${y2} Q ${x + 14} ${y2}, ${x + 14} ${y2 - 14} L ${x + 14} ${mid + 8} Q ${x + 14} ${mid}, ${x + 22} ${mid}`,
         fill: "none",
         stroke: "#e84450",
         strokeWidth: 0.8
       }),
-      /* @__PURE__ */ jsx7("text", {
+      /* @__PURE__ */ jsx8("text", {
         x: x + 28,
         y: mid - 6,
         fill: "#e84450",
@@ -6658,7 +6824,7 @@ function InvertedBracket7() {
         letterSpacing: "0.06em",
         children: "ALL SCORE \u2264 4"
       }),
-      /* @__PURE__ */ jsx7("text", {
+      /* @__PURE__ */ jsx8("text", {
         x: x + 28,
         y: mid + 6,
         fill: COLORS7.textMuted,
@@ -6718,7 +6884,7 @@ function EconomicsSankey() {
     return ids;
   }, [hovered, linkData]);
   const isLinkHL = (link) => hovered && connectedIds.has(link.from) && connectedIds.has(link.to);
-  return /* @__PURE__ */ jsxs7("div", {
+  return /* @__PURE__ */ jsxs8("div", {
     style: {
       background: `radial-gradient(ellipse at 20% 15%, #1a1815 0%, ${COLORS7.bg} 70%)`,
       minHeight: "100vh",
@@ -6729,11 +6895,11 @@ function EconomicsSankey() {
       fontFamily: "'Crimson Pro', Georgia, serif"
     },
     children: [
-      /* @__PURE__ */ jsx7("link", {
+      /* @__PURE__ */ jsx8("link", {
         href: "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=JetBrains+Mono:wght@300;400;600&display=swap",
         rel: "stylesheet"
       }),
-      /* @__PURE__ */ jsx7("h1", {
+      /* @__PURE__ */ jsx8("h1", {
         style: {
           color: COLORS7.text,
           fontSize: "30px",
@@ -6745,7 +6911,7 @@ function EconomicsSankey() {
         },
         children: "The Triumph of Chrematistike"
       }),
-      /* @__PURE__ */ jsxs7("p", {
+      /* @__PURE__ */ jsxs8("p", {
         style: {
           color: COLORS7.textDim,
           fontSize: "16px",
@@ -6758,18 +6924,18 @@ function EconomicsSankey() {
         },
         children: [
           "Aristotle distinguished ",
-          /* @__PURE__ */ jsx7("em", {
+          /* @__PURE__ */ jsx8("em", {
             children: "oikonomia"
           }),
           " (household management for flourishing) from",
           " ",
-          /* @__PURE__ */ jsx7("em", {
+          /* @__PURE__ */ jsx8("em", {
             children: "chrematistike"
           }),
           " (money-making as its own end). Every node on this chart is a position in that ancient argument. Hover for diagnostic notes."
         ]
       }),
-      /* @__PURE__ */ jsx7("div", {
+      /* @__PURE__ */ jsx8("div", {
         style: { display: "flex", gap: "16px", marginBottom: "12px", fontSize: "13px", flexWrap: "wrap", justifyContent: "center" },
         children: [
           { color: "#3ac5b5", label: "Embedded / participatory (70\u2013100)" },
@@ -6778,10 +6944,10 @@ function EconomicsSankey() {
           { color: "#d48a4e", label: "Thinned (20\u201334)" },
           { color: "#cc6644", label: "Disembedded (10\u201319)" },
           { color: "#e84450", label: "Pure extraction (0\u20139)" }
-        ].map((item, i) => /* @__PURE__ */ jsxs7("div", {
+        ].map((item, i) => /* @__PURE__ */ jsxs8("div", {
           style: { display: "flex", alignItems: "center", gap: "5px" },
           children: [
-            /* @__PURE__ */ jsx7("div", {
+            /* @__PURE__ */ jsx8("div", {
               style: {
                 width: 14,
                 height: 5,
@@ -6789,48 +6955,48 @@ function EconomicsSankey() {
                 background: `linear-gradient(90deg, ${item.color}cc, ${item.color}55)`
               }
             }),
-            /* @__PURE__ */ jsx7("span", {
+            /* @__PURE__ */ jsx8("span", {
               style: { color: COLORS7.textDim },
               children: item.label
             })
           ]
         }, i))
       }),
-      /* @__PURE__ */ jsxs7("svg", {
+      /* @__PURE__ */ jsxs8("svg", {
         viewBox: `0 -10 ${W7} ${H7 + 80}`,
         width: "100%",
         style: { maxWidth: W7 + 20, overflow: "visible" },
         children: [
-          /* @__PURE__ */ jsxs7("defs", {
+          /* @__PURE__ */ jsxs8("defs", {
             children: [
-              /* @__PURE__ */ jsxs7("linearGradient", {
+              /* @__PURE__ */ jsxs8("linearGradient", {
                 id: "bgVertGrad",
                 x1: "0",
                 y1: "0",
                 x2: "0",
                 y2: "1",
                 children: [
-                  /* @__PURE__ */ jsx7("stop", {
+                  /* @__PURE__ */ jsx8("stop", {
                     offset: "0%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.05"
                   }),
-                  /* @__PURE__ */ jsx7("stop", {
+                  /* @__PURE__ */ jsx8("stop", {
                     offset: "30%",
                     stopColor: "#3ac5b5",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx7("stop", {
+                  /* @__PURE__ */ jsx8("stop", {
                     offset: "50%",
                     stopColor: "#b8924a",
                     stopOpacity: "0.01"
                   }),
-                  /* @__PURE__ */ jsx7("stop", {
+                  /* @__PURE__ */ jsx8("stop", {
                     offset: "70%",
                     stopColor: "#e84450",
                     stopOpacity: "0.02"
                   }),
-                  /* @__PURE__ */ jsx7("stop", {
+                  /* @__PURE__ */ jsx8("stop", {
                     offset: "100%",
                     stopColor: "#e84450",
                     stopOpacity: "0.07"
@@ -6839,24 +7005,24 @@ function EconomicsSankey() {
               }),
               linkData.map((link, i) => {
                 const sc = STREAM_COLORS7[link.stream] || { start: "#888", end: "#888" };
-                return /* @__PURE__ */ jsxs7("linearGradient", {
+                return /* @__PURE__ */ jsxs8("linearGradient", {
                   id: `fg-${i}`,
                   x1: "0",
                   y1: "0",
                   x2: "1",
                   y2: "0",
                   children: [
-                    /* @__PURE__ */ jsx7("stop", {
+                    /* @__PURE__ */ jsx8("stop", {
                       offset: "0%",
                       stopColor: sc.start,
                       stopOpacity: "0.8"
                     }),
-                    /* @__PURE__ */ jsx7("stop", {
+                    /* @__PURE__ */ jsx8("stop", {
                       offset: "50%",
                       stopColor: sc.start,
                       stopOpacity: "0.4"
                     }),
-                    /* @__PURE__ */ jsx7("stop", {
+                    /* @__PURE__ */ jsx8("stop", {
                       offset: "100%",
                       stopColor: sc.end,
                       stopOpacity: "0.8"
@@ -6866,7 +7032,7 @@ function EconomicsSankey() {
               })
             ]
           }),
-          /* @__PURE__ */ jsx7("rect", {
+          /* @__PURE__ */ jsx8("rect", {
             x: LEFT_MARGIN7 - 10,
             y: TOP_Y7 - 15,
             width: W7 - LEFT_MARGIN7 + 10,
@@ -6874,9 +7040,9 @@ function EconomicsSankey() {
             fill: "url(#bgVertGrad)",
             rx: 8
           }),
-          /* @__PURE__ */ jsxs7("g", {
+          /* @__PURE__ */ jsxs8("g", {
             children: [
-              /* @__PURE__ */ jsx7("line", {
+              /* @__PURE__ */ jsx8("line", {
                 x1: 58,
                 y1: TOP_Y7 + 5,
                 x2: 58,
@@ -6885,21 +7051,21 @@ function EconomicsSankey() {
                 strokeWidth: 0.5,
                 opacity: 0.25
               }),
-              /* @__PURE__ */ jsx7("path", {
+              /* @__PURE__ */ jsx8("path", {
                 d: "M 55 32 L 58 22 L 61 32",
                 fill: "none",
                 stroke: "#3ac5b5",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx7("path", {
+              /* @__PURE__ */ jsx8("path", {
                 d: `M 55 ${BOT_Y7 + 3} L 58 ${BOT_Y7 + 13} L 61 ${BOT_Y7 + 3}`,
                 fill: "none",
                 stroke: "#e84450",
                 strokeWidth: 0.8,
                 opacity: 0.5
               }),
-              /* @__PURE__ */ jsx7("text", {
+              /* @__PURE__ */ jsx8("text", {
                 x: 25,
                 y: TOP_Y7 + 12,
                 fill: "#3ac5b5",
@@ -6911,7 +7077,7 @@ function EconomicsSankey() {
                 opacity: 0.65,
                 children: "OIKONOMIA"
               }),
-              ["human flourishing", "embedded in community", "sufficiency", "common good"].map((w, i) => /* @__PURE__ */ jsx7("text", {
+              ["human flourishing", "embedded in community", "sufficiency", "common good"].map((w, i) => /* @__PURE__ */ jsx8("text", {
                 x: 25,
                 y: TOP_Y7 + 24 + i * 10,
                 fill: "#3ac5b5",
@@ -6922,7 +7088,7 @@ function EconomicsSankey() {
                 opacity: 0.45,
                 children: w
               }, w)),
-              /* @__PURE__ */ jsx7("text", {
+              /* @__PURE__ */ jsx8("text", {
                 x: 25,
                 y: BOT_Y7 - 40,
                 fill: "#e84450",
@@ -6934,7 +7100,7 @@ function EconomicsSankey() {
                 opacity: 0.65,
                 children: "CHREMATISTIKE"
               }),
-              ["money for money's sake", "disembedded from life", "infinite accumulation", "humans as inputs"].map((w, i) => /* @__PURE__ */ jsx7("text", {
+              ["money for money's sake", "disembedded from life", "infinite accumulation", "humans as inputs"].map((w, i) => /* @__PURE__ */ jsx8("text", {
                 x: 25,
                 y: BOT_Y7 - 28 + i * 10,
                 fill: "#e84450",
@@ -6947,9 +7113,9 @@ function EconomicsSankey() {
               }, w))
             ]
           }),
-          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs7("g", {
+          [75, 50, 25].map((score) => /* @__PURE__ */ jsxs8("g", {
             children: [
-              /* @__PURE__ */ jsx7("line", {
+              /* @__PURE__ */ jsx8("line", {
                 x1: LEFT_MARGIN7 - 5,
                 y1: scoreToY7(score),
                 x2: W7 - 20,
@@ -6959,7 +7125,7 @@ function EconomicsSankey() {
                 strokeDasharray: "4,12",
                 opacity: 0.18
               }),
-              /* @__PURE__ */ jsx7("text", {
+              /* @__PURE__ */ jsx8("text", {
                 x: 63,
                 y: scoreToY7(score) + 3,
                 fill: COLORS7.textMuted,
@@ -6971,9 +7137,9 @@ function EconomicsSankey() {
               })
             ]
           }, score)),
-          eraLabels7.map((era, i) => /* @__PURE__ */ jsxs7("g", {
+          eraLabels7.map((era, i) => /* @__PURE__ */ jsxs8("g", {
             children: [
-              /* @__PURE__ */ jsx7("line", {
+              /* @__PURE__ */ jsx8("line", {
                 x1: COL_X7[i],
                 y1: TOP_Y7 - 5,
                 x2: COL_X7[i],
@@ -6983,7 +7149,7 @@ function EconomicsSankey() {
                 strokeDasharray: "2,8",
                 opacity: 0.2
               }),
-              /* @__PURE__ */ jsx7("text", {
+              /* @__PURE__ */ jsx8("text", {
                 x: era.x,
                 y: BOT_Y7 + 45,
                 fill: COLORS7.textMuted,
@@ -6995,14 +7161,14 @@ function EconomicsSankey() {
               })
             ]
           }, i)),
-          /* @__PURE__ */ jsx7(InvertedBracket7, {}),
-          linkData.map((link, i) => /* @__PURE__ */ jsx7(FlowBand7, {
+          /* @__PURE__ */ jsx8(InvertedBracket7, {}),
+          linkData.map((link, i) => /* @__PURE__ */ jsx8(FlowBand7, {
             link,
             gradientId: `fg-${i}`,
             dimmed: hovered ? !isLinkHL(link) : false,
             highlighted: isLinkHL(link)
           }, i)),
-          nodes7.map((node) => /* @__PURE__ */ jsx7(NodeRect7, {
+          nodes7.map((node) => /* @__PURE__ */ jsx8(NodeRect7, {
             node,
             onHover: setHovered,
             dimmed: hovered && !connectedIds.has(node.id),
@@ -7010,7 +7176,7 @@ function EconomicsSankey() {
           }, node.id))
         ]
       }),
-      /* @__PURE__ */ jsx7("div", {
+      /* @__PURE__ */ jsx8("div", {
         style: {
           maxWidth: 750,
           marginTop: "8px",
@@ -7019,7 +7185,7 @@ function EconomicsSankey() {
           borderRadius: 8,
           border: "1px solid rgba(255,255,255,0.05)"
         },
-        children: /* @__PURE__ */ jsxs7("p", {
+        children: /* @__PURE__ */ jsxs8("p", {
           style: {
             color: COLORS7.textDim,
             fontSize: "14px",
@@ -7029,61 +7195,61 @@ function EconomicsSankey() {
             fontWeight: 300
           },
           children: [
-            /* @__PURE__ */ jsx7("strong", {
+            /* @__PURE__ */ jsx8("strong", {
               style: { color: COLORS7.text, fontWeight: 600 },
               children: "Aristotle named it 2,400 years ago:"
             }),
             " ",
-            /* @__PURE__ */ jsx7("em", {
+            /* @__PURE__ */ jsx8("em", {
               children: "chrematistike"
             }),
             ' \u2014 money-making as its own end \u2014 is "unnatural" because it has no inherent limit. ',
-            /* @__PURE__ */ jsx7("em", {
+            /* @__PURE__ */ jsx8("em", {
               children: "Oikonomia"
             }),
             " aims at sufficiency for the good life; chrematistike aims at infinite accumulation.",
             " ",
-            /* @__PURE__ */ jsx7("span", {
+            /* @__PURE__ */ jsx8("span", {
               style: { color: "#8aaa6a" },
               children: "Adam Smith"
             }),
             " at 55 is the bridge \u2014 moral philosopher who also unleashed the market; ",
-            /* @__PURE__ */ jsx7("em", {
+            /* @__PURE__ */ jsx8("em", {
               children: "Theory of Moral Sentiments"
             }),
             " and",
             " ",
-            /* @__PURE__ */ jsx7("em", {
+            /* @__PURE__ */ jsx8("em", {
               children: "Wealth of Nations"
             }),
             " are the two halves of his Catholicism.",
             " ",
             "The ",
-            /* @__PURE__ */ jsx7("span", {
+            /* @__PURE__ */ jsx8("span", {
               style: { color: "#cc5544" },
               children: "Marginalist Revolution"
             }),
             " at 12 is the nominalist fork \u2014 value becomes subjective utility, economics becomes calculus, the human becomes a maximizing function.",
             " ",
             "The ",
-            /* @__PURE__ */ jsx7("span", {
+            /* @__PURE__ */ jsx8("span", {
               style: { color: "#b8924a" },
               children: "Austrian School"
             }),
             " at 38 preserves genuine anti-instrumentalist insight \u2014 distributed knowledge, anti-planning \u2014 but still treats the human as a maximizer.",
             " ",
-            /* @__PURE__ */ jsx7("span", {
+            /* @__PURE__ */ jsx8("span", {
               style: { color: "#b8924a" },
               children: "Degrowth"
             }),
             " at 35 correctly diagnoses infinite growth on a finite planet but has no viable theory of transition and is vulnerable to capture by power.",
             " ",
-            /* @__PURE__ */ jsx7("span", {
+            /* @__PURE__ */ jsx8("span", {
               style: { color: "#2ee8d0" },
               children: "Ostrom"
             }),
             " and the commons revival proved communities can manage shared resources without either state or market \u2014 the thin teal stream. ",
-            /* @__PURE__ */ jsx7("span", {
+            /* @__PURE__ */ jsx8("span", {
               style: { color: "#e84450" },
               children: "Algorithmic trading"
             }),
@@ -7096,8 +7262,9 @@ function EconomicsSankey() {
 }
 
 // content/pages/artifacts/metaphysical-choices-sankey.jsx
-import { jsx as jsx8, jsxs as jsxs8 } from "https://esm.sh/react/jsx-runtime";
+import { jsx as jsx9, jsxs as jsxs9 } from "https://esm.sh/react/jsx-runtime";
 var TABS = [
+  { label: "Gravity", component: GravityIntro, isIntro: true },
   { label: "Science", component: ScienceSankey },
   { label: "Education", component: EducationSankey },
   { label: "Theology", component: TheologicalSankey },
@@ -7110,10 +7277,11 @@ function MetaphysicalChoices() {
   const [activeTab, setActiveTab] = useState8(0);
   const [zoom, setZoom] = useState8(1.4);
   const ActiveComponent = TABS[activeTab].component;
-  return /* @__PURE__ */ jsxs8("div", {
+  const isIntro = TABS[activeTab].isIntro;
+  return /* @__PURE__ */ jsxs9("div", {
     style: { background: "#0f0f0e", minHeight: "100vh" },
     children: [
-      /* @__PURE__ */ jsxs8("div", {
+      /* @__PURE__ */ jsxs9("div", {
         style: {
           position: "sticky",
           top: 0,
@@ -7129,7 +7297,7 @@ function MetaphysicalChoices() {
           fontFamily: "'Crimson Pro', Georgia, serif"
         },
         children: [
-          TABS.map((tab, i) => /* @__PURE__ */ jsx8("button", {
+          TABS.map((tab, i) => /* @__PURE__ */ jsx9("button", {
             onClick: () => setActiveTab(i),
             style: {
               background: i === activeTab ? "#2a2a28" : "transparent",
@@ -7157,10 +7325,10 @@ function MetaphysicalChoices() {
             },
             children: tab.label
           }, tab.label)),
-          /* @__PURE__ */ jsxs8("div", {
+          !isIntro && /* @__PURE__ */ jsxs9("div", {
             style: { marginLeft: "auto", display: "flex", alignItems: "center", gap: "6px", padding: "6px 0", flexShrink: 0 },
             children: [
-              /* @__PURE__ */ jsx8("button", {
+              /* @__PURE__ */ jsx9("button", {
                 onClick: () => setZoom((z) => Math.max(0.8, +(z - 0.1).toFixed(1))),
                 style: {
                   background: "#2a2a28",
@@ -7178,14 +7346,14 @@ function MetaphysicalChoices() {
                 },
                 children: "-"
               }),
-              /* @__PURE__ */ jsxs8("span", {
+              /* @__PURE__ */ jsxs9("span", {
                 style: { color: "#9a9888", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", minWidth: 40, textAlign: "center" },
                 children: [
                   Math.round(zoom * 100),
                   "%"
                 ]
               }),
-              /* @__PURE__ */ jsx8("button", {
+              /* @__PURE__ */ jsx9("button", {
                 onClick: () => setZoom((z) => Math.min(2, +(z + 0.1).toFixed(1))),
                 style: {
                   background: "#2a2a28",
@@ -7203,7 +7371,7 @@ function MetaphysicalChoices() {
                 },
                 children: "+"
               }),
-              zoom !== 1.4 && /* @__PURE__ */ jsx8("button", {
+              zoom !== 1.4 && /* @__PURE__ */ jsx9("button", {
                 onClick: () => setZoom(1.4),
                 style: {
                   background: "#2a2a28",
@@ -7222,9 +7390,9 @@ function MetaphysicalChoices() {
           })
         ]
       }),
-      /* @__PURE__ */ jsx8("div", {
+      isIntro ? /* @__PURE__ */ jsx9(ActiveComponent, {}) : /* @__PURE__ */ jsx9("div", {
         style: { overflow: "auto", position: "relative" },
-        children: /* @__PURE__ */ jsx8("div", {
+        children: /* @__PURE__ */ jsx9("div", {
           style: {
             transform: `scale(${zoom})`,
             transformOrigin: "top center",
@@ -7232,7 +7400,7 @@ function MetaphysicalChoices() {
             marginLeft: "auto",
             marginRight: "auto"
           },
-          children: /* @__PURE__ */ jsx8(ActiveComponent, {})
+          children: /* @__PURE__ */ jsx9(ActiveComponent, {})
         })
       })
     ]
