@@ -4,6 +4,7 @@ packages:
   - packages/thoughts
   - packages/server
   - packages/dha-report-app
+  - packages/posts
   - worker
 
 onlyBuiltDependencies:
