@@ -15,6 +15,10 @@ export function Layout({
   toggleTag: (tag: string) => void;
   children: ReactNode;
 }) {
+  if (route.view === 'framing') {
+    return <div id="thoughts-page">{children}</div>;
+  }
+
   return (
     <div id="thoughts-page">
       <Sidebar route={route} />

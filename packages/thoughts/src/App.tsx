@@ -8,6 +8,8 @@ import { ThreadView } from './components/ThreadView';
 import { TasksView } from './components/TasksView';
 import { EventsView } from './components/EventsView';
 import { SecretToggle } from './components/SecretToggle';
+import { FramingsListView } from './components/FramingsListView';
+import { FramingCanvasView } from './components/framing/FramingCanvasView';
 
 export const AuthContext = createContext<{
   secret: string | null;
@@ -18,6 +20,9 @@ function parseHash(): Route {
   const hash = location.hash;
   if (hash === '#tasks') return { view: 'tasks' };
   if (hash === '#events') return { view: 'events' };
+  if (hash === '#framings') return { view: 'framings' };
+  const framingMatch = hash.match(/^#framing-(\d+)$/);
+  if (framingMatch) return { view: 'framing', id: parseInt(framingMatch[1], 10) };
   const threadMatch = hash.match(/^#thought-(\d+)$/);
   if (threadMatch) return { view: 'thread', id: parseInt(threadMatch[1], 10) };
   return { view: 'feed' };
@@ -49,7 +54,11 @@ export function App() {
     <SWRProvider>
       <AuthContext.Provider value={{ secret, updateSecret }}>
         <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag}>
-          {route.view === 'events' ? (
+          {route.view === 'framing' ? (
+            <FramingCanvasView id={route.id} />
+          ) : route.view === 'framings' ? (
+            <FramingsListView />
+          ) : route.view === 'events' ? (
             <EventsView />
           ) : route.view === 'tasks' ? (
             <TasksView tags={selectedTags} />

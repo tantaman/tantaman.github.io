@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { getThread, getTags, getTasks, getEvents, searchThoughts } from '../api';
+import { getThread, getTags, getTasks, getEvents, searchThoughts, getFramings, getFraming } from '../api';
 
 export function useThread(id: number) {
   return useSWR(`thread-${id}`, () => getThread(id));
@@ -25,4 +25,12 @@ export function useEvents(year: number, month: number) {
   const from = Date.UTC(year, month, 1) / 1000;
   const to = Date.UTC(month === 11 ? year + 1 : year, month === 11 ? 0 : month + 1, 1) / 1000;
   return useSWR(`events-${year}-${month}`, () => getEvents(from, to));
+}
+
+export function useFramings() {
+  return useSWR('framings', getFramings);
+}
+
+export function useFraming(id: number) {
+  return useSWR(`framing-${id}`, () => getFraming(id));
 }

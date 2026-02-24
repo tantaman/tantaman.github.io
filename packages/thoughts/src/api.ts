@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task, Event, SearchResult } from './types';
+import type { Thought, Tag, Task, Event, SearchResult, Framing, FramingDetail, FramingPlacement, FramingEdge } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -133,4 +133,163 @@ export function getEvents(
 
 export function attachmentUrl(key: string): string {
   return `${API}/attachments/${key}`;
+}
+
+// --- Framings API ---
+
+export function getFramings(): Promise<{ framings: Framing[] }> {
+  return fetch(`${API}/framings`).then((r) => r.json());
+}
+
+export function getFraming(id: number): Promise<FramingDetail> {
+  return fetch(`${API}/framings/${id}`).then((r) => {
+    if (!r.ok) throw new Error('not found');
+    return r.json();
+  });
+}
+
+export async function createFraming(
+  name: string,
+  secret: string,
+  description?: string,
+): Promise<Framing> {
+  const r = await fetch(`${API}/framings`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ name, description }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  return r.json();
+}
+
+export async function deleteFraming(
+  id: number,
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/framings/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Delete failed');
+}
+
+export async function addThoughtToFraming(
+  framingId: number,
+  thoughtId: number,
+  x: number,
+  y: number,
+  secret: string,
+): Promise<FramingPlacement> {
+  const r = await fetch(`${API}/framings/${framingId}/thoughts`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ thought_id: thoughtId, x, y }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  return r.json();
+}
+
+export async function updateThoughtPlacement(
+  framingId: number,
+  thoughtId: number,
+  pos: { x?: number; y?: number },
+  secret: string,
+): Promise<FramingPlacement> {
+  const r = await fetch(`${API}/framings/${framingId}/thoughts/${thoughtId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(pos),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  return r.json();
+}
+
+export async function removeThoughtFromFraming(
+  framingId: number,
+  thoughtId: number,
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/framings/${framingId}/thoughts/${thoughtId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Remove failed');
+}
+
+export async function batchUpdatePlacements(
+  framingId: number,
+  thoughts: { thought_id: number; x: number; y: number }[],
+  secret: string,
+): Promise<{ updated: number }> {
+  const r = await fetch(`${API}/framings/${framingId}/batch`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ thoughts }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  return r.json();
+}
+
+export async function createFramingEdge(
+  framingId: number,
+  sourceThoughtId: number,
+  targetThoughtId: number,
+  secret: string,
+  label?: string,
+): Promise<FramingEdge> {
+  const r = await fetch(`${API}/framings/${framingId}/edges`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ source_thought_id: sourceThoughtId, target_thought_id: targetThoughtId, label }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  return r.json();
+}
+
+export async function updateFramingEdge(
+  framingId: number,
+  edgeId: number,
+  label: string,
+  secret: string,
+): Promise<FramingEdge> {
+  const r = await fetch(`${API}/framings/${framingId}/edges/${edgeId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ label }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  return r.json();
+}
+
+export async function deleteFramingEdge(
+  framingId: number,
+  edgeId: number,
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/framings/${framingId}/edges/${edgeId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Delete failed');
 }
