@@ -92,7 +92,8 @@ async function depsChanged(cachedDeps) {
   return false;
 }
 
-export default async function build(collection, forceRebuild = false) {
+/** @param {string} collection @param {boolean} forceRebuild @param {Set<string> | null} [forceFiles] */
+export default async function build(collection, forceRebuild = false, forceFiles = null) {
   const effectiveForce = forceRebuild || forceFromCompiler;
   const dest = builtDir + collection;
   const contentDir = './content/' + collection;
@@ -148,6 +149,12 @@ export default async function build(collection, forceRebuild = false) {
         const ext = path.extname(file).substring(1);
         const handler = handlers[ext];
         if (!handler) continue;
+
+        // Force-specific files bypass cache
+        if (forceFiles && forceFiles.has(file)) {
+          filesToProcess.push(file);
+          continue;
+        }
 
         const outputPath = path.join(
           dest,
