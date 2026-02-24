@@ -72,3 +72,38 @@ export const BatchUpdateBody = z.object({
     h: z.number().optional(),
   })).min(1),
 });
+
+// --- Posts ---
+
+export const PostFrontmatter = z.object({
+  tags: z.array(z.string()).optional(),
+  description: z.string().optional(),
+  summary: z.string().optional(),
+  layout: z.string().optional(),
+  related: z.array(z.string()).optional(),
+  wide: z.boolean().optional(),
+  concern: z.array(z.string()).optional(),
+  image: z.string().optional(),
+  date: z.string().optional(),
+  minimalHeader: z.boolean().optional(),
+  noHeader: z.boolean().optional(),
+  js: z.array(z.string()).optional(),
+  form: z.string().optional(),
+}).strict();
+
+// POST /posts
+export const CreatePostBody = z.object({
+  title: z.string().trim().min(1),
+  slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase hyphenated"),
+  body: z.string().optional(),
+  frontmatter: PostFrontmatter.optional(),
+});
+
+// PATCH /posts/:id
+export const UpdatePostBody = z.object({
+  title: z.string().trim().min(1).optional(),
+  slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase hyphenated").optional(),
+  body: z.string().optional(),
+  frontmatter: PostFrontmatter.optional(),
+  status: z.enum(["draft", "published"]).optional(),
+});

@@ -8,6 +8,7 @@ import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
 import { dha } from "./dha";
+import { posts } from "./posts";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -18,6 +19,8 @@ import {
   CreateEdgeBody,
   UpdateEdgeBody,
   BatchUpdateBody,
+  CreatePostBody,
+  UpdatePostBody,
 } from "./schemas";
 
 export interface Env {
@@ -910,6 +913,7 @@ api.get("/attachments/*", async (c) => {
 });
 
 api.route("/dha", dha);
+api.route("/posts", posts);
 
 // Mount API routes
 app.route("/api", api);
