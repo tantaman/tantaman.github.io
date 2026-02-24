@@ -1,29 +1,30 @@
 import { useState } from "react";
+import SankeyDiagram from "/dist/components/SankeyDiagram.js";
 import GravityIntro from "./metaphysical-choices-sankey/gravity-intro.jsx";
-import ScienceSankey from "./metaphysical-choices-sankey/science-sankey.jsx";
-import EducationSankey from "./metaphysical-choices-sankey/education-sankey.jsx";
-import TheologicalSankey from "./metaphysical-choices-sankey/theological-sankey.jsx";
-import PsychologySankey from "./metaphysical-choices-sankey/psychology-sankey.jsx";
-import BuddhismSankey from "./metaphysical-choices-sankey/buddhism-sankey.jsx";
-import IslamicSankey from "./metaphysical-choices-sankey/islamic-sankey.jsx";
-import EconomicsSankey from "./metaphysical-choices-sankey/economics-sankey.jsx";
+import scienceData from "./metaphysical-choices-sankey/data/science.json";
+import educationData from "./metaphysical-choices-sankey/data/education.json";
+import theologyData from "./metaphysical-choices-sankey/data/theology.json";
+import psychologyData from "./metaphysical-choices-sankey/data/psychology.json";
+import buddhismData from "./metaphysical-choices-sankey/data/buddhism.json";
+import islamData from "./metaphysical-choices-sankey/data/islam.json";
+import economicsData from "./metaphysical-choices-sankey/data/economics.json";
 
 const TABS = [
   { label: "Gravity", component: GravityIntro, isIntro: true },
-  { label: "Science", component: ScienceSankey },
-  { label: "Education", component: EducationSankey },
-  { label: "Theology", component: TheologicalSankey },
-  { label: "Psychology", component: PsychologySankey },
-  { label: "Buddhism", component: BuddhismSankey },
-  { label: "Islam", component: IslamicSankey },
-  { label: "Economics", component: EconomicsSankey },
+  { label: "Science", data: scienceData },
+  { label: "Education", data: educationData },
+  { label: "Theology", data: theologyData },
+  { label: "Psychology", data: psychologyData },
+  { label: "Buddhism", data: buddhismData },
+  { label: "Islam", data: islamData },
+  { label: "Economics", data: economicsData },
 ];
 
 export default function MetaphysicalChoices() {
   const [activeTab, setActiveTab] = useState(0);
   const [zoom, setZoom] = useState(1.4);
-  const ActiveComponent = TABS[activeTab].component;
-  const isIntro = TABS[activeTab].isIntro;
+  const tab = TABS[activeTab];
+  const isIntro = tab.isIntro;
 
   return (
     <div style={{ background: "#0f0f0e", minHeight: "100vh" }}>
@@ -43,9 +44,9 @@ export default function MetaphysicalChoices() {
           fontFamily: "'Crimson Pro', Georgia, serif",
         }}
       >
-        {TABS.map((tab, i) => (
+        {TABS.map((t, i) => (
           <button
-            key={tab.label}
+            key={t.label}
             onClick={() => setActiveTab(i)}
             style={{
               background: i === activeTab ? "#2a2a28" : "transparent",
@@ -72,7 +73,7 @@ export default function MetaphysicalChoices() {
               }
             }}
           >
-            {tab.label}
+            {t.label}
           </button>
         ))}
         {!isIntro && (
@@ -112,7 +113,7 @@ export default function MetaphysicalChoices() {
         )}
       </div>
       {isIntro ? (
-        <ActiveComponent />
+        <tab.component />
       ) : (
         <div style={{ overflow: "auto", position: "relative" }}>
           <div style={{
@@ -122,7 +123,7 @@ export default function MetaphysicalChoices() {
             marginLeft: "auto",
             marginRight: "auto",
           }}>
-            <ActiveComponent />
+            <SankeyDiagram data={tab.data} />
           </div>
         </div>
       )}

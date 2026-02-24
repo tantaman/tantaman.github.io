@@ -153,6 +153,12 @@ root.render(React.createElement(MDXContent, {}, null));
       plugins: [{
         name: 'esm-sh',
         setup(build) {
+          // Absolute paths → external (resolve at browser runtime, like MDX imports)
+          // Skip entry points — their absolute filesystem paths also start with /
+          build.onResolve({ filter: /^\// }, args => {
+            if (args.kind === 'entry-point') return undefined;
+            return { path: args.path, external: true };
+          });
           // Bare specifiers → esm.sh (skip URLs)
           build.onResolve({ filter: /^[^./]/ }, args => {
             if (args.path.startsWith('https://') || args.path.startsWith('http://')) {
