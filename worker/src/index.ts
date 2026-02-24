@@ -1,11 +1,23 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { StreamableHTTPTransport } from "@hono/mcp";
+import { ZodError } from "zod";
 import { extractEvents } from "./events";
 import { extractTasks } from "./tasks";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
+import {
+  CreateThoughtBody,
+  UpdateTaskBody,
+  CreateFramingBody,
+  UpdateFramingBody,
+  PlaceThoughtBody,
+  UpdatePlacementBody,
+  CreateEdgeBody,
+  UpdateEdgeBody,
+  BatchUpdateBody,
+} from "./schemas";
 
 export interface Env {
   AI: Ai;
@@ -28,6 +40,13 @@ async function bumpVersion(db: D1Database): Promise<void> {
 }
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.onError((err, c) => {
+  if (err instanceof ZodError) {
+    return c.json({ error: err.issues[0].message }, 400);
+  }
+  throw err;
+});
 
 app.use("*", cors());
 
@@ -322,7 +341,7 @@ api.post("/thoughts", async (c) => {
     const parentIdStr = formData.get("parent_id") as string | null;
     if (parentIdStr) parentId = parseInt(parentIdStr, 10);
   } else {
-    const json = await c.req.json<{ body: string; parent_id?: number }>();
+    const json = CreateThoughtBody.parse(await c.req.json());
     trimmed = (json.body || "").trim();
     if (json.parent_id != null) parentId = json.parent_id;
   }
@@ -489,7 +508,7 @@ api.patch("/tasks/:id", async (c) => {
   }
 
   const id = c.req.param("id");
-  const { completed } = await c.req.json<{ completed: boolean }>();
+  const { completed } = UpdateTaskBody.parse(await c.req.json());
 
   if (completed) {
     const now = Math.floor(Date.now() / 1000);
@@ -554,10 +573,7 @@ api.post("/framings", async (c) => {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
-  const { name, description } = await c.req.json<{ name: string; description?: string }>();
-  if (!name?.trim()) {
-    return c.json({ error: "Name is required" }, 400);
-  }
+  const { name, description } = CreateFramingBody.parse(await c.req.json());
 
   const now = Math.floor(Date.now() / 1000);
   const result = await c.env.DB.prepare(
@@ -611,7 +627,7 @@ api.patch("/framings/:id", async (c) => {
   }
 
   const id = c.req.param("id");
-  const { name, description } = await c.req.json<{ name?: string; description?: string }>();
+  const { name, description } = UpdateFramingBody.parse(await c.req.json());
 
   const existing = await c.env.DB.prepare(
     "SELECT id FROM framing WHERE id = ?"
@@ -675,13 +691,7 @@ api.post("/framings/:id/thoughts", async (c) => {
   }
 
   const framingId = c.req.param("id");
-  const { thought_id, x, y, w, h } = await c.req.json<{
-    thought_id: number; x: number; y: number; w?: number; h?: number;
-  }>();
-
-  if (thought_id == null || x == null || y == null) {
-    return c.json({ error: "thought_id, x, and y are required" }, 400);
-  }
+  const { thought_id, x, y, w, h } = PlaceThoughtBody.parse(await c.req.json());
 
   const framing = await c.env.DB.prepare("SELECT id FROM framing WHERE id = ?").bind(framingId).first();
   if (!framing) {
@@ -712,7 +722,7 @@ api.patch("/framings/:id/thoughts/:thoughtId", async (c) => {
 
   const framingId = c.req.param("id");
   const thoughtId = c.req.param("thoughtId");
-  const updates = await c.req.json<{ x?: number; y?: number; w?: number; h?: number }>();
+  const updates = UpdatePlacementBody.parse(await c.req.json());
 
   const sets: string[] = [];
   const bindings: (number | null)[] = [];
@@ -774,14 +784,7 @@ api.post("/framings/:id/edges", async (c) => {
   }
 
   const framingId = c.req.param("id");
-  const { source_thought_id, target_thought_id, label, source_handle, target_handle } = await c.req.json<{
-    source_thought_id: number; target_thought_id: number; label?: string;
-    source_handle?: string | null; target_handle?: string | null;
-  }>();
-
-  if (source_thought_id == null || target_thought_id == null) {
-    return c.json({ error: "source_thought_id and target_thought_id are required" }, 400);
-  }
+  const { source_thought_id, target_thought_id, label, source_handle, target_handle } = CreateEdgeBody.parse(await c.req.json());
 
   const result = await c.env.DB.prepare(
     "INSERT INTO framing_edge (framing_id, source_thought_id, target_thought_id, label, source_handle, target_handle) VALUES (?, ?, ?, ?, ?, ?)"
@@ -808,7 +811,7 @@ api.patch("/framings/:id/edges/:edgeId", async (c) => {
 
   const framingId = c.req.param("id");
   const edgeId = c.req.param("edgeId");
-  const { label } = await c.req.json<{ label?: string }>();
+  const { label } = UpdateEdgeBody.parse(await c.req.json());
 
   const result = await c.env.DB.prepare(
     "UPDATE framing_edge SET label = ? WHERE id = ? AND framing_id = ?"
@@ -857,13 +860,7 @@ api.patch("/framings/:id/batch", async (c) => {
   }
 
   const framingId = parseInt(c.req.param("id"));
-  const { thoughts } = await c.req.json<{
-    thoughts: { thought_id: number; x: number; y: number; w?: number; h?: number }[];
-  }>();
-
-  if (!Array.isArray(thoughts) || thoughts.length === 0) {
-    return c.json({ error: "thoughts array is required" }, 400);
-  }
+  const { thoughts } = BatchUpdateBody.parse(await c.req.json());
 
   const stmts = thoughts.map((t) =>
     c.env.DB.prepare(
