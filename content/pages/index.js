@@ -45,7 +45,7 @@ async function pagesIndex() {
     .map(([key, meta]) => ({
       key,
       title: meta.frontmatter?.title || key.replace(/\.(md|mdx|html)$/, ''),
-      url: meta.compiledFilename,
+      url: '/' + meta.compiledFilename,
       description: meta.frontmatter?.description || meta.description || '',
     }))
     .sort((a, b) => a.title.localeCompare(b.title));
