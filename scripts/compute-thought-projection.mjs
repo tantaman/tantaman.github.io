@@ -5,64 +5,77 @@
  * write it as constants to worker/src/color-projection.ts,
  * and backfill colors for all existing thoughts in D1.
  *
- * Requires: CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN env vars
+ * Uses wrangler CLI (must be authenticated via `wrangler login`).
  * Usage: node scripts/compute-thought-projection.mjs [--dry-run]
  */
 
-import { writeFile } from 'node:fs/promises';
+import { writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
-const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
-const API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
-const D1_DATABASE_ID = 'a1190a47-fe1e-4fdb-8d7a-06dd5714fc6b';
 const VECTORIZE_INDEX = 'thought-embeddings';
+const D1_DB = 'thought';
 const DRY_RUN = process.argv.includes('--dry-run');
 
-if (!ACCOUNT_ID || !API_TOKEN) {
-  console.error('CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN env vars required');
-  process.exit(1);
-}
+const WORKER_DIR = new URL('../worker', import.meta.url).pathname;
 
-const headers = {
-  'Authorization': `Bearer ${API_TOKEN}`,
-  'Content-Type': 'application/json',
-};
-
-async function cfApi(path, opts = {}) {
-  const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}${path}`;
-  const res = await fetch(url, { headers, ...opts });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`CF API ${res.status}: ${body}`);
-  }
-  const json = await res.json();
-  if (!json.success) {
-    throw new Error(`CF API error: ${JSON.stringify(json.errors)}`);
-  }
-  return json.result;
-}
-
-async function d1Query(sql, params = []) {
-  const result = await cfApi(`/d1/database/${D1_DATABASE_ID}/query`, {
-    method: 'POST',
-    body: JSON.stringify({ sql, params }),
+function wrangler(...args) {
+  // --env-file /dev/null prevents wrangler from loading worker/.env (which may
+  // contain a stale API token that overrides the OAuth session).
+  const result = execFileSync('npx', ['wrangler', ...args, '--env-file', '/dev/null'], {
+    encoding: 'utf-8',
+    maxBuffer: 50 * 1024 * 1024,
+    stdio: ['pipe', 'pipe', 'pipe'],
+    cwd: WORKER_DIR,
   });
-  return result[0];
+  return result;
+}
+
+function wranglerJson(...args) {
+  const raw = wrangler(...args);
+  // wrangler may prefix non-JSON status lines — find the JSON portion
+  const start = raw.indexOf('[') < raw.indexOf('{') && raw.indexOf('[') !== -1
+    ? raw.indexOf('[')
+    : raw.indexOf('{');
+  if (start === -1) throw new Error(`No JSON in wrangler output: ${raw.slice(0, 200)}`);
+  return JSON.parse(raw.slice(start));
 }
 
 // --- Fetch all thought IDs from D1 ---
-async function getAllThoughtIds() {
-  const result = await d1Query('SELECT id FROM thought ORDER BY id');
-  return result.results.map((r) => r.id);
+function getAllThoughtIds() {
+  const result = wranglerJson('d1', 'execute', D1_DB, '--command', 'SELECT id FROM thought ORDER BY id', '--remote', '--json');
+  return result[0].results.map((r) => r.id);
 }
 
-// --- Fetch vectors from VECTORIZE by IDs ---
-async function getVectorsByIds(ids) {
-  // VECTORIZE getByIds via REST API
-  const result = await cfApi(`/vectorize/v2/indexes/${VECTORIZE_INDEX}/get_by_ids`, {
-    method: 'POST',
-    body: JSON.stringify({ ids: ids.map(String) }),
-  });
-  return result;
+// --- Fetch all vector IDs from VECTORIZE via list-vectors pagination ---
+function listAllVectorIds() {
+  const ids = [];
+  let cursor = undefined;
+  while (true) {
+    const args = ['vectorize', 'list-vectors', VECTORIZE_INDEX, '--count', '1000', '--json'];
+    if (cursor) args.push('--cursor', cursor);
+    const result = wranglerJson(...args);
+    for (const v of result.vectors) {
+      ids.push(v.id);
+    }
+    if (!result.isTruncated) break;
+    cursor = result.nextCursor;
+  }
+  return ids;
+}
+
+// --- Fetch vectors by IDs ---
+function getVectorsByIds(ids) {
+  const args = ['vectorize', 'get-vectors', VECTORIZE_INDEX, '--ids', ...ids.map(String)];
+  const raw = wrangler(...args);
+  // get-vectors output has a status line prefix before the JSON array
+  const start = raw.indexOf('[');
+  if (start === -1) throw new Error(`No JSON array in get-vectors output: ${raw.slice(0, 200)}`);
+  return JSON.parse(raw.slice(start));
+}
+
+// --- D1 execute ---
+function d1Execute(sql) {
+  wrangler('d1', 'execute', D1_DB, '--command', sql, '--remote');
 }
 
 // --- PCA via power iteration (ported from pca-colors.ts) ---
@@ -70,17 +83,14 @@ function computePCA(vectors, dims = 3) {
   const n = vectors.length;
   const d = vectors[0].length;
 
-  // Compute mean
   const mean = new Array(d).fill(0);
   for (const row of vectors) {
     for (let j = 0; j < d; j++) mean[j] += row[j];
   }
   for (let j = 0; j < d; j++) mean[j] /= n;
 
-  // Center
   const centered = vectors.map((row) => row.map((v, j) => v - mean[j]));
 
-  // Extract top components via power iteration with deflation
   const components = [];
   const deflated = centered.map((row) => [...row]);
 
@@ -111,7 +121,6 @@ function computePCA(vectors, dims = 3) {
     }
   }
 
-  // Compute projection scores for normalization bounds
   const rawScores = vectors.map((_, i) =>
     components.map((comp) =>
       centered[i].reduce((s, v, j) => s + v * comp[j], 0),
@@ -148,9 +157,7 @@ function projectToColor(embedding, mean, components, mins, maxs) {
   return '#' + r.toString(16).padStart(2, '0') + g.toString(16).padStart(2, '0') + b.toString(16).padStart(2, '0');
 }
 
-// --- Format array as compact TypeScript literal ---
 function formatArray(arr, indent = '') {
-  // For very long arrays (768-dim), use multi-line with ~20 values per line
   if (arr.length > 20) {
     const lines = [];
     for (let i = 0; i < arr.length; i += 16) {
@@ -162,53 +169,50 @@ function formatArray(arr, indent = '') {
   return '[' + arr.map((v) => v.toString()).join(', ') + ']';
 }
 
-async function main() {
-  console.log('Fetching thought IDs from D1...');
-  const ids = await getAllThoughtIds();
-  console.log(`Found ${ids.length} thoughts`);
+function main() {
+  console.log('Listing vector IDs from VECTORIZE...');
+  const vectorIds = listAllVectorIds();
+  console.log(`Found ${vectorIds.length} vectors`);
 
-  if (ids.length === 0) {
-    console.error('No thoughts found');
+  if (vectorIds.length < 3) {
+    console.error('Need at least 3 vectors for PCA');
     process.exit(1);
   }
 
-  // Fetch vectors in batches (VECTORIZE getByIds limit)
-  console.log('Fetching vectors from VECTORIZE...');
-  const BATCH = 100;
+  // Fetch vectors in batches
+  console.log('Fetching vectors...');
+  const BATCH = 20;
   const idVecPairs = [];
-  for (let i = 0; i < ids.length; i += BATCH) {
-    const batch = ids.slice(i, i + BATCH);
+  for (let i = 0; i < vectorIds.length; i += BATCH) {
+    const batch = vectorIds.slice(i, i + BATCH);
     const batchNum = Math.floor(i / BATCH) + 1;
-    const totalBatches = Math.ceil(ids.length / BATCH);
-    console.log(`  Batch ${batchNum}/${totalBatches}...`);
-    const result = await getVectorsByIds(batch);
+    const totalBatches = Math.ceil(vectorIds.length / BATCH);
+    console.log(`  Batch ${batchNum}/${totalBatches} (${batch.length} vectors)...`);
+    const result = getVectorsByIds(batch);
     for (const vec of result) {
       if (vec.values && vec.values.length > 0) {
         idVecPairs.push({ id: parseInt(vec.id, 10), values: vec.values });
       }
     }
-    if (i + BATCH < ids.length) {
-      await new Promise((r) => setTimeout(r, 200));
-    }
   }
 
-  console.log(`Got ${idVecPairs.length} vectors`);
-
-  if (idVecPairs.length < 3) {
-    console.error('Need at least 3 vectors for PCA');
-    process.exit(1);
-  }
+  console.log(`Got ${idVecPairs.length} vectors with values`);
 
   // Run PCA
   console.log('Computing PCA...');
   const vectors = idVecPairs.map((p) => p.values);
-  const { mean, components, mins, maxs, rawScores } = computePCA(vectors);
+  const { mean, components, mins, maxs } = computePCA(vectors);
 
   console.log(`Dims: ${mean.length}, Components: ${components.length}`);
   console.log(`Ranges: [${mins.map((m, i) => `${m.toFixed(4)}..${maxs[i].toFixed(4)}`).join(', ')}]`);
 
   if (DRY_RUN) {
     console.log('\nDry run — not writing files or updating DB');
+    // Print a few sample colors
+    for (let i = 0; i < Math.min(5, idVecPairs.length); i++) {
+      const color = projectToColor(idVecPairs[i].values, mean, components, mins, maxs);
+      console.log(`  thought ${idVecPairs[i].id}: ${color}`);
+    }
     return;
   }
 
@@ -275,7 +279,7 @@ export function projectToColor(embedding: number[]): string | null {
 `;
 
   const outPath = new URL('../worker/src/color-projection.ts', import.meta.url).pathname;
-  await writeFile(outPath, tsContent, 'utf-8');
+  writeFileSync(outPath, tsContent, 'utf-8');
   console.log('Written color-projection.ts');
 
   // Backfill colors for all thoughts
@@ -284,9 +288,9 @@ export function projectToColor(embedding: number[]): string | null {
   for (let i = 0; i < idVecPairs.length; i++) {
     const { id, values } = idVecPairs[i];
     const color = projectToColor(values, mean, components, mins, maxs);
-    await d1Query('UPDATE thought SET color = ? WHERE id = ?', [color, id]);
+    d1Execute(`UPDATE thought SET color = '${color}' WHERE id = ${id}`);
     updated++;
-    if (updated % 50 === 0) {
+    if (updated % 10 === 0) {
       console.log(`  Updated ${updated}/${idVecPairs.length}...`);
     }
   }
@@ -295,7 +299,4 @@ export function projectToColor(embedding: number[]): string | null {
   console.log('\nDone!');
 }
 
-main().catch((err) => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+main();
