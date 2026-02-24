@@ -10,6 +10,7 @@ export type PostNodeData = {
   summary: string;
   date: string;
   tags: string[];
+  color: string | null;
   onRemove?: (nodeId: number) => void;
 };
 
@@ -22,7 +23,7 @@ export const PostNode = memo(function PostNode({
   const summary = data.summary.length > 200 ? data.summary.slice(0, 200) + '…' : data.summary;
 
   return (
-    <div className="framing-post-node">
+    <div className="framing-post-node" style={data.color ? { borderLeftColor: data.color } : undefined}>
       {secret && data.onRemove && (
         <button
           className="framing-node-remove"

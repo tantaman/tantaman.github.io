@@ -23,6 +23,7 @@ export default async function postsManifest() {
               date,
               tags: fm.tags || [],
               collection: collection || 'root',
+              color: meta.sentimentColor || null,
             });
           });
       });

@@ -98,6 +98,7 @@ export interface PostSummary {
   date: string;
   tags: string[];
   collection: string;
+  color: string | null;
 }
 
 export type Route =

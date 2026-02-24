@@ -62,6 +62,7 @@ function framingNodeToRFNode(
       summary: post.summary,
       date: post.date,
       tags: post.tags,
+      color: post.color,
       onRemove,
     },
   };
@@ -269,6 +270,7 @@ export function useFramingCanvas(framingId: number) {
         summary: post.summary,
         date: post.date,
         tags: post.tags,
+        color: post.color,
       } as any, x, y);
     },
     [addNode, postsMap],

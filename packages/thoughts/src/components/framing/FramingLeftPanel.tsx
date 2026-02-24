@@ -55,6 +55,7 @@ function PostItem({
   return (
     <div
       className={`framing-panel-post${placed ? ' placed' : ''}`}
+      style={post.color ? { borderLeftColor: post.color } : undefined}
       draggable={!placed}
       onDragStart={(e) => {
         if (placed) {
