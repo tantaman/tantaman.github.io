@@ -20,6 +20,7 @@ function ThoughtItem({
   return (
     <div
       className={`framing-panel-thought${placed ? ' placed' : ''}`}
+      style={thought.color ? { backgroundColor: thought.color + '14' } : undefined}
       draggable={!placed}
       onDragStart={(e) => {
         if (placed) {

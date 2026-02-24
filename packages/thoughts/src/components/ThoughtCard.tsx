@@ -60,6 +60,7 @@ export function ThoughtCard({
     <div
       className={'thought' + (isParent ? ' thought--parent' : '')}
       data-id={thought.id}
+      style={thought.color ? { backgroundColor: thought.color + '14' } : undefined}
     >
       <div className="thought-header">
         <span className="thought-author">tantaman</span>

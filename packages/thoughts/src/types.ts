@@ -11,6 +11,7 @@ export interface Thought {
   parent_id: number | null;
   reply_count: number;
   attachments: Attachment[];
+  color: string | null;
 }
 
 export interface Tag {

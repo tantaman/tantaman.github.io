@@ -118,7 +118,7 @@ api.get("/thoughts/search", async (c) => {
 
   const placeholders = ids.map(() => "?").join(",");
   const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.timestamp, t.created_at, t.parent_id,
+    `SELECT t.id, t.body, t.timestamp, t.created_at, t.parent_id, t.color,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
      FROM thought t
      WHERE t.id IN (${placeholders})`
@@ -164,7 +164,7 @@ api.get("/thoughts", async (c) => {
   if (tags.length > 0) {
     const placeholders = tags.map(() => "?").join(",");
     results = await c.env.DB.prepare(
-      `SELECT t.id, t.body, t.timestamp, t.created_at,
+      `SELECT t.id, t.body, t.timestamp, t.created_at, t.color,
          (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
        FROM thought t
        WHERE t.parent_id IS NULL
@@ -179,7 +179,7 @@ api.get("/thoughts", async (c) => {
     ).bind(...tags, tags.length, limitParam, offsetParam).all();
   } else {
     results = await c.env.DB.prepare(
-      `SELECT t.id, t.body, t.timestamp, t.created_at,
+      `SELECT t.id, t.body, t.timestamp, t.created_at, t.color,
          (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
        FROM thought t
        WHERE t.parent_id IS NULL
@@ -259,7 +259,7 @@ api.get("/thoughts/:id/replies", async (c) => {
 
   // Fetch parent thought
   const parentRow = await c.env.DB.prepare(
-    `SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at,
+    `SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, t.color,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
      FROM thought t
      WHERE t.id = ?`
@@ -283,14 +283,14 @@ api.get("/thoughts/:id/replies", async (c) => {
 
   // Fetch all descendants recursively
   const results = await c.env.DB.prepare(
-    `WITH RECURSIVE descendants(id, parent_id, body, timestamp, created_at, depth) AS (
-       SELECT id, parent_id, body, timestamp, created_at, 0
+    `WITH RECURSIVE descendants(id, parent_id, body, timestamp, created_at, color, depth) AS (
+       SELECT id, parent_id, body, timestamp, created_at, color, 0
        FROM thought WHERE parent_id = ?
        UNION ALL
-       SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, d.depth + 1
+       SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, t.color, d.depth + 1
        FROM thought t JOIN descendants d ON t.parent_id = d.id
      )
-     SELECT d.id, d.parent_id, d.body, d.timestamp, d.created_at, d.depth,
+     SELECT d.id, d.parent_id, d.body, d.timestamp, d.created_at, d.color, d.depth,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id) AS reply_count
      FROM descendants d
      ORDER BY d.depth ASC, d.timestamp ASC`
