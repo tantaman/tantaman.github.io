@@ -12,7 +12,7 @@ export function Feed({ tags }: { tags: string[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const handleSearch = useCallback((q: string) => setSearchQuery(q), []);
   const { thoughts, hasMore, isLoadingInitial, isLoadingMore, loadMore, mutate } =
-    useThoughts(tags);
+    useThoughts(tags, secret);
 
   const handlePosted = (t: Thought) => {
     mutate(
@@ -54,7 +54,7 @@ export function Feed({ tags }: { tags: string[] }) {
       )}
 
       {isSearching ? (
-        <SearchResults query={searchQuery} />
+        <SearchResults query={searchQuery} secret={secret} />
       ) : (
         <>
           <div>
@@ -93,8 +93,8 @@ export function Feed({ tags }: { tags: string[] }) {
   );
 }
 
-function SearchResults({ query }: { query: string }) {
-  const { data, isLoading } = useSearch(query);
+function SearchResults({ query, secret }: { query: string; secret: string | null }) {
+  const { data, isLoading } = useSearch(query, secret);
 
   if (isLoading) {
     return <div className="thought-loading">Searching...</div>;

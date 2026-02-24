@@ -66,6 +66,12 @@ export function ThoughtCard({
         <span className="thought-author">tantaman</span>
         <span className="thought-meta-sep">&middot;</span>
         <span className="thought-time">{formatTime(thought.timestamp)}</span>
+        {thought.private && (
+          <>
+            <span className="thought-meta-sep">&middot;</span>
+            <span className="thought-private-dot" title="Private">&#9679;</span>
+          </>
+        )}
         {secret && (
           <button
             className="thought-delete"

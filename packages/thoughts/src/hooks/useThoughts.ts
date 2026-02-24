@@ -9,15 +9,16 @@ interface ThoughtsPage {
   meta: { hasMore: boolean };
 }
 
-export function useThoughts(tags: string[]) {
+export function useThoughts(tags: string[], secret?: string | null) {
   const tagsKey = tags.join(',');
   const tagsParam = tags.length > 0 ? tags : undefined;
+  const authKey = secret ? 'a' : 'p';
 
   const { data, size, setSize, mutate, isValidating } = useSWRInfinite<ThoughtsPage>(
-    (pageIndex) => `thoughts-${tagsKey}-page-${pageIndex}`,
+    (pageIndex) => `thoughts-${tagsKey}-${authKey}-page-${pageIndex}`,
     (key) => {
       const pageIndex = parseInt(key.split('-page-')[1], 10);
-      return getThoughts(pageIndex * LIMIT, LIMIT, tagsParam);
+      return getThoughts(pageIndex * LIMIT, LIMIT, tagsParam, secret || undefined);
     },
     { persistSize: true },
   );

@@ -1,13 +1,15 @@
 import useSWR from 'swr';
 import { getThread, getTags, getTasks, getEvents, searchThoughts, getFramings, getFraming, getPostsManifest } from '../api';
 
-export function useThread(id: number) {
-  return useSWR(`thread-${id}`, () => getThread(id));
+export function useThread(id: number, secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  return useSWR(`thread-${id}-${authKey}`, () => getThread(id, secret || undefined));
 }
 
-export function useTags(selectedTags: string[]) {
-  const key = `tags-${selectedTags.join(',')}`;
-  return useSWR(key, () => getTags(selectedTags.length > 0 ? selectedTags : undefined));
+export function useTags(selectedTags: string[], secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  const key = `tags-${selectedTags.join(',')}-${authKey}`;
+  return useSWR(key, () => getTags(selectedTags.length > 0 ? selectedTags : undefined, secret || undefined));
 }
 
 export function useTasks(status: 'incomplete' | 'deprioritized' | 'all', tags: string[]) {
@@ -15,9 +17,10 @@ export function useTasks(status: 'incomplete' | 'deprioritized' | 'all', tags: s
   return useSWR(key, () => getTasks(status, tags.length > 0 ? tags : undefined));
 }
 
-export function useSearch(query: string) {
-  const key = query ? `search-${query}` : null;
-  return useSWR(key, () => searchThoughts(query));
+export function useSearch(query: string, secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  const key = query ? `search-${query}-${authKey}` : null;
+  return useSWR(key, () => searchThoughts(query, secret || undefined));
 }
 
 export function useEvents(year: number, month: number) {

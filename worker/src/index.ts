@@ -35,6 +35,11 @@ export interface Env {
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
+function isAuthed(c: { req: { header: (name: string) => string | undefined }; env: { THOUGHT_SECRET: string } }): boolean {
+  const auth = c.req.header("Authorization");
+  return auth === `Bearer ${c.env.THOUGHT_SECRET}`;
+}
+
 async function getVersion(db: D1Database): Promise<number> {
   const row = await db.prepare("SELECT counter FROM version WHERE id = 1").first<{ counter: number }>();
   return row?.counter ?? 0;
@@ -79,7 +84,8 @@ api.use("*", async (c, next) => {
   }
 
   const version = await getVersion(c.env.DB);
-  const etag = `"${version}"`;
+  const authed = isAuthed(c);
+  const etag = `"${authed ? 'a' : 'p'}-${version}"`;
   const ifNoneMatch = c.req.header("If-None-Match");
 
   if (ifNoneMatch === etag) {
@@ -114,6 +120,8 @@ api.get("/thoughts/search", async (c) => {
     return c.json({ error: "Missing q parameter" }, 400);
   }
 
+  const authed = isAuthed(c);
+
   const queryVec = await embedText(c.env.AI, query);
   const vecResults = await c.env.VECTORIZE.query(queryVec, {
     topK: 20,
@@ -130,11 +138,13 @@ api.get("/thoughts/search", async (c) => {
   );
 
   const placeholders = ids.map(() => "?").join(",");
+  const privateFilter = authed ? "" : " AND t.private = 0";
+  const replyPrivateFilter = authed ? "" : " AND r.private = 0";
   const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.timestamp, t.created_at, t.parent_id, t.color,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+    `SELECT t.id, t.body, t.timestamp, t.created_at, t.parent_id, t.color, t.private,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
-     WHERE t.id IN (${placeholders})`
+     WHERE t.id IN (${placeholders})${privateFilter}`
   ).bind(...ids).all();
 
   const thoughts = results.results as Record<string, unknown>[];
@@ -172,15 +182,18 @@ api.get("/thoughts", async (c) => {
   const limitParam = Math.min(parseInt(c.req.query("limit") || "50", 10) || 50, 200);
   const offsetParam = parseInt(c.req.query("offset") || "0", 10) || 0;
   const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
+  const authed = isAuthed(c);
+  const privateFilter = authed ? "" : " AND t.private = 0";
+  const replyPrivateFilter = authed ? "" : " AND r.private = 0";
 
   let results;
   if (tags.length > 0) {
     const placeholders = tags.map(() => "?").join(",");
     results = await c.env.DB.prepare(
-      `SELECT t.id, t.body, t.timestamp, t.created_at, t.color,
-         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+      `SELECT t.id, t.body, t.timestamp, t.created_at, t.color, t.private,
+         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
        FROM thought t
-       WHERE t.parent_id IS NULL
+       WHERE t.parent_id IS NULL${privateFilter}
        AND t.id IN (
          SELECT tt.thought_id FROM thought_tag tt
          JOIN tag tg ON tg.id = tt.tag_id
@@ -192,10 +205,10 @@ api.get("/thoughts", async (c) => {
     ).bind(...tags, tags.length, limitParam, offsetParam).all();
   } else {
     results = await c.env.DB.prepare(
-      `SELECT t.id, t.body, t.timestamp, t.created_at, t.color,
-         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+      `SELECT t.id, t.body, t.timestamp, t.created_at, t.color, t.private,
+         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
        FROM thought t
-       WHERE t.parent_id IS NULL
+       WHERE t.parent_id IS NULL${privateFilter}
        ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
     ).bind(limitParam, offsetParam).all();
   }
@@ -234,6 +247,8 @@ api.get("/thoughts", async (c) => {
 
 api.get("/thoughts/tags", async (c) => {
   const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
+  const authed = isAuthed(c);
+  const privateFilter = authed ? "" : " AND th.private = 0";
 
   let results;
   if (tags.length > 0) {
@@ -242,7 +257,7 @@ api.get("/thoughts/tags", async (c) => {
       `SELECT tg.name, COUNT(DISTINCT tt.thought_id) AS count
        FROM tag tg
        JOIN thought_tag tt ON tt.tag_id = tg.id
-       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL
+       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL${privateFilter}
        WHERE tt.thought_id IN (
          SELECT tt2.thought_id FROM thought_tag tt2
          JOIN tag tg2 ON tg2.id = tt2.tag_id
@@ -258,7 +273,7 @@ api.get("/thoughts/tags", async (c) => {
       `SELECT t.name, COUNT(tt.thought_id) AS count
        FROM tag t
        JOIN thought_tag tt ON tt.tag_id = t.id
-       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL
+       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL${privateFilter}
        GROUP BY t.id
        ORDER BY count DESC`
     ).all();
@@ -269,16 +284,22 @@ api.get("/thoughts/tags", async (c) => {
 
 api.get("/thoughts/:id/replies", async (c) => {
   const parentId = c.req.param("id");
+  const authed = isAuthed(c);
+  const replyPrivateFilter = authed ? "" : " AND r.private = 0";
 
   // Fetch parent thought
   const parentRow = await c.env.DB.prepare(
-    `SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, t.color,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id) AS reply_count
+    `SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, t.color, t.private,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
      WHERE t.id = ?`
   ).bind(parentId).first();
 
   if (!parentRow) {
+    return c.json({ error: "Thought not found" }, 404);
+  }
+
+  if (!authed && (parentRow as Record<string, unknown>).private) {
     return c.json({ error: "Thought not found" }, 404);
   }
 
@@ -295,16 +316,18 @@ api.get("/thoughts/:id/replies", async (c) => {
   }));
 
   // Fetch all descendants recursively
+  const privateFilterCte = authed ? "" : " AND private = 0";
+  const privateFilterJoin = authed ? "" : " AND t.private = 0";
   const results = await c.env.DB.prepare(
-    `WITH RECURSIVE descendants(id, parent_id, body, timestamp, created_at, color, depth) AS (
-       SELECT id, parent_id, body, timestamp, created_at, color, 0
-       FROM thought WHERE parent_id = ?
+    `WITH RECURSIVE descendants(id, parent_id, body, timestamp, created_at, color, private, depth) AS (
+       SELECT id, parent_id, body, timestamp, created_at, color, private, 0
+       FROM thought WHERE parent_id = ?${privateFilterCte}
        UNION ALL
-       SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, t.color, d.depth + 1
-       FROM thought t JOIN descendants d ON t.parent_id = d.id
+       SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, t.color, t.private, d.depth + 1
+       FROM thought t JOIN descendants d ON t.parent_id = d.id${privateFilterJoin}
      )
-     SELECT d.id, d.parent_id, d.body, d.timestamp, d.created_at, d.color, d.depth,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id) AS reply_count
+     SELECT d.id, d.parent_id, d.body, d.timestamp, d.created_at, d.color, d.private, d.depth,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id${replyPrivateFilter}) AS reply_count
      FROM descendants d
      ORDER BY d.depth ASC, d.timestamp ASC`
   ).bind(parentId).all();
@@ -345,6 +368,7 @@ api.post("/thoughts", async (c) => {
   let trimmed: string;
   let files: File[] = [];
   let parentId: number | null = null;
+  let isPrivate = false;
 
   const contentType = c.req.header("Content-Type") || "";
   if (contentType.includes("multipart/form-data")) {
@@ -353,10 +377,12 @@ api.post("/thoughts", async (c) => {
     files = (formData.getAll("file") as unknown as (string | File)[]).filter((f): f is File => typeof f !== "string");
     const parentIdStr = formData.get("parent_id") as string | null;
     if (parentIdStr) parentId = parseInt(parentIdStr, 10);
+    isPrivate = formData.get("private") === "true";
   } else {
     const json = CreateThoughtBody.parse(await c.req.json());
     trimmed = (json.body || "").trim();
     if (json.parent_id != null) parentId = json.parent_id;
+    if (json.private) isPrivate = true;
   }
 
   if (!trimmed) {
@@ -381,8 +407,8 @@ api.post("/thoughts", async (c) => {
   const timestamp = Math.floor(Date.now() / 1000);
 
   const result = await c.env.DB.prepare(
-    "INSERT INTO thought (body, timestamp, parent_id) VALUES (?, ?, ?)"
-  ).bind(trimmed, timestamp, parentId).run();
+    "INSERT INTO thought (body, timestamp, parent_id, private) VALUES (?, ?, ?, ?)"
+  ).bind(trimmed, timestamp, parentId, isPrivate ? 1 : 0).run();
 
   const thoughtId = result.meta.last_row_id;
 
@@ -429,6 +455,7 @@ api.post("/thoughts", async (c) => {
     timestamp,
     created_at: new Date().toISOString().replace("T", " ").slice(0, 19),
     parent_id: parentId,
+    private: isPrivate ? 1 : 0,
     attachments,
     color,
   };

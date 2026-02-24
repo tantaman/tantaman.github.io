@@ -41,7 +41,7 @@ function BackLink() {
 
 export function ThreadView({ id }: { id: number }) {
   const { secret } = useContext(AuthContext);
-  const { data, error, mutate } = useThread(id);
+  const { data, error, mutate } = useThread(id, secret);
 
   if (error) {
     return (
@@ -125,6 +125,7 @@ export function ThreadView({ id }: { id: number }) {
             parentId={id}
             placeholder="Write a reply..."
             submitLabel="Reply"
+            defaultPrivate={data.parent.private}
             onPosted={handleReplyPosted}
           />
         </div>

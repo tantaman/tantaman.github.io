@@ -12,6 +12,7 @@ export interface Thought {
   reply_count: number;
   attachments: Attachment[];
   color: string | null;
+  private: boolean;
 }
 
 export interface Tag {

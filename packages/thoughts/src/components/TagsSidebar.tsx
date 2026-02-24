@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { AuthContext } from '../App';
 import { useTags } from '../hooks/useCache';
 
 export function TagsSidebar({
@@ -7,7 +9,8 @@ export function TagsSidebar({
   selectedTags: string[];
   toggleTag: (tag: string) => void;
 }) {
-  const { data } = useTags(selectedTags);
+  const { secret } = useContext(AuthContext);
+  const { data } = useTags(selectedTags, secret);
   const tags = data?.tags ?? [];
 
   if (tags.length === 0) return null;

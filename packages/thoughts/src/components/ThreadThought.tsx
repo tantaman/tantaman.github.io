@@ -59,6 +59,7 @@ export function ThreadThought({
             parentId={thought.id}
             placeholder="Write a reply..."
             submitLabel="Reply"
+            defaultPrivate={thought.private}
             onPosted={(t) => {
               onReplyPosted(t);
               setShowReply(false);

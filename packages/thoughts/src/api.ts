@@ -2,6 +2,10 @@ import type { Thought, Tag, Task, Event, SearchResult, Framing, FramingDetail, F
 
 const API = 'https://tantaman.com/api';
 
+function authHeaders(secret?: string): Record<string, string> | undefined {
+  return secret ? { Authorization: `Bearer ${secret}` } : undefined;
+}
+
 interface ThoughtsResponse {
   thoughts: Thought[];
   meta: { hasMore: boolean };
@@ -18,31 +22,33 @@ interface TagsResponse {
 
 export function searchThoughts(
   query: string,
+  secret?: string,
 ): Promise<{ thoughts: SearchResult[] }> {
-  return fetch(`${API}/thoughts/search?q=${encodeURIComponent(query)}`).then((r) => r.json());
+  return fetch(`${API}/thoughts/search?q=${encodeURIComponent(query)}`, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 
 export function getThoughts(
   offset: number,
   limit: number,
   tags?: string[],
+  secret?: string,
 ): Promise<ThoughtsResponse> {
   let url = `${API}/thoughts?limit=${limit}&offset=${offset}`;
   if (tags && tags.length > 0) url += `&tags=${tags.map(encodeURIComponent).join(',')}`;
-  return fetch(url).then((r) => r.json());
+  return fetch(url, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 
-export function getThread(id: number): Promise<ThreadResponse> {
-  return fetch(`${API}/thoughts/${id}/replies`).then((r) => {
+export function getThread(id: number, secret?: string): Promise<ThreadResponse> {
+  return fetch(`${API}/thoughts/${id}/replies`, { headers: authHeaders(secret) }).then((r) => {
     if (!r.ok) throw new Error('not found');
     return r.json();
   });
 }
 
-export function getTags(tags?: string[]): Promise<TagsResponse> {
+export function getTags(tags?: string[], secret?: string): Promise<TagsResponse> {
   let url = `${API}/thoughts/tags`;
   if (tags && tags.length > 0) url += `?tags=${tags.map(encodeURIComponent).join(',')}`;
-  return fetch(url).then((r) => r.json());
+  return fetch(url, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 
 export async function postThought(
@@ -50,6 +56,7 @@ export async function postThought(
   secret: string,
   parentId?: number,
   files?: File[],
+  isPrivate?: boolean,
 ): Promise<Thought> {
   const headers: Record<string, string> = {
     Authorization: `Bearer ${secret}`,
@@ -61,12 +68,14 @@ export async function postThought(
     const fd = new FormData();
     fd.append('body', body);
     if (parentId != null) fd.append('parent_id', String(parentId));
+    if (isPrivate) fd.append('private', 'true');
     for (const file of files) fd.append('file', file);
     reqBody = fd;
   } else {
     headers['Content-Type'] = 'application/json';
     const payload: Record<string, unknown> = { body };
     if (parentId != null) payload.parent_id = parentId;
+    if (isPrivate) payload.private = true;
     reqBody = JSON.stringify(payload);
   }
 

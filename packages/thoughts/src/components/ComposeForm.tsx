@@ -24,17 +24,20 @@ export function ComposeForm({
   parentId,
   placeholder,
   submitLabel,
+  defaultPrivate,
   onPosted,
 }: {
   parentId?: number;
   placeholder?: string;
   submitLabel?: string;
+  defaultPrivate?: boolean;
   onPosted: (thought: ReturnType<typeof postThought> extends Promise<infer T> ? T : never) => void;
 }) {
   const { secret, updateSecret } = useContext(AuthContext);
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [preview, setPreview] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(defaultPrivate ?? false);
   const [files, setFiles] = useState<File[]>([]);
   const [dragging, setDragging] = useState(false);
   const [previews, setPreviews] = useState<Map<File, string>>(new Map());
@@ -175,6 +178,7 @@ export function ComposeForm({
         secret,
         parentId,
         files.length > 0 ? files : undefined,
+        isPrivate || undefined,
       );
       setText('');
       clearFiles();
@@ -292,6 +296,14 @@ export function ComposeForm({
             Clear all
           </button>
         )}
+        <label className="compose-private-toggle">
+          <input
+            type="checkbox"
+            checked={isPrivate}
+            onChange={(e) => setIsPrivate(e.target.checked)}
+          />
+          Private
+        </label>
         <button
           type="submit"
           className={parentId != null ? 'reply-submit' : 'thought-submit'}

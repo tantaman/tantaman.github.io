@@ -384,6 +384,24 @@
   color: var(--text);
 }
 
+.compose-private-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.compose-private-toggle input {
+  margin: 0;
+}
+
+.thought-private-dot {
+  color: var(--text-muted);
+  font-size: 0.6rem;
+}
+
 /* -- Load more -- */
 .load-more {
   display: block;
