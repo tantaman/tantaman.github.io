@@ -54,7 +54,7 @@
   "legendLabels": ["High alignment (70–100)","Moderate (50–69)","Mixed (35–49)","Low (20–34)","Very low (10–19)","Inverted (0–9)"],
   "invertedBracket": {"xOffset":185,"y1":465,"y2":812,"scoreLabel":"ALL SCORE ≤ 5","description":"fully inverted"},
   "yAxis": {"top":{"label":"ECKHARTIAN","subLabels":["interiority","detachment","participation","apophasis"]},"bottom":{"label":"INVERTED","subLabels":["exteriority","acquisition","contract","certainty"]}},
-  "explanatoryNote": {"heading":"How to read this:","text":"Higher = closer to Eckhart (interiority, detachment, participation, apophatic unknowing). Lower = the inversion (exteriority, acquisition, contractual God, propositional certainty). The five movements in the bottom-right are spaced for readability but all score ≤ 5 — they are each a distinct flavor of the same fundamental inversion. Catholicism at 55 genuinely holds both streams. Eastern Orthodoxy at 75 retains more participatory DNA. Churches like McLean Bible sit in American Evangelicalism (~14)."},
+  "explanatoryNote": {"heading":"How to read this:","text":"Higher = closer to Eckhart (interiority, detachment, participation, apophatic unknowing). Lower = the inversion (exteriority, acquisition, contractual God, propositional certainty). The five movements in the bottom-right are spaced for readability but all score ≤ 5 — they are each a distinct flavor of the same fundamental inversion. <span style=\"color: #b8924a\">Catholicism</span> at 55 genuinely holds both streams. <span style=\"color: #7a6aad\">Eastern Orthodoxy</span> at 75 retains more participatory DNA. Churches like McLean Bible sit in American Evangelicalism (~14)."},
   "tooltipWidth": 380,
   "tooltipHeight": 300
 }

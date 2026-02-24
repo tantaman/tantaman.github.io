@@ -223,5 +223,5 @@ export default function SankeyDiagram({ data }) {
                     margin: 0, fontFamily: "'Crimson Pro', serif", fontWeight: 300 } },
                 React.createElement("strong", { style: { color: COLORS.text, fontWeight: 600 } }, explanatoryNote.heading),
                 " ",
-                explanatoryNote.text))));
+                React.createElement("span", { dangerouslySetInnerHTML: { __html: explanatoryNote.text } })))));
 }

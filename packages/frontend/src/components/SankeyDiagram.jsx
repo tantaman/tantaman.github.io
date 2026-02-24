@@ -339,7 +339,7 @@ export default function SankeyDiagram({ data }) {
         <p style={{ color: COLORS.textDim, fontSize: "14px", lineHeight: 1.7,
           margin: 0, fontFamily: "'Crimson Pro', serif", fontWeight: 300 }}>
           <strong style={{ color: COLORS.text, fontWeight: 600 }}>{explanatoryNote.heading}</strong>{" "}
-          {explanatoryNote.text}
+          <span dangerouslySetInnerHTML={{ __html: explanatoryNote.text }} />
         </p>
       </div>
     </div>
