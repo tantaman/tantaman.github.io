@@ -23,17 +23,18 @@ export const UpdateFramingBody = z.object({
   description: z.string().optional(),
 });
 
-// POST /framings/:id/thoughts
-export const PlaceThoughtBody = z.object({
-  thought_id: z.number().int(),
+// POST /framings/:id/nodes
+export const PlaceNodeBody = z.object({
+  node_type: z.enum(["thought", "post"]),
+  item_id: z.string(),
   x: z.number(),
   y: z.number(),
   w: z.number().optional(),
   h: z.number().optional(),
 });
 
-// PATCH /framings/:id/thoughts/:thoughtId
-export const UpdatePlacementBody = z.object({
+// PATCH /framings/:id/nodes/:nodeId
+export const UpdateNodeBody = z.object({
   x: z.number().optional(),
   y: z.number().optional(),
   w: z.number().optional(),
@@ -42,8 +43,8 @@ export const UpdatePlacementBody = z.object({
 
 // POST /framings/:id/edges
 export const CreateEdgeBody = z.object({
-  source_thought_id: z.number().int(),
-  target_thought_id: z.number().int(),
+  source_node_id: z.number().int(),
+  target_node_id: z.number().int(),
   label: z.string().optional(),
   source_handle: z.string().nullable().optional(),
   target_handle: z.string().nullable().optional(),
@@ -56,8 +57,8 @@ export const UpdateEdgeBody = z.object({
 
 // PATCH /framings/:id/batch
 export const BatchUpdateBody = z.object({
-  thoughts: z.array(z.object({
-    thought_id: z.number().int(),
+  nodes: z.array(z.object({
+    node_id: z.number().int(),
     x: z.number(),
     y: z.number(),
     w: z.number().optional(),

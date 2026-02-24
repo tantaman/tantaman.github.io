@@ -12,8 +12,8 @@ import {
   UpdateTaskBody,
   CreateFramingBody,
   UpdateFramingBody,
-  PlaceThoughtBody,
-  UpdatePlacementBody,
+  PlaceNodeBody,
+  UpdateNodeBody,
   CreateEdgeBody,
   UpdateEdgeBody,
   BatchUpdateBody,
@@ -602,20 +602,21 @@ api.get("/framings/:id", async (c) => {
     return c.json({ error: "Not found" }, 404);
   }
 
-  const thoughts = await c.env.DB.prepare(
-    `SELECT ft.thought_id, ft.x, ft.y, ft.w, ft.h, t.body, t.timestamp, t.color
-     FROM framing_thought ft
-     JOIN thought t ON t.id = ft.thought_id
-     WHERE ft.framing_id = ?`
+  const nodes = await c.env.DB.prepare(
+    `SELECT fn.id, fn.node_type, fn.item_id, fn.x, fn.y, fn.w, fn.h,
+            t.body, t.timestamp, t.color
+     FROM framing_node fn
+     LEFT JOIN thought t ON fn.node_type = 'thought' AND t.id = CAST(fn.item_id AS INTEGER)
+     WHERE fn.framing_id = ?`
   ).bind(id).all();
 
   const edges = await c.env.DB.prepare(
-    "SELECT id, source_thought_id, target_thought_id, label, source_handle, target_handle FROM framing_edge WHERE framing_id = ?"
+    "SELECT id, source_node_id, target_node_id, label, source_handle, target_handle FROM framing_edge WHERE framing_id = ?"
   ).bind(id).all();
 
   return c.json({
     framing,
-    thoughts: thoughts.results,
+    nodes: nodes.results,
     edges: edges.results,
   });
 });
@@ -682,16 +683,16 @@ api.delete("/framings/:id", async (c) => {
   return c.body(null, 204);
 });
 
-// --- Framing Placements ---
+// --- Framing Nodes ---
 
-api.post("/framings/:id/thoughts", async (c) => {
+api.post("/framings/:id/nodes", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
   const framingId = c.req.param("id");
-  const { thought_id, x, y, w, h } = PlaceThoughtBody.parse(await c.req.json());
+  const { node_type, item_id, x, y, w, h } = PlaceNodeBody.parse(await c.req.json());
 
   const framing = await c.env.DB.prepare("SELECT id FROM framing WHERE id = ?").bind(framingId).first();
   if (!framing) {
@@ -699,30 +700,39 @@ api.post("/framings/:id/thoughts", async (c) => {
   }
 
   try {
-    await c.env.DB.prepare(
-      "INSERT INTO framing_thought (framing_id, thought_id, x, y, w, h) VALUES (?, ?, ?, ?, ?, ?)"
-    ).bind(parseInt(framingId), thought_id, x, y, w ?? null, h ?? null).run();
+    const result = await c.env.DB.prepare(
+      "INSERT INTO framing_node (framing_id, node_type, item_id, x, y, w, h) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    ).bind(parseInt(framingId), node_type, item_id, x, y, w ?? null, h ?? null).run();
+
+    await bumpVersion(c.env.DB);
+
+    return c.json({
+      id: result.meta.last_row_id,
+      framing_id: parseInt(framingId),
+      node_type,
+      item_id,
+      x,
+      y,
+      w: w ?? null,
+      h: h ?? null,
+    }, 201);
   } catch (e: any) {
     if (e.message?.includes("UNIQUE constraint")) {
-      return c.json({ error: "Thought already placed in this framing" }, 409);
+      return c.json({ error: "Item already placed in this framing" }, 409);
     }
     throw e;
   }
-
-  await bumpVersion(c.env.DB);
-
-  return c.json({ framing_id: parseInt(framingId), thought_id, x, y, w: w ?? null, h: h ?? null }, 201);
 });
 
-api.patch("/framings/:id/thoughts/:thoughtId", async (c) => {
+api.patch("/framings/:id/nodes/:nodeId", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
   const framingId = c.req.param("id");
-  const thoughtId = c.req.param("thoughtId");
-  const updates = UpdatePlacementBody.parse(await c.req.json());
+  const nodeId = c.req.param("nodeId");
+  const updates = UpdateNodeBody.parse(await c.req.json());
 
   const sets: string[] = [];
   const bindings: (number | null)[] = [];
@@ -736,9 +746,9 @@ api.patch("/framings/:id/thoughts/:thoughtId", async (c) => {
     return c.json({ error: "No fields to update" }, 400);
   }
 
-  bindings.push(parseInt(framingId), parseInt(thoughtId));
+  bindings.push(parseInt(nodeId), parseInt(framingId));
   const result = await c.env.DB.prepare(
-    `UPDATE framing_thought SET ${sets.join(", ")} WHERE framing_id = ? AND thought_id = ?`
+    `UPDATE framing_node SET ${sets.join(", ")} WHERE id = ? AND framing_id = ?`
   ).bind(...bindings).run();
 
   if (result.meta.changes === 0) {
@@ -747,25 +757,25 @@ api.patch("/framings/:id/thoughts/:thoughtId", async (c) => {
 
   await bumpVersion(c.env.DB);
 
-  const placement = await c.env.DB.prepare(
-    "SELECT framing_id, thought_id, x, y, w, h FROM framing_thought WHERE framing_id = ? AND thought_id = ?"
-  ).bind(framingId, thoughtId).first();
+  const node = await c.env.DB.prepare(
+    "SELECT id, framing_id, node_type, item_id, x, y, w, h FROM framing_node WHERE id = ?"
+  ).bind(nodeId).first();
 
-  return c.json(placement);
+  return c.json(node);
 });
 
-api.delete("/framings/:id/thoughts/:thoughtId", async (c) => {
+api.delete("/framings/:id/nodes/:nodeId", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
   const framingId = c.req.param("id");
-  const thoughtId = c.req.param("thoughtId");
+  const nodeId = c.req.param("nodeId");
 
   const result = await c.env.DB.prepare(
-    "DELETE FROM framing_thought WHERE framing_id = ? AND thought_id = ?"
-  ).bind(framingId, thoughtId).run();
+    "DELETE FROM framing_node WHERE id = ? AND framing_id = ?"
+  ).bind(nodeId, framingId).run();
 
   if (result.meta.changes === 0) {
     return c.json({ error: "Not found" }, 404);
@@ -784,19 +794,19 @@ api.post("/framings/:id/edges", async (c) => {
   }
 
   const framingId = c.req.param("id");
-  const { source_thought_id, target_thought_id, label, source_handle, target_handle } = CreateEdgeBody.parse(await c.req.json());
+  const { source_node_id, target_node_id, label, source_handle, target_handle } = CreateEdgeBody.parse(await c.req.json());
 
   const result = await c.env.DB.prepare(
-    "INSERT INTO framing_edge (framing_id, source_thought_id, target_thought_id, label, source_handle, target_handle) VALUES (?, ?, ?, ?, ?, ?)"
-  ).bind(parseInt(framingId), source_thought_id, target_thought_id, label?.trim() || null, source_handle || null, target_handle || null).run();
+    "INSERT INTO framing_edge (framing_id, source_node_id, target_node_id, label, source_handle, target_handle) VALUES (?, ?, ?, ?, ?, ?)"
+  ).bind(parseInt(framingId), source_node_id, target_node_id, label?.trim() || null, source_handle || null, target_handle || null).run();
 
   await bumpVersion(c.env.DB);
 
   return c.json({
     id: result.meta.last_row_id,
     framing_id: parseInt(framingId),
-    source_thought_id,
-    target_thought_id,
+    source_node_id,
+    target_node_id,
     label: label?.trim() || null,
     source_handle: source_handle || null,
     target_handle: target_handle || null,
@@ -824,7 +834,7 @@ api.patch("/framings/:id/edges/:edgeId", async (c) => {
   await bumpVersion(c.env.DB);
 
   const edge = await c.env.DB.prepare(
-    "SELECT id, framing_id, source_thought_id, target_thought_id, label, source_handle, target_handle FROM framing_edge WHERE id = ?"
+    "SELECT id, framing_id, source_node_id, target_node_id, label, source_handle, target_handle FROM framing_edge WHERE id = ?"
   ).bind(edgeId).first();
 
   return c.json(edge);
@@ -860,18 +870,18 @@ api.patch("/framings/:id/batch", async (c) => {
   }
 
   const framingId = parseInt(c.req.param("id"));
-  const { thoughts } = BatchUpdateBody.parse(await c.req.json());
+  const { nodes } = BatchUpdateBody.parse(await c.req.json());
 
-  const stmts = thoughts.map((t) =>
+  const stmts = nodes.map((n) =>
     c.env.DB.prepare(
-      "UPDATE framing_thought SET x = ?, y = ?, w = ?, h = ? WHERE framing_id = ? AND thought_id = ?"
-    ).bind(t.x, t.y, t.w ?? null, t.h ?? null, framingId, t.thought_id)
+      "UPDATE framing_node SET x = ?, y = ?, w = ?, h = ? WHERE id = ? AND framing_id = ?"
+    ).bind(n.x, n.y, n.w ?? null, n.h ?? null, n.node_id, framingId)
   );
 
   await c.env.DB.batch(stmts);
   await bumpVersion(c.env.DB);
 
-  return c.json({ updated: thoughts.length });
+  return c.json({ updated: nodes.length });
 });
 
 api.get("/attachments/*", async (c) => {
