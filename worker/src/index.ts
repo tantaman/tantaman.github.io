@@ -593,7 +593,7 @@ api.get("/framings/:id", async (c) => {
   ).bind(id).all();
 
   const edges = await c.env.DB.prepare(
-    "SELECT id, source_thought_id, target_thought_id, label FROM framing_edge WHERE framing_id = ?"
+    "SELECT id, source_thought_id, target_thought_id, label, source_handle, target_handle FROM framing_edge WHERE framing_id = ?"
   ).bind(id).all();
 
   return c.json({
@@ -773,8 +773,9 @@ api.post("/framings/:id/edges", async (c) => {
   }
 
   const framingId = c.req.param("id");
-  const { source_thought_id, target_thought_id, label } = await c.req.json<{
+  const { source_thought_id, target_thought_id, label, source_handle, target_handle } = await c.req.json<{
     source_thought_id: number; target_thought_id: number; label?: string;
+    source_handle?: string | null; target_handle?: string | null;
   }>();
 
   if (source_thought_id == null || target_thought_id == null) {
@@ -782,8 +783,8 @@ api.post("/framings/:id/edges", async (c) => {
   }
 
   const result = await c.env.DB.prepare(
-    "INSERT INTO framing_edge (framing_id, source_thought_id, target_thought_id, label) VALUES (?, ?, ?, ?)"
-  ).bind(parseInt(framingId), source_thought_id, target_thought_id, label?.trim() || null).run();
+    "INSERT INTO framing_edge (framing_id, source_thought_id, target_thought_id, label, source_handle, target_handle) VALUES (?, ?, ?, ?, ?, ?)"
+  ).bind(parseInt(framingId), source_thought_id, target_thought_id, label?.trim() || null, source_handle || null, target_handle || null).run();
 
   await bumpVersion(c.env.DB);
 
@@ -793,6 +794,8 @@ api.post("/framings/:id/edges", async (c) => {
     source_thought_id,
     target_thought_id,
     label: label?.trim() || null,
+    source_handle: source_handle || null,
+    target_handle: target_handle || null,
   }, 201);
 });
 
@@ -817,7 +820,7 @@ api.patch("/framings/:id/edges/:edgeId", async (c) => {
   await bumpVersion(c.env.DB);
 
   const edge = await c.env.DB.prepare(
-    "SELECT id, framing_id, source_thought_id, target_thought_id, label FROM framing_edge WHERE id = ?"
+    "SELECT id, framing_id, source_thought_id, target_thought_id, label, source_handle, target_handle FROM framing_edge WHERE id = ?"
   ).bind(edgeId).first();
 
   return c.json(edge);

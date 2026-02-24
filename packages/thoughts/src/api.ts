@@ -250,6 +250,8 @@ export async function createFramingEdge(
   targetThoughtId: number,
   secret: string,
   label?: string,
+  sourceHandle?: string | null,
+  targetHandle?: string | null,
 ): Promise<FramingEdge> {
   const r = await fetch(`${API}/framings/${framingId}/edges`, {
     method: 'POST',
@@ -257,7 +259,13 @@ export async function createFramingEdge(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${secret}`,
     },
-    body: JSON.stringify({ source_thought_id: sourceThoughtId, target_thought_id: targetThoughtId, label }),
+    body: JSON.stringify({
+      source_thought_id: sourceThoughtId,
+      target_thought_id: targetThoughtId,
+      label,
+      source_handle: sourceHandle ?? null,
+      target_handle: targetHandle ?? null,
+    }),
   });
   if (r.status === 401) throw new Error('Unauthorized');
   return r.json();

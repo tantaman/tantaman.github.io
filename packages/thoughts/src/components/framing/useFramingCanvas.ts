@@ -43,6 +43,8 @@ function framingEdgeToRFEdge(
     id: `e-${e.id}`,
     source: String(e.source_thought_id),
     target: String(e.target_thought_id),
+    sourceHandle: e.source_handle ?? undefined,
+    targetHandle: e.target_handle ?? undefined,
     type: 'labeled',
     data: { label: e.label, edgeDbId: e.id, onLabelChange },
   };
@@ -151,7 +153,10 @@ export function useFramingCanvas(framingId: number) {
       const sourceId = Number(connection.source);
       const targetId = Number(connection.target);
       try {
-        const edge = await createFramingEdge(framingId, sourceId, targetId, secret);
+        const edge = await createFramingEdge(
+          framingId, sourceId, targetId, secret,
+          undefined, connection.sourceHandle, connection.targetHandle,
+        );
         setEdges((prev) => [...prev, framingEdgeToRFEdge(edge, handleLabelChange)]);
       } catch {
         // ignore

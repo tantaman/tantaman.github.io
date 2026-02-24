@@ -75,7 +75,7 @@ export function LabeledEdge({
             />
           ) : (
             <span className="framing-edge-label-text">
-              {data?.label || (secret ? '(double-click to label)' : '')}
+              {data?.label ?? ''}
             </span>
           )}
         </div>

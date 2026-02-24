@@ -64,6 +64,8 @@ export interface FramingEdge {
   source_thought_id: number;
   target_thought_id: number;
   label: string | null;
+  source_handle: string | null;
+  target_handle: string | null;
 }
 
 export interface FramingDetail {
