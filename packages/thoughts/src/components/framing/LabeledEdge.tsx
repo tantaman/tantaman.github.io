@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import {
   BaseEdge,
   EdgeLabelRenderer,
-  getStraightPath,
+  getBezierPath,
   type EdgeProps,
   type Edge,
 } from '@xyflow/react';
@@ -29,7 +29,7 @@ export function LabeledEdge({
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(data?.label ?? '');
 
-  const [edgePath, labelX, labelY] = getStraightPath({
+  const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
     targetX,

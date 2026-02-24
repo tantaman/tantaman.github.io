@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useThoughts } from '../../hooks/useThoughts';
 import { useSearch } from '../../hooks/useCache';
 import { renderMarkdown } from '../../markdown';
@@ -70,6 +70,19 @@ function FeedResults({
 }) {
   const { thoughts, hasMore, isLoadingInitial, isLoadingMore, loadMore } =
     useThoughts([]);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore && !isLoadingMore) {
+        loadMore();
+      }
+    });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, isLoadingMore, loadMore]);
 
   if (isLoadingInitial) return <div className="framing-panel-status">Loading…</div>;
 
@@ -79,13 +92,9 @@ function FeedResults({
         <ThoughtItem key={t.id} thought={t} placed={placedIds.has(t.id)} />
       ))}
       {hasMore && (
-        <button
-          className="framing-panel-load-more"
-          onClick={loadMore}
-          disabled={isLoadingMore}
-        >
-          {isLoadingMore ? 'Loading…' : 'Load more'}
-        </button>
+        <div ref={sentinelRef} className="framing-panel-status">
+          {isLoadingMore ? 'Loading…' : ''}
+        </div>
       )}
     </div>
   );

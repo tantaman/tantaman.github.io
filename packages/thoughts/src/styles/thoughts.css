@@ -1086,7 +1086,7 @@
 .framings-create-btn {
   padding: 0.5rem 1rem;
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -1416,4 +1416,15 @@
 .framing-compose-submit:disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+/* ---- React Flow dark-mode overrides ---- */
+[data-theme="dark"] .react-flow {
+  --xy-controls-button-background-color: #2b2b2b;
+  --xy-controls-button-color: #f8f8f8;
+  --xy-controls-button-border-color: #5b5b5b;
+  --xy-controls-button-background-color-hover: #3e3e3e;
+  --xy-minimap-background-color: #141414;
+  --xy-minimap-mask-background-color: rgba(60, 60, 60, 0.6);
+  --xy-minimap-node-background-color: #2b2b2b;
 }

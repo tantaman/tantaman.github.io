@@ -4,6 +4,7 @@ compatibility_date = "2025-03-03"
 
 routes = [
   { pattern = "tantaman.com/api", zone_name = "tantaman.com" },
+  { pattern = "tantaman.com/api/", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/api/*", zone_name = "tantaman.com" }
 ]
 

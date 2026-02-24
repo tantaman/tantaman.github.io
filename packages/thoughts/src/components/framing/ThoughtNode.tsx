@@ -17,7 +17,8 @@ export const ThoughtNode = memo(function ThoughtNode({
   data,
 }: NodeProps<ThoughtNodeType>) {
   const { secret } = useContext(AuthContext);
-  const html = renderMarkdown(data.body);
+  const body = data.body.length > 500 ? data.body.slice(0, 500) + '…' : data.body;
+  const html = renderMarkdown(body);
 
   return (
     <div className="framing-thought-node">
