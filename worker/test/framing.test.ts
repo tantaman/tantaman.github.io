@@ -71,13 +71,13 @@ describe("framing CRUD", () => {
       description: "A test board",
     });
     expect(create.status).toBe(201);
-    const body = await create.json();
+    const body = (await create.json()) as any;
     expect(body.name).toBe("My Board");
     expect(body.description).toBe("A test board");
     expect(body.id).toBeGreaterThan(0);
 
     const list = await req("/api/framings");
-    const listBody = await list.json();
+    const listBody = (await list.json()) as any;
     expect(listBody.framings.length).toBeGreaterThanOrEqual(1);
     expect(listBody.framings.some((f: any) => f.id === body.id)).toBe(true);
   });
@@ -90,7 +90,7 @@ describe("framing CRUD", () => {
   test("get by id returns full graph with thought body", async () => {
     // Create framing
     const create = await json("/api/framings", { name: "Graph Board" });
-    const framing = await create.json();
+    const framing = (await create.json()) as any;
 
     // Place a thought
     await json(`/api/framings/${framing.id}/thoughts`, {
@@ -100,7 +100,7 @@ describe("framing CRUD", () => {
     });
 
     const get = await req(`/api/framings/${framing.id}`);
-    const body = await get.json();
+    const body = (await get.json()) as any;
     expect(body.framing.id).toBe(framing.id);
     expect(body.thoughts.length).toBe(1);
     expect(body.thoughts[0].thought_id).toBe(thoughtA);
@@ -115,7 +115,7 @@ describe("framing CRUD", () => {
 
   test("patch name and description", async () => {
     const create = await json("/api/framings", { name: "Old Name" });
-    const framing = await create.json();
+    const framing = (await create.json()) as any;
 
     const patch = await req(`/api/framings/${framing.id}`, {
       method: "PATCH",
@@ -123,14 +123,14 @@ describe("framing CRUD", () => {
       body: JSON.stringify({ name: "New Name", description: "Updated" }),
     });
     expect(patch.status).toBe(200);
-    const body = await patch.json();
+    const body = (await patch.json()) as any;
     expect(body.name).toBe("New Name");
     expect(body.description).toBe("Updated");
   });
 
   test("delete + verify gone", async () => {
     const create = await json("/api/framings", { name: "To Delete" });
-    const framing = await create.json();
+    const framing = (await create.json()) as any;
 
     const del = await req(`/api/framings/${framing.id}`, {
       method: "DELETE",
@@ -150,7 +150,7 @@ describe("placements", () => {
 
   beforeAll(async () => {
     const res = await json("/api/framings", { name: "Placement Board" });
-    const body = await res.json();
+    const body = (await res.json()) as any;
     framingId = body.id;
   });
 
@@ -163,7 +163,7 @@ describe("placements", () => {
       h: 150,
     });
     expect(res.status).toBe(201);
-    const body = await res.json();
+    const body = (await res.json()) as any;
     expect(body.x).toBe(100);
     expect(body.y).toBe(200);
     expect(body.w).toBe(300);
@@ -205,7 +205,7 @@ describe("placements", () => {
       }
     );
     expect(res.status).toBe(200);
-    const body = await res.json();
+    const body = (await res.json()) as any;
     expect(body.x).toBe(999);
     expect(body.y).toBe(888);
   });
@@ -226,7 +226,7 @@ describe("placements", () => {
 
     // Verify it's gone via GET framing
     const get = await req(`/api/framings/${framingId}`);
-    const body = await get.json();
+    const body = (await get.json()) as any;
     expect(
       body.thoughts.find((t: any) => t.thought_id === thoughtB)
     ).toBeUndefined();
@@ -240,7 +240,7 @@ describe("edges", () => {
 
   beforeAll(async () => {
     const res = await json("/api/framings", { name: "Edge Board" });
-    const body = await res.json();
+    const body = (await res.json()) as any;
     framingId = body.id;
 
     // Place two thoughts
@@ -263,7 +263,7 @@ describe("edges", () => {
       label: "relates to",
     });
     expect(res.status).toBe(201);
-    const body = await res.json();
+    const body = (await res.json()) as any;
     expect(body.source_thought_id).toBe(thoughtA);
     expect(body.target_thought_id).toBe(thoughtB);
     expect(body.label).toBe("relates to");
@@ -282,7 +282,7 @@ describe("edges", () => {
       source_thought_id: thoughtB,
       target_thought_id: thoughtA,
     });
-    const edge = await create.json();
+    const edge = (await create.json()) as any;
 
     const patch = await req(
       `/api/framings/${framingId}/edges/${edge.id}`,
@@ -293,7 +293,7 @@ describe("edges", () => {
       }
     );
     expect(patch.status).toBe(200);
-    const body = await patch.json();
+    const body = (await patch.json()) as any;
     expect(body.label).toBe("updated label");
   });
 
@@ -303,7 +303,7 @@ describe("edges", () => {
       target_thought_id: thoughtB,
       label: "to delete",
     });
-    const edge = await create.json();
+    const edge = (await create.json()) as any;
 
     const del = await req(
       `/api/framings/${framingId}/edges/${edge.id}`,
@@ -338,7 +338,7 @@ describe("edges", () => {
 describe("cascades", () => {
   test("delete framing cascades thoughts + edges", async () => {
     const create = await json("/api/framings", { name: "Cascade Board" });
-    const framing = await create.json();
+    const framing = (await create.json()) as any;
 
     await json(`/api/framings/${framing.id}/thoughts`, {
       thought_id: thoughtA,
@@ -383,7 +383,7 @@ describe("cascades", () => {
     const create = await json("/api/framings", {
       name: "Thought Cascade Board",
     });
-    const framing = await create.json();
+    const framing = (await create.json()) as any;
 
     await json(`/api/framings/${framing.id}/thoughts`, {
       thought_id: thoughtA,
@@ -424,7 +424,7 @@ describe("batch", () => {
 
   beforeAll(async () => {
     const res = await json("/api/framings", { name: "Batch Board" });
-    const body = await res.json();
+    const body = (await res.json()) as any;
     framingId = body.id;
 
     await json(`/api/framings/${framingId}/thoughts`, {
@@ -451,12 +451,12 @@ describe("batch", () => {
       }),
     });
     expect(res.status).toBe(200);
-    const body = await res.json();
+    const body = (await res.json()) as any;
     expect(body.updated).toBe(2);
 
     // Verify via GET
     const get = await req(`/api/framings/${framingId}`);
-    const graph = await get.json();
+    const graph = (await get.json()) as any;
     const a = graph.thoughts.find((t: any) => t.thought_id === thoughtA);
     const b = graph.thoughts.find((t: any) => t.thought_id === thoughtB);
     expect(a.x).toBe(50);
