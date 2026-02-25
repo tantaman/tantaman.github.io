@@ -10,7 +10,7 @@ export async function geocodeLocation(
   mapboxToken: string,
 ): Promise<{ lat: number; lng: number; resolvedName: string } | null> {
   try {
-    const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(title)}&access_token=${mapboxToken}&limit=1`;
+    const url = `https://api.mapbox.com/search/searchbox/v1/forward?q=${encodeURIComponent(title)}&access_token=${mapboxToken}&limit=1&types=poi,address,place`;
     const res = await fetch(url);
     if (!res.ok) return null;
     const data = await res.json() as {
