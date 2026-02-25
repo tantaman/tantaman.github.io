@@ -63,15 +63,17 @@ export function ThoughtCard({
       style={thought.color ? { backgroundColor: thought.color + '14' } : undefined}
     >
       <div className="thought-header">
-        <span className="thought-author">tantaman</span>
-        <span className="thought-meta-sep">&middot;</span>
-        <span className="thought-time">{formatTime(thought.timestamp)}</span>
-        {!!thought.private && (
-          <>
-            <span className="thought-meta-sep">&middot;</span>
-            <span className="thought-private-dot" title="Private">&#9679;</span>
-          </>
-        )}
+        <a href={`#thought-${thought.id}`} className="thought-header-link">
+          <span className="thought-author">tantaman</span>
+          <span className="thought-meta-sep">&middot;</span>
+          <span className="thought-time">{formatTime(thought.timestamp)}</span>
+          {!!thought.private && (
+            <>
+              <span className="thought-meta-sep">&middot;</span>
+              <span className="thought-private-dot" title="Private">&#9679;</span>
+            </>
+          )}
+        </a>
         {secret && (
           <button
             className="thought-delete"
