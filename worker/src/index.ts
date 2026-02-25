@@ -83,7 +83,7 @@ api.use("*", async (c, next) => {
 
   // Skip non-API routes (attachments have their own cache headers, MCP is not cacheable)
   const path = c.req.path;
-  if (path.startsWith("/attachments/") || path.startsWith("/dha/") || path === "/mcp" || path === "/") {
+  if (path.startsWith("/api/attachments/") || path.startsWith("/api/dha/") || path === "/api/mcp" || path === "/api" || path === "/api/") {
     return next();
   }
 
