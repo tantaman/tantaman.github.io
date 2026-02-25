@@ -5,6 +5,8 @@ import { ZodError } from "zod";
 import { extractEvents } from "./events";
 import { extractTasks } from "./tasks";
 import { extractLocations, geocodeLocation } from "./locations";
+import { extractMovies } from "./movies";
+import { extractBooks } from "./books";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
@@ -448,6 +450,20 @@ api.post("/thoughts", async (c) => {
     ).bind(thoughtId, loc.title, loc.description, geo?.lat ?? null, geo?.lng ?? null, geo?.resolvedName ?? null, timestamp).run();
   }
 
+  const movies = extractMovies(trimmed);
+  for (const movie of movies) {
+    await c.env.DB.prepare(
+      "INSERT INTO movie (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
+    ).bind(thoughtId, movie.title, movie.description, timestamp).run();
+  }
+
+  const books = extractBooks(trimmed);
+  for (const book of books) {
+    await c.env.DB.prepare(
+      "INSERT INTO book (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
+    ).bind(thoughtId, book.title, book.description, timestamp).run();
+  }
+
   const attachments: { key: string; type: string; name: string }[] = [];
 
   for (const file of files) {
@@ -676,6 +692,44 @@ api.post("/locations/:id/geocode", async (c) => {
     lng: geo?.lng ?? null,
     resolved_name: geo?.resolvedName ?? null,
   });
+});
+
+// --- Movies ---
+
+api.get("/movies", async (c) => {
+  const thoughtId = c.req.query("thought_id");
+
+  let query = "SELECT id, thought_id, title, description, created_at FROM movie";
+  const bindings: (string | number)[] = [];
+
+  if (thoughtId) {
+    query += " WHERE thought_id = ?";
+    bindings.push(parseInt(thoughtId, 10));
+  }
+
+  query += " ORDER BY created_at DESC";
+
+  const results = await c.env.DB.prepare(query).bind(...bindings).all();
+  return c.json({ movies: results.results });
+});
+
+// --- Books ---
+
+api.get("/books", async (c) => {
+  const thoughtId = c.req.query("thought_id");
+
+  let query = "SELECT id, thought_id, title, description, created_at FROM book";
+  const bindings: (string | number)[] = [];
+
+  if (thoughtId) {
+    query += " WHERE thought_id = ?";
+    bindings.push(parseInt(thoughtId, 10));
+  }
+
+  query += " ORDER BY created_at DESC";
+
+  const results = await c.env.DB.prepare(query).bind(...bindings).all();
+  return c.json({ books: results.results });
 });
 
 // --- Media ---

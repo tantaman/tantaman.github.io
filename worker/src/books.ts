@@ -1,32 +1,32 @@
 import { EVENT_RE } from "./events";
 import { LOCATION_RE } from "./locations";
-import { MOVIE_RE } from "./movies";
-import { BOOK_RE } from "./books";
 
-export interface TaskDef {
+export interface BookDef {
   title: string;
   description: string | null;
 }
 
-export function extractTasks(body: string): TaskDef[] {
+export const BOOK_RE = /^#b\s+(.+)/i;
+
+export function extractBooks(body: string): BookDef[] {
   const lines = body.split('\n');
-  const tasks: TaskDef[] = [];
-  let current: TaskDef | null = null;
+  const books: BookDef[] = [];
+  let current: BookDef | null = null;
   let descLines: string[] = [];
 
   for (const line of lines) {
-    const match = line.match(/^#t\s+(.+)/);
+    const match = line.match(BOOK_RE);
     if (match) {
       if (current) {
         current.description = descLines.join('\n').trim() || null;
-        tasks.push(current);
+        books.push(current);
       }
       current = { title: match[1].trim(), description: null };
       descLines = [];
     } else if (current) {
-      if (line.match(EVENT_RE) || line.match(LOCATION_RE) || line.match(MOVIE_RE) || line.match(BOOK_RE)) {
+      if (line.match(EVENT_RE) || line.match(/^#[tlm]\s+/) || line.match(LOCATION_RE)) {
         current.description = descLines.join('\n').trim() || null;
-        tasks.push(current);
+        books.push(current);
         current = null;
         descLines = [];
       } else {
@@ -37,8 +37,8 @@ export function extractTasks(body: string): TaskDef[] {
 
   if (current) {
     current.description = descLines.join('\n').trim() || null;
-    tasks.push(current);
+    books.push(current);
   }
 
-  return tasks;
+  return books;
 }
