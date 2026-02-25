@@ -66,8 +66,6 @@ export function ThoughtCard({
         <a href={`#thought-${thought.id}`} className="thought-header-link">
           <span className="thought-number">#{thought.id}</span>
           <span className="thought-meta-sep">&middot;</span>
-          <span className="thought-author">tantaman</span>
-          <span className="thought-meta-sep">&middot;</span>
           <span className="thought-time">{formatTime(thought.timestamp)}</span>
           {!!thought.private && (
             <>

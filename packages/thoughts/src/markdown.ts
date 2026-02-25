@@ -20,10 +20,23 @@ function highlightTags(html: string): string {
   });
 }
 
+/**
+ * Replace [[123]] wiki-link syntax with anchors to #thought-123.
+ * Operates on text nodes only (outside of HTML tags) to avoid mangling markup.
+ */
+function linkThoughts(html: string): string {
+  return html.replace(/(>[^<]*)/g, (segment) => {
+    return segment.replace(
+      /\[\[(\d+)\]\]/g,
+      '<a href="#thought-$1" class="thought-link">thought #$1</a>',
+    );
+  });
+}
+
 /** Parse markdown text and return sanitised HTML with hashtag highlighting. */
 export function renderMarkdown(text: string): string {
   const raw = marked.parse(text);
   // marked.parse can return string | Promise<string>; with async: false (default) it's sync
   const html = typeof raw === 'string' ? raw : '';
-  return highlightTags(html);
+  return highlightTags(linkThoughts(html));
 }
