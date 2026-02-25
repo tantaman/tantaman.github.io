@@ -26,12 +26,95 @@
 <meta name="twitter:image:alt" content="Tantaman">
 <meta name="twitter:site" content="@tantaman">
 <meta name="twitter:label1" content="Reading time">
-<meta name="twitter:data1" content="1 minute">
+<meta name="twitter:data1" content="2 minutes">
 </head>
 <body><header class="post-header"><a href="/">tantaman</a><button class="theme-toggle" type="button"></button></header><main id="static"><h1>MCP</h1>
-<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#claude-desktop">Claude Desktop</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#claudeai">Claude.ai</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#other-clients">Other Clients</a></li></ol></nav><p>This site has an <a href="https://modelcontextprotocol.io/">MCP</a> server that lets you search the blog from any MCP-compatible AI client.</p>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#tools">Tools</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#setup">Setup</a></li></ol></nav><p>This site has an <a href="https://modelcontextprotocol.io/">MCP</a> server that lets you search and browse the blog from any MCP-compatible AI client.</p>
 <p><strong>Endpoint:</strong> <code>https://tantaman.com/api/mcp</code></p>
-<h2 id="claude-desktop"><a aria-hidden="true" tabindex="-1" href="#claude-desktop"><span class="icon icon-link"></span></a>Claude Desktop</h2>
+<h2 id="tools"><a aria-hidden="true" tabindex="-1" href="#tools"><span class="icon icon-link"></span></a>Tools</h2>
+<h3 id="search_blog"><a aria-hidden="true" tabindex="-1" href="#search_blog"><span class="icon icon-link"></span></a><code>search_blog</code></h3>
+<p>Semantic search over blog post content. Returns the most relevant passages from blog posts matching your query, ranked by embedding similarity.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>query</code></td>
+<td>string</td>
+<td>yes</td>
+<td>The search query or question</td>
+</tr>
+</tbody>
+</table>
+<h3 id="search_thoughts"><a aria-hidden="true" tabindex="-1" href="#search_thoughts"><span class="icon icon-link"></span></a><code>search_thoughts</code></h3>
+<p>Semantic search over short-form thoughts (microblog). Returns thoughts matching the query via embedding similarity.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>query</code></td>
+<td>string</td>
+<td>yes</td>
+<td>The search query or question</td>
+</tr>
+<tr>
+<td><code>topK</code></td>
+<td>number (1–20)</td>
+<td>no</td>
+<td>Number of results to return (default 10)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="browse_posts"><a aria-hidden="true" tabindex="-1" href="#browse_posts"><span class="icon icon-link"></span></a><code>browse_posts</code></h3>
+<p>Faceted browsing and filtering of posts by subject, concern, and form. Returns matching posts with facet counts. All parameters are optional — call with no filters to see everything.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>subjects</code></td>
+<td>string[]</td>
+<td>no</td>
+<td>Filter by subject tags, e.g. <code>["software", "ai"]</code>. AND logic — posts must match all specified subjects.</td>
+</tr>
+<tr>
+<td><code>concerns</code></td>
+<td>string[]</td>
+<td>no</td>
+<td>Filter by concern tags, e.g. <code>["craft"]</code>. AND logic — posts must match all specified concerns.</td>
+</tr>
+<tr>
+<td><code>forms</code></td>
+<td>string[]</td>
+<td>no</td>
+<td>Filter by form, e.g. <code>["essay", "chat"]</code>. OR logic — posts can match any specified form.</td>
+</tr>
+</tbody>
+</table>
+<p>Available subjects: philosophy, politics, software, culture, religion, economics, fiction, history, ai, math</p>
+<p>Available concerns: power, ground, modernity, self, knowledge, craft, systems</p>
+<p>Available forms: essay, story, chat, interactive, meditation, prophecy</p>
+<h2 id="setup"><a aria-hidden="true" tabindex="-1" href="#setup"><span class="icon icon-link"></span></a>Setup</h2>
+<h3 id="claude-desktop"><a aria-hidden="true" tabindex="-1" href="#claude-desktop"><span class="icon icon-link"></span></a>Claude Desktop</h3>
 <p>Add this to your <code>claude_desktop_config.json</code>:</p>
 <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">"mcpServers"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
@@ -46,10 +129,10 @@
   <span class="hljs-punctuation">}</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
-<h2 id="claudeai"><a aria-hidden="true" tabindex="-1" href="#claudeai"><span class="icon icon-link"></span></a>Claude.ai</h2>
+<h3 id="claudeai"><a aria-hidden="true" tabindex="-1" href="#claudeai"><span class="icon icon-link"></span></a>Claude.ai</h3>
 <p>Go to <strong>Settings > Integrations > Add remote MCP server</strong> and enter the endpoint URL above.</p>
-<h2 id="other-clients"><a aria-hidden="true" tabindex="-1" href="#other-clients"><span class="icon icon-link"></span></a>Other Clients</h2>
-<p>Any MCP-compatible client can connect using the endpoint URL. The server exposes a <code>search_blog</code> tool that returns relevant passages from blog posts.</p>
+<h3 id="other-clients"><a aria-hidden="true" tabindex="-1" href="#other-clients"><span class="icon icon-link"></span></a>Other Clients</h3>
+<p>Any MCP-compatible client can connect using the endpoint URL.</p>
 <script src="https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS" async></script>
 <script src="/ga.js"></script>
 <script src="/toc.js"></script>

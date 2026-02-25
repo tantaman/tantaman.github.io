@@ -1023,7 +1023,7 @@ api.patch("/framings/:id/batch", async (c) => {
 });
 
 api.get("/attachments/*", async (c) => {
-  const key = c.req.path.replace(/^\/attachments\//, "");
+  const key = c.req.path.replace(/^\/api\/attachments\//, "");
   if (!key) return c.json({ error: "Not found" }, 404);
 
   const object = await c.env.BUCKET.get(key);
