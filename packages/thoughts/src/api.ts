@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task, Event, Location, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem } from './types';
+import type { Thought, Tag, Task, Event, Location, Movie, Book, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -161,6 +161,22 @@ export async function geocodeLocation(
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Geocode failed');
   return r.json();
+}
+
+export function getMovies(
+  thoughtId?: number,
+): Promise<{ movies: Movie[] }> {
+  let url = `${API}/movies`;
+  if (thoughtId != null) url += `?thought_id=${thoughtId}`;
+  return fetch(url).then((r) => r.json());
+}
+
+export function getBooks(
+  thoughtId?: number,
+): Promise<{ books: Book[] }> {
+  let url = `${API}/books`;
+  if (thoughtId != null) url += `?thought_id=${thoughtId}`;
+  return fetch(url).then((r) => r.json());
 }
 
 export function attachmentUrl(key: string): string {

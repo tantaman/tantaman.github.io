@@ -51,6 +51,22 @@ export interface Location {
   created_at: number;
 }
 
+export interface Movie {
+  id: number;
+  thought_id: number;
+  title: string;
+  description: string | null;
+  created_at: number;
+}
+
+export interface Book {
+  id: number;
+  thought_id: number;
+  title: string;
+  description: string | null;
+  created_at: number;
+}
+
 export interface SearchResult extends Thought {
   score: number;
 }
@@ -132,4 +148,6 @@ export type Route =
   | { view: 'framings' }
   | { view: 'framing'; id: number }
   | { view: 'locations' }
-  | { view: 'media' };
+  | { view: 'media' }
+  | { view: 'movies' }
+  | { view: 'books' };

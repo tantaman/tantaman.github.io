@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getTags, getTasks, getEvents, getLocations, searchThoughts, getFramings, getFraming, getPostsManifest, getMedia } from '../api';
+import { getThread, getTags, getTasks, getEvents, getLocations, getMovies, getBooks, searchThoughts, getFramings, getFraming, getPostsManifest, getMedia } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -33,6 +33,14 @@ export function useEvents(year: number, month: number) {
 
 export function useLocations() {
   return useSWR('locations', () => getLocations());
+}
+
+export function useMovies() {
+  return useSWR('movies', () => getMovies());
+}
+
+export function useBooks() {
+  return useSWR('books', () => getBooks());
 }
 
 export function useFramings() {

@@ -25,7 +25,7 @@ export default function GravityIntro() {
           letterSpacing: '0.02em',
         }}
       >
-        Gravity
+        Metaphysical Drift
       </h1>
 
       <hr
@@ -37,9 +37,12 @@ export default function GravityIntro() {
       />
 
       <p {...p}>
-        Poor metaphysical choices are being made in every field. Across every
-        domain of human inquiry. The map is being mistaken for the territory,
-        the tool for the thing itself.
+        The metaphysical commitments of every field are drifting towards
+        instrumentalism. One theory is the natural laws of power. It requires
+        legibility, it accumulates, it seeks to scale itself. Power, of course,
+        cannot present itself in the raw. It must present itself as "the way
+        things are" or "the rational outcome" or "progress" or "the arc of
+        history." Given that --
       </p>
 
       <p {...p}>The pattern is:</p>
