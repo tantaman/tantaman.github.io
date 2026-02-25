@@ -302,6 +302,7 @@ export function ComposeForm({
             checked={isPrivate}
             onChange={(e) => setIsPrivate(e.target.checked)}
           />
+          <span className="toggle-track" />
           Private
         </label>
         <button
