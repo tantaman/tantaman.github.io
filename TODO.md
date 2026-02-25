@@ -1,3 +1,35 @@
+
+Rediscovery / Serendipity                                                                                                                        
+- Random resurface — surface old forgotten thoughts periodically or on-demand. You have embeddings already; a "surprise me" or "related to what  
+I'm writing" feature would cost almost nothing to add.                                                                                           
+- "On this day" — show thoughts from the same date in previous years.
+
+Connections
+- Thought linking — wiki-link syntax ([[thought-123]]) between thoughts. Framings are great for spatial layout, but inline bidirectional links
+would let structure emerge organically from the feed itself.
+- Auto-suggested connections — use your existing embeddings to suggest "related thoughts" on any thought's detail view, similar to how the blog
+does related posts.
+
+Research / Project support
+- A #p (project) tag — group thoughts, tasks, events, and links under a named project. The project view would aggregate everything tagged with
+it. Right now tasks/events/thoughts are flat; projects would give them hierarchy.
+- A #link or #r (reference) tag — capture URLs with metadata (title, excerpt). A lightweight bookmarking/clipping layer for research material,
+with its own view.
+
+Ideation
+- Thought color/embedding visualization — you already compute embedding colors. A 2D scatter plot view of all thoughts (colored by the PCA
+projection) would let you visually spot clusters and gaps in your thinking.
+- Prompts/templates — structured prompts for brainstorming ("what assumptions am I making?", "what's the opposite of this?") that create reply
+threads.
+
+Export / Synthesis
+- Project summary export — given a project tag or framing, generate a synthesized document from all its thoughts. You already use Anthropic SDK
+for summaries on the blog side.
+
+Of these, I'd prioritize thought linking + auto-suggested connections and project tag — they directly serve all four goals with the least new
+infrastructure since you already have embeddings, the tag system, and the framing canvas. Want me to plan the implementation for any of these?
+
+
 # TODO
 
 2. remember similairty dial
