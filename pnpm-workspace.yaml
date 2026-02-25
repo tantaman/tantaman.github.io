@@ -1,4 +1,5 @@
 packages:
+  - packages/facets
   - packages/compiler
   - packages/frontend
   - packages/thoughts

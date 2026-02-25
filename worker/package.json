@@ -10,6 +10,7 @@
     "dump-db": "bash -c 'set -a && source .env && set +a && wrangler d1 export thought --remote --output=thought-dump.sql'"
   },
   "dependencies": {
+    "@tantaman/facets": "workspace:*",
     "@hono/mcp": "^0.1.0",
     "@modelcontextprotocol/sdk": "^1.12.1",
     "hono": "^4.7.10",

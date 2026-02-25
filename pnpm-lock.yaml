@@ -51,6 +51,9 @@ importers:
       '@mdx-js/mdx':
         specifier: ^2.1.1
         version: 2.3.0
+      '@tantaman/facets':
+        specifier: workspace:*
+        version: link:../facets
       '@types/compression':
         specifier: ^1.7.2
         version: 1.8.1
@@ -252,6 +255,15 @@ importers:
         specifier: ^7.2.4
         version: 7.3.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0)
 
+  packages/facets:
+    dependencies:
+      esbuild:
+        specifier: ^0.14.38
+        version: 0.14.54
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/frontend:
     devDependencies:
       '@types/react':
@@ -382,6 +394,9 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.12.1
         version: 1.26.0(zod@3.25.76)
+      '@tantaman/facets':
+        specifier: workspace:*
+        version: link:../packages/facets
       hono:
         specifier: ^4.7.10
         version: 4.12.0

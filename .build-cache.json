@@ -1,5 +1,5 @@
 {
-  "_compilerMtime": 1771965230321,
+  "_compilerMtime": 1772035868863,
   "pages/artifacts/NYCBudgetSimulator.jsx": 1771634762859,
   "pages//README.md": 1753056386475,
   "bookmarks//README.md": 1753056386472,
@@ -569,12 +569,12 @@
           "index.js": 1771540877303,
           "notes": 1765646841322,
           "pages": 1771893614664,
-          "posts-manifest.js": 1771966192178,
+          "posts-manifest.js": 1772035777077,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771682028161,
+          "tags.js": 1772035787465,
           "the-mirror-room": 1760493898024,
           "tweets": 1753056386475
         }
@@ -1124,12 +1124,12 @@
           "index.js": 1771540877303,
           "notes": 1765646841322,
           "pages": 1771893614664,
-          "posts-manifest.js": 1771966192178,
+          "posts-manifest.js": 1772035777077,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771682028161,
+          "tags.js": 1772035787465,
           "the-mirror-room": 1760493898024,
           "tweets": 1753056386475
         }
@@ -1683,12 +1683,12 @@
           "index.js": 1771540877303,
           "notes": 1765646841322,
           "pages": 1771893614664,
-          "posts-manifest.js": 1771966192178,
+          "posts-manifest.js": 1772035777077,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771682028161,
+          "tags.js": 1772035787465,
           "the-mirror-room": 1760493898024,
           "tweets": 1753056386475
         }
@@ -2243,12 +2243,12 @@
           "index.js": 1771540877303,
           "notes": 1765646841322,
           "pages": 1771893614664,
-          "posts-manifest.js": 1771966192178,
+          "posts-manifest.js": 1772035777077,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771682028161,
+          "tags.js": 1772035787465,
           "the-mirror-room": 1760493898024,
           "tweets": 1753056386475
         }
@@ -2453,7 +2453,7 @@
     }
   },
   "/tags.js": {
-    "mtime": 1771682028161,
+    "mtime": 1772035787465,
     "deps": {
       "./content/": {
         "type": "dir",
@@ -2798,12 +2798,12 @@
           "index.js": 1771540877303,
           "notes": 1765646841322,
           "pages": 1771893614664,
-          "posts-manifest.js": 1771966192178,
+          "posts-manifest.js": 1772035777077,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771682028161,
+          "tags.js": 1772035787465,
           "the-mirror-room": 1760493898024,
           "tweets": 1753056386475
         }
@@ -3368,12 +3368,12 @@
           "index.js": 1771540877303,
           "notes": 1765646841322,
           "pages": 1771893614664,
-          "posts-manifest.js": 1771966192178,
+          "posts-manifest.js": 1772035777077,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771682028161,
+          "tags.js": 1772035787465,
           "the-mirror-room": 1760493898024,
           "tweets": 1753056386475
         }
@@ -3578,7 +3578,7 @@
     }
   },
   "/posts-manifest.js": {
-    "mtime": 1771966192178,
+    "mtime": 1772035777077,
     "deps": {
       "./content/": {
         "type": "dir",
@@ -3923,12 +3923,12 @@
           "index.js": 1771540877303,
           "notes": 1765646841322,
           "pages": 1771893614664,
-          "posts-manifest.js": 1771966192178,
+          "posts-manifest.js": 1772035777077,
           "religion-is-the-nexus": 1769375750208,
           "start-here.md": 1771345641730,
           "stories.js": 1771464998763,
           "substack": 1771162524037,
-          "tags.js": 1771682028161,
+          "tags.js": 1772035787465,
           "the-mirror-room": 1760493898024,
           "tweets": 1753056386475
         }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { hasToken, clearToken, fetchReportDates, fetchReport, type ReportData, type BudgetAlert, type BudgetVariance } from './api';
+import { hasToken, clearToken, fetchReportDates, fetchReport, type ReportData, type BudgetAlert } from './api';
 import Login from './Login';
 import Admin from './Admin';
 

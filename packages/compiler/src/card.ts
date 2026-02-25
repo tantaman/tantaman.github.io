@@ -1,22 +1,8 @@
-export function tagId(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
+import { tagId, inferForm } from '@tantaman/facets';
+export { tagId, inferForm };
 
 export function readingTime(wordCount: number): number {
   return Math.max(1, Math.round((wordCount || 0) / 200));
-}
-
-export function inferForm(
-  collection: string,
-  meta: Record<string, any>,
-): string {
-  if (meta.frontmatter?.form) return meta.frontmatter.form;
-  if (collection === 'the-mirror-room/') return 'story';
-  if (collection === 'chats/') return 'chat';
-  return 'essay';
 }
 
 export function renderPills(data: {

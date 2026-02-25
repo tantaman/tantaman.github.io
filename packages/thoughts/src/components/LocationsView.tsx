@@ -34,6 +34,7 @@ export function LocationsView() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [geocoding, setGeocoding] = useState<number | null>(null);
+  const [geocodeError, setGeocodeError] = useState<string | null>(null);
 
   const geoLocations = locations.filter(
     (loc): loc is Location & { lat: number; lng: number } =>
@@ -43,11 +44,13 @@ export function LocationsView() {
   async function handleGeocode(loc: Location) {
     if (!secret || geocoding != null) return;
     setGeocoding(loc.id);
+    setGeocodeError(null);
     try {
       await geocodeLocation(loc.id, secret);
       mutate('locations');
-    } catch {
-      // silent
+    } catch (e) {
+      console.error('Geocode failed:', e);
+      setGeocodeError(`Geocode failed for "${loc.title}"`);
     } finally {
       setGeocoding(null);
     }
@@ -126,24 +129,25 @@ export function LocationsView() {
                       {loc.lat.toFixed(4)}, {loc.lng.toFixed(4)}
                     </span>
                   ) : (
-                    <span className="location-unresolved">
-                      Not resolved
-                      {secret && (
-                        <button
-                          className="location-geocode-btn"
-                          onClick={() => handleGeocode(loc)}
-                          disabled={geocoding != null}
-                        >
-                          {geocoding === loc.id ? 'Geocoding...' : 'Re-geocode'}
-                        </button>
-                      )}
-                    </span>
+                    <span className="location-unresolved">Not resolved</span>
+                  )}
+                  {secret && (
+                    <button
+                      className="location-geocode-btn"
+                      onClick={() => handleGeocode(loc)}
+                      disabled={geocoding != null}
+                    >
+                      {geocoding === loc.id ? 'Geocoding...' : 'Re-geocode'}
+                    </button>
                   )}
                   {loc.created_at > 0 && (
                     <>
                       <span className="location-meta-sep">&middot;</span>
                       <span className="location-date">{formatDate(loc.created_at)}</span>
                     </>
+                  )}
+                  {geocodeError && geocoding == null && (
+                    <span className="location-geocode-error">{geocodeError}</span>
                   )}
                 </span>
               </li>

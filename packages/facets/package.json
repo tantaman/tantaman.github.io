@@ -1,0 +1,14 @@
+{
+  "name": "@tantaman/facets",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc && pnpm build:browser",
+    "build:browser": "esbuild src/tags-browse.ts --bundle --outfile=../../docs/tags-browse.js --format=iife"
+  },
+  "dependencies": {
+    "esbuild": "^0.14.38",
+    "typescript": "^5.9.3"
+  }
+}

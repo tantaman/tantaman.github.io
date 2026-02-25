@@ -1,4 +1,4 @@
-import { indexFrontmatter, contentDirs } from '@tantaman/sitecompiler';
+import { indexFrontmatter, contentDirs, inferForm } from '@tantaman/sitecompiler';
 
 export default async function postsManifest() {
   return {
@@ -22,6 +22,8 @@ export default async function postsManifest() {
               summary: fm.summary || fm.description || meta.description || '',
               date,
               tags: fm.tags || [],
+              concern: fm.concern || [],
+              form: inferForm(collection, meta),
               collection: collection || 'root',
               color: meta.sentimentColor || null,
             });

@@ -3,6 +3,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { Env } from "./index";
 import { embedText } from "./embeddings";
+import { filterPosts, countFacetValues, tagId, type Post } from "@tantaman/facets";
 
 interface Chunk {
   id: string;
@@ -13,8 +14,43 @@ interface Chunk {
   embedding: number[];
 }
 
-// Module-level cache for embeddings data
+// Module-level caches
 let cachedChunks: Chunk[] | null = null;
+
+interface ManifestEntry {
+  slug: string;
+  title: string;
+  summary: string;
+  date: string;
+  tags: string[];
+  concern: string[];
+  form: string;
+  collection: string;
+  color: string | null;
+}
+
+let cachedManifest: Post[] | null = null;
+
+async function loadManifest(): Promise<Post[]> {
+  if (cachedManifest) return cachedManifest;
+
+  const res = await fetch("https://tantaman.com/posts-manifest.json");
+  if (!res.ok) throw new Error("Failed to fetch posts manifest");
+  const data: ManifestEntry[] = await res.json();
+
+  cachedManifest = data.map((p) => ({
+    title: p.title,
+    url: p.slug.includes(".") ? p.slug : p.slug + ".html",
+    date: p.date,
+    description: p.summary || "",
+    subjects: p.tags || [],
+    concerns: p.concern || [],
+    form: p.form || "essay",
+    sentimentColor: p.color || undefined,
+  }));
+
+  return cachedManifest;
+}
 
 async function loadChunks(kv: KVNamespace): Promise<Chunk[]> {
   if (cachedChunks) return cachedChunks;
@@ -133,6 +169,52 @@ export function createMcpServer(env: Env) {
         );
         lines.push(body);
         lines.push("");
+      }
+
+      return {
+        content: [{ type: "text" as const, text: lines.join("\n") }],
+      };
+    }
+  );
+
+  server.tool(
+    "browse_posts",
+    "Browse and filter blog posts by subject, concern, and form facets. Returns matching posts with facet counts. Use this to explore what topics the blog covers or find posts matching specific criteria.",
+    {
+      subjects: z.array(z.string()).optional().describe("Filter by subject tags, e.g. [\"software\", \"ai\"]. AND logic: posts must have all specified subjects."),
+      concerns: z.array(z.string()).optional().describe("Filter by concern tags, e.g. [\"craft\"]. AND logic: posts must have all specified concerns."),
+      forms: z.array(z.string()).optional().describe("Filter by form, e.g. [\"essay\"]. OR logic: posts can match any specified form."),
+    },
+    async ({ subjects, concerns, forms }) => {
+      const allPosts = await loadManifest();
+
+      const filters = {
+        subject: subjects?.map((s) => tagId(s)),
+        concern: concerns?.map((c) => tagId(c)),
+        form: forms?.map((f) => tagId(f)),
+      };
+
+      const filtered = filterPosts(allPosts, filters);
+      const counts = countFacetValues(filtered);
+
+      const lines: string[] = [];
+      lines.push(`Found ${filtered.length} posts matching filters.\n`);
+
+      lines.push("## Facet counts (in filtered results):\n");
+      lines.push("Subjects: " + Object.entries(counts.subject).map(([k, v]) => `${k} (${v})`).join(", "));
+      lines.push("Concerns: " + Object.entries(counts.concern).map(([k, v]) => `${k} (${v})`).join(", "));
+      lines.push("Forms: " + Object.entries(counts.form).map(([k, v]) => `${k} (${v})`).join(", "));
+      lines.push("");
+
+      lines.push("## Posts:\n");
+      for (const p of filtered.slice(0, 50)) {
+        lines.push(`- **${p.title}** (${p.date}) — https://tantaman.com/${p.url}`);
+        if (p.description) lines.push(`  ${p.description.slice(0, 200)}`);
+        lines.push(`  [${p.subjects.join(", ")}] [${p.concerns.join(", ")}] [${p.form}]`);
+      }
+
+      if (filtered.length > 50) {
+        lines.push(`\n... and ${filtered.length - 50} more posts.`);
       }
 
       return {

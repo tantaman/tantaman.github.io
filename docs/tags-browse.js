@@ -1,410 +1,578 @@
-(function () {
-  var dataEl = document.getElementById('posts-data');
-  if (!dataEl) return;
-
-  var posts = JSON.parse(dataEl.textContent);
-  var sidebar = document.querySelector('.tags-sidebar');
-  var listContainer = document.getElementById('filtered-posts');
-  var breadcrumbBar = document.getElementById('breadcrumb-bar');
-  if (!sidebar || !listContainer || !breadcrumbBar) return;
-
-  // State: active filters per facet + search query
-  var state = { subject: new Set(), concern: new Set(), form: new Set(), q: '' };
-  var searchInput = document.getElementById('tags-search-input');
-
-  // Slug helper matching server-side tagId()
+"use strict";
+(() => {
+  // src/index.ts
   function tagId(s) {
-    return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   }
-
-  function readingTime(wc) {
-    return Math.max(1, Math.round((wc || 0) / 200));
+  function toSet(v) {
+    if (!v)
+      return /* @__PURE__ */ new Set();
+    if (v instanceof Set)
+      return v;
+    return new Set(v);
   }
-
-  function renderPillsHtml(p) {
-    var pills = '';
-    (p.subjects || []).forEach(function (s) {
-      pills += '<span class="pill pill-subject">' + esc(s) + '</span>';
-    });
-    (p.concerns || []).forEach(function (c) {
-      pills += '<span class="pill pill-concern">' + esc(c) + '</span>';
-    });
-    if (p.form) pills += '<span class="pill pill-form">' + esc(p.form) + '</span>';
-    return pills ? '<div class="card-pills">' + pills + '</div>' : '';
-  }
-
-  function truncateText(str, max) {
-    if (!str || str.length <= max) return str || '';
-    var cut = str.lastIndexOf(' ', max);
-    return str.slice(0, cut > 0 ? cut : max) + '\u2026';
-  }
-
-  // --- TF-IDF full-text search infrastructure ---
-
-  var STOP_WORDS = new Set([
-    'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of',
-    'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been', 'be', 'have',
-    'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may',
-    'might', 'must', 'shall', 'can', 'need', 'it', 'its', 'this', 'that', 'these',
-    'those', 'i', 'you', 'he', 'she', 'we', 'they', 'what', 'which', 'who', 'when',
-    'where', 'why', 'how', 'all', 'each', 'every', 'both', 'few', 'more', 'most',
-    'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so',
-    'than', 'too', 'very', 'just', 'also', 'now', 'here', 'there', 'about', 'after',
-    'before', 'above', 'below', 'between', 'into', 'through', 'during', 'under',
-    'again', 'further', 'then', 'once', 'any', 'if', 'because', 'while', 'until',
-    'although', 'though', 'even', 'being', 'having', 'doing', 'their', 'his', 'her',
-    'him', 'my', 'your', 'our', 'me', 'us', 'them', 'myself', 'yourself', 'himself',
-    'herself', 'itself', 'ourselves', 'themselves',
-    'example', 'like', 'using', 'use', 'used', 'way', 'want', 'get', 'see', 'new',
-    'one', 'two', 'first', 'last', 'well', 'much', 'actually', 'really', 'say',
-    'said', 'thing', 'things', 'something', 'lot', 'make', 'made', 'going', 'know',
-    'think', 'still', 'back', 'take', 'look', 'come', 'since',
-  ]);
-
-  var SUFFIXES = [
-    'ingly', 'edly', 'ness', 'ment', 'able', 'ible', 'tion', 'sion',
-    'ance', 'ence', 'ally', 'ful', 'ous', 'ive', 'ing', 'ion', 'ity',
-    'ies', 'ly', 'ed', 'er', 'es', 's',
-  ];
-
-  function stem(word) {
-    if (word.length < 4) return word;
-    for (var i = 0; i < SUFFIXES.length; i++) {
-      var suffix = SUFFIXES[i];
-      if (word.length - suffix.length >= 3 && word.slice(-suffix.length) === suffix) {
-        return word.slice(0, -suffix.length);
+  function filterPosts(posts, filters) {
+    const subjects = toSet(filters.subject);
+    const concerns = toSet(filters.concern);
+    const forms = toSet(filters.form);
+    return posts.filter((p) => {
+      if (subjects.size > 0) {
+        const slugged = new Set(p.subjects.map((s) => tagId(s)));
+        for (const v of subjects) {
+          if (!slugged.has(v))
+            return false;
+        }
       }
-    }
-    return word;
-  }
-
-  function tokenize(text) {
-    if (!text) return [];
-    return text
-      .toLowerCase()
-      .replace(/[^a-z\s]/g, ' ')
-      .split(/\s+/)
-      .filter(function (w) { return w.length > 2 && !STOP_WORDS.has(w); })
-      .map(stem);
-  }
-
-  function computeQueryVector(terms) {
-    var counts = {};
-    for (var i = 0; i < terms.length; i++) {
-      counts[terms[i]] = (counts[terms[i]] || 0) + 1;
-    }
-    var total = terms.length;
-    var vector = {};
-    for (var term in counts) {
-      var idf = searchIndex.idf[term];
-      if (idf !== undefined) {
-        vector[term] = (counts[term] / total) * idf;
+      if (concerns.size > 0) {
+        const slugged = new Set(p.concerns.map((c) => tagId(c)));
+        for (const v of concerns) {
+          if (!slugged.has(v))
+            return false;
+        }
       }
-    }
-    return vector;
-  }
-
-  function cosineSimilarity(vecA, vecB) {
-    var dot = 0, normA = 0, normB = 0;
-    for (var t in vecA) {
-      var a = vecA[t];
-      normA += a * a;
-      if (vecB[t] !== undefined) dot += a * vecB[t];
-    }
-    for (var t in vecB) {
-      var b = vecB[t];
-      normB += b * b;
-    }
-    if (normA === 0 || normB === 0) return 0;
-    return dot / (Math.sqrt(normA) * Math.sqrt(normB));
-  }
-
-  // Lazy-loaded search index
-  var searchIndex = null;
-  var searchIndexLoading = false;
-  var searchScores = {}; // url -> score, populated per query
-
-  function loadSearchIndex() {
-    if (searchIndex || searchIndexLoading) return;
-    searchIndexLoading = true;
-    fetch('/search.json')
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        searchIndex = data;
-        searchIndexLoading = false;
-        // Re-render now that the index is available
-        if (state.q) render();
-      })
-      .catch(function () { searchIndexLoading = false; });
-  }
-
-  function runTfidfSearch(query) {
-    searchScores = {};
-    var terms = tokenize(query);
-    if (terms.length === 0) return;
-    var queryVec = computeQueryVector(terms);
-    if (Object.keys(queryVec).length === 0) return;
-    for (var i = 0; i < searchIndex.documents.length; i++) {
-      var doc = searchIndex.documents[i];
-      var docVec = searchIndex.tfidf[doc.id];
-      if (!docVec) continue;
-      var score = cosineSimilarity(queryVec, docVec);
-      if (score > 0.01) {
-        // Normalize URL: search.json uses leading /, tags data does not
-        var url = doc.url.charAt(0) === '/' ? doc.url.slice(1) : doc.url;
-        searchScores[url] = score;
-      }
-    }
-  }
-
-  function filterPosts() {
-    return posts.filter(function (p) {
-      // AND across facets, AND within subject/concern, OR within form
-      if (state.subject.size > 0) {
-        var slugged = new Set();
-        p.subjects.forEach(function (s) { slugged.add(tagId(s)); });
-        var allMatch = true;
-        state.subject.forEach(function (v) { if (!slugged.has(v)) allMatch = false; });
-        if (!allMatch) return false;
-      }
-      if (state.concern.size > 0) {
-        var slugged = new Set();
-        p.concerns.forEach(function (c) { slugged.add(tagId(c)); });
-        var allMatch = true;
-        state.concern.forEach(function (v) { if (!slugged.has(v)) allMatch = false; });
-        if (!allMatch) return false;
-      }
-      if (state.form.size > 0) {
-        if (!state.form.has(tagId(p.form))) return false;
-      }
-      // TF-IDF full-text search filter
-      if (state.q && searchIndex) {
-        if (!(p.url in searchScores)) return false;
+      if (forms.size > 0) {
+        if (!forms.has(tagId(p.form)))
+          return false;
       }
       return true;
     });
   }
-
-  function countFacetValues(filtered) {
-    var counts = { subject: {}, concern: {}, form: {} };
-    filtered.forEach(function (p) {
-      p.subjects.forEach(function (s) {
-        var id = tagId(s);
+  function countFacetValues(posts) {
+    const counts = { subject: {}, concern: {}, form: {} };
+    for (const p of posts) {
+      for (const s of p.subjects) {
+        const id = tagId(s);
         counts.subject[id] = (counts.subject[id] || 0) + 1;
-      });
-      p.concerns.forEach(function (c) {
-        var id = tagId(c);
+      }
+      for (const c of p.concerns) {
+        const id = tagId(c);
         counts.concern[id] = (counts.concern[id] || 0) + 1;
-      });
-      var fid = tagId(p.form);
+      }
+      const fid = tagId(p.form);
       counts.form[fid] = (counts.form[fid] || 0) + 1;
-    });
+    }
     return counts;
   }
 
-  function render() {
-    // Compute TF-IDF scores before filtering
-    if (state.q && searchIndex) {
-      runTfidfSearch(state.q);
-    } else {
+  // src/tags-browse.ts
+  (function() {
+    const listContainer = document.getElementById("filtered-posts");
+    const breadcrumbBar = document.getElementById("breadcrumb-bar");
+    const sidebar = document.querySelector(".tags-sidebar");
+    const searchInput = document.getElementById("tags-search-input");
+    if (!listContainer || !breadcrumbBar || !sidebar)
+      return;
+    const state = {
+      subject: /* @__PURE__ */ new Set(),
+      concern: /* @__PURE__ */ new Set(),
+      form: /* @__PURE__ */ new Set(),
+      q: ""
+    };
+    function readingTime(wc) {
+      return Math.max(1, Math.round((wc || 0) / 200));
+    }
+    function renderPillsHtml(p) {
+      let pills = "";
+      (p.subjects || []).forEach(function(s) {
+        pills += '<span class="pill pill-subject">' + esc(s) + "</span>";
+      });
+      (p.concerns || []).forEach(function(c) {
+        pills += '<span class="pill pill-concern">' + esc(c) + "</span>";
+      });
+      if (p.form)
+        pills += '<span class="pill pill-form">' + esc(p.form) + "</span>";
+      return pills ? '<div class="card-pills">' + pills + "</div>" : "";
+    }
+    function truncateText(str, max) {
+      if (!str || str.length <= max)
+        return str || "";
+      const cut = str.lastIndexOf(" ", max);
+      return str.slice(0, cut > 0 ? cut : max) + "\u2026";
+    }
+    const STOP_WORDS = /* @__PURE__ */ new Set([
+      "a",
+      "an",
+      "the",
+      "and",
+      "or",
+      "but",
+      "in",
+      "on",
+      "at",
+      "to",
+      "for",
+      "of",
+      "with",
+      "by",
+      "from",
+      "as",
+      "is",
+      "was",
+      "are",
+      "were",
+      "been",
+      "be",
+      "have",
+      "has",
+      "had",
+      "do",
+      "does",
+      "did",
+      "will",
+      "would",
+      "could",
+      "should",
+      "may",
+      "might",
+      "must",
+      "shall",
+      "can",
+      "need",
+      "it",
+      "its",
+      "this",
+      "that",
+      "these",
+      "those",
+      "i",
+      "you",
+      "he",
+      "she",
+      "we",
+      "they",
+      "what",
+      "which",
+      "who",
+      "when",
+      "where",
+      "why",
+      "how",
+      "all",
+      "each",
+      "every",
+      "both",
+      "few",
+      "more",
+      "most",
+      "other",
+      "some",
+      "such",
+      "no",
+      "nor",
+      "not",
+      "only",
+      "own",
+      "same",
+      "so",
+      "than",
+      "too",
+      "very",
+      "just",
+      "also",
+      "now",
+      "here",
+      "there",
+      "about",
+      "after",
+      "before",
+      "above",
+      "below",
+      "between",
+      "into",
+      "through",
+      "during",
+      "under",
+      "again",
+      "further",
+      "then",
+      "once",
+      "any",
+      "if",
+      "because",
+      "while",
+      "until",
+      "although",
+      "though",
+      "even",
+      "being",
+      "having",
+      "doing",
+      "their",
+      "his",
+      "her",
+      "him",
+      "my",
+      "your",
+      "our",
+      "me",
+      "us",
+      "them",
+      "myself",
+      "yourself",
+      "himself",
+      "herself",
+      "itself",
+      "ourselves",
+      "themselves",
+      "example",
+      "like",
+      "using",
+      "use",
+      "used",
+      "way",
+      "want",
+      "get",
+      "see",
+      "new",
+      "one",
+      "two",
+      "first",
+      "last",
+      "well",
+      "much",
+      "actually",
+      "really",
+      "say",
+      "said",
+      "thing",
+      "things",
+      "something",
+      "lot",
+      "make",
+      "made",
+      "going",
+      "know",
+      "think",
+      "still",
+      "back",
+      "take",
+      "look",
+      "come",
+      "since"
+    ]);
+    const SUFFIXES = [
+      "ingly",
+      "edly",
+      "ness",
+      "ment",
+      "able",
+      "ible",
+      "tion",
+      "sion",
+      "ance",
+      "ence",
+      "ally",
+      "ful",
+      "ous",
+      "ive",
+      "ing",
+      "ion",
+      "ity",
+      "ies",
+      "ly",
+      "ed",
+      "er",
+      "es",
+      "s"
+    ];
+    function stem(word) {
+      if (word.length < 4)
+        return word;
+      for (let i = 0; i < SUFFIXES.length; i++) {
+        const suffix = SUFFIXES[i];
+        if (word.length - suffix.length >= 3 && word.slice(-suffix.length) === suffix) {
+          return word.slice(0, -suffix.length);
+        }
+      }
+      return word;
+    }
+    function tokenize(text) {
+      if (!text)
+        return [];
+      return text.toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).filter(function(w) {
+        return w.length > 2 && !STOP_WORDS.has(w);
+      }).map(stem);
+    }
+    function computeQueryVector(terms) {
+      const counts = {};
+      for (let i = 0; i < terms.length; i++) {
+        counts[terms[i]] = (counts[terms[i]] || 0) + 1;
+      }
+      const total = terms.length;
+      const vector = {};
+      for (const term in counts) {
+        const idf = searchIndex.idf[term];
+        if (idf !== void 0) {
+          vector[term] = counts[term] / total * idf;
+        }
+      }
+      return vector;
+    }
+    function cosineSimilarity(vecA, vecB) {
+      let dot = 0, normA = 0, normB = 0;
+      for (const t in vecA) {
+        const a = vecA[t];
+        normA += a * a;
+        if (vecB[t] !== void 0)
+          dot += a * vecB[t];
+      }
+      for (const t in vecB) {
+        const b = vecB[t];
+        normB += b * b;
+      }
+      if (normA === 0 || normB === 0)
+        return 0;
+      return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+    let searchIndex = null;
+    let searchIndexLoading = false;
+    let searchScores = {};
+    function loadSearchIndex() {
+      if (searchIndex || searchIndexLoading)
+        return;
+      searchIndexLoading = true;
+      fetch("/search.json").then(function(r) {
+        return r.json();
+      }).then(function(data) {
+        searchIndex = data;
+        searchIndexLoading = false;
+        if (state.q)
+          render();
+      }).catch(function() {
+        searchIndexLoading = false;
+      });
+    }
+    function runTfidfSearch(query) {
       searchScores = {};
-    }
-
-    var filtered = filterPosts();
-
-    // Sort by relevance when searching, otherwise keep date order
-    if (state.q && searchIndex) {
-      filtered.sort(function (a, b) {
-        return (searchScores[b.url] || 0) - (searchScores[a.url] || 0);
-      });
-    }
-
-    var counts = countFacetValues(filtered);
-
-    // Update breadcrumb bar
-    var crumbs = [];
-    ['subject', 'concern', 'form'].forEach(function (facet) {
-      state[facet].forEach(function (val) {
-        var btn = sidebar.querySelector('.tag-tab[data-facet="' + facet + '"][data-value="' + val + '"]');
-        var label = btn ? btn.childNodes[0].textContent.trim() : val;
-        crumbs.push('<button class="crumb" data-facet="' + facet + '" data-value="' + val + '">' + esc(label) + ' ×</button>');
-      });
-    });
-    var countText = filtered.length + ' post' + (filtered.length !== 1 ? 's' : '');
-    if (crumbs.length > 0) {
-      breadcrumbBar.innerHTML = crumbs.join('') + '<span class="result-count">' + countText + '</span>';
-      breadcrumbBar.classList.add('has-crumbs');
-    } else {
-      breadcrumbBar.innerHTML = '<span class="result-count">' + countText + '</span>';
-      breadcrumbBar.classList.remove('has-crumbs');
-    }
-
-    // Update post list
-    if (filtered.length === 0) {
-      listContainer.innerHTML = '<p style="color:var(--text-muted)">No posts match the selected filters.</p>';
-    } else {
-      var html = '<ul class="tag-posts">';
-      filtered.forEach(function (p) {
-        var mins = readingTime(p.wordCount);
-        var score = searchScores[p.url];
-        var matchText = score ? ' &middot; ' + Math.round(score * 100) + '% match' : '';
-        html += '<li class="tag-post"><a href="' + p.url + '">';
-        if (p.sentimentColor) html += '<div class="sentiment-strip" style="background:' + p.sentimentColor + '"></div>';
-        html += '<div class="tag-post-body">';
-        if (p.image) html += '<img class="tag-post-thumb" src="' + p.image + '" alt="" loading="lazy" />';
-        html += '<div class="tag-post-info">';
-        html += '<span class="post-title">' + esc(p.title) + '</span>';
-        html += '<div class="subtext">' + p.date + ' &middot; ' + mins + ' min' + matchText + '</div>';
-        html += renderPillsHtml(p);
-        if (p.description) html += '<span class="post-description">' + esc(truncateText(p.description, 300)) + '</span>';
-        html += '</div></div></a></li>';
-      });
-      html += '</ul>';
-      listContainer.innerHTML = html;
-    }
-
-    // Update button states, counts, and fill bars
-    var groups = sidebar.querySelectorAll('.facet-group');
-    for (var g = 0; g < groups.length; g++) {
-      var group = groups[g];
-      var facet = group.getAttribute('data-facet');
-      var facetCounts = counts[facet] || {};
-      var buttons = group.querySelectorAll('.tag-tab');
-
-      // Find max count in this group for fill calculation
-      var maxInGroup = 0;
-      for (var i = 0; i < buttons.length; i++) {
-        var val = buttons[i].getAttribute('data-value');
-        var c = facetCounts[val] || 0;
-        if (c > maxInGroup) maxInGroup = c;
-      }
-
-      for (var i = 0; i < buttons.length; i++) {
-        var btn = buttons[i];
-        var value = btn.getAttribute('data-value');
-        var isActive = state[facet] && state[facet].has(value);
-        var count = facetCounts[value] || 0;
-
-        btn.classList.toggle('active', isActive);
-
-        var countEl = btn.querySelector('.tag-count');
-        if (countEl) countEl.textContent = count;
-
-        var fill = maxInGroup > 0 ? Math.round((count / maxInGroup) * 100) : 0;
-        btn.style.setProperty('--fill', fill + '%');
+      const terms = tokenize(query);
+      if (terms.length === 0)
+        return;
+      const queryVec = computeQueryVector(terms);
+      if (Object.keys(queryVec).length === 0)
+        return;
+      for (let i = 0; i < searchIndex.documents.length; i++) {
+        const doc = searchIndex.documents[i];
+        const docVec = searchIndex.tfidf[doc.id];
+        if (!docVec)
+          continue;
+        const score = cosineSimilarity(queryVec, docVec);
+        if (score > 0.01) {
+          const url = doc.url.charAt(0) === "/" ? doc.url.slice(1) : doc.url;
+          searchScores[url] = score;
+        }
       }
     }
-  }
-
-  function esc(s) {
-    var d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
-
-  // Breadcrumb click to remove filter
-  breadcrumbBar.addEventListener('click', function (e) {
-    var crumb = e.target.closest('.crumb');
-    if (!crumb) return;
-
-    var facet = crumb.getAttribute('data-facet');
-    var value = crumb.getAttribute('data-value');
-    if (state[facet]) {
-      state[facet].delete(value);
-      render();
-      updateHash();
-    }
-  });
-
-  // Search input with debounce + lazy index loading
-  var searchTimer = null;
-  if (searchInput) {
-    searchInput.addEventListener('input', function () {
-      clearTimeout(searchTimer);
-      var val = searchInput.value.trim().toLowerCase();
-      if (val && !searchIndex && !searchIndexLoading) {
-        loadSearchIndex();
+    function doFilter(posts2) {
+      const filters = {
+        subject: state.subject,
+        concern: state.concern,
+        form: state.form
+      };
+      let filtered = filterPosts(posts2, filters);
+      if (state.q && searchIndex) {
+        filtered = filtered.filter((p) => p.url in searchScores);
       }
-      searchTimer = setTimeout(function () {
-        state.q = val;
+      return filtered;
+    }
+    let posts = [];
+    function render() {
+      if (state.q && searchIndex) {
+        runTfidfSearch(state.q);
+      } else {
+        searchScores = {};
+      }
+      const filtered = doFilter(posts);
+      if (state.q && searchIndex) {
+        filtered.sort(function(a, b) {
+          return (searchScores[b.url] || 0) - (searchScores[a.url] || 0);
+        });
+      }
+      const counts = countFacetValues(filtered);
+      const crumbs = [];
+      ["subject", "concern", "form"].forEach(function(facet) {
+        state[facet].forEach(function(val) {
+          const btn = sidebar.querySelector('.tag-tab[data-facet="' + facet + '"][data-value="' + val + '"]');
+          const label = btn ? btn.childNodes[0].textContent.trim() : val;
+          crumbs.push('<button class="crumb" data-facet="' + facet + '" data-value="' + val + '">' + esc(label) + " \xD7</button>");
+        });
+      });
+      const countText = filtered.length + " post" + (filtered.length !== 1 ? "s" : "");
+      if (crumbs.length > 0) {
+        breadcrumbBar.innerHTML = crumbs.join("") + '<span class="result-count">' + countText + "</span>";
+        breadcrumbBar.classList.add("has-crumbs");
+      } else {
+        breadcrumbBar.innerHTML = '<span class="result-count">' + countText + "</span>";
+        breadcrumbBar.classList.remove("has-crumbs");
+      }
+      if (filtered.length === 0) {
+        listContainer.innerHTML = '<p style="color:var(--text-muted)">No posts match the selected filters.</p>';
+      } else {
+        let html = '<ul class="tag-posts">';
+        filtered.forEach(function(p) {
+          const mins = readingTime(p.wordCount || 0);
+          const score = searchScores[p.url];
+          const matchText = score ? " &middot; " + Math.round(score * 100) + "% match" : "";
+          html += '<li class="tag-post"><a href="' + p.url + '">';
+          if (p.sentimentColor)
+            html += '<div class="sentiment-strip" style="background:' + p.sentimentColor + '"></div>';
+          html += '<div class="tag-post-body">';
+          if (p.image)
+            html += '<img class="tag-post-thumb" src="' + p.image + '" alt="" loading="lazy" />';
+          html += '<div class="tag-post-info">';
+          html += '<span class="post-title">' + esc(p.title) + "</span>";
+          html += '<div class="subtext">' + p.date + " &middot; " + mins + " min" + matchText + "</div>";
+          html += renderPillsHtml(p);
+          if (p.description)
+            html += '<span class="post-description">' + esc(truncateText(p.description, 300)) + "</span>";
+          html += "</div></div></a></li>";
+        });
+        html += "</ul>";
+        listContainer.innerHTML = html;
+      }
+      const groups = sidebar.querySelectorAll(".facet-group");
+      for (let g = 0; g < groups.length; g++) {
+        const group = groups[g];
+        const facet = group.getAttribute("data-facet");
+        const facetCounts = counts[facet] || {};
+        const buttons = group.querySelectorAll(".tag-tab");
+        let maxInGroup = 0;
+        for (let i = 0; i < buttons.length; i++) {
+          const val = buttons[i].getAttribute("data-value");
+          const c = facetCounts[val] || 0;
+          if (c > maxInGroup)
+            maxInGroup = c;
+        }
+        for (let i = 0; i < buttons.length; i++) {
+          const btn = buttons[i];
+          const value = btn.getAttribute("data-value");
+          const isActive = state[facet] && state[facet].has(value);
+          const count = facetCounts[value] || 0;
+          btn.classList.toggle("active", isActive);
+          const countEl = btn.querySelector(".tag-count");
+          if (countEl)
+            countEl.textContent = String(count);
+          const fill = maxInGroup > 0 ? Math.round(count / maxInGroup * 100) : 0;
+          btn.style.setProperty("--fill", fill + "%");
+        }
+      }
+    }
+    function esc(s) {
+      const d = document.createElement("div");
+      d.textContent = s;
+      return d.innerHTML;
+    }
+    breadcrumbBar.addEventListener("click", function(e) {
+      const crumb = e.target.closest(".crumb");
+      if (!crumb)
+        return;
+      const facet = crumb.getAttribute("data-facet");
+      const value = crumb.getAttribute("data-value");
+      if (state[facet]) {
+        state[facet].delete(value);
         render();
         updateHash();
-      }, 150);
-    });
-  }
-
-  // Event delegation for button clicks
-  sidebar.addEventListener('click', function (e) {
-    var btn = e.target.closest('.tag-tab');
-    if (!btn) return;
-
-    var facet = btn.getAttribute('data-facet');
-    var value = btn.getAttribute('data-value');
-    if (!state[facet]) return;
-
-    if (state[facet].has(value)) {
-      state[facet].delete(value);
-    } else {
-      state[facet].add(value);
-    }
-
-    render();
-    updateHash();
-
-    // On mobile, scroll the tapped pill into view
-    if (window.innerWidth <= 768) {
-      btn.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
-    }
-  });
-
-  // URL hash sync
-  function parseHash() {
-    state.subject = new Set();
-    state.concern = new Set();
-    state.form = new Set();
-    state.q = '';
-
-    var hash = location.hash.slice(1);
-    if (!hash) return;
-
-    hash.split('&').forEach(function (part) {
-      var eq = part.indexOf('=');
-      if (eq === -1) return;
-      var key = decodeURIComponent(part.slice(0, eq));
-      var val = decodeURIComponent(part.slice(eq + 1));
-      if (key === 'q') {
-        state.q = val.toLowerCase();
-      } else if (state[key]) {
-        val.split(',').filter(Boolean).forEach(function (v) { state[key].add(v); });
       }
     });
-
-    if (searchInput) searchInput.value = state.q;
-  }
-
-  function updateHash() {
-    var parts = [];
-    ['subject', 'concern', 'form'].forEach(function (facet) {
-      if (state[facet].size > 0) {
-        parts.push(facet + '=' + Array.from(state[facet]).join(','));
+    let searchTimer = null;
+    if (searchInput) {
+      searchInput.addEventListener("input", function() {
+        if (searchTimer)
+          clearTimeout(searchTimer);
+        const val = searchInput.value.trim().toLowerCase();
+        if (val && !searchIndex && !searchIndexLoading) {
+          loadSearchIndex();
+        }
+        searchTimer = setTimeout(function() {
+          state.q = val;
+          render();
+          updateHash();
+        }, 150);
+      });
+    }
+    sidebar.addEventListener("click", function(e) {
+      const btn = e.target.closest(".tag-tab");
+      if (!btn)
+        return;
+      const facet = btn.getAttribute("data-facet");
+      const value = btn.getAttribute("data-value");
+      if (!state[facet])
+        return;
+      if (state[facet].has(value)) {
+        state[facet].delete(value);
+      } else {
+        state[facet].add(value);
+      }
+      render();
+      updateHash();
+      if (window.innerWidth <= 768) {
+        btn.scrollIntoView({ inline: "center", behavior: "smooth", block: "nearest" });
       }
     });
-    if (state.q) {
-      parts.push('q=' + encodeURIComponent(state.q));
+    function parseHash() {
+      state.subject = /* @__PURE__ */ new Set();
+      state.concern = /* @__PURE__ */ new Set();
+      state.form = /* @__PURE__ */ new Set();
+      state.q = "";
+      const hash = location.hash.slice(1);
+      if (!hash)
+        return;
+      hash.split("&").forEach(function(part) {
+        const eq = part.indexOf("=");
+        if (eq === -1)
+          return;
+        const key = decodeURIComponent(part.slice(0, eq));
+        const val = decodeURIComponent(part.slice(eq + 1));
+        if (key === "q") {
+          state.q = val.toLowerCase();
+        } else if (state[key]) {
+          val.split(",").filter(Boolean).forEach(function(v) {
+            state[key].add(v);
+          });
+        }
+      });
+      if (searchInput)
+        searchInput.value = state.q;
     }
-    var newHash = parts.length > 0 ? '#' + parts.join('&') : '';
-    if (newHash !== location.hash && !(newHash === '' && location.hash === '')) {
-      history.replaceState(null, '', newHash || location.pathname);
+    function updateHash() {
+      const parts = [];
+      ["subject", "concern", "form"].forEach(function(facet) {
+        if (state[facet].size > 0) {
+          parts.push(facet + "=" + Array.from(state[facet]).join(","));
+        }
+      });
+      if (state.q) {
+        parts.push("q=" + encodeURIComponent(state.q));
+      }
+      const newHash = parts.length > 0 ? "#" + parts.join("&") : "";
+      if (newHash !== location.hash && !(newHash === "" && location.hash === "")) {
+        history.replaceState(null, "", newHash || location.pathname);
+      }
     }
-  }
-
-  window.addEventListener('hashchange', function () {
-    parseHash();
-    render();
-  });
-
-  // Init: parse hash, load index if needed, render
-  parseHash();
-  if (state.q) loadSearchIndex();
-  render();
+    window.addEventListener("hashchange", function() {
+      parseHash();
+      render();
+    });
+    fetch("/posts-manifest.json").then(function(r) {
+      return r.json();
+    }).then(function(data) {
+      posts = data.map(function(p) {
+        return {
+          title: p.title,
+          url: p.slug.includes(".") ? p.slug : p.slug + ".html",
+          date: p.date,
+          description: p.summary || "",
+          subjects: p.tags || [],
+          concerns: p.concern || [],
+          form: p.form || "essay",
+          image: void 0,
+          sentimentColor: p.color || "",
+          wordCount: p.wordCount || 0
+        };
+      });
+      parseHash();
+      if (state.q)
+        loadSearchIndex();
+      render();
+    });
+  })();
 })();
