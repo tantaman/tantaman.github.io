@@ -253,6 +253,11 @@ input[type="checkbox"]:disabled {
   font-size: 0.8rem;
 }
 
+.thought-number {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
 .thought-time {
   font-size: 0.8rem;
   color: var(--text-muted);
