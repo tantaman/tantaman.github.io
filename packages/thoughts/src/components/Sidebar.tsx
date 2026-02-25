@@ -9,7 +9,7 @@ export function Sidebar({ route }: { route: Route }) {
           e.preventDefault();
           history.pushState(null, '', location.pathname);
           window.dispatchEvent(new HashChangeEvent('hashchange'));
-        }}>Home</a>
+        }}>Thoughts</a>
         <a href="#tasks" className={`thoughts-nav-link${route.view === 'tasks' ? ' active' : ''}`}>Tasks</a>
         <a href="#events" className={`thoughts-nav-link${route.view === 'events' ? ' active' : ''}`}>Events</a>
         <a href="#framings" className={`thoughts-nav-link${route.view === 'framings' ? ' active' : ''}`}>Framings</a>
