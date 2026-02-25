@@ -649,6 +649,35 @@ api.get("/locations", async (c) => {
   return c.json({ locations: results.results });
 });
 
+api.post("/locations/:id/geocode", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = c.req.param("id");
+  const loc = await c.env.DB.prepare(
+    "SELECT id, thought_id, title, description, lat, lng, resolved_name, created_at FROM location WHERE id = ?"
+  ).bind(id).first();
+
+  if (!loc) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  const geo = await geocodeLocation(loc.title as string, c.env.MAPBOX_TOKEN);
+
+  await c.env.DB.prepare(
+    "UPDATE location SET lat = ?, lng = ?, resolved_name = ? WHERE id = ?"
+  ).bind(geo?.lat ?? null, geo?.lng ?? null, geo?.resolvedName ?? null, id).run();
+
+  return c.json({
+    ...loc,
+    lat: geo?.lat ?? null,
+    lng: geo?.lng ?? null,
+    resolved_name: geo?.resolvedName ?? null,
+  });
+});
+
 // --- Media ---
 
 api.get("/media", async (c) => {

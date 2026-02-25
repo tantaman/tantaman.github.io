@@ -1136,6 +1136,60 @@ input[type="checkbox"]:disabled {
   margin-bottom: 1.5rem;
 }
 
+/* -- Location details -- */
+.location-resolved {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.location-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.location-meta-sep {
+  color: var(--text-muted);
+}
+
+.location-coords {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.8rem;
+}
+
+.location-unresolved {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.location-geocode-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  font-family: inherit;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.location-geocode-btn:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.location-geocode-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 /* -- Mobile: sidebar collapses to top bar -- */
 @media (max-width: 768px) {
   #thoughts-page {

@@ -150,6 +150,19 @@ export function getLocations(
   return fetch(url).then((r) => r.json());
 }
 
+export async function geocodeLocation(
+  id: number,
+  secret: string,
+): Promise<Location> {
+  const r = await fetch(`${API}/locations/${id}/geocode`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Geocode failed');
+  return r.json();
+}
+
 export function attachmentUrl(key: string): string {
   return `${API}/attachments/${key}`;
 }
