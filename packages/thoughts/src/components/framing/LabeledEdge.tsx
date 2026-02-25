@@ -24,6 +24,7 @@ export function LabeledEdge({
   targetY,
   data,
   selected,
+  markerEnd,
 }: EdgeProps<LabeledEdgeType>) {
   const { secret } = useContext(AuthContext);
   const [editing, setEditing] = useState(false);
@@ -45,7 +46,7 @@ export function LabeledEdge({
 
   return (
     <>
-      <BaseEdge id={id} path={edgePath} />
+      <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} />
       <EdgeLabelRenderer>
         <div
           className={`framing-edge-label${selected ? ' selected' : ''}`}

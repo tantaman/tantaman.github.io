@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import {
   applyNodeChanges,
   applyEdgeChanges,
+  MarkerType,
   type Node,
   type Edge,
   type OnNodesChange,
@@ -79,6 +80,7 @@ function framingEdgeToRFEdge(
     sourceHandle: e.source_handle ?? undefined,
     targetHandle: e.target_handle ?? undefined,
     type: 'labeled',
+    markerEnd: { type: MarkerType.ArrowClosed },
     data: { label: e.label, edgeDbId: e.id, onLabelChange },
   };
 }

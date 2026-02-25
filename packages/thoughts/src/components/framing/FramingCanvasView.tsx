@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, type MouseEvent as ReactMouseEvent } from 'react';
 import {
   ReactFlow,
   Background,
@@ -75,14 +75,23 @@ export function FramingCanvasView({ id }: { id: number }) {
     [addThought, addPost],
   );
 
-  const handleDoubleClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (!rfRef.current) return;
-      const position = rfRef.current.screenToFlowPosition({
-        x: e.clientX,
-        y: e.clientY,
-      });
-      startCompose(position.x, position.y);
+  const lastPaneClick = useRef<{ time: number; x: number; y: number } | null>(null);
+
+  const handlePaneClick = useCallback(
+    (e: ReactMouseEvent) => {
+      const now = Date.now();
+      const prev = lastPaneClick.current;
+      if (prev && now - prev.time < 300 && Math.abs(e.clientX - prev.x) < 5 && Math.abs(e.clientY - prev.y) < 5) {
+        lastPaneClick.current = null;
+        if (!rfRef.current) return;
+        const position = rfRef.current.screenToFlowPosition({
+          x: e.clientX,
+          y: e.clientY,
+        });
+        startCompose(position.x, position.y);
+      } else {
+        lastPaneClick.current = { time: now, x: e.clientX, y: e.clientY };
+      }
     },
     [startCompose],
   );
@@ -126,7 +135,7 @@ export function FramingCanvasView({ id }: { id: number }) {
           }}
           onDragOver={onDragOver}
           onDrop={onDrop}
-          onDoubleClick={handleDoubleClick}
+          onPaneClick={handlePaneClick}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
