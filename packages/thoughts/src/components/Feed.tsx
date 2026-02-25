@@ -7,12 +7,12 @@ import { ThoughtCard } from './ThoughtCard';
 import { ComposeForm } from './ComposeForm';
 import { SearchBar } from './SearchBar';
 
-export function Feed({ tags }: { tags: string[] }) {
+export function Feed({ tags, framing }: { tags: string[]; framing?: number | null }) {
   const { secret } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
   const handleSearch = useCallback((q: string) => setSearchQuery(q), []);
   const { thoughts, hasMore, isLoadingInitial, isLoadingMore, loadMore, mutate } =
-    useThoughts(tags, secret);
+    useThoughts(tags, secret, framing);
 
   const handlePosted = (t: Thought) => {
     mutate(

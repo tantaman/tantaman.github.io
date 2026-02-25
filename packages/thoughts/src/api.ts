@@ -32,9 +32,11 @@ export function getThoughts(
   limit: number,
   tags?: string[],
   secret?: string,
+  framing?: number,
 ): Promise<ThoughtsResponse> {
   let url = `${API}/thoughts?limit=${limit}&offset=${offset}`;
   if (tags && tags.length > 0) url += `&tags=${tags.map(encodeURIComponent).join(',')}`;
+  if (framing != null) url += `&framing=${framing}`;
   return fetch(url, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 

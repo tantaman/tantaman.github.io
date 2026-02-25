@@ -140,6 +140,7 @@ export function FramingCanvasView({ id }: { id: number }) {
           edgeTypes={edgeTypes}
           fitView
           deleteKeyCode={null}
+          zoomOnDoubleClick={false}
         >
           <Background />
           <Controls />

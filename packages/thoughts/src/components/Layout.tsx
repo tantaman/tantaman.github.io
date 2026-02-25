@@ -8,11 +8,15 @@ export function Layout({
   route,
   selectedTags,
   toggleTag,
+  selectedFraming,
+  selectFraming,
   children,
 }: {
   route: Route;
   selectedTags: string[];
   toggleTag: (tag: string) => void;
+  selectedFraming: number | null;
+  selectFraming: (id: number | null) => void;
   children: ReactNode;
 }) {
   if (route.view === 'framing') {
@@ -26,7 +30,7 @@ export function Layout({
         <TagPills tags={selectedTags} onRemove={toggleTag} />
         {children}
       </main>
-      <TagsSidebar selectedTags={selectedTags} toggleTag={toggleTag} />
+      <TagsSidebar selectedTags={selectedTags} toggleTag={toggleTag} selectedFraming={selectedFraming} selectFraming={selectFraming} />
     </div>
   );
 }

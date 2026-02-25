@@ -32,6 +32,7 @@ export function App() {
   const [secret, setSecretState] = useState<string | null>(getSecret);
   const [route, setRoute] = useState<Route>(parseHash);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedFraming, setSelectedFraming] = useState<number | null>(null);
 
   const updateSecret = useCallback((s: string | null) => {
     setSecret(s);
@@ -42,6 +43,10 @@ export function App() {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
+  }, []);
+
+  const selectFraming = useCallback((id: number | null) => {
+    setSelectedFraming((prev) => (prev === id ? null : id));
   }, []);
 
   useEffect(() => {
@@ -57,7 +62,7 @@ export function App() {
   return (
     <SWRProvider>
       <AuthContext.Provider value={{ secret, updateSecret }}>
-        <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag}>
+        <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag} selectedFraming={selectedFraming} selectFraming={selectFraming}>
           {route.view === 'framing' ? (
             <FramingCanvasView id={route.id} />
           ) : route.view === 'framings' ? (
@@ -69,7 +74,7 @@ export function App() {
           ) : route.view === 'thread' ? (
             <ThreadView id={route.id} />
           ) : (
-            <Feed tags={selectedTags} />
+            <Feed tags={selectedTags} framing={selectedFraming} />
           )}
         </Layout>
         <SecretToggle />

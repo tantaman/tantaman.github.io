@@ -182,36 +182,41 @@ api.get("/thoughts", async (c) => {
   const limitParam = Math.min(parseInt(c.req.query("limit") || "50", 10) || 50, 200);
   const offsetParam = parseInt(c.req.query("offset") || "0", 10) || 0;
   const tags = c.req.query("tags")?.split(",").filter(Boolean) ?? [];
+  const framingParam = c.req.query("framing");
+  const framingId = framingParam ? parseInt(framingParam, 10) : null;
   const authed = isAuthed(c);
   const privateFilter = authed ? "" : " AND t.private = 0";
   const replyPrivateFilter = authed ? "" : " AND r.private = 0";
 
-  let results;
+  let extraWhere = "";
+  const binds: unknown[] = [];
+
   if (tags.length > 0) {
     const placeholders = tags.map(() => "?").join(",");
-    results = await c.env.DB.prepare(
-      `SELECT t.id, t.body, t.timestamp, t.created_at, t.color, t.private,
-         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
-       FROM thought t
-       WHERE t.parent_id IS NULL${privateFilter}
-       AND t.id IN (
-         SELECT tt.thought_id FROM thought_tag tt
-         JOIN tag tg ON tg.id = tt.tag_id
-         WHERE tg.name IN (${placeholders})
-         GROUP BY tt.thought_id
-         HAVING COUNT(DISTINCT tg.name) = ?
-       )
-       ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
-    ).bind(...tags, tags.length, limitParam, offsetParam).all();
-  } else {
-    results = await c.env.DB.prepare(
-      `SELECT t.id, t.body, t.timestamp, t.created_at, t.color, t.private,
-         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
-       FROM thought t
-       WHERE t.parent_id IS NULL${privateFilter}
-       ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
-    ).bind(limitParam, offsetParam).all();
+    extraWhere += ` AND t.id IN (
+      SELECT tt.thought_id FROM thought_tag tt
+      JOIN tag tg ON tg.id = tt.tag_id
+      WHERE tg.name IN (${placeholders})
+      GROUP BY tt.thought_id
+      HAVING COUNT(DISTINCT tg.name) = ?
+    )`;
+    binds.push(...tags, tags.length);
   }
+
+  if (framingId != null) {
+    extraWhere += ` AND t.id IN (SELECT CAST(fn.item_id AS INTEGER) FROM framing_node fn WHERE fn.framing_id = ? AND fn.node_type = 'thought')`;
+    binds.push(framingId);
+  }
+
+  binds.push(limitParam, offsetParam);
+
+  const results = await c.env.DB.prepare(
+    `SELECT t.id, t.body, t.timestamp, t.created_at, t.color, t.private,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
+     FROM thought t
+     WHERE t.parent_id IS NULL${privateFilter}${extraWhere}
+     ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
+  ).bind(...binds).all();
 
   const hasMore = results.results.length === limitParam;
 
