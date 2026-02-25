@@ -24,7 +24,7 @@ export function TagsSidebar({
   return (
     <aside className="thoughts-tags-sidebar">
       {framings.length > 0 && (
-        <>
+        <div className="tags-sidebar-section">
           <div className="tags-sidebar-title">Framings</div>
           <div>
             {framings.map((f) => (
@@ -40,10 +40,10 @@ export function TagsSidebar({
               </button>
             ))}
           </div>
-        </>
+        </div>
       )}
       {tags.length > 0 && (
-        <>
+        <div className="tags-sidebar-section">
           <div className="tags-sidebar-title">Tags</div>
           <div>
             {tags.map((tag) => (
@@ -60,7 +60,7 @@ export function TagsSidebar({
               </button>
             ))}
           </div>
-        </>
+        </div>
       )}
     </aside>
   );

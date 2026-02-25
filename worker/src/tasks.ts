@@ -1,4 +1,5 @@
 import { EVENT_RE } from "./events";
+import { LOCATION_RE } from "./locations";
 
 export interface TaskDef {
   title: string;
@@ -21,7 +22,7 @@ export function extractTasks(body: string): TaskDef[] {
       current = { title: match[1].trim(), description: null };
       descLines = [];
     } else if (current) {
-      if (line.match(EVENT_RE)) {
+      if (line.match(EVENT_RE) || line.match(LOCATION_RE)) {
         current.description = descLines.join('\n').trim() || null;
         tasks.push(current);
         current = null;

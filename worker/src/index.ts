@@ -4,6 +4,7 @@ import { StreamableHTTPTransport } from "@hono/mcp";
 import { ZodError } from "zod";
 import { extractEvents } from "./events";
 import { extractTasks } from "./tasks";
+import { extractLocations } from "./locations";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
@@ -438,6 +439,13 @@ api.post("/thoughts", async (c) => {
     ).bind(thoughtId, event.title, event.description, event.dateText, event.dateEpoch, timestamp).run();
   }
 
+  const locations = extractLocations(trimmed);
+  for (const loc of locations) {
+    await c.env.DB.prepare(
+      "INSERT INTO location (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
+    ).bind(thoughtId, loc.title, loc.description, timestamp).run();
+  }
+
   const attachments: { key: string; type: string; name: string }[] = [];
 
   for (const file of files) {
@@ -618,6 +626,25 @@ api.get("/events", async (c) => {
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
   return c.json({ events: results.results });
+});
+
+// --- Locations ---
+
+api.get("/locations", async (c) => {
+  const thoughtId = c.req.query("thought_id");
+
+  let query = "SELECT id, thought_id, title, description, lat, lng, resolved_name, created_at FROM location";
+  const bindings: (string | number)[] = [];
+
+  if (thoughtId) {
+    query += " WHERE thought_id = ?";
+    bindings.push(parseInt(thoughtId, 10));
+  }
+
+  query += " ORDER BY created_at DESC";
+
+  const results = await c.env.DB.prepare(query).bind(...bindings).all();
+  return c.json({ locations: results.results });
 });
 
 // --- Framings ---

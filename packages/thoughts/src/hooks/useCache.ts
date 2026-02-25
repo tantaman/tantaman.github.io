@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { getThread, getTags, getTasks, getEvents, searchThoughts, getFramings, getFraming, getPostsManifest } from '../api';
+import { getThread, getTags, getTasks, getEvents, getLocations, searchThoughts, getFramings, getFraming, getPostsManifest } from '../api';
 
 export function useThread(id: number, secret?: string | null) {
   const authKey = secret ? 'a' : 'p';
@@ -27,6 +27,10 @@ export function useEvents(year: number, month: number) {
   const from = Date.UTC(year, month, 1) / 1000;
   const to = Date.UTC(month === 11 ? year + 1 : year, month === 11 ? 0 : month + 1, 1) / 1000;
   return useSWR(`events-${year}-${month}`, () => getEvents(from, to));
+}
+
+export function useLocations() {
+  return useSWR('locations', () => getLocations());
 }
 
 export function useFramings() {

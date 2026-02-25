@@ -10,6 +10,7 @@ import { EventsView } from './components/EventsView';
 import { SecretToggle } from './components/SecretToggle';
 import { FramingsListView } from './components/FramingsListView';
 import { FramingCanvasView } from './components/framing/FramingCanvasView';
+import { LocationsView } from './components/LocationsView';
 
 export const AuthContext = createContext<{
   secret: string | null;
@@ -21,6 +22,7 @@ function parseHash(): Route {
   if (hash === '#tasks') return { view: 'tasks' };
   if (hash === '#events') return { view: 'events' };
   if (hash === '#framings') return { view: 'framings' };
+  if (hash === '#locations') return { view: 'locations' };
   const framingMatch = hash.match(/^#framing-(\d+)$/);
   if (framingMatch) return { view: 'framing', id: parseInt(framingMatch[1], 10) };
   const threadMatch = hash.match(/^#thought-(\d+)$/);
@@ -67,6 +69,8 @@ export function App() {
             <FramingCanvasView id={route.id} />
           ) : route.view === 'framings' ? (
             <FramingsListView />
+          ) : route.view === 'locations' ? (
+            <LocationsView />
           ) : route.view === 'events' ? (
             <EventsView />
           ) : route.view === 'tasks' ? (

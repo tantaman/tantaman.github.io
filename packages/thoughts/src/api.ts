@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task, Event, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary } from './types';
+import type { Thought, Tag, Task, Event, Location, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -139,6 +139,14 @@ export function getEvents(
   if (from != null) params.push(`from=${from}`);
   if (to != null) params.push(`to=${to}`);
   if (params.length > 0) url += `?${params.join('&')}`;
+  return fetch(url).then((r) => r.json());
+}
+
+export function getLocations(
+  thoughtId?: number,
+): Promise<{ locations: Location[] }> {
+  let url = `${API}/locations`;
+  if (thoughtId != null) url += `?thought_id=${thoughtId}`;
   return fetch(url).then((r) => r.json());
 }
 

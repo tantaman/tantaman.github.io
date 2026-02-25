@@ -40,6 +40,17 @@ export interface Event {
   created_at: number;
 }
 
+export interface Location {
+  id: number;
+  thought_id: number;
+  title: string;
+  description: string | null;
+  lat: number | null;
+  lng: number | null;
+  resolved_name: string | null;
+  created_at: number;
+}
+
 export interface SearchResult extends Thought {
   score: number;
 }
@@ -109,4 +120,5 @@ export type Route =
   | { view: 'tasks' }
   | { view: 'events' }
   | { view: 'framings' }
-  | { view: 'framing'; id: number };
+  | { view: 'framing'; id: number }
+  | { view: 'locations' };

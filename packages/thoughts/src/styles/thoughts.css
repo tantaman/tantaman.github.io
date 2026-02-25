@@ -720,6 +720,10 @@
   overflow-y: auto;
 }
 
+.tags-sidebar-section + .tags-sidebar-section {
+  margin-top: 1.5rem;
+}
+
 .tags-sidebar-title {
   font-size: 0.85rem;
   font-weight: 600;
