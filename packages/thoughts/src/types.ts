@@ -114,6 +114,16 @@ export interface PostSummary {
   color: string | null;
 }
 
+export interface MediaItem {
+  key: string;
+  type: string;
+  name: string;
+  thought_id: number;
+  body: string;
+  timestamp: number;
+  color: string | null;
+}
+
 export type Route =
   | { view: 'feed' }
   | { view: 'thread'; id: number }
@@ -121,4 +131,5 @@ export type Route =
   | { view: 'events' }
   | { view: 'framings' }
   | { view: 'framing'; id: number }
-  | { view: 'locations' };
+  | { view: 'locations' }
+  | { view: 'media' };

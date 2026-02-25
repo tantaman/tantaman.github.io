@@ -649,6 +649,40 @@ api.get("/locations", async (c) => {
   return c.json({ locations: results.results });
 });
 
+// --- Media ---
+
+api.get("/media", async (c) => {
+  const limitParam = Math.min(parseInt(c.req.query("limit") || "50", 10) || 50, 200);
+  const offsetParam = parseInt(c.req.query("offset") || "0", 10) || 0;
+  const authed = isAuthed(c);
+  const privateFilter = authed ? "" : " AND t.private = 0";
+
+  const results = await c.env.DB.prepare(
+    `SELECT a.attachment_key, a.attachment_type, a.attachment_name, a.thought_id,
+       t.body, t.timestamp, t.color
+     FROM thought_attachment a
+     JOIN thought t ON t.id = a.thought_id
+     WHERE a.attachment_type LIKE 'image/%'${privateFilter}
+     ORDER BY t.timestamp DESC
+     LIMIT ? OFFSET ?`
+  ).bind(limitParam, offsetParam).all();
+
+  const hasMore = results.results.length === limitParam;
+
+  return c.json({
+    media: results.results.map((r) => ({
+      key: r.attachment_key as string,
+      type: r.attachment_type as string,
+      name: r.attachment_name as string,
+      thought_id: r.thought_id as number,
+      body: r.body as string,
+      timestamp: r.timestamp as number,
+      color: r.color as string | null,
+    })),
+    meta: { hasMore },
+  });
+});
+
 // --- Framings ---
 
 api.get("/framings", async (c) => {

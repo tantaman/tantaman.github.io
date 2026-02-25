@@ -1,5 +1,7 @@
 import useSWR from 'swr';
-import { getThread, getTags, getTasks, getEvents, getLocations, searchThoughts, getFramings, getFraming, getPostsManifest } from '../api';
+import useSWRInfinite from 'swr/infinite';
+import { getThread, getTags, getTasks, getEvents, getLocations, searchThoughts, getFramings, getFraming, getPostsManifest, getMedia } from '../api';
+import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
   const authKey = secret ? 'a' : 'p';
@@ -43,4 +45,30 @@ export function useFraming(id: number) {
 
 export function usePostsManifest() {
   return useSWR('posts-manifest', getPostsManifest);
+}
+
+const MEDIA_LIMIT = 50;
+
+interface MediaPage {
+  media: MediaItem[];
+  meta: { hasMore: boolean };
+}
+
+export function useMedia(secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  const { data, size, setSize } = useSWRInfinite<MediaPage>(
+    (pageIndex) => `media-${authKey}-page-${pageIndex}`,
+    (key) => {
+      const pageIndex = parseInt(key.split('-page-')[1], 10);
+      return getMedia(pageIndex * MEDIA_LIMIT, MEDIA_LIMIT, secret || undefined);
+    },
+    { persistSize: true },
+  );
+
+  const media = data ? data.flatMap((page) => page.media) : [];
+  const hasMore = data ? data[data.length - 1]?.meta.hasMore ?? false : false;
+  const loading = !data;
+  const loadMore = () => setSize(size + 1);
+
+  return { media, hasMore, loading, loadMore };
 }

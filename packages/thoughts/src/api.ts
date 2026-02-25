@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task, Event, Location, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary } from './types';
+import type { Thought, Tag, Task, Event, Location, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -152,6 +152,14 @@ export function getLocations(
 
 export function attachmentUrl(key: string): string {
   return `${API}/attachments/${key}`;
+}
+
+export function getMedia(
+  offset: number,
+  limit: number,
+  secret?: string,
+): Promise<{ media: MediaItem[]; meta: { hasMore: boolean } }> {
+  return fetch(`${API}/media?limit=${limit}&offset=${offset}`, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 
 // --- Framings API ---
