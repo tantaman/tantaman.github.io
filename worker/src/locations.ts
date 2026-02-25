@@ -5,6 +5,30 @@ export interface LocationDef {
   description: string | null;
 }
 
+export async function geocodeLocation(
+  title: string,
+  mapboxToken: string,
+): Promise<{ lat: number; lng: number; resolvedName: string } | null> {
+  try {
+    const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(title)}&access_token=${mapboxToken}&limit=1`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const data = await res.json() as {
+      features?: Array<{
+        geometry: { coordinates: [number, number] };
+        properties: { full_address?: string; name?: string };
+      }>;
+    };
+    const feature = data.features?.[0];
+    if (!feature) return null;
+    const [lng, lat] = feature.geometry.coordinates;
+    const resolvedName = feature.properties.full_address || feature.properties.name || title;
+    return { lat, lng, resolvedName };
+  } catch {
+    return null;
+  }
+}
+
 export const LOCATION_RE = /^#l\s+(.+)/i;
 
 export function extractLocations(body: string): LocationDef[] {

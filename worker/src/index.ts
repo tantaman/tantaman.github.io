@@ -4,7 +4,7 @@ import { StreamableHTTPTransport } from "@hono/mcp";
 import { ZodError } from "zod";
 import { extractEvents } from "./events";
 import { extractTasks } from "./tasks";
-import { extractLocations } from "./locations";
+import { extractLocations, geocodeLocation } from "./locations";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
@@ -32,6 +32,7 @@ export interface Env {
   VECTORIZE: Vectorize;
   THOUGHT_SECRET: string;
   DHA_SECRET: string;
+  MAPBOX_TOKEN: string;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -441,9 +442,10 @@ api.post("/thoughts", async (c) => {
 
   const locations = extractLocations(trimmed);
   for (const loc of locations) {
+    const geo = await geocodeLocation(loc.title, c.env.MAPBOX_TOKEN);
     await c.env.DB.prepare(
-      "INSERT INTO location (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
-    ).bind(thoughtId, loc.title, loc.description, timestamp).run();
+      "INSERT INTO location (thought_id, title, description, lat, lng, resolved_name, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    ).bind(thoughtId, loc.title, loc.description, geo?.lat ?? null, geo?.lng ?? null, geo?.resolvedName ?? null, timestamp).run();
   }
 
   const attachments: { key: string; type: string; name: string }[] = [];

@@ -1,5 +1,5 @@
-import { describe, test, expect } from 'vitest';
-import { extractLocations, LOCATION_RE } from './locations';
+import { describe, test, expect, vi, afterEach } from 'vitest';
+import { extractLocations, LOCATION_RE, geocodeLocation } from './locations';
 
 describe('extractLocations', () => {
   test('single location, no description', () => {
@@ -52,6 +52,72 @@ describe('extractLocations', () => {
     const locations = extractLocations('#L Central Park, NYC');
     expect(locations).toHaveLength(1);
     expect(locations[0].title).toBe('Central Park, NYC');
+  });
+});
+
+describe('geocodeLocation', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test('successful geocode returns lat/lng/resolvedName', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        features: [{
+          geometry: { coordinates: [-75.1652, 39.9526] },
+          properties: { full_address: 'Pizzeria Beddia, Philadelphia, PA, USA', name: 'Pizzeria Beddia' },
+        }],
+      }),
+    }));
+
+    const result = await geocodeLocation('Pizzeria Beddia, Philadelphia', 'test-token');
+    expect(result).toEqual({
+      lat: 39.9526,
+      lng: -75.1652,
+      resolvedName: 'Pizzeria Beddia, Philadelphia, PA, USA',
+    });
+  });
+
+  test('uses name when full_address is missing', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        features: [{
+          geometry: { coordinates: [-75.1652, 39.9526] },
+          properties: { name: 'Pizzeria Beddia' },
+        }],
+      }),
+    }));
+
+    const result = await geocodeLocation('Pizzeria Beddia', 'test-token');
+    expect(result?.resolvedName).toBe('Pizzeria Beddia');
+  });
+
+  test('empty features array returns null', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ features: [] }),
+    }));
+
+    const result = await geocodeLocation('asdfghjkl', 'test-token');
+    expect(result).toBeNull();
+  });
+
+  test('non-ok response returns null', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: false,
+    }));
+
+    const result = await geocodeLocation('anywhere', 'bad-token');
+    expect(result).toBeNull();
+  });
+
+  test('fetch error returns null', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network error')));
+
+    const result = await geocodeLocation('anywhere', 'test-token');
+    expect(result).toBeNull();
   });
 });
 
