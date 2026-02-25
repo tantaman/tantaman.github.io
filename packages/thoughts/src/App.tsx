@@ -12,6 +12,8 @@ import { FramingsListView } from './components/FramingsListView';
 import { FramingCanvasView } from './components/framing/FramingCanvasView';
 import { LocationsView } from './components/LocationsView';
 import { MediaView } from './components/MediaView';
+import { MoviesView } from './components/MoviesView';
+import { BooksView } from './components/BooksView';
 
 export const AuthContext = createContext<{
   secret: string | null;
@@ -25,6 +27,8 @@ function parseHash(): Route {
   if (hash === '#framings') return { view: 'framings' };
   if (hash === '#locations') return { view: 'locations' };
   if (hash === '#media') return { view: 'media' };
+  if (hash === '#movies') return { view: 'movies' };
+  if (hash === '#books') return { view: 'books' };
   const framingMatch = hash.match(/^#framing-(\d+)$/);
   if (framingMatch) return { view: 'framing', id: parseInt(framingMatch[1], 10) };
   const threadMatch = hash.match(/^#thought-(\d+)$/);
@@ -73,6 +77,10 @@ export function App() {
             <FramingsListView />
           ) : route.view === 'media' ? (
             <MediaView />
+          ) : route.view === 'movies' ? (
+            <MoviesView />
+          ) : route.view === 'books' ? (
+            <BooksView />
           ) : route.view === 'locations' ? (
             <LocationsView />
           ) : route.view === 'events' ? (

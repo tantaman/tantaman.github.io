@@ -10,11 +10,14 @@ export function Sidebar({ route }: { route: Route }) {
           history.pushState(null, '', location.pathname);
           window.dispatchEvent(new HashChangeEvent('hashchange'));
         }}>Thoughts</a>
-        <a href="#tasks" className={`thoughts-nav-link${route.view === 'tasks' ? ' active' : ''}`}>Tasks</a>
-        <a href="#events" className={`thoughts-nav-link${route.view === 'events' ? ' active' : ''}`}>Events</a>
         <a href="#media" className={`thoughts-nav-link${route.view === 'media' ? ' active' : ''}`}>Media</a>
-        <a href="#framings" className={`thoughts-nav-link${route.view === 'framings' ? ' active' : ''}`}>Framings</a>
-        <a href="#locations" className={`thoughts-nav-link${route.view === 'locations' ? ' active' : ''}`}>Locations</a>
+        <a href="#framings" className={`thoughts-nav-link${route.view === 'framings' || route.view === 'framing' ? ' active' : ''}`}>Framings</a>
+        <hr className="thoughts-nav-divider" />
+        <a href="#tasks" className={`thoughts-nav-link${route.view === 'tasks' ? ' active' : ''}`}>Tasks <span className="nav-tag-pill">#t</span></a>
+        <a href="#events" className={`thoughts-nav-link${route.view === 'events' ? ' active' : ''}`}>Events <span className="nav-tag-pill">#e</span></a>
+        <a href="#locations" className={`thoughts-nav-link${route.view === 'locations' ? ' active' : ''}`}>Locations <span className="nav-tag-pill">#l</span></a>
+        <a href="#books" className={`thoughts-nav-link${route.view === 'books' ? ' active' : ''}`}>Books <span className="nav-tag-pill">#b</span></a>
+        <a href="#movies" className={`thoughts-nav-link${route.view === 'movies' ? ' active' : ''}`}>Movies <span className="nav-tag-pill">#m</span></a>
       </nav>
     </aside>
   );

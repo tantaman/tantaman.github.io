@@ -78,6 +78,19 @@ input[type="checkbox"]:disabled {
   letter-spacing: 0.02em;
 }
 
+.thoughts-nav-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0.25rem 0.75rem;
+}
+
+.nav-tag-pill {
+  font-size: 0.75em;
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin-left: 0.25rem;
+}
+
 .thoughts-nav-link:hover {
   color: var(--text);
   background: var(--bg-soft);
@@ -1215,6 +1228,14 @@ input[type="checkbox"]:disabled {
     white-space: nowrap;
     padding: 0.4rem 0.75rem;
     font-size: 0.9rem;
+  }
+
+  .thoughts-nav-divider {
+    border: none;
+    border-left: 1px solid var(--border);
+    margin: 0.25rem 0;
+    width: 0;
+    align-self: stretch;
   }
 
   .thoughts-feed {
