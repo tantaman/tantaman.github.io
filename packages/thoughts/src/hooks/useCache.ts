@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getTags, getTasks, getEvents, getLocations, getMovies, getBooks, searchThoughts, getFramings, getFraming, getPostsManifest, getMedia } from '../api';
+import { getThread, getTags, getTasks, getEvents, getLocations, getMovies, getBooks, searchThoughts, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -49,6 +49,11 @@ export function useFramings() {
 
 export function useFraming(id: number) {
   return useSWR(`framing-${id}`, () => getFraming(id));
+}
+
+export function useThoughtGraph(secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  return useSWR(`thought-graph-${authKey}`, () => getThoughtGraph(secret || undefined));
 }
 
 export function usePostsManifest() {

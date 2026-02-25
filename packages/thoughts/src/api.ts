@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task, Event, Location, Movie, Book, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem } from './types';
+import type { Thought, Tag, Task, Event, Location, Movie, Book, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -189,6 +189,10 @@ export function getMedia(
   secret?: string,
 ): Promise<{ media: MediaItem[]; meta: { hasMore: boolean } }> {
   return fetch(`${API}/media?limit=${limit}&offset=${offset}`, { headers: authHeaders(secret) }).then((r) => r.json());
+}
+
+export function getThoughtGraph(secret?: string): Promise<GraphResponse> {
+  return fetch(`${API}/thoughts/graph`, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 
 // --- Framings API ---

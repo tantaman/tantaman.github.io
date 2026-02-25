@@ -140,6 +140,11 @@ export interface MediaItem {
   color: string | null;
 }
 
+export interface GraphResponse {
+  thoughts: Thought[];
+  embeddings: Record<string, number[]>;
+}
+
 export type Route =
   | { view: 'feed' }
   | { view: 'thread'; id: number }
@@ -150,4 +155,5 @@ export type Route =
   | { view: 'locations' }
   | { view: 'media' }
   | { view: 'movies' }
-  | { view: 'books' };
+  | { view: 'books' }
+  | { view: 'graph' };

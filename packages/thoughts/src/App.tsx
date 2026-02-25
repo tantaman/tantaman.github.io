@@ -14,6 +14,7 @@ import { LocationsView } from './components/LocationsView';
 import { MediaView } from './components/MediaView';
 import { MoviesView } from './components/MoviesView';
 import { BooksView } from './components/BooksView';
+import { ThoughtGraph } from './components/ThoughtGraph';
 
 export const AuthContext = createContext<{
   secret: string | null;
@@ -24,6 +25,7 @@ function parseHash(): Route {
   const hash = location.hash;
   if (hash === '#tasks') return { view: 'tasks' };
   if (hash === '#events') return { view: 'events' };
+  if (hash === '#graph') return { view: 'graph' };
   if (hash === '#framings') return { view: 'framings' };
   if (hash === '#locations') return { view: 'locations' };
   if (hash === '#media') return { view: 'media' };
@@ -71,7 +73,9 @@ export function App() {
     <SWRProvider>
       <AuthContext.Provider value={{ secret, updateSecret }}>
         <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag} selectedFraming={selectedFraming} selectFraming={selectFraming}>
-          {route.view === 'framing' ? (
+          {route.view === 'graph' ? (
+            <ThoughtGraph />
+          ) : route.view === 'framing' ? (
             <FramingCanvasView id={route.id} />
           ) : route.view === 'framings' ? (
             <FramingsListView />

@@ -28,7 +28,7 @@ function linkThoughts(html: string): string {
   return html.replace(/(>[^<]*)/g, (segment) => {
     return segment.replace(
       /\[\[(\d+)\]\]/g,
-      '<a href="#thought-$1" class="thought-link">thought #$1</a>',
+      '<a href="#thought-$1" class="thought-link">i$1</a>',
     );
   });
 }
