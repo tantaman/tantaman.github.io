@@ -2,8 +2,11 @@
 title: 'The Honest Record'
 tags: [religion, philosophy, politics]
 concern: [power, knowledge]
+image: /img/el-greco-christ-driving-money-changers.jpg
 summary: "The Bible's honest multi-millennial record of institutional power dynamics constitutes a more durable structural critique than any deliberate political theory, precisely because narratives resist capture in ways that formalized theories cannot."
 ---
+
+![](/img/el-greco-christ-driving-money-changers.jpg)
 
 ## Why the Bible Is the Best Structural Critique Ever Written — And Nobody Meant It to Be
 
