@@ -45,6 +45,14 @@ export function MoviesView() {
                   <span className="movie-title">{movie.title}</span>
                 )}
                 {movie.year && <span className="movie-year">{movie.year}</span>}
+                {movie.vote_average != null && movie.vote_average > 0 && (
+                  <span className="movie-rating">
+                    {movie.vote_average.toFixed(1)}/10
+                    {movie.vote_count != null && movie.vote_count > 0 && (
+                      <> ({movie.vote_count.toLocaleString()} votes)</>
+                    )}
+                  </span>
+                )}
                 {movie.description && (
                   <span className="movie-description">{movie.description}</span>
                 )}

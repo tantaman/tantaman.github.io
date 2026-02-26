@@ -1944,6 +1944,11 @@ a.movie-title:hover {
   color: var(--text-muted);
 }
 
+.movie-rating {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
 .movie-description {
   font-size: 0.75rem;
   color: var(--text-muted);

@@ -59,6 +59,8 @@ export interface Movie {
   poster_url: string | null;
   year: string | null;
   tmdb_id: number | null;
+  vote_average: number | null;
+  vote_count: number | null;
   created_at: number;
 }
 

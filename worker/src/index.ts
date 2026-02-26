@@ -510,8 +510,8 @@ api.post("/thoughts", async (c) => {
   for (const movie of movies) {
     const meta = c.env.TMDB_API_KEY ? await lookupMovie(movie.title, c.env.TMDB_API_KEY) : null;
     await c.env.DB.prepare(
-      "INSERT INTO movie (thought_id, title, description, poster_url, year, tmdb_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
-    ).bind(thoughtId, movie.title, movie.description, meta?.posterUrl ?? null, meta?.year ?? null, meta?.tmdbId ?? null, timestamp).run();
+      "INSERT INTO movie (thought_id, title, description, poster_url, year, tmdb_id, vote_average, vote_count, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    ).bind(thoughtId, movie.title, movie.description, meta?.posterUrl ?? null, meta?.year ?? null, meta?.tmdbId ?? null, meta?.voteAverage ?? null, meta?.voteCount ?? null, timestamp).run();
   }
 
   const books = extractBooks(trimmed);
@@ -764,7 +764,7 @@ api.post("/locations/:id/geocode", async (c) => {
 api.get("/movies", async (c) => {
   const thoughtId = c.req.query("thought_id");
 
-  let query = "SELECT id, thought_id, title, description, poster_url, year, tmdb_id, created_at FROM movie";
+  let query = "SELECT id, thought_id, title, description, poster_url, year, tmdb_id, vote_average, vote_count, created_at FROM movie";
   const bindings: (string | number)[] = [];
 
   if (thoughtId) {
@@ -797,8 +797,8 @@ api.post("/movies/backfill", async (c) => {
     const meta = await lookupMovie(row.title as string, c.env.TMDB_API_KEY);
     if (meta) {
       await c.env.DB.prepare(
-        "UPDATE movie SET poster_url = ?, year = ?, tmdb_id = ? WHERE id = ?"
-      ).bind(meta.posterUrl, meta.year, meta.tmdbId, row.id).run();
+        "UPDATE movie SET poster_url = ?, year = ?, tmdb_id = ?, vote_average = ?, vote_count = ? WHERE id = ?"
+      ).bind(meta.posterUrl, meta.year, meta.tmdbId, meta.voteAverage, meta.voteCount, row.id).run();
       updated++;
     }
   }
