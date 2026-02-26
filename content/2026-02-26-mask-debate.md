@@ -11,6 +11,32 @@ image: '/img/ensor-self-portrait-with-masks.jpg'
 
 ![James Ensor — Self-Portrait with Masks (1899)](/img/ensor-self-portrait-with-masks.jpg)
 
+I saw this on twitter the other day:
+
+> Philosopher Slavoj Žižek on why searching for your "true self" is a mistake:
+> 
+> Žižek argues that the pursuit of a true inner self is ultimately misguided. Deep introspection, he suggests, often reveals only disturbing or chaotic fantasies.
+> 
+> "Don't look for your inner self. You'll only find deep shit."
+> 
+> Instead of searching for an authentic core, Žižek believes genuine personal growth comes from embracing an external mask, a chosen social role.
+> 
+> "The only way to overcome yourself is to identify with your mask."
+> 
+> To illustrate this, he references the 1960 Rossellini film General Della Rovere.
+> 
+> The film tells the story of a poor man in occupied Italy who is caught by the Nazis. Because he resembles a famous resistance leader, General Della Rovere, the Nazis, who have already killed the real General, force him to pretend to be the General in prison to trick the resistance.
+> 
+> But something unexpected happens. The man identifies so deeply with the role that he refuses to cooperate with the Nazis. He is ultimately shot publicly as General Della Rovere.
+> 
+> Žižek calls this "good alienation." The man's "real self" as a poor beggar mattered less than his complete identification with the heroic persona. Through that total commitment to an outward role, he achieved a kind of moral greatness his "authentic" self never could.
+> 
+> The takeaway is counterintuitive but powerful: true freedom doesn't emerge from endlessly excavating your private, internal world. It emerges when you prioritise your outward actions and commitments. When you fully commit to becoming something greater than what you started as.
+> 
+> What matters is what you choose to embody.
+
+Yes-ish. But your new mask inevitably becomes your new cage. And "identifying with" anything is always the first step to despair.
+
 ---
 
 The venue is a cramped auditorium at a mid-tier European university. The heating is broken. Žižek has already consumed two Coca-Colas before the moderator finishes introductions. There is no moderator for long.
