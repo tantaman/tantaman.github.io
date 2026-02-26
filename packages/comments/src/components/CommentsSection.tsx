@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'preact/hooks';
 import type { Comment, Commenter } from '../types';
 import { fetchComments, createComment, deleteComment, checkSession } from '../api';
-import { getVisitorId, getCommenter, getSessionToken, clearSession } from '../auth';
+import { getVisitorId, getCommenter, getSessionToken, getAdminSecret, clearSession } from '../auth';
 import { CommentThread } from './CommentThread';
 import { CommentForm } from './CommentForm';
 import { AuthModal } from './AuthModal';
@@ -33,14 +33,18 @@ export function CommentsSection({ slug }: Props) {
     loadComments();
   }, [loadComments]);
 
+  const isAdmin = !!getAdminSecret();
+
   // Validate session on mount
   useEffect(() => {
     if (!getSessionToken()) return;
     checkSession()
       .then((data) => setCommenter(data.commenter))
       .catch(() => {
-        clearSession();
-        setCommenter(null);
+        if (!isAdmin) {
+          clearSession();
+          setCommenter(null);
+        }
       });
   }, []);
 
@@ -50,7 +54,7 @@ export function CommentsSection({ slug }: Props) {
   };
 
   const handleSubmitComment = async (body: string) => {
-    if (!commenter) {
+    if (!commenter && !isAdmin) {
       setShowAuth(true);
       return;
     }
@@ -59,7 +63,7 @@ export function CommentsSection({ slug }: Props) {
   };
 
   const handleSubmitReply = async (body: string, parentId: number) => {
-    if (!commenter) {
+    if (!commenter && !isAdmin) {
       setShowAuth(true);
       return;
     }
@@ -75,7 +79,7 @@ export function CommentsSection({ slug }: Props) {
   };
 
   const handleReply = (commentId: number) => {
-    if (!commenter) {
+    if (!commenter && !isAdmin) {
       setShowAuth(true);
       return;
     }
@@ -93,12 +97,14 @@ export function CommentsSection({ slug }: Props) {
     <div class="comments-section-container">
       <div class="comments-section-header">
         <h2>Comments</h2>
-        {commenter ? (
+        {commenter || isAdmin ? (
           <div class="comments-user-info">
-            <span>{commenter.display_name}</span>
-            <button type="button" class="comments-action-btn" onClick={handleLogout}>
-              Log out
-            </button>
+            <span>{commenter?.display_name ?? 'tantaman'}</span>
+            {!isAdmin && (
+              <button type="button" class="comments-action-btn" onClick={handleLogout}>
+                Log out
+              </button>
+            )}
           </div>
         ) : (
           <button type="button" class="comments-btn-secondary" onClick={() => setShowAuth(true)}>
@@ -107,7 +113,7 @@ export function CommentsSection({ slug }: Props) {
         )}
       </div>
 
-      {commenter ? (
+      {commenter || isAdmin ? (
         <CommentForm onSubmit={handleSubmitComment} />
       ) : (
         <button
@@ -125,6 +131,7 @@ export function CommentsSection({ slug }: Props) {
           parentId={null}
           depth={0}
           currentUserId={commenter?.id ?? null}
+          isAdmin={isAdmin}
           replyingTo={replyingTo}
           onReply={handleReply}
           onCancelReply={() => setReplyingTo(null)}

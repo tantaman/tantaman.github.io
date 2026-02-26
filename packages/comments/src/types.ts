@@ -6,6 +6,7 @@ export interface Comment {
   parent_id: number | null;
   body: string | null;
   deleted: boolean;
+  is_owner: boolean;
   created_at: number;
 }
 
@@ -13,6 +14,7 @@ export interface Commenter {
   id: number;
   display_name: string;
   email: string;
+  is_owner?: boolean;
 }
 
 export interface LikeState {

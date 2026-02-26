@@ -9,6 +9,8 @@ import {
 
 export const comments = new Hono<{ Bindings: Env }>();
 
+const OWNER_NAME = "tantaman";
+
 function isAuthed(c: { req: { header: (name: string) => string | undefined }; env: { THOUGHT_SECRET: string } }): boolean {
   const auth = c.req.header("Authorization");
   return auth === `Bearer ${c.env.THOUGHT_SECRET}`;
@@ -31,6 +33,21 @@ async function getSessionCommenter(
     .bind(token, now)
     .first<{ id: number; email: string; display_name: string }>();
   return row ?? null;
+}
+
+async function getOrCreateOwnerCommenter(db: D1Database): Promise<number> {
+  const existing = await db
+    .prepare("SELECT id FROM commenter WHERE display_name = ?")
+    .bind(OWNER_NAME)
+    .first<{ id: number }>();
+  if (existing) return existing.id;
+
+  const now = Math.floor(Date.now() / 1000);
+  const result = await db
+    .prepare("INSERT INTO commenter (email, display_name, created_at) VALUES (?, ?, ?)")
+    .bind("owner@tantaman.com", OWNER_NAME, now)
+    .run();
+  return result.meta.last_row_id as number;
 }
 
 function generateOtp(): string {
@@ -70,6 +87,7 @@ comments.get("/:slug", async (c) => {
     parent_id: r.parent_id,
     body: r.deleted_at ? null : r.body,
     deleted: r.deleted_at != null,
+    is_owner: r.commenter_name === OWNER_NAME,
     created_at: r.created_at,
   }));
 
@@ -136,15 +154,29 @@ comments.post("/:slug/like", async (c) => {
   });
 });
 
-// POST /comments/:slug — create comment (requires session)
+// POST /comments/:slug — create comment (requires session or THOUGHT_SECRET)
 comments.post("/:slug", async (c) => {
   const slug = c.req.param("slug");
-  const commenter = await getSessionCommenter(
-    c.env.DB,
-    c.req.header("Authorization"),
-  );
-  if (!commenter) {
-    return c.json({ error: "Unauthorized" }, 401);
+
+  let commenterId: number;
+  let commenterName: string;
+  let ownerComment = false;
+
+  // Admin (site owner) can comment directly with THOUGHT_SECRET
+  if (isAuthed(c)) {
+    commenterId = await getOrCreateOwnerCommenter(c.env.DB);
+    commenterName = OWNER_NAME;
+    ownerComment = true;
+  } else {
+    const commenter = await getSessionCommenter(
+      c.env.DB,
+      c.req.header("Authorization"),
+    );
+    if (!commenter) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+    commenterId = commenter.id;
+    commenterName = commenter.display_name;
   }
 
   const { body, parent_id } = CreateCommentBody.parse(await c.req.json());
@@ -165,18 +197,19 @@ comments.post("/:slug", async (c) => {
   const result = await c.env.DB.prepare(
     "INSERT INTO comment (slug, commenter_id, parent_id, body, created_at) VALUES (?, ?, ?, ?, ?)",
   )
-    .bind(slug, commenter.id, parent_id ?? null, body, now)
+    .bind(slug, commenterId, parent_id ?? null, body, now)
     .run();
 
   return c.json(
     {
       id: result.meta.last_row_id,
       slug,
-      commenter_id: commenter.id,
-      commenter_name: commenter.display_name,
+      commenter_id: commenterId,
+      commenter_name: commenterName,
       parent_id: parent_id ?? null,
       body,
       deleted: false,
+      is_owner: ownerComment,
       created_at: now,
     },
     201,
@@ -289,6 +322,12 @@ comments.post("/auth/verify-otp", async (c) => {
     return c.json({ error: "Invalid or expired code" }, 400);
   }
 
+  // Reserve owner name
+  const requestedName = display_name?.trim().toLowerCase();
+  if (requestedName === OWNER_NAME) {
+    return c.json({ error: "That display name is reserved" }, 400);
+  }
+
   // Mark OTP as used
   await c.env.DB.prepare("UPDATE otp SET used = 1 WHERE id = ?")
     .bind(otp.id)
@@ -317,6 +356,9 @@ comments.post("/auth/verify-otp", async (c) => {
     }
   } else {
     const name = display_name || email.split("@")[0];
+    if (name.toLowerCase() === OWNER_NAME) {
+      return c.json({ error: "That display name is reserved" }, 400);
+    }
     const result = await c.env.DB.prepare(
       "INSERT INTO commenter (email, display_name, created_at) VALUES (?, ?, ?)",
     )
@@ -347,6 +389,19 @@ comments.post("/auth/verify-otp", async (c) => {
 
 // GET /comments/auth/me — check session validity
 comments.get("/auth/me", async (c) => {
+  // Admin auth via THOUGHT_SECRET
+  if (isAuthed(c)) {
+    const ownerId = await getOrCreateOwnerCommenter(c.env.DB);
+    return c.json({
+      commenter: {
+        id: ownerId,
+        display_name: OWNER_NAME,
+        email: "owner@tantaman.com",
+        is_owner: true,
+      },
+    });
+  }
+
   const commenter = await getSessionCommenter(
     c.env.DB,
     c.req.header("Authorization"),
@@ -359,6 +414,7 @@ comments.get("/auth/me", async (c) => {
       id: commenter.id,
       display_name: commenter.display_name,
       email: commenter.email,
+      is_owner: false,
     },
   });
 });

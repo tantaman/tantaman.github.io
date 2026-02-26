@@ -3,6 +3,7 @@ import type { Comment } from '../types';
 interface Props {
   comment: Comment;
   currentUserId: number | null;
+  isAdmin: boolean;
   onReply: (commentId: number) => void;
   onDelete: (commentId: number) => void;
 }
@@ -17,7 +18,7 @@ function timeAgo(epoch: number): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-export function CommentItem({ comment, currentUserId, onReply, onDelete }: Props) {
+export function CommentItem({ comment, currentUserId, isAdmin, onReply, onDelete }: Props) {
   if (comment.deleted) {
     return (
       <div class="comments-item comments-item-deleted">
@@ -26,10 +27,14 @@ export function CommentItem({ comment, currentUserId, onReply, onDelete }: Props
     );
   }
 
+  const canDelete = isAdmin || currentUserId === comment.commenter_id;
+
   return (
     <div class="comments-item">
       <div class="comments-item-header">
-        <span class="comments-item-name">{comment.commenter_name}</span>
+        <span class={`comments-item-name ${comment.is_owner ? 'comments-item-owner' : ''}`}>
+          {comment.commenter_name}
+        </span>
         <span class="comments-item-time">{timeAgo(comment.created_at)}</span>
       </div>
       <p class="comments-item-body">{comment.body}</p>
@@ -37,7 +42,7 @@ export function CommentItem({ comment, currentUserId, onReply, onDelete }: Props
         <button type="button" class="comments-action-btn" onClick={() => onReply(comment.id)}>
           Reply
         </button>
-        {currentUserId === comment.commenter_id && (
+        {canDelete && (
           <button type="button" class="comments-action-btn comments-action-delete" onClick={() => onDelete(comment.id)}>
             Delete
           </button>

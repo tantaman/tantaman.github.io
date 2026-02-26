@@ -199,6 +199,10 @@
   font-size: 0.875rem;
 }
 
+.comments-item-owner {
+  color: #d97706;
+}
+
 .comments-item-time {
   font-size: 0.75rem;
   color: var(--text-muted);

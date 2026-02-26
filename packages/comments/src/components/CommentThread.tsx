@@ -9,6 +9,7 @@ interface Props {
   parentId: number | null;
   depth: number;
   currentUserId: number | null;
+  isAdmin: boolean;
   replyingTo: number | null;
   onReply: (commentId: number) => void;
   onCancelReply: () => void;
@@ -21,6 +22,7 @@ export function CommentThread({
   parentId,
   depth,
   currentUserId,
+  isAdmin,
   replyingTo,
   onReply,
   onCancelReply,
@@ -39,6 +41,7 @@ export function CommentThread({
           <CommentItem
             comment={comment}
             currentUserId={currentUserId}
+            isAdmin={isAdmin}
             onReply={onReply}
             onDelete={onDelete}
           />
@@ -57,6 +60,7 @@ export function CommentThread({
             parentId={comment.id}
             depth={depth + 1}
             currentUserId={currentUserId}
+            isAdmin={isAdmin}
             replyingTo={replyingTo}
             onReply={onReply}
             onCancelReply={onCancelReply}

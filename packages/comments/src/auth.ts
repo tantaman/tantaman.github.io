@@ -3,9 +3,15 @@ import type { Commenter } from './types';
 const SESSION_KEY = 'comments_session_token';
 const COMMENTER_KEY = 'comments_commenter';
 const VISITOR_KEY = 'comments_visitor_id';
+const ADMIN_SECRET_KEY = 'thought-secret';
+
+export function getAdminSecret(): string | null {
+  return localStorage.getItem(ADMIN_SECRET_KEY);
+}
 
 export function getSessionToken(): string | null {
-  return localStorage.getItem(SESSION_KEY);
+  // Admin secret takes precedence
+  return getAdminSecret() || localStorage.getItem(SESSION_KEY);
 }
 
 export function setSession(token: string, commenter: Commenter): void {
