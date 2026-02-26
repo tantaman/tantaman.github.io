@@ -164,8 +164,8 @@ export function useFramingCanvas(framingId: number) {
     if (!data) return;
     const rfNodes = data.nodes
       .map((n) => framingNodeToRFNode(n, handleRemoveNode, postsMap))
-      .filter((n): n is Node => n !== null);
-    setNodes(rfNodes);
+      .filter((n): n is Node<ThoughtNodeData | PostNodeData> => n !== null);
+    setNodes(rfNodes as Node[]);
     setEdges(data.edges.map((e) => framingEdgeToRFEdge(e, handleLabelChange)));
   }, [data, handleRemoveNode, handleLabelChange, postsMap]);
 
