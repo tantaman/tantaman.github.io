@@ -67,9 +67,11 @@ async function loadFont(kv: KVNamespace): Promise<ArrayBuffer> {
   return fontData;
 }
 
-async function fetchManifest(kv: KVNamespace): Promise<ManifestEntry[]> {
-  const cached = await kv.get(MANIFEST_KV_KEY, "json");
-  if (cached) return cached as ManifestEntry[];
+async function fetchManifest(kv: KVNamespace, bypassCache = false): Promise<ManifestEntry[]> {
+  if (!bypassCache) {
+    const cached = await kv.get(MANIFEST_KV_KEY, "json");
+    if (cached) return cached as ManifestEntry[];
+  }
 
   const resp = await fetch(`${SITE_URL}/posts-manifest.json`);
   if (!resp.ok) throw new Error(`Failed to fetch manifest: ${resp.status}`);
@@ -274,9 +276,13 @@ igCard.get("/:slug", async (c) => {
     });
   }
 
-  // Fetch manifest and find post
-  const manifest = await fetchManifest(c.env.EMBEDDINGS);
-  const entry = manifest.find((p) => p.slug === slug);
+  // Fetch manifest and find post (retry with fresh manifest on cache miss)
+  let manifest = await fetchManifest(c.env.EMBEDDINGS);
+  let entry = manifest.find((p) => p.slug === slug);
+  if (!entry) {
+    manifest = await fetchManifest(c.env.EMBEDDINGS, true);
+    entry = manifest.find((p) => p.slug === slug);
+  }
   if (!entry) {
     return c.json({ error: "Post not found" }, 404);
   }
