@@ -15,6 +15,7 @@ import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./em
 import { dha } from "./dha";
 import { posts } from "./posts";
 import { comments } from "./comments";
+import { igCard } from "./ig-card";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -92,7 +93,7 @@ api.use("*", async (c, next) => {
 
   // Skip non-API routes (attachments have their own cache headers, MCP is not cacheable)
   const path = c.req.path;
-  if (path.startsWith("/api/attachments/") || path.startsWith("/api/dha/") || path.startsWith("/api/comments/") || path === "/api/mcp" || path === "/api" || path === "/api/") {
+  if (path.startsWith("/api/attachments/") || path.startsWith("/api/dha/") || path.startsWith("/api/comments/") || path.startsWith("/api/ig-card/") || path === "/api/mcp" || path === "/api" || path === "/api/") {
     return next();
   }
 
@@ -1192,6 +1193,7 @@ api.get("/attachments/*", async (c) => {
 api.route("/dha", dha);
 api.route("/posts", posts);
 api.route("/comments", comments);
+api.route("/ig-card", igCard);
 
 // Mount API routes
 app.route("/api", api);
