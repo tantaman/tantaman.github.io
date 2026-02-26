@@ -37,6 +37,23 @@
         toggleTheme();
       }
     });
+
+    // Settings gear menu toggle
+    document.querySelectorAll('.settings-menu-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var menu = btn.closest('.settings-menu');
+        menu.classList.toggle('open');
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      document.querySelectorAll('.settings-menu.open').forEach(function(menu) {
+        if (!menu.contains(e.target)) {
+          menu.classList.remove('open');
+        }
+      });
+    });
   });
 
   // Listen for OS preference changes (only if no manual override)

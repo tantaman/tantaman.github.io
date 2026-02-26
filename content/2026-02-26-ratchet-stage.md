@@ -1,4 +1,12 @@
-# The Ratchet: Capital, Complexity, and the Gravity of Power
+---
+title: 'The Ratchet: Capital, Complexity, and the Gravity of Power'
+tags: [history, politics]
+concern: [power]
+summary: "Power and capital follow natural law"
+image: '/img/piranesi-gothic-arch.jpg'
+---
+
+![Giovanni Battista Piranesi — The Gothic Arch, from Carceri d'Invenzione, Second Edition (1761)](/img/piranesi-gothic-arch.jpg)
 
 There is a pattern so persistent across civilizations, ecosystems, and scales of organization that calling it a *tendency* understates it. It may be closer to a law.
 
