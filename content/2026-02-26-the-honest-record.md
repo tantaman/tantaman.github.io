@@ -5,8 +5,6 @@ concern: [power, knowledge]
 summary: "The Bible's honest multi-millennial record of institutional power dynamics constitutes a more durable structural critique than any deliberate political theory, precisely because narratives resist capture in ways that formalized theories cannot."
 ---
 
-# The Honest Record
-
 ## Why the Bible Is the Best Structural Critique Ever Written — And Nobody Meant It to Be
 
 Here's something that should bother anyone who's dismissed the Bible as ancient mythology: it contains a more accurate, more durable analysis of how power works than anything Marx, Foucault, or any political theorist has ever produced. And the most likely explanation for this is the most mundane one imaginable.
