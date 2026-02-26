@@ -1959,6 +1959,21 @@ a.movie-title:hover {
   overflow: hidden;
 }
 
+.movie-poster-link {
+  display: block;
+  text-decoration: none;
+}
+
+.movie-reply-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.movie-reply-count:hover {
+  color: var(--accent);
+}
+
 @media (max-width: 768px) {
   .movies-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));

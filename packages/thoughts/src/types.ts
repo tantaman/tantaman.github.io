@@ -61,6 +61,7 @@ export interface Movie {
   tmdb_id: number | null;
   vote_average: number | null;
   vote_count: number | null;
+  reply_count: number;
   created_at: number;
 }
 

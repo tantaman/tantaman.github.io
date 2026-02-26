@@ -764,15 +764,15 @@ api.post("/locations/:id/geocode", async (c) => {
 api.get("/movies", async (c) => {
   const thoughtId = c.req.query("thought_id");
 
-  let query = "SELECT id, thought_id, title, description, poster_url, year, tmdb_id, vote_average, vote_count, created_at FROM movie";
+  let query = "SELECT m.id, m.thought_id, m.title, m.description, m.poster_url, m.year, m.tmdb_id, m.vote_average, m.vote_count, m.created_at, (SELECT COUNT(*) FROM thought r WHERE r.parent_id = m.thought_id AND r.private = 0) AS reply_count FROM movie m";
   const bindings: (string | number)[] = [];
 
   if (thoughtId) {
-    query += " WHERE thought_id = ?";
+    query += " WHERE m.thought_id = ?";
     bindings.push(parseInt(thoughtId, 10));
   }
 
-  query += " ORDER BY created_at DESC";
+  query += " ORDER BY m.created_at DESC";
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
   return c.json({ movies: results.results });

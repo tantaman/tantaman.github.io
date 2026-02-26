@@ -19,18 +19,23 @@ export function MoviesView() {
         <div className="movies-grid">
           {movies.map((movie) => (
             <div key={movie.id} className="movie-card">
-              {movie.poster_url ? (
-                <img
-                  className="movie-poster"
-                  src={movie.poster_url}
-                  alt={movie.title}
-                  loading="lazy"
-                />
-              ) : (
-                <div className="movie-poster movie-poster--placeholder">
-                  <span>{movie.title.charAt(0)}</span>
-                </div>
-              )}
+              <a
+                className="movie-poster-link"
+                href={`#thought-${movie.thought_id}`}
+              >
+                {movie.poster_url ? (
+                  <img
+                    className="movie-poster"
+                    src={movie.poster_url}
+                    alt={movie.title}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="movie-poster movie-poster--placeholder">
+                    <span>{movie.title.charAt(0)}</span>
+                  </div>
+                )}
+              </a>
               <div className="movie-info">
                 {movie.tmdb_id ? (
                   <a
@@ -55,6 +60,15 @@ export function MoviesView() {
                 )}
                 {movie.description && (
                   <span className="movie-description">{movie.description}</span>
+                )}
+                {movie.reply_count > 0 && (
+                  <a
+                    className="movie-reply-count"
+                    href={`#thought-${movie.thought_id}`}
+                  >
+                    💬 {movie.reply_count}{' '}
+                    {movie.reply_count === 1 ? 'reply' : 'replies'}
+                  </a>
                 )}
               </div>
             </div>
