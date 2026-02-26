@@ -32,3 +32,18 @@ export interface AuthSession {
   token: string;
   commenter: Commenter;
 }
+
+export interface Notification {
+  id: number;
+  comment_id: number;
+  slug: string;
+  commenter_name: string;
+  body: string;
+  created_at: number;
+  is_read: boolean;
+}
+
+export interface NotificationsResponse {
+  unread_count: number;
+  notifications: Notification[];
+}

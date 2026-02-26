@@ -1,6 +1,7 @@
 import { render } from 'preact';
 import { EngagementStrip } from './components/EngagementStrip';
 import { CommentsSection } from './components/CommentsSection';
+import { NotificationJewel } from './components/NotificationJewel';
 import './styles.css';
 
 // Mount engagement strip
@@ -28,4 +29,10 @@ if (commentsEl) {
   );
 
   observer.observe(commentsEl);
+}
+
+// Mount notification jewel
+const notifEl = document.getElementById('notification-jewel');
+if (notifEl) {
+  render(<NotificationJewel />, notifEl);
 }

@@ -1,4 +1,4 @@
-import type { CommentsResponse, AuthSession, Commenter } from './types';
+import type { CommentsResponse, AuthSession, Commenter, NotificationsResponse } from './types';
 import { getSessionToken } from './auth';
 
 const BASE = '/api/comments';
@@ -62,6 +62,19 @@ export function verifyOtp(email: string, code: string, displayName?: string): Pr
 
 export function checkSession(): Promise<{ commenter: Commenter }> {
   return fetchJSON(`${BASE}/auth/me`, {
+    headers: authHeaders(),
+  });
+}
+
+export function fetchNotifications(): Promise<NotificationsResponse> {
+  return fetchJSON(`${BASE}/notifications`, {
+    headers: authHeaders(),
+  });
+}
+
+export function markNotificationsRead(): Promise<{ ok: boolean }> {
+  return fetchJSON(`${BASE}/notifications/mark-read`, {
+    method: 'POST',
     headers: authHeaders(),
   });
 }

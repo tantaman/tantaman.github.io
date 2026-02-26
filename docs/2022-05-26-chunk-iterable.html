@@ -29,7 +29,7 @@
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="2 minutes">
 <link rel="stylesheet" href="/comments/comments.css"></head>
-<body><header class="post-header"><a href="/">tantaman</a><button class="theme-toggle" type="button"></button></header><main id="static"><h1>🪨 Chunk Iterable</h1><span class="published subtext">Published 2022-05-26</span><div id="engagement-strip" data-slug="2022-05-26-chunk-iterable"></div>
+<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>🪨 Chunk Iterable</h1><span class="published subtext">Published 2022-05-26</span><div id="engagement-strip" data-slug="2022-05-26-chunk-iterable"></div>
 <nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><p>Today I'll be discussing the <a href="https://github.com/tantaman/aphrodite/blob/main/packages/query-runtime-ts/src/ChunkIterable.ts"><code>Chunk Iterable Framework</code></a>. This is a core component of <a href="http://aphrodite.sh">Aphrodite</a> and is used to speed up the processing of data returned by queries.</p>
 <p>The main idea behind a chunk iterable is to be able to iterate over some source of data in chunks. Why would we want to iterate over a data source in chunks?</p>
 <p>Mainly for performance. Imagine you have an unbounded stream of data. There are two options for processing this data that exist on a spectrum.</p>

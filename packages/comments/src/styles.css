@@ -389,3 +389,109 @@
 .comments-auth-modal .comments-btn-primary {
   width: 100%;
 }
+
+/* Notification jewel */
+.comments-notif-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.comments-notif-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.comments-notif-btn:hover {
+  color: var(--text);
+}
+
+.comments-notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: #e25555;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 8px;
+  padding: 0 3px;
+  pointer-events: none;
+}
+
+.comments-notif-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: 200;
+}
+
+.comments-notif-empty {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.comments-notif-item {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  text-decoration: none;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.comments-notif-item:last-child {
+  border-bottom: none;
+}
+
+.comments-notif-item:hover {
+  background: var(--bg-soft);
+}
+
+.comments-notif-unread {
+  background: color-mix(in srgb, var(--bg-soft) 50%, transparent);
+}
+
+.comments-notif-name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.comments-notif-body {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0.15rem 0;
+}
+
+.comments-notif-time {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}

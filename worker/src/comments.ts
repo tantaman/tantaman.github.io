@@ -49,6 +49,82 @@ function generateToken(): string {
   return Array.from(arr, (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+// GET /comments/notifications — fetch notifications (must be before /:slug)
+comments.get("/notifications", async (c) => {
+  let commenterId: number;
+
+  if (isAuthed(c)) {
+    commenterId = OWNER_COMMENTER_ID;
+  } else {
+    const commenter = await getSessionCommenter(
+      c.env.DB,
+      c.req.header("Authorization"),
+    );
+    if (!commenter) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+    commenterId = commenter.id;
+  }
+
+  const countRow = await c.env.DB.prepare(
+    "SELECT COUNT(*) AS count FROM notification WHERE commenter_id = ? AND read = 0",
+  )
+    .bind(commenterId)
+    .first<{ count: number }>();
+
+  const rows = await c.env.DB.prepare(
+    `SELECT n.id, n.comment_id, n.slug, n.read, n.created_at,
+            cm.display_name AS commenter_name, co.body
+     FROM notification n
+     JOIN comment co ON co.id = n.comment_id
+     JOIN commenter cm ON cm.id = co.commenter_id
+     WHERE n.commenter_id = ? AND co.deleted_at IS NULL
+     ORDER BY n.created_at DESC
+     LIMIT 20`,
+  )
+    .bind(commenterId)
+    .all();
+
+  return c.json({
+    unread_count: countRow?.count ?? 0,
+    notifications: rows.results.map((r) => ({
+      id: r.id,
+      comment_id: r.comment_id,
+      slug: r.slug,
+      commenter_name: r.commenter_name,
+      body: typeof r.body === "string" ? r.body.slice(0, 100) : "",
+      created_at: r.created_at,
+      is_read: r.read === 1,
+    })),
+  });
+});
+
+// POST /comments/notifications/mark-read
+comments.post("/notifications/mark-read", async (c) => {
+  let commenterId: number;
+
+  if (isAuthed(c)) {
+    commenterId = OWNER_COMMENTER_ID;
+  } else {
+    const commenter = await getSessionCommenter(
+      c.env.DB,
+      c.req.header("Authorization"),
+    );
+    if (!commenter) {
+      return c.json({ error: "Unauthorized" }, 401);
+    }
+    commenterId = commenter.id;
+  }
+
+  await c.env.DB.prepare(
+    "UPDATE notification SET read = 1 WHERE commenter_id = ? AND read = 0",
+  )
+    .bind(commenterId)
+    .run();
+
+  return c.json({ ok: true });
+});
+
 // GET /comments/:slug — fetch comments + like count
 comments.get("/:slug", async (c) => {
   const slug = c.req.param("slug");
@@ -186,6 +262,35 @@ comments.post("/:slug", async (c) => {
   )
     .bind(slug, commenterId, parent_id ?? null, body, now)
     .run();
+
+  const newCommentId = result.meta.last_row_id;
+  const notifiedIds = new Set<number>();
+
+  // Notify parent comment author on reply
+  if (parent_id != null) {
+    const parentComment = await c.env.DB.prepare(
+      "SELECT commenter_id FROM comment WHERE id = ?",
+    )
+      .bind(parent_id)
+      .first<{ commenter_id: number }>();
+    if (parentComment && parentComment.commenter_id !== commenterId) {
+      await c.env.DB.prepare(
+        "INSERT INTO notification (commenter_id, comment_id, slug, created_at) VALUES (?, ?, ?, ?)",
+      )
+        .bind(parentComment.commenter_id, newCommentId, slug, now)
+        .run();
+      notifiedIds.add(parentComment.commenter_id);
+    }
+  }
+
+  // Notify owner of all comments by others
+  if (commenterId !== OWNER_COMMENTER_ID && !notifiedIds.has(OWNER_COMMENTER_ID)) {
+    await c.env.DB.prepare(
+      "INSERT INTO notification (commenter_id, comment_id, slug, created_at) VALUES (?, ?, ?, ?)",
+    )
+      .bind(OWNER_COMMENTER_ID, newCommentId, slug, now)
+      .run();
+  }
 
   return c.json(
     {

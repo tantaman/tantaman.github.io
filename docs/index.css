@@ -671,11 +671,14 @@ img {
   color: var(--text);
 }
 
-.post-header .theme-toggle {
+.post-header-actions {
   position: absolute;
   right: 1.5rem;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .theme-toggle-fixed {

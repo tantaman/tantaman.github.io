@@ -56,7 +56,10 @@ export default async function defaultLayout(
   const header = matter?.noHeader ? null : isPost || matter?.minimalHeader ? (
     <header class="post-header">
       <a href="/">tantaman</a>
-      <button class="theme-toggle" type="button"></button>
+      <div class="post-header-actions">
+        <div id="notification-jewel"></div>
+        <button class="theme-toggle" type="button"></button>
+      </div>
     </header>
   ) : (
     <header>
@@ -69,6 +72,7 @@ export default async function defaultLayout(
           <a href="/graph.html">Graph</a>
           <a href="/thoughts/">Thoughts</a>
           <a href="/pages/mcp.html">MCP</a>
+          <div id="notification-jewel"></div>
           <button class="theme-toggle" type="button"></button>
         </nav>
       </div>
@@ -84,18 +88,16 @@ export default async function defaultLayout(
     matter?.noHeader ? null : <footer id="footer">{footerContent}</footer>,
   ].filter(Boolean);
 
-  // Inject comments CSS and JS into <head> and <body>
-  if (commentsEnabled) {
-    const head = select('head', tree);
-    if (head) {
-      head.children.push(
-        h('link', { rel: 'stylesheet', href: '/comments/comments.css' }),
-      );
-    }
-    body.children.push(
-      h('script', { src: '/comments/comments.js', defer: true, type: 'module' }),
+  // Inject comments CSS and JS unconditionally (needed for notification jewel)
+  const head = select('head', tree);
+  if (head) {
+    head.children.push(
+      h('link', { rel: 'stylesheet', href: '/comments/comments.css' }),
     );
   }
+  body.children.push(
+    h('script', { src: '/comments/comments.js', defer: true, type: 'module' }),
+  );
 }
 
 async function buildFooter(file: VFile) {
