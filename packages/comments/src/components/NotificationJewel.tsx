@@ -19,6 +19,7 @@ export function NotificationJewel() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export function NotificationJewel() {
         setLoaded(true);
       })
       .catch(() => {
-        // Not authenticated or network error — stay hidden
+        setErrored(true);
       });
   }, []);
 
@@ -48,9 +49,11 @@ export function NotificationJewel() {
     return () => document.removeEventListener('click', handler, true);
   }, [open]);
 
-  if (!loaded) return null;
+  const token = getSessionToken();
+  if (!token) return null;
 
   const handleToggle = () => {
+    if (!loaded) return;
     const opening = !open;
     setOpen(opening);
     if (opening && unreadCount > 0) {
@@ -72,9 +75,11 @@ export function NotificationJewel() {
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
           <path d="M13.73 21a2 2 0 0 1-3.46 0" />
         </svg>
-        {unreadCount > 0 && (
+        {errored ? (
+          <span class="comments-notif-badge comments-notif-error">x</span>
+        ) : unreadCount > 0 ? (
           <span class="comments-notif-badge">{unreadCount > 9 ? '9+' : unreadCount}</span>
-        )}
+        ) : null}
       </button>
 
       {open && (
