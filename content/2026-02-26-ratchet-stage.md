@@ -125,3 +125,58 @@ But a description of dynamics is not a prescription for fatalism. The immediate-
 There are traditions — apophatic theology, certain strains of Buddhist thought, the Daoist suspicion of named and administered virtue — that claim to identify something outside the loop. A mode of being that does not treat the world as standing-reserve. A form of value that does not compound. A kingdom that is not of this world.
 
 Whether that escape hatch is real, or merely what power looks like in the moment before it is captured — before the monastery acquires land, before the sangha accumulates patronage, before the prophet's followers become an institution — is the question that follows from everything above.
+
+---
+
+## Appendix: Suggested Reading
+
+The following works inform the argument above. Each approaches the ratchet from a different discipline — physics, philosophy, sociology, political science, anthropology, ecology — and arrives at convergent conclusions. A single representative passage from each is included to indicate its relevance.
+
+**Erwin Schrödinger, *What is Life?* (1944)**
+The thermodynamic foundation. Schrödinger established that living organisms maintain their internal order by feeding on negative entropy — importing order from the environment and exporting disorder. This is the starting point of the chain: life as local concentration of order, purchased at the cost of the surroundings.
+
+> "What an organism feeds upon is negative entropy."
+
+**Martin Heidegger, *The Question Concerning Technology* (1954)**
+The perceptual turn. Heidegger argued that modern technology is not merely a set of tools but a mode of revealing that discloses the world as standing-reserve — resource awaiting extraction. This is the essay's claim that technology restructures perception, not just capacity.
+
+> "Everywhere everything is ordered to stand by, to be immediately at hand."
+
+**Jacques Ellul, *The Technological Society* (1954)**
+The autonomy of technique. Ellul demonstrated that technique — his term for the totality of efficient methods — operates as a self-augmenting, autonomous system that subsumes every domain it enters, including the domains meant to govern it. His work supports the claim that technology follows its own compounding logic independent of human intention.
+
+> "Technique has taken substance. It has become a reality in itself."
+
+**Robert Michels, *Political Parties* (1911)**
+The iron law of oligarchy. Michels showed that every organization, regardless of its founding democratic or egalitarian commitments, develops an entrenched leadership class that serves its own perpetuation. This is the ratchet operating on institutions from the inside — the argument that no countermeasure escapes gravity.
+
+> "Who says organization, says oligarchy."
+
+**Simone Weil, *Gravity and Grace* (1947)**
+The metaphysical framework. Weil named the two forces at work in the essay's argument: gravity, which governs all natural movements of the soul toward domination and accumulation, and grace, which alone operates by a different logic. Her work provides the vocabulary for the essay's closing question.
+
+> "Grace is the only exception."
+
+All natural movements of the soul, Weil argues, follow laws analogous to physical gravity — always pulling downward, toward domination, accumulation, and force. Only grace operates by a different logic.
+
+**James C. Scott, *Seeing Like a State* (1998)**
+The mechanics of legibility. Scott documented how states simplify complex local realities into standardized, readable formats — and how this simplification enables extraction and control. His concept of *metis* (practical, local, illegible knowledge) provides a counterweight: what resists the ratchet is precisely what resists being made legible to centralized power.
+
+> "Designed or planned social order is necessarily schematic."
+
+Scott demonstrates that this schematism — the state's need to make complex realities legible and administrable — always ignores the essential features of functioning social life. What resists the ratchet is precisely what resists being read by centralized power.
+
+**James Woodburn, "Egalitarian Societies" (1982)**
+The anthropological evidence. Woodburn's distinction between immediate-return and delayed-return economies is the empirical backbone of the essay's claim about demand sharing and leveling mechanisms. His work shows that egalitarian outcomes are achievable but structurally linked to specific economic conditions.
+
+> "Immediate-return systems are egalitarian, profoundly egalitarian."
+
+Woodburn showed that when people consume resources shortly after acquiring them, the material basis for hierarchy cannot take hold — accumulated goods cannot be leveraged into authority when sharing norms make accumulation impossible.
+
+**Albert-László Barabási, *Linked: The New Science of Networks* (2002)**
+The mathematics of preferential attachment. Barabási demonstrated that in networks of all kinds — social, biological, technological — new connections preferentially attach to already well-connected nodes, producing power-law distributions. This is the formal model behind the essay's claim that advantage converts to further advantage through any mechanism of interaction.
+
+**James Madison, *Federalist No. 51* (1788)**
+The architectural response. Madison's design philosophy for the American Constitution is the most articulate attempt to build a political system that acknowledges the ratchet without pretending to transcend it. His solution — ambition counteracting ambition, power checking power — accepts gravity and tries to split it into competing vectors.
+
+> "If men were angels, no government would be necessary."
