@@ -1,10 +1,17 @@
 import { indexFrontmatter, contentDirs, inferForm } from '@tantaman/sitecompiler';
+import fs from 'fs';
 
 export default async function postsManifest() {
   return {
     compiledFilename: 'posts-manifest.json',
     content: async () => {
       const indices = await indexFrontmatter();
+
+      let memeCache = {};
+      try {
+        memeCache = JSON.parse(await fs.promises.readFile('.meme-cache.json', 'utf-8'));
+      } catch {}
+
       const posts = [];
 
       Object.entries(indices).forEach(([collection, index]) => {
@@ -26,6 +33,8 @@ export default async function postsManifest() {
               form: inferForm(collection, meta),
               collection: collection || 'root',
               color: meta.sentimentColor || null,
+              image: fm.image || meta.firstImage || null,
+              thesis: memeCache[fm.title || slug] || null,
             });
           });
       });
