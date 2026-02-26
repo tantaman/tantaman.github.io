@@ -1,6 +1,8 @@
 import { Hono } from "hono";
 import type { Env } from "./index";
-import satori from "satori";
+import satori, { init as initSatori } from "satori/standalone";
+// @ts-expect-error -- WASM module import handled by wrangler bundler
+import yogaWasm from "satori/yoga.wasm";
 import { initWasm, Resvg } from "@resvg/resvg-wasm";
 // @ts-expect-error -- WASM module import handled by wrangler bundler
 import resvgWasm from "@resvg/resvg-wasm/index_bg.wasm";
@@ -25,6 +27,7 @@ let wasmInitialized = false;
 
 async function ensureWasm() {
   if (!wasmInitialized) {
+    await initSatori(yogaWasm);
     await initWasm(resvgWasm);
     wasmInitialized = true;
   }
@@ -67,11 +70,13 @@ async function loadFont(kv: KVNamespace): Promise<ArrayBuffer> {
   return fontData;
 }
 
-async function fetchManifest(kv: KVNamespace, bypassCache = false): Promise<ManifestEntry[]> {
-  if (!bypassCache) {
-    const cached = await kv.get(MANIFEST_KV_KEY, "json");
-    if (cached) return cached as ManifestEntry[];
+async function fetchManifest(kv: KVNamespace): Promise<ManifestEntry[]> {
+  const cached = await kv.get(MANIFEST_KV_KEY, "json");
+  if (cached) {
+    console.log("[ig-card] manifest cache hit");
+    return cached as ManifestEntry[];
   }
+  console.log("[ig-card] manifest cache miss, fetching from origin");
 
   const resp = await fetch(`${SITE_URL}/posts-manifest.json`);
   if (!resp.ok) throw new Error(`Failed to fetch manifest: ${resp.status}`);
@@ -259,15 +264,21 @@ function buildCard(
   );
 }
 
+console.log("ig-card module loaded");
+
 export const igCard = new Hono<{ Bindings: Env }>();
+
+igCard.get("/", (c) => c.json({ status: "ig-card module active" }));
 
 igCard.get("/:slug", async (c) => {
   const slug = c.req.param("slug");
+  console.log(`[ig-card] request for slug: ${slug}`);
   const r2Key = `ig-cards/${slug}.png`;
 
   // Check R2 cache
   const cached = await c.env.BUCKET.get(r2Key);
   if (cached) {
+    console.log(`[ig-card] R2 cache hit for ${slug}`);
     return new Response(cached.body, {
       headers: {
         "Content-Type": "image/png",
@@ -275,65 +286,79 @@ igCard.get("/:slug", async (c) => {
       },
     });
   }
+  console.log(`[ig-card] R2 cache miss for ${slug}`);
 
-  // Fetch manifest and find post (retry with fresh manifest on cache miss)
-  let manifest = await fetchManifest(c.env.EMBEDDINGS);
-  let entry = manifest.find((p) => p.slug === slug);
-  if (!entry) {
-    manifest = await fetchManifest(c.env.EMBEDDINGS, true);
-    entry = manifest.find((p) => p.slug === slug);
-  }
-  if (!entry) {
-    return c.json({ error: "Post not found" }, 404);
-  }
+  try {
+    // Fetch manifest and find post
+    const manifest = await fetchManifest(c.env.EMBEDDINGS);
+    console.log(`[ig-card] manifest fetched, ${manifest.length} entries`);
+    const entry = manifest.find((p) => p.slug === slug);
+    console.log(`[ig-card] entry lookup: ${entry ? "found" : "NOT FOUND"}`);
+    if (!entry) {
+      return c.json({ error: "Post not found", slug }, 404);
+    }
 
-  if (!entry.thesis) {
-    return c.json({ error: "Post has no thesis — card cannot be generated" }, 404);
-  }
+    if (!entry.thesis) {
+      console.log(`[ig-card] no thesis for ${slug}`);
+      return c.json({ error: "Post has no thesis — card cannot be generated" }, 404);
+    }
 
-  // Fetch background image if available
-  let bgDataUri: string | null = null;
-  if (entry.image) {
-    const imageUrl = entry.image.startsWith("http")
-      ? entry.image
-      : `${SITE_URL}${entry.image}`;
-    bgDataUri = await fetchImageAsDataUri(imageUrl);
-  }
+    // Fetch background image if available
+    let bgDataUri: string | null = null;
+    if (entry.image) {
+      const imageUrl = entry.image.startsWith("http")
+        ? entry.image
+        : `${SITE_URL}${entry.image}`;
+      bgDataUri = await fetchImageAsDataUri(imageUrl);
+      console.log(`[ig-card] background image: ${bgDataUri ? "loaded" : "skipped/failed"}`);
+    }
 
-  // Load font
-  const fontData = await loadFont(c.env.EMBEDDINGS);
+    // Initialize WASM modules (yoga for satori, resvg for PNG)
+    await ensureWasm();
 
-  // Render SVG via satori
-  const element = buildCard(entry, bgDataUri);
-  const svg = await satori(element as React.ReactNode, {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    fonts: [
-      {
-        name: "Inter",
-        data: fontData,
-        weight: 700 as const,
-        style: "normal" as const,
+    // Load font
+    const fontData = await loadFont(c.env.EMBEDDINGS);
+    console.log(`[ig-card] font loaded, ${fontData.byteLength} bytes`);
+
+    // Render SVG via satori
+    const element = buildCard(entry, bgDataUri);
+    const svg = await satori(element as React.ReactNode, {
+      width: CARD_WIDTH,
+      height: CARD_HEIGHT,
+      fonts: [
+        {
+          name: "Inter",
+          data: fontData,
+          weight: 700 as const,
+          style: "normal" as const,
+        },
+      ],
+    });
+    console.log(`[ig-card] satori SVG rendered, ${svg.length} chars`);
+
+    // Convert SVG to PNG via resvg
+    const resvg = new Resvg(svg, {
+      fitTo: { mode: "width", value: CARD_WIDTH },
+    });
+    const pngData = resvg.render().asPng();
+    console.log(`[ig-card] PNG rendered, ${pngData.byteLength} bytes`);
+
+    // Store in R2
+    await c.env.BUCKET.put(r2Key, pngData, {
+      httpMetadata: { contentType: "image/png" },
+    });
+
+    return new Response(pngData, {
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=31536000, immutable",
       },
-    ],
-  });
-
-  // Convert SVG to PNG via resvg-wasm
-  await ensureWasm();
-  const resvg = new Resvg(svg, {
-    fitTo: { mode: "width", value: CARD_WIDTH },
-  });
-  const pngData = resvg.render().asPng();
-
-  // Store in R2
-  await c.env.BUCKET.put(r2Key, pngData, {
-    httpMetadata: { contentType: "image/png" },
-  });
-
-  return new Response(pngData, {
-    headers: {
-      "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=31536000, immutable",
-    },
-  });
+    });
+  } catch (err) {
+    console.error(`[ig-card] error rendering ${slug}:`, err);
+    return c.json(
+      { error: "Failed to render card", detail: String(err) },
+      500,
+    );
+  }
 });

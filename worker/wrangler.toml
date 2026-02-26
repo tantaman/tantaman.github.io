@@ -1,6 +1,7 @@
 name = "tantamanlands"
 main = "src/index.ts"
 compatibility_date = "2025-03-03"
+compatibility_flags = ["nodejs_compat"]
 
 routes = [
   { pattern = "tantaman.com/api", zone_name = "tantaman.com" },
