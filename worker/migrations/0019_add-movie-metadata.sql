@@ -1,5 +1,3 @@
 ALTER TABLE movie ADD COLUMN poster_url TEXT;
 ALTER TABLE movie ADD COLUMN year TEXT;
 ALTER TABLE movie ADD COLUMN tmdb_id INTEGER;
-ALTER TABLE movie ADD COLUMN vote_average REAL;
-ALTER TABLE movie ADD COLUMN vote_count INTEGER;

@@ -4,11 +4,12 @@ tags: [philosophy, fiction]
 concern: [self, knowledge]
 form: story
 summary: "A fictional debate in which Žižek defends identification with the mask and Matt argues for holding it lightly — arriving, after three Coca-Colas and several lost buttons, at something like Meister Eckhart's Gelassenheit."
+image: '/img/ensor-self-portrait-with-masks.jpg'
 ---
 
-# The Mask Debate: An Evening with Slavoj Žižek
-
 **A Philosophical Confrontation in Which Very Little Is Resolved but Many Shirts Are Tugged**
+
+![James Ensor — Self-Portrait with Masks (1899)](/img/ensor-self-portrait-with-masks.jpg)
 
 ---
 

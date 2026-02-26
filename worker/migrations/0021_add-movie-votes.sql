@@ -1,0 +1,2 @@
+ALTER TABLE movie ADD COLUMN vote_average REAL;
+ALTER TABLE movie ADD COLUMN vote_count INTEGER;
