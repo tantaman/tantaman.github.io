@@ -64,7 +64,7 @@ export function EngagementStrip({ slug }: Props) {
         {commentCount > 0 && <span>{commentCount}</span>}
       </button>
 
-      <ShareButton />
+      <ShareButton slug={slug} />
     </div>
   );
 }

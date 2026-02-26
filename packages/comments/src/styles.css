@@ -37,6 +37,50 @@
   color: #e25555;
 }
 
+/* Share menu */
+.comments-share-wrapper {
+  position: relative;
+}
+
+.comments-share-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  min-width: 150px;
+  padding: 4px 0;
+  z-index: 100;
+}
+
+.comments-share-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.4rem 0.75rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 0.825rem;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.comments-share-menu-item:hover {
+  background: var(--bg-soft);
+}
+
+.comments-share-menu-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Comments section */
 .comments-section-container {
   max-width: 720px;
