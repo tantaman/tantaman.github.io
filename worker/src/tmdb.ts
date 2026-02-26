@@ -6,11 +6,13 @@ export interface MovieMetadata {
 
 export async function lookupMovie(
   title: string,
-  apiKey: string,
+  token: string,
 ): Promise<MovieMetadata | null> {
   try {
-    const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&api_key=${apiKey}&limit=1`;
-    const res = await fetch(url);
+    const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!res.ok) return null;
     const data = (await res.json()) as {
       results?: Array<{
