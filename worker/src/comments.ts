@@ -35,20 +35,7 @@ async function getSessionCommenter(
   return row ?? null;
 }
 
-async function getOrCreateOwnerCommenter(db: D1Database): Promise<number> {
-  const existing = await db
-    .prepare("SELECT id FROM commenter WHERE display_name = ?")
-    .bind(OWNER_NAME)
-    .first<{ id: number }>();
-  if (existing) return existing.id;
-
-  const now = Math.floor(Date.now() / 1000);
-  const result = await db
-    .prepare("INSERT INTO commenter (email, display_name, created_at) VALUES (?, ?, ?)")
-    .bind("owner@tantaman.com", OWNER_NAME, now)
-    .run();
-  return result.meta.last_row_id as number;
-}
+const OWNER_COMMENTER_ID = 1; // seeded in migration 0023
 
 function generateOtp(): string {
   const arr = new Uint32Array(1);
@@ -164,7 +151,7 @@ comments.post("/:slug", async (c) => {
 
   // Admin (site owner) can comment directly with THOUGHT_SECRET
   if (isAuthed(c)) {
-    commenterId = await getOrCreateOwnerCommenter(c.env.DB);
+    commenterId = OWNER_COMMENTER_ID;
     commenterName = OWNER_NAME;
     ownerComment = true;
   } else {
@@ -391,10 +378,9 @@ comments.post("/auth/verify-otp", async (c) => {
 comments.get("/auth/me", async (c) => {
   // Admin auth via THOUGHT_SECRET
   if (isAuthed(c)) {
-    const ownerId = await getOrCreateOwnerCommenter(c.env.DB);
     return c.json({
       commenter: {
-        id: ownerId,
+        id: OWNER_COMMENTER_ID,
         display_name: OWNER_NAME,
         email: "owner@tantaman.com",
         is_owner: true,
