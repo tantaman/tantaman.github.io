@@ -56,6 +56,9 @@ export interface Movie {
   thought_id: number;
   title: string;
   description: string | null;
+  poster_url: string | null;
+  year: string | null;
+  tmdb_id: number | null;
   created_at: number;
 }
 

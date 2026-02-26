@@ -6,6 +6,7 @@ import { extractEvents } from "./events";
 import { extractTasks } from "./tasks";
 import { extractLocations, geocodeLocation } from "./locations";
 import { extractMovies } from "./movies";
+import { lookupMovie } from "./tmdb";
 import { extractBooks } from "./books";
 import { extractTags } from "./tags";
 import { createMcpServer } from "./mcp";
@@ -35,6 +36,7 @@ export interface Env {
   THOUGHT_SECRET: string;
   DHA_SECRET: string;
   MAPBOX_TOKEN: string;
+  TMDB_API_KEY: string;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -505,9 +507,10 @@ api.post("/thoughts", async (c) => {
 
   const movies = extractMovies(trimmed);
   for (const movie of movies) {
+    const meta = c.env.TMDB_API_KEY ? await lookupMovie(movie.title, c.env.TMDB_API_KEY) : null;
     await c.env.DB.prepare(
-      "INSERT INTO movie (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
-    ).bind(thoughtId, movie.title, movie.description, timestamp).run();
+      "INSERT INTO movie (thought_id, title, description, poster_url, year, tmdb_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    ).bind(thoughtId, movie.title, movie.description, meta?.posterUrl ?? null, meta?.year ?? null, meta?.tmdbId ?? null, timestamp).run();
   }
 
   const books = extractBooks(trimmed);
@@ -752,7 +755,7 @@ api.post("/locations/:id/geocode", async (c) => {
 api.get("/movies", async (c) => {
   const thoughtId = c.req.query("thought_id");
 
-  let query = "SELECT id, thought_id, title, description, created_at FROM movie";
+  let query = "SELECT id, thought_id, title, description, poster_url, year, tmdb_id, created_at FROM movie";
   const bindings: (string | number)[] = [];
 
   if (thoughtId) {
@@ -764,6 +767,34 @@ api.get("/movies", async (c) => {
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
   return c.json({ movies: results.results });
+});
+
+api.post("/movies/backfill", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  if (!c.env.TMDB_API_KEY) {
+    return c.json({ error: "TMDB_API_KEY not configured" }, 500);
+  }
+
+  const rows = await c.env.DB.prepare(
+    "SELECT id, title FROM movie WHERE poster_url IS NULL"
+  ).all();
+
+  let updated = 0;
+  for (const row of rows.results) {
+    const meta = await lookupMovie(row.title as string, c.env.TMDB_API_KEY);
+    if (meta) {
+      await c.env.DB.prepare(
+        "UPDATE movie SET poster_url = ?, year = ?, tmdb_id = ? WHERE id = ?"
+      ).bind(meta.posterUrl, meta.year, meta.tmdbId, row.id).run();
+      updated++;
+    }
+  }
+
+  return c.json({ backfilled: updated, total: rows.results.length });
 });
 
 // --- Books ---

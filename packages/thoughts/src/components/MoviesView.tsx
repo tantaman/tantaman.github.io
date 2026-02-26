@@ -1,14 +1,6 @@
 import type { Movie } from '../types';
 import { useMovies } from '../hooks/useCache';
 
-function formatDate(epoch: number): string {
-  return new Date(epoch * 1000).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
-
 export function MoviesView() {
   const { data } = useMovies();
   const movies: Movie[] = data?.movies ?? [];
@@ -24,19 +16,42 @@ export function MoviesView() {
       ) : movies.length === 0 ? (
         <div className="thought-loading">No movies yet.</div>
       ) : (
-        <ul className="events-list">
+        <div className="movies-grid">
           {movies.map((movie) => (
-            <li key={movie.id} className="event-item">
-              <span className="event-title">{movie.title}</span>
-              {movie.description && (
-                <span className="event-description">{movie.description}</span>
+            <div key={movie.id} className="movie-card">
+              {movie.poster_url ? (
+                <img
+                  className="movie-poster"
+                  src={movie.poster_url}
+                  alt={movie.title}
+                  loading="lazy"
+                />
+              ) : (
+                <div className="movie-poster movie-poster--placeholder">
+                  <span>{movie.title.charAt(0)}</span>
+                </div>
               )}
-              {movie.created_at > 0 && (
-                <span className="event-time">{formatDate(movie.created_at)}</span>
-              )}
-            </li>
+              <div className="movie-info">
+                {movie.tmdb_id ? (
+                  <a
+                    className="movie-title"
+                    href={`https://www.themoviedb.org/movie/${movie.tmdb_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {movie.title}
+                  </a>
+                ) : (
+                  <span className="movie-title">{movie.title}</span>
+                )}
+                {movie.year && <span className="movie-year">{movie.year}</span>}
+                {movie.description && (
+                  <span className="movie-description">{movie.description}</span>
+                )}
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
