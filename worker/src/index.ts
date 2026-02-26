@@ -9,6 +9,7 @@ import { extractMovies } from "./movies";
 import { lookupMovie } from "./tmdb";
 import { extractBooks } from "./books";
 import { extractTags } from "./tags";
+import { extractThoughtLinks } from "./thought-links";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
 import { dha } from "./dha";
@@ -518,6 +519,14 @@ api.post("/thoughts", async (c) => {
     await c.env.DB.prepare(
       "INSERT INTO book (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
     ).bind(thoughtId, book.title, book.description, timestamp).run();
+  }
+
+  const linkedIds = extractThoughtLinks(trimmed);
+  for (const targetId of linkedIds) {
+    await c.env.DB.prepare(
+      `INSERT OR IGNORE INTO thought_edge (source_id, target_id)
+       SELECT ?, ? WHERE EXISTS (SELECT 1 FROM thought WHERE id = ?)`
+    ).bind(thoughtId, targetId, targetId).run();
   }
 
   const attachments: { key: string; type: string; name: string }[] = [];
