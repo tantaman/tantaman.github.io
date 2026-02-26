@@ -108,3 +108,28 @@ export const UpdatePostBody = z.object({
   frontmatter: PostFrontmatter.optional(),
   status: z.enum(["draft", "published"]).optional(),
 });
+
+// --- Comments ---
+
+// POST /comments/:slug/like
+export const LikeBody = z.object({
+  visitor_id: z.string().min(1).max(128),
+});
+
+// POST /comments/auth/request-otp
+export const RequestOtpBody = z.object({
+  email: z.string().email(),
+});
+
+// POST /comments/auth/verify-otp
+export const VerifyOtpBody = z.object({
+  email: z.string().email(),
+  code: z.string().length(6),
+  display_name: z.string().trim().min(1).max(100).optional(),
+});
+
+// POST /comments/:slug
+export const CreateCommentBody = z.object({
+  body: z.string().trim().min(1).max(2000),
+  parent_id: z.number().int().optional(),
+});

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comments Dev Shell</title>
+  <script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+  <link rel="stylesheet" href="/index.css">
+  <style>
+    main { max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { margin-bottom: 0.5rem; }
+    .published { color: var(--text-muted); display: block; margin-bottom: 1rem; }
+  </style>
+  <script type="module" crossorigin src="/comments/comments.js"></script>
+  <link rel="stylesheet" crossorigin href="/comments/comments.css">
+</head>
+<body>
+  <main>
+    <h1>Test Post Title</h1>
+    <span class="published subtext">Published 2026-02-26</span>
+    <div id="engagement-strip" data-slug="2026-02-26-test-post"></div>
+    <p>This is a test post body for developing the comments system.</p>
+  </main>
+  <section id="comments-section" data-slug="2026-02-26-test-post"></section>
+</body>
+</html>

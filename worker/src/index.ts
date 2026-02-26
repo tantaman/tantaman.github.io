@@ -14,6 +14,7 @@ import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
 import { dha } from "./dha";
 import { posts } from "./posts";
+import { comments } from "./comments";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -26,6 +27,10 @@ import {
   BatchUpdateBody,
   CreatePostBody,
   UpdatePostBody,
+  LikeBody,
+  RequestOtpBody,
+  VerifyOtpBody,
+  CreateCommentBody,
 } from "./schemas";
 
 export interface Env {
@@ -38,6 +43,7 @@ export interface Env {
   DHA_SECRET: string;
   MAPBOX_TOKEN: string;
   TMDB_API_KEY: string;
+  RESEND_API_KEY: string;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -86,7 +92,7 @@ api.use("*", async (c, next) => {
 
   // Skip non-API routes (attachments have their own cache headers, MCP is not cacheable)
   const path = c.req.path;
-  if (path.startsWith("/api/attachments/") || path.startsWith("/api/dha/") || path === "/api/mcp" || path === "/api" || path === "/api/") {
+  if (path.startsWith("/api/attachments/") || path.startsWith("/api/dha/") || path.startsWith("/api/comments/") || path === "/api/mcp" || path === "/api" || path === "/api/") {
     return next();
   }
 
@@ -1185,6 +1191,7 @@ api.get("/attachments/*", async (c) => {
 
 api.route("/dha", dha);
 api.route("/posts", posts);
+api.route("/comments", comments);
 
 // Mount API routes
 app.route("/api", api);

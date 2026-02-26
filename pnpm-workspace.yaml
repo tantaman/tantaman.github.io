@@ -3,6 +3,7 @@ packages:
   - packages/compiler
   - packages/frontend
   - packages/thoughts
+  - packages/comments
   - packages/server
   - packages/dha-report-app
   - packages/posts

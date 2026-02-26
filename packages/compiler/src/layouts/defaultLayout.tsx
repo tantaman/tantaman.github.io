@@ -30,11 +30,22 @@ export default async function defaultLayout(
   const matter = file.data.matter;
   const maybeDate = file.basename?.substring(0, 10);
   const isPost = /[0-9]{4}-[0-9]{2}-[0-9]{2}/.exec(maybeDate);
+
+  // Derive slug for comments (filename minus extension)
+  const slug = file.basename?.replace(/\.(md|mdx|html)$/, '') || '';
+  const commentsEnabled = isPost && matter?.comments !== false;
+
   if (isPost) {
     newChildren.unshift(
       <span class="published subtext">Published {maybeDate}</span>,
     );
   }
+
+  // Engagement strip goes after published date, before body
+  if (commentsEnabled) {
+    newChildren.splice(isPost ? 1 : 0, 0, <div id="engagement-strip" data-slug={slug}></div>);
+  }
+
   if (matter?.title) {
     newChildren.unshift(<h1>{matter?.title}</h1>);
   }
@@ -69,8 +80,22 @@ export default async function defaultLayout(
     <main id="static" class={matter?.wide ? 'wide-layout' : undefined}>
       {newChildren}
     </main>,
+    commentsEnabled ? <section id="comments-section" data-slug={slug}></section> : null,
     matter?.noHeader ? null : <footer id="footer">{footerContent}</footer>,
   ].filter(Boolean);
+
+  // Inject comments CSS and JS into <head> and <body>
+  if (commentsEnabled) {
+    const head = select('head', tree);
+    if (head) {
+      head.children.push(
+        h('link', { rel: 'stylesheet', href: '/comments/comments.css' }),
+      );
+    }
+    body.children.push(
+      h('script', { src: '/comments/comments.js', defer: true, type: 'module' }),
+    );
+  }
 }
 
 async function buildFooter(file: VFile) {

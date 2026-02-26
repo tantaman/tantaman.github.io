@@ -1,0 +1,343 @@
+/* Engagement strip */
+.comments-engagement-strip {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 1rem 0;
+}
+
+.comments-like-btn,
+.comments-comment-btn,
+.comments-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  transition: color 0.15s, background 0.15s;
+}
+
+.comments-like-btn:hover,
+.comments-comment-btn:hover,
+.comments-share-btn:hover {
+  color: var(--text);
+  background: var(--bg-soft);
+}
+
+.comments-like-btn.comments-liked {
+  color: #e25555;
+}
+
+/* Comments section */
+.comments-section-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.comments-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.comments-section-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.comments-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* Comment form */
+.comments-form {
+  margin-bottom: 1.5rem;
+}
+
+.comments-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.comments-textarea:focus {
+  outline: none;
+  border-color: var(--border-heavy);
+}
+
+.comments-form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.comments-char-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.comments-form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Buttons */
+.comments-btn-primary {
+  padding: 0.5rem 1rem;
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.comments-btn-primary:hover {
+  opacity: 0.85;
+}
+
+.comments-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.comments-btn-secondary {
+  padding: 0.5rem 1rem;
+  background: none;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.comments-btn-secondary:hover {
+  color: var(--text);
+  border-color: var(--border-heavy);
+}
+
+.comments-signin-prompt {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  background: var(--bg-soft);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: inherit;
+  margin-bottom: 1.5rem;
+}
+
+.comments-signin-prompt:hover {
+  color: var(--text);
+  border-color: var(--border-heavy);
+}
+
+/* Comment thread */
+.comments-thread-indent {
+  margin-left: 1.5rem;
+  border-left: 1px solid var(--border);
+  padding-left: 1rem;
+}
+
+.comments-item {
+  padding: 0.75rem 0;
+}
+
+.comments-item + .comments-item {
+  border-top: 1px solid var(--border);
+}
+
+.comments-item-deleted {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.comments-deleted-text {
+  font-size: 0.875rem;
+}
+
+.comments-item-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.comments-item-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.comments-item-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.comments-item-body {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.comments-item-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.comments-action-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-family: inherit;
+  padding: 0;
+}
+
+.comments-action-btn:hover {
+  color: var(--text);
+}
+
+.comments-action-delete:hover {
+  color: #e25555;
+}
+
+.comments-reply-form {
+  margin: 0.5rem 0 0.5rem 1.5rem;
+}
+
+.comments-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 2rem 0;
+}
+
+.comments-error {
+  color: #e25555;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}
+
+/* Auth modal */
+.comments-auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.comments-auth-modal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 1rem;
+  position: relative;
+}
+
+.comments-auth-modal h3 {
+  margin: 0 0 0.5rem;
+}
+
+.comments-auth-desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin: 0 0 1rem;
+}
+
+.comments-auth-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+}
+
+.comments-auth-close:hover {
+  color: var(--text);
+}
+
+.comments-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
+}
+
+.comments-input:focus {
+  outline: none;
+  border-color: var(--border-heavy);
+}
+
+.comments-otp-input {
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.3em;
+  font-variant-numeric: tabular-nums;
+}
+
+.comments-name-label {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.comments-name-label span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.comments-auth-modal .comments-btn-primary {
+  width: 100%;
+}
