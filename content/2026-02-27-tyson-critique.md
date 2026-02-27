@@ -3,7 +3,10 @@ title: 'The Universe Is Under No Obligation'
 tags: [philosophy, religion, culture]
 concern: [ground, knowledge]
 form: essay
+image: '/img/wright-orrery.jpg'
 ---
+
+![Joseph Wright of Derby — A Philosopher Lecturing on the Orrery (1766)](/img/wright-orrery.jpg)
 
 *A bit, in the style of Stewart Lee*
 
