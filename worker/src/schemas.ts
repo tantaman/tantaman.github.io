@@ -4,6 +4,7 @@ import { z } from "zod";
 export const CreateThoughtBody = z.object({
   body: z.string(),
   parent_id: z.number().int().optional(),
+  version_of: z.number().int().optional(),
   private: z.boolean().optional(),
 });
 

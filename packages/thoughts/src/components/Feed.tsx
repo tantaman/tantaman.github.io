@@ -10,18 +10,29 @@ import { SearchBar } from './SearchBar';
 export function Feed({ tags, framing }: { tags: string[]; framing?: number | null }) {
   const { secret } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
+  const [editingThought, setEditingThought] = useState<Thought | null>(null);
   const handleSearch = useCallback((q: string) => setSearchQuery(q), []);
   const { thoughts, hasMore, isLoadingInitial, isLoadingMore, loadMore, mutate } =
     useThoughts(tags, secret, framing);
 
   const handlePosted = (t: Thought) => {
+    setEditingThought(null);
     mutate(
       (pages) => {
         if (!pages || pages.length === 0) return pages;
         const first = pages[0];
+        // If this is a version, remove the superseded thought
+        const supersededId = t.version_of;
+        const filtered = supersededId != null
+          ? pages.map((page) => ({
+              ...page,
+              thoughts: page.thoughts.filter((th) => th.id !== supersededId && th.version_of !== supersededId),
+            }))
+          : pages;
+        const firstPage = filtered[0];
         return [
-          { ...first, thoughts: [t, ...first.thoughts] },
-          ...pages.slice(1),
+          { ...firstPage, thoughts: [t, ...firstPage.thoughts] },
+          ...filtered.slice(1),
         ];
       },
       false,
@@ -41,6 +52,11 @@ export function Feed({ tags, framing }: { tags: string[]; framing?: number | nul
     );
   };
 
+  const handleEdit = useCallback((thought: Thought) => {
+    setEditingThought(thought);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const isSearching = searchQuery.length > 0;
 
   return (
@@ -49,7 +65,17 @@ export function Feed({ tags, framing }: { tags: string[]; framing?: number | nul
 
       {!isSearching && secret && (
         <div className="thoughts-form-wrap">
-          <ComposeForm onPosted={handlePosted} />
+          {editingThought ? (
+            <ComposeForm
+              versionOf={editingThought.id}
+              initialBody={editingThought.body}
+              submitLabel="Save revision"
+              onPosted={handlePosted}
+              onCancel={() => setEditingThought(null)}
+            />
+          ) : (
+            <ComposeForm onPosted={handlePosted} />
+          )}
         </div>
       )}
 
@@ -67,6 +93,7 @@ export function Feed({ tags, framing }: { tags: string[]; framing?: number | nul
                   <a href={`#thought-${t.id}`} className="thought-read-more">read more</a>
                 }
                 onDelete={() => handleDelete(t.id)}
+                onEdit={secret ? handleEdit : undefined}
                 footer={
                   <ThoughtFooter thought={t} secret={secret} />
                 }

@@ -1,4 +1,4 @@
-import type { Thought, Tag, Task, Event, Location, Movie, Book, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -14,6 +14,7 @@ interface ThoughtsResponse {
 interface ThreadResponse {
   parent: Thought;
   replies: Thought[];
+  versions: ThoughtVersion[];
 }
 
 interface TagsResponse {
@@ -59,6 +60,7 @@ export async function postThought(
   parentId?: number,
   files?: File[],
   isPrivate?: boolean,
+  versionOf?: number,
 ): Promise<Thought> {
   const headers: Record<string, string> = {
     Authorization: `Bearer ${secret}`,
@@ -70,6 +72,7 @@ export async function postThought(
     const fd = new FormData();
     fd.append('body', body);
     if (parentId != null) fd.append('parent_id', String(parentId));
+    if (versionOf != null) fd.append('version_of', String(versionOf));
     if (isPrivate) fd.append('private', 'true');
     for (const file of files) fd.append('file', file);
     reqBody = fd;
@@ -77,6 +80,7 @@ export async function postThought(
     headers['Content-Type'] = 'application/json';
     const payload: Record<string, unknown> = { body };
     if (parentId != null) payload.parent_id = parentId;
+    if (versionOf != null) payload.version_of = versionOf;
     if (isPrivate) payload.private = true;
     reqBody = JSON.stringify(payload);
   }

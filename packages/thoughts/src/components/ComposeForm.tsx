@@ -22,19 +22,25 @@ function isImageType(type: string): boolean {
 
 export function ComposeForm({
   parentId,
+  versionOf,
+  initialBody,
   placeholder,
   submitLabel,
   defaultPrivate,
   onPosted,
+  onCancel,
 }: {
   parentId?: number;
+  versionOf?: number;
+  initialBody?: string;
   placeholder?: string;
   submitLabel?: string;
   defaultPrivate?: boolean;
   onPosted: (thought: ReturnType<typeof postThought> extends Promise<infer T> ? T : never) => void;
+  onCancel?: () => void;
 }) {
   const { secret, updateSecret } = useContext(AuthContext);
-  const [text, setText] = useState('');
+  const [text, setText] = useState(initialBody ?? '');
   const [submitting, setSubmitting] = useState(false);
   const [preview, setPreview] = useState(false);
   const [isPrivate, setIsPrivate] = useState(defaultPrivate ?? false);
@@ -44,7 +50,7 @@ export function ComposeForm({
   const fileRef = useRef<HTMLInputElement>(null);
   const dragCounter = useRef(0);
 
-  const label = submitLabel || (parentId != null ? 'Reply' : 'Post');
+  const label = submitLabel || (versionOf != null ? 'Save revision' : parentId != null ? 'Reply' : 'Post');
 
   // Revoke object URLs on cleanup
   useEffect(() => {
@@ -179,6 +185,7 @@ export function ComposeForm({
         parentId,
         files.length > 0 ? files : undefined,
         isPrivate || undefined,
+        versionOf,
       );
       setText('');
       clearFiles();
@@ -305,6 +312,15 @@ export function ComposeForm({
           <span className="toggle-track" />
           Private
         </label>
+        {onCancel && (
+          <button
+            type="button"
+            className="compose-cancel"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+        )}
         <button
           type="submit"
           className={parentId != null ? 'reply-submit' : 'thought-submit'}

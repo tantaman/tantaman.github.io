@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://tantaman.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title></title>
+      <link>https://tantaman.com/2026-02-27-tyson-critique.html</link>
+      <guid>https://tantaman.com/2026-02-27-tyson-critique.html</guid>
+      <pubDate>Fri, 27 Feb 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
       <title>Grace and the Cage</title>
       <link>https://tantaman.com/2026-02-26-grace-and-cage.html</link>
       <guid>https://tantaman.com/2026-02-26-grace-and-cage.html</guid>
@@ -202,19 +209,6 @@ The ground doesn’t let you stay.
 ---
 
 For eleven months I washed plates. I held cantaloupes. I let the project manager shuffle his papers in his little corner and I breathed and the...</description>
-    </item>
-    <item>
-      <title>The Lamb</title>
-      <link>https://tantaman.com/2026-02-07-the-lamb.html</link>
-      <guid>https://tantaman.com/2026-02-07-the-lamb.html</guid>
-      <pubDate>Sat, 07 Feb 2026 00:00:00 GMT</pubDate>
-      <description>The first rule of what happened to me is I can’t make you understand it.
-
-The second rule of what happened to me is I _can’t make you understand it_.
-
----
-
-For three years I was the guy. You know the guy. Shaved head. Heavy bag in the garage. Co...</description>
     </item>
   </channel>
 </rss>

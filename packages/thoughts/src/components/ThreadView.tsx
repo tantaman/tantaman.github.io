@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import type { Thought } from '../types';
+import type { Thought, ThoughtVersion } from '../types';
 import { AuthContext } from '../App';
 import { useThread } from '../hooks/useCache';
 import { ThoughtCard } from './ThoughtCard';
@@ -76,6 +76,7 @@ export function ThreadView({ id }: { id: number }) {
   const childrenMap = buildChildrenMap(data.replies);
   const rootChildren = childrenMap.get(id) || [];
   const replyCount = data.replies.length;
+  const versions: ThoughtVersion[] = data.versions || [];
 
   const handleParentDelete = () => {
     navigateToFeed();
@@ -92,9 +93,31 @@ export function ThreadView({ id }: { id: number }) {
     );
   };
 
+  const latestVersionId = versions.length > 0 ? versions[versions.length - 1].id : null;
+  const isSuperseded = data.parent.superseded_by != null;
+
   return (
     <>
       <BackLink />
+
+      {isSuperseded && latestVersionId != null && (
+        <div className="version-banner">
+          This thought has been revised.{' '}
+          <a href={`#thought-${latestVersionId}`}>View latest version</a>
+        </div>
+      )}
+
+      {versions.length > 1 && (
+        <div className="version-history">
+          {versions.map((v, i) => (
+            v.id === id ? (
+              <span key={v.id} className="version-link version-link--current">v{i + 1}</span>
+            ) : (
+              <a key={v.id} href={`#thought-${v.id}`} className="version-link">v{i + 1}</a>
+            )
+          ))}
+        </div>
+      )}
 
       <ThoughtCard
         thought={data.parent}

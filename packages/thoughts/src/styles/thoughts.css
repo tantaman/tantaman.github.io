@@ -281,6 +281,87 @@ input[type="checkbox"]:disabled {
   color: #c44;
 }
 
+.thought-edit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  color: var(--text-muted);
+  opacity: 0.4;
+  padding: 0 0.25rem;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.thought-edit:hover {
+  opacity: 1;
+  color: var(--text);
+}
+
+.thought-revised-badge {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.version-banner {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-soft);
+}
+
+.version-banner a {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.version-history {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.version-link {
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+}
+
+.version-link:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.version-link--current {
+  color: var(--text);
+  border-color: var(--text-muted);
+  font-weight: 600;
+}
+
+.compose-cancel {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.compose-cancel:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
 .thought-body {
   white-space: pre-wrap;
   word-wrap: break-word;

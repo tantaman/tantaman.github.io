@@ -142,7 +142,7 @@ export function createMcpServer(env: Env) {
       const ids = results.matches.map((m) => parseInt(m.id, 10));
       const placeholders = ids.map(() => "?").join(",");
       const rows = await env.DB.prepare(
-        `SELECT id, body, timestamp, parent_id FROM thought WHERE id IN (${placeholders})`
+        `SELECT id, body, timestamp, parent_id FROM thought WHERE id IN (${placeholders}) AND superseded_by IS NULL`
       ).bind(...ids).all();
 
       const bodyById = new Map<number, { body: string; timestamp: number; parent_id: number | null }>();

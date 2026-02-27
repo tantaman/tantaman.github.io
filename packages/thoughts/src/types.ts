@@ -9,10 +9,17 @@ export interface Thought {
   body: string;
   timestamp: number;
   parent_id: number | null;
+  version_of: number | null;
+  superseded_by: number | null;
   reply_count: number;
   attachments: Attachment[];
   color: string | null;
   private: boolean;
+}
+
+export interface ThoughtVersion {
+  id: number;
+  timestamp: number;
 }
 
 export interface Tag {

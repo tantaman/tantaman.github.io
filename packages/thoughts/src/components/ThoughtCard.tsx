@@ -28,6 +28,7 @@ export function ThoughtCard({
   inThread,
   footer,
   onDelete,
+  onEdit,
   maxBodyChars,
   readMore,
 }: {
@@ -36,6 +37,7 @@ export function ThoughtCard({
   inThread?: boolean;
   footer?: ReactNode;
   onDelete?: () => void;
+  onEdit?: (thought: Thought) => void;
   maxBodyChars?: number;
   readMore?: ReactNode;
 }) {
@@ -73,15 +75,32 @@ export function ThoughtCard({
               <span className="thought-private-dot" title="Private">&#9679;</span>
             </>
           )}
+          {thought.version_of != null && (
+            <>
+              <span className="thought-meta-sep">&middot;</span>
+              <span className="thought-revised-badge">revised</span>
+            </>
+          )}
         </a>
         {secret && (
-          <button
-            className="thought-delete"
-            aria-label="Delete thought"
-            onClick={handleDelete}
-          >
-            &times;
-          </button>
+          <>
+            {onEdit && thought.parent_id == null && (
+              <button
+                className="thought-edit"
+                aria-label="Edit thought"
+                onClick={() => onEdit(thought)}
+              >
+                &#9998;
+              </button>
+            )}
+            <button
+              className="thought-delete"
+              aria-label="Delete thought"
+              onClick={handleDelete}
+            >
+              &times;
+            </button>
+          </>
         )}
       </div>
       <div
