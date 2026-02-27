@@ -392,7 +392,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
           subjects: p.tags || [],
           concerns: p.concern || [],
           form: p.form || 'essay',
-          image: undefined,
+          image: p.image,
           sentimentColor: p.color || '',
           wordCount: p.wordCount || 0,
         } as Post;

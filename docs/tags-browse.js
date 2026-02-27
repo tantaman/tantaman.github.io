@@ -564,7 +564,7 @@
           subjects: p.tags || [],
           concerns: p.concern || [],
           form: p.form || "essay",
-          image: void 0,
+          image: p.image,
           sentimentColor: p.color || "",
           wordCount: p.wordCount || 0
         };

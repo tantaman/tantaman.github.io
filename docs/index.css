@@ -899,7 +899,10 @@ img {
   .icon-link,
   .theme-toggle,
   .theme-toggle-fixed,
-  .settings-menu {
+  .settings-menu,
+  #engagement-strip,
+  #comments-section,
+  audio {
     display: none !important;
   }
 
