@@ -1,3 +1,10 @@
+---
+title: 'The Universe Is Under No Obligation'
+tags: [philosophy, religion, culture]
+concern: [ground, knowledge]
+form: essay
+---
+
 # The Universe Is Under No Obligation
 
 *A bit, in the style of Stewart Lee*
