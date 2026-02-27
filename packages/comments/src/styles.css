@@ -247,6 +247,12 @@
   color: #d97706;
 }
 
+.comments-item-tag {
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
 .comments-item-time {
   font-size: 0.75rem;
   color: var(--text-muted);

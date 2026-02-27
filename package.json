@@ -26,6 +26,7 @@
     "relationships": "cd packages/compiler && pnpm build && cd ../.. && relationships",
     "search-index": "cd packages/compiler && pnpm build && cd ../.. && search-index",
     "chat-embeddings": "node scripts/generate-embeddings.mjs",
+    "upload-embeddings": "node scripts/generate-embeddings.mjs && wrangler kv key put --namespace-id=c616f080e03e4c1292ff8004b93cbd0b embeddings:all --path=.chat-embeddings.json --remote",
     "summaries": "node scripts/generate-summaries.mjs",
     "theses": "node scripts/generate-theses.mjs",
     "thought-projection": "node scripts/compute-thought-projection.mjs",

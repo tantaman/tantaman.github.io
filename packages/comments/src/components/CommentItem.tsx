@@ -34,6 +34,9 @@ export function CommentItem({ comment, currentUserId, isAdmin, onReply, onDelete
       <div class="comments-item-header">
         <span class={`comments-item-name ${comment.is_owner ? 'comments-item-owner' : ''}`}>
           {comment.commenter_name}
+          {comment.commenter_tag && (
+            <span class="comments-item-tag"> #{comment.commenter_tag}</span>
+          )}
         </span>
         <span class="comments-item-time">{timeAgo(comment.created_at)}</span>
       </div>

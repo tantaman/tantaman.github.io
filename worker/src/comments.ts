@@ -37,6 +37,15 @@ async function getSessionCommenter(
 
 const OWNER_COMMENTER_ID = 1; // seeded in migration 0023
 
+function emailTag(email: string): string {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < email.length; i++) {
+    h ^= email.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return (h >>> 0).toString(16).slice(-4).padStart(4, "0");
+}
+
 function generateOtp(): string {
   const arr = new Uint32Array(1);
   crypto.getRandomValues(arr);
@@ -74,7 +83,7 @@ comments.get("/notifications", async (c) => {
 
   const rows = await c.env.DB.prepare(
     `SELECT n.id, n.comment_id, n.slug, n.read, n.created_at,
-            cm.display_name AS commenter_name, co.body
+            cm.display_name AS commenter_name, cm.email AS commenter_email, co.body
      FROM notification n
      JOIN comment co ON co.id = n.comment_id
      JOIN commenter cm ON cm.id = co.commenter_id
@@ -87,15 +96,21 @@ comments.get("/notifications", async (c) => {
 
   return c.json({
     unread_count: countRow?.count ?? 0,
-    notifications: rows.results.map((r) => ({
-      id: r.id,
-      comment_id: r.comment_id,
-      slug: r.slug,
-      commenter_name: r.commenter_name,
-      body: typeof r.body === "string" ? r.body.slice(0, 100) : "",
-      created_at: r.created_at,
-      is_read: r.read === 1,
-    })),
+    notifications: rows.results.map((r) => {
+      const isOwner = r.commenter_name === OWNER_NAME;
+      return {
+        id: r.id,
+        comment_id: r.comment_id,
+        slug: r.slug,
+        commenter_name: r.commenter_name,
+        ...(!isOwner && r.commenter_email
+          ? { commenter_tag: emailTag(r.commenter_email as string) }
+          : {}),
+        body: typeof r.body === "string" ? r.body.slice(0, 100) : "",
+        created_at: r.created_at,
+        is_read: r.read === 1,
+      };
+    }),
   });
 });
 
@@ -133,7 +148,7 @@ comments.get("/:slug", async (c) => {
   // Fetch comments
   const rows = await c.env.DB.prepare(
     `SELECT co.id, co.slug, co.commenter_id, co.parent_id, co.body, co.created_at, co.deleted_at,
-            cm.display_name AS commenter_name
+            cm.display_name AS commenter_name, cm.email AS commenter_email
      FROM comment co
      JOIN commenter cm ON cm.id = co.commenter_id
      WHERE co.slug = ?
@@ -142,17 +157,23 @@ comments.get("/:slug", async (c) => {
     .bind(slug)
     .all();
 
-  const commentsResult = rows.results.map((r) => ({
-    id: r.id,
-    slug: r.slug,
-    commenter_id: r.commenter_id,
-    commenter_name: r.commenter_name,
-    parent_id: r.parent_id,
-    body: r.deleted_at ? null : r.body,
-    deleted: r.deleted_at != null,
-    is_owner: r.commenter_name === OWNER_NAME,
-    created_at: r.created_at,
-  }));
+  const commentsResult = rows.results.map((r) => {
+    const isOwner = r.commenter_name === OWNER_NAME;
+    return {
+      id: r.id,
+      slug: r.slug,
+      commenter_id: r.commenter_id,
+      commenter_name: r.commenter_name,
+      ...(!isOwner && r.commenter_email
+        ? { commenter_tag: emailTag(r.commenter_email as string) }
+        : {}),
+      parent_id: r.parent_id,
+      body: r.deleted_at ? null : r.body,
+      deleted: r.deleted_at != null,
+      is_owner: isOwner,
+      created_at: r.created_at,
+    };
+  });
 
   // Like count
   const likeRow = await c.env.DB.prepare(
@@ -223,6 +244,7 @@ comments.post("/:slug", async (c) => {
 
   let commenterId: number;
   let commenterName: string;
+  let commenterEmail: string | null = null;
   let ownerComment = false;
 
   // Admin (site owner) can comment directly with THOUGHT_SECRET
@@ -240,6 +262,7 @@ comments.post("/:slug", async (c) => {
     }
     commenterId = commenter.id;
     commenterName = commenter.display_name;
+    commenterEmail = commenter.email;
   }
 
   const { body, parent_id } = CreateCommentBody.parse(await c.req.json());
@@ -298,6 +321,9 @@ comments.post("/:slug", async (c) => {
       slug,
       commenter_id: commenterId,
       commenter_name: commenterName,
+      ...(!ownerComment && commenterEmail
+        ? { commenter_tag: emailTag(commenterEmail) }
+        : {}),
       parent_id: parent_id ?? null,
       body,
       deleted: false,
@@ -438,14 +464,6 @@ comments.post("/auth/verify-otp", async (c) => {
   if (existingCommenter) {
     commenterId = existingCommenter.id;
     commenterName = existingCommenter.display_name;
-    if (display_name && display_name !== existingCommenter.display_name) {
-      await c.env.DB.prepare(
-        "UPDATE commenter SET display_name = ? WHERE id = ?",
-      )
-        .bind(display_name, commenterId)
-        .run();
-      commenterName = display_name;
-    }
   } else {
     const name = display_name || email.split("@")[0];
     if (name.toLowerCase() === OWNER_NAME) {
@@ -475,6 +493,7 @@ comments.post("/auth/verify-otp", async (c) => {
       id: commenterId,
       display_name: commenterName,
       email,
+      tag: emailTag(email),
     },
   });
 });
@@ -506,6 +525,7 @@ comments.get("/auth/me", async (c) => {
       display_name: commenter.display_name,
       email: commenter.email,
       is_owner: false,
+      tag: emailTag(commenter.email),
     },
   });
 });

@@ -97,7 +97,7 @@ export function AuthModal({ onAuthenticated, onClose }: Props) {
               class="comments-input comments-otp-input"
             />
             <label class="comments-name-label">
-              <span>Display name (optional)</span>
+              <span>Display name (optional, permanent)</span>
               <input
                 type="text"
                 placeholder="Your name"

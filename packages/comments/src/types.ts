@@ -3,6 +3,7 @@ export interface Comment {
   slug: string;
   commenter_id: number;
   commenter_name: string;
+  commenter_tag?: string;
   parent_id: number | null;
   body: string | null;
   deleted: boolean;
@@ -15,6 +16,7 @@ export interface Commenter {
   display_name: string;
   email: string;
   is_owner?: boolean;
+  tag?: string;
 }
 
 export interface LikeState {
@@ -38,6 +40,7 @@ export interface Notification {
   comment_id: number;
   slug: string;
   commenter_name: string;
+  commenter_tag?: string;
   body: string;
   created_at: number;
   is_read: boolean;

@@ -93,7 +93,12 @@ export function NotificationJewel() {
                 href={`/${n.slug}.html#comments-section`}
                 class={`comments-notif-item${!n.is_read ? ' comments-notif-unread' : ''}`}
               >
-                <span class="comments-notif-name">{n.commenter_name}</span>
+                <span class="comments-notif-name">
+                  {n.commenter_name}
+                  {n.commenter_tag && (
+                    <span class="comments-item-tag"> #{n.commenter_tag}</span>
+                  )}
+                </span>
                 <span class="comments-notif-body">{n.body}</span>
                 <span class="comments-notif-time">{timeAgo(n.created_at)}</span>
               </a>
