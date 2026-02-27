@@ -1,9 +1,10 @@
-import { useContext, useMemo, type ReactNode } from 'react';
+import { useContext, useMemo, useState, type ReactNode } from 'react';
 import type { Thought } from '../types';
 import { attachmentUrl } from '../api';
 import * as api from '../api';
 import { AuthContext } from '../App';
 import { renderMarkdown } from '../markdown';
+import { ComposeForm } from './ComposeForm';
 
 function formatTime(timestamp: number): string {
   const d = new Date(timestamp * 1000);
@@ -28,7 +29,7 @@ export function ThoughtCard({
   inThread,
   footer,
   onDelete,
-  onEdit,
+  onEdited,
   maxBodyChars,
   readMore,
 }: {
@@ -37,11 +38,12 @@ export function ThoughtCard({
   inThread?: boolean;
   footer?: ReactNode;
   onDelete?: () => void;
-  onEdit?: (thought: Thought) => void;
+  onEdited?: (newThought: Thought) => void;
   maxBodyChars?: number;
   readMore?: ReactNode;
 }) {
   const { secret, updateSecret } = useContext(AuthContext);
+  const [editing, setEditing] = useState(false);
 
   const handleDelete = async () => {
     if (!secret || !confirm('Delete this thought?')) return;
@@ -82,13 +84,13 @@ export function ThoughtCard({
             </>
           )}
         </a>
-        {secret && (
+        {secret && !editing && (
           <>
-            {onEdit && thought.parent_id == null && (
+            {onEdited && thought.parent_id == null && (
               <button
                 className="thought-edit"
                 aria-label="Edit thought"
-                onClick={() => onEdit(thought)}
+                onClick={() => setEditing(true)}
               >
                 &#9998;
               </button>
@@ -103,32 +105,47 @@ export function ThoughtCard({
           </>
         )}
       </div>
-      <div
-        className="thought-body thought-body--md"
-        dangerouslySetInnerHTML={useMemo(
-          () => ({ __html: renderMarkdown(displayBody) }),
-          [displayBody],
-        )}
-      />
-      {isTruncated && readMore}
-      {thought.attachments && thought.attachments.length > 0 && (
-        <div className="thought-attachments">
-          {thought.attachments.map((att) => {
-            const url = attachmentUrl(att.key);
-            return att.type?.startsWith('image/') ? (
-              <img key={att.key} src={url} alt={att.name} loading="lazy" />
-            ) : (
-              <a
-                key={att.key}
-                className="thought-file-link"
-                href={url}
-                download={att.name}
-              >
-                {att.name}
-              </a>
-            );
-          })}
-        </div>
+      {editing ? (
+        <ComposeForm
+          versionOf={thought.id}
+          initialBody={thought.body}
+          submitLabel="Save revision"
+          onPosted={(t) => {
+            setEditing(false);
+            onEdited?.(t);
+          }}
+          onCancel={() => setEditing(false)}
+        />
+      ) : (
+        <>
+          <div
+            className="thought-body thought-body--md"
+            dangerouslySetInnerHTML={useMemo(
+              () => ({ __html: renderMarkdown(displayBody) }),
+              [displayBody],
+            )}
+          />
+          {isTruncated && readMore}
+          {thought.attachments && thought.attachments.length > 0 && (
+            <div className="thought-attachments">
+              {thought.attachments.map((att) => {
+                const url = attachmentUrl(att.key);
+                return att.type?.startsWith('image/') ? (
+                  <img key={att.key} src={url} alt={att.name} loading="lazy" />
+                ) : (
+                  <a
+                    key={att.key}
+                    className="thought-file-link"
+                    href={url}
+                    download={att.name}
+                  >
+                    {att.name}
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
       {footer}
     </div>
