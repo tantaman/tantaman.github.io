@@ -5,8 +5,6 @@ concern: [ground, knowledge]
 form: essay
 ---
 
-# The Universe Is Under No Obligation
-
 *A bit, in the style of Stewart Lee*
 
 ---
