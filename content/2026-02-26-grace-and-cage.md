@@ -3,7 +3,10 @@ title: 'Grace and the Cage'
 tags: [philosophy, religion]
 concern: [ground, self]
 summary: "Is transcendence real, or just the cage's most elegant pressure-release valve?"
+image: '/img/de-la-tour-magdalen.jpg'
 ---
+
+![Georges de La Tour — The Penitent Magdalen (c. 1640)](/img/de-la-tour-magdalen.jpg)
 
 *Is religion just a way of having a good subjective experience while in the cage? Or truly oriented towards something real?*
 
