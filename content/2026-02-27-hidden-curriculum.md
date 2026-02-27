@@ -6,6 +6,8 @@ form: essay
 image: '/img/rothko-chapel.jpg'
 ---
 
+![Mark Rothko — Rothko Chapel (1967)](/img/rothko-chapel.jpg)
+
 Begin with a fact that should be more alarming than it is.
 
 Every attempt in the history of philosophy to rationally ground ethics has failed. Not contingently — not because the right philosopher hasn't come along yet, or because the argument is very difficult and we're still working on it. The failure is structural. It can be demonstrated.
