@@ -57,6 +57,30 @@ export const UpdateEdgeBody = z.object({
   label: z.string().optional(),
 });
 
+// POST /framings/import
+export const ImportFramingBody = z.object({
+  name: z.string().trim().min(1),
+  nodes: z.array(z.object({
+    id: z.union([z.number(), z.string()]),
+    type: z.enum(["thought", "post"]),
+    x: z.number(),
+    y: z.number(),
+    body: z.string().optional(),
+    timestamp: z.number().optional(),
+    color: z.string().nullable().optional(),
+    slug: z.string().optional(),
+    title: z.string().optional(),
+    summary: z.string().optional(),
+    date: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+  })),
+  edges: z.array(z.object({
+    source: z.union([z.number(), z.string()]),
+    target: z.union([z.number(), z.string()]),
+    label: z.string().nullable().optional(),
+  })),
+});
+
 // POST /dha/reports
 export const CreateDhaReportBody = z.object({
   report_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD"),

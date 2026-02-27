@@ -26,6 +26,7 @@ import {
   CreateEdgeBody,
   UpdateEdgeBody,
   BatchUpdateBody,
+  ImportFramingBody,
   CreatePostBody,
   UpdatePostBody,
   LikeBody,
@@ -895,6 +896,62 @@ api.post("/framings", async (c) => {
     created_at: now,
     updated_at: now,
   }, 201);
+});
+
+api.post("/framings/import", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const { name, nodes, edges } = ImportFramingBody.parse(await c.req.json());
+
+  const now = Math.floor(Date.now() / 1000);
+  const framingResult = await c.env.DB.prepare(
+    "INSERT INTO framing (name, description, created_at, updated_at) VALUES (?, ?, ?, ?)"
+  ).bind(name.trim(), null, now, now).run();
+  const framingId = framingResult.meta.last_row_id;
+
+  // Map exported node ID → new framing_node ID
+  const nodeIdMap = new Map<string, number>();
+
+  for (const node of nodes) {
+    if (node.type === "thought") {
+      const thoughtId = typeof node.id === "string" ? parseInt(node.id, 10) : node.id;
+      // Ensure thought exists
+      const existing = await c.env.DB.prepare("SELECT id FROM thought WHERE id = ?").bind(thoughtId).first();
+      if (!existing) {
+        const ts = node.timestamp ?? now;
+        const body = node.body ?? "";
+        await c.env.DB.prepare(
+          "INSERT INTO thought (id, body, timestamp, private) VALUES (?, ?, ?, 0)"
+        ).bind(thoughtId, body, ts).run();
+      }
+      const fnResult = await c.env.DB.prepare(
+        "INSERT INTO framing_node (framing_id, node_type, item_id, x, y) VALUES (?, 'thought', ?, ?, ?)"
+      ).bind(framingId, String(thoughtId), node.x, node.y).run();
+      nodeIdMap.set(String(node.id), fnResult.meta.last_row_id as number);
+    } else {
+      const slug = node.slug ?? String(node.id);
+      const fnResult = await c.env.DB.prepare(
+        "INSERT INTO framing_node (framing_id, node_type, item_id, x, y) VALUES (?, 'post', ?, ?, ?)"
+      ).bind(framingId, slug, node.x, node.y).run();
+      nodeIdMap.set(String(node.id), fnResult.meta.last_row_id as number);
+    }
+  }
+
+  let edgesCreated = 0;
+  for (const edge of edges) {
+    const sourceNodeId = nodeIdMap.get(String(edge.source));
+    const targetNodeId = nodeIdMap.get(String(edge.target));
+    if (sourceNodeId == null || targetNodeId == null) continue;
+    await c.env.DB.prepare(
+      "INSERT INTO framing_edge (framing_id, source_node_id, target_node_id, label) VALUES (?, ?, ?, ?)"
+    ).bind(framingId, sourceNodeId, targetNodeId, edge.label?.trim() || null).run();
+    edgesCreated++;
+  }
+
+  return c.json({ id: framingId }, 201);
 });
 
 api.get("/framings/:id", async (c) => {

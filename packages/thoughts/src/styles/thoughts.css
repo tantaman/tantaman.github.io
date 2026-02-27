@@ -1412,6 +1412,23 @@ input[type="checkbox"]:disabled {
   font-size: 1rem;
   color: var(--text);
 }
+.framing-panel-title.editable {
+  cursor: pointer;
+}
+.framing-panel-title-input {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 0.25rem;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+}
 
 .framing-panel-search {
   padding: 0.5rem 1rem;

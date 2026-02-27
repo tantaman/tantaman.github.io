@@ -1,4 +1,4 @@
-import { useCallback, useRef, type MouseEvent as ReactMouseEvent } from 'react';
+import { useCallback, useContext, useRef, type MouseEvent as ReactMouseEvent } from 'react';
 import {
   ReactFlow,
   Background,
@@ -7,12 +7,15 @@ import {
   type ReactFlowInstance,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import { useSWRConfig } from 'swr';
 import { useFramingCanvas } from './useFramingCanvas';
 import { ThoughtNode, type ThoughtNodeData } from './ThoughtNode';
 import { PostNode, type PostNodeData } from './PostNode';
 import { LabeledEdge, type LabeledEdgeData } from './LabeledEdge';
 import { ComposeNode } from './ComposeNode';
 import { FramingLeftPanel } from './FramingLeftPanel';
+import { updateFraming } from '../../api';
+import { AuthContext } from '../../App';
 import type { Node, Edge } from '@xyflow/react';
 
 // Cast to any: @xyflow/react bundles @types/react@18 which conflicts with project's @types/react@19
@@ -31,11 +34,15 @@ function exportFraming(
   nodes: Node[],
   edges: Edge[],
 ) {
+  // Map ReactFlow node ID → exported node ID
+  const rfIdToExportId = new Map<string, number | string>();
+
   const exportedNodes = nodes
     .filter((n) => n.type === 'thought' || n.type === 'post')
     .map((n) => {
       if (n.type === 'thought') {
         const d = n.data as ThoughtNodeData;
+        rfIdToExportId.set(n.id, d.thoughtId);
         return {
           id: d.thoughtId,
           type: 'thought' as const,
@@ -47,8 +54,9 @@ function exportFraming(
         };
       }
       const d = n.data as PostNodeData;
+      rfIdToExportId.set(n.id, d.slug);
       return {
-        id: d.nodeId,
+        id: d.slug,
         type: 'post' as const,
         x: n.position.x,
         y: n.position.y,
@@ -60,14 +68,16 @@ function exportFraming(
       };
     });
 
-  const exportedEdges = edges.map((e) => {
-    const d = e.data as LabeledEdgeData | undefined;
-    return {
-      source: Number(e.source),
-      target: Number(e.target),
-      label: d?.label ?? null,
-    };
-  });
+  const exportedEdges = edges
+    .filter((e) => rfIdToExportId.has(e.source) && rfIdToExportId.has(e.target))
+    .map((e) => {
+      const d = e.data as LabeledEdgeData | undefined;
+      return {
+        source: rfIdToExportId.get(e.source)!,
+        target: rfIdToExportId.get(e.target)!,
+        label: d?.label ?? null,
+      };
+    });
 
   const payload = {
     name: framingName,
@@ -101,6 +111,22 @@ export function FramingCanvasView({ id }: { id: number }) {
     framing,
     loading,
   } = useFramingCanvas(id);
+
+  const { secret } = useContext(AuthContext);
+  const { mutate } = useSWRConfig();
+
+  const handleRename = useCallback(
+    async (name: string) => {
+      if (!secret) return;
+      try {
+        await updateFraming(id, { name }, secret);
+        mutate(`framing-${id}`);
+      } catch {
+        // ignore
+      }
+    },
+    [id, secret, mutate],
+  );
 
   const rfRef = useRef<ReactFlowInstance | null>(null);
 
@@ -181,6 +207,7 @@ export function FramingCanvasView({ id }: { id: number }) {
       <FramingLeftPanel
         framingName={framing?.name ?? ''}
         placedItemKeys={placedItemKeys}
+        onRename={handleRename}
       />
       <div className="framing-canvas" onKeyDown={onKeyDown} tabIndex={0}>
         <ReactFlow

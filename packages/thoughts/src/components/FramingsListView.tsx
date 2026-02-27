@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import { createFraming, deleteFraming } from '../api';
+import { useContext, useRef, useState } from 'react';
+import { createFraming, deleteFraming, importFraming } from '../api';
 import { AuthContext } from '../App';
 import { useFramings } from '../hooks/useCache';
 
@@ -11,6 +11,7 @@ export function FramingsListView() {
 
   const [name, setName] = useState('');
   const [creating, setCreating] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +25,20 @@ export function FramingsListView() {
       // ignore
     }
     setCreating(false);
+  };
+
+  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !secret) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      const { id } = await importFraming(data, secret);
+      window.location.hash = `framing-${id}`;
+    } catch {
+      // ignore
+    }
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleDelete = async (id: number) => {
@@ -51,6 +66,16 @@ export function FramingsListView() {
           <button type="submit" className="framings-create-btn" disabled={creating || !name.trim()}>
             Create
           </button>
+          <button type="button" className="framings-create-btn" onClick={() => fileInputRef.current?.click()}>
+            Import
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            style={{ display: 'none' }}
+            onChange={handleImport}
+          />
         </form>
       )}
       {loading ? (

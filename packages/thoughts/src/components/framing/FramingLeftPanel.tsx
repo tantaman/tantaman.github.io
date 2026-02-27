@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useThoughts } from '../../hooks/useThoughts';
 import { useSearch, usePostsManifest } from '../../hooks/useCache';
 import { renderMarkdown } from '../../markdown';
+import { AuthContext } from '../../App';
 import type { Thought, PostSummary } from '../../types';
 
 function truncate(text: string, max: number): string {
@@ -165,10 +166,34 @@ function PostsResults({
 export function FramingLeftPanel({
   framingName,
   placedItemKeys,
+  onRename,
 }: {
   framingName: string;
   placedItemKeys: Set<string>;
+  onRename?: (name: string) => void;
 }) {
+  const { secret } = useContext(AuthContext);
+  const [editing, setEditing] = useState(false);
+  const [editValue, setEditValue] = useState(framingName);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (editing && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [editing]);
+
+  const commitEdit = useCallback(() => {
+    setEditing(false);
+    const trimmed = editValue.trim();
+    if (trimmed && trimmed !== framingName && onRename) {
+      onRename(trimmed);
+    } else {
+      setEditValue(framingName);
+    }
+  }, [editValue, framingName, onRename]);
+
   const [tab, setTab] = useState<'thoughts' | 'posts'>('thoughts');
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -187,7 +212,30 @@ export function FramingLeftPanel({
     <div className="framing-left-panel">
       <div className="framing-panel-header">
         <a href="#framings" className="framing-panel-back">&larr; Framings</a>
-        <h3 className="framing-panel-title">{framingName}</h3>
+        {editing ? (
+          <input
+            ref={inputRef}
+            className="framing-panel-title-input"
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') commitEdit();
+              if (e.key === 'Escape') { setEditing(false); setEditValue(framingName); }
+            }}
+            onBlur={commitEdit}
+          />
+        ) : (
+          <h3
+            className={`framing-panel-title${secret ? ' editable' : ''}`}
+            onDoubleClick={() => {
+              if (!secret) return;
+              setEditValue(framingName);
+              setEditing(true);
+            }}
+          >
+            {framingName}
+          </h3>
+        )}
       </div>
       <div className="framing-panel-tabs">
         <button

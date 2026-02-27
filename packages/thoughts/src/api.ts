@@ -237,6 +237,24 @@ export async function deleteFraming(
   if (!r.ok) throw new Error('Delete failed');
 }
 
+export async function updateFraming(
+  id: number,
+  updates: { name?: string; description?: string },
+  secret: string,
+): Promise<Framing> {
+  const r = await fetch(`${API}/framings/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(updates),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
 export async function addNodeToFraming(
   framingId: number,
   nodeType: 'thought' | 'post',
@@ -343,6 +361,23 @@ export async function deleteFramingEdge(
   });
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Delete failed');
+}
+
+export async function importFraming(
+  data: object,
+  secret: string,
+): Promise<{ id: number }> {
+  const r = await fetch(`${API}/framings/import`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Import failed');
+  return r.json();
 }
 
 // --- Posts Manifest ---
