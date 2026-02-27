@@ -8,11 +8,12 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useFramingCanvas } from './useFramingCanvas';
-import { ThoughtNode } from './ThoughtNode';
-import { PostNode } from './PostNode';
-import { LabeledEdge } from './LabeledEdge';
+import { ThoughtNode, type ThoughtNodeData } from './ThoughtNode';
+import { PostNode, type PostNodeData } from './PostNode';
+import { LabeledEdge, type LabeledEdgeData } from './LabeledEdge';
 import { ComposeNode } from './ComposeNode';
 import { FramingLeftPanel } from './FramingLeftPanel';
+import type { Node, Edge } from '@xyflow/react';
 
 // Cast to any: @xyflow/react bundles @types/react@18 which conflicts with project's @types/react@19
 const nodeTypes = {
@@ -24,6 +25,65 @@ const nodeTypes = {
 const edgeTypes = {
   labeled: LabeledEdge,
 } as any;
+
+function exportFraming(
+  framingName: string,
+  nodes: Node[],
+  edges: Edge[],
+) {
+  const exportedNodes = nodes
+    .filter((n) => n.type === 'thought' || n.type === 'post')
+    .map((n) => {
+      if (n.type === 'thought') {
+        const d = n.data as ThoughtNodeData;
+        return {
+          id: d.thoughtId,
+          type: 'thought' as const,
+          x: n.position.x,
+          y: n.position.y,
+          body: d.body,
+          timestamp: d.timestamp,
+          color: d.color ?? null,
+        };
+      }
+      const d = n.data as PostNodeData;
+      return {
+        id: d.nodeId,
+        type: 'post' as const,
+        x: n.position.x,
+        y: n.position.y,
+        title: d.title,
+        slug: d.slug,
+        summary: d.summary,
+        date: d.date,
+        tags: d.tags,
+      };
+    });
+
+  const exportedEdges = edges.map((e) => {
+    const d = e.data as LabeledEdgeData | undefined;
+    return {
+      source: Number(e.source),
+      target: Number(e.target),
+      label: d?.label ?? null,
+    };
+  });
+
+  const payload = {
+    name: framingName,
+    exported_at: new Date().toISOString(),
+    nodes: exportedNodes,
+    edges: exportedEdges,
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${framingName.replace(/[^a-z0-9_-]/gi, '-') || 'framing'}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 export function FramingCanvasView({ id }: { id: number }) {
   const {
@@ -145,6 +205,13 @@ export function FramingCanvasView({ id }: { id: number }) {
           <Background />
           <Controls />
           <MiniMap />
+          <button
+            className="framing-export-btn"
+            onClick={() => exportFraming(framing?.name ?? 'framing', nodes, edges)}
+            title="Export as JSON"
+          >
+            Export
+          </button>
         </ReactFlow>
       </div>
     </div>
