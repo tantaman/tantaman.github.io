@@ -40,6 +40,7 @@
  */
 
 import { h } from 'hastscript';
+import { hashAsset } from './hash-asset.js';
 
 /**
  * Wrap a document around a fragment.
@@ -110,7 +111,7 @@ export default function rehypeDocument(options = {}) {
     while (++index < css.length) {
       head.push(
         { type: 'text', value: '\n' },
-        h('link', { rel: 'stylesheet', href: css[index] }),
+        h('link', { rel: 'stylesheet', href: hashAsset(css[index]) }),
       );
     }
 
@@ -130,11 +131,11 @@ export default function rehypeDocument(options = {}) {
     while (++index < js.length) {
       const instance = js[index];
       if (typeof instance === 'object') {
-        contents.push({ type: 'text', value: '\n' }, h('script', instance));
+        contents.push({ type: 'text', value: '\n' }, h('script', { ...instance, src: hashAsset(instance.src) }));
       } else {
         contents.push(
           { type: 'text', value: '\n' },
-          h('script', { src: js[index] }),
+          h('script', { src: hashAsset(js[index]) }),
         );
       }
     }

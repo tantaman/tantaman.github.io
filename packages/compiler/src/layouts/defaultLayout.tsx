@@ -3,6 +3,7 @@ import { select } from 'hast-util-select';
 import { h } from 'hastscript';
 import { VFile } from 'vfile';
 import { indexFrontmatter } from '../index-frontmatter.js';
+import { hashAsset } from '../hash-asset.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -102,11 +103,11 @@ export default async function defaultLayout(
   const head = select('head', tree);
   if (head) {
     head.children.push(
-      h('link', { rel: 'stylesheet', href: '/comments/comments.css' }),
+      h('link', { rel: 'stylesheet', href: hashAsset('/comments/comments.css') }),
     );
   }
   body.children.push(
-    h('script', { src: '/comments/comments.js', defer: true, type: 'module' }),
+    h('script', { src: hashAsset('/comments/comments.js'), defer: true, type: 'module' }),
   );
 }
 
