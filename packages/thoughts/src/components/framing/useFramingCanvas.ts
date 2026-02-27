@@ -351,6 +351,25 @@ export function useFramingCanvas(framingId: number) {
     return keys;
   }, [nodes]);
 
+  const applyLayout = useCallback(
+    (positions: Map<string, { x: number; y: number }>) => {
+      if (!secret) return;
+      setNodes((prev) =>
+        prev.map((n) => {
+          const pos = positions.get(n.id);
+          return pos ? { ...n, position: pos } : n;
+        }),
+      );
+      const items = Array.from(positions.entries()).map(([id, pos]) => ({
+        node_id: Number(id),
+        x: pos.x,
+        y: pos.y,
+      }));
+      batchUpdateNodes(framingId, items, secret).catch(() => {});
+    },
+    [framingId, secret],
+  );
+
   return {
     nodes,
     edges,
@@ -362,6 +381,7 @@ export function useFramingCanvas(framingId: number) {
     addPost,
     deleteEdge,
     startCompose,
+    applyLayout,
     placedItemKeys,
     framing: data?.framing ?? null,
     loading: !data,

@@ -1596,11 +1596,16 @@ input[type="checkbox"]:disabled {
   cursor: default;
 }
 
-.framing-export-btn {
+.framing-toolbar {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 5;
+  display: flex;
+  gap: 6px;
+}
+
+.framing-toolbar-btn {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -1612,7 +1617,7 @@ input[type="checkbox"]:disabled {
   transition: opacity 0.15s;
 }
 
-.framing-export-btn:hover {
+.framing-toolbar-btn:hover {
   opacity: 1;
 }
 

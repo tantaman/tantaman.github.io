@@ -18,6 +18,80 @@ import { updateFraming } from '../../api';
 import { AuthContext } from '../../App';
 import type { Node, Edge } from '@xyflow/react';
 
+const NODE_W = 250;
+const NODE_H = 150;
+const HGAP = 60;
+const VGAP = 80;
+
+function hierarchicalLayout(nodes: Node[], edges: Edge[]): Map<string, { x: number; y: number }> {
+  // Only layout real content nodes (thought/post)
+  const layoutNodes = nodes.filter((n) => n.type === 'thought' || n.type === 'post');
+  if (layoutNodes.length === 0) return new Map();
+
+  const ids = new Set(layoutNodes.map((n) => n.id));
+  const children = new Map<string, string[]>();
+  const inDegree = new Map<string, number>();
+  for (const id of ids) {
+    children.set(id, []);
+    inDegree.set(id, 0);
+  }
+  // Only consider edges where both endpoints exist
+  for (const e of edges) {
+    if (ids.has(e.source) && ids.has(e.target)) {
+      children.get(e.source)!.push(e.target);
+      inDegree.set(e.target, inDegree.get(e.target)! + 1);
+    }
+  }
+
+  const roots = [...ids].filter((id) => inDegree.get(id) === 0);
+  if (roots.length === 0) roots.push(...ids); // cycle fallback
+
+  // Longest-path layering via BFS
+  const layer = new Map<string, number>();
+  const queue = roots.map((id) => {
+    layer.set(id, 0);
+    return id;
+  });
+  for (let i = 0; i < queue.length; i++) {
+    const cur = queue[i];
+    const curLayer = layer.get(cur)!;
+    for (const child of children.get(cur)!) {
+      const prev = layer.get(child);
+      if (prev === undefined || curLayer + 1 > prev) {
+        layer.set(child, curLayer + 1);
+        queue.push(child);
+      }
+    }
+  }
+
+  // Group by layer
+  const layers = new Map<number, string[]>();
+  for (const [id, l] of layer) {
+    if (!layers.has(l)) layers.set(l, []);
+    layers.get(l)!.push(id);
+  }
+
+  const positions = new Map<string, { x: number; y: number }>();
+  let maxWidth = 0;
+  for (const group of layers.values()) {
+    if (group.length > maxWidth) maxWidth = group.length;
+  }
+  const totalW = maxWidth * (NODE_W + HGAP) - HGAP;
+
+  for (const [l, group] of layers) {
+    const rowW = group.length * (NODE_W + HGAP) - HGAP;
+    const offsetX = (totalW - rowW) / 2;
+    group.forEach((id, i) => {
+      positions.set(id, {
+        x: offsetX + i * (NODE_W + HGAP),
+        y: l * (NODE_H + VGAP),
+      });
+    });
+  }
+
+  return positions;
+}
+
 // Cast to any: @xyflow/react bundles @types/react@18 which conflicts with project's @types/react@19
 const nodeTypes = {
   thought: ThoughtNode,
@@ -107,6 +181,7 @@ export function FramingCanvasView({ id }: { id: number }) {
     addPost,
     deleteEdge,
     startCompose,
+    applyLayout,
     placedItemKeys,
     framing,
     loading,
@@ -232,13 +307,22 @@ export function FramingCanvasView({ id }: { id: number }) {
           <Background />
           <Controls />
           <MiniMap />
-          <button
-            className="framing-export-btn"
-            onClick={() => exportFraming(framing?.name ?? 'framing', nodes, edges)}
-            title="Export as JSON"
-          >
-            Export
-          </button>
+          <div className="framing-toolbar">
+            <button
+              className="framing-toolbar-btn"
+              onClick={() => applyLayout(hierarchicalLayout(nodes, edges))}
+              title="Auto-arrange nodes hierarchically"
+            >
+              Layout
+            </button>
+            <button
+              className="framing-toolbar-btn"
+              onClick={() => exportFraming(framing?.name ?? 'framing', nodes, edges)}
+              title="Export as JSON"
+            >
+              Export
+            </button>
+          </div>
         </ReactFlow>
       </div>
     </div>
