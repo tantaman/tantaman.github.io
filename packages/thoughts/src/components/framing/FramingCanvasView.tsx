@@ -46,6 +46,38 @@ function hierarchicalLayout(nodes: Node[], edges: Edge[]): Map<string, { x: numb
   const roots = [...ids].filter((id) => inDegree.get(id) === 0);
   if (roots.length === 0) roots.push(...ids); // cycle fallback
 
+  // Break cycles via iterative DFS; remove back-edges so BFS runs on a DAG
+  const visiting = new Set<string>();
+  const visited = new Set<string>();
+  const backEdges = new Set<string>();
+  const dfsStack: { node: string; childIdx: number }[] = [];
+  for (const root of roots) {
+    if (visited.has(root)) continue;
+    dfsStack.push({ node: root, childIdx: 0 });
+    visiting.add(root);
+    while (dfsStack.length > 0) {
+      const frame = dfsStack[dfsStack.length - 1];
+      const kids = children.get(frame.node)!;
+      if (frame.childIdx < kids.length) {
+        const child = kids[frame.childIdx++];
+        if (visiting.has(child)) {
+          backEdges.add(`${frame.node}\t${child}`);
+        } else if (!visited.has(child)) {
+          visiting.add(child);
+          dfsStack.push({ node: child, childIdx: 0 });
+        }
+      } else {
+        visiting.delete(frame.node);
+        visited.add(frame.node);
+        dfsStack.pop();
+      }
+    }
+  }
+  for (const key of backEdges) {
+    const [src, tgt] = key.split('\t');
+    children.set(src, children.get(src)!.filter((c) => c !== tgt));
+  }
+
   // Longest-path layering via BFS
   const layer = new Map<string, number>();
   const queue = roots.map((id) => {
