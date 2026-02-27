@@ -59,6 +59,7 @@ export function ThoughtCard({
 
   const isTruncated = maxBodyChars != null && thought.body.length > maxBodyChars;
   const displayBody = isTruncated ? thought.body.slice(0, maxBodyChars) + '\u2026' : thought.body;
+  const renderedBody = useMemo(() => ({ __html: renderMarkdown(displayBody) }), [displayBody]);
 
   return (
     <div
@@ -120,10 +121,7 @@ export function ThoughtCard({
         <>
           <div
             className="thought-body thought-body--md"
-            dangerouslySetInnerHTML={useMemo(
-              () => ({ __html: renderMarkdown(displayBody) }),
-              [displayBody],
-            )}
+            dangerouslySetInnerHTML={renderedBody}
           />
           {isTruncated && readMore}
           {thought.attachments && thought.attachments.length > 0 && (

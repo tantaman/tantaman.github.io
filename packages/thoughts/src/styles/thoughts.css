@@ -176,7 +176,8 @@ input[type="checkbox"]:disabled {
 }
 
 .thoughts-form-wrap textarea,
-.reply-form textarea {
+.reply-form textarea,
+.compose-area textarea {
   width: 100%;
   resize: none;
   font-family: inherit;
@@ -190,12 +191,14 @@ input[type="checkbox"]:disabled {
 }
 
 .thoughts-form-wrap textarea::placeholder,
-.reply-form textarea::placeholder {
+.reply-form textarea::placeholder,
+.compose-area textarea::placeholder {
   color: var(--text-muted);
 }
 
 .thoughts-form-wrap textarea:focus,
-.reply-form textarea:focus {
+.reply-form textarea:focus,
+.compose-area textarea:focus {
   outline: none;
   border-bottom-color: var(--text);
 }
