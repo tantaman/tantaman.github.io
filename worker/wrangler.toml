@@ -6,7 +6,8 @@ compatibility_flags = ["nodejs_compat"]
 routes = [
   { pattern = "tantaman.com/api", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/api/", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/api/*", zone_name = "tantaman.com" }
+  { pattern = "tantaman.com/api/*", zone_name = "tantaman.com" },
+  { pattern = "tantaman.com/audio/*", zone_name = "tantaman.com" }
 ]
 
 [[kv_namespaces]]
@@ -24,6 +25,10 @@ database_id = "a1190a47-fe1e-4fdb-8d7a-06dd5714fc6b"
 [[r2_buckets]]
 binding = "BUCKET"
 bucket_name = "thought-attachments"
+
+[[r2_buckets]]
+binding = "AUDIO_BUCKET"
+bucket_name = "tantaman-audio"
 
 [[vectorize]]
 binding = "VECTORIZE"

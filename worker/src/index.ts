@@ -44,6 +44,7 @@ export interface Env {
   EMBEDDINGS: KVNamespace;
   DB: D1Database;
   BUCKET: R2Bucket;
+  AUDIO_BUCKET: R2Bucket;
   VECTORIZE: Vectorize;
   THOUGHT_SECRET: string;
   DHA_SECRET: string;
@@ -1425,6 +1426,18 @@ api.route("/dha", dha);
 api.route("/posts", posts);
 api.route("/comments", comments);
 api.route("/ig-card", igCard);
+
+// Serve audio files from R2
+app.get("/audio/*", async (c) => {
+  const key = c.req.path.replace(/^\/audio\//, "");
+  if (!key) return c.notFound();
+  const object = await c.env.AUDIO_BUCKET.get(key);
+  if (!object) return c.notFound();
+  const contentType = key.endsWith(".mp3") ? "audio/mpeg" : key.endsWith(".mid") ? "audio/midi" : "application/octet-stream";
+  c.header("Content-Type", contentType);
+  c.header("Cache-Control", "public, max-age=31536000, immutable");
+  return c.body(object.body);
+});
 
 // Mount API routes
 app.route("/api", api);

@@ -12,9 +12,11 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-CONTENT_DIR = Path(__file__).resolve().parent.parent / "content"
-DOCS_DIR = Path(__file__).resolve().parent.parent / "docs"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+CONTENT_DIR = REPO_ROOT / "content"
+DOCS_DIR = REPO_ROOT / "docs"
 AUDIO_DIR = DOCS_DIR / "audio"
+WORKER_DIR = REPO_ROOT / "worker"
 COLLECTIONS = ["", "the-mirror-room/", "chats/", "notes/"]
 SKIP_FILES = {"index.js", "index.md", "README.md", "404.md", "tags.js", "audio.md", "scratch.md"}
 
@@ -210,7 +212,22 @@ def generate_audio(posts: list[dict], *, force: bool, dry_run: bool, voice: str,
         finally:
             os.unlink(tmp_wav)
 
-        print(f"    saved: {mp3_path.relative_to(DOCS_DIR.parent)}")
+        print(f"    saved: {mp3_path.relative_to(REPO_ROOT)}")
+
+        # Upload to R2
+        print(f"    uploading to R2...", end=" ", flush=True)
+        subprocess.run(
+            [
+                "wrangler", "r2", "object", "put",
+                f"tantaman-audio/{post['slug']}.mp3",
+                "--file", str(mp3_path),
+                "--content-type", "audio/mpeg",
+            ],
+            check=True,
+            capture_output=True,
+            cwd=WORKER_DIR,
+        )
+        print("done")
 
 
 def main():

@@ -30,3 +30,6 @@ yarn-error.log*
 # Chat embeddings (regenerated via API)
 .chat-embeddings.json
 .chat-embeddings-cache.json
+
+# Audio files (hosted on Cloudflare R2)
+docs/audio/
