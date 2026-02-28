@@ -153,6 +153,15 @@ export const VerifyOtpBody = z.object({
   display_name: z.string().trim().min(1).max(100).optional(),
 });
 
+// PATCH /movies/:id
+export const UpdateMovieBody = z.object({
+  title: z.string().trim().min(1).optional(),
+  tmdb_id: z.number().int().positive().optional(),
+}).refine(
+  (data) => data.title !== undefined || data.tmdb_id !== undefined,
+  { message: "Must provide title or tmdb_id" },
+);
+
 // POST /comments/:slug
 export const CreateCommentBody = z.object({
   body: z.string().trim().min(1).max(2000),

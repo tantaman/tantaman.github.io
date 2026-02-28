@@ -1,10 +1,52 @@
+import { useContext, useState } from 'react';
 import type { Movie } from '../types';
 import { useMovies } from '../hooks/useCache';
+import { patchMovie } from '../api';
+import { AuthContext } from '../App';
+import { useSWRConfig } from 'swr';
 
 export function MoviesView() {
   const { data } = useMovies();
+  const { mutate } = useSWRConfig();
+  const { secret } = useContext(AuthContext);
   const movies: Movie[] = data?.movies ?? [];
   const loading = !data;
+
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  function startEdit(movie: Movie) {
+    setEditingId(movie.id);
+    setEditValue('');
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditValue('');
+  }
+
+  async function submitEdit(movie: Movie) {
+    if (!secret || !editValue.trim()) return;
+    setSaving(true);
+    try {
+      const tmdbMatch = editValue.match(/themoviedb\.org\/movie\/(\d+)/);
+      const body = tmdbMatch
+        ? { tmdb_id: parseInt(tmdbMatch[1], 10) }
+        : { title: editValue.trim() };
+      const updated = await patchMovie(movie.id, body, secret);
+      mutate('movies', (prev: { movies: Movie[] } | undefined) => {
+        if (!prev) return prev;
+        return { movies: prev.movies.map((m) => m.id === movie.id ? { ...m, ...updated } : m) };
+      }, { revalidate: false });
+      setEditingId(null);
+      setEditValue('');
+    } catch {
+      mutate('movies');
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <div className="events-view">
@@ -69,6 +111,38 @@ export function MoviesView() {
                     💬 {movie.reply_count}{' '}
                     {movie.reply_count === 1 ? 'reply' : 'replies'}
                   </a>
+                )}
+                {secret && editingId !== movie.id && (
+                  <button
+                    className="movie-edit-btn"
+                    onClick={() => startEdit(movie)}
+                  >
+                    Edit
+                  </button>
+                )}
+                {editingId === movie.id && (
+                  <form
+                    className="movie-edit-form"
+                    onSubmit={(e) => { e.preventDefault(); submitEdit(movie); }}
+                  >
+                    <input
+                      className="movie-edit-input"
+                      type="text"
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                      placeholder="Title or TMDB URL..."
+                      disabled={saving}
+                      autoFocus
+                    />
+                    <div className="movie-edit-actions">
+                      <button type="submit" className="movie-edit-save" disabled={saving || !editValue.trim()}>
+                        {saving ? '...' : 'Save'}
+                      </button>
+                      <button type="button" className="movie-edit-cancel" onClick={cancelEdit} disabled={saving}>
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
                 )}
               </div>
             </div>

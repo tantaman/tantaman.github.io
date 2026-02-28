@@ -175,6 +175,24 @@ export function getMovies(
   return fetch(url).then((r) => r.json());
 }
 
+export async function patchMovie(
+  id: number,
+  body: { title?: string; tmdb_id?: number },
+  secret: string,
+): Promise<Movie> {
+  const r = await fetch(`${API}/movies/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
 export function getBooks(
   thoughtId?: number,
 ): Promise<{ books: Book[] }> {

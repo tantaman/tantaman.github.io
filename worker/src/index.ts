@@ -6,7 +6,7 @@ import { extractEvents } from "./events";
 import { extractTasks } from "./tasks";
 import { extractLocations, geocodeLocation } from "./locations";
 import { extractMovies } from "./movies";
-import { lookupMovie } from "./tmdb";
+import { lookupMovie, fetchMovieById } from "./tmdb";
 import { extractBooks } from "./books";
 import { extractTags } from "./tags";
 import { extractThoughtLinks } from "./thought-links";
@@ -33,6 +33,7 @@ import {
   RequestOtpBody,
   VerifyOtpBody,
   CreateCommentBody,
+  UpdateMovieBody,
 } from "./schemas";
 
 export interface Env {
@@ -879,6 +880,30 @@ api.post("/movies/backfill", async (c) => {
   }
 
   return c.json({ backfilled: updated, total: rows.results.length });
+});
+
+api.patch("/movies/:id", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  if (!c.env.TMDB_API_KEY) return c.json({ error: "TMDB_API_KEY not configured" }, 500);
+
+  const id = parseInt(c.req.param("id"), 10);
+  const body = UpdateMovieBody.parse(await c.req.json());
+
+  const meta = body.tmdb_id
+    ? await fetchMovieById(body.tmdb_id, c.env.TMDB_API_KEY)
+    : await lookupMovie(body.title!, c.env.TMDB_API_KEY);
+
+  if (!meta) return c.json({ error: "Movie not found on TMDB" }, 404);
+
+  await c.env.DB.prepare(
+    "UPDATE movie SET title = ?, poster_url = ?, year = ?, tmdb_id = ?, vote_average = ?, vote_count = ? WHERE id = ?"
+  ).bind(meta.title, meta.posterUrl, meta.year, meta.tmdbId, meta.voteAverage, meta.voteCount, id).run();
+
+  const row = await c.env.DB.prepare(
+    "SELECT m.id, m.thought_id, m.title, m.description, m.poster_url, m.year, m.tmdb_id, m.vote_average, m.vote_count, m.created_at, (SELECT COUNT(*) FROM thought r WHERE r.parent_id = m.thought_id AND r.private = 0) AS reply_count FROM movie m WHERE m.id = ?"
+  ).bind(id).first();
+
+  return c.json(row);
 });
 
 // --- Books ---

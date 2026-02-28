@@ -2100,6 +2100,79 @@ a.movie-title:hover {
   color: var(--accent);
 }
 
+.movie-edit-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 0.2rem;
+}
+
+.movie-edit-btn:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.movie-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.movie-edit-input {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.movie-edit-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.movie-edit-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.movie-edit-save,
+.movie-edit-cancel {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-muted);
+}
+
+.movie-edit-save:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.movie-edit-cancel:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.movie-edit-save:disabled,
+.movie-edit-cancel:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 @media (max-width: 768px) {
   .movies-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
