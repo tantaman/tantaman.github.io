@@ -164,8 +164,12 @@ export const UpdateMovieBody = z.object({
 
 // PATCH /books/:id
 export const UpdateBookBody = z.object({
-  title: z.string().trim().min(1),
-});
+  title: z.string().trim().min(1).optional(),
+  ol_key: z.string().trim().min(1).optional(),
+}).refine(
+  (data) => data.title !== undefined || data.ol_key !== undefined,
+  { message: "Must provide title or ol_key" },
+);
 
 // POST /comments/:slug
 export const CreateCommentBody = z.object({

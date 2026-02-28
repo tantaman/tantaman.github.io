@@ -203,7 +203,7 @@ export function getBooks(
 
 export async function patchBook(
   id: number,
-  body: { title: string },
+  body: { title?: string; ol_key?: string },
   secret: string,
 ): Promise<Book> {
   const r = await fetch(`${API}/books/${id}`, {

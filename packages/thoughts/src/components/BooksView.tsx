@@ -30,7 +30,11 @@ export function BooksView() {
     if (!secret || !editValue.trim()) return;
     setSaving(true);
     try {
-      const updated = await patchBook(book.id, { title: editValue.trim() }, secret);
+      const olMatch = editValue.match(/openlibrary\.org\/books\/(OL\w+)/);
+      const body = olMatch
+        ? { ol_key: olMatch[1] }
+        : { title: editValue.trim() };
+      const updated = await patchBook(book.id, body, secret);
       mutate('books', (prev: { books: Book[] } | undefined) => {
         if (!prev) return prev;
         return { books: prev.books.map((b) => b.id === book.id ? { ...b, ...updated } : b) };
@@ -132,7 +136,7 @@ export function BooksView() {
                       type="text"
                       value={editValue}
                       onChange={(e) => setEditValue(e.target.value)}
-                      placeholder="Book title..."
+                      placeholder="Title or Open Library URL..."
                       disabled={saving}
                       autoFocus
                     />

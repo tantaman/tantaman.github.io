@@ -8,7 +8,7 @@ import { extractLocations, geocodeLocation } from "./locations";
 import { extractMovies } from "./movies";
 import { lookupMovie, fetchMovieById } from "./tmdb";
 import { extractBooks } from "./books";
-import { lookupBook } from "./openlibrary";
+import { lookupBook, fetchBookByKey } from "./openlibrary";
 import { extractBookmarks } from "./bookmarks";
 import { extractTags } from "./tags";
 import { extractThoughtLinks } from "./thought-links";
@@ -978,7 +978,9 @@ api.patch("/books/:id", async (c) => {
   const id = parseInt(c.req.param("id"), 10);
   const body = UpdateBookBody.parse(await c.req.json());
 
-  const meta = await lookupBook(body.title);
+  const meta = body.ol_key
+    ? await fetchBookByKey(body.ol_key)
+    : await lookupBook(body.title!);
   if (!meta) return c.json({ error: "Book not found on Open Library" }, 404);
 
   await c.env.DB.prepare(
