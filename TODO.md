@@ -1,3 +1,5 @@
+backup-before-filter <-- pre filtered repo with all content
+
 
 Rediscovery / Serendipity                                                                                                                        
 - Random resurface — surface old forgotten thoughts periodically or on-demand. You have embeddings already; a "surprise me" or "related to what  
