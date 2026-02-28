@@ -1082,3 +1082,12 @@ img {
     margin: 0.5em 0;
   }
 }
+
+/* Audio player */
+.audio-player {
+  margin: 1rem 0 1.5rem;
+}
+.audio-player audio {
+  width: 100%;
+  max-width: 500px;
+}

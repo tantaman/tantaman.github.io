@@ -201,6 +201,24 @@ export function getBooks(
   return fetch(url).then((r) => r.json());
 }
 
+export async function patchBook(
+  id: number,
+  body: { title: string },
+  secret: string,
+): Promise<Book> {
+  const r = await fetch(`${API}/books/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
 export function getBookmarks(): Promise<{ bookmarks: Bookmark[] }> {
   return fetch(`${API}/bookmarks`).then((r) => r.json());
 }

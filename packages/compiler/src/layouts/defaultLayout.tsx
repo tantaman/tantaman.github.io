@@ -47,6 +47,17 @@ export default async function defaultLayout(
     newChildren.splice(isPost ? 1 : 0, 0, <div id="engagement-strip" data-slug={slug}></div>);
   }
 
+  // Audio player for posts with audio: true
+  if (matter?.audio) {
+    newChildren.splice(newChildren.length - 1, 0,
+      <div class="audio-player">
+        <audio controls preload="none">
+          <source src={`/audio/${slug}.mp3`} type="audio/mpeg" />
+        </audio>
+      </div>
+    );
+  }
+
   if (matter?.title) {
     newChildren.unshift(<h1>{matter?.title}</h1>);
   }

@@ -77,6 +77,11 @@ export interface Book {
   thought_id: number;
   title: string;
   description: string | null;
+  cover_url: string | null;
+  author: string | null;
+  year: string | null;
+  ol_key: string | null;
+  reply_count: number;
   created_at: number;
 }
 

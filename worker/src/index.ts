@@ -8,6 +8,7 @@ import { extractLocations, geocodeLocation } from "./locations";
 import { extractMovies } from "./movies";
 import { lookupMovie, fetchMovieById } from "./tmdb";
 import { extractBooks } from "./books";
+import { lookupBook } from "./openlibrary";
 import { extractBookmarks } from "./bookmarks";
 import { extractTags } from "./tags";
 import { extractThoughtLinks } from "./thought-links";
@@ -35,6 +36,7 @@ import {
   VerifyOtpBody,
   CreateCommentBody,
   UpdateMovieBody,
+  UpdateBookBody,
 } from "./schemas";
 
 export interface Env {
@@ -579,9 +581,10 @@ api.post("/thoughts", async (c) => {
 
   const books = extractBooks(trimmed);
   for (const book of books) {
+    const meta = await lookupBook(book.title);
     await c.env.DB.prepare(
-      "INSERT INTO book (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
-    ).bind(thoughtId, book.title, book.description, timestamp).run();
+      "INSERT INTO book (thought_id, title, description, cover_url, author, year, ol_key, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    ).bind(thoughtId, book.title, book.description, meta?.coverUrl ?? null, meta?.author ?? null, meta?.year ?? null, meta?.olKey ?? null, timestamp).run();
   }
 
   const bookmarkDefs = extractBookmarks(trimmed);
@@ -928,18 +931,66 @@ api.patch("/movies/:id", async (c) => {
 api.get("/books", async (c) => {
   const thoughtId = c.req.query("thought_id");
 
-  let query = "SELECT id, thought_id, title, description, created_at FROM book";
+  let query = `SELECT b.id, b.thought_id, b.title, b.description, b.cover_url, b.author, b.year, b.ol_key, b.created_at,
+    (SELECT COUNT(*) FROM thought r WHERE r.parent_id = b.thought_id AND r.private = 0) AS reply_count
+  FROM book b`;
   const bindings: (string | number)[] = [];
 
   if (thoughtId) {
-    query += " WHERE thought_id = ?";
+    query += " WHERE b.thought_id = ?";
     bindings.push(parseInt(thoughtId, 10));
   }
 
-  query += " ORDER BY created_at DESC";
+  query += " ORDER BY b.created_at DESC";
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
   return c.json({ books: results.results });
+});
+
+api.post("/books/backfill", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const rows = await c.env.DB.prepare(
+    "SELECT id, title FROM book WHERE cover_url IS NULL"
+  ).all();
+
+  let updated = 0;
+  for (const row of rows.results) {
+    const meta = await lookupBook(row.title as string);
+    if (meta) {
+      await c.env.DB.prepare(
+        "UPDATE book SET cover_url = ?, author = ?, year = ?, ol_key = ? WHERE id = ?"
+      ).bind(meta.coverUrl, meta.author, meta.year, meta.olKey, row.id).run();
+      updated++;
+    }
+  }
+
+  return c.json({ backfilled: updated, total: rows.results.length });
+});
+
+api.patch("/books/:id", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+
+  const id = parseInt(c.req.param("id"), 10);
+  const body = UpdateBookBody.parse(await c.req.json());
+
+  const meta = await lookupBook(body.title);
+  if (!meta) return c.json({ error: "Book not found on Open Library" }, 404);
+
+  await c.env.DB.prepare(
+    "UPDATE book SET title = ?, cover_url = ?, author = ?, year = ?, ol_key = ? WHERE id = ?"
+  ).bind(meta.title, meta.coverUrl, meta.author, meta.year, meta.olKey, id).run();
+
+  const row = await c.env.DB.prepare(
+    `SELECT b.id, b.thought_id, b.title, b.description, b.cover_url, b.author, b.year, b.ol_key, b.created_at,
+      (SELECT COUNT(*) FROM thought r WHERE r.parent_id = b.thought_id AND r.private = 0) AS reply_count
+    FROM book b WHERE b.id = ?`
+  ).bind(id).first();
+
+  return c.json(row);
 });
 
 // --- Bookmarks ---

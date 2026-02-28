@@ -1,18 +1,48 @@
+import { useContext, useState } from 'react';
 import type { Book } from '../types';
 import { useBooks } from '../hooks/useCache';
-
-function formatDate(epoch: number): string {
-  return new Date(epoch * 1000).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
+import { patchBook } from '../api';
+import { AuthContext } from '../App';
+import { useSWRConfig } from 'swr';
 
 export function BooksView() {
   const { data } = useBooks();
+  const { mutate } = useSWRConfig();
+  const { secret } = useContext(AuthContext);
   const books: Book[] = data?.books ?? [];
   const loading = !data;
+
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  function startEdit(book: Book) {
+    setEditingId(book.id);
+    setEditValue('');
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditValue('');
+  }
+
+  async function submitEdit(book: Book) {
+    if (!secret || !editValue.trim()) return;
+    setSaving(true);
+    try {
+      const updated = await patchBook(book.id, { title: editValue.trim() }, secret);
+      mutate('books', (prev: { books: Book[] } | undefined) => {
+        if (!prev) return prev;
+        return { books: prev.books.map((b) => b.id === book.id ? { ...b, ...updated } : b) };
+      }, { revalidate: false });
+      setEditingId(null);
+      setEditValue('');
+    } catch {
+      mutate('books');
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <div className="events-view">
@@ -24,19 +54,102 @@ export function BooksView() {
       ) : books.length === 0 ? (
         <div className="thought-loading">No books yet.</div>
       ) : (
-        <ul className="events-list">
+        <div className="movies-grid">
           {books.map((book) => (
-            <li key={book.id} className="event-item">
-              <span className="event-title">{book.title}</span>
-              {book.description && (
-                <span className="event-description">{book.description}</span>
+            <div key={book.id} className="movie-card">
+              {book.ol_key ? (
+                <a
+                  className="movie-poster-link"
+                  href={`https://openlibrary.org${book.ol_key}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {book.cover_url ? (
+                    <img
+                      className="movie-poster"
+                      src={book.cover_url}
+                      alt={book.title}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="movie-poster movie-poster--placeholder">
+                      <span>{book.title.charAt(0)}</span>
+                    </div>
+                  )}
+                </a>
+              ) : (
+                <div className="movie-poster-link">
+                  {book.cover_url ? (
+                    <img
+                      className="movie-poster"
+                      src={book.cover_url}
+                      alt={book.title}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="movie-poster movie-poster--placeholder">
+                      <span>{book.title.charAt(0)}</span>
+                    </div>
+                  )}
+                </div>
               )}
-              {book.created_at > 0 && (
-                <span className="event-time">{formatDate(book.created_at)}</span>
-              )}
-            </li>
+              <div className="movie-info">
+                <a
+                  className="movie-title"
+                  href={`#thought-${book.thought_id}`}
+                >
+                  {book.title}
+                </a>
+                {book.author && <span className="movie-year">{book.author}</span>}
+                {book.year && <span className="movie-year">{book.year}</span>}
+                {book.description && (
+                  <span className="movie-description">{book.description}</span>
+                )}
+                {book.reply_count > 0 && (
+                  <a
+                    className="movie-reply-count"
+                    href={`#thought-${book.thought_id}`}
+                  >
+                    💬 {book.reply_count}{' '}
+                    {book.reply_count === 1 ? 'reply' : 'replies'}
+                  </a>
+                )}
+                {secret && editingId !== book.id && (
+                  <button
+                    className="movie-edit-btn"
+                    onClick={() => startEdit(book)}
+                  >
+                    Edit
+                  </button>
+                )}
+                {editingId === book.id && (
+                  <form
+                    className="movie-edit-form"
+                    onSubmit={(e) => { e.preventDefault(); submitEdit(book); }}
+                  >
+                    <input
+                      className="movie-edit-input"
+                      type="text"
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                      placeholder="Book title..."
+                      disabled={saving}
+                      autoFocus
+                    />
+                    <div className="movie-edit-actions">
+                      <button type="submit" className="movie-edit-save" disabled={saving || !editValue.trim()}>
+                        {saving ? '...' : 'Save'}
+                      </button>
+                      <button type="button" className="movie-edit-cancel" onClick={cancelEdit} disabled={saving}>
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

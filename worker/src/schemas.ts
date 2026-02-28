@@ -162,6 +162,11 @@ export const UpdateMovieBody = z.object({
   { message: "Must provide title or tmdb_id" },
 );
 
+// PATCH /books/:id
+export const UpdateBookBody = z.object({
+  title: z.string().trim().min(1),
+});
+
 // POST /comments/:slug
 export const CreateCommentBody = z.object({
   body: z.string().trim().min(1).max(2000),
