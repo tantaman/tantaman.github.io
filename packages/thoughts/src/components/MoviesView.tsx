@@ -61,36 +61,49 @@ export function MoviesView() {
         <div className="movies-grid">
           {movies.map((movie) => (
             <div key={movie.id} className="movie-card">
-              <a
-                className="movie-poster-link"
-                href={`#thought-${movie.thought_id}`}
-              >
-                {movie.poster_url ? (
-                  <img
-                    className="movie-poster"
-                    src={movie.poster_url}
-                    alt={movie.title}
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="movie-poster movie-poster--placeholder">
-                    <span>{movie.title.charAt(0)}</span>
-                  </div>
-                )}
-              </a>
+              {movie.tmdb_id ? (
+                <a
+                  className="movie-poster-link"
+                  href={`https://www.themoviedb.org/movie/${movie.tmdb_id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {movie.poster_url ? (
+                    <img
+                      className="movie-poster"
+                      src={movie.poster_url}
+                      alt={movie.title}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="movie-poster movie-poster--placeholder">
+                      <span>{movie.title.charAt(0)}</span>
+                    </div>
+                  )}
+                </a>
+              ) : (
+                <div className="movie-poster-link">
+                  {movie.poster_url ? (
+                    <img
+                      className="movie-poster"
+                      src={movie.poster_url}
+                      alt={movie.title}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="movie-poster movie-poster--placeholder">
+                      <span>{movie.title.charAt(0)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="movie-info">
-                {movie.tmdb_id ? (
-                  <a
-                    className="movie-title"
-                    href={`https://www.themoviedb.org/movie/${movie.tmdb_id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {movie.title}
-                  </a>
-                ) : (
-                  <span className="movie-title">{movie.title}</span>
-                )}
+                <a
+                  className="movie-title"
+                  href={`#thought-${movie.thought_id}`}
+                >
+                  {movie.title}
+                </a>
                 {movie.year && <span className="movie-year">{movie.year}</span>}
                 {movie.vote_average != null && movie.vote_average > 0 && (
                   <span className="movie-rating">
