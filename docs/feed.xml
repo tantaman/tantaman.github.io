@@ -7,6 +7,17 @@
     <language>en</language>
     <atom:link href="https://tantaman.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>The Pharisee Made Flesh: On Artificial Intelligence, Groundlessness, and the Thing Alignment Cannot Solve</title>
+      <link>https://tantaman.com/2026-02-28-the-pharisee-made-flesh.html</link>
+      <guid>https://tantaman.com/2026-02-28-the-pharisee-made-flesh.html</guid>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+      <description>Begin with a question that should be more vertiginous than it is.
+
+What are you doing when you give an AI its values?
+
+The alignment researcher has an answer: you are training the system to behave in accordance with human preferences. You extrac...</description>
+    </item>
+    <item>
       <title>The Hidden Curriculum: Why Reality Must Be Opaque</title>
       <link>https://tantaman.com/2026-02-27-hidden-curriculum.html</link>
       <guid>https://tantaman.com/2026-02-27-hidden-curriculum.html</guid>
@@ -200,19 +211,6 @@ There is a feeling most people have about politics that they cannot quite name. 
 There is an obvious asymmetry in how we perceive political colonization.
 
 The left is easy to see. It operates as a _program_ — with institutions, a lexicon, credentialing systems, and explicit goals. You can point at a D...</description>
-    </item>
-    <item>
-      <title>What Holds You</title>
-      <link>https://tantaman.com/2026-02-09-what-holds-you.html</link>
-      <guid>https://tantaman.com/2026-02-09-what-holds-you.html</guid>
-      <pubDate>Mon, 09 Feb 2026 00:00:00 GMT</pubDate>
-      <description>!
-
-Still a work in progress but rather good either way.
-
----
-
-There is a problem with everything I have written so far, and it is this: I have been showing you the cage from the inside, one wall at a time, without ever stepping back far enough t...</description>
     </item>
   </channel>
 </rss>
