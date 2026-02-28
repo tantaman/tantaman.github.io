@@ -8,6 +8,7 @@ import { extractLocations, geocodeLocation } from "./locations";
 import { extractMovies } from "./movies";
 import { lookupMovie, fetchMovieById } from "./tmdb";
 import { extractBooks } from "./books";
+import { extractBookmarks } from "./bookmarks";
 import { extractTags } from "./tags";
 import { extractThoughtLinks } from "./thought-links";
 import { createMcpServer } from "./mcp";
@@ -583,6 +584,22 @@ api.post("/thoughts", async (c) => {
     ).bind(thoughtId, book.title, book.description, timestamp).run();
   }
 
+  const bookmarkDefs = extractBookmarks(trimmed);
+  for (const bm of bookmarkDefs) {
+    await c.env.DB.prepare(
+      "INSERT OR IGNORE INTO bookmark (url, title, created_at) VALUES (?, ?, ?)"
+    ).bind(bm.url, bm.title, timestamp).run();
+    const row = await c.env.DB.prepare("SELECT id FROM bookmark WHERE url = ?").bind(bm.url).first<{ id: number }>();
+    if (row) {
+      if (bm.title) {
+        await c.env.DB.prepare("UPDATE bookmark SET title = ? WHERE id = ? AND title IS NULL").bind(bm.title, row.id).run();
+      }
+      await c.env.DB.prepare(
+        "INSERT OR IGNORE INTO thought_bookmark (thought_id, bookmark_id) VALUES (?, ?)"
+      ).bind(thoughtId, row.id).run();
+    }
+  }
+
   const linkedIds = extractThoughtLinks(trimmed);
   for (const targetId of linkedIds) {
     await c.env.DB.prepare(
@@ -923,6 +940,20 @@ api.get("/books", async (c) => {
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
   return c.json({ books: results.results });
+});
+
+// --- Bookmarks ---
+
+api.get("/bookmarks", async (c) => {
+  const results = await c.env.DB.prepare(
+    `SELECT b.id, b.url, b.title, b.created_at,
+       COUNT(tb.thought_id) AS thought_count
+     FROM bookmark b
+     LEFT JOIN thought_bookmark tb ON tb.bookmark_id = b.id
+     GROUP BY b.id
+     ORDER BY b.created_at DESC`
+  ).all();
+  return c.json({ bookmarks: results.results });
 });
 
 // --- Media ---

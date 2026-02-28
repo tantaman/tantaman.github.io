@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -199,6 +199,10 @@ export function getBooks(
   let url = `${API}/books`;
   if (thoughtId != null) url += `?thought_id=${thoughtId}`;
   return fetch(url).then((r) => r.json());
+}
+
+export function getBookmarks(): Promise<{ bookmarks: Bookmark[] }> {
+  return fetch(`${API}/bookmarks`).then((r) => r.json());
 }
 
 export function attachmentUrl(key: string): string {

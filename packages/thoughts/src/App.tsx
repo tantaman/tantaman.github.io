@@ -14,6 +14,7 @@ import { LocationsView } from './components/LocationsView';
 import { MediaView } from './components/MediaView';
 import { MoviesView } from './components/MoviesView';
 import { BooksView } from './components/BooksView';
+import { BookmarksView } from './components/BookmarksView';
 import { ThoughtGraph } from './components/ThoughtGraph';
 
 export const AuthContext = createContext<{
@@ -31,6 +32,7 @@ function parseHash(): Route {
   if (hash === '#media') return { view: 'media' };
   if (hash === '#movies') return { view: 'movies' };
   if (hash === '#books') return { view: 'books' };
+  if (hash === '#bookmarks') return { view: 'bookmarks' };
   const framingMatch = hash.match(/^#framing-(\d+)$/);
   if (framingMatch) return { view: 'framing', id: parseInt(framingMatch[1], 10) };
   const threadMatch = hash.match(/^#thought-(\d+)$/);
@@ -83,6 +85,8 @@ export function App() {
             <MediaView />
           ) : route.view === 'movies' ? (
             <MoviesView />
+          ) : route.view === 'bookmarks' ? (
+            <BookmarksView />
           ) : route.view === 'books' ? (
             <BooksView />
           ) : route.view === 'locations' ? (

@@ -80,6 +80,14 @@ export interface Book {
   created_at: number;
 }
 
+export interface Bookmark {
+  id: number;
+  url: string;
+  title: string | null;
+  thought_count: number;
+  created_at: number;
+}
+
 export interface SearchResult extends Thought {
   score: number;
 }
@@ -169,4 +177,5 @@ export type Route =
   | { view: 'media' }
   | { view: 'movies' }
   | { view: 'books' }
+  | { view: 'bookmarks' }
   | { view: 'graph' };

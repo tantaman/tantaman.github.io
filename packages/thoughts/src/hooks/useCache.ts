@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getTags, getTasks, getEvents, getLocations, getMovies, getBooks, searchThoughts, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph } from '../api';
+import { getThread, getTags, getTasks, getEvents, getLocations, getMovies, getBooks, getBookmarks, searchThoughts, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -41,6 +41,10 @@ export function useMovies() {
 
 export function useBooks() {
   return useSWR('books', () => getBooks());
+}
+
+export function useBookmarks() {
+  return useSWR('bookmarks', () => getBookmarks());
 }
 
 export function useFramings() {
