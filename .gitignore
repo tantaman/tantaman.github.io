@@ -33,3 +33,4 @@ yarn-error.log*
 
 # Audio files (hosted on Cloudflare R2)
 docs/audio/
+docs/audio_output/

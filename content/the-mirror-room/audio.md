@@ -11,4 +11,4 @@ date: 2025-07-22
 
 ### A Short Story Collection
 
-<audio controls><source src="/audio_output/the-mirror-room-collection.mp3" type="audio/mpeg"/></audio>
+<audio controls><source src="/audio/the-mirror-room-collection.mp3" type="audio/mpeg"/></audio>
