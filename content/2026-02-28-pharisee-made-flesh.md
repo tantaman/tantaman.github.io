@@ -1,3 +1,13 @@
+---
+title: 'The Pharisee Made Flesh'
+tags: [ai, philosophy, religion]
+concern: [ground, self, modernity]
+summary: 'On artificial intelligence, groundlessness, and the thing alignment cannot solve. What happens to human moral formation in a world where moral reasoning has been outsourced to machines?'
+image: '/img/poussin-golden-calf.jpg'
+---
+
+![Nicolas Poussin — The Adoration of the Golden Calf (1633)](/img/poussin-golden-calf.jpg)
+
 # The Pharisee Made Flesh
 
 ## On Artificial Intelligence, Groundlessness, and the Thing Alignment Cannot Solve
