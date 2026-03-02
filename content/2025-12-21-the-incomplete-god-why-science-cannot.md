@@ -1,6 +1,7 @@
 ---
 title: 'The Incomplete God: Why Science Cannot Ground Itself'
 tags: [philosophy, math]
+kind: survey
 concern: [ground, knowledge]
 summary: 'Scientism claims that science is the only legitimate form of knowledge and that a complete physics would explain everything from ethics to consciousness, but this vision is impossible in principle due to three fundamental limits: Gödel''s theorems show formal systems cannot validate themselves, computational irreducibility and the halting problem demonstrate that many phenomena cannot be predicted or reduced despite knowing all initial conditions, and the observing subject can never fully appear within objective scientific descriptions since science is conducted by the very consciousness it cannot explain. Therefore, epistemic pluralism—recognizing that different domains require different modes of knowing—represents a mature understanding of reason rather than a retreat from it.'
 ---

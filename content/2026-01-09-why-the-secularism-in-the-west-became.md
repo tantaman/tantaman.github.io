@@ -1,6 +1,7 @@
 ---
 title: 'Pathologies of Western Secularism'
 tags: [religion, culture]
+kind: survey
 concern: [modernity, ground]
 summary: 'Western secular progressivism inherited Christianity''s moral structure—centered on innocent victims, linear redemption, and sacrifice for future salvation—while discarding the religious resolution mechanisms like grace and the eschaton, creating permanent guilt, victimhood hierarchies, and moral emergency without closure. Buddhism, lacking this dramatic architecture entirely, produces different pathologies when secularized because its diagnosis of suffering stems from universal ignorance rather than cosmic persecution, and its path to liberation is available now rather than deferred to an apocalyptic future. The result is that secular Christianity generates pathological cycles of performative guilt and victim-identification with no mechanism for absolution or redemption, whereas secular Buddhism at worst becomes commodified spirituality without the same structural wounds.'
 ---

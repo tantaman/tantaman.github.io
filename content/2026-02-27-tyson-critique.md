@@ -1,6 +1,7 @@
 ---
 title: 'The Universe Is Under No Obligation'
 tags: [philosophy, religion, culture]
+kind: original
 concern: [ground, knowledge]
 form: essay
 image: '/img/wright-orrery.jpg'

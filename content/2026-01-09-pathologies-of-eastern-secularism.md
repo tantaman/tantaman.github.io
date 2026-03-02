@@ -1,6 +1,7 @@
 ---
 title: 'Pathologies of Eastern Secularism'
 tags: [religion, philosophy]
+kind: original
 concern: [ground, modernity]
 summary: 'Eastern secularism rooted in Buddhist philosophy produces distinct pathologies opposite to those of Western Christian-derived secularism: quietism and political withdrawal justified by detachment from suffering, spiritual bypassing that masks emotional repression, solipsistic practice focused on individual enlightenment rather than ethical community, nihilistic misinterpretation of emptiness as "nothing matters," and present-moment escapism that avoids temporal responsibility and commitment. While Christian secularism tends toward dramatic moral crusades and guilt, Buddhist secularism fails through undramatic withdrawal and sophisticated indifference, though both traditions have historically been weaponized to justify oppression and violence depending on institutional context.'
 ---

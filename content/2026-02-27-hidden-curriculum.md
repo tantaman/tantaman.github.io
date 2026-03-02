@@ -1,6 +1,7 @@
 ---
 title: 'The Hidden Curriculum: Why Reality Must Be Opaque'
 tags: [philosophy, religion]
+kind: original
 concern: [ground, self, knowledge]
 form: essay
 image: '/img/rothko-chapel.jpg'

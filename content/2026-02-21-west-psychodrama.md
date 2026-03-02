@@ -1,6 +1,7 @@
 ---
 title: "The West Is Trapped in a Religious Psychodrama It Can't Escape"
 tags: [politics, religion, philosophy]
+kind: original
 concern: [power]
 description: 'Three Abrahamic civilizations are locked in an escalation spiral driven by incompatible end-times narratives, while a financial system profits from the tension and China builds an alternative order.'
 image: '/img/durer-four-horsemen.jpg'

@@ -1,6 +1,7 @@
 ---
 title: '🕊️ The Architecture of Harm: How Modern Secular Ideologies Recapitulate Religious Logic'
 tags: [philosophy, religion]
+kind: survey
 concern: [power]
 summary: 'Modern secular ideologies like Marxism-Leninism, liberal imperialism, technocratic scientism, and nationalism employ the same moral and structural architecture as ancient religious systems to justify violence and harm, merely replacing religious vocabulary with secular terminology while maintaining identical mechanisms of justification through sacralized events, elite authority, internal rationalization, and mass persuasion. By examining historical atrocities including the Red Terror, Cambodian genocide, Iraq War, Tuskegee experiments, eugenics programs, and genocides in Rwanda and Darfur, the essay demonstrates how these ostensibly rational ideologies replicate religious eschatology, sacrifice logic, ritual purification, and dehumanization to normalize otherwise morally abhorrent actions. The fundamental argument is that the shift from religious to secular modernity has not eliminated the underlying logic of harm but merely disguised it in the language of science, progress, and rational necessity.'
 ---

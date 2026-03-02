@@ -1,6 +1,7 @@
 ---
 title: 'Why Cultures Differentiate'
 tags: [history, culture]
+kind: original
 concern: [knowledge]
 summary: 'Different geographic and coordination challenges created distinct selection pressures that shaped cultures over generations: hydraulic civilizations like Egypt and China rewarded literate bureaucrats and procedural conformity needed to manage floods, steppe pastoralists selected for martial meritocracy and charismatic leaders capable of mobile warfare, maritime traders favored commercial risk-assessment and rhetorical persuasion, desert societies developed legal-jurisprudential expertise and memorization skills, and conquered peoples like ancient Israel emphasized textual expertise and diaspora network management. Each environment''s unique coordination problem produced a distinct fitness landscape that rewarded specific cognitive profiles, social skills, and institutional types, explaining why recognizable cultural personality archetypes emerged across history.'
 ---

@@ -1,6 +1,7 @@
 ---
 title: 'The Socialists'' Convenient Blindness'
 tags: [politics, philosophy, history]
+kind: survey
 concern: [power]
 summary: 'The author argues that socialists falsely attribute domination and imperialism exclusively to capitalism, ignoring that the will to power and hierarchy have always existed across all human societies—from Indigenous civilizations to ancient empires—and merely took different forms before capitalism. Capitalism did not invent domination but rather made it transparent through contracts and ledgers, whereas socialists romanticize pre-capitalist societies while condemning capitalism''s domination not because it exists, but because it is efficient and visible rather than mystified by ideology. The author contends that the real critique should acknowledge hierarchy as inevitable and ask what forms constrain the will to power toward creation rather than destruction, rather than pursuing the impossible fantasy of eliminating domination entirely.'
 ---

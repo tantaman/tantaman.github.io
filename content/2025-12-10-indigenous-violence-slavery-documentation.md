@@ -1,6 +1,7 @@
 ---
 title: 'Indigenous Slavery, Conquest, and Child Soldiers: Primary Source Documentation'
 tags: [politics, religion]
+kind: survey
 concern: [power]
 summary: 'Indigenous African kingdoms including Dahomey, the Zulu, and Benin, as well as Indian civilizations like the Delhi Sultanate and ancient India, perpetrated widespread slavery, conquest, human sacrifice, and recruited child soldiers as young as six or eight years old, demonstrating that violence and exploitation are not unique to any single culture. The document presents primary source evidence showing that Dahomey supplied 20% of the Atlantic slave trade while maintaining domestic slavery, the Zulu incorporated boys as young as six into military service, and the Dahomey Amazons recruited girls from age eight and used brutal desensitization training methods. This evidence is marshaled to support the argument that all cultures have engaged in systemic violence and none can claim moral superiority.'
 ---

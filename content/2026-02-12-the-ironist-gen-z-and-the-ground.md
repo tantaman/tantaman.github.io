@@ -1,6 +1,7 @@
 ---
 title: 'The Ironist (Gen-Z) and the Ground'
 tags: [fiction, culture]
+kind: original
 concern: [self, modernity]
 form: story
 summary: 'Gen-Z''s pervasive irony and detachment from sincerity create two contrasting paths in romantic relationships: one man maintains layers of performance and ironic distance in dating and intimacy, while another man chooses vulnerability and directness, allowing himself to be fully present without protective posturing. The post explores how the constant translation of experience into performable content and the fear of earnestness fundamentally alter one''s capacity for genuine connection and embodied experience.'

@@ -1,6 +1,7 @@
 ---
 title: 'What If the Thing You’re Protecting Yourself From Is the Only Thing That Can Save You?'
 tags: [philosophy, culture]
+kind: survey
 concern: [self, ground]
 summary: 'Humanity has lost the capacity for genuine encounter with otherness — the experience of being fundamentally changed by something that resists and exceeds us — because modern institutions systematically shield us from anything that might disturb our preferences and equilibrium. This protective infrastructure, rooted in treating all reality as manipulable objects for sovereign individuals, produces a paradoxical condition where we have unprecedented comfort but cannot be transformed, driving us to seek the friction and intensity we''ve eliminated through obsessive consumption, wellness extremism, and outrage. Recovery requires reviving three lost capacities: genuine attention that transcends instrumental use, submission to authority beyond the self, and commitment that costs something irreversible.'
 ---

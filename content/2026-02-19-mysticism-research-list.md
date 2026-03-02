@@ -1,6 +1,7 @@
 ---
 title: 'Wanting Without Willing: A Collection of Primary Sources'
 tags: [philosophy, religion]
+kind: survey
 concern: [self, ground]
 summary: 'The crack to dissolving the self. Losing nothing and gaining everything'
 ---

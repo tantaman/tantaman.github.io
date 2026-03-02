@@ -1,6 +1,7 @@
 ---
 title: 'We Can Capture Our Way Out'
 tags: [economics]
+kind: original
 concern: [power]
 summary: 'Carbon capture can solve climate change at an economically achievable scale, requiring approximately $4 trillion annually—or 4% of global GDP at projected costs of $100 per tonne—to neutralize all CO₂ emissions, a sum the world already spends on less critical priorities like military spending and fossil fuel subsidies. The free-rider problem inherent in treating carbon removal as a public good dissolves when capture becomes profitable through carbon credits, border adjustments, government procurement, and incumbent fossil fuel companies pivoting their business models, similar to how DuPont shifted from opposing the Montreal Protocol to championing it once alternatives became profitable. Market dynamics rather than international coordination will drive the transition, as capital flows toward profitable opportunities and climate damages increase the willingness to pay for removal, creating self-reinforcing momentum that makes large-scale deployment inevitable.'
 ---

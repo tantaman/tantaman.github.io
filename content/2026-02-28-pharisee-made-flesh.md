@@ -1,6 +1,7 @@
 ---
 title: 'The Pharisee Made Flesh'
 tags: [ai, philosophy, religion]
+kind: original
 concern: [ground, self, modernity]
 summary: 'On artificial intelligence, groundlessness, and the thing alignment cannot solve. What happens to human moral formation in a world where moral reasoning has been outsourced to machines?'
 image: '/img/poussin-golden-calf.jpg'

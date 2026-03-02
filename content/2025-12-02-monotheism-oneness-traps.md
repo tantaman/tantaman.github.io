@@ -1,6 +1,7 @@
 ---
 title: 'Monotheism to Now'
 tags: [religion, philosophy, politics]
+kind: original
 concern: [knowledge, ground]
 summary: 'Monotheism as a cognitive style has created an obsession with singular explanations and grand unifying theories, while real pluralism requires making distinctions between conflicting things and exercising judgment—a capacity modern education has undermined by specializing expertise into narrow lanes and replacing general civic competence with credentialed authority. The educational system''s power to shape generations has been destabilized by the internet''s competing formation, leaving people assembled from fragments without stable ground, while cascading incentives (not conspiracies) have corrupted professions through debt and manufactured needs, eroding the trust that took generations to build. The Christian inheritance of individual conscience before God contains seeds of both liberation and withdrawal, with the sayings that ground transformation in worldly action and concrete neighbor-care offering a corrective to pure mysticism.'
 ---

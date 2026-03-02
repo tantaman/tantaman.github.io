@@ -1,6 +1,7 @@
 ---
 title: 'When Equations See What Eyes Cannot'
 tags: [math, philosophy]
+kind: survey
 concern: [knowledge]
 summary: 'Mathematics repeatedly reveals invisible aspects of reality that later become experimentally confirmed, suggesting that mathematical structures capture something deeper about the universe''s actual fabric rather than being merely human inventions. Through cases like Maxwell''s electromagnetic waves, Dirac''s positron, Pauli''s neutrino, and Einstein''s gravitational waves, the pattern emerges that equations often demand the existence of entities and phenomena that cannot be detected with available instruments at the time of their mathematical prediction, yet are eventually observed decades or centuries later. This systematic occurrence of mathematics unveiling invisible worlds suggests that mathematical truth may be a genuine window into reality''s fundamental nature, not just a convenient tool for organizing our observations.'
 ---

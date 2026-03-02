@@ -1,6 +1,7 @@
 ---
 title: 'The Two Filters: Why Reasonable Ideas Die'
 tags: [politics, history]
+kind: original
 concern: [power]
 summary: 'Good ideas fail not because they lack merit but because they must pass two critical filters: cognitive readiness (whether society has the conceptual framework to understand them) and power alignment (whether elites can tolerate them without losing control). The post traces how revolutionary thinkers like Condorcet, Paine, and George articulated ideas that passed the first filter—their arguments were logically sound and intellectually accessible to their contemporaries—but failed the second because their proposals threatened existing hierarchies of property, authority, and wealth, resulting in their suppression or obscurity despite widespread influence.'
 ---

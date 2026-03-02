@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: Confucian, Buddhist, Hindu'
 tags: [philosophy, religion]
+kind: survey
 concern: [self]
 summary: 'Buddhism asks whether a self exists to know at all and teaches that clinging to self is the root of suffering, whereas Confucianism dissolves the self into relational roles and emphasizes self-cultivation through proper conduct rather than introspection, and Hinduism suggests that the self we ordinarily perceive is illusory while pointing to a deeper, unchanging self beyond the phenomenal world. These three traditions offer radically different approaches to self-knowledge grounded in distinct philosophical assumptions and lived practices like meditation, ritual, and contemplation.'
 ---

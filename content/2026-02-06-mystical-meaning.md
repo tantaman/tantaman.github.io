@@ -1,6 +1,7 @@
 ---
 title: 'Mystical Meaning'
 tags: [philosophy, religion]
+kind: original
 concern: [ground, knowledge]
 form: meditation
 summary: 'Meaning arises at the boundary between systems in relationship, not as an inherent property of objects, and when boundaries dissolve entirely in what medieval mystic Meister Eckhart called the Ground, meaning doesn''t vanish but reveals itself as perpetually generating from an undifferentiated source that continuously overflows into distinction and creation. Understanding meaning as relational rather than fixed liberates us from suffering caused by treating transient relationships as permanent verdicts, allowing us to engage fully with life while recognizing we participate in creating the meanings that shape us. The paradox is that grounding meaning requires both analytical recognition of how meaning lives at interfaces between systems and a felt experience of being the space where meaning arises rather than being trapped within any single meaning.'

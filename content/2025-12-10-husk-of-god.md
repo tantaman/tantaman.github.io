@@ -1,6 +1,7 @@
 ---
 title: 'The Husk of God: Why Atheists Think in Christian'
 tags: [politics, religion, history]
+kind: survey
 concern: [ground, knowledge]
 summary: 'Western atheists retain fundamentally Christian thinking patterns despite rejecting God—not in belief but in structure, including moral intuitions about equality and human dignity, linear conceptions of history moving toward justice, and the Christian invention of an inner self requiring examination and confession. Nietzsche recognized that modern secular people inherited Christian ethics without the theological foundation to support them, while Foucault showed how Christianity transformed into secular practices like psychology and therapy that still shape how we understand ourselves. The secular progressive narrative of achieving justice through human effort merely replaces divine redemption with human effort while maintaining the same Christian eschatological structure of fall, struggle, and ultimate redemption.'
 ---

@@ -1,6 +1,7 @@
 ---
 title: 'The Mask Debate: An Evening with Slavoj Žižek'
 tags: [philosophy, fiction]
+kind: original
 concern: [self, knowledge]
 form: story
 summary: "A fictional debate in which Žižek defends identification with the mask and Matt argues for holding it lightly — arriving, after three Coca-Colas and several lost buttons, at something like Meister Eckhart's Gelassenheit."

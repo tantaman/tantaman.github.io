@@ -1,6 +1,7 @@
 ---
 title: 'The Physicians of Decay'
 tags: [philosophy, culture]
+kind: survey
 concern: [modernity, ground]
 summary: 'The post argues that poststructuralist French philosophers like Foucault and Derrida were not neutral analysts but active saboteurs who systematically deconstructed traditional structures of meaning, authority, and value under the guise of liberation and critique. By teaching generations that all identities are constructions, all boundaries arbitrary, and all meaning deferred, these thinkers created a culture of meaninglessness and groundlessness that manifests today as epidemic depression and inability to commit to anything—yet the philosophers themselves lived within intact meaning-systems and exempted themselves from their own dissolving theories. The post calls for builders and affirmation rather than endless deconstruction, and identifies the philosophical project of critique as an act of sabotage disguised as enlightenment.'
 ---

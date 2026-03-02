@@ -1,6 +1,7 @@
 ---
 title: 'The New Lords'
 tags: [politics]
+kind: original
 concern: [power]
 summary: 'Classical conservatism feared concentrated power and radical change, but what calls itself conservative today seeks to capture and wield state power rather than constrain it. Fascism, which openly demanded state control over all aspects of life, was defeated and discredited, making its forms impossible to repeat today. Instead, a new form of power has emerged—not through strengthening the state like fascism, but by hollowing it from within while private capital captures its functions, creating a system of contractual lordship where tech monopolies exercise sovereign powers without accountability, maintaining democratic appearances while actual decisions migrate to corporate hands.'
 ---

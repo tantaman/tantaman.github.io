@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: Greek vs Christian'
 tags: [philosophy, religion]
+kind: survey
 concern: [self]
 summary: 'The Greeks understood "know thyself" as a warning against overreach and an invitation to examine beliefs through rational dialogue, assuming desires were transparent and only knowledge required scrutiny, while Christians, particularly in Pauline and Augustinian thought, fundamentally transformed the self by treating desire as mysterious and opaque, requiring introspective excavation of hidden motives beneath conscious awareness. This shift from an external, epistemically-focused self to an interior, psychologically complex self was not a natural human constant but a historical invention that shaped modern assumptions about authenticity, therapy, and self-knowledge through confession and the surfacing of buried truths.'
 ---

@@ -1,6 +1,7 @@
 ---
 title: 'Diagnosing "Trauma Culture"'
 tags: [culture, religion]
+kind: survey
 concern: [modernity, power]
 summary: 'Modern society has developed a "trauma culture" where suffering has become a form of currency and identity rather than a condition to overcome, with self-reported rates of mental illness rising inversely to material conditions. The author argues this represents a shift from honor and dignity cultures to "victimhood culture," where status derives from oppression and where trauma provides moral authority, identity, community, and exemption from responsibility. The culture emerged when modern secularism discarded Christian theology''s promise of redemption and resurrection while retaining the sacred status of suffering, leaving people perpetually fixed in victimhood without the mechanism for transcendence, and ultimately representing a hidden will to power disguised as powerlessness.'
 ---

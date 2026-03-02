@@ -1,6 +1,7 @@
 ---
 title: 'The Executive Function Curriculum Problem'
 tags: [culture, philosophy]
+kind: original
 concern: [self, modernity]
 summary: 'Schools across the country are adopting executive function training curricula based on the flawed assumption that training general cognitive capacities like working memory will improve academic performance, but robust meta-analytic evidence shows these programs produce only "near transfer" — students get better at the specific tasks they practice — with essentially zero "far transfer" to actual academic subjects or life outcomes. Beyond the empirical failure, the post argues that EF curricula represent a deeper philosophical problem: they uncritically encode the values and skill requirements of the current economy into education without questioning whether optimizing children for existing labor markets serves genuine human flourishing, and they do so while relying on correlational data from outdated economic conditions that may be irrelevant by the time today''s students enter the workforce.'
 ---

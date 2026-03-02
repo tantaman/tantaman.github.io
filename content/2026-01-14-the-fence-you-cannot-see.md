@@ -1,6 +1,7 @@
 ---
 title: 'The Fence You Cannot See'
 tags: [philosophy, culture]
+kind: survey
 concern: [knowledge, modernity]
 summary: 'Inherited social structures like sexual ethics, family forms, and gender roles may appear arbitrary to modern intellectuals, but they actually encode solutions to deep human problems developed through millennia of trial and error—wisdom that persists in practice rather than propositional form. The most successful protective structures become invisible to those they protect, making them appear expendable to comfortable generations who have never experienced the consequences of their absence. Anthropological evidence reveals that fundamental social arrangements like pair-bonding, kinship systems, incest taboos, and paternal involvement are human universals found across all documented societies, suggesting these are not arbitrary constructs but reflect deep features of human nature and flourishing.'
 ---

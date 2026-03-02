@@ -1,6 +1,7 @@
 ---
 title: 'How Power Uses Mass Education and Literature'
 tags: [politics, history, culture]
+kind: survey
 concern: [power]
 summary: 'Mass education and literature serve as powerful tools for controlling populations by shaping what people encounter as authoritative knowledge and truth during their most formative years. Throughout history, ruling elites have constructed canons of approved texts and distributed them through institutional systems—from the Chinese imperial examination''s use of Confucian classics to standardize governance across the empire, to England''s mandatory Book of Common Prayer unifying religious identity through a single prescribed liturgy. These systems work by combining canonical texts, institutional distribution monopolies, incentive structures, repetition through ritual, and suppression of rival alternatives, allowing elites to durably influence imagination and values across entire populations without relying on crude propaganda alone.'
 ---

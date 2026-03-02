@@ -1,6 +1,7 @@
 ---
 title: 'The Ideological Trap for the Left'
 tags: [politics]
+kind: original
 concern: [power]
 summary: 'The left faces a fundamental ideological crisis exposed by recent events in Venezuela and Iran. The capture of Maduro by U.S. forces and popular Iranian protests demanding the fall of the Islamic Republic have trapped progressive politics between procedural objections that sound like defending dictators and substantive outcomes that validate methods they oppose, revealing that decades of reflexive anti-Americanism and "anti-imperialist" frameworks have left the left without moral language to acknowledge when American power achieves something worthwhile or when oppressed peoples reject the regimes their ideology championed. The collapse of these frameworks—proceduralism as a substitute for actual foreign policy judgment and anti-imperialism as a lens that misread popular Iranian and Venezuelan sentiment—exposes how systematic distrust of American power has ceded all substantive moral terrain to the right.'
 ---

@@ -1,6 +1,7 @@
 ---
 title: 'The Exhaustion That Cannot Rest'
 tags: [culture, philosophy]
+kind: original
 concern: [modernity, self]
 summary: 'Modern culture has created a self-perpetuating trap where exhaustion becomes inescapable through three interconnected mechanisms: the valorization of suffering as identity (where healing threatens one''s status), the inheritance of collective guilt that cannot be discharged (making all action feel complicit), and the internalized drive for endless self-optimization (where rest itself becomes failure). Together, these forces construct an invisible cage where individuals are simultaneously burnt out and compelled to keep performing, unable to escape because the cage exists within their own psychology.'
 ---
