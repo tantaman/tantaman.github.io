@@ -181,7 +181,7 @@ function _createMdxContent(props) {
           children: "Fear of Falling"
         })
       }), ": the professional middle class is haunted not by actual deprivation but by the fear of downward mobility. Experimental research confirms the fertility connection directly — ", _jsx(_components.a, {
-        href: "https://www.sciencedirect.com/science/article/pii/S2666622723000382",
+        href: "https://doi.org/10.1016/j.cresp.2023.100125",
         children: "merely activating a desire for status leads people to prefer fewer children"
       }), ". And it's ", _jsx(_components.em, {
         children: "relative"
@@ -314,7 +314,7 @@ function _createMdxContent(props) {
         href: "https://en.idi.org.il/haredi/2024/?chapter=58376",
         children: "69% of Haredi university students are women, Haredi women are employed at 81%"
       }), " — nearly matching non-Haredi women — and they now ", _jsx(_components.a, {
-        href: "https://www.taubcenter.org.il/en/research/gender-wage-gaps-in-israel-2014%E2%80%932018/",
+        href: "https://www.taubcenter.org.il/en/research/gender-wage-gaps-in-israel-2014%E2%80%922018/",
         children: "earn more per hour than Haredi men"
       }), ". These are educated breadwinners with six children. Their education takes place within a formational container dense enough that the credential does not reshape the self into an optimizer. The community metabolizes the credential rather than the credential dissolving the community. And those norms have, so far, included traditional gender arrangements."]
     }), "\n", _jsxs(_components.p, {
