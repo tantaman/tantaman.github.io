@@ -12,6 +12,8 @@ The [fertility essay](./2026-03-02-fertility-is-not-economics.html) argued that 
 
 ## The Flattening of Formation
 
+[![edu-sankey](/img/edu-sankey.png)](/pages/metaphysical-choices.html#education)
+
 The [education Sankey](/pages/metaphysical-choices.html#education) is titled "The Flattening of Formation." Follow the main descent: Ancient Paideia, scored at 85 — education as formation of the whole soul — feeds into Bildung at 90, the summit, where self-cultivation through encounter with culture is the purpose of learning. Then the fork. The Prussian Model at 15 takes education into state manufacture of obedient citizens. From there: Factory Model School at 8, Standardized Testing at 6, Credentialism at 5, and finally Micro-credentials at 2 — "education atomized into resume tokens, the credential without the formation."
 
 The descent is steep and fast. In two centuries, education moved from forming whole persons to producing human capital. Each step was a genuine practical achievement — compulsory schooling raised literacy, standardized tests enabled mass assessment, credentials opened meritocratic access. Each step also shed a layer of what education had been *for*. By the time a young woman arrives at a modern university, the institution that receives her is not Bildung. It is Credentialism wearing Bildung's clothes.
@@ -26,6 +28,8 @@ Bildung and Gelassenheit, it should be noted, name the same structure. Bildung i
 
 ## The Triumph of Chrematistike
 
+[![eco-sankey](/img/eco-sankey.png)](/pages/metaphysical-choices.html#economics)
+
 The [economics Sankey](/pages/metaphysical-choices.html#economics) is titled "The Triumph of Chrematistike" — Aristotle's word for money-making as its own end, which he distinguished from *oikonomia*, household management for the good life. Ancient Oikonomia sits at 80. Through Scholastic Economics at 65 and the Commons at 72, the participatory tradition holds: economic life embedded in community, production as participation, wealth subordinated to human flourishing. Then the fork. Mercantilism at 20 redefines economy as national power. From there: Ricardo at 30, the Marginalist Revolution at 12 ("value becomes subjective utility, economics becomes calculus, the human becomes a function"), the Chicago School at 8 ("everything is a market — marriage, crime, children all modeled as utility optimization"), and finally Financialization at 3 — "money making money, value abstracted from all human good."
 
 Adam Smith sits at 55, the bridge figure — moral philosopher who also unleashed the market, genuinely both at once. The Sankey's explanatory note calls him "the bridge." *Theory of Moral Sentiments* and *Wealth of Nations* are two halves of a whole, written by a man who believed markets required moral foundations. By the time Gary Becker published *A Treatise on the Family* in 1981, modeling children as consumer durables subject to utility maximization, the moral foundations had been stripped away. The human was fully modeled as a maximizing function. The same decade, OECD fertility entered its steepest decline.
@@ -37,6 +41,8 @@ The "otherwise oriented" communities practice oikonomia without calling it that.
 The Sankey predicts this with precision. The thin teal streams — Commons Revival at 70, Local/Solidarity Economy at 72 — represent communities that have re-embedded economic life in communal structure. They are small. They are the demographic communities where income and fertility move in the same direction. The massive red flows — Algorithmic Trading at 1, Platform Capitalism at 3, the Debt Machine at 2 — represent the zones where economic life has been fully abstracted from human good. They are the zones where the U-curve holds, where children are costs or luxury goods but never participants in a shared world. The Sankey drawn in 2026 from historical data and the fertility curves drawn from demographic data are maps of the same territory, viewed from different altitudes.
 
 ## The Inversion of God
+
+[![theo-sankey](/img/theo-sankey.png)](/pages/metaphysical-choices.html#theology)
 
 The [theology Sankey](/pages/metaphysical-choices.html#theology) is titled "The Genealogy of Inversion." The Mystical/Participatory tradition — Eckhart, the Rhineland Mystics — sits at 95, the highest score on any diagram. Gelassenheit, sunder warumbe, the Grunt where soul and God are one. Eastern Orthodoxy at 75 maintains theosis — humans participating in God's uncreated energies. Then the fork. The Nominalist/Voluntarist turn — Ockham, Scotus — scores 12: universals are denied, participation in shared being becomes impossible, God becomes an arbitrary sovereign issuing commands rather than the ground of being. From there: the Reformation at 18 (Luther, trained as an Ockhamist, adopted forensic justification — you are *declared* righteous, not *made* righteous, breaking the participatory logic), Reformed Calvinism at 12, American Evangelicalism at 14, and finally the Prosperity Gospel at 2 — "Eckhart's Gelassenheit directly inverted into grasping for all things."
 
