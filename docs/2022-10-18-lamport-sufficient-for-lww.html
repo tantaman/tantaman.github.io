@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="Tantaman" href="/feed.xml">
 <script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
-<link rel="stylesheet" href="/index.css?v=b83b52c2">
+<link rel="stylesheet" href="/index.css?v=bd36e140">
 
 <meta name="description" content="Lamport clocks suffice for LWW because losing information doesn&#x27;t matter when you only keep one value anyway">
 <meta name="keywords" content="software, statistics, economics">
@@ -25,7 +25,7 @@
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="3-4 minutes">
 <link rel="stylesheet" href="/comments/comments.css?v=ac042500"></head>
-<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>Do LWW Registers Need Vector Clocks or Causal Graphs? 💭</h1><span class="published subtext">Published 2022-10-18</span><div id="engagement-strip" data-slug="2022-10-18-lamport-sufficient-for-lww"></div>
+<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>Do LWW Registers Need Vector Clocks or Causal Graphs? 💭</h1><span class="published subtext">Published 2022-10-18 · <span class="author-logos"><span class="author-logo author-logo-tantaman" aria-label="Tantaman">T</span></span></span><div id="engagement-strip" data-slug="2022-10-18-lamport-sufficient-for-lww"></div>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#why-is-lamport-sufficient">Why is Lamport Sufficient?</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#many-lwws">Many LWWs</a></li></ol></nav><p>Short answer: No. When it comes to a LWW register, <a href="./2022-10-18-lamport-clock">Lamport clock</a>s offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW.</p>
 <p>A last write wins register is a register where the "last" write always wins. Determining when a write happens is usually done via a logical clock. Lamport clocks, vector clocks and causal graphs are a few options here. Lamport clocks being the simplest option.</p>
 <p>While a Lamport clock is simple it has a few drawbacks. When comparing two Lamport clocks from two different nodes in a distributed system, we can't tell if an event happened strictly before another event or not. In other words, if a Lamport clock from system A is less than a Lamport clock from system B, A either happened before <strong>or at the same time as</strong> B. We <strong>do know</strong>, however, that B did not happen before A.</p>

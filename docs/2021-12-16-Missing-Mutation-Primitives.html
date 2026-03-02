@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="Tantaman" href="/feed.xml">
 <script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
-<link rel="stylesheet" href="/index.css?v=b83b52c2">
+<link rel="stylesheet" href="/index.css?v=bd36e140">
 
 <meta name="description" content="Object oriented programming is missing language primitives to express, atomically commit, and safely rollback mutations">
 <meta name="keywords" content="software, statistics, economics">
@@ -25,7 +25,7 @@
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="5-8 minutes">
 <link rel="stylesheet" href="/comments/comments.css?v=ac042500"></head>
-<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>🧬 Missing Mutation Primitives</h1><span class="published subtext">Published 2021-12-16</span><div id="engagement-strip" data-slug="2021-12-16-Missing-Mutation-Primitives"></div>
+<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>🧬 Missing Mutation Primitives</h1><span class="published subtext">Published 2021-12-16 · <span class="author-logos"><span class="author-logo author-logo-tantaman" aria-label="Tantaman">T</span></span></span><div id="engagement-strip" data-slug="2021-12-16-Missing-Mutation-Primitives"></div>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#1---mutation-failure--rollback">1 - Mutation Failure &#x26; Rollback</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#2---prevent-intermediate-observations">2 - Prevent Intermediate Observations</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#3---undo-support">3 - Undo Support</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#the-missing-piece---expressing-a-mutation">The Missing Piece - Expressing a Mutation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#changesets">Changesets</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#committing-a-changeset">Committing a Changeset</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#where-to-commit">Where to Commit?</a></li></ol></nav><p>I’ve been developing apps for the past ~8 years that use immutable data models. For the ~7 years prior to that, using a combination of mutable, immutable and lock-free data structures.</p>
 <p>Immutable models solve endless numbers of problems but what I realized is that it isn’t mutation that is so bad. It is being unable to express, commit and record a mutation in one atomic move that is the problem.</p>
 <p><strong>Object oriented languages don’t have a way to express mutations.</strong></p>

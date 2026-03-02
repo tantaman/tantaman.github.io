@@ -51,6 +51,7 @@ export default function EgalitarianismFertilityTable() {
 
   const cellBase = {
     padding: '10px 14px',
+    border: 'none',
     borderBottom: `1px solid ${T.border}`,
     textAlign: 'left',
     verticalAlign: 'middle',

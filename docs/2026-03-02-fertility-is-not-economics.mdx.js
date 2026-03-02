@@ -10,96 +10,75 @@ function _createMdxContent(props) {
     ol: "ol",
     li: "li",
     a: "a",
-    h1: "h1",
-    span: "span",
     p: "p",
     em: "em",
     h2: "h2",
+    span: "span",
     strong: "strong"
   }, props.components);
   return _jsxs(_Fragment, {
     children: [_jsx(_components.nav, {
       className: "toc",
-      children: _jsx(_components.ol, {
+      children: _jsxs(_components.ol, {
         className: "toc-level toc-level-1",
-        children: _jsxs(_components.li, {
-          className: "toc-item toc-item-h1",
-          children: [_jsx(_components.a, {
-            className: "toc-link toc-link-h1",
-            href: "#the-optimization-trap-why-the-birth-rate-cant-be-fixed",
-            children: "The Optimization Trap: Why the Birth Rate Can't Be Fixed"
-          }), _jsxs(_components.ol, {
-            className: "toc-level toc-level-2",
-            children: [_jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#the-data-doesnt-say-what-we-think-it-says",
-                children: "The Data Doesn't Say What We Think It Says"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#the-wealth-metric-and-its-outputs",
-                children: "The Wealth Metric and Its Outputs"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#three-modes-not-two",
-                children: "Three Modes, Not Two"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#what-the-otherwise-oriented-actually-have",
-                children: "What the Otherwise Oriented Actually Have"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#the-coherence-thesis",
-                children: "The Coherence Thesis"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#the-category-error",
-                children: "The Category Error"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#testing-the-thesis",
-                children: "Testing the Thesis"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#where-this-leaves-us",
-                children: "Where This Leaves Us"
-              })
-            })]
-          })]
-        })
+        children: [_jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#the-data-doesnt-say-what-we-think-it-says",
+            children: "The Data Doesn't Say What We Think It Says"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#the-wealth-metric-and-its-outputs",
+            children: "The Wealth Metric and Its Outputs"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#three-modes-not-two",
+            children: "Three Modes, Not Two"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#what-the-otherwise-oriented-actually-have",
+            children: "What the Otherwise Oriented Actually Have"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#the-coherence-thesis",
+            children: "The Coherence Thesis"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#the-category-error",
+            children: "The Category Error"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#testing-the-thesis",
+            children: "Testing the Thesis"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#where-this-leaves-us",
+            children: "Where This Leaves Us"
+          })
+        })]
       })
-    }), "\n", _jsxs(_components.h1, {
-      id: "the-optimization-trap-why-the-birth-rate-cant-be-fixed",
-      children: [_jsx(_components.a, {
-        "aria-hidden": "true",
-        tabIndex: "-1",
-        href: "#the-optimization-trap-why-the-birth-rate-cant-be-fixed",
-        children: _jsx(_components.span, {
-          className: "icon icon-link"
-        })
-      }), "The Optimization Trap: Why the Birth Rate Can't Be Fixed"]
     }), "\n", _jsxs(_components.p, {
       children: ["The standard explanations for collapsing fertility — childcare costs, housing prices, career opportunity costs — are real enough. But they share a peculiar structure: they all frame the child as a line item in a life-optimization problem. And they all propose the same kind of solution: adjust the costs. More subsidies, more leave, more flexibility. The question worth pressing is whether the framing ", _jsx(_components.em, {
         children: "is"

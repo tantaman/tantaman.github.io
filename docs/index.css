@@ -222,6 +222,10 @@ section {
   font-family: system-ui;
 }
 
+#static strong {
+  font-weight: 800;
+}
+
 #static h1,
 #static h2 {
   letter-spacing: 0.05em;
@@ -1081,6 +1085,46 @@ img {
     border-top: 0.5pt solid #ccc;
     margin: 0.5em 0;
   }
+}
+
+/* Author logos */
+.author-logos {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  vertical-align: baseline;
+}
+
+.author-logo {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
+.author-logo-tantaman {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  width: auto;
+  height: auto;
+}
+
+.author-logo-claude {
+  color: #D97757;
+}
+
+.author-logo-qwen {
+  color: #6366F1;
+}
+
+[data-theme='dark'] .author-logo-claude {
+  color: #E8956A;
+}
+
+[data-theme='dark'] .author-logo-qwen {
+  color: #818CF8;
 }
 
 /* Audio player */

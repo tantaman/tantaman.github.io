@@ -13,6 +13,7 @@ import {
   stripTags,
   truncate,
   contentDirs,
+  renderAuthorLogosHtml,
 } from '@tantaman/sitecompiler';
 import rehypeStringify from 'rehype-stringify';
 import { unified } from 'unified';
@@ -158,6 +159,7 @@ function renderCard(collection, meta, resolvedImage) {
     .filter(Boolean)
     .join(' ');
   const mins = readingTime(meta.wordCount);
+  const authorLogos = renderAuthorLogosHtml(meta.frontmatter?.author);
 
   return `
     <a class="card" href="${meta.compiledFilename}">
@@ -167,7 +169,7 @@ function renderCard(collection, meta, resolvedImage) {
         ${meta.frontmatter?.title || meta.filename}
       </h4>
       <div class="subtext">
-        ${date} · ${mins} min
+        ${date} · ${mins} min · ${authorLogos}
       </div>
       ${renderPills({ subjects: meta.frontmatter?.tags || [], concerns: meta.frontmatter?.concern || [], form: inferForm(collection, meta) })}
       <p>

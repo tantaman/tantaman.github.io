@@ -4,6 +4,7 @@ import { h } from 'hastscript';
 import { VFile } from 'vfile';
 import { indexFrontmatter } from '../index-frontmatter.js';
 import { hashAsset } from '../hash-asset.js';
+import { renderAuthorLogosHast } from '../author-logos.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -37,8 +38,12 @@ export default async function defaultLayout(
   const commentsEnabled = isPost && matter?.comments !== false;
 
   if (isPost) {
+    const authorLogos = renderAuthorLogosHast(matter?.author);
     newChildren.unshift(
-      <span class="published subtext">Published {maybeDate}</span>,
+      h('span', { class: 'published subtext' }, [
+        { type: 'text', value: `Published ${maybeDate}` },
+        authorLogos,
+      ]),
     );
   }
 
