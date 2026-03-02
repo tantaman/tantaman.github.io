@@ -1,6 +1,12 @@
-# The Data Doesn't Speak
+---
+title: "The Data Doesn't Speak"
+tags: [philosophy]
+concern: [knowledge, ground]
+form: essay
+kind: original
+---
 
-A note on method, prompted by the experience of writing an essay about the fertility crisis.
+A note on method, prompted by the experience of writing an [essay about the fertility crisis](./2026-03-02-fertility-is-not-economics.html).
 
 ## The Sequence
 

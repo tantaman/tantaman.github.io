@@ -92,7 +92,7 @@ export default function IsraelEducationFertility() {
                     fontSize: 17,
                     fontWeight: 600,
                     color: T.text,
-                } }, "Education vs. Completed Fertility: Israel and OECD"),
+                } }, "Education Completed vs. Fertility: Israel and OECD"),
             React.createElement("div", { style: {
                     fontSize: 13,
                     color: T.textMuted,
