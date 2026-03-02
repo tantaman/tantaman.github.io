@@ -49,6 +49,7 @@ export default function EgalitarianismFertilityTable() {
         borderBottom: `1px solid ${T.border}`,
         textAlign: 'left',
         verticalAlign: 'middle',
+        background: 'inherit',
     };
     return (React.createElement("div", { style: {
             background: T.surface,
