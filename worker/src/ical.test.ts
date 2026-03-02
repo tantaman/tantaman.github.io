@@ -27,11 +27,12 @@ describe("generateICS", () => {
     expect(ics).not.toContain("DURATION");
   });
 
-  test("timed event uses UTC datetime and duration", () => {
+  test("timed event uses TZID=America/New_York and duration", () => {
     const epoch = Math.floor(Date.UTC(2026, 2, 15, 14, 0, 0) / 1000);
     const event = makeEvent({ id: 2, date_text: "3/15 14:00", date_epoch: epoch });
     const ics = generateICS([event]);
-    expect(ics).toContain("DTSTART:20260315T140000Z");
+    expect(ics).toContain("DTSTART;TZID=America/New_York:20260315T140000");
+    expect(ics).not.toContain("20260315T140000Z");
     expect(ics).toContain("DURATION:PT1H");
   });
 
@@ -39,8 +40,18 @@ describe("generateICS", () => {
     const epoch = Math.floor(Date.UTC(2026, 2, 15, 9, 0, 0) / 1000);
     const event = makeEvent({ id: 3, date_text: "3/15 9", date_epoch: epoch });
     const ics = generateICS([event]);
-    expect(ics).toContain("DTSTART:20260315T090000Z");
+    expect(ics).toContain("DTSTART;TZID=America/New_York:20260315T090000");
+    expect(ics).not.toContain("20260315T090000Z");
     expect(ics).toContain("DURATION:PT1H");
+  });
+
+  test("includes VTIMEZONE for America/New_York", () => {
+    const ics = generateICS([]);
+    expect(ics).toContain("BEGIN:VTIMEZONE");
+    expect(ics).toContain("TZID:America/New_York");
+    expect(ics).toContain("BEGIN:STANDARD");
+    expect(ics).toContain("BEGIN:DAYLIGHT");
+    expect(ics).toContain("END:VTIMEZONE");
   });
 
   test("stable UIDs", () => {

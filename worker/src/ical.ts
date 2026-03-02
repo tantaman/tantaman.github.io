@@ -37,8 +37,28 @@ function formatDateTime(epoch: number): string {
   const h = d.getUTCHours().toString().padStart(2, "0");
   const min = d.getUTCMinutes().toString().padStart(2, "0");
   const s = d.getUTCSeconds().toString().padStart(2, "0");
-  return `${y}${mo}${day}T${h}${min}${s}Z`;
+  return `${y}${mo}${day}T${h}${min}${s}`;
 }
+
+const VTIMEZONE = [
+  "BEGIN:VTIMEZONE",
+  "TZID:America/New_York",
+  "BEGIN:STANDARD",
+  "DTSTART:19701101T020000",
+  "RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU",
+  "TZOFFSETFROM:-0400",
+  "TZOFFSETTO:-0500",
+  "TZNAME:EST",
+  "END:STANDARD",
+  "BEGIN:DAYLIGHT",
+  "DTSTART:19700308T020000",
+  "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU",
+  "TZOFFSETFROM:-0500",
+  "TZOFFSETTO:-0400",
+  "TZNAME:EDT",
+  "END:DAYLIGHT",
+  "END:VTIMEZONE",
+].join("\r\n");
 
 export function generateICS(events: ICalEvent[]): string {
   const lines: string[] = [
@@ -46,6 +66,7 @@ export function generateICS(events: ICalEvent[]): string {
     "VERSION:2.0",
     "PRODID:-//tantaman.com//events//EN",
     "CALSCALE:GREGORIAN",
+    VTIMEZONE,
   ];
 
   for (const event of events) {
@@ -54,7 +75,7 @@ export function generateICS(events: ICalEvent[]): string {
     lines.push(`SUMMARY:${escapeText(event.title)}`);
 
     if (hasTime(event.date_text)) {
-      lines.push(`DTSTART:${formatDateTime(event.date_epoch)}`);
+      lines.push(`DTSTART;TZID=America/New_York:${formatDateTime(event.date_epoch)}`);
       lines.push("DURATION:PT1H");
     } else {
       lines.push(`DTSTART;VALUE=DATE:${formatDateOnly(event.date_epoch)}`);
