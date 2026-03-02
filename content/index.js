@@ -162,7 +162,7 @@ function renderCard(collection, meta, resolvedImage) {
   const authorLogos = renderAuthorLogosHtml(meta.frontmatter?.author);
 
   return `
-    <a class="card" href="${meta.compiledFilename}">
+    <a class="card${meta.frontmatter?.kind === 'original' ? ' card-original' : ''}" href="${meta.compiledFilename}">
       ${meta.sentimentColor ? `<div class="sentiment-strip" style="background:${meta.sentimentColor}"></div>` : ''}
       ${image ? `<img src="${image}" alt="" loading="lazy" />` : ''}
       <h4>
@@ -171,7 +171,7 @@ function renderCard(collection, meta, resolvedImage) {
       <div class="subtext">
         ${date} · ${mins} min · ${authorLogos}
       </div>
-      ${renderPills({ subjects: meta.frontmatter?.tags || [], concerns: meta.frontmatter?.concern || [], form: inferForm(collection, meta) })}
+      ${renderPills({ subjects: meta.frontmatter?.tags || [], concerns: meta.frontmatter?.concern || [], form: inferForm(collection, meta), kind: meta.frontmatter?.kind })}
       <p>
           ${truncate(stripTags(meta.frontmatter?.summary || meta.frontmatter?.description || meta.description || ''), 500)}
       </p>

@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="alternate" type="application/rss+xml" title="Tantaman" href="/feed.xml">
 <script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
-<link rel="stylesheet" href="/index.css?v=33e30fe8">
+<link rel="stylesheet" href="/index.css?v=a6836bd0">
 
 <meta name="description" content="Lamport clocks prove causality matters more than time itself">
 <meta name="keywords" content="software, statistics, economics">
@@ -25,7 +25,7 @@
 <meta name="twitter:label1" content="Reading time">
 <meta name="twitter:data1" content="4-6 minutes">
 <link rel="stylesheet" href="/comments/comments.css?v=ac042500"></head>
-<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>Lamport Clock 🕥</h1><span class="published subtext">Published 2022-10-18 · <span class="author-logos"><span class="author-logo author-logo-tantaman" aria-label="Tantaman">T</span></span></span><div id="engagement-strip" data-slug="2022-10-18-lamport-clock"></div>
+<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>Lamport Clock 🕥</h1><span class="published subtext">Published 2022-10-18 · <span class="author-logos"><span class="author-logo author-logo-tantaman" aria-label="Tantaman">T</span></span></span><div id="engagement-strip" data-slug="2022-10-18-lamport-clock"></div><div class="card-pills"><span class="pill pill-subject">software</span><span class="pill pill-concern">systems</span><span class="pill pill-form">essay</span></div>
 <nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#causality">Causality</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#lamport-guarantees">Lamport Guarantees</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#implementation">Implementation</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#back-channels">Back-channels</a></li></ol></nav><p>The Lamport clock was originally described in 1978 in the paper <a href="./blog-assets/lamport-clock/paper.pdf">"Time, Clocks, and the Ordering of Events in a Distributed System"</a>. It is a logical clock that was created as a way to order events in a distributed system.</p>
 <p>Why not use wall/physical clocks?</p>
 <p>Physical clocks are hard to keep in sync across participants in a distributed system, especially as those participants get further apart with respect to latency.</p>

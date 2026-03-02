@@ -39,6 +39,24 @@ export default async function defaultLayout(
 
   if (isPost) {
     const authorLogos = renderAuthorLogosHast(matter?.author);
+
+    // Taxonomy pills
+    const pills = [];
+    for (const t of matter?.tags || []) {
+      pills.push(h('span', { class: 'pill pill-subject' }, t));
+    }
+    for (const c of matter?.concern || []) {
+      pills.push(h('span', { class: 'pill pill-concern' }, c));
+    }
+    const form = matter?.form || 'essay';
+    pills.push(h('span', { class: 'pill pill-form' }, form));
+    if (matter?.kind) {
+      pills.push(h('span', { class: 'pill pill-kind' }, matter.kind));
+    }
+    if (pills.length) {
+      newChildren.unshift(h('div', { class: 'card-pills' }, pills));
+    }
+
     newChildren.unshift(
       h('span', { class: 'published subtext' }, [
         { type: 'text', value: `Published ${maybeDate}` },
