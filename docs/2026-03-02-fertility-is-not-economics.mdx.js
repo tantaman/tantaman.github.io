@@ -116,12 +116,18 @@ function _createMdxContent(props) {
           className: "icon icon-link"
         })
       }), "The Data Doesn't Say What We Think It Says"]
-    }), "\n", _jsx(_components.p, {
-      children: "Across OECD countries, the total fertility rate has halved from 3.3 children per woman in 1960 to 1.5 in 2022. South Korea sits at 0.7. Every OECD country except Israel is below replacement. The conventional story is that this tracks income and education: richer and more educated people have fewer children. And at the aggregate level, that's true."
     }), "\n", _jsxs(_components.p, {
-      children: ["But there's a wrinkle that the standard narrative obscures. Within education levels, increasing income is actually ", _jsx(_components.em, {
-        children: "positively"
-      }), " associated with fertility. People with the same education who earn more tend to have more children, not fewer. The aggregate negative correlation between income and fertility is driven not by wealth itself but by the expansion of higher education that accompanies rising incomes."]
+      children: ["Across OECD countries, the total fertility rate has halved from ", _jsx(_components.a, {
+        href: "https://www.oecd.org/en/publications/society-at-a-glance-2024_918d8db3-en/full-report/fertility-trends-across-the-oecd-underlying-drivers-and-the-role-for-policy_770679b8.html",
+        children: "3.3 children per woman in 1960 to 1.5 in 2022"
+      }), ". South Korea sits at 0.7. Every OECD country except Israel is below replacement. The conventional story is that this tracks income and education: richer and more educated people have fewer children. And at the aggregate level, that's true."]
+    }), "\n", _jsxs(_components.p, {
+      children: ["But there's a wrinkle that the standard narrative obscures. Within education levels, increasing income is actually ", _jsxs(_components.a, {
+        href: "https://link.springer.com/article/10.1007/s00148-024-01017-8",
+        children: [_jsx(_components.em, {
+          children: "positively"
+        }), " associated with fertility"]
+      }), ". People with the same education who earn more tend to have more children, not fewer. The aggregate negative correlation between income and fertility is driven not by wealth itself but by the expansion of higher education that accompanies rising incomes."]
     }), "\n", _jsxs(_components.p, {
       children: ["This matters enormously. It means the suppressive force isn't money — it's the ", _jsx(_components.em, {
         children: "mode of life"
@@ -129,13 +135,19 @@ function _createMdxContent(props) {
     }), "\n", _jsx(IncomeFertilityParadox, {}), "\n", _jsx(_components.p, {
       children: "Years spent in higher education are years of intensive training in analysis, optimization, and management. The credential economy doesn't just delay childbearing; it reshapes how people relate to the future, to risk, to the uncontrollable. The opportunity-cost framework that economists use to explain the education-fertility link isn't a neutral description of a tradeoff — it's a symptom of the condition it describes. You can only experience a child as \"opportunity cost\" if you've already been formed to see your life as a resource to be allocated."
     }), "\n", _jsxs(_components.p, {
-      children: ["The obvious counterargument writes itself: maybe education reduces fertility through delay, not formation. A woman who finishes her degree at 28 rather than entering the labor market at 18 has fewer fertile years, hits subfertility earlier, and simply runs out of calendar time for a third or fourth child. You don't need Heidegger to explain a calendar. And the delay mechanism is real — lengthening time in education accounts for a large share of the shift to later first births across Europe and the United States. But completed fertility — total children ever born, not just timing — also declines with education, and an NLSY study found the fertility-reducing effect of college is concentrated among women from disadvantaged backgrounds for whom college is most ", _jsx(_components.em, {
+      children: ["The obvious counterargument writes itself: maybe education reduces fertility through delay, not formation. A woman who finishes her degree at 28 rather than entering the labor market at 18 has fewer fertile years, hits subfertility earlier, and simply runs out of calendar time for a third or fourth child. You don't need Heidegger to explain a calendar. And the delay mechanism is real — lengthening time in education accounts for a large share of the shift to later first births across Europe and the United States. But completed fertility — total children ever born, not just timing — also declines with education, and ", _jsx(_components.a, {
+        href: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3449224/",
+        children: "an NLSY study"
+      }), " found the fertility-reducing effect of college is concentrated among women from disadvantaged backgrounds for whom college is most ", _jsx(_components.em, {
         children: "transformative"
       }), ", not among women already on the optimization track. Something beyond delay is operating. The question is whether it's the active ingredient."]
     }), "\n", _jsx(_components.p, {
       children: "Israel breaks the hypothesis cleanly."
     }), "\n", _jsx(IsraelEducationFertility, {}), "\n", _jsxs(_components.p, {
-      children: ["Israeli women experience the same educational delays as women elsewhere. Age at first birth among non-Haredi Jewish women increased by nearly three years between 1994 and 2016. Female labor force participation matches the United States and most of Europe. Housing costs sit mid-OECD. By every economic and temporal measure, the conditions that supposedly suppress fertility are present. Yet over that same period, non-Haredi Jewish fertility ", _jsx(_components.em, {
+      children: ["Israeli women experience the same educational delays as women elsewhere. ", _jsx(_components.a, {
+        href: "https://www.taubcenter.org.il/en/research/israels-exceptional-fertility/",
+        children: "Age at first birth among non-Haredi Jewish women increased by nearly three years between 1994 and 2016"
+      }), ". Female labor force participation matches the United States and most of Europe. Housing costs sit mid-OECD. By every economic and temporal measure, the conditions that supposedly suppress fertility are present. Yet over that same period, non-Haredi Jewish fertility ", _jsx(_components.em, {
         children: "rose"
       }), " — the only population in the developed world where rising age at first birth coincided with rising total fertility. By age 40, Israeli women with college degrees have the same number of children as Israeli women whose highest education is high school. This is true nowhere else in the OECD."]
     }), "\n", _jsx(_components.p, {
@@ -157,9 +169,15 @@ function _createMdxContent(props) {
     }), "\n", _jsx(_components.p, {
       children: "Once wealth occupies this position, three things happen to fertility."
     }), "\n", _jsxs(_components.p, {
-      children: ["First, the middle class is paralyzed. Barbara Ehrenreich identified the psychology decades ago in ", _jsx(_components.em, {
-        children: "Fear of Falling"
-      }), ": the professional middle class is haunted not by actual deprivation but by the fear of downward mobility. Experimental research confirms the fertility connection directly — merely activating a desire for status leads people to prefer fewer children. And it's ", _jsx(_components.em, {
+      children: ["First, the middle class is paralyzed. Barbara Ehrenreich identified the psychology decades ago in ", _jsx(_components.a, {
+        href: "https://www.goodreads.com/book/show/24457.Fear_of_Falling",
+        children: _jsx(_components.em, {
+          children: "Fear of Falling"
+        })
+      }), ": the professional middle class is haunted not by actual deprivation but by the fear of downward mobility. Experimental research confirms the fertility connection directly — ", _jsx(_components.a, {
+        href: "https://www.sciencedirect.com/science/article/pii/S2666622723000382",
+        children: "merely activating a desire for status leads people to prefer fewer children"
+      }), ". And it's ", _jsx(_components.em, {
         children: "relative"
       }), " position, not absolute wealth, that drives the decision. Rising prosperity paradoxically suppresses fertility because as everyone's baseline expectations ratchet up, nobody feels secure enough. In a society where wealth is the sole metric of value, to fall economically is to become not just poor but ", _jsx(_components.em, {
         children: "illegible"
@@ -200,8 +218,14 @@ function _createMdxContent(props) {
       children: ["The trivially interesting question is why people who haven't encountered modernity still have children — any standard development narrative can explain that. The genuinely interesting question is why people who ", _jsx(_components.em, {
         children: "have"
       }), " encountered modernity still have children in large numbers. The answer can't be ignorance or inertia. It has to be something like a living alternative to the optimization framework — a way of life in which children are legible as something other than costs or status symbols."]
-    }), "\n", _jsx(_components.p, {
-      children: "The otherwise oriented are, as a demographic phenomenon, exclusively religious. The most prominent attempt at secular pronatalism — the Silicon Valley camp, the Natal Conference, the embryo-screening optimizers — is exactly what the thesis predicts: the framework perfected, applied to human beings at the point of conception. Across 181 countries, the most secular people have roughly the same small number of children regardless of where they live — below replacement. In the United States, the gap between religious and nonreligious fertility has widened to unprecedented levels. By 2019, the most religious Americans had fertility rates comparable to women in India or Mexico; the least religious had rates comparable to women in Japan or Italy."
+    }), "\n", _jsxs(_components.p, {
+      children: ["The otherwise oriented are, as a demographic phenomenon, exclusively religious. The most prominent attempt at secular pronatalism — the Silicon Valley camp, the Natal Conference, the embryo-screening optimizers — is exactly what the thesis predicts: the framework perfected, applied to human beings at the point of conception. ", _jsx(_components.a, {
+        href: "https://journals.sagepub.com/doi/full/10.1177/23780231211031320",
+        children: "Across 181 countries"
+      }), ", the most secular people have roughly the same small number of children regardless of where they live — below replacement. In the United States, the gap between religious and nonreligious fertility has widened to unprecedented levels. By 2019, ", _jsx(_components.a, {
+        href: "https://ifstudies.org/blog/americas-growing-religious-secular-fertility-divide",
+        children: "the most religious Americans had fertility rates comparable to women in India or Mexico; the least religious had rates comparable to women in Japan or Italy"
+      }), "."]
     }), "\n", _jsx(FertilityByReligiosity, {}), "\n", _jsx(_components.p, {
       children: "There is an apparent counterexample: some of Europe's most secularized societies — France, the Netherlands, Sweden — have sustained higher fertility than more religious countries like Italy and Poland. But this is a policy effect, not a communal one. The Nordic welfare state adjusts the cost calculation of children within the optimization framework. It doesn't constitute a secular community sustaining high fertility through shared meaning. And none of these countries have reached replacement. The ceiling holds. No secular community has produced a self-sustaining, cross-generational culture of resistance to the wealth metric. Not because secular people lack depth or love, but because the communities that sustain alternative frameworks across generations require exactly what secularity, by definition, does not provide — a shared orientation toward something that transcends individual life and its optimization."
     }), "\n", _jsxs(_components.h2, {
@@ -238,11 +262,20 @@ function _createMdxContent(props) {
           className: "icon icon-link"
         })
       }), "The Coherence Thesis"]
-    }), "\n", _jsx(_components.p, {
-      children: "A 2019 Institute for Family Studies survey across 11 countries found that women in highly religious, traditional couples report higher marital satisfaction and sexual satisfaction than women in secular or mixed-religiosity couples. These women also report that household decisions are shared rather than unilateral — the internal experience of these marriages is more egalitarian than outsiders assume. Meanwhile, Stevenson and Wolfers's landmark 2009 study documented that American women's happiness has declined both absolutely and relative to men since the 1970s, even as their objective circumstances have improved by virtually every measure — more education, more income, more legal rights, more reproductive control. The decline is pervasive across demographic groups and industrialized countries."
     }), "\n", _jsxs(_components.p, {
-      children: ["The naive reading of these two findings together is: traditional arrangements make women happier, modernity makes them miserable. But a 2025 paper in ", _jsx(_components.em, {
-        children: "Science Advances"
+      children: ["A ", _jsx(_components.a, {
+        href: "https://ifstudies.org/reports/world-family-map/2019/executive-summary",
+        children: "2019 Institute for Family Studies survey across 11 countries"
+      }), " found that women in highly religious, traditional couples report higher marital satisfaction and sexual satisfaction than women in secular or mixed-religiosity couples. These women also report that household decisions are shared rather than unilateral — the internal experience of these marriages is more egalitarian than outsiders assume. Meanwhile, ", _jsx(_components.a, {
+        href: "https://www.nber.org/papers/w14969",
+        children: "Stevenson and Wolfers's landmark 2009 study"
+      }), " documented that American women's happiness has declined both absolutely and relative to men since the 1970s, even as their objective circumstances have improved by virtually every measure — more education, more income, more legal rights, more reproductive control. The decline is pervasive across demographic groups and industrialized countries."]
+    }), "\n", _jsxs(_components.p, {
+      children: ["The naive reading of these two findings together is: traditional arrangements make women happier, modernity makes them miserable. But a ", _jsxs(_components.a, {
+        href: "https://www.science.org/doi/10.1126/sciadv.adt1646",
+        children: ["2025 paper in ", _jsx(_components.em, {
+          children: "Science Advances"
+        })]
       }), " complicates this by identifying a double paradox: women report higher life satisfaction and overall happiness than men, yet experience worse outcomes in mental health and negative affect. Women are simultaneously more satisfied and more depressed than men — and this holds across cultures. European Social Survey data reveals what the researchers describe as two stable configurations that both produce female life satisfaction: one built around high education, labor market participation, and gender balance in the household; another built around traditional caring roles, conservative values, and dense communal structure."]
     }), "\n", _jsxs(_components.p, {
       children: ["The women who report the ", _jsx(_components.em, {
@@ -271,7 +304,13 @@ function _createMdxContent(props) {
     }), "\n", _jsx(EgalitarianismFertilityTable, {}), "\n", _jsxs(_components.p, {
       children: ["Coherent egalitarian communities — active Nordic churchgoers, moderate LDS families — produce fertility ", _jsx(_components.em, {
         children: "above"
-      }), " their secular neighbors. That's the coherence effect. But they don't produce fertility dramatically above replacement. The communities that do — Amish at 6.0, Haredi at 6.6 — maintain something more than coherence. They maintain binding communal norms dense enough to override individual cost-benefit calculations about reproduction. The Haredi case is particularly instructive: 69% of Haredi university students are women, Haredi women are employed at 81% — nearly matching non-Haredi women — and they now earn more per hour than Haredi men. These are educated breadwinners with six children. Their education takes place within a formational container dense enough that the credential does not reshape the self into an optimizer. The community metabolizes the credential rather than the credential dissolving the community. And those norms have, so far, included traditional gender arrangements."]
+      }), " their secular neighbors. That's the coherence effect. But they don't produce fertility dramatically above replacement. The communities that do — Amish at 6.0, Haredi at 6.6 — maintain something more than coherence. They maintain binding communal norms dense enough to override individual cost-benefit calculations about reproduction. The Haredi case is particularly instructive: ", _jsx(_components.a, {
+        href: "https://en.idi.org.il/haredi/2024/?chapter=58376",
+        children: "69% of Haredi university students are women, Haredi women are employed at 81%"
+      }), " — nearly matching non-Haredi women — and they now ", _jsx(_components.a, {
+        href: "https://www.taubcenter.org.il/en/research/gender-wage-gaps-in-israel-2014%E2%80%932018/",
+        children: "earn more per hour than Haredi men"
+      }), ". These are educated breadwinners with six children. Their education takes place within a formational container dense enough that the credential does not reshape the self into an optimizer. The community metabolizes the credential rather than the credential dissolving the community. And those norms have, so far, included traditional gender arrangements."]
     }), "\n", _jsxs(_components.p, {
       children: ["The standard way to describe this pattern is: ", _jsx(_components.em, {
         children: "formation"
@@ -322,8 +361,11 @@ function _createMdxContent(props) {
       }), " specific modes of encounter by ", _jsx(_components.em, {
         children: "specific"
       }), " practices."]
-    }), "\n", _jsx(_components.p, {
-      children: "The Sikh case tests this precisely. Sikhism has robust liturgical life, strong communal identity, a transcendent orientation as deep as any in the world's religious traditions. Guru Nanak proclaimed the equality of men and women in the fifteenth century. Sikh women can lead congregations, participate in all religious rites, hold institutional authority. The community is coherent. The formation is real. But Sikh egalitarianism has left family size to individual negotiation. It has not formed its members, through specific communal practices, to encounter reproduction as something that arrives on its own terms. Worldwide Sikh fertility sits at 1.6, indistinguishable from the secular baseline."
+    }), "\n", _jsxs(_components.p, {
+      children: ["The Sikh case tests this precisely. Sikhism has robust liturgical life, strong communal identity, a transcendent orientation as deep as any in the world's religious traditions. Guru Nanak proclaimed the equality of men and women in the fifteenth century. Sikh women can lead congregations, participate in all religious rites, hold institutional authority. The community is coherent. The formation is real. But Sikh egalitarianism has left family size to individual negotiation. It has not formed its members, through specific communal practices, to encounter reproduction as something that arrives on its own terms. ", _jsx(_components.a, {
+        href: "https://mohfw.gov.in/sites/default/files/NFHS-5_Phase-I.pdf",
+        children: "Sikh fertility in India sits at 1.6"
+      }), ", indistinguishable from the secular baseline."]
     }), "\n", _jsxs(_components.p, {
       children: ["The LDS trajectory tells the same story in slow motion. When researchers ask LDS couples who ", _jsx(_components.em, {
         children: "should"
@@ -331,9 +373,15 @@ function _createMdxContent(props) {
         children: "do"
       }), ", they consistently emerge as egalitarian in practice. They have higher education and income than Protestants and Catholics. Among LDS families, income is ", _jsx(_components.em, {
         children: "positively"
-      }), " correlated with fertility — the opposite of the general population pattern. They've reversed the income-fertility relationship, which is exactly the signature of a community operating outside the wealth metric. And yet Utah now averages 1.8 children per woman, down from three in the 1980s. The communal identity is real. The transcendent orientation is real. The alternative status registers are real. But the specific formational practices around family — the density of communal expectation, the friction that builds the interior for reception — are thinning. And fertility is converging."]
+      }), " correlated with fertility — the opposite of the general population pattern. They've reversed the income-fertility relationship, which is exactly the signature of a community operating outside the wealth metric. And yet ", _jsx(_components.a, {
+        href: "https://www.usu.edu/uwlp/blog/2023/utah-women-fertility-trends-changes-1970-2021",
+        children: "Utah now averages 1.8 children per woman, down from three in the 1980s"
+      }), ". The communal identity is real. The transcendent orientation is real. The alternative status registers are real. But the specific formational practices around family — the density of communal expectation, the friction that builds the interior for reception — are thinning. And fertility is converging."]
     }), "\n", _jsxs(_components.p, {
-      children: ["The Finnish Laestadians complete the pattern. A conservative Lutheran revival movement inside the most gender-egalitarian welfare state on earth, they traditionally had families of ten or twelve. Recently that has declined to around five, as younger members increasingly treat contraception as a private matter rather than a communal practice. The key word is ", _jsx(_components.em, {
+      children: ["The Finnish Laestadians complete the pattern. A conservative Lutheran revival movement inside the most gender-egalitarian welfare state on earth, they traditionally had families of ten or twelve. ", _jsx(_components.a, {
+        href: "https://yle.fi/a/74-20086218",
+        children: "Recently that has declined to around five"
+      }), ", as younger members increasingly treat contraception as a private matter rather than a communal practice. The key word is ", _jsx(_components.em, {
         children: "private"
       }), ". The moment reproduction becomes a matter of individual decision rather than communal formation, the optimization framework has already won, no matter how sincere the faith."]
     }), "\n", _jsxs(_components.h2, {
@@ -358,8 +406,11 @@ function _createMdxContent(props) {
       }), " over their secular neighbors. Coherence helps. But the advantage erodes over time and has never, in any documented case, sustained above-replacement fertility indefinitely against the pressure of the surrounding optimization culture."]
     }), "\n", _jsx(_components.p, {
       children: "Israel is the partial exception that clarifies the rule. Its formational density is national-existential rather than strictly religious — military service, collective memory, the project of Jewish continuity — and it sustains above-replacement fertility among educated, employed, secular women in ways no other developed nation has matched. The formational thesis is not an argument for religion as such. It is an argument about communal density organized around a telos. Israel has one."
-    }), "\n", _jsx(_components.p, {
-      children: "One objection demands an honest answer. \"The community participates in the being of its members\" is also what every abusive institution says about itself. What distinguishes formation from coercion? The satisfaction data helps but doesn't resolve this — a person can be formed to report satisfaction with their own domination. The strongest answer available is the conjunction of satisfaction with genuine exit. Amish retention rates run above 85% even after Rumspringa provides real exposure to the outside world. Among communities with real exit options, people are staying — not because they can't imagine the alternative but because they can, and they prefer the coherence of a formed life to the dissolution of an optimized one. This is not proof that every practice within these communities is just. It is evidence that the formational structure as a whole produces something that its members, upon encountering the alternative, recognize as more than what the alternative offers."
+    }), "\n", _jsxs(_components.p, {
+      children: ["One objection demands an honest answer. \"The community participates in the being of its members\" is also what every abusive institution says about itself. What distinguishes formation from coercion? The satisfaction data helps but doesn't resolve this — a person can be formed to report satisfaction with their own domination. The strongest answer available is the conjunction of satisfaction with genuine exit. ", _jsx(_components.a, {
+        href: "https://groups.etown.edu/amishstudies/frequently-asked-questions/",
+        children: "Amish retention rates run above 85%"
+      }), " even after Rumspringa provides real exposure to the outside world. Among communities with real exit options, people are staying — not because they can't imagine the alternative but because they can, and they prefer the coherence of a formed life to the dissolution of an optimized one. This is not proof that every practice within these communities is just. It is evidence that the formational structure as a whole produces something that its members, upon encountering the alternative, recognize as more than what the alternative offers."]
     }), "\n", _jsxs(_components.p, {
       children: ["The essay's deepest claim, stated plainly: the liberal individual — the unconstrained chooser, the autonomous agent selecting from an open menu of life options — is not the baseline human condition. It is a specific product of a specific formation, or rather a specific ", _jsx(_components.em, {
         children: "de"
