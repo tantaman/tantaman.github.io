@@ -83,6 +83,7 @@ export default function EgalitarianismFertilityTable() {
                     width: '100%',
                     borderCollapse: 'collapse',
                     minWidth: 520,
+                    display: 'table',
                 } },
                 React.createElement("thead", null,
                     React.createElement("tr", { style: { background: `${T.bg}` } }, ['Community', 'Gender Egalitarianism', 'TFR', 'Trend'].map((h) => (React.createElement("th", { key: h, style: Object.assign(Object.assign({}, cellBase), { fontFamily: T.mono, fontSize: 10, color: T.textMuted, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }) }, h))))),

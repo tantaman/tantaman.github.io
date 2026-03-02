@@ -96,6 +96,7 @@ export default function EgalitarianismFertilityTable() {
           width: '100%',
           borderCollapse: 'collapse',
           minWidth: 520,
+          display: 'table',
         }}>
           <thead>
             <tr style={{ background: `${T.bg}` }}>
