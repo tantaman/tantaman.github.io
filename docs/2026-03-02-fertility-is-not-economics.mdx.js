@@ -1,5 +1,9 @@
 /*@jsxRuntime automatic @jsxImportSource https://esm.sh/react*/
 import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "https://esm.sh/react/jsx-runtime";
+import IncomeFertilityParadox from '/dist/components/IncomeFertilityParadox.js';
+import IncomeFertilityUCurve from '/dist/components/IncomeFertilityUCurve.js';
+import EgalitarianismFertilityTable from '/dist/components/EgalitarianismFertilityTable.js';
+import FertilityByReligiosity from '/dist/components/FertilityByReligiosity.js';
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
@@ -11,7 +15,6 @@ function _createMdxContent(props) {
     p: "p",
     em: "em",
     h2: "h2",
-    blockquote: "blockquote",
     strong: "strong"
   }, props.components);
   return _jsxs(_Fragment, {
@@ -87,7 +90,7 @@ function _createMdxContent(props) {
           })]
         })
       })
-    }), _jsxs(_components.h1, {
+    }), "\n", _jsxs(_components.h1, {
       id: "the-optimization-trap-why-the-birth-rate-cant-be-fixed",
       children: [_jsx(_components.a, {
         "aria-hidden": "true",
@@ -143,17 +146,7 @@ function _createMdxContent(props) {
       children: ["This matters enormously. It means the suppressive force isn't money — it's the ", _jsx(_components.em, {
         children: "mode of life"
       }), " that credentialing produces."]
-    }), "\n", _jsxs(_components.blockquote, {
-      children: ["\n", _jsxs(_components.p, {
-        children: [_jsx(_components.strong, {
-          children: "[CHART: The Income-Fertility Paradox]"
-        }), " Two-panel chart. Left panel: aggregate negative correlation between household income and fertility (standard view). Right panel: positive correlation between income and fertility ", _jsx(_components.em, {
-          children: "within"
-        }), " education strata — showing that at each education level, higher earners have more children. ", _jsx(_components.em, {
-          children: "Source: Strulik, \"Higher Education and the Income-Fertility Nexus,\" Journal of Population Economics (2024); US data calibrated 1950–2010."
-        })]
-      }), "\n"]
-    }), "\n", _jsx(_components.p, {
+    }), "\n", _jsx(IncomeFertilityParadox, {}), "\n", _jsx(_components.p, {
       children: "Years spent in higher education are years of intensive training in analysis, optimization, and management. The credential economy doesn't just delay childbearing; it reshapes how people relate to the future, to risk, to the uncontrollable. The opportunity-cost framework that economists use to explain the education-fertility link isn't a neutral description of a tradeoff — it's a symptom of the condition it describes. You can only experience a child as \"opportunity cost\" if you've already been formed to see your life as a resource to be allocated."
     }), "\n", _jsx(_components.p, {
       children: "This is the core of the problem: the danger isn't any particular technology but the way technological thinking colonizes how we relate to everything, including people. Within the optimization framework, a child can only appear as a cost, a project, a risk to be managed. The child as someone who arrives on their own terms, who disrupts your plans precisely because they aren't one of your plans — that child cannot show up within a framework where everything is a plan."
@@ -183,15 +176,7 @@ function _createMdxContent(props) {
       children: ["Second, the wealthy don't escape — they complete the framework. The data shows a partial recovery of fertility at the top of the income distribution. But the honest read is not that the wealthy have rediscovered the child as gift. A large family becomes the most expensive luxury good, the ultimate signal that you've so thoroughly won the wealth game that you can absorb what would be a catastrophic cost for anyone else. Six kids in matching linen on a Tuscan hillside. The family is not received. It is ", _jsx(_components.em, {
         children: "produced"
       }), "."]
-    }), "\n", _jsxs(_components.blockquote, {
-      children: ["\n", _jsxs(_components.p, {
-        children: [_jsx(_components.strong, {
-          children: "[CHART: Income-Fertility U-Curve]"
-        }), " Chart showing fertility rates by income quintile (or decile) within a developed nation (US or UK), demonstrating the dip in the middle income brackets and partial recovery at the highest income levels. ", _jsx(_components.em, {
-          children: "Source: Hazan & Zoabi, \"Do Highly Educated Women Choose Smaller Families?\" Economic Journal (2015); supplemented with US Census Bureau / American Community Survey fertility data by household income."
-        })]
-      }), "\n"]
-    }), "\n", _jsx(_components.p, {
+    }), "\n", _jsx(IncomeFertilityUCurve, {}), "\n", _jsx(_components.p, {
       children: "Third, the suppression in the middle and the recovery at the top aren't two different phenomena. They're the same phenomenon — wealth as the sole metric of value — producing different outputs at different resource levels. Below a certain threshold, the optimization says \"you can't afford this.\" Above it, the optimization says \"you can afford to display this.\" The child never appears outside the cost-benefit analysis."
     }), "\n", _jsxs(_components.h2, {
       id: "three-modes-not-two",
@@ -225,15 +210,7 @@ function _createMdxContent(props) {
       }), " encountered modernity still have children in large numbers. The answer can't be ignorance or inertia. It has to be something like a living alternative to the optimization framework — a way of life in which children are legible as something other than costs or status symbols."]
     }), "\n", _jsx(_components.p, {
       children: "The otherwise oriented are, as a demographic phenomenon, exclusively religious. The most prominent attempt at secular pronatalism — the Silicon Valley camp, the Natal Conference, the embryo-screening optimizers — is exactly what the thesis predicts: the framework perfected, applied to human beings at the point of conception. Across 181 countries, the most secular people have roughly the same small number of children regardless of where they live — below replacement. In the United States, the gap between religious and nonreligious fertility has widened to unprecedented levels. By 2019, the most religious Americans had fertility rates comparable to women in India or Mexico; the least religious had rates comparable to women in Japan or Italy."
-    }), "\n", _jsxs(_components.blockquote, {
-      children: ["\n", _jsxs(_components.p, {
-        children: [_jsx(_components.strong, {
-          children: "[CHART: US Fertility by Religiosity, 1982–2022]"
-        }), " Line chart showing diverging TFR between weekly religious service attenders, occasional attenders, and nonreligious Americans over time. Key finding: the gap has widened dramatically since 2007, with nonreligious fertility falling fastest. ", _jsx(_components.em, {
-          children: "Source: National Survey of Family Growth (1982–2019); Demographic Intelligence Family Survey (2020–2022), as compiled by the Institute for Family Studies."
-        })]
-      }), "\n"]
-    }), "\n", _jsx(_components.p, {
+    }), "\n", _jsx(FertilityByReligiosity, {}), "\n", _jsx(_components.p, {
       children: "There is an apparent counterexample: some of Europe's most secularized societies — France, the Netherlands, Sweden — have sustained higher fertility than more religious countries like Italy and Poland. But this is a policy effect, not a communal one. The Nordic welfare state adjusts the cost calculation of children within the optimization framework. It doesn't constitute a secular community sustaining high fertility through shared meaning. And none of these countries have reached replacement. The ceiling holds. No secular community has produced a self-sustaining, cross-generational culture of resistance to the wealth metric. Not because secular people lack depth or love, but because the communities that sustain alternative frameworks across generations require exactly what secularity, by definition, does not provide — a shared orientation toward something that transcends individual life and its optimization."
     }), "\n", _jsxs(_components.h2, {
       id: "what-the-otherwise-oriented-actually-have",
@@ -299,15 +276,7 @@ function _createMdxContent(props) {
       }), "The Category Error"]
     }), "\n", _jsx(_components.p, {
       children: "Return to the egalitarianism-fertility gradient:"
-    }), "\n", _jsxs(_components.blockquote, {
-      children: ["\n", _jsxs(_components.p, {
-        children: [_jsx(_components.strong, {
-          children: "[TABLE: The Egalitarianism-Fertility Gradient in Religious Communities]"
-        }), " Table with columns for Community, Gender Egalitarianism (rated low/medium/high), TFR, and Trend. Rows: Amish (Low, ~6.0, Stable), Haredi Jews (Low, ~6.6, Stable), Hutterites (Low, ~4.0, Slowly declining), Active LDS (Medium, ~2.6, Declining toward national average), Finnish Laestadians (Medium, ~5.0→declining, Eroding), Nordic Lutherans (High, ~1.8–2.0, Below replacement), Sikhs worldwide (High, ~1.6, Below replacement), Secular baseline (High, ~1.4–1.6, Declining). ", _jsx(_components.em, {
-          children: "Sources: Pew Research Center; Israeli CBS; Elizabethtown College Young Center; BYU Religious Studies Center; Yle Finland; Wikipedia demographics."
-        })]
-      }), "\n"]
-    }), "\n", _jsxs(_components.p, {
+    }), "\n", _jsx(EgalitarianismFertilityTable, {}), "\n", _jsxs(_components.p, {
       children: ["Coherent egalitarian communities — active Nordic churchgoers, moderate LDS families — produce fertility ", _jsx(_components.em, {
         children: "above"
       }), " their secular neighbors. That's the coherence effect. But they don't produce fertility dramatically above replacement. The communities that do — Amish at 6.0, Haredi at 6.6 — maintain something more than coherence. They maintain binding communal norms dense enough to override individual cost-benefit calculations about reproduction. And those norms have, so far, included traditional gender arrangements."]
