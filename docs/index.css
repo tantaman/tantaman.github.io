@@ -316,10 +316,17 @@ section {
   color: var(--pill-form-text);
 }
 
-/* Kind — purple */
-.pill-kind {
+/* Kind — original: purple */
+.pill-kind-original {
   background: var(--pill-kind-bg);
   color: var(--pill-kind-text);
+}
+
+/* Kind — survey: grayscale */
+.pill-kind-survey {
+  background: var(--pill-subject-bg);
+  color: var(--pill-subject-text);
+  border: 1px solid var(--pill-subject-border);
 }
 
 .card-original {

@@ -92,7 +92,7 @@
       if (p.form)
         pills += '<span class="pill pill-form">' + esc(p.form) + "</span>";
       if (p.kind)
-        pills += '<span class="pill pill-kind">' + esc(p.kind) + "</span>";
+        pills += '<span class="pill pill-kind-' + esc(p.kind) + '">' + esc(p.kind) + "</span>";
       return pills ? '<div class="card-pills">' + pills + "</div>" : "";
     }
     function truncateText(str, max) {

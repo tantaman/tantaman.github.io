@@ -51,7 +51,7 @@ export default async function defaultLayout(
     const form = matter?.form || 'essay';
     pills.push(h('span', { class: 'pill pill-form' }, form));
     if (matter?.kind) {
-      pills.push(h('span', { class: 'pill pill-kind' }, matter.kind));
+      pills.push(h('span', { class: `pill pill-kind-${matter.kind}` }, matter.kind));
     }
     if (pills.length) {
       newChildren.unshift(h('div', { class: 'card-pills' }, pills));
