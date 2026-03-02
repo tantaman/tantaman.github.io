@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import { StreamableHTTPTransport } from "@hono/mcp";
 import { ZodError } from "zod";
 import { extractEvents } from "./events";
+import { generateICS } from "./ical";
 import { extractTasks } from "./tasks";
 import { extractLocations, geocodeLocation } from "./locations";
 import { extractMovies } from "./movies";
@@ -51,6 +52,7 @@ export interface Env {
   MAPBOX_TOKEN: string;
   TMDB_API_KEY: string;
   RESEND_API_KEY: string;
+  ICAL_TOKEN: string;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -99,7 +101,7 @@ api.use("*", async (c, next) => {
 
   // Skip non-API routes (attachments have their own cache headers, MCP is not cacheable)
   const path = c.req.path;
-  if (path.startsWith("/api/attachments/") || path.startsWith("/api/dha/") || path.startsWith("/api/comments/") || path.startsWith("/api/ig-card/") || path === "/api/mcp" || path === "/api" || path === "/api/") {
+  if (path.startsWith("/api/attachments/") || path.startsWith("/api/dha/") || path.startsWith("/api/comments/") || path.startsWith("/api/ig-card/") || path === "/api/events.ics" || path === "/api/mcp" || path === "/api" || path === "/api/") {
     return next();
   }
 
@@ -806,6 +808,25 @@ api.get("/events", async (c) => {
 
   const results = await c.env.DB.prepare(query).bind(...bindings).all();
   return c.json({ events: results.results });
+});
+
+api.get("/events.ics", async (c) => {
+  const token = c.req.query("token");
+  if (!token || token !== c.env.ICAL_TOKEN) {
+    return c.text("Unauthorized", 401);
+  }
+
+  const results = await c.env.DB.prepare(
+    "SELECT id, thought_id, title, description, date_text, date_epoch, created_at FROM event ORDER BY date_epoch ASC"
+  ).all();
+
+  const ics = generateICS(results.results as any);
+  return new Response(ics, {
+    headers: {
+      "Content-Type": "text/calendar; charset=utf-8",
+      "Cache-Control": "public, max-age=900",
+    },
+  });
 });
 
 // --- Locations ---
