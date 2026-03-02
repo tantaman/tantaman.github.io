@@ -8,6 +8,8 @@ kind: original
 
 A note on method, prompted by the experience of writing an [essay about the fertility crisis](./2026-03-02-fertility-is-not-economics.html).
 
+> The fertility essay cannot claim to be "what the data shows" in any neutral sense. It is what the data shows to someone formed by Eckhart, MacIntyre, Heidegger, and Aristotle — someone whose pre-understanding includes the possibility that the self is constituted through community, that formation is prior to choice, that reception is a capacity built by discipline rather than a preference exercised by an autonomous agent. Someone formed differently — an economist, a liberal political theorist, a rational choice sociologist — would look at the same data and write a different essay, and they would believe just as sincerely that they were following the evidence. The data does not adjudicate between us. The formation does.
+
 ## The Sequence
 
 The standard explanation for falling birth rates runs like this: children are expensive, women are educated, careers demand time, subsidize the costs and the problem eases. This explanation feels like it comes from the data. It doesn't. It comes from a formation — one that sees human behavior as cost-benefit optimization and therefore can only ask cost-benefit questions. "What are the barriers?" is the question the optimization framework knows how to pose. The data, thus questioned, answers obediently.
