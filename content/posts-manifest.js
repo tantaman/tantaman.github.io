@@ -31,6 +31,7 @@ export default async function postsManifest() {
               tags: fm.tags || [],
               concern: fm.concern || [],
               form: inferForm(collection, meta),
+              kind: fm.kind || null,
               collection: collection || 'root',
               color: meta.sentimentColor || null,
               image: fm.image || meta.firstImage || null,

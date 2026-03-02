@@ -8,10 +8,11 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
   if (!listContainer || !breadcrumbBar || !sidebar) return;
 
   // State: active filters per facet + search query
-  const state: { subject: Set<string>; concern: Set<string>; form: Set<string>; q: string } = {
+  const state: { subject: Set<string>; concern: Set<string>; form: Set<string>; kind: Set<string>; q: string } = {
     subject: new Set(),
     concern: new Set(),
     form: new Set(),
+    kind: new Set(),
     q: '',
   };
 
@@ -28,6 +29,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
       pills += '<span class="pill pill-concern">' + esc(c) + '</span>';
     });
     if (p.form) pills += '<span class="pill pill-form">' + esc(p.form) + '</span>';
+    if (p.kind) pills += '<span class="pill pill-kind">' + esc(p.kind) + '</span>';
     return pills ? '<div class="card-pills">' + pills + '</div>' : '';
   }
 
@@ -164,6 +166,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
       subject: state.subject,
       concern: state.concern,
       form: state.form,
+      kind: state.kind,
     };
     let filtered = filterPosts(posts, filters);
 
@@ -199,7 +202,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
 
     // Update breadcrumb bar
     const crumbs: string[] = [];
-    (['subject', 'concern', 'form'] as const).forEach(function (facet) {
+    (['subject', 'concern', 'form', 'kind'] as const).forEach(function (facet) {
       state[facet].forEach(function (val) {
         const btn = sidebar!.querySelector('.tag-tab[data-facet="' + facet + '"][data-value="' + val + '"]');
         const label = btn ? btn.childNodes[0].textContent!.trim() : val;
@@ -282,7 +285,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
     const crumb = (e.target as HTMLElement).closest('.crumb');
     if (!crumb) return;
 
-    const facet = crumb.getAttribute('data-facet') as 'subject' | 'concern' | 'form';
+    const facet = crumb.getAttribute('data-facet') as 'subject' | 'concern' | 'form' | 'kind';
     const value = crumb.getAttribute('data-value')!;
     if (state[facet]) {
       state[facet].delete(value);
@@ -313,7 +316,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
     const btn = (e.target as HTMLElement).closest('.tag-tab');
     if (!btn) return;
 
-    const facet = btn.getAttribute('data-facet') as 'subject' | 'concern' | 'form';
+    const facet = btn.getAttribute('data-facet') as 'subject' | 'concern' | 'form' | 'kind';
     const value = btn.getAttribute('data-value')!;
     if (!state[facet]) return;
 
@@ -337,6 +340,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
     state.subject = new Set();
     state.concern = new Set();
     state.form = new Set();
+    state.kind = new Set();
     state.q = '';
 
     const hash = location.hash.slice(1);
@@ -345,7 +349,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
     hash.split('&').forEach(function (part) {
       const eq = part.indexOf('=');
       if (eq === -1) return;
-      const key = decodeURIComponent(part.slice(0, eq)) as 'subject' | 'concern' | 'form' | 'q';
+      const key = decodeURIComponent(part.slice(0, eq)) as 'subject' | 'concern' | 'form' | 'kind' | 'q';
       const val = decodeURIComponent(part.slice(eq + 1));
       if (key === 'q') {
         state.q = val.toLowerCase();
@@ -359,7 +363,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
 
   function updateHash(): void {
     const parts: string[] = [];
-    (['subject', 'concern', 'form'] as const).forEach(function (facet) {
+    (['subject', 'concern', 'form', 'kind'] as const).forEach(function (facet) {
       if (state[facet].size > 0) {
         parts.push(facet + '=' + Array.from(state[facet]).join(','));
       }
@@ -392,6 +396,7 @@ import { tagId, filterPosts, countFacetValues, type Post, type FacetFilters } fr
           subjects: p.tags || [],
           concerns: p.concern || [],
           form: p.form || 'essay',
+          kind: p.kind || '',
           image: p.image,
           sentimentColor: p.color || '',
           wordCount: p.wordCount || 0,

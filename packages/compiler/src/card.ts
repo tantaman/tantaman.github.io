@@ -9,6 +9,7 @@ export function renderPills(data: {
   subjects: string[];
   concerns: string[];
   form: string;
+  kind?: string;
 }): string {
   const subjects = (data.subjects || []).map(
     (s) =>
@@ -20,6 +21,9 @@ export function renderPills(data: {
   );
   const form = `<span class="pill pill-form" data-facet="form" data-value="${tagId(data.form)}">${data.form}</span>`;
   const pills = [...subjects, ...concerns, form];
+  if (data.kind) {
+    pills.push(`<span class="pill pill-kind" data-facet="kind" data-value="${tagId(data.kind)}">${data.kind}</span>`);
+  }
   return `<div class="card-pills">${pills.join('')}</div>`;
 }
 

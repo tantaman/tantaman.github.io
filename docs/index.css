@@ -18,6 +18,8 @@
   --pill-concern-bg: #999;
   --pill-form-bg: #000;
   --pill-form-text: #fff;
+  --pill-kind-bg: #e8d5f5;
+  --pill-kind-text: #4a2070;
 }
 
 [data-theme='dark'] {
@@ -40,6 +42,8 @@
   --pill-concern-bg: #555;
   --pill-form-bg: #e0e0e0;
   --pill-form-text: #1a1a1a;
+  --pill-kind-bg: #3d1f5c;
+  --pill-kind-text: #d8b8f0;
 }
 
 *,
@@ -310,6 +314,12 @@ section {
 .pill-form {
   background: var(--pill-form-bg);
   color: var(--pill-form-text);
+}
+
+/* Kind — purple */
+.pill-kind {
+  background: var(--pill-kind-bg);
+  color: var(--pill-kind-text);
 }
 
 .sentiment-strip {

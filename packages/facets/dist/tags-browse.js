@@ -11,6 +11,7 @@ import { filterPosts, countFacetValues } from './index';
         subject: new Set(),
         concern: new Set(),
         form: new Set(),
+        kind: new Set(),
         q: '',
     };
     function readingTime(wc) {
@@ -26,6 +27,8 @@ import { filterPosts, countFacetValues } from './index';
         });
         if (p.form)
             pills += '<span class="pill pill-form">' + esc(p.form) + '</span>';
+        if (p.kind)
+            pills += '<span class="pill pill-kind">' + esc(p.kind) + '</span>';
         return pills ? '<div class="card-pills">' + pills + '</div>' : '';
     }
     function truncateText(str, max) {
@@ -154,6 +157,7 @@ import { filterPosts, countFacetValues } from './index';
             subject: state.subject,
             concern: state.concern,
             form: state.form,
+            kind: state.kind,
         };
         let filtered = filterPosts(posts, filters);
         // TF-IDF full-text search filter
@@ -182,7 +186,7 @@ import { filterPosts, countFacetValues } from './index';
         const counts = countFacetValues(filtered);
         // Update breadcrumb bar
         const crumbs = [];
-        ['subject', 'concern', 'form'].forEach(function (facet) {
+        ['subject', 'concern', 'form', 'kind'].forEach(function (facet) {
             state[facet].forEach(function (val) {
                 const btn = sidebar.querySelector('.tag-tab[data-facet="' + facet + '"][data-value="' + val + '"]');
                 const label = btn ? btn.childNodes[0].textContent.trim() : val;
@@ -315,6 +319,7 @@ import { filterPosts, countFacetValues } from './index';
         state.subject = new Set();
         state.concern = new Set();
         state.form = new Set();
+        state.kind = new Set();
         state.q = '';
         const hash = location.hash.slice(1);
         if (!hash)
@@ -337,7 +342,7 @@ import { filterPosts, countFacetValues } from './index';
     }
     function updateHash() {
         const parts = [];
-        ['subject', 'concern', 'form'].forEach(function (facet) {
+        ['subject', 'concern', 'form', 'kind'].forEach(function (facet) {
             if (state[facet].size > 0) {
                 parts.push(facet + '=' + Array.from(state[facet]).join(','));
             }
@@ -368,6 +373,7 @@ import { filterPosts, countFacetValues } from './index';
                 subjects: p.tags || [],
                 concerns: p.concern || [],
                 form: p.form || 'essay',
+                kind: p.kind || '',
                 image: p.image,
                 sentimentColor: p.color || '',
                 wordCount: p.wordCount || 0,

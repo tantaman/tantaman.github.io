@@ -172,6 +172,7 @@ image: '/path/to/image.png'    # Optional: hero/card image
 date: '2025-01-15'             # Optional: explicit date (otherwise extracted from filename)
 minimalHeader: true            # Optional: show minimal header
 noHeader: true                 # Optional: hide header entirely
+kind: original                 # Optional: original or survey
 js: ['/custom.js']             # Optional: additional JS to inject (mainly for MDX)
 ---
 ```
@@ -186,6 +187,8 @@ The browse/tags page uses a three-facet taxonomy. Use existing values — do not
 
 **Form** (frontmatter `form`): essay, story, chat, interactive, meditation, prophecy
 - When `form` is omitted it is inferred: `the-mirror-room/` → story, `chats/` → chat, `standalone: html` → interactive, otherwise → essay
+
+**Kind** (frontmatter `kind`): original, survey
 
 ### Special Markdown Features
 

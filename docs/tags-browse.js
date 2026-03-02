@@ -15,6 +15,7 @@
     const subjects = toSet(filters.subject);
     const concerns = toSet(filters.concern);
     const forms = toSet(filters.form);
+    const kinds = toSet(filters.kind);
     return posts.filter((p) => {
       if (subjects.size > 0) {
         const slugged = new Set(p.subjects.map((s) => tagId(s)));
@@ -34,11 +35,15 @@
         if (!forms.has(tagId(p.form)))
           return false;
       }
+      if (kinds.size > 0) {
+        if (!p.kind || !kinds.has(tagId(p.kind)))
+          return false;
+      }
       return true;
     });
   }
   function countFacetValues(posts) {
-    const counts = { subject: {}, concern: {}, form: {} };
+    const counts = { subject: {}, concern: {}, form: {}, kind: {} };
     for (const p of posts) {
       for (const s of p.subjects) {
         const id = tagId(s);
@@ -50,6 +55,10 @@
       }
       const fid = tagId(p.form);
       counts.form[fid] = (counts.form[fid] || 0) + 1;
+      if (p.kind) {
+        const kid = tagId(p.kind);
+        counts.kind[kid] = (counts.kind[kid] || 0) + 1;
+      }
     }
     return counts;
   }
@@ -66,6 +75,7 @@
       subject: /* @__PURE__ */ new Set(),
       concern: /* @__PURE__ */ new Set(),
       form: /* @__PURE__ */ new Set(),
+      kind: /* @__PURE__ */ new Set(),
       q: ""
     };
     function readingTime(wc) {
@@ -81,6 +91,8 @@
       });
       if (p.form)
         pills += '<span class="pill pill-form">' + esc(p.form) + "</span>";
+      if (p.kind)
+        pills += '<span class="pill pill-kind">' + esc(p.kind) + "</span>";
       return pills ? '<div class="card-pills">' + pills + "</div>" : "";
     }
     function truncateText(str, max) {
@@ -366,7 +378,8 @@
       const filters = {
         subject: state.subject,
         concern: state.concern,
-        form: state.form
+        form: state.form,
+        kind: state.kind
       };
       let filtered = filterPosts(posts2, filters);
       if (state.q && searchIndex) {
@@ -389,7 +402,7 @@
       }
       const counts = countFacetValues(filtered);
       const crumbs = [];
-      ["subject", "concern", "form"].forEach(function(facet) {
+      ["subject", "concern", "form", "kind"].forEach(function(facet) {
         state[facet].forEach(function(val) {
           const btn = sidebar.querySelector('.tag-tab[data-facet="' + facet + '"][data-value="' + val + '"]');
           const label = btn ? btn.childNodes[0].textContent.trim() : val;
@@ -512,6 +525,7 @@
       state.subject = /* @__PURE__ */ new Set();
       state.concern = /* @__PURE__ */ new Set();
       state.form = /* @__PURE__ */ new Set();
+      state.kind = /* @__PURE__ */ new Set();
       state.q = "";
       const hash = location.hash.slice(1);
       if (!hash)
@@ -535,7 +549,7 @@
     }
     function updateHash() {
       const parts = [];
-      ["subject", "concern", "form"].forEach(function(facet) {
+      ["subject", "concern", "form", "kind"].forEach(function(facet) {
         if (state[facet].size > 0) {
           parts.push(facet + "=" + Array.from(state[facet]).join(","));
         }
@@ -564,6 +578,7 @@
           subjects: p.tags || [],
           concerns: p.concern || [],
           form: p.form || "essay",
+          kind: p.kind || "",
           image: p.image,
           sentimentColor: p.color || "",
           wordCount: p.wordCount || 0

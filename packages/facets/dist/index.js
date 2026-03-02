@@ -21,11 +21,12 @@ function toSet(v) {
         return v;
     return new Set(v);
 }
-/** AND across facets, AND within subject/concern, OR within form */
+/** AND across facets, AND within subject/concern, OR within form/kind */
 export function filterPosts(posts, filters) {
     const subjects = toSet(filters.subject);
     const concerns = toSet(filters.concern);
     const forms = toSet(filters.form);
+    const kinds = toSet(filters.kind);
     return posts.filter((p) => {
         if (subjects.size > 0) {
             const slugged = new Set(p.subjects.map((s) => tagId(s)));
@@ -45,11 +46,15 @@ export function filterPosts(posts, filters) {
             if (!forms.has(tagId(p.form)))
                 return false;
         }
+        if (kinds.size > 0) {
+            if (!p.kind || !kinds.has(tagId(p.kind)))
+                return false;
+        }
         return true;
     });
 }
 export function countFacetValues(posts) {
-    const counts = { subject: {}, concern: {}, form: {} };
+    const counts = { subject: {}, concern: {}, form: {}, kind: {} };
     for (const p of posts) {
         for (const s of p.subjects) {
             const id = tagId(s);
@@ -61,6 +66,10 @@ export function countFacetValues(posts) {
         }
         const fid = tagId(p.form);
         counts.form[fid] = (counts.form[fid] || 0) + 1;
+        if (p.kind) {
+            const kid = tagId(p.kind);
+            counts.kind[kid] = (counts.kind[kid] || 0) + 1;
+        }
     }
     return counts;
 }

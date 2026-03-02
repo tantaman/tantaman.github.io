@@ -101,6 +101,8 @@ async function tagsPage() {
         else form = 'essay';
       }
 
+      const kind = fm.kind || '';
+
       const rawImage = fm.image || postMeta.firstImage;
       postPromises.push(
         generateThumbnail(rawImage, THUMB_DIR, THUMB_URL_PREFIX, THUMB_WIDTH).then(
@@ -112,6 +114,7 @@ async function tagsPage() {
             subjects,
             concerns,
             form,
+            kind,
             image,
             sentimentColor,
             wordCount,
@@ -130,6 +133,7 @@ async function tagsPage() {
   const subjectCounts = new Map();
   const concernCounts = new Map();
   const formCounts = new Map();
+  const kindCounts = new Map();
 
   allPosts.forEach((post) => {
     post.subjects.forEach((s) =>
@@ -139,12 +143,14 @@ async function tagsPage() {
       concernCounts.set(c, (concernCounts.get(c) || 0) + 1),
     );
     formCounts.set(post.form, (formCounts.get(post.form) || 0) + 1);
+    if (post.kind) kindCounts.set(post.kind, (kindCounts.get(post.kind) || 0) + 1);
   });
 
   // Sort facet values by count descending
   const sortedSubjects = sortFacet(subjectCounts);
   const sortedConcerns = sortFacet(concernCounts);
   const sortedForms = sortFacet(formCounts);
+  const sortedKinds = sortFacet(kindCounts);
 
   // Generate sidebar HTML
   const sidebar = `
@@ -152,6 +158,7 @@ async function tagsPage() {
       ${facetGroup('Subject', sortedSubjects, 'subject')}
       ${facetGroup('Concern', sortedConcerns, 'concern')}
       ${facetGroup('Form', sortedForms, 'form')}
+      ${facetGroup('Kind', sortedKinds, 'kind')}
     </nav>`;
 
   // Generate no-JS fallback panels (grouped by subject)
@@ -215,7 +222,7 @@ function facetGroup(label, sortedEntries, facetName) {
 
 function postItem(post) {
   const mins = readingTime(post.wordCount);
-  const pills = renderPills({ subjects: post.subjects, concerns: post.concerns, form: post.form });
+  const pills = renderPills({ subjects: post.subjects, concerns: post.concerns, form: post.form, kind: post.kind });
   const desc = stripTags(post.description);
   return `
         <li class="tag-post">
