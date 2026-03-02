@@ -162,7 +162,7 @@ function renderCard(collection, meta, resolvedImage) {
   const authorLogos = renderAuthorLogosHtml(meta.frontmatter?.author);
 
   return `
-    <a class="card${meta.frontmatter?.kind === 'original' ? ' card-original' : ''}" href="${meta.compiledFilename}">
+    <a class="card" href="${meta.compiledFilename}">
       ${meta.sentimentColor ? `<div class="sentiment-strip" style="background:${meta.sentimentColor}"></div>` : ''}
       ${image ? `<img src="${image}" alt="" loading="lazy" />` : ''}
       <h4>

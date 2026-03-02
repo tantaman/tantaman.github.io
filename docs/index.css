@@ -329,11 +329,6 @@ section {
   border: 1px solid var(--pill-subject-border);
 }
 
-.card-original {
-  border-left: 3px solid var(--pill-kind-bg);
-  padding-left: 0.75rem;
-}
-
 .sentiment-strip {
   height: 4px;
   width: 100%;
