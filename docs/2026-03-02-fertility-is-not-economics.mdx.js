@@ -4,6 +4,7 @@ import IncomeFertilityParadox from '/dist/components/IncomeFertilityParadox.js';
 import IncomeFertilityUCurve from '/dist/components/IncomeFertilityUCurve.js';
 import EgalitarianismFertilityTable from '/dist/components/EgalitarianismFertilityTable.js';
 import FertilityByReligiosity from '/dist/components/FertilityByReligiosity.js';
+import IsraelEducationFertility from '/dist/components/IsraelEducationFertility.js';
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
@@ -127,6 +128,18 @@ function _createMdxContent(props) {
       }), " that credentialing produces."]
     }), "\n", _jsx(IncomeFertilityParadox, {}), "\n", _jsx(_components.p, {
       children: "Years spent in higher education are years of intensive training in analysis, optimization, and management. The credential economy doesn't just delay childbearing; it reshapes how people relate to the future, to risk, to the uncontrollable. The opportunity-cost framework that economists use to explain the education-fertility link isn't a neutral description of a tradeoff — it's a symptom of the condition it describes. You can only experience a child as \"opportunity cost\" if you've already been formed to see your life as a resource to be allocated."
+    }), "\n", _jsxs(_components.p, {
+      children: ["The obvious counterargument writes itself: maybe education reduces fertility through delay, not formation. A woman who finishes her degree at 28 rather than entering the labor market at 18 has fewer fertile years, hits subfertility earlier, and simply runs out of calendar time for a third or fourth child. You don't need Heidegger to explain a calendar. And the delay mechanism is real — lengthening time in education accounts for a large share of the shift to later first births across Europe and the United States. But completed fertility — total children ever born, not just timing — also declines with education, and an NLSY study found the fertility-reducing effect of college is concentrated among women from disadvantaged backgrounds for whom college is most ", _jsx(_components.em, {
+        children: "transformative"
+      }), ", not among women already on the optimization track. Something beyond delay is operating. The question is whether it's the active ingredient."]
+    }), "\n", _jsx(_components.p, {
+      children: "Israel breaks the hypothesis cleanly."
+    }), "\n", _jsx(IsraelEducationFertility, {}), "\n", _jsxs(_components.p, {
+      children: ["Israeli women experience the same educational delays as women elsewhere. Age at first birth among non-Haredi Jewish women increased by nearly three years between 1994 and 2016. Female labor force participation matches the United States and most of Europe. Housing costs sit mid-OECD. By every economic and temporal measure, the conditions that supposedly suppress fertility are present. Yet over that same period, non-Haredi Jewish fertility ", _jsx(_components.em, {
+        children: "rose"
+      }), " — the only population in the developed world where rising age at first birth coincided with rising total fertility. By age 40, Israeli women with college degrees have the same number of children as Israeli women whose highest education is high school. This is true nowhere else in the OECD."]
+    }), "\n", _jsx(_components.p, {
+      children: "Even secular Israeli Jewish women sustain a total fertility rate of roughly 2.0 — below replacement but far above secular women in any other developed country. And the fertility increase of the past two decades comes primarily from secular and traditional Jews, not from the ultra-Orthodox, whose rate has actually declined slightly. Demographers attribute it to what they variously call optimism, communal solidarity, frontier mentality, and attachment to Jewish continuity — which is to say, a shared orientation toward something that transcends individual optimization. Military service, Holocaust remembrance, the constant existential threat, the collective project of Jewish survival: these function as formational practices that answer the question of what life is for in terms that cannot be reduced to career advancement or wealth accumulation. The delay happened in Israel too. The formation around the education is different. That is the active ingredient."
     }), "\n", _jsx(_components.p, {
       children: "This is the core of the problem: the danger isn't any particular technology but the way technological thinking colonizes how we relate to everything, including people. Within the optimization framework, a child can only appear as a cost, a project, a risk to be managed. The child as someone who arrives on their own terms, who disrupts your plans precisely because they aren't one of your plans — that child cannot show up within a framework where everything is a plan."
     }), "\n", _jsxs(_components.h2, {
@@ -258,7 +271,7 @@ function _createMdxContent(props) {
     }), "\n", _jsx(EgalitarianismFertilityTable, {}), "\n", _jsxs(_components.p, {
       children: ["Coherent egalitarian communities — active Nordic churchgoers, moderate LDS families — produce fertility ", _jsx(_components.em, {
         children: "above"
-      }), " their secular neighbors. That's the coherence effect. But they don't produce fertility dramatically above replacement. The communities that do — Amish at 6.0, Haredi at 6.6 — maintain something more than coherence. They maintain binding communal norms dense enough to override individual cost-benefit calculations about reproduction. And those norms have, so far, included traditional gender arrangements."]
+      }), " their secular neighbors. That's the coherence effect. But they don't produce fertility dramatically above replacement. The communities that do — Amish at 6.0, Haredi at 6.6 — maintain something more than coherence. They maintain binding communal norms dense enough to override individual cost-benefit calculations about reproduction. The Haredi case is particularly instructive: 69% of Haredi university students are women, Haredi women are employed at 81% — nearly matching non-Haredi women — and they now earn more per hour than Haredi men. These are educated breadwinners with six children. Their education takes place within a formational container dense enough that the credential does not reshape the self into an optimizer. The community metabolizes the credential rather than the credential dissolving the community. And those norms have, so far, included traditional gender arrangements."]
     }), "\n", _jsxs(_components.p, {
       children: ["The standard way to describe this pattern is: ", _jsx(_components.em, {
         children: "formation"
@@ -343,6 +356,8 @@ function _createMdxContent(props) {
       children: ["Communities that combine genuine spiritual formation with genuine individual autonomy — the LDS, the Sikhs, active Nordic churchgoers — sustain a fertility ", _jsx(_components.em, {
         children: "advantage"
       }), " over their secular neighbors. Coherence helps. But the advantage erodes over time and has never, in any documented case, sustained above-replacement fertility indefinitely against the pressure of the surrounding optimization culture."]
+    }), "\n", _jsx(_components.p, {
+      children: "Israel is the partial exception that clarifies the rule. Its formational density is national-existential rather than strictly religious — military service, collective memory, the project of Jewish continuity — and it sustains above-replacement fertility among educated, employed, secular women in ways no other developed nation has matched. The formational thesis is not an argument for religion as such. It is an argument about communal density organized around a telos. Israel has one."
     }), "\n", _jsx(_components.p, {
       children: "One objection demands an honest answer. \"The community participates in the being of its members\" is also what every abusive institution says about itself. What distinguishes formation from coercion? The satisfaction data helps but doesn't resolve this — a person can be formed to report satisfaction with their own domination. The strongest answer available is the conjunction of satisfaction with genuine exit. Amish retention rates run above 85% even after Rumspringa provides real exposure to the outside world. Among communities with real exit options, people are staying — not because they can't imagine the alternative but because they can, and they prefer the coherence of a formed life to the dissolution of an optimized one. This is not proof that every practice within these communities is just. It is evidence that the formational structure as a whole produces something that its members, upon encountering the alternative, recognize as more than what the alternative offers."
     }), "\n", _jsxs(_components.p, {
