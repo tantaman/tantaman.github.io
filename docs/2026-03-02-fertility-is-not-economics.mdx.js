@@ -12,6 +12,7 @@ function _createMdxContent(props) {
     li: "li",
     a: "a",
     p: "p",
+    img: "img",
     em: "em",
     h2: "h2",
     span: "span",
@@ -79,6 +80,11 @@ function _createMdxContent(props) {
             children: "Where This Leaves Us"
           })
         })]
+      })
+    }), "\n", _jsx(_components.p, {
+      children: _jsx(_components.img, {
+        src: "/img/dijkstra-saskia.jpg",
+        alt: "Rineke Dijkstra — Saskia, Harderwijk, Netherlands, March 16, 1994"
       })
     }), "\n", _jsxs(_components.p, {
       children: ["The standard explanations for collapsing fertility — childcare costs, housing prices, career opportunity costs — are real enough. But they share a peculiar structure: they all frame the child as a line item in a life-optimization problem. And they all propose the same kind of solution: adjust the costs. More subsidies, more leave, more flexibility. The question worth pressing is whether the framing ", _jsx(_components.em, {
