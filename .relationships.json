@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-03-02T16:36:03.627Z",
+  "generatedAt": "2026-03-02T21:44:44.071Z",
   "config": {
     "model": "Xenova/all-MiniLM-L6-v2",
     "minScore": 0.25,
@@ -2373,6 +2373,11 @@
           "id": "2026-02-28-pharisee-made-flesh.md",
           "score": 0.383,
           "type": "semantic"
+        },
+        {
+          "id": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+          "score": 0.377,
+          "type": "semantic"
         }
       ],
       "backlinks": [],
@@ -3638,11 +3643,6 @@
           "type": "semantic"
         },
         {
-          "id": "2026-03-02-fertility-is-not-economics.mdx",
-          "score": 0.866,
-          "type": "semantic"
-        },
-        {
           "id": "2026-02-12-what-if-the-thing-youre-protecting.md",
           "score": 0.863,
           "type": "semantic"
@@ -3650,6 +3650,11 @@
         {
           "id": "2026-02-09-what-holds-you.md",
           "score": 0.844,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-02-fertility-is-not-economics.mdx",
+          "score": 0.828,
           "type": "semantic"
         },
         {
@@ -5402,13 +5407,13 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-09-exploring-religin-marx.md",
-          "score": 0.827,
+          "id": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+          "score": 0.87,
           "type": "semantic"
         },
         {
-          "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
-          "score": 0.82,
+          "id": "2025-12-09-exploring-religin-marx.md",
+          "score": 0.827,
           "type": "semantic"
         }
       ],
@@ -5535,6 +5540,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-02-data-doesnt-speak.md",
+          "score": 0.84,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-19-the-employable-subject.md",
           "score": 0.803,
           "type": "semantic"
@@ -5572,11 +5582,6 @@
         {
           "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
           "score": 0.737,
-          "type": "semantic"
-        },
-        {
-          "id": "notes/monotheism and oneness.md",
-          "score": 0.729,
           "type": "semantic"
         }
       ],
@@ -5684,6 +5689,11 @@
         {
           "id": "notes/monotheism and oneness.md",
           "score": 0.371,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-02-data-doesnt-speak.md",
+          "score": 0.37,
           "type": "semantic"
         }
       ],
@@ -6186,8 +6196,8 @@
           "type": "semantic"
         },
         {
-          "id": "the-mirror-room/03-the-meeting.md",
-          "score": 0.384,
+          "id": "2026-03-02-fertility-is-not-economics.mdx",
+          "score": 0.398,
           "type": "semantic"
         }
       ],
@@ -7089,48 +7099,48 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-19-the-employable-subject.md",
-          "score": 0.643,
+          "id": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+          "score": 0.887,
           "type": "semantic"
         },
         {
           "id": "2026-01-31-education-cannot-save-us.md",
-          "score": 0.574,
+          "score": 0.84,
           "type": "semantic"
         },
         {
-          "id": "2026-02-09-what-holds-you.md",
-          "score": 0.511,
+          "id": "2025-12-19-the-employable-subject.md",
+          "score": 0.728,
           "type": "semantic"
         },
         {
-          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
-          "score": 0.494,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
-          "score": 0.42,
+          "id": "2026-02-27-hidden-curriculum.md",
+          "score": 0.485,
           "type": "semantic"
         },
         {
           "id": "2025-12-18-the-selection-of-souls.md",
-          "score": 0.389,
+          "score": 0.453,
           "type": "semantic"
         },
         {
-          "id": "2026-01-14-the-fence-you-cannot-see.md",
-          "score": 0.385,
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.447,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-19-how-power-weaponizes-mass-education.md",
+          "score": 0.417,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-11-debugging-the-confusion-liberalism.md",
+          "score": 0.417,
           "type": "semantic"
         },
         {
           "id": "chats/2025-10-14-summarize-fear-of-falling.md",
-          "score": 0.379,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
-          "score": 0.36,
+          "score": 0.412,
           "type": "semantic"
         }
       ],
@@ -7151,42 +7161,98 @@
         },
         {
           "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
-          "score": 0.866,
+          "score": 0.828,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+          "score": 0.792,
           "type": "semantic"
         },
         {
           "id": "2025-12-21-what-modernity-needs-a-return-to.md",
-          "score": 0.823,
+          "score": 0.712,
           "type": "semantic"
         },
         {
           "id": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-          "score": 0.649,
+          "score": 0.544,
           "type": "semantic"
         },
         {
           "id": "2025-12-15-burnout-is-a-modern-invention.md",
-          "score": 0.563,
+          "score": 0.51,
           "type": "semantic"
         },
         {
-          "id": "2026-02-11-the-gaze.md",
-          "score": 0.551,
+          "id": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
+          "score": 0.481,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-selection-of-souls.md",
+          "score": 0.479,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
+          "score": 0.469,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-03-02-the-genealogy-of-the-empty-cradle.md": {
+      "related": [
+        {
+          "id": "2026-03-02-data-doesnt-speak.md",
+          "score": 0.887,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-27-what-would-marx-say-today.md",
+          "score": 0.87,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-02-fertility-is-not-economics.mdx",
+          "score": 0.792,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-20-summarizing-19-12-2025.md",
+          "score": 0.665,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.663,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-19-how-power-weaponizes-mass-education.md",
+          "score": 0.649,
+          "type": "semantic"
+        },
+        {
+          "id": "chats/2025-10-14-summarize-fear-of-falling.md",
+          "score": 0.566,
           "type": "semantic"
         },
         {
           "id": "2025-12-19-the-employable-subject.md",
-          "score": 0.539,
+          "score": 0.551,
           "type": "semantic"
         },
         {
-          "id": "2026-01-14-the-fence-you-cannot-see.md",
-          "score": 0.508,
+          "id": "2025-12-15-burnout-is-a-modern-invention.md",
+          "score": 0.541,
           "type": "semantic"
         },
         {
-          "id": "2026-02-28-pharisee-made-flesh.md",
-          "score": 0.501,
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.533,
           "type": "semantic"
         }
       ],
@@ -9470,8 +9536,8 @@
           "type": "semantic"
         },
         {
-          "id": "2022-04-25-foundational-myths.md",
-          "score": 0.528,
+          "id": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+          "score": 0.566,
           "type": "semantic"
         }
       ],
@@ -12781,7 +12847,7 @@
           "score": 1,
           "weight": 2,
           "details": {
-            "similarity": 0.6370878914887455,
+            "similarity": 0.6215307483756856,
             "normalizedScore": 1
           }
         }
@@ -12885,7 +12951,7 @@
           "score": 1,
           "weight": 2,
           "details": {
-            "similarity": 0.6037491156508606,
+            "similarity": 0.6217770355976179,
             "normalizedScore": 1
           }
         }
@@ -16403,6 +16469,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-03-02-data-doesnt-speak.md",
+      "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+      "score": 0.8873247523566158,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8373247523566157,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5511974257069847,
+            "normalizedScore": 0.8373247523566157
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-12-the-vulnerability-principle.md",
       "target": "2026-02-09-the-invisible-right-on-what-becomes.md",
       "score": 0.8865733468718597,
@@ -17183,6 +17275,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-27-what-would-marx-say-today.md",
+      "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+      "score": 0.8703967327712724,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8203967327712723,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5461190198313817,
+            "normalizedScore": 0.8203967327712723
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-09-pathologies-of-eastern-secularism.md",
       "target": "2026-02-22-religious-development.md",
       "score": 0.8701793985096731,
@@ -17233,32 +17351,6 @@
         }
       ],
       "edgeType": "explicit"
-    },
-    {
-      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
-      "target": "2026-03-02-fertility-is-not-economics.mdx",
-      "score": 0.8663845613019696,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.8163845613019696,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5449153683905908,
-            "normalizedScore": 0.8163845613019696
-          }
-        }
-      ],
-      "edgeType": "semantic"
     },
     {
       "source": "2026-01-11-debugging-the-confusion-liberalism.md",
@@ -18093,6 +18185,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-31-education-cannot-save-us.md",
+      "target": "2026-03-02-data-doesnt-speak.md",
+      "score": 0.8395942547474602,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7895942547474601,
+          "weight": 2,
+          "details": {
+            "similarity": 0.536878276424238,
+            "normalizedScore": 0.7895942547474601
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-31-malcom-x-on-kendi-and-diangelo.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
       "score": 0.838936317877253,
@@ -18821,6 +18939,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "2026-03-02-fertility-is-not-economics.mdx",
+      "score": 0.8284646488484773,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7784646488484772,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5335393946545431,
+            "normalizedScore": 0.7784646488484772
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-15-know-thyself-greek-vs-christian.md",
       "target": "2025-12-21-what-modernity-needs-a-return-to.md",
       "score": 0.8284580856732603,
@@ -19127,32 +19271,6 @@
           "details": {
             "similarity": 0.5323515123675229,
             "normalizedScore": 0.7745050412250764
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
-      "target": "2026-03-02-fertility-is-not-economics.mdx",
-      "score": 0.8233301639827852,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7733301639827852,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5319990491948355,
-            "normalizedScore": 0.7733301639827852
           }
         }
       ],
@@ -21467,6 +21585,32 @@
           "details": {
             "similarity": 0.5226930138045623,
             "normalizedScore": 0.7423100460152079
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-02-fertility-is-not-economics.mdx",
+      "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+      "score": 0.7919743023362945,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7419743023362945,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5225922907008883,
+            "normalizedScore": 0.7419743023362945
           }
         }
       ],
@@ -26855,6 +26999,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-19-the-employable-subject.md",
+      "target": "2026-03-02-data-doesnt-speak.md",
+      "score": 0.7281379790883479,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6781379790883478,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5034413937265043,
+            "normalizedScore": 0.6781379790883478
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-15-burnout-is-a-modern-invention.md",
       "target": "2026-01-11-the-exhaustion-that-cannot-rest.md",
       "score": 0.727566741214487,
@@ -28097,6 +28267,32 @@
           "details": {
             "similarity": 0.4985700607136958,
             "normalizedScore": 0.6619002023789861
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
+      "target": "2026-03-02-fertility-is-not-economics.mdx",
+      "score": 0.7116070117292164,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6616070117292163,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4984821035187649,
+            "normalizedScore": 0.6616070117292163
           }
         }
       ],
@@ -32497,6 +32693,32 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-20-summarizing-19-12-2025.md",
+      "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+      "score": 0.6653849814738158,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6153849814738157,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4846154944421447,
+            "normalizedScore": 0.6153849814738157
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-10-arhictecture-of-harm.md",
       "target": "2026-01-09-leftism-is-worse-than-fascism.md",
       "score": 0.664842907223332,
@@ -32595,6 +32817,32 @@
           "details": {
             "similarity": 0.48402614637332386,
             "normalizedScore": 0.6134204879110796
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+      "score": 0.663244294535652,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.613244294535652,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4839732883606956,
+            "normalizedScore": 0.613244294535652
           }
         }
       ],
@@ -33979,9 +34227,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-      "target": "2026-03-02-fertility-is-not-economics.mdx",
-      "score": 0.6486726637995812,
+      "source": "2025-12-19-how-power-weaponizes-mass-education.md",
+      "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+      "score": 0.6494902560908219,
       "signals": [
         {
           "name": "wikilink",
@@ -33994,11 +34242,11 @@
         },
         {
           "name": "semantic",
-          "score": 0.5986726637995812,
+          "score": 0.5994902560908218,
           "weight": 2,
           "details": {
-            "similarity": 0.47960179913987433,
-            "normalizedScore": 0.5986726637995812
+            "similarity": 0.47984707682724653,
+            "normalizedScore": 0.5994902560908218
           }
         }
       ],
@@ -34545,32 +34793,6 @@
           "details": {
             "similarity": 0.4778389686684248,
             "normalizedScore": 0.5927965622280827
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-19-the-employable-subject.md",
-      "target": "2026-03-02-data-doesnt-speak.md",
-      "score": 0.6427627152136891,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5927627152136891,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4778288145641067,
-            "normalizedScore": 0.5927627152136891
           }
         }
       ],
@@ -35589,162 +35811,6 @@
         }
       ],
       "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-28-pharisee-made-flesh.md",
-      "target": "chats/2025-10-15-ai-impact-on-labor.md",
-      "score": 0.6352045384628676,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5852045384628676,
-          "weight": 2,
-          "details": {
-            "similarity": 0.47556136153886025,
-            "normalizedScore": 0.5852045384628676
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-12-principalities-and-powers.md",
-      "target": "2026-02-22-religious-development.md",
-      "score": 0.6349453591851978,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5849453591851977,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4754836077555593,
-            "normalizedScore": 0.5849453591851977
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-17-know-thyself-the-kingdom-within.md",
-      "target": "2026-01-12-the-epistle-to-the-managed.md",
-      "score": 0.6349448291538773,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5849448291538772,
-          "weight": 2,
-          "details": {
-            "similarity": 0.47548344874616316,
-            "normalizedScore": 0.5849448291538772
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-21-the-incomplete-god-why-science-cannot.md",
-      "target": "chats/2025-10-13-epistemic-humility-discussion.md",
-      "score": 0.634923721846943,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.584923721846943,
-          "weight": 2,
-          "details": {
-            "similarity": 0.47547711655408287,
-            "normalizedScore": 0.584923721846943
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-11-the-gaze.md",
-      "target": "chats/2025-10-14-summarize-fear-of-falling.md",
-      "score": 0.6348962623960186,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5848962623960186,
-          "weight": 2,
-          "details": {
-            "similarity": 0.47546887871880555,
-            "normalizedScore": 0.5848962623960186
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-11-the-gaze.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.6347073420870352,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5847073420870351,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4754122026261105,
-            "normalizedScore": 0.5847073420870351
-          }
-        }
-      ],
-      "edgeType": "semantic"
     }
   ],
   "clusters": {
@@ -35867,7 +35933,7 @@
       "2026-01-14-the-ideological-trap-for-the-left.md": 4,
       "2026-01-14-the-violence-you-fear-may-be-the.md": 4,
       "2026-01-14-we-can-capture-our-way-out.md": 4,
-      "2026-01-15-the-physicians-of-decay.md": 10,
+      "2026-01-15-the-physicians-of-decay.md": 6,
       "2026-01-15-the-return.md": 6,
       "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 4,
       "2026-01-23-grammar-as-alignment-the-world-economic.md": 4,
@@ -35875,7 +35941,7 @@
       "2026-01-23-the-language-that-thinks-for-you.md": 10,
       "2026-01-25-the-ice-protest-that-changes-nothing.md": 4,
       "2026-01-25-the-machine-that-eats-the-world.md": 4,
-      "2026-01-26-the-table.md": 10,
+      "2026-01-26-the-table.md": 6,
       "2026-01-27-manufacturing-luck.mdx": 8,
       "2026-01-27-what-would-marx-say-today.md": 4,
       "2026-01-28-the-body-as-ground.md": 6,
@@ -35911,6 +35977,7 @@
       "2026-02-28-pharisee-made-flesh.md": 4,
       "2026-03-02-data-doesnt-speak.md": 4,
       "2026-03-02-fertility-is-not-economics.mdx": 4,
+      "2026-03-02-the-genealogy-of-the-empty-cradle.md": 4,
       "start-here.md": 6,
       "bookmarks/alecmuffet.com.md": 5,
       "bookmarks/allenfarrington.medium.com.md": 5,
@@ -36016,7 +36083,7 @@
         "id": 4,
         "centerX": 658.3870927149251,
         "centerY": -454.45179738492465,
-        "nodeCount": 53,
+        "nodeCount": 54,
         "name": "Politics & Philosophy"
       },
       {
@@ -36030,7 +36097,7 @@
         "id": 6,
         "centerX": 794.1670992784432,
         "centerY": -96.42934420425836,
-        "nodeCount": 60,
+        "nodeCount": 62,
         "name": "Religion & Philosophy"
       },
       {
@@ -36056,8 +36123,8 @@
         "id": 10,
         "centerX": 530.498126592636,
         "centerY": 598.8085985368809,
-        "nodeCount": 25,
-        "name": "Philosophy & Fiction"
+        "nodeCount": 23,
+        "name": "Fiction & Philosophy"
       },
       {
         "id": 11,
@@ -36151,12 +36218,12 @@
         "nodeCount": 1
       }
     ],
-    "modularity": 0.30148288279052066
+    "modularity": 0.302004200637712
   },
   "metadata": {
-    "totalNodes": 236,
-    "totalEdges": 2851,
-    "buildTimeMs": 358,
+    "totalNodes": 237,
+    "totalEdges": 2868,
+    "buildTimeMs": 364,
     "signalsUsed": [
       "wikilink",
       "semantic"
