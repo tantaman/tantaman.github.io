@@ -5,8 +5,6 @@ concern: [power, systems]
 kind: original
 ---
 
-# The Same Machine
-
 Last week, a democratic socialist mayor sat in the Oval Office with a Republican president. They talked about building housing with federal money on public land using union labor. They smiled for photos. The president called the mayor "a nice guy." The mayor handed him a mock newspaper cover praising his vision.
 
 Their voters would hate it. That's the point.
