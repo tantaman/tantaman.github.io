@@ -6,7 +6,7 @@ form: essay
 kind: original
 ---
 
-A note on method and the question that precedes all questions.
+A note on method, formation, and the question that precedes all questions.
 
 ---
 
