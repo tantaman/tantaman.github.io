@@ -508,6 +508,32 @@ input[type="checkbox"]:disabled {
   border-color: var(--border-heavy);
 }
 
+.compose-mic {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.compose-mic:hover {
+  color: var(--text);
+  border-color: var(--border-heavy);
+}
+
+.compose-mic--active {
+  color: #c0392b;
+  border-color: #c0392b;
+  background: rgba(192, 57, 43, 0.08);
+}
+
 .compose-file-name {
   font-size: 0.8rem;
   color: var(--text-muted);

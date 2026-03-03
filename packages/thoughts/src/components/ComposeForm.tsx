@@ -13,6 +13,7 @@ import {
 import { postThought } from '../api';
 import { AuthContext } from '../App';
 import { renderMarkdown } from '../markdown';
+import { useDictation } from '../hooks/useDictation';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
@@ -48,7 +49,21 @@ export function ComposeForm({
   const [dragging, setDragging] = useState(false);
   const [previews, setPreviews] = useState<Map<File, string>>(new Map());
   const fileRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dragCounter = useRef(0);
+
+  const { listening, supported: micSupported, toggle: toggleMic } = useDictation(
+    useCallback((transcript: string) => {
+      const ta = textareaRef.current;
+      const pos = ta?.selectionStart ?? text.length;
+      const needsSpace = pos > 0 && !/\s$/.test(text.slice(0, pos));
+      const insert = (needsSpace ? ' ' : '') + transcript;
+      setText((prev) => {
+        const p = ta?.selectionStart ?? prev.length;
+        return prev.slice(0, p) + insert + prev.slice(p);
+      });
+    }, [text]),
+  );
 
   const label = submitLabel || (versionOf != null ? 'Save revision' : parentId != null ? 'Reply' : 'Post');
 
@@ -243,6 +258,7 @@ export function ComposeForm({
           />
         ) : (
           <textarea
+            ref={textareaRef}
             placeholder={placeholder || "What's on your mind? (markdown supported)"}
             rows={3}
             value={text}
@@ -285,6 +301,21 @@ export function ComposeForm({
         <label className="compose-file-btn" htmlFor={fileInputId}>
           Attach files
         </label>
+        {micSupported && (
+          <button
+            type="button"
+            className={`compose-mic${listening ? ' compose-mic--active' : ''}`}
+            onClick={toggleMic}
+            title={listening ? 'Stop dictation' : 'Start dictation'}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="9" y="1" width="6" height="12" rx="3" />
+              <path d="M5 10a7 7 0 0 0 14 0" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+            </svg>
+          </button>
+        )}
         <input
           type="file"
           id={fileInputId}

@@ -14,7 +14,7 @@ The [fertility essay](./2026-03-02-fertility-is-not-economics.html) argued that 
 
 The [education Sankey](/pages/metaphysical-choices.html#education) tracks the descent from classical education to the factory school, standardized testing and Credentialism. In two centuries, education moved from forming whole persons to producing human capital.
 
-When education swaps to producing human capital, the value of the person becomes the value they produce. The person internalizes this set of values as their own and begins to analyze everything through the lens of cost-benefit. To illustrate this point, the [fertility essay](./2026-03-02-fertility-is-not-economics.html) showed that birth rates fall as education rises.
+When education swaps to producing human capital, the value of the person becomes the value they produce. The person internalizes this set of values as their own and begins to analyze everything through the lens of cost-benefit. To illustrate this point, the [fertility essay](./2026-03-02-fertility-is-not-economics.html) showed that birth rates fall as education rises due to children being considered costs rather than valuable in their own right.
 
 And the Haredi case is the exception that proves the rule. Haredi women study in [dedicated Haredi tracks within Israeli colleges](https://pmc.ncbi.nlm.nih.gov/articles/PMC9703422/) — gender-segregated, culturally adapted programs designed to deliver the credential without the full secular campus experience. **And the outcomes prove the thesis.**
 
