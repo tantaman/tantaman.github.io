@@ -81,6 +81,13 @@ function _createMdxContent(props) {
             href: "#where-this-leaves-us",
             children: "Where This Leaves Us"
           })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#follow-up-essays",
+            children: "Follow-Up Essays:"
+          })
         })]
       })
     }), "\n", _jsx(_components.p, {
@@ -433,8 +440,16 @@ function _createMdxContent(props) {
       }), "?"]
     }), "\n", _jsx(_components.p, {
       children: "The birth rate decline is the receipt for having dissolved every institution that once supplied an answer. The receipt cannot tell you how to get them back."
-    }), "\n", _jsx(_components.hr, {}), "\n", _jsx(_components.p, {
-      children: "Follow up essays:"
+    }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
+      id: "follow-up-essays",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#follow-up-essays",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "Follow-Up Essays:"]
     }), "\n", _jsxs(_components.ul, {
       children: ["\n", _jsxs(_components.li, {
         children: [_jsx(_components.a, {
