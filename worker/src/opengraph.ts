@@ -11,8 +11,7 @@ export async function fetchOgMetadata(
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "User-Agent": "Twitterbot/1.0",
         Accept: "text/html",
       },
       redirect: "follow",
