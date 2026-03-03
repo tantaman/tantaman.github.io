@@ -12,7 +12,7 @@ export async function fetchOgMetadata(
     const res = await fetch(url, {
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (compatible; Tantamanlands/1.0; +https://tantaman.com)",
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
         Accept: "text/html",
       },
       redirect: "follow",
