@@ -12,15 +12,13 @@ The [fertility essay](./2026-03-02-fertility-is-not-economics.html) argued that 
 
 [![edu-sankey](/img/edu-sankey.png)](/pages/metaphysical-choices.html#education)
 
-The [education Sankey](/pages/metaphysical-choices.html#education) tracks the descent from Ancient Paideia and Bildung through the Prussian Model, the factory school, and standardized testing to Credentialism: "education atomized into resume tokens, the credential without the formation." In two centuries, education moved from forming whole persons to producing human capital.
+The [education Sankey](/pages/metaphysical-choices.html#education) tracks the descent from classical education to the factory school, standardized testing and Credentialism. In two centuries, education moved from forming whole persons to producing human capital.
 
-The [fertility essay](./2026-03-02-fertility-is-not-economics.html) showed that birth rates fall as education rises because modern education forms the student into an optimizer. And an optimizer sees a child only through the lens of cost.
+When education swaps to producing human capital, the value of the person becomes in the value they produce. The person internalizes this set of values as their own and begins to analyze everything through the lens of cost-benefit. As proof of this point, the [fertility essay](./2026-03-02-fertility-is-not-economics.html) showed that birth rates fall as education rises.
 
-The Haredi case is the exception that proves the rule. [Sixty-nine percent of Haredi university students are women](https://en.idi.org.il/haredi/2024/?chapter=58376). Haredi women are employed at 81% — nearly matching non-Haredi women. They now [earn more per hour than Haredi men](https://www.taubcenter.org.il/en/research/gender-wage-gaps-in-israel-2014%E2%80%932018/). And they have 6.6 children. They acquire the credential, they work, they earn — and the credential does not reshape their selves.
+The Haredi case is the exception that proves the rule. Haredi women study in [dedicated Haredi tracks within Israeli colleges](https://pmc.ncbi.nlm.nih.gov/articles/PMC9703422/) — gender-segregated, culturally adapted programs designed to deliver the credential without the full secular campus experience. **And the outcomes prove the thesis.**
 
-A skeptic would attribute this to institutional insulation: most Haredi women study in [dedicated Haredi tracks within Israeli colleges](https://pmc.ncbi.nlm.nih.gov/articles/PMC9703422/) — gender-segregated, culturally adapted programs designed to deliver the credential without the full secular campus experience. Only 17% study in universities proper. **But the objection *is* the thesis.**
-
-The Haredi community has not passively survived contact with credentialism. It has actively structured the credentialing process to extract the instrumental value — the degree, the employability — while filtering out the formational payload. The community metabolizes the credential rather than the credential dissolving the community. That this requires building an entire parallel educational infrastructure is a measure of how powerful the Credentialist formation is, and of how seriously the Haredi community takes the threat.
+[Sixty-nine percent of Haredi university students are women](https://en.idi.org.il/haredi/2024/?chapter=58376). Haredi women are employed at 81% — nearly matching non-Haredi women. They now [earn more per hour than Haredi men](https://www.taubcenter.org.il/en/research/gender-wage-gaps-in-israel-2014%E2%80%932018/) and they have 6.6 children. They acquire the credential, they work, they earn, and the credential does not reshape their selves.
 
 ## The Triumph of Chrematistike
 
