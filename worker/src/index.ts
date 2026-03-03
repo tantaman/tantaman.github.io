@@ -11,6 +11,7 @@ import { lookupMovie, fetchMovieById } from "./tmdb";
 import { extractBooks } from "./books";
 import { lookupBook, fetchBookByKey } from "./openlibrary";
 import { extractBookmarks } from "./bookmarks";
+import { fetchOgMetadata } from "./opengraph";
 import { extractTags } from "./tags";
 import { extractThoughtLinks } from "./thought-links";
 import { createMcpServer } from "./mcp";
@@ -595,10 +596,18 @@ api.post("/thoughts", async (c) => {
     await c.env.DB.prepare(
       "INSERT OR IGNORE INTO bookmark (url, title, created_at) VALUES (?, ?, ?)"
     ).bind(bm.url, bm.title, timestamp).run();
-    const row = await c.env.DB.prepare("SELECT id FROM bookmark WHERE url = ?").bind(bm.url).first<{ id: number }>();
+    const row = await c.env.DB.prepare("SELECT id, image_url FROM bookmark WHERE url = ?").bind(bm.url).first<{ id: number; image_url: string | null }>();
     if (row) {
       if (bm.title) {
         await c.env.DB.prepare("UPDATE bookmark SET title = ? WHERE id = ? AND title IS NULL").bind(bm.title, row.id).run();
+      }
+      if (!row.image_url) {
+        const og = await fetchOgMetadata(bm.url);
+        if (og) {
+          await c.env.DB.prepare(
+            "UPDATE bookmark SET image_url = ?, description = ?, site_name = ?, title = COALESCE(title, ?) WHERE id = ?"
+          ).bind(og.imageUrl, og.description, og.siteName, og.title, row.id).run();
+        }
       }
       await c.env.DB.prepare(
         "INSERT OR IGNORE INTO thought_bookmark (thought_id, bookmark_id) VALUES (?, ?)"
@@ -1021,7 +1030,7 @@ api.patch("/books/:id", async (c) => {
 
 api.get("/bookmarks", async (c) => {
   const results = await c.env.DB.prepare(
-    `SELECT b.id, b.url, b.title, b.created_at,
+    `SELECT b.id, b.url, b.title, b.image_url, b.description, b.site_name, b.created_at,
        COUNT(tb.thought_id) AS thought_count
      FROM bookmark b
      LEFT JOIN thought_bookmark tb ON tb.bookmark_id = b.id
@@ -1029,6 +1038,56 @@ api.get("/bookmarks", async (c) => {
      ORDER BY b.created_at DESC`
   ).all();
   return c.json({ bookmarks: results.results });
+});
+
+api.post("/bookmarks/backfill", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const rows = await c.env.DB.prepare(
+    "SELECT id, url FROM bookmark WHERE image_url IS NULL"
+  ).all();
+
+  let updated = 0;
+  for (const row of rows.results) {
+    const og = await fetchOgMetadata(row.url as string);
+    if (og) {
+      await c.env.DB.prepare(
+        "UPDATE bookmark SET image_url = ?, description = ?, site_name = ?, title = COALESCE(title, ?) WHERE id = ?"
+      ).bind(og.imageUrl, og.description, og.siteName, og.title, row.id).run();
+      updated++;
+    }
+  }
+
+  return c.json({ backfilled: updated, total: rows.results.length });
+});
+
+api.patch("/bookmarks/:id", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+
+  const id = parseInt(c.req.param("id"), 10);
+  const row = await c.env.DB.prepare("SELECT url FROM bookmark WHERE id = ?").bind(id).first<{ url: string }>();
+  if (!row) return c.json({ error: "Not found" }, 404);
+
+  const og = await fetchOgMetadata(row.url);
+  if (!og) return c.json({ error: "Could not fetch OG metadata" }, 422);
+
+  await c.env.DB.prepare(
+    "UPDATE bookmark SET image_url = ?, description = ?, site_name = ?, title = COALESCE(title, ?) WHERE id = ?"
+  ).bind(og.imageUrl, og.description, og.siteName, og.title, id).run();
+
+  const updated = await c.env.DB.prepare(
+    `SELECT b.id, b.url, b.title, b.image_url, b.description, b.site_name, b.created_at,
+       COUNT(tb.thought_id) AS thought_count
+     FROM bookmark b
+     LEFT JOIN thought_bookmark tb ON tb.bookmark_id = b.id
+     WHERE b.id = ?
+     GROUP BY b.id`
+  ).bind(id).first();
+
+  return c.json(updated);
 });
 
 // --- Media ---

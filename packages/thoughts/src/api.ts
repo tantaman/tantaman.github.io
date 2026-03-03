@@ -223,6 +223,19 @@ export function getBookmarks(): Promise<{ bookmarks: Bookmark[] }> {
   return fetch(`${API}/bookmarks`).then((r) => r.json());
 }
 
+export async function patchBookmark(
+  id: number,
+  secret: string,
+): Promise<Bookmark> {
+  const r = await fetch(`${API}/bookmarks/${id}`, {
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
 export function attachmentUrl(key: string): string {
   return `${API}/attachments/${key}`;
 }

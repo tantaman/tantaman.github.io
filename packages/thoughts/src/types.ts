@@ -89,6 +89,9 @@ export interface Bookmark {
   id: number;
   url: string;
   title: string | null;
+  image_url: string | null;
+  description: string | null;
+  site_name: string | null;
   thought_count: number;
   created_at: number;
 }
