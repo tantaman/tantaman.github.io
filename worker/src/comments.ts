@@ -58,6 +58,27 @@ function generateToken(): string {
   return Array.from(arr, (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+function sendEmail(
+  apiKey: string,
+  to: string,
+  subject: string,
+  text: string,
+): Promise<Response> {
+  return fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "Tantamanlands <noreply@tantaman.com>",
+      to: [to],
+      subject,
+      text,
+    }),
+  });
+}
+
 // GET /comments/notifications — fetch notifications (must be before /:slug)
 comments.get("/notifications", async (c) => {
   let commenterId: number;
@@ -303,6 +324,26 @@ comments.post("/:slug", async (c) => {
         .bind(parentComment.commenter_id, newCommentId, slug, now)
         .run();
       notifiedIds.add(parentComment.commenter_id);
+
+      // Email the parent commenter (but not the site owner — they check directly)
+      if (parentComment.commenter_id !== OWNER_COMMENTER_ID) {
+        const recipient = await c.env.DB.prepare(
+          "SELECT email FROM commenter WHERE id = ?",
+        )
+          .bind(parentComment.commenter_id)
+          .first<{ email: string }>();
+        if (recipient) {
+          const bodyPreview = body.length > 200 ? body.slice(0, 200) + "…" : body;
+          c.executionCtx.waitUntil(
+            sendEmail(
+              c.env.RESEND_API_KEY,
+              recipient.email,
+              "Someone replied to your comment on Tantamanlands",
+              `${commenterName} replied to your comment on ${slug}:\n\n${bodyPreview}\n\nView: https://tantaman.com/${slug}`,
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -401,19 +442,12 @@ comments.post("/auth/request-otp", async (c) => {
     .run();
 
   // Send via Resend
-  const resendRes = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${c.env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: "Tantamanlands <noreply@tantaman.com>",
-      to: [email],
-      subject: "Your comment verification code",
-      text: `Your verification code is: ${code}\n\nThis code expires in 10 minutes.\n\nIf you didn't request this, you can ignore this email.`,
-    }),
-  });
+  const resendRes = await sendEmail(
+    c.env.RESEND_API_KEY,
+    email,
+    "Your comment verification code",
+    `Your verification code is: ${code}\n\nThis code expires in 10 minutes.\n\nIf you didn't request this, you can ignore this email.`,
+  );
 
   if (!resendRes.ok) {
     console.error("Resend error:", await resendRes.text());
