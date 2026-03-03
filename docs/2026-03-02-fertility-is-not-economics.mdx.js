@@ -16,7 +16,9 @@ function _createMdxContent(props) {
     em: "em",
     h2: "h2",
     span: "span",
-    strong: "strong"
+    strong: "strong",
+    hr: "hr",
+    ul: "ul"
   }, props.components);
   return _jsxs(_Fragment, {
     children: [_jsx(_components.nav, {
@@ -431,6 +433,20 @@ function _createMdxContent(props) {
       }), "?"]
     }), "\n", _jsx(_components.p, {
       children: "The birth rate decline is the receipt for having dissolved every institution that once supplied an answer. The receipt cannot tell you how to get them back."
+    }), "\n", _jsx(_components.hr, {}), "\n", _jsx(_components.p, {
+      children: "Follow up essays:"
+    }), "\n", _jsxs(_components.ul, {
+      children: ["\n", _jsxs(_components.li, {
+        children: [_jsx(_components.a, {
+          href: "./2026-03-02-data-doesnt-speak.html",
+          children: "The Data Doesn't Speak"
+        }), " - The essay's thesis applied to itself"]
+      }), "\n", _jsxs(_components.li, {
+        children: [_jsx(_components.a, {
+          href: "./2026-03-02-the-genealogy-of-the-empty-cradle.html",
+          children: "The Genealogy of the Empty Cradle"
+        }), " - Tracing the history of ideas that dissolved community"]
+      }), "\n"]
     })]
   });
 }
