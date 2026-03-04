@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://tantaman.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title></title>
+      <link>https://tantaman.com/2026-03-04-fourth-way-of-knowing.html</link>
+      <guid>https://tantaman.com/2026-03-04-fourth-way-of-knowing.html</guid>
+      <pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://tantaman.com/2026-03-04-the-hidden-grammar.html</link>
+      <guid>https://tantaman.com/2026-03-04-the-hidden-grammar.html</guid>
+      <pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
       <title>The Same Machine</title>
       <link>https://tantaman.com/2026-03-03-one-party-system-two-party-theatre.html</link>
       <guid>https://tantaman.com/2026-03-03-one-party-system-two-party-theatre.html</guid>
@@ -187,26 +201,6 @@ export function NYCBudgetEssay() {
       <guid>https://tantaman.com/2026-02-19-mysticism-research-list.html</guid>
       <pubDate>Thu, 19 Feb 2026 00:00:00 GMT</pubDate>
       <description>I experienced the cessation of the will while wishing for our newborn daughter to be soothed and stop crying. I saw the self dissolve. It was as if a glass was removed from the one and reality. I could still want but wanting was without will. Al...</description>
-    </item>
-    <item>
-      <title>The Ironist (Gen-Z) and the Ground</title>
-      <link>https://tantaman.com/2026-02-12-the-ironist-gen-z-and-the-ground.html</link>
-      <guid>https://tantaman.com/2026-02-12-the-ironist-gen-z-and-the-ground.html</guid>
-      <pubDate>Thu, 12 Feb 2026 00:00:00 GMT</pubDate>
-      <description>!
-
-They are the same man. Twenty-four. Same apartment with the same blue light from the same screen at 1 AM. Same job he doesn’t hate but can’t take seriously — content operations at a company that makes software for other companies that make so...</description>
-    </item>
-    <item>
-      <title>What If the Thing You’re Protecting Yourself From Is the Only Thing That Can Save You?</title>
-      <link>https://tantaman.com/2026-02-12-what-if-the-thing-youre-protecting.html</link>
-      <guid>https://tantaman.com/2026-02-12-what-if-the-thing-youre-protecting.html</guid>
-      <pubDate>Thu, 12 Feb 2026 00:00:00 GMT</pubDate>
-      <description>I decided to ask Claude to embark on the project I’ve been doing here with no direction from me other than asking it to read these essays. This is Claude’s take on the modern problem.
-
-!
-
-There is a single crisis underlying the many crises, and ...</description>
     </item>
   </channel>
 </rss>
