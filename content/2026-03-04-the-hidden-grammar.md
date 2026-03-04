@@ -40,7 +40,7 @@ Now watch your mind. If you lean progressive, you're already reaching for explan
 
 The data is identical. The explanations are opposite. And both feel, to the person generating them, like *what the data obviously means.*
 
-One more. Women in traditional religious communities — dense communal structures, defined roles, high fertility — consistently report *higher* life satisfaction than the secular average.
+Now consider: women in traditional religious communities — dense communal structures, defined roles, high fertility — consistently report *higher* life satisfaction than the secular average.
 
 If your instinct is to reach for "false consciousness" or "they don't know any better" — notice: that's not an empirical response. It's a narrative commitment disguised as one. It presupposes that satisfaction under constraint is illegitimate. But that presupposition is a story. Your story. The one you didn't notice selecting.
 
@@ -64,17 +64,17 @@ Education constrains what you can think about *thinking*. It doesn't hide a thou
 
 The difference between a locked room and a room where the concept of "door" has been removed from your vocabulary.
 
----
+How does a room like that get built? Not through conspiracy. Through a pipeline that has no mechanism for questioning its own foundation.
 
 The pipeline is self-sealing. Ed schools train teachers within the Enlightenment settlement — science produces knowledge, values are personal. Those teachers teach the binary. The students absorb it before they're old enough to evaluate it. Some of those students become ed school professors. They carry the binary with them, not as a belief but as the structure of belief. They design the next curriculum framework. The framework encodes the binary. The circle closes.
 
-Nobody conspires. Nobody decides. The grammar reproduces itself through omission — through the absence of a category that would make the absence visible. A teacher couldn't teach narrative epistemology if she wanted to. There is no standard it maps to. No assessment. No rubric. It doesn't exist inside the framework, and the framework is all she has.
+Nobody conspires. Nobody decides. The binary reproduces itself through omission — through the absence of a category that would make the absence visible. A teacher couldn't teach narrative epistemology if she wanted to. There is no standard it maps to. No assessment. No rubric. It doesn't exist inside the framework, and the framework is all she has.
 
 ---
 
 This explains why more information never resolves anything.
 
-Every public debate in the modern West takes place between people who share this grammar. Both sides think they're arguing about facts. Neither side can see that they're arguing about *which narrative makes the facts legible* — because neither side has a category for narrative as a mode of knowing. Both sides present evidence. Neither side moves. They are standing on different ground. But the binary makes it impossible to say this. The closest it can produce is "that's just your opinion" — which is precisely the dismissal that prevents the insight from landing.
+Every public debate in the modern West takes place between people who share this binary. Both sides think they're arguing about facts. Neither side can see that they're arguing about *which narrative makes the facts legible* — because neither side has a category for narrative as a mode of knowing. Both sides present evidence. Neither side moves. They are standing on different ground. But the binary makes it impossible to say this. The closest it can produce is "that's just your opinion" — which is precisely the dismissal that prevents the insight from landing.
 
 And the postmodern move doesn't help either. "All knowledge is situated, all narratives serve power, no ground is neutral" — this names the circle correctly but draws the wrong conclusion. From "there is no view from nowhere" it concludes "all views are equally groundless." This is the fact/opinion binary in disguise. If narrative grounding isn't a *fact*, it must be an *opinion*. And opinions are all equal. So all grounds are equal. So no ground is better than any other.
 
