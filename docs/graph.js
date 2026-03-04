@@ -541,16 +541,20 @@
           var node = nodes.get(entry.id);
           if (!node) return;
           showPreview(node);
-          var connectedIds = adjacencyMap.get(entry.id) || new Set();
-          var nodeUpdates = [];
+          var visibleNeighborIds = new Set();
           var edgeUpdates = [];
-          nodes.forEach(function (n) {
-            var isConnected = n.id === entry.id || connectedIds.has(n.id);
-            nodeUpdates.push({ id: n.id, hidden: !isConnected });
-          });
           edges.forEach(function (edge) {
             var isConnected = edge.from === entry.id || edge.to === entry.id;
-            edgeUpdates.push({ id: edge.id, hidden: !isConnected });
+            var belowThreshold = edge.score != null && edge.score < currentThreshold;
+            edgeUpdates.push({ id: edge.id, hidden: !isConnected || belowThreshold });
+            if (isConnected && !belowThreshold) {
+              visibleNeighborIds.add(edge.from === entry.id ? edge.to : edge.from);
+            }
+          });
+          var nodeUpdates = [];
+          nodes.forEach(function (n) {
+            var isVisible = n.id === entry.id || visibleNeighborIds.has(n.id);
+            nodeUpdates.push({ id: n.id, hidden: !isVisible });
           });
           nodes.update(nodeUpdates);
           edges.update(edgeUpdates);
@@ -664,20 +668,23 @@
         selectedNodeId = nodeId;
         addBreadcrumb(nodes.get(nodeId));
         showPreview(nodes.get(nodeId));
-        const connectedIds = adjacencyMap.get(nodeId) || new Set();
 
-        // Hide unconnected nodes
-        const nodeUpdates = [];
+        // Collect IDs of neighbors connected by above-threshold edges
+        const visibleNeighborIds = new Set();
         const edgeUpdates = [];
-        nodes.forEach((node) => {
-          const isConnected = node.id === nodeId || connectedIds.has(node.id);
-          nodeUpdates.push({ id: node.id, hidden: !isConnected });
-        });
-
-        // Hide unconnected edges
         edges.forEach((edge) => {
           const isConnected = edge.from === nodeId || edge.to === nodeId;
-          edgeUpdates.push({ id: edge.id, hidden: !isConnected });
+          const belowThreshold = edge.score != null && edge.score < currentThreshold;
+          edgeUpdates.push({ id: edge.id, hidden: !isConnected || belowThreshold });
+          if (isConnected && !belowThreshold) {
+            visibleNeighborIds.add(edge.from === nodeId ? edge.to : edge.from);
+          }
+        });
+
+        const nodeUpdates = [];
+        nodes.forEach((node) => {
+          const isVisible = node.id === nodeId || visibleNeighborIds.has(node.id);
+          nodeUpdates.push({ id: node.id, hidden: !isVisible });
         });
         nodes.update(nodeUpdates);
         edges.update(edgeUpdates);
@@ -842,6 +849,26 @@
         // Re-apply: if search is active, re-filter; otherwise show all with threshold
         if (isSearchFiltered && searchInput && searchInput.value.trim()) {
           filterBySearch(searchInput.value);
+        } else if (selectedNodeId != null) {
+          const visibleNeighborIds = new Set();
+          const edgeUpdates = [];
+          edges.forEach((edge) => {
+            const isConnected = edge.from === selectedNodeId || edge.to === selectedNodeId;
+            const belowThreshold = edge.score != null && edge.score < currentThreshold;
+            edgeUpdates.push({ id: edge.id, hidden: !isConnected || belowThreshold });
+            if (isConnected && !belowThreshold) {
+              visibleNeighborIds.add(edge.from === selectedNodeId ? edge.to : edge.from);
+            }
+          });
+          const nodeUpdates = [];
+          nodes.forEach((node) => {
+            const isVisible = node.id === selectedNodeId || visibleNeighborIds.has(node.id);
+            nodeUpdates.push({ id: node.id, hidden: !isVisible });
+          });
+          nodes.update(nodeUpdates);
+          edges.update(edgeUpdates);
+        } else if (selectedClusterId != null) {
+          filterByCluster(selectedClusterId);
         } else {
           // Apply threshold to all edges, keep nodes visible
           const edgeUpdates = [];
