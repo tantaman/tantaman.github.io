@@ -199,9 +199,7 @@ function TimelineEra({ era, prevEndYear, pixelsPerYear, eraIndex }) {
 
   return (
     <div style={{ marginTop: marginTop + 'px', position: 'relative' }}>
-      <FadeElement>
-        <EraHeader title={era.title} />
-      </FadeElement>
+      <EraHeader title={era.title} />
       <EraNode />
       {era.events.map((event, i) => (
         <FadeElement key={i} side={side}>

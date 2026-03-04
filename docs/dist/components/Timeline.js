@@ -137,8 +137,7 @@ function TimelineEra({ era, prevEndYear, pixelsPerYear, eraIndex }) {
     const marginTop = gapYears > 0 ? gapYears * pixelsPerYear : 0;
     const side = eraIndex % 2 === 0 ? 'left' : 'right';
     return (React.createElement("div", { style: { marginTop: marginTop + 'px', position: 'relative' } },
-        React.createElement(FadeElement, null,
-            React.createElement(EraHeader, { title: era.title })),
+        React.createElement(EraHeader, { title: era.title }),
         React.createElement(EraNode, null),
         era.events.map((event, i) => (React.createElement(FadeElement, { key: i, side: side },
             React.createElement(EventCard, { text: event, side: side })))),
