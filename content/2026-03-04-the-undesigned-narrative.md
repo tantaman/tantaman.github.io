@@ -1,4 +1,14 @@
-# The Undesigned Narrative
+---
+title: 'The Undesigned Narrative'
+tags: [religion, philosophy, history]
+concern: [ground, power, knowledge]
+form: essay
+kind: original
+image: '/img/rembrandt-jeremiah-lamenting.jpg'
+summary: 'The Bible is not a theology but an accumulated testimony — centuries of communities recording how power captures every liberation, every reform, every movement. What makes the record remarkable is not divine revelation but editorial honesty: the critique was never erased, the failures were preserved alongside the victories, and the pattern kept appearing without anyone coordinating it.'
+---
+
+![Rembrandt — Jeremiah Lamenting the Destruction of Jerusalem, 1630](/img/rembrandt-jeremiah-lamenting.jpg)
 
 If some narratives are better than others — if the difference between a story that survives contact with reality and one that doesn't is real and meaningful — then a question follows:
 
@@ -37,7 +47,7 @@ Which raises the question of what it means for a narrative's ground to be honest
 ---
 
 > *"Narrative grounding is not a fact. It is not an opinion. It is the precondition for interpreting facts and forming opinions."*
-> — [The Grammar That Teaches Grammar](#)
+> — [The Grammar That Teaches Grammar](./2026-03-04-the-hidden-grammar.md)
 
 This is the layer underneath declared hypotheses. The frame that determines which questions feel worth asking. The commitment about the shape of reality that precedes interpretation and makes certain conclusions feel obvious and others feel forced.
 

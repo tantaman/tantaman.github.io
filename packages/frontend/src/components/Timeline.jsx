@@ -132,6 +132,7 @@ function EraNode() {
 function EventCard({ text, evidence, side }) {
   const isLeft = side === 'left';
   const [expanded, setExpanded] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const hasEvidence = !!evidence;
 
   return (
@@ -153,6 +154,8 @@ function EventCard({ text, evidence, side }) {
       >
         <div
           onClick={hasEvidence ? () => setExpanded((e) => !e) : undefined}
+          onMouseEnter={hasEvidence ? () => setHovered(true) : undefined}
+          onMouseLeave={hasEvidence ? () => setHovered(false) : undefined}
           style={{
             fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
             fontSize: '0.95rem',
@@ -175,7 +178,7 @@ function EventCard({ text, evidence, side }) {
                   lineHeight: 1.6,
                   flexShrink: 0,
                   transition: 'transform 0.25s ease',
-                  transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                  transform: (expanded || hovered) ? 'rotate(90deg)' : 'rotate(0deg)',
                   display: 'inline-block',
                 }}
               >
@@ -186,7 +189,7 @@ function EventCard({ text, evidence, side }) {
           </div>
           <div
             style={{
-              maxHeight: expanded ? '500px' : '0px',
+              maxHeight: (expanded || hovered) ? '500px' : '0px',
               overflow: 'hidden',
               transition: 'max-height 0.4s ease',
             }}

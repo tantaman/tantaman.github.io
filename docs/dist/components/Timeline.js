@@ -97,6 +97,7 @@ function EraNode() {
 function EventCard({ text, evidence, side }) {
     const isLeft = side === 'left';
     const [expanded, setExpanded] = useState(false);
+    const [hovered, setHovered] = useState(false);
     const hasEvidence = !!evidence;
     return (React.createElement("div", { style: {
             display: 'flex',
@@ -107,7 +108,7 @@ function EventCard({ text, evidence, side }) {
         React.createElement("div", { style: Object.assign({ width: '50%' }, (isLeft
                 ? { paddingRight: '20px', marginRight: 'auto' }
                 : { paddingLeft: '20px', marginLeft: 'auto' })) },
-            React.createElement("div", { onClick: hasEvidence ? () => setExpanded((e) => !e) : undefined, style: Object.assign({ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", fontSize: '0.95rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.82)', background: 'rgba(255,255,255,0.06)', border: hasEvidence ? '1px solid rgba(255,215,140,0.95)' : '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '14px 18px', textAlign: isLeft ? 'right' : 'left' }, (hasEvidence && { cursor: 'pointer' })) },
+            React.createElement("div", { onClick: hasEvidence ? () => setExpanded((e) => !e) : undefined, onMouseEnter: hasEvidence ? () => setHovered(true) : undefined, onMouseLeave: hasEvidence ? () => setHovered(false) : undefined, style: Object.assign({ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", fontSize: '0.95rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.82)', background: 'rgba(255,255,255,0.06)', border: hasEvidence ? '1px solid rgba(255,215,140,0.95)' : '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '14px 18px', textAlign: isLeft ? 'right' : 'left' }, (hasEvidence && { cursor: 'pointer' })) },
                 React.createElement("div", { style: { display: 'flex', alignItems: 'flex-start', gap: '8px', flexDirection: isLeft ? 'row-reverse' : 'row' } },
                     hasEvidence && (React.createElement("span", { style: {
                             color: 'rgba(255,255,255,0.3)',
@@ -115,12 +116,12 @@ function EventCard({ text, evidence, side }) {
                             lineHeight: 1.6,
                             flexShrink: 0,
                             transition: 'transform 0.25s ease',
-                            transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                            transform: (expanded || hovered) ? 'rotate(90deg)' : 'rotate(0deg)',
                             display: 'inline-block',
                         } }, "\u25B8")),
                     React.createElement("span", { style: { flex: 1 } }, text)),
                 React.createElement("div", { style: {
-                        maxHeight: expanded ? '500px' : '0px',
+                        maxHeight: (expanded || hovered) ? '500px' : '0px',
                         overflow: 'hidden',
                         transition: 'max-height 0.4s ease',
                     } }, hasEvidence && (React.createElement("div", { style: {
