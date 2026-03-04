@@ -445,6 +445,26 @@
     let clusterLabelBounds = []; // rebuilt each frame in afterDrawing
     let clusterGeometry = []; // rebuilt each frame in beforeDrawing
     let previewCollapsed = false;
+
+    // Restore persisted settings from localStorage
+    const savedWidth = localStorage.getItem('graphPreviewWidth');
+    if (savedWidth && previewPane) previewPane.style.width = savedWidth + 'px';
+    const savedThreshold = localStorage.getItem('graphThreshold');
+    if (savedThreshold != null && thresholdSlider) {
+      const val = parseInt(savedThreshold, 10);
+      if (!isNaN(val)) {
+        currentThreshold = val / 100;
+        thresholdSlider.value = val;
+        if (thresholdLabel) thresholdLabel.textContent = val + '%';
+        // Apply threshold to edges immediately
+        const edgeUpdates = [];
+        edges.forEach((edge) => {
+          const belowThreshold = edge.score != null && edge.score < currentThreshold;
+          edgeUpdates.push({ id: edge.id, hidden: belowThreshold });
+        });
+        edges.update(edgeUpdates);
+      }
+    }
     let visitedNodes = []; // array of { id, label } in visit order
 
     // Function to show all nodes and edges (respecting threshold)
@@ -773,6 +793,7 @@
         function onMouseUp() {
           document.body.style.cursor = '';
           if (previewIframe) previewIframe.style.pointerEvents = '';
+          localStorage.setItem('graphPreviewWidth', previewPane.offsetWidth);
           document.removeEventListener('mousemove', onMouseMove);
           document.removeEventListener('mouseup', onMouseUp);
         }
@@ -845,6 +866,7 @@
         const value = parseInt(thresholdSlider.value, 10);
         currentThreshold = value / 100;
         if (thresholdLabel) thresholdLabel.textContent = value + '%';
+        localStorage.setItem('graphThreshold', value);
 
         // Re-apply: if search is active, re-filter; otherwise show all with threshold
         if (isSearchFiltered && searchInput && searchInput.value.trim()) {
