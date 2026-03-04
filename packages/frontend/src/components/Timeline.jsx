@@ -140,22 +140,16 @@ function EventCard({ text, side }) {
         marginBottom: EVENT_SPACING + 'px',
       }}
     >
-      {/* Connector line from center to card */}
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: isLeft ? 'row' : 'row-reverse',
           width: '50%',
-          position: 'relative',
           ...(isLeft
-            ? { paddingRight: '20px', marginRight: '-1px' }
-            : { paddingLeft: '20px', marginLeft: '-1px' }),
+            ? { paddingRight: '20px', marginRight: 'auto' }
+            : { paddingLeft: '20px', marginLeft: 'auto' }),
         }}
       >
         <div
           style={{
-            flex: 1,
             fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
             fontSize: '0.95rem',
             lineHeight: 1.6,
@@ -169,15 +163,6 @@ function EventCard({ text, side }) {
         >
           {text}
         </div>
-        {/* Small horizontal connector */}
-        <div
-          style={{
-            width: '20px',
-            height: LINE_WIDTH + 'px',
-            background: 'rgba(255,255,255,0.2)',
-            flexShrink: 0,
-          }}
-        />
       </div>
     </div>
   );

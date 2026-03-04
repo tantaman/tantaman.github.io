@@ -102,11 +102,10 @@ function EventCard({ text, side }) {
             width: '100%',
             marginBottom: EVENT_SPACING + 'px',
         } },
-        React.createElement("div", { style: Object.assign({ display: 'flex', alignItems: 'center', flexDirection: isLeft ? 'row' : 'row-reverse', width: '50%', position: 'relative' }, (isLeft
-                ? { paddingRight: '20px', marginRight: '-1px' }
-                : { paddingLeft: '20px', marginLeft: '-1px' })) },
+        React.createElement("div", { style: Object.assign({ width: '50%' }, (isLeft
+                ? { paddingRight: '20px', marginRight: 'auto' }
+                : { paddingLeft: '20px', marginLeft: 'auto' })) },
             React.createElement("div", { style: {
-                    flex: 1,
                     fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
                     fontSize: '0.95rem',
                     lineHeight: 1.6,
@@ -116,13 +115,7 @@ function EventCard({ text, side }) {
                     borderRadius: '6px',
                     padding: '14px 18px',
                     textAlign: isLeft ? 'right' : 'left',
-                } }, text),
-            React.createElement("div", { style: {
-                    width: '20px',
-                    height: LINE_WIDTH + 'px',
-                    background: 'rgba(255,255,255,0.2)',
-                    flexShrink: 0,
-                } }))));
+                } }, text))));
 }
 // --- EraNoteCard ---
 function EraNoteCard({ note }) {
