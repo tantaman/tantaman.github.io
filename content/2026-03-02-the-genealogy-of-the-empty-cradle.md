@@ -6,7 +6,7 @@ concern: [modernity, ground, self]
 summary: 'The fertility crisis has a genealogy. Three historical inversions — in education, economics, and psychology — each trace a specific path from participatory traditions to instrumental ones. Bildung became credentialism; oikonomia became chrematistike; "know thyself" became "optimize your dopamine." The empty cradle is the demographic output of metaphysical choices made centuries ago.'
 ---
 
-The [fertility essay](./2026-03-02-fertility-is-not-economics.html) argued that the active ingredient in fertility decline is not economics but *formation* — the communal structures that build a self capable of receiving a child as something other than a cost to be optimized. This essay traces the genealogy of formation's dissolution. It follows three historical descents — in [education](/pages/metaphysical-choices.html#education), [economics](/pages/metaphysical-choices.html#economics), and [psychology](/pages/metaphysical-choices.html#psychology) — mapped in the [Sankey diagrams](/pages/metaphysical-choices.html#gravity) that track how participatory traditions invert into instrumental ones.
+The [[2026-03-02-fertility-is-not-economics:fertility essay]] argued that the active ingredient in fertility decline is not economics but *formation* — the communal structures that build a self capable of receiving a child as something other than a cost to be optimized. This essay traces the genealogy of formation's dissolution. It follows three historical descents — in [education](/pages/metaphysical-choices.html#education), [economics](/pages/metaphysical-choices.html#economics), and [psychology](/pages/metaphysical-choices.html#psychology) — mapped in the [Sankey diagrams](/pages/metaphysical-choices.html#gravity) that track how participatory traditions invert into instrumental ones.
 
 ## The Flattening of Formation
 
@@ -14,7 +14,7 @@ The [fertility essay](./2026-03-02-fertility-is-not-economics.html) argued that 
 
 The [education Sankey](/pages/metaphysical-choices.html#education) tracks the descent from classical education to the factory school, standardized testing and Credentialism. In two centuries, education moved from forming whole persons to producing human capital.
 
-When education swaps to producing human capital, the value of the person becomes the wealth they produce. The person internalizes this set of values as their own and begins to analyze everything through the lens of cost-benefit. To illustrate this point, the [fertility essay](./2026-03-02-fertility-is-not-economics.html) showed that birth rates fall as education rises due to children being considered costs rather than valuable in their own right.
+When education swaps to producing human capital, the value of the person becomes the wealth they produce. The person internalizes this set of values as their own and begins to analyze everything through the lens of cost-benefit. To illustrate this point, the [[2026-03-02-fertility-is-not-economics:fertility essay]] showed that birth rates fall as education rises due to children being considered costs rather than valuable in their own right.
 
 The Haredi case is the exception that proves the rule. Haredi women study in [dedicated Haredi tracks within Israeli colleges](https://pmc.ncbi.nlm.nih.gov/articles/PMC9703422/) — gender-segregated, culturally adapted programs designed to deliver the credential without the full secular campus experience. **And the outcomes prove the thesis.**
 
@@ -53,7 +53,7 @@ In education: bracket formation, measure test scores. Test scores rise. Conclude
 
 All three reductions produce the same self — one formed for optimization rather than reception. The Credentialist self, the Chrematistic self, and the Therapeutic self are not three different selves. They are the same self, produced by three converging streams of the same historical process. And that self, when it encounters the question of whether to have a child, can only perform a cost-benefit analysis — because cost-benefit analysis is the only operation its formation equipped it to perform.
 
-The [data-doesn't-speak essay](./2026-03-02-data-doesnt-speak.html) explains why this convergence is invisible to the researchers studying it. The researcher formed by positivism cannot see formation as a variable because their formation has trained them to see only what can be measured. The lens has made itself invisible to the person looking through it.
+The [[2026-03-02-data-doesnt-speak:data-doesn't-speak essay]] explains why this convergence is invisible to the researchers studying it. The researcher formed by positivism cannot see formation as a variable because their formation has trained them to see only what can be measured. The lens has made itself invisible to the person looking through it.
 
 ## The Door Opening
 

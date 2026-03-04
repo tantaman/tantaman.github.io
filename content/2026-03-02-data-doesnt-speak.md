@@ -10,7 +10,7 @@ A note on method, formation, and the question that precedes all questions.
 
 ---
 
-This essay is a companion to ["The Optimization Trap,"](./2026-03-02-fertility-is-not-economics.html) which argues that fertility decline is a symptom of a civilization that has lost the capacity to say what human life is for. In the process of writing that essay — testing the thesis against data, revising, discovering new data, revising again — something became visible about the nature of empirical inquiry itself. It's worth stating directly: *it may be impossible to "just follow the data."*
+This essay is a companion to [[2026-03-02-fertility-is-not-economics:"The Optimization Trap,"]] which argues that fertility decline is a symptom of a civilization that has lost the capacity to say what human life is for. In the process of writing that essay — testing the thesis against data, revising, discovering new data, revising again — something became visible about the nature of empirical inquiry itself. It's worth stating directly: *it may be impossible to "just follow the data."*
 
 Not because the data is unreliable. Not because evidence doesn't matter. But because at every stage of inquiry, the data underdetermines the conclusion, and what bridges the gap between evidence and interpretation is the formation of the person asking the question.
 

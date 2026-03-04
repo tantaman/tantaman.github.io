@@ -13,7 +13,7 @@ image: '/img/de-la-tour-magdalen.jpg'
 
 ---
 
-If the ratchet described [in the preceding essay](./2026-02-26-ratchet-stage.html) is real — if life is a value-capture engine, technology its externalized form, capital its stored optionality, and power the name for all of it compounding — then the strongest materialist case writes itself. Any experience of transcendence arising *within* this system is just another product of the system. The monk's bliss is a neurochemical state. Gelassenheit is a coping strategy for powerlessness. The apophatic "not this, not this" is a sophisticated way of making peace with a game you cannot win. Religion, on this account, is the system's most elegant pressure-release valve.
+If the ratchet described [[2026-02-26-ratchet-stage:in the preceding essay]] is real — if life is a value-capture engine, technology its externalized form, capital its stored optionality, and power the name for all of it compounding — then the strongest materialist case writes itself. Any experience of transcendence arising *within* this system is just another product of the system. The monk's bliss is a neurochemical state. Gelassenheit is a coping strategy for powerlessness. The apophatic "not this, not this" is a sophisticated way of making peace with a game you cannot win. Religion, on this account, is the system's most elegant pressure-release valve.
 
 There is a version of this darker than Marx. At least Marx thought you could break the cage. If the ratchet is truly cosmic — operative from thermodynamics to politics — then religion isn't even false consciousness, because there's no true consciousness to recover. There's just gravity, and various ways of narrating your fall.
 
