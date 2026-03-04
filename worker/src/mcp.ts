@@ -27,16 +27,25 @@ interface ManifestEntry {
   form: string;
   collection: string;
   color: string | null;
+  sourceFile: string;
 }
 
 let cachedManifest: Post[] | null = null;
+let cachedRawManifest: ManifestEntry[] | null = null;
+
+async function fetchManifest(): Promise<ManifestEntry[]> {
+  if (cachedRawManifest) return cachedRawManifest;
+
+  const res = await fetch("https://tantaman.com/posts-manifest.json");
+  if (!res.ok) throw new Error("Failed to fetch posts manifest");
+  cachedRawManifest = await res.json();
+  return cachedRawManifest!;
+}
 
 async function loadManifest(): Promise<Post[]> {
   if (cachedManifest) return cachedManifest;
 
-  const res = await fetch("https://tantaman.com/posts-manifest.json");
-  if (!res.ok) throw new Error("Failed to fetch posts manifest");
-  const data: ManifestEntry[] = await res.json();
+  const data = await fetchManifest();
 
   cachedManifest = data.map((p) => ({
     title: p.title,
@@ -215,6 +224,47 @@ export function createMcpServer(env: Env) {
 
       if (filtered.length > 50) {
         lines.push(`\n... and ${filtered.length - 50} more posts.`);
+      }
+
+      return {
+        content: [{ type: "text" as const, text: lines.join("\n") }],
+      };
+    }
+  );
+
+  server.tool(
+    "list_posts",
+    "List blog posts by date range and sort order. Returns post URLs, titles, and raw GitHub markdown URLs so you can fetch source content.",
+    {
+      startDate: z.string().optional().describe("Inclusive start date in ISO format, e.g. \"2025-01-01\""),
+      endDate: z.string().optional().describe("Inclusive end date in ISO format, e.g. \"2026-03-04\""),
+      sort: z.enum(["asc", "desc"]).optional().default("desc").describe("Sort by date ascending or descending (default desc)"),
+    },
+    async ({ startDate, endDate, sort }) => {
+      const raw = await fetchManifest();
+
+      let posts = raw;
+      if (startDate) {
+        posts = posts.filter((p) => p.date >= startDate);
+      }
+      if (endDate) {
+        posts = posts.filter((p) => p.date <= endDate);
+      }
+
+      posts = [...posts].sort((a, b) =>
+        sort === "asc" ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date)
+      );
+
+      const lines: string[] = [];
+      lines.push(`Found ${posts.length} posts.\n`);
+
+      for (const p of posts) {
+        const collectionPath = p.collection === "root" ? "" : p.collection;
+        const url = `https://tantaman.com/${p.slug.includes(".") ? p.slug : p.slug + ".html"}`;
+        const rawUrl = `https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/${collectionPath}${p.sourceFile}`;
+        lines.push(`- **${p.title}** (${p.date})`);
+        lines.push(`  URL: ${url}`);
+        lines.push(`  Source: ${rawUrl}`);
       }
 
       return {

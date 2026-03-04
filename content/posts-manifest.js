@@ -36,6 +36,7 @@ export default async function postsManifest() {
               color: meta.sentimentColor || null,
               image: fm.image || meta.firstImage || null,
               thesis: memeCache[fm.title || slug] || null,
+              sourceFile: key,
             });
           });
       });
