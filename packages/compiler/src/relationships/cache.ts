@@ -60,6 +60,17 @@ export function hashConfig(config: RelationshipConfig): string {
     .slice(0, 16);
 }
 
+/**
+ * Compute hash of only the embedding config (model, dimensions).
+ * Scoring/weight changes don't affect embedding values.
+ */
+export function hashEmbeddingConfig(config: RelationshipConfig): string {
+  return createHash('md5')
+    .update(JSON.stringify(config.embedding))
+    .digest('hex')
+    .slice(0, 16);
+}
+
 export interface ChangeSet {
   added: string[];
   modified: string[];
@@ -149,16 +160,27 @@ export function shouldFullRebuild(
 }
 
 /**
- * Get cached embeddings for unchanged nodes
+ * Get cached embeddings for unchanged nodes.
+ * Embeddings are reusable as long as the embedding config (model, dimensions)
+ * hasn't changed — scoring/weight changes don't affect embedding values.
  */
 export function getCachedEmbeddings(
   nodes: ContentNode[],
   cache: RelationshipCache | null,
-  changeSet: ChangeSet
+  changeSet: ChangeSet,
+  config: RelationshipConfig
 ): Map<string, number[]> {
   const embeddings = new Map<string, number[]>();
 
-  if (!cache || changeSet.configChanged) {
+  if (!cache) {
+    return embeddings;
+  }
+
+  // Only discard cached embeddings if the embedding config itself changed.
+  // Old caches lack embeddingConfigHash — trust their embeddings rather than
+  // comparing a full-config hash against an embedding-only hash.
+  const currentEmbeddingHash = hashEmbeddingConfig(config);
+  if (cache.embeddingConfigHash && currentEmbeddingHash !== cache.embeddingConfigHash) {
     return embeddings;
   }
 
@@ -195,6 +217,7 @@ export function createCache(
   return {
     version: CACHE_VERSION,
     configHash: hashConfig(config),
+    embeddingConfigHash: hashEmbeddingConfig(config),
     contentHashes,
     embeddings: embeddingsRecord,
     lastBuild: new Date().toISOString(),

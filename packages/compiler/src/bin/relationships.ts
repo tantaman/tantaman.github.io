@@ -6,6 +6,7 @@ async function main() {
   const args = process.argv.slice(2);
   const forceRebuild = args.includes('--force') || args.includes('-f');
   const skipEmbeddings = args.includes('--skip-embeddings') || args.includes('-s');
+  const diagnostics = args.includes('--diagnostics') || args.includes('-d');
   const help = args.includes('--help') || args.includes('-h');
 
   if (help) {
@@ -18,6 +19,7 @@ temporal proximity, and other signals.
 Options:
   -f, --force           Force full rebuild (ignore cache)
   -s, --skip-embeddings Skip embedding computation (faster, less accurate)
+  -d, --diagnostics     Print raw similarity score distribution diagnostics
   -h, --help            Show this help message
 
 Output:
@@ -42,12 +44,16 @@ The relationship graph is used by:
   if (skipEmbeddings) {
     console.log('Skipping embeddings (using TF-IDF only)');
   }
+  if (diagnostics) {
+    console.log('Diagnostics enabled');
+  }
   console.log();
 
   try {
     const graph = await buildRelationshipGraph({
       forceRebuild,
       skipEmbeddings,
+      diagnostics,
     });
 
     console.log();

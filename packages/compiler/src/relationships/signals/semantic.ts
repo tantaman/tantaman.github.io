@@ -68,15 +68,14 @@ export const semanticSignal: SignalExtractor<SemanticData> = {
       };
     }
 
-    // Normalize to 0-1 range
-    // Maps [0.2, 0.7] → [0, 1] — tune after inspecting score distributions on this corpus
-    const normalizedScore = Math.min(Math.max((similarity - 0.2) / 0.5, 0), 1);
-
+    // Use raw cosine similarity directly as the score.
+    // Normalization was destroying ranking distinction in dense topic clusters
+    // (e.g. philosophy posts with raw sims 0.67–0.86 all mapped to ~1.0).
     return {
       name: 'semantic',
-      score: normalizedScore,
+      score: similarity,
       weight: config.weight,
-      details: { similarity, normalizedScore },
+      details: { similarity },
     };
   },
 };
@@ -130,4 +129,5 @@ function cleanTextForEmbedding(text: string): string {
   return cleaned;
 }
 
+export { cosineSimilarity };
 export default semanticSignal;

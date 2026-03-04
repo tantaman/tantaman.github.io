@@ -13,7 +13,7 @@ export const defaultConfig: RelationshipConfig = {
       enabled: true,
       weight: 2.0,
       options: {
-        minSimilarity: 0.2,
+        minSimilarity: 0.35,
       },
     },
     text: {

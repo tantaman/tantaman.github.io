@@ -33,6 +33,20 @@ try {
   // .tsbuildinfo not found, skip compiler change detection
 }
 
+// Relationships change detection — force rebuild when .relationships.json changes
+let forceFromRelationships = false;
+try {
+  const relStat = await fs.promises.stat('.relationships.json');
+  const relMtime = relStat.mtime.getTime();
+  if (buildCache._relationshipsMtime !== relMtime) {
+    forceFromRelationships = true;
+    buildCache._relationshipsMtime = relMtime;
+    console.log('.relationships.json changed, forcing rebuild');
+  }
+} catch (e) {
+  // .relationships.json not found, skip
+}
+
 async function snapshotDeps(dependencies) {
   const snapshot = {};
   for (const dep of dependencies) {
@@ -94,7 +108,7 @@ async function depsChanged(cachedDeps) {
 
 /** @param {string} collection @param {boolean} forceRebuild @param {Set<string> | null} [forceFiles] */
 export default async function build(collection, forceRebuild = false, forceFiles = null) {
-  const effectiveForce = forceRebuild || forceFromCompiler;
+  const effectiveForce = forceRebuild || forceFromCompiler || forceFromRelationships;
   const dest = builtDir + collection;
   const contentDir = './content/' + collection;
 

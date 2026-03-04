@@ -22,6 +22,7 @@ import {
   extractKeywords,
   type SignalExtractor,
 } from './signals/index.js';
+import { cosineSimilarity } from './signals/semantic.js';
 import { computeCombinedScore, passesThreshold } from './scorer.js';
 import {
   loadCache,
@@ -40,6 +41,7 @@ export interface BuildOptions {
   forceRebuild?: boolean;
   config?: Partial<RelationshipConfig>;
   skipEmbeddings?: boolean;
+  diagnostics?: boolean;
 }
 
 /**
@@ -57,8 +59,9 @@ export async function buildRelationshipGraph(
   console.log(`Loaded ${nodes.length} documents`);
 
   // Load cache and detect changes
-  const cache = options.forceRebuild ? null : await loadCache();
-  const changeSet = detectChanges(nodes, config, cache);
+  // Always load cache so embeddings can be reused even on force rebuild or config change
+  const cache = await loadCache();
+  const changeSet = detectChanges(nodes, config, options.forceRebuild ? null : cache);
 
   const needsFullRebuild =
     options.forceRebuild || shouldFullRebuild(changeSet, nodes.length);
@@ -90,7 +93,7 @@ export async function buildRelationshipGraph(
   // Compute embeddings if semantic signal is enabled
   let embeddings = new Map<string, number[]>();
   if (config.signals.semantic.enabled && !options.skipEmbeddings) {
-    const cachedEmbeddings = getCachedEmbeddings(nodes, cache, changeSet);
+    const cachedEmbeddings = getCachedEmbeddings(nodes, cache, changeSet, config);
     console.log(`${cachedEmbeddings.size} embeddings cached`);
 
     const embeddingService = createEmbeddingService();
@@ -202,6 +205,11 @@ export async function buildRelationshipGraph(
     }
   }
 
+  // Diagnostics: print raw cosine similarity distribution
+  if (options.diagnostics && embeddings.size > 0) {
+    printSimilarityDiagnostics(nodes, embeddings, config);
+  }
+
   // Sort edges by score
   edges.sort((a, b) => b.score - a.score);
 
@@ -258,7 +266,7 @@ export async function buildRelationshipGraph(
       maxRelated: config.scoring.maxRelated,
     },
     posts,
-    edges: edges.slice(0, 1000), // Limit edges to top 1000
+    edges: selectRepresentativeEdges(edges, config.scoring.maxRelated),
     clusters: clusterResult,
     metadata: {
       totalNodes: nodes.length,
@@ -405,6 +413,116 @@ function normalizeWikiLinkTarget(target: string): string {
 async function writeOutput(graph: RelationshipGraph): Promise<void> {
   const outputPath = path.join(process.cwd(), OUTPUT_FILE);
   await fs.writeFile(outputPath, JSON.stringify(graph, null, 2));
+}
+
+/**
+ * Select edges ensuring every node gets up to maxPerNode edges in the output.
+ * Edges are already sorted by score descending. We walk them in order and keep
+ * an edge if either endpoint still has capacity.
+ */
+function selectRepresentativeEdges(
+  edges: RelationshipEdge[],
+  maxPerNode: number
+): RelationshipEdge[] {
+  const nodeCounts = new Map<string, number>();
+  const selected: RelationshipEdge[] = [];
+
+  for (const edge of edges) {
+    const srcCount = nodeCounts.get(edge.source) || 0;
+    const tgtCount = nodeCounts.get(edge.target) || 0;
+
+    if (srcCount < maxPerNode || tgtCount < maxPerNode) {
+      selected.push(edge);
+      nodeCounts.set(edge.source, srcCount + 1);
+      nodeCounts.set(edge.target, tgtCount + 1);
+    }
+  }
+
+  return selected;
+}
+
+/**
+ * Print diagnostic histogram and percentiles of raw cosine similarity scores
+ */
+function printSimilarityDiagnostics(
+  nodes: ContentNode[],
+  embeddings: Map<string, number[]>,
+  config: RelationshipConfig
+): void {
+  console.log();
+  console.log('='.repeat(50));
+  console.log('Similarity Distribution Diagnostics');
+  console.log('='.repeat(50));
+
+  // Collect all raw cosine similarities for pairs that have embeddings
+  const scores: number[] = [];
+  const nodesWithEmbeddings = nodes.filter((n) => embeddings.has(n.id));
+
+  for (let i = 0; i < nodesWithEmbeddings.length; i++) {
+    const embA = embeddings.get(nodesWithEmbeddings[i].id)!;
+    for (let j = i + 1; j < nodesWithEmbeddings.length; j++) {
+      const embB = embeddings.get(nodesWithEmbeddings[j].id)!;
+      scores.push(cosineSimilarity(embA, embB));
+    }
+  }
+
+  if (scores.length === 0) {
+    console.log('No embedding pairs found.');
+    return;
+  }
+
+  scores.sort((a, b) => a - b);
+
+  const min = scores[0];
+  const max = scores[scores.length - 1];
+  const mean = scores.reduce((s, v) => s + v, 0) / scores.length;
+  const percentile = (p: number) => scores[Math.floor((p / 100) * (scores.length - 1))];
+
+  console.log(`Pairs: ${scores.length} (${nodesWithEmbeddings.length} nodes with embeddings)`);
+  console.log(`Min: ${min.toFixed(4)}  Max: ${max.toFixed(4)}  Mean: ${mean.toFixed(4)}`);
+  console.log();
+
+  // Percentiles
+  console.log('Percentiles:');
+  for (const p of [10, 25, 50, 75, 90, 95, 99]) {
+    console.log(`  p${p}: ${percentile(p).toFixed(4)}`);
+  }
+  console.log();
+
+  // Histogram with 0.05-wide buckets
+  const bucketSize = 0.05;
+  const buckets = new Map<number, number>();
+  for (const s of scores) {
+    const bucket = Math.floor(s / bucketSize) * bucketSize;
+    buckets.set(bucket, (buckets.get(bucket) || 0) + 1);
+  }
+
+  const sortedBuckets = [...buckets.entries()].sort((a, b) => a[0] - b[0]);
+  const maxCount = Math.max(...sortedBuckets.map(([, c]) => c));
+
+  console.log('Histogram (bucket size = 0.05):');
+  for (const [bucket, count] of sortedBuckets) {
+    const barLen = Math.round((count / maxCount) * 40);
+    const bar = '#'.repeat(barLen);
+    const pct = ((count / scores.length) * 100).toFixed(1);
+    console.log(`  [${bucket.toFixed(2)}, ${(bucket + bucketSize).toFixed(2)}) ${String(count).padStart(6)} (${pct.padStart(5)}%) ${bar}`);
+  }
+  console.log();
+
+  // Current config thresholds
+  const minSimilarity = (config.signals.semantic.options?.minSimilarity as number) || 0.3;
+  const normLow = 0.35;
+  const normHigh = 0.70;
+  const effectiveMin = normLow + config.scoring.minThreshold * (normHigh - normLow);
+
+  const belowMinSim = scores.filter((s) => s < minSimilarity).length;
+  const belowEffective = scores.filter((s) => s < effectiveMin).length;
+
+  console.log('Current config impact:');
+  console.log(`  minSimilarity (${minSimilarity}): ${belowMinSim}/${scores.length} pairs filtered (${((belowMinSim / scores.length) * 100).toFixed(1)}%)`);
+  console.log(`  Normalization range: [${normLow}, ${normHigh}] → [0, 1]`);
+  console.log(`  Effective raw threshold (~${effectiveMin.toFixed(2)}): ${belowEffective}/${scores.length} pairs filtered (${((belowEffective / scores.length) * 100).toFixed(1)}%)`);
+  console.log();
 }
 
 /**

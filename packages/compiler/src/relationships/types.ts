@@ -77,6 +77,7 @@ export interface RelationshipGraph {
 export interface RelationshipCache {
   version: string;
   configHash: string;
+  embeddingConfigHash?: string;
   contentHashes: Record<string, string>;
   embeddings: Record<string, number[]>;
   lastBuild: string;
