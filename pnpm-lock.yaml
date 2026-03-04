@@ -415,7 +415,7 @@ importers:
     dependencies:
       '@hono/mcp':
         specifier: ^0.1.0
-        version: 0.1.5(@modelcontextprotocol/sdk@1.26.0(zod@3.25.76))(hono@4.12.0)
+        version: 0.1.5(@modelcontextprotocol/sdk@1.26.0(zod@3.25.76))(hono@4.12.4)
       '@modelcontextprotocol/sdk':
         specifier: ^1.12.1
         version: 1.26.0(zod@3.25.76)
@@ -426,8 +426,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/facets
       hono:
-        specifier: ^4.7.10
-        version: 4.12.0
+        specifier: ^4.12.4
+        version: 4.12.4
       satori:
         specifier: ^0.19.2
         version: 0.19.2
@@ -3220,8 +3220,8 @@ packages:
     resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
     engines: {node: '>=12.0.0'}
 
-  hono@4.12.0:
-    resolution: {integrity: sha512-NekXntS5M94pUfiVZ8oXXK/kkri+5WpX2/Ik+LVsl+uvw+soj4roXIsPqO+XsWrAw20mOzaXOZf3Q7PfB9A/IA==}
+  hono@4.12.4:
+    resolution: {integrity: sha512-ooiZW1Xy8rQ4oELQ++otI2T9DsKpV0M6c6cO6JGx4RTfav9poFFLlet9UMXHZnoM1yG0HWGlQLswBGX3RZmHtg==}
     engines: {node: '>=16.9.0'}
 
   html-void-elements@2.0.1:
@@ -5746,14 +5746,14 @@ snapshots:
 
   '@fal-works/esbuild-plugin-global-externals@2.1.2': {}
 
-  '@hono/mcp@0.1.5(@modelcontextprotocol/sdk@1.26.0(zod@3.25.76))(hono@4.12.0)':
+  '@hono/mcp@0.1.5(@modelcontextprotocol/sdk@1.26.0(zod@3.25.76))(hono@4.12.4)':
     dependencies:
       '@modelcontextprotocol/sdk': 1.26.0(zod@3.25.76)
-      hono: 4.12.0
+      hono: 4.12.4
 
-  '@hono/node-server@1.19.9(hono@4.12.0)':
+  '@hono/node-server@1.19.9(hono@4.12.4)':
     dependencies:
-      hono: 4.12.0
+      hono: 4.12.4
 
   '@humanfs/core@0.19.1': {}
 
@@ -5925,7 +5925,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.26.0(zod@3.25.76)':
     dependencies:
-      '@hono/node-server': 1.19.9(hono@4.12.0)
+      '@hono/node-server': 1.19.9(hono@4.12.4)
       ajv: 8.18.0
       ajv-formats: 3.0.1(ajv@8.18.0)
       content-type: 1.0.5
@@ -5935,7 +5935,7 @@ snapshots:
       eventsource-parser: 3.0.6
       express: 5.2.1
       express-rate-limit: 8.2.1(express@5.2.1)
-      hono: 4.12.0
+      hono: 4.12.4
       jose: 6.1.3
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -8064,7 +8064,7 @@ snapshots:
 
   highlight.js@11.8.0: {}
 
-  hono@4.12.0: {}
+  hono@4.12.4: {}
 
   html-void-elements@2.0.1: {}
 
