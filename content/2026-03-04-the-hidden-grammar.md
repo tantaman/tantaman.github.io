@@ -3,7 +3,10 @@ title: 'The Grammar That Teaches Grammar'
 tags: [philosophy, culture]
 concern: [ground, knowledge, power]
 form: essay
+image: '/img/scroller-classroom.png'
 ---
+
+![](/img/scroller-classroom.png)
 
 You know the ways of knowing:
 
