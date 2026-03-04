@@ -47,7 +47,7 @@ Which raises the question of what it means for a narrative's ground to be honest
 ---
 
 > *"Narrative grounding is not a fact. It is not an opinion. It is the precondition for interpreting facts and forming opinions."*
-> — [The Grammar That Teaches Grammar](./2026-03-04-the-hidden-grammar.md)
+> — [The Grammar That Teaches Grammar](./2026-03-04-the-hidden-grammar.html)
 
 This is the layer underneath declared hypotheses. The frame that determines which questions feel worth asking. The commitment about the shape of reality that precedes interpretation and makes certain conclusions feel obvious and others feel forced.
 
