@@ -5,8 +5,6 @@ concern: [ground, knowledge, modernity]
 form: essay
 ---
 
-# The Fourth Ground
-
 You have four ways of knowing what's real. You act like you have three.
 
 **Personal experience.** You touched the stove. It burned. No one needs to convince you. This is your most reliable knowledge and your narrowest. It covers your life, your body, your household. It does not cover the economy, the climate, the past, or the inside of anyone else's head.

@@ -5,8 +5,6 @@ concern: [ground, knowledge, power]
 form: essay
 ---
 
-# The Grammar That Teaches Grammar
-
 You know the ways of knowing:
 
 1. Scientific method
