@@ -129,8 +129,11 @@ function EraNode() {
 
 // --- EventCard ---
 
-function EventCard({ text, side }) {
+function EventCard({ text, evidence, side }) {
   const isLeft = side === 'left';
+  const [expanded, setExpanded] = useState(false);
+  const hasEvidence = !!evidence;
+
   return (
     <div
       style={{
@@ -149,19 +152,63 @@ function EventCard({ text, side }) {
         }}
       >
         <div
+          onClick={hasEvidence ? () => setExpanded((e) => !e) : undefined}
           style={{
             fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
             fontSize: '0.95rem',
             lineHeight: 1.6,
             color: 'rgba(255,255,255,0.82)',
             background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            border: hasEvidence ? '1px solid rgba(255,215,140,0.95)' : '1px solid rgba(255,255,255,0.1)',
             borderRadius: '6px',
             padding: '14px 18px',
             textAlign: isLeft ? 'right' : 'left',
+            ...(hasEvidence && { cursor: 'pointer' }),
           }}
         >
-          {text}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', flexDirection: isLeft ? 'row-reverse' : 'row' }}>
+            {hasEvidence && (
+              <span
+                style={{
+                  color: 'rgba(255,255,255,0.3)',
+                  fontSize: '0.75rem',
+                  lineHeight: 1.6,
+                  flexShrink: 0,
+                  transition: 'transform 0.25s ease',
+                  transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                  display: 'inline-block',
+                }}
+              >
+                ▸
+              </span>
+            )}
+            <span style={{ flex: 1 }}>{text}</span>
+          </div>
+          <div
+            style={{
+              maxHeight: expanded ? '500px' : '0px',
+              overflow: 'hidden',
+              transition: 'max-height 0.4s ease',
+            }}
+          >
+            {hasEvidence && (
+              <div
+                style={{
+                  marginTop: '10px',
+                  paddingTop: '10px',
+                  borderTop: '1px solid rgba(255,255,255,0.1)',
+                  fontFamily: "'Crimson Pro', Georgia, serif",
+                  fontSize: '0.85rem',
+                  lineHeight: 1.7,
+                  color: 'rgba(255,255,255,0.55)',
+                  fontStyle: 'italic',
+                  textAlign: isLeft ? 'right' : 'left',
+                }}
+              >
+                "{evidence}"
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -201,11 +248,16 @@ function TimelineEra({ era, prevEndYear, pixelsPerYear, eraIndex }) {
     <div style={{ marginTop: marginTop + 'px', position: 'relative' }}>
       <EraHeader title={era.title} />
       <EraNode />
-      {era.events.map((event, i) => (
-        <FadeElement key={i} side={side}>
-          <EventCard text={event} side={side} />
-        </FadeElement>
-      ))}
+      {era.events.map((event, i) => {
+        const isObj = event != null && typeof event === 'object' && !React.isValidElement(event) && 'text' in event;
+        const text = isObj ? event.text : event;
+        const evidence = isObj ? event.evidence : undefined;
+        return (
+          <FadeElement key={i} side={side}>
+            <EventCard text={text} evidence={evidence} side={side} />
+          </FadeElement>
+        );
+      })}
       {era.note && (
         <FadeElement>
           <EraNoteCard note={era.note} />

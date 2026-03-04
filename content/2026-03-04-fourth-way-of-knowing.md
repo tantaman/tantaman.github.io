@@ -3,7 +3,10 @@ title: 'The Fourth Ground'
 tags: [philosophy, religion]
 concern: [ground, knowledge, modernity]
 form: essay
+image: '/img/varo-embroidering-earths-mantle.jpg'
 ---
+
+![Remedios Varo — Embroidering the Earth's Mantle, 1961](/img/varo-embroidering-earths-mantle.jpg)
 
 You have four ways of knowing what's real. You act like you have three.
 
