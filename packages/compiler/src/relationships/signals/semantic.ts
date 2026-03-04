@@ -69,7 +69,7 @@ export const semanticSignal: SignalExtractor<SemanticData> = {
     }
 
     // Normalize to 0-1 range
-    // OpenAI text-embedding-3-large similarities typically range from 0.2-0.7 for related content
+    // Maps [0.2, 0.7] → [0, 1] — tune after inspecting score distributions on this corpus
     const normalizedScore = Math.min(Math.max((similarity - 0.2) / 0.5, 0), 1);
 
     return {

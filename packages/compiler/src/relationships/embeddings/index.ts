@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import OpenAI from 'openai';
+import { getEncoding } from 'js-tiktoken';
 import type { ContentNode } from '../types.js';
 
 let client: OpenAI | null = null;
@@ -18,6 +19,81 @@ export interface EmbeddingService {
     existingEmbeddings?: Map<string, number[]>,
     onProgress?: (current: number, total: number) => void
   ): Promise<Map<string, number[]>>;
+}
+
+const MAX_TOKENS = 8191;
+
+/**
+ * Split text into chunks that fit within the token limit.
+ * Splits on sentence boundaries to avoid cutting mid-sentence.
+ */
+function chunkText(text: string, maxTokens: number = MAX_TOKENS): string[] {
+  const enc = getEncoding('cl100k_base');
+  const tokens = enc.encode(text);
+
+  if (tokens.length <= maxTokens) {
+    return [text];
+  }
+
+  // Split on sentence boundaries
+  const sentences = text.split(/(?<=[.!?])\s+/);
+  const chunks: string[] = [];
+  let currentChunk = '';
+  let currentTokens = 0;
+
+  for (const sentence of sentences) {
+    const sentenceTokens = enc.encode(sentence).length;
+
+    if (currentTokens + sentenceTokens > maxTokens && currentChunk) {
+      chunks.push(currentChunk.trim());
+      currentChunk = '';
+      currentTokens = 0;
+    }
+
+    // If a single sentence exceeds the limit, add it as its own chunk (will be truncated by the API)
+    if (sentenceTokens > maxTokens && !currentChunk) {
+      chunks.push(sentence);
+      continue;
+    }
+
+    currentChunk += (currentChunk ? ' ' : '') + sentence;
+    currentTokens += sentenceTokens;
+  }
+
+  if (currentChunk.trim()) {
+    chunks.push(currentChunk.trim());
+  }
+
+  return chunks;
+}
+
+/**
+ * Average vectors component-wise, then L2-normalize the result.
+ */
+function meanPool(vectors: number[][]): number[] {
+  if (vectors.length === 1) return vectors[0];
+
+  const dim = vectors[0].length;
+  const avg = new Array(dim).fill(0);
+
+  for (const vec of vectors) {
+    for (let i = 0; i < dim; i++) {
+      avg[i] += vec[i];
+    }
+  }
+
+  let norm = 0;
+  for (let i = 0; i < dim; i++) {
+    avg[i] /= vectors.length;
+    norm += avg[i] * avg[i];
+  }
+
+  norm = Math.sqrt(norm);
+  for (let i = 0; i < dim; i++) {
+    avg[i] /= norm;
+  }
+
+  return avg;
 }
 
 /**
@@ -54,18 +130,30 @@ export function createEmbeddingService(): EmbeddingService {
         return embeddings;
       }
 
-      console.log(`Computing embeddings for ${nodesToEmbed.length} documents...`);
+      // Chunk all documents and build a flat list of chunks for batching
+      const allChunks: { nodeId: string; text: string }[] = [];
+      for (const node of nodesToEmbed) {
+        const cleanBody = cleanTextForEmbedding(node.body);
+        const fullText = `${node.title}\n\n${cleanBody}`;
+        const chunks = chunkText(fullText);
+        if (chunks.length > 1) {
+          console.log(`  ${node.id}: split into ${chunks.length} chunks`);
+        }
+        for (const chunk of chunks) {
+          allChunks.push({ nodeId: node.id, text: chunk });
+        }
+      }
 
-      // Process in batches of 100 (OpenAI supports up to 2048 inputs per request)
+      console.log(`Computing embeddings for ${nodesToEmbed.length} documents (${allChunks.length} chunks)...`);
+
+      // Process chunks in batches of 100
       const batchSize = 100;
+      const chunkEmbeddings: Map<string, number[][]> = new Map();
       let completed = 0;
 
-      for (let i = 0; i < nodesToEmbed.length; i += batchSize) {
-        const batch = nodesToEmbed.slice(i, i + batchSize);
-        const texts = batch.map((node) => {
-          const cleanBody = cleanTextForEmbedding(node.body);
-          return `${node.title}\n\n${cleanBody}`;
-        });
+      for (let i = 0; i < allChunks.length; i += batchSize) {
+        const batch = allChunks.slice(i, i + batchSize);
+        const texts = batch.map((c) => c.text);
 
         try {
           const response = await getClient().embeddings.create({
@@ -74,29 +162,41 @@ export function createEmbeddingService(): EmbeddingService {
           });
 
           for (let j = 0; j < response.data.length; j++) {
-            embeddings.set(batch[j].id, response.data[j].embedding);
+            const nodeId = batch[j].nodeId;
+            if (!chunkEmbeddings.has(nodeId)) {
+              chunkEmbeddings.set(nodeId, []);
+            }
+            chunkEmbeddings.get(nodeId)!.push(response.data[j].embedding);
           }
         } catch (error) {
           console.error(`Failed to compute embeddings for batch starting at ${i}:`, error);
           // Fall back to one-by-one for this batch
-          for (const node of batch) {
-            const cleanBody = cleanTextForEmbedding(node.body);
-            const text = `${node.title}\n\n${cleanBody}`;
+          for (const chunk of batch) {
             try {
               const response = await getClient().embeddings.create({
                 model: modelName,
-                input: text,
+                input: chunk.text,
               });
-              embeddings.set(node.id, response.data[0].embedding);
+              if (!chunkEmbeddings.has(chunk.nodeId)) {
+                chunkEmbeddings.set(chunk.nodeId, []);
+              }
+              chunkEmbeddings.get(chunk.nodeId)!.push(response.data[0].embedding);
             } catch (err) {
-              console.error(`Failed to compute embedding for ${node.id}:`, err);
+              console.error(`Failed to compute embedding for chunk of ${chunk.nodeId}:`, err);
             }
           }
         }
 
         completed += batch.length;
         if (onProgress) {
-          onProgress(completed, nodesToEmbed.length);
+          onProgress(completed, allChunks.length);
+        }
+      }
+
+      // Mean-pool chunk embeddings into per-document embeddings
+      for (const [nodeId, vectors] of chunkEmbeddings) {
+        if (vectors.length > 0) {
+          embeddings.set(nodeId, meanPool(vectors));
         }
       }
 
