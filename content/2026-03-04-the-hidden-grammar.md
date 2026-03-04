@@ -18,7 +18,7 @@ But there's a fourth that's been hidden from view.
 
 ---
 
-You learned it in first grade. The teacher held up a sentence and asked: is this a fact or an opinion?
+Epistemology. You learned it in first grade. The teacher held up a sentence and asked: is this a fact or an opinion?
 
 "The Earth orbits the Sun." Fact.
 "Chocolate ice cream is the best flavor." Opinion.
