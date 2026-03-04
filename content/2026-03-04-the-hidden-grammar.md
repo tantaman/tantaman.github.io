@@ -1,3 +1,10 @@
+---
+title: 'The Grammar That Teaches Grammar'
+tags: [philosophy, culture]
+concern: [ground, knowledge, power]
+form: essay
+---
+
 # The Grammar That Teaches Grammar
 
 You know the ways of knowing:

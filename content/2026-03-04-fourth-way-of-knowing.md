@@ -1,3 +1,10 @@
+---
+title: 'The Fourth Ground'
+tags: [philosophy, religion]
+concern: [ground, knowledge, modernity]
+form: essay
+---
+
 # The Fourth Ground
 
 You have four ways of knowing what's real. You act like you have three.
