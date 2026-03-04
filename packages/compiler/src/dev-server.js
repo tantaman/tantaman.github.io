@@ -96,20 +96,26 @@ app.get('*', (req, res) => {
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
     serveFile(filePath);
   } else {
-    // Try to serve index.html
-    const htmlPath = filePath.endsWith('.html')
-      ? filePath
-      : filePath + '/index.html';
-    if (fs.existsSync(htmlPath)) {
-      serveFile(htmlPath);
+    // Try appending .html (clean URL support for wikilinks)
+    const htmlExtPath = filePath + '.html';
+    if (!filePath.endsWith('.html') && fs.existsSync(htmlExtPath) && fs.statSync(htmlExtPath).isFile()) {
+      serveFile(htmlExtPath);
     } else {
-      // Serve 404 page if it exists, otherwise default 404
-      const notFoundPath = path.join(STATIC_DIR, '404.html');
-      if (fs.existsSync(notFoundPath)) {
-        res.status(404);
-        serveFile(notFoundPath);
+      // Try to serve index.html
+      const htmlPath = filePath.endsWith('.html')
+        ? filePath
+        : filePath + '/index.html';
+      if (fs.existsSync(htmlPath)) {
+        serveFile(htmlPath);
       } else {
-        res.status(404).send('Page not found');
+        // Serve 404 page if it exists, otherwise default 404
+        const notFoundPath = path.join(STATIC_DIR, '404.html');
+        if (fs.existsSync(notFoundPath)) {
+          res.status(404);
+          serveFile(notFoundPath);
+        } else {
+          res.status(404).send('Page not found');
+        }
       }
     }
   }
