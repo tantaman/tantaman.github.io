@@ -1,48 +1,14 @@
+import 'dotenv/config';
+import OpenAI from 'openai';
 import type { ContentNode } from '../types.js';
 
-let pipeline: any = null;
-let model: any = null;
+let client: OpenAI | null = null;
 
-/**
- * Initialize the embedding model
- * Uses dynamic import to avoid loading transformers.js unless needed
- */
-async function initializeModel(modelName: string): Promise<void> {
-  if (model) return;
-
-  console.log(`Loading embedding model: ${modelName}...`);
-
-  try {
-    // Dynamic import to avoid loading at module level
-    const { pipeline: createPipeline } = await import('@xenova/transformers');
-    pipeline = createPipeline;
-
-    model = await pipeline('feature-extraction', modelName, {
-      quantized: true, // Use quantized model for faster inference
-    });
-
-    console.log('Embedding model loaded');
-  } catch (error) {
-    console.error('Failed to load embedding model:', error);
-    throw error;
+function getClient(): OpenAI {
+  if (!client) {
+    client = new OpenAI();
   }
-}
-
-/**
- * Compute embedding for a single text
- */
-async function computeEmbedding(text: string): Promise<number[]> {
-  if (!model) {
-    throw new Error('Model not initialized. Call initializeModel first.');
-  }
-
-  const output = await model(text, {
-    pooling: 'mean',
-    normalize: true,
-  });
-
-  // Convert to plain array
-  return Array.from(output.data as Float32Array);
+  return client;
 }
 
 export interface EmbeddingService {
@@ -55,12 +21,17 @@ export interface EmbeddingService {
 }
 
 /**
- * Create an embedding service
+ * Create an embedding service using OpenAI text-embedding-3-large
  */
 export function createEmbeddingService(): EmbeddingService {
+  let modelName = 'text-embedding-3-large';
+
   return {
-    async initialize(modelName: string): Promise<void> {
-      await initializeModel(modelName);
+    async initialize(model: string): Promise<void> {
+      modelName = model;
+      // Validate that we have an API key
+      getClient();
+      console.log(`Using OpenAI embedding model: ${modelName}`);
     },
 
     async computeEmbeddings(
@@ -85,23 +56,47 @@ export function createEmbeddingService(): EmbeddingService {
 
       console.log(`Computing embeddings for ${nodesToEmbed.length} documents...`);
 
-      for (let i = 0; i < nodesToEmbed.length; i++) {
-        const node = nodesToEmbed[i];
+      // Process in batches of 100 (OpenAI supports up to 2048 inputs per request)
+      const batchSize = 100;
+      let completed = 0;
 
-        // Prepare text: title + first ~1500 chars of body
-        const cleanBody = cleanTextForEmbedding(node.body);
-        const text = `${node.title}\n\n${cleanBody}`.slice(0, 1500);
+      for (let i = 0; i < nodesToEmbed.length; i += batchSize) {
+        const batch = nodesToEmbed.slice(i, i + batchSize);
+        const texts = batch.map((node) => {
+          const cleanBody = cleanTextForEmbedding(node.body);
+          return `${node.title}\n\n${cleanBody}`;
+        });
 
         try {
-          const embedding = await computeEmbedding(text);
-          embeddings.set(node.id, embedding);
+          const response = await getClient().embeddings.create({
+            model: modelName,
+            input: texts,
+          });
+
+          for (let j = 0; j < response.data.length; j++) {
+            embeddings.set(batch[j].id, response.data[j].embedding);
+          }
         } catch (error) {
-          console.error(`Failed to compute embedding for ${node.id}:`, error);
-          // Continue with other documents
+          console.error(`Failed to compute embeddings for batch starting at ${i}:`, error);
+          // Fall back to one-by-one for this batch
+          for (const node of batch) {
+            const cleanBody = cleanTextForEmbedding(node.body);
+            const text = `${node.title}\n\n${cleanBody}`;
+            try {
+              const response = await getClient().embeddings.create({
+                model: modelName,
+                input: text,
+              });
+              embeddings.set(node.id, response.data[0].embedding);
+            } catch (err) {
+              console.error(`Failed to compute embedding for ${node.id}:`, err);
+            }
+          }
         }
 
+        completed += batch.length;
         if (onProgress) {
-          onProgress(i + 1, nodesToEmbed.length);
+          onProgress(completed, nodesToEmbed.length);
         }
       }
 

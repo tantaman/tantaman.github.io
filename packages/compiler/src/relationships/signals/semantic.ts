@@ -23,7 +23,7 @@ export const semanticSignal: SignalExtractor<SemanticData> = {
   extract(node: ContentNode): SemanticData {
     // Prepare text for embedding (title + first ~1000 chars of body)
     const cleanBody = cleanTextForEmbedding(node.body);
-    const textForEmbedding = `${node.title}\n\n${cleanBody}`.slice(0, 1500);
+    const textForEmbedding = `${node.title}\n\n${cleanBody}`;
 
     return {
       embedding: null, // Will be populated by embedding service
@@ -69,9 +69,8 @@ export const semanticSignal: SignalExtractor<SemanticData> = {
     }
 
     // Normalize to 0-1 range
-    // Embedding similarities typically range from 0.3-0.6 for related content
-    // (the 0.3-0.9 range was too aggressive, most real matches are 0.3-0.5)
-    const normalizedScore = Math.min(Math.max((similarity - 0.3) / 0.3, 0), 1);
+    // OpenAI text-embedding-3-large similarities typically range from 0.2-0.7 for related content
+    const normalizedScore = Math.min(Math.max((similarity - 0.2) / 0.5, 0), 1);
 
     return {
       name: 'semantic',

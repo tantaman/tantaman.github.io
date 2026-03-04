@@ -13,7 +13,7 @@ export const defaultConfig: RelationshipConfig = {
       enabled: true,
       weight: 2.0,
       options: {
-        minSimilarity: 0.3,
+        minSimilarity: 0.2,
       },
     },
     text: {
@@ -49,8 +49,8 @@ export const defaultConfig: RelationshipConfig = {
     multiSignalBonus: 0.05,
   },
   embedding: {
-    model: 'Xenova/all-MiniLM-L6-v2',
-    dimensions: 384,
+    model: 'text-embedding-3-large',
+    dimensions: 3072,
   },
 };
 
