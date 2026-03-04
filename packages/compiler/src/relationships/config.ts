@@ -52,6 +52,10 @@ export const defaultConfig: RelationshipConfig = {
     model: 'text-embedding-3-large',
     dimensions: 3072,
   },
+  knn: {
+    k: 10,
+    useSNN: true,
+  },
 };
 
 // Cross-collection affinity matrix

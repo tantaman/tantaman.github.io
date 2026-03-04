@@ -107,4 +107,8 @@ export interface RelationshipConfig {
     model: string;
     dimensions: number;
   };
+  knn: {
+    k: number;
+    useSNN: boolean;
+  };
 }

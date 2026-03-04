@@ -13,6 +13,80 @@ export interface ClusterResult {
 }
 
 /**
+ * Build a KNN graph from the full edge list.
+ * For each node, keep only its top-K neighbors by score, then symmetrize (OR).
+ * If useSNN, replace edge weights with shared-nearest-neighbor Jaccard overlap.
+ */
+export function buildKNNEdges(
+  allEdges: RelationshipEdge[],
+  nodeIds: string[],
+  k: number,
+  useSNN: boolean
+): RelationshipEdge[] {
+  // Build adjacency: node -> sorted neighbors (descending by score)
+  const adj = new Map<string, Array<{ neighbor: string; score: number; edge: RelationshipEdge }>>();
+  for (const id of nodeIds) {
+    adj.set(id, []);
+  }
+  for (const edge of allEdges) {
+    adj.get(edge.source)?.push({ neighbor: edge.target, score: edge.score, edge });
+    adj.get(edge.target)?.push({ neighbor: edge.source, score: edge.score, edge });
+  }
+
+  // For each node, keep top-K neighbors
+  const knnSets = new Map<string, Set<string>>();
+  for (const [id, neighbors] of adj) {
+    neighbors.sort((a, b) => b.score - a.score);
+    const topK = new Set(neighbors.slice(0, k).map((n) => n.neighbor));
+    knnSets.set(id, topK);
+  }
+
+  // Symmetrize with OR and collect unique edges
+  const edgeKey = (a: string, b: string) => (a < b ? `${a}\0${b}` : `${b}\0${a}`);
+  const keptKeys = new Set<string>();
+  const edgeMap = new Map<string, RelationshipEdge>();
+
+  // Index original edges for lookup
+  for (const edge of allEdges) {
+    edgeMap.set(edgeKey(edge.source, edge.target), edge);
+  }
+
+  const result: RelationshipEdge[] = [];
+
+  for (const [id, neighbors] of knnSets) {
+    for (const neighbor of neighbors) {
+      const key = edgeKey(id, neighbor);
+      if (keptKeys.has(key)) continue;
+      keptKeys.add(key);
+
+      const originalEdge = edgeMap.get(key);
+      if (!originalEdge) continue;
+
+      if (useSNN) {
+        // SNN weight = |neighbors(A) ∩ neighbors(B)| / K
+        const neighborsA = knnSets.get(id)!;
+        const neighborsB = knnSets.get(neighbor)!;
+        let shared = 0;
+        for (const n of neighborsA) {
+          if (neighborsB.has(n)) shared++;
+        }
+        const snnWeight = shared / k;
+
+        result.push({
+          ...originalEdge,
+          score: snnWeight > 0 ? snnWeight : originalEdge.score * 0.1, // keep weak link if no shared neighbors
+        });
+      } else {
+        result.push(originalEdge);
+      }
+    }
+  }
+
+  console.log(`KNN graph: ${result.length} edges (k=${k}, SNN=${useSNN})`);
+  return result;
+}
+
+/**
  * Compute clusters from relationship edges using Louvain algorithm
  */
 export function computeClusters(

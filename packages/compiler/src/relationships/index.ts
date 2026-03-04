@@ -33,7 +33,7 @@ import {
   createCache,
 } from './cache.js';
 import { createEmbeddingService } from './embeddings/index.js';
-import { computeClusters, generateClusterNames } from './clustering.js';
+import { computeClusters, generateClusterNames, buildKNNEdges } from './clustering.js';
 
 const OUTPUT_FILE = '.relationships.json';
 
@@ -213,12 +213,13 @@ export async function buildRelationshipGraph(
   // Sort edges by score
   edges.sort((a, b) => b.score - a.score);
 
-  // Compute clusters using Louvain community detection
+  // Build KNN graph for clustering and graph display
+  const nodeIds = nodes.map((n) => n.id);
+  const knnEdges = buildKNNEdges(edges, nodeIds, config.knn.k, config.knn.useSNN);
+
+  // Compute clusters using Louvain community detection on KNN graph
   console.log('Computing clusters...');
-  const clusterResult = computeClusters(
-    edges,
-    nodes.map((n) => n.id)
-  );
+  const clusterResult = computeClusters(knnEdges, nodeIds);
 
   // Generate cluster names from member titles using TF-IDF
   generateClusterNames(nodes, clusterResult.nodeCluster, clusterResult.clusterMeta);
@@ -266,7 +267,7 @@ export async function buildRelationshipGraph(
       maxRelated: config.scoring.maxRelated,
     },
     posts,
-    edges: selectRepresentativeEdges(edges, config.scoring.maxRelated),
+    edges: knnEdges,
     clusters: clusterResult,
     metadata: {
       totalNodes: nodes.length,
