@@ -420,7 +420,7 @@ function _createMdxContent(props) {
           }),
           evidence: "The Bible is not a script for sacred violence. It is history's most sophisticated critique of sacred violence."
         }],
-        note: "These timeframes represent the essay's structural logic, not point predictions. The mechanism operates on generational timescales — 80 to 150 years for the full cycle. Individual events may accelerate or delay, but the sequence is what the essay stakes its credibility on."
+        note: "Note that there is a scenario not accounted for: What happens if Iran takes down all water infrastructure in the Gulf in its death-throws?"
       }]
     })]
   });
