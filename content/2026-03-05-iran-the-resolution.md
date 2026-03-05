@@ -8,7 +8,12 @@ image: '/img/hunt-scapegoat.jpg'
 description: 'Everyone is asking how long the war lasts. They are asking the wrong question. The right question is what would it take for this to end — not a ceasefire, not regime change, but resolution. A Girardian reading of the coalitional logic, the scapegoat mechanism, and the civilizational cycle that follows.'
 ---
 
+![](/img/hunt-scapegoat.jpg)
+
 > [Written 03-03-2026](https://github.com/tantaman/tantaman.github.io/commit/46a9e51cabf1ae3a94bef92366244f1cde6c5c9e), published 03-05-2026
+>
+> - The bold predictions this essay generates have been [laid out in a timeline](/pages/iran-timeline.html)
+> - A companion piece on "[[./2026-03-05-iran-the-clearing.html:How the board was cleared]]"
 
 Everyone is asking how long the war lasts. Four weeks, says the president. Not Iraq, says the Pentagon. The analysts compare timelines, count sorties, debate exit strategies. They are asking the wrong question.
 
