@@ -2,7 +2,7 @@
 title: 🧶 HTML, CSS & JS. All mixed up together. This time it's different.
 tags: [software]
 concern: [craft]
-summary: 'Modern web development combines HTML, CSS, and JavaScript back together, but this represents genuine progress rather than regression because developers are now bundling these technologies at the component level rather than globally, allowing for proper code organization and reduced complexity after the evolution of templates, imports, and module systems made true component-based development possible. The criticism that inline styles and mixed code represent a step backward misses the key distinction: past separation was based on incidental technical boundaries across all components, while current practices bundle only a single component''s resources together, achieving both modularity and maintainability.'
+description: 'Modern web development combines HTML, CSS, and JavaScript back together, but this represents genuine progress rather than regression because developers are now bundling these technologies at the component level rather than globally, allowing for proper code organization and reduced complexity after the evolution of templates, imports, and module systems made true component-based development possible. The criticism that inline styles and mixed code represent a step backward misses the key distinction: past separation was based on incidental technical boundaries across all components, while current practices bundle only a single component''s resources together, achieving both modularity and maintainability.'
 ---
 
 From time to time I run across people decrying the current state of web development with words like:

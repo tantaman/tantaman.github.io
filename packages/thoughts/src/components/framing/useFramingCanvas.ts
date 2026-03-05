@@ -60,7 +60,7 @@ function framingNodeToRFNode(
       nodeId: n.id,
       slug: post.slug,
       title: post.title,
-      summary: post.summary,
+      description: post.description,
       date: post.date,
       tags: post.tags,
       color: post.color,
@@ -269,7 +269,7 @@ export function useFramingCanvas(framingId: number) {
       return addNode('post', slug, {
         slug: post.slug,
         title: post.title,
-        summary: post.summary,
+        description: post.description,
         date: post.date,
         tags: post.tags,
         color: post.color,

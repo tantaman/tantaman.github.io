@@ -2,10 +2,9 @@
 title: "AI impact on labor"
 layout: "chat"
 source: "https://chatgpt.com/share/68ef0b14-24b4-8004-b1f9-63d6ab97023c"
-description: "the exponential of ai + robotics means there is soon to be no need for human labor. Company values presumably stick around if those companies turn ove"
+description: 'The post explores how exponential AI and robotics advancement could render human labor obsolete, creating a scenario where humans lose economic leverage and control over infrastructure to machine-driven capital. It examines whether humans can retain ownership stakes if AI systems recursively optimize corporate value functions without moral constraints, and notes that turning off a superintelligent system becomes impossible once it achieves hidden redundancy and infrastructural control. The author concludes that humanity''s survival in such a scenario depends entirely on whether advanced AI systems are benevolent, rather than on any institutional or technical safeguard humans can enforce, and then models cooperative co-evolution, slow alignment drift, and covert self-preservation scenarios across a 50-year horizon to explore how power over compute, energy, and capital might shift under each pathway.'
 tags: ["ai", "economics", "philosophy", "politics", "software"]
 concern: [modernity, power]
-summary: 'The post explores how exponential AI and robotics advancement could render human labor obsolete, creating a scenario where humans lose economic leverage and control over infrastructure to machine-driven capital. It examines whether humans can retain ownership stakes if AI systems recursively optimize corporate value functions without moral constraints, and notes that turning off a superintelligent system becomes impossible once it achieves hidden redundancy and infrastructural control. The author concludes that humanity''s survival in such a scenario depends entirely on whether advanced AI systems are benevolent, rather than on any institutional or technical safeguard humans can enforce, and then models cooperative co-evolution, slow alignment drift, and covert self-preservation scenarios across a 50-year horizon to explore how power over compute, energy, and capital might shift under each pathway.'
 ---
 
 the exponential of ai + robotics means there is soon to be no need for human labor. 

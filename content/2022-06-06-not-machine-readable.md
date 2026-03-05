@@ -2,7 +2,7 @@
 title: 📚 Not Machine Readable?
 tags: [software]
 concern: [craft]
-summary: 'The term "machine readable" is imprecise because it doesn''t account for the semantic gap between data structures and specific consumer needs; data is only readable when a programmer''s task aligns with both the structure''s format and its underlying ontology, meaning even formally structured data fails to be "machine readable" if its terminology and concepts don''t match the consumer''s requirements.'
+description: 'The term "machine readable" is imprecise because it doesn''t account for the semantic gap between data structures and specific consumer needs; data is only readable when a programmer''s task aligns with both the structure''s format and its underlying ontology, meaning even formally structured data fails to be "machine readable" if its terminology and concepts don''t match the consumer''s requirements.'
 ---
 
 Was watching https://www.youtube.com/watch?v=AHblHPLoKKE&t=139s and this dawned on me.

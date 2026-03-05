@@ -3,7 +3,7 @@ title: 'What Holds You'
 tags: [philosophy, culture]
 kind: original
 concern: [self, modernity]
-summary: 'The essay maps a four-layer architecture of modern captivity, from the outermost cage of market logic down through power concentration, human violence, to the innermost colonized body and mind that prevents people from even perceiving the systems that trap them. The author argues that addressing these layers in the correct order is essential, and that most political and intellectual projects fail because they ignore Layer Zero—the physiologically and psychologically captured interior—which must be restored before any meaningful change can occur. The body, shaped by industrial conditions of poor sleep, processed food, dysregulated nervous systems, and hijacked dopamine circuits, is where the deepest colonization happens and therefore where genuine liberation must begin.'
+description: 'The essay maps a four-layer architecture of modern captivity, from the outermost cage of market logic down through power concentration, human violence, to the innermost colonized body and mind that prevents people from even perceiving the systems that trap them. The author argues that addressing these layers in the correct order is essential, and that most political and intellectual projects fail because they ignore Layer Zero—the physiologically and psychologically captured interior—which must be restored before any meaningful change can occur. The body, shaped by industrial conditions of poor sleep, processed food, dysregulated nervous systems, and hijacked dopamine circuits, is where the deepest colonization happens and therefore where genuine liberation must begin.'
 ---
 
 ![](/blog-assets/substack/c9566603-6bd4-4d1a-b829-8b4ab8913c10_2560x1457.jpeg)

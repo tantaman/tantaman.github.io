@@ -3,7 +3,7 @@ title: 'What Modernity Needs: A Return to Polytheism'
 tags: [philosophy, culture]
 kind: original
 concern: [modernity, knowledge]
-summary: 'The essay argues that modernity''s crisis stems from centuries of monotheistic thinking—both theological and secular—that attempts to reduce the plural, incommensurable goods of human life to a single metric, whether God, science, utility, or optimization. The solution is a return to polytheistic thinking that recognizes human flourishing requires holding multiple, competing obligations and values simultaneously without reducing them to one framework, understanding that tragic tension between different goods is permanent and structural rather than a problem to be solved.'
+description: 'The essay argues that modernity''s crisis stems from centuries of monotheistic thinking—both theological and secular—that attempts to reduce the plural, incommensurable goods of human life to a single metric, whether God, science, utility, or optimization. The solution is a return to polytheistic thinking that recognizes human flourishing requires holding multiple, competing obligations and values simultaneously without reducing them to one framework, understanding that tragic tension between different goods is permanent and structural rather than a problem to be solved.'
 ---
 
 ![](/blog-assets/substack/83bc6024-a788-4d03-b9d6-a662cd8f2a88_1024x1536.png)

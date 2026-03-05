@@ -3,7 +3,7 @@ title: 'The Letter To The Therapeutics'
 tags: [religion, culture]
 concern: [modernity, power]
 form: prophecy
-summary: 'The text critiques contemporary therapeutic and social justice culture as a quasi-religious system that perpetuates endless guilt, self-flagellation, and perpetual debt without redemption, arguing that by rejecting traditional religious frameworks while retaining their guilt structures, modern practitioners have created a permanent Friday with no resurrection or release, and urges readers to recognize this as a closed ledger and permission themselves to finish the work and rest.'
+description: 'The text critiques contemporary therapeutic and social justice culture as a quasi-religious system that perpetuates endless guilt, self-flagellation, and perpetual debt without redemption, arguing that by rejecting traditional religious frameworks while retaining their guilt structures, modern practitioners have created a permanent Friday with no resurrection or release, and urges readers to recognize this as a closed ledger and permission themselves to finish the work and rest.'
 ---
 
 1.  To those who labor in the work that has no end, who tend the wound that must not heal, who confess and are not forgiven: Grace and peace from no one.

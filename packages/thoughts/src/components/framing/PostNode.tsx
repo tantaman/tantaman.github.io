@@ -7,7 +7,7 @@ export type PostNodeData = {
   nodeId: number;
   slug: string;
   title: string;
-  summary: string;
+  description: string;
   date: string;
   tags: string[];
   color: string | null;
@@ -20,7 +20,7 @@ export const PostNode = memo(function PostNode({
   data,
 }: NodeProps<PostNodeType>) {
   const { secret } = useContext(AuthContext);
-  const summary = data.summary.length > 200 ? data.summary.slice(0, 200) + '…' : data.summary;
+  const description = data.description.length > 200 ? data.description.slice(0, 200) + '…' : data.description;
 
   return (
     <div className="framing-post-node" style={data.color ? { borderLeftColor: data.color } : undefined}>
@@ -42,7 +42,7 @@ export const PostNode = memo(function PostNode({
         {data.title}
       </a>
       {data.date && <div className="framing-post-node-date">{data.date}</div>}
-      {summary && <div className="framing-post-node-summary">{summary}</div>}
+      {description && <div className="framing-post-node-summary">{description}</div>}
       {data.tags.length > 0 && (
         <div className="framing-post-node-tags">
           {data.tags.map((tag) => (

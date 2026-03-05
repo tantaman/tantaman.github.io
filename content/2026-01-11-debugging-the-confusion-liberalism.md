@@ -3,7 +3,7 @@ title: 'Debugging the Confusion: Liberalism vs Leftism'
 tags: [politics]
 kind: survey
 concern: [power, knowledge]
-summary: 'Classical liberalism was a doctrine of individual rights and limited government, but it has largely been replaced by a transformed ideology combining Marxist class analysis reframed around identity categories with therapeutic psychology, creating what might be called therapeutic leftism or a soft tyranny. This successor ideology replaces economic materialism with identity-based oppression analysis, converts false consciousness into internalized oppression, and pathologizes dissent as psychological sickness requiring treatment rather than engagement, prioritizing psychological safety and confession over the individual liberty and procedural neutrality that classical liberalism once championed.'
+description: 'Classical liberalism was a doctrine of individual rights and limited government, but it has largely been replaced by a transformed ideology combining Marxist class analysis reframed around identity categories with therapeutic psychology, creating what might be called therapeutic leftism or a soft tyranny. This successor ideology replaces economic materialism with identity-based oppression analysis, converts false consciousness into internalized oppression, and pathologizes dissent as psychological sickness requiring treatment rather than engagement, prioritizing psychological safety and confession over the individual liberty and procedural neutrality that classical liberalism once championed.'
 ---
 
 ### I. The Confusion

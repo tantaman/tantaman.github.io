@@ -71,7 +71,7 @@ export const ImportFramingBody = z.object({
     color: z.string().nullable().optional(),
     slug: z.string().optional(),
     title: z.string().optional(),
-    summary: z.string().optional(),
+    description: z.string().optional(),
     date: z.string().optional(),
     tags: z.array(z.string()).optional(),
   })),
@@ -104,7 +104,6 @@ export const BatchUpdateBody = z.object({
 export const PostFrontmatter = z.object({
   tags: z.array(z.string()).optional(),
   description: z.string().optional(),
-  summary: z.string().optional(),
   layout: z.string().optional(),
   related: z.array(z.string()).optional(),
   wide: z.boolean().optional(),

@@ -1,7 +1,6 @@
 export interface PostFrontmatter {
   tags?: string[];
   description?: string;
-  summary?: string;
   layout?: string;
   related?: string[];
   wide?: boolean;

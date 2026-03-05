@@ -3,7 +3,7 @@ title: 'From Galilee to Empire: The Institutional Capture of Christianity'
 tags: [religion, history, politics]
 kind: survey
 concern: [power]
-summary: 'The early Jesus movement offered a radical spiritual sovereignty independent of state power, but through Paul''s writings, the Christian canon, and finally Constantine''s patronage and Theodosius''s establishment of Christianity as the official Roman religion, the church was gradually institutionalized and weaponized as a tool of state control. The transformation from persecuted movement to imperial religion involved the creation of theological boundaries through the biblical canon, the subordination of religious authority to imperial authority, and the transformation of Jesus''s countercultural teachings about non-resistance and renunciation of wealth into justifications for obedience to state power.'
+description: 'The early Jesus movement offered a radical spiritual sovereignty independent of state power, but through Paul''s writings, the Christian canon, and finally Constantine''s patronage and Theodosius''s establishment of Christianity as the official Roman religion, the church was gradually institutionalized and weaponized as a tool of state control. The transformation from persecuted movement to imperial religion involved the creation of theological boundaries through the biblical canon, the subordination of religious authority to imperial authority, and the transformation of Jesus''s countercultural teachings about non-resistance and renunciation of wealth into justifications for obedience to state power.'
 ---
 
 ![Major Events in the Life of Constantine I | Britannica](/blog-assets/substack/6b42d223-4a87-4ba2-989a-79ba693868fe_1600x1065.jpeg)

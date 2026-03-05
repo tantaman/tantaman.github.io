@@ -3,7 +3,7 @@ slug: 2014-01-01-The-Almighty-Function
 title: The Almighty Function
 tags: [software]
 concern: [craft]
-summary: 'The post argues that everything—maps, arrays, and objects—can be fundamentally understood and implemented as functions, demonstrating this through JavaScript examples of pairs and objects built using closures and higher-order functions. By reconceptualizing data structures and objects as functions rather than discrete entities, programmers can gain new perspectives on software design and discover novel applications for closures, challenging the conventional view that objects are the primary programming abstraction. The exploration reveals the deep philosophical equivalence between objects and closures, suggesting that neither is inherently superior but rather each provides a different lens for thinking about computation.'
+description: 'The post argues that everything—maps, arrays, and objects—can be fundamentally understood and implemented as functions, demonstrating this through JavaScript examples of pairs and objects built using closures and higher-order functions. By reconceptualizing data structures and objects as functions rather than discrete entities, programmers can gain new perspectives on software design and discover novel applications for closures, challenging the conventional view that objects are the primary programming abstraction. The exploration reveals the deep philosophical equivalence between objects and closures, suggesting that neither is inherently superior but rather each provides a different lens for thinking about computation.'
 ---
 
 > Objects are a poor man’s closures. Closures are a poor man’s objects.

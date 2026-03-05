@@ -3,7 +3,7 @@ slug: 2020-05-19-These-Are-Not-Types
 title: These are not types
 tags: [software]
 concern: [knowledge]
-summary: 'Storage types like int, float, and string operate at the wrong level of abstraction for application-level code and fail to communicate semantic meaning about what data represents. Instead of using primitive types, applications should define domain-specific types that express intent—such as ID<User> rather than int—making code more expressive and safer by preventing type mismatches at the source. This approach acknowledges that real application types should capture not just how data is stored, but what that data actually represents in the business domain.'
+description: 'Storage types like int, float, and string operate at the wrong level of abstraction for application-level code and fail to communicate semantic meaning about what data represents. Instead of using primitive types, applications should define domain-specific types that express intent—such as ID<User> rather than int—making code more expressive and safer by preventing type mismatches at the source. This approach acknowledges that real application types should capture not just how data is stored, but what that data actually represents in the business domain.'
 ---
 
 Is an **int** a type? A **float**? A **double**?

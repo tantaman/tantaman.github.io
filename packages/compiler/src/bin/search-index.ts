@@ -204,7 +204,7 @@ function parseContent(
     body,
     tags: frontmatter.tags || [],
     date,
-    description: frontmatter.summary || frontmatter.description,
+    description: frontmatter.description,
     compiledFilename:
       collection + path.basename(filename, path.extname(filename)) + '.html',
   };

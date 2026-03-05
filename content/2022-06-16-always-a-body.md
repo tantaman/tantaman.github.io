@@ -3,7 +3,7 @@ title: You'll always have a body
 tags: [philosophy]
 concern: [ground]
 form: meditation
-summary: 'Even if consciousness could be uploaded digitally, it would still require a body-like structure because consciousness fundamentally depends on limitations that constrain perspective and processing capacity. A digital mind would still face the basic constraint that it cannot perceive or process everything simultaneously, requiring it to either navigate toward data or have data brought to it, much like a physical body moves through and observes its environment. The body is ultimately an essential feature of any conscious entity—not as flesh and blood specifically, but as a limiting observer positioned within an environment.'
+description: 'Even if consciousness could be uploaded digitally, it would still require a body-like structure because consciousness fundamentally depends on limitations that constrain perspective and processing capacity. A digital mind would still face the basic constraint that it cannot perceive or process everything simultaneously, requiring it to either navigate toward data or have data brought to it, much like a physical body moves through and observes its environment. The body is ultimately an essential feature of any conscious entity—not as flesh and blood specifically, but as a limiting observer positioned within an environment.'
 ---
 
 > Prompted after reading https://www.physics.princeton.edu/ph115/LQ.pdf and https://www.quantamagazine.org/how-to-make-the-universe-think-for-us-20220531/

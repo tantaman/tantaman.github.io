@@ -3,7 +3,7 @@ title: 'Grace and the Cage'
 tags: [philosophy, religion]
 kind: original
 concern: [ground, self]
-summary: "Is transcendence real, or just the cage's most elegant pressure-release valve?"
+description: "Is transcendence real, or just the cage's most elegant pressure-release valve?"
 image: '/img/de-la-tour-magdalen.jpg'
 ---
 

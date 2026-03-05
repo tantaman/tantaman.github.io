@@ -3,7 +3,7 @@ title: 'Why Power Chose Materialism—and What Was Lost'
 tags: [philosophy, politics]
 kind: original
 concern: [power, ground]
-summary: 'Materialism''s rise to dominance was not accidental but a deliberate selection by power structures that benefit from reducing humans to measurable, predictable units legible to state administration, while systematically dismantling rival spiritual authorities that could supersede state loyalty. Thinkers like Bentham and Comte explicitly designed frameworks to replace transcendent meaning-making with scientific and bureaucratic control, capturing religion''s social function while removing its inconvenient claim to truth beyond material incentives. This "disenchantment of the world" represents a profound loss—the collapse of competing sovereignties and the rendering of human experience into data points optimizable by institutional power.'
+description: 'Materialism''s rise to dominance was not accidental but a deliberate selection by power structures that benefit from reducing humans to measurable, predictable units legible to state administration, while systematically dismantling rival spiritual authorities that could supersede state loyalty. Thinkers like Bentham and Comte explicitly designed frameworks to replace transcendent meaning-making with scientific and bureaucratic control, capturing religion''s social function while removing its inconvenient claim to truth beyond material incentives. This "disenchantment of the world" represents a profound loss—the collapse of competing sovereignties and the rendering of human experience into data points optimizable by institutional power.'
 ---
 
 ![](/blog-assets/substack/ac652242-2284-4017-b812-c6a150974386_1024x1536.png)

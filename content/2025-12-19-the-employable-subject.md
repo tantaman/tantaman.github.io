@@ -3,7 +3,7 @@ title: 'The Employable Subject'
 tags: [culture, economics]
 kind: original
 concern: [modernity, power]
-summary: 'Contemporary American education is designed to produce the "employable subject"—a person trained to accept permanent instability, self-exploit under the guise of freedom, and find meaning primarily through market value rather than through substantive human flourishing. The system achieves this through specific mechanisms like Social-Emotional Learning curricula and the framework of "college and career readiness," which extract human development from its traditional contexts and repackage it as a set of measurable competencies that teach adaptability, resilience, and emotional management—not as ends in themselves, but as survival skills for functioning in the fluid, precarious labor market of liquid modernity.'
+description: 'Contemporary American education is designed to produce the "employable subject"—a person trained to accept permanent instability, self-exploit under the guise of freedom, and find meaning primarily through market value rather than through substantive human flourishing. The system achieves this through specific mechanisms like Social-Emotional Learning curricula and the framework of "college and career readiness," which extract human development from its traditional contexts and repackage it as a set of measurable competencies that teach adaptability, resilience, and emotional management—not as ends in themselves, but as survival skills for functioning in the fluid, precarious labor market of liquid modernity.'
 ---
 
 ![](/blog-assets/substack/8b80d5d0-1c7c-4c67-90ac-3ffa3c830fb6_1024x1536.png)

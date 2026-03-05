@@ -6,7 +6,7 @@ css:
   - /blog-assets/volatility-is-not-risk/style.css
 image: /assets/posts/volatility-is-not-risk/cover.svg
 concern: [knowledge]
-summary: 'Volatility and risk are fundamentally different concepts—volatility is merely price fluctuation while risk is the actual chance of losing principal—and confusing them leads investors to avoid profitable investments with upward trends despite short-term swings. The difficulty of timing volatile investments causes many to mistake volatility for risk, but this can be mitigated through long-term holding periods and dollar-cost averaging, which smooth out purchase prices and returns closer to the mean. Proper risk assessment requires deeper analysis beyond historical price movements, particularly for emerging investments where timing decisions should be based on fundamental valuations rather than volatility patterns.'
+description: 'Volatility and risk are fundamentally different concepts—volatility is merely price fluctuation while risk is the actual chance of losing principal—and confusing them leads investors to avoid profitable investments with upward trends despite short-term swings. The difficulty of timing volatile investments causes many to mistake volatility for risk, but this can be mitigated through long-term holding periods and dollar-cost averaging, which smooth out purchase prices and returns closer to the mean. Proper risk assessment requires deeper analysis beyond historical price movements, particularly for emerging investments where timing decisions should be based on fundamental valuations rather than volatility patterns.'
 ---
 
 <style type="text/css">

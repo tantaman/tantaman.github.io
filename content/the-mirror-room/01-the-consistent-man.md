@@ -1,11 +1,10 @@
 ---
 layout: mirrorRoom
 title: The Consistent Man
-description: Part 1 of the Mirror Room Collection. A rational identity.
+description: 'Consistency is not about perfection but about deliberately choosing principles and honoring them daily, even when difficult or costly. Through a gradual process of small commitments—waking at 6 AM, keeping promises, and operating from chosen principles—Daniel transforms from an impulsive person driven by momentary impulses into someone reliable and free, discovering that this integrity of self actually requires less mental energy and proves invaluable during genuine crises. The story argues that becoming a coherent person is possible through sustained discipline and that this consistency, though requiring sacrifice of immediate comforts and social flexibility, ultimately creates both inner peace and trustworthiness that attracts others to seek the same transformation.'
 tags: [fiction, philosophy]
 date: 2025-07-25
 concern: [self]
-summary: 'Consistency is not about perfection but about deliberately choosing principles and honoring them daily, even when difficult or costly. Through a gradual process of small commitments—waking at 6 AM, keeping promises, and operating from chosen principles—Daniel transforms from an impulsive person driven by momentary impulses into someone reliable and free, discovering that this integrity of self actually requires less mental energy and proves invaluable during genuine crises. The story argues that becoming a coherent person is possible through sustained discipline and that this consistency, though requiring sacrifice of immediate comforts and social flexibility, ultimately creates both inner peace and trustworthiness that attracts others to seek the same transformation.'
 ---
 
 ## The Consistent Man

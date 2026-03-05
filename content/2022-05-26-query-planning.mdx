@@ -2,7 +2,7 @@
 title: '📝 Query Planning'
 tags: [software]
 concern: [systems]
-summary: 'Query planning converts the linked list of queries built by a query builder into executable plans by walking the list from end to start, collecting expressions into a plan structure. For simple queries, this produces a single Plan with a source expression and ordered derivations, but queries with edge traversals (hops) generate nested HopPlans that wrap source plans, allowing the system to handle queries that span multiple tables or storage types. The planning process establishes the foundation for query optimization by organizing all expressions in the correct execution order.'
+description: 'Query planning converts the linked list of queries built by a query builder into executable plans by walking the list from end to start, collecting expressions into a plan structure. For simple queries, this produces a single Plan with a source expression and ordered derivations, but queries with edge traversals (hops) generate nested HopPlans that wrap source plans, allowing the system to handle queries that span multiple tables or storage types. The planning process establishes the foundation for query optimization by organizing all expressions in the correct execution order.'
 ---
 
 import Mermaid from '/dist/components/Mermaid.js';

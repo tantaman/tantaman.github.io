@@ -70,8 +70,8 @@ function PostItem({
     >
       <div className="framing-panel-post-title">{post.title}</div>
       {post.date && <div className="framing-panel-post-date">{post.date}</div>}
-      {post.summary && (
-        <div className="framing-panel-post-summary">{truncate(post.summary, 120)}</div>
+      {post.description && (
+        <div className="framing-panel-post-summary">{truncate(post.description, 120)}</div>
       )}
     </div>
   );

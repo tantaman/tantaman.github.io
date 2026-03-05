@@ -3,7 +3,7 @@ slug: 2021-12-23-Deeply-Nested-Updates-React
 title: '☢️ Reacting Better - Deeply Nested Update Problem'
 tags: [software]
 concern: [craft]
-summary: 'React inefficiently handles deeply nested updates by forcing entire component trees to re-render when a single deeply nested property changes, even though only the leaf components actually need updating. The author proposes distinguishing between nominal identity (causal links that persist over time) and physical identity (immutable snapshots) to allow components to subscribe only to the specific data they depend on, enabling selective re-renders without sacrificing unidirectional data flow. This approach, which the author is implementing as a React Hook framework in Aphrodite, would let components decide whether they depend on something nominally (re-rendering only when the identity changes) or physically (re-rendering when any attribute changes).'
+description: 'React inefficiently handles deeply nested updates by forcing entire component trees to re-render when a single deeply nested property changes, even though only the leaf components actually need updating. The author proposes distinguishing between nominal identity (causal links that persist over time) and physical identity (immutable snapshots) to allow components to subscribe only to the specific data they depend on, enabling selective re-renders without sacrificing unidirectional data flow. This approach, which the author is implementing as a React Hook framework in Aphrodite, would let components decide whether they depend on something nominally (re-rendering only when the identity changes) or physically (re-rendering when any attribute changes).'
 ---
 
 import Figure from '/dist/components/Figure.js';

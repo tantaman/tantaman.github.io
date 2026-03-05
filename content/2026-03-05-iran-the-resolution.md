@@ -4,10 +4,9 @@ tags: [politics, religion, history, philosophy]
 concern: [power, modernity]
 kind: original
 form: essay
-summary: 'Everyone is asking how long the war lasts. They are asking the wrong question. The right question is what would it take for this to end — not a ceasefire, not regime change, but resolution. A Girardian reading of the coalitional logic, the scapegoat mechanism, and the civilizational cycle that follows.'
+image: '/img/hunt-scapegoat.jpg'
+description: 'Everyone is asking how long the war lasts. They are asking the wrong question. The right question is what would it take for this to end — not a ceasefire, not regime change, but resolution. A Girardian reading of the coalitional logic, the scapegoat mechanism, and the civilizational cycle that follows.'
 ---
-
-# Iran: The Resolution
 
 > [Written 03-03-2026](https://github.com/tantaman/tantaman.github.io/commit/46a9e51cabf1ae3a94bef92366244f1cde6c5c9e), published 03-05-2026
 

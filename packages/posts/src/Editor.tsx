@@ -278,10 +278,10 @@ function FrontmatterPanel({
         />
       </div>
       <div className="pe-fm-field pe-fm-wide">
-        <label>Summary</label>
+        <label>Description</label>
         <textarea
-          value={frontmatter.summary || ''}
-          onChange={(e) => update('summary', e.target.value || undefined)}
+          value={frontmatter.description || ''}
+          onChange={(e) => update('description', e.target.value || undefined)}
         />
       </div>
       <div className="pe-fm-field">

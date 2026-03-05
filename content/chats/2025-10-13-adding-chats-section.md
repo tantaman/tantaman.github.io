@@ -1,9 +1,8 @@
 ---
 title: "Adding a Chats Section to My Blog"
-description: "A conversation with Claude about setting up a new section to document interesting LLM chats"
+description: 'A new chats section has been added to the blog by creating a dedicated directory and updating the collection configuration to document interesting conversations with LLMs, which can now be added as markdown files following a standard naming convention for automatic sorting and display.'
 tags: ["software", "ai"]
 concern: [craft]
-summary: 'A new chats section has been added to the blog by creating a dedicated directory and updating the collection configuration to document interesting conversations with LLMs, which can now be added as markdown files following a standard naming convention for automatic sorting and display.'
 ---
 
 This is a sample chat post demonstrating the new chats section. This section is designed to document interesting conversations with LLMs.

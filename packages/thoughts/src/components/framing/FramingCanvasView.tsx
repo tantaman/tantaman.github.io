@@ -168,7 +168,7 @@ function exportFraming(
         y: n.position.y,
         title: d.title,
         slug: d.slug,
-        summary: d.summary,
+        description: d.description,
         date: d.date,
         tags: d.tags,
       };

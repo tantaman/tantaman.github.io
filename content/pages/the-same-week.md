@@ -3,7 +3,7 @@ title: 'The Same Week'
 tags: [fiction, religion]
 concern: [self, ground]
 form: story
-summary: 'Two women—who are the same woman—live the same ordinary week. Same husband, same kids, same house, same Tuesday. No crisis, no revelation. The story follows both through mornings, carpools, a lunch with a friend, a quiet hour, an evening, and a night of wakefulness, showing how two different interior orientations create two entirely different textures of lived experience—even when the life is identical.'
+description: 'Two women—who are the same woman—live the same ordinary week. Same husband, same kids, same house, same Tuesday. No crisis, no revelation. The story follows both through mornings, carpools, a lunch with a friend, a quiet hour, an evening, and a night of wakefulness, showing how two different interior orientations create two entirely different textures of lived experience—even when the life is identical.'
 ---
 
 - [What Diff](./what-the-difference-actually-is.html)

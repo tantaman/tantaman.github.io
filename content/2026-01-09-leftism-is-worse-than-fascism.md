@@ -3,7 +3,7 @@ title: 'Leftism Is Worse Than Fascism'
 tags: [politics, culture]
 kind: survey
 concern: [power, modernity]
-summary: 'The post argues that leftism represents a more dangerous and total form of tyranny than fascism based on three criteria: while fascism killed more people directly, leftism is worse because it makes resistance invisible and nearly impossible, colonizes individual thought rather than merely controlling behavior, disguises its domination as compassion and liberation, and eliminates the very category of honest resistance by pathologizing dissent rather than punishing it. The author contends that fascism''s visible, announced evil is ultimately less totalitarian than leftism''s structural dishonesty and psychological control, which turns people into willing participants in their own servitude.'
+description: 'The post argues that leftism represents a more dangerous and total form of tyranny than fascism based on three criteria: while fascism killed more people directly, leftism is worse because it makes resistance invisible and nearly impossible, colonizes individual thought rather than merely controlling behavior, disguises its domination as compassion and liberation, and eliminates the very category of honest resistance by pathologizing dissent rather than punishing it. The author contends that fascism''s visible, announced evil is ultimately less totalitarian than leftism''s structural dishonesty and psychological control, which turns people into willing participants in their own servitude.'
 ---
 
 ![](/blog-assets/substack/0a378a84-137b-449c-8c16-79e9d70f8ba6_1536x1024.png)

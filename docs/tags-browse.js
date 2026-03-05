@@ -574,7 +574,7 @@
           title: p.title,
           url: p.slug.includes(".") ? p.slug : p.slug + ".html",
           date: p.date,
-          description: p.summary || "",
+          description: p.description || "",
           subjects: p.tags || [],
           concerns: p.concern || [],
           form: p.form || "essay",

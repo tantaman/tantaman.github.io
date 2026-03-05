@@ -2,7 +2,7 @@
 title: 'Do LWW Registers Need Vector Clocks or Causal Graphs? 💭'
 tags: [software]
 concern: [systems]
-summary: 'Lamport clocks are sufficient for last-write-wins registers because LWW only needs to determine that one write could not have happened before another, not whether events are strictly ordered or concurrent—information that vector clocks and causal graphs provide but that LWW discards during conflict resolution anyway. Vector clocks and causal graphs become necessary for multi-value registers that need to distinguish between concurrent and strictly ordered edits, and for systems with many LWW registers where maintaining causal history can help preserve transactional guarantees during merges.'
+description: 'Lamport clocks are sufficient for last-write-wins registers because LWW only needs to determine that one write could not have happened before another, not whether events are strictly ordered or concurrent—information that vector clocks and causal graphs provide but that LWW discards during conflict resolution anyway. Vector clocks and causal graphs become necessary for multi-value registers that need to distinguish between concurrent and strictly ordered edits, and for systems with many LWW registers where maintaining causal history can help preserve transactional guarantees during merges.'
 ---
 
 Short answer: No. When it comes to a LWW register, [Lamport clock](./2022-10-18-lamport-clock)s offer all the guarantees we need. Guarantees provided by other clock types are discarded during the merge phase of LWW.

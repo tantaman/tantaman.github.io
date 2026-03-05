@@ -27,7 +27,7 @@
     "search-index": "cd packages/compiler && pnpm build && cd ../.. && search-index",
     "chat-embeddings": "node scripts/generate-embeddings.mjs",
     "upload-embeddings": "node scripts/generate-embeddings.mjs && wrangler kv key put --namespace-id=c616f080e03e4c1292ff8004b93cbd0b embeddings:all --path=.chat-embeddings.json --remote",
-    "summaries": "node scripts/generate-summaries.mjs",
+    "descriptions": "node scripts/generate-descriptions.mjs",
     "theses": "node scripts/generate-theses.mjs",
     "thought-projection": "node scripts/compute-thought-projection.mjs",
     "tts": "pip install -r requirements.txt -q && PYTORCH_ENABLE_MPS_FALLBACK=1 python3 scripts/generate-tts.py",

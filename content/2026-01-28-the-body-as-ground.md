@@ -4,7 +4,7 @@ tags: [religion, culture]
 kind: original
 concern: [ground, self]
 form: meditation
-summary: 'The modern body is actively colonized by industrial conditions—engineered food, exhausting work, artificial light, and engineered stimuli—requiring not wellness optimization but disciplined resistance and restoration as preparation for spiritual practice. Traditional spiritual systems never separated the body from the spirit, understanding that a disordered physical substrate cannot support genuine contemplative or devoted life. Three foundational disciplines—sleep, real food, and regular movement—must be pursued communally rather than individually, as collective practice creates both the accountability and the bonds necessary to resist the pervasive systems designed to disrupt human flourishing.'
+description: 'The modern body is actively colonized by industrial conditions—engineered food, exhausting work, artificial light, and engineered stimuli—requiring not wellness optimization but disciplined resistance and restoration as preparation for spiritual practice. Traditional spiritual systems never separated the body from the spirit, understanding that a disordered physical substrate cannot support genuine contemplative or devoted life. Three foundational disciplines—sleep, real food, and regular movement—must be pursued communally rather than individually, as collective practice creates both the accountability and the bonds necessary to resist the pervasive systems designed to disrupt human flourishing.'
 ---
 
 ![](/blog-assets/substack/0799a9d3-2d15-4e24-b8ea-f9bf3e51d2df_1200x902.webp)

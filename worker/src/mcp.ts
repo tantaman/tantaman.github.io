@@ -20,7 +20,7 @@ let cachedChunks: Chunk[] | null = null;
 interface ManifestEntry {
   slug: string;
   title: string;
-  summary: string;
+  description: string;
   date: string;
   tags: string[];
   concern: string[];
@@ -51,7 +51,7 @@ async function loadManifest(): Promise<Post[]> {
     title: p.title,
     url: p.slug.includes(".") ? p.slug : p.slug + ".html",
     date: p.date,
-    description: p.summary || "",
+    description: p.description || "",
     subjects: p.tags || [],
     concerns: p.concern || [],
     form: p.form || "essay",
@@ -265,7 +265,7 @@ export function createMcpServer(env: Env) {
         lines.push(`- **${p.title}** (${p.date})`);
         lines.push(`  URL: ${url}`);
         lines.push(`  Source: ${rawUrl}`);
-        if (p.summary) lines.push(`  Summary: ${p.summary}`);
+        if (p.description) lines.push(`  Description: ${p.description}`);
       }
 
       return {

@@ -5,7 +5,7 @@ concern: [ground, power, knowledge]
 form: essay
 kind: original
 image: '/img/rembrandt-jeremiah-lamenting.jpg'
-summary: 'The Bible is not a theology but an accumulated testimony — centuries of communities recording how power captures every liberation, every reform, every movement. What makes the record remarkable is not divine revelation but editorial honesty: the critique was never erased, the failures were preserved alongside the victories, and the pattern kept appearing without anyone coordinating it.'
+description: 'The Bible is not a theology but an accumulated testimony — centuries of communities recording how power captures every liberation, every reform, every movement. What makes the record remarkable is not divine revelation but editorial honesty: the critique was never erased, the failures were preserved alongside the victories, and the pattern kept appearing without anyone coordinating it.'
 ---
 
 ![Rembrandt — Jeremiah Lamenting the Destruction of Jerusalem, 1630](/img/rembrandt-jeremiah-lamenting.jpg)

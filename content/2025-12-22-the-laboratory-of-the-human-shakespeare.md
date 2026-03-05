@@ -3,7 +3,7 @@ title: 'The Laboratory of the Human: Shakespeare as Knowledge'
 tags: [culture, philosophy]
 kind: survey
 concern: [knowledge]
-summary: 'Shakespeare''s plays function as a laboratory for studying human behavior in domains where controlled experiments are impossible, such as persuasion, manipulation, power dynamics, and moral psychology. The post argues that literature, particularly Shakespeare''s works, offers rigorous empirical knowledge about how humans actually behave—knowledge demonstrated through dramatic enactment rather than propositional statements—making him a scientist of the human whose plays reveal the mechanics of rhetoric, jealousy, ambition, and other fundamental aspects of human nature.'
+description: 'Shakespeare''s plays function as a laboratory for studying human behavior in domains where controlled experiments are impossible, such as persuasion, manipulation, power dynamics, and moral psychology. The post argues that literature, particularly Shakespeare''s works, offers rigorous empirical knowledge about how humans actually behave—knowledge demonstrated through dramatic enactment rather than propositional statements—making him a scientist of the human whose plays reveal the mechanics of rhetoric, jealousy, ambition, and other fundamental aspects of human nature.'
 ---
 
 ![15 top Shakespeare facts! | National Geographic Kids](/blog-assets/substack/3ec1ae72-adaf-44ab-91e4-40fcccbb0154_635x404.jpeg)

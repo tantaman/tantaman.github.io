@@ -173,7 +173,7 @@ function renderCard(collection, meta, resolvedImage) {
       </div>
       ${renderPills({ subjects: meta.frontmatter?.tags || [], concerns: meta.frontmatter?.concern || [], form: inferForm(collection, meta), kind: meta.frontmatter?.kind })}
       <p>
-          ${truncate(stripTags(meta.frontmatter?.summary || meta.frontmatter?.description || meta.description || ''), 500)}
+          ${truncate(stripTags(meta.frontmatter?.description || meta.description || ''), 500)}
       </p>
     </a>`;
 }

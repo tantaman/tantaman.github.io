@@ -464,7 +464,7 @@ nav.toc {
 }
 
 blockquote {
-  margin: 10px auto;
+  margin: 10px 0;
   /* font-family: 'DM Sans', sans-serif; */
   color: var(--text-muted);
   padding: 0.75em;

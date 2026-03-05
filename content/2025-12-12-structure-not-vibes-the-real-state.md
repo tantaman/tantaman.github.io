@@ -3,7 +3,7 @@ title: 'Structure, Not Vibes: The Real State of the World'
 tags: [politics, economics]
 kind: original
 concern: [power]
-summary: 'The world''s geopolitical and economic outcomes are determined by hard structural forces—geography, energy, trade, and military alliances—rather than ideological "vibes," and by this measure the United States is structurally stronger than ever, having degraded rivals, strengthened alliances, and successfully decoupled from China through tariffs and industrial policy while maintaining macroeconomic dominance. The real vulnerability facing America isn''t external military or economic collapse but internal narrative breakdown, as a population fed algorithmic outrage loses faith in institutions that are actually functioning effectively.'
+description: 'The world''s geopolitical and economic outcomes are determined by hard structural forces—geography, energy, trade, and military alliances—rather than ideological "vibes," and by this measure the United States is structurally stronger than ever, having degraded rivals, strengthened alliances, and successfully decoupled from China through tariffs and industrial policy while maintaining macroeconomic dominance. The real vulnerability facing America isn''t external military or economic collapse but internal narrative breakdown, as a population fed algorithmic outrage loses faith in institutions that are actually functioning effectively.'
 ---
 
 If you scroll through X (formerly Twitter) or watch cable news, the world looks like a chaotic clash of ideologies: Woke vs. Anti-Woke, Globalist vs. Nationalist, Liberal vs. Traditional.

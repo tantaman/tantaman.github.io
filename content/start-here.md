@@ -1,9 +1,8 @@
 ---
 title: 'Start Here'
 tags: [philosophy, software]
-description: A curated path through a decade of writing on philosophy, religion, power, software, and fiction.
+description: 'New here? This blog began in software engineering, then expanded into philosophy, religion, politics, and fiction. This guide organizes the writing into thematic paths. Pick what interests you, or follow the arc from diagnosis to ground.'
 concern: [self, craft]
-summary: 'New here? This blog began in software engineering, then expanded into philosophy, religion, politics, and fiction. This guide organizes the writing into thematic paths. Pick what interests you, or follow the arc from diagnosis to ground.'
 ---
 
 New here? This blog began in software engineering, then expanded into philosophy, religion, politics, and fiction. This guide organizes the writing into thematic paths. Pick what interests you, or follow the arc from diagnosis to ground.

@@ -83,7 +83,7 @@ async function tagsPage() {
       const title = fm.title || key;
       const url = postMeta.compiledFilename;
       const description =
-        fm.summary || fm.description || postMeta.description || '';
+        fm.description || postMeta.description || '';
       const date = fm.date
         ? String(fm.date).substring(0, 10)
         : extractDate(postMeta.compiledFilename);

@@ -1,11 +1,10 @@
 ---
 layout: mirrorRoom
 title: The Reader's Crisis
-description: Part 5 of the Mirror Room Collection. A 21st century leftish critique.
+description: 'A reader confronts how her progressive political ideology has inadvertently become a framework for avoiding personal responsibility and agency by attributing all constraints to systemic forces beyond individual control. Through rereading philosophical stories about choice and self-creation, she recognizes that acknowledging structural oppression doesn''t require abandoning the recognition that individuals still make meaningful choices within those constraints, and that personal transformation and systemic change are complementary rather than contradictory.'
 tags: [fiction, philosophy]
 date: 2025-07-25
 concern: [self, modernity]
-summary: 'A reader confronts how her progressive political ideology has inadvertently become a framework for avoiding personal responsibility and agency by attributing all constraints to systemic forces beyond individual control. Through rereading philosophical stories about choice and self-creation, she recognizes that acknowledging structural oppression doesn''t require abandoning the recognition that individuals still make meaningful choices within those constraints, and that personal transformation and systemic change are complementary rather than contradictory.'
 ---
 
 ## The Reader's Crisis

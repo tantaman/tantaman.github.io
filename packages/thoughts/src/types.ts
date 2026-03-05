@@ -152,7 +152,7 @@ export interface FramingDetail {
 export interface PostSummary {
   slug: string;
   title: string;
-  summary: string;
+  description: string;
   date: string;
   tags: string[];
   collection: string;

@@ -3,7 +3,7 @@ slug: 2013-06-28-services-and-coupling
 title: Services and Coupling
 tags: [software]
 concern: [craft]
-summary: 'Direct instantiation of implementations creates tight coupling between classes, and while dependency injection improves this by passing dependencies as parameters, it still leaves components with hard dependencies on concrete implementations. A service-oriented approach solves this by having the provider of an implementation be responsible for instantiating it, with all lookups happening through a registry that matches interface names and metadata rather than concrete types, allowing components to depend only on capability descriptions instead of specific implementations. Languages like Java have OSGi and JavaScript has AngularJS to implement service-oriented architectures, enabling truly decoupled and reusable components.'
+description: 'Direct instantiation of implementations creates tight coupling between classes, and while dependency injection improves this by passing dependencies as parameters, it still leaves components with hard dependencies on concrete implementations. A service-oriented approach solves this by having the provider of an implementation be responsible for instantiating it, with all lookups happening through a registry that matches interface names and metadata rather than concrete types, allowing components to depend only on capability descriptions instead of specific implementations. Languages like Java have OSGi and JavaScript has AngularJS to implement service-oriented architectures, enabling truly decoupled and reusable components.'
 ---
 
 Lines of code like:

@@ -2,7 +2,7 @@
 title: 'Meta / Facebook - How a graph model can scale your relational DBs'
 tags: [software]
 concern: [systems]
-summary: 'Despite using MySQL, Meta scales to billions of users by constraining data access to a graph model rather than allowing the full flexibility of relational queries—requiring all queries to start from a primary key and restricting joins to foreign key traversals. These constraints solve the scaling problem of partitioned databases by eliminating the need for complex routing logic and fan-out queries across multiple machines, while naturally limiting query scope since nodes have far fewer edges than entire tables. The graph model aligns well with how applications typically access data anyway, starting from known entry points like a logged-in user and traversing relationships a few hops away.'
+description: 'Despite using MySQL, Meta scales to billions of users by constraining data access to a graph model rather than allowing the full flexibility of relational queries—requiring all queries to start from a primary key and restricting joins to foreign key traversals. These constraints solve the scaling problem of partitioned databases by eliminating the need for complex routing logic and fan-out queries across multiple machines, while naturally limiting query scope since nodes have far fewer edges than entire tables. The graph model aligns well with how applications typically access data anyway, starting from known entry points like a logged-in user and traversing relationships a few hops away.'
 ---
 
 Did you know that still, to this day, the majority of [Meta's](https://www.facebook.com/) data needs are serviced by MySQL?

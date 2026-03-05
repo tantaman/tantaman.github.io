@@ -3,7 +3,7 @@ slug: 2018-10-23-typed-literals-are-constants
 title: Typed Literals ARE Constants!
 tags: [software]
 concern: [knowledge]
-summary: 'Typed string literals in TypeScript are functionally equivalent to named constants because the type system provides the same compile-time checking and refactoring benefits as explicit constant objects. When a function parameter is typed with a union of string literals, using the literal directly (e.g., `''FIXED''`) versus referencing it through a constant (e.g., `Layouts.FIXED`) offers no practical advantage, since both approaches will produce the same compiler errors if the type definition changes, making the extra constant definition unnecessary.'
+description: 'Typed string literals in TypeScript are functionally equivalent to named constants because the type system provides the same compile-time checking and refactoring benefits as explicit constant objects. When a function parameter is typed with a union of string literals, using the literal directly (e.g., `''FIXED''`) versus referencing it through a constant (e.g., `Layouts.FIXED`) offers no practical advantage, since both approaches will produce the same compiler errors if the type definition changes, making the extra constant definition unnecessary.'
 ---
 
 ```

@@ -3,7 +3,7 @@ slug: 2022-01-17-why-fetching-earliy-is-difficult-to-express
 title: '🌅 Expressing Early Fetches - React'
 tags: [software]
 concern: [craft]
-summary: 'Early data fetching in React is difficult to express correctly across multiple entry points because of anemic domain models and business logic scattered in display components; the render-as-you-fetch pattern is more natural than fetch-before-render since it ensures fetches aren''t missed, whereas fetch-before-render risks omitting fetch kickoffs when different events (clicks, taps, navigation) lead to the same view and require the same data, creating a challenge of how to guarantee all entry points trigger the same required fetches without duplicating fetch logic.'
+description: 'Early data fetching in React is difficult to express correctly across multiple entry points because of anemic domain models and business logic scattered in display components; the render-as-you-fetch pattern is more natural than fetch-before-render since it ensures fetches aren''t missed, whereas fetch-before-render risks omitting fetch kickoffs when different events (clicks, taps, navigation) lead to the same view and require the same data, creating a challenge of how to guarantee all entry points trigger the same required fetches without duplicating fetch logic.'
 ---
 
 draft post--

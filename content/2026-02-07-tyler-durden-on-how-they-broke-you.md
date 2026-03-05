@@ -3,7 +3,7 @@ title: 'Tyler Durden: How They Broke You'
 tags: [culture, philosophy]
 kind: original
 concern: [modernity, ground]
-summary: 'The post argues that modern Western society has systematically dismantled traditional meaning-making structures—God, stable identity, gender, family, and shared truth—without replacing them with anything constructive, leaving people psychologically fractured and dependent on therapeutic and pharmaceutical industries that profit from their brokenness. Postmodern intellectuals and their academic descendants dissolved foundational concepts under the guise of liberation, producing generations incapable of building anything while diagnosing the resulting dysfunction as individual pathology. Tech companies then weaponized this fragmentation through algorithms that deliberately amplify anxiety and despair to maximize engagement and profit.'
+description: 'The post argues that modern Western society has systematically dismantled traditional meaning-making structures—God, stable identity, gender, family, and shared truth—without replacing them with anything constructive, leaving people psychologically fractured and dependent on therapeutic and pharmaceutical industries that profit from their brokenness. Postmodern intellectuals and their academic descendants dissolved foundational concepts under the guise of liberation, producing generations incapable of building anything while diagnosing the resulting dysfunction as individual pathology. Tech companies then weaponized this fragmentation through algorithms that deliberately amplify anxiety and despair to maximize engagement and profit.'
 ---
 
 ![](/blog-assets/substack/06c0311f-fa6a-4054-a31f-7d5de23423e9_519x650.jpeg)

@@ -3,7 +3,7 @@ title: "The Genealogy of the Empty Cradle"
 tags: [philosophy, economics, culture]
 kind: original
 concern: [modernity, ground, self]
-summary: 'The fertility crisis has a genealogy. Three historical inversions — in education, economics, and psychology — each trace a specific path from participatory traditions to instrumental ones. Bildung became credentialism; oikonomia became chrematistike; "know thyself" became "optimize your dopamine." The empty cradle is the demographic output of metaphysical choices made centuries ago.'
+description: 'The fertility crisis has a genealogy. Three historical inversions — in education, economics, and psychology — each trace a specific path from participatory traditions to instrumental ones. Bildung became credentialism; oikonomia became chrematistike; "know thyself" became "optimize your dopamine." The empty cradle is the demographic output of metaphysical choices made centuries ago.'
 ---
 
 The [[2026-03-02-fertility-is-not-economics:fertility essay]] argued that the active ingredient in fertility decline is not economics but *formation* — the communal structures that build a self capable of receiving a child as something other than a cost to be optimized. This essay traces the genealogy of formation's dissolution. It follows three historical descents — in [education](/pages/metaphysical-choices.html#education), [economics](/pages/metaphysical-choices.html#economics), and [psychology](/pages/metaphysical-choices.html#psychology) — mapped in the [Sankey diagrams](/pages/metaphysical-choices.html#gravity) that track how participatory traditions invert into instrumental ones.

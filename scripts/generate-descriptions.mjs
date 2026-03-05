@@ -59,7 +59,7 @@ function parseFrontmatter(content) {
   const raw = match[1];
   const endIndex = match[0].length;
 
-  // Simple YAML key extraction - check for summary field
+  // Simple YAML key extraction - check for description field
   const lines = raw.split('\n');
   const fields = {};
   for (const line of lines) {
@@ -77,15 +77,15 @@ function parseFrontmatter(content) {
   };
 }
 
-function hasSummary(fm) {
-  return fm.fields.summary !== undefined;
+function hasDescription(fm) {
+  return fm.fields.description !== undefined;
 }
 
 function isDraft(fm) {
   return fm.fields.draft === 'true' || fm.fields.draft === true;
 }
 
-async function generateSummary(title, body) {
+async function generateDescription(title, body) {
   const truncatedBody = body.slice(0, 8000);
 
   const response = await client.messages.create({
@@ -94,7 +94,7 @@ async function generateSummary(title, body) {
     messages: [
       {
         role: 'user',
-        content: `Write a 2-3 sentence summary of this blog post. Be concise and informative. Focus on what the post argues or explores. Do not start with "This post" or "The author". Just state the ideas directly. Return ONLY the plain text summary — no markdown, no headers, no bullet points, no formatting. Everything on a single line.
+        content: `Write a 2-3 sentence description of this blog post. Be concise and informative. Focus on what the post argues or explores. Do not start with "This post" or "The author". Just state the ideas directly. Return ONLY the plain text description — no markdown, no headers, no bullet points, no formatting. Everything on a single line.
 
 Title: ${title}
 
@@ -111,13 +111,13 @@ ${truncatedBody}`,
     .trim();
 }
 
-function insertSummary(content, fm, summary) {
-  // Escape single quotes in summary for YAML
-  const escaped = summary.replace(/'/g, "''");
-  const summaryLine = `summary: '${escaped}'`;
+function insertDescription(content, fm, description) {
+  // Escape single quotes in description for YAML
+  const escaped = description.replace(/'/g, "''");
+  const descriptionLine = `description: '${escaped}'`;
 
-  // Insert summary as the last field before the closing ---
-  const newFrontmatter = `---\n${fm.raw}\n${summaryLine}\n---\n`;
+  // Insert description as the last field before the closing ---
+  const newFrontmatter = `---\n${fm.raw}\n${descriptionLine}\n---\n`;
   return newFrontmatter + fm.body;
 }
 
@@ -144,8 +144,8 @@ async function main() {
       continue;
     }
 
-    if (hasSummary(fm) && !force) {
-      console.log(`  SKIP (has summary): ${file.collection}${file.filename}`);
+    if (hasDescription(fm) && !force) {
+      console.log(`  SKIP (has description): ${file.collection}${file.filename}`);
       skipped++;
       continue;
     }
@@ -155,18 +155,18 @@ async function main() {
       : file.filename;
 
     if (dryRun) {
-      console.log(`  WOULD SUMMARIZE: ${file.collection}${file.filename} - "${title}"`);
+      console.log(`  WOULD GENERATE: ${file.collection}${file.filename} - "${title}"`);
       processed++;
       continue;
     }
 
-    console.log(`  Summarizing: ${file.collection}${file.filename} - "${title}"`);
+    console.log(`  Generating: ${file.collection}${file.filename} - "${title}"`);
 
     try {
-      const summary = await generateSummary(title, fm.body);
-      const updated = insertSummary(content, fm, summary);
+      const description = await generateDescription(title, fm.body);
+      const updated = insertDescription(content, fm, description);
       await writeFile(file.path, updated, 'utf-8');
-      console.log(`    ✓ ${summary.slice(0, 80)}...`);
+      console.log(`    ✓ ${description.slice(0, 80)}...`);
       processed++;
 
       // Small delay to respect rate limits

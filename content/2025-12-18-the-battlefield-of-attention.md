@@ -3,7 +3,7 @@ title: 'The Battlefield of Attention'
 tags: [religion, culture]
 kind: survey
 concern: [ground, self]
-summary: 'Empires demand absolute loyalty and worship through both political and economic systems, reshaping those who participate in them—a principle the Hebrew prophets understood when they warned that people become like what they worship. Revelation''s depiction of Rome''s imperial cult and the mark of the beast wasn''t prophecy but a diagnosis of first-century reality, where Christians faced execution for refusing to offer incense to the emperor''s image and thus rejecting the system''s claim on their ultimate devotion. The ancient text reveals a timeless truth: humans inevitably worship something, and the question is not whether we will serve, but what—and what that service does to our souls.'
+description: 'Empires demand absolute loyalty and worship through both political and economic systems, reshaping those who participate in them—a principle the Hebrew prophets understood when they warned that people become like what they worship. Revelation''s depiction of Rome''s imperial cult and the mark of the beast wasn''t prophecy but a diagnosis of first-century reality, where Christians faced execution for refusing to offer incense to the emperor''s image and thus rejecting the system''s claim on their ultimate devotion. The ancient text reveals a timeless truth: humans inevitably worship something, and the question is not whether we will serve, but what—and what that service does to our souls.'
 ---
 
 ![](/blog-assets/substack/b93f6479-af82-42e1-897b-d0d266cea068_1024x1536.png)

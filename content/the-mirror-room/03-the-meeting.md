@@ -1,11 +1,10 @@
 ---
 layout: mirrorRoom
 title: The Meeting
-description: Part 3 of the Mirror Room Collection. The Identities Meet.
+description: 'Two strangers meet by chance and discover they share a profound existential crisis: one has mastered self-discipline but lost sight of what to be disciplined toward, while the other has seen through false identities but can''t decide who to become when everything seems possible. An older woman interrupts their conversation to challenge them both, arguing that they''ve acquired powerful tools—consistency and psychological freedom—but are using philosophical uncertainty as an excuse for paralysis rather than taking action.'
 tags: [fiction, philosophy]
 date: 2025-07-20
 concern: [self]
-summary: 'Two strangers meet by chance and discover they share a profound existential crisis: one has mastered self-discipline but lost sight of what to be disciplined toward, while the other has seen through false identities but can''t decide who to become when everything seems possible. An older woman interrupts their conversation to challenge them both, arguing that they''ve acquired powerful tools—consistency and psychological freedom—but are using philosophical uncertainty as an excuse for paralysis rather than taking action.'
 ---
 
 ## The Meeting

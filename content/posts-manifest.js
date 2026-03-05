@@ -26,7 +26,7 @@ export default async function postsManifest() {
             posts.push({
               slug,
               title: fm.title || slug,
-              summary: fm.summary || fm.description || meta.description || '',
+              description: fm.description || meta.description || '',
               date,
               tags: fm.tags || [],
               concern: fm.concern || [],

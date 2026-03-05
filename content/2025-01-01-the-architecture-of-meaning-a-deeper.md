@@ -2,7 +2,7 @@
 title: 'The Architecture Of Meaning A Deeper'
 tags: [philosophy, religion]
 concern: [self, ground]
-summary: 'Materialism fails to account for meaning, ethics, and human longing, leaving contemporary life structured by despair that takes three forms: unconscious absorption in external pursuits, the wish to escape selfhood, and exhausting self-optimization through one''s own power alone. Drawing on Kierkegaard, Pascal, and Weil, the essay argues that this despair operates through systematic mechanisms of distraction and a gravitational pull toward self-expansion that prevents genuine confrontation with one''s condition, with only grace or spiritual transformation offering a path beyond these patterns.'
+description: 'Materialism fails to account for meaning, ethics, and human longing, leaving contemporary life structured by despair that takes three forms: unconscious absorption in external pursuits, the wish to escape selfhood, and exhausting self-optimization through one''s own power alone. Drawing on Kierkegaard, Pascal, and Weil, the essay argues that this despair operates through systematic mechanisms of distraction and a gravitational pull toward self-expansion that prevents genuine confrontation with one''s condition, with only grace or spiritual transformation offering a path beyond these patterns.'
 ---
 
 ## For Those Who Have Seen

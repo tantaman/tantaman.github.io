@@ -3,7 +3,7 @@ title: 'The Invention of the Confessing Animal'
 tags: [religion, philosophy, politics]
 kind: survey
 concern: [self, power]
-summary: 'The post argues that confession became a dominant form of self-knowledge not because it reveals truth most effectively, but because it serves power—specifically, pastoral power that requires making subjects legible and governable. Foucault''s genealogical method shows how confession emerged as a Christian technology that produced knowledge about individuals'' inner lives while simultaneously subjecting them to institutional control. The author demonstrates that this confessional model, which spread from monasteries into modern psychology and everyday practice, exemplifies how power and knowledge are inseparable, with the confession functioning as a mechanism through which individuals become knowable and thus manageable by institutions.'
+description: 'The post argues that confession became a dominant form of self-knowledge not because it reveals truth most effectively, but because it serves power—specifically, pastoral power that requires making subjects legible and governable. Foucault''s genealogical method shows how confession emerged as a Christian technology that produced knowledge about individuals'' inner lives while simultaneously subjecting them to institutional control. The author demonstrates that this confessional model, which spread from monasteries into modern psychology and everyday practice, exemplifies how power and knowledge are inseparable, with the confession functioning as a mechanism through which individuals become knowable and thus manageable by institutions.'
 ---
 
 ![](/blog-assets/substack/2327ceb5-c4ef-4776-9440-0e08b16cd086_1988x2552.jpeg)

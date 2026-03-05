@@ -3,7 +3,7 @@ title: 'The Secret Every Political Philosophy Shares'
 tags: [politics, philosophy]
 kind: original
 concern: [power, knowledge]
-summary: 'Every political philosophy, from liberalism to anarchism to progressivism, is fundamentally a containment theory disguised as liberation—a blueprint for managing human nature''s inherent drive to dominate rather than truly transforming it. Political systems can only constrain behavior through various mechanisms (laws, shame, hierarchy, or social pressure), but they cannot change what humans fundamentally are, so the danger persists across all ideological configurations. The only genuine transformation requires something beyond politics entirely—grace, enlightenment, or spiritual rebirth that comes from outside the human will and cannot be legislated, mandated, or achieved through policy.'
+description: 'Every political philosophy, from liberalism to anarchism to progressivism, is fundamentally a containment theory disguised as liberation—a blueprint for managing human nature''s inherent drive to dominate rather than truly transforming it. Political systems can only constrain behavior through various mechanisms (laws, shame, hierarchy, or social pressure), but they cannot change what humans fundamentally are, so the danger persists across all ideological configurations. The only genuine transformation requires something beyond politics entirely—grace, enlightenment, or spiritual rebirth that comes from outside the human will and cannot be legislated, mandated, or achieved through policy.'
 ---
 
 ![](/blog-assets/substack/836d8b4a-779c-4031-8c1c-18fc00e9d020_1092x830.jpeg)

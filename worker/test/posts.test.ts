@@ -81,7 +81,7 @@ describe("create", () => {
   });
 
   test("all fields", async () => {
-    const fm = { tags: ["software"], summary: "A test post", wide: true };
+    const fm = { tags: ["software"], description: "A test post", wide: true };
     const res = await json("/api/posts", {
       title: "Full Post",
       slug: "full-post",
@@ -221,7 +221,7 @@ describe("update", () => {
     const created = await json("/api/posts", {
       title: "FM Test",
       slug: "fm-replace",
-      frontmatter: { tags: ["a", "b"], summary: "old" },
+      frontmatter: { tags: ["a", "b"], description: "old" },
     });
     const post = (await created.json()) as any;
 
@@ -232,7 +232,7 @@ describe("update", () => {
     });
     const body = (await res.json()) as any;
     expect(body.frontmatter).toEqual({ tags: ["c"] });
-    expect(body.frontmatter.summary).toBeUndefined();
+    expect(body.frontmatter.description).toBeUndefined();
   });
 
   test("slug conflict returns 409", async () => {
@@ -304,7 +304,6 @@ describe("frontmatter validation", () => {
       frontmatter: {
         tags: ["software"],
         description: "desc",
-        summary: "sum",
         layout: "default",
         related: ["other.md"],
         wide: true,

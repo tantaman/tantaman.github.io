@@ -3,7 +3,7 @@ title: 'What Would Marx Say Today?'
 tags: [economics, politics]
 kind: survey
 concern: [power]
-summary: 'The post argues that a new ruling class—the professional-managerial credentialed class—has emerged and superseded the bourgeoisie by controlling access to economic participation through credentials rather than owning capital. The credential functions as a monopolistic barrier maintained by the credentialed themselves, who present their class interests as objective expertise and neutral knowledge while being insulated from market discipline through employment in the state, nonprofits, universities, and corporate bureaucracies. This class perpetuates itself by pathologizing resistance to its authority and continuously expanding the domains of life that require credentialed expert intervention.'
+description: 'The post argues that a new ruling class—the professional-managerial credentialed class—has emerged and superseded the bourgeoisie by controlling access to economic participation through credentials rather than owning capital. The credential functions as a monopolistic barrier maintained by the credentialed themselves, who present their class interests as objective expertise and neutral knowledge while being insulated from market discipline through employment in the state, nonprofits, universities, and corporate bureaucracies. This class perpetuates itself by pathologizing resistance to its authority and continuously expanding the domains of life that require credentialed expert intervention.'
 ---
 
 ![](/blog-assets/substack/b7a8bdad-7a1a-4c93-acf6-d7f6e10e46f0_2000x1603.webp)

@@ -3,7 +3,7 @@ title: 'The Ratchet: Capital, Complexity, and the Gravity of Power'
 tags: [history, politics]
 kind: original
 concern: [power]
-summary: "Power and capital follow natural law"
+description: "Power and capital follow natural law"
 image: '/img/piranesi-gothic-arch.jpg'
 ---
 

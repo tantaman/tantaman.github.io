@@ -3,7 +3,7 @@ slug: 2022-04-25-foundational-myths
 title: '🧟‍♂️ Memes & Themes - 1619 Project'
 tags: [politics, philosophy]
 concern: [power]
-summary: 'Foundational myths shape societies'' values and worldviews, as illustrated by how Russia and Ukraine adopted different poetic traditions leading to divergent ideologies, and the 1619 Project attempts to reshape America''s foundational narrative to recognize marginalized groups'' contributions. Rather than attempting a risky cultural rewrite that introduces new flaws, the author argues America should iteratively apply its existing principle of individual rights more fearlessly and consistently to all people, which already encompasses the respect and valuation of diverse groups the 1619 Project seeks to achieve.'
+description: 'Foundational myths shape societies'' values and worldviews, as illustrated by how Russia and Ukraine adopted different poetic traditions leading to divergent ideologies, and the 1619 Project attempts to reshape America''s foundational narrative to recognize marginalized groups'' contributions. Rather than attempting a risky cultural rewrite that introduces new flaws, the author argues America should iteratively apply its existing principle of individual rights more fearlessly and consistently to all people, which already encompasses the respect and valuation of diverse groups the 1619 Project seeks to achieve.'
 ---
 Coincidentally I came across all of these three things below around the same time
 

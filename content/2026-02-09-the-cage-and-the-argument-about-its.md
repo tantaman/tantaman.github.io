@@ -3,7 +3,7 @@ title: 'The Cage and the Argument About Its Curtains'
 tags: [economics, politics, culture]
 kind: original
 concern: [power, modernity]
-summary: 'The culture war operates within an invisible cage of market totality—where all human life has been absorbed into market logic—while both left and right argue about surface-level differences without questioning the system itself. The cultural left fights for inclusive access to markets rather than escape from market logic, while the right nostalgically defends traditional values that markets themselves have destroyed, making both sides'' arguments structurally unable to address the underlying problem. The real stakes of politics remain hidden because the entire debate is confined within a framework where market logic is the only available language.'
+description: 'The culture war operates within an invisible cage of market totality—where all human life has been absorbed into market logic—while both left and right argue about surface-level differences without questioning the system itself. The cultural left fights for inclusive access to markets rather than escape from market logic, while the right nostalgically defends traditional values that markets themselves have destroyed, making both sides'' arguments structurally unable to address the underlying problem. The real stakes of politics remain hidden because the entire debate is confined within a framework where market logic is the only available language.'
 ---
 
 ![](/blog-assets/substack/514b2df3-f758-4223-99f6-823060bf4690_2560x1849.jpeg)

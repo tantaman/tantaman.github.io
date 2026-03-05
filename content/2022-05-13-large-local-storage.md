@@ -2,7 +2,7 @@
 title: '📀 Large Local Storage'
 tags: [software]
 concern: [systems]
-summary: 'In 2013, the author created Large Local Storage, a library that provided a unified interface for storing large data blobs across all browsers by abstracting over incompatible storage APIs like FileSystemAPI, WebSQL, IndexedDB, and LocalStorage. The library used a pipeline architecture with pluggable layers for caching, logging, S3 uploads, and other features, though it''s now obsolete due to improved browser support for IndexedDB and the FilesystemAPI. The post reflects on the project as a historical record of the author''s interests and architectural patterns, noting what design decisions they would approach differently today.'
+description: 'In 2013, the author created Large Local Storage, a library that provided a unified interface for storing large data blobs across all browsers by abstracting over incompatible storage APIs like FileSystemAPI, WebSQL, IndexedDB, and LocalStorage. The library used a pipeline architecture with pluggable layers for caching, logging, S3 uploads, and other features, though it''s now obsolete due to improved browser support for IndexedDB and the FilesystemAPI. The post reflects on the project as a historical record of the author''s interests and architectural patterns, noting what design decisions they would approach differently today.'
 ---
 
 Way way back in 2013 there wasn't a common way to save large blobs in all browser. Back then, all of these were true:

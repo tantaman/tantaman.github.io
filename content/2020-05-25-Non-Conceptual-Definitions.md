@@ -3,7 +3,7 @@ slug: 2020-05-25-Non-Conceptual-Definitions
 title: Non Conceptual Definitions
 tags: [philosophy]
 concern: [knowledge]
-summary: 'Certain concepts like "art" and "love" resist solid conceptual definitions because they are fundamentally defined by concrete examples rather than abstract principles, making them non-conceptual words whose meaning varies between individuals and cultures. The inability to establish universal definitions for these terms makes meaningful conversation difficult, as people inevitably rely on different criteria, and perhaps these words are better understood as enumerations of whatever a culture designates as such at any given time rather than unified by an underlying principle. While this approach to defining terms may discourage rigorous thinking, it may more accurately reflect how these elusive human concepts actually function.'
+description: 'Certain concepts like "art" and "love" resist solid conceptual definitions because they are fundamentally defined by concrete examples rather than abstract principles, making them non-conceptual words whose meaning varies between individuals and cultures. The inability to establish universal definitions for these terms makes meaningful conversation difficult, as people inevitably rely on different criteria, and perhaps these words are better understood as enumerations of whatever a culture designates as such at any given time rather than unified by an underlying principle. While this approach to defining terms may discourage rigorous thinking, it may more accurately reflect how these elusive human concepts actually function.'
 ---
 
 Philopsophers often question what is "art" or "love" or other words for humanity has never had a solid definition.

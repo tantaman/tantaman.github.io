@@ -3,7 +3,7 @@ slug: 2022-01-09-improving-code-sharing
 title: '🧶 Improving Code Sharing with Yarn Workspaces'
 tags: [software]
 concern: [craft]
-summary: 'Yarn Workspaces solves the friction of sharing code between JavaScript and TypeScript projects by keeping shared libraries as git submodules within a monorepo structure while managing their dependencies and imports seamlessly through a single yarn install and lockfile. This approach eliminates the need to repeatedly publish, deploy, and upgrade shared libraries to NPM while avoiding the dependency conflicts and import complexity that arise from traditional git submodule setups. For projects with build requirements, tools like TurboRepo can further optimize the build process across multiple interdependent packages.'
+description: 'Yarn Workspaces solves the friction of sharing code between JavaScript and TypeScript projects by keeping shared libraries as git submodules within a monorepo structure while managing their dependencies and imports seamlessly through a single yarn install and lockfile. This approach eliminates the need to repeatedly publish, deploy, and upgrade shared libraries to NPM while avoiding the dependency conflicts and import complexity that arise from traditional git submodule setups. For projects with build requirements, tools like TurboRepo can further optimize the build process across multiple interdependent packages.'
 ---
 
 Sharing code between `JavaScript` & `TypeScript` projects has always been more trouble than it should be.

@@ -3,7 +3,7 @@ slug: 2021-12-27-urls-as-display-data
 title: '👨‍💻 URLs As Display Data'
 tags: [software]
 concern: [craft]
-summary: 'Traditional single-page applications treat URLs as a source of truth that drives application logic, but this creates dual sources of state and unnecessary coupling between components. Instead, URLs should be treated as display output derived from application state—rendered from the app''s domain model rather than driving it, which simplifies state management and makes URL handling consistent with all other UI updates.'
+description: 'Traditional single-page applications treat URLs as a source of truth that drives application logic, but this creates dual sources of state and unnecessary coupling between components. Instead, URLs should be treated as display output derived from application state—rendered from the app''s domain model rather than driving it, which simplifies state management and makes URL handling consistent with all other UI updates.'
 ---
 
 I've been toying with the idea that we get something wrong when it comes to URL management and routing in [single page applications (SPAs)](https://developer.mozilla.org/en-US/docs/Glossary/SPA).

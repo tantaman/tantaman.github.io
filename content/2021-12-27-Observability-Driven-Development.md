@@ -3,7 +3,7 @@ slug: 2021-12-27-Observability-Driven-Development
 title: '👀 Observability Driven Development'
 tags: [software]
 concern: [craft]
-summary: 'Observability Driven Development emphasizes that passing tests alone don''t guarantee a system works correctly in production; teams must continuously monitor key metrics like request latency, throughput, memory usage, and performance trends to establish baselines, detect regressions, and maintain software quality. The author discovered this practice independently while working at Facebook and found that Honeycomb.io''s CTO had already coined and formalized the same concept, which goes beyond traditional test-driven development by treating production observability as a core part of the development process.'
+description: 'Observability Driven Development emphasizes that passing tests alone don''t guarantee a system works correctly in production; teams must continuously monitor key metrics like request latency, throughput, memory usage, and performance trends to establish baselines, detect regressions, and maintain software quality. The author discovered this practice independently while working at Facebook and found that Honeycomb.io''s CTO had already coined and formalized the same concept, which goes beyond traditional test-driven development by treating production observability as a core part of the development process.'
 ---
 
 One of the things I learned quickly while working on large scale systems at `Facebook (Meta)` was that if your tests passed but you didn't observe your system in production, you had no idea whether or not your system was actually behaving as intended. Without observation in prod, you don't even have a baseline to know what "normal" operation looks like.

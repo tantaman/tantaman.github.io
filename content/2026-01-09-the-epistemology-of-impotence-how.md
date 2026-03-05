@@ -3,7 +3,7 @@ title: 'The Epistemology of Impotence: How Identity Politics Guarantees Its Own 
 tags: [philosophy, politics]
 kind: survey
 concern: [knowledge, power]
-summary: 'Identity politics operates on a philosophical framework that assumes knowledge is determined by one''s social position, making persuasion across different groups structurally impossible. This epistemology—which argues that marginalized identities have privileged access to truth—contains a fatal contradiction: if all knowledge is position-dependent, then the theory itself has no universal authority. As a result, contemporary progressivism has become a politics of institutional capture and demands rather than coalition-building through argument, explaining why the left dominates cultural institutions yet fails electorally and cannot sustain shared democratic deliberation.'
+description: 'Identity politics operates on a philosophical framework that assumes knowledge is determined by one''s social position, making persuasion across different groups structurally impossible. This epistemology—which argues that marginalized identities have privileged access to truth—contains a fatal contradiction: if all knowledge is position-dependent, then the theory itself has no universal authority. As a result, contemporary progressivism has become a politics of institutional capture and demands rather than coalition-building through argument, explaining why the left dominates cultural institutions yet fails electorally and cannot sustain shared democratic deliberation.'
 ---
 
 ![](/blog-assets/substack/158c9f37-79da-4d81-80a3-24a98686efc1_1024x1536.png)
