@@ -265,6 +265,7 @@ export function createMcpServer(env: Env) {
         lines.push(`- **${p.title}** (${p.date})`);
         lines.push(`  URL: ${url}`);
         lines.push(`  Source: ${rawUrl}`);
+        if (p.summary) lines.push(`  Summary: ${p.summary}`);
       }
 
       return {
