@@ -274,5 +274,54 @@ export function createMcpServer(env: Env) {
     }
   );
 
+  server.tool(
+    "list_thoughts",
+    "Browse Matt Wonlaw's thoughts (short-form posts) chronologically. Supports date range filtering and pagination. Returns full thought body content inline.",
+    {
+      startDate: z.string().optional().describe("Inclusive start date in ISO format, e.g. \"2025-01-01\""),
+      endDate: z.string().optional().describe("Inclusive end date in ISO format, e.g. \"2026-03-04\""),
+      sort: z.enum(["asc", "desc"]).optional().default("desc").describe("Sort by date ascending or descending (default desc)"),
+      limit: z.number().min(1).max(50).optional().default(20).describe("Number of thoughts to return (1-50, default 20)"),
+      offset: z.number().min(0).optional().default(0).describe("Offset for pagination (default 0)"),
+    },
+    async ({ startDate, endDate, sort, limit, offset }) => {
+      const conditions = ["superseded_by IS NULL", "private = 0", "parent_id IS NULL"];
+      const binds: (string | number)[] = [];
+
+      if (startDate) {
+        conditions.push("timestamp >= ?");
+        binds.push(Math.floor(new Date(startDate).getTime() / 1000));
+      }
+      if (endDate) {
+        conditions.push("timestamp <= ?");
+        binds.push(Math.floor(new Date(endDate + "T23:59:59Z").getTime() / 1000));
+      }
+
+      const sql = `SELECT id, body, timestamp FROM thought WHERE ${conditions.join(" AND ")} ORDER BY timestamp ${sort === "asc" ? "ASC" : "DESC"} LIMIT ? OFFSET ?`;
+      binds.push(limit, offset);
+
+      const rows = await env.DB.prepare(sql).bind(...binds).all();
+
+      if (rows.results.length === 0) {
+        return {
+          content: [{ type: "text" as const, text: "No thoughts found for the given criteria." }],
+        };
+      }
+
+      const lines = [`Found ${rows.results.length} thoughts (offset ${offset}).\n`];
+
+      for (const r of rows.results) {
+        const date = new Date((r.timestamp as number) * 1000).toISOString().slice(0, 10);
+        lines.push(`--- Thought #${r.id} (${date}) ---`);
+        lines.push(r.body as string);
+        lines.push("");
+      }
+
+      return {
+        content: [{ type: "text" as const, text: lines.join("\n") }],
+      };
+    }
+  );
+
   return server;
 }
