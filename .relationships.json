@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-03-04T20:50:30.992Z",
+  "generatedAt": "2026-03-05T18:08:54.624Z",
   "config": {
     "model": "text-embedding-3-large",
     "minScore": 0.25,
@@ -3515,8 +3515,8 @@
           "type": "semantic"
         },
         {
-          "id": "2025-01-01-resurrecting-ted-kaczynski.md",
-          "score": 0.646,
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.647,
           "type": "semantic"
         }
       ],
@@ -3551,6 +3551,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.616,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-09-the-epistemology-of-impotence-how.md",
           "score": 0.599,
           "type": "semantic"
@@ -3568,11 +3573,6 @@
         {
           "id": "2026-01-22-to-my-friends-on-the-left-a-difficult.md",
           "score": 0.551,
-          "type": "semantic"
-        },
-        {
-          "id": "2022-04-25-foundational-myths.md",
-          "score": 0.547,
           "type": "semantic"
         }
       ],
@@ -3612,6 +3612,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.715,
+          "type": "semantic"
+        },
+        {
           "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
           "score": 0.701,
           "type": "semantic"
@@ -3624,11 +3629,6 @@
         {
           "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
           "score": 0.69,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-12-the-new-lords.md",
-          "score": 0.685,
           "type": "semantic"
         }
       ],
@@ -6132,6 +6132,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.62,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-09-leftism-is-worse-than-fascism.md",
           "score": 0.617,
           "type": "semantic"
@@ -6144,11 +6149,6 @@
         {
           "id": "2025-01-01-the-capture-of-american-power-peter.md",
           "score": 0.606,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-09-the-theological-structure-of-secular.md",
-          "score": 0.605,
           "type": "semantic"
         }
       ],
@@ -6239,8 +6239,18 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.747,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-12-the-new-lords.md",
           "score": 0.745,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.739,
           "type": "semantic"
         },
         {
@@ -6251,16 +6261,6 @@
         {
           "id": "2026-01-25-the-ice-protest-that-changes-nothing.md",
           "score": 0.723,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-the-two-filters-why-reasonable-ideas.md",
-          "score": 0.72,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-11-debugging-the-confusion-liberalism.md",
-          "score": 0.718,
           "type": "semantic"
         }
       ],
@@ -8138,6 +8138,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.833,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-18-the-battlefield-of-attention.md",
           "score": 0.829,
           "type": "semantic"
@@ -8161,11 +8166,6 @@
           "id": "2026-01-15-the-return.md",
           "score": 0.82,
           "type": "semantic"
-        },
-        {
-          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
-          "score": 0.82,
-          "type": "semantic"
         }
       ],
       "backlinks": [],
@@ -8173,6 +8173,16 @@
     },
     "2026-02-21-west-psychodrama.md": {
       "related": [
+        {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.866,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.839,
+          "type": "semantic"
+        },
         {
           "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
           "score": 0.819,
@@ -8211,16 +8221,6 @@
         {
           "id": "2025-12-18-from-galilee-to-empire-the-institutional.md",
           "score": 0.761,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-the-selection-of-souls.md",
-          "score": 0.758,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-01-01-the-capture-of-american-power-peter.md",
-          "score": 0.757,
           "type": "semantic"
         }
       ],
@@ -9110,13 +9110,125 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.76,
+          "type": "semantic"
+        },
+        {
           "id": "2026-03-04-the-hidden-grammar.md",
           "score": 0.759,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-03-05-iran-the-clearing.md": {
+      "related": [
+        {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.873,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-west-psychodrama.md",
+          "score": 0.839,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/iran-timeline.mdx",
+          "score": 0.819,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-14-the-ideological-trap-for-the-left.md",
+          "score": 0.747,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-12-structure-not-vibes-the-real-state.md",
+          "score": 0.715,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-01-01-the-capture-of-american-power-peter.md",
+          "score": 0.702,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-battlefield-of-attention.md",
+          "score": 0.696,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.691,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.691,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-10-arhictecture-of-harm.md",
+          "score": 0.686,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-03-05-iran-the-resolution.md": {
+      "related": [
+        {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.873,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-west-psychodrama.md",
+          "score": 0.866,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/iran-timeline.mdx",
+          "score": 0.843,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.833,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-battlefield-of-attention.md",
+          "score": 0.78,
           "type": "semantic"
         },
         {
           "id": "2025-12-18-the-shape-of-the-container.md",
-          "score": 0.755,
+          "score": 0.777,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-12-principalities-and-powers.md",
+          "score": 0.772,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-from-galilee-to-empire-the-institutional.md",
+          "score": 0.769,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-22-religious-development.md",
+          "score": 0.767,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-15-the-return.md",
+          "score": 0.764,
           "type": "semantic"
         }
       ],
@@ -11487,6 +11599,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.622,
+          "type": "semantic"
+        },
+        {
           "id": "chats/2025-10-14-summarize-fear-of-falling.md",
           "score": 0.618,
           "type": "semantic"
@@ -11509,11 +11626,6 @@
         {
           "id": "2025-12-02-monotheism-oneness-traps.md",
           "score": 0.603,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
-          "score": 0.601,
           "type": "semantic"
         }
       ],
@@ -12320,6 +12432,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.579,
+          "type": "semantic"
+        },
+        {
           "id": "2025-01-01-the-capture-of-american-power-peter.md",
           "score": 0.574,
           "type": "semantic"
@@ -12332,11 +12449,6 @@
         {
           "id": "2025-12-18-the-alchemy-of-power.md",
           "score": 0.569,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-from-galilee-to-empire-the-institutional.md",
-          "score": 0.556,
           "type": "semantic"
         }
       ],
@@ -12570,6 +12682,16 @@
     "pages/iran-timeline.mdx": {
       "related": [
         {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.843,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.819,
+          "type": "semantic"
+        },
+        {
           "id": "2026-02-21-west-psychodrama.md",
           "score": 0.762,
           "type": "semantic"
@@ -12607,16 +12729,6 @@
         {
           "id": "start-here.md",
           "score": 0.654,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-22-religious-development.md",
-          "score": 0.646,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-12-structure-not-vibes-the-real-state.md",
-          "score": 0.641,
           "type": "semantic"
         }
       ],
@@ -22283,7 +22395,7 @@
     {
       "source": "2025-01-01-david-graeber-the-utopia-of-rules.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -23183,7 +23295,7 @@
     {
       "source": "2025-01-01-the-capture-of-american-power-peter.md",
       "target": "2025-12-12-structure-not-vibes-the-real-state.md",
-      "score": 0.8,
+      "score": 0.7,
       "signals": [
         {
           "name": "wikilink",
@@ -23283,7 +23395,7 @@
     {
       "source": "2025-01-01-the-capture-of-american-power-peter.md",
       "target": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -24433,7 +24545,7 @@
     {
       "source": "2025-12-09-exploring-religin-marx.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -26033,7 +26145,7 @@
     {
       "source": "2025-12-10-peasent-uprisings.md",
       "target": "chats/2025-10-14-summarize-fear-of-falling.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -26058,7 +26170,7 @@
     {
       "source": "2025-12-10-peasent-uprisings.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -26083,7 +26195,7 @@
     {
       "source": "2025-12-10-arhictecture-of-harm.md",
       "target": "2025-12-10-peasent-uprisings.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -26156,9 +26268,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-01-01-resurrecting-ted-kaczynski.md",
-      "target": "2025-12-10-peasent-uprisings.md",
-      "score": 0.06462101179435402,
+      "source": "2025-12-10-peasent-uprisings.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -26171,10 +26283,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5962101179435402,
+          "score": 0.596556860274291,
           "weight": 2,
           "details": {
-            "similarity": 0.5962101179435402
+            "similarity": 0.596556860274291
           }
         }
       ],
@@ -26208,7 +26320,7 @@
     {
       "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
       "target": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "score": 0.5,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -26300,6 +26412,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.5680496567605647
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5660323871849848,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5660323871849848
           }
         }
       ],
@@ -26400,31 +26537,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.5014102701664171
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2022-04-25-foundational-myths.md",
-      "target": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.4966975893715295,
-          "weight": 2,
-          "details": {
-            "similarity": 0.4966975893715295
           }
         }
       ],
@@ -26532,8 +26644,33 @@
     },
     {
       "source": "2025-12-12-structure-not-vibes-the-real-state.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6649144459757493,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6649144459757493
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
       "target": "2026-02-09-the-cage-and-the-argument-about-its.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -26606,31 +26743,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
-      "target": "2026-01-12-the-new-lords.md",
-      "score": 0.4,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6349361932312132,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6349361932312132
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2025-01-01-the-capture-of-american-power-peter.md",
       "target": "2025-12-12-the-vulnerability-principle.md",
       "score": 0.5,
@@ -26658,7 +26770,7 @@
     {
       "source": "2025-12-12-structure-not-vibes-the-real-state.md",
       "target": "2025-12-12-the-vulnerability-principle.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -26858,7 +26970,7 @@
     {
       "source": "2025-12-12-structure-not-vibes-the-real-state.md",
       "target": "2025-12-12-trumps-techno-fetish.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -29158,7 +29270,7 @@
     {
       "source": "2025-12-18-from-galilee-to-empire-the-institutional.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -29458,7 +29570,7 @@
     {
       "source": "2025-12-18-the-alchemy-of-power.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -29608,7 +29720,7 @@
     {
       "source": "2025-12-18-the-battlefield-of-attention.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -33108,7 +33220,7 @@
     {
       "source": "2026-01-09-the-epistemology-of-impotence-how.md",
       "target": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -34983,7 +35095,7 @@
     {
       "source": "2025-12-09-secular_eschaton_essay.md",
       "target": "2026-01-12-the-recurring-pattern-left-islamist.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -35008,7 +35120,7 @@
     {
       "source": "2026-01-12-the-recurring-pattern-left-islamist.md",
       "target": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "score": 0.3,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -35033,7 +35145,7 @@
     {
       "source": "2025-12-09-exploring-religin-marx.md",
       "target": "2026-01-12-the-recurring-pattern-left-islamist.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -35058,7 +35170,7 @@
     {
       "source": "2026-01-09-the-epistemology-of-impotence-how.md",
       "target": "2026-01-12-the-recurring-pattern-left-islamist.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -35083,7 +35195,7 @@
     {
       "source": "2025-12-09-monstrous_doubles_girard_essay.md",
       "target": "2026-01-12-the-recurring-pattern-left-islamist.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -35108,7 +35220,7 @@
     {
       "source": "2025-12-10-arhictecture-of-harm.md",
       "target": "2026-01-12-the-recurring-pattern-left-islamist.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -35125,6 +35237,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.5778419924126006
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-12-the-recurring-pattern-left-islamist.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5697587646710107,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5697587646710107
           }
         }
       ],
@@ -35200,31 +35337,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.5556213805843193
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-09-the-theological-structure-of-secular.md",
-      "target": "2026-01-12-the-recurring-pattern-left-islamist.md",
-      "score": 0.4,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.554596937671619,
-          "weight": 2,
-          "details": {
-            "similarity": 0.554596937671619
           }
         }
       ],
@@ -35483,7 +35595,7 @@
     {
       "source": "2026-01-14-the-ideological-trap-for-the-left.md",
       "target": "2026-01-22-to-my-friends-on-the-left-a-difficult.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -35508,7 +35620,7 @@
     {
       "source": "2026-01-14-the-ideological-trap-for-the-left.md",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.2,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -35531,9 +35643,34 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-14-the-ideological-trap-for-the-left.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6968740257656023,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6968740257656023
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-12-the-new-lords.md",
       "target": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -35556,9 +35693,34 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-14-the-ideological-trap-for-the-left.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6887680800531136,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6887680800531136
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-09-leftism-is-worse-than-fascism.md",
       "target": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -35600,56 +35762,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.6730020033365067
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-the-two-filters-why-reasonable-ideas.md",
-      "target": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6703859681948502,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6703859681948502
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-11-debugging-the-confusion-liberalism.md",
-      "target": "2026-01-14-the-ideological-trap-for-the-left.md",
-      "score": 0.5,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6682859090702322,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6682859090702322
           }
         }
       ],
@@ -36058,7 +36170,7 @@
     {
       "source": "2026-01-14-we-can-capture-our-way-out.md",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -36333,7 +36445,7 @@
     {
       "source": "2026-01-15-the-physicians-of-decay.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -40533,7 +40645,7 @@
     {
       "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -41583,7 +41695,7 @@
     {
       "source": "2026-02-21-desire-engine-table.mdx",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -41658,7 +41770,7 @@
     {
       "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
       "target": "2026-02-22-religious-development.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -41675,6 +41787,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.8029834797870198
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.6,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7825251823124049,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7825251823124049
           }
         }
       ],
@@ -41708,7 +41845,7 @@
     {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.1,
+      "score": 0.08249540852880921,
       "signals": [
         {
           "name": "wikilink",
@@ -41731,9 +41868,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
-      "target": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "score": 0.1,
+      "source": "2026-02-21-west-psychodrama.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -41746,10 +41883,35 @@
         },
         {
           "name": "semantic",
-          "score": 0.7703370412179246,
+          "score": 0.816153638109925,
           "weight": 2,
           "details": {
-            "similarity": 0.7703370412179246
+            "similarity": 0.816153638109925
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-21-west-psychodrama.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7894059401024558,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7894059401024558
           }
         }
       ],
@@ -41758,7 +41920,7 @@
     {
       "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -41783,7 +41945,7 @@
     {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -41808,7 +41970,7 @@
     {
       "source": "2025-12-10-husk-of-god.md",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -41833,7 +41995,7 @@
     {
       "source": "2026-02-09-the-cage-and-the-argument-about-its.md",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -41858,7 +42020,7 @@
     {
       "source": "2025-12-18-the-battlefield-of-attention.md",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -41883,7 +42045,7 @@
     {
       "source": "2026-02-21-west-psychodrama.md",
       "target": "pages/iran-timeline.mdx",
-      "score": 0.3,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -41908,7 +42070,7 @@
     {
       "source": "2025-12-18-the-shape-of-the-container.md",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -41933,7 +42095,7 @@
     {
       "source": "2025-12-18-from-galilee-to-empire-the-institutional.md",
       "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -41950,31 +42112,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.7113372405867987
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-the-selection-of-souls.md",
-      "target": "2026-02-21-west-psychodrama.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7077118562600195,
-          "weight": 2,
-          "details": {
-            "similarity": 0.7077118562600195
           }
         }
       ],
@@ -42583,7 +42720,7 @@
     {
       "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
       "target": "2026-02-26-ratchet-stage.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -42608,7 +42745,7 @@
     {
       "source": "2026-02-26-the-honest-record.md",
       "target": "2026-03-04-the-undesigned-narrative.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -43108,7 +43245,7 @@
     {
       "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
       "target": "2026-02-27-hidden-curriculum.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -44783,7 +44920,7 @@
     {
       "source": "2025-12-18-from-galilee-to-empire-the-institutional.md",
       "target": "2026-03-04-the-undesigned-narrative.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -44881,8 +45018,208 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-18-the-shape-of-the-container.md",
-      "target": "2026-03-04-the-undesigned-narrative.md",
+      "source": "2026-03-04-the-undesigned-narrative.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7095095002438817,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7095095002438817
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-05-iran-the-clearing.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.822528160836811,
+          "weight": 2,
+          "details": {
+            "similarity": 0.822528160836811
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-05-iran-the-clearing.md",
+      "target": "pages/iran-timeline.mdx",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.769156006041926,
+          "weight": 2,
+          "details": {
+            "similarity": 0.769156006041926
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-01-01-the-capture-of-american-power-peter.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6515178803388192,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6515178803388192
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-the-battlefield-of-attention.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6462471265179515,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6462471265179515
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.06910300279386833,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6410300279386832,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6410300279386832
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6407747547472862,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6407747547472862
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-10-arhictecture-of-harm.md",
+      "target": "2026-03-05-iran-the-clearing.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6364846352215562,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6364846352215562
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-05-iran-the-resolution.md",
+      "target": "pages/iran-timeline.mdx",
       "score": 0.3,
       "signals": [
         {
@@ -44896,10 +45233,160 @@
         },
         {
           "name": "semantic",
-          "score": 0.7046546851279492,
+          "score": 0.7933066844629157,
           "weight": 2,
           "details": {
-            "similarity": 0.7046546851279492
+            "similarity": 0.7933066844629157
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-the-battlefield-of-attention.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7298468364181708,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7298468364181708
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-the-shape-of-the-container.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7268413968710982,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7268413968710982
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-12-principalities-and-powers.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7217949225243666,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7217949225243666
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-from-galilee-to-empire-the-institutional.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7192462966245949,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7192462966245949
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-22-religious-development.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7170245159415657,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7170245159415657
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-15-the-return.md",
+      "target": "2026-03-05-iran-the-resolution.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7140129392637258,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7140129392637258
           }
         }
       ],
@@ -52281,6 +52768,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-03-05-iran-the-resolution.md",
+      "target": "notes/monotheism and oneness.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5721205812048674,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5721205812048674
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "notes/monotheism and oneness.md",
       "target": "chats/2025-10-14-summarize-fear-of-falling.md",
       "score": 0.2,
@@ -52308,7 +52820,7 @@
     {
       "source": "2026-01-14-the-ideological-trap-for-the-left.md",
       "target": "notes/monotheism and oneness.md",
-      "score": 0.2,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -52400,31 +52912,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.5530764502505622
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
-      "target": "notes/monotheism and oneness.md",
-      "score": 0.1,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5505635362327697,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5505635362327697
           }
         }
       ],
@@ -55133,7 +55620,7 @@
     {
       "source": "chats/2025-10-14-girards-scapegoat-mechanism.md",
       "target": "chats/2025-10-14-summarize-fear-of-falling.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -55281,6 +55768,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-03-05-iran-the-resolution.md",
+      "target": "chats/2025-10-14-girards-scapegoat-mechanism.md",
+      "score": 0.05787907613675695,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5287907613675694,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5287907613675694
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-01-01-the-capture-of-american-power-peter.md",
       "target": "chats/2025-10-14-girards-scapegoat-mechanism.md",
       "score": 0.05744617576362056,
@@ -55333,7 +55845,7 @@
     {
       "source": "2025-12-18-the-alchemy-of-power.md",
       "target": "chats/2025-10-14-girards-scapegoat-mechanism.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -55350,31 +55862,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.519423173857944
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-from-galilee-to-empire-the-institutional.md",
-      "target": "chats/2025-10-14-girards-scapegoat-mechanism.md",
-      "score": 0.1,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.506294542062375,
-          "weight": 2,
-          "details": {
-            "similarity": 0.506294542062375
           }
         }
       ],
@@ -56358,7 +56845,7 @@
     {
       "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
       "target": "pages/iran-timeline.mdx",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -56383,7 +56870,7 @@
     {
       "source": "2025-01-01-the-capture-of-american-power-peter.md",
       "target": "pages/iran-timeline.mdx",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -56408,7 +56895,7 @@
     {
       "source": "2026-03-04-the-undesigned-narrative.md",
       "target": "pages/iran-timeline.mdx",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -56458,7 +56945,7 @@
     {
       "source": "2026-01-14-the-ideological-trap-for-the-left.md",
       "target": "pages/iran-timeline.mdx",
-      "score": 0.2,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -56508,7 +56995,7 @@
     {
       "source": "start-here.md",
       "target": "pages/iran-timeline.mdx",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -56525,56 +57012,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.6038233886734083
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-22-religious-development.md",
-      "target": "pages/iran-timeline.mdx",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5957298669805025,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5957298669805025
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
-      "target": "pages/iran-timeline.mdx",
-      "score": 0.4,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5909732970067416,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5909732970067416
           }
         }
       ],
@@ -57367,23 +57804,23 @@
       "2020-05-17-I-Am-You-Are.md": 1,
       "2020-05-17-dangerous-ideas.md": 2,
       "2020-05-19-These-Are-Not-Types.md": 0,
-      "2020-05-25-Non-Conceptual-Definitions.md": 3,
-      "2020-06-29-all-things-are-permitted.md": 4,
+      "2020-05-25-Non-Conceptual-Definitions.md": 2,
+      "2020-06-29-all-things-are-permitted.md": 3,
       "2020-09-13-declarative.md": 0,
-      "2021-01-21-false-positive-rate.md": 2,
-      "2021-01-26-regression-mean-vs-gambler.md": 2,
-      "2021-02-07-volatility-isnt-risk.md": 2,
+      "2021-01-21-false-positive-rate.md": 4,
+      "2021-01-26-regression-mean-vs-gambler.md": 4,
+      "2021-02-07-volatility-isnt-risk.md": 4,
       "2021-02-08-reactive-markdown.md": 0,
       "2021-02-12-Todo-MVC.md": 0,
       "2021-02-14-Pi-Cloud.mdx": 0,
       "2021-03-01-Nic-Cage-Genre.md": 5,
-      "2021-04-05-Religion-Last.md": 6,
+      "2021-04-05-Religion-Last.md": 2,
       "2021-08-22-Understanding-Generics.md": 0,
       "2021-12-15-React-Anemic-Models.md": 0,
       "2021-12-16-Missing-Mutation-Primitives.md": 0,
       "2021-12-17-Object-Identity.mdx": 0,
-      "2021-12-20-American-Spirit.md": 2,
-      "2021-12-20-mathematician-running-the-world.md": 3,
+      "2021-12-20-American-Spirit.md": 6,
+      "2021-12-20-mathematician-running-the-world.md": 2,
       "2021-12-23-Deeply-Nested-Updates-React.mdx": 0,
       "2021-12-27-Observability-Driven-Development.md": 0,
       "2021-12-27-Personal-Vision.mdx": 0,
@@ -57392,7 +57829,7 @@
       "2022-01-09-improving-code-sharing.md": 0,
       "2022-01-17-why-fetching-earliy-is-difficult-to-express.md": 0,
       "2022-04-07-your-package-is-two.mdx": 0,
-      "2022-04-25-doing-for-others.md": 3,
+      "2022-04-25-doing-for-others.md": 2,
       "2022-04-25-foundational-myths.md": 2,
       "2022-05-12-simple-mdx.mdx": 0,
       "2022-05-12-skipping-the-bundling.md": 0,
@@ -57402,130 +57839,132 @@
       "2022-05-26-query-plan-optimization.mdx": 0,
       "2022-05-26-query-planning.mdx": 0,
       "2022-06-02-this-time-is-different.md": 0,
-      "2022-06-06-not-machine-readable.md": 3,
-      "2022-06-16-always-a-body.md": 3,
+      "2022-06-06-not-machine-readable.md": 2,
+      "2022-06-16-always-a-body.md": 2,
       "2022-08-23-why-sqlite-why-now.md": 0,
       "2022-10-18-lamport-clock.md": 7,
       "2022-10-18-lamport-sufficient-for-lww.md": 7,
       "2022-10-19-meta-scales-mysql.md": 0,
-      "2025-01-01-david-graeber-the-utopia-of-rules.md": 6,
-      "2025-01-01-financial-power-and-imperial-rule.md": 2,
-      "2025-01-01-resurrecting-ted-kaczynski.md": 2,
-      "2025-01-01-the-architecture-of-meaning-a-deeper.md": 8,
-      "2025-01-01-the-capture-of-american-power-peter.md": 2,
+      "2025-01-01-david-graeber-the-utopia-of-rules.md": 8,
+      "2025-01-01-financial-power-and-imperial-rule.md": 6,
+      "2025-01-01-resurrecting-ted-kaczynski.md": 6,
+      "2025-01-01-the-architecture-of-meaning-a-deeper.md": 2,
+      "2025-01-01-the-capture-of-american-power-peter.md": 4,
       "2025-01-01-the-letter-to-the-therapeutics.md": 6,
-      "2025-01-01-you-are-not-your-diagnosis.md": 9,
-      "2025-12-02-monotheism-oneness-traps.md": 6,
-      "2025-12-03-state-of-the-union.md": 3,
-      "2025-12-09-exploring-religin-marx.md": 6,
-      "2025-12-09-monstrous_doubles_girard_essay.md": 8,
-      "2025-12-09-secular_eschaton_essay.md": 6,
-      "2025-12-10-arhictecture-of-harm.md": 6,
-      "2025-12-10-calvinism-to-capitalism.md": 6,
-      "2025-12-10-husk-of-god.md": 6,
-      "2025-12-10-indigenous-violence-slavery-documentation.md": 6,
-      "2025-12-10-peasent-uprisings.md": 6,
-      "2025-12-12-making-sense-of-us-ukraine-negotations.md": 2,
-      "2025-12-12-structure-not-vibes-the-real-state.md": 2,
-      "2025-12-12-the-vulnerability-principle.md": 2,
-      "2025-12-12-trumps-techno-fetish.md": 2,
-      "2025-12-12-why-cultures-differentiate.md": 6,
-      "2025-12-15-burnout-is-a-modern-invention.md": 3,
-      "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 8,
-      "2025-12-15-know-thyself-greek-vs-christian.md": 8,
-      "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 8,
-      "2025-12-17-know-thyself-no-self.md": 8,
-      "2025-12-17-know-thyself-the-kingdom-within.md": 8,
-      "2025-12-17-know-thyself-through-what.md": 8,
-      "2025-12-17-meta-summary-17-12-2025.md": 6,
-      "2025-12-17-the-invention-of-the-confessing-animal.md": 8,
-      "2025-12-18-a-systems-analysis-of-why-your-worldview.md": 3,
-      "2025-12-18-from-galilee-to-empire-the-institutional.md": 6,
-      "2025-12-18-the-alchemy-of-power.md": 6,
-      "2025-12-18-the-battlefield-of-attention.md": 6,
-      "2025-12-18-the-selection-of-souls.md": 3,
-      "2025-12-18-the-shape-of-the-container.md": 6,
-      "2025-12-18-the-two-filters-why-reasonable-ideas.md": 3,
-      "2025-12-19-countering-materialism.md": 3,
-      "2025-12-19-how-power-weaponizes-mass-education.md": 3,
-      "2025-12-19-the-employable-subject.md": 3,
-      "2025-12-19-when-equations-see-what-eyes-cannot.md": 3,
-      "2025-12-20-summarizing-19-12-2025.md": 8,
-      "2025-12-21-the-incomplete-god-why-science-cannot.md": 3,
-      "2025-12-21-the-liquefaction-of-being-materialism.md": 3,
-      "2025-12-21-what-modernity-needs-a-return-to.md": 3,
-      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 3,
-      "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 2,
-      "2026-01-09-diagnosing-white-guilt.md": 2,
-      "2026-01-09-leftism-is-worse-than-fascism.md": 2,
-      "2026-01-09-pathologies-of-eastern-secularism.md": 6,
-      "2026-01-09-the-epistemology-of-impotence-how.md": 2,
-      "2026-01-09-the-theological-structure-of-secular.md": 6,
-      "2026-01-09-trauma-culture-a-diagnosis.md": 2,
-      "2026-01-09-trauma-culture-white-guilt-checkmate.md": 2,
-      "2026-01-09-why-the-secularism-in-the-west-became.md": 6,
-      "2026-01-11-debugging-the-confusion-liberalism.md": 2,
-      "2026-01-11-the-exhaustion-that-cannot-rest.md": 9,
-      "2026-01-11-the-socialists-convenient-blindness.md": 2,
-      "2026-01-12-principalities-and-powers.md": 6,
-      "2026-01-12-the-economy-of-refusal.md": 6,
+      "2025-01-01-you-are-not-your-diagnosis.md": 6,
+      "2025-12-02-monotheism-oneness-traps.md": 2,
+      "2025-12-03-state-of-the-union.md": 2,
+      "2025-12-09-exploring-religin-marx.md": 8,
+      "2025-12-09-monstrous_doubles_girard_essay.md": 9,
+      "2025-12-09-secular_eschaton_essay.md": 8,
+      "2025-12-10-arhictecture-of-harm.md": 8,
+      "2025-12-10-calvinism-to-capitalism.md": 8,
+      "2025-12-10-husk-of-god.md": 2,
+      "2025-12-10-indigenous-violence-slavery-documentation.md": 8,
+      "2025-12-10-peasent-uprisings.md": 8,
+      "2025-12-12-making-sense-of-us-ukraine-negotations.md": 4,
+      "2025-12-12-structure-not-vibes-the-real-state.md": 4,
+      "2025-12-12-the-vulnerability-principle.md": 4,
+      "2025-12-12-trumps-techno-fetish.md": 4,
+      "2025-12-12-why-cultures-differentiate.md": 8,
+      "2025-12-15-burnout-is-a-modern-invention.md": 6,
+      "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 9,
+      "2025-12-15-know-thyself-greek-vs-christian.md": 9,
+      "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 9,
+      "2025-12-17-know-thyself-no-self.md": 9,
+      "2025-12-17-know-thyself-the-kingdom-within.md": 9,
+      "2025-12-17-know-thyself-through-what.md": 9,
+      "2025-12-17-meta-summary-17-12-2025.md": 8,
+      "2025-12-17-the-invention-of-the-confessing-animal.md": 9,
+      "2025-12-18-a-systems-analysis-of-why-your-worldview.md": 2,
+      "2025-12-18-from-galilee-to-empire-the-institutional.md": 8,
+      "2025-12-18-the-alchemy-of-power.md": 8,
+      "2025-12-18-the-battlefield-of-attention.md": 8,
+      "2025-12-18-the-selection-of-souls.md": 2,
+      "2025-12-18-the-shape-of-the-container.md": 8,
+      "2025-12-18-the-two-filters-why-reasonable-ideas.md": 2,
+      "2025-12-19-countering-materialism.md": 2,
+      "2025-12-19-how-power-weaponizes-mass-education.md": 2,
+      "2025-12-19-the-employable-subject.md": 2,
+      "2025-12-19-when-equations-see-what-eyes-cannot.md": 2,
+      "2025-12-20-summarizing-19-12-2025.md": 9,
+      "2025-12-21-the-incomplete-god-why-science-cannot.md": 2,
+      "2025-12-21-the-liquefaction-of-being-materialism.md": 2,
+      "2025-12-21-what-modernity-needs-a-return-to.md": 2,
+      "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 2,
+      "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 6,
+      "2026-01-09-diagnosing-white-guilt.md": 6,
+      "2026-01-09-leftism-is-worse-than-fascism.md": 6,
+      "2026-01-09-pathologies-of-eastern-secularism.md": 8,
+      "2026-01-09-the-epistemology-of-impotence-how.md": 4,
+      "2026-01-09-the-theological-structure-of-secular.md": 8,
+      "2026-01-09-trauma-culture-a-diagnosis.md": 6,
+      "2026-01-09-trauma-culture-white-guilt-checkmate.md": 6,
+      "2026-01-09-why-the-secularism-in-the-west-became.md": 8,
+      "2026-01-11-debugging-the-confusion-liberalism.md": 6,
+      "2026-01-11-the-exhaustion-that-cannot-rest.md": 6,
+      "2026-01-11-the-socialists-convenient-blindness.md": 6,
+      "2026-01-12-principalities-and-powers.md": 8,
+      "2026-01-12-the-economy-of-refusal.md": 8,
       "2026-01-12-the-epistle-to-the-managed.md": 6,
-      "2026-01-12-the-new-lords.md": 2,
-      "2026-01-12-the-recurring-pattern-left-islamist.md": 6,
-      "2026-01-14-the-fence-you-cannot-see.md": 3,
-      "2026-01-14-the-ideological-trap-for-the-left.md": 2,
-      "2026-01-14-the-violence-you-fear-may-be-the.md": 2,
-      "2026-01-14-we-can-capture-our-way-out.md": 2,
-      "2026-01-15-the-physicians-of-decay.md": 3,
-      "2026-01-15-the-return.md": 6,
-      "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 2,
-      "2026-01-23-grammar-as-alignment-the-world-economic.md": 3,
-      "2026-01-23-grammar-rules-all.md": 3,
-      "2026-01-23-the-language-that-thinks-for-you.md": 3,
-      "2026-01-25-the-ice-protest-that-changes-nothing.md": 2,
-      "2026-01-25-the-machine-that-eats-the-world.md": 3,
-      "2026-01-26-the-table.md": 6,
-      "2026-01-27-manufacturing-luck.mdx": 2,
-      "2026-01-27-what-would-marx-say-today.md": 2,
-      "2026-01-28-the-body-as-ground.md": 6,
-      "2026-01-29-the-secret-every-political-philosophy.md": 6,
-      "2026-01-31-education-cannot-save-us.md": 3,
-      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 2,
-      "2026-02-02-the-executive-function-curriculum.md": 3,
-      "2026-02-06-meaning-at-the-boundary.md": 3,
-      "2026-02-06-mystical-meaning.md": 3,
-      "2026-02-07-the-lamb-part-ii.md": 9,
-      "2026-02-07-the-lamb.md": 9,
-      "2026-02-07-tyler-durden-on-how-they-broke-you.md": 9,
-      "2026-02-09-the-cage-and-the-argument-about-its.md": 3,
-      "2026-02-09-the-invisible-right-on-what-becomes.md": 3,
-      "2026-02-09-what-holds-you.md": 6,
-      "2026-02-11-nine-months-two-men.md": 9,
-      "2026-02-11-the-gaze.md": 9,
-      "2026-02-12-the-ironist-gen-z-and-the-ground.md": 9,
-      "2026-02-12-what-if-the-thing-youre-protecting.md": 9,
-      "2026-02-19-mysticism-research-list.md": 8,
-      "2026-02-20-nyc-mamdani-budget.mdx": 2,
-      "2026-02-21-desire-engine-table.mdx": 6,
-      "2026-02-21-structural-wisdom-biblical-eschatology.mdx": 6,
-      "2026-02-21-west-psychodrama.md": 6,
-      "2026-02-22-religious-development.md": 6,
-      "2026-02-26-grace-and-cage.md": 3,
-      "2026-02-26-mask-debate.md": 9,
-      "2026-02-26-ratchet-stage.md": 3,
-      "2026-02-26-the-honest-record.md": 6,
-      "2026-02-26-woe-is-me.md": 3,
-      "2026-02-27-hidden-curriculum.md": 3,
-      "2026-02-27-tyson-critique.md": 3,
-      "2026-02-28-pharisee-made-flesh.md": 3,
-      "2026-03-02-data-doesnt-speak.md": 3,
-      "2026-03-02-fertility-is-not-economics.mdx": 3,
-      "2026-03-02-the-genealogy-of-the-empty-cradle.md": 3,
-      "2026-03-03-one-party-system-two-party-theatre.md": 2,
-      "2026-03-04-fourth-way-of-knowing.md": 3,
-      "2026-03-04-the-hidden-grammar.md": 3,
-      "2026-03-04-the-undesigned-narrative.md": 6,
-      "start-here.md": 3,
+      "2026-01-12-the-new-lords.md": 6,
+      "2026-01-12-the-recurring-pattern-left-islamist.md": 4,
+      "2026-01-14-the-fence-you-cannot-see.md": 2,
+      "2026-01-14-the-ideological-trap-for-the-left.md": 4,
+      "2026-01-14-the-violence-you-fear-may-be-the.md": 4,
+      "2026-01-14-we-can-capture-our-way-out.md": 4,
+      "2026-01-15-the-physicians-of-decay.md": 2,
+      "2026-01-15-the-return.md": 8,
+      "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 6,
+      "2026-01-23-grammar-as-alignment-the-world-economic.md": 2,
+      "2026-01-23-grammar-rules-all.md": 2,
+      "2026-01-23-the-language-that-thinks-for-you.md": 6,
+      "2026-01-25-the-ice-protest-that-changes-nothing.md": 4,
+      "2026-01-25-the-machine-that-eats-the-world.md": 2,
+      "2026-01-26-the-table.md": 8,
+      "2026-01-27-manufacturing-luck.mdx": 4,
+      "2026-01-27-what-would-marx-say-today.md": 6,
+      "2026-01-28-the-body-as-ground.md": 8,
+      "2026-01-29-the-secret-every-political-philosophy.md": 8,
+      "2026-01-31-education-cannot-save-us.md": 2,
+      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 6,
+      "2026-02-02-the-executive-function-curriculum.md": 2,
+      "2026-02-06-meaning-at-the-boundary.md": 2,
+      "2026-02-06-mystical-meaning.md": 2,
+      "2026-02-07-the-lamb-part-ii.md": 6,
+      "2026-02-07-the-lamb.md": 6,
+      "2026-02-07-tyler-durden-on-how-they-broke-you.md": 6,
+      "2026-02-09-the-cage-and-the-argument-about-its.md": 2,
+      "2026-02-09-the-invisible-right-on-what-becomes.md": 2,
+      "2026-02-09-what-holds-you.md": 8,
+      "2026-02-11-nine-months-two-men.md": 6,
+      "2026-02-11-the-gaze.md": 6,
+      "2026-02-12-the-ironist-gen-z-and-the-ground.md": 6,
+      "2026-02-12-what-if-the-thing-youre-protecting.md": 2,
+      "2026-02-19-mysticism-research-list.md": 9,
+      "2026-02-20-nyc-mamdani-budget.mdx": 4,
+      "2026-02-21-desire-engine-table.mdx": 8,
+      "2026-02-21-structural-wisdom-biblical-eschatology.mdx": 8,
+      "2026-02-21-west-psychodrama.md": 8,
+      "2026-02-22-religious-development.md": 8,
+      "2026-02-26-grace-and-cage.md": 2,
+      "2026-02-26-mask-debate.md": 2,
+      "2026-02-26-ratchet-stage.md": 2,
+      "2026-02-26-the-honest-record.md": 8,
+      "2026-02-26-woe-is-me.md": 2,
+      "2026-02-27-hidden-curriculum.md": 2,
+      "2026-02-27-tyson-critique.md": 2,
+      "2026-02-28-pharisee-made-flesh.md": 2,
+      "2026-03-02-data-doesnt-speak.md": 2,
+      "2026-03-02-fertility-is-not-economics.mdx": 2,
+      "2026-03-02-the-genealogy-of-the-empty-cradle.md": 2,
+      "2026-03-03-one-party-system-two-party-theatre.md": 4,
+      "2026-03-04-fourth-way-of-knowing.md": 2,
+      "2026-03-04-the-hidden-grammar.md": 2,
+      "2026-03-04-the-undesigned-narrative.md": 8,
+      "2026-03-05-iran-the-clearing.md": 4,
+      "2026-03-05-iran-the-resolution.md": 8,
+      "start-here.md": 2,
       "bookmarks/alecmuffet.com.md": 10,
       "bookmarks/allenfarrington.medium.com.md": 10,
       "bookmarks/antonz.org.md": 7,
@@ -57552,7 +57991,7 @@
       "bookmarks/lago.com.md": 10,
       "bookmarks/nature.com.md": 10,
       "bookmarks/netfuture.ch.md": 10,
-      "bookmarks/philo.substack.com.md": 3,
+      "bookmarks/philo.substack.com.md": 10,
       "bookmarks/pketh.org.md": 10,
       "bookmarks/pouet.net.md": 10,
       "bookmarks/sigbus.info.md": 7,
@@ -57560,7 +57999,7 @@
       "bookmarks/unpaywall.org.md": 10,
       "bookmarks/wundergraph.hasnode.dev.md": 0,
       "notes/2025-gift-list.md": 7,
-      "notes/2025-murder-mystery.md": 6,
+      "notes/2025-murder-mystery.md": 8,
       "notes/a protocol for integrations.md": 10,
       "notes/bloom.md": 7,
       "notes/bookmark management.md": 10,
@@ -57570,35 +58009,35 @@
       "notes/distributed systems.md": 7,
       "notes/future jobs.md": 10,
       "notes/logical clocks.md": 7,
-      "notes/monotheism and oneness.md": 2,
+      "notes/monotheism and oneness.md": 4,
       "notes/query builder arguments.md": 0,
       "notes/scratch.md": 11,
       "notes/streaming systems.md": 7,
       "notes/tla+.md": 7,
       "notes/type systems.md": 7,
       "notes/vector clock growth.md": 12,
-      "the-mirror-room/01-the-consistent-man.md": 9,
-      "the-mirror-room/02-the-mirror-room.md": 9,
-      "the-mirror-room/03-the-meeting.md": 9,
-      "the-mirror-room/04-the-paradox-of-becoming.md": 9,
-      "the-mirror-room/05-the-readers-crisis.md": 9,
-      "the-mirror-room/06-gurdjieff-observations.md": 9,
-      "the-mirror-room/index.md": 9,
-      "the-mirror-room/scratch.md": 9,
+      "the-mirror-room/01-the-consistent-man.md": 6,
+      "the-mirror-room/02-the-mirror-room.md": 6,
+      "the-mirror-room/03-the-meeting.md": 6,
+      "the-mirror-room/04-the-paradox-of-becoming.md": 6,
+      "the-mirror-room/05-the-readers-crisis.md": 6,
+      "the-mirror-room/06-gurdjieff-observations.md": 2,
+      "the-mirror-room/index.md": 6,
+      "the-mirror-room/scratch.md": 2,
       "chats/2025-10-13-adding-chats-section.md": 0,
-      "chats/2025-10-13-epistemic-humility-discussion.md": 3,
-      "chats/2025-10-14-2k-years-christiantiy.md": 6,
-      "chats/2025-10-14-girards-scapegoat-mechanism.md": 6,
-      "chats/2025-10-14-summarize-fear-of-falling.md": 6,
-      "chats/2025-10-15-ai-impact-on-labor.md": 3,
-      "chats/2025-12-03-paul-and-roman-conspiracy.md": 6,
-      "pages/church-notes.md": 6,
-      "pages/iran-timeline.mdx": 2,
+      "chats/2025-10-13-epistemic-humility-discussion.md": 2,
+      "chats/2025-10-14-2k-years-christiantiy.md": 8,
+      "chats/2025-10-14-girards-scapegoat-mechanism.md": 8,
+      "chats/2025-10-14-summarize-fear-of-falling.md": 8,
+      "chats/2025-10-15-ai-impact-on-labor.md": 2,
+      "chats/2025-12-03-paul-and-roman-conspiracy.md": 8,
+      "pages/church-notes.md": 8,
+      "pages/iran-timeline.mdx": 4,
       "pages/mcp.md": 0,
-      "pages/metaphysical-choices.mdx": 2,
-      "pages/nyc-budget-simulator.mdx": 2,
-      "pages/the-same-week.md": 9,
-      "pages/what-the-difference-actually-is.md": 6,
+      "pages/metaphysical-choices.mdx": 4,
+      "pages/nyc-budget-simulator.mdx": 4,
+      "pages/the-same-week.md": 6,
+      "pages/what-the-difference-actually-is.md": 8,
       "pages/yagni.md": 13
     },
     "clusterMeta": [
@@ -57619,21 +58058,21 @@
         "id": 2,
         "centerX": 625.4651859744239,
         "centerY": -498.7918414869868,
-        "nodeCount": 36,
-        "name": "Politics"
+        "nodeCount": 52,
+        "name": "Philosophy & Culture"
       },
       {
         "id": 3,
         "centerX": 779.9423297454589,
         "centerY": -178.01674716505153,
-        "nodeCount": 45,
-        "name": "Philosophy & Culture"
+        "nodeCount": 1
       },
       {
         "id": 4,
         "centerX": 779.9423297454589,
         "centerY": 178.01674716505153,
-        "nodeCount": 1
+        "nodeCount": 22,
+        "name": "Politics & Economics"
       },
       {
         "id": 5,
@@ -57645,8 +58084,8 @@
         "id": 6,
         "centerX": 347.10699129404657,
         "centerY": 720.7750943219353,
-        "nodeCount": 42,
-        "name": "Religion & Politics"
+        "nodeCount": 33,
+        "name": "Fiction & Culture"
       },
       {
         "id": 7,
@@ -57659,21 +58098,21 @@
         "id": 8,
         "centerX": -347.10699129404645,
         "centerY": 720.7750943219353,
-        "nodeCount": 11,
-        "name": "Religion & Philosophy"
+        "nodeCount": 37,
+        "name": "Religion & Politics"
       },
       {
         "id": 9,
         "centerX": -625.4651859744238,
         "centerY": 498.79184148698687,
-        "nodeCount": 19,
-        "name": "Fiction & Philosophy"
+        "nodeCount": 10,
+        "name": "Religion & Philosophy"
       },
       {
         "id": 10,
         "centerX": -779.9423297454589,
         "centerY": 178.0167471650516,
-        "nodeCount": 20,
+        "nodeCount": 21,
         "name": "Home & Bookmarks"
       },
       {
@@ -57695,12 +58134,12 @@
         "nodeCount": 1
       }
     ],
-    "modularity": 0.6256878103890418
+    "modularity": 0.6239517476915495
   },
   "metadata": {
-    "totalNodes": 242,
-    "totalEdges": 11622,
-    "buildTimeMs": 229,
+    "totalNodes": 244,
+    "totalEdges": 11907,
+    "buildTimeMs": 1954,
     "signalsUsed": [
       "wikilink",
       "semantic"

@@ -11,6 +11,8 @@ related: [2026-03-05-iran-the-resolution.md]
 
 ![](/img/rembrandt-sacrifice-of-isaac.jpg)
 
+> Companion piece: "[[./2026-03-05-iran-the-resolution:Iran The Resolution]]"
+
 The war began on February 28, 2026. The preparation began years earlier.
 
 Not as conspiracy. Not as a master plan coordinated across capitals and briefing rooms. Something more interesting than that. A convergence of self-interested moves, each rational on its own terms, each removing one more obstacle between the present order and the sacrifice it was building toward. Nobody planned the scapegoat. The board cleared itself.
