@@ -329,3 +329,29 @@ The repetitions are mostly doing real work — the book spirals through the same
 
 1. **Ch. 2 → Ch. 3 on the iron cage and white guilt** — the genealogical chapter does too much of the phenomenological chapter's work
 2. **Ch. 8 → Ch. 12 on the table's properties** — the recap restates descriptive details that could be abbreviated
+
+---
+
+# Edits Made
+
+1. **Ch. 10**: Shakespeare section inserted between mathematics/Gödel and narrative epistemology claim (*Lear* as laboratory, *anagnorisis* as confirmation, *Othello*/*Macbeth* as insights in no other form)
+2. **Ch. 12**: Rewritten as "The Modern Condition Named" — three inversions (Bildung → credentialism, oikonomia → chrematistike, know thyself → optimize your dopamine), The Gaze (generational wheel), loop back to Ch. 1
+3. **Ch. 13**: Compressed four-element architectural recap added to opening; Pharisee Made Flesh added before final section (AI alignment as forge's graduates dismantling the forge)
+4. **Ch. 2 → Ch. 3 repetition**: Ch. 2 iron cage phenomenology trimmed (defers to Ch. 3); Ch. 3 white guilt and achievement subject repetitions trimmed (back-references to Ch. 2 instead of restating). Ch. 2 progressive examples ("give away all your money — still guilty") restored — they do real work.
+5. **Ch. 8 → Ch. 12 table repetition**: Resolved by Ch. 12 rewrite (table section removed; one-sentence reference in Ch. 13 recap)
+
+---
+
+# Open Question: The Deepened Encounter with the Honest Record
+
+The transformation of the honest record from "accurate structural critique" (Ch. 7) to "this might be the structure of reality" currently happens implicitly across Ch. 7, 10, and 13 but never gets a dedicated moment. The original outline gave it Ch. 11. The actual Ch. 11 (The Rupture That Cannot Be Scheduled) is strong but addresses a different question (the future, not the ground).
+
+**Recommendation (pending re-read):** Weave the deepened encounter into the **opening of Ch. 11** — before the eschatology section. The record was encountered analytically in Ch. 7; after the mystical clearing (Ch. 9) and epistemological reckoning (Ch. 10), it can now be received as grounding narrative rather than data. From that ground, the question of the future opens naturally into the Rupture material. The two reinforce each other: the record-as-ground is *why* the unschedulable rupture matters.
+
+---
+
+# Additional Notes
+
+**The transition from Movement II to Movement III (Ch. 9 → Ch. 10) is the book's most abrupt register shift.** Ch. 9 ends at the boundary of the experience — contemplative, phenomenological, closing with "Come." Ch. 10 opens with "What kind of knowing is that?" — analytical, epistemological. The Shakespeare addition helps bridge this (concrete secular example before abstract epistemology). But the shift from mystical register to analytical register is still the steepest cliff in the book. Worth attending to on re-read.
+
+**The preface could do more work.** It's honest and well-written but very short. It doesn't set up the reluctance of the journey — the fact that the author was led somewhere he didn't expect by following his own tools honestly. The preface gestures at this ("It led somewhere I did not expect") but a few more sentences about *what* the tools were and *why* they were trusted could orient the reader more firmly before Ch. 1.
