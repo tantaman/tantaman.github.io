@@ -6,7 +6,7 @@ The previous chapter named what the secular frameworks produce in bodies and com
 
 The pathologies and the diagnosis share a parent. The same formation that generates achievement compulsion also generated the most precise account of why achievement compulsion cannot be resisted by will alone. The same culture that produces the cult of the wound also produced Foucault. This is not a coincidence. A civilization sophisticated enough to produce these pathologies is sophisticated enough to see them — and the seeing, as this chapter will show, is both the tradition's greatest intellectual achievement and the place where it runs out.
 
-The power analysis is real. Foucault works. Grammar as control is real. Institutional capture is real. Market totality is real. The cage is real. These are not propositions to be softened or balanced against counterarguments — they are accurate descriptions of mechanisms operating in the world, producing the exact pathologies the previous chapter catalogued. The analytical tradition that developed these tools represents the most sophisticated description of power ever achieved. Its diagnoses are, in the main, correct.
+The power analysis is real. Foucault works. Institutional capture is real. Market totality is real. Grammar as control is real. The cage is real. These are not propositions to be softened or balanced against counterarguments — they are accurate descriptions of mechanisms operating in the world, producing the exact pathologies the previous chapter catalogued. The analytical tradition that developed these tools represents the most sophisticated description of power ever achieved. Its diagnoses are, in the main, correct.
 
 Follow them as far as they go. They go far.
 
@@ -14,21 +14,7 @@ Then watch what happens when they hit the wall.
 
 ---
 
-Start with grammar, because grammar is where power is least visible and most total.
-
-You believe you chose your values. You examined the options, weighed the considerations, and arrived at your commitments through a process of reflection that was yours. What grammar analysis shows is that this belief, while not exactly false, describes only the final step of a much longer process — and the earlier steps were not yours. Before you chose from the menu, someone composed the menu. The items on it were not random. They were the values that could be expressed in the language available to you, which is the language your education, your profession, your media environment, and your social world made available. What cannot be expressed in that language cannot be chosen. It cannot even be thought with any precision.
-
-Wittgenstein saw this: "The limits of my language mean the limits of my world." What he observed about language in general, Bourdieu specified for professional languages: the habitus — the unconscious dispositions acquired through socialization — shapes perception and thought below the level of conscious choice. It is not a constraint you experience as constraint. It is the structure within which experience happens. Foucault pushed further: discourses — structured ways of talking about a subject — determine what can be known and said about it. Medical discourse determines what counts as illness. Legal discourse determines what counts as crime. Educational discourse determines what counts as competence. And discourse is never neutral. It always serves power. Not through crude prohibition — not by forbidding you to think certain thoughts — but by structuring the thinkable.
-
-Consider the person who can only think in HR grammar — who reaches for "development trajectories" and "alignment" and "stakeholder concerns" to describe what is plainly a conflict of interests, or a power grab, or a decision made to benefit the people making it at the expense of the people affected by it. The thought "this is class warfare disguised as procedure" is not forbidden to her. It is grammatically ill-formed. She cannot assemble it from the available pieces. The grammar provides no way to build it. And if she cannot build the thought, she cannot act on it — which means the grammar has accomplished, without any censorship at all, what a censor would need enforcement to achieve.
-
-Scale this to civilizational grammar. The World Economic Forum does not instruct anyone to think in particular ways. It generates a language — sustainability, stakeholder capitalism, inclusive governance, evidence-based policy — that cascades through institutional mimicry from Davos through the professional class through the HR department through the performance review through the formation of the individual professional who now experiences the language as her own. The grammar travels faster than any explicit ideology because it requires no assent. You don't adopt it. You become fluent in it. And once you're fluent, the thoughts it forecloses are not thoughts you have and suppress. They are thoughts that simply do not form.
-
-This is power at its most efficient. It does not forbid. It does not even persuade. It shapes the perceptual apparatus within which persuasion could occur, so that persuasion becomes unnecessary.
-
----
-
-The institutions that carry these grammars follow a predictable arc.
+Start with what is most visible: the institutions.
 
 Every institution built to serve a genuine human need eventually becomes a system that serves the institution. The hospital built to heal becomes an apparatus for managing liability and optimizing throughput. The university built to pursue knowledge becomes a credentialing engine for sorting the labor force and housing the administrative class. The nonprofit built to address suffering becomes an organization that requires the continuation of suffering to justify its existence. The regulatory body built to constrain power becomes a power center following its own gravitational logic, expanding its domain, accumulating the authority to regulate.
 
@@ -56,7 +42,23 @@ That is precisely why they matter. The things the market cannot metabolize are t
 
 ---
 
-So: grammar shapes the thinkable. Institutions capture every purpose to their own survival. Markets restructure human life until alternatives become unthinkable and the frame presents itself as reality. These are the tools of the secular analysis of power, and they are good tools. They illuminate the cage with precision.
+Beneath even the frame is the deepest layer — the one where power is least visible and most total.
+
+It operates at the level of thought itself. Not what you are allowed to think. What you are equipped to think. Call it grammar: the structure that determines which thoughts can be assembled from the concepts available, before any conscious choice is made.
+
+You believe you chose your values. You examined the options, weighed the considerations, and arrived at your commitments through a process of reflection that was yours. What grammar analysis shows is that this belief, while not exactly false, describes only the final step of a much longer process — and the earlier steps were not yours. Before you chose from the menu, someone composed the menu. The items on it were not random. They were the values that could be expressed in the language available to you, which is the language your education, your profession, your media environment, and your social world made available. What cannot be expressed in that language cannot be chosen. It cannot even be thought with any precision.
+
+Wittgenstein saw this: "The limits of my language mean the limits of my world." What he observed about language in general, Bourdieu specified for professional languages: the habitus — the unconscious dispositions acquired through socialization — shapes perception and thought below the level of conscious choice. It is not a constraint you experience as constraint. It is the structure within which experience happens. Foucault pushed further: discourses — structured ways of talking about a subject — determine what can be known and said about it. Medical discourse determines what counts as illness. Legal discourse determines what counts as crime. Educational discourse determines what counts as competence. And discourse is never neutral. It always serves power. Not through crude prohibition — not by forbidding you to think certain thoughts — but by structuring the thinkable.
+
+Consider the person who can only think in HR grammar — who reaches for "development trajectories" and "alignment" and "stakeholder concerns" to describe what is plainly a conflict of interests, or a power grab, or a decision made to benefit the people making it at the expense of the people affected by it. The thought "this is class warfare disguised as procedure" is not forbidden to her. It is grammatically ill-formed. She cannot assemble it from the available pieces. The grammar provides no way to build it. And if she cannot build the thought, she cannot act on it — which means the grammar has accomplished, without any censorship at all, what a censor would need enforcement to achieve.
+
+Scale this to civilizational grammar. The World Economic Forum does not instruct anyone to think in particular ways. It generates a language — sustainability, stakeholder capitalism, inclusive governance, evidence-based policy — that cascades through institutional mimicry from Davos through the professional class through the HR department through the performance review through the formation of the individual professional who now experiences the language as her own. The grammar travels faster than any explicit ideology because it requires no assent. You don't adopt it. You become fluent in it. And once you're fluent, the thoughts it forecloses are not thoughts you have and suppress. They are thoughts that simply do not form.
+
+This is power at its most efficient. It does not forbid. It does not even persuade. It shapes the perceptual apparatus within which persuasion could occur, so that persuasion becomes unnecessary.
+
+---
+
+So: institutions capture every purpose to their own survival. Markets restructure human life until alternatives become unthinkable. Grammar shapes the thinkable itself, so that what the market has not yet metabolized cannot even be formulated as a thought. These are the tools of the secular analysis of power, and they are good tools. They illuminate the cage with precision.
 
 Here is where they hit the wall.
 
