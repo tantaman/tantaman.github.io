@@ -26,8 +26,7 @@ for file in \
   "$BASE_PATH/chapter-13-arrival.md"
 do
   cat "$file" >> $COMBINED_FILE
-  echo "" >> $COMBINED_FILE
-  echo "\\newpage" >> $COMBINED_FILE
+  printf '\n\n\\newpage\n\n' >> $COMBINED_FILE
 done
 
 echo "Content combined into $COMBINED_FILE"
