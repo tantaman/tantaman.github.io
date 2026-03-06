@@ -27,9 +27,11 @@ AUDIO_DIR = BOOK_DIR / "audio"
 
 
 def find_chapters(chapter_filter: str | None = None) -> list[dict]:
-    """Find book chapters, optionally filtered by chapter number."""
+    """Find book chapters, optionally filtered by chapter number. Skips files prefixed with _."""
     chapters = []
-    for path in sorted(BOOK_DIR.glob("chapter-*.md")):
+    for path in sorted(BOOK_DIR.glob("*.md")):
+        if path.name.startswith("_"):
+            continue
         if chapter_filter and not path.name.startswith(f"chapter-{chapter_filter}"):
             continue
         text = path.read_text(encoding="utf-8")
