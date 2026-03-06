@@ -1,3 +1,5 @@
+
+- update preface. Project started as analysis of power and self. Ended in unexpected place.
 - Sankeys in Ch 2?
 
 =---
