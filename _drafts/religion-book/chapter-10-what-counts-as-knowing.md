@@ -68,6 +68,30 @@ Narrative is a mode of knowing suited to the qualitative, particular, first-pers
 
 Consider what the first three modes of knowing actually cover. Personal experience reaches your body, your household, your immediate surroundings. The scientific method reaches domains where variables can be isolated and experiments repeated. Logic tests consistency but generates no content. Between them, they handle a small fraction of what you need to know in order to live. What happened in history — you were not there, and the account you read arrived pre-interpreted, shaped by what the historian noticed, ignored, and valued. What the economy is doing — you experience your grocery bill, and everything beyond it is a model built by people with prior commitments about what counts as prosperity. What constitutes a good life — science can tell you what correlates with reported satisfaction, but whether reported satisfaction is the right measure is a question answered by a story about what human beings are and what they are for. You hold such a story. You have always held one. The secular modern who believes he has no mythology is incorrect. His mythology is the one that declares mythology dead.
 
+Try this. I'll give you data. You interpret it. Then I'll give you more data. Watch what your mind does.
+
+**Data point one.** Since 1970, women in the developed world have gained unprecedented access to education, careers, legal rights, reproductive autonomy, and financial independence. By every measurable metric, women's freedom has expanded dramatically.
+
+Now answer: Are women happier?
+
+You probably answered yes. Or you hesitated — sensing a trap — and answered no. Either way, you had an expectation. That expectation is not from the data. I haven't given you happiness data yet. Your expectation is from a *story* about what freedom produces.
+
+**Data point two.** Women's self-reported happiness has declined since the 1970s — both in absolute terms and relative to men. This is documented across multiple countries and multiple decades. Researchers call it the "paradox of declining female happiness."
+
+Now watch your mind. If you're formed by the progressive narrative, you are already reaching for explanations: the revolution is incomplete, structural barriers remain, the mental load of second-shift labor, backlash from patriarchal systems. If you're formed by the conservative narrative, you're reaching for different ones: women were happier in traditional roles, feminism sold them a lie, the natural order has been disrupted.
+
+Notice: the data is identical. The explanations are completely different. And both sets of explanations feel, to the person generating them, like *what the data obviously means.*
+
+**Data point three.** Women in traditional religious communities — with dense communal structures, defined roles, and high fertility — consistently report *higher* life satisfaction than the secular average. Not lower. Higher.
+
+Now watch again. If your formation treats individual autonomy as the baseline human condition, this finding requires debunking. You will reach for "false consciousness," "adaptive preferences," "they don't know any better." These are not empirical claims. They are narrative commitments disguised as psychological explanations. They presuppose that satisfaction under constraint is illegitimate — that the only real satisfaction is satisfaction *after* liberation. But that presupposition is a story. It is the specific story your formation installed before you ever encountered the data.
+
+Someone with a different formation — someone shaped by Aristotle, or by a thick religious community, or simply by the experience of finding freedom in commitment — looks at the same three data points and sees something completely different: a civilization that confused liberation with the good, that systematically dismantled the structures through which people become selves, and that now wonders why the liberated self reports declining happiness. This interpretation is no less consistent with the data. It is no less empirical. It simply begins from a different narrative ground.
+
+You just watched yourself interpret data. The interpretation came before the reasoning. The story preceded the analysis. That story — the one you didn't notice selecting — is your narrative ground.
+
+You have one. You've always had one.
+
 ---
 
 Postmodernism saw this — and fumbled it. "All knowledge is situated. All narratives serve power. No ground is neutral." Correct as diagnosis. But postmodernism flipped the table, only to find all the pieces falling right back into place. From "there is no view from nowhere" it concluded "all views are equally groundless." This is the Enlightenment's fact/opinion binary in its final form: if narrative grounding is not a fact, it must be an opinion. Opinions cannot be ranked. Therefore all grounds are equal. The cultural relativist who announces this has not escaped the formation. He has produced its most sophisticated product — the floating self, unable to commit to any ground, calling the inability enlightenment.
