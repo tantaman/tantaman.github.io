@@ -56,6 +56,38 @@ But the armor is defensive. It protects the individual soul. It does not, by its
 
 ---
 
+The structures do something more than enable refusal. They recover capacities that the principality has systematically destroyed.
+
+Not new capacities. Not skills to be learned or practices to be adopted. The opposite. Capacities that are native to human beings and have been engineered out of them — by the attention economy, by the market's insistence on perpetual optionality, by a civilization that has made the self sovereign and then discovered that the sovereign self, left to its own devices, starves.
+
+Three capacities in particular. They are not a program. They are what becomes possible when structures stop preventing them.
+
+The first is attention. Not mindfulness — mindfulness, as commonly practiced, is a technique for managing the self, for reducing anxiety, for optimizing performance. Attention instrumentalized is not attention at all. What is meant here is what Simone Weil described when she called attention "the rarest and purest form of generosity." The capacity to be genuinely absorbed by something outside yourself, to the point where you forget your own preferences and reactions entirely. This is what happens when you read a great book not to have opinions about it but to let it work on you. It is what happens in genuine prayer, which is not asking for things but making yourself available to be addressed. It is what happens in the presence of another person when you stop strategizing about the conversation and simply listen.
+
+Children have this naturally. It is educated out of them — by screens, by assessment, by the constant message that the point of every experience is what *you* get out of it. The principality requires fragmented attention. Fragmented attention cannot receive anything that requires sustained presence. The early church's gatherings — the shared meal, the reading, the silence, the mutual aid that required showing up in person — were structures where unfragmented attention could happen. Not because anyone taught a technique. Because nothing in the structure was designed to prevent it.
+
+The second is commitment. The contemporary self keeps all options open because closing a door feels like a small death. Commitment — to a person, a place, a practice, a community — is experienced as limitation, and limitation is experienced as loss.
+
+But commitment is the voluntary acceptance of limitation that makes depth possible. You cannot learn what marriage teaches without foreclosing other romantic possibilities. You cannot learn what a place teaches if you're always optimizing for the next move. You cannot learn what a craft teaches if you abandon it the moment it becomes frustrating. Depth requires narrowing. Narrowing requires the willingness to let some version of yourself — the version that had all those other options — die.
+
+The entire economic and social order depends on people remaining in a state of perpetual optionality. Always available for the next opportunity. Always ready to pivot. The uncommitted self is the ideal consumer, the ideal employee, the ideal user. The committed self is an inconvenience.
+
+The early church demanded commitment. Baptism closed doors. It marked you. It was costly — not incidentally but structurally. The cost was the point. A community of people who had foreclosed their other options was a community capable of the depth that optionality prevents. The commitment didn't produce virtue as an output. It created the conditions in which virtue could grow, the way a wall creates the conditions in which a fire can warm a room.
+
+The third is the proper relationship to suffering. This requires care. The claim is not that suffering is good, or that it should be sought, or that the poor are blessed because poverty builds character. That way lies the obscene romanticization of pain.
+
+The claim is this: the project of eliminating all suffering — physical, emotional, existential — has also eliminated the primary mechanism by which human beings have historically discovered meaning, solidarity, and transcendence. Every serious spiritual tradition knows this. The Christian narrative places the cross at its center. Buddhism begins with *dukkha*. The Stoics built an entire ethical system around the proper relationship to suffering. These are not endorsements of suffering. They are recognitions that the encounter with suffering — one's own and others' — is where the self discovers that it is not the center of the universe. And that discovery is the beginning of wisdom.
+
+The attempt to engineer suffering out of existence doesn't produce happiness. It produces fragility and resentment. Fragility, because a self that has never been tested has no resources when the testing comes. Resentment, because in a world that promises the elimination of suffering, any remaining suffering is experienced as an outrage — someone's fault, an injustice to be remedied by identifying the responsible party and holding them accountable.
+
+The early church did not seek suffering. But its structures put people in positions where suffering could do its work rather than being managed away. The sick were visited, not referred. The dying were accompanied, not outsourced. The prisoner was fed. The widow was housed. These were not charity programs administered from a distance. They were encounters — direct, physical, costly — with the suffering of another person. The encounter changed the one who showed up. Not because suffering is ennobling but because the encounter with another's suffering, when it is not managed or mediated or converted into a professional service, breaks through the sovereign self's insulation. It puts you in contact with something the optimized life is structured to prevent: the reality that the world does not organize around your comfort.
+
+These three — attention, commitment, the encounter with suffering — are not practices the early church invented. They are capacities the early church's structures *stopped preventing*. When you build a community where people share meals, commit to each other with real cost, visit the sick in person, and show up for each other's darkness, these capacities emerge the way a plant emerges when you stop paving over the ground. You do not need a program. You need to stop building structures that make encounter impossible.
+
+The principality builds exactly those structures. The attention economy fragments attention. The market demands optionality. The therapeutic system manages suffering into a professional service delivered at a distance. Each of these is individually rational. Together they constitute a civilization-scale apparatus for the prevention of encounter. And encounter is the thing — the only thing — that produces the interior the principality cannot digest.
+
+---
+
 The table.
 
 Not the church as institution — hierarchies, denominations, religious corporations, all of which are captured by the principality and operate by its logic as reliably as any other organization. Not the church as a program, a movement, a strategic initiative, a platform for cultural renewal. The church as a gathering. The distinction is structural, not sentimental.
@@ -74,7 +106,11 @@ The bread on the table is divided and becomes less. Each mouth means less for ot
 
 ---
 
-That question points toward something the political theology of Paul and the material analysis of the early church can name but cannot fully address. It points toward mysticism — not as irrationalism, not as private consolation, but as the one posture the engine genuinely cannot metabolize. Chapter 9 approaches it.
+The structures are visible. The interior capacities they enable are named. But there is something the structures cannot produce and the capacities cannot reach on their own. Attention clears the noise. Commitment closes the exits. The encounter with suffering breaks the insulation. All three create conditions. None of them create the thing the conditions are *for*.
+
+What the conditions are for is a posture the engine cannot metabolize — not a practice, not a capacity, not a counter-formation, but something prior to all of these. Something that cannot be produced by effort because effort is will and will is what the engine runs on. Something that can only be received.
+
+Chapter 9 approaches it.
 
 ---
 
