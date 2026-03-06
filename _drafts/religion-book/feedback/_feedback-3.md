@@ -1,3 +1,5 @@
+https://chat.qwen.ai/c/59d98e2e-65bd-4636-b1ad-057e45bf25bb
+
 1. Ch. 5's load-bearing fences passage is the book's biggest unforced 
   error. Your own feedback file flags it (line 72-81). "Men and women   
   are different, and the differences matter for how children are raised"
