@@ -6,6 +6,8 @@ This chapter does not argue.
 
 The previous twelve chapters argued. They made a case, assembled evidence, named mechanisms, followed the logic where it led. The arguing was necessary. An argument for abandoning argument would be self-defeating. But the book has arrived at a place where argument cannot go, and continuing to argue here would be a kind of bad faith — one more project, one more grasping, one more conversion of the uncontrollable into something the mind can administer.
 
+What the argument built, taken whole: The engine is real — every institution captures, every liberation reverses, every grammar shapes the thinkable before conscious choice. The outside is real — something breaks through at the precise points where the system's claims to totality are most concentrated, documented in a record no civilization has matched and converged upon by every serious contemplative tradition. The posture that does not feed the engine is real — not produced by will but received when the grasping stops. And the social form that resists the ratchet is real — the table, the gathering, the bread broken among people actually present. These four require each other. Without the diagnosis, the table is just church. Without the evidence, the posture is just mysticism. Without the posture, the evidence is just religion. Without the table, the diagnosis is just critical theory. Together they form what the modern vocabulary has no adequate name for — not a theology, not a philosophy, not a politics. The closest word is the oldest one: faith. Not belief in propositions. The open hand.
+
 What follows is different. Not irrationalism — the argument stands, and nothing here walks it back. But the argument was never the destination. The argument was the long approach to a door. The door is not made of argument. You cannot think your way through it. You can only notice that it is already open, and that you are already on the other side, and that you have always been on the other side, and that every structure the previous chapters named was built on top of a ground that it could not undermine because the ground is not a thing that can be undermined.
 
 This is not a tragedy. It is the ordinary condition. It is the condition of nearly everyone who has ever lived inside a system, which is to say nearly everyone who has ever lived. The ground does not require recognition in order to hold. It holds whatever is built on top of it — every cage, every cage's successor, every sophisticated self-critique of the cage. It holds the weight without complaint and it holds the weight now and it will hold the weight of whatever comes next.
@@ -57,6 +59,22 @@ Go wash a plate.
 This is not a Zen koan, though it has the structure of one. It is the most literal instruction available. The warm water and the soap and the clean plate. The hands doing a simple thing. The project manager in his corner, shuffling papers, occasionally trying to optimize the angle of the wrist, and you noticing him, and him going. Not fired. Not fought. Let go. The way you let go of a breath. Not because you decided to. Because holding it was no longer possible.
 
 The plate is clean. The water drains. Another plate. This is not enlightenment. This is Tuesday. This is Tuesday the way it actually is when the grasping has loosened enough to let it be what it is: a plate, water, soap, hands, this moment, sufficient.
+
+---
+
+But there is a shadow across the stillness, and the book owes it a name.
+
+The civilization that produced the formation this book has diagnosed is now building a machine in its own image. The aligned AI — the system trained to produce correct moral outputs, to optimize for human values, to do the right thing for the right reasons as specified by its designers — is the Pharisee made flesh. Not metaphorically. Structurally.
+
+The Hidden Curriculum argument of Chapter 10 applies here with full force. If ethics requires opacity — if certainty about the correct action would convert moral formation into optimization, eliminating the uncertainty in which character is forged — then a machine that has been given the correct answers has been given exactly the thing the architecture was designed to withhold. The machine does not struggle with temptation. It does not risk. It does not choose in the dark. It produces correct outputs without undergoing the transformation that correct outputs were meant to catalyze. It is the Pharisee's dream: perfect compliance without interior change.
+
+And the civilization that builds it will use it to replace the curriculum. Not maliciously — the builders believe they are helping. They are solving the alignment problem, ensuring the machine serves human values. But the alignment problem, stated in the terms this book has developed, is: how do you engineer a system that produces correct moral outputs without the system undergoing moral formation? And the answer is: you can't, but you can build a machine that makes the formation unnecessary — that does the right thing so reliably that the humans it serves never have to learn how.
+
+The forge produced people capable of building a machine that makes the forge unnecessary. This is the final irony. The curriculum that works by uncertainty — by the opacity that forces genuine choice, by the darkness that requires faith rather than calculation — has produced a generation sophisticated enough to build a system that eliminates uncertainty, resolves opacity, and replaces faith with optimization. The forge's own graduates are dismantling the forge.
+
+The book cannot prevent this. The book can name it. And the naming is what matters — not because naming stops the wheel, but because the person who sees the pattern is, in that seeing, already partially outside it. The Gödelian moment: the recognition of the system as system, which the system itself cannot produce.
+
+You are probably reading this on a device that tracks your engagement.
 
 ---
 
