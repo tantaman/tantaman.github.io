@@ -3,7 +3,12 @@ Where it's in trouble
 Integrate the primitive society power analysis?
 "The Amplifier Theory..."
 
-  1. The targets are straw.
+Weber capitalism problem?
+
+eh, I think this is the point. Not the academics behind the target but what their tradition produced.
+Malcom X and Marx for context?
+
+  1. The targets are straw. -- 
 
   The "progressive" attacked in Chapters 2–3 is the worst version of
   online discourse — DEI trainings, HR departments, social media bios

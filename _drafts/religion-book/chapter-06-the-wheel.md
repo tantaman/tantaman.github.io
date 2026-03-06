@@ -34,6 +34,18 @@ The opposition to the system is one of the system's primary fuels. Intense oppos
 
 ---
 
+But Girard names the mechanism, not the fuel. Why does mimetic rivalry take hold so completely? Why does the revolutionary become the tyrant with such regularity that the exceptions can be counted on one hand? The mechanism requires something to work on, and what it works on is not a product of any system. It is what the systems are built on top of.
+
+The anthropologist Christopher Boehm, synthesizing decades of research on human foragers and our primate relatives, identified a dual disposition in human nature: a drive toward dominance and a drive to resist domination by others. We are neither naturally egalitarian nor naturally despotic. We are both. In small groups without external leverage, these dispositions produce what Boehm called a reverse dominance hierarchy — the collective gangs up on would-be dominators through ridicule, ostracism, and if necessary violence. Egalitarianism, where it has existed, was never a default. It was an achievement — actively maintained against the constant pressure of individuals seeking to dominate.
+
+This is the datum the secular analysis calls "the will to power" and treats as given without interrogating. It is what the tradition called original sin — not as guilt mechanism, not as the structural inheritance Chapter 2 traced through progressive culture, but as diagnosis. The violence is in us. Not as trauma inflicted from outside that therapy might heal. As inheritance. Older than any empire. Older than language. The first brother looked at his brother and saw obstacle instead of kin, and this was not a systemic failure. It was a human one.
+
+The recognition changes the shape of the problem. If the violence were only structural — only in the systems, the institutions, the grammars — then a better structure could fix it. But the structures concentrate power because we are the kind of beings who concentrate power when the conditions permit. The cage is not imposed on innocent inhabitants. The inhabitants built it, and will build it again, because building cages is what the disposition does when it finds amplifiers to work with. Every reform addresses the structure. The disposition survives every reform.
+
+Girard explains why rivals converge. The disposition explains why there are rivals in the first place. What follows explains what happens when the disposition meets surplus.
+
+---
+
 Girard explains the shape of the dynamic at the level of human psychology and social interaction. The ratchet explains the same dynamic at the level of physics.
 
 Capital accumulates. Power concentrates. Complexity compounds. These are not tendencies that human beings could choose otherwise if they were more virtuous or better organized. They are, as the evidence suggests, something closer to laws — default attractor states that any sufficiently complex system falls into unless continuous energy is spent preventing them.
