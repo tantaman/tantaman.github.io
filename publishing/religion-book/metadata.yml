@@ -1,0 +1,13 @@
+title: 'Arrival'
+author: 'Matthew Wonlaw'
+date: 2026
+language: en-US
+rights: © 2026 Matthew Wonlaw. All rights reserved.
+header-includes: |
+  \usepackage{titlesec}
+  \titleformat{\subsection}{\normalfont\large\bfseries\centering}{\thesubsection}{1em}{}
+  \usepackage{etoolbox}
+  \patchcmd{\tableofcontents}{\contentsname}{\vspace*{\fill}\begin{center}\contentsname\end{center}}{}{}
+  \apptocmd{\tableofcontents}{\vspace*{\fill}\newpage}{}{}
+include-before: |
+  \newpage
