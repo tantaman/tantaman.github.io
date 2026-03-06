@@ -46,7 +46,7 @@ The psychological trap this built is precise. You cannot rest because rest is ev
 
 Then, over two centuries, the theology fell away. The religious scaffolding collapsed. What remained was the psychological structure, now floating free, no longer attached to any justification, no longer pointing toward any resolution. Weber called it the iron cage. "The Puritan wanted to work in a calling; we are forced to do so." The compulsion survived the faith that had generated it. The anxiety survived the question it was answering.
 
-The woman who cannot not check email — who would feel guilty not checking, who cannot rest without the rest feeling like failure — is not failing to manage her time. She is the iron cage's successful product. The anxiety is working exactly as designed. The design no longer has a purpose, because the purpose was salvation and that is no longer on offer. What remains is the compulsion without the promise.
+What the iron cage produces in bodies — the specific texture of compulsion without purpose, achievement without arrival — is the subject of the next chapter. Here the genealogy is what matters: the structure survived the theology. The compulsion outlived the faith.
 
 ---
 
