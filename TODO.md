@@ -1,3 +1,10 @@
+The remaining vulnerability is Ch. 10. It's the book's hinge between
+  "something happened" and "what happened was real knowing," and the
+  inductive argument (convergence) is weaker than the structural
+  arguments the book makes everywhere else. The Hidden Curriculum
+  material — which is structural, not inductive — would fix this if
+  fully integrated.
+
 backup-before-filter <-- pre filtered repo with all content
 
 
