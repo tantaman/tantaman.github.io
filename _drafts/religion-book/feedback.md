@@ -1,5 +1,8 @@
 Where it's in trouble
 
+Integrate the primitive society power analysis?
+"The Amplifier Theory..."
+
   1. The targets are straw.
 
   The "progressive" attacked in Chapters 2–3 is the worst version of
@@ -9,39 +12,6 @@ Where it's in trouble
   Foucault and Marx at their best and then presents their followers at
   their worst. A sophisticated reader — the reader this book is written
   for — will notice the asymmetry and distrust the argument.
-
-  2. Chapter 7's central claim is underdeveloped and contestable.
-
-  The assertion that the Bible is unique among civilizational records in
-   "preserving the testimony of the losing side" is doing enormous
-  structural work in the argument, and it's treated as nearly
-  self-evident. But:
-  - The Hebrew Bible was edited by priestly and scribal elites. The
-  prophetic books were preserved by the institution — which is
-  fascinating but complicates the "honest record" framing significantly.
-  - The claim that "no other civilization produced anything structurally
-   comparable" needs engagement with counterexamples. Chinese
-  historiography has a strong tradition of critical court histories.
-  Greek tragedy put the enemy's perspective on stage. The claim may be
-  right, but it's asserted rather than argued.
-
-  This is the hinge chapter — where the book pivots from diagnosis to
-  encounter — and it's the weakest link in the chain.
-
-  3. The book is never quite honest about its destination.
-
-  It claims to proceed on "secular terms" through most of its length.
-  But the deck is stacked from the opening paragraphs. By Chapter 12,
-  the book is explicitly arguing for Eucharistic community, liturgical
-  practice, and what is recognizably a specific form of Christianity.
-  The "I'm not arguing for conversion" disclaimers become less credible
-  as the book progresses. A reader who followed the analysis because it
-  was rigorous may feel led rather than persuaded.
-
-  The book would be stronger if it owned its destination earlier. The
-  coyness feels like a rhetorical strategy, and the book's own analysis
-  of institutional manipulation should make it wary of rhetorical
-  strategies.
 
   4. Chapter 9's four arguments against materialism are weaker than they
    present themselves.
@@ -72,13 +42,33 @@ Where it's in trouble
   illustration rather than rigorous argument. This is one of the book's
   most important concepts, and it needs more grounding.
 
-  6. Significant repetition.
 
-  The same argumentative move — name the cage, show the cage captures
-  its critics, gesture toward something outside — occurs in nearly every
-   chapter. The reader has the point by Chapter 5. The later chapters
-  need to either move faster through this ground or add genuinely new
-  material to it.
+---
+  6.  Where I think there is a real but different problem:
+
+  1. The chapter-opening recapitulations. Many chapters open with a
+  paragraph summarizing what the previous chapter established.
+  Individually fine. Cumulatively they create a sense of circling. A
+  reader tracking the argument doesn't need the recap — she just read
+  the chapter.
+
+  2. The book is developing its own catchphrases. "The engine cannot
+  metabolize." "The wheel turns regardless." "Every liberation becomes
+  what it fought." "The grasping self." These are effective
+  individually, but by Chapter 9 they risk becoming the book's own
+  grammar — in the exact Foucauldian sense the book itself describes.
+  The phrases start to do the reader's thinking for her. They become
+  tokens she can nod at rather than propositions she has to wrestle
+  with. This is the subtler and more important version of the problem,
+  and it's ironic in a way the book should be alert to: the argument
+  about how grammar forecloses thought is itself developing a grammar.
+
+  So: the argument advances. The spiral is real. My original critique
+  was overstated. But the recaps could be trimmed, and the recurring
+  phrases deserve a hard editorial pass — not to eliminate them, but to
+  make sure each recurrence is earning its place rather than becoming a
+  refrain the reader hums along with instead of hearing.
+  ---
 
   7. Eastern traditions get short shrift.
 
