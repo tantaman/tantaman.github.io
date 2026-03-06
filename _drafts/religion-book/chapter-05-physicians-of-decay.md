@@ -98,24 +98,26 @@ Chapter 6 names it.
 
 ---
 
-## Month Five
+## Month Four
 
 ### The First Man
 
-The anatomy scan reveals a girl. His wife weeps with happiness. He smiles and the smile is real but beneath it, a new calculation has begun: _a daughter_. A daughter he could raise alone. The permutations multiply.
+He's begun avoiding sex. Not consciously — or maybe consciously, he can no longer tell. His wife's body is a site of potential catastrophe. He loves her. He loves the child growing inside her. And somewhere beneath the love, the body has become the enemy. The pregnancy is both miracle and threat and he cannot hold both so the threat wins because the threat is louder.
 
-He's drinking more. Nothing dramatic — an extra beer, a whiskey after the boys are down. Just enough to blunt the edge. Just enough to make the distance between now and November feel navigable. He doesn't think of himself as someone with a drinking problem. He thinks of himself as someone coping.
+She notices. Of course she notices. They have a conversation that goes badly — her hurt, his defensiveness, the real fear buried under seven layers of deflection. She cries. He almost tells her about the spreadsheet but doesn't.
 
-His wife has started asking if he's excited about the baby. He says yes. He is not lying. He is also not telling the truth. The excitement is there but it's buried under so much contingency planning that it can't breathe. He has excited-about-the-baby the way a bunker has sunlight — technically, through a very small opening.
+At work he volunteers for a project with a brutal deadline. He tells himself it's for the bonus. The truth is that twelve-hour days leave less room for the calculations. He's discovered that exhaustion is a crude but effective anesthetic.
 
-He reads about single fathers raising daughters. He bookmarks articles on braiding hair.
+His boys start acting out. The youngest bites another child at daycare. The oldest refuses bedtime three nights running. He handles it — consequences, firm voice, routine — but there's a mechanical quality to his parenting now. He's performing the gestures. The warmth behind them has been requisitioned for other purposes.
 
 ### The Second Man
 
-The anatomy scan reveals a girl. He cries. Openly, in the room, in front of the technician, snot and all. His wife laughs at him and he laughs at himself and the technician has seen this a thousand times and smiles.
+He signs up for a woodworking class on Tuesday nights. He has no particular aptitude. The appeal is in the material — the resistance of the grain, the requirement of attention. You cannot worry about November while operating a table saw. The body won't allow it.
 
-A daughter. The word rearranges him in real time.
+He comes home smelling like sawdust and his boys climb on him and his wife laughs at the shavings in his hair. He's building a crib. It will not be beautiful. It will hold a baby.
 
-That night he lies awake — not with fear but with the sheer strangeness of it, the improbability that he exists at all, that she exists at all, that the universe bothered. It's not a thought exactly. More like a weather system moving through.
+The fear still visits. It visited hard last Thursday — a full-body ambush while he was driving, the kind where your hands go cold and the road narrows and every car is a threat. He pulled over. He breathed. He called his wife and said, _I just got scared._ She said, _I know. Come home._
 
-He tells his boys they're getting a sister. The oldest says _why_ and the youngest says _lellow_ and his wife catches his eye across the room and what passes between them is not language.
+He went home.
+
+The difference — the only difference — is that the fear has nowhere to metastasize. He felt it, named it, shared it. It remains itself. It doesn't become insomnia or distance or a spreadsheet or a secret.

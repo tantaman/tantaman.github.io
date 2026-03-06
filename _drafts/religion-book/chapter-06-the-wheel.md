@@ -74,28 +74,24 @@ The honest record. Chapter 7 is the first encounter with it — reluctant, analy
 
 ---
 
-## Month Six
+## Month Five
 
 ### The First Man
 
-His wife suggests couples therapy. He agrees because refusing would require an explanation he doesn't have. In the first session, the therapist asks how he's feeling about the pregnancy. He says _good, nervous, normal stuff._ The therapist waits. He says nothing more. His wife says, _He's somewhere else. He's been somewhere else for months._
+The anatomy scan reveals a girl. His wife weeps with happiness. He smiles and the smile is real but beneath it, a new calculation has begun: _a daughter_. A daughter he could raise alone. The permutations multiply.
 
-He wants to defend himself. He wants to say: _I'm doing this for you. I'm preparing. If you knew what I know about the statistics—_
+He's drinking more. Nothing dramatic — an extra beer, a whiskey after the boys are down. Just enough to blunt the edge. Just enough to make the distance between now and November feel navigable. He doesn't think of himself as someone with a drinking problem. He thinks of himself as someone coping.
 
-But even as he forms the defense, something cracks. Because the truth is that the preparing has replaced the living. He's been so busy rehearsing her death that he's missed her life. Six months of her life. Six months of his own.
+His wife has started asking if he's excited about the baby. He says yes. He is not lying. He is also not telling the truth. The excitement is there but it's buried under so much contingency planning that it can't breathe. He has excited-about-the-baby the way a bunker has sunlight — technically, through a very small opening.
 
-He doesn't say any of this yet. He says, _I'll try harder._ The therapist writes something down.
-
-That night he lies in bed and for the first time allows himself to think: _What if she's fine? What if all of this was for nothing?_ And the thought is not a relief. It's an accusation. Because if she's fine, then he spent six months in a grave he dug himself, and the boys grew three inches and he barely noticed, and his wife carried a child and a husband's silence and no one asked her to carry either one alone.
+He reads about single fathers raising daughters. He bookmarks articles on braiding hair.
 
 ### The Second Man
 
-His wife has a scare — spotting, enough to call the OB, enough to go in. They sit in the waiting room and his hand shakes and hers is steady, which surprises them both.
+The anatomy scan reveals a girl. He cries. Openly, in the room, in front of the technician, snot and all. His wife laughs at him and he laughs at himself and the technician has seen this a thousand times and smiles.
 
-It's nothing. A capillary. Common. Not a sign of anything. They go home.
+A daughter. The word rearranges him in real time.
 
-That night the fear comes back hard and earned. Not the ambient hum but the specific, ice-water dread. He doesn't resist it. He sits on the porch and shakes. His body does what bodies do with fear — processes it, metabolizes it, lets the adrenaline crest and recede.
+That night he lies awake — not with fear but with the sheer strangeness of it, the improbability that he exists at all, that she exists at all, that the universe bothered. It's not a thought exactly. More like a weather system moving through.
 
-His wife comes out. They sit together. She says, _That was scary._ He says, _Yeah._ They don't solve anything. They don't need to.
-
-The next day he finishes the crib. It's imperfect — one rail is slightly higher than the other, the stain is uneven. His youngest touches it reverently and says _baby_ and he thinks: _this is what it means to be here. Not safe. Here._
+He tells his boys they're getting a sister. The oldest says _why_ and the youngest says _lellow_ and his wife catches his eye across the room and what passes between them is not language.

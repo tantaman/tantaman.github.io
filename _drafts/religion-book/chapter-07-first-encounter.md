@@ -86,32 +86,28 @@ What that encounter requires — what posture makes it possible, what has to be 
 
 ---
 
-## Month Seven
+## Month Six
 
 ### The First Man
 
-Couples therapy, session six. He tells her about the spreadsheet.
+His wife suggests couples therapy. He agrees because refusing would require an explanation he doesn't have. In the first session, the therapist asks how he's feeling about the pregnancy. He says _good, nervous, normal stuff._ The therapist waits. He says nothing more. His wife says, _He's somewhere else. He's been somewhere else for months._
 
-The room goes quiet. His wife stares at him. The therapist is very still. He explains it — the columns, the scenarios, the calculations. He explains it the way you'd explain a project at work, because that's what it's become: a project, a deliverable, a thing he's built to manage the unmanageable.
+He wants to defend himself. He wants to say: _I'm doing this for you. I'm preparing. If you knew what I know about the statistics—_
 
-His wife says: _You've been planning my funeral for seven months?_
+But even as he forms the defense, something cracks. Because the truth is that the preparing has replaced the living. He's been so busy rehearsing her death that he's missed her life. Six months of her life. Six months of his own.
 
-He says: _I've been planning for what happens if—_
+He doesn't say any of this yet. He says, _I'll try harder._ The therapist writes something down.
 
-She says: _That's the same thing._
-
-And it is. He knows it is. The spreadsheet is a coffin made of cells and formulas, and he's been sleeping next to her every night inside it.
-
-He breaks. Not dramatically. Quietly, the way load-bearing walls break — a crack that runs the full height before anything moves.
-
-The therapist gives them homework. He doesn't do the spreadsheet that night. He doesn't sleep either. He lies in the dark and feels the full weight of what he's done to his own life and it's worse than anything in the spreadsheet because the spreadsheet was about losing her and the truth is he already lost her, six months ago, when he chose the calculations over the kitchen, the scenarios over the couch, the planning over the porch.
+That night he lies in bed and for the first time allows himself to think: _What if she's fine? What if all of this was for nothing?_ And the thought is not a relief. It's an accusation. Because if she's fine, then he spent six months in a grave he dug himself, and the boys grew three inches and he barely noticed, and his wife carried a child and a husband's silence and no one asked her to carry either one alone.
 
 ### The Second Man
 
-His wife is uncomfortable. The baby is big. She can't sleep. He rubs her back at 3 AM and they watch bad television and she falls asleep against him and he stays very still so as not to wake her, his arm going numb, the TV flickering.
+His wife has a scare — spotting, enough to call the OB, enough to go in. They sit in the waiting room and his hand shakes and hers is steady, which surprises them both.
 
-He's tired. Pregnancy is tiring even for the one not carrying the child. The boys need more than ever because they sense the upheaval coming. His oldest has started asking where babies come from and his youngest has started waking at night again, some preverbal awareness that the architecture of the family is shifting.
+It's nothing. A capillary. Common. Not a sign of anything. They go home.
 
-He's tired but he's here. The distinction matters. Tiredness from presence is a clean tiredness. You sleep and it resolves. Tiredness from worry is a debt that compounds.
+That night the fear comes back hard and earned. Not the ambient hum but the specific, ice-water dread. He doesn't resist it. He sits on the porch and shakes. His body does what bodies do with fear — processes it, metabolizes it, lets the adrenaline crest and recede.
 
-He calls his buddy, the one whose wife also had a rough delivery. They drink beer on the buddy's porch and don't talk about it directly. They talk about the Orioles and a deck project and then his buddy says, _How are you actually doing,_ and he says, _Scared,_ and his buddy says, _Yeah,_ and they drink their beer.
+His wife comes out. They sit together. She says, _That was scary._ He says, _Yeah._ They don't solve anything. They don't need to.
+
+The next day he finishes the crib. It's imperfect — one rail is slightly higher than the other, the stain is uneven. His youngest touches it reverently and says _baby_ and he thinks: _this is what it means to be here. Not safe. Here._

@@ -90,26 +90,24 @@ The analysis was right. Its practitioners did what the analysis predicted. The w
 
 ---
 
-## Month Four
+## Month Three
 
 ### The First Man
 
-He's begun avoiding sex. Not consciously — or maybe consciously, he can no longer tell. His wife's body is a site of potential catastrophe. He loves her. He loves the child growing inside her. And somewhere beneath the love, the body has become the enemy. The pregnancy is both miracle and threat and he cannot hold both so the threat wins because the threat is louder.
+The first ultrasound. A heartbeat, fast and aquatic. His wife squeezes his hand. He squeezes back. Inside, he is calculating the distance from this room to the surgical suite.
 
-She notices. Of course she notices. They have a conversation that goes badly — her hurt, his defensiveness, the real fear buried under seven layers of deflection. She cries. He almost tells her about the spreadsheet but doesn't.
+He's lost seven pounds. Not intentionally. He just forgets meals or starts them and can't finish. His oldest has begun watching him with an expression he can't name — something between curiosity and vigilance. Children are seismographs. They can't read the data but they register every tremor.
 
-At work he volunteers for a project with a brutal deadline. He tells himself it's for the bonus. The truth is that twelve-hour days leave less room for the calculations. He's discovered that exhaustion is a crude but effective anesthetic.
+He starts a spreadsheet. Life insurance policies, 529 plans, mortgage balance, monthly expenses with and without a second income. He revisits it most evenings, adjusting numbers, running scenarios. It's a very thorough spreadsheet. He knows this is not normal behavior and he labels it _responsible_ and the label holds for now.
 
-His boys start acting out. The youngest bites another child at daycare. The oldest refuses bedtime three nights running. He handles it — consequences, firm voice, routine — but there's a mechanical quality to his parenting now. He's performing the gestures. The warmth behind them has been requisitioned for other purposes.
+His wife finds him awake at 2 AM on his laptop. She asks what he's doing. He says work. She doesn't believe him but she's too tired to press. A small lie, the kind that corrodes slowly, the kind whose damage is cumulative and invisible until it isn't.
 
 ### The Second Man
 
-He signs up for a woodworking class on Tuesday nights. He has no particular aptitude. The appeal is in the material — the resistance of the grain, the requirement of attention. You cannot worry about November while operating a table saw. The body won't allow it.
+The first ultrasound. A heartbeat, fast and aquatic. His wife squeezes his hand. He squeezes back. He feels the full weight of the moment — joy laced with terror — and lets both exist simultaneously without trying to resolve the contradiction.
 
-He comes home smelling like sawdust and his boys climb on him and his wife laughs at the shavings in his hair. He's building a crib. It will not be beautiful. It will hold a baby.
+He's sleeping well, mostly. When the fear wakes him, he gets up, drinks water, stands on the porch. The woods are dark and full of noise and he listens until his nervous system downshifts from the specific fear to the general hum of being alive in an uncertain world, which is a hum he can live with because it was always there.
 
-The fear still visits. It visited hard last Thursday — a full-body ambush while he was driving, the kind where your hands go cold and the road narrows and every car is a threat. He pulled over. He breathed. He called his wife and said, _I just got scared._ She said, _I know. Come home._
+He updates the document he made in Month One. Nothing has changed materially. The plan is the plan. He closes the laptop and goes to bed.
 
-He went home.
-
-The difference — the only difference — is that the fear has nowhere to metastasize. He felt it, named it, shared it. It remains itself. It doesn't become insomnia or distance or a spreadsheet or a secret.
+His wife finds him awake one night and asks what he's thinking about. He says, _I'm scared about the delivery._ She says, _Me too._ They hold each other in the dark. Nothing is fixed. Everything is different.

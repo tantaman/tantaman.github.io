@@ -92,28 +92,26 @@ The question that follows — the one this chapter cannot answer and the next mu
 
 ---
 
-## Month Two
+## Month One
 
 ### The First Man
 
-He has not told anyone about the pregnancy yet, partly because it's early, partly because saying it aloud would make it real and the thing that follows real.
+The positive test sits on the bathroom counter for three days because neither of them can throw it away and neither of them can say why.
 
-He's developed a habit. Every night after the boys are asleep, he opens a private browser window and reads. Obstetric journals. Maternal death memoirs. Reddit threads from widowed fathers. He tells himself this is preparation. It feels like preparation. The information accumulates and each piece makes the next piece necessary — if he knows the hemorrhage risk, he needs to know the transfusion protocol, and if he knows the transfusion protocol, he needs to know the nearest Level IV trauma center, and if he knows that, he needs to know the drive time, which means he needs to map the route, which means—
+He begins researching that night. Not the way expectant fathers research — not strollers, not names. He searches _maternal mortality rate second pregnancy after hemorrhage_. He searches _uterine rupture risk factors_. He searches _how to file for survivor benefits with two dependents_. He reads four studies before his wife falls asleep and then reads three more.
 
-At work, his code reviews are slow. He re-reads the same function three times. His manager asks if everything's okay and he says yes and means no and can't explain why because the pregnancy is a secret and the fear is a secret inside the secret.
+Something has opened in him. Not a wound exactly — more like a trapdoor. He'd sealed it after the first delivery, after they came home, after she was fine, technically fine, after the follow-up appointments confirmed she was fine. He'd sealed it and stacked furniture on top of it and now the furniture is sliding.
 
-His wife asks why he's quiet at dinner. He says he's tired. This is true but incomplete. The complete answer is that he's looking at her and calculating. How much she weighs, how much blood is in her body, how much she can lose before—
-
-He stops himself. He picks up his fork. He asks his oldest about school.
-
-The fork is heavy.
+He lies next to her and his mind is already nine months ahead, standing in a hospital hallway, receiving news.
 
 ### The Second Man
 
-They tell their families at eight weeks, earlier than tradition recommends. He wants the support structure visible. His mother-in-law cries. His own father claps him on the back and says something insufficient about how these things always work out, and he resists the urge to correct this because his father means well and the correction wouldn't serve anyone.
+The positive test sits on the bathroom counter for three days because neither of them can throw it away and neither of them can say why.
 
-The fear visits. It comes at odd moments — while brushing his teeth, while pushing the boys on the swings. It doesn't knock. But he's learned something about fear, maybe the only important thing: it gets louder the more you refuse to hear it.
+He feels it immediately — the trapdoor. The memory of her face losing color, the nurses moving too fast, the moment he understood that the word _complication_ could mean the end of everything. It comes back whole and heavy and he lets it come.
 
-So when it arrives, he hears it. _She could die._ Yes. She could. The body is fragile and medicine is imperfect and the universe makes no guarantees. He holds this and then he sets it down. Not because he's brave. Because he already heard it. He already made the plans. There is nothing new the fear can tell him.
+He sits with it for most of a Saturday. Not researching. Not planning. Just letting the fear say what it has to say. It says: _she could die_. He doesn't argue with it. He doesn't reassure himself. He lets the sentence exist in his chest.
 
-He notices he's present for strange, small things. The way his youngest says _lellow_ for yellow. The particular weight of his wife leaning against him on the couch, her body already beginning to change. He files a feature at work that he's been procrastinating on and it goes well and he feels the simple mammalian pleasure of a thing completed.
+On Sunday he calls his mother-in-law. On Monday he calls the OB and asks for a consultation about the prior delivery, risk factors, what monitoring will look like. On Tuesday he sits down for an hour and writes out the worst-case scenarios and what each would require — finances, childcare, logistics. He puts the document in a shared folder and tells his wife it's there.
+
+By Wednesday the fear is still present, but it has edges now. It's a known shape. He goes back to his life.

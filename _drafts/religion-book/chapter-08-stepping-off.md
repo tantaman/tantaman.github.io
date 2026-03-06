@@ -80,34 +80,32 @@ That question points toward something the political theology of Paul and the mat
 
 ---
 
-## Month Eight
+## Month Seven
 
 ### The First Man
 
-He's trying. He closes the spreadsheet — not deletes it, he can't delete it — but closes it. He comes home earlier. He sits on the floor with his boys and builds block towers and tries to be in the room instead of in November.
+Couples therapy, session six. He tells her about the spreadsheet.
 
-It doesn't work and then it works a little and then it doesn't work again. The neural pathways are carved deep. Seven months of catastrophic thinking have laid grooves in his mind and his thoughts run along them the way water runs along riverbeds — not because the water chose the path but because the path was there.
+The room goes quiet. His wife stares at him. The therapist is very still. He explains it — the columns, the scenarios, the calculations. He explains it the way you'd explain a project at work, because that's what it's become: a project, a deliverable, a thing he's built to manage the unmanageable.
 
-His wife is cautiously kind with him. She can see him trying. She can also see him failing. Both are true and she holds both, which is more than he's been able to do.
+His wife says: _You've been planning my funeral for seven months?_
 
-He picks up his youngest from daycare and on the drive home the boy says _Daddy sing_ and he opens his mouth and what comes out is thin and off-key and he realizes he hasn't sung in months. He used to sing constantly. In the car, in the shower, while cooking. Somewhere in the planning, the music stopped.
+He says: _I've been planning for what happens if—_
 
-He sings anyway. Badly. The boy doesn't care.
+She says: _That's the same thing._
 
-Something small and green pushes through.
+And it is. He knows it is. The spreadsheet is a coffin made of cells and formulas, and he's been sleeping next to her every night inside it.
+
+He breaks. Not dramatically. Quietly, the way load-bearing walls break — a crack that runs the full height before anything moves.
+
+The therapist gives them homework. He doesn't do the spreadsheet that night. He doesn't sleep either. He lies in the dark and feels the full weight of what he's done to his own life and it's worse than anything in the spreadsheet because the spreadsheet was about losing her and the truth is he already lost her, six months ago, when he chose the calculations over the kitchen, the scenarios over the couch, the planning over the porch.
 
 ### The Second Man
 
-He's nesting. Not the way his wife is nesting — she's organizing drawers and washing tiny clothes. He's nesting the way men nest: checking the car seat installation for the third time, replacing the smoke detector batteries, stacking firewood. Physical acts of readiness that are also physical acts of hope.
+His wife is uncomfortable. The baby is big. She can't sleep. He rubs her back at 3 AM and they watch bad television and she falls asleep against him and he stays very still so as not to wake her, his arm going numb, the TV flickering.
 
-His wife watches him stack wood and says, _You know it's August, right?_
+He's tired. Pregnancy is tiring even for the one not carrying the child. The boys need more than ever because they sense the upheaval coming. His oldest has started asking where babies come from and his youngest has started waking at night again, some preverbal awareness that the architecture of the family is shifting.
 
-He says, _Winter's coming._
+He's tired but he's here. The distinction matters. Tiredness from presence is a clean tiredness. You sleep and it resolves. Tiredness from worry is a debt that compounds.
 
-She says, _You're such a weirdo._
-
-He says, _You married the weirdo._
-
-The fear is quiet now. Not gone. It will never be gone. It lives in the body the way the first delivery lives in the body — as knowledge, as scar tissue, as the particular flinch he'll carry into every medical setting for the rest of his life. But it's quiet the way a dog is quiet after a long walk. It's been attended to. It has no unfinished business.
-
-He starts a letter to the baby. He doesn't tell anyone. He writes about the woods behind their house and the sound the creek makes and the way her brothers will drive her crazy and love her beyond language. He writes about her mother. He writes about fear and how it isn't the opposite of love but its shadow, proof that something matters enough to lose.
+He calls his buddy, the one whose wife also had a rough delivery. They drink beer on the buddy's porch and don't talk about it directly. They talk about the Orioles and a deck project and then his buddy says, _How are you actually doing,_ and he says, _Scared,_ and his buddy says, _Yeah,_ and they drink their beer.

@@ -88,12 +88,40 @@ Chapter 11 approaches the one posture that makes this possible without convertin
 
 ---
 
-## Delivery Day
+## Month Nine
 
-They check in at the same hospital, same ward, same admitting desk. The hallway smells the same — antiseptic and something floral, the institutional attempt at comfort. The nurses are kind. The monitors beep.
+### The First Man
 
-The delivery is difficult but not catastrophic. There is a moment — one moment — when the doctor's voice changes register and the room accelerates and both men feel the floor tilt.
+The due date approaches like a verdict.
 
-The moment passes. The baby is born. She screams. She's healthy. Their wife is okay.
+He hasn't slept more than four hours a night in weeks. His body is running on cortisol and caffeine and something harder than either — the desperate energy of a man who's been drowning for nine months and just realized he's been drowning.
 
-Both men weep.
+The therapy is helping. Slowly. He can name it now: _I have spent this pregnancy grieving a death that hasn't happened._ The therapist calls it anticipatory grief. He calls it _the thing that ate my year._
+
+Because that's what it cost. A year. The pregnancy plus the months before it, the months when the first delivery was _technically fine_ and he was _technically fine_ and everyone was _technically fine_ and he was actually slowly building a bunker in his mind and moving in.
+
+His wife packs the hospital bag. He watches her fold tiny socks and something in his throat closes. Not fear — or not only fear. Grief. For the nine months he can't get back. For the songs he didn't sing and the block towers he built while elsewhere and the conversations he compressed into _I'm tired_ when the truth was _I'm terrified._
+
+He holds her. Not the way he's been holding her — carefully, like she might break. He holds her the way you hold someone you almost lost not to hemorrhage but to your own hands, your own planning, your own failure to stay in the room.
+
+_I'm sorry,_ he says.
+
+_I know,_ she says. _Come back._
+
+_I'm trying._
+
+_I know._
+
+### The Second Man
+
+The due date approaches.
+
+He's scared. Of course he's scared. The memory of the first delivery is in his hands, in his spine, in the particular way his jaw clenches when they pull into the hospital parking lot.
+
+But between the fear and the action, there's a space. He built it over nine months, the way you'd build anything — daily, imperfectly, with materials on hand. It's not a big space. But it's enough to stand in.
+
+His wife packs the hospital bag. He adds a few things she'd forget — the charger, the lip balm, the playlist. She zips it and leaves it by the door and the sight of it — this small readiness — does not send him into calculation. It sends him into the kitchen, where his oldest is struggling with homework and his youngest is feeding the dog Cheerios and the evening is unfolding in its ordinary chaos.
+
+He makes dinner. He gives baths. He reads stories. He lies in bed beside his wife and puts his hand on her belly and feels the baby move and the movement is not a symbol or a portent or a variable in an equation. It's a foot. A small foot, pressing against his palm, saying: _I'm here._
+
+_Me too,_ he thinks. _Me too._

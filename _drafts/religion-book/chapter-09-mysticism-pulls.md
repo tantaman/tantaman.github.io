@@ -68,40 +68,34 @@ Movement II ends here, at the edge of the experience — where the analytical gr
 
 ---
 
-## Month Nine
+## Month Eight
 
 ### The First Man
 
-The due date approaches like a verdict.
+He's trying. He closes the spreadsheet — not deletes it, he can't delete it — but closes it. He comes home earlier. He sits on the floor with his boys and builds block towers and tries to be in the room instead of in November.
 
-He hasn't slept more than four hours a night in weeks. His body is running on cortisol and caffeine and something harder than either — the desperate energy of a man who's been drowning for nine months and just realized he's been drowning.
+It doesn't work and then it works a little and then it doesn't work again. The neural pathways are carved deep. Seven months of catastrophic thinking have laid grooves in his mind and his thoughts run along them the way water runs along riverbeds — not because the water chose the path but because the path was there.
 
-The therapy is helping. Slowly. He can name it now: _I have spent this pregnancy grieving a death that hasn't happened._ The therapist calls it anticipatory grief. He calls it _the thing that ate my year._
+His wife is cautiously kind with him. She can see him trying. She can also see him failing. Both are true and she holds both, which is more than he's been able to do.
 
-Because that's what it cost. A year. The pregnancy plus the months before it, the months when the first delivery was _technically fine_ and he was _technically fine_ and everyone was _technically fine_ and he was actually slowly building a bunker in his mind and moving in.
+He picks up his youngest from daycare and on the drive home the boy says _Daddy sing_ and he opens his mouth and what comes out is thin and off-key and he realizes he hasn't sung in months. He used to sing constantly. In the car, in the shower, while cooking. Somewhere in the planning, the music stopped.
 
-His wife packs the hospital bag. He watches her fold tiny socks and something in his throat closes. Not fear — or not only fear. Grief. For the nine months he can't get back. For the songs he didn't sing and the block towers he built while elsewhere and the conversations he compressed into _I'm tired_ when the truth was _I'm terrified._
+He sings anyway. Badly. The boy doesn't care.
 
-He holds her. Not the way he's been holding her — carefully, like she might break. He holds her the way you hold someone you almost lost not to hemorrhage but to your own hands, your own planning, your own failure to stay in the room.
-
-_I'm sorry,_ he says.
-
-_I know,_ she says. _Come back._
-
-_I'm trying._
-
-_I know._
+Something small and green pushes through.
 
 ### The Second Man
 
-The due date approaches.
+He's nesting. Not the way his wife is nesting — she's organizing drawers and washing tiny clothes. He's nesting the way men nest: checking the car seat installation for the third time, replacing the smoke detector batteries, stacking firewood. Physical acts of readiness that are also physical acts of hope.
 
-He's scared. Of course he's scared. The memory of the first delivery is in his hands, in his spine, in the particular way his jaw clenches when they pull into the hospital parking lot.
+His wife watches him stack wood and says, _You know it's August, right?_
 
-But between the fear and the action, there's a space. He built it over nine months, the way you'd build anything — daily, imperfectly, with materials on hand. It's not a big space. But it's enough to stand in.
+He says, _Winter's coming._
 
-His wife packs the hospital bag. He adds a few things she'd forget — the charger, the lip balm, the playlist. She zips it and leaves it by the door and the sight of it — this small readiness — does not send him into calculation. It sends him into the kitchen, where his oldest is struggling with homework and his youngest is feeding the dog Cheerios and the evening is unfolding in its ordinary chaos.
+She says, _You're such a weirdo._
 
-He makes dinner. He gives baths. He reads stories. He lies in bed beside his wife and puts his hand on her belly and feels the baby move and the movement is not a symbol or a portent or a variable in an equation. It's a foot. A small foot, pressing against his palm, saying: _I'm here._
+He says, _You married the weirdo._
 
-_Me too,_ he thinks. _Me too._
+The fear is quiet now. Not gone. It will never be gone. It lives in the body the way the first delivery lives in the body — as knowledge, as scar tissue, as the particular flinch he'll carry into every medical setting for the rest of his life. But it's quiet the way a dog is quiet after a long walk. It's been attended to. It has no unfinished business.
+
+He starts a letter to the baby. He doesn't tell anyone. He writes about the woods behind their house and the sound the creek makes and the way her brothers will drive her crazy and love her beyond language. He writes about her mother. He writes about fear and how it isn't the opposite of love but its shadow, proof that something matters enough to lose.

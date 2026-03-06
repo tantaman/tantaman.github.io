@@ -88,34 +88,12 @@ The self is the first question because it is the one doing all the asking. You c
 
 ---
 
+This book is accompanied by a story. It runs alongside the argument, one chapter at a time — not as illustration, not as relief from the density of the preceding pages, but as the argument's other register. Where the chapters diagnose and analyze and trace, the story shows. It shows what two different formed selves actually look like from the inside — what it feels like to move through nine months of the same life from two different interiors. The same fears, the same circumstances, the same stakes. Different textures of experience so distinct they might as well be different lives.
+
+The story is called *Nine Months, Two Men*. It begins here.
+
 ---
 
 They are the same man. Same wife, same two boys, same memory of blood on linoleum and a doctor's voice gone flat. Same moment eighteen months later when she holds up the test and her eyes are half-joy, half-terror. Same kitchen. Same light through the window.
 
 What happens next is where the worlds diverge.
-
----
-
-## Month One
-
-### The First Man
-
-The positive test sits on the bathroom counter for three days because neither of them can throw it away and neither of them can say why.
-
-He begins researching that night. Not the way expectant fathers research — not strollers, not names. He searches _maternal mortality rate second pregnancy after hemorrhage_. He searches _uterine rupture risk factors_. He searches _how to file for survivor benefits with two dependents_. He reads four studies before his wife falls asleep and then reads three more.
-
-Something has opened in him. Not a wound exactly — more like a trapdoor. He'd sealed it after the first delivery, after they came home, after she was fine, technically fine, after the follow-up appointments confirmed she was fine. He'd sealed it and stacked furniture on top of it and now the furniture is sliding.
-
-He lies next to her and his mind is already nine months ahead, standing in a hospital hallway, receiving news.
-
-### The Second Man
-
-The positive test sits on the bathroom counter for three days because neither of them can throw it away and neither of them can say why.
-
-He feels it immediately — the trapdoor. The memory of her face losing color, the nurses moving too fast, the moment he understood that the word _complication_ could mean the end of everything. It comes back whole and heavy and he lets it come.
-
-He sits with it for most of a Saturday. Not researching. Not planning. Just letting the fear say what it has to say. It says: _she could die_. He doesn't argue with it. He doesn't reassure himself. He lets the sentence exist in his chest.
-
-On Sunday he calls his mother-in-law. On Monday he calls the OB and asks for a consultation about the prior delivery, risk factors, what monitoring will look like. On Tuesday he sits down for an hour and writes out the worst-case scenarios and what each would require — finances, childcare, logistics. He puts the document in a shared folder and tells his wife it's there.
-
-By Wednesday the fear is still present, but it has edges now. It's a known shape. He goes back to his life.

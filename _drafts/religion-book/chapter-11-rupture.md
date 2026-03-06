@@ -64,6 +64,16 @@ Chapter 12 is the answer.
 
 ---
 
+## Delivery Day
+
+They check in at the same hospital, same ward, same admitting desk. The hallway smells the same — antiseptic and something floral, the institutional attempt at comfort. The nurses are kind. The monitors beep.
+
+The delivery is difficult but not catastrophic. There is a moment — one moment — when the doctor's voice changes register and the room accelerates and both men feel the floor tilt.
+
+The moment passes. The baby is born. She screams. She's healthy. Their wife is okay.
+
+Both men weep.
+
 But what they weep for is different.
 
 The first man weeps with relief so total it feels like collapse. Nine months of bracing, and the blow didn't come. His body doesn't know what to do with the surplus fear. It comes out as tears, as shaking, as a laugh that sounds unhinged. He holds his daughter and thinks: _It was all for nothing._ And then, more quietly: _No. It cost me everything._

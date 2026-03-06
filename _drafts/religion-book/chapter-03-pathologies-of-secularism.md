@@ -110,24 +110,28 @@ The secular analysis of power, followed seriously, has an answer for this. It is
 
 ---
 
-## Month Three
+## Month Two
 
 ### The First Man
 
-The first ultrasound. A heartbeat, fast and aquatic. His wife squeezes his hand. He squeezes back. Inside, he is calculating the distance from this room to the surgical suite.
+He has not told anyone about the pregnancy yet, partly because it's early, partly because saying it aloud would make it real and the thing that follows real.
 
-He's lost seven pounds. Not intentionally. He just forgets meals or starts them and can't finish. His oldest has begun watching him with an expression he can't name — something between curiosity and vigilance. Children are seismographs. They can't read the data but they register every tremor.
+He's developed a habit. Every night after the boys are asleep, he opens a private browser window and reads. Obstetric journals. Maternal death memoirs. Reddit threads from widowed fathers. He tells himself this is preparation. It feels like preparation. The information accumulates and each piece makes the next piece necessary — if he knows the hemorrhage risk, he needs to know the transfusion protocol, and if he knows the transfusion protocol, he needs to know the nearest Level IV trauma center, and if he knows that, he needs to know the drive time, which means he needs to map the route, which means—
 
-He starts a spreadsheet. Life insurance policies, 529 plans, mortgage balance, monthly expenses with and without a second income. He revisits it most evenings, adjusting numbers, running scenarios. It's a very thorough spreadsheet. He knows this is not normal behavior and he labels it _responsible_ and the label holds for now.
+At work, his code reviews are slow. He re-reads the same function three times. His manager asks if everything's okay and he says yes and means no and can't explain why because the pregnancy is a secret and the fear is a secret inside the secret.
 
-His wife finds him awake at 2 AM on his laptop. She asks what he's doing. He says work. She doesn't believe him but she's too tired to press. A small lie, the kind that corrodes slowly, the kind whose damage is cumulative and invisible until it isn't.
+His wife asks why he's quiet at dinner. He says he's tired. This is true but incomplete. The complete answer is that he's looking at her and calculating. How much she weighs, how much blood is in her body, how much she can lose before—
+
+He stops himself. He picks up his fork. He asks his oldest about school.
+
+The fork is heavy.
 
 ### The Second Man
 
-The first ultrasound. A heartbeat, fast and aquatic. His wife squeezes his hand. He squeezes back. He feels the full weight of the moment — joy laced with terror — and lets both exist simultaneously without trying to resolve the contradiction.
+They tell their families at eight weeks, earlier than tradition recommends. He wants the support structure visible. His mother-in-law cries. His own father claps him on the back and says something insufficient about how these things always work out, and he resists the urge to correct this because his father means well and the correction wouldn't serve anyone.
 
-He's sleeping well, mostly. When the fear wakes him, he gets up, drinks water, stands on the porch. The woods are dark and full of noise and he listens until his nervous system downshifts from the specific fear to the general hum of being alive in an uncertain world, which is a hum he can live with because it was always there.
+The fear visits. It comes at odd moments — while brushing his teeth, while pushing the boys on the swings. It doesn't knock. But he's learned something about fear, maybe the only important thing: it gets louder the more you refuse to hear it.
 
-He updates the document he made in Month One. Nothing has changed materially. The plan is the plan. He closes the laptop and goes to bed.
+So when it arrives, he hears it. _She could die._ Yes. She could. The body is fragile and medicine is imperfect and the universe makes no guarantees. He holds this and then he sets it down. Not because he's brave. Because he already heard it. He already made the plans. There is nothing new the fear can tell him.
 
-His wife finds him awake one night and asks what he's thinking about. He says, _I'm scared about the delivery._ She says, _Me too._ They hold each other in the dark. Nothing is fixed. Everything is different.
+He notices he's present for strange, small things. The way his youngest says _lellow_ for yellow. The particular weight of his wife leaning against him on the couch, her body already beginning to change. He files a feature at work that he's been procrastinating on and it goes well and he feels the simple mammalian pleasure of a thing completed.
