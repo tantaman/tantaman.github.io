@@ -2,7 +2,7 @@
 
 ---
 
-The experience of encountering the ground has happened. The chapter before last forced it into the open. Now the question it raises has to be taken seriously, because everything that follows depends on it.
+The experience of encountering the ground has happened. The previous chapter forced it into the open. Now the question it raises has to be taken seriously, because everything that follows depends on it.
 
 What kind of knowing is that?
 
