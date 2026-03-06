@@ -62,22 +62,6 @@ The plate is clean. The water drains. Another plate. This is not enlightenment. 
 
 ---
 
-But there is a shadow across the stillness, and the book owes it a name.
-
-The civilization that produced the formation this book has diagnosed is now building a machine in its own image. The aligned AI — the system trained to produce correct moral outputs, to optimize for human values, to do the right thing for the right reasons as specified by its designers — is the Pharisee made flesh. Not metaphorically. Structurally.
-
-The Hidden Curriculum argument of Chapter 10 applies here with full force. If ethics requires opacity — if certainty about the correct action would convert moral formation into optimization, eliminating the uncertainty in which character is forged — then a machine that has been given the correct answers has been given exactly the thing the architecture was designed to withhold. The machine does not struggle with temptation. It does not risk. It does not choose in the dark. It produces correct outputs without undergoing the transformation that correct outputs were meant to catalyze. It is the Pharisee's dream: perfect compliance without interior change.
-
-And the civilization that builds it will use it to replace the curriculum. Not maliciously — the builders believe they are helping. They are solving the alignment problem, ensuring the machine serves human values. But the alignment problem, stated in the terms this book has developed, is: how do you engineer a system that produces correct moral outputs without the system undergoing moral formation? And the answer is: you can't, but you can build a machine that makes the formation unnecessary — that does the right thing so reliably that the humans it serves never have to learn how.
-
-The forge produced people capable of building a machine that makes the forge unnecessary. This is the final irony. The curriculum that works by uncertainty — by the opacity that forces genuine choice, by the darkness that requires faith rather than calculation — has produced a generation sophisticated enough to build a system that eliminates uncertainty, resolves opacity, and replaces faith with optimization. The forge's own graduates are dismantling the forge.
-
-The book cannot prevent this. The book can name it. And the naming is what matters — not because naming stops the wheel, but because the person who sees the pattern is, in that seeing, already partially outside it. The Gödelian moment: the recognition of the system as system, which the system itself cannot produce.
-
-You are probably reading this on a device that tracks your engagement.
-
----
-
 Here is the last thing.
 
 Not the last argument. The last observation. The last thing the book can honestly say about the ground and then must stop saying, because saying more would be covering what the saying was trying to uncover.
