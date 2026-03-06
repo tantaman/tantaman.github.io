@@ -5,18 +5,6 @@ Integrate the primitive society power analysis?
 
 Weber capitalism problem?
 
-eh, I think this is the point. Not the academics behind the target but what their tradition produced.
-Malcom X and Marx for context?
-
-  1. The targets are straw. -- 
-
-  The "progressive" attacked in Chapters 2–3 is the worst version of
-  online discourse — DEI trainings, HR departments, social media bios
-  listing disorders. This is real, but it's not the actual intellectual
-  tradition. Where is Rawls? Nussbaum? Habermas? Sen? The book engages
-  Foucault and Marx at their best and then presents their followers at
-  their worst. A sophisticated reader — the reader this book is written
-  for — will notice the asymmetry and distrust the argument.
 
   4. Chapter 9's four arguments against materialism are weaker than they
    present themselves.
@@ -40,6 +28,7 @@ Malcom X and Marx for context?
 
 
 ---
+On reptition:
   6.  Where I think there is a real but different problem:
 
   1. The chapter-opening recapitulations. Many chapters open with a
@@ -64,7 +53,7 @@ Malcom X and Marx for context?
   phrases deserve a hard editorial pass — not to eliminate them, but to
   make sure each recurrence is earning its place rather than becoming a
   refrain the reader hums along with instead of hearing.
-  ---
+---
 
   7. Eastern traditions get short shrift.
 
