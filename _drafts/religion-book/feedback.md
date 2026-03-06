@@ -33,15 +33,6 @@ Integrate the primitive society power analysis?
    it then proceeds in subsequent chapters as though they've done more
   work than they actually did.
 
-  5. The "ratchet" is underdeveloped.
-
-  It's introduced as though it's a known framework but isn't clearly
-  attributed. Is it the author's synthesis? A named theory? It functions
-   throughout the book as a pseudo-physical law ("something closer to
-  laws — default attractor states") but receives a few paragraphs of
-  illustration rather than rigorous argument. This is one of the book's
-  most important concepts, and it needs more grounding.
-
 
 ---
   6.  Where I think there is a real but different problem:
