@@ -51,7 +51,7 @@ Note: should we have an interlude on predictable pathologies of western seculari
 ([Ratchet Stage](../../content/2026-02-26-ratchet-stage.md))
 - Genealogy can show us a path
 - It cannot tell us why that path won over all the other options
-- The Gravity theory ([Metaphysical Choices](../../content/pages/metaphysical-choices.md)).
+- The Gravity theory ([Metaphysical Choices](../../content/pages/metaphysical-choices.mdx)).
 - Power requires legibility theory. Selects for things that make selves governable.
   - [The Alchemy of Power](../../content/2025-12-18-the-alchemy-of-power.md)
 - Power as cosmic law. Thermodynamics. Concentrates. Attractor. Amplifier theory ([The Amplifier Theory of Human Hierarchy](../../content/2026-01-07-the-amplifier-theory-of-human-hierarchy.md))
@@ -111,13 +111,13 @@ Note: should we have an interlude on predictable pathologies of western seculari
   - [The Hidden Grammar](../../content/2026-03-04-the-hidden-grammar.md)
 - Narrative determines what questions even arise
   - [Data Doesn't Speak](../../content/2026-03-02-data-doesnt-speak.md)
-  - [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.md)
+  - [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.mdx)
   - [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md)
 - But which narrative should we proceed from? If narrative shapes all things?
 - Example from Shakespeare (laboratory of knowledge) [The Laboratory of the Human: Shakespeare](../../content/2025-12-22-the-laboratory-of-the-human-shakespeare.md)
 
 # 10. Honest Record?
-([The Honest Record](../../content/2026-02-26-the-honest-record.md), [The Undesigned Narrative](../../content/2026-03-04-the-undesigned-narrative.md), [Structural Wisdom: Biblical Eschatology](../../content/2026-02-21-structural-wisdom-biblical-eschatology.md))
+([The Honest Record](../../content/2026-02-26-the-honest-record.md), [The Undesigned Narrative](../../content/2026-03-04-the-undesigned-narrative.md), [Structural Wisdom: Biblical Eschatology](../../content/2026-02-21-structural-wisdom-biblical-eschatology.mdx))
 - Power analysis
 - Principalities
 - Predates marx and all the critics. Has the best analysis of power.
@@ -133,7 +133,7 @@ Note: should we have an interlude on predictable pathologies of western seculari
 
 # 12. Closing
 - Table?
-  - [Desire Engine Table](../../content/2026-02-21-desire-engine-table.md)
+  - [Desire Engine Table](../../content/2026-02-21-desire-engine-table.mdx)
   - [The Table](../../content/2026-01-26-the-table.md)
   - [The Return](../../content/2026-01-15-the-return.md)
   - [What Holds You](../../content/2026-02-09-what-holds-you.md)
