@@ -1,8 +1,14 @@
 # Book Plan: Chapter-by-Chapter (v2) — Detailed with Essay Material
 
-Working title TBD. Arc: from the question "know thyself" through the modern cage, to stepping off the wheel entirely.
+Working title "The Self, The Cage, The Wheel and The Ground". Arc: from the question "know thyself" through the modern cage, to stepping off the wheel entirely.
 
 Each chapter ends with a scene from *Nine Months, Two Men* -- two men facing the same crisis (a wife's life-threatening pregnancy), one who manages and one who encounters. The narrative thread shows, concretely, what different formations of self produce in practice.
+
+---
+
+## Preface
+
+I began trying to answer what a self is. Is it chosen? Is it found? Is it made? Is it given? If it is made, how? If it is chosen, by what criteria? If it is given, can it be changed? Or does the self not exist at all and what would that mean?
 
 ---
 
