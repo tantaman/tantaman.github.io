@@ -10,7 +10,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 - **Ch 1 (Know Thyself)** replaces v1's opening. V1 started with a formed chapter; v2 opens by destabilizing the reader's assumption about what "know thyself" even means, using the seven supporting essays as raw material.
 - **Chs 2-6** restructure v1's chs 2-6, separating *what* the modern self is (Ch 2), *how* it was formed (Ch 3), *why* this path won (Ch 4), *what the cage looks like from inside* (Ch 5, absorbing v1 ch12's three inversions and generational wheel), and *why escape through will fails* (Ch 6).
-- **Ch 7 (The Honest Record)** stays where v1 placed it -- before mysticism, while the reader's critical tools are fully deployed.
+- **Ch 7 ([The Honest Record](../../content/2026-02-26-the-honest-record.md))** stays where v1 placed it -- before mysticism, while the reader's critical tools are fully deployed.
 - **Ch 8 (Stepping Off)** restores v1 ch8's content: early church, material basis of refusal, recovered capacities.
 - **Ch 9 (Mysticism)** and **Ch 10 ([Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md))** correspond to v1 chs 9-10.
 - **Ch 11 (The Rupture)** is restored from v1 ch11 -- the eschatological argument is too strong to lose.
@@ -76,7 +76,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - Gen X's ironic disengagement (against Boomers' earnest hypocrisy)
    - Millennials' sincere optimization (against Gen X's refusal to care)
    - Gen Z's meta-ironic despair (against Millennials' performative sincerity)
-   - Gen Alpha: unable to distinguish sincerity from performance, immunized against every previous generation's strategy (The Gaze)
+   - Gen Alpha: unable to distinguish sincerity from performance, immunized against every previous generation's strategy ([The Gaze](../../content/2026-02-11-the-gaze.md))
    - Each generation is *correct in its diagnosis, wrong in its solution.* The wheel turns.
 7. The employable subject: education now produces selves designed for market deployment. SEL, growth mindset, college applications colonize the inner life, repackaging emotional development as competencies. Students learn that their emotional lives, relationships, and rest are resources to be optimized. ([The Employable Subject](../../content/2025-12-19-the-employable-subject.md))
 8. The question that bridges to Ch 3: did the self produce these conditions, or did the conditions produce the self? How did "authenticity" and "self as project" become installed -- given that they are clearly not the only way of relating to oneself (callback to Ch 1)?
@@ -87,7 +87,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 - [The Exhaustion That Cannot Rest](../../content/2026-01-11-the-exhaustion-that-cannot-rest.md) (the three poisons)
 - [Burnout Is a Modern Invention](../../content/2025-12-15-burnout-is-a-modern-invention.md) (Calvinist theology secularized into productivity imperative)
 - [Grammar Rules All](../../content/2026-01-23-grammar-rules-all.md) (mechanism: grammars install values before reflection)
-- The Gaze (generational arms race of defensive identities)
+- [The Gaze](../../content/2026-02-11-the-gaze.md) (generational arms race of defensive identities)
 
 **Key thinkers:** Aristotle (oikonomia/chrematistike), Byung-Chul Han (achievement subject), Polanyi (great transformation, previewed), Weber (Calvinist work ethic, previewed)
 
@@ -204,7 +204,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - *The trauma subject*: your wound has become your identity. Healing would mean losing yourself. The payoffs are real: moral authority, community, explanation, exemption from demands you can't meet. Each payoff makes the cage more comfortable.
    - *Market totality*: all human life has been absorbed into market logic. Both left and right debate within the cage -- the left fights for inclusive market access; the right defends traditional values that markets already destroyed. Neither can see the cage because both accept its floor as ground. ([The Cage and the Argument About Its Curtains](../../content/2026-02-09-the-cage-and-the-argument-about-its.md))
    - *The invisible right*: market logic has become so total it no longer presents itself as ideology but as reality itself. Left-wing colonization is visible (identity politics, DEI). Right-wing colonization (Calvinist capital-as-telos, Heidegger's enframing, the liquefaction of all stable forms into market flows) is literally unthinkable because the frame within which critique occurs has been replaced. The most complete ideology is one that ceases to appear as ideology. ([The Invisible Right](../../content/2026-02-09-the-invisible-right-on-what-becomes.md))
-4. What the cage feels like from inside: modern institutions eliminate the friction and resistance necessary for genuine transformation, protecting the sovereign self from anything that would demand change. Infinite choice within a constrained menu. The cage feels like freedom -- which is why you can't see it. (What If the Thing You're Protecting Yourself From)
+4. What the cage feels like from inside: modern institutions eliminate the friction and resistance necessary for genuine transformation, protecting the sovereign self from anything that would demand change. Infinite choice within a constrained menu. The cage feels like freedom -- which is why you can't see it. ([What If the Thing You're Protecting Yourself From](../../content/2026-02-12-what-if-the-thing-youre-protecting.md))
 5. The shape of the container -- the mechanism by which the cage becomes interior (Revelation pattern): compliance becomes formation. You initially participate out of desire for access, then comply through performance, then become unable to think outside the system's categories, until finally you enforce the system on others. Stalin's cult, Mao's struggle sessions, Amazon's Leadership Principles: the intensity varies, the mechanism is identical. You take the shape of what you serve. ([The Shape of the Container](../../content/2025-12-18-the-shape-of-the-container.md))
 6. The interlocking cage named in one clean pass:
    - Trauma culture provides the wound (content)
@@ -212,14 +212,14 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - The achievement drive provides the mode (form)
    - Each blocks the exits the others leave open
    - The wound gives the project its object, guilt provides endless fuel, and the achievement drive gives them their mode -- a perfect prison where exhaustion proves righteousness, rest becomes privilege, and the body's collapse is reinterpreted as further evidence of commitment
-7. What holds you -- the layers of colonization: body (physiology, nervous system), attention (distraction, stimulus-response loops), grammar (vocabulary determines available thoughts), identity (self-conception as project/brand/wound). No outer critique can be received while inner layers are captured. (What Holds You)
+7. What holds you -- the layers of colonization: body (physiology, nervous system), attention (distraction, stimulus-response loops), grammar (vocabulary determines available thoughts), identity (self-conception as project/brand/wound). No outer critique can be received while inner layers are captured. ([What Holds You](../../content/2026-02-09-what-holds-you.md))
 
 **Supporting essays:**
 - [The Cage and the Argument About Its Curtains](../../content/2026-02-09-the-cage-and-the-argument-about-its.md) (left/right debating within market totality)
 - [The Invisible Right](../../content/2026-02-09-the-invisible-right-on-what-becomes.md) (market logic as invisible total ideology)
-- What If the Thing You're Protecting Yourself From (cage as freedom; friction necessary for transformation)
+- [What If the Thing You're Protecting](../../content/2026-02-12-what-if-the-thing-youre-protecting.md) Yourself From (cage as freedom; friction necessary for transformation)
 - [The Shape of the Container](../../content/2025-12-18-the-shape-of-the-container.md) (compliance becomes formation; Revelation pattern)
-- What Holds You (four layers of interior colonization)
+- [What Holds You](../../content/2026-02-09-what-holds-you.md) (four layers of interior colonization)
 - [Burnout Is a Modern Invention](../../content/2025-12-15-burnout-is-a-modern-invention.md) (if not fully used in Ch 2)
 
 **Key thinkers:** Byung-Chul Han, Heidegger (enframing), Polanyi (great transformation)
@@ -240,7 +240,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 **Movement:**
 1. The physicians of decay: the poststructuralists were right about power, and wrong about what to do with rightness. Nietzsche wanted revaluation and creation; he got dissolution and professors. Derrida, Foucault, Lyotard, Baudrillard -- their critique dissolved all inherited structures, revealing power underneath. But the deconstructed self is the ideal consumer: no transcendent anchor means total availability for market capture. They became physicians of decay who made the disease worse, not out of malice but out of the inexorable logic of their own position.
 2. Critique was captured: Marx's analysis of power was correct, but a new ruling class -- the professional-managerial credentialed class -- now uses Marxist critique as its own instrument of domination. The credential functions as monopolistic guild gatekeeping disguised as expertise. They critique every form of authority except their own. They demolish every justification for power except the credentialed class's. The selectivity proves it's class interest, not liberation. ([What Would Marx Say Today](../../content/2026-01-27-what-would-marx-say-today.md))
-3. Will to power beneath all systems: socialism attributes domination exclusively to capitalism, ignoring that the will to power has existed across all human societies. Indigenous civilizations practiced slavery and conquest. Capitalism's true "offense" is making domination transparent through contracts and ledgers rather than mystifying it through ideology. The question is not whether hierarchy exists but what hierarchical forms constrain the will to power toward creation rather than destruction. (The Socialists' Convenient Blindness)
+3. Will to power beneath all systems: socialism attributes domination exclusively to capitalism, ignoring that the will to power has existed across all human societies. Indigenous civilizations practiced slavery and conquest. Capitalism's true "offense" is making domination transparent through contracts and ledgers rather than mystifying it through ideology. The question is not whether hierarchy exists but what hierarchical forms constrain the will to power toward creation rather than destruction. ([The Socialists' Convenient Blindness](../../content/2026-01-11-the-socialists-convenient-blindness.md))
 4. Mimetic desire (Girard): we want what others want. Humans learn what to desire by imitating models. Distant models produce aspiration; close models produce rivalry; rivalry produces doubling; doubling produces the mimetic crisis. The revolutionary becomes the tyrant structurally -- not through corruption but through the logic of imitation itself. The Cold War as case study: maximum structural convergence masked as maximum difference. Contemporary politics: opposition intensifies what it opposes through the same doubling mechanism.
 5. Institutions convert to serve their survival: every institution built to help people eventually becomes a system of control and surveillance that transforms care into discipline. Tools created by one political faction are inherited by opponents and weaponized. Both sides fail to recognize that the tools themselves are the problem. Outsourcing all care to the state atrophies the community bonds and mutual aid capacity that remain civilization's only insurance against systemic collapse. ([The Machine That Eats the World](../../content/2026-01-25-the-machine-that-eats-the-world.md))
 6. The engine runs on will: the machine eats the world because it is fueled by the will to help, to fix, to improve. Abstract compassion allows you to feel virtuous while preventing encounter with actual suffering. The machine corrupts those who build it.
@@ -250,7 +250,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 **Supporting essays:**
 - [What Would Marx Say Today](../../content/2026-01-27-what-would-marx-say-today.md) (professional-managerial class; credential as guild gatekeeping)
-- The Socialists' Convenient Blindness (will to power across all societies)
+- [The Socialists' Convenient Blindness](../../content/2026-01-11-the-socialists-convenient-blindness.md) (will to power across all societies)
 - [The Machine That Eats the World](../../content/2026-01-25-the-machine-that-eats-the-world.md) (institutions converting to control; outsourcing care)
 - [Principalities and Powers](../../content/2026-01-12-principalities-and-powers.md) (Paul's structural diagnosis; modern principalities)
 - [The Amplifier Theory of Human Hierarchy](../../content/2026-01-07-the-amplifier-theory-of-human-hierarchy.md) (callback)
@@ -286,12 +286,12 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - Buddhist canon: universal diagnosis of suffering, but lacks the prophetic-political critique of institutional capture
    - Each achieves 1-2 of the four criteria, not all four
 5. The undesigned narrative: the Bible's power lies in editable fidelity to memory rather than systematic design. Contradictions preserved rather than erased. Self-critiques included rather than suppressed. This gives the text unique epistemic weight as a record that has survived contact with reality for three thousand years without needing coordination. A designed text would be smoother. A living record is rough. ([The Undesigned Narrative](../../content/2026-03-04-the-undesigned-narrative.md))
-6. The honest record: the non-coordinated, multi-millennial testimony repeatedly documents how every liberation system gets captured by the forces it was meant to overcome. This pattern is so durable precisely because it emerged from honest transmission rather than deliberate theory-building. If you honestly record power long enough, you find the structure without needing a theory. (The Honest Record)
+6. The honest record: the non-coordinated, multi-millennial testimony repeatedly documents how every liberation system gets captured by the forces it was meant to overcome. This pattern is so durable precisely because it emerged from honest transmission rather than deliberate theory-building. If you honestly record power long enough, you find the structure without needing a theory. ([The Honest Record](../../content/2026-02-26-the-honest-record.md))
 7. Interpretation framework: how to read this record. Not as inerrant instruction manual. Not as myth to be demythologized. But as the accumulated testimony of a people's honest encounter with reality -- a record that outperforms modern social theory on the modern social theorist's own terms.
 8. The crucial question: the analysis was right, and it led to a record the framework didn't create and cannot fully contain. What does that recognition require?
 
 **Supporting essays:**
-- The Honest Record (multi-millennial testimony of power's capture)
+- [The Honest Record](../../content/2026-02-26-the-honest-record.md) (multi-millennial testimony of power's capture)
 - [The Undesigned Narrative](../../content/2026-03-04-the-undesigned-narrative.md) (editable fidelity, preserved contradictions)
 
 **Key thinkers:** Samuel, Jeremiah, Ezekiel, Jesus, Paul, John (Revelation), Sima Qian, Aeschylus, Engels, Marx (as methodological analogue)
@@ -386,8 +386,8 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - Science is powerful but cannot answer its own foundational questions. This is not a weakness to be fixed but a structural feature. ([The Incomplete God](../../content/2025-12-21-the-incomplete-god-why-science-cannot.md))
 4. The lifeworld precedes science (Husserl): colors come before wavelengths, desire before neuroscience, meaning before particles. The lived world is not a less accurate version of the scientific world; it is the world from which science itself emerges. We know more than we can tell (Polanyi's tacit knowledge): elegance, rightness, judgment are essential to science yet unformalized.
 5. The hidden grammar: education teaches a fact/opinion binary that cannot see "narrative grounding" -- the pre-theoretical frameworks that determine what counts as a question. This omission is not innocent; it prevents people from recognizing that interpretation always begins from an invisible narrative ground. ([The Hidden Grammar](../../content/2026-03-04-the-hidden-grammar.md))
-6. Narrative as the fourth way of knowing: the foundational story about reality's shape that precedes and determines all other knowing. Modernity drives it underground while claiming to need only data. But the data never speaks for itself. (Data Doesn't Speak, [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md))
-7. Data doesn't speak: evidence underdetermines its interpretation. What bridges evidence and conclusion is the *formation* of the person asking the question. Example: the fertility collapse. The same data exists. The conclusion that "modernity has lost the capacity to answer what human life is for" only became visible because the analyst was formed differently than the economists whose models predicted the data would show otherwise. Only communities with formational density thick enough to constitute selves capable of receiving children counter the trend. (Data Doesn't Speak, [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.mdx))
+6. Narrative as the fourth way of knowing: the foundational story about reality's shape that precedes and determines all other knowing. Modernity drives it underground while claiming to need only data. But the data never speaks for itself. ([Data Doesn't Speak](../../content/2026-03-02-data-doesnt-speak.md), [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md))
+7. Data doesn't speak: evidence underdetermines its interpretation. What bridges evidence and conclusion is the *formation* of the person asking the question. Example: the fertility collapse. The same data exists. The conclusion that "modernity has lost the capacity to answer what human life is for" only became visible because the analyst was formed differently than the economists whose models predicted the data would show otherwise. Only communities with formational density thick enough to constitute selves capable of receiving children counter the trend. ([Data Doesn't Speak](../../content/2026-03-02-data-doesnt-speak.md), [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.mdx))
 8. Shakespeare as laboratory of knowledge: the plays constitute rigorous study of human behavior in domains where controlled experiments are impossible -- persuasion, jealousy, honor, guilt, power. *King Lear* reveals dynamics no experiment can isolate. Recognition (*anagnorisis*) is narrative knowing's mode of confirmation: you don't prove it; you recognize it as true from inside. ([The Laboratory of the Human: Shakespeare](../../content/2025-12-22-the-laboratory-of-the-human-shakespeare.md))
 9. Ethics cannot be rationally grounded (Hume's is/ought, Godel parallel): virtue ethics, deontology, utilitarianism, naturalistic ethics all bottom out in axioms they cannot derive. But this is architectural, not accidental. If ethics *could* be grounded as proof, morality would become optimization -- children would calculate rather than transform. The darkness is womb, not absence. Opacity is necessary for moral development. Certainty would prevent transformation into virtue.
 10. The unverifiability of ground is a *design feature*: if ground could be proved, it would be absorbed into the optimization system (the wheel from Ch 6). Darkness preserves the possibility of formation. The Sabbath tradition: one day in seven, the system stops. Not because stopping is efficient but because the system's claim to totality must be interrupted.
@@ -396,7 +396,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 **Supporting essays:**
 - [The Incomplete God](../../content/2025-12-21-the-incomplete-god-why-science-cannot.md): Why Science Cannot Ground Itself
 - [The Hidden Grammar](../../content/2026-03-04-the-hidden-grammar.md)
-- Data Doesn't Speak
+- [Data Doesn't Speak](../../content/2026-03-02-data-doesnt-speak.md)
 - [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.mdx)
 - [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md)
 - [The Laboratory of the Human: Shakespeare](../../content/2025-12-22-the-laboratory-of-the-human-shakespeare.md)
@@ -505,9 +505,9 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 **Supporting essays:**
 - [Desire Engine Table](../../content/2026-02-21-desire-engine-table.mdx) (Gelassenheit, the table as social form)
-- The Table (practices, small communities, children as participants)
-- The Return (faith that has passed through the void)
-- What Holds You (interior colonization; the table as operating system for Layer Zero)
+- [The Table](../../content/2026-01-26-the-table.md) (practices, small communities, children as participants)
+- [The Return](../../content/2026-01-15-the-return.md) (faith that has passed through the void)
+- [What Holds You](../../content/2026-02-09-what-holds-you.md) (interior colonization; the table as operating system for Layer Zero)
 
 **Key thinkers:** Eckhart (spark, Gelassenheit), Augustine (image of God), Aristotle (recognition)
 
@@ -537,7 +537,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 | [The Exhaustion That Cannot Rest](../../content/2026-01-11-the-exhaustion-that-cannot-rest.md) | Ch 2 | Three interlocking poisons |
 | [Burnout Is a Modern Invention](../../content/2025-12-15-burnout-is-a-modern-invention.md) | Ch 2 | Calvinist work ethic secularized |
 | [Grammar Rules All](../../content/2026-01-23-grammar-rules-all.md) | Ch 2 | Grammars install values |
-| The Gaze | Ch 2 | Generational wheel of defensive selves |
+| [The Gaze](../../content/2026-02-11-the-gaze.md) | Ch 2 | Generational wheel of defensive selves |
 | [Trauma Culture & White Guilt Checkmate](../../content/2026-01-09-trauma-culture-white-guilt-checkmate.md) | Ch 3 | Epistemic/moral lockdown |
 | [The Epistemology of Impotence](../../content/2026-01-09-the-epistemology-of-impotence-how.md) | Ch 3 | Standpoint epistemology self-refutes |
 | [Diagnosing White Guilt](../../content/2026-01-09-diagnosing-white-guilt.md) | Ch 3 | Secularized Christianity without redemption |
@@ -552,29 +552,29 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 | [The Two Filters](../../content/2025-12-18-the-two-filters-why-reasonable-ideas.md) | Ch 4 | Why reasonable ideas die |
 | [The Cage and the Argument About Its Curtains](../../content/2026-02-09-the-cage-and-the-argument-about-its.md) | Ch 5 | Left/right debating within market totality |
 | [The Invisible Right](../../content/2026-02-09-the-invisible-right-on-what-becomes.md) | Ch 5 | Market logic as invisible ideology |
-| What If the Thing You're Protecting | Ch 5 | Cage feels like freedom |
+| [What If the Thing You're Protecting](../../content/2026-02-12-what-if-the-thing-youre-protecting.md) | Ch 5 | Cage feels like freedom |
 | [The Shape of the Container](../../content/2025-12-18-the-shape-of-the-container.md) | Ch 5 | Compliance becomes formation |
-| What Holds You | Ch 5, Ch 13 | Four layers of interior colonization |
+| [What Holds You](../../content/2026-02-09-what-holds-you.md) | Ch 5, Ch 13 | Four layers of interior colonization |
 | [What Would Marx Say Today](../../content/2026-01-27-what-would-marx-say-today.md) | Ch 6 | Credentialed class as new ruling class |
-| The Socialists' Convenient Blindness | Ch 6 | Will to power across all societies |
+| [The Socialists' Convenient Blindness](../../content/2026-01-11-the-socialists-convenient-blindness.md) | Ch 6 | Will to power across all societies |
 | [The Machine That Eats the World](../../content/2026-01-25-the-machine-that-eats-the-world.md) | Ch 6 | Institutions convert to control |
 | [Monstrous Doubles: Girard](../../content/2025-12-09-monstrous_doubles_girard_essay.md) | Ch 6 | Mimetic desire, scapegoat, monstrous doubles |
 | [Principalities and Powers](../../content/2026-01-12-principalities-and-powers.md) | Ch 6, Ch 8 | Paul's structural diagnosis |
-| The Honest Record | Ch 7 | Multi-millennial testimony |
+| [The Honest Record](../../content/2026-02-26-the-honest-record.md) | Ch 7 | Multi-millennial testimony |
 | [The Undesigned Narrative](../../content/2026-03-04-the-undesigned-narrative.md) | Ch 7 | Preserved contradictions as epistemic strength |
 | [Meaning at the Boundary](../../content/2026-02-06-meaning-at-the-boundary.md) | Ch 9 | Meaning as relational |
 | [Mystical Meaning](../../content/2026-02-06-mystical-meaning.md) | Ch 9 | Eckhart's Ground |
 | [When Equations See What Eyes Cannot](../../content/2025-12-19-when-equations-see-what-eyes-cannot.md) | Ch 10 | Mathematics reveals invisible reality |
 | [The Incomplete God](../../content/2025-12-21-the-incomplete-god-why-science-cannot.md) | Ch 10 | Science cannot ground itself |
 | [The Hidden Grammar](../../content/2026-03-04-the-hidden-grammar.md) | Ch 10 | Education's epistemological blind spot |
-| Data Doesn't Speak | Ch 10 | Formation determines interpretation |
+| [Data Doesn't Speak](../../content/2026-03-02-data-doesnt-speak.md) | Ch 10 | Formation determines interpretation |
 | [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.mdx) | Ch 10 | Birth rate as evidence of lost telos |
 | [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md) | Ch 10 | Narrative grounding as epistemology |
 | [The Laboratory of the Human: Shakespeare](../../content/2025-12-22-the-laboratory-of-the-human-shakespeare.md) | Ch 10 | Plays as knowledge laboratory |
 | [Structural Wisdom: Biblical Eschatology](../../content/2026-02-21-structural-wisdom-biblical-eschatology.mdx) | Ch 11 | Eschatology as structural diagnosis |
 | [Desire Engine Table](../../content/2026-02-21-desire-engine-table.mdx) | Ch 13 | Gelassenheit; table as social form |
-| The Table | Ch 13 | Practices; small communities |
-| The Return | Ch 8, Ch 13 | Faith through the void |
+| [The Table](../../content/2026-01-26-the-table.md) | Ch 13 | Practices; small communities |
+| [The Return](../../content/2026-01-15-the-return.md) | Ch 8, Ch 13 | Faith through the void |
 | [Nine Months, Two Men](../../content/2026-02-11-nine-months-two-men.md) | All chapters | Narrative interludes |
 
 ---
