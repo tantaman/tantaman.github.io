@@ -2,7 +2,7 @@
 
 Working title TBD. Arc: from the question "know thyself" through the modern cage, to stepping off the wheel entirely.
 
-Each chapter ends with a scene from *Nine Months, Two Men* -- two men facing the same crisis (a wife's life-threatening pregnancy), one who manages and one who encounters. The narrative thread shows, concretely, what different formations of self produce in practice.
+Each chapter ends with a scene from *[Nine Months, Two Men](../../content/2026-02-11-nine-months-two-men.md)* -- two men facing the same crisis (a wife's life-threatening pregnancy), one who manages and one who encounters. The narrative thread shows, concretely, what different formations of self produce in practice.
 
 ## Structural Changes from v1
 
@@ -12,7 +12,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 - **Chs 2-6** restructure v1's chs 2-6, separating *what* the modern self is (Ch 2), *how* it was formed (Ch 3), *why* this path won (Ch 4), *what the cage looks like from inside* (Ch 5, absorbing v1 ch12's three inversions and generational wheel), and *why escape through will fails* (Ch 6).
 - **Ch 7 (The Honest Record)** stays where v1 placed it -- before mysticism, while the reader's critical tools are fully deployed.
 - **Ch 8 (Stepping Off)** restores v1 ch8's content: early church, material basis of refusal, recovered capacities.
-- **Ch 9 (Mysticism)** and **Ch 10 (Fourth Way of Knowing)** correspond to v1 chs 9-10.
+- **Ch 9 (Mysticism)** and **Ch 10 ([Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md))** correspond to v1 chs 9-10.
 - **Ch 11 (The Rupture)** is restored from v1 ch11 -- the eschatological argument is too strong to lose.
 - **Ch 12 (Mysticism + Record)** pairs the two threads into lived practice.
 - **Ch 13 (Arrival)** restores v1 ch13 -- wanting without willing, ground was always there, "go wash a plate."
@@ -36,13 +36,13 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 4. Close with the personal realization: *I cannot relate to these other conceptions of self.* What does it mean to respond as Achilles responds -- grief so total it *is* the person, not something the person "has" or "processes"? No inner distance, no management, no therapeutic vocabulary. My self was formed for a different grammar. What formed it?
 
 **Supporting essays:**
-- Know Thyself: Greek vs Christian (primary scaffold)
-- Know Thyself: Confucian, Buddhist, Hindu
-- Know Thyself: Gurdjieff & Kierkegaard
-- Know Thyself: No Self
-- Know Thyself: The Kingdom Within
-- Know Thyself: Through What (Wittgenstein/Heidegger pivot)
-- The Invention of the Confessing Animal (Foucault -- confession as technology of power, sets up Chs 3-4)
+- [Know Thyself: Greek vs Christian](../../content/2025-12-15-know-thyself-greek-vs-christian.md) (primary scaffold)
+- [Know Thyself: Confucian, Buddhist, Hindu](../../content/2025-12-15-know-thyself-confucian-buddhist-hindu.md)
+- [Know Thyself: Gurdjieff & Kierkegaard](../../content/2025-12-16-know-thyself-gurdjieff-kierkegaard.md)
+- [Know Thyself: No Self](../../content/2025-12-17-know-thyself-no-self.md)
+- [Know Thyself: The Kingdom Within](../../content/2025-12-17-know-thyself-the-kingdom-within.md)
+- [Know Thyself: Through What](../../content/2025-12-17-know-thyself-through-what.md) (Wittgenstein/Heidegger pivot)
+- [The Invention of the Confessing Animal](../../content/2025-12-17-the-invention-of-the-confessing-animal.md) (Foucault -- confession as technology of power, sets up Chs 3-4)
 
 **Key thinkers:** Socrates, Augustine, Foucault, Wittgenstein, Heidegger, Gurdjieff, Kierkegaard, Eckhart, Zhuangzi, Nietzsche
 
@@ -66,10 +66,10 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - *Oikonomia to chrematistike*: Aristotle's distinction between provisioning the household (natural, has a limit called "enough") and infinite accumulation (unnatural, the "disease" that now operates at civilizational scale). Economy was once embedded in social life; now social life is embedded in economy (Polanyi's great transformation, previewed).
    - *Know thyself to optimize dopamine*: Greek limit-recognition became therapeutic self-management. The examined life became the administered life.
 3. The subject experiences these inversions as freedom. She chose her career, her therapy, her self-care routine. She didn't choose the menu.
-4. Grammar installs values before reflection begins: therapy grammar makes "authenticity" and "boundaries" available but not "duty" or "sacrifice." Corporate grammar enables "growth" but not "sufficiency." You don't choose your values from a neutral position; the grammar you absorbed determines what values can even appear as options. (Grammar Rules All)
+4. Grammar installs values before reflection begins: therapy grammar makes "authenticity" and "boundaries" available but not "duty" or "sacrifice." Corporate grammar enables "growth" but not "sufficiency." You don't choose your values from a neutral position; the grammar you absorbed determines what values can even appear as options. ([Grammar Rules All](../../content/2026-01-23-grammar-rules-all.md))
 5. The conditions this self produces:
    - Anxiety, depression, loneliness, childlessness -- correlated directly with prosperity and education, not poverty
-   - Burnout as modern invention: pre-capitalist societies had market economies but viewed work as burden and leisure as good, with natural stopping points (festivals, Sabbath). Calvinist theology removed the stopping points, and the moral imperative of productivity persists after the theology disappears. (Burnout Is a Modern Invention)
+   - Burnout as modern invention: pre-capitalist societies had market economies but viewed work as burden and leisure as good, with natural stopping points (festivals, Sabbath). Calvinist theology removed the stopping points, and the moral imperative of productivity persists after the theology disappears. ([Burnout Is a Modern Invention](../../content/2025-12-15-burnout-is-a-modern-invention.md))
    - The exhaustion that cannot rest: three interlocking poisons (cult of the wound, doctrine of collective guilt, achievement drive) form a cage where exhaustion proves righteousness and rest becomes moral failure
 6. The generational wheel (from v1 ch12): each generation's self is a precise response to the previous generation's failure:
    - Boomers' expressive liberation (against their parents' repression)
@@ -78,15 +78,15 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - Gen Z's meta-ironic despair (against Millennials' performative sincerity)
    - Gen Alpha: unable to distinguish sincerity from performance, immunized against every previous generation's strategy (The Gaze)
    - Each generation is *correct in its diagnosis, wrong in its solution.* The wheel turns.
-7. The employable subject: education now produces selves designed for market deployment. SEL, growth mindset, college applications colonize the inner life, repackaging emotional development as competencies. Students learn that their emotional lives, relationships, and rest are resources to be optimized. (The Employable Subject)
+7. The employable subject: education now produces selves designed for market deployment. SEL, growth mindset, college applications colonize the inner life, repackaging emotional development as competencies. Students learn that their emotional lives, relationships, and rest are resources to be optimized. ([The Employable Subject](../../content/2025-12-19-the-employable-subject.md))
 8. The question that bridges to Ch 3: did the self produce these conditions, or did the conditions produce the self? How did "authenticity" and "self as project" become installed -- given that they are clearly not the only way of relating to oneself (callback to Ch 1)?
 
 **Supporting essays:**
-- The Liquefaction of Being: Materialism (traces how materialism stripped humans of intrinsic worth)
-- The Employable Subject (education as factory for self-optimizing market subjects)
-- The Exhaustion That Cannot Rest (the three poisons)
-- Burnout Is a Modern Invention (Calvinist theology secularized into productivity imperative)
-- Grammar Rules All (mechanism: grammars install values before reflection)
+- [The Liquefaction of Being: Materialism](../../content/2025-12-21-the-liquefaction-of-being-materialism.md) (traces how materialism stripped humans of intrinsic worth)
+- [The Employable Subject](../../content/2025-12-19-the-employable-subject.md) (education as factory for self-optimizing market subjects)
+- [The Exhaustion That Cannot Rest](../../content/2026-01-11-the-exhaustion-that-cannot-rest.md) (the three poisons)
+- [Burnout Is a Modern Invention](../../content/2025-12-15-burnout-is-a-modern-invention.md) (Calvinist theology secularized into productivity imperative)
+- [Grammar Rules All](../../content/2026-01-23-grammar-rules-all.md) (mechanism: grammars install values before reflection)
 - The Gaze (generational arms race of defensive identities)
 
 **Key thinkers:** Aristotle (oikonomia/chrematistike), Byung-Chul Han (achievement subject), Polanyi (great transformation, previewed), Weber (Calvinist work ethic, previewed)
@@ -114,28 +114,28 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - Hume: self as bundle of impressions, causality as habit
    - Each step strips transcendence from one more domain until nothing is left but matter and mechanism
 3. "God is dead but belief in grammar remains" -- Nietzsche's insight that we killed God but kept the structures (teleology, guilt, moral progress, confession) that only made sense within theism. The shadow of the dead God still falls across the cave.
-4. Guilt that cannot be discharged: Christianity secularized without its redemptive mechanisms. (Diagnosing White Guilt)
+4. Guilt that cannot be discharged: Christianity secularized without its redemptive mechanisms. ([Diagnosing White Guilt](../../content/2026-01-09-diagnosing-white-guilt.md))
    - Original sin without baptism
    - Confession without absolution
    - White guilt as the exemplary case: inherited guilt with no path to forgiveness, functioning as class marker (distinguishing educated professionals from working class) and power move (masochism as domination, offering status and tribal belonging while maintaining the structures it claims to oppose)
-   - Trauma culture + white guilt = epistemic and moral lockdown: designated victims gain unquestionable authority; designated perpetrators are silenced; debate becomes pathology. The true beneficiaries are the professional-managerial class who control the machinery. (Trauma Culture & White Guilt Checkmate)
-   - Standpoint epistemology's self-refutation: if all knowledge is position-bound, the theory itself cannot claim universal validity. Persuasion requires shared ground the theory forecloses. Result: politics becomes impossible; only institutional capture remains. (The Epistemology of Impotence)
+   - Trauma culture + white guilt = epistemic and moral lockdown: designated victims gain unquestionable authority; designated perpetrators are silenced; debate becomes pathology. The true beneficiaries are the professional-managerial class who control the machinery. ([Trauma Culture & White Guilt Checkmate](../../content/2026-01-09-trauma-culture-white-guilt-checkmate.md))
+   - Standpoint epistemology's self-refutation: if all knowledge is position-bound, the theory itself cannot claim universal validity. Persuasion requires shared ground the theory forecloses. Result: politics becomes impossible; only institutional capture remains. ([The Epistemology of Impotence](../../content/2026-01-09-the-epistemology-of-impotence-how.md))
 5. The two branches of secular Christianity:
    - *Calvin's branch* -> capitalism: prosperity as sign of election. The anxiety of predestination produces compulsion to prove election through productivity. The theology disappears; the compulsion survives as the achievement subject. Self as brand. Self as project to market. (Weber's iron cage)
-   - *Marx's branch* -> identity politics: salvific narrative, messiah class (proletariat -> marginalized), revolution as eschaton, inquisitor logic when arrival is delayed. The progressive faith inherits Christianity's victim-persecutor structure and linear teleology without its resolution mechanisms (grace, eschaton, forgiveness). Permanent moral emergency without closure. (Why the Secularism in the West Became)
+   - *Marx's branch* -> identity politics: salvific narrative, messiah class (proletariat -> marginalized), revolution as eschaton, inquisitor logic when arrival is delayed. The progressive faith inherits Christianity's victim-persecutor structure and linear teleology without its resolution mechanisms (grace, eschaton, forgiveness). Permanent moral emergency without closure. ([Why the Secularism in the West Became](../../content/2026-01-09-why-the-secularism-in-the-west-became.md))
    - Both branches are the same theological residue applied to different domains
-6. The contrast that proves the structure: Buddhism, lacking Christianity's dramatic architecture entirely, produces *different* pathologies when secularized. No victim-persecutor structure, no linear teleology, no guilt spirals -- because the diagnosis is universal ignorance, not cosmic persecution, and nirvana is available now, not deferred to an apocalyptic future. (Why the Secularism in the West Became)
-7. The progressive faith in education: if ignorance is the root of all evil, education is salvation. But fundamental value disagreements are axioms that go all the way down -- they cannot be bridged by more information. The logic of "if only they knew, they would believe" terminates in coercion: camps for the unteachable. (Education Cannot Save Us)
-8. The fence you cannot see: inherited structures (sexual ethics, family forms, gender roles) encode millennia of trial-and-error solutions. Their success makes them invisible to comfortable generations who dismiss them as oppression. Anthropological evidence shows these are human universals -- pair-bonding, incest taboos, paternal involvement, sexual differentiation -- reflecting deep features of human nature. To remove a fence without understanding why it was built is to discover the answer painfully. (The Fence You Cannot See)
+6. The contrast that proves the structure: Buddhism, lacking Christianity's dramatic architecture entirely, produces *different* pathologies when secularized. No victim-persecutor structure, no linear teleology, no guilt spirals -- because the diagnosis is universal ignorance, not cosmic persecution, and nirvana is available now, not deferred to an apocalyptic future. ([Why the Secularism in the West Became](../../content/2026-01-09-why-the-secularism-in-the-west-became.md))
+7. The progressive faith in education: if ignorance is the root of all evil, education is salvation. But fundamental value disagreements are axioms that go all the way down -- they cannot be bridged by more information. The logic of "if only they knew, they would believe" terminates in coercion: camps for the unteachable. ([Education Cannot Save Us](../../content/2026-01-31-education-cannot-save-us.md))
+8. The fence you cannot see: inherited structures (sexual ethics, family forms, gender roles) encode millennia of trial-and-error solutions. Their success makes them invisible to comfortable generations who dismiss them as oppression. Anthropological evidence shows these are human universals -- pair-bonding, incest taboos, paternal involvement, sexual differentiation -- reflecting deep features of human nature. To remove a fence without understanding why it was built is to discover the answer painfully. ([The Fence You Cannot See](../../content/2026-01-14-the-fence-you-cannot-see.md))
 9. Self-management as the capstone: the most efficient power is the power you exercise on yourself. External coercion is expensive and brittle. A self that monitors, optimizes, and disciplines itself -- believing it does so freely -- is the perfect subject.
 
 **Supporting essays:**
-- Trauma Culture & White Guilt Checkmate
-- The Epistemology of Impotence
-- Diagnosing White Guilt
-- Why the Secularism in the West Became
-- Education Cannot Save Us
-- The Fence You Cannot See
+- [Trauma Culture & White Guilt Checkmate](../../content/2026-01-09-trauma-culture-white-guilt-checkmate.md)
+- [The Epistemology of Impotence](../../content/2026-01-09-the-epistemology-of-impotence-how.md)
+- [Diagnosing White Guilt](../../content/2026-01-09-diagnosing-white-guilt.md)
+- [Why the Secularism in the West Became](../../content/2026-01-09-why-the-secularism-in-the-west-became.md)
+- [Education Cannot Save Us](../../content/2026-01-31-education-cannot-save-us.md)
+- [The Fence You Cannot See](../../content/2026-01-14-the-fence-you-cannot-see.md)
 
 **Key thinkers:** Nietzsche, Bacon, Descartes, Newton, Locke, Hume, Weber, Calvin, Marx, Lenin, Foucault, Voegelin, Lowith
 
@@ -154,37 +154,37 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 **Movement:**
 1. Genealogy can show us a path. It cannot tell us why that path won over every other option. Many alternatives existed. Why were they crushed?
-2. The Gravity theory: power concentration, capital accumulation, and complexity compound are natural laws analogous to gravity. (Ratchet Stage)
+2. The Gravity theory: power concentration, capital accumulation, and complexity compound are natural laws analogous to gravity. ([Ratchet Stage](../../content/2026-02-26-ratchet-stage.md))
    - Surplus creates technology
    - Technology reshapes perception (you begin to see the world as resource)
    - Accumulated capital becomes self-reinforcing power
    - These are not policy choices but default states requiring continuous energy to prevent
    - Immediate-return societies prove egalitarian outcomes are achievable through demand-sharing and mobility -- but even they had the ratchet running through reputation and obligation. Once surplus appears, the ratchet accelerates.
-3. The amplifier theory: hierarchy is not inevitable to human nature but contingent on "amplifiers" -- mechanisms that extend individual power beyond collective resistance. (The Amplifier Theory of Human Hierarchy)
+3. The amplifier theory: hierarchy is not inevitable to human nature but contingent on "amplifiers" -- mechanisms that extend individual power beyond collective resistance. ([The Amplifier Theory of Human Hierarchy](../../content/2026-01-07-the-amplifier-theory-of-human-hierarchy.md))
    - Geographic features (salmon runs, irrigation choke-points)
    - Technologies (storage, weapons, writing)
    - Social structures (debt systems, credentialing)
    - Ideologies (divine right, meritocracy)
    - The same species produces both fiercely egalitarian hunter-gatherers and brutal slave-societies depending on whether amplifiers exist and who controls them
    - Stratification is a predictable emergent property, not a cultural choice
-4. Power requires legibility: power selects for things that make selves governable. The alchemy of power -- spiritual insights and revolutionary movements are systematically captured through predictable mechanisms: textual canonization, state sponsorship, credentialing systems, enforcement apparatuses that convert moral authority into administrative authority. The pattern repeats identically across religions and secular institutions because institutions must solve governance problems, and governance rewards interpretations that are legible, enforceable, fundable, and identity-forming. (The Alchemy of Power)
-5. Materialism was selected by power: the explicit architects. Bentham designed the utilitarian calculus and the Panopticon. Comte designed the Religion of Humanity to replace transcendent meaning with scientific control. Reducing humans to measurable, predictable units made them legible to state administration. The elimination of competing sovereignties (religion, community, tradition) that could claim loyalty beyond the state was not incidental but necessary. (The Selection of Souls)
-6. The two filters: good ideas die not for lack of merit but because they must pass two tests -- cognitive readiness (does society have the framework to understand?) and power alignment (can elites tolerate this without losing control?). Condorcet, Paine, and George articulated ideas that passed the first filter but were suppressed because they threatened existing hierarchies of property. Darwin and Freud succeeded not because they were more correct but because their frameworks could be adopted by powerful institutions without threatening the core structure of property and power. (The Two Filters)
+4. Power requires legibility: power selects for things that make selves governable. The alchemy of power -- spiritual insights and revolutionary movements are systematically captured through predictable mechanisms: textual canonization, state sponsorship, credentialing systems, enforcement apparatuses that convert moral authority into administrative authority. The pattern repeats identically across religions and secular institutions because institutions must solve governance problems, and governance rewards interpretations that are legible, enforceable, fundable, and identity-forming. ([The Alchemy of Power](../../content/2025-12-18-the-alchemy-of-power.md))
+5. Materialism was selected by power: the explicit architects. Bentham designed the utilitarian calculus and the Panopticon. Comte designed the Religion of Humanity to replace transcendent meaning with scientific control. Reducing humans to measurable, predictable units made them legible to state administration. The elimination of competing sovereignties (religion, community, tradition) that could claim loyalty beyond the state was not incidental but necessary. ([The Selection of Souls](../../content/2025-12-18-the-selection-of-souls.md))
+6. The two filters: good ideas die not for lack of merit but because they must pass two tests -- cognitive readiness (does society have the framework to understand?) and power alignment (can elites tolerate this without losing control?). Condorcet, Paine, and George articulated ideas that passed the first filter but were suppressed because they threatened existing hierarchies of property. Darwin and Freud succeeded not because they were more correct but because their frameworks could be adopted by powerful institutions without threatening the core structure of property and power. ([The Two Filters](../../content/2025-12-18-the-two-filters-why-reasonable-ideas.md))
 7. Technological enframing (Heidegger): once the technological mindset sees everything as standing reserve (*Bestand*), it becomes the only way of seeing. This is not a choice but a *Gestell* -- a framing that forecloses alternative paths by making them invisible. The world reveals itself only as resource.
 8. The transition to the cage: this is why self-management is better than external coercion. Not because elites planned it (though some did), but because power selects for whatever makes subjects most governable. A self that manages itself is the most governable self possible. The reader should now feel the walls beginning to close.
 
 **Supporting essays:**
-- Ratchet Stage (gravity of power, surplus -> technology -> perception shift)
-- Metaphysical Choices (interactive visualization -- reference)
-- The Alchemy of Power (predictable capture of liberating teachings)
-- The Amplifier Theory of Human Hierarchy (hierarchy contingent on amplifiers)
-- The Selection of Souls (materialism as deliberate selection by power; Bentham, Comte)
-- The Two Filters (why reasonable ideas die; cognitive readiness + power alignment)
+- [Ratchet Stage](../../content/2026-02-26-ratchet-stage.md) (gravity of power, surplus -> technology -> perception shift)
+- [Metaphysical Choices](../../content/pages/metaphysical-choices.mdx) (interactive visualization -- reference)
+- [The Alchemy of Power](../../content/2025-12-18-the-alchemy-of-power.md) (predictable capture of liberating teachings)
+- [The Amplifier Theory of Human Hierarchy](../../content/2026-01-07-the-amplifier-theory-of-human-hierarchy.md) (hierarchy contingent on amplifiers)
+- [The Selection of Souls](../../content/2025-12-18-the-selection-of-souls.md) (materialism as deliberate selection by power; Bentham, Comte)
+- [The Two Filters](../../content/2025-12-18-the-two-filters-why-reasonable-ideas.md) (why reasonable ideas die; cognitive readiness + power alignment)
 
 **Key thinkers:** Heidegger (Gestell), Boehm (reverse dominance hierarchy), Woodburn (immediate-return societies), Bentham, Comte, Polanyi (previewed from Ch 2)
 
 **Needs:**
-- The "gravity" metaphor must be grounded in concrete historical cases, not hand-waved. The Ratchet Stage essay provides the evidence.
+- The "gravity" metaphor must be grounded in concrete historical cases, not hand-waved. The [Ratchet Stage](../../content/2026-02-26-ratchet-stage.md) essay provides the evidence.
 - The claim that materialism was "selected" is strong but defensible -- Bentham and Comte *explicitly* designed their frameworks as replacements for religion. This is documented history, not conspiracy.
 - The chapter must build cumulative dread. By section 8, the reader should feel: "this was inevitable."
 
@@ -202,10 +202,10 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 3. Demonstrate the cage (the reader must feel this, not merely understand it):
    - *The achievement subject*: you experience productivity as moral imperative and rest as failure. Your exhaustion proves your righteousness. You cannot stop -- not because someone forces you, but because stopping feels like dying. Freedom and compulsion coincide perfectly. (Byung-Chul Han)
    - *The trauma subject*: your wound has become your identity. Healing would mean losing yourself. The payoffs are real: moral authority, community, explanation, exemption from demands you can't meet. Each payoff makes the cage more comfortable.
-   - *Market totality*: all human life has been absorbed into market logic. Both left and right debate within the cage -- the left fights for inclusive market access; the right defends traditional values that markets already destroyed. Neither can see the cage because both accept its floor as ground. (The Cage and the Argument About Its Curtains)
-   - *The invisible right*: market logic has become so total it no longer presents itself as ideology but as reality itself. Left-wing colonization is visible (identity politics, DEI). Right-wing colonization (Calvinist capital-as-telos, Heidegger's enframing, the liquefaction of all stable forms into market flows) is literally unthinkable because the frame within which critique occurs has been replaced. The most complete ideology is one that ceases to appear as ideology. (The Invisible Right)
+   - *Market totality*: all human life has been absorbed into market logic. Both left and right debate within the cage -- the left fights for inclusive market access; the right defends traditional values that markets already destroyed. Neither can see the cage because both accept its floor as ground. ([The Cage and the Argument About Its Curtains](../../content/2026-02-09-the-cage-and-the-argument-about-its.md))
+   - *The invisible right*: market logic has become so total it no longer presents itself as ideology but as reality itself. Left-wing colonization is visible (identity politics, DEI). Right-wing colonization (Calvinist capital-as-telos, Heidegger's enframing, the liquefaction of all stable forms into market flows) is literally unthinkable because the frame within which critique occurs has been replaced. The most complete ideology is one that ceases to appear as ideology. ([The Invisible Right](../../content/2026-02-09-the-invisible-right-on-what-becomes.md))
 4. What the cage feels like from inside: modern institutions eliminate the friction and resistance necessary for genuine transformation, protecting the sovereign self from anything that would demand change. Infinite choice within a constrained menu. The cage feels like freedom -- which is why you can't see it. (What If the Thing You're Protecting Yourself From)
-5. The shape of the container -- the mechanism by which the cage becomes interior (Revelation pattern): compliance becomes formation. You initially participate out of desire for access, then comply through performance, then become unable to think outside the system's categories, until finally you enforce the system on others. Stalin's cult, Mao's struggle sessions, Amazon's Leadership Principles: the intensity varies, the mechanism is identical. You take the shape of what you serve. (The Shape of the Container)
+5. The shape of the container -- the mechanism by which the cage becomes interior (Revelation pattern): compliance becomes formation. You initially participate out of desire for access, then comply through performance, then become unable to think outside the system's categories, until finally you enforce the system on others. Stalin's cult, Mao's struggle sessions, Amazon's Leadership Principles: the intensity varies, the mechanism is identical. You take the shape of what you serve. ([The Shape of the Container](../../content/2025-12-18-the-shape-of-the-container.md))
 6. The interlocking cage named in one clean pass:
    - Trauma culture provides the wound (content)
    - White guilt provides the fuel (energy)
@@ -215,12 +215,12 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 7. What holds you -- the layers of colonization: body (physiology, nervous system), attention (distraction, stimulus-response loops), grammar (vocabulary determines available thoughts), identity (self-conception as project/brand/wound). No outer critique can be received while inner layers are captured. (What Holds You)
 
 **Supporting essays:**
-- The Cage and the Argument About Its Curtains (left/right debating within market totality)
-- The Invisible Right (market logic as invisible total ideology)
+- [The Cage and the Argument About Its Curtains](../../content/2026-02-09-the-cage-and-the-argument-about-its.md) (left/right debating within market totality)
+- [The Invisible Right](../../content/2026-02-09-the-invisible-right-on-what-becomes.md) (market logic as invisible total ideology)
 - What If the Thing You're Protecting Yourself From (cage as freedom; friction necessary for transformation)
-- The Shape of the Container (compliance becomes formation; Revelation pattern)
+- [The Shape of the Container](../../content/2025-12-18-the-shape-of-the-container.md) (compliance becomes formation; Revelation pattern)
 - What Holds You (four layers of interior colonization)
-- Burnout Is a Modern Invention (if not fully used in Ch 2)
+- [Burnout Is a Modern Invention](../../content/2025-12-15-burnout-is-a-modern-invention.md) (if not fully used in Ch 2)
 
 **Key thinkers:** Byung-Chul Han, Heidegger (enframing), Polanyi (great transformation)
 
@@ -239,21 +239,21 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 **Movement:**
 1. The physicians of decay: the poststructuralists were right about power, and wrong about what to do with rightness. Nietzsche wanted revaluation and creation; he got dissolution and professors. Derrida, Foucault, Lyotard, Baudrillard -- their critique dissolved all inherited structures, revealing power underneath. But the deconstructed self is the ideal consumer: no transcendent anchor means total availability for market capture. They became physicians of decay who made the disease worse, not out of malice but out of the inexorable logic of their own position.
-2. Critique was captured: Marx's analysis of power was correct, but a new ruling class -- the professional-managerial credentialed class -- now uses Marxist critique as its own instrument of domination. The credential functions as monopolistic guild gatekeeping disguised as expertise. They critique every form of authority except their own. They demolish every justification for power except the credentialed class's. The selectivity proves it's class interest, not liberation. (What Would Marx Say Today)
+2. Critique was captured: Marx's analysis of power was correct, but a new ruling class -- the professional-managerial credentialed class -- now uses Marxist critique as its own instrument of domination. The credential functions as monopolistic guild gatekeeping disguised as expertise. They critique every form of authority except their own. They demolish every justification for power except the credentialed class's. The selectivity proves it's class interest, not liberation. ([What Would Marx Say Today](../../content/2026-01-27-what-would-marx-say-today.md))
 3. Will to power beneath all systems: socialism attributes domination exclusively to capitalism, ignoring that the will to power has existed across all human societies. Indigenous civilizations practiced slavery and conquest. Capitalism's true "offense" is making domination transparent through contracts and ledgers rather than mystifying it through ideology. The question is not whether hierarchy exists but what hierarchical forms constrain the will to power toward creation rather than destruction. (The Socialists' Convenient Blindness)
 4. Mimetic desire (Girard): we want what others want. Humans learn what to desire by imitating models. Distant models produce aspiration; close models produce rivalry; rivalry produces doubling; doubling produces the mimetic crisis. The revolutionary becomes the tyrant structurally -- not through corruption but through the logic of imitation itself. The Cold War as case study: maximum structural convergence masked as maximum difference. Contemporary politics: opposition intensifies what it opposes through the same doubling mechanism.
-5. Institutions convert to serve their survival: every institution built to help people eventually becomes a system of control and surveillance that transforms care into discipline. Tools created by one political faction are inherited by opponents and weaponized. Both sides fail to recognize that the tools themselves are the problem. Outsourcing all care to the state atrophies the community bonds and mutual aid capacity that remain civilization's only insurance against systemic collapse. (The Machine That Eats the World)
+5. Institutions convert to serve their survival: every institution built to help people eventually becomes a system of control and surveillance that transforms care into discipline. Tools created by one political faction are inherited by opponents and weaponized. Both sides fail to recognize that the tools themselves are the problem. Outsourcing all care to the state atrophies the community bonds and mutual aid capacity that remain civilization's only insurance against systemic collapse. ([The Machine That Eats the World](../../content/2026-01-25-the-machine-that-eats-the-world.md))
 6. The engine runs on will: the machine eats the world because it is fueled by the will to help, to fix, to improve. Abstract compassion allows you to feel virtuous while preventing encounter with actual suffering. The machine corrupts those who build it.
 7. The ratchet beneath the ratchet: surplus accumulates, complexity compounds, power concentrates -- and no agent stands outside the gravitational field. The redistributor accumulates power. The regulator becomes a power center. The revolutionary becomes the elite. Even the societies that tried hardest to prevent accumulation (immediate-return foragers) had the ratchet running through reputation and obligation. (Callback to Ch 4's gravity theory, now applied to reform itself)
-8. Fight is with principalities, not flesh and blood: Paul's identification of "powers and principalities" names not supernatural demons but self-perpetuating logics of systems that shape souls through behavioral compliance. Rome's genius was colonizing populations through infrastructure, law, and the imperial cult -- forcing compliance that becomes genuine submission over time. Modern therapeutic and platform systems operate identically. The enemy is not people but patterns. Counter-formation through alternative communities, not institutional reform, is the only structural response. (Principalities and Powers)
+8. Fight is with principalities, not flesh and blood: Paul's identification of "powers and principalities" names not supernatural demons but self-perpetuating logics of systems that shape souls through behavioral compliance. Rome's genius was colonizing populations through infrastructure, law, and the imperial cult -- forcing compliance that becomes genuine submission over time. Modern therapeutic and platform systems operate identically. The enemy is not people but patterns. Counter-formation through alternative communities, not institutional reform, is the only structural response. ([Principalities and Powers](../../content/2026-01-12-principalities-and-powers.md))
 9. The thesis-antithesis-synthesis move: naive faith (flawed but generative) --> critical dissolution (correct but catastrophic) --> synthesis (living with the critique but choosing to build). The void was always a construction. Meaninglessness is a choice that has been tested and found wanting. But synthesis cannot come from more willing. Something outside the system is required -- and the system has no category for "outside."
 
 **Supporting essays:**
-- What Would Marx Say Today (professional-managerial class; credential as guild gatekeeping)
+- [What Would Marx Say Today](../../content/2026-01-27-what-would-marx-say-today.md) (professional-managerial class; credential as guild gatekeeping)
 - The Socialists' Convenient Blindness (will to power across all societies)
-- The Machine That Eats the World (institutions converting to control; outsourcing care)
-- Principalities and Powers (Paul's structural diagnosis; modern principalities)
-- The Amplifier Theory of Human Hierarchy (callback)
+- [The Machine That Eats the World](../../content/2026-01-25-the-machine-that-eats-the-world.md) (institutions converting to control; outsourcing care)
+- [Principalities and Powers](../../content/2026-01-12-principalities-and-powers.md) (Paul's structural diagnosis; modern principalities)
+- [The Amplifier Theory of Human Hierarchy](../../content/2026-01-07-the-amplifier-theory-of-human-hierarchy.md) (callback)
 - Monstrous Doubles: René Girard (mimetic desire, scapegoat mechanism, monstrous doubles, victimism, escalation to extremes)
 
 **Key thinkers:** Nietzsche, Girard (mimetic desire, scapegoat mechanism), Derrida, Foucault, Lyotard, Baudrillard, Marx, Paul, Simone Weil (gravity vs. grace -- previewed), Boehm (dual disposition), Clausewitz (escalation to extremes, via Girard)
@@ -285,14 +285,14 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - Hindu epic (Mahabharata): moral complexity within cosmic framework, but single compositional tradition
    - Buddhist canon: universal diagnosis of suffering, but lacks the prophetic-political critique of institutional capture
    - Each achieves 1-2 of the four criteria, not all four
-5. The undesigned narrative: the Bible's power lies in editable fidelity to memory rather than systematic design. Contradictions preserved rather than erased. Self-critiques included rather than suppressed. This gives the text unique epistemic weight as a record that has survived contact with reality for three thousand years without needing coordination. A designed text would be smoother. A living record is rough. (The Undesigned Narrative)
+5. The undesigned narrative: the Bible's power lies in editable fidelity to memory rather than systematic design. Contradictions preserved rather than erased. Self-critiques included rather than suppressed. This gives the text unique epistemic weight as a record that has survived contact with reality for three thousand years without needing coordination. A designed text would be smoother. A living record is rough. ([The Undesigned Narrative](../../content/2026-03-04-the-undesigned-narrative.md))
 6. The honest record: the non-coordinated, multi-millennial testimony repeatedly documents how every liberation system gets captured by the forces it was meant to overcome. This pattern is so durable precisely because it emerged from honest transmission rather than deliberate theory-building. If you honestly record power long enough, you find the structure without needing a theory. (The Honest Record)
 7. Interpretation framework: how to read this record. Not as inerrant instruction manual. Not as myth to be demythologized. But as the accumulated testimony of a people's honest encounter with reality -- a record that outperforms modern social theory on the modern social theorist's own terms.
 8. The crucial question: the analysis was right, and it led to a record the framework didn't create and cannot fully contain. What does that recognition require?
 
 **Supporting essays:**
 - The Honest Record (multi-millennial testimony of power's capture)
-- The Undesigned Narrative (editable fidelity, preserved contradictions)
+- [The Undesigned Narrative](../../content/2026-03-04-the-undesigned-narrative.md) (editable fidelity, preserved contradictions)
 
 **Key thinkers:** Samuel, Jeremiah, Ezekiel, Jesus, Paul, John (Revelation), Sima Qian, Aeschylus, Engels, Marx (as methodological analogue)
 
@@ -351,14 +351,14 @@ This plan preserves what worked in v1 while restructuring the opening and first 
    - *Phenomenological*: serious mysticism strips comfort rather than providing it. It does not function as a coping mechanism. Desert Fathers voluntarily relinquished optionality. Francis stripped naked in the town square. These behaviors are inexplicable as self-deception.
    - *Behavioral*: mystical encounter produces action that cannot be predicted by the materialist framework. Inexplicable generosity, inexplicable courage, inexplicable joy in suffering.
    - *Asymmetry*: the materialist framework is unfalsifiable (anything can be explained as neural activity). The grace framework can explain gravity (will to power, the ratchet) *and* what interrupts it. The more comprehensive framework is the stronger one.
-6. Meaning at the boundary: meaning is not an intrinsic property but emerges at the interface between systems in relationship. This is not metaphor -- language models demonstrate that vast knowledge can be extracted from structure alone, yet remains ungrounded until coupled with something external. Alignment between systems constitutes meaning. (Meaning at the Boundary)
-7. Mystical meaning: Eckhart's Ground is not static but boiling (*bullitio*) -- continuously overflowing, generative, reaching toward. Dissolving into this ground reveals meaning as perpetually arising from undifferentiated source. This is not absorption into nothingness but encounter with what is more real than the self. (Mystical Meaning)
+6. Meaning at the boundary: meaning is not an intrinsic property but emerges at the interface between systems in relationship. This is not metaphor -- language models demonstrate that vast knowledge can be extracted from structure alone, yet remains ungrounded until coupled with something external. Alignment between systems constitutes meaning. ([Meaning at the Boundary](../../content/2026-02-06-meaning-at-the-boundary.md))
+7. Mystical meaning: Eckhart's Ground is not static but boiling (*bullitio*) -- continuously overflowing, generative, reaching toward. Dissolving into this ground reveals meaning as perpetually arising from undifferentiated source. This is not absorption into nothingness but encounter with what is more real than the self. ([Mystical Meaning](../../content/2026-02-06-mystical-meaning.md))
 8. Wanting without willing: desire that does not grasp. Seeing the self's machinations dissolve. Not a state to achieve but a flash that cannot be held -- Zen's *satori*, Paul "caught up to the third heaven" once. The posture that doesn't feed the engine.
 9. Faith that something reaches back: is this real or delusion? The question cannot be settled from inside the cage. It can only be explored from the posture of emptiness. The book leaves this genuinely open.
 
 **Supporting essays:**
-- Meaning at the Boundary
-- Mystical Meaning
+- [Meaning at the Boundary](../../content/2026-02-06-meaning-at-the-boundary.md)
+- [Mystical Meaning](../../content/2026-02-06-mystical-meaning.md)
 
 **Key thinkers:** Meister Eckhart (Gelassenheit, Ground, bullitio, Seelengrund), Lao Tzu, Krishna/Bhagavad Gita, Cloud of Unknowing, John of the Cross, Francis of Assisi, Desert Fathers, Simone Weil (gravity and grace), Godel (self-reference), Paul
 
@@ -372,35 +372,35 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 ---
 
-## Chapter 10: The Fourth Way of Knowing
+## Chapter 10: The [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md)
 
 **Purpose:** Provide epistemological grounding for the mystical posture and the honest record. Not "just believe" but a rigorous account of why narrative knowing is a legitimate and necessary way of knowing -- and why its non-verifiability is a feature, not a bug.
 
 **Movement:**
 1. The modern epistemological hierarchy (empirical/formal at top, narrative/testimony at bottom) is an installed prejudice, not a derived conclusion. The hierarchy feels like common sense because it *is* our common sense -- our grammar.
-2. Mathematics reveals realities beyond observation: Maxwell's electromagnetic waves (predicted mathematically, verified decades later), Dirac's antimatter, Pauli's neutrino, Einstein's gravitational waves. Eugene Wigner: "the unreasonable effectiveness of mathematics." If mathematical structures reveal hidden truth about reality, the prejudice against non-empirical knowing is undermined from within the scientific framework itself. (When Equations See What Eyes Cannot)
+2. Mathematics reveals realities beyond observation: Maxwell's electromagnetic waves (predicted mathematically, verified decades later), Dirac's antimatter, Pauli's neutrino, Einstein's gravitational waves. Eugene Wigner: "the unreasonable effectiveness of mathematics." If mathematical structures reveal hidden truth about reality, the prejudice against non-empirical knowing is undermined from within the scientific framework itself. ([When Equations See What Eyes Cannot](../../content/2025-12-19-when-equations-see-what-eyes-cannot.md))
 3. Science cannot ground itself:
    - Godel's incompleteness: no formal system can prove its own consistency. Axioms are always imported from elsewhere. Ground cannot see itself as ground.
    - Computational irreducibility: some truths can only be discovered by running the process, not by prediction
    - The observing subject cannot appear within the objective description. The scientist who designs the experiment, interprets the data, and decides what counts as evidence is invisible to the method.
-   - Science is powerful but cannot answer its own foundational questions. This is not a weakness to be fixed but a structural feature. (The Incomplete God)
+   - Science is powerful but cannot answer its own foundational questions. This is not a weakness to be fixed but a structural feature. ([The Incomplete God](../../content/2025-12-21-the-incomplete-god-why-science-cannot.md))
 4. The lifeworld precedes science (Husserl): colors come before wavelengths, desire before neuroscience, meaning before particles. The lived world is not a less accurate version of the scientific world; it is the world from which science itself emerges. We know more than we can tell (Polanyi's tacit knowledge): elegance, rightness, judgment are essential to science yet unformalized.
-5. The hidden grammar: education teaches a fact/opinion binary that cannot see "narrative grounding" -- the pre-theoretical frameworks that determine what counts as a question. This omission is not innocent; it prevents people from recognizing that interpretation always begins from an invisible narrative ground. (The Hidden Grammar)
-6. Narrative as the fourth way of knowing: the foundational story about reality's shape that precedes and determines all other knowing. Modernity drives it underground while claiming to need only data. But the data never speaks for itself. (Data Doesn't Speak, Fourth Way of Knowing)
-7. Data doesn't speak: evidence underdetermines its interpretation. What bridges evidence and conclusion is the *formation* of the person asking the question. Example: the fertility collapse. The same data exists. The conclusion that "modernity has lost the capacity to answer what human life is for" only became visible because the analyst was formed differently than the economists whose models predicted the data would show otherwise. Only communities with formational density thick enough to constitute selves capable of receiving children counter the trend. (Data Doesn't Speak, Fertility Is Not Economics)
-8. Shakespeare as laboratory of knowledge: the plays constitute rigorous study of human behavior in domains where controlled experiments are impossible -- persuasion, jealousy, honor, guilt, power. *King Lear* reveals dynamics no experiment can isolate. Recognition (*anagnorisis*) is narrative knowing's mode of confirmation: you don't prove it; you recognize it as true from inside. (The Laboratory of the Human: Shakespeare)
+5. The hidden grammar: education teaches a fact/opinion binary that cannot see "narrative grounding" -- the pre-theoretical frameworks that determine what counts as a question. This omission is not innocent; it prevents people from recognizing that interpretation always begins from an invisible narrative ground. ([The Hidden Grammar](../../content/2026-03-04-the-hidden-grammar.md))
+6. Narrative as the fourth way of knowing: the foundational story about reality's shape that precedes and determines all other knowing. Modernity drives it underground while claiming to need only data. But the data never speaks for itself. (Data Doesn't Speak, [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md))
+7. Data doesn't speak: evidence underdetermines its interpretation. What bridges evidence and conclusion is the *formation* of the person asking the question. Example: the fertility collapse. The same data exists. The conclusion that "modernity has lost the capacity to answer what human life is for" only became visible because the analyst was formed differently than the economists whose models predicted the data would show otherwise. Only communities with formational density thick enough to constitute selves capable of receiving children counter the trend. (Data Doesn't Speak, [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.mdx))
+8. Shakespeare as laboratory of knowledge: the plays constitute rigorous study of human behavior in domains where controlled experiments are impossible -- persuasion, jealousy, honor, guilt, power. *King Lear* reveals dynamics no experiment can isolate. Recognition (*anagnorisis*) is narrative knowing's mode of confirmation: you don't prove it; you recognize it as true from inside. ([The Laboratory of the Human: Shakespeare](../../content/2025-12-22-the-laboratory-of-the-human-shakespeare.md))
 9. Ethics cannot be rationally grounded (Hume's is/ought, Godel parallel): virtue ethics, deontology, utilitarianism, naturalistic ethics all bottom out in axioms they cannot derive. But this is architectural, not accidental. If ethics *could* be grounded as proof, morality would become optimization -- children would calculate rather than transform. The darkness is womb, not absence. Opacity is necessary for moral development. Certainty would prevent transformation into virtue.
 10. The unverifiability of ground is a *design feature*: if ground could be proved, it would be absorbed into the optimization system (the wheel from Ch 6). Darkness preserves the possibility of formation. The Sabbath tradition: one day in seven, the system stops. Not because stopping is efficient but because the system's claim to totality must be interrupted.
 11. But which narrative? All interpretation begins from narrative ground. If narrative shapes all things, the question is not whether to have a ground but which ground to choose -- and whether "choose" is even the right word. This question was answered in Ch 7 (the honest record) and will be completed in Ch 12 (mysticism + record).
 
 **Supporting essays:**
-- The Incomplete God: Why Science Cannot Ground Itself
-- The Hidden Grammar
+- [The Incomplete God](../../content/2025-12-21-the-incomplete-god-why-science-cannot.md): Why Science Cannot Ground Itself
+- [The Hidden Grammar](../../content/2026-03-04-the-hidden-grammar.md)
 - Data Doesn't Speak
-- Fertility Is Not Economics
-- Fourth Way of Knowing
-- The Laboratory of the Human: Shakespeare
-- When Equations See What Eyes Cannot
+- [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.mdx)
+- [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md)
+- [The Laboratory of the Human: Shakespeare](../../content/2025-12-22-the-laboratory-of-the-human-shakespeare.md)
+- [When Equations See What Eyes Cannot](../../content/2025-12-19-when-equations-see-what-eyes-cannot.md)
 
 **Key thinkers:** Wigner, Godel, Husserl (Lebenswelt), Polanyi (tacit knowledge), Aristotle (anagnorisis), Shakespeare, Hume
 
@@ -432,7 +432,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 8. The New Jerusalem is received, not built (Revelation 21): "I saw the holy city, the new Jerusalem, *coming down out of heaven*." The culmination is not constructed by human effort. This is not quietism (Ch 8 showed what must be built). It is the recognition that the building is preparation for reception, not production.
 
 **Supporting essays:**
-- Structural Wisdom: Biblical Eschatology
+- [Structural Wisdom: Biblical Eschatology](../../content/2026-02-21-structural-wisdom-biblical-eschatology.mdx)
 
 **Key thinkers:** Jesus, Popper (historicism as totalitarianism's root), Paul (wakefulness), Augustine, John (present-tense eternal life), Second Peter (temporal dissolution), Martin Luther King Jr. / Theodore Parker ("arc of the moral universe")
 
@@ -464,7 +464,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 **Supporting essays:**
 - (This chapter draws on Chs 7, 9, 10 and requires significant new writing/research)
-- Meaning at the Boundary and Mystical Meaning (revisited from Ch 9)
+- [Meaning at the Boundary](../../content/2026-02-06-meaning-at-the-boundary.md) and [Mystical Meaning](../../content/2026-02-06-mystical-meaning.md) (revisited from Ch 9)
 
 **Key thinkers:** Desert Fathers, Eckhart, Dostoevsky (The Brothers Karamazov, The Idiot), Simone Weil, Julian of Norwich, Philokalia tradition
 
@@ -504,7 +504,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 11. "Know thyself" returns (echo of Ch 1) -- but now it means something different. Not "excavate your interior" or "optimize your performance" or "manage your wound." It means: *stop becoming something else. Come to rest in what you already are.*
 
 **Supporting essays:**
-- Desire Engine Table (Gelassenheit, the table as social form)
+- [Desire Engine Table](../../content/2026-02-21-desire-engine-table.mdx) (Gelassenheit, the table as social form)
 - The Table (practices, small communities, children as participants)
 - The Return (faith that has passed through the void)
 - What Holds You (interior colonization; the table as operating system for Layer Zero)
@@ -525,57 +525,57 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 | Essay | Chapter | Role |
 |-------|---------|------|
-| Know Thyself: Greek vs Christian | Ch 1 | Primary scaffold |
-| Know Thyself: Confucian, Buddhist, Hindu | Ch 1 | Traditions survey |
-| Know Thyself: Gurdjieff & Kierkegaard | Ch 1 | Subversive traditions |
-| Know Thyself: No Self | Ch 1 | Anti-self traditions |
-| Know Thyself: The Kingdom Within | Ch 1 | Suppressed Christianity |
-| Know Thyself: Through What | Ch 1 | Wittgenstein/Heidegger pivot |
-| The Invention of the Confessing Animal | Ch 1, Ch 3 | Foucault; confession as power |
-| The Liquefaction of Being: Materialism | Ch 2 | Standing reserve |
-| The Employable Subject | Ch 2 | Education as formation for market |
-| The Exhaustion That Cannot Rest | Ch 2 | Three interlocking poisons |
-| Burnout Is a Modern Invention | Ch 2 | Calvinist work ethic secularized |
-| Grammar Rules All | Ch 2 | Grammars install values |
+| [Know Thyself: Greek vs Christian](../../content/2025-12-15-know-thyself-greek-vs-christian.md) | Ch 1 | Primary scaffold |
+| [Know Thyself: Confucian, Buddhist, Hindu](../../content/2025-12-15-know-thyself-confucian-buddhist-hindu.md) | Ch 1 | Traditions survey |
+| [Know Thyself: Gurdjieff & Kierkegaard](../../content/2025-12-16-know-thyself-gurdjieff-kierkegaard.md) | Ch 1 | Subversive traditions |
+| [Know Thyself: No Self](../../content/2025-12-17-know-thyself-no-self.md) | Ch 1 | Anti-self traditions |
+| [Know Thyself: The Kingdom Within](../../content/2025-12-17-know-thyself-the-kingdom-within.md) | Ch 1 | Suppressed Christianity |
+| [Know Thyself: Through What](../../content/2025-12-17-know-thyself-through-what.md) | Ch 1 | Wittgenstein/Heidegger pivot |
+| [The Invention of the Confessing Animal](../../content/2025-12-17-the-invention-of-the-confessing-animal.md) | Ch 1, Ch 3 | Foucault; confession as power |
+| [The Liquefaction of Being: Materialism](../../content/2025-12-21-the-liquefaction-of-being-materialism.md) | Ch 2 | Standing reserve |
+| [The Employable Subject](../../content/2025-12-19-the-employable-subject.md) | Ch 2 | Education as formation for market |
+| [The Exhaustion That Cannot Rest](../../content/2026-01-11-the-exhaustion-that-cannot-rest.md) | Ch 2 | Three interlocking poisons |
+| [Burnout Is a Modern Invention](../../content/2025-12-15-burnout-is-a-modern-invention.md) | Ch 2 | Calvinist work ethic secularized |
+| [Grammar Rules All](../../content/2026-01-23-grammar-rules-all.md) | Ch 2 | Grammars install values |
 | The Gaze | Ch 2 | Generational wheel of defensive selves |
-| Trauma Culture & White Guilt Checkmate | Ch 3 | Epistemic/moral lockdown |
-| The Epistemology of Impotence | Ch 3 | Standpoint epistemology self-refutes |
-| Diagnosing White Guilt | Ch 3 | Secularized Christianity without redemption |
-| Why the Secularism in the West Became | Ch 3 | Christian architecture minus resolution; Buddhism contrast |
-| Education Cannot Save Us | Ch 3 | Progressive faith in education as salvation |
-| The Fence You Cannot See | Ch 3 | Inherited structures as invisible wisdom |
-| Ratchet Stage | Ch 4 | Gravity of power |
-| Metaphysical Choices | Ch 4 | Interactive visualization |
-| The Alchemy of Power | Ch 4 | Capture of liberating teachings |
-| The Amplifier Theory of Human Hierarchy | Ch 4, Ch 6 | Hierarchy contingent on amplifiers |
-| The Selection of Souls | Ch 4 | Materialism selected by power |
-| The Two Filters | Ch 4 | Why reasonable ideas die |
-| The Cage and the Argument About Its Curtains | Ch 5 | Left/right debating within market totality |
-| The Invisible Right | Ch 5 | Market logic as invisible ideology |
+| [Trauma Culture & White Guilt Checkmate](../../content/2026-01-09-trauma-culture-white-guilt-checkmate.md) | Ch 3 | Epistemic/moral lockdown |
+| [The Epistemology of Impotence](../../content/2026-01-09-the-epistemology-of-impotence-how.md) | Ch 3 | Standpoint epistemology self-refutes |
+| [Diagnosing White Guilt](../../content/2026-01-09-diagnosing-white-guilt.md) | Ch 3 | Secularized Christianity without redemption |
+| [Why the Secularism in the West Became](../../content/2026-01-09-why-the-secularism-in-the-west-became.md) | Ch 3 | Christian architecture minus resolution; Buddhism contrast |
+| [Education Cannot Save Us](../../content/2026-01-31-education-cannot-save-us.md) | Ch 3 | Progressive faith in education as salvation |
+| [The Fence You Cannot See](../../content/2026-01-14-the-fence-you-cannot-see.md) | Ch 3 | Inherited structures as invisible wisdom |
+| [Ratchet Stage](../../content/2026-02-26-ratchet-stage.md) | Ch 4 | Gravity of power |
+| [Metaphysical Choices](../../content/pages/metaphysical-choices.mdx) | Ch 4 | Interactive visualization |
+| [The Alchemy of Power](../../content/2025-12-18-the-alchemy-of-power.md) | Ch 4 | Capture of liberating teachings |
+| [The Amplifier Theory of Human Hierarchy](../../content/2026-01-07-the-amplifier-theory-of-human-hierarchy.md) | Ch 4, Ch 6 | Hierarchy contingent on amplifiers |
+| [The Selection of Souls](../../content/2025-12-18-the-selection-of-souls.md) | Ch 4 | Materialism selected by power |
+| [The Two Filters](../../content/2025-12-18-the-two-filters-why-reasonable-ideas.md) | Ch 4 | Why reasonable ideas die |
+| [The Cage and the Argument About Its Curtains](../../content/2026-02-09-the-cage-and-the-argument-about-its.md) | Ch 5 | Left/right debating within market totality |
+| [The Invisible Right](../../content/2026-02-09-the-invisible-right-on-what-becomes.md) | Ch 5 | Market logic as invisible ideology |
 | What If the Thing You're Protecting | Ch 5 | Cage feels like freedom |
-| The Shape of the Container | Ch 5 | Compliance becomes formation |
+| [The Shape of the Container](../../content/2025-12-18-the-shape-of-the-container.md) | Ch 5 | Compliance becomes formation |
 | What Holds You | Ch 5, Ch 13 | Four layers of interior colonization |
-| What Would Marx Say Today | Ch 6 | Credentialed class as new ruling class |
+| [What Would Marx Say Today](../../content/2026-01-27-what-would-marx-say-today.md) | Ch 6 | Credentialed class as new ruling class |
 | The Socialists' Convenient Blindness | Ch 6 | Will to power across all societies |
-| The Machine That Eats the World | Ch 6 | Institutions convert to control |
-| Monstrous Doubles: Girard | Ch 6 | Mimetic desire, scapegoat, monstrous doubles |
-| Principalities and Powers | Ch 6, Ch 8 | Paul's structural diagnosis |
+| [The Machine That Eats the World](../../content/2026-01-25-the-machine-that-eats-the-world.md) | Ch 6 | Institutions convert to control |
+| [Monstrous Doubles: Girard](../../content/2025-12-09-monstrous_doubles_girard_essay.md) | Ch 6 | Mimetic desire, scapegoat, monstrous doubles |
+| [Principalities and Powers](../../content/2026-01-12-principalities-and-powers.md) | Ch 6, Ch 8 | Paul's structural diagnosis |
 | The Honest Record | Ch 7 | Multi-millennial testimony |
-| The Undesigned Narrative | Ch 7 | Preserved contradictions as epistemic strength |
-| Meaning at the Boundary | Ch 9 | Meaning as relational |
-| Mystical Meaning | Ch 9 | Eckhart's Ground |
-| When Equations See What Eyes Cannot | Ch 10 | Mathematics reveals invisible reality |
-| The Incomplete God | Ch 10 | Science cannot ground itself |
-| The Hidden Grammar | Ch 10 | Education's epistemological blind spot |
+| [The Undesigned Narrative](../../content/2026-03-04-the-undesigned-narrative.md) | Ch 7 | Preserved contradictions as epistemic strength |
+| [Meaning at the Boundary](../../content/2026-02-06-meaning-at-the-boundary.md) | Ch 9 | Meaning as relational |
+| [Mystical Meaning](../../content/2026-02-06-mystical-meaning.md) | Ch 9 | Eckhart's Ground |
+| [When Equations See What Eyes Cannot](../../content/2025-12-19-when-equations-see-what-eyes-cannot.md) | Ch 10 | Mathematics reveals invisible reality |
+| [The Incomplete God](../../content/2025-12-21-the-incomplete-god-why-science-cannot.md) | Ch 10 | Science cannot ground itself |
+| [The Hidden Grammar](../../content/2026-03-04-the-hidden-grammar.md) | Ch 10 | Education's epistemological blind spot |
 | Data Doesn't Speak | Ch 10 | Formation determines interpretation |
-| Fertility Is Not Economics | Ch 10 | Birth rate as evidence of lost telos |
-| Fourth Way of Knowing | Ch 10 | Narrative grounding as epistemology |
-| The Laboratory of the Human: Shakespeare | Ch 10 | Plays as knowledge laboratory |
-| Structural Wisdom: Biblical Eschatology | Ch 11 | Eschatology as structural diagnosis |
-| Desire Engine Table | Ch 13 | Gelassenheit; table as social form |
+| [Fertility Is Not Economics](../../content/2026-03-02-fertility-is-not-economics.mdx) | Ch 10 | Birth rate as evidence of lost telos |
+| [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md) | Ch 10 | Narrative grounding as epistemology |
+| [The Laboratory of the Human: Shakespeare](../../content/2025-12-22-the-laboratory-of-the-human-shakespeare.md) | Ch 10 | Plays as knowledge laboratory |
+| [Structural Wisdom: Biblical Eschatology](../../content/2026-02-21-structural-wisdom-biblical-eschatology.mdx) | Ch 11 | Eschatology as structural diagnosis |
+| [Desire Engine Table](../../content/2026-02-21-desire-engine-table.mdx) | Ch 13 | Gelassenheit; table as social form |
 | The Table | Ch 13 | Practices; small communities |
 | The Return | Ch 8, Ch 13 | Faith through the void |
-| Nine Months, Two Men | All chapters | Narrative interludes |
+| [Nine Months, Two Men](../../content/2026-02-11-nine-months-two-men.md) | All chapters | Narrative interludes |
 
 ---
 
@@ -592,7 +592,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 | 7 | The Honest Record | Encounter | Surprise -> recognition |
 | 8 | Stepping Off | Build | Practical hope -> open question |
 | 9 | Mysticism | Open | Wonder -> vulnerability |
-| 10 | Fourth Way of Knowing | Ground | Rigor -> permission |
+| 10 | [Fourth Way of Knowing](../../content/2026-03-04-fourth-way-of-knowing.md) | Ground | Rigor -> permission |
 | 11 | The Rupture | Wait | Urgency -> wakefulness |
 | 12 | Mysticism + Record | Unite | Integration -> practice |
 | 13 | Arrival | Rest | Simplicity -> presence |
