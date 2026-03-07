@@ -10,7 +10,11 @@ That is the cage's genius.
 
 You experience productivity as moral imperative. You know this. You can name it. Naming it does not free you from it.
 
-When you rest, something in you registers the rest as failure. Not loudly. Subtly. A low hum of guilt. A small voice that says: you could be doing something. Should be doing something. Are falling behind. The voice is not your boss. It is not your parents. It is you. The slave driver was externalized for most of human history. Now it lives inside.
+Try this. Sit in a chair. Do nothing. No phone. No book. No podcast. No meditation app. Nothing. Set a timer for fifteen minutes.
+
+Within ninety seconds, the voice arrives. It says: you could be doing something. Should be doing something. Are falling behind. Someone else is working right now. Someone else is getting ahead. This moment is wasted. You are wasting it. You are wasting yourself.
+
+The voice is not your boss. It is not your parents. It is not the economy. It is you. The slave driver was externalized for most of human history. Pharaoh stood over the Israelites. The foreman stood over the factory worker. The overseer stood over the slave. Now the slave driver lives inside. It has your voice. It knows your name. It wakes you at 3 AM not with orders but with something worse: the conviction that you are not enough and that more effort might fix it.
 
 Byung-Chul Han calls this the achievement society. The disciplinary society -- Foucault's model, the one with prisons and hospitals and schools that enforce compliance from outside -- is over. It was inefficient. A guard must be paid. A prisoner resists. The achievement society solved both problems by making the subject her own guard and her own prisoner. She exploits herself more thoroughly than any external authority could because she believes the exploitation is self-expression.
 

@@ -64,9 +64,17 @@ The Inquisitor's final accusation: "You have no right to add anything to what Yo
 
 Jesus says nothing. At the end of the Inquisitor's speech, Jesus rises and kisses the old man on his bloodless lips.
 
-The kiss is the answer the Inquisitor cannot process. Not argument. Not resistance. Not compliance. Encounter. The one thing the institution cannot institutionalize. The institution can process every response except this one: the direct encounter with the person the institution claims to represent, whose presence renders the institution unnecessary.
+The kiss is the answer the Inquisitor cannot process. Not argument. Not resistance. Not compliance. Encounter. The one thing the institution cannot institutionalize. The institution has a procedure for heresy, a procedure for rebellion, a procedure for submission. It has no procedure for a kiss. The kiss meets the Inquisitor not as adversary or subject but as person. The institution dissolves in the presence of the person it claims to represent.
 
-Dostoevsky understood: the Grand Inquisitor *is* the church. Not a corruption of the church. The church *as it must become* when it chooses governance over encounter, schedule over wakefulness, program over presence. The honest record documents this capture. The Grand Inquisitor dramatizes it. The mystical practice -- the kiss, the silence, the encounter -- is what the capture cannot capture.
+The Inquisitor's response is telling. He opens the cell door and says: "Go, and come no more. Come not at all. Never, never!" He releases Jesus. He cannot keep him. Not because Jesus overpowered him. Because Jesus's presence makes the institution's machinery visible as machinery. The Inquisitor has spent decades believing the machinery *is* the mission. The kiss reveals the gap between them.
+
+Dostoevsky understood: the Grand Inquisitor *is* the church. Not a corruption of the church. The church *as it must become* when it chooses governance over encounter, schedule over wakefulness, program over presence. The honest record documents this capture across millennia. The Grand Inquisitor dramatizes it in a single scene. The mystical practice -- the kiss, the silence, the encounter -- is what the capture cannot capture.
+
+Elsewhere in *The Brothers Karamazov*, the elder Zosima embodies the alternative. His teaching is simple: "Love in action is a harsh and dreadful thing compared to love in dreams." Love in dreams is the abstract compassion described in Chapter 6 -- the donation, the petition, the hashtag. Love in action is the table. Zosima washes the feet of the peasants who visit him. He bows to Dmitri before the crime is committed -- not because he knows the future but because he recognizes the suffering that is already present. His holiness is not ethereal. It smells like the sick ward and the stable.
+
+Alyosha, Zosima's student, carries the paired practice into the world. He is not a monk who withdraws. He is a monk who enters -- who sits with the dissolute Dmitri, the intellectual Ivan, the tormented Grushenka. His practice is presence. Not argument. Not instruction. Presence. He does not convince anyone of anything. He accompanies. The companionship does not solve the problems. It makes the problems bearable.
+
+[FLAG: A fuller treatment of Dostoevsky as theological laboratory should include *The Idiot* (Prince Myshkin as the holy fool whose goodness destroys those around him -- the structural impossibility of embodied innocence in a fallen world) and *Notes from Underground* (the first literary diagnosis of the modern self-conscious self, the man who is too intelligent to act). These novels run experiments no ethics board would approve and produce knowledge no laboratory can replicate.]
 
 ## Simone Weil
 

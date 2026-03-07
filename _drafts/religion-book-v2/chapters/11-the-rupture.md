@@ -70,15 +70,21 @@ If this sounds like the cornerstone argument, it should. The rejected stone and 
 
 ## Both Modern Eschatologies Fail
 
-The religious right maps prophecy onto geopolitical timeline. Revelation becomes a newspaper. The Antichrist is this year's politician. The rapture is scheduled for this decade. The mystery is converted into a political program.
+The religious right maps prophecy onto geopolitical timeline. Hal Lindsey's *The Late Great Planet Earth* (1970) sold tens of millions of copies by identifying the Soviet Union as Gog, the European Economic Community as the revived Roman Empire, and the founding of Israel as the prophetic clock starting. Every prediction failed. The books kept selling. Tim LaHaye's *Left Behind* series (1995-2007) generated over $1 billion in revenue from the same operation: converting Revelation into a screenplay, the Second Coming into an action movie, the mystery into a franchise.
 
-The secular left converts "the arc of the moral universe bends toward justice" into historical guarantee. Martin Luther King Jr. borrowed the phrase from Theodore Parker, who used it as a statement of faith. The left converted it into a prediction. If the arc bends, then progress is inevitable. If progress is inevitable, then the future is knowable. If the future is knowable, then whoever predicts it correctly has authority over those who predict it incorrectly.
+The mechanism: Revelation becomes a newspaper. The Antichrist is this year's politician. The rapture is scheduled for this decade. The mystery is converted into a political program. The program generates institutional power for whoever controls the schedule.
 
-Both perform the same operation. Converting the uncontrollable into a legitimation formula. Converting mystery into program. Converting hope into control.
+The secular left performs the identical operation with different content. Theodore Parker, a nineteenth-century abolitionist minister, wrote: "The arc of the moral universe is long, but it bends toward justice." This was a statement of faith -- Parker was a Unitarian minister speaking from within a theological framework. Martin Luther King Jr. adopted the phrase in the same spirit.
 
-Both feed the wheel. The religious right feeds it by converting faith into politics. The secular left feeds it by converting hope into determinism. Neither can see that the operation itself -- the conversion of the uncontrollable future into a scheduled program -- is the problem Popper diagnosed and Jesus refused.
+The modern left converted it into a prediction. If the arc bends, then progress is inevitable. If progress is inevitable, then the future is knowable. If the future is knowable, then whoever predicts it correctly has authority over those who predict it incorrectly. "The right side of history" is a phrase that only makes sense if history has a direction -- and if the speaker knows what that direction is. It is a power claim disguised as a moral observation.
 
-The symmetry is the argument. When both sides fail identically, the failure is structural, not partisan. The structure is: the human will seizes the future and converts it into a tool of present power. The refusal to allow this seizure is not weakness. It is the only structural defense against totalitarianism.
+Both sides perform the same operation. Converting the uncontrollable into a legitimation formula. Converting mystery into program. Converting hope into control.
+
+Both feed the wheel. The religious right feeds it by converting faith into politics -- the eschatological schedule becomes a voting guide, the mystery becomes a platform, the kingdom of God becomes a policy agenda. The secular left feeds it by converting hope into determinism -- the arc that bends becomes a guarantee, the struggle becomes inevitable, the dissenter becomes someone standing on the wrong side of what cannot be stopped.
+
+Neither can see that the operation itself -- the conversion of the uncontrollable future into a scheduled program -- is the problem Popper diagnosed and Jesus refused.
+
+The symmetry is the argument. When both sides fail identically, the failure is structural, not partisan. The structure is: the human will seizes the future and converts it into a tool of present power. The refusal to allow this seizure is not weakness. It is the only structural defense against totalitarianism. It is what Mark 13:32 protects.
 
 ## Wakefulness
 

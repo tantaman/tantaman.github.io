@@ -18,11 +18,17 @@ What Socrates did not examine was desire. Desire was transparent. You wanted wha
 
 The Greek self was not opaque to itself. It was not hiding anything. The problem was not buried motives but untested opinions. And the testing happened out loud, between people, in public. There was no inner theater to explore. There was only the question of whether you could give a rational account of what you claimed to know.
 
-Homer makes this vivid. When Achilles learns of Patroclus's death, he does not "process" grief. He does not "sit with" the emotion. He does not seek a safe space or name his feelings. Grief seizes him so completely that he rolls in the dust, pours ash over his head, and screams. His companions restrain him because they fear he will cut his own throat. The grief is not something Achilles *has*. It is something Achilles *is*. There is no inner distance. No observing ego watching the grief from above. No management.
+Homer makes this vivid. When Achilles learns of Patroclus's death in Book 18 of the *Iliad*, he does not "process" grief. He does not "sit with" the emotion. He does not seek a safe space or name his feelings or text his therapist.
+
+He pours dirt over his head. He tears at his hair. He falls face-down in the dust. Antilochus, who brought the news, holds Achilles' hands because Antilochus can see that the grief is so total it might end in self-slaughter. The women slaves scream. The sound carries to the sea, where Achilles' mother Thetis hears it and comes.
+
+Homer describes it simply: "A black cloud of grief enveloped him." The grief is not something Achilles *has*. It is something Achilles *is*. There is no inner distance. No observing ego watching the grief from above. No management. No strategy. The grief does not arrive and then get processed through stages. It arrives and it *is him* and there is no remainder -- no part of Achilles standing outside the grief, narrating it, contextualizing it, scheduling a session to discuss it.
+
+The modern reader encounters this and something strange happens. We recognize the grief as real. We recognize it as deeper than anything our vocabulary of "processing" and "healing" can reach. We feel the force of it through three thousand years of cultural distance. And we cannot imagine *being* it. We can imagine *having* it. We can imagine observing it from above and managing it from within. We cannot imagine the dissolution of the observer into the observed.
 
 What does it mean to respond like that? What kind of self produces that response?
 
-Not ours.
+Not ours. Our self was built with a distance between the feeler and the feeling. The distance feels like sophistication. It might be a cage.
 
 ## The Christian Self
 
