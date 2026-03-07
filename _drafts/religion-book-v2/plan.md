@@ -558,6 +558,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 | What Would Marx Say Today | Ch 6 | Credentialed class as new ruling class |
 | The Socialists' Convenient Blindness | Ch 6 | Will to power across all societies |
 | The Machine That Eats the World | Ch 6 | Institutions convert to control |
+| Monstrous Doubles: Girard | Ch 6 | Mimetic desire, scapegoat, monstrous doubles |
 | Principalities and Powers | Ch 6, Ch 8 | Paul's structural diagnosis |
 | The Honest Record | Ch 7 | Multi-millennial testimony |
 | The Undesigned Narrative | Ch 7 | Preserved contradictions as epistemic strength |
@@ -610,8 +611,7 @@ This plan preserves what worked in v1 while restructuring the opening and first 
 
 The supporting essays provide raw material for most chapters. The following gaps remain:
 
-1. **Girard / mimetic desire** (Ch 6): No dedicated essay. The mechanism (desire -> rivalry -> doubling -> mimetic crisis) is central to explaining why every revolution reproduces the structure it overthrew. Needs development.
-2. **Desert Fathers / hesychast tradition** (Ch 12): Research needed into specific texts, practices, and transformations. The *apophthegmata*, the Philokalia, the Jesus Prayer tradition.
+1. **Desert Fathers / hesychast tradition** (Ch 12): Research needed into specific texts, practices, and transformations. The *apophthegmata*, the Philokalia, the Jesus Prayer tradition.
 3. **Dostoevsky as theological laboratory** (Ch 12): The Grand Inquisitor, Zosima's teachings, Alyosha's formation. Could be the chapter's dramatic centerpiece.
 4. **Simone Weil** (Chs 8, 9, 12): Referenced throughout but no dedicated essay. Her work on attention, gravity/grace, affliction, and the *Iliad* deserves sustained engagement.
 5. **The Achilles example** (Ch 1): Needs a specific literary passage that makes visceral the difference between a self that "has" emotions and a self that *is* its emotions.
