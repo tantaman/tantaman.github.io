@@ -2,13 +2,17 @@
 
 Working title "The Self, The Cage, The Wheel and The Ground". Arc: from the question "know thyself" through the modern cage, to stepping off the wheel entirely.
 
-Each chapter ends with a scene from *Nine Months, Two Men* -- two men facing the same crisis (a wife's life-threatening pregnancy), one who manages and one who encounters. The narrative thread shows, concretely, what different formations of self produce in practice.
+Each chapter ends with a scene from [*Nine Months, Two Men*](../../content/2026-02-11-nine-months-two-men.md) -- two men facing the same crisis (a wife's life-threatening pregnancy), one who manages and one who encounters. The narrative thread shows, concretely, what different formations of self produce in practice.
 
 ---
 
 ## Preface
 
 I began trying to answer what a self is. Is it chosen? Is it found? Is it made? Is it given? If it is made, how? If it is chosen, by what criteria? If it is given, can it be changed? Or does the self not exist at all and what would that mean?
+
+What follows is my journey trying to answer this question and where I arrived. The "Nine Months, Two Men" story is autobiographical, describing two ways of experiencing the same event depending on the self that was cultivated. What is shown in the abstract in the book is shown in the particular by the accompanying story.
+
+I had hoped for a simple answer but the self turns out to be a complex intersection of will, mimicry, power, time and grace. Not produced by a single person nor even a single community but shaped by millennia and all communities of the world. Some communities thicker than others. Some selves being thicker than others. Other selves being fully dissolved, at the whim of any force that happens by.
 
 ---
 
