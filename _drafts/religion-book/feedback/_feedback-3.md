@@ -1,5 +1,33 @@
 https://chat.qwen.ai/c/59d98e2e-65bd-4636-b1ad-057e45bf25bb
 
+Start of Ch 2 so dense? Disenchantment part.
+Marx part is great in Ch 2
+Calvin is meh. As in, not convincing.
+Why the genealogy? Why it is important.
+"The modern self was created through a series of metaphyscial choices"
+Gravity theory. Power needs legible selves.
+Why the genealogy went the way it did.
+
+Maybe:
+Ch1 - selves
+Ch2 - gravity theory
+ChX - describe current modern self?
+Ch3 - genealogy of the modern self
+Ch4 - why that trajectory in particular (making the human legible, governable)
+Ch5 - The resistances? The liberations? The repeated Capture?
+Ch6 - Why always captured: desire, violence, amplifier theory
+Ch7 - What could be desired instead. Desire that without end, presence.
+Ch8 - Is Mysticism crazy? Meaning at the boundary, Kierk, Eckhart
+Ch9 - Once all is cleared, we see something beyond the system
+Ch10 - Narrative way of knowing becomes apparent
+      - grammar, installed grammar that is unseen
+Ch11 - Which narrative to choose?
+Ch12 - The honest record : power analysis present in the text
+Ch13 - The honest record : other structurally significant things...
+Ch14 - Encounter, Grace, Chosen Narrative, Conclusion
+
+---
+
 1. Ch. 5's load-bearing fences passage is the book's biggest unforced 
   error. Your own feedback file flags it (line 72-81). "Men and women   
   are different, and the differences matter for how children are raised"

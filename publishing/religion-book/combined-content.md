@@ -10,7 +10,9 @@ The story that runs alongside the argument — *Nine Months, Two Men* — is aut
 
 I do not ask the reader to believe what I believe. I ask the reader to follow the argument where it goes and to notice when the argument arrives somewhere the available grammar cannot name. What you do at that point is yours.
 
+
 \newpage
+
 # Chapter One: Know Thyself
 
 ---
@@ -110,7 +112,9 @@ The story is called *Nine Months, Two Men*. It begins here.
 They are the same man. Same wife, same two boys, same memory of blood on linoleum and a doctor's voice gone flat. Same moment eighteen months later when she holds up the test and her eyes are half-joy, half-terror. Same kitchen. Same light through the window.
 
 What happens next is where the worlds diverge.
+
 \newpage
+
 # Chapter Two: God's Persistence
 
 ---
@@ -231,7 +235,9 @@ On Sunday he calls his mother-in-law. On Monday he calls the OB and asks for a c
 
 By Wednesday the fear is still present, but it has edges now. It's a known shape. He goes back to his life.
 
+
 \newpage
+
 # Chapter Three: Pathologies of Secularism
 
 ---
@@ -367,7 +373,9 @@ The fear visits. It comes at odd moments — while brushing his teeth, while pus
 So when it arrives, he hears it. _She could die._ Yes. She could. The body is fragile and medicine is imperfect and the universe makes no guarantees. He holds this and then he sets it down. Not because he's brave. Because he already heard it. He already made the plans. There is nothing new the fear can tell him.
 
 He notices he's present for strange, small things. The way his youngest says _lellow_ for yellow. The particular weight of his wife leaning against him on the couch, her body already beginning to change. He files a feature at work that he's been procrastinating on and it goes well and he feels the simple mammalian pleasure of a thing completed.
+
 \newpage
+
 # Chapter Four: Secularism's Analysis of Power
 
 ---
@@ -484,7 +492,9 @@ He updates the document he made in Month One. Nothing has changed materially. Th
 
 His wife finds him awake one night and asks what he's thinking about. He says, _I'm scared about the delivery._ She says, _Me too._ They hold each other in the dark. Nothing is fixed. Everything is different.
 
+
 \newpage
+
 # Chapter Five: The Physicians of Decay
 
 ---
@@ -608,7 +618,9 @@ The fear still visits. It visited hard last Thursday — a full-body ambush whil
 He went home.
 
 The difference — the only difference — is that the fear has nowhere to metastasize. He felt it, named it, shared it. It remains itself. It doesn't become insomnia or distance or a spreadsheet or a secret.
+
 \newpage
+
 # Chapter Six: The Wheel
 
 ---
@@ -724,7 +736,9 @@ A daughter. The word rearranges him in real time.
 That night he lies awake — not with fear but with the sheer strangeness of it, the improbability that he exists at all, that she exists at all, that the universe bothered. It's not a thought exactly. More like a weather system moving through.
 
 He tells his boys they're getting a sister. The oldest says _why_ and the youngest says _lellow_ and his wife catches his eye across the room and what passes between them is not language.
+
 \newpage
+
 # Chapter Seven: First Encounter with the Honest Record
 
 ---
@@ -850,7 +864,9 @@ That night the fear comes back hard and earned. Not the ambient hum but the spec
 His wife comes out. They sit together. She says, _That was scary._ He says, _Yeah._ They don't solve anything. They don't need to.
 
 The next day he finishes the crib. It's imperfect — one rail is slightly higher than the other, the stain is uneven. His youngest touches it reverently and says _baby_ and he thinks: _this is what it means to be here. Not safe. Here._
+
 \newpage
+
 # Chapter Eight: Stepping Off
 
 ---
@@ -998,7 +1014,9 @@ He's tired. Pregnancy is tiring even for the one not carrying the child. The boy
 He's tired but he's here. The distinction matters. Tiredness from presence is a clean tiredness. You sleep and it resolves. Tiredness from worry is a debt that compounds.
 
 He calls his buddy, the one whose wife also had a rough delivery. They drink beer on the buddy's porch and don't talk about it directly. They talk about the Orioles and a deck project and then his buddy says, _How are you actually doing,_ and he says, _Scared,_ and his buddy says, _Yeah,_ and they drink their beer.
+
 \newpage
+
 # Chapter Nine: Mysticism Pulls
 
 ---
@@ -1193,7 +1211,9 @@ The fear is quiet now. Not gone. It will never be gone. It lives in the body the
 
 He starts a letter to the baby. He doesn't tell anyone. He writes about the woods behind their house and the sound the creek makes and the way her brothers will drive her crazy and love her beyond language. He writes about her mother. He writes about fear and how it isn't the opposite of love but its shadow, proof that something matters enough to lose.
 
+
 \newpage
+
 # Chapter Ten: What Counts as Knowing
 
 ---
@@ -1435,7 +1455,9 @@ His wife packs the hospital bag. He adds a few things she'd forget — the charg
 He makes dinner. He gives baths. He reads stories. He lies in bed beside his wife and puts his hand on her belly and feels the baby move and the movement is not a symbol or a portent or a variable in an equation. It's a foot. A small foot, pressing against his palm, saying: _I'm here._
 
 _Me too,_ he thinks. _Me too._
+
 \newpage
+
 # Chapter Eleven: The Rupture That Cannot Be Scheduled
 
 ---
@@ -1523,7 +1545,9 @@ Both men love their daughter. Both men love their wife. Both men go home to the 
 But one of them was there for all nine months.
 
 And one of them was somewhere else entirely.
+
 \newpage
+
 # Chapter Twelve: The Modern Condition Named
 
 ---
@@ -1584,7 +1608,9 @@ The difference is practice.
 
 The first man had no practice meeting fear directly. When it arrived, he did the only thing he knew: he _managed_ it. He researched, planned, calculated, optimized. He treated terror the way he'd treat a system failure at work — as a problem to be solved with sufficient information. And information, being infinite, consumed him.
 
+
 \newpage
+
 # Chapter Thirteen: Arrival
 
 ---
@@ -1685,4 +1711,6 @@ Nine months. The same man. Two textures of experience so different they might as
 
 And they are. That's the point. They are.
 
+
 \newpage
+
