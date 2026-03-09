@@ -1,0 +1,4 @@
+- Someone gets through the crack
+- What they leave behind is captured
+- The capture is more sophisticated bondage, not a bend towards justice
+  - The cage is so sophisticated now, self exploitation that doesn't know it.
