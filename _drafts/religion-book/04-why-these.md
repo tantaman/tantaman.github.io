@@ -136,8 +136,6 @@ The ideological self does not fit the pattern. She is explicitly anti-capitalist
 
 And yet she won. She is dominant in the institutions — universities, foundations, prestige media, large-scale HR — that shape culture and credential knowledge. Her grammar is the grammar of elite formation. The critique of power has become the establishment's preferred idiom.
 
-Power selection cannot explain this. A different mechanism is required.
+Power selection cannot explain this. A different mechanism is required — or rather, several mechanisms, more precise than selection, operating on a formation that explicitly named and opposed the selection logic.
 
-Power does not only suppress resistance. Sometimes it digests it.
-
-Chapter 5 shows how.
+Chapter 5 shows what happened to the left when it won.
