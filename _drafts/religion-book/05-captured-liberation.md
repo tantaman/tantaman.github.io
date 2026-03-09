@@ -6,7 +6,7 @@
 
 Power does not only suppress resistance. Sometimes it digests it. Sometimes it manufactures it.
 
-These are different operations. Suppression is expensive and generates martyrs. Digestion — the Michels mechanism described in the previous draft — happens when a movement wins, takes institutions, and the institutions reshape the movement from inside through the ordinary logic of organizational survival. Both of these are real.
+These are different operations. Suppression is expensive and generates martyrs. Digestion happens when a movement wins, takes institutions, and the institutions reshape the movement from inside through the ordinary logic of organizational survival. Both of these are real.
 
 But there is a third operation, and it is the most sophisticated of the three. It does not suppress the resistance or merely absorb it. It *produces* a version of the resistance that serves the existing order — a formation that feels like opposition, carries the emotional charge of opposition, is adjacent to a real victory that demonstrated the grammar works, and functions, beneath that surface, to maintain the arrangements it appears to challenge.
 
