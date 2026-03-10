@@ -123,7 +123,7 @@ She does not see that the requirement exists because her formation's grammar was
 The guilt deserves separate attention, because its structure is different from the therapeutic self's and its viciousness is specific.
 
 She carries structural guilt — historical, collective, built into the categories of analysis. She is complicit in systems she did not create and cannot individually dismantle. This is not manufactured guilt. The systems are real. The complicity is real. The guilt is appropriate to the reality.
-
+`
 What is not available is discharge. And the reason discharge is unavailable is not merely that resolution is deferred. The reason is structural, and it runs through the specific rupture in her inheritance.
 
 The Christian eschaton was outside time. It would arrive when the Father decided — about that day or hour no one knows. This was not epistemic humility. It was load-bearing architecture. The end of history was not a human project. It could not be engineered, scheduled, or accelerated. Which meant that the suffering before it arrived did not require a perpetrator to be found and neutralized. The arc of history was bending toward justice not because justice-benders were doing their jobs but because that was the nature of the arc, held by someone outside the system. You did not have to find the people who were slowing it down. There were no such people. There was only the wait, located inside a narrative that contained it, given by a promise that was not contingent on human performance.
