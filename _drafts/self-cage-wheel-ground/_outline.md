@@ -74,6 +74,28 @@ The three are not separate types. They are the same person at different moments 
 
 # Movement 2: The Cage
 
+The cage is static. We want to know what it feels like to be in the cage. The cage is kept in place by existing structures. Existing institutions. Existing grammar. Existing identities. Existing selves.
+
+- Start with what these selves feel like from the inside. 
+  - Exhaustion that cannot rest
+  - Optimization that does not end
+  - Victimhood mentality
+- Talk about organizing principles that keep the selves as they are?
+  - Market totality
+  - Trauma culture + white guilt
+- Optimization as its own end
+  - There is no more telos for these selves. Optimization for optimizations sake
+- How the cage becomes invisible
+  - Grammar: Narrative knowing doesn't exist / education installs a grammar the eliminates others
+  - The Question Concerning Technology: Enframing. Everything is standing reserve.
+- How institutions serve the cage
+  - The three inversions (already covered in why):
+    - Economics: Oikonomia -> chrematistike
+    - Education: Bildung -> human capital / credentials
+    - Psychology: Optimize yourself
+- Political theory is a series of cages?
+- We don't want to overlap too much with "why these selves"
+
 ## The Inheritance?
 Can we cut this? The inheritance is rather clear from the genealogy. This feels like cage material -- exhaustion that cannot rest and such.
 
