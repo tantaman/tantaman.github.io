@@ -39,14 +39,14 @@ Portrait and genealogy. The reader recognizes themselves as the output of a spec
 - **The confessing animal** — Augustine's revolution: the interior goes opaque, desire cannot be trusted, the hidden self must be surfaced through compulsory speech to a mediating authority. The architecture of therapy, built in the 4th century.
 - **Alternative interiors** — Buddhism (no stable self to find), Confucianism (self as relational performance), Hinduism (apparent self as veil over Atman). Each producing genuinely different human beings through different practices.
 - **The Western dissenters** — Gurdjieff (no unified self exists; one must be built), Kierkegaard (the self is not found but chosen through unconditional commitment), Eckhart (*Gelassenheit* — the self found only by abandoning the project of finding it).
-- **The modern default** — The educated Westerner believes he constructed his self freely. This is the most conditioned answer available. His "authentic interior" is Augustine. His "rational grounds for value" is Enlightenment epistemology. His "right to self-definition" is Protestantism with the theology removed.
+- **The modern default** — The educated Westerner believes he constructed his self freely. This is the most conditioned answer available. His "authentic interior" is Augustine. His "rational grounds for value" is Enlightenment epistemology. His "right to self-definition" is Protestantism with the theology removed. His "victim identification" is Christian through and through.
 - **The crack** — If tradition produces interior, the question follows: *what tradition produced mine?* The chapter ends here, without answering.
 
 !!Note: "through what?" -- introduce language here as hint to future chapters?
 
 ---
 
-## Chapter 2: The Modern Self — Two Genealogies
+## Chapter 2: The Modern Self — Three Genealogies
 
 **What we became, and the paths that got us here.**
 
@@ -54,17 +54,26 @@ Opens with Nietzsche's panic — not the announcement of God's death but the rec
 
 The buffered self is traced: Bacon → Descartes → Newton → Smith/Marx → Taylor. Each step narrowing the world, sealing the interior against transcendence, relocating meaning inside.
 
-Two genealogies diverge from this shared substrate:
+The liberal self stands behind all three. The self that comes before society. The founding atom of modern political thought.
+
+Three genealogies diverge from this shared substrate:
 
 **The therapeutic self** — Augustine's grammar without God's absolution. Confession preserved; the Confessor removed. The therapeutic self processes itself endlessly toward a healing that cannot complete, because the completion required what processing cannot supply.
 
 **The achievement subject** — Calvin's compulsive labor without Calvin's promise. The unreachable divine election becomes the unreachable top decile. The structure — effort without arrival, anxiety without discharge — is identical. The theology has evaporated. The engine runs.
 
-**The consumer self** — Synthesis at market scale. The therapeutic self and the achievement subject meet in the market: the self as brand to be developed and positioned, desire as the engine that drives consumption but can never be satisfied into stillness. Preview: mimetic desire operates here, though it won't be named until the Wheel.
+**The ideological self** — The Secular Millennium. 
+Monk to Hegel to Marx. The saint without the theology.
+https://claude.ai/chat/49ac26a6-b363-4f6e-b46e-ff38e7bdb62d
 
 The three are not separate types. They are the same person at different moments of the same day.
 
-The liberal self stands behind all three. The self that comes before society. Liberal self will get its own chapter?
+## Chapter 3: Why These
+
+## The Inheritance?
+Can we cut this? The inheritance is rather clear from the genealogy. This feels like cage material -- exhaustion that cannot rest and such.
+
+Or maybe it is a good picture of inability to rest? But the cage needs subjects that cannot rest...
 
 ---
 
@@ -76,3 +85,5 @@ The liberal self stands behind all three. The self that comes before society. Li
 - Education forecloses certain ways of thinking (no narrative grammar example)
 - Political theory is cage theory
 - Curtains essay...
+
+- victim culture is an outgrowth of the ideological self given victimhood confers status.
