@@ -2,9 +2,7 @@
 
 ---
 
-The cracks are real.
-
-This must be said first, and meant. The argument that follows is not the argument that liberation is illusion, that the suffering was not real, that the people who fought did not matter. The cracks opened. People got through. Something changed on the other side of their passage that would not have changed without them.
+There are cracks in the cage. The argument that follows is not the argument that liberation is illusion, that the suffering was not real, that the people who fought did not matter. The cracks opened. People got through. Something changed on the other side of their passage that would not have changed without them.
 
 The wheel is not the claim that nothing happens. It is the claim about what happens to what they left behind.
 

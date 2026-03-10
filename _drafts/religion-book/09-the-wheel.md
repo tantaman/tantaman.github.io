@@ -36,6 +36,8 @@ This is not betrayal. No one in the sequence is lying. The graduate student who 
 
 Gramsci would have recognized every stage of this process. He named the mechanism. The mechanism then ran on his name.
 
+!> Eh... maybe the visual of "arguing about seats at the table" instead of the table is better?
+
 ---
 
 Two mechanisms. One wheel.
@@ -43,6 +45,9 @@ Two mechanisms. One wheel.
 Weil's insight was quarantined because it could not be made legible — it named the source of domination as interior to the revolutionary, which the tradition had no category for and no interest in developing one.
 
 Gramsci's insight was metabolized because it could be made legible — it named domination as cultural and institutional, which the tradition could format into curriculum, administer through training, and deploy in the service of the institutions it named.
+
+!> Need to be more clear here... Gramsci would seem like progress, no? We're getting more seats at the table?
+!> Remove Gramsci entirely?
 
 Both outcomes close the crack. The quarantined insight sits inert. The metabolized insight is put to work for power.
 

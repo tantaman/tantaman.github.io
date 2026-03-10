@@ -1,3 +1,11 @@
+- Confront the wheel. The cage has cracks. Liberation movements have happened. Does this mean a utopia will arrive?
+  - How do you know you're not in a captured form?
+- need to smash the arc
+- need principalities and powers to get through the material case / the most obvious case
+- need to deal with the remainder that turns the wheel after genuine revolution
+- need to deal with why the revolutionaries corrupt
+- need to deal with the expansion of N as seen thru time
+
 **MOVEMENT TWO: THE WHEEL**
 
 ---
@@ -78,11 +86,3 @@ The one tension worth flagging: items 1 and 2 are more technical than the book's
 
 Girard is the one I'd protect most carefully. He's doing the essential work of explaining why the wheel runs through the revolutionary not just around them. That's what closes the final exit — the idea that if we just get better people, more conscious people, the wheel stops. Girard answers that the mimetic structure runs in the better people too. That's the argument that makes Movement 3 not just interesting but necessary.
 
----
-
-
-
-- Someone gets through the crack
-- What they leave behind is captured
-- The capture is more sophisticated bondage, not a bend towards justice
-  - The cage is so sophisticated now, self exploitation that doesn't know it.

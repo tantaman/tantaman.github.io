@@ -126,6 +126,8 @@ Over two or three centuries, the distribution shifted. Not because anyone chose 
 
 ## The Gap
 
+!! no, we can fix this. There is no gap. This self is the remainder that didn't fit power's system.
+
 Power selection explains two of the three selves cleanly.
 
 The therapeutic self is a near-perfect administrative subject. She is perpetually producing legible interior content. Her formation generates an entire industry — therapy, pharmaceuticals, wellness products, self-help publishing — that is economically enormous and institutionally embedded. The substitution from Augustine's confessing animal to the consumer-therapeutic subject follows the pattern exactly: a practice organized around absolution (not measurable, not scalable, requiring a transcendent mechanism) replaced by a practice organized around insight and growth (measurable, scalable, serviceable by credentialed professionals with billable hours).

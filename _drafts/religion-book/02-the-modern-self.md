@@ -78,6 +78,8 @@ What that restlessness feels like from the inside, and what it costs, is the sub
 
 ## The Secular Millennium
 
+!! Yes and no. This is _the self that identifies victims_ which is 100% christian inheritance and 100% not the remainder.
+
 The third self has the most explicit theory of itself. It knows that selves are produced by power. It knows that consciousness is shaped by history. It applies genealogical analysis everywhere. That is precisely the problem.
 
 The grammar begins with Hegel. History moves dialectically toward resolution — thesis, antithesis, synthesis, the final self-realization of Spirit. A direction. A destination. Marx materialized it: the driver is class conflict, the resolution is revolution, the Kingdom becomes the classless society, the Messiah becomes the proletariat. The eschatological architecture was retained wholesale. The metaphysics changed.

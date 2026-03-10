@@ -1,3 +1,8 @@
+!! I think we can move this to the wheel.
+!! The gap is sufficiently explained by the remainder.
+!! Ch 8 and 9 thus then become easier to deal with via
+!! moving chapter 5 there.
+
 # Chapter Five: The Captured Liberation — How Resistance Becomes Management
 
 *The ideological self, and what happened to the left*
