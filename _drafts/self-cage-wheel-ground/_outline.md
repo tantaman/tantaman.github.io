@@ -81,6 +81,36 @@ The cage is static. We want to know what it feels like to be in the cage. The ca
   - All as product
   - Status conferred through suffering
   - 
+3. What the bars are
+4. Why the bars stay up
+
+
+Bars:
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-diagnosing-white-guilt.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-09-the-cage-and-the-argument-about-its.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-09-the-invisible-right-on-what-becomes.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2025-12-18-the-battlefield-of-attention.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-12-the-epistle-to-the-managed.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-27-what-would-marx-say-today.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-31-malcom-x-on-kendi-and-diangelo.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-the-epistemology-of-impotence-how.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-trauma-culture-white-guilt-checkmate.md
+
+Exits:
+- https://tantaman.com/2026-01-31-education-cannot-save-us.html
+- Politics (maybe a crack with enough containments)
+  - remainder problem (for the whele)
+- Cracks...
+
+How bars are installed:
+- https://tantaman.com/2025-12-19-how-power-weaponizes-mass-education.html
+- https://github.com/tantaman/tantaman.github.io/blob/master/content/2026-03-02-data-doesnt-speak.md
+- Grammar
+- Grammar before Grammars
+- Mimetic desire
+- https://tantaman.com/2025-12-19-the-employable-subject.html
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-07-tyler-durden-on-how-they-broke-you.md
+
 
 - Start with what these selves feel like from the inside. 
   - Exhaustion that cannot rest

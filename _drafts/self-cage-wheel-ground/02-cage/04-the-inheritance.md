@@ -2,6 +2,8 @@
 
 *The grammar without the God who made it coherent*
 
+!! this may be better: https://tantaman.com/2026-01-11-the-exhaustion-that-cannot-rest.html
+
 ---
 
 Nietzsche was afraid of the wrong thing.
