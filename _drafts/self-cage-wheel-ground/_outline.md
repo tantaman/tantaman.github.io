@@ -76,13 +76,19 @@ The three are not separate types. They are the same person at different moments 
 
 The cage is static. We want to know what it feels like to be in the cage. The cage is kept in place by existing structures. Existing institutions. Existing grammar. Existing identities. Existing selves.
 
+1. What it feels like as a person on the inside
+2. What it looks like as a culture on the inside
+  - All as product
+  - Status conferred through suffering
+  - 
+
 - Start with what these selves feel like from the inside. 
   - Exhaustion that cannot rest
   - Optimization that does not end
   - Victimhood mentality
 - Talk about organizing principles that keep the selves as they are?
   - Market totality
-  - Trauma culture + white guilt
+  - Trauma culture + white guilt (neutered epistemology)
 - Optimization as its own end
   - There is no more telos for these selves. Optimization for optimizations sake
 - How the cage becomes invisible
@@ -96,16 +102,12 @@ The cage is static. We want to know what it feels like to be in the cage. The ca
 - Political theory is a series of cages?
 - We don't want to overlap too much with "why these selves"
 
-## The Inheritance?
-Can we cut this? The inheritance is rather clear from the genealogy. This feels like cage material -- exhaustion that cannot rest and such.
+# Movement 3: The Wheel
 
-Or maybe it is a good picture of inability to rest? But the cage needs subjects that cannot rest...
-
-- Market totality, all to market logic
-- Optimization mentality: Enframing
-- Trauma and guilt epistomological seal
-- Education forecloses certain ways of thinking (no narrative grammar example)
-- Political theory is cage theory
-- Curtains essay...
-
-- victim culture is an outgrowth of the ideological self given victimhood confers status.
+- Why "power" wins. Why "power" was in a position to select.
+- How power arises and concentrates
+  - attractor
+  - amplifier theory
+- The exploitation is not in the system but in the person
+- The perfect cage is still a cage
+- Why the wheel turns

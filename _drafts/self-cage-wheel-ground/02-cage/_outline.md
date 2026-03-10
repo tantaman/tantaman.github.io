@@ -152,3 +152,10 @@ That question is where the book turns.
 - Ch 5 enframing section is the philosophical heart of the movement; it should be rigorous but not academic — Heidegger explained through the concrete experience of the achievement subject is more powerful than Heidegger explained through Heidegger
 - Ch 6 should resist the temptation to fully analyze the wheel — name the exits, close the cage, and stop. The analysis comes later and will be stronger for being deferred.
 - The movement's epigraph or opening frame should establish the register: this is phenomenological, not argumentative. The reader should feel accompanied into something, not lectured toward a conclusion.
+
+
+Missing:
+- Trauma culture
+- White guilt
+- Sealed epistemology
+- 
