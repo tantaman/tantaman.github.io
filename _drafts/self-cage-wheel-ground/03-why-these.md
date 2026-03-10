@@ -8,7 +8,7 @@ The question Chapter 2 left open: why these three formations and not others?
 
 Not Eckhart's *Gelassenheit* — the self found only by abandoning the project of finding it. Not the Confucian gentleman, whose identity was performed in ritual relation rather than excavated from hidden depth. Not the Buddhist practitioner who had genuinely stopped grasping, who had released the mechanism that generates the need to accumulate evidence of liberation. These were available. They were sophisticated. They had centuries of accumulated practice behind them. They did not win.
 
-The therapeutic self won. The achievement subject won. The ideological self won — or at least, a version of it won, which is the subject of the next chapter.
+The therapeutic self won. The achievement subject won. The ideological self won.
 
 The question is not rhetorical. It has an answer.
 

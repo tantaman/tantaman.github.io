@@ -70,14 +70,14 @@ The three are not separate types. They are the same person at different moments 
 
 ## Chapter 3: Why These
 
+---
+
+# Movement 2: The Cage
+
 ## The Inheritance?
 Can we cut this? The inheritance is rather clear from the genealogy. This feels like cage material -- exhaustion that cannot rest and such.
 
 Or maybe it is a good picture of inability to rest? But the cage needs subjects that cannot rest...
-
----
-
-# Movement 2: The Cage
 
 - Market totality, all to market logic
 - Optimization mentality: Enframing

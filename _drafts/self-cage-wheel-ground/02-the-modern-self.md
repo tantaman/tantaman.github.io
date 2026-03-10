@@ -106,8 +106,8 @@ Three selves. Three genealogies.
 
 The confessing animal descends from Augustine through the Reformation, the Enlightenment, Romanticism, and Freud. The achievement subject descends from the medieval university through Enlightenment formation, industrial credentialing, and human capital theory — with the Calvinist's compulsive labor running underneath the whole sequence. The identifying self descends from the prophetic tradition through the incarnation, through Marx, through the liberation movements — carrying a grammar of victim identification whose transcendent ground was removed somewhere in transit, leaving the moral demand intact and the resolution mechanism gone.
 
-Each genealogy explains the shape of the self it produced. None of them explains what that shape does to the people living inside it — what the inherited structure feels like when the God who grounded it is gone, when the history that guaranteed it has stopped moving in the right direction, when the identification has become the substance rather than the sign. That is the next chapter.
+Each genealogy explains the shape of the self it produced. None of them explains what that shape does to the people living inside it — what the inherited structure feels like when the God who grounded it is gone, when the history that guaranteed it has stopped moving in the right direction, when the identification has become the substance rather than the sign. That question belongs to the cage.
 
-Nor does any of it explain why these three and not others. Not Eckhart's *Gelassenheit*. Not the Confucian gentleman. Not the Buddhist practitioner who has genuinely stopped grasping. Those were available. They did not win. Something selected against them.
+What the genealogies also cannot explain is why these three and not others. Not Eckhart's *Gelassenheit*. Not the Confucian gentleman. Not the Buddhist practitioner who has genuinely stopped grasping. Those were available. They did not win. Something selected against them.
 
-That question comes after.
+That question comes next.
