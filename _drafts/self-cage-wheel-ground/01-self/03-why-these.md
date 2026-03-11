@@ -4,18 +4,6 @@
 
 ---
 
-The question Chapter 2 left open: why these three formations and not others?
-
-Not Eckhart's *Gelassenheit* — the self found only by abandoning the project of finding it. Not the Confucian gentleman, whose identity was performed in ritual relation rather than excavated from hidden depth. Not the Buddhist practitioner who had genuinely stopped grasping, who had released the mechanism that generates the need to accumulate evidence of liberation. These were available. They were sophisticated. They had centuries of accumulated practice behind them. They did not win.
-
-The therapeutic self won. The achievement subject won. The ideological self won.
-
-The question is not rhetorical. It has an answer.
-
----
-
-## What a State Needs to See
-
 In the 1990s, a political scientist named James Scott set out to understand why so many ambitious state projects — Soviet collectivization, colonial resettlement schemes, top-down urban redesign — had produced catastrophe. His answer was unexpected. The projects failed not because of bad intentions or insufficient resources but because of a particular kind of blindness built into the structure of centralized power.
 
 States, Scott argued, can only administer what they can read. Before a government can tax a forest, it needs to know how many trees there are, of what species, yielding how much timber per acre. Before it can conscript an army, it needs to know who lives where, how old they are, what they can do. Before it can manage a city, it needs streets that follow a grid, addresses that follow a sequence, citizens who can be found at a known location.
