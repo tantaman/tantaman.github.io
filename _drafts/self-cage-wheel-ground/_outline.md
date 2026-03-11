@@ -96,6 +96,19 @@ Bars:
 - https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-the-epistemology-of-impotence-how.md
 - https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-trauma-culture-white-guilt-checkmate.md
 
+
+--- Bars v2:
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-12-the-epistle-to-the-managed.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-09-the-invisible-right-on-what-becomes.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-the-epistemology-of-impotence-how.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-03-03-one-party-system-two-party-theatre.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-29-the-secret-every-political-philosophy.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-27-what-would-marx-say-today.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-trauma-culture-white-guilt-checkmate.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-09-the-cage-and-the-argument-about-its.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-07-tyler-durden-on-how-they-broke-you.md
+- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-31-malcom-x-on-kendi-and-diangelo.md
+
 Exits:
 - https://tantaman.com/2026-01-31-education-cannot-save-us.html
 - Politics (maybe a crack with enough containments)
