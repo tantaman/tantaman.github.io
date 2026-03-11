@@ -82,8 +82,6 @@ What did not survive — and this is the crucial thing — was the requirement o
 
 What transferred was the moral authority of the excluded position, available to be claimed through alignment. The formation does not require its practitioners to have suffered. It requires them to identify with suffering — to orient the self around the question *whose exclusion does this order require?* — and to understand that orientation as the mark of their clarity. This is why the third self spreads readily through populations that are not, by any ordinary measure, excluded: through elite universities, through professional-class institutions, through the administrative centers of the very power the formation critiques. The identification is the formation. The suffering is not.
 
-What this costs the person living inside the formation, and why this self in particular won while others did not, are later questions. Both are real. Neither is answered by the genealogy alone.
-
 ---
 
 ## Three Lines
