@@ -50,6 +50,8 @@ The argument continues. The curtains get rearranged. The building continues to b
 
 ## III. The Grammar
 
+!! The table does better work here. Better imagery. Better father daughter confrontation.
+
 Below the politics is the language. And the language is where the deepest installation happens, because language feels like thought, and thought feels like the self.
 
 Consider what happened to the vocabulary of the interior life.
