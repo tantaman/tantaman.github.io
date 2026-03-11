@@ -14,32 +14,6 @@ God is dead. His shadow is not.
 
 ---
 
-## How God Died
-
-The announcement came in the nineteenth century. The killing had been underway for two hundred years prior. And before that, another two hundred years of preparation.
-
-Begin with what was there to kill. Aquinas, writing in the thirteenth century, articulated what his civilization assumed before anyone thought to articulate it. The human is suspended between matter and the divine — *imago Dei*, an icon of transcendence, not manipulable substrate. *"The soul is in the body as containing it, not as contained by it."* The self was not *made* but *received*. To ask "who am I?" was to ask where you stood in a given, intelligible order. Vocation was a calling, not a career. The boundary between self and world, between natural and supernatural, was thin. Sacred presence was close. The cosmos pointed upward and it meant something that it did.
-
-Francis Bacon read that world in 1620 and asked a different question. Not: what is the order of things? But: what can we do with things? *"Nature to be commanded must be obeyed."* Knowledge is not contemplation. It is power. Elsewhere he was more explicit: *"I am come in very truth leading to you Nature with all her children to bind her to your service and make her your slave."* The scientist does not receive the world — he interrogates it, extracts its laws, deploys them as instruments of control. The cosmos stops pointing upward. It becomes a system to be operated. And a question opens that Bacon did not pause to ask: if nature is resource awaiting use, what prevents the human — as part of nature — from becoming resource too?
-
-Descartes answered that question thirty years later without intending to. He bifurcated reality into thinking substance and extended substance, mind and body, *res cogitans* and *res extensa*. The body is a machine, operating by mechanical law, fully explicable without reference to soul or purpose. *"I consider the human body as a machine."* The soul retreats into a Cartesian citadel — still asserted, still present — but doing no mechanical work in a mechanical world. Its job description had been emptied. The dismissal would come later.
-
-Newton completed the cosmos Descartes had begun. The universe runs on mathematical law, exceptionless, from the apple to the moon. God had not been expelled — Newton was a sincere Christian, and his *Principia* closes with a tribute to the divine architect. But God has been relocated. He designed the system and stepped back. The system runs without him. Providence became deism. Prayer began to look like an intervention request submitted to a mechanism with no intervention slot.
-
-Weber named the result: *Entzauberung* — the disenchantment of the world. The sacred drained out of ordinary things, ordinary places, ordinary time. What remained was the secular — a world without remainder, pointing nowhere outside itself.
-
-Adam Smith arrived next and gave the reduction an economic body. He described labor as abstract, measurable input — fungible, exchangeable, priced. Marx read Smith in 1844 and completed the logic without flinching: *"The worker becomes an ever cheaper commodity the more commodities he creates."* The self entered the market. Not the products of the self's labor — the self. Human capacity quantified, deployed, optimized, made available for purchase. Bacon had proposed making nature a slave. Two centuries later, the market had made the laborer one, through no one's intention and everyone's participation.
-
-What stands at the end of this sequence is what Taylor calls the *buffered self*. Where the porous medieval self was genuinely open to transcendence — vulnerable to it, nourished by it, organized around encounter with it — the buffered self has sealed the border. Autonomous, self-contained, protected from forces outside itself. This feels like empowerment. It is also amputation. Cut off from the transcendent sources that gave the porous self its meaning and place, the buffered self must supply all meaning from within. From a self that has been told, by the sequence just described, that it is at bottom a body with a nervous system.
-
-The buffered self is also, and not coincidentally, the liberal self. Locke formulated the premise in 1689: *"Every man has a property in his own person."* The self owns itself. It pre-exists society, evaluates society from outside, enters into social arrangements by choice. This is the atom — prior to relation, defined by interiority, sovereign over its own territory. Society is secondary. The self comes first.
-
-This premise is the hidden substrate of all three selves that follow. The confessing animal excavates an authentic interior that pre-exists its social formation. The achievement subject makes rational choices about her own capital from a position of sovereign self-ownership. The ideological self sees through the ideologies that formed others, from a vantage point she does not notice is also formed. All three assume, without argument, that there is a self standing prior to and behind its conditions — a remainder that society shaped but did not constitute, an observer who can step back from the formation and assess it.
-
-Whether that assumption is true is a question for later. For now: note that it is an assumption, that it has a history, and that the history runs directly through the sequence just described. The liberal self was not discovered. It was produced — by the same operations that disenchanted the cosmos, mechanized the body, and severed the self from any order it did not itself construct.
-
----
-
 ## The Confessing Animal
 
 Augustine marks the hinge. *"I have become a question to myself"* — the sentence from the *Confessions* that opens an entire civilization's relationship to interiority. Before Augustine, the Greek self examined its beliefs for coherence. The Socratic examination was logical, outward-facing, testing whether your stated values could withstand scrutiny. It assumed your desires were transparent to you. The problem was confused knowledge, not hidden depth.

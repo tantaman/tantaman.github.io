@@ -147,6 +147,8 @@ Material:
 3. Fuel
 Material:
 
+Grammar behind all grammars in the wheel?
+
 - Why "power" wins. Why "power" was in a position to select.
 - How power arises and concentrates
   - attractor
