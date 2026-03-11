@@ -74,23 +74,7 @@ The modern self did not construct itself from nothing. It was formed by a very s
 
 ---
 
-The question "what am I?" precedes and generates every question that follows in this book.
-
-It precedes them not chronologically — it is not, necessarily, the first question that will occur to any reader — but structurally. Every subsequent analysis presupposes a position from which the analysis is conducted. The analysis of secular ideologies and their theological inheritances, of power and its capture of liberation movements, of mysticism and its suppression by institutional grammar — all of this requires a self capable of standing somewhere. But where that self stands, and what it is made of, and how it came to be made that way — this is what the question is about.
-
-The traditions surveyed in this chapter disagree about almost everything. Whether the self has depths or is surface all the way down. Whether it is unified or plural. Whether it should be known, dissolved, built, or released. Whether the instrument of self-knowledge is reason, confession, observation, commitment, or silence. Whether the goal is coherence, liberation, crystallization, authenticity, or ground.
-
-What they agree on is that the self you arrive with is not the final word. Every tradition — without exception — insists that ordinary self-understanding is insufficient, distorted, partial, or confused. The Greek is confused about his knowledge. The Christian is deceived about her desires. The Buddhist has mistaken a process for a thing. The Confucian has failed to cultivate his conduct. The Gurdjieffian is asleep. The Kierkegaardian is in despair. The Eckhartian has not yet been emptied.
-
-The secular modern is in a different predicament. He has dismissed the traditions without understanding what they were doing. He takes his self-understanding as reliable because he has no framework within which to see its unreliability. The traditions diagnosed illusion. He has inherited the diagnosis's residue — the sense that ordinary self-perception might be inadequate — without the practices that made diagnosis possible.
-
-What he has instead is optimization. Which is to say: he has the framework's most sophisticated product, doing exactly what the modern framework designed it to do, and calling it freedom.
-
----
-
-The inquiry into what produced the modern self is the inquiry this book pursues. It will not arrive quickly at an answer, because the answer is not a proposition. It is a genealogy — an account of the specific historical operations that built the specific interior that reads these words and experiences the reading as an act of individual intellectual choice.
-
-Several things must happen before that genealogy can be written. The moral frameworks that now appear natural must be traced to their origins. The God who was declared dead must be found in the secular structures he haunts. The pathologies of secular resolution must be named. The power analysis that reveals the cage must be followed to its limit. And the limit must be faced honestly — because the power analysis runs out before it reaches the bottom, and what is at the bottom is not what the analysis expected to find.
+What every tradition surveyed here agrees on, without exception, is that the self you arrive with is not the final word. The Greek is confused about his knowledge. The Christian is deceived about her desires. The Buddhist has mistaken a process for a thing. The Confucian has failed to cultivate his conduct. The Gurdjieffian is asleep. The Kierkegaardian is in despair. The Eckhartian has not yet been emptied.
 
 The self is the first question because it is the one doing all the asking. You cannot trust the answer until you know what kind of thing is asking.
 
