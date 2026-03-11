@@ -4,15 +4,9 @@
 
 ---
 
-Notice the day.
+Underneath the ordinary day — not quite anxiety, not quite dissatisfaction, something more structural — there is a low-frequency hum that asks whether this is what a life is supposed to feel like.
 
-You wake to an alarm you set because your time has elsewhere to be. The coffee is efficient — a machine calibrated for output, not ceremony. The morning run is tracked: distance, pace, heart rate, a score. You check the score. You check the other scores. You open the app that tells you how well you slept and find, inside the app, the notification that arrived while you slept, the small red number that means something wants your attention, and you give it your attention before you have decided to. By the time you arrive at the place where you spend most of your waking hours in exchange for money, you have been productive for two hours and you have not yet done the thing you were paid to do.
-
-The day is full of this. Health is tracked and optimized. Lunch is a fuel decision. The conversation with the colleague produces a contact. The commute is content consumption. The evening run undoes the lunch. The glass of wine is a reward you have earned by the metrics of the day. The scroll before sleep is leisure, freely chosen. You chose all of it. You would choose it again.
-
-And underneath all of it — not quite anxiety, not quite dissatisfaction, something more structural — the low-frequency hum that asks whether this is what a life is supposed to feel like.
-
-It is not a feeling you have words for. The words you have were given to you by the same formation that organized your day, and the formation has no concept for its own incompleteness. So you process the hum, as you process everything: you optimize for it. You add a gratitude practice. You find a better sleep protocol. You tell the therapist about the vague unease. She helps you locate it in your childhood. It does not stop humming.
+You process it the way you process everything. You add a gratitude practice. You find a better sleep protocol. You tell the therapist about the vague unease. She helps you locate it in your childhood. It does not stop humming.
 
 The hum is not a symptom. It is a signal. What it is signaling is this: you are inside a structure, and the structure was not built for your flourishing. It was built for your productivity. And it is very, very good at feeling like the world.
 
