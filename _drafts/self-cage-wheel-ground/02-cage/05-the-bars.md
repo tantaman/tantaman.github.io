@@ -138,9 +138,9 @@ The cage stripped the mine before you arrived at the seam.
 
 ## V. What Was Designed Away
 
-Two selves. One built for output. One harvested for attention. Together they account for most of your waking hours.
+Three selves. One built for output. One harvested for attention. One constructed from identity — wound, category, position in the hierarchy of suffering. Together they account for most of your waking hours.
 
-What neither can do is encounter.
+What none of them can do is encounter.
 
 Not connection. Not network. Not relationship-as-investment. Encounter is something more specific and more fragile: the moment when another person exceeds your category for them. When the child grabs your hand for no reason. When the neighbor shows up because the kids are there and he knows how to throw a ball and doesn't need anything back from it. When the stranger says something that breaks the frame and for a second you are both in the same place, looking at the same thing, and the categories dissolve.
 
@@ -155,6 +155,8 @@ The output-self cannot do encounter because encounter is not a deliverable. You 
 The extraction-self cannot do encounter because encounter requires putting down the instrument of extraction. The phone. The feed. The constant low-grade harvesting of stimulus. Encounter asks you to be in one place with one person in a way that has no content value, no shareable moment, no platform.
 
 The culture war cannot produce encounter because encounter collapses the categories you need to fight the culture war. The person across from you stops being a representative of their position and becomes irreducibly specific — which is intolerable if your identity requires the enemy to remain the enemy.
+
+The identifying self cannot do encounter for the same reason, stated more precisely. Its entire architecture depends on the other person staying in their category. The oppressor must remain the oppressor. The ally must perform allyship. The representative of a group must represent. Encounter asks the other person to exceed your label for them — to be surprising, contradictory, irreducibly themselves. The identifying self cannot survive that. It mistakes the collapse of its categories for the collapse of itself.
 
 The therapeutic self cannot do encounter because encounter requires arriving without your wound as your credential. The wound has become the self. Show up without it and you don't know who you are.
 
