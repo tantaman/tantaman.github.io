@@ -134,6 +134,19 @@ How bars are installed:
 
 # Movement 3: The Wheel
 
+Three internal movements:
+1. Turn
+Material:
+- Marx speaks today
+- Malcom X speaks today
+- Foucault stuff?
+
+2. Engine
+Material:
+
+3. Fuel
+Material:
+
 - Why "power" wins. Why "power" was in a position to select.
 - How power arises and concentrates
   - attractor
