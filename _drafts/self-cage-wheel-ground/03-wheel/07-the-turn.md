@@ -139,14 +139,10 @@ The historians of Israel watched this pattern until they could not be surprised 
 
 The shape is this: liberation without transformation produces the next cage.
 
-Not always. Not inevitably. But structurally. Reliably. With enough consistency that the pattern must be named before the third movement of this book can mean anything.
+Not always. Not inevitably. But structurally. Reliably. With enough consistency that the pattern must be named before the fourth movement of this book can mean anything.
 
-Because the third movement is about what might be different. What it would mean to move through the crack rather than becoming the next wall. And you cannot know what would be different until you understand what stays the same.
+The fourth movement is about what might be different. What it would mean to move through the crack rather than becoming the next wall. You cannot know what would be different until you understand what stays the same.
 
-The wheel turns. It has always turned.
+The cage and the wheel do not prevent breakthroughs. They wait for them. The wheel turns. It has always turned.
 
 The question is what, if anything, does not turn with it.
-
----
-
-*Next: Chapter 8 — The Engine. What makes the wheel turn.*
