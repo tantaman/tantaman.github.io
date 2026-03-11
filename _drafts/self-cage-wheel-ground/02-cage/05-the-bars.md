@@ -1,4 +1,4 @@
-# Chapter Five: The Selves We Were Given
+# Chapter Five: The Bars
 
 *Designed for output, extraction, and nothing else*
 
