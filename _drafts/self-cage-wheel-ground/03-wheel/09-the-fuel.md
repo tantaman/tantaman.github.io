@@ -15,8 +15,6 @@ Chapter Eight named the mechanism that makes the wheel turn. This chapter names 
 
 The difference matters. The engine operates on you from outside, through the structure of positions and fields. You can understand it perfectly and still be operated by it, because understanding does not change the gravitational field you are standing in. The fuel is different. The fuel is not outside you. It is what you are. It moves before you think. It shapes what you can notice. It is the precondition of every project, including the project of examining it.
 
-This distinction also means: the fuel is where technique gets its purchase. You cannot change the engine by working on yourself. You can, possibly, work on the fuel. The question is how much. The answer, as will become clear, is: some. Not nothing. But never all.
-
 There are three fuels. The first is the most discussed. The second is the most powerful. The third is the most dangerous to name, because naming it correctly sounds, to most ears, like it is not a problem at all.
 
 ---
@@ -103,31 +101,7 @@ This is the cruelest turn. The fuel that most resists the engine is the one that
 
 ---
 
-## IV. What Technique Can Do
-
-So far this sounds like a closed verdict. Three fuels, all innate, all ineradicable, all sufficient to keep the wheel turning. And so they are. But the chapter would be dishonest if it did not name what technique genuinely accomplishes.
-
-Some traditions do real work on the fuel.
-
-Stoicism is the most honest and rigorous of these, and it deserves acknowledgment before being placed correctly. The Stoic practice — the discipline of attention to what is within one's control, the daily examination of desire, the deliberate refusal to let the wanting run unexamined — genuinely addresses the first and second fuels. Marcus Aurelius, actually practicing this for thirty years on the throne of an empire, produced a human being measurably less driven by mimetic desire and reactive will than almost anyone in a comparable position of power. This is not nothing. It is a real achievement, hard-won and documented.
-
-The practice works because it interrupts the automaticity. Mimetic desire operates fastest when it is unconscious — you are borrowing the wanting before you notice you are borrowing it. The Stoic who pauses and asks *is this mine, or did I catch it from the room?* is doing something real. Not eliminating the tendency. Slowing the reflex enough to insert a moment of choice.
-
-And the Stoic discipline of will — the directing of effort only toward what is genuinely one's own, the acceptance of what is not — reduces the grasping form without killing the subject. The Stoic does not stop willing. He wills more precisely, toward less. This is not nothing.
-
-But technique has a limit, and the limit is structural.
-
-The Stoic project is still a project. The disciplined sage is a subject who has grasped at virtue, engineered an outcome in himself, produced a future self. This is the engine's format. Stoicism addresses certain fuels while feeding the engine through the very act of addressing them. The achievement is real. The escape is not.
-
-More precisely: Stoicism can discipline the first fuel and redirect the second. It cannot touch the third. And it cannot touch the third for a specific reason: the underground man's refusal is already a kind of Stoic hardness. He has stripped away every want. He has refused every comfort. He has looked at the rational case and said no. From outside, the sage who has released all grasping and the underground man who grasps at nothing look nearly identical. Both are empty of project. Both refuse the world's terms.
-
-The difference is that the sage has found ground. The underground man is floating free, which is not the same thing. The one who has found ground is still. The one who is floating free is restless — still kicking, still needing to prove the kick is his, still defined by his opposition to the Crystal Palace even in the midst of destroying it.
-
-You cannot technique your way from floating to grounded. You cannot engineer the difference between the two. That is the third fuel's specific invulnerability to technique: the technique is already the underground man's move. He disciplines himself harder than anyone. He refuses himself more thoroughly than any sage. He cannot stop.
-
----
-
-## V. The Full Picture
+## IV. The Full Picture
 
 Step back now and hold what has been assembled across these three chapters.
 
@@ -137,15 +111,13 @@ The wheel. The pattern by which liberation breaks the cage and becomes the next 
 
 The engine. The mechanism: the remainder produced by the system as structural necessity, the attractor that converts any position of power into a gravity well, the mirror that makes the liberator into the likeness of what she fought, the domination reflex that operates on whoever occupies a position regardless of their intentions or analysis. Running without malice. Running without conspiracy. Running because it is the structure of the field.
 
-And now: the fuel. The three things that are not outside the person but inside, prior to thought, prior to formation, innate in the species and ineradicable by technique. Mimetic desire, which borrows its wanting from the rival and cannot arrive at an origin that wants from itself. Will, which is the form of every project including the project of liberation, which the engine processes as naturally as breathing. The refusal, the underground man's kick, the insistence on remaining unaccounted for, which is the most human fuel of all and the one the cage has learned to simulate and sell.
+And now: the fuel. The three things that are not outside the person but inside, prior to thought, prior to formation, innate in the species and not removable from it. Mimetic desire, which borrows its wanting from the rival and cannot arrive at an origin that wants from itself. Will, which is the form of every project including the project of liberation, which the engine processes as naturally as breathing. And the refusal — the underground man's kick, the insistence on remaining unaccounted for, the most human fuel of all, the one the cage has learned to simulate and sell, and the one that is still burning in the person who sees through the simulation.
 
-This is the full weight of what has been established. Not to produce despair — despair is just one more fuel, one more project, one more form of the grasping. To produce accuracy. To describe what is actually true about the human situation before the question of what to do about it is asked.
+This is the full weight of what has been established. Not to produce despair — despair is just one more fuel, one more project, one more form of the grasping. To produce accuracy. To describe what is actually true about the human situation before the question of what to do about it can be honestly asked.
 
-The question matters. It will require the whole third movement of this book.
+The question is not: how do we build better institutions? Every institution is the engine's raw material. It is not: how do we find better people? The domination reflex does not distinguish. It is not: how do we escape the wheel? The wheel is fueled by the very desire to escape it.
 
-But first the question must be stated precisely. It is not: how do we build better institutions? Every institution is the engine's raw material. It is not: how do we find better people? The domination reflex does not distinguish. It is not: how do we discipline desire? Technique has its real but limited purchase. It is not even: how do we escape the wheel?
-
-The question is whether anything exists that the engine cannot metabolize. Whether there is something that operates by a different logic — not addressing the fuels through technique, not escaping the engine through better positioning, not finding a more just arrangement within the field. Something prior to all of that. Something the grasping hand, by definition, cannot grasp.
+The question is whether anything exists that the engine cannot metabolize. Whether there is something that operates by a different logic entirely — not rerouting the fuels, not improving the countermeasures, not finding a more defensible position within the field. Something prior to all of that. Something the grasping hand cannot grasp and the refusing hand cannot refuse and the willing hand cannot produce.
 
 The cage does not think such a thing exists.
 
@@ -153,4 +125,4 @@ The wheel has never encountered it.
 
 The engine has no category for it.
 
-What it would look like, and whether it is real — that is what remains to be said.
+What it would look like — and whether it is real — that is what remains to be said.
