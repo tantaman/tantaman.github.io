@@ -486,11 +486,21 @@ The Sunday list will be remade next Sunday. This is experienced as discipline. I
 
 ## The Identifying Self
 
-She knows what she knows.
+There is an edge that is already there when she wakes.
 
-She knows that suffering reveals what comfort conceals. She knows that the excluded see what the included cannot. She knows that to stand with the victim is to stand on the side of truth — that the stone the builders rejected is, precisely because it was rejected, the one that tells you something about the builders. She has read the prophets. She has read Marx. She has absorbed, through the formation rather than through any single text, the deepest grammatical inheritance of the Western moral tradition: the last shall be first, and knowing this is the beginning of clarity.
+Not produced by the news, though she will reach for the news within minutes — not to find out if something is wrong but to find out what is wrong, to give the edge its object for the day. The edge precedes the object. It is the prior condition, the baseline register of a self formed around the knowledge that the world is unjust and the injustice is ongoing and the failure to oppose it clearly enough is its own form of complicity. She surfaces into this the way the confessing animal surfaces into the Sunday hum. It was there before she chose it. It will be there after she puts the phone down.
 
-This is genuine knowledge. The grammar is not wrong. The prophetic inversion has been correct about real things for three thousand years. The insight is real.
+The scanning begins. An article: her attention moves immediately to who is not in it. A conversation: she notes the composition of the room before she registers the agenda. A proposal: her first question, before evaluation, is who does this leave out. The scanning is not effortful. It is not even fully conscious. It has become the default posture of attention — a perceptual reflex organized around the question the formation has made primary: where is the blockage? Why hasn't the kingdom arrived?
+
+When she finds it — and she finds it reliably, because the world reliably supplies injustice to a gaze organized around finding it — there is a brief relief. The grammar is confirmed. The enemy is located. The kingdom hasn't arrived because of *this*, specifically. She knows what to oppose.
+
+The relief does not hold. Locating one blockage does not clear the path — it reveals the next blockage behind it. She opposes the thing she found. The grammar generates another. The edge returns, looking for a new object. This is not failure. This is the formation working exactly as designed.
+
+She knows what she knows, and the knowing is real.
+
+She knows that suffering reveals what comfort conceals. She knows that the excluded see what the included cannot. She has read the prophets. She has read Marx. She has absorbed, through the formation rather than through any single text, the deepest grammatical inheritance of the Western moral tradition: the last shall be first, and knowing this is the beginning of clarity.
+
+The grammar is not wrong. The prophetic inversion has been correct about real things for three thousand years.
 
 The problem is not what she knows. It is the specific way the knowing has been organized into a self.
 
@@ -505,12 +515,6 @@ The unstable part: identification is mimetically organized. She absorbed this gr
 This is why the formation produces its characteristic motion: not toward the excluded themselves, but toward the position of most-correctly-identified-with-the-excluded. The purity spiral is not driven by bad faith. It is driven by the mimetic logic that drives credential inflation in the achievement subject — the benchmark moves because it is constituted by watching others, and the rival is whoever currently holds the position of greatest clarity.
 
 ---
-
-The interior weather of the identifying self is specific. It is not guilt exactly, though guilt is part of it. It is more like a constant low-level surveillance — of the news, of the room, of her own responses. She reads an article and her attention moves immediately to who is not in it. She enters a meeting and notes the composition before the agenda. She hears a proposal and her first question, before evaluation, is: who does this leave out? The scanning is not effortful. It has become the default posture of attention. This is what the formation produces in the body — a perceptual reflex organized around the question the grammar has made primary: where is the blockage?
-
-When she finds it — and she finds it reliably, because the world reliably supplies injustice to a gaze organized around finding it — there is a brief relief. The grammar is confirmed. The enemy is located. The kingdom hasn't arrived because of *this*, specifically. The relief is not pleasure. It is more like the relief of diagnosis: something was wrong, now it is named. She knows what to oppose.
-
-The relief does not hold. It cannot hold, because locating one blockage does not clear the path — it reveals the next blockage behind it. The villain is not a person who can be removed. It is a condition, diffuse and systemic, that produces fresh instances faster than opposition can address them. She opposes the thing she found. The grammar generates another. The scanning resumes. This is not failure. This is the formation working exactly as designed — producing a self that is always in motion, always vigilant, always oriented toward the next obstacle between here and the kingdom the grammar promises is achievable.
 
 What it costs, lived from the inside, is a particular kind of exhaustion. Not the burnout of the achievement subject, who ran the engine until the fuel was gone. Something more like the exhaustion of a sentry who has been told the post is essential and the threat is real and relief is coming — and relief does not come, and the threat is real, and the post is essential, and so she stays. The vigilance is genuine. The cause is genuine. The exhaustion is the cost of maintaining genuine vigilance inside a formation that has no provision for standing down.
 

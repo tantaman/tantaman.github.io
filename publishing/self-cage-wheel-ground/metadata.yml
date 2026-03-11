@@ -5,6 +5,7 @@ language: en-US
 rights: © 2026 Matthew Wonlaw. All rights reserved.
 header-includes: |
   \usepackage{titlesec}
+  \titleformat{\section}{\normalfont\Large\bfseries\centering}{}{0em}{}
   \titleformat{\subsection}{\normalfont\large\bfseries\centering}{\thesubsection}{1em}{}
   \usepackage{etoolbox}
   \patchcmd{\tableofcontents}{\contentsname}{\vspace*{\fill}\begin{center}\contentsname\end{center}}{}{}

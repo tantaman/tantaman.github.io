@@ -8,7 +8,7 @@ pandoc --from markdown \
   --to pdf \
   -s \
   --toc \
-  --toc-depth=2 \
+  --toc-depth=1 \
   --lua-filter ../pagebreak.lua \
   -o book.pdf \
   --defaults=defaults.yml \
