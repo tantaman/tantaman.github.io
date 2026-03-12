@@ -77,9 +77,11 @@ The corporate world is watching. The corporations that had used the explicit mac
 
 And somewhere in the middle of this transition, a new profession is born.
 
-The diversity consultant. The sensitivity trainer. The equity administrator. The Chief Diversity Officer. These are real jobs, held by real people, many of them doing what they genuinely believe is important work. That is not the point. The point is the structure in which the work is done.
+The diversity consultant. The sensitivity trainer. The equity administrator. The Chief Diversity Officer. These are real jobs, held by real people, many of them doing what they genuinely believe is important work. That is not the point. The point is the structure.
 
-DiAngelo charges fifteen thousand dollars per session to tell rooms full of white executives that they are fragile, that they are racist, that they can never be fully clean but must keep paying anyway. She has made millions. Her publisher has made millions. The consultants who teach her methods have made millions. Kendi's center received tens of millions from the same corporations whose wealth was built on extraction. And what did the people the movement was about receive?
+The structure works like this: a corporation that built its capital on extraction now faces a vocabulary it cannot ignore. The vocabulary comes from the streets and arrives, after sufficient institutional transit, in a form the corporation can process. It processes it. The consultant charges what the market will bear. The equity center receives what foundations can give without threatening their own position. The training is delivered. The audit is completed. The statement is issued.
+
+And what did the people the movement was about receive?
 
 Books. Seminars. Statements of solidarity.
 
