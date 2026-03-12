@@ -33,7 +33,7 @@ Watch where this ends. Convergent desire produces violence as its natural conclu
 
 The only desire that cannot produce rivalry is desire for something inexhaustible. Something that does not diminish when shared. That has no scarcity to ignite. That multiplies when more hands reach for it.
 
-We are not ready to name that yet. Note only the shape: it is the structural answer to this fuel. The question this chapter is building toward is whether anything fitting that description actually exists.
+We are not ready to name that yet. Note only the shape: it is the structural answer to this fuel. The question this book is building toward is whether anything fitting that description actually exists.
 
 ---
 
