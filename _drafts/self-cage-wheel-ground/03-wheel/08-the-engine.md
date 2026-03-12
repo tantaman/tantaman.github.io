@@ -1,150 +1,142 @@
 # Chapter Eight: The Engine
 
-*What makes the wheel turn*
+*The wheel does not run on ignorance. It runs on the structure of what we are.*
 
 > *All natural movements of the soul follow laws analogous to physical gravity. Only grace operates by a different logic.*
 > — Simone Weil, *Gravity and Grace*
 
 ---
 
-Chapter Seven named the pattern. This chapter has to name the machinery.
+There is a temptation, having watched the wheel turn in Chapter Seven, to conclude that the problem was the people. Wrong ideology. Wrong class. Wrong institution. Wrong century. The socialist has made a career of this conclusion. Name the villain — capitalism, colonialism, the owning class, the patriarchy — and the argument follows cleanly: abolish the villain, inherit the liberation.
 
-That is a harder task, for a specific reason. The pattern is visible at altitude — you can see it from the height of the Judges narrative, from three thousand feet looking down at one revolution followed by the next followed by the next. The machinery is invisible from that height. It is also invisible from close up, because up close you are not looking at a mechanism. You are operating one.
+It is a serious argument. It has produced serious people willing to die for it. It deserves a serious answer.
 
-So the task is not to point and observe. It is to stop and look at your own hands.
+The answer is this: he has invented a villain young enough to be slain.
 
-There are three components to the engine. None requires bad actors. None requires conspiracy. None requires malice. Together they are sufficient to produce the wheel's rotation — across any culture, any ideology, any century. They are: the remainder, the attractor, and the mirror.
+As if Alexander wept for new worlds to *invest* in. As if Rome's legions marched for shareholder value. As if the Aztec pyramid of skulls, the Tlingit slave economy, the potlatch chief destroying wealth to dominate rivals through the very act of abundance — as if these were capitalism wearing a different hat. The socialist locates the source of domination in an institution rather than in the nature of things. This permits his most cherished fantasy: that *he* would not dominate. That his hands are clean. That the will to power is a disease he has not contracted rather than the gravity he has not escaped.
 
-A fourth thing precedes them. It will be named last.
+He has not escaped it. No one has.
 
----
+Chapter Seven traced what happens to a specific liberation — what becomes of the fire. This chapter has to go deeper than pattern. It has to name why the pattern is, in the strict sense, lawful. Not a sociological tendency. Not an institutional failure. A description of the physics of what we are.
 
-## I. The Remainder
-
-Any system created by power produces, as a structural necessity, the people it cannot include.
-
-Not as a failure. As a function.
-
-The surplus requires the deficit. The inside requires the outside. The protected market requires the excluded producer. The enclosure requires the dispossessed. The professional class requires the people who cannot afford credentials. You cannot build the inside without building an outside, and the outside is not an afterthought — it is what the inside is *made of*. The protected good is protected because someone does not have access to it. The moment everyone has access, it ceases to be the protected good. A new line of exclusion forms somewhere else.
-
-Watch it happen in the sequence from Chapter Seven. The university that absorbed the liberation vocabulary needed — for the logic of its grants to work, for the guilt economy to function — a permanent class of the wounded who required helping. The moment the wound healed, the grant ended. The moment the remainder was included, it ceased to be available as the remainder. The institution had a structural interest in the wound's continuance. Not because the administrators were cruel. Because that is what institutions serving power do: they produce the conditions that reproduce their own necessity.
-
-This is not cynicism. It is mechanics.
-
-The remainder is not random. It is produced by the same operation that produces the beneficiaries. The same enclosure that creates the landlord creates the tenant. The same credential that creates the professional creates the non-credentialed. The same grant cycle that funds the diversity office creates the person who is perpetually the subject of its programming but never the subject of its budget.
-
-The remainder matters here because it is the engine's pressure source. It is what builds inside the cage. Every liberation movement begins as the remainder becoming visible to itself. Every Montgomery begins before Montgomery — in the years of accumulating indignity that finally focus to a point. Every Bastille begins in the conditions the system created and cannot correct without ceasing to be itself. Every reformation begins with a church whose structure requires the remainder it calls sinners.
-
-The system does not merely tolerate the remainder. It produces the remainder. Which means: every cage is building its own key, from the inside, because the key is the person the cage has no use for.
+There are four laws. None requires bad actors. None requires conspiracy. None requires the wrong people to be in charge. Together they are sufficient to produce the wheel's rotation across any culture, any ideology, any century.
 
 ---
 
-## II. The Attractor
+## I. Gravity
 
-Power, once concentrated, serves its own perpetuation.
+Begin at the bottom. A living cell is a pocket of local order in a universe trending toward disorder. To persist, it must capture more energy than it expends. The surplus funds structure. The structure improves future capture. What captures more effectively persists. What does not, does not. This is not a metaphor for economics. It is the process economics later describes in a more specific context. The logic of surplus — capture more than you consume, reinvest the difference — is not a human innovation. It is what life *does*.
 
-This is not a moral observation. It is a description of dynamics.
+What life does with surplus: it builds complexity. A spider's web. A beaver's dam. A granary. A city. Each is biological surplus converted into structure that improves future capture. The ratchet runs in one direction. Technology enables surplus. Surplus funds further technology. Further technology enables greater surplus. Life doesn't arrive at a satisfactory level of organization and rest. It escalates.
 
-A living cell captures more energy than it immediately consumes. The surplus funds structure. The structure increases the capacity to capture more energy. The surplus is reinvested. The organism grows. What grows fastest competes most successfully. What survives is what compounds. This logic does not require intention. It does not require consciousness. It predates multicellular life. It is operative wherever agents with differential resources interact in a shared environment.
+And once advantage exists, it compounds. The farmer with surplus grain can hire labor. The labor produces more surplus. The surplus buys tools. The tools lower the cost of production. The lower cost allows undercutting competitors. The competitors fail. Their land is acquired. Each cycle of advantage converts to further advantage. The mechanism appears in network science as preferential attachment — connected nodes attract more connections. In physics as gravitational accretion — mass attracts mass. In ecology as competitive exclusion — dominant species capture disproportionate resources. The specific domains differ. The attractor dynamics are the same.
 
-In human terms: the farmer with surplus grain can hire labor. The labor produces more surplus. The surplus buys tools. The tools lower the cost of production. The lower cost allows the farmer to undercut competitors. The competitors go under. Their land is acquired. Each cycle of advantage converts to further advantage. The ratchet runs in one direction.
+Call it what it is: gravity. The state any system falls into once the preconditions for accumulation are met. Not the tendency of capitalism. Not the failure of democracy. The default condition of any agent with differential resources interacting in a shared environment. It precedes capitalism. It precedes feudalism. It precedes agriculture. It precedes humanity.
 
-This is not greed. The farmer does not need to be greedy. The logic is structural. Even a farmer committed to fairness, in a system that rewards accumulation, will find that the logic rewards the accumulation steps and punishes the steps away from it. You follow the logic or you lose the farm.
+Weil named it precisely. *All natural movements of the soul follow laws analogous to physical gravity.* She did not mean this as metaphor. She meant it as physics. The soul in a field of other souls will do what mass does in a field of other mass. It will concentrate. It will compound. It will draw toward itself more of what it has. The natural movement is always downward — toward domination, accumulation, force.
 
-But there is something worse than the basic ratchet. Once power concentrates sufficiently, it begins to shape the conditions around it — the law, the language of legitimacy, the terms of what counts as reasonable. It funds the things that reproduce its own logic. It defunds the things that challenge it. The foundation does not need to intend to domesticate the movement. It funds what it can measure. It measures what fits its categories. Its categories were built in conditions of concentrated wealth. The grant process does the rest.
+This is what the socialist cannot account for. He can abolish the capitalist. The ratchet finds the revolutionary committee. He can abolish the committee. The ratchet finds the party secretary. He can write constitutions, establish oversight bodies, install regulators. Every countermeasure becomes a new vector. The regulator accumulates the power to regulate. The progressive tax authority acquires budget and jurisdiction and institutional interests. It fights concentration in the economy while concentrating power in the state. This is not hypocrisy. It is gravity operating on the countermeasure.
 
-And there is something worse than that still: the attractor creates dependencies. The Mesopotamian city that built irrigation infrastructure could not simply abandon it. The infrastructure required coordinated labor to maintain. The coordinated labor required hierarchy. The hierarchy maintained itself by maintaining the infrastructure. The hierarchy and the city were the same trap. You could not leave — the land could no longer support the population without the system that was oppressing you. The cage and the food supply were the same structure.
+The Ju/'hoansi understood this, in their way. They did not eliminate gravity. They created conditions in which its expression through material accumulation was constantly frustrated — mobility, immediate consumption, the social norm of insulting the meat. A successful hunter is mocked for his kill. *"When a young man kills much meat, he comes to think of himself as a chief, and he thinks of the rest of us as his servants. We can't accept this."* The egalitarianism is not a natural state. It is an achievement. It is the outcome of continuous institutional labor against a force that never rests. The moment they settled, stored grain, built walls — the moment the dominant channel shifted — the ratchet found its familiar expression. They did not escape gravity. They channeled it. For a time.
 
-This is why liberating yourself from the current center does not escape the attractor. You enter a room that already has a gravitational center. The center may have been vacated. But the room's structure — its resources, its institutions, its stored advantage — exerts the same pull on whoever enters. The revolutionary committee that seizes the state apparatus inherits the state apparatus's logic. The NGO that absorbs the movement's vocabulary inherits the funding logic that vocabulary can now access. The university that opens its doors inherits the credential economy's structure.
+There is no Archimedean point outside the field from which to apply leverage without becoming a new center of gravity. Every reformer, every revolutionary, every monk who seeks poverty must organize a monastery, and the monastery acquires property. The prophet who denounces worldly power attracts followers, and followers are a form of power. The person who administers the Jubilee holds the authority to decide whose debts are cancelled. There is no outside.
 
-The attractor does not care who you are. It cares about your position. Change the occupant; the position remains. The position does what positions do.
+The wheel does not require the wrong people. It requires the structure of any world in which life seeks to persist.
+
+---
+
+## II. The Remainder
+
+There is a second law, and it is simpler. It is almost mathematical.
+
+Every act of organization creates an inside and an outside. To define is to exclude. A system with no boundary is not a system — it is everything, which is another way of saying nothing organized. The moment a movement draws its first line — *we* who are oppressed, *they* who oppress; *us* who see, *them* who don't; *the liberated*, the not-yet-liberated — it has created a remainder. Not as failure. As function. The inside requires the outside to be an inside at all.
+
+This is why the remainder persists through every revolution. It is not produced by any particular economic arrangement. It is produced by the act of arranging. The liberation movement that wins does not eliminate the remainder. It redraws the line. The new inside has a new outside. A new class of the managed, the excluded, the ones the system cannot account for without ceasing to be itself. The wound that justified the grant does not heal — because a healed wound terminates the grant. The system has a structural interest in the remainder's continuance. Not because anyone is cruel. Because that is the logic of a bounded system in a world of scarce attention and resources.
+
+There is no system that includes everyone. There is no movement that leaves no one behind. This is not a moral failing. It is geometry. Any structure coherent enough to do anything is coherent enough to exclude someone.
+
+The remainder is what builds the pressure for the next revolution. The next fire. The next turn. This is not conspiracy. This is the consequence of definition itself.
 
 ---
 
 ## III. The Mirror
 
-Here is the third component. It is the most specifically human.
+The first two laws explain why any system fails eventually. They do not explain the wheel's specific tragedy: why the ones who see become the thing they saw. Why the fire becomes a lighting system. Why the liberated build the next cage.
 
-Human beings do not merely want power. They want what the powerful have *because* the powerful have it.
+For this there is a third law. It is the most specifically human.
 
-René Girard spent his life naming this. Not as a polemic. As an observation. Watch the children in a room full of toys. One child picks up toy 368. Immediately the other child wants toy 368. Not any of the three hundred other available toys. The one that someone has chosen. The desire does not precede the choosing. The desire follows the choosing. We learn what to want by watching what others want.
+René Girard spent his life naming it. Watch the children in a room full of toys. One child picks up toy 368. Immediately the other child wants toy 368. Not any of the three hundred other available toys. The one that someone has chosen. The desire does not precede the choosing. The desire follows the choosing. We learn what to want by watching what others want.
 
-Scale this up. The liberation movement is defined against the oppressor. The oppressor becomes the model. The movement learns what matters — power, recognition, the capacity to set terms — from watching what the oppressor withholds. The oppressor withholds these things because they are worth having. The oppressor demonstrates, daily, through the withholding, that these are the things worth having. The movement organizes to claim them.
+Scale it up. The liberation movement is defined against the oppressor. The oppressor becomes the model. The movement learns what matters — power, recognition, the capacity to set terms — from watching what the oppressor withholds. The oppressor withholds these things because they are worth having. He demonstrates, daily, through the very act of withholding, that these are the things worth having. The movement organizes to claim them.
 
 It wins. And now it is in the position of the one who has what was withheld. It has the institution, the credential, the voice, the authority to determine who is in and who is out. It has, specifically, what the oppressor had. It wanted what the oppressor had because the oppressor had it. It now does what the oppressor did — because it learned, from the oppressor, what having means.
 
-This is not betrayal. This is the mirror. It is built into the structure of rivalry itself.
+This is not betrayal. This is the mirror. It is built into the structure of wanting itself.
 
-The rival who defines herself against her opponent has already absorbed her opponent's framework. She is playing his game on his board toward his definition of victory. When she wins, she has won *his* game. She has become — structurally, not spiritually, not morally, but structurally — what she opposed. The post-colonial state that replicates the extractive machinery of the colonial power is not betraying its founding ideals. It is succeeding within a field it did not choose. The revolutionary party that becomes a new vanguard is not failing its revolution. It is following the logic of positions in a field still structured by the attractor.
+The socialist believes the problem is who holds the means of production. He does not see that the means of production look desirable because someone else controls them. The movement that organizes to seize the means of production has already, in the act of organizing, accepted the oppressor's account of what is worth seizing. It has learned from watching. It has absorbed the framework. When it wins, it wins *his* game. It has become — not spiritually, not morally, but structurally — what it opposed.
+
+Here is the precise mechanism. The rival who defines herself against her opponent has already absorbed her opponent's framework. She is playing his game on his board toward his definition of victory. The post-colonial state that replicates the extractive machinery of the colonial power is not betraying its founding ideals. It is succeeding within a field it did not choose, shaped by an opponent it can no longer see because the opponent has become interior. The revolutionary party that becomes the new vanguard is not failing its revolution. It is following the logic of desire formed in opposition.
 
 Girard called the result the monstrous double. Two parties increasingly identical, each convinced of their absolute difference, the resemblance invisible to them precisely because they are inside the rivalry. You cannot see the mirror when you are standing flush against it.
 
-The mirror turns fast. Sometimes within a generation. Sometimes within the movement's own victory speech. You can hear it in the hardening of the vocabulary — liberation language, still carrying its warmth, beginning to function as enforcement. Chapter Seven called this the fire converted into a lighting system. The mirror is the mechanism by which the conversion happens. The movement does not become the oppressor by selling out. It becomes the oppressor by winning, and by having been formed, through years of opposition, in the image of what it fought.
+The socialist sees this as a failure of will, of analysis, of class consciousness. He believes the right people, properly educated in the correct understanding of their interests, would not repeat the pattern. He is wrong about the nature of desire. Mimetic desire is not a distortion of some purer, original wanting. It *is* the wanting. There is no pre-mimetic self who could choose differently if she were careful enough. The social triangulation is not downstream of desire. It is constitutive of it. We do not want and then seek models. We want *through* models. The movement cannot liberate desire from mimesis without ceasing to desire. It can only choose different models — which, under pressure, in a field still structured by the opponent's grammar, it reliably does not.
+
+The fire converts into a lighting system not because the people inside it sold out. Because wanting is always mimetic, and the model of what power looks like was demonstrated for a generation by the thing that held power. The warmth remained. The weight did not transfer. The words kept glowing in the new context, still meaning what the old context made them mean, still organizing desire toward what the oppressor had organized desire toward — recognition, institutional authority, the capacity to define who belongs.
+
+The mirror turns fast. Sometimes within a generation. Sometimes within the victory speech.
 
 ---
 
-## IV. The Domination Reflex
+## IV. The Underground Man
 
-Before any of this, something more basic.
+There is one more law. It is the argument-ender.
 
-Before the remainder is named. Before the attractor is built. Before the rival is identified. There is a disposition. It is not ideological. It is not cultural. It is prior to social formation.
+The socialist's final fallback — the fallback of every progressive theory of history — is enlightenment. Show people clearly enough what serves their interests. Make the mechanism legible. Raise consciousness. Educate the class. The crystal palace of rational self-interest awaits, once the fog of ideology is lifted.
 
-Put a human being in a position of advantage, and watch what happens. Absent active counterpressure, the human being uses the advantage to acquire more advantage. This is not a story about some human beings. It is a story about the species. It is documented in every culture studied closely enough. The anthropologists who describe genuinely egalitarian societies — the Ju/'hoansi, the Hadza, the BaYaka — do not describe people who lack the domination reflex. They describe people who actively, continuously, institutionally suppress it. The successful hunter is mocked. The accumulated goods are demanded back. The person who begins to act like a big man is ridiculed until he is gentle. One Ju/'hoansi man explained the practice precisely: *"When a young man kills much meat, he comes to think of himself as a chief or a big man, and he thinks of the rest of us as his servants or inferiors. We can't accept this."*
+Dostoevsky destroyed this argument in 1864 and it has not recovered.
 
-The egalitarianism is not natural. It is achieved. It is the outcome of constant institutional work. The moment the work stops — the moment the group settles, stores grain, builds a wall — the reflex finds its expression. The reflex was always there. The conditions that frustrated it changed.
+The underground man is not ignorant. He can follow the utilitarian calculus. He can see the rational optimum. He knows what serves him. He will smash it — not because passion has overwhelmed reason, not because he has been deceived, not because he lacks the correct analysis. He will smash it because the alternative is to be a piano key. A predictable output of a predictable system. A function that produces the expected result when you press the expected input.
 
-This matters for the engine because it means the problem is not solvable by ideology. Every liberation theology, every revolutionary doctrine, every progressive vision has at some point articulated the belief that this time the right people were in charge. People who understood. People who were themselves from the oppressed. People with the correct analysis. The analysis did not change the reflex. The reflex operated on the analysis. The right people, given position, did what people in positions do.
+He would rather be free and miserable than determined and comfortable. He would rather knock over the crystal palace than live inside it as a rational unit proceeding correctly toward his objectively verifiable interests. Because if he proceeds correctly, if he does what the logic demands, he has demonstrated that he is not a subject. He is a mechanism. And he cannot bear this. Not from stupidity. From the irreducible need to be the one who chooses.
 
-This is not fatalism. It is diagnosis. A physician who knows what the disease is can sometimes treat it. A physician who believes the disease is moral failure will keep prescribing moral improvement and watching the patient decline.
+*"You believe in a crystal palace that can never be destroyed — a palace at which one will not be able to put out one's tongue or make a fig in one's pocket. And perhaps that is just why I am afraid of this edifice — that it is of crystal and can never be destroyed and that one cannot put one's tongue out at it even on the sly."*
 
-The domination reflex is not moral failure. It is a condition. It is what any agent, given resources beyond immediate survival need, will tend to do with those resources: use them to secure more. Not always. Not inevitably. But reliably. Structurally. Enough that any system which does not build continuous friction against the tendency will find the tendency expressing itself.
+This is not a temperamental objection. It is a structural one. Every arc-of-history argument assumes that the problem is insufficient understanding. Show people clearly enough and they will choose rightly. The underground man demonstrates that full understanding changes nothing — because will is not the servant of understanding. It asserts *against* understanding when understanding threatens to determine it. The will to be undetermined is as fundamental as the will to power. Perhaps they are the same thing.
 
-The reflex does not need the will to dominate. It only needs the logic of position.
+The socialist cannot account for the underground man. His theory requires that the worker, properly conscious of his class interests, will act on them. The underground man will sabotage his own interests at the precise moment they become legible, to demonstrate that he is not the theory's object. History is full of him. The revolutionary who destroys the movement from within. The liberated who returns to the cage. The mystic who achieves illumination and does not know what to do with it. The person who sees the wheel clearly, names it exactly, and then turns it anyway — not from weakness, but from the assertion that she is more than what the wheel made of her.
 
----
+Naming the engine does not turn it off. Understanding the attractor does not exit the gravitational field. Knowing about mimetic desire does not immunize you from it. Seeing the domination reflex does not eliminate the reflex. And — this is the underground man's specific contribution — even if all of this could be solved, even if you could educate desire into something non-mimetic and ground will into something non-dominating, you would find at the bottom a self that resents being fully solved. A self that will throw a wrench into the crystal palace simply to prove it can.
 
-## V. The Loop
-
-Now assemble the components.
-
-The system creates the remainder. The remainder generates the pressure of liberation. The liberation movement focuses that pressure into a force sufficient to break the cage. The cage breaks.
-
-The movement enters the vacated position. The attractor is still there. The room's structure — its resources, its institutions, its stored advantage — exerts the same pull. The movement's leaders, shaped by the mirror through years of opposition, occupy the position with the oppressor's definition of victory. The domination reflex, previously unified by the external enemy and directed outward, now turns: first inward (purging the impure, enforcing doctrinal consistency), then outward (managing the new remainder, administering the new inside and outside).
-
-The new system creates its own remainder. The process begins again.
-
-This is the engine. Not evil. Not conspiracy. Not the wrong people. The loop.
-
-Each component feeds the next. The attractor creates the conditions that produce the remainder. The remainder, in liberating itself, is shaped by the mirror into the likeness of what it opposed. The domination reflex ensures that the new occupants use the position's logic. The new system concentrates under the pull of the attractor. The new remainder forms. The loop closes.
-
-Notice what is not required: bad intentions. A single malicious actor anywhere in this sequence. Someone who wanted the loop to continue. The loop runs on ordinary behavior by ordinary people acting within a field they did not choose and cannot fully see.
-
-The Marxist theorist who watched the revolution he devoted his life to producing a new tyranny did not fail because he was foolish or vicious. He failed because he did not account for the engine. He believed the fuel was the problem — the wrong class holding the means of production — and that replacing the fuel would change the outcome. The engine consumed the new fuel and produced the same rotation.
-
-This is the hard thing. Not the pattern — the pattern is visible. The hard thing is that naming the engine does not turn it off. Understanding the attractor does not escape the gravitational field. Knowing about mimetic desire does not immunize you from it. Seeing the domination reflex does not eliminate the reflex. The wheel does not run on ignorance. It runs on the structure of the field itself.
+This is not despair. It is diagnosis. A physician who knows what the disease is can sometimes treat it. A physician who believes the disease is moral failure will keep prescribing moral improvement and watching the patient decline.
 
 ---
 
-## VI. What the Engine Does Not Require
+## V. What the Engine Requires
 
-One clarification before this chapter closes.
+Assemble the components.
 
-The engine is not a closed proof of futility. It is not fate.
+Gravity ensures that any structure created by liberation will concentrate under the pull of accumulated advantage. The remainder ensures that any new inside will produce a new outside — a new class of the managed, the wound that funds the next movement. The mirror ensures that the liberators, shaped by years of opposition, will pursue the oppressor's definition of victory. And the underground man ensures that even the ones who see all of this clearly — who can name every gear — will still, at some point, throw the wrench.
 
-The Ju/'hoansi built conditions in which the domination reflex was continuously frustrated. Small scale. Mobile. No storable surplus. Active social ridicule of accumulation. It worked — not because the reflex was eliminated but because the conditions for its expression were systematically prevented. Egalitarian outcomes are achievable. They are simply not stable without continuous structural maintenance, and that maintenance is itself subject to the engine's logic: the person who administers the leveling norm holds the power to level. Every countermeasure becomes a new vector. The ratchet operates on the countermeasures themselves.
+Together they are sufficient to produce everything Chapter Seven described. Without conspiracy. Without malice. Without even awareness, on the part of any person within the loop, that the loop is running.
 
-Redistribution is not a one-time correction. It is a permanent energy expenditure. The regulator accumulates the power to regulate. The progressive tax system requires an agency, and the agency acquires budget and jurisdiction and institutional interests, and fights concentration in the economy while concentrating power in the state. This is not hypocrisy. It is the engine operating on the countermeasure.
+The Marxist theorist who watched the revolution he devoted his life to produce a new tyranny did not fail because he was foolish or vicious. He failed because he did not account for the engine. He believed the fuel was the problem — the wrong class holding the means of production — and that replacing the fuel would change the outcome. The engine consumed the new fuel and produced the same rotation. The mistake was not ideological. It was ontological. He thought the wheel ran on the wrong people being in charge. It runs on gravity, geometry, desire, and will. On the laws of what we are.
 
-What this means is: the question is not whether the engine can be destroyed. The engine cannot be destroyed. The question is whether something can operate by a different logic entirely — not channeling the same fuel through a better mechanism, but running on something other than the fuel itself.
+This is the hard thing. Not the pattern — Chapter Seven made the pattern visible. The hard thing is that the pattern does not run on ignorance. Enlightenment does not stop it. Right analysis does not stop it. Good intentions do not stop it. The right people, given the position, do what people in positions do — because the position is inside the field, and the field is stronger than the person, and the person's desire was formed in the image of what the field previously rewarded.
 
-That question belongs to the fourth movement of this book. It requires everything that comes before it.
+The wheel does not need a driver. It has always turned itself.
 
-Here, the task was only to name the machinery.
+---
 
-The remainder is structural. The attractor is gravity. The mirror is the mechanism of human desire. The domination reflex is the default state of every agent in a field of concentrated power.
+Weil's epigraph, placed above this chapter, now earns its position.
 
-These four things, operating together, are sufficient to produce everything Chapter Seven described. Without conspiracy. Without malice. Without even awareness, on the part of any person within the loop, that the loop is running.
+*All natural movements of the soul follow laws analogous to physical gravity. Only grace operates by a different logic.*
 
-The wheel does not need a driver.
+The first sentence is what this chapter has been naming. Not tendency. Not pattern. Natural law. The soul in any field of other souls moves the way mass moves — toward accumulation, concentration, force. The remainder is the geometry of definition. The mirror is the physics of desire. The underground man is the assertion of will against determination. These are not failures of the human project. They are the physics of what the project is made of.
 
-It has always turned itself.
+The second sentence is the question this book has been building toward.
+
+Only grace. Weil did not mean this as sentiment. She meant it as the identification of the only force capable of operating by a different logic — not channeling gravity through a better mechanism, not improving the fuel, not installing the right people, but moving through the field by something that is not subject to its laws. Whether such a thing exists. What it would look like in a body, in a life, in a community, in history. Whether what has sometimes appeared to be grace was only power in the moment before it was captured — before the monastery acquired land, before the prophet's followers became an institution, before the fire became a lighting system.
+
+That question cannot be answered here. The engine had to be named first.
+
+The wheel turns. It has always turned. What, if anything, does not turn with it — that is the question the fourth movement exists to ask.
