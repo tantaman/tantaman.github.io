@@ -49,15 +49,15 @@ The wheel does not require the wrong people. It requires the structure of any wo
 
 ## II. The Remainder
 
-There is a second law, and it is simpler. It is almost mathematical.
+There is a second law, and it is simpler. It is mathematical.
 
-Every act of organization creates an inside and an outside. To define is to exclude. A system with no boundary is not a system — it is everything, which is another way of saying nothing organized. The moment a movement draws its first line — *we* who are oppressed, *they* who oppress; *us* who see, *them* who don't; *the liberated*, the not-yet-liberated — it has created a remainder. Not as failure. As function. The inside requires the outside to be an inside at all.
+To define is to exclude. A set that contains everything is not a set — it is the universe, undifferentiated, inert. The moment you draw a boundary, something falls outside it. This is not a social observation. It is prior to society. It is geometry.
 
-This is why the remainder persists through every revolution. It is not produced by any particular economic arrangement. It is produced by the act of arranging. The liberation movement that wins does not eliminate the remainder. It redraws the line. The new inside has a new outside. A new class of the managed, the excluded, the ones the system cannot account for without ceasing to be itself. The wound that justified the grant does not heal — because a healed wound terminates the grant. The system has a structural interest in the remainder's continuance. Not because anyone is cruel. Because that is the logic of a bounded system in a world of scarce attention and resources.
+A city wall protects those inside and marks those outside. A credential certifies those who have it and identifies those who don't. A liberation movement declares *we* who are oppressed and *they* who oppress — and in that declaration creates its own inside and outside, its own managed and excluded. The protected good is protected because someone lacks access to it. The moment everyone has access, a new line forms somewhere else. It cannot be otherwise. A movement with no boundary has no identity and therefore no force.
 
-There is no system that includes everyone. There is no movement that leaves no one behind. This is not a moral failing. It is geometry. Any structure coherent enough to do anything is coherent enough to exclude someone.
+This is why the liberation that wins does not eliminate the remainder. It redraws the line. The new inside requires a new outside to be an inside at all. The next revolution is already being built by the people the last one left behind.
 
-The remainder is what builds the pressure for the next revolution. The next fire. The next turn. This is not conspiracy. This is the consequence of definition itself.
+Not conspiracy. Geometry.
 
 ---
 
