@@ -1,14 +1,12 @@
 # Chapter Four: The Inheritance — What Was Passed On
 
-*The grammar without the God who made it coherent*
-
 ---
 
 Nietzsche was afraid of the wrong thing.
 
-He watched God die — watched the educated classes of nineteenth-century Europe quietly exit the churches while retaining every moral instinct the churches had installed — and he understood the danger. Not atheism. Not nihilism in the dramatic sense. Something more mundane and more corrosive. He called it the last man.
+He watched God die. Watched the educated classes of nineteenth-century Europe quietly exit the churches while retaining every moral instinct the churches had installed. There was a danger. Not atheism. Not nihilism. He called it the last man.
 
-The last man is the figure who remains when you remove God but keep the herd. No great ambitions. No will to create. He blinks. He keeps warm. He invented happiness and he blinks. Comfortable, ironic, self-satisfied, going through motions that were once organized around something he can no longer name. The last man does not suffer from the death of God. He has made his peace with it, which is exactly the problem. He is, Nietzsche wrote, "the most contemptible" — not because he is evil but because he has become too small to even gesture at anything beyond himself.
+The last man is the figure who remains when you remove God but keep the herd. No great ambitions. No will to create. He blinks. He keeps warm. Comfortable, ironic, self-satisfied, going through motions that were once organized around something he can no longer name. The last man does not suffer from the death of God. He has made his peace with it, which is exactly the problem. He is, Nietzsche wrote, "the most contemptible." Not because he is evil but because he has become too small to even gesture at anything beyond himself.
 
 Against this Nietzsche proposed the übermensch: the self-creator who faces the void honestly and fashions new values from nothing, who does not borrow meaning from a tradition he no longer believes but generates it through an act of pure will. The will to power, understood correctly — not domination but creation. The yes-saying that comes after every no has been said.
 
