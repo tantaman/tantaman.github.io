@@ -33,6 +33,8 @@ And once advantage exists, it compounds. The farmer with surplus grain can hire 
 
 Call it what it is: gravity. The state any system falls into once the preconditions for accumulation are met. Not the tendency of capitalism. Not the failure of democracy. The default condition of any agent with differential resources interacting in a shared environment. It precedes capitalism. It precedes feudalism. It precedes agriculture. It precedes humanity.
 
+Paul names it, though he calls it by a different term. Not principalities — those are the spiritual agencies *behind* institutions. Beneath the principalities are the *stoicheia*: the elemental forces, the basic constituents of the world-order itself. *"We were enslaved to the stoicheia of the world,"* he writes to the Galatians. Not enslaved to a tyrant. To the grammar. The elementary physics of the age beneath any particular expression of it.
+
 Weil named it precisely. *All natural movements of the soul follow laws analogous to physical gravity.* She did not mean this as metaphor. She meant it as physics. The soul in a field of other souls will do what mass does in a field of other mass. It will concentrate. It will compound. It will draw toward itself more of what it has. The natural movement is always downward — toward domination, accumulation, force.
 
 This is what the socialist cannot account for. He can abolish the capitalist. The ratchet finds the revolutionary committee. He can abolish the committee. The ratchet finds the party secretary. He can write constitutions, establish oversight bodies, install regulators. Every countermeasure becomes a new vector. The regulator accumulates the power to regulate. The progressive tax authority acquires budget and jurisdiction and institutional interests. It fights concentration in the economy while concentrating power in the state. This is not hypocrisy. It is gravity operating on the countermeasure.
@@ -97,7 +99,9 @@ Dostoevsky destroyed this argument in 1864 and it has not recovered.
 
 The underground man is not ignorant. He can follow the utilitarian calculus. He can see the rational optimum. He knows what serves him. He will smash it — not because passion has overwhelmed reason, not because he has been deceived, not because he lacks the correct analysis. He will smash it because the alternative is to be a piano key. A predictable output of a predictable system. A function that produces the expected result when you press the expected input.
 
-He would rather be free and miserable than determined and comfortable. He would rather knock over the crystal palace than live inside it as a rational unit proceeding correctly toward his objectively verifiable interests. Because if he proceeds correctly, if he does what the logic demands, he has demonstrated that he is not a subject. He is a mechanism. And he cannot bear this. Not from stupidity. From the irreducible need to be the one who chooses.
+He would rather be free and miserable than determined and comfortable. He would rather knock over the crystal palace than live inside it as a rational unit proceeding correctly toward his objectively verifiable interests.
+
+Paul gets there first. *"I do not understand what I do. For what I want to do I do not do, but what I hate I do... For I do not do the good I want to do, but the evil I do not want to do — this I keep on doing."* This is not confession. It is structural observation. He is not describing moral failure. He is describing a divided will — something in the constitution of willing itself that works against the good it clearly sees. *"It is no longer I who do it, but sin that dwells in me."* The underground man would recognize this precisely. The problem is not ignorance. Something lives in the machinery of wanting that the machinery of knowing cannot reach. Because if he proceeds correctly, if he does what the logic demands, he has demonstrated that he is not a subject. He is a mechanism. And he cannot bear this. Not from stupidity. From the irreducible need to be the one who chooses.
 
 *"You believe in a crystal palace that can never be destroyed — a palace at which one will not be able to put out one's tongue or make a fig in one's pocket. And perhaps that is just why I am afraid of this edifice — that it is of crystal and can never be destroyed and that one cannot put one's tongue out at it even on the sly."*
 
@@ -140,3 +144,8 @@ Only grace. Weil did not mean this as sentiment. She meant it as the identificat
 That question cannot be answered here. The engine had to be named first.
 
 The wheel turns. It has always turned. What, if anything, does not turn with it — that is the question the fourth movement exists to ask.
+
+---
+
+*The sun also rises, and the sun goes down, and hastens to its place where it arose. The wind goes toward the south, and turns around to the north; the wind whirls about continually, and the wind returns again according to its circuits. All the rivers run into the sea, yet the sea is not full; to the place from which the rivers come, there they return again.*
+— Ecclesiastes 1:5–7
