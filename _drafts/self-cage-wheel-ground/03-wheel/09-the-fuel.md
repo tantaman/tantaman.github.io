@@ -67,8 +67,6 @@ This is not mere spite, though spite is one of its expressions. It is the deepes
 
 This fuel looks, on the surface, like the most hope. Here at last is something the system cannot capture, because it refuses capture as such. The problem is that *refusing capture* is exactly what the system is now selling.
 
-Watch it happen.
-
 The cage observes the third fuel. It cannot eliminate it — no technique can eliminate the underground man. So it does the next best thing. It manufactures simulations of uncontainedness. The rebel aesthetic as product. The punk leather jacket mass-produced and sold at the mall. *Think Different*, the slogan of the largest corporation in the world. *Be yourself* as the marketing language of every institution that requires you to be exactly like everyone else who buys this product. Forty-seven yogurt varieties where every option is owned by the same three companies and the act of choosing between them is offered as the experience of irreducibility. You get to remain uncontained. It's in aisle four.
 
 The underground man, correctly perceiving that the Crystal Palace is a trap, storms into the marketplace of anti-Crystal-Palace products and calls it freedom. He has not escaped the system. He has been given a designated area in which to perform his escape.
@@ -78,22 +76,6 @@ And here is the cruelest turn. The third fuel — the refusal, the underground a
 The fuel that most resists the engine is the one that, the instant it organizes into strategy, hands the engine exactly what it needs.
 
 ---
-
-## IV. The Full Picture
-
-Step back and hold what has been assembled.
-
-The cage. The wheel. The engine. Three chapters building the anatomy of a machine that has run in every civilization, in every century, without malice, without conspiracy, without the wrong people being in charge. It runs because it is the structure of the field.
-
-And underneath all of that: the fuel.
-
-Three things not outside the person but inside. Prior to thought. Prior to formation. Innate in the species and not removable from it.
-
-Mimetic desire, which borrows its wanting from the model and cannot arrive at an origin that wants from itself — and which, when the model is close and the object is scarce, converts admiration into rivalry and rivalry into violence. The sequence is not accidental. Convergent desire and violence are the same sentence, spoken in sequence.
-
-Will, which is the form of every project including the project of liberation, which the engine processes as naturally as breathing. Not evil. Not even wrong in its initial direction. Simply and inevitably the engine's preferred format.
-
-And the refusal — the underground man's kick, prior to every structure, prior to every field effect, the thing that would produce remainder even in paradise. Still burning in the person who sees through the simulation — who knows the yogurt varieties are not freedom and the rebel aesthetic is a product and the designated escape area is still inside the fence — and who has not yet figured out what to do with that knowledge.
 
 All three fuels have this in common: they run on scarcity. Desire competes because the object is finite. Will grasps because the future is not yet secured. The refusal asserts because subjecthood feels zero-sum — the more legible you become, the less of a subject you remain. Scarcity is what gives each fuel its energy. Scarcity is what makes each fuel useful to the engine.
 
