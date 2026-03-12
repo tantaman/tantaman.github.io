@@ -21,27 +21,19 @@ There are three fuels. The first is the most discussed. The second is the most p
 
 ## I. The First Fuel: Borrowed Wanting
 
-Human beings do not know what to want.
+We have already watched this fuel at work. Chapter Six traced it into the child's hands before she could speak — how she learns what to want by watching what others want, how the formation arrives not as ideology but as reflex, installed in the body before evaluation is possible. Chapter Eight watched it operate on the revolutionary — how the movement desires what the oppressor has, wins it, and discovers it has inherited the oppressor's world. The monstrous double: two parties structurally identical, each convinced of their absolute difference, the resemblance invisible because they are standing inside it.
 
-This is not an insult. It is a structural observation. Most species have wants that are biologically prescribed: food, warmth, safety, reproduction. These are real wants, and human beings have them too. But human beings want vastly more than biology specifies, and for this excess wanting — for what to desire beyond survival — we require a guide.
+Name the mechanism plainly. Human beings do not know what to want. Beyond the biological floor — food, warmth, safety — desire requires a model. We borrow wanting from those around us, from those above us, from those we admire or envy or oppose. This is not weakness. It is how humans orient themselves in a world that offers more options than biology can adjudicate. The borrowing itself is not the problem.
 
-The guide is each other.
+The problem emerges when the borrower and the model occupy the same space and want the same thing.
 
-René Girard called this mimetic desire, and he arrived at the name not through social theory but through literature — through the close reading of Cervantes and Flaubert and Dostoevsky and Proust. Each of these novelists had noticed the same thing: their characters' desires were not their own. Don Quixote does not simply decide to be a knight-errant. He imitates a model, a template, an image of what the desiring life looks like. Madame Bovary does not simply desire love. She has read about desire in the novels of her youth and she desires what those novels' characters desired — the form of desire before the object. Proust's narrator does not want the women he pursues. He wants what the image of those women promises — the life he imagines their world to contain.
+When your model is distant — a saint, a hero, someone already beyond your reach — desire flows cleanly. You aspire toward them. There is no collision. But when the model is close, when you both reach for the same object in the same room, the admired figure becomes an obstacle. Admiration curdles into rivalry. And the rival now demonstrates, by wanting what you want, that the thing is worth wanting. You want it more. They want it more. The object becomes almost secondary. What is really at stake is proving, against the rival, that you are the real one.
 
-Strip away the literary scaffolding and the observation is simple. Watch two children in a room full of toys. One picks up toy 368. Immediately the other child wants toy 368. Not the three hundred other available toys. The specific one that is now in someone else's hands. The toy does not become desirable and then get chosen. It becomes desirable because it is chosen. The desire follows the choosing. We are not starting points of desire. We are receivers of desire, borrowing it from models who borrowed it from their own models, in a chain that never arrives at a first wanter who wanted from themselves alone.
+Watch where this ends. Convergent desire produces violence as its natural conclusion. Not as aberration. As logic. When two hands reach for the same object that only one can hold, desire itself offers no resolution. It does not negotiate. It does not distribute. It does not stop when told to. Every war that has ever been prosecuted — over land, recognition, honor, God — has this structure at its root. Not evil desire, usually. Ordinary desire, converging. The scarcity may be real or constructed. It does not matter. Once desire converges, the sequence completes itself.
 
-This is not weakness. It is how humans orient themselves in the world — by watching what others treat as worth wanting. Every skill acquired by watching a master. Every taste formed by the company you keep. Every sense of what matters shaped by what the people around you treat as mattering. Mimetic desire is not a pathology. It is the condition of being a social animal with genuine freedom about what to pursue.
+The only desire that cannot produce rivalry is desire for something inexhaustible. Something that does not diminish when shared. That has no scarcity to ignite. That multiplies when more hands reach for it.
 
-The problem is not the borrowing. The problem is what happens when the model and the imitator occupy the same space.
-
-When your model is distant — a saint, a hero, a historical figure — you can imitate without conflict. The model has what you seek; you aspire toward them; there is no collision. But when your model is close, when you both want the same thing in the same room, the admired figure becomes an obstacle. Admiration curdles into envy. Envy hardens into rivalry. The rival demonstrates, by wanting what you want, that the thing is worth wanting. And now you want it more. And they want it more. The object — the promotion, the recognition, the position, the territory — becomes almost secondary. What is really at stake is proving, against the rival, that you are the one who deserves it. That you are the more real one.
-
-The rivalry intensifies. And something counterintuitive happens. The rivals become more alike, not more different. Each mirrors the other's moves. Each escalation licenses counter-escalation. Each violation establishes a new floor. They are chained together by the wanting, pulled toward each other by the very opposition. Girard called the outcome the monstrous double: two parties structurally identical, each convinced of their absolute difference, the resemblance invisible to them because they are standing inside it, flush against the mirror.
-
-This is why liberation movements become the thing they opposed. Not betrayal. Not corruption. Not the wrong people taking over. The movement wanted what the oppressor had — recognition, dignity, power — because the oppressor had it. Having named the oppressor's possessions as worth having, having organized entirely around acquiring what was withheld, the movement inherited, on victory, the oppressor's framework. It wanted what the oppressor had. When it wins, it has exactly that.
-
-The first fuel is ineradicable for a simple reason: you cannot stop wanting by wanting to stop. The desire to have no desires is itself a desire, shaped by a model of the desireless sage, borrowed from someone who modeled desirelessness for you. The wanting precedes the decision about it. It is already in motion before the will arrives to manage it.
+We are not ready to name that yet. Note only the shape: it is the structural answer to this fuel. The question this chapter is building toward is whether anything fitting that description actually exists.
 
 ---
 
@@ -57,15 +49,15 @@ The second fuel is not the enemy. It is what makes anything happen. Every act of
 
 The problem is not the fuel. The problem is what the engine does with it.
 
-The engine — the mechanism described in Chapter Eight — knows exactly what to do with will. It requires, specifically, three things: a subject who grasps, a goal to be engineered, a future to be produced. These three things together constitute a *project*. Give the engine a project and it will process the project. It will absorb the projector into the structure of positions and fields. It will operate the attractor on the resources the project generates. It will hold up the mirror. It will do what it has always done.
+The engine requires, specifically, three things: a subject who grasps, a goal to be engineered, a future to be produced. These three things together constitute a *project*. Give the engine a project and it will process the project. It will absorb the projector into the structure of positions and fields. It will operate the attractor on the resources the project generates. It will hold up the mirror. It will do what it has always done.
 
-This is why every liberation project eventually reproduces what it opposed. Not because liberation is bad. Because *project* is the engine's native format. The revolutionary wills the overthrow of the ruling class. Will, directed at a goal, producing a future. The engine metabolizes this perfectly. The priestly class wills the administration of the law. The early church wills the preservation of the teaching. The university department wills the institutionalization of critical theory. The diversity office wills the equity of the institution. Each of these is a project. Each is metabolized. The wheel turns.
+This is why every liberation project eventually reproduces what it opposed. Not because liberation is bad. Because *project* is the engine's native format. The revolutionary wills the overthrow of the ruling class. The priestly class wills the administration of the law. The early church wills the preservation of the teaching. The university department wills the institutionalization of critical theory. The diversity office wills the equity of the institution. Each of these is a project. Each is metabolized. The wheel turns.
 
 Marx saw this clearly about capitalism. Capital wills its own accumulation. The logic of surplus investment producing further capacity for surplus investment is will in its purest structural form. He did not see it about revolution. He thought the problem was the content of the project — the wrong class holding the means of production. He did not see that the form itself was the problem. That will aimed at engineering an outcome is the engine's language, regardless of what outcome is being engineered.
 
-Foucault saw it about every institution he analyzed. Power produces knowledge; knowledge produces subjects who reproduce power. He saw the machinery with extraordinary clarity. He did not see it about the institution of critique itself — the seminar room, the academic press, the credentialed theorist whose demolition of bourgeois subjectivity produces a new professional subjectivity in the demolisher. Will aimed at exposure. The engine metabolizes it.
+Foucault saw it about every institution he analyzed. He did not see it about the institution of critique itself — the seminar room, the academic press, the credentialed theorist whose demolition of bourgeois subjectivity produces a new professional subjectivity in the demolisher. Will aimed at exposure. The engine metabolizes it.
 
-The second fuel is ineradicable for a different reason than the first. Mimetic desire can be traced and partially interrupted — we will return to this. But will is not a tendency you have. It is closer to what you are. The cessation of will is not an achievement. It is death, or something that looks from outside exactly like death. The person who no longer wills has no projects, takes no steps, makes no claim on any future. Every teacher who has tried to describe this to students — Eckhart, the Buddhist masters, the Taoist sages — has had to contend with the impossibility of communicating it without producing in the listener a new project: the project of will-cessation. You cannot try to stop trying. The trying is the thing.
+The second fuel is ineradicable for a reason different from the first. Mimetic desire can be traced and, in certain conditions, partially reoriented. But will is not a tendency you have. It is closer to what you are. The cessation of will is not an achievement. It is death, or something that looks from outside exactly like death. Every teacher who has tried to describe this — Eckhart, the Buddhist masters, the Taoist sages — has had to contend with the impossibility of communicating it without producing in the listener a new project: the project of will-cessation. You cannot try to stop trying. The trying is the thing.
 
 ---
 
@@ -79,11 +71,11 @@ The underground man's central argument is this. Show him the Crystal Palace. Sho
 
 Not because he has a better arrangement to propose. Not because he has identified a flaw in the reasoning. Not because he is cruel or self-destructive in any pathological sense. But because he is not a piano key. Because twice two makes four whether he wills it or not, and if he cannot will anything else, then he would rather be irrational. Because a fully determined life — even a perfectly happy fully determined life — is not life. It is an organ pipe playing the note it was built to play.
 
-*Two times two makes four*, he says. *Two times two makes four is no longer life, gentlemen, but the beginning of death.*
+*Two times two makes four,* he says. *Two times two makes four is no longer life, gentlemen, but the beginning of death.*
 
-This is the third fuel. It is the most fundamentally human, and in some sense the most admirable, and it is also the one the wheel most reliably runs on.
+This is why Chapter Eight could not end with him. He is not a fourth law of the engine. He is the fact that makes the engine necessary. Gravity, remainder, and mirror are forces that operate on the person from outside — through the structure of the field, through the geometry of definition, through the logic of desire formed in opposition. The underground man is prior to all of that. He would kick over a world with no scarcity, no oppressor to mirror, no rival to fuel the wanting. He would create remainder where there was none. He does not need the engine's conditions. He is the condition the engine was built for.
 
-Call it what it is: the refusal to be fully contained. The will to remain unaccounted for. The insistence on existing as a subject rather than a function of someone else's calculation. The underground man does not want freedom *for* something. He does not have a project. He is not aiming at an outcome. He wants only to be the kind of thing that cannot be fully predicted. That reserves the right to surprise you. That can be understood and still find another angle.
+Call the third fuel what it is: the refusal to be fully contained. The will to remain unaccounted for. The insistence on existing as a subject rather than a function of someone else's calculation. The underground man does not want freedom *for* something. He does not have a project. He is not aiming at an outcome. He wants only to be the kind of thing that cannot be fully predicted. That reserves the right to surprise you. That can be understood and still find another angle.
 
 This is not mere spite, though spite is one of its expressions. It is the deepest structural feature of a consciousness that knows it is being modeled. The moment you are fully modeled, fully legible, you are no longer a subject — you are a data point. And something in you that is not a data point resists.
 
@@ -95,34 +87,43 @@ The cage observes the third fuel. It cannot eliminate it — no technique can el
 
 The underground man, correctly perceiving that the Crystal Palace is a trap, storms into the marketplace of anti-Crystal-Palace products and calls it freedom. He has not escaped the system. He has been given a designated area in which to perform his escape.
 
-And here is the truly disturbing move. The third fuel — the refusal, the underground assertion — is what every liberation movement runs on in its early, threatening phase. The movement that cannot be metabolized yet, that has not yet formulated its program, that is simply refusing — that is running on pure third fuel. Rosa Parks on the bus was not executing a strategy. She was refusing. She was being, in the face of a system that had required her not to be. The movement becomes metabolizable at the moment it becomes a *project* — at the moment the refusal becomes programmatic, at the moment the underground man surfaces and starts writing proposals.
+And here is the cruelest turn. The third fuel — the refusal, the underground assertion — is what every liberation movement runs on in its early, threatening phase. The movement that cannot be metabolized yet, that has not yet formulated its program, that is simply refusing — that is running on pure third fuel. Rosa Parks on the bus was not executing a strategy. She was refusing. She was being, in the face of a system that had required her not to be. The movement becomes metabolizable at the moment it becomes a *project* — at the moment the refusal becomes programmatic, at the moment the underground man surfaces and starts writing proposals.
 
-This is the cruelest turn. The fuel that most resists the engine is the one that, the instant it organizes into strategy, hands the engine exactly what it needs.
+The fuel that most resists the engine is the one that, the instant it organizes into strategy, hands the engine exactly what it needs.
 
 ---
 
 ## IV. The Full Picture
 
-Step back now and hold what has been assembled across these three chapters.
+Step back and hold what has been assembled.
 
-The cage. The structures of power that constitute the normal operating environment — the market, the institution, the credentialing system, the formation of desire, the grammar of what is legible as a reasonable want or a reasonable person. Not built by anyone in particular, not maintained by conspiracy, simply there, as persistent as gravity.
+The cage. The wheel. The engine. Three chapters building the anatomy of a machine that has run in every civilization, in every century, without malice, without conspiracy, without the wrong people being in charge. It runs because it is the structure of the field.
 
-The wheel. The pattern by which liberation breaks the cage and becomes the next cage. Delivered, at peace, forgetting, oppressed, crying out, delivered — the Judges narrative, written down seven times by people who had watched it enough times to stop being surprised. The Civil Rights vocabulary in a corporate diversity seminar. The revolutionary committee as the new vanguard. The prophet's words administered by the institution that will not be disrupted by the next prophet.
+And underneath all of that: the fuel.
 
-The engine. The mechanism: the remainder produced by the system as structural necessity, the attractor that converts any position of power into a gravity well, the mirror that makes the liberator into the likeness of what she fought, the domination reflex that operates on whoever occupies a position regardless of their intentions or analysis. Running without malice. Running without conspiracy. Running because it is the structure of the field.
+Three things not outside the person but inside. Prior to thought. Prior to formation. Innate in the species and not removable from it.
 
-And now: the fuel. The three things that are not outside the person but inside, prior to thought, prior to formation, innate in the species and not removable from it. Mimetic desire, which borrows its wanting from the rival and cannot arrive at an origin that wants from itself. Will, which is the form of every project including the project of liberation, which the engine processes as naturally as breathing. And the refusal — the underground man's kick, the insistence on remaining unaccounted for, the most human fuel of all, the one the cage has learned to simulate and sell, and the one that is still burning in the person who sees through the simulation.
+Mimetic desire, which borrows its wanting from the model and cannot arrive at an origin that wants from itself — and which, when the model is close and the object is scarce, converts admiration into rivalry and rivalry into violence. The sequence is not accidental. Convergent desire and violence are the same sentence, spoken in sequence.
 
-This is the full weight of what has been established. Not to produce despair — despair is just one more fuel, one more project, one more form of the grasping. To produce accuracy. To describe what is actually true about the human situation before the question of what to do about it can be honestly asked.
+Will, which is the form of every project including the project of liberation, which the engine processes as naturally as breathing. Not evil. Not even wrong in its initial direction. Simply and inevitably the engine's preferred format.
 
-The question is not: how do we build better institutions? Every institution is the engine's raw material. It is not: how do we find better people? The domination reflex does not distinguish. It is not: how do we escape the wheel? The wheel is fueled by the very desire to escape it.
+And the refusal — the underground man's kick, prior to every structure, prior to every field effect, the thing that would produce remainder even in paradise. Still burning in the person who sees through the simulation — who knows the yogurt varieties are not freedom and the rebel aesthetic is a product and the designated escape area is still inside the fence — and who has not yet figured out what to do with that knowledge.
 
-The question is whether anything exists that the engine cannot metabolize. Whether there is something that operates by a different logic entirely — not rerouting the fuels, not improving the countermeasures, not finding a more defensible position within the field. Something prior to all of that. Something the grasping hand cannot grasp and the refusing hand cannot refuse and the willing hand cannot produce.
+All three fuels have this in common: they run on scarcity. Desire competes because the object is finite. Will grasps because the future is not yet secured. The refusal asserts because subjecthood feels zero-sum — the more legible you become, the less of a subject you remain. Scarcity is what gives each fuel its energy. Scarcity is what makes each fuel useful to the engine.
 
-The cage does not think such a thing exists.
+Which means the question that opens onto the rest of this book can be stated with precision.
 
-The wheel has never encountered it.
+Is there a desire that does not run on scarcity? A wanting that cannot converge into rivalry because its object does not diminish — that multiplies when more hands reach for it, that becomes more rather than less when shared? Is there a will that is not a project — not grasping at a future but responding to what is already fully present? Is there a form of being that the underground man cannot kick over — not because it constrains him, but because it is inexhaustible enough to contain even his refusal?
 
-The engine has no category for it.
+The cage does not think such a thing exists. It has no category for it. Every want it can see runs on scarcity. Every project it has ever encountered feeds the engine. Every refusal it has ever watched has eventually found its designated area in which to perform.
+
+But the cage has only ever seen the things that run on the same fuel it does.
+
+The wheel has turned through every civilization. The engine has processed every project. And there is a question neither of them has ever had to answer, because the answer has never yet arrived in the form of a project.
 
 What it would look like — and whether it is real — that is what remains to be said.
+
+---
+
+*The sun also rises, and the sun goes down, and hastens to its place where it arose. The wind goes toward the south, and turns around to the north; the wind whirls about continually, and the wind returns again according to its circuits. All the rivers run into the sea, yet the sea is not full; to the place from which the rivers come, there they return again.*
+— Ecclesiastes 1:5–7
