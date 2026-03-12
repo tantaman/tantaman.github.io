@@ -83,15 +83,11 @@ Which means the question that opens onto the rest of this book can be stated wit
 
 Is there a desire that does not run on scarcity? A wanting that cannot converge into rivalry because its object does not diminish — that multiplies when more hands reach for it, that becomes more rather than less when shared? Is there a will that is not a project — not grasping at a future but responding to what is already fully present? Is there a form of being that the underground man cannot kick over — not because it constrains him, but because it is inexhaustible enough to contain even his refusal?
 
-The cage does not think such a thing exists. It has no category for it. Every want it can see runs on scarcity. Every project it has ever encountered feeds the engine. Every refusal it has ever watched has eventually found its designated area in which to perform.
+The wheel does not think such a thing exists. It has no category for it. Every want it can see runs on scarcity. Every project it has ever encountered feeds the engine. Every refusal it has ever watched has eventually found its designated area in which to perform.
 
-But the cage has only ever seen the things that run on the same fuel it does.
+But the wheel has only ever seen the things that run on the same fuel it does.
 
 The wheel has turned through every civilization. The engine has processed every project. And there is a question neither of them has ever had to answer, because the answer has never yet arrived in the form of a project.
 
 What it would look like — and whether it is real — that is what remains to be said.
 
----
-
-*The sun also rises, and the sun goes down, and hastens to its place where it arose. The wind goes toward the south, and turns around to the north; the wind whirls about continually, and the wind returns again according to its circuits. All the rivers run into the sea, yet the sea is not full; to the place from which the rivers come, there they return again.*
-— Ecclesiastes 1:5–7
