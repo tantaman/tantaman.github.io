@@ -101,16 +101,6 @@ This is not despair. It is diagnosis. A physician who knows what the disease is 
 
 ## V. What the Engine Requires
 
-Assemble the components.
-
-Gravity ensures that any structure created by liberation will concentrate under the pull of accumulated advantage. The remainder ensures that any new inside will produce a new outside — a new class of the managed, the wound that funds the next movement. The mirror ensures that the liberators, shaped by years of opposition, will pursue the oppressor's definition of victory. And the underground man ensures that even the ones who see all of this clearly — who can name every gear — will still, at some point, throw the wrench.
-
-Together they are sufficient to produce everything Chapter Seven described. Without conspiracy. Without malice. Without even awareness, on the part of any person within the loop, that the loop is running.
-
-The Marxist theorist who watched the revolution he devoted his life to produce a new tyranny did not fail because he was foolish or vicious. He failed because he did not account for the engine. He believed the fuel was the problem — the wrong class holding the means of production — and that replacing the fuel would change the outcome. The engine consumed the new fuel and produced the same rotation. The mistake was not ideological. It was ontological. He thought the wheel ran on the wrong people being in charge. It runs on gravity, geometry, desire, and will. On the laws of what we are.
-
-This is the hard thing. Not the pattern — Chapter Seven made the pattern visible. The hard thing is that the pattern does not run on ignorance. Enlightenment does not stop it. Right analysis does not stop it. Good intentions do not stop it. The right people, given the position, do what people in positions do — because the position is inside the field, and the field is stronger than the person, and the person's desire was formed in the image of what the field previously rewarded.
-
 The wheel does not need a driver. It has always turned itself.
 
 ---
@@ -122,10 +112,6 @@ Weil's epigraph, placed above this chapter, now earns its position.
 The first sentence is what this chapter has been naming. Not tendency. Not pattern. Natural law. The soul in any field of other souls moves the way mass moves — toward accumulation, concentration, force. The remainder is the geometry of definition. The mirror is the physics of desire. The underground man is the assertion of will against determination. These are not failures of the human project. They are the physics of what the project is made of.
 
 The second sentence is the question this book has been building toward.
-
-Only grace. Weil did not mean this as sentiment. She meant it as the identification of the only force capable of operating by a different logic — not channeling gravity through a better mechanism, not improving the fuel, not installing the right people, but moving through the field by something that is not subject to its laws. Whether such a thing exists. What it would look like in a body, in a life, in a community, in history. Whether what has sometimes appeared to be grace was only power in the moment before it was captured — before the monastery acquired land, before the prophet's followers became an institution, before the fire became a lighting system.
-
-That question cannot be answered here. The engine had to be named first.
 
 The wheel turns. It has always turned. What, if anything, does not turn with it — that is the question the fourth movement exists to ask.
 
