@@ -123,6 +123,25 @@ The fire that threatened the structure has been converted into a lighting system
 
 ---
 
+## V. The Counter-Evidence
+
+Someone will object. Poverty down. Lifespans longer. Violence declining. The arc bends slowly, unevenly, but it bends. Give it time.
+
+Look at the people.
+
+The countries that have traveled furthest down the arc — the wealthy post-industrial democracies, the ones who cleared every liberation threshold — are producing a specific kind of person. Medicated. Isolated. Clinically anxious at rates that have no historical precedent. More lonely, by every available measure, than human beings have ever been recorded to be. Not having children — not because they cannot afford them, but because they cannot summon whatever it would take to say yes to another generation. Suicide climbing among the young. Depression tripled in three decades. The total exhaustion of people with every option and no direction.
+
+These are not the statistics of a people being liberated.
+
+They are the statistics of a people living inside a very efficient cage — one that needs no guards, because it has been installed in the mind.
+Movement One showed the construction: the self as project, the self as performance, the optimization loop that runs without a terminal condition. Movement Two showed the mechanism: how the cage travels, how liberation vocabulary gets metabolized, how the next formation always arrives wearing the last one's language.
+
+The conclusion is not complicated. If the arc were bending toward human flourishing, humans would be flourishing. The technical gains are real. The institutional victories are real. The misery underneath them is also real, and it is growing.
+
+The arc is bending. Not toward us.
+
+---
+
 ## V. Paris, 1789
 
 One more turn. Brief. To establish that this is not a story about one movement or one era.
