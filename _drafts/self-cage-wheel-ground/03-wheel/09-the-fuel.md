@@ -39,25 +39,11 @@ We are not ready to name that yet. Note only the shape: it is the structural ans
 
 ## II. The Second Fuel: The Grasping Form
 
-Nietzsche named the second fuel and could not stop circling it.
+Chapter Eight showed will operating as a law of the field — gravity, the ratchet, surplus compounding into surplus, the structure that finds every countermeasure and runs through it. That is will from the outside. Here is will from the inside.
 
-He called it the will to power, and he was immediately misunderstood — it was not the desire to dominate, not the hunger for political control, not the brutal assertion of the strong over the weak. These were specific expressions of it. The thing itself was more fundamental. It was the drive to expand, to extend, to overcome resistance, to become more than one currently is. The cell does it: capture more energy than you consume, invest the surplus in structure, grow. The organism does it. The empire does it. The saint does it — the saint who wills herself into holiness, who disciplines the body, who extends her capacity for compassion, who overcomes her fear, is running on the same fuel as the tyrant. The form is the same. The direction differs.
+The engine requires three things: a subject who grasps, a goal to be engineered, a future to be produced. Call this a *project*. The insight Marx missed and Foucault missed and every liberation movement has missed is not about the content of the project. It is about the form. Will aimed at producing an outcome is the engine's native language. It does not matter what outcome. The revolutionary's project and the capitalist's project are processed identically. The form is what the engine eats.
 
-This is important and subtle and the source of most confusion about this chapter.
-
-The second fuel is not the enemy. It is what makes anything happen. Every act of courage runs on it. Every genuine creation. Every refusal to accept things as they are. Every movement that has ever bent the arc has run on this fuel, and without it the arc does not bend. Fannie Lou Hamer did not survive what she survived on detachment. King did not write from Birmingham Jail on resignation. Malcolm did not see what he saw, say what he said, and accept the consequences on passivity. The will was there. Burning. Directed. Essential.
-
-The problem is not the fuel. The problem is what the engine does with it.
-
-The engine requires, specifically, three things: a subject who grasps, a goal to be engineered, a future to be produced. These three things together constitute a *project*. Give the engine a project and it will process the project. It will absorb the projector into the structure of positions and fields. It will operate the attractor on the resources the project generates. It will hold up the mirror. It will do what it has always done.
-
-This is why every liberation project eventually reproduces what it opposed. Not because liberation is bad. Because *project* is the engine's native format. The revolutionary wills the overthrow of the ruling class. The priestly class wills the administration of the law. The early church wills the preservation of the teaching. The university department wills the institutionalization of critical theory. The diversity office wills the equity of the institution. Each of these is a project. Each is metabolized. The wheel turns.
-
-Marx saw this clearly about capitalism. Capital wills its own accumulation. The logic of surplus investment producing further capacity for surplus investment is will in its purest structural form. He did not see it about revolution. He thought the problem was the content of the project — the wrong class holding the means of production. He did not see that the form itself was the problem. That will aimed at engineering an outcome is the engine's language, regardless of what outcome is being engineered.
-
-Foucault saw it about every institution he analyzed. He did not see it about the institution of critique itself — the seminar room, the academic press, the credentialed theorist whose demolition of bourgeois subjectivity produces a new professional subjectivity in the demolisher. Will aimed at exposure. The engine metabolizes it.
-
-The second fuel is ineradicable for a reason different from the first. Mimetic desire can be traced and, in certain conditions, partially reoriented. But will is not a tendency you have. It is closer to what you are. The cessation of will is not an achievement. It is death, or something that looks from outside exactly like death. Every teacher who has tried to describe this — Eckhart, the Buddhist masters, the Taoist sages — has had to contend with the impossibility of communicating it without producing in the listener a new project: the project of will-cessation. You cannot try to stop trying. The trying is the thing.
+This fuel cannot be eliminated by trying to eliminate it. The attempt to stop grasping is itself a grasp. Every teacher who has pointed at this — Eckhart, the Taoist sages, the Buddhist masters — has had to watch their students convert the teaching into a new project. The trying is the thing, and you cannot try to stop trying. The underground man is about to show us why.
 
 ---
 
