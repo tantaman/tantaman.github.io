@@ -1,4 +1,4 @@
-# Chapter Six: How the Bars Stay Up
+# Chapter Six: How the Bars Are Installed
 
 *The cage does not require guards. It requires parents.*
 
@@ -62,6 +62,20 @@ She will enter the world with this. The grammar that awaits her there will feel 
 
 ---
 
+Follow another child through a different room in the same building.
+
+She is fourteen. The unit is American history, or literature, or both — the boundary has been deliberately blurred. The question written on the board: *whose story is being told? Whose is missing?* The teacher is good. The question is real. The texts being examined were, in fact, organized around a center that excluded; the absences are genuine absences. The correction is not wrong.
+
+What is being installed, alongside the correction, is a method. A perceptual reflex trained to read any room, any text, any situation for the same variables: who is centered, who is marginal, who speaks, who is silenced, what arrangements benefit whom. The method is taught as critical thinking. It is also, beneath the stated goal, a relationship to the world: every situation is first and foremost a power situation, and the work of a serious person is to see it correctly.
+
+She is good at this. She gets better every year. By sixteen, the method has become automatic — a perceptual default that precedes conscious application. She does not decide to read the room for power. She looks, and this is already what she sees.
+
+The Common Application asks her to describe a challenge she overcame. She writes about her identity — what it cost her, what it taught her, what she understands about the world because she had to navigate it from where she stood. The essay is true. It is also, in a grammar she did not choose, a conversion of the wound into credential. The suffering has been reformatted as competitive advantage. She does not experience this as loss. She experiences it as finally being seen.
+
+She will enter a world that has prepared a specific place for this formation. The grammar that awaits her there will feel like recognition.
+
+---
+
 ## III. The Grammar Cascade
 
 Above the school, generating the language the school delivers, is a structure most people will never see — not because it is hidden, but because it is too large to see from inside.
@@ -78,9 +92,15 @@ What he does not notice is what the new grammar cannot say. Not because those th
 
 He is not biting his tongue. He is thinking in *stakeholder alignment* because that is what his mind now contains. The grammar has become the thought.
 
-The propagation mechanism is not coordinated. No committee decided what the professional class should be capable of thinking. The grammar traveled through status networks — absorbed by proximity to prestigious people, reproduced by those who wanted to be seen as knowing how things worked, amplified by the media that covered the networks and absorbed the vocabulary in the act of covering them. Grammars that name class conflict do not circulate in these networks. Grammars that make power invisible do. The selection is not planned. It is the natural behavior of a system in which the people who benefit from invisible power are the same people who control the amplification mechanisms.
+Picture her at thirty-two. She graduated from the same kind of school, entered a different world — a nonprofit, an advocacy organization, an institution with explicit commitments to equity and justice. The vocabulary she absorbed there traveled through status networks as surely as *stakeholder alignment* traveled through his. *Centering marginalized voices. Holding space. Doing the work. Decentering. Naming harm. Sitting with discomfort.* She absorbed it through proximity to people she respected, through the panels and trainings and organizational documents that marked someone as someone who understood what was actually at stake.
 
-By the time the grammar reaches him, it has passed through Davos and the business schools and the consulting firms and the credentialing bodies that set the terms of professional legitimacy across every serious field. It arrives as the language of seriousness itself.
+She does not experience this as loss. She experiences it as clarity.
+
+What she does not notice is what this grammar cannot say. *Centering lived experience* is speakable. *The nonprofit sector benefits structurally from the wound it promises to close* is not. *Naming harm* is speakable. *The institutional capture of the prophetic tradition* is not. *Doing the work* is speakable. *The formation that cannot close the wound because closure would end the formation* is not — not because it is untrue, but because the grammar has no way to construct it. She is not biting her tongue. She is thinking in *centering* because that is what her mind now contains.
+
+The propagation mechanism is not coordinated. No committee decided what the professional class should be capable of thinking. Both grammars traveled through status networks — absorbed by proximity to prestigious people, reproduced by those who wanted to be seen as knowing how things worked, amplified by the media that covered the networks and absorbed the vocabulary in the act of covering them. Grammars that name class conflict do not circulate in his networks. Grammars that implicate the institution do not circulate in hers. The selection is not planned. It is the natural behavior of a system in which the people who benefit from invisible power are the same people who control the amplification mechanisms.
+
+By the time either grammar reaches them, it has passed through the business schools and consulting firms and credentialing bodies and advocacy organizations that set the terms of professional legitimacy across every serious field. It arrives, in both cases, as the language of seriousness itself.
 
 The family installed it in the hands. The school installed it in the mind. The professional world installs it in the mouth. By the third installation, the cage is not felt as a cage. It is felt as competence.
 
@@ -116,7 +136,7 @@ There is a temptation, having seen the mechanism whole, to believe that seeing i
 
 It is not enough. The formation is in the hands, not the mind. Argument cannot reach it. The hand has its own memory.
 
-Grammar-switching is possible, but it almost never happens through argument. It happens through immersion — living among people who speak differently until their way of being in the world begins to rewire yours. Through crisis — when the grammar fails catastrophically to make sense of your experience and you are forced into another. Through something that resembles conversion more than reasoning: a gestalt shift, a sudden reorganization, the world reassembling itself around a different center.
+Grammar-switching is possible, but it almost never happens through argument. It happens through immersion — living among people who speak differently until their way of being in the world begins to rewire yours. Through crisis — when the grammar fails catastrophically to make sense of your experience and you are forced into another. Through something that resembles conversion more than reasoning: a gestalt shift, a sudden reorganization, the world reassembling itself around a different center. Which is exactly what the cage has been formed to prevent.
 
 ---
 

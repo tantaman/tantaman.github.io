@@ -1,3 +1,5 @@
+Note that the cage is only the current cage. That there will be new cages. That the enemy is not the young thing.
+
 # The Wheel: Chapters 7–9
 
 *Turn, Engine, Fuel*
