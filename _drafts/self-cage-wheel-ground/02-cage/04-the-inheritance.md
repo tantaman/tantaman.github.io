@@ -2,25 +2,17 @@
 
 ---
 
-Nietzsche wanted creators. He got inheritors who do not know what they inherited.
+Nietzsche wanted creators. He got inheritors.
 
-The last man — his name for what remained when you removed God but kept the herd — blinks and keeps warm. Comfortable, ironic, self-satisfied, going through motions that were once organized around something he can no longer name. Nietzsche called him the most contemptible, not because he is evil but because he has become too small to even gesture at anything beyond himself. Against this Nietzsche proposed the übermensch: the self-creator who faces the void honestly and fashions new values from nothing, who does not borrow meaning from a tradition he no longer believes but generates it through an act of pure will.
+What he could not fully name is that the shadow falls differently depending on which piece of the inheritance you kept. The modern self is not a single inheritor. It is three, each carrying a different fragment of the Christian formation, each missing a different load-bearing piece.
 
-He did not get the übermensch. What appeared were the therapeutic self, the achievement subject, and the identifying self — and none of them are the last man. That is what makes them hard to see clearly. They strive furiously, continuously, with genuine seriousness and real cost. They did not make their peace with meaninglessness. They organized their entire lives around its avoidance. But they did so with borrowed machinery — with the moral structures and emotional grammar of the tradition they nominally left, running now without the metaphysical architecture that made those structures coherent.
+The confessing animal kept the compulsion to excavate the interior — the certainty that the self is opaque, that the hidden contents are the most important thing about you, that health requires surfacing them in speech. What it lost is grace: the mechanism that closed the account. The transaction that said finished. Without it, the excavation runs forever. Nothing arrives.
 
-The danger Nietzsche missed was not comfortable smallness. It was this: the shadow would produce serious, driven, self-aware people — running Christian moral software on secular hardware, generating the motion the software prescribed, unable to reach the arrival the software required. Not too comfortable to strive. Too constituted by striving to do anything else. The therapeutic self excavates because stopping would mean the interior is clean and she cannot imagine the interior being clean. The achievement subject produces because rest is evidence against his worth and he cannot afford that evidence. The identifying self opposes because the kingdom is inside history and someone is blocking it and stopping would mean accepting the block. All three run the engine at full capacity. The engine has no destination.
+The achievement subject kept the labor — the certainty that restless, methodical, compulsive work is not optional, that stopping is dangerous, that the self must be justified through output. What it lost is worth: the declaration that the person already has infinite value prior to any output, prior to any accumulation, prior to any credential or yield. Without that floor, the labor is not striving toward a ceiling. It is running from a void.
 
----
+The identifying self kept the prophetic inversion — the certainty that power lies, that the excluded one is the site of moral truth, that solidarity with the victim is the measure of clarity. What it lost is resurrection: the act that vindicated the excluded one, that resolved suffering into something, that bent the arc because there was an agent bending it. Without it, the suffering cannot resolve. Which makes claiming it the most stable position available.
 
-Three amputations. Three different cuts, differently located, differently shaped — and the differences matter more than the similarity.
-
-The achievement subject lost the *imago Dei* — worth given prior to output, the floor that made Sabbath a structural fact rather than a reward. His is the amputation of the ground beneath the labor.
-
-The confessing animal lost grace — not merely worth, but the specific mechanism that made worth accessible: the prior givenness that allowed absolution to be a real event rather than a gesture. The naming was never enough on its own. Grace was what waited on the other side of the name and had the authority to discharge it. Without grace, the account cannot close. His is the amputation of the arrival inside the practice.
-
-The identifying self lost resurrection — the act outside the system that vindicated the excluded one and made suffering resolve into something. What that loss produced, architecturally, is the relocation of the eschaton inside history: if the kingdom can be built, its non-arrival requires a perpetrator. The villain is not optional. He is structurally necessary. His is the amputation of the agent who was doing the bending.
-
-The motion is genuine in all three. The arrival is structurally unavailable. The reasons differ, and the reasons matter.
+Three selves. Three amputations. The motion is genuine in all three. The arrival is structurally unavailable. The reasons differ, and the reasons matter.
 
 ---
 
