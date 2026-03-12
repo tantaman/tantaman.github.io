@@ -92,15 +92,15 @@ Not produced by the news, though she will reach for the news within minutes — 
 
 The scanning begins. An article: her attention moves immediately to who is not in it. A conversation: she notes the composition of the room before she registers the agenda. A proposal: her first question, before evaluation, is who does this leave out. The scanning is not effortful. It is not even fully conscious. It has become the default posture of attention — a perceptual reflex organized around the question the formation has made primary: where is the blockage? Why hasn't the kingdom arrived?
 
-When she finds it — and she finds it reliably, because the world reliably supplies injustice to a gaze organized around finding it — there is a brief relief. The grammar is confirmed. The enemy is located. The kingdom hasn't arrived because of *this*, specifically. She knows what to oppose.
+When she finds it — and she finds it reliably, because the world reliably supplies injustice to a gaze organized around finding it — there is a brief relief. The formation holds. The enemy is located. The kingdom hasn't arrived because of *this*, specifically. She knows what to oppose.
 
-The relief does not hold. Locating one blockage does not clear the path — it reveals the next blockage behind it. She opposes the thing she found. The grammar generates another. The edge returns, looking for a new object. This is not failure. This is the formation working exactly as designed.
+The relief does not hold. Locating one blockage does not clear the path — it reveals the next blockage behind it. She opposes the thing she found. The logic produces another. The edge returns, looking for a new object. This is not failure. This is the formation working exactly as designed.
 
 She carries structural guilt — historical, collective, built into the categories of analysis. She is complicit in systems she did not create and cannot individually dismantle. The guilt is appropriate to the reality. What is not available is discharge.
 
 The promise she absorbed — that the arc bends, that the last shall be first, that correct alignment is itself a form of faithfulness — was only ever load-bearing when it came from outside time. When the vindication was already given, by an act the system could not undo, prior to any effort on her part. Brought inside history and handed to her as a project, it does not function the same way. The arrival depends on the perpetrator finally neutralized. There is always another perpetrator behind the last one. The standard does not settle. It moves while carrying everything that matters.
 
-The Sunday edge is the experience of a self whose worth is produced by the correctness of its seeing — scanning all week, finding plenty, opposing what she could, and arriving at Sunday having moved nothing that matters. Not because she failed. Because the grammar does not contain a condition under which enough has been moved. And the worth it promises is therefore always withheld, always conditional, always one clearer seeing away from being real.
+The Sunday edge is the experience of a self whose worth is produced by the correctness of its seeing — scanning all week, finding plenty, opposing what she could, and arriving at Sunday having moved nothing that matters. Not because she failed. Because the formation contains no condition under which enough has been moved. And the worth it promises is therefore always withheld, always conditional, always one clearer seeing away from being real.
 
 ---
 
