@@ -19,7 +19,7 @@ He has not escaped it. No one has.
 
 Chapter Seven traced what happens to a specific liberation — what becomes of the fire. This chapter has to go deeper than pattern. It has to name why the pattern is, in the strict sense, lawful. Not a sociological tendency. Not an institutional failure. A description of the physics of what we are.
 
-There are four laws. None requires bad actors. None requires conspiracy. None requires the wrong people to be in charge. Together they are sufficient to produce the wheel's rotation across any culture, any ideology, any century.
+There are three laws. None requires bad actors. None requires conspiracy. None requires the wrong people to be in charge. Together they are sufficient to produce the wheel's rotation across any culture, any ideology, any century.
 
 ---
 
@@ -81,39 +81,25 @@ The mirror turns fast. Sometimes within a generation. Sometimes within the victo
 
 ---
 
-## IV. The Underground Man
+## IV. What the Engine Requires
 
-There is one more law. It is the argument-ender.
+Three laws. None of them requires malice. None of them requires the wrong people. None of them can be defeated by raising consciousness, improving analysis, or installing better intentions.
 
-The socialist's final fallback — the fallback of every progressive theory of history — is enlightenment. Show people clearly enough what serves their interests. Make the mechanism legible. Raise consciousness. Educate the class. The crystal palace of rational self-interest awaits, once the fog of ideology is lifted.
+Gravity operates on every agent with resources in a shared field, regardless of their ideology. The remainder is produced by definition itself — the more precise the liberation, the cleaner the line it draws around those it leaves behind. The mirror operates through the logic of desire formed in opposition, and desire does not consult the will before it forms.
 
-Dostoevsky destroyed this argument in 1864 and it has not recovered.
+The wheel would turn in a society of philosophers who had read this chapter.
 
-The underground man is not ignorant. He can follow the utilitarian calculus. He can see the rational optimum. He knows what serves him. He will smash it — not because passion has overwhelmed reason, not because he has been deceived, not because he lacks the correct analysis. He will smash it because the alternative is to be a piano key. A predictable output of a predictable system. A function that produces the expected result when you press the expected input. He cannot bear this. Not from stupidity. From the irreducible need to be the one who chooses.
+This is the claim the next chapter has to reckon with: not that the engine is driven by ignorance, but that it is fueled by something prior to ignorance and immune to its cure. Something inside the person rather than outside her. Something that was moving before the cage was built and will be moving in whatever is built next.
 
-*"You believe in a crystal palace that can never be destroyed — a palace at which one will not be able to put out one's tongue or make a fig in one's pocket. And perhaps that is just why I am afraid of this edifice — that it is of crystal and can never be destroyed and that one cannot put one's tongue out at it even on the sly."*
-
-Will is not the servant of understanding. It asserts *against* understanding when understanding threatens to determine it. The will to be undetermined is as fundamental as the will to power. Perhaps they are the same thing. The person who sees the wheel clearly, names it exactly, and then turns it anyway — not from weakness, but from the need to prove she is more than what the wheel made of her.
-
-This is not despair. It is diagnosis. A physician who knows what the disease is can sometimes treat it. A physician who believes the disease is moral failure will keep prescribing moral improvement and watching the patient decline.
-
----
-
-## V. What the Engine Requires
-
-The wheel does not need a driver. It has always turned itself.
-
----
-
-Weil's epigraph, placed above this chapter, now earns its position.
+Weil's sentence now earns its position at the head of this chapter.
 
 *All natural movements of the soul follow laws analogous to physical gravity. Only grace operates by a different logic.*
 
-The first sentence is what this chapter has been naming. Not tendency. Not pattern. Natural law. The soul in any field of other souls moves the way mass moves — toward accumulation, concentration, force. The remainder is the geometry of definition. The mirror is the physics of desire. The underground man is the assertion of will against determination. These are not failures of the human project. They are the physics of what the project is made of.
+The first sentence is what this chapter has been naming. Not tendency. Not pattern. Natural law. The soul in any field of other souls moves the way mass moves — toward accumulation, concentration, force. The remainder is the geometry of definition. The mirror is the physics of desire. These are not failures of the human project. They are the physics of what the project is made of.
 
 The second sentence is the question this book has been building toward.
 
-The wheel turns. It has always turned. What, if anything, does not turn with it — that is the question the fourth movement exists to ask.
+The wheel turns. It has always turned. What, if anything, does not turn with it — that is the question the third movement exists to ask.
 
 ---
 
