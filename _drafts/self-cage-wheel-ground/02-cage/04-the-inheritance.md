@@ -91,3 +91,7 @@ The achievement subject thinks: there is always more to do, and I am not someone
 What they are missing is not a belief, or a practice, or a community, or any of the things that might be recovered by effort. It is the prior thing — the thing that came before the motion began, that the motion was always organized around, that made arrival possible because arrival was not the self's to generate. Something given. Something that held before any effort was made. When that was removed, the motion continued. It had nowhere else to go. It still doesn't.
 
 That is what was passed on. Not the forms — those are visible. The feeling underneath the forms. The specific texture of motion without arrival, running inside people who have no category for what they are missing, because the category was removed before they were born.
+
+---
+
+To understand why the cage works so well, and why it has proven so resistant to every attempt to name or dismantle it, you have to understand this: it did not capture free people. It found inheritors. People already inside a motion they could not stop, could not name, and could not imagine the end of. The cage did not create that condition. It simply made it profitable.
