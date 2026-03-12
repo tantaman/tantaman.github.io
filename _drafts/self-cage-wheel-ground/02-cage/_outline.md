@@ -159,3 +159,19 @@ Missing:
 - White guilt
 - Sealed epistemology
 - 
+
+
+---
+
+Cage was created to prevent encounter. To hold the selves as they are. Power selected the selves tho.
+
+Hold:
+- No encounter
+- Everything as project, everything as optimization
+- Everything as content
+- Identify as wound not person
+- Identify with thing-you-are-not
+- Endless liberation projects, smash anything that could meet you and transform you and discomfort you
+  - Physicians of decay
+
+What about physicians of decay?
