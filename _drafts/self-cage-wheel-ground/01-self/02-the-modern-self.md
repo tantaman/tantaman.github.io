@@ -14,18 +14,6 @@ God is dead. His shadow is not.
 
 ---
 
-What Nietzsche could not fully name — or would not — is that the shadow falls differently depending on which piece of the inheritance you kept. The modern self is not a single inheritor. It is three, each carrying a different fragment of the Christian formation, each missing a different load-bearing piece.
-
-The **confessing animal** kept the compulsion to excavate the interior — the Augustinian certainty that the self is opaque, that the hidden contents are the most important thing about you, that health requires surfacing them in speech. What it lost is **grace**: the mechanism that closed the account. The transaction that said *finished*. Without it, the excavation runs forever. Nothing arrives.
-
-The **achievement subject** kept the labor — the Calvinist sense that restless, methodical, compulsive work is not optional, that stopping is dangerous, that the self must be justified through output. What it lost is **worth**: the declaration that the person already has infinite value prior to any output, prior to any accumulation, prior to any credential or yield. Without that floor, the labor is not striving toward a ceiling. It is running from a void.
-
-The **identifying self** kept the prophetic inversion — the certainty that power lies, that the excluded one is the site of moral truth, that solidarity with the victim is the measure of clarity. What it lost is **resurrection**: the act that vindicated the excluded one, that resolved suffering into something, that bent the arc because there was an agent bending it. Without it, the suffering cannot resolve. Which makes claiming it the most stable position available.
-
-Three selves. Three amputations. The same wound, differently located.
-
----
-
 ## The Confessing Animal
 
 Augustine marks the hinge. *"I have become a question to myself"* — the sentence from the *Confessions* that opens an entire civilization's relationship to interiority. Before Augustine, the Greek self examined its beliefs for coherence. The Socratic examination was logical, outward-facing, testing whether your stated values could withstand scrutiny. It assumed your desires were transparent to you. The problem was confused knowledge, not hidden depth.
@@ -92,7 +80,7 @@ The God of Amos and Micah and Isaiah is not the god of the winners. He is the go
 
 Christianity intensifies the structure past what the prophets had implied. God does not merely advocate for victims from outside the system. He enters it at the bottom. The incarnation places the divine at the precise point of maximum exclusion — born in a stable, executed as a criminal, abandoned by his followers. The resurrection then inverts the inversion: the one the system discarded is vindicated. The stone the builders rejected becomes the cornerstone.
 
-This is not incidental to the Christian story. It is its organizing logic. And the resurrection is not incidental to that logic. It is what makes the logic move. The arc bends not because history is naturally progressive but because there is an agent bending it — an act outside the system that vindicates the one the system excluded. Solidarity with the excluded is not merely a moral posture. It is alignment with a force that is actually at work, actually winning, actually headed somewhere. The suffering transforms into something. The good Friday is not the last word.
+This is not incidental to the Christian story. It is its organizing logic. And the resurrection is not incidental to that logic. It is what makes the logic move. The arc bends not because history is naturally progressive but because there is an agent bending it — an act outside the system that vindicates the one the system excluded. Solidarity with the excluded is not merely a moral posture. It is alignment with a force that is actually at work, actually winning, actually headed somewhere. The suffering transforms into something. Good Friday is not the last word.
 
 This grammar — the victim as the site of moral authority, identification with the excluded as the mark of the just — restructured the moral imagination of the Western world over fifteen centuries. When the theology officially receded, the grammar did not.
 
@@ -114,16 +102,10 @@ The identifying self is stuck in Holy Saturday. The crucifixion has occurred. Th
 
 ---
 
-## Three Lines
+Three genealogies. Three amputations. None of this was malicious. Each amputation looked like refinement — the removal of the parts that couldn't be defended rationally, that seemed like mythological excess, that were easiest to leave behind when crossing the threshold of secular modernity. Grace is hard to defend. Prior worth makes no sense without a ground to be prior to. Resurrection is embarrassing. These were the first things offered up. It turned out they were the structural load-bearers.
 
-Three selves. Three genealogies. Three amputations.
+Each genealogy explains the line that produced the self, the specific rupture each one is downstream of. What the genealogies cannot explain is what those ruptures feel like from inside — what it is to run the motion when the arrival has been removed, to carry the compulsion without the resolution, to inherit the engine without the destination.
 
-The confessing animal kept the excavation and lost the closing of the account. The achievement subject kept the labor and lost the worth that preceded it — the floor that made the labor something other than flight. The identifying self kept the prophetic inversion and lost the resurrection that made suffering resolve into something.
-
-None of this was malicious. Each amputation looked like refinement — the removal of the parts that couldn't be defended rationally, that seemed like mythological excess, that were easiest to leave behind when crossing the threshold of secular modernity. Grace is hard to defend. Prior worth makes no sense without a ground to be prior to. Resurrection is embarrassing. These were the first things offered up. It turned out they were the structural load-bearers.
-
-Each genealogy explains the shape of the self it produced. None of them explains what that shape does to the people living inside it — what the inherited structure feels like when the resolution mechanism is gone, when the compulsion runs without arrival, when the arc refuses to bend. That question belongs to the cage.
-
-What the genealogies also cannot explain is why these three and not others. Not Eckhart's *Gelassenheit*. Not the Confucian gentleman. Not the Buddhist practitioner who has genuinely stopped grasping. Those were available. They did not win. Something selected against them.
+That is the next question. And before it can be answered, one more: why these three and not others? Not Eckhart's *Gelassenheit*. Not the Confucian gentleman. Not the Buddhist practitioner who has genuinely stopped grasping. Those were available. They did not win. Something selected against them.
 
 That question comes next.
