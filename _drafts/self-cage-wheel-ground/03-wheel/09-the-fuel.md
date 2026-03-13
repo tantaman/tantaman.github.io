@@ -116,3 +116,9 @@ Which means the question that opens onto the rest of this book can be stated wit
 The wheel has no category for this. Every want it can see runs on scarcity. Every refusal it has ever watched has found, eventually, its network of fellow refusers, its legibility trap, its designated area in which to perform the escape.
 
 But the wheel has only ever seen the things that run on the same fuel it does. What it would look like — and whether it is real — that is what remains to be said.
+
+---
+
+You reach for love and the reaching requires a form and the form is already the amputation of what wanted to be loved. The people who cause the most damage — to others, to themselves — are often the ones in whom this want is most alive and most thwarted. Not the ones who want too much but the ones who cannot stop wanting the one thing the structure will not yield.
+
+What the mysticism movement has to answer is not a philosophical puzzle. It's this. Whether there is a way of being known that doesn't require taking a form first. Whether the remainder — the part that couldn't be transmitted — can somehow be reached. Eckhart's answer is essentially that the only one who can see the whole subject is the one who is not positioned anywhere, who has no field of attention that you have to enter, who sees without the seeing being a transaction. Which is either the most consoling thing imaginable or a deflection dressed as an answer, depending on whether it's real.
