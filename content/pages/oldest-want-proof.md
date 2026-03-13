@@ -1,6 +1,6 @@
 # The Oldest Want: A Proof
 
-This is accompanied by a plain english [[./pages/oldest-want-proof-explainer:explainer]].
+This is accompanied by a plain english [[./pages/oldest-want-proof-explainer:explainer]] and a more [[./pages/oldest-want-poetic:poetic explainer]].
 
 ---
 

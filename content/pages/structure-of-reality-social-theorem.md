@@ -6,9 +6,9 @@
 
 ## Scope
 
-The [[./pages/oldest-want-proof:oldest want proof]] and its corollaries examined the Want in a single subject. They established that Full Recognition is unreachable by any finite embodied subject through any available position — seeking, hiding, self-authorship, performance. The Want is structurally unsatisfiable. The structure is closed.
+The [[./pages/oldest-want-proof:oldest Want proof]] and its corollaries examined the [[./pages/oldest-want-proof:Want]] in a single subject. They established that Full Recognition is unreachable by any finite embodied subject through any available position — seeking, hiding, self-authorship, performance. The [[./pages/oldest-want-proof:Want]] is structurally unsatisfiable. The structure is closed.
 
-The [[./pages/oldest-want-proof:oldest want proof]] assumed, without stating it, that it was running on one subject in isolation. But A1 places every subject in shared space. A2 places every subject in the attentional fields of every other subject they share space with. The proof does not run on one subject. It runs on all subjects simultaneously, in the same space, under the same axioms.
+The [[./pages/oldest-want-proof:oldest Want proof]] assumed, without stating it, that it was running on one subject in isolation. But A1 places every subject in shared space. A2 places every subject in the attentional fields of every other subject they share space with. The proof does not run on one subject. It runs on all subjects simultaneously, in the same space, under the same axioms.
 
 What follows is not a corollary to any individual position. It is a social theorem: what the proof looks like when N subjects run it at once.
 
@@ -20,7 +20,7 @@ There are three sources of violence derivable from the axioms without additional
 
 **D9. Attentional field capacity** — The total quantity of recognition any subject B can offer across all recipients in a given interval. Denote this Ω_B. Ω_B is finite by A1 and A2.
 
-**D10. Recognition demand** — The quantity of recognition any subject S requires to satisfy the Want. By D8 and the proof's theorem, this quantity is in principle unbounded: no finite recognition satisfies the Want fully. Denote the demand of S as Δ_S.
+**D10. Recognition demand** — The quantity of recognition any subject S requires to satisfy the [[./pages/oldest-want-proof:Want]]. By D8 and the proof's theorem, this quantity is in principle unbounded: no finite recognition satisfies the [[./pages/oldest-want-proof:Want]] fully. Denote the demand of S as Δ_S.
 
 **D11. Recognition deficit** — The gap between recognition demand and recognition received. For any S in a world of finite others, the deficit is permanent and non-zero by the theorem.
 
