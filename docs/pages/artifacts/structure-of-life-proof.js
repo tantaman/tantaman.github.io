@@ -299,21 +299,21 @@ function ProofExplainer() {
           font-size: 0.65rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: #4a5580;
+          color: #7a8ab0;
           font-weight: 500;
         }
 
         .section-tag {
           font-family: 'EB Garamond', serif;
           font-size: 0.95rem;
-          color: #6a7090;
+          color: #9a9fc0;
           font-style: italic;
         }
 
         .proof-col {
           padding: 1.4rem 2rem 1.8rem 3rem;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.72rem;
+          font-size: 0.8rem;
           line-height: 1.85;
           color: #a0b0cc;
           white-space: pre-wrap;
