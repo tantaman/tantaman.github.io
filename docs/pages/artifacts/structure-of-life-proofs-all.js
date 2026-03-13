@@ -862,11 +862,11 @@ function OldestWantProofs() {
           font-weight: 400;
           color: #e8e4d8;
         }
-        .header-divider { color: #2a2d3a; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+        .header-divider { color: #5a6080; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
         .header-sub {
           font-family: 'JetBrains Mono', monospace;
           font-size: 0.6rem;
-          color: #3a3f55;
+          color: #8090aa;
           letter-spacing: 0.12em;
           text-transform: uppercase;
         }
@@ -893,14 +893,14 @@ function OldestWantProofs() {
         .tab-label {
           font-family: 'EB Garamond', serif;
           font-size: 0.9rem;
-          color: #404860;
+          color: #8090b0;
           display: block;
           transition: color 0.15s;
         }
         .tab-sub {
           font-family: 'JetBrains Mono', monospace;
           font-size: 0.55rem;
-          color: #252a38;
+          color: #5a6888;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           display: block;
@@ -908,7 +908,7 @@ function OldestWantProofs() {
           transition: color 0.15s;
         }
         .tab:hover .tab-label { color: #7080a0; }
-        .tab:hover .tab-sub { color: #404860; }
+        .tab:hover .tab-sub { color: #7a88a8; }
         .tab.active {
           background: #0f1117;
           border-color: #1e2030;
