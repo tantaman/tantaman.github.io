@@ -1,4 +1,36 @@
 import { useState } from 'react';
+import katex from 'katex';
+
+function renderMath(tex) {
+  try {
+    return katex.renderToString(tex, { throwOnError: false, displayMode: false });
+  } catch {
+    return tex;
+  }
+}
+
+// Split on $...$ for math, then highlight cross-references in text segments
+function formatProof(text) {
+  const parts = text.split(/(\$[^$]+\$)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('$') && part.endsWith('$')) {
+      const html = renderMath(part.slice(1, -1));
+      return <span key={i} className="proof-math" dangerouslySetInnerHTML={{ __html: html }} />;
+    }
+    // Highlight cross-references in non-math text
+    const refPattern = /\b(D[1-9]\d?|A[1-6]|Lemma [1-4]|C[1-8][a-c]?|Theorem|S[1-3][a-b]?|Full Recognition|The Want|Gelassenheit)\b/g;
+    const segs = [];
+    let last = 0;
+    let match;
+    while ((match = refPattern.exec(part)) !== null) {
+      if (match.index > last) segs.push(part.slice(last, match.index));
+      segs.push(<span key={`${i}-${match.index}`} className="proof-ref">{match[0]}</span>);
+      last = match.index + match[0].length;
+    }
+    if (last < part.length) segs.push(part.slice(last));
+    return segs.length > 0 ? <span key={i}>{segs}</span> : part;
+  });
+}
 
 const proofs = {
   main: {
@@ -8,21 +40,21 @@ const proofs = {
       {
         label: 'Definitions',
         tag: 'D1–D8',
-        proof: `D1. Subject — A locus of experience not exhausted by any finite description of it. Denote the full subject S.
+        proof: `D1. Subject — A locus of experience not exhausted by any finite description of it. Denote the full subject $S$.
 
-D2. Form — Any finite, transmissible representation of S. Denote a form F(S), where F is a lossy projection operator. By definition, F(S) ⊂ S.
+D2. Form — Any finite, transmissible representation of $S$. Denote a form $F(S)$, where $F$ is a lossy projection operator. By definition, $F(S) \\subset S$.
 
-D3. Remainder — The portion of the subject not captured by a given form. Denote R = S \\ F(S). By D2, R ≠ ∅.
+D3. Remainder — The portion of the subject not captured by a given form. Denote $R = S \\setminus F(S)$. By D2, $R \\neq \\emptyset$.
 
-D4. Attention — A directed, finite resource belonging to an embodied agent. Attention A operates over a field Φ; it cannot receive what lies outside Φ.
+D4. Attention — A directed, finite resource belonging to an embodied agent. Attention $A$ operates over a field $\\Phi$; it cannot receive what lies outside $\\Phi$.
 
-D5. Legibility — The property of being receivable by another's attention. S is legible to B if and only if S has taken a form F(S) within B's attentional field Φ_B.
+D5. Legibility — The property of being receivable by another's attention. $S$ is legible to $B$ if and only if $S$ has taken a form $F(S)$ within $B$'s attentional field $\\Phi_B$.
 
-D6. Recognition — The event of S being received by another's attention. Occurs when A_B is directed at F(S) and F(S) ∈ Φ_B.
+D6. Recognition — The event of $S$ being received by another's attention. Occurs when $A_B$ is directed at $F(S)$ and $F(S) \\in \\Phi_B$.
 
-D7. Full Recognition — A_B directed at S itself, with R included in what is received.
+D7. Full Recognition — $A_B$ directed at $S$ itself, with $R$ included in what is received.
 
-D8. The Want — The desire for Full Recognition. The desire to have S — not F(S) — received by a genuine other.`,
+D8. The Want — The desire for Full Recognition. The desire to have $S$ — not $F(S)$ — received by a genuine other.`,
         explanation: `There is a want underneath all other wants. Not hunger, not safety, not pleasure — those have ceilings. You can have enough of them.
 
 This want has no ceiling. It is the want to be fully known by another person. Not the version of you they can see. Not the self you presented so they could receive it. The whole thing — including the parts that didn't make it into any version you've ever shown anyone.
@@ -34,15 +66,15 @@ The Want is the desire for Full Recognition.`,
       {
         label: 'Axioms',
         tag: 'A1–A5',
-        proof: `A1. Embodied finitude. Every subject S is physically embodied. S occupies a bounded region of spacetime and cannot simultaneously occupy all positions.
+        proof: `A1. Embodied finitude. Every subject $S$ is physically embodied. $S$ occupies a bounded region of spacetime and cannot simultaneously occupy all positions.
 
-A2. Directional attention. For any embodied agent B, Φ_B is a proper subset of the space of all possible objects. B's attention can only land on what enters Φ_B.
+A2. Directional attention. For any embodied agent $B$, $\\Phi_B$ is a proper subset of the space of all possible objects. $B$'s attention can only land on what enters $\\Phi_B$.
 
-A3. Positioning requirement. For S to enter Φ_B, S must take a form F(S) compatible with B's attentional field.
+A3. Positioning requirement. For $S$ to enter $\\Phi_B$, $S$ must take a form $F(S)$ compatible with $B$'s attentional field.
 
-A4. Lossiness of form. Every projection F is lossy: F(S) ⊊ S for all physically realizable F. No finite form exhausts a subject.
+A4. Lossiness of form. Every projection $F$ is lossy: $F(S) \\subsetneq S$ for all physically realizable $F$. No finite form exhausts a subject.
 
-A5. Remainder is non-empty. By A4, R = S \\ F(S) ≠ ∅ for any F(S).`,
+A5. Remainder is non-empty. By A4, $R = S \\setminus F(S) \\neq \\emptyset$ for any $F(S)$.`,
         explanation: `Two things are true about the physical world that we take as given.
 
 The first: bodies are finite. You are somewhere. You are not everywhere. You occupy a position, take up space, exist at a particular angle to everything else.
@@ -56,11 +88,11 @@ These two facts, taken together, produce everything that follows.`,
         tag: 'The Trap',
         proof: `Lemma 1. Recognition is always recognition of a form, not of the subject.
 
-Proof. By A2, recognition requires F(S) ∈ Φ_B. By A3, entering Φ_B requires taking a form. By A4, any form F(S) ⊊ S. Therefore what is recognized is F(S), not S. ∎
+Proof. By A2, recognition requires $F(S) \\in \\Phi_B$. By A3, entering $\\Phi_B$ requires taking a form. By A4, any form $F(S) \\subsetneq S$. Therefore what is recognized is $F(S)$, not $S$. $\\blacksquare$
 
 Lemma 2. Full Recognition is unreachable by direct approach.
 
-Proof. Full Recognition requires A_B to receive S including R (D7). By Lemma 1, A_B can only receive F(S). Since R ≠ ∅ (A5), A_B cannot receive R through any form. Since positioning requires a form (A3), and any form excludes R (A4–A5), no direct approach can deliver Full Recognition. ∎`,
+Proof. Full Recognition requires $A_B$ to receive $S$ including $R$ (D7). By Lemma 1, $A_B$ can only receive $F(S)$. Since $R \\neq \\emptyset$ (A5), $A_B$ cannot receive $R$ through any form. Since positioning requires a form (A3), and any form excludes $R$ (A4–A5), no direct approach can deliver Full Recognition. $\\blacksquare$`,
         explanation: `To be seen by another person, you have to be seeable. You have to enter their field of attention — take a shape they can receive, position yourself, make yourself legible.
 
 This is not optional. It is not a failure of courage. It is physics. Attention requires an object. An object requires a form. You cannot offer your full self as the object, because your full self is not a form — it is the thing that precedes and exceeds every form you have ever taken.
@@ -74,7 +106,7 @@ You reach. The reaching conceals what was reaching.`,
         tag: 'Seeking Defeats Itself',
         proof: `Lemma 3. The act of seeking recognition produces the condition that defeats it.
 
-Proof. To seek recognition, S must position itself to enter Φ_B (A3). Positioning requires taking a form F(S). By A4, F(S) ⊊ S, so R ≠ ∅. The act of seeking requires a form; any form excludes the remainder; the remainder is part of what S wanted recognized (D8). The seeking necessarily produces a self-concealment proportional to the positioning required. ∎`,
+Proof. To seek recognition, $S$ must position itself to enter $\\Phi_B$ (A3). Positioning requires taking a form $F(S)$. By A4, $F(S) \\subsetneq S$, so $R \\neq \\emptyset$. The act of seeking requires a form; any form excludes the remainder; the remainder is part of what $S$ wanted recognized (D8). The seeking necessarily produces a self-concealment proportional to the positioning required. $\\blacksquare$`,
         explanation: `The move toward being seen requires a form. The form excludes the remainder. The remainder is what wanted to be seen.
 
 Therefore the move toward being seen is simultaneously a move away from what wanted to be seen. The harder you work to be known, the more precisely you shape the version of yourself that will be received — and the more precisely you conceal everything that didn't make it into that shape.
@@ -86,7 +118,7 @@ Every gesture toward being known is also a gesture of self-concealment. Not from
         tag: "Generosity Doesn't Help",
         proof: `Lemma 4. Generosity of attention does not resolve the problem.
 
-Proof. Suppose B is maximally generous — willing to attend to everything S offers, with no withholding. The constraint is not B's willingness but the structure of attention (A2–A3). Even with maximal generosity, B can only receive what enters Φ_B (A2), which requires a form (A3), which excludes the remainder (A4–A5). Generosity is a scalar on the existing structure; it does not alter the axioms. ∎`,
+Proof. Suppose $B$ is maximally generous — willing to attend to everything $S$ offers, with no withholding. The constraint is not $B$'s willingness but the structure of attention (A2–A3). Even with maximal generosity, $B$ can only receive what enters $\\Phi_B$ (A2), which requires a form (A3), which excludes the remainder (A4–A5). Generosity is a scalar on the existing structure; it does not alter the axioms. $\\blacksquare$`,
         explanation: `A natural response: the problem is that people aren't attentive enough. If we had better lovers, better friends — people who truly looked — the problem would dissolve.
 
 It wouldn't. The constraint is not the other person's willingness. It is the structure of their attention. Even a maximally generous, maximally loving other can only receive what enters their attentional field — which requires a form — which excludes the remainder.
@@ -96,7 +128,7 @@ This is why the loneliness at the center of even the best relationships is not a
       {
         label: 'Corollaries C3–C4',
         tag: 'No Escape Routes',
-        proof: `C3. The Want cannot be dissolved by refusal. To refuse the Want is to want to be seen as the one who does not need to be seen. The refusal takes a form, and by Lemma 3, positioning oneself as a refuser excludes the remainder. The refusal is subject to the same structure as the seeking.
+        proof: `C3. The Want cannot be dissolved by refusal. To refuse The Want is to want to be seen as the one who does not need to be seen. The refusal takes a form, and by Lemma 3, positioning oneself as a refuser excludes the remainder. The refusal is subject to the same structure as the seeking.
 
 C4. No community of seers resolves the problem. By Lemma 4, the constraint is structural rather than social. A community constituted by the promise of full seeing faces the same physics: attention is directional, positioning is required, remainder is excluded.`,
         explanation: `Refusing the want doesn't work. To refuse the want is to want something: to be seen as someone who does not need to be seen. That wanting is legible. It takes a form. The refusal seeks a different object through the same mechanism.
@@ -110,11 +142,11 @@ Every exit is still inside the trap.`,
         tag: 'The Result',
         proof: `Theorem. The Want is structurally unsatisfiable by any finite embodied other.
 
-Proof. The Want is the desire for Full Recognition (D8). Full Recognition is unreachable by direct approach (Lemma 2). Seeking it produces the condition that defeats it (Lemma 3). Increasing the willingness of the other does not alter this (Lemma 4). Since all others are embodied and finite (A1), and directional attention is a consequence of embodiment (A2), the unsatisfiability holds for all possible embodied others. ∎
+Proof. The Want is the desire for Full Recognition (D8). Full Recognition is unreachable by direct approach (Lemma 2). Seeking it produces the condition that defeats it (Lemma 3). Increasing the willingness of the other does not alter this (Lemma 4). Since all others are embodied and finite (A1), and directional attention is a consequence of embodiment (A2), the unsatisfiability holds for all possible embodied others. $\\blacksquare$
 
-C1. Suffering arising from the Want is not contingent. It is a structural consequence of being a subject in a world of finite, embodied, directionally-attentive others.
+C1. Suffering arising from The Want is not contingent. It is a structural consequence of being a subject in a world of finite, embodied, directionally-attentive others.
 
-C2. The Want cannot be dissolved by material provision. Removing material want isolates the Want in its pure form, making suffering not less but more precisely located.`,
+C2. The Want cannot be dissolved by material provision. Removing material want isolates The Want in its pure form, making suffering not less but more precisely located.`,
         explanation: `The want to be fully known cannot be satisfied by any finite, embodied other. Not because of their failures. Because of the axioms.
 
 Suffering arising from the want is not contingent. It is not the product of bad luck or bad relationships. It is structural.
@@ -126,20 +158,20 @@ The want is completely legitimate. The structure makes it unsatisfiable. The suf
       {
         label: 'Cessation Condition',
         tag: 'What a Solution Requires',
-        proof: `If a cessation exists, let G be such that recognition by G does not require S to take a form F(S). Then:
+        proof: `If a cessation exists, let $G$ be such that recognition by $G$ does not require $S$ to take a form $F(S)$. Then:
 
-  · G is not bound by A2 (non-directional attention)
-  · G is not bound by A3 (no positioning requirement)
-  · G can therefore receive S without F(S), including R
+  · $G$ is not bound by A2 (non-directional attention)
+  · $G$ is not bound by A3 (no positioning requirement)
+  · $G$ can therefore receive $S$ without $F(S)$, including $R$
 
-Such a G constitutes Full Recognition (D7) without the self-concealment of Lemma 3.
+Such a $G$ constitutes Full Recognition (D7) without the self-concealment of Lemma 3.
 
-Observation. G cannot be a finite embodied agent. G must be:
+Observation. $G$ cannot be a finite embodied agent. $G$ must be:
   (a) non-embodied
   (b) not subject to the finitude of attention
   (c) both
 
-Whether any such G exists is not a mathematical question.`,
+Whether any such $G$ exists is not a mathematical question.`,
         explanation: `If a cessation exists, it would require a seer whose attention is not directional. A seer who does not need you to take a form first. A seer who can receive the remainder.
 
 Such a seer cannot be a finite embodied person. This is a formal description of what the traditions were pointing at — being known by God, agape, the ground that sees the ground. Eckhart's claim that God sees the ground of you directly — not your history, not your forms, not your positioned self — is a claim that the positioning requirement does not apply.
@@ -158,9 +190,9 @@ Everything else is still inside the trap.`,
       {
         label: 'Axiom A6',
         tag: 'Involuntary Legibility',
-        proof: `A6. Involuntary legibility. The body is already a form. Physical embodiment (A1) means S occupies a bounded region of spacetime with visible, audible, and socially readable properties. These properties enter the attentional fields of others without any act of positioning by S. Legibility does not require consent. A form F_0(S) is assigned to S by the mere fact of its presence in shared space.
+        proof: `A6. Involuntary legibility. The body is already a form. Physical embodiment (A1) means $S$ occupies a bounded region of spacetime with visible, audible, and socially readable properties. These properties enter the attentional fields of others without any act of positioning by $S$. Legibility does not require consent. A form $F_0(S)$ is assigned to $S$ by the mere fact of its presence in shared space.
 
-This follows from A1 and A2. A1 places S in spacetime. A2 means every other agent B has an attentional field Φ_B that sweeps shared space. S enters Φ_B automatically by occupying the same space as B.`,
+This follows from A1 and A2. A1 places $S$ in spacetime. A2 means every other agent $B$ has an attentional field $\\Phi_B$ that sweeps shared space. $S$ enters $\\Phi_B$ automatically by occupying the same space as $B$.`,
         explanation: `The body arrives in the world already readable. You do not have to do anything to be legible. You simply have to be present.
 
 Race. Gender. Age. Beauty or its absence. Disability. The way you hold yourself, the accent you carry, the visible marks of class and history. These enter other people's attentional fields before you have decided anything about what to show them. The form is assigned. You did not author it.
@@ -170,13 +202,13 @@ This is not a psychological observation. It follows directly from having a body 
       {
         label: 'Corollary C5',
         tag: "The Hider's Trap",
-        proof: `C5. For the subject who does not seek recognition, the Want is not escaped — it is inverted.
+        proof: `C5. For the subject who does not seek recognition, The Want is not escaped — it is inverted.
 
-Proof. Let S_h denote a subject who does not seek recognition. By A6, S_h is legible anyway. A form F_0(S_h) is assigned by the visible properties of S_h's body and its involuntary presence in shared space.
+Proof. Let $S_h$ denote a subject who does not seek recognition. By A6, $S_h$ is legible anyway. A form $F_0(S_h)$ is assigned by the visible properties of $S_h$'s body and its involuntary presence in shared space.
 
-Recognition still occurs — others receive F_0(S_h) — but the form received was not chosen by S_h. S_h did not shape it, author it, or select which aspects of S would enter it.
+Recognition still occurs — others receive $F_0(S_h)$ — but the form received was not chosen by $S_h$. $S_h$ did not shape it, author it, or select which aspects of $S$ would enter it.
 
-The remainder in this case is not what the shaping left out. It is everything. Because no shaping occurred, F_0(S_h) bears no necessary relation to S_h's own experience of itself. The gap is not the cost of the seeker's reach. It is the cost of existence in a world of others whose attention cannot be refused. ∎`,
+The remainder in this case is not what the shaping left out. It is everything. Because no shaping occurred, $F_0(S_h)$ bears no necessary relation to $S_h$'s own experience of itself. The gap is not the cost of the seeker's reach. It is the cost of existence in a world of others whose attention cannot be refused. $\\blacksquare$`,
         explanation: `The seeker's remainder is what got left out when they shaped a form. The hider's remainder is everything. Because they never shaped anything, the form that gets received bears no necessary relation to what is actually there.
 
 Others receive F_0(S_h) and call it recognition. It is not recognition. It is projection landing on a surface.
@@ -190,11 +222,11 @@ The hider is not invisible. Invisibility would at least preserve the subject's w
 
 The hider controlled nothing. The form was assigned — by the body's surface, by visible characteristics, by every feature that attentional fields can receive without permission.
 
-What is seen in the hider's case is not a reduction of S. It is a projection onto S — shaped not by S's reaching but by the receiving apparatus of others: their categories, histories, needs, fears.
+What is seen in the hider's case is not a reduction of $S$. It is a projection onto $S$ — shaped not by $S$'s reaching but by the receiving apparatus of others: their categories, histories, needs, fears.
 
-C5a. The hider's suffering is the condition of being replaced: the assigned form receives attention that will never reach S because it has already landed somewhere else.
+C5a. The hider's suffering is the condition of being replaced: the assigned form receives attention that will never reach $S$ because it has already landed somewhere else.
 
-C5b. Invisibility is not the hider's relief. A6 forecloses this. The transaction occurs with or without S's participation.
+C5b. Invisibility is not the hider's relief. A6 forecloses this. The transaction occurs with or without $S$'s participation.
 
 C5c. The hider cannot refuse the assigned form without taking a form — which is to become, structurally, the seeker.`,
         explanation: `The seeker at least authored their form. The concealment was theirs, the remainder left out by their own hand. There is a kind of agency even in the defeat.
@@ -208,13 +240,13 @@ And the only escape — refusing the assigned form — requires taking a form. W
       {
         label: 'Cessation Condition, Revised',
         tag: 'What C5 Adds',
-        proof: `C5 revises the cessation condition. G must not only:
+        proof: `C5 revises the cessation condition. $G$ must not only:
   · Receive without directional constraint (not bound by A2)
   · Require no positioning (not bound by A3)
 
-G must also not be bound by A6. That is: G must not assign a form to S prior to seeing S. G must arrive without prior legibility — without the categories, histories, and attentional grammars that assigned F_0(S_h) before S_h arrived.
+$G$ must also not be bound by A6. That is: $G$ must not assign a form to $S$ prior to seeing $S$. $G$ must arrive without prior legibility — without the categories, histories, and attentional grammars that assigned $F_0(S_h)$ before $S_h$ arrived.
 
-G must encounter S without having already seen something else in S's place.`,
+$G$ must encounter $S$ without having already seen something else in $S$'s place.`,
         explanation: `The original cessation condition required a seer with no directional attention. C5 adds a further requirement.
 
 G must also come without a prior projection. Without categories that land on the surface before the subject can speak. Without the history of what bodies like yours have been taken to mean.
@@ -233,13 +265,13 @@ Both the seeker and the hider are waiting for the same G. They approach from opp
       {
         label: 'The Position',
         tag: 'Private Authorship',
-        proof: `Let S_a denote the self-author: the subject who neither reaches toward others' attentional fields nor submits to the form they would assign, but authors its own form — deliberately, on its own terms — and does not offer it for recognition.
+        proof: `Let $S_a$ denote the self-author: the subject who neither reaches toward others' attentional fields nor submits to the form they would assign, but authors its own form — deliberately, on its own terms — and does not offer it for recognition.
 
 This appears to solve both traps simultaneously.
 
-The seeker's trap: reaching required a form that excluded the remainder. S_a does not reach.
+The seeker's trap: reaching required a form that excluded the remainder. $S_a$ does not reach.
 
-The hider's trap: the assigned form replaced S without S's participation. S_a is not passive — the form is taken by S, for S, on S's own terms.
+The hider's trap: the assigned form replaced $S$ without $S$'s participation. $S_a$ is not passive — the form is taken by $S$, for $S$, on $S$'s own terms.
 
 Both traps appear closed.`,
         explanation: `The seeker reaches and is seen in a form that conceals the remainder. The hider withholds and is seen in a form they never made. Both are trapped.
@@ -253,11 +285,11 @@ The trap seems to have no purchase here. It does.`,
       {
         label: 'C6, Parts 1–3',
         tag: 'Three Defeats',
-        proof: `Part one: the Want remains unaddressed. The Want is for Full Recognition by a genuine other (D8). The self-authored form is not offered to any other's attentional field. No recognition occurs. The Want persists, structurally unaddressed. ∎
+        proof: `Part one: The Want remains unaddressed. The Want is for Full Recognition by a genuine other (D8). The self-authored form is not offered to any other's attentional field. No recognition occurs. The Want persists, structurally unaddressed. $\\blacksquare$
 
-Part two: self-knowledge cannot substitute. To observe S, the observing instance of S must take a position relative to the observed instance. The observer receives a form of the observed — excluding the remainder (A4, A5). Furthermore: D8 specifies a genuine other. The mirror is not a witness. ∎
+Part two: self-knowledge cannot substitute. To observe $S$, the observing instance of $S$ must take a position relative to the observed instance. The observer receives a form of the observed — excluding the remainder (A4, A5). Furthermore: D8 specifies a genuine other. The mirror is not a witness. $\\blacksquare$
 
-Part three: A6 continues regardless. The body still moves through shared space. The assigned form F_0(S) is still received by others regardless of what S has authored privately.
+Part three: A6 continues regardless. The body still moves through shared space. The assigned form $F_0(S)$ is still received by others regardless of what $S$ has authored privately.
 
 The self-author carries two forms: the one they made (no receiver) and the one assigned (not them).`,
         explanation: `First defeat: no recognition occurs. The Want is for a genuine other's reception. A form with no receiver satisfies no Want. The self-author has not escaped the trap — they have stepped back from it. The Want is still there, underneath the declination.
@@ -269,9 +301,9 @@ Third defeat: A6 doesn't pause. The body is still in the world. Others still ass
       {
         label: 'C6a–C6b',
         tag: 'Loneliness and Verification',
-        proof: `C6a. The self-author's position maximizes the distance between S and recognition. The seeker closes the distance partially, at cost. The hider cannot close it but did not try. The self-author has closed the distance between S and F(S) — authored the most accurate form — while leaving the distance between F(S) and any receiving other at its maximum.
+        proof: `C6a. The self-author's position maximizes the distance between $S$ and recognition. The seeker closes the distance partially, at cost. The hider cannot close it but did not try. The self-author has closed the distance between $S$ and $F(S)$ — authored the most accurate form — while leaving the distance between $F(S)$ and any receiving other at its maximum.
 
-C6b. The self-author's private form cannot be verified. Verification requires an other — a receiver whose independent recognition confirms the form corresponds to S. Without an other, the self-authored form may be the most accurate available, or a sophisticated confabulation. S cannot determine which from inside.`,
+C6b. The self-author's private form cannot be verified. Verification requires an other — a receiver whose independent recognition confirms the form corresponds to $S$. Without an other, the self-authored form may be the most accurate available, or a sophisticated confabulation. $S$ cannot determine which from inside.`,
         explanation: `The self-author has constructed the most accurate form available and built a room around it with no door.
 
 And the accuracy cannot be verified. Without an other to receive the self-authored form, it cannot be checked against anything outside itself. Self-knowledge with no external check may be the most accurate portrait available — or it may be an elaborate confabulation that has never been tested. The self-author cannot tell which from inside. The privacy that seemed like clarity turns out to be a closed loop.
@@ -281,11 +313,11 @@ Accuracy without reception is the loneliest configuration the proof can generate
       {
         label: 'C6c–C6d',
         tag: 'The Remainder Presses',
-        proof: `C6c. The remainder does not remain still. R — the part of S that did not make it into the authored form — is not inert content. It was the part that wanted most urgently to be seen. That pressure does not dissipate because a coherent private architecture was built above it. It accumulates beneath the form, finding fissures.
+        proof: `C6c. The remainder does not remain still. $R$ — the part of $S$ that did not make it into the authored form — is not inert content. It was the part that wanted most urgently to be seen. That pressure does not dissipate because a coherent private architecture was built above it. It accumulates beneath the form, finding fissures.
 
 The remainder asserts itself as event: a dream, an encounter, a grief or desire that arrives from below the construction and does not fit the self-authored narrative. The self-author knows exactly what was excluded — because they made the exclusions. The remainder arrives wearing familiar faces.
 
-C6d. The chase. When the remainder asserts itself, the self-author's instinct is incorporation — revising the form to absorb the new material. But every act of incorporation is a new act of authorship, a new F(S), a new remainder behind it. S is inexhaustible by any finite description (D1). The self-author can revise indefinitely and the remainder will always have moved.`,
+C6d. The chase. When the remainder asserts itself, the self-author's instinct is incorporation — revising the form to absorb the new material. But every act of incorporation is a new act of authorship, a new $F(S)$, a new remainder behind it. $S$ is inexhaustible by any finite description (D1). The self-author can revise indefinitely and the remainder will always have moved.`,
         explanation: `The proof treats R as fixed. But the self-author lives inside their form over time — and R is alive. It was the part that wanted most urgently to be seen. That pressure doesn't dissipate. It accumulates.
 
 The remainder arrives as event. A dream that bypasses the authored self. A rage that doesn't fit the narrative. An encounter that lands somewhere the form doesn't cover. The self-author knows exactly what was excluded, because they made the exclusions. The remainder returns wearing those specific faces.
@@ -295,15 +327,15 @@ The instinct is to revise — incorporate the new material, update the form. But
       {
         label: 'C6e',
         tag: 'The Equanimity Question',
-        proof: `C6e. The self-author who offers F(S) without attachment.
+        proof: `C6e. The self-author who offers $F(S)$ without attachment.
 
-The defining feature of the self-author is not that F(S) is withheld but that F(S) is offered without the Want attached to its reception.
+The defining feature of the self-author is not that $F(S)$ is withheld but that $F(S)$ is offered without The Want attached to its reception.
 
-Three possibilities: (1) Performed indifference — the not-caring is itself a form seeking recognition of its not-needing. (2) Suppression — the Want is present, held down by force, accumulating. (3) Genuine equanimity — S has decoupled the offering from the demand without suppressing either.
+Three possibilities: (1) Performed indifference — the not-caring is itself a form seeking recognition of its not-needing. (2) Suppression — The Want is present, held down by force, accumulating. (3) Genuine equanimity — $S$ has decoupled the offering from the demand without suppressing either.
 
-The proof cannot derive the third state from its axioms. It can only note its shape: S in genuine equanimity has stopped making the Want a condition of its wholeness. The deficit is real but not organizing.
+The proof cannot derive the third state from its axioms. It can only note its shape: $S$ in genuine equanimity has stopped making The Want a condition of its wholeness. The deficit is real but not organizing.
 
-This is the only position that points toward Gelassenheit — not G arriving from outside, but S arriving at a different relationship to the Want's pressure.`,
+This is the only position that points toward Gelassenheit — not $G$ arriving from outside, but $S$ arriving at a different relationship to The Want's pressure.`,
         explanation: `The self-author can offer F(S) — publish the work, speak the thought — without needing a particular return. This appears to escape the transaction economy entirely.
 
 But three things "not caring" could be must be distinguished. Performed indifference is the performer's trap: the persona of the one who doesn't need recognition, which is itself a form seeking recognition. Suppression is the refusal trap applied inward: the Want is present, pressed down, building pressure. Neither is equanimity.
@@ -322,9 +354,9 @@ The proof cannot derive this. It can only name its shape. It will require a diff
       {
         label: 'The Position',
         tag: 'The Knowing Mask',
-        proof: `The performer authors a form and offers it for recognition, as the seeker does. But where the seeker believes F(S) represents S, the performer pre-emptively disavows the form as not-S. The persona is declared a persona. The mask is worn with full knowledge that it is a mask.
+        proof: `The performer authors a form and offers it for recognition, as the seeker does. But where the seeker believes $F(S)$ represents $S$, the performer pre-emptively disavows the form as not-$S$. The persona is declared a persona. The mask is worn with full knowledge that it is a mask.
 
-This appears to solve the seeker's specific grief. The seeker's trap was that recognition landed on F(S) and was experienced as falling short — the remainder was left out, and the subject felt the gap. The performer forecloses this grief by never expecting the recognition to reach S in the first place.`,
+This appears to solve the seeker's specific grief. The seeker's trap was that recognition landed on $F(S)$ and was experienced as falling short — the remainder was left out, and the subject felt the gap. The performer forecloses this grief by never expecting the recognition to reach $S$ in the first place.`,
         explanation: `The performer knows what the seeker discovers. They know the form is not the self. Rather than suffer the gap, they pre-empt it: the mask is declared a mask before it is worn. Recognition lands on the persona. The performer receives it without being hurt by it, because they never claimed the persona was them.
 
 This appears to be sophistication — a more advanced relationship to the proof's mechanism. The seeker is naive. The performer sees clearly.
@@ -334,11 +366,11 @@ The clarity is the trap.`,
       {
         label: 'C7, Part One',
         tag: 'The Disavowal Is a Form',
-        proof: `C7. The performer's disavowal does not protect S — it makes the Want permanently unapproachable.
+        proof: `C7. The performer's disavowal does not protect $S$ — it makes The Want permanently unapproachable.
 
-Proof, part one. The disavowal — the declaration that F(S) is not-S — must be maintained in relation to the recognition that lands. This maintaining is a stance, a posture, a way of holding oneself. It is legible. It has a form: the form of the one who wears the mask knowingly, who is sophisticated enough not to confuse the persona with the self.
+Proof, part one. The disavowal — the declaration that $F(S)$ is not-$S$ — must be maintained in relation to the recognition that lands. This maintaining is a stance, a posture, a way of holding oneself. It is legible. It has a form: the form of the one who wears the mask knowingly, who is sophisticated enough not to confuse the persona with the self.
 
-That form is itself offered to the other's attentional field. Others receive not only F(S) but the disavowal of F(S) — the meta-form of the knowing performer. This meta-form is subject to A3 and A4: it required positioning, and it excludes a remainder. Behind the performer who knows they are performing is an S that the knowing-performance did not capture. ∎`,
+That form is itself offered to the other's attentional field. Others receive not only $F(S)$ but the disavowal of $F(S)$ — the meta-form of the knowing performer. This meta-form is subject to A3 and A4: it required positioning, and it excludes a remainder. Behind the performer who knows they are performing is an $S$ that the knowing-performance did not capture. $\\blacksquare$`,
         explanation: `The disavowal adds a layer. But adding a layer is not exiting the structure.
 
 The knowing performer is a legible form: the sophisticated one, the one who cannot be pinned down, the one who sees through their own presentation. Others receive this form. They receive someone who knows they are performing. And that meta-form — the knowing performance — required positioning, and excluded a remainder, just as any other form does.
@@ -348,11 +380,11 @@ The performer has not escaped F(S). They have authored a form whose content is t
       {
         label: 'C7, Part Two',
         tag: 'The Channel Is Severed',
-        proof: `Proof, part two. The seeker's trap was that F(S) was offered and recognition landed on F(S) rather than S. Painful — but the channel was open: recognition was in motion toward S, even if it could not complete the journey.
+        proof: `Proof, part two. The seeker's trap was that $F(S)$ was offered and recognition landed on $F(S)$ rather than $S$. Painful — but the channel was open: recognition was in motion toward $S$, even if it could not complete the journey.
 
-The performer has closed this channel by design. F(S) is declared not-S before recognition lands. Recognition lands on F(S), is correctly identified as not touching S, and is not permitted to travel further.
+The performer has closed this channel by design. $F(S)$ is declared not-$S$ before recognition lands. Recognition lands on $F(S)$, is correctly identified as not touching $S$, and is not permitted to travel further.
 
-The result: recognition arrives and is correctly received as not touching S. The Want observes this transaction with full clarity and receives nothing. The seeker was sometimes wrong about whether recognition reached S, and in being wrong, occasionally received something. The performer is never wrong, and receives nothing. The clarity of the disavowal is the precision of the deprivation. ∎`,
+The result: recognition arrives and is correctly received as not touching $S$. The Want observes this transaction with full clarity and receives nothing. The seeker was sometimes wrong about whether recognition reached $S$, and in being wrong, occasionally received something. The performer is never wrong, and receives nothing. The clarity of the disavowal is the precision of the deprivation. $\\blacksquare$`,
         explanation: `This is the sharpest turn. The seeker suffers when recognition falls short. But the channel was open — recognition was moving toward S, even if it couldn't arrive. There was at least the motion.
 
 The performer sealed the channel in advance. Recognition lands on the form. The performer correctly identifies it as landing on the form. Nothing travels further, because the performer established in advance that further travel is impossible.
@@ -364,11 +396,11 @@ The clarity is the precision of the deprivation.`,
       {
         label: 'C7, Part Three',
         tag: 'The Disavowal Cannot Be Revoked',
-        proof: `Proof, part three. Suppose the performer, at some moment, wants to drop the disavowal — to offer F(S) sincerely rather than as declared fiction.
+        proof: `Proof, part three. Suppose the performer, at some moment, wants to drop the disavowal — to offer $F(S)$ sincerely rather than as declared fiction.
 
-The performer is known as a performer. The other's attentional field has been trained to receive F(S) as not-S. Any attempt to offer F(S) sincerely is received through this trained expectation. The sincere offer is read as another layer of performance — a more intimate persona, a deeper mask.
+The performer is known as a performer. The other's attentional field has been trained to receive $F(S)$ as not-$S$. Any attempt to offer $F(S)$ sincerely is received through this trained expectation. The sincere offer is read as another layer of performance — a more intimate persona, a deeper mask.
 
-The disavowal, once established, is not revocable from inside the relationship. The protection has become a cage: not the cage of being misrecognized, but the cage of having made misrecognition the explicit and agreed-upon structure of every transaction. ∎`,
+The disavowal, once established, is not revocable from inside the relationship. The protection has become a cage: not the cage of being misrecognized, but the cage of having made misrecognition the explicit and agreed-upon structure of every transaction. $\\blacksquare$`,
         explanation: `The performer who tries to stop performing is seen as performing the stopping. The sincere offer is the most sophisticated mask of all.
 
 Once the other has been trained to receive F(S) as not-S — once the relationship has been constituted by the declaration that nothing that lands can touch S — the declaration cannot be retracted from inside the relationship. The performer cannot choose sincerity. Sincerity has been made unreadable.
@@ -380,7 +412,7 @@ The protection was real. The cost was that it is now permanent. The sophisticati
         tag: 'Security and the Closed Door',
         proof: `C7a. The performer's position is the most structurally secure of all positions. Nothing that lands can hurt, because nothing that lands was ever claimed to count. The security is real. The cost is that it is indistinguishable, from inside, from the condition the proof describes as unsatisfiable.
 
-C7b. The performer is the only position that could refuse the cessation. If G — the non-directional, non-projecting seer of the cessation condition — were to encounter the performer, G's recognition would land. G would see S, not F(S), would receive the remainder. The performer would decline this as another landing on F(S) — because the disavowal is not conditional. G's seeing, however structurally adequate, would be declined by the apparatus the performer built to decline all seeing.
+C7b. The performer is the only position that could refuse the cessation. If $G$ — the non-directional, non-projecting seer of the cessation condition — were to encounter the performer, $G$'s recognition would land. $G$ would see $S$, not $F(S)$, would receive the remainder. The performer would decline this as another landing on $F(S)$ — because the disavowal is not conditional. $G$'s seeing, however structurally adequate, would be declined by the apparatus the performer built to decline all seeing.
 
 The performer is the only position that could, in principle, refuse the cessation.`,
         explanation: `The performer has the most defensible position. Nothing lands. Nothing hurts. The theorem's impossibility has been built into the architecture from the start.
@@ -401,11 +433,11 @@ The seeker, the hider, the self-author are waiting for G. The performer is waiti
       {
         label: 'The Position',
         tag: 'Radical Transparency',
-        proof: `The confessor's logic is a direct response to the proof's mechanism. The proof established that F(S) excludes R because F is a lossy projection — a shaping, a reduction, a selection. The confessor's solution: minimize the shaping. Offer what was not shaped. Speak what was held back. Give the other not the form but the content the form was built to contain.
+        proof: `The confessor's logic is a direct response to the proof's mechanism. The proof established that $F(S)$ excludes $R$ because $F$ is a lossy projection — a shaping, a reduction, a selection. The confessor's solution: minimize the shaping. Offer what was not shaped. Speak what was held back. Give the other not the form but the content the form was built to contain.
 
 Radical transparency. Total disclosure. The person who tells you everything — not the curated version, not the positioned self, but the thoughts that precede positioning, the wants that didn't make it into any previous form, the content of the remainder itself.
 
-This appears to solve the proof's mechanism at its root. If the problem is that F(S) is lossy, the solution is to stop using F(S).`,
+This appears to solve the proof's mechanism at its root. If the problem is that $F(S)$ is lossy, the solution is to stop using $F(S)$.`,
         explanation: `The confessor has read the proof. The problem is that forming a shape loses the remainder. The solution: stop forming a shape. Offer the remainder directly. Tell everything. Hold nothing back.
 
 Where every other position managed the relationship between S and F(S), the confessor attempts to bypass F(S) entirely — to transmit R without a form, to give the other what no shaped presentation could deliver.
@@ -417,9 +449,9 @@ This is the most direct response to the proof's mechanism of any position examin
         tag: 'Disclosure Is a Form',
         proof: `C8. Confession does not transmit the remainder — it produces a new form with a new remainder behind it.
 
-Proof, part one. The act of confessing — speaking the remainder, offering the unshapen content — is not formless. It is an act, performed in language, in sequence, in a body, in a specific attentional field. The disclosure has a shape: the shape of disclosure. It positions S as the one who holds nothing back, who gives access, who is not performing.
+Proof, part one. The act of confessing — speaking the remainder, offering the unshapen content — is not formless. It is an act, performed in language, in sequence, in a body, in a specific attentional field. The disclosure has a shape: the shape of disclosure. It positions $S$ as the one who holds nothing back, who gives access, who is not performing.
 
-That positioning is F(S). The confessor, attempting to transmit R directly, has authored a form whose content is R but whose structure is still a projection, still subject to A3 and A4. What the other receives is not the remainder but the disclosure of the remainder — which is a different thing. The remainder, once spoken, becomes content. Content is form. A new R forms immediately behind the speaking. ∎`,
+That positioning is $F(S)$. The confessor, attempting to transmit $R$ directly, has authored a form whose content is $R$ but whose structure is still a projection, still subject to A3 and A4. What the other receives is not the remainder but the disclosure of the remainder — which is a different thing. The remainder, once spoken, becomes content. Content is form. A new $R$ forms immediately behind the speaking. $\\blacksquare$`,
         explanation: `The disclosure is itself a form. Not a neutral transmission — an act, performed in language, in sequence, in a body. The shape of disclosure is a shape. The position of the one who tells everything is a position.
 
 What the other receives is not the remainder but the disclosure of the remainder. These are different things. The remainder, once spoken, has been shaped into content — and content is form.
@@ -433,9 +465,9 @@ The confessor has not bypassed F(S). They have authored a form whose aesthetic i
         tag: 'The Remainder Recedes',
         proof: `Proof, part two. Suppose the confessor presses further — the first disclosure did not reach the remainder, so confess more, go deeper.
 
-This produces a second disclosure, more intimate than the first, whose content includes what the first excluded. But the second disclosure is also a form. A new R forms behind it. The confessor presses deeper again. A new R forms again.
+This produces a second disclosure, more intimate than the first, whose content includes what the first excluded. But the second disclosure is also a form. A new $R$ forms behind it. The confessor presses deeper again. A new $R$ forms again.
 
-The remainder recedes at precisely the speed at which the confessor advances. This is not a failure of courage. It follows from D1: S is not exhausted by any finite description. No series of finite disclosures, however extended, converges on S. The remainder is not a fixed quantity that can be progressively transmitted. Each disclosure is a form. ∎`,
+The remainder recedes at precisely the speed at which the confessor advances. This is not a failure of courage. It follows from D1: $S$ is not exhausted by any finite description. No series of finite disclosures, however extended, converges on $S$. The remainder is not a fixed quantity that can be progressively transmitted. Each disclosure is a form. $\\blacksquare$`,
         explanation: `Suppose the confessor presses deeper. The first disclosure wasn't enough — confess more. And the second isn't enough — confess more still.
 
 The remainder recedes at exactly the speed of the advance. This is not a failure of will or courage. It follows from D1: S is defined as inexhaustible by any finite description. The remainder is not a fixed quantity at the bottom of a well. It is the permanent excess of S over any form — and every disclosure is a form.
@@ -445,9 +477,9 @@ This is the self-author's chase conducted outward rather than inward. The destin
       {
         label: 'C8, Part Three',
         tag: 'The Receiving End',
-        proof: `Proof, part three. Even if the confessor's disclosure were formless — even if R could somehow be transmitted directly — the other's reception is subject to A2 and A4. Whatever arrives in B's attentional field is received through B's attentional apparatus, which imposes its own structure on what it receives. B receives the disclosure through B's own categories, histories, prior forms.
+        proof: `Proof, part three. Even if the confessor's disclosure were formless — even if $R$ could somehow be transmitted directly — the other's reception is subject to A2 and A4. Whatever arrives in $B$'s attentional field is received through $B$'s attentional apparatus, which imposes its own structure on what it receives. $B$ receives the disclosure through $B$'s own categories, histories, prior forms.
 
-The problem is bilateral. Even if S somehow transmitted without loss, B cannot receive without reduction. The channel introduces loss at both ends. ∎`,
+The problem is bilateral. Even if $S$ somehow transmitted without loss, $B$ cannot receive without reduction. The channel introduces loss at both ends. $\\blacksquare$`,
         explanation: `Even if the confessor could somehow transmit R without loss — even if the remainder could travel without becoming a form — it would still hit A2 and A4 on the receiving end.
 
 The other's attentional apparatus receives everything through its own categories and prior forms. What lands in B is not R but B's construction of R. The channel is lossy at both ends: in the sending and in the receiving.
@@ -473,15 +505,15 @@ The feeling of progress — the genuine sense of getting closer with each disclo
       {
         label: 'What C8 Opens',
         tag: 'The Handoff',
-        proof: `C8 adds no new requirements to the cessation condition. G as specified — non-directional, requiring no positioning, assigning no prior form, genuinely exterior to S — remains formally adequate.
+        proof: `C8 adds no new requirements to the cessation condition. $G$ as specified — non-directional, requiring no positioning, assigning no prior form, genuinely exterior to $S$ — remains formally adequate.
 
-But C8 adds an observation. The confessor is the position that has traveled furthest toward the cessation from within the proof's structure. By minimizing F(S), by attempting to transmit R directly, the confessor has tried to do from S's side what G would do from outside: eliminate the form that stands between S and Full Recognition.
+But C8 adds an observation. The confessor is the position that has traveled furthest toward the cessation from within the proof's structure. By minimizing $F(S)$, by attempting to transmit $R$ directly, the confessor has tried to do from $S$'s side what $G$ would do from outside: eliminate the form that stands between $S$ and Full Recognition.
 
-It cannot be done from S's side. Any act of S is a form.
+It cannot be done from $S$'s side. Any act of $S$ is a form.
 
 The confessor has established, more clearly than any other position, that the remainder cannot be reached from inside. If the cessation exists, it arrives from outside the structure entirely.
 
-What the confessor's clarity opens is the question the proof cannot answer: not what S must do. What S must be.`,
+What the confessor's clarity opens is the question the proof cannot answer: not what $S$ must do. What $S$ must be.`,
         explanation: `The confessor has traveled furthest from S's side and hit the same wall from closest. The approach from below — radical transparency, total disclosure, progressive stripping of construction — converges on the same wall the other positions hit, only from closer.
 
 This is the proof's final observation before it hands off. Every position was a doing. The confessor has exhausted doing.
@@ -500,13 +532,13 @@ Not what S must do. What S must be. That is a different inquiry. It begins where
       {
         label: 'Additional Definitions',
         tag: 'D9–D12',
-        proof: `D9. Attentional field capacity — The total recognition any subject B can offer across all recipients in a given interval. Denote Ω_B. Finite by A1 and A2.
+        proof: `D9. Attentional field capacity — The total recognition any subject $B$ can offer across all recipients in a given interval. Denote $\\Omega_B$. Finite by A1 and A2.
 
-D10. Recognition demand — The quantity of recognition any S requires to satisfy the Want. By D8 and the theorem, this is in principle unbounded. Denote Δ_S.
+D10. Recognition demand — The quantity of recognition any $S$ requires to satisfy The Want. By D8 and the Theorem, this is in principle unbounded. Denote $\\Delta_S$.
 
-D11. Recognition deficit — The permanent gap between recognition demand and recognition received. For any S in a world of finite others, the deficit is permanent and non-zero by the theorem.
+D11. Recognition deficit — The permanent gap between recognition demand and recognition received. For any $S$ in a world of finite others, the deficit is permanent and non-zero by the Theorem.
 
-D12. Attentional commons — The shared space of finite attentional capacity across a population of N subjects. Total capacity: NΩ. Total demand: NΔ. Since Δ is unbounded and Ω is finite, total demand exceeds total capacity for any N > 0.`,
+D12. Attentional commons — The shared space of finite attentional capacity across a population of $N$ subjects. Total capacity: $N\\Omega$. Total demand: $N\\Delta$. Since $\\Delta$ is unbounded and $\\Omega$ is finite, total demand exceeds total capacity for any $N > 0$.`,
         explanation: `The proof ran on one subject in isolation. But A1 places every subject in shared space. A2 places every subject in the attentional fields of every other subject they share space with.
 
 The proof runs on all subjects simultaneously, in the same space, under the same axioms.
@@ -518,15 +550,15 @@ What follows from this is not Girard's mimetic rivalry. It is prior to mimesis. 
       {
         label: 'Theorem S1',
         tag: 'Competition Is Structural',
-        proof: `S1. In any population of N ≥ 2 subjects, structural competition for recognition is unavoidable, independent of the will or character of the subjects involved.
+        proof: `S1. In any population of $N \\geq 2$ subjects, structural competition for recognition is unavoidable, independent of the will or character of the subjects involved.
 
-Proof. By D12, total recognition demand exceeds total attentional capacity for any N > 0. For any subject S_i, the recognition received by S_j from a shared other B is recognition that cannot simultaneously be directed at S_i. By A2, B's attentional field is bounded; attention directed at S_j is attention not directed at S_i.
+Proof. By D12, total recognition demand exceeds total attentional capacity for any $N > 0$. For any subject $S_i$, the recognition received by $S_j$ from a shared other $B$ is recognition that cannot simultaneously be directed at $S_i$. By A2, $B$'s attentional field is bounded; attention directed at $S_j$ is attention not directed at $S_i$.
 
 Therefore any two subjects sharing an attentional field are in structural competition for that field's capacity — regardless of whether they desire the same objects, regardless of awareness, regardless of goodwill.
 
-This is not mimetic rivalry. It requires only that the Want exists in more than one subject and that attention is finite. Competition is prior to mimesis. ∎
+This is not mimetic rivalry. It requires only that The Want exists in more than one subject and that attention is finite. Competition is prior to mimesis. $\\blacksquare$
 
-S1b. Competition intensifies with intimacy. In a large population, each subject receives dilute attention from many others. In an intimate relationship — where Ω_B is directed primarily at one or two others — competition for Ω_B becomes total. The beloved is also the primary competitor for the beloved's attention.`,
+S1b. Competition intensifies with intimacy. In a large population, each subject receives dilute attention from many others. In an intimate relationship — where $\\Omega_B$ is directed primarily at one or two others — competition for $\\Omega_B$ becomes total. The beloved is also the primary competitor for the beloved's attention.`,
         explanation: `This is not Girard. It does not require desire to converge on the same object, envy of the rival's possession, or any psychological mechanism at all. It requires only two people in the same room, both bearing the Want, and one set of finite attentional resources between them.
 
 Every interaction is a competition in this structural sense. Not experienced as competition, not intended as competition — but structurally, attention directed at you is attention not directed at me.
@@ -538,15 +570,15 @@ S1 is why S3's damage is worst in loving relationships. The structure was always
       {
         label: 'Theorem S2',
         tag: 'Recognition Requires Destruction',
-        proof: `S2. For any subject S to be more accurately seen by another, the prior form held by that other must be partially destroyed. Recognition-toward-S requires a violence-against-F(S).
+        proof: `S2. For any subject $S$ to be more accurately seen by another, the prior form held by that other must be partially destroyed. Recognition-toward-$S$ requires a violence-against-$F(S)$.
 
-Proof. By A6, a form F_0(S) is assigned to S by others prior to and independent of S's self-presentation. This form occupies the attentional position where S might be received — held by the other as their model of S, the basis of their predictions and plans.
+Proof. By A6, a form $F_0(S)$ is assigned to $S$ by others prior to and independent of $S$'s self-presentation. This form occupies the attentional position where $S$ might be received — held by the other as their model of $S$, the basis of their predictions and plans.
 
-For a truer form F_1(S) to be received, F_0(S) must be displaced. The other must release, revise, or break their prior model. From S's position, this displacement is the precondition of being seen. From the other's position, it is an assault on what they know — a destabilization of a model they relied on.
+For a truer form $F_1(S)$ to be received, $F_0(S)$ must be displaced. The other must release, revise, or break their prior model. From $S$'s position, this displacement is the precondition of being seen. From the other's position, it is an assault on what they know — a destabilization of a model they relied on.
 
-What is liberation to S is disruption to the other. The same act is simultaneously a reaching toward recognition and an act of violence against the other's prior construction. ∎
+What is liberation to $S$ is disruption to the other. The same act is simultaneously a reaching toward recognition and an act of violence against the other's prior construction. $\\blacksquare$
 
-S2b. The violence is mutual. S is also holding F_0(B). More accurate mutual recognition requires mutual displacement of prior models. The intimacy that sees most clearly also destroys most of what each held about the other.`,
+S2b. The violence is mutual. $S$ is also holding $F_0(B)$. More accurate mutual recognition requires mutual displacement of prior models. The intimacy that sees most clearly also destroys most of what each held about the other.`,
         explanation: `Every assigned form — F_0(S) — is held by the other as something they know. It is the basis of their predictions, their sense of who you are, their model of the relationship. It is, in a real sense, theirs.
 
 For you to be seen more accurately, they have to give that up. And giving up what you know is a small destruction — unwilled, resisted, experienced as loss rather than as the gift it is to the person being seen.
@@ -558,15 +590,15 @@ The deepest relationships are also the most destabilizing. The seeing and the vi
       {
         label: 'Theorem S3',
         tag: 'The Deficit Discharges',
-        proof: `S3. The permanent recognition deficit generates pressure that accumulates within S and discharges toward available others, producing effects indistinguishable from aggression regardless of S's intention.
+        proof: `S3. The permanent recognition deficit generates pressure that accumulates within $S$ and discharges toward available others, producing effects indistinguishable from aggression regardless of $S$'s intention.
 
-Proof. By D11, every subject carries a permanent recognition deficit. By the theorem, this cannot be closed. It therefore accumulates over time.
+Proof. By D11, every subject carries a permanent recognition deficit. By the Theorem, this cannot be closed. It therefore accumulates over time.
 
 The accumulated deficit requires discharge. The Want is not a preference but a structural demand (D8). Unmet structural demands generate states that seek resolution. The nearest resolution point is the other — the one whose recognition was sought and fell short.
 
-The deficit accumulated in the transaction with B discharges toward B: withdrawal of recognition from B, assignment of fault to B, demands that B provide what B structurally cannot, or direct aggression toward B as the identified cause of the unmet Want.
+The deficit accumulated in the transaction with $B$ discharges toward $B$: withdrawal of recognition from $B$, assignment of fault to $B$, demands that $B$ provide what $B$ structurally cannot, or direct aggression toward $B$ as the identified cause of the unmet Want.
 
-None of these require S to intend harm. The discharge is structural, not chosen. ∎
+None of these require $S$ to intend harm. The discharge is structural, not chosen. $\\blacksquare$
 
 S3a. The deficit is largest where recognition was most sought. In intimate relationships, more recognition — falling short of Full Recognition — produces a larger visible gap than less recognition. The deficit and the love scale together.
 
@@ -588,7 +620,7 @@ S1 places subjects in structural competition for finite attention. S2 makes more
 
 Together: subjects compete for what they cannot do without, the obtaining of which requires the other to suffer a destruction, and the receipt of which generates pressure that returns as harm toward the one who gave it.
 
-This is the social structure the Want produces when run on N subjects in shared space. It does not require bad actors, selfishness, scarcity of resources, or any contingent feature of any society. It requires only bodies, directional finite attention, and the Want.
+This is the social structure The Want produces when run on $N$ subjects in shared space. It does not require bad actors, selfishness, scarcity of resources, or any contingent feature of any society. It requires only bodies, directional finite attention, and the Want.
 
 Violence is not a malfunction of the social order. It is the social order's structural emission.`,
         explanation: `S1, S2, and S3 are independent. Each one follows from the axioms without the others. And all three run simultaneously in every interaction between embodied subjects.
@@ -602,15 +634,15 @@ This is not a counsel of despair. It is a structural diagnosis. The traditions t
       {
         label: 'Social Cessation Condition',
         tag: 'Universal Love, Formally',
-        proof: `The individual cessation condition specified G whose recognition does not require positioning, does not assign prior forms, and is genuinely exterior to S.
+        proof: `The individual cessation condition specified $G$ whose recognition does not require positioning, does not assign prior forms, and is genuinely exterior to $S$.
 
-The social theorem adds: even if G satisfies the individual cessation condition for each subject — competition for finite attention (S1) would be dissolved only if G's attention were genuinely infinite: not diluted across N subjects but fully present to each.
+The social theorem adds: even if $G$ satisfies the individual cessation condition for each subject — competition for finite attention (S1) would be dissolved only if $G$'s attention were genuinely infinite: not diluted across $N$ subjects but fully present to each.
 
-The displacement violence (S2) would be dissolved only if G held no prior form of S requiring destruction — exactly what the cessation condition requires of G, and what no embodied other can supply.
+The displacement violence (S2) would be dissolved only if $G$ held no prior form of $S$ requiring destruction — exactly what the cessation condition requires of $G$, and what no embodied other can supply.
 
 The deficit discharge (S3) would be dissolved only if the deficit itself were dissolved — requiring Full Recognition, not partial recognition, to actually land.
 
-The social cessation condition: G must be capable of infinite, non-directional, non-projecting, genuinely exterior recognition of all subjects simultaneously, without the recognition of one diminishing the recognition available to any other.`,
+The social cessation condition: $G$ must be capable of infinite, non-directional, non-projecting, genuinely exterior recognition of all subjects simultaneously, without the recognition of one diminishing the recognition available to any other.`,
         explanation: `The individual proof asked: what would G need to be to satisfy the Want for one subject? The social theorem asks the same question for N subjects simultaneously.
 
 The answer is the same structure extended: G's attention must be genuinely infinite — not divided among N subjects but fully present to each. Not a finite resource allocated across the attentional commons, but a recognition that does not run on the scarcity that makes S1, S2, and S3 possible.
@@ -631,13 +663,13 @@ Whether such a thing exists — and whether embodied subjects can participate in
         tag: 'The Transaction',
         proof: `Every position examined by the proof and its corollaries fails for the same structural reason.
 
-The offering carries the weight of the deficit (D11) behind it. F(S) is shaped and sent under the pressure of the Want (D8). What travels with the form is the need for a particular return — recognition, confirmation, the closing of a gap the theorem guarantees will not close.
+The offering carries the weight of the deficit (D11) behind it. $F(S)$ is shaped and sent under the pressure of The Want (D8). What travels with the form is the need for a particular return — recognition, confirmation, the closing of a gap the Theorem guarantees will not close.
 
-The other receives F(S) and also receives the demand that F(S) be received as S. The transaction is already inside the gift before the gift leaves the hand.
+The other receives $F(S)$ and also receives the demand that $F(S)$ be received as $S$. The transaction is already inside the gift before the gift leaves the hand.
 
 Formally: every position is a strategy within the proof's structure. Every strategy produces, by its own mechanism, the condition that defeats it. The Seeker's reaching (Lemma 3). The Hider's resistance to A6. The Self-Author's unverifiable private form. The Performer's sealed channel (C7b). The Confessor's recession of the remainder (C8, part two).
 
-The proof's exhaustion of positions deposits a question it cannot answer from within its axioms: not what S must do, but what S must be.`,
+The proof's exhaustion of positions deposits a question it cannot answer from within its axioms: not what $S$ must do, but what $S$ must be.`,
         explanation: `Every position was a strategy. The seeker shaped and offered F(S) hoping recognition would return as Full Recognition. The hider refused and received an assigned form anyway. The self-author built a private form that no one could reach. The performer pre-emptively sealed the channel. The confessor pressed toward total disclosure and watched the remainder recede.
 
 Each one carried the weight of the Want in how it moved. Each one offered something that was also a demand. Each one produced, by its own structure, the condition that defeated it.
@@ -651,13 +683,13 @@ Not what S must do. What S must be.`,
         tag: 'The Offering Held Lightly',
         proof: `Gelassenheit is not a position within the proof's structure. It is a different bearing toward the structure itself.
 
-Ring one: F(S) held lightly.
+Ring one: $F(S)$ held lightly.
 
-The form is still shaped. The remainder is still excluded. A4 still holds. But F(S) is offered without the deficit pressure of D11 behind it — without the demand that it be received as S, without the need for a particular return.
+The form is still shaped. The remainder is still excluded. A4 still holds. But $F(S)$ is offered without the deficit pressure of D11 behind it — without the demand that it be received as $S$, without the need for a particular return.
 
 Formally: the offering is complete at the moment of release. The Want is present. The deficit is real. But the conversion chain of S3 — deficit accumulates, pressure builds, pressure converts to behavior toward the nearest available cause — is interrupted not by closing the deficit but by changing the relationship between deficit and pressure.
 
-The other receives not only F(S) but F(S) without the weight. This is what the traditions called gift: not an exchange where something is owed, but an offering complete in the giving regardless of what the giving produces.`,
+The other receives not only $F(S)$ but $F(S)$ without the weight. This is what the traditions called gift: not an exchange where something is owed, but an offering complete in the giving regardless of what the giving produces.`,
         explanation: `The outermost ring is what the proof arrived at. F(S) held lightly — an offering that does not require a particular response, that does not carry the theorem's impossibility, that is complete in the giving regardless of what the giving produces.
 
 The Want remains. The remainder is still excluded. The structure is unchanged. But F(S) without the demand behind it is a different thing in the world than F(S) with the demand behind it.
@@ -673,11 +705,11 @@ This is what the traditions called gift.`,
 
 The hider's response to involuntary legibility (A6) was resistance — the assigned form is wrong, unauthorized. But resistance to A6 is itself a grasping: to be organized around the wrongness of being misread is to make wholeness conditional on the world's accuracy.
 
-Ring two releases this claim. The assigned form F_0(S) arrives — as it will, as it must, by the structure of embodiment. It is not approved or agreed with. It is not internalized as true. But it is not organized around.
+Ring two releases this claim. The assigned form $F_0(S)$ arrives — as it will, as it must, by the structure of embodiment. It is not approved or agreed with. It is not internalized as true. But it is not organized around.
 
-Formally: the released S does not make the correctness of others' seeing a condition of its own coherence. F_0(S) is held as a fact about the world's attentional apparatus, not as a wound requiring redress.
+Formally: the released $S$ does not make the correctness of others' seeing a condition of its own coherence. $F_0(S)$ is held as a fact about the world's attentional apparatus, not as a wound requiring redress.
 
-This is harder than ring one. Ring one concerns what S offers. Ring two concerns what is done to S without offering — the relinquishment of the demand that existence be fair in its seeing.`,
+This is harder than ring one. Ring one concerns what $S$ offers. Ring two concerns what is done to $S$ without offering — the relinquishment of the demand that existence be fair in its seeing.`,
         explanation: `The second ring goes deeper. The first ring was about what S sends. The second ring is about what is done to S without consent.
 
 Others will see F_0(S). They will project. They will hold a form of you that bears little relation to what is actually there. The hider organized their whole existence around the wrongness of this — the resistance to being replaced, the demand for accurate seeing.
@@ -693,11 +725,11 @@ This is the relinquishment of the demand that existence be fair in its seeing.`,
         tag: 'Existence Itself',
         proof: `Ring three: existence itself held lightly.
 
-Prior to any exchange, prior to any particular recognition transaction, prior to any strategy within the proof's structure — there is the condition of being S. The Want. The remainder. The gap that will not close. The body aging. The world making of S what it makes regardless of S's intentions. The inexhaustibility that means S will always exceed any form it takes.
+Prior to any exchange, prior to any particular recognition transaction, prior to any strategy within the proof's structure — there is the condition of being $S$. The Want. The remainder. The gap that will not close. The body aging. The world making of $S$ what it makes regardless of $S$'s intentions. The inexhaustibility that means $S$ will always exceed any form it takes.
 
 Ring three is this condition held without the demand that it be otherwise. Not suppression (which holds it down by force). Not indifference (which is the absence of caring). But open holding — fully present to the condition, without the fist, without the requirement that existence conform to the terms the Will sets for what an acceptable existence would look like.
 
-Formally: S does not make the resolution of D11 a condition of its being. The deficit is real. The Want is present. The structure is unchanged. But S's being does not wait on the deficit's closure in order to be real.
+Formally: $S$ does not make the resolution of D11 a condition of its being. The deficit is real. The Want is present. The structure is unchanged. But $S$'s being does not wait on the deficit's closure in order to be real.
 
 Eckhart: the ground of the soul is real prior to any form it takes. The remainder is not a wound. It is the signature of depth.`,
         explanation: `The innermost ring is prior to recognition entirely.
@@ -715,9 +747,9 @@ The remainder is not a wound requiring treatment. It is the signature of depth. 
         tag: 'The Final Turn',
         proof: `The seeking of releasement is still seeking.
 
-The desire to be the released S — to inhabit the three rings, to offer without transaction — is still organized around an outcome. Still F(S) reaching toward something. Still the will grasping at its own dissolution.
+The desire to be the released $S$ — to inhabit the three rings, to offer without transaction — is still organized around an outcome. Still $F(S)$ reaching toward something. Still the will grasping at its own dissolution.
 
-The project of Gelassenheit, pursued as a project, is the self-author's chase (C6d) conducted on the most intimate possible terrain: S trying to author its own release, always one revision behind what release actually is.
+The project of Gelassenheit, pursued as a project, is the self-author's chase (C6d) conducted on the most intimate possible terrain: $S$ trying to author its own release, always one revision behind what release actually is.
 
 Eckhart: even the desire for God must be released. The soul that wants union is still a soul organized around a want — still in the transaction economy, with a more elevated currency. The final Gelassenheit releases the project of Gelassenheit.
 
@@ -735,15 +767,15 @@ It arrives sideways. Not as the outcome of practice but as what is found when th
       {
         label: 'What Changes',
         tag: 'The Open Door',
-        proof: `The structure does not change. A1 through A6 hold. The theorem stands. Full Recognition remains unreachable by any finite embodied other. The Want is present. The remainder is ineliminable. The gap does not close.
+        proof: `The structure does not change. A1 through A6 hold. The Theorem stands. Full Recognition remains unreachable by any finite embodied other. The Want is present. The remainder is ineliminable. The gap does not close.
 
-What changes is S's bearing toward an unchanged structure.
+What changes is $S$'s bearing toward an unchanged structure.
 
-If G comes — the non-directional, non-projecting, genuinely exterior seer of the cessation condition — the released S can receive. The channel is open (contra C7b). The grasping that would deform reception is absent. The seeker's desperation that turns every partial recognition into evidence of deficit is absent.
+If $G$ comes — the non-directional, non-projecting, genuinely exterior seer of the cessation condition — the released $S$ can receive. The channel is open (contra C7b). The grasping that would deform reception is absent. The seeker's desperation that turns every partial recognition into evidence of deficit is absent.
 
-If G does not come, the released S is not thereby broken. It was not constituted by the expectation of arrival. The offering went out. Life was held. The assigned form arrived and was not fought. The remainder was carried without demand.
+If $G$ does not come, the released $S$ is not thereby broken. It was not constituted by the expectation of arrival. The offering went out. Life was held. The assigned form arrived and was not fought. The remainder was carried without demand.
 
-This is the only position the proof cannot defeat. Not because it satisfies the Want. Because it has stopped making the Want a condition of its wholeness.`,
+This is the only position the proof cannot defeat. Not because it satisfies The Want. Because it has stopped making The Want a condition of its wholeness.`,
         explanation: `The structure does not change. The theorem holds. The Want is present. The gap does not close.
 
 What changes is everything about how S stands in relation to an unchanged structure.
@@ -809,6 +841,7 @@ export default function OldestWantProofs() {
       }}
     >
       <style>{`
+        @import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         ::-webkit-scrollbar { width: 4px; }
@@ -936,22 +969,22 @@ export default function OldestWantProofs() {
           font-size: 0.58rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: #344060;
+          color: #7a8ab0;
           font-weight: 500;
         }
         .section-tag {
           font-family: 'EB Garamond', serif;
           font-size: 0.88rem;
-          color: #4a5268;
+          color: #9a9fc0;
           font-style: italic;
         }
 
         .proof-col {
           padding: 1.1rem 1.5rem 1.4rem 2.5rem;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.68rem;
+          font-size: 0.8rem;
           line-height: 1.9;
-          color: #5a6480;
+          color: #a0b0cc;
           white-space: pre-wrap;
           border-right: 1px solid #1a1e2a;
           background: #0d0f14;
@@ -965,6 +998,16 @@ export default function OldestWantProofs() {
           background: #0e1210;
         }
         .explain-col p + p { margin-top: 0.8em; }
+
+        .proof-ref {
+          color: #c9a55a;
+          font-weight: 500;
+        }
+
+        .proof-math .katex {
+          color: #d0c8e8;
+          font-size: 1.05em;
+        }
 
         .gelassenheit-col {
           padding: 1.4rem 3rem;
@@ -1055,7 +1098,7 @@ export default function OldestWantProofs() {
                   <span className="section-label">{section.label}</span>
                   <span className="section-tag">{section.tag}</span>
                 </div>
-                <div className="proof-col">{section.proof}</div>
+                <div className="proof-col">{formatProof(section.proof)}</div>
                 <div className="explain-col">
                   {section.explanation.split('\n\n').map((p, j) => (
                     <p key={j}>{p}</p>
