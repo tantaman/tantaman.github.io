@@ -6,9 +6,9 @@
 
 ## Scope
 
-The [[./pages/oldest-want-proof:proof]] and its corollaries examined the Want in a single subject. They established that Full Recognition is unreachable by any finite embodied subject through any available position — seeking, hiding, self-authorship, performance. The Want is structurally unsatisfiable. The structure is closed.
+The [[./pages/oldest-want-proof:oldest want proof]] and its corollaries examined the Want in a single subject. They established that Full Recognition is unreachable by any finite embodied subject through any available position — seeking, hiding, self-authorship, performance. The Want is structurally unsatisfiable. The structure is closed.
 
-The proof assumed, without stating it, that it was running on one subject in isolation. But A1 places every subject in shared space. A2 places every subject in the attentional fields of every other subject they share space with. The proof does not run on one subject. It runs on all subjects simultaneously, in the same space, under the same axioms.
+The [[./pages/oldest-want-proof:oldest want proof]] assumed, without stating it, that it was running on one subject in isolation. But A1 places every subject in shared space. A2 places every subject in the attentional fields of every other subject they share space with. The proof does not run on one subject. It runs on all subjects simultaneously, in the same space, under the same axioms.
 
 What follows is not a corollary to any individual position. It is a social theorem: what the proof looks like when N subjects run it at once.
 

@@ -1,6 +1,6 @@
 /*@jsxRuntime automatic @jsxImportSource https://esm.sh/react*/
 import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "https://esm.sh/react/jsx-runtime";
-import ProofExplainer from './artifacts/structure-of-life-proof.js';
+import ProofExplainer from './artifacts/structure-of-life-proof.jsx';
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
