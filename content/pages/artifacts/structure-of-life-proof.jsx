@@ -1,5 +1,26 @@
 import { useState } from 'react';
 
+// Highlight cross-references (D1, A2, Lemma 3, C1, Theorem, etc.) in proof text
+function formatProof(text) {
+  const refPattern = /\b(D[1-8]|A[1-5]|Lemma [1-4]|C[1-4]|Theorem|Full Recognition|The Want)\b/g;
+  const parts = [];
+  let last = 0;
+  let match;
+  while ((match = refPattern.exec(text)) !== null) {
+    if (match.index > last) {
+      parts.push(text.slice(last, match.index));
+    }
+    parts.push(
+      <span key={match.index} className="proof-ref">{match[0]}</span>
+    );
+    last = match.index + match[0].length;
+  }
+  if (last < text.length) {
+    parts.push(text.slice(last));
+  }
+  return parts;
+}
+
 const sections = [
   {
     label: 'Definitions',
@@ -277,10 +298,15 @@ export default function ProofExplainer() {
           font-family: 'JetBrains Mono', monospace;
           font-size: 0.72rem;
           line-height: 1.85;
-          color: #7a8aaa;
+          color: #a0b0cc;
           white-space: pre-wrap;
           background: #0d0f14;
           border-right: 2px solid #1e2535;
+        }
+
+        .proof-ref {
+          color: #c9a55a;
+          font-weight: 500;
         }
 
         .explain-col {
@@ -332,7 +358,7 @@ export default function ProofExplainer() {
               <span className="section-label">{section.label}</span>
               <span className="section-tag">{section.tag}</span>
             </div>
-            <div className="proof-col">{section.proof}</div>
+            <div className="proof-col">{formatProof(section.proof)}</div>
             <div className="explain-col">
               {section.explanation.split('\n\n').map((p, j) => (
                 <p key={j}>{p}</p>

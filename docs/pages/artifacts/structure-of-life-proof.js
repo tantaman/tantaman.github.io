@@ -1,6 +1,28 @@
 // content/pages/artifacts/structure-of-life-proof.jsx
 import { useState } from "https://esm.sh/react";
 import { jsx, jsxs } from "https://esm.sh/react/jsx-runtime";
+function formatProof(text) {
+  const refPattern = /\b(D[1-8]|A[1-5]|Lemma [1-4]|C[1-4]|Theorem|Full Recognition|The Want)\b/g;
+  const parts = [];
+  let last = 0;
+  let match;
+  while ((match = refPattern.exec(text)) !== null) {
+    if (match.index > last) {
+      parts.push(text.slice(last, match.index));
+    }
+    parts.push(
+      /* @__PURE__ */ jsx("span", {
+        className: "proof-ref",
+        children: match[0]
+      }, match.index)
+    );
+    last = match.index + match[0].length;
+  }
+  if (last < text.length) {
+    parts.push(text.slice(last));
+  }
+  return parts;
+}
 var sections = [
   {
     label: "Definitions",
@@ -276,10 +298,15 @@ function ProofExplainer() {
           font-family: 'JetBrains Mono', monospace;
           font-size: 0.72rem;
           line-height: 1.85;
-          color: #7a8aaa;
+          color: #a0b0cc;
           white-space: pre-wrap;
           background: #0d0f14;
           border-right: 2px solid #1e2535;
+        }
+
+        .proof-ref {
+          color: #c9a55a;
+          font-weight: 500;
         }
 
         .explain-col {
@@ -362,7 +389,7 @@ function ProofExplainer() {
             }),
             /* @__PURE__ */ jsx("div", {
               className: "proof-col",
-              children: section.proof
+              children: formatProof(section.proof)
             }),
             /* @__PURE__ */ jsx("div", {
               className: "explain-col",
