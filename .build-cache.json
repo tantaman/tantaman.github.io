@@ -809,7 +809,7 @@
         "mtimes": {
           ".DS_Store": 1771884058460,
           "README.md": 1753056386475,
-          "artifacts": 1773420744126,
+          "artifacts": 1773421115676,
           "church-notes.md": 1771880142801,
           "index.js": 1771893614663,
           "iran-timeline.mdx": 1772738473813,
@@ -1420,7 +1420,7 @@
         "mtimes": {
           ".DS_Store": 1771884058460,
           "README.md": 1753056386475,
-          "artifacts": 1773420744126,
+          "artifacts": 1773421115676,
           "church-notes.md": 1771880142801,
           "index.js": 1771893614663,
           "iran-timeline.mdx": 1772738473813,
@@ -2035,7 +2035,7 @@
         "mtimes": {
           ".DS_Store": 1771884058460,
           "README.md": 1753056386475,
-          "artifacts": 1773420744126,
+          "artifacts": 1773421115676,
           "church-notes.md": 1771880142801,
           "index.js": 1771893614663,
           "iran-timeline.mdx": 1772738473813,
@@ -2651,7 +2651,7 @@
         "mtimes": {
           ".DS_Store": 1771884058460,
           "README.md": 1753056386475,
-          "artifacts": 1773420744126,
+          "artifacts": 1773421115676,
           "church-notes.md": 1771880142801,
           "index.js": 1771893614663,
           "iran-timeline.mdx": 1772738473813,
@@ -3262,7 +3262,7 @@
         "mtimes": {
           ".DS_Store": 1771884058460,
           "README.md": 1753056386475,
-          "artifacts": 1773420744126,
+          "artifacts": 1773421115676,
           "church-notes.md": 1771880142801,
           "index.js": 1771893614663,
           "iran-timeline.mdx": 1772738473813,
@@ -3888,7 +3888,7 @@
         "mtimes": {
           ".DS_Store": 1771884058460,
           "README.md": 1753056386475,
-          "artifacts": 1773420744126,
+          "artifacts": 1773421115676,
           "church-notes.md": 1771880142801,
           "index.js": 1771893614663,
           "iran-timeline.mdx": 1772738473813,
@@ -4499,7 +4499,7 @@
         "mtimes": {
           ".DS_Store": 1771884058460,
           "README.md": 1753056386475,
-          "artifacts": 1773420744126,
+          "artifacts": 1773421115676,
           "church-notes.md": 1771880142801,
           "index.js": 1771893614663,
           "iran-timeline.mdx": 1772738473813,
@@ -4564,5 +4564,6 @@
   "pages//oldest-want-proof-interactive.mdx": 1773413120681,
   "pages//oldest-want-proof-explainer.md": 1773411251234,
   "pages//oldest-want-confessor-proof.md": 1773413020536,
-  "pages//oldest-want-releasement.md": 1773413542831
+  "pages//oldest-want-releasement.md": 1773413542831,
+  "pages/artifacts/structure-of-life-proofs-all.jsx": 1773421119772
 }
