@@ -1,47 +1,63 @@
 // content/pages/artifacts/structure-of-life-proof.jsx
 import { useState } from "https://esm.sh/react";
+import katex from "https://esm.sh/katex";
 import { jsx, jsxs } from "https://esm.sh/react/jsx-runtime";
+function renderMath(tex) {
+  try {
+    return katex.renderToString(tex, { throwOnError: false, displayMode: false });
+  } catch {
+    return tex;
+  }
+}
 function formatProof(text) {
-  const refPattern = /\b(D[1-8]|A[1-5]|Lemma [1-4]|C[1-4]|Theorem|Full Recognition|The Want)\b/g;
-  const parts = [];
-  let last = 0;
-  let match;
-  while ((match = refPattern.exec(text)) !== null) {
-    if (match.index > last) {
-      parts.push(text.slice(last, match.index));
+  const parts = text.split(/(\$[^$]+\$)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("$") && part.endsWith("$")) {
+      const html = renderMath(part.slice(1, -1));
+      return /* @__PURE__ */ jsx("span", {
+        className: "proof-math",
+        dangerouslySetInnerHTML: { __html: html }
+      }, i);
     }
-    parts.push(
-      /* @__PURE__ */ jsx("span", {
+    const refPattern = /\b(D[1-8]|A[1-5]|Lemma [1-4]|C[1-4]|Theorem|Full Recognition|The Want)\b/g;
+    const segs = [];
+    let last = 0;
+    let match;
+    while ((match = refPattern.exec(part)) !== null) {
+      if (match.index > last)
+        segs.push(part.slice(last, match.index));
+      segs.push(/* @__PURE__ */ jsx("span", {
         className: "proof-ref",
         children: match[0]
-      }, match.index)
-    );
-    last = match.index + match[0].length;
-  }
-  if (last < text.length) {
-    parts.push(text.slice(last));
-  }
-  return parts;
+      }, `${i}-${match.index}`));
+      last = match.index + match[0].length;
+    }
+    if (last < part.length)
+      segs.push(part.slice(last));
+    return segs.length > 0 ? /* @__PURE__ */ jsx("span", {
+      children: segs
+    }, i) : part;
+  });
 }
 var sections = [
   {
     label: "Definitions",
     tag: "D1\u2013D8",
-    proof: `D1. Subject \u2014 A locus of experience not exhausted by any finite description of it. Denote the full subject S.
+    proof: `D1. Subject \u2014 A locus of experience not exhausted by any finite description of it. Denote the full subject $S$.
 
-D2. Form \u2014 Any finite, transmissible representation of S. Denote a form F(S), where F is a lossy projection operator. By definition, F(S) \u2282 S.
+D2. Form \u2014 Any finite, transmissible representation of $S$. Denote a form $F(S)$, where $F$ is a lossy projection operator. By definition, $F(S) \\subset S$.
 
-D3. Remainder \u2014 The portion of the subject not captured by a given form. Denote R = S \\ F(S). By D2, R \u2260 \u2205.
+D3. Remainder \u2014 The portion of the subject not captured by a given form. Denote $R = S \\setminus F(S)$. By D2, $R \\neq \\emptyset$.
 
-D4. Attention \u2014 A directed, finite resource belonging to an embodied agent. Attention A operates over a field \u03A6 \u2286 S; it cannot receive what lies outside \u03A6.
+D4. Attention \u2014 A directed, finite resource belonging to an embodied agent. Attention $A$ operates over a field $\\Phi \\subseteq S$; it cannot receive what lies outside $\\Phi$.
 
-D5. Legibility \u2014 The property of being receivable by another's attention. S is legible to agent B if and only if S has taken a form F(S) that lies within B's attentional field \u03A6_B.
+D5. Legibility \u2014 The property of being receivable by another's attention. $S$ is legible to agent $B$ if and only if $S$ has taken a form $F(S)$ that lies within $B$'s attentional field $\\Phi_B$.
 
-D6. Recognition \u2014 The event of S being received by another's attention. Recognition occurs when A_B is directed at F(S) and F(S) \u2208 \u03A6_B.
+D6. Recognition \u2014 The event of $S$ being received by another's attention. Recognition occurs when $A_B$ is directed at $F(S)$ and $F(S) \\in \\Phi_B$.
 
-D7. Full Recognition \u2014 Recognition of S rather than F(S). That is, A_B directed at S itself, with R included in what is received.
+D7. Full Recognition \u2014 Recognition of $S$ rather than $F(S)$. That is, $A_B$ directed at $S$ itself, with $R$ included in what is received.
 
-D8. The Want \u2014 The desire for Full Recognition. The desire to have S \u2014 not F(S) \u2014 received by a genuine other.`,
+D8. The Want \u2014 The desire for Full Recognition. The desire to have $S$ \u2014 not $F(S)$ \u2014 received by a genuine other.`,
     explanation: `There is a want underneath all other wants. Not hunger, not safety, not pleasure \u2014 those have ceilings. You can have enough of them.
 
 This want has no ceiling. It is the want to be fully known by another person. Not the version of you they can see. Not the self you presented so they could receive it. The whole thing \u2014 including the parts that didn't make it into any version you've ever shown anyone.
@@ -53,15 +69,15 @@ The Want is the desire for Full Recognition.`
   {
     label: "Axioms",
     tag: "A1\u2013A5",
-    proof: `A1. Embodied finitude. Every subject S is physically embodied. Physical embodiment is finite: S occupies a bounded region of spacetime and cannot simultaneously occupy all positions.
+    proof: `A1. Embodied finitude. Every subject $S$ is physically embodied. Physical embodiment is finite: $S$ occupies a bounded region of spacetime and cannot simultaneously occupy all positions.
 
-A2. Directional attention. Attention is not omnidirectional. For any embodied agent B, \u03A6_B is a proper subset of the space of all possible objects. B's attention can only land on what enters \u03A6_B.
+A2. Directional attention. Attention is not omnidirectional. For any embodied agent $B$, $\\Phi_B$ is a proper subset of the space of all possible objects. $B$'s attention can only land on what enters $\\Phi_B$.
 
-A3. Positioning requirement. For S to enter \u03A6_B, S must occupy a position accessible to \u03A6_B. This requires S to take a form F(S) compatible with B's attentional field.
+A3. Positioning requirement. For $S$ to enter $\\Phi_B$, $S$ must occupy a position accessible to $\\Phi_B$. This requires $S$ to take a form $F(S)$ compatible with $B$'s attentional field.
 
-A4. Lossiness of form. Every projection F is lossy: F(S) \u228A S for all physically realizable F. No finite form exhausts a subject.
+A4. Lossiness of form. Every projection $F$ is lossy: $F(S) \\subsetneq S$ for all physically realizable $F$. No finite form exhausts a subject.
 
-A5. Remainder is non-empty. By A4, for any form F(S), the remainder R = S \\ F(S) \u2260 \u2205.`,
+A5. Remainder is non-empty. By A4, for any form $F(S)$, the remainder $R = S \\setminus F(S) \\neq \\emptyset$.`,
     explanation: `Two things are true about the physical world that we take as given.
 
 The first: bodies are finite. You are somewhere. You are not everywhere. You occupy a position, you take up space, you exist at a particular angle to everything else. This is just what it means to have a body.
@@ -75,11 +91,11 @@ These two facts, taken together, produce everything that follows.`
     tag: "The Trap",
     proof: `Lemma 1. Recognition is always recognition of a form, not of the subject.
 
-Proof. By A2, recognition requires F(S) \u2208 \u03A6_B. By A3, entering \u03A6_B requires taking a form. By A4, any form F(S) \u228A S. Therefore what is recognized is F(S), not S. \u220E
+Proof. By A2, recognition requires $F(S) \\in \\Phi_B$. By A3, entering $\\Phi_B$ requires taking a form. By A4, any form $F(S) \\subsetneq S$. Therefore what is recognized is $F(S)$, not $S$. $\\blacksquare$
 
 Lemma 2. Full Recognition is unreachable by direct approach.
 
-Proof. Full Recognition requires A_B to receive S including R (D7). By Lemma 1, A_B can only receive F(S). Since R = S \\ F(S) and R \u2260 \u2205 (A5), A_B cannot receive R through any form. Since positioning requires a form (A3), and any form excludes R (A4\u2013A5), no direct approach can deliver Full Recognition. \u220E`,
+Proof. Full Recognition requires $A_B$ to receive $S$ including $R$ (D7). By Lemma 1, $A_B$ can only receive $F(S)$. Since $R = S \\setminus F(S)$ and $R \\neq \\emptyset$ (A5), $A_B$ cannot receive $R$ through any form. Since positioning requires a form (A3), and any form excludes $R$ (A4\u2013A5), no direct approach can deliver Full Recognition. $\\blacksquare$`,
     explanation: `To be seen by another person, you have to be seeable. You have to enter their field of attention. You have to take a shape they can receive \u2014 position yourself, make yourself legible, present a form of yourself that their attention can land on.
 
 This is not optional. It is not a failure of courage or authenticity. It is physics. Attention requires an object. An object requires a form. You cannot offer your full self as the object, because your full self is not a form \u2014 it is the thing that precedes and exceeds every form you have ever taken.
@@ -93,7 +109,7 @@ You reach. The reaching conceals what was reaching.`
     tag: "The Seeking Defeats Itself",
     proof: `Lemma 3. The act of seeking recognition produces the condition that defeats it.
 
-Proof. To seek recognition, S must position itself to enter \u03A6_B (A3). Positioning requires taking a form F(S) (A3). By A4, F(S) \u228A S, so R \u2260 \u2205. The act of seeking recognition requires a form; any form excludes the remainder; the remainder is part of what S wanted recognized (D8). Therefore the seeking necessarily produces a self-concealment proportional to the positioning required. \u220E`,
+Proof. To seek recognition, $S$ must position itself to enter $\\Phi_B$ (A3). Positioning requires taking a form $F(S)$ (A3). By A4, $F(S) \\subsetneq S$, so $R \\neq \\emptyset$. The act of seeking recognition requires a form; any form excludes the remainder; the remainder is part of what $S$ wanted recognized (D8). Therefore the seeking necessarily produces a self-concealment proportional to the positioning required. $\\blacksquare$`,
     explanation: `The move toward being seen requires a form. The form excludes the remainder. The remainder is what wanted to be seen.
 
 Therefore the move toward being seen is simultaneously a move away from what wanted to be seen. This is not a paradox \u2014 it is a structural consequence. The harder you work to be known, the more precisely you are shaping the version of yourself that will be received, and the more precisely you are concealing everything that didn't make it into that shape.
@@ -105,7 +121,7 @@ Every gesture toward being known is also a gesture of self-concealment. Not from
     tag: "Generosity Doesn't Help",
     proof: `Lemma 4. Generosity of attention does not resolve the problem.
 
-Proof. Suppose B is maximally generous \u2014 willing to attend to everything S offers, with no withholding, no rivalry, no competition for the object. The constraint is not B's willingness but the structure of attention (A2\u2013A3). Even with maximal generosity, B can only receive what enters \u03A6_B (A2), which requires a form (A3), which excludes the remainder (A4\u2013A5). Generosity is a scalar on the existing structure; it does not alter the axioms. \u220E`,
+Proof. Suppose $B$ is maximally generous \u2014 willing to attend to everything $S$ offers, with no withholding, no rivalry, no competition for the object. The constraint is not $B$'s willingness but the structure of attention (A2\u2013A3). Even with maximal generosity, $B$ can only receive what enters $\\Phi_B$ (A2), which requires a form (A3), which excludes the remainder (A4\u2013A5). Generosity is a scalar on the existing structure; it does not alter the axioms. $\\blacksquare$`,
     explanation: `A natural response: the problem is that people aren't attentive enough, generous enough, present enough. If we had better lovers, better friends \u2014 people who really looked, who were truly willing to see \u2014 the problem would dissolve.
 
 It wouldn't.
@@ -117,7 +133,7 @@ This is why the loneliness at the center of even the best relationships is not a
   {
     label: "Corollary C3",
     tag: "Refusal Doesn't Help",
-    proof: `C3. The Want cannot be dissolved by refusal. To refuse the Want is still to want \u2014 to want to be seen as the one who does not need to be seen. The refusal is legible and therefore takes a form, and by Lemma 3, the act of positioning oneself as a refuser excludes the remainder. The refusal is subject to the same structure as the seeking.`,
+    proof: `C3. The Want cannot be dissolved by refusal. To refuse The Want is still to want \u2014 to want to be seen as the one who does not need to be seen. The refusal is legible and therefore takes a form, and by Lemma 3, the act of positioning oneself as a refuser excludes the remainder. The refusal is subject to the same structure as the seeking.`,
     explanation: `Another response: stop wanting it. The Stoic suppression of it. The Buddhist dissolution of desire. The underground man's furious refusal to need anyone to see him.
 
 This doesn't work either, for a precise reason. To refuse the want is to want something: to be seen as someone who does not need to be seen. That wanting is legible. It takes a form \u2014 the form of the person who has transcended need. That form will be received. And the remainder \u2014 the part that still wants, underneath the refusal \u2014 goes unseen.
@@ -139,11 +155,11 @@ A community constituted by the promise of full seeing will deliver seeing of for
     tag: "The Result",
     proof: `Theorem. The Want is structurally unsatisfiable by any finite embodied other.
 
-Proof. The Want is the desire for Full Recognition (D8). Full Recognition is unreachable by direct approach (Lemma 2). The act of seeking it produces the condition that defeats it (Lemma 3). Increasing the willingness of the other does not alter this (Lemma 4). Since all others are embodied and finite (A1), and directional attention is a consequence of embodiment (A2), the unsatisfiability holds for all possible embodied others. \u220E
+Proof. The Want is the desire for Full Recognition (D8). Full Recognition is unreachable by direct approach (Lemma 2). The act of seeking it produces the condition that defeats it (Lemma 3). Increasing the willingness of the other does not alter this (Lemma 4). Since all others are embodied and finite (A1), and directional attention is a consequence of embodiment (A2), the unsatisfiability holds for all possible embodied others. $\\blacksquare$
 
-C1. Suffering arising from the Want is not contingent. It is a structural consequence of being a subject in a world of finite, embodied, directionally-attentive others.
+C1. Suffering arising from The Want is not contingent. It is a structural consequence of being a subject in a world of finite, embodied, directionally-attentive others.
 
-C2. The Want cannot be dissolved by material provision. Removing material want isolates the Want in its pure form, making suffering not less but more precisely located.`,
+C2. The Want cannot be dissolved by material provision. Removing material want isolates The Want in its pure form, making suffering not less but more precisely located.`,
     explanation: `Putting it together: the want to be fully known cannot be satisfied by any finite, embodied other. Not because of their failures. Because of the axioms.
 
 This means that suffering arising from the want is not contingent. It is not the product of bad luck, bad choices, bad relationships. It is a structural consequence of being a full, irreducible, inexhaustible subject in a world of others who can only see what enters their field.
@@ -155,20 +171,20 @@ The want is completely legitimate. The structure makes it unsatisfiable. The suf
   {
     label: "Cessation Condition",
     tag: "What a Solution Requires",
-    proof: `If a cessation exists, let G be such that recognition by G does not require S to take a form F(S). Then:
+    proof: `If a cessation exists, let $G$ be such that recognition by $G$ does not require $S$ to take a form $F(S)$. Then:
 
-  \xB7 G is not bound by A2 (non-directional attention)
-  \xB7 G is not bound by A3 (no positioning requirement)
-  \xB7 G can therefore receive S without F(S), including R
+  \xB7 $G$ is not bound by A2 (non-directional attention)
+  \xB7 $G$ is not bound by A3 (no positioning requirement)
+  \xB7 $G$ can therefore receive $S$ without $F(S)$, including $R$
 
-Such a G would constitute Full Recognition (D7) without the self-concealment of Lemma 3.
+Such a $G$ would constitute Full Recognition (D7) without the self-concealment of Lemma 3.
 
-Observation. G cannot be a finite embodied agent. G must be either:
+Observation. $G$ cannot be a finite embodied agent. $G$ must be either:
   (a) non-embodied
   (b) not subject to the finitude of attention
   (c) both
 
-Whether any such G exists is not a mathematical question.`,
+Whether any such $G$ exists is not a mathematical question.`,
     explanation: `If a cessation exists \u2014 and the proof does not guarantee that it does \u2014 it would require a seer whose attention is not directional. A seer who does not need you to take a form first. A seer who can receive the remainder.
 
 Such a seer cannot be a finite embodied person. This is a formal description of what the traditions were pointing at when they spoke of being known by God, of agape, of the ground that sees the ground. Eckhart's claim that God sees the ground of you directly \u2014 not your history, not your forms, not your positioned self \u2014 is a claim that the positioning requirement does not apply. That the remainder is reachable.
@@ -191,6 +207,7 @@ function ProofExplainer() {
     children: [
       /* @__PURE__ */ jsx("style", {
         children: `
+        @import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -307,6 +324,11 @@ function ProofExplainer() {
         .proof-ref {
           color: #c9a55a;
           font-weight: 500;
+        }
+
+        .proof-math .katex {
+          color: #d0c8e8;
+          font-size: 1.05em;
         }
 
         .explain-col {
