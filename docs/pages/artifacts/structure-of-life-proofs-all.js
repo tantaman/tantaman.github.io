@@ -858,14 +858,14 @@ function OldestWantProofs() {
         }
         .header-title {
           font-family: 'EB Garamond', serif;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           font-weight: 400;
           color: #e8e4d8;
         }
-        .header-divider { color: #5a6080; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+        .header-divider { color: #5a6080; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; }
         .header-sub {
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.6rem;
+          font-size: 0.75rem;
           color: #8090aa;
           letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -892,14 +892,14 @@ function OldestWantProofs() {
         }
         .tab-label {
           font-family: 'EB Garamond', serif;
-          font-size: 0.9rem;
+          font-size: 1.05rem;
           color: #8090b0;
           display: block;
           transition: color 0.15s;
         }
         .tab-sub {
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.55rem;
+          font-size: 0.7rem;
           color: #5a6888;
           letter-spacing: 0.1em;
           text-transform: uppercase;
@@ -927,7 +927,7 @@ function OldestWantProofs() {
         .col-header {
           padding: 0.55rem 2rem 0.55rem 2.5rem;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.58rem;
+          font-size: 0.72rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
           display: flex;
@@ -939,9 +939,9 @@ function OldestWantProofs() {
         .dot-blue { background: #2a4570; }
         .dot-green { background: #2a5040; }
         .dot-gold { background: #5a4a20; }
-        .col-header.left { color: #2a3555; }
-        .col-header.right { color: #2a4535; }
-        .col-header.center { color: #4a4030; }
+        .col-header.left { color: #7088aa; }
+        .col-header.right { color: #609080; }
+        .col-header.center { color: #908060; }
 
         .section-row {
           display: grid;
@@ -981,7 +981,7 @@ function OldestWantProofs() {
           font-family: 'JetBrains Mono', monospace;
           font-size: 0.8rem;
           line-height: 1.9;
-          color: #a0b0cc;
+          color: #c0d0e8;
           white-space: pre-wrap;
           border-right: 1px solid #1a1e2a;
           background: #0d0f14;
@@ -991,7 +991,7 @@ function OldestWantProofs() {
           font-family: 'EB Garamond', serif;
           font-size: 1rem;
           line-height: 1.75;
-          color: #a0ac98;
+          color: #c8d4bc;
           background: #0e1210;
         }
         .explain-col p + p { margin-top: 0.8em; }
@@ -1011,7 +1011,7 @@ function OldestWantProofs() {
           font-family: 'EB Garamond', serif;
           font-size: 1.05rem;
           line-height: 1.8;
-          color: #b0aa98;
+          color: #d0c8b4;
           background: #0e0d0b;
         }
         .gelassenheit-col p + p { margin-top: 0.85em; }
