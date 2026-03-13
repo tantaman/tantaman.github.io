@@ -299,22 +299,22 @@ And one of them was somewhere else entirely.
 
 ---
 
-## Epilogue: On Practice
+## Epilogue
 
-The difference between these men is not courage. It’s not character. It’s not even temperament, though temperament plays a role the way soil plays a role — it determines what grows easily, not what can grow.
+He never showed anyone the letter.
 
-The difference is practice.
+He wrote it in the early months, when the fear was loudest, and he has added to it since — a paragraph here, a sentence there, whenever something happened that the baby needed to know about before she arrived to see it herself. He doesn't know exactly why he writes it. It's not a plan. It's not preparation. It's closer to the thing you do when you can't make something certain but you can make something true.
 
-The first man had no practice meeting fear directly. When it arrived, he did the only thing he knew: he _managed_ it. He researched, planned, calculated, optimized. He treated terror the way he’d treat a system failure at work — as a problem to be solved with sufficient information. And information, being infinite, consumed him.
+He wrote about the woods. About the sound the creek makes after rain, when it's running fast and dark and smells like cold. About the way her brothers will love her in ways they will never be able to say and so will say badly and often, at high volume, in the wrong moments. About her mother — what it's like to watch a person be brave in the way she is brave, which is not the absence of fear but the decision to move anyway, to say yes to another life when the last yes almost cost everything.
 
-The second man had practiced — imperfectly, inconsistently, but enough. He’d learned somewhere, maybe in the aftermath of the first delivery, maybe before, that fear is not an engineering problem. It’s a weather system. You don’t solve weather. You go outside in it. You get wet. You come back in and dry off.
+He wrote: *I have been afraid for nine months. I want you to know this because I want you to know that afraid is not the same as lost. The fear came because you matter. Because your mother matters. Because there are things I love enough to lose, which means I love them enough to be changed by them whether I lose them or not. That is not a problem to be solved. That is just what love is, when it's real.*
 
-This isn’t a story about meditation or therapy or any particular technique, though all of those can help. It’s about a more fundamental orientation: whether you meet experience directly or through the buffer of management.
+He doesn't know if she'll read it. He doesn't know if it will mean anything to her if she does. He wrote it anyway, because some things need to be said into the space where the answer isn't yet, and the saying is enough, and you don't require arrival to justify the words.
 
-The first man’s life _looked_ the same from the outside. He went to work. He came home. He was present in the physical sense. But his interior — the texture of his minutes, the quality of his attention, the felt experience of eating dinner and pushing swings and lying next to his wife — was consumed by a future that never arrived.
+The due date approaches. He is afraid. He is here. Both of these are true and neither cancels the other and he has learned — not through technique, not through effort exactly, but through something that thinned in him over years until the light could come in both directions — that this is what it means to be in a life rather than managing one.
 
-The second man’s life also looked the same from the outside. But his interior was different. Not peaceful — that’s too clean a word. _Inhabited._ He was living in his own life, taking up the full space of it, even the parts that hurt.
+He goes to bed. He puts his hand on his wife's belly. The baby moves.
 
-Nine months. The same man. Two textures of experience so different they might as well be two different lives.
+*I'm here,* he thinks.
 
-And they are. That’s the point. They are.
+And for now, that is everything.
