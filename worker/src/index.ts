@@ -55,6 +55,7 @@ export interface Env {
   TMDB_API_KEY: string;
   RESEND_API_KEY: string;
   ICAL_TOKEN: string;
+  TTS_WORKFLOW: Workflow;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -1528,4 +1529,5 @@ app.route("/paste", paste);
 // Mount API routes
 app.route("/api", api);
 
+export { TtsWorkflow } from "./tts-workflow.js";
 export default app;

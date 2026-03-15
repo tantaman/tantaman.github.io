@@ -36,6 +36,11 @@ bucket_name = "tantaman-audio"
 binding = "VECTORIZE"
 index_name = "thought-embeddings"
 
+[[workflows]]
+name = "tts-workflow"
+binding = "TTS_WORKFLOW"
+class_name = "TtsWorkflow"
+
 [observability]
 [observability.logs]
 enabled = false

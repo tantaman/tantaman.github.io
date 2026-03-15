@@ -4,6 +4,7 @@ import { marked } from "marked";
 import { nanoid } from "nanoid";
 import { transform } from "sucrase";
 import type { Env } from "./index";
+import { stripMarkdown, chunkText } from "./tts-utils.js";
 
 export const paste = new Hono<{ Bindings: Env }>();
 
@@ -278,93 +279,6 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function stripMarkdown(md: string): string {
-  return md
-    .replace(/^---[\s\S]*?---\n*/m, "")           // frontmatter
-    .replace(/^#{1,6}\s+/gm, "")                   // heading markers
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, "")           // images
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")        // links → text
-    .replace(/```[\s\S]*?```/g, "")                 // fenced code blocks
-    .replace(/`([^`]+)`/g, "$1")                    // inline code
-    .replace(/[*_]{1,3}([^*_]+)[*_]{1,3}/g, "$1")   // bold/italic
-    .replace(/^\s*[-*+]\s+/gm, "")                  // list markers
-    .replace(/^\s*\d+\.\s+/gm, "")                  // ordered list markers
-    .replace(/^>\s+/gm, "")                         // blockquotes
-    .replace(/\n{3,}/g, "\n\n")                     // collapse blank lines
-    .trim();
-}
-
-function chunkText(text: string, maxLen: number): string[] {
-  if (text.length <= maxLen) return [text];
-
-  const chunks: string[] = [];
-  let remaining = text;
-
-  while (remaining.length > 0) {
-    if (remaining.length <= maxLen) {
-      chunks.push(remaining);
-      break;
-    }
-
-    // Try to split on sentence boundaries
-    let splitAt = -1;
-    for (const sep of [". ", "? ", "! ", "\n"]) {
-      const idx = remaining.lastIndexOf(sep, maxLen);
-      if (idx > 0 && idx > splitAt) {
-        splitAt = idx + sep.length;
-      }
-    }
-
-    // Fallback: split on word boundary
-    if (splitAt <= 0) {
-      splitAt = remaining.lastIndexOf(" ", maxLen);
-    }
-
-    // Last resort: hard split
-    if (splitAt <= 0) {
-      splitAt = maxLen;
-    }
-
-    chunks.push(remaining.slice(0, splitAt));
-    remaining = remaining.slice(splitAt);
-  }
-
-  return chunks;
-}
-
-async function generateTtsChunks(ai: any, chunks: string[]): Promise<ArrayBuffer> {
-  const buffers: ArrayBuffer[] = [];
-
-  for (const chunk of chunks) {
-    const response: Response = await ai.run(
-      "@cf/deepgram/aura-2-en" as any,
-      { text: chunk, speaker: "luna" },
-      { returnRawResponse: true },
-    );
-
-    if (!response.ok) {
-      const body = await response.text().catch(() => "");
-      throw new Error(`TTS generation failed (${response.status}): ${body}`);
-    }
-
-    const buf = await response.arrayBuffer();
-    if (buf.byteLength === 0) {
-      throw new Error("TTS generation returned empty audio for chunk");
-    }
-
-    buffers.push(buf);
-  }
-
-  // Concatenate all ArrayBuffers
-  const totalLen = buffers.reduce((sum, b) => sum + b.byteLength, 0);
-  const result = new Uint8Array(totalLen);
-  let offset = 0;
-  for (const buf of buffers) {
-    result.set(new Uint8Array(buf), offset);
-    offset += buf.byteLength;
-  }
-  return result.buffer;
-}
 
 function compileJsx(source: string, lang: "jsx" | "tsx"): string {
   const transforms: ("jsx" | "typescript")[] =
