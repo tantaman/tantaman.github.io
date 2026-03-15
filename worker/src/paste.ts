@@ -278,6 +278,22 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+function stripMarkdown(md: string): string {
+  return md
+    .replace(/^---[\s\S]*?---\n*/m, "")           // frontmatter
+    .replace(/^#{1,6}\s+/gm, "")                   // heading markers
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, "")           // images
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")        // links → text
+    .replace(/```[\s\S]*?```/g, "")                 // fenced code blocks
+    .replace(/`([^`]+)`/g, "$1")                    // inline code
+    .replace(/[*_]{1,3}([^*_]+)[*_]{1,3}/g, "$1")   // bold/italic
+    .replace(/^\s*[-*+]\s+/gm, "")                  // list markers
+    .replace(/^\s*\d+\.\s+/gm, "")                  // ordered list markers
+    .replace(/^>\s+/gm, "")                         // blockquotes
+    .replace(/\n{3,}/g, "\n\n")                     // collapse blank lines
+    .trim();
+}
+
 function compileJsx(source: string, lang: "jsx" | "tsx"): string {
   const transforms: ("jsx" | "typescript")[] =
     lang === "tsx" ? ["jsx", "typescript"] : ["jsx"];
@@ -501,6 +517,59 @@ paste.get("/:id/module", async (c) => {
   }
 });
 
+// GET /:id/audio — TTS audio for markdown pastes (public)
+paste.get("/:id/audio", async (c) => {
+  const id = c.req.param("id");
+  const row = await c.env.DB.prepare("SELECT body, language FROM paste WHERE id = ?")
+    .bind(id)
+    .first<{ body: string; language: string }>();
+
+  if (!row) {
+    return c.text("Not found", 404);
+  }
+  if (row.language !== "markdown") {
+    return c.text("Audio is only available for markdown pastes", 400);
+  }
+
+  const r2Key = `paste/${id}.mp3`;
+
+  // Check R2 cache
+  const existing = await c.env.AUDIO_BUCKET.get(r2Key);
+  if (existing) {
+    return new Response(existing.body, {
+      headers: {
+        "Content-Type": "audio/mpeg",
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    });
+  }
+
+  // Generate via Workers AI
+  const text = stripMarkdown(row.body);
+  if (!text) {
+    return c.text("No speakable text found", 400);
+  }
+
+  const response = await c.env.AI.run(
+    "@cf/deepgram/aura-2-en" as any,
+    { text, speaker: "luna" },
+    { returnRawResponse: true },
+  ) as unknown as Response;
+
+  // Store to R2 (buffer since streaming put may fail with unknown content-length)
+  const audioBytes = await response.arrayBuffer();
+  await c.env.AUDIO_BUCKET.put(r2Key, audioBytes, {
+    httpMetadata: { contentType: "audio/mpeg" },
+  });
+
+  return new Response(audioBytes, {
+    headers: {
+      "Content-Type": "audio/mpeg",
+      "Cache-Control": "public, max-age=31536000, immutable",
+    },
+  });
+});
+
 // GET /:id — view paste (public)
 paste.get("/:id", async (c) => {
   const id = c.req.param("id");
@@ -609,7 +678,8 @@ paste.get("/:id", async (c) => {
     <hr class="rule">
     ${rendered}
     <div class="actions">
-      <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>
+      <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>${row.language === "markdown" ? `
+      <audio src="/paste/${escapeHtml(row.id)}/audio" controls preload="none" style="vertical-align:middle;height:2rem"></audio>` : ""}
     </div>`
   );
 
