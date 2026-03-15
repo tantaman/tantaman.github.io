@@ -21,6 +21,8 @@ This chapter will use a contingent definition of power. One that fits the anthro
 
 ^-- this links back to the cage and how the selves were selected. They were legible to it and legibility is required for social accumulation. Once the network has so much compared to outside networks... leaving it looks insane. The field induces the perspective.
 
+Material scarcity can explain that past. A post scarcity explanation can be a separate chapter.
+
 
 ---
 
