@@ -15,60 +15,237 @@ function isAuthed(c: Context<{ Bindings: Env }>): boolean {
 }
 
 const PAGE_STYLE = `
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-    color: #1a1a1a;
-    background: #fff;
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
+
+  :root {
+    --fg: #2c2c2c;
+    --fg-dim: #8a8a8a;
+    --bg: #faf9f7;
+    --bg-surface: #f0eeeb;
+    --border: #e0ddd8;
+    --accent: #c45d3e;
+    --accent-hover: #a84830;
+    --mono: 'DM Mono', 'Menlo', monospace;
+    --serif: 'Newsreader', 'Georgia', serif;
   }
+
   @media (prefers-color-scheme: dark) {
-    body { color: #e0e0e0; background: #1a1a1a; }
-    a { color: #6db3f2; }
-    input, textarea, select { background: #2a2a2a; color: #e0e0e0; border-color: #444; }
-    pre { background: #2a2a2a !important; }
-    .meta { color: #999; }
+    :root {
+      --fg: #d4d0ca;
+      --fg-dim: #7a7770;
+      --bg: #1c1b19;
+      --bg-surface: #262522;
+      --border: #3a3835;
+      --accent: #e0815f;
+      --accent-hover: #c45d3e;
+    }
   }
-  a { color: #0066cc; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  h1 { margin-bottom: 0.5rem; font-size: 1.5rem; }
-  .meta { color: #666; font-size: 0.875rem; margin-bottom: 1.5rem; }
-  .content { line-height: 1.7; }
-  .content h1, .content h2, .content h3 { margin: 1.5em 0 0.5em; }
-  .content p { margin: 0.75em 0; }
-  .content pre { padding: 1rem; overflow-x: auto; border-radius: 4px; background: #f5f5f5; }
-  .content code { font-size: 0.9em; }
-  .content img { max-width: 100%; }
-  .content blockquote { border-left: 3px solid #ccc; padding-left: 1rem; margin: 1em 0; }
-  .actions { margin-top: 1.5rem; font-size: 0.875rem; }
-  .actions a { margin-right: 1rem; }
-  label { display: block; margin-bottom: 0.25rem; font-weight: 600; font-size: 0.875rem; }
-  input, textarea, select {
-    width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;
-    font-family: inherit; font-size: 1rem;
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--mono);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    color: var(--fg);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
   }
-  textarea { min-height: 400px; font-family: monospace; resize: vertical; }
-  .field { margin-bottom: 1rem; }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.75rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+  }
+
+  h2 {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .meta { color: var(--fg-dim); font-size: 0.8125rem; }
+
+  .rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+  /* Forms */
+  select {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    padding: 0.35rem 0.5rem;
+    background: var(--bg-surface);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238a8a8a' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    padding-right: 1.5rem;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 50vh;
+    padding: 1rem;
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: var(--fg-dim); }
+
+  input[type="password"], input[type="text"] {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 300;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    max-width: 320px;
+    color: var(--fg);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus { border-color: var(--accent); }
+
+  .field { margin-bottom: 1.25rem; }
+  label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-bottom: 0.4rem;
+  }
+
   button {
-    background: #0066cc; color: #fff; border: none; padding: 0.5rem 1.5rem;
-    border-radius: 4px; font-size: 1rem; cursor: pointer;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--bg);
+    background: var(--accent);
+    border: none;
+    padding: 0.5rem 1.75rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.15s;
   }
-  button:hover { background: #0052a3; }
+  button:hover { background: var(--accent-hover); }
+
+  /* Paste content */
+  .content { line-height: 1.8; }
+  .content h1, .content h2, .content h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    margin: 1.75em 0 0.5em;
+  }
+  .content h1 { font-size: 1.5rem; }
+  .content h2 { font-size: 1.2rem; text-transform: none; letter-spacing: normal; color: var(--fg); }
+  .content h3 { font-size: 1rem; }
+  .content p { margin: 0.75em 0; }
+  .content pre {
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 3px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+  .content code { font-size: 0.9em; font-family: var(--mono); }
+  .content img { max-width: 100%; border-radius: 3px; }
+  .content blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.25rem;
+    margin: 1.25em 0;
+    color: var(--fg-dim);
+    font-style: italic;
+  }
+  .content ul, .content ol { padding-left: 1.25rem; margin: 0.75em 0; }
+
+  .actions { margin-top: 2rem; font-size: 0.8125rem; }
+  .actions a { margin-right: 1.25rem; }
+
+  /* Lists */
+  .paste-list { list-style: none; padding: 0; }
+  .paste-list li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .paste-list li:last-child { border-bottom: none; }
+  .paste-list .paste-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .paste-list .paste-meta { flex-shrink: 0; font-size: 0.75rem; color: var(--fg-dim); }
+
+  /* Header bar */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2.5rem;
+  }
+  .topbar-title {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 0.9375rem;
+    color: var(--fg-dim);
+  }
+  .topbar-title a { color: var(--fg-dim); }
+  .topbar-title a:hover { color: var(--accent); }
+  .topbar-nav { font-size: 0.75rem; color: var(--fg-dim); }
+  .topbar-nav a { color: var(--fg-dim); margin-left: 1rem; }
+  .topbar-nav a:hover { color: var(--accent); }
 `;
 
-function htmlPage(title: string, body: string): string {
+function htmlPage(title: string, body: string, nav?: string): string {
+  const navHtml = nav ?? `<span class="topbar-nav"><a href="/paste/logout">log out</a></span>`;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(title)} — Tantamanlands Paste</title>
+  <title>${escapeHtml(title)} — paste</title>
   <style>${PAGE_STYLE}</style>
 </head>
-<body>${body}</body>
+<body>
+  <header class="topbar">
+    <span class="topbar-title"><a href="/paste">paste</a></span>
+    ${navHtml}
+  </header>
+  ${body}
+</body>
 </html>`;
 }
 
@@ -100,14 +277,16 @@ function escapeHtml(s: string): string {
 paste.get("/login", async (c) => {
   const body = htmlPage(
     "Login",
-    `<h1>Paste Login</h1>
+    `<h1>Sign in</h1>
+    <p class="meta" style="margin-bottom:2rem">Enter your token to continue.</p>
     <form method="POST" action="/paste/login">
       <div class="field">
         <label for="token">Token</label>
-        <input type="password" id="token" name="token" required>
+        <input type="password" id="token" name="token" required autofocus>
       </div>
-      <button type="submit">Login</button>
-    </form>`
+      <button type="submit">Continue</button>
+    </form>`,
+    ""
   );
   return c.html(body);
 });
@@ -117,7 +296,7 @@ paste.post("/login", async (c) => {
   const form = await c.req.parseBody();
   const token = form.token as string;
   if (token !== c.env.THOUGHT_SECRET) {
-    return c.html(htmlPage("Login Failed", "<h1>Invalid token</h1><p><a href=\"/paste/login\">Try again</a></p>"), 401);
+    return c.html(htmlPage("Login Failed", `<h1>Invalid token</h1><p style="margin-top:1rem"><a href="/paste/login">Try again</a></p>`, ""), 401);
   }
   setCookie(c, "paste_auth", token, {
     path: "/paste",
@@ -148,16 +327,16 @@ paste.get("/all", async (c) => {
     .map((r) => {
       const date = new Date(r.created_at).toISOString().split("T")[0];
       const title = escapeHtml(r.title || "Untitled");
-      return `<li style="margin-bottom:0.5rem"><a href="/paste/${escapeHtml(r.id)}">${title}</a> <span class="meta">${date} · ${escapeHtml(r.language)}</span></li>`;
+      return `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a></span><span class="paste-meta">${date}</span></li>`;
     })
-    .join("\n    ");
+    .join("\n      ");
 
   const body = htmlPage(
     "All Pastes",
-    `<h1>All Pastes</h1>
-    <p class="meta" style="margin-bottom:1rem">${rows.results.length} paste${rows.results.length === 1 ? "" : "s"} · <a href="/paste">New paste</a></p>
-    <ul style="list-style:none;padding:0">
-    ${items}
+    `<h1>All pastes</h1>
+    <p class="meta" style="margin-bottom:2rem">${rows.results.length} paste${rows.results.length === 1 ? "" : "s"}</p>
+    <ul class="paste-list">
+      ${items}
     </ul>`
   );
   return c.html(body);
@@ -177,23 +356,21 @@ paste.get("/", async (c) => {
   let recentHtml = "";
   if (recents.results.length > 0) {
     const items = recents.results
-      .map((r) => `<li><a href="/paste/${escapeHtml(r.id)}">${escapeHtml(r.title || "Untitled")}</a></li>`)
+      .map((r) => `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${escapeHtml(r.title || "Untitled")}</a></span><span class="paste-meta">${new Date(r.created_at).toISOString().split("T")[0]}</span></li>`)
       .join("\n        ");
     recentHtml = `
-    <div style="margin-top:1.5rem">
-      <h2 style="font-size:1.1rem;margin-bottom:0.5rem">Recent · <a href="/paste/all" style="font-weight:normal;font-size:0.875rem">View all</a></h2>
-      <ul style="list-style:none;padding:0">
+    <hr class="rule">
+    <h2>Recent <a href="/paste/all" style="text-transform:none;letter-spacing:normal;font-weight:300">/ all</a></h2>
+    <ul class="paste-list">
         ${items}
-      </ul>
-    </div>`;
+    </ul>`;
   }
 
   const body = htmlPage(
     "New Paste",
-    `<h1>New Paste</h1>
-    <form method="POST" action="/paste">
-      <div class="field">
-        <label for="language">Language</label>
+    `<form method="POST" action="/paste">
+      <div class="field" style="display:flex;align-items:baseline;gap:0.75rem;margin-bottom:1.5rem">
+        <label for="language" style="margin:0">Lang</label>
         <select id="language" name="language">
           <option value="markdown" selected>Markdown</option>
           <option value="plaintext">Plain text</option>
@@ -208,10 +385,9 @@ paste.get("/", async (c) => {
         </select>
       </div>
       <div class="field">
-        <label for="body">Content</label>
-        <textarea id="body" name="body" required placeholder="Paste content here..."></textarea>
+        <textarea id="body" name="body" required placeholder="Write something..." autofocus></textarea>
       </div>
-      <button type="submit">Create Paste</button>
+      <button type="submit">Save</button>
     </form>
     ${recentHtml}`
   );
@@ -282,7 +458,7 @@ paste.get("/:id", async (c) => {
     .first<{ id: string; body: string; language: string; title: string | null; created_at: number }>();
 
   if (!row) {
-    return c.html(htmlPage("Not Found", "<h1>404 — Paste not found</h1>"), 404);
+    return c.html(htmlPage("Not Found", `<h1>Not found</h1><p class="meta" style="margin-top:1rem">This paste doesn't exist.</p>`), 404);
   }
 
   const date = new Date(row.created_at).toISOString().split("T")[0];
@@ -298,10 +474,11 @@ paste.get("/:id", async (c) => {
   const html = htmlPage(
     title,
     `<h1>${escapeHtml(title)}</h1>
-    <div class="meta">${date} · ${escapeHtml(row.language)}</div>
+    <p class="meta">${date} · ${escapeHtml(row.language)}</p>
+    <hr class="rule">
     ${rendered}
     <div class="actions">
-      <a href="/paste/${escapeHtml(row.id)}/raw">Raw</a>
+      <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>
     </div>`
   );
 
