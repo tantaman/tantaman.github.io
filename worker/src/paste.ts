@@ -2,6 +2,7 @@ import { Hono, type Context } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import { marked } from "marked";
 import { nanoid } from "nanoid";
+import { transform } from "sucrase";
 import type { Env } from "./index";
 
 export const paste = new Hono<{ Bindings: Env }>();
@@ -273,6 +274,29 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+function compileJsx(source: string, lang: "jsx" | "tsx"): string {
+  const transforms: ("jsx" | "typescript")[] =
+    lang === "tsx" ? ["jsx", "typescript"] : ["jsx"];
+  const { code } = transform(source, {
+    transforms,
+    jsxRuntime: "automatic",
+    jsxImportSource: "https://esm.sh/react",
+    production: true,
+  });
+  return rewriteImports(code);
+}
+
+function rewriteImports(code: string): string {
+  return code.replace(
+    /((?:import|export)\s[^'"]*?from\s+['"])([^'".\/][^'"]*?)(['"])/g,
+    (match, pre, spec, post) => {
+      if (spec.startsWith("http://") || spec.startsWith("https://"))
+        return match;
+      return `${pre}https://esm.sh/${spec}${post}`;
+    },
+  );
+}
+
 // GET /login — login form (public)
 paste.get("/login", async (c) => {
   const body = htmlPage(
@@ -376,6 +400,8 @@ paste.get("/", async (c) => {
           <option value="plaintext">Plain text</option>
           <option value="javascript">JavaScript</option>
           <option value="typescript">TypeScript</option>
+          <option value="jsx">JSX</option>
+          <option value="tsx">TSX</option>
           <option value="python">Python</option>
           <option value="rust">Rust</option>
           <option value="html">HTML</option>
@@ -450,6 +476,27 @@ paste.post("/", async (c) => {
   return c.json({ id, url: `/paste/${id}` }, 201);
 });
 
+// GET /:id/module — compiled JSX/TSX as ES module (public)
+paste.get("/:id/module", async (c) => {
+  const id = c.req.param("id");
+  const row = await c.env.DB.prepare("SELECT body, language FROM paste WHERE id = ?")
+    .bind(id)
+    .first<{ body: string; language: string }>();
+
+  if (!row || (row.language !== "jsx" && row.language !== "tsx")) {
+    return c.text("Not found", 404);
+  }
+
+  try {
+    const compiled = compileJsx(row.body, row.language as "jsx" | "tsx");
+    return c.body(compiled, 200, { "Content-Type": "application/javascript; charset=utf-8" });
+  } catch (err: any) {
+    const msg = (err.message || "Compilation error").replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$/g, "\\$");
+    const errorModule = `document.getElementById("root").innerText = \`Compile error: ${msg}\`;`;
+    return c.body(errorModule, 200, { "Content-Type": "application/javascript; charset=utf-8" });
+  }
+});
+
 // GET /:id — view paste (public)
 paste.get("/:id", async (c) => {
   const id = c.req.param("id");
@@ -463,6 +510,53 @@ paste.get("/:id", async (c) => {
 
   const date = new Date(row.created_at).toISOString().split("T")[0];
   const title = row.title || "Untitled";
+
+  if (row.language === "jsx" || row.language === "tsx") {
+    const runnerHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeHtml(title)} — paste</title>
+  <style>
+    ${PAGE_STYLE}
+    body { max-width: none; padding: 0; }
+    #root { min-height: 100vh; padding: 2rem; }
+    .paste-toolbar {
+      position: fixed; bottom: 1rem; right: 1rem;
+      font-family: var(--mono); font-size: 0.75rem;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 3px; padding: 0.35rem 0.75rem;
+      color: var(--fg-dim); z-index: 9999;
+      display: flex; gap: 0.75rem; align-items: center;
+    }
+    .paste-toolbar a { color: var(--accent); }
+    .paste-error { color: var(--accent); padding: 2rem; font-family: var(--mono); font-size: 0.875rem; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div class="paste-toolbar">
+    <span>${escapeHtml(row.language)}</span>
+    <a href="/paste/${escapeHtml(row.id)}/raw">source</a>
+  </div>
+  <script type="module">
+    try {
+      const mod = await import("/paste/${row.id}/module");
+      if (mod.default && typeof mod.default === "function") {
+        const { createRoot } = await import("https://esm.sh/react-dom/client");
+        const { createElement } = await import("https://esm.sh/react");
+        createRoot(document.getElementById("root")).render(createElement(mod.default));
+      }
+    } catch (err) {
+      document.getElementById("root").innerHTML =
+        '<div class="paste-error">' + (err.message || String(err)).replace(/</g, "&lt;") + '</div>';
+    }
+  </script>
+</body>
+</html>`;
+    return c.html(runnerHtml);
+  }
 
   let rendered: string;
   if (row.language === "markdown") {
