@@ -464,6 +464,7 @@ api.post("/thoughts", async (c) => {
   let parentId: number | null = null;
   let versionOf: number | null = null;
   let isPrivate = false;
+  let contextUrl: string | null = null;
 
   const contentType = c.req.header("Content-Type") || "";
   if (contentType.includes("multipart/form-data")) {
@@ -475,12 +476,15 @@ api.post("/thoughts", async (c) => {
     const versionOfStr = formData.get("version_of") as string | null;
     if (versionOfStr) versionOf = parseInt(versionOfStr, 10);
     isPrivate = formData.get("private") === "true";
+    const contextUrlStr = formData.get("context_url") as string | null;
+    if (contextUrlStr) contextUrl = contextUrlStr;
   } else {
     const json = CreateThoughtBody.parse(await c.req.json());
     trimmed = (json.body || "").trim();
     if (json.parent_id != null) parentId = json.parent_id;
     if (json.version_of != null) versionOf = json.version_of;
     if (json.private) isPrivate = true;
+    if (json.context_url) contextUrl = json.context_url;
   }
 
   if (!trimmed) {
@@ -535,8 +539,8 @@ api.post("/thoughts", async (c) => {
   const timestamp = Math.floor(Date.now() / 1000);
 
   const result = await c.env.DB.prepare(
-    "INSERT INTO thought (body, timestamp, parent_id, private, version_of) VALUES (?, ?, ?, ?, ?)"
-  ).bind(trimmed, timestamp, parentId, isPrivate ? 1 : 0, resolvedVersionOf).run();
+    "INSERT INTO thought (body, timestamp, parent_id, private, version_of, context_url) VALUES (?, ?, ?, ?, ?, ?)"
+  ).bind(trimmed, timestamp, parentId, isPrivate ? 1 : 0, resolvedVersionOf, contextUrl).run();
 
   const thoughtId = result.meta.last_row_id;
 
@@ -651,9 +655,28 @@ api.post("/thoughts", async (c) => {
     private: isPrivate ? 1 : 0,
     attachments,
     color,
+    context_url: contextUrl,
   };
 
   return c.json(thought, 201);
+});
+
+api.get("/thoughts/by-context", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const url = c.req.query("url");
+  if (!url) {
+    return c.json({ error: "url parameter is required" }, 400);
+  }
+
+  const rows = await c.env.DB.prepare(
+    "SELECT id, body, timestamp FROM thought WHERE context_url = ? ORDER BY timestamp DESC"
+  ).bind(url).all<{ id: number; body: string; timestamp: number }>();
+
+  return c.json(rows.results);
 });
 
 api.delete("/thoughts/:id", async (c) => {

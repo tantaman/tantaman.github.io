@@ -295,6 +295,22 @@ importers:
         specifier: ^19.1.6
         version: 19.2.2(@types/react@19.2.2)
 
+  packages/in-context:
+    dependencies:
+      preact:
+        specifier: ^10.25.4
+        version: 10.28.4
+    devDependencies:
+      '@preact/preset-vite':
+        specifier: ^2.9.4
+        version: 2.10.3(@babel/core@7.29.0)(preact@10.28.4)(rollup@4.57.1)(vite@6.4.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0))
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      vite:
+        specifier: ^6.3.5
+        version: 6.4.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0)
+
   packages/posts:
     dependencies:
       '@tiptap/core':

@@ -138,10 +138,15 @@ export default async function defaultLayout(
   if (head) {
     head.children.push(
       h('link', { rel: 'stylesheet', href: hashAsset('/comments/comments.css') }),
+      h('link', { rel: 'stylesheet', href: hashAsset('/in-context/in-context.css') }),
     );
   }
   body.children.push(
     h('script', { src: hashAsset('/comments/comments.js'), defer: true, type: 'module' }),
+  );
+  body.children.push(
+    h('div', { id: 'in-context-thought' }),
+    h('script', { src: hashAsset('/in-context/in-context.js'), defer: true, type: 'module' }),
   );
 }
 

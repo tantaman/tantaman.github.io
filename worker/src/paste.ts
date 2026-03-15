@@ -239,6 +239,7 @@ function htmlPage(title: string, body: string, nav?: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} — paste</title>
   <style>${PAGE_STYLE}</style>
+  <link rel="stylesheet" href="/in-context/in-context.css">
 </head>
 <body>
   <header class="topbar">
@@ -246,6 +247,8 @@ function htmlPage(title: string, body: string, nav?: string): string {
     ${navHtml}
   </header>
   ${body}
+  <div id="in-context-thought"></div>
+  <script defer type="module" src="/in-context/in-context.js"></script>
 </body>
 </html>`;
 }
@@ -540,6 +543,9 @@ paste.get("/:id", async (c) => {
     <span>${escapeHtml(row.language)}</span>
     <a href="/paste/${escapeHtml(row.id)}/raw">source</a>
   </div>
+  <div id="in-context-thought"></div>
+  <link rel="stylesheet" href="/in-context/in-context.css">
+  <script defer type="module" src="/in-context/in-context.js"></script>
   <script type="module">
     try {
       const mod = await import("/paste/${row.id}/module");

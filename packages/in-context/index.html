@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>In-Context Thoughts Dev Shell</title>
+  <script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+  <link rel="stylesheet" href="/index.css">
+  <style>
+    main { max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Test Post Title</h1>
+    <p>This is a test post body for developing the in-context thoughts system.</p>
+    <p>Set <code>thought-secret</code> in localStorage to see the "+" button.</p>
+  </main>
+  <div id="in-context-thought"></div>
+  <script type="module" src="./src/main.tsx"></script>
+</body>
+</html>

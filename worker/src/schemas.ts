@@ -6,6 +6,7 @@ export const CreateThoughtBody = z.object({
   parent_id: z.number().int().optional(),
   version_of: z.number().int().optional(),
   private: z.boolean().optional(),
+  context_url: z.string().optional(),
 });
 
 // PATCH /tasks/:id

@@ -1,4 +1,10 @@
+
+
+
 Final block: the narrative way of knowing the preceeds all else.
+^--
+Show that this book is a narrative grounding. What adopting it would mean for your own life. Change in orientation to subjecthood. Analyze power all the way down. Analyze want all the way down.
+
 A new narrative? A new formation?
 Mysticism?
 
