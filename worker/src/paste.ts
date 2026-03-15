@@ -550,14 +550,28 @@ paste.get("/:id/audio", async (c) => {
     return c.text("No speakable text found", 400);
   }
 
-  const response = await c.env.AI.run(
-    "@cf/deepgram/aura-2-en" as any,
-    { text, speaker: "luna" },
-    { returnRawResponse: true },
-  ) as unknown as Response;
+  let response: Response;
+  try {
+    response = await c.env.AI.run(
+      "@cf/deepgram/aura-2-en" as any,
+      { text, speaker: "luna" },
+      { returnRawResponse: true },
+    ) as unknown as Response;
+  } catch (e) {
+    return c.text(`TTS generation failed: ${e instanceof Error ? e.message : String(e)}`, 502);
+  }
+
+  if (!response.ok) {
+    const body = await response.text().catch(() => "");
+    return c.text(`TTS generation failed (${response.status}): ${body}`, 502);
+  }
 
   // Store to R2 (buffer since streaming put may fail with unknown content-length)
   const audioBytes = await response.arrayBuffer();
+  if (audioBytes.byteLength === 0) {
+    return c.text("TTS generation returned empty audio", 502);
+  }
+
   await c.env.AUDIO_BUCKET.put(r2Key, audioBytes, {
     httpMetadata: { contentType: "audio/mpeg" },
   });
@@ -568,6 +582,17 @@ paste.get("/:id/audio", async (c) => {
       "Cache-Control": "public, max-age=31536000, immutable",
     },
   });
+});
+
+// DELETE /:id/audio — purge cached audio from R2 (auth required)
+paste.delete("/:id/audio", async (c) => {
+  if (!isAuthed(c)) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+  const id = c.req.param("id");
+  const r2Key = `paste/${id}.mp3`;
+  await c.env.AUDIO_BUCKET.delete(r2Key);
+  return c.json({ ok: true, deleted: r2Key });
 });
 
 // GET /:id — view paste (public)
