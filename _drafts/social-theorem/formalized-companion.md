@@ -1,7 +1,7 @@
 # The Oldest Want: Formal Mathematical Companion
 
-*A Zone One and Zone Two formalization of the Generalized Proof and Social Theorem.*
-*Zone Three — the cessation condition involving G — is stated as a constraint system*
+*A Zone One, Zone Two, and Zone Two Extension formalization of the Generalized Proof and Social Theorem.*  
+*Zone Three — the cessation condition involving G — is stated as a constraint system*  
 *but not formalized further, for principled reasons given at the close.*
 
 ---
@@ -54,7 +54,7 @@ Fix(*T_B*) is a linear subspace of 𝒱_B. Its dimension equals the algebraic mu
 
 $$\sigma(\mathbf{f}_i, T_j) = \exp\!\left(-\frac{||T_j(\mathbf{f}_i) - \mathbf{f}_i||^2}{2\epsilon^2}\right) \in (0, 1]$$
 
-where ε > 0 is a sensitivity parameter. This signal is maximized (equal to 1) if and only if *T_j*(**f_i**) = **f_i** — that is, if and only if **f_i** is a fixed point of *T_j*. The signal is strictly less than 1 whenever *T_j*(**f_i**) ≠ **f_i*.
+where ε > 0 is a sensitivity parameter. This signal is maximized (equal to 1) if and only if *T_j*(**f_i**) = **f_i** — that is, if and only if **f_i** is a fixed point of *T_j*. The signal is strictly less than 1 whenever *T_j*(**f_i**) ≠ **f_i**.
 
 This encodes Lemma MR: the signal does not distinguish between *T_j* = *I* (accurate recognition) and *T_j*(**f_i**) = **f_i** with *T_j* ≠ *I* (fixed-point misrecognition). Both return σ = 1. The subject cannot determine from the signal alone whether accurate recognition or fixed-point distortion occurred.
 
@@ -116,7 +116,7 @@ by the reverse triangle inequality. The first term is ||**r_i**|| > 0 (Lemma F1)
 
 ### Lemma F3 (Misrecognition). The recognition signal σ(**f_i**, T_j) does not distinguish accurate reception (T_j = I on the received form) from fixed-point distortion (T_j(**f_i**) = **f_i**, T_j ≠ I).
 
-*Proof.* By MC6, σ(**f_i**, *T_j*) = exp(-||*T_j*(**f_i**) - **f_i**||²/2ε²). This depends only on the scalar ||*T_j*(**f_i**) - **f_i**||. 
+*Proof.* By MC6, σ(**f_i**, *T_j*) = exp(-||*T_j*(**f_i**) - **f_i**||²/2ε²). This depends only on the scalar ||*T_j*(**f_i**) - **f_i**||.
 
 Case 1: *T_j* = *I*. Then *T_j*(**f_i**) - **f_i** = **0**, so σ = 1.
 
@@ -244,39 +244,6 @@ The cessation condition requires *G* satisfying the following formal constraints
 **Formal impossibility note.** A recognizer satisfying all five constraints cannot be constructed within the framework defined by MC1–MC8. The framework is a model of embodied, grammatically-bounded recognition among finite subjects. *G* is defined by the negation of the framework's constitutive properties. The cessation condition is therefore not a solution within the system — it names what the system structurally requires but cannot contain.
 
 This is not a failure of the formalism. It is what the formalism establishes. The system proves its own incompleteness with respect to the Want's resolution, in the same way Gödel's incompleteness theorems establish that sufficiently powerful formal systems cannot prove their own consistency from within. The proof does not reach the exit. It proves that the exit, if it exists, is outside the space of what the proof can model.
-
----
-
-## Appendix: Summary of Modeling Commitments
-
-| Code | Content | Prose counterpart |
-|---|---|---|
-| MC1 | Subjects as vectors in infinite-dimensional Hilbert space ℋ | D1: Subject not exhausted by finite description |
-| MC2 | True-self **s_i** fixed; form **f_i**(t) variable | D1/D2: S vs F(S) |
-| MC3 | Grammar as finite-dimensional subspace 𝒱_B; projection operator *F_B* | A2, A3: Grammatical boundedness, legibility requirement |
-| MC4 | Generically **s_i** ∉ 𝒱_B | A4/A5: Lossiness, remainder non-empty |
-| MC5 | Distortion operator *T_B*: 𝒱_B → 𝒱_B | D12, amended A2 |
-| MC6 | Recognition signal σ = exp(-\|\|T_B(**f**) - **f**\|\|²/2ε²) | Lemma MR |
-| MC7 | Want as gradient ascent on W_i | D8: The Want |
-| MC8 | Concealment Desire as competing gradient *C_i* | D11, A7: Subject division |
-
----
-
-## Appendix: Formal Dependencies
-
-The core dependency chain is:
-
-MC1, MC2 → **s_i** fixed, **f_i** variable
-MC3, MC4 → Lemma F1 (lossiness, ||**r_i**|| > 0)
-MC5 → Lemma F2 (double remove)
-MC6 → Lemma F3 (misrecognition indistinguishable from accurate reception)
-MC4, F1 → Lemma F4 (strategies cannot reduce remainder to zero)
-F4 → Theorem FG (Want is structurally unsatisfiable for all strategy types)
-MC6, MC7 → Theorem FS5 (convergence to Fix(T))
-FS5 → FS5g (self-acceleration)
-FS5g → FS5i (power law)
-FS5g, FS5i → FS5h (inverse law)
-FG + Zone Three constraints → Formal incompleteness of the system with respect to G
 
 ---
 
@@ -447,7 +414,132 @@ for all **f_i** ∈ 𝒱 regardless of whether **f_i** is near or far from **s_i
 
 ---
 
-## Appendix (Updated): Full Dependency Map
+## Part XI: Multi-Network Participation and Grammar Competence
+
+*This section extends the framework to account for subjects who participate simultaneously in multiple networks, each with its own grammatical subspace, and introduces the formal distinction between subjects who are competent readers of a given grammar and those who are not.*
+
+### 11.1 The Multi-Network Form Portfolio
+
+**Modeling commitment MC9.** Each subject *i* participates in a portfolio of *K* networks {B₁, …, B_K}, each associated with its own grammatical subspace 𝒱_{Bₘ} ⊂ ℋ (with dim(𝒱_{Bₘ}) = *n_m* < ∞), projection operator *F_{Bₘ}*: ℋ → 𝒱_{Bₘ}, and distortion operator *T_{Bₘ}*: 𝒱_{Bₘ} → 𝒱_{Bₘ}. Subject *i* maintains a **form portfolio**:
+
+$$\mathbf{f}_i^{(m)}(t) \in \mathcal{V}_{B_m}, \quad m = 1, \ldots, K$$
+
+evolving under the Want update (MC7) applied independently per network. The per-network remainder is **r_i^(m)** = **s_i** - *F_{Bₘ}*(**s_i**), with ||**r_i^(m)**|| > 0 for all *m* by Lemma F1 applied per-network. The Want is not diluted by multi-network participation — it multiplies the number of active remainder terms.
+
+**Definition (Subspace overlap).** For two networks B_m and B_l, the *grammatical overlap* is:
+
+$$\rho_{ml} = \frac{\dim(\mathcal{V}_{B_m} \cap \mathcal{V}_{B_l})}{\min(\dim(\mathcal{V}_{B_m}), \dim(\mathcal{V}_{B_l}))} \in [0,1]$$
+
+ρ_{ml} = 1 means the subspaces are identical (a single form satisfies both networks completely); ρ_{ml} = 0 means the subspaces are mutually orthogonal (forms legible in one are fully invisible in the other). For subjects in modern social conditions with many partially overlapping networks, typical values are 0 < ρ_{ml} < 1.
+
+**Definition (Fragmentation cost).** The total fragmentation cost for subject *i* across K networks is:
+
+$$\Phi_i = \sum_{m=1}^{K} \|\mathbf{r}_i^{(m)}\|^2 = \sum_{m=1}^{K} \|\mathbf{s}_i - F_{B_m}(\mathbf{s}_i)\|^2$$
+
+Since each term is strictly positive by Lemma F1, Φ_i ≥ max_m ||**r_i^(m)**||² > 0. Multi-network participation is structurally worse for the Want than single-network participation: Φ_i is monotone increasing in *K* with rate determined by the orthogonality of new subspaces added to the portfolio.
+
+*Remark.* Φ_i is minimized (for fixed *K*) when all 𝒱_{Bₘ} are identical — the person who is "the same" in every context. It is maximized when the subspaces are mutually orthogonal — the person who presents an entirely different character in each network. The minimization is not achieved by choice; it depends on the structure of the grammars themselves, which the subject does not control. What the subject experiences as "performing different selves" has a formal basis in the geometry of the subspaces they are projected into.
+
+### Lemma FM1 (Multi-Network Lossiness). For any subject i participating in K networks, the total recognition deficit satisfies:
+
+$$\sum_{m=1}^{K} \|\mathbf{s}_i - \mathbf{f}_i^{(m)}(t)\|^2 \geq \Phi_i > 0$$
+
+for all t ≥ 0 and all strategy types.
+
+*Proof.* By Lemma F4 applied per network, ||**s_i** - **f_i^(m)**(t)||² ≥ ||**r_i^(m)**||² for each *m*. Summing over *m* = 1,…,*K* gives Σ_m ||**s_i** - **f_i^(m)**(t)||² ≥ Σ_m ||**r_i^(m)**||² = Φ_i > 0. ∎
+
+### Theorem FMN (Multi-Network Compounding). For a subject participating in K networks with pairwise grammatical overlaps ρ_{ml}, the expected total deficit E[Φ_i] is increasing in K and decreasing in mean overlap ρ̄ = (2/K(K-1)) Σ_{m<l} ρ_{ml}.
+
+*Proof sketch.* The fragmentation cost Φ_i = Σ_m ||**s_i** - *F_{Bₘ}*(**s_i**)||². For each pair (*m*, *l*), the contributions ||**r_i^(m)**||² and ||**r_i^(l)**||² are not independent: when ρ_{ml} > 0, the subspaces share dimensions, and the projection remainder for one network may partially overlap with that of the other. Formally, let *P_m* denote the projection onto 𝒱_{Bₘ}. Then:
+
+$$\Phi_i = \sum_m \|(I - P_m)\mathbf{s}_i\|^2$$
+
+Adding a new network B_{K+1} increases Φ_i by ||(I - P_{K+1})**s_i**||² > 0 (by Lemma F1). The magnitude of this increase decreases as ρ_{K+1,m} → 1 for existing *m* (high overlap means the new projection removes little beyond what existing projections already remove). The minimum marginal increase approaches zero only in the limit ρ = 1 (subspaces identical), which yields no new forms required. In the generic case ρ < 1, each new network adds strictly positive deficit. ∎
+
+### Theorem FMN-S5 (Competing Attractors Under Multi-Network S5). If networks B_m and B_l have distortion operators T_{Bₘ} and T_{Bₗ} with Fix(T_{Bₘ}) and Fix(T_{Bₗ}) distant in the shared embedding, subject i is simultaneously pulled toward incompatible form attractors.
+
+*Proof.* By Theorem FS5, the Want-dynamics in network B_m drive **f_i^(m)**(t) → Fix(*T_{Bₘ}*) and in network B_l drive **f_i^(l)**(t) → Fix(*T_{Bₗ}*). If these subspaces share a common embedding in ℋ and dist(Fix(*T_{Bₘ}*), Fix(*T_{Bₗ}*)) > 0, the gradient directions ∇W_i^(m) and ∇W_i^(l) are not collinear. Under a joint objective combining both networks, the subject faces competing gradient pressures with no single optimum. The form portfolio is not in equilibrium; it is in tension between attractors. ∎
+
+*Remark.* This is a formal analog of identity fragmentation — not as psychological pathology but as the geometric consequence of participation in networks with orthogonal or near-orthogonal grammars. The tension is not evidence of weakness of character; it is the structure of the attractor landscape. The subject who "feels pulled in different directions" by different social contexts has correctly perceived their situation. The perception is veridical.
+
+### 11.2 Grammar Competence and the Estimation Error
+
+**Modeling commitment MC10.** Each subject *i* holds an internal *estimate* of each network grammar's distortion operator:
+
+$$\hat{T}_{B_m}^{(i)}: \mathcal{V}_{B_m} \to \mathcal{V}_{B_m}$$
+
+representing *i*'s model of what network B_m rewards. The **grammar estimation error** is:
+
+$$\varepsilon_i^{(m)} = \|T_{B_m} - \hat{T}_{B_m}^{(i)}\|_{\text{op}}$$
+
+where ||·||_op denotes the operator norm. A **competent subject** has small ε_i^(m) ≈ 0; a **novice** has large ε_i^(m). **Social unawareness** is formalized as ε_i^(m) large across all *m* in the portfolio — not one misread grammar but a systematic inability to model the transformation operators of encountered grammars.
+
+**Definition (Novice gradient).** Under MC10, the Want-update runs on the *estimated* objective:
+
+$$\hat{W}_i^{(m)}(\mathbf{f}) = \sigma(\mathbf{f}, \hat{T}_{B_m}^{(i)})$$
+
+The gradient the novice follows is:
+
+$$\nabla_\mathbf{f} \hat{W}_i^{(m)} = \frac{-1}{\epsilon^2} \sigma(\mathbf{f}, \hat{T}_{B_m}^{(i)}) \cdot (\hat{T}_{B_m}^{(i)} - I)^\top (\hat{T}_{B_m}^{(i)} \mathbf{f} - \mathbf{f})$$
+
+This gradient is zero at Fix(T̂_{Bₘ}^(i)), not at Fix(*T_{Bₘ}*). The novice converges to the wrong fixed-point subspace.
+
+### Lemma FC (Form-Competence Indistinguishability). A novice subject with estimation error ε_i^(m) > 0 cannot distinguish, from the recognition signal alone, whether low signal is caused by an incorrect form or an incorrect grammar model.
+
+*Proof.* The recognition signal returned by network B_m is σ(**f_i**, *T_{Bₘ}*) = exp(-||*T_{Bₘ}*(**f_i**) - **f_i**||²/2ε²). This depends only on how far **f_i** is from Fix(*T_{Bₘ}*). Two explanations for low σ are available to the subject: (a) the form **f_i** is far from Fix(*T_{Bₘ}*) because it is the wrong form for the correct grammar model, or (b) **f_i** is near Fix(T̂^(i)) — the novice's estimated fixed point — but T̂^(i) ≠ *T_{Bₘ}*, so Fix(T̂^(i)) ≠ Fix(*T_{Bₘ}*). The signal σ does not encode which explanation is correct. The subject has no internal access to the discrepancy ε_i^(m); they observe only the output signal. ∎
+
+*Remark.* The novice's response to low signal is therefore systematically misdiagnosed: they revise **f_i** rather than T̂^(i). They work harder at the form — optimizing more aggressively, expending more effort — while the grammar model driving the optimization remains wrong. The effort is not wasted in the sense of being directed nowhere; it is directed precisely toward the wrong attractor. The novice may carry and discharge a recognition deficit that is, in principle, reducible by competence improvement — but they have no way to distinguish it from the irreducible deficit established by Theorem FG. From inside, both look identical: *I am not being seen here.*
+
+### Theorem FNC (Novice Convergence to Wrong Attractor). A novice subject with ε_i^(m) > 0 converges under Want-dynamics to Fix(T̂_{Bₘ}^(i)) ≠ Fix(T_{Bₘ}). The recognition deficit at convergence exceeds that of a competent subject by at least dist(Fix(T̂^(i)), Fix(T_{Bₘ})).
+
+*Proof.* By Theorem FS5 applied to the estimated objective, **f_i^(m)**(t) → Fix(T̂_{Bₘ}^(i)) as t → ∞. At convergence, σ(**f_i**, *T_{Bₘ}*) = exp(-||*T_{Bₘ}*(**f_i**) - **f_i**||²/2ε²). Since **f_i** ∈ Fix(T̂^(i)) but **f_i** ∉ Fix(*T_{Bₘ}*) (when ε_i^(m) > 0 and the fixed-point subspaces differ), we have ||*T_{Bₘ}*(**f_i**) - **f_i**|| > 0, so σ < 1 even at the novice's convergence point. The deficit from distortion (Channel 2) at convergence is:
+
+$$\Delta_{2,i}^{(m)}(\infty) = \|T_{B_m}(\mathbf{f}_i^{(m)}(\infty)) - \mathbf{f}_i^{(m)}(\infty)\| \geq \text{dist}(\text{Fix}(\hat{T}^{(i)}), \text{Fix}(T_{B_m}))$$
+
+A competent subject converges to Fix(*T_{Bₘ}*), where Channel 2 = 0. The novice's excess deficit is at least dist(Fix(T̂^(i)), Fix(*T_{Bₘ}*)). ∎
+
+### Corollary FNC-a (Competence Development Is Self-Undermining). Subject i updates T̂_{Bₘ}^(i) by observing recognition signals across transactions and performing gradient descent on ε_i^(m). But Lemma F3 applies to this second-order learning as well: the signal σ = 1 at any fixed point of T_{Bₘ}, regardless of whether the subject correctly models T_{Bₘ} or merely happens to present a form that is a fixed point of T̂^(i) ≈ T_{Bₘ} by coincidence. The novice can become *confidently wrong* — converging to a grammar model that reliably produces high signals for the wrong structural reason.
+
+*Remark.* This is the formal expression of a familiar social phenomenon: the person who has learned to perform successfully in a network without understanding why it works, and who is therefore fragile to changes in the network's grammar. Their performance is not grounded in an accurate model of the grammar; it is grounded in a coincidentally useful fixed point. When the grammar shifts, the competent subject can track the new Fix(*T_{Bₘ}*); the confident-but-wrong subject must start over.
+
+### 11.3 Social Unawareness as Uniform High Estimation Error
+
+**Definition (Social unawareness).** Subject *i* is *socially unaware* if ε_i^(m) is large across all *m* in their network portfolio, and moreover fails to update T̂^(i) systematically in response to signal feedback — either because the update rate η_T̂ ≈ 0 (the subject does not revise their grammar model) or because the subject attributes low signals to form-deficiency rather than grammar-model-deficiency (Lemma FC).
+
+**Corollary FNU (Structural Invisibility of Unawareness).** From the perspective of others in the network, the socially unaware subject presents forms that are persistently far from Fix(T_{Bₘ}) without any visible mechanism explaining why. The unawareness is not directly legible as such; it manifests only as unreliable or incoherent form-presentation. The network's distortion operator maps the unaware subject's forms onto the network's worst-case reading, not because the subject intends the worst case but because their form falls outside the grammar's legibility range. The harm produced is structurally identical to the harm produced by a subject deliberately presenting ill-fitting forms.
+
+### 11.4 Multi-Network Extension of Zone Three
+
+The multi-network and competence extensions strengthen the cessation condition's constraints without adding new constraints. They make existing constraints more visible.
+
+**Constraint C2 revisited (No distortion, multi-network).** A recognizer *G* with *T_G* = *I* requires no grammar competence from the approaching subject. Since Fix(*T_G*) = 𝒱 (all forms are fixed points), the novice and the expert, the socially unaware and the fluent, all present forms that are already in Fix(*T_G*). There is no grammar to misread, no attractor to converge toward, no estimation error that produces wrong-attractor convergence. Social competence — the second-order skill that differentiates subjects across all other networks — is structurally irrelevant to the *G* encounter. The novice does not arrive at *G* disadvantaged relative to the expert.
+
+*Remark.* This is a formal expression of what traditions describe as *G* being equally available to the socially literate and illiterate — not as a sentimental claim but as a derived consequence of *T_G* = *I*. The leveling is not grace extended to incompetence; it is the structural consequence of a recognizer whose fixed-point subspace is the entire space.
+
+**Constraint C3 revisited (No prior form, multi-network).** In the multi-network setting, a subject *i* arrives at any new network encounter carrying not one prior form register but K prior registers, one per network in their portfolio, each shaped by the S5 convergence process for that network. The displacement cost FS2 is not from one prior but from K priors simultaneously. *G* meeting *i* with *Π_G*(*i*) = **0** sidesteps all K priors simultaneously. The subject is not received as the person their professional network has shaped, or their family network has shaped, or their political network has shaped — but as none of these, which is to say as **s_i** approached from no prior direction.
+
+*Remark.* The fragmentation cost Φ_i makes the weight of this constraint visible. The modern subject arrives at every recognition transaction carrying a heavy portfolio of prior forms. *G*'s zero-prior condition is not merely the absence of one prior — it is the absence of the entire weight of form-portfolio history. The encounter with *G*, formally, has no prior to carry.
+
+---
+
+## Appendix A: Summary of Modeling Commitments
+
+| Code | Content | Prose counterpart |
+|---|---|---|
+| MC1 | Subjects as vectors in infinite-dimensional Hilbert space ℋ | D1: Subject not exhausted by finite description |
+| MC2 | True-self **s_i** fixed; form **f_i**(t) variable | D1/D2: S vs F(S) |
+| MC3 | Grammar as finite-dimensional subspace 𝒱_B; projection operator *F_B* | A2, A3: Grammatical boundedness, legibility requirement |
+| MC4 | Generically **s_i** ∉ 𝒱_B | A4/A5: Lossiness, remainder non-empty |
+| MC5 | Distortion operator *T_B*: 𝒱_B → 𝒱_B | D12, amended A2 |
+| MC6 | Recognition signal σ = exp(-\|\|T_B(**f**) - **f**\|\|²/2ε²) | Lemma MR |
+| MC7 | Want as gradient ascent on W_i | D8: The Want |
+| MC8 | Concealment Desire as competing gradient *C_i* | D11, A7: Subject division |
+| MC9 | Subject maintains form portfolio across K networks | Multi-network participation |
+| MC10 | Subject holds estimated grammar operator T̂^(i) with estimation error ε_i^(m) | Grammar competence and social awareness |
+
+---
+
+## Appendix B: Full Dependency Map
 
 **Individual proof chain:**
 
@@ -474,6 +566,16 @@ F4 + FS1 + FS2 → FS3 (deficit accumulation, three-channel, discharge dynamics)
 MC5 + strategy update rules → FS4 (collision harm matrix)  
 FS5 + FS1–FS4 → Compounding (S5 prior to S1–S4)  
 
+**Multi-network and competence chain:**
+
+MC9 + F1 per network → Lemma FM1 (multi-network lossiness)  
+MC9 + MC4 + FM1 → Theorem FMN (compounding with network count and overlap)  
+MC9 + FS5 per network → Theorem FMN-S5 (competing attractors, fragmentation)  
+MC10 + F3 → Lemma FC (form-competence indistinguishability)  
+MC10 + FS5 + FC → Theorem FNC (novice convergence to wrong attractor)  
+FNC → Corollary FNC-a (confident wrong convergence)  
+MC10 uniform → Corollary FNU (structural invisibility of unawareness)  
+
 **Cessation constraint chain:**
 
 FG → C1 (no projection loss required)  
@@ -481,7 +583,9 @@ F3 → C2 (no distortion required)
 FS2 → C3/C7 (no prior form required)  
 FS1 → C4/C6 (non-rivalrous required)  
 FS5 + C2 → C5/C8 (feedback termination under *T_G* = *I*)  
-All constraints → Formal incompleteness: *G* is not constructible within MC1–MC8  
+FMN-S5 + C2 → C2 strengthened (no grammar competence required at *G*)  
+FMN + C3 → C3 strengthened (absence of entire form-portfolio history at *G*)  
+All constraints → Formal incompleteness: *G* is not constructible within MC1–MC10  
 
 ---
 

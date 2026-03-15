@@ -207,3 +207,7 @@ Other things to consider:
 3. Some S's are unable to correctly project F(S) for a given network.
 
 python3 -m sim.run --sweep
+
+---
+
+Figure out which theorems remain unsatisfied. FS5i
