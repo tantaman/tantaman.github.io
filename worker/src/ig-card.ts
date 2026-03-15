@@ -291,7 +291,7 @@ igCard.get("/:slug", async (c) => {
 
   try {
     // Fetch manifest and find post
-    const manifest = await fetchManifest(c.env.EMBEDDINGS);
+    const manifest = await fetchManifest(c.env.KV);
     console.log(`[ig-card] manifest fetched, ${manifest.length} entries`);
     const entry = manifest.find((p) => p.slug === slug);
     console.log(`[ig-card] entry lookup: ${entry ? "found" : "NOT FOUND"}`);
@@ -318,7 +318,7 @@ igCard.get("/:slug", async (c) => {
     await ensureWasm();
 
     // Load font
-    const fontData = await loadFont(c.env.EMBEDDINGS);
+    const fontData = await loadFont(c.env.KV);
     console.log(`[ig-card] font loaded, ${fontData.byteLength} bytes`);
 
     // Render SVG via satori

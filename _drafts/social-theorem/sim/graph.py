@@ -50,6 +50,40 @@ class SocialGraph:
         """Reduce omega(i, j) by reduction amount, clamped at 0."""
         self.omega[i, j] = max(0.0, self.omega[i, j] - reduction)
 
+    def kill_subject(self, i):
+        """Remove all edges involving subject i (zero out row and column)."""
+        self.adjacency[i, :] = 0
+        self.adjacency[:, i] = 0
+        self.omega[i, :] = 0.0
+        self.omega[:, i] = 0.0
+
+    def birth_subject(self, i, cfg, rng):
+        """Create random Erdos-Renyi edges for new subject at slot i."""
+        N = self.N
+        # Outgoing edges i -> j
+        for j in range(N):
+            if j == i:
+                continue
+            if rng.random() < cfg.edge_prob:
+                self.adjacency[i, j] = 1
+                self.omega[i, j] = rng.uniform(cfg.omega_init_range[0],
+                                                cfg.omega_init_range[1])
+        # Incoming edges j -> i
+        for j in range(N):
+            if j == i:
+                continue
+            if rng.random() < cfg.edge_prob:
+                self.adjacency[j, i] = 1
+                self.omega[j, i] = rng.uniform(cfg.omega_init_range[0],
+                                                cfg.omega_init_range[1])
+        # Normalize budgets for i and all affected columns
+        for j in range(N):
+            neighbors = self.neighbors_of(j)
+            if len(neighbors) > 0:
+                total = self.omega[neighbors, j].sum()
+                if total > 1.0:
+                    self.omega[neighbors, j] /= total
+
     def rewire(self, forms, T_matrices, cfg, rng):
         """Drop low-signal edges, add edges toward high-signal subjects.
 

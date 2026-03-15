@@ -4,6 +4,23 @@ import numpy as np
 from .config import SimConfig
 
 
+def init_single_subject(cfg: SimConfig, rng: np.random.Generator):
+    """Initialize a single subject: (s_proj_i, f_i, r_norm_i, strategy_i)."""
+    n = cfg.n
+    s_proj_i = rng.standard_normal(n)
+    s_proj_i /= np.linalg.norm(s_proj_i)
+    s_proj_i *= rng.uniform(1.0, 3.0)
+
+    r_norm_i = rng.uniform(cfg.r_norm_range[0], cfg.r_norm_range[1])
+    f_i = s_proj_i + rng.standard_normal(n) * 0.1
+
+    names = list(cfg.strategy_fractions.keys())
+    weights = list(cfg.strategy_fractions.values())
+    strategy_i = rng.choice(names, p=np.array(weights) / sum(weights))
+
+    return s_proj_i, f_i, r_norm_i, strategy_i
+
+
 def init_subjects(cfg: SimConfig, rng: np.random.Generator):
     """Initialize N subjects with s_i_proj, f_i, r_i_norm, strategy labels."""
     N, n = cfg.N, cfg.n
@@ -59,6 +76,23 @@ def make_prototypes(cfg: SimConfig, rng: np.random.Generator):
         prototypes.append(T)
 
     return prototypes, fix_dims
+
+
+def assign_single_T(cfg: SimConfig, prototypes, rng: np.random.Generator):
+    """Assign a single subject a T_i as a small perturbation of one prototype.
+
+    Returns:
+        (T_i, proto_idx) — the (n, n) matrix and the chosen prototype index.
+    """
+    n = cfg.n
+    proto_idx = rng.integers(0, len(prototypes))
+    proto = prototypes[proto_idx]
+    skew = rng.standard_normal((n, n)) * cfg.perturb_scale
+    skew = (skew - skew.T) / 2
+    rotation = np.eye(n) + skew
+    rotation, _ = np.linalg.qr(rotation)
+    T_i = rotation @ proto @ rotation.T
+    return T_i, proto_idx
 
 
 def assign_T_matrices(cfg: SimConfig, prototypes, rng: np.random.Generator):

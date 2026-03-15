@@ -130,6 +130,11 @@ def main():
                         help='Max parallel workers for sweep (default: cpu_count)')
     parser.add_argument('--sweep-output', type=str, default=None,
                         help='CSV output path for sweep results')
+    parser.add_argument('--turnover-rate', type=float, default=None,
+                        help='Fraction of population replaced per step (0 = closed)')
+    parser.add_argument('--turnover-bias', type=str, default=None,
+                        choices=['random', 'disconnected'],
+                        help='Turnover victim selection bias')
 
     args = parser.parse_args()
 
@@ -166,9 +171,13 @@ def main():
         cfg.eta = args.eta
     if args.eta_T is not None:
         cfg.eta_T = args.eta_T
+    if args.turnover_rate is not None:
+        cfg.turnover_rate = args.turnover_rate
+    if args.turnover_bias is not None:
+        cfg.turnover_bias = args.turnover_bias
 
     print(f"Running simulation: N={cfg.N}, n={cfg.n}, T={cfg.T_steps}, "
-          f"seed={cfg.seed}, eta_T={cfg.eta_T}")
+          f"seed={cfg.seed}, eta_T={cfg.eta_T}, turnover={cfg.turnover_rate}")
 
     sim = Simulation(cfg)
     sim.run(verbose=not args.quiet)

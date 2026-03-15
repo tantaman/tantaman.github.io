@@ -73,12 +73,13 @@ export class TtsWorkflow extends WorkflowEntrypoint<Env, TtsParams> {
         },
       );
 
-      // Clean up individual chunks
+      // Clean up individual chunks and KV job lock
       for (let i = 0; i < totalChunks; i++) {
         await this.env.AUDIO_BUCKET.delete(
           `paste/${pasteId}/chunk-${i}.mp3`,
         );
       }
+      await this.env.KV.delete(`tts-job:${pasteId}`);
     });
 
     return { ok: true, totalChunks };

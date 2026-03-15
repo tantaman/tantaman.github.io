@@ -97,7 +97,7 @@ export function createMcpServer(env: Env) {
       const queryVec = await embedText(env.AI, query);
 
       // Load chunks from KV
-      const chunks = await loadChunks(env.EMBEDDINGS);
+      const chunks = await loadChunks(env.KV);
 
       // Compute similarities
       const scored = chunks.map((chunk) => ({

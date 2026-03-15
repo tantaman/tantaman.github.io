@@ -4,7 +4,8 @@ import numpy as np
 from sklearn.cluster import DBSCAN
 
 from .config import SimConfig
-from .core import init_subjects, make_prototypes, assign_T_matrices
+from .core import (init_subjects, make_prototypes, assign_T_matrices,
+                    init_single_subject, assign_single_T)
 from .dynamics import apply_update, update_T
 from .graph import SocialGraph
 from .deficit import DeficitAccumulator, PriorFormRegister
@@ -34,9 +35,9 @@ class Simulation:
             init_subjects(self.cfg, self.rng)
 
         # Initialize T matrices with prototype structure
-        prototypes, self.fix_dims = make_prototypes(self.cfg, self.rng)
+        self.prototypes, self.fix_dims = make_prototypes(self.cfg, self.rng)
         self.T_matrices, self.proto_assignments = \
-            assign_T_matrices(self.cfg, prototypes, self.rng)
+            assign_T_matrices(self.cfg, self.prototypes, self.rng)
 
         # Initialize graph
         self.graph = SocialGraph(self.cfg, self.rng)
@@ -184,11 +185,64 @@ class Simulation:
 
         return len(unique_labels), sizes
 
+    def _do_turnover(self):
+        """Replace a fraction of the population with fresh subjects."""
+        cfg = self.cfg
+        if cfg.turnover_rate <= 0 or self.t < cfg.turnover_warmup:
+            return
+
+        N = cfg.N
+        n_deaths = self.rng.poisson(cfg.turnover_rate * N)
+        if n_deaths == 0:
+            return
+        n_deaths = min(n_deaths, N)
+
+        if cfg.turnover_bias == "disconnected":
+            # Bias toward subjects with fewer edges
+            degrees = self.graph.adjacency.sum(axis=0) + self.graph.adjacency.sum(axis=1)
+            inv_degree = 1.0 / (degrees + 1.0)
+            probs = inv_degree / inv_degree.sum()
+            victims = self.rng.choice(N, size=n_deaths, replace=False, p=probs)
+        else:
+            victims = self.rng.choice(N, size=n_deaths, replace=False)
+
+        for i in victims:
+            # Death
+            self.graph.kill_subject(i)
+            self.deficit_acc.reset_subject(i)
+            self.prior_forms.remove_subject(i)
+            self.cluster_labels[i] = -1
+
+            # Birth
+            s_proj_i, f_i, r_norm_i, strategy_i = init_single_subject(cfg, self.rng)
+            self.s_proj[i] = s_proj_i
+            self.forms[i] = f_i
+            self.r_norms[i] = r_norm_i
+            self.strategies[i] = strategy_i
+
+            T_i, proto_idx = assign_single_T(cfg, self.prototypes, self.rng)
+            self.T_matrices[i] = T_i
+            self.proto_assignments[i] = proto_idx
+
+            self.graph.birth_subject(i, cfg, self.rng)
+
+        # Update prior forms for edges involving newborns
+        for i in victims:
+            # i as recognizer
+            for j in self.graph.presentees_of(i):
+                self.prior_forms.update(i, j, self.T_matrices[i], self.forms[j])
+            # i as presentee
+            for j in self.graph.neighbors_of(i):
+                self.prior_forms.update(j, i, self.T_matrices[j], self.forms[i])
+
     def step(self):
         """Execute one timestep of the simulation."""
         t = self.t
         cfg = self.cfg
         N = cfg.N
+
+        # 0. Turnover (open-population dynamics)
+        self._do_turnover()
 
         # 1. Compute centroids for collective strategy
         centroids = self._compute_centroids()

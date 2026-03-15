@@ -68,6 +68,11 @@ class SimConfig:
     cluster_eps: float = 0.0        # DBSCAN epsilon (0 = adaptive)
     cluster_min_samples: int = 3    # DBSCAN min_samples
 
+    # Turnover (open-population dynamics)
+    turnover_rate: float = 0.0        # fraction of population replaced per step (0 = closed)
+    turnover_bias: str = "random"     # "random" or "disconnected"
+    turnover_warmup: int = 100        # steps before turnover begins (let fields nucleate first)
+
     # Simulation
     T_steps: int = 1500       # total timesteps
     snapshot_interval: int = 10    # save full form snapshots every N steps

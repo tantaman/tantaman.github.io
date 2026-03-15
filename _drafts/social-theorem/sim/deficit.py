@@ -19,6 +19,13 @@ class DeficitAccumulator:
         self.channel_3 = np.zeros(N)
         self.discharge_events = []  # list of (timestep, subject, target)
 
+    def reset_subject(self, i):
+        """Zero deficit and all channels for subject i."""
+        self.deficit[i] = 0.0
+        self.channel_1[i] = 0.0
+        self.channel_2[i] = 0.0
+        self.channel_3[i] = 0.0
+
     def compute_channels(self, forms, s_proj, r_norms, T_matrices, graph):
         """Compute per-subject 3-channel deficit values."""
         N = self.N
@@ -110,6 +117,12 @@ class PriorFormRegister:
 
     def __init__(self):
         self.forms = {}
+
+    def remove_subject(self, i):
+        """Delete all prior-form entries involving subject i."""
+        to_delete = [k for k in self.forms if k[0] == i or k[1] == i]
+        for k in to_delete:
+            del self.forms[k]
 
     def update(self, i, j, T_i, f_j):
         """Update i's prior form for j."""

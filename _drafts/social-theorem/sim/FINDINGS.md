@@ -205,3 +205,5 @@ Other things to consider:
 1. S projects many F(S) depending on network
 2. S maybe avoid many networks too
 3. Some S's are unable to correctly project F(S) for a given network.
+
+python3 -m sim.run --sweep

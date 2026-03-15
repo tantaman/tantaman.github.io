@@ -531,6 +531,17 @@ paste.get("/:id/audio", async (c) => {
     });
   }
 
+  // Check KV for an existing in-flight job
+  const kvKey = `tts-job:${id}`;
+  const existingJob = await c.env.KV.get(kvKey, "json") as { instanceId: string; totalChunks: number } | null;
+  if (existingJob) {
+    return c.json({
+      status: "generating",
+      instanceId: existingJob.instanceId,
+      totalChunks: existingJob.totalChunks,
+    });
+  }
+
   const text = stripMarkdown(row.body);
   if (!text) {
     return c.text("No speakable text found", 400);
@@ -541,6 +552,11 @@ paste.get("/:id/audio", async (c) => {
   // Kick off durable workflow
   const instance = await c.env.TTS_WORKFLOW.create({
     params: { pasteId: id, text },
+  });
+
+  // Record job in KV with 1-hour TTL to prevent duplicates
+  await c.env.KV.put(kvKey, JSON.stringify({ instanceId: instance.id, totalChunks }), {
+    expirationTtl: 3600,
   });
 
   return c.json({
@@ -598,6 +614,7 @@ paste.delete("/:id/audio", async (c) => {
   const id = c.req.param("id");
   const r2Key = `paste/${id}.mp3`;
   await c.env.AUDIO_BUCKET.delete(r2Key);
+  await c.env.KV.delete(`tts-job:${id}`);
   return c.json({ ok: true, deleted: r2Key });
 });
 
@@ -710,22 +727,19 @@ paste.get("/:id", async (c) => {
     ${rendered}
     <div class="actions">
       <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>${row.language === "markdown" ? `
-      <span id="audio-container" style="display:inline-block;vertical-align:middle">
-        <audio id="audio-player" controls preload="none" style="height:2rem"></audio>
-        <span id="audio-status" class="meta" style="margin-left:0.5rem"></span>
-      </span>
+      <button id="play-btn" style="display:inline-block;vertical-align:middle;padding:0.35rem 1rem;font-size:0.75rem">listen</button>
+      <audio id="audio-player" preload="none" style="display:none;height:2rem;vertical-align:middle"></audio>
+      <span id="audio-status" class="meta" style="margin-left:0.5rem"></span>
       <script>
       (function() {
         const pasteId = ${JSON.stringify(row.id)};
+        const btn = document.getElementById('play-btn');
         const audio = document.getElementById('audio-player');
         const statusEl = document.getElementById('audio-status');
-        let started = false;
 
-        audio.addEventListener('play', async function onPlay() {
-          if (started) return;
-          started = true;
-          audio.removeEventListener('play', onPlay);
-
+        btn.addEventListener('click', async function onClick() {
+          btn.removeEventListener('click', onClick);
+          btn.style.display = 'none';
           statusEl.textContent = 'loading...';
 
           try {
@@ -733,15 +747,15 @@ paste.get("/:id", async (c) => {
             const ct = res.headers.get('content-type') || '';
 
             if (ct.includes('audio/mpeg')) {
-              // Cached full MP3
               const blob = await res.blob();
               audio.src = URL.createObjectURL(blob);
+              audio.controls = true;
+              audio.style.display = 'inline-block';
               audio.play();
               statusEl.textContent = '';
               return;
             }
 
-            // Workflow started — poll chunks
             const data = await res.json();
             if (data.status !== 'generating') {
               statusEl.textContent = data.error || 'error';
@@ -751,7 +765,6 @@ paste.get("/:id", async (c) => {
             const { instanceId, totalChunks } = data;
             const chunkUrls = [];
 
-            // Collect chunk blobs as they become available
             for (let i = 0; i < totalChunks; i++) {
               statusEl.textContent = 'generating ' + (i + 1) + '/' + totalChunks + '...';
               let chunkBlob = null;
@@ -760,7 +773,6 @@ paste.get("/:id", async (c) => {
                 if (cr.ok) {
                   chunkBlob = await cr.blob();
                 } else {
-                  // Check if workflow errored
                   const sr = await fetch('/paste/' + pasteId + '/audio/status?instanceId=' + instanceId);
                   const st = await sr.json();
                   if (st.status === 'errored') {
@@ -772,16 +784,16 @@ paste.get("/:id", async (c) => {
               }
               chunkUrls.push(URL.createObjectURL(chunkBlob));
 
-              // Start playback from first chunk immediately
               if (i === 0) {
                 audio.src = chunkUrls[0];
+                audio.controls = true;
+                audio.style.display = 'inline-block';
                 audio.play();
               }
             }
 
             statusEl.textContent = '';
 
-            // Chain playback: when current chunk ends, play next
             let currentChunk = 0;
             audio.addEventListener('ended', function advance() {
               currentChunk++;
@@ -789,7 +801,6 @@ paste.get("/:id", async (c) => {
                 audio.src = chunkUrls[currentChunk];
                 audio.play();
               } else {
-                // All chunks played — try to load the full cached version for seeking
                 audio.removeEventListener('ended', advance);
                 fetch('/paste/' + pasteId + '/audio').then(r => {
                   if (r.ok && (r.headers.get('content-type') || '').includes('audio/mpeg')) {

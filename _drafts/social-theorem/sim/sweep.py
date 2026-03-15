@@ -17,6 +17,7 @@ DEFAULT_GRID = {
     'eta_T': [0.0, 0.001, 0.005],
     'lambda_C': [0.1, 0.3, 0.5],
     'N': [100, 300],
+    'turnover_rate': [0.0, 0.01, 0.02],
 }
 
 
@@ -177,7 +178,7 @@ def _print_summary(results):
     if best:
         print(f"\nBest configuration ({best.get('n_pass', 0)}/7 PASS, "
               f"{best.get('n_weak', 0)}/7 WEAK):")
-        for key in ['N', 'epsilon', 'eta', 'eta_T', 'lambda_C']:
+        for key in ['N', 'epsilon', 'eta', 'eta_T', 'lambda_C', 'turnover_rate']:
             if key in best:
                 print(f"  {key} = {best[key]}")
         for th in theorems:
@@ -203,7 +204,7 @@ def _print_summary(results):
 
     # Parameter sensitivity: for each param, which values produce most passes
     print("\nParameter sensitivity (mean passes per value):")
-    for key in ['epsilon', 'eta', 'eta_T', 'lambda_C', 'N']:
+    for key in ['epsilon', 'eta', 'eta_T', 'lambda_C', 'N', 'turnover_rate']:
         vals = sorted(set(r.get(key) for r in results if key in r))
         if not vals:
             continue

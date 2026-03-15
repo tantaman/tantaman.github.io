@@ -44,7 +44,7 @@ import {
 
 export interface Env {
   AI: Ai;
-  EMBEDDINGS: KVNamespace;
+  KV: KVNamespace;
   DB: D1Database;
   BUCKET: R2Bucket;
   AUDIO_BUCKET: R2Bucket;

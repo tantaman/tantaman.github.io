@@ -13,7 +13,7 @@ routes = [
 ]
 
 [[kv_namespaces]]
-binding = "EMBEDDINGS"
+binding = "KV"
 id = "c616f080e03e4c1292ff8004b93cbd0b"
 
 [ai]
