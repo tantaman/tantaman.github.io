@@ -504,6 +504,7 @@ paste.get("/:id/module", async (c) => {
 });
 
 // GET /:id/audio — TTS audio for markdown pastes (public)
+// Returns cached MP3 if available, otherwise kicks off a workflow and returns JSON.
 paste.get("/:id/audio", async (c) => {
   const id = c.req.param("id");
   const row = await c.env.DB.prepare("SELECT body, language FROM paste WHERE id = ?")
@@ -519,7 +520,7 @@ paste.get("/:id/audio", async (c) => {
 
   const r2Key = `paste/${id}.mp3`;
 
-  // Check R2 cache
+  // Check R2 cache — fast path
   const existing = await c.env.AUDIO_BUCKET.get(r2Key);
   if (existing) {
     return new Response(existing.body, {
@@ -530,34 +531,63 @@ paste.get("/:id/audio", async (c) => {
     });
   }
 
-  // Generate via Workers AI (chunked to stay under Deepgram's 2000-char limit)
   const text = stripMarkdown(row.body);
   if (!text) {
     return c.text("No speakable text found", 400);
   }
 
-  let audioBytes: ArrayBuffer;
+  const totalChunks = chunkText(text, 1900).length;
+
+  // Kick off durable workflow
+  const instance = await c.env.TTS_WORKFLOW.create({
+    params: { pasteId: id, text },
+  });
+
+  return c.json({
+    status: "generating",
+    instanceId: instance.id,
+    totalChunks,
+  });
+});
+
+// GET /:id/audio/status — poll workflow status
+paste.get("/:id/audio/status", async (c) => {
+  const instanceId = c.req.query("instanceId");
+  if (!instanceId) {
+    return c.json({ error: "instanceId query param required" }, 400);
+  }
+
   try {
-    const chunks = chunkText(text, 1900);
-    audioBytes = await generateTtsChunks(c.env.AI, chunks);
-  } catch (e) {
-    return c.text(`TTS generation failed: ${e instanceof Error ? e.message : String(e)}`, 502);
+    const instance = await c.env.TTS_WORKFLOW.get(instanceId);
+    const status = await instance.status();
+    return c.json({
+      status: status.status,
+      ...(status.error ? { error: String(status.error) } : {}),
+    });
+  } catch {
+    return c.json({ error: "Instance not found" }, 404);
+  }
+});
+
+// GET /:id/audio/chunk/:index — fetch individual TTS chunk from R2
+paste.get("/:id/audio/chunk/:index", async (c) => {
+  const id = c.req.param("id");
+  const index = c.req.param("index");
+
+  const obj = await c.env.AUDIO_BUCKET.get(`paste/${id}/chunk-${index}.mp3`);
+  if (!obj) {
+    return c.text("Not found", 404);
   }
 
-  if (audioBytes.byteLength === 0) {
-    return c.text("TTS generation returned empty audio", 502);
+  const totalChunks = obj.customMetadata?.totalChunks;
+  const headers: Record<string, string> = {
+    "Content-Type": "audio/mpeg",
+  };
+  if (totalChunks) {
+    headers["X-Total-Chunks"] = totalChunks;
   }
 
-  await c.env.AUDIO_BUCKET.put(r2Key, audioBytes, {
-    httpMetadata: { contentType: "audio/mpeg" },
-  });
-
-  return new Response(audioBytes, {
-    headers: {
-      "Content-Type": "audio/mpeg",
-      "Cache-Control": "public, max-age=31536000, immutable",
-    },
-  });
+  return new Response(obj.body, { headers });
 });
 
 // DELETE /:id/audio — purge cached audio from R2 (auth required)
@@ -680,7 +710,107 @@ paste.get("/:id", async (c) => {
     ${rendered}
     <div class="actions">
       <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>${row.language === "markdown" ? `
-      <audio src="/paste/${escapeHtml(row.id)}/audio" controls preload="none" style="vertical-align:middle;height:2rem"></audio>` : ""}
+      <span id="audio-container" style="display:inline-block;vertical-align:middle">
+        <audio id="audio-player" controls preload="none" style="height:2rem"></audio>
+        <span id="audio-status" class="meta" style="margin-left:0.5rem"></span>
+      </span>
+      <script>
+      (function() {
+        const pasteId = ${JSON.stringify(row.id)};
+        const audio = document.getElementById('audio-player');
+        const statusEl = document.getElementById('audio-status');
+        let started = false;
+
+        audio.addEventListener('play', async function onPlay() {
+          if (started) return;
+          started = true;
+          audio.removeEventListener('play', onPlay);
+
+          statusEl.textContent = 'loading...';
+
+          try {
+            const res = await fetch('/paste/' + pasteId + '/audio');
+            const ct = res.headers.get('content-type') || '';
+
+            if (ct.includes('audio/mpeg')) {
+              // Cached full MP3
+              const blob = await res.blob();
+              audio.src = URL.createObjectURL(blob);
+              audio.play();
+              statusEl.textContent = '';
+              return;
+            }
+
+            // Workflow started — poll chunks
+            const data = await res.json();
+            if (data.status !== 'generating') {
+              statusEl.textContent = data.error || 'error';
+              return;
+            }
+
+            const { instanceId, totalChunks } = data;
+            const chunkUrls = [];
+
+            // Collect chunk blobs as they become available
+            for (let i = 0; i < totalChunks; i++) {
+              statusEl.textContent = 'generating ' + (i + 1) + '/' + totalChunks + '...';
+              let chunkBlob = null;
+              while (!chunkBlob) {
+                const cr = await fetch('/paste/' + pasteId + '/audio/chunk/' + i);
+                if (cr.ok) {
+                  chunkBlob = await cr.blob();
+                } else {
+                  // Check if workflow errored
+                  const sr = await fetch('/paste/' + pasteId + '/audio/status?instanceId=' + instanceId);
+                  const st = await sr.json();
+                  if (st.status === 'errored') {
+                    statusEl.textContent = 'generation failed';
+                    return;
+                  }
+                  await new Promise(r => setTimeout(r, 2000));
+                }
+              }
+              chunkUrls.push(URL.createObjectURL(chunkBlob));
+
+              // Start playback from first chunk immediately
+              if (i === 0) {
+                audio.src = chunkUrls[0];
+                audio.play();
+              }
+            }
+
+            statusEl.textContent = '';
+
+            // Chain playback: when current chunk ends, play next
+            let currentChunk = 0;
+            audio.addEventListener('ended', function advance() {
+              currentChunk++;
+              if (currentChunk < chunkUrls.length) {
+                audio.src = chunkUrls[currentChunk];
+                audio.play();
+              } else {
+                // All chunks played — try to load the full cached version for seeking
+                audio.removeEventListener('ended', advance);
+                fetch('/paste/' + pasteId + '/audio').then(r => {
+                  if (r.ok && (r.headers.get('content-type') || '').includes('audio/mpeg')) {
+                    return r.blob();
+                  }
+                  return null;
+                }).then(blob => {
+                  if (blob) {
+                    audio.src = URL.createObjectURL(blob);
+                  }
+                });
+              }
+            });
+
+          } catch (e) {
+            statusEl.textContent = 'error';
+            console.error('TTS error:', e);
+          }
+        });
+      })();
+      </script>` : ""}
     </div>`
   );
 
