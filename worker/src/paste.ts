@@ -1,20 +1,15 @@
-import { Hono } from "hono";
+import { Hono, type Context } from "hono";
+import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import { marked } from "marked";
 import { nanoid } from "nanoid";
 import type { Env } from "./index";
 
 export const paste = new Hono<{ Bindings: Env }>();
 
-function isAuthed(c: {
-  req: {
-    header: (name: string) => string | undefined;
-    query: (name: string) => string | undefined;
-  };
-  env: { THOUGHT_SECRET: string };
-}): boolean {
+function isAuthed(c: Context<{ Bindings: Env }>): boolean {
   const auth = c.req.header("Authorization");
   if (auth === `Bearer ${c.env.THOUGHT_SECRET}`) return true;
-  const token = c.req.query("token");
+  const token = getCookie(c, "paste_auth");
   if (token === c.env.THOUGHT_SECRET) return true;
   return false;
 }
@@ -77,6 +72,22 @@ function htmlPage(title: string, body: string): string {
 </html>`;
 }
 
+function extractTitle(body: string, language: string): string | undefined {
+  if (language === "markdown") {
+    // First ATX heading (# Title)
+    const match = body.match(/^#{1,6}\s+(.+)/m);
+    if (match) return match[1].trim();
+  }
+  // For all languages (including markdown with no heading): first non-empty line
+  const firstLine = body.split("\n").find((l) => l.trim().length > 0);
+  if (firstLine) {
+    const trimmed = firstLine.trim();
+    // Cap at 120 chars to keep titles reasonable
+    return trimmed.length > 120 ? trimmed.slice(0, 120) + "…" : trimmed;
+  }
+  return undefined;
+}
+
 function escapeHtml(s: string): string {
   return s
     .replace(/&/g, "&amp;")
@@ -85,21 +96,102 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+// GET /login — login form (public)
+paste.get("/login", async (c) => {
+  const body = htmlPage(
+    "Login",
+    `<h1>Paste Login</h1>
+    <form method="POST" action="/paste/login">
+      <div class="field">
+        <label for="token">Token</label>
+        <input type="password" id="token" name="token" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>`
+  );
+  return c.html(body);
+});
+
+// POST /login — validate token, set cookie, redirect
+paste.post("/login", async (c) => {
+  const form = await c.req.parseBody();
+  const token = form.token as string;
+  if (token !== c.env.THOUGHT_SECRET) {
+    return c.html(htmlPage("Login Failed", "<h1>Invalid token</h1><p><a href=\"/paste/login\">Try again</a></p>"), 401);
+  }
+  setCookie(c, "paste_auth", token, {
+    path: "/paste",
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+  });
+  return c.redirect("/paste");
+});
+
+// GET /logout — clear cookie, redirect to login
+paste.get("/logout", async (c) => {
+  deleteCookie(c, "paste_auth", { path: "/paste" });
+  return c.redirect("/paste/login");
+});
+
+// GET /all — list all pastes (auth required)
+paste.get("/all", async (c) => {
+  if (!isAuthed(c)) {
+    return c.redirect("/paste/login");
+  }
+
+  const rows = await c.env.DB.prepare(
+    "SELECT id, title, language, created_at FROM paste ORDER BY created_at DESC"
+  ).all<{ id: string; title: string | null; language: string; created_at: number }>();
+
+  const items = rows.results
+    .map((r) => {
+      const date = new Date(r.created_at).toISOString().split("T")[0];
+      const title = escapeHtml(r.title || "Untitled");
+      return `<li style="margin-bottom:0.5rem"><a href="/paste/${escapeHtml(r.id)}">${title}</a> <span class="meta">${date} · ${escapeHtml(r.language)}</span></li>`;
+    })
+    .join("\n    ");
+
+  const body = htmlPage(
+    "All Pastes",
+    `<h1>All Pastes</h1>
+    <p class="meta" style="margin-bottom:1rem">${rows.results.length} paste${rows.results.length === 1 ? "" : "s"} · <a href="/paste">New paste</a></p>
+    <ul style="list-style:none;padding:0">
+    ${items}
+    </ul>`
+  );
+  return c.html(body);
+});
+
 // GET / — creation form (auth required)
 paste.get("/", async (c) => {
   if (!isAuthed(c)) {
-    return c.html(htmlPage("Unauthorized", "<h1>401 Unauthorized</h1><p>Token required.</p>"), 401);
+    return c.redirect("/paste/login");
+  }
+
+  // Fetch 5 most recent pastes
+  const recents = await c.env.DB.prepare(
+    "SELECT id, title, created_at FROM paste ORDER BY created_at DESC LIMIT 5"
+  ).all<{ id: string; title: string | null; created_at: number }>();
+
+  let recentHtml = "";
+  if (recents.results.length > 0) {
+    const items = recents.results
+      .map((r) => `<li><a href="/paste/${escapeHtml(r.id)}">${escapeHtml(r.title || "Untitled")}</a></li>`)
+      .join("\n        ");
+    recentHtml = `
+    <div style="margin-top:1.5rem">
+      <h2 style="font-size:1.1rem;margin-bottom:0.5rem">Recent · <a href="/paste/all" style="font-weight:normal;font-size:0.875rem">View all</a></h2>
+      <ul style="list-style:none;padding:0">
+        ${items}
+      </ul>
+    </div>`;
   }
 
   const body = htmlPage(
     "New Paste",
     `<h1>New Paste</h1>
     <form method="POST" action="/paste">
-      <input type="hidden" name="token" value="${escapeHtml(c.req.query("token") || "")}">
-      <div class="field">
-        <label for="title">Title (optional)</label>
-        <input type="text" id="title" name="title" placeholder="Untitled">
-      </div>
       <div class="field">
         <label for="language">Language</label>
         <select id="language" name="language">
@@ -120,7 +212,8 @@ paste.get("/", async (c) => {
         <textarea id="body" name="body" required placeholder="Paste content here..."></textarea>
       </div>
       <button type="submit">Create Paste</button>
-    </form>`
+    </form>
+    ${recentHtml}`
   );
   return c.html(body);
 });
@@ -143,14 +236,12 @@ paste.post("/", async (c) => {
     title = json.title;
     language = json.language || "markdown";
   } else {
-    // Form submission
+    // Form submission — auth via cookie
     isForm = true;
-    const form = await c.req.parseBody();
-    // Auth via hidden token field
-    const token = (form.token as string) || "";
-    if (token !== c.env.THOUGHT_SECRET) {
-      return c.html(htmlPage("Unauthorized", "<h1>401 Unauthorized</h1>"), 401);
+    if (!isAuthed(c)) {
+      return c.redirect("/paste/login");
     }
+    const form = await c.req.parseBody();
     body = form.body as string;
     title = (form.title as string) || undefined;
     language = (form.language as string) || "markdown";
@@ -161,6 +252,10 @@ paste.post("/", async (c) => {
     return isForm
       ? c.html(htmlPage("Error", `<h1>Error</h1><p>${msg}</p>`), 400)
       : c.json({ error: msg }, 400);
+  }
+
+  if (!title) {
+    title = extractTitle(body, language);
   }
 
   const id = nanoid(10);
