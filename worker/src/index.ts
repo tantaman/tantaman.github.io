@@ -20,6 +20,7 @@ import { dha } from "./dha";
 import { posts } from "./posts";
 import { comments } from "./comments";
 import { igCard } from "./ig-card";
+import { paste } from "./paste";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -1520,6 +1521,9 @@ app.get("/audio/*", async (c) => {
   c.header("Cache-Control", "public, max-age=31536000, immutable");
   return c.body(object.body);
 });
+
+// Mount paste routes (top-level, not under /api)
+app.route("/paste", paste);
 
 // Mount API routes
 app.route("/api", api);
