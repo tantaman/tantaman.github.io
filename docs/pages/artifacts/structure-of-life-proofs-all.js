@@ -4,7 +4,10 @@ import katex from "https://esm.sh/katex";
 import { Fragment, jsx, jsxs } from "https://esm.sh/react/jsx-runtime";
 function renderMath(tex) {
   try {
-    return katex.renderToString(tex, { throwOnError: false, displayMode: false });
+    return katex.renderToString(tex, {
+      throwOnError: false,
+      displayMode: false
+    });
   } catch {
     return tex;
   }
@@ -26,10 +29,12 @@ function formatProof(text) {
     while ((match = refPattern.exec(part)) !== null) {
       if (match.index > last)
         segs.push(part.slice(last, match.index));
-      segs.push(/* @__PURE__ */ jsx("span", {
-        className: "proof-ref",
-        children: match[0]
-      }, `${i}-${match.index}`));
+      segs.push(
+        /* @__PURE__ */ jsx("span", {
+          className: "proof-ref",
+          children: match[0]
+        }, `${i}-${match.index}`)
+      );
       last = match.index + match[0].length;
     }
     if (last < part.length)
@@ -963,7 +968,7 @@ function OldestWantProofs() {
         }
         .section-label {
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.58rem;
+          font-size: 0.8rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
           color: #7a8ab0;
@@ -979,9 +984,9 @@ function OldestWantProofs() {
         .proof-col {
           padding: 1.1rem 1.5rem 1.4rem 2.5rem;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.8rem;
+          font-size: 1rem;
           line-height: 1.9;
-          color: #c0d0e8;
+          color: #fff;
           white-space: pre-wrap;
           border-right: 1px solid #1a1e2a;
           background: #0d0f14;
@@ -989,7 +994,7 @@ function OldestWantProofs() {
         .explain-col {
           padding: 1.1rem 2.5rem 1.4rem 1.5rem;
           font-family: 'EB Garamond', serif;
-          font-size: 1rem;
+          font-size: 1.2rem;
           line-height: 1.75;
           color: #c8d4bc;
           background: #0e1210;

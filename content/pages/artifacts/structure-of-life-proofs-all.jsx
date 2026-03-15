@@ -3,7 +3,10 @@ import katex from 'katex';
 
 function renderMath(tex) {
   try {
-    return katex.renderToString(tex, { throwOnError: false, displayMode: false });
+    return katex.renderToString(tex, {
+      throwOnError: false,
+      displayMode: false,
+    });
   } catch {
     return tex;
   }
@@ -15,16 +18,27 @@ function formatProof(text) {
   return parts.map((part, i) => {
     if (part.startsWith('$') && part.endsWith('$')) {
       const html = renderMath(part.slice(1, -1));
-      return <span key={i} className="proof-math" dangerouslySetInnerHTML={{ __html: html }} />;
+      return (
+        <span
+          key={i}
+          className="proof-math"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      );
     }
     // Highlight cross-references in non-math text
-    const refPattern = /\b(D[1-9]\d?|A[1-6]|Lemma [1-4]|C[1-8][a-c]?|Theorem|S[1-3][a-b]?|Full Recognition|The Want|Gelassenheit)\b/g;
+    const refPattern =
+      /\b(D[1-9]\d?|A[1-6]|Lemma [1-4]|C[1-8][a-c]?|Theorem|S[1-3][a-b]?|Full Recognition|The Want|Gelassenheit)\b/g;
     const segs = [];
     let last = 0;
     let match;
     while ((match = refPattern.exec(part)) !== null) {
       if (match.index > last) segs.push(part.slice(last, match.index));
-      segs.push(<span key={`${i}-${match.index}`} className="proof-ref">{match[0]}</span>);
+      segs.push(
+        <span key={`${i}-${match.index}`} className="proof-ref">
+          {match[0]}
+        </span>,
+      );
       last = match.index + match[0].length;
     }
     if (last < part.length) segs.push(part.slice(last));
@@ -966,7 +980,7 @@ export default function OldestWantProofs() {
         }
         .section-label {
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.58rem;
+          font-size: 0.8rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
           color: #7a8ab0;
@@ -982,9 +996,9 @@ export default function OldestWantProofs() {
         .proof-col {
           padding: 1.1rem 1.5rem 1.4rem 2.5rem;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.8rem;
+          font-size: 1rem;
           line-height: 1.9;
-          color: #c0d0e8;
+          color: #fff;
           white-space: pre-wrap;
           border-right: 1px solid #1a1e2a;
           background: #0d0f14;
@@ -992,7 +1006,7 @@ export default function OldestWantProofs() {
         .explain-col {
           padding: 1.1rem 2.5rem 1.4rem 1.5rem;
           font-family: 'EB Garamond', serif;
-          font-size: 1rem;
+          font-size: 1.2rem;
           line-height: 1.75;
           color: #c8d4bc;
           background: #0e1210;
