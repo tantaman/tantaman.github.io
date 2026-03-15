@@ -251,6 +251,10 @@ function htmlPage(title: string, body: string, nav?: string): string {
 }
 
 function extractTitle(body: string, language: string): string | undefined {
+  if (language === "html") {
+    const match = body.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+    if (match) return match[1].trim();
+  }
   if (language === "markdown") {
     // First ATX heading (# Title)
     const match = body.match(/^#{1,6}\s+(.+)/m);
@@ -556,6 +560,39 @@ paste.get("/:id", async (c) => {
 </body>
 </html>`;
     return c.html(runnerHtml);
+  }
+
+  if (row.language === "html") {
+    const toolbar = `<div class="paste-toolbar" style="
+      position: fixed; bottom: 1rem; right: 1rem;
+      font-family: monospace; font-size: 0.75rem;
+      background: #1a1a2e; border: 1px solid #333;
+      border-radius: 3px; padding: 0.35rem 0.75rem;
+      color: #888; z-index: 9999;
+      display: flex; gap: 0.75rem; align-items: center;
+    "><span>html</span><a href="/paste/${escapeHtml(row.id)}/raw" style="color:#6c9ef8">source</a></div>`;
+
+    const isFullDocument = /<!DOCTYPE|<html/i.test(row.body);
+    if (isFullDocument) {
+      // Inject toolbar before </body>
+      const html = row.body.replace(/<\/body>/i, `${toolbar}</body>`);
+      return c.html(html);
+    }
+
+    // Wrap fragment in minimal shell
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeHtml(title)} — paste</title>
+</head>
+<body>
+  ${row.body}
+  ${toolbar}
+</body>
+</html>`;
+    return c.html(html);
   }
 
   let rendered: string;
