@@ -294,6 +294,78 @@ function stripMarkdown(md: string): string {
     .trim();
 }
 
+function chunkText(text: string, maxLen: number): string[] {
+  if (text.length <= maxLen) return [text];
+
+  const chunks: string[] = [];
+  let remaining = text;
+
+  while (remaining.length > 0) {
+    if (remaining.length <= maxLen) {
+      chunks.push(remaining);
+      break;
+    }
+
+    // Try to split on sentence boundaries
+    let splitAt = -1;
+    for (const sep of [". ", "? ", "! ", "\n"]) {
+      const idx = remaining.lastIndexOf(sep, maxLen);
+      if (idx > 0 && idx > splitAt) {
+        splitAt = idx + sep.length;
+      }
+    }
+
+    // Fallback: split on word boundary
+    if (splitAt <= 0) {
+      splitAt = remaining.lastIndexOf(" ", maxLen);
+    }
+
+    // Last resort: hard split
+    if (splitAt <= 0) {
+      splitAt = maxLen;
+    }
+
+    chunks.push(remaining.slice(0, splitAt));
+    remaining = remaining.slice(splitAt);
+  }
+
+  return chunks;
+}
+
+async function generateTtsChunks(ai: any, chunks: string[]): Promise<ArrayBuffer> {
+  const buffers: ArrayBuffer[] = [];
+
+  for (const chunk of chunks) {
+    const response: Response = await ai.run(
+      "@cf/deepgram/aura-2-en" as any,
+      { text: chunk, speaker: "luna" },
+      { returnRawResponse: true },
+    );
+
+    if (!response.ok) {
+      const body = await response.text().catch(() => "");
+      throw new Error(`TTS generation failed (${response.status}): ${body}`);
+    }
+
+    const buf = await response.arrayBuffer();
+    if (buf.byteLength === 0) {
+      throw new Error("TTS generation returned empty audio for chunk");
+    }
+
+    buffers.push(buf);
+  }
+
+  // Concatenate all ArrayBuffers
+  const totalLen = buffers.reduce((sum, b) => sum + b.byteLength, 0);
+  const result = new Uint8Array(totalLen);
+  let offset = 0;
+  for (const buf of buffers) {
+    result.set(new Uint8Array(buf), offset);
+    offset += buf.byteLength;
+  }
+  return result.buffer;
+}
+
 function compileJsx(source: string, lang: "jsx" | "tsx"): string {
   const transforms: ("jsx" | "typescript")[] =
     lang === "tsx" ? ["jsx", "typescript"] : ["jsx"];
@@ -544,30 +616,20 @@ paste.get("/:id/audio", async (c) => {
     });
   }
 
-  // Generate via Workers AI
+  // Generate via Workers AI (chunked to stay under Deepgram's 2000-char limit)
   const text = stripMarkdown(row.body);
   if (!text) {
     return c.text("No speakable text found", 400);
   }
 
-  let response: Response;
+  let audioBytes: ArrayBuffer;
   try {
-    response = await c.env.AI.run(
-      "@cf/deepgram/aura-2-en" as any,
-      { text, speaker: "luna" },
-      { returnRawResponse: true },
-    ) as unknown as Response;
+    const chunks = chunkText(text, 1900);
+    audioBytes = await generateTtsChunks(c.env.AI, chunks);
   } catch (e) {
     return c.text(`TTS generation failed: ${e instanceof Error ? e.message : String(e)}`, 502);
   }
 
-  if (!response.ok) {
-    const body = await response.text().catch(() => "");
-    return c.text(`TTS generation failed (${response.status}): ${body}`, 502);
-  }
-
-  // Store to R2 (buffer since streaming put may fail with unknown content-length)
-  const audioBytes = await response.arrayBuffer();
   if (audioBytes.byteLength === 0) {
     return c.text("TTS generation returned empty audio", 502);
   }
