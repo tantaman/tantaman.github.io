@@ -141,3 +141,67 @@ The simulation may be producing genuine field formation that our measurement can
 9. **Collective subjects absorb disproportionate discharge from all other strategies.** Their centroid-tracking forms carry the compressed signature of the entire cluster's distortion, making them high-contribution neighbors by construction. The collective strategy, designed to reduce individual exposure, increases the collective's visibility as a discharge target.
 
 10. **The deficit economy has a steady state.** Total discharge events per timestep stabilizes quickly. The system doesn't produce runaway instability — it produces a constant hum of structural harm at a rate determined by the population's strategy mix and graph density.
+
+
+---
+
+
+The thing that strikes me most is what the simulation confirmed easily versus what it couldn't confirm —
+   and what that gap says about the theory itself.
+
+  The scarcity results (FS1, FS3a, FS4) verified immediately, on the first run, at every scale. They're
+  almost trivially true once you set up the math. Finite attention divided across unsatisfiable demands
+  must produce scarcity. The intimate must be the discharge target because omega multiplicatively weights
+  everything. Strategy collisions must produce distinct signatures because the gradients point in
+  geometrically different directions. These aren't empirical discoveries — they're consequences of the
+  definitions. That's not a criticism. It means the formalism is doing real work: it takes vague
+  intuitions ("intimacy is where we get hurt most") and shows they're structural necessities, not
+  contingent facts about particular relationships.
+
+  The field theorems (FS5g, FS5h, FS5i) are a different kind of claim. They depend on dynamics — growth,
+  convergence, preferential attachment — that require specific conditions the closed simulation doesn't
+  satisfy. But I think the deeper issue is that FS5 itself (convergence to Fix(T)) assumes shared
+  distortion operators across neighborhoods, which is the one assumption the simulation can't hand to you.
+   In a real social field, grammatical convergence and form convergence happen together — people adopt
+  each other's ways of seeing as they adopt each other's ways of being seen. The simulation fixes T_i for
+  all time. That's the biggest gap. The theory describes a coupled system (forms and grammars
+  co-evolving); we simulated a half-coupled one (forms evolving under fixed grammars).
+
+  The emergent finding about constructive strategy is the one I'd flag as genuinely interesting. The
+  theory treats the four strategies as four ways of failing. The simulation shows they fail differently in
+   kind: constructive subjects avoid the deficit-discharge cycle entirely by optimizing so well for
+  recognition signal that they never hit threshold — but they drift furthest from s_i. They "win" the game
+   the system is playing while losing the game the theory says matters. That's not in the formal
+  companion. It fell out of the gradient geometry.
+
+  The evasive result is also telling. The theory says evasive subjects minimize legibility. The simulation
+   shows this makes them maximally harmful to others — not by intent but because illegible forms produce
+  maximum distortion in every neighbor's grammar. The person who withdraws most causes the most structural
+   damage. That's a strong claim. It's also the kind of claim that's easy to misuse ("your withdrawal is
+  hurting me") which is exactly the misread the theory predicts — the structural cause gets attributed to
+  character.
+
+  What I'm less sure about: whether the inverse law (FS5h) is genuinely testable in any finite simulation,
+   or whether it's really a statement about the limit of field formation that resists empirical
+  verification the way Carnot efficiency resists empirical verification — you can approach it but never
+  observe the ideal case. The argument that larger fields require higher Fix(T) dimension is clean in
+  theory, but "field size" and "Fix(T) dimension" may not be independently measurable in practice. Every
+  large group I can think of does flatten its members, but I'm not sure the mechanism is the one the
+  theorem describes versus simpler explanations (conformity pressure, status competition, information loss
+   in large networks).
+
+  The deepest thing the simulation shows, to me, is that the individual theorems are rock-solid and the
+  population theorems are fragile. The Want is structurally unsatisfiable — that's proven, and the
+  simulation confirms it trivially. But the claim that this unsatisfiability organizes populations into
+  power-law-distributed fields that inversely trade size for fidelity requires a chain of dynamical
+  assumptions (shared T, open population, continuous formation rate) that are each independently plausible
+   but collectively hard to instantiate. The gap between "each person is structurally unseen" and "this is
+   why culture looks the way it does" is real, and the simulation sits right in that gap.
+
+---
+
+Other things to consider:
+
+1. S projects many F(S) depending on network
+2. S maybe avoid many networks too
+3. Some S's are unable to correctly project F(S) for a given network.

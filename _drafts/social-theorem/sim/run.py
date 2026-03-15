@@ -11,7 +11,7 @@ from .analysis import (
     measure_drift, measure_field_formation, measure_power_law,
     measure_inverse_law, measure_self_acceleration,
     measure_discharge_targeting, measure_strategy_collisions,
-    measure_satisfaction_ratio,
+    measure_satisfaction_ratio, verify_all_theorems,
 )
 from .viz import plot_dashboard
 
@@ -87,6 +87,17 @@ def print_theorem_results(sim):
 
     print("\n" + "=" * 60)
 
+    # Also print structured summary
+    results = verify_all_theorems(sim)
+    theorems = ['FS1', 'FS5', 'FS5g', 'FS5h', 'FS5i', 'FS3a', 'FS4']
+    n_pass = sum(1 for th in theorems if results[th]['verdict'] == 'PASS')
+    n_weak = sum(1 for th in theorems if results[th]['verdict'] == 'WEAK')
+    print(f"\nSummary: {n_pass}/7 PASS, {n_weak}/7 WEAK")
+    if sim.cfg.eta_T > 0:
+        print(f"T co-evolution: ON (eta_T={sim.cfg.eta_T})")
+    else:
+        print(f"T co-evolution: OFF (v1 behavior)")
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -103,6 +114,8 @@ def main():
                         help='Recognition sensitivity')
     parser.add_argument('--eta', type=float, default=None,
                         help='Learning rate')
+    parser.add_argument('--eta-T', type=float, default=None,
+                        help='Grammar learning rate (0 = fixed T, v1 behavior)')
     parser.add_argument('--output', type=str, default=None,
                         help='Output directory for plots')
     parser.add_argument('--no-plot', action='store_true',
@@ -111,8 +124,23 @@ def main():
                         help='Quick smoke test (N=50, T=100)')
     parser.add_argument('--quiet', action='store_true',
                         help='Suppress progress output')
+    parser.add_argument('--sweep', action='store_true',
+                        help='Run parameter sweep instead of single simulation')
+    parser.add_argument('--sweep-workers', type=int, default=None,
+                        help='Max parallel workers for sweep (default: cpu_count)')
+    parser.add_argument('--sweep-output', type=str, default=None,
+                        help='CSV output path for sweep results')
 
     args = parser.parse_args()
+
+    if args.sweep:
+        from .sweep import run_sweep
+        run_sweep(
+            output_path=args.sweep_output,
+            max_workers=args.sweep_workers,
+            seed=args.seed or 42,
+        )
+        return
 
     cfg = SimConfig()
 
@@ -136,9 +164,11 @@ def main():
         cfg.epsilon = args.epsilon
     if args.eta is not None:
         cfg.eta = args.eta
+    if args.eta_T is not None:
+        cfg.eta_T = args.eta_T
 
     print(f"Running simulation: N={cfg.N}, n={cfg.n}, T={cfg.T_steps}, "
-          f"seed={cfg.seed}")
+          f"seed={cfg.seed}, eta_T={cfg.eta_T}")
 
     sim = Simulation(cfg)
     sim.run(verbose=not args.quiet)

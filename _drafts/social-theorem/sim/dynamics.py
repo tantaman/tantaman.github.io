@@ -136,6 +136,46 @@ def update_collective(f_i, s_i_proj, T_neighbors, epsilon, delta,
     return f_new
 
 
+def update_T(T_i, forms_neighbors, omega_weights, signals, eta_T, eig_range):
+    """Update T_i toward better receiving high-omega neighbors' forms.
+
+    Weighted gradient step on ||T_i @ f_j - f_j||^2 w.r.t. T_i.
+    After update, clip eigenvalues to eig_range via eigendecomposition.
+
+    Args:
+        T_i: current grammar matrix, shape (n, n)
+        forms_neighbors: neighbor form vectors, shape (k, n)
+        omega_weights: omega(j, i) for each neighbor, shape (k,)
+        signals: sigma(f_j, T_i) for each neighbor, shape (k,)
+        eta_T: grammar learning rate
+        eig_range: (min_eig, max_eig) tuple for clipping
+
+    Returns:
+        Updated T_i, shape (n, n)
+    """
+    if len(forms_neighbors) == 0 or eta_T <= 0:
+        return T_i
+
+    T_new = T_i.copy()
+    for idx in range(len(forms_neighbors)):
+        f_j = forms_neighbors[idx]
+        f_norm_sq = np.dot(f_j, f_j)
+        if f_norm_sq < 1e-12:
+            continue
+        residual = T_new @ f_j - f_j
+        weight = omega_weights[idx] * signals[idx]
+        T_new -= eta_T * weight * np.outer(residual, f_j) / f_norm_sq
+
+    # Clip eigenvalues via symmetric eigendecomposition
+    # T should be approximately symmetric due to construction; symmetrize first
+    T_sym = (T_new + T_new.T) / 2
+    eigs, V = np.linalg.eigh(T_sym)
+    eigs = np.clip(eigs, eig_range[0], eig_range[1])
+    T_new = V @ np.diag(eigs) @ V.T
+
+    return T_new
+
+
 def apply_update(strategy, f_i, s_i_proj, T_neighbors, cfg, centroid=None):
     """Dispatch to the appropriate update rule based on strategy type."""
     if strategy == "constructive":

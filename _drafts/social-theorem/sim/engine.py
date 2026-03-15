@@ -5,7 +5,7 @@ from sklearn.cluster import DBSCAN
 
 from .config import SimConfig
 from .core import init_subjects, make_prototypes, assign_T_matrices
-from .dynamics import apply_update
+from .dynamics import apply_update, update_T
 from .graph import SocialGraph
 from .deficit import DeficitAccumulator, PriorFormRegister
 
@@ -216,6 +216,30 @@ class Simulation:
         mask = norms[:, 0] > max_norm
         if np.any(mask):
             self.forms[mask] *= max_norm / norms[mask]
+
+        # 2b. Co-evolve T matrices (grammar adaptation)
+        if cfg.eta_T > 0 and t % cfg.T_update_interval == 0:
+            from .core import recognition_signal_batch
+            for i in range(N):
+                # i is a recognizer; update T_i based on forms of subjects
+                # presenting to i (neighbors_of(i) = subjects j where j->i)
+                neighbors = self.graph.neighbors_of(i)
+                if len(neighbors) == 0:
+                    continue
+                f_neighbors = self.forms[neighbors]
+                omega_weights = np.array([
+                    self.graph.get_omega(j, i) for j in neighbors])
+                signals = recognition_signal_batch(
+                    self.forms[neighbors[0]], self.T_matrices[i:i+1],
+                    cfg.epsilon)
+                # Actually compute signals for all neighbors
+                signals = np.array([
+                    recognition_signal_batch(
+                        self.forms[j], self.T_matrices[i:i+1], cfg.epsilon)[0]
+                    for j in neighbors])
+                self.T_matrices[i] = update_T(
+                    self.T_matrices[i], f_neighbors, omega_weights,
+                    signals, cfg.eta_T, cfg.T_eigenvalue_range)
 
         # 3. Update deficit
         self.deficit_acc.compute_channels(

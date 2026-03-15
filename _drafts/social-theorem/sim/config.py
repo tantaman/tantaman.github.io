@@ -53,6 +53,11 @@ class SimConfig:
     discharge_theta: float = 5.0   # discharge threshold
     discharge_reduction: float = 0.3  # omega reduction on discharge
 
+    # T co-evolution
+    eta_T: float = 0.002            # grammar learning rate (0 = fixed T, v1 behavior)
+    T_eigenvalue_range: tuple = (0.1, 1.0)  # clip eigenvalues after T update
+    T_update_interval: int = 5      # update T every N steps (expensive)
+
     # Rewiring
     rewire_interval: int = 50       # timesteps between rewire events
     rewire_drop_threshold: float = 0.3   # drop edges with signal below this

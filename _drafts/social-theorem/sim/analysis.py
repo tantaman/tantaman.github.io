@@ -5,6 +5,118 @@ from scipy import stats
 from scipy.optimize import minimize_scalar
 
 
+def verify_all_theorems(sim):
+    """Run all theorem checks and return structured results.
+
+    Returns:
+        dict with keys for each theorem: {
+            'theorem_name': {
+                'pass': bool or None,
+                'verdict': 'PASS' | 'WEAK' | 'FAIL' | 'SKIP',
+                'metrics': dict of numeric values,
+            }
+        }
+    """
+    history = sim.history
+    results = {}
+
+    # FS1: Competition
+    mean_ratio, ratios = measure_satisfaction_ratio(
+        history, sim.forms, sim.s_proj, sim.r_norms,
+        sim.T_matrices, sim.graph, sim.cfg.epsilon)
+    results['FS1'] = {
+        'verdict': 'PASS' if mean_ratio < 1.0 else 'FAIL',
+        'metrics': {'mean_ratio': mean_ratio},
+    }
+
+    # FS5: Field formation
+    times, n_clusters, _ = measure_field_formation(history)
+    if len(times) > 0:
+        fc = int(n_clusters[-1])
+        results['FS5'] = {
+            'verdict': 'PASS' if fc > 1 else 'FAIL',
+            'metrics': {'final_clusters': fc},
+        }
+    else:
+        results['FS5'] = {'verdict': 'SKIP', 'metrics': {}}
+
+    # FS5g: Self-acceleration
+    r2, slope, _, _ = measure_self_acceleration(history)
+    if r2 is not None:
+        if r2 > 0.05 and slope > 0:
+            v = 'PASS'
+        elif r2 > 0:
+            v = 'WEAK'
+        else:
+            v = 'FAIL'
+        results['FS5g'] = {
+            'verdict': v,
+            'metrics': {'r_squared': r2, 'slope': slope},
+        }
+    else:
+        results['FS5g'] = {'verdict': 'SKIP', 'metrics': {}}
+
+    # FS5h: Inverse law
+    r, p, sizes, drifts = measure_inverse_law(history, sim.s_proj, sim.forms)
+    if r is not None:
+        if r > 0 and p < 0.05:
+            v = 'PASS'
+        elif r > 0:
+            v = 'WEAK'
+        else:
+            v = 'FAIL'
+        results['FS5h'] = {
+            'verdict': v,
+            'metrics': {'spearman_r': r, 'p_value': p},
+        }
+    else:
+        results['FS5h'] = {'verdict': 'SKIP', 'metrics': {}}
+
+    # FS5i: Power law
+    alpha, ks_stat, ks_p, pl_sizes = measure_power_law(history)
+    if alpha is not None:
+        if alpha > 1 and ks_p > 0.05:
+            v = 'PASS'
+        elif alpha > 1:
+            v = 'WEAK'
+        else:
+            v = 'FAIL'
+        results['FS5i'] = {
+            'verdict': v,
+            'metrics': {'alpha': alpha, 'ks_stat': ks_stat, 'ks_p': ks_p},
+        }
+    else:
+        results['FS5i'] = {'verdict': 'SKIP', 'metrics': {}}
+
+    # FS3a: Discharge targeting
+    ratio, chance, n_events = measure_discharge_targeting(history, sim.graph)
+    if ratio is not None:
+        if ratio > chance * 1.5:
+            v = 'PASS'
+        elif ratio > chance:
+            v = 'WEAK'
+        else:
+            v = 'FAIL'
+        results['FS3a'] = {
+            'verdict': v,
+            'metrics': {'targeting_ratio': ratio, 'chance_ratio': chance,
+                        'n_events': n_events},
+        }
+    else:
+        results['FS3a'] = {'verdict': 'SKIP', 'metrics': {}}
+
+    # FS4: Strategy collisions
+    collision_matrix, strategy_names = measure_strategy_collisions(
+        history, sim.strategies, sim.graph)
+    has_structure = np.std(collision_matrix) > 0.001
+    results['FS4'] = {
+        'verdict': 'PASS' if has_structure else 'FAIL',
+        'metrics': {'collision_std': float(np.std(collision_matrix))},
+    }
+
+    return results
+
+
 def measure_drift(history):
     """Mean ||s_i - f_i|| over time.
 
