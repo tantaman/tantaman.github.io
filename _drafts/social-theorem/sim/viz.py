@@ -243,3 +243,118 @@ def plot_irreducibility(result, filename="irreducibility.png"):
     fig.savefig(os.path.join(OUTPUT_DIR, filename), dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved {filename}")
+
+
+def plot_topology_sweep(result, filename="topology_sweep.png"):
+    """Compare growth curves, convergence speed, deficits across topologies."""
+    ensure_output_dir()
+    topo_results = result.get("results", {})
+    if not topo_results:
+        return
+
+    colors = {
+        "erdos_renyi": "tab:blue",
+        "watts_strogatz": "tab:orange",
+        "barabasi_albert": "tab:green",
+        "lattice": "tab:red",
+    }
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+    # Panel 1: Growth curves (converged count over time)
+    ax = axes[0, 0]
+    for topo, data in topo_results.items():
+        ax.plot(data["times"], data["converged_counts"],
+                label=topo, color=colors.get(topo, "gray"), alpha=0.8)
+    ax.set_xlabel("Time step")
+    ax.set_ylabel("Converged subjects")
+    ax.set_title("Growth Curves: Convergence to Fix(T)")
+    ax.legend(fontsize=9)
+    ax.grid(True, alpha=0.3)
+
+    # Panel 2: Mean distance to Fix(T) over time
+    ax = axes[0, 1]
+    for topo, data in topo_results.items():
+        ax.plot(data["times"], data["mean_dists"],
+                label=topo, color=colors.get(topo, "gray"), alpha=0.8)
+    ax.set_xlabel("Time step")
+    ax.set_ylabel("Mean dist to Fix(T)")
+    ax.set_title("Convergence Speed")
+    ax.legend(fontsize=9)
+    ax.grid(True, alpha=0.3)
+
+    # Panel 3: Mean deficit over time
+    ax = axes[1, 0]
+    for topo, data in topo_results.items():
+        ax.plot(data["times"], data["mean_deficits"],
+                label=topo, color=colors.get(topo, "gray"), alpha=0.8)
+    ax.set_xlabel("Time step")
+    ax.set_ylabel("Mean deficit")
+    ax.set_title("Deficit Dynamics")
+    ax.legend(fontsize=9)
+    ax.grid(True, alpha=0.3)
+
+    # Panel 4: Summary bar chart
+    ax = axes[1, 1]
+    topos = list(topo_results.keys())
+    t80s = [topo_results[t].get("t_80_percent") or 0 for t in topos]
+    final_dists = [topo_results[t]["final_mean_dist"] for t in topos]
+    clusterings = [topo_results[t]["mean_clustering"] for t in topos]
+
+    x = np.arange(len(topos))
+    width = 0.25
+    ax.bar(x - width, [t / max(max(t80s, default=1), 1) for t in t80s],
+           width, label="t_80% (normalized)", color="tab:blue", alpha=0.7)
+    ax.bar(x, [d / max(max(final_dists, default=1), 1e-10) for d in final_dists],
+           width, label="Final dist (normalized)", color="tab:orange", alpha=0.7)
+    ax.bar(x + width, clusterings,
+           width, label="Clustering coeff", color="tab:green", alpha=0.7)
+    ax.set_xticks(x)
+    ax.set_xticklabels(topos, rotation=30, ha="right")
+    ax.set_title("Topology Comparison")
+    ax.legend(fontsize=8)
+    ax.grid(True, alpha=0.3, axis="y")
+
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUTPUT_DIR, filename), dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print(f"  Saved {filename}")
+
+
+def plot_topology_power_law(result, filename="topology_power_law.png"):
+    """Compare power-law fits across topologies."""
+    ensure_output_dir()
+    topo_results = result.get("results", {})
+    if not topo_results:
+        return
+
+    colors = {
+        "erdos_renyi": "tab:blue",
+        "watts_strogatz": "tab:orange",
+        "barabasi_albert": "tab:green",
+        "lattice": "tab:red",
+    }
+
+    fig, ax = plt.subplots(figsize=(10, 7))
+
+    for topo, data in topo_results.items():
+        if data.get("log_sizes") is None:
+            continue
+        alpha = data.get("measured_alpha", "?")
+        label = f"{topo} (alpha={alpha:.2f})" if isinstance(alpha, float) else topo
+        ax.scatter(data["log_sizes"], data["log_counts"],
+                   label=label, color=colors.get(topo, "gray"), alpha=0.7, s=40)
+        # Fit line
+        coeffs = np.polyfit(data["log_sizes"], data["log_counts"], 1)
+        x_fit = np.linspace(min(data["log_sizes"]), max(data["log_sizes"]), 50)
+        ax.plot(x_fit, np.polyval(coeffs, x_fit), "--",
+                color=colors.get(topo, "gray"), alpha=0.4)
+
+    ax.set_xlabel("log(field size)")
+    ax.set_ylabel("log(count)")
+    ax.set_title("Power-Law Field Size Distribution by Topology")
+    ax.legend(fontsize=9)
+    ax.grid(True, alpha=0.3)
+    fig.savefig(os.path.join(OUTPUT_DIR, filename), dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print(f"  Saved {filename}")

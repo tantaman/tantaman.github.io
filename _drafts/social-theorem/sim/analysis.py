@@ -770,6 +770,188 @@ def check_meta_awareness(config=None):
     }
 
 
+def check_topology_sweep(configs=None):
+    """Open question from confirm.md: does the mean-field approximation (A7) break
+    on non-ER graphs?
+
+    Measures per topology:
+    1. Growth curve M(t) — shape tells us if self-acceleration holds
+    2. Convergence speed — steps to reach 80% converged
+    3. Field-size distribution — does the power law hold, what's the exponent?
+    4. Mean deficit at equilibrium — does topology affect deficit structure?
+    """
+    if configs is None:
+        from experiments import topology_sweep_configs
+        configs = topology_sweep_configs()
+
+    results = {}
+    for topo, config in configs.items():
+        print(f"  Running topology: {topo}...")
+        state, snapshots = run_simulation(
+            config, strategy="want", enable_open_pop=True, progress=False
+        )
+
+        T = state.T_prototypes[0]
+        Q = state.Q_prototypes[0]
+        eigs = state.eig_prototypes[0]
+        P_fix = fix_projection(T, Q, eigs, config.fix_dim)
+
+        # 1. Growth curve: count converged subjects over time
+        convergence_threshold = 0.1
+        times = []
+        converged_counts = []
+        mean_dists = []
+        mean_deficits = []
+        discharge_counts = []
+
+        for snap in snapshots:
+            times.append(snap.t)
+            count = 0
+            dists = []
+            for i in range(config.N):
+                d = np.linalg.norm(snap.forms[i] - P_fix @ snap.forms[i])
+                dists.append(d)
+                if d < convergence_threshold:
+                    count += 1
+            converged_counts.append(count)
+            mean_dists.append(np.mean(dists))
+            mean_deficits.append(np.mean(snap.deficits))
+            discharge_counts.append(len(snap.discharge_events))
+
+        converged_counts = np.array(converged_counts, dtype=float)
+
+        # 2. Convergence speed: first time 80% are converged
+        target = 0.8 * config.N
+        t_80 = None
+        for i, c in enumerate(converged_counts):
+            if c >= target:
+                t_80 = times[i]
+                break
+
+        # 3. Field-size distribution from last snapshots (multi-prototype needed)
+        # With K=1 all subjects are in one field, so measure convergence distribution
+        # For power-law, we need K > 1. Measure the distance distribution instead.
+        last = snapshots[-1]
+        final_dists_to_fix = []
+        for i in range(config.N):
+            final_dists_to_fix.append(
+                np.linalg.norm(last.forms[i] - P_fix @ last.forms[i])
+            )
+        final_dists_to_fix = np.array(final_dists_to_fix)
+
+        # 4. Graph diagnostics
+        degrees = np.sum(state.adj, axis=1)
+        clustering = _local_clustering(state.adj)
+
+        results[topo] = {
+            "times": times,
+            "converged_counts": converged_counts.tolist(),
+            "mean_dists": mean_dists,
+            "mean_deficits": mean_deficits,
+            "discharge_counts": discharge_counts,
+            "t_80_percent": t_80,
+            "final_converged": int(converged_counts[-1]),
+            "final_mean_dist": float(mean_dists[-1]),
+            "final_mean_deficit": float(mean_deficits[-1]),
+            "total_discharges": sum(discharge_counts),
+            "mean_degree": float(np.mean(degrees)),
+            "mean_clustering": float(np.mean(clustering)),
+            "degree_std": float(np.std(degrees)),
+        }
+
+    return {
+        "name": "topology_sweep",
+        "theorems": ["4.1", "4.2", "A7"],
+        "results": results,
+        "pass": True,
+    }
+
+
+def _local_clustering(adj):
+    """Compute local clustering coefficient for each node."""
+    N = adj.shape[0]
+    cc = np.zeros(N)
+    for i in range(N):
+        neighbors = np.where(adj[i])[0]
+        k = len(neighbors)
+        if k < 2:
+            cc[i] = 0.0
+            continue
+        # Count edges among neighbors
+        subgraph = adj[np.ix_(neighbors, neighbors)]
+        triangles = np.sum(subgraph) / 2  # undirected
+        cc[i] = 2.0 * triangles / (k * (k - 1))
+    return cc
+
+
+def check_topology_power_law(configs=None):
+    """Extended topology test: does the power-law field-size distribution
+    survive on non-ER graphs? Needs K > 1 and open population.
+    """
+    if configs is None:
+        from experiments import topology_power_law_configs
+        configs = topology_power_law_configs()
+
+    results = {}
+    for topo, config in configs.items():
+        print(f"  Running power-law topology: {topo}...")
+        state, snapshots = run_simulation(
+            config, strategy="want", enable_open_pop=True, progress=False
+        )
+
+        # Collect field sizes from last snapshots
+        all_sizes = []
+        for snap in snapshots[-20:]:
+            sizes = snap.field_sizes
+            all_sizes.extend(sizes[sizes > 0].tolist())
+
+        if len(all_sizes) < 10:
+            results[topo] = {
+                "measured_alpha": None,
+                "pass": False,
+                "note": "Not enough field data",
+            }
+            continue
+
+        all_sizes = np.array(all_sizes)
+        size_counts = {}
+        for s in all_sizes:
+            size_counts[s] = size_counts.get(s, 0) + 1
+
+        sizes_unique = np.array(sorted(size_counts.keys()), dtype=float)
+        counts = np.array([size_counts[s] for s in sizes_unique.astype(int)], dtype=float)
+
+        if len(sizes_unique) < 3 or sizes_unique.min() <= 0:
+            results[topo] = {"measured_alpha": None, "pass": False}
+            continue
+
+        log_s = np.log(sizes_unique)
+        log_c = np.log(counts)
+        coeffs = np.polyfit(log_s, log_c, 1)
+        measured_alpha = -coeffs[0]
+
+        # Graph stats
+        degrees = np.sum(state.adj, axis=1)
+        clustering = _local_clustering(state.adj)
+
+        results[topo] = {
+            "measured_alpha": float(measured_alpha),
+            "log_sizes": log_s.tolist(),
+            "log_counts": log_c.tolist(),
+            "mean_degree": float(np.mean(degrees)),
+            "mean_clustering": float(np.mean(clustering)),
+            "degree_std": float(np.std(degrees)),
+            "num_size_samples": len(all_sizes),
+        }
+
+    return {
+        "name": "topology_power_law",
+        "theorems": ["4.4", "A7"],
+        "results": results,
+        "pass": True,
+    }
+
+
 def check_boom_bust(config=None):
     """Theorems 4.2+4.3: Most diagnostic test.
     Track field_size * avg_deficit * discharge_rate over time.

@@ -116,12 +116,16 @@ def run_experiment(name):
         viz.plot_boom_bust(result)
 
     elif name == "topology":
-        configs = exp.topology_configs()
-        for topo, config in configs.items():
-            print(f"\n--- Topology: {topo} ---")
-            result = analysis.check_field_formation(config)
-            _print_result(result)
-            viz.plot_field_sizes(result, filename=f"field_formation_{topo}.png")
+        # Extended topology sweep: growth curves, convergence speed, deficits
+        result = analysis.check_topology_sweep()
+        _print_topology_result(result)
+        viz.plot_topology_sweep(result)
+
+    elif name == "topology_power_law":
+        # Power-law field-size distribution across topologies
+        result = analysis.check_topology_power_law()
+        _print_topology_result(result)
+        viz.plot_topology_power_law(result)
 
     elif name == "all":
         experiments = [
@@ -153,11 +157,48 @@ def run_experiment(name):
         print(f"  discharge_targeting, strategy_collision, competing_attractors,")
         print(f"  confidently_wrong, trap_enclosure, rebellion,")
         print(f"  preferential_convergence, meta_awareness, boom_bust,")
-        print(f"  topology, all")
+        print(f"  topology, topology_power_law, all")
         return
 
     elapsed = time.time() - t0
     print(f"\n  Completed in {elapsed:.1f}s")
+
+
+def _print_topology_result(result):
+    """Pretty-print topology sweep results."""
+    name = result.get("name", "?")
+    theorems = result.get("theorems", [])
+    print(f"  [{name}] (Theorems: {', '.join(theorems)})")
+    print()
+
+    topo_results = result.get("results", {})
+    # Header
+    print(f"  {'Topology':<20} {'Conv.':>6} {'t_80%':>7} {'Final dist':>11} "
+          f"{'Deficit':>8} {'Discharges':>10} {'Degree':>7} {'Cluster':>8}")
+    print(f"  {'-'*20} {'-'*6} {'-'*7} {'-'*11} {'-'*8} {'-'*10} {'-'*7} {'-'*8}")
+
+    for topo, data in topo_results.items():
+        t80 = data.get("t_80_percent")
+        t80_str = f"{t80:>7d}" if t80 is not None else "   N/A"
+        print(f"  {topo:<20} {data['final_converged']:>6d} {t80_str} "
+              f"{data['final_mean_dist']:>11.4f} "
+              f"{data['final_mean_deficit']:>8.4f} "
+              f"{data['total_discharges']:>10d} "
+              f"{data['mean_degree']:>7.1f} "
+              f"{data['mean_clustering']:>8.3f}")
+
+    # Power-law specific
+    if "measured_alpha" in next(iter(topo_results.values()), {}):
+        print()
+        print(f"  {'Topology':<20} {'alpha':>8} {'Samples':>8}")
+        print(f"  {'-'*20} {'-'*8} {'-'*8}")
+        for topo, data in topo_results.items():
+            alpha = data.get("measured_alpha")
+            alpha_str = f"{alpha:>8.2f}" if alpha is not None else "     N/A"
+            samples = data.get("num_size_samples", 0)
+            print(f"  {topo:<20} {alpha_str} {samples:>8d}")
+
+    print()
 
 
 def _print_result(result):

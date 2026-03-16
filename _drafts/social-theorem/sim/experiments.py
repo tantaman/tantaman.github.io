@@ -125,3 +125,39 @@ def preferential_convergence_config():
     return SimConfig(
         N=100, K_prototypes=2, T_steps=1500, snapshot_interval=10, seed=42
     )
+
+
+def topology_sweep_configs():
+    """Extended topology sweep: single T, open population, measures growth curves.
+
+    Uses K=1 so all subjects converge to the same Fix(T), making growth
+    dynamics cleanly measurable across topologies.
+    """
+    base = SimConfig(
+        N=200, K_prototypes=1, T_steps=2000, snapshot_interval=5,
+        turnover_rate=0.02, seed=42
+    )
+    return {
+        "erdos_renyi": base.copy(topology="erdos_renyi"),
+        "watts_strogatz": base.copy(topology="watts_strogatz"),
+        "barabasi_albert": base.copy(topology="barabasi_albert"),
+        "lattice": base.copy(topology="lattice"),
+    }
+
+
+def topology_power_law_configs():
+    """Topology sweep for power-law field-size distributions.
+
+    Uses K=10, open population, long runs. This is the expensive test.
+    """
+    base = SimConfig(
+        N=300, K_prototypes=10, T_steps=4000, snapshot_interval=20,
+        turnover_rate=0.01, field_formation_rate=0.01,
+        field_dissolution_rate=0.005, seed=42
+    )
+    return {
+        "erdos_renyi": base.copy(topology="erdos_renyi"),
+        "watts_strogatz": base.copy(topology="watts_strogatz"),
+        "barabasi_albert": base.copy(topology="barabasi_albert"),
+        "lattice": base.copy(topology="lattice"),
+    }
