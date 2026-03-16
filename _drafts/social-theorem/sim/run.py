@@ -172,20 +172,24 @@ def _print_topology_result(result):
     print()
 
     topo_results = result.get("results", {})
-    # Header
-    print(f"  {'Topology':<20} {'Conv.':>6} {'t_80%':>7} {'Final dist':>11} "
-          f"{'Deficit':>8} {'Discharges':>10} {'Degree':>7} {'Cluster':>8}")
-    print(f"  {'-'*20} {'-'*6} {'-'*7} {'-'*11} {'-'*8} {'-'*10} {'-'*7} {'-'*8}")
 
-    for topo, data in topo_results.items():
-        t80 = data.get("t_80_percent")
-        t80_str = f"{t80:>7d}" if t80 is not None else "   N/A"
-        print(f"  {topo:<20} {data['final_converged']:>6d} {t80_str} "
-              f"{data['final_mean_dist']:>11.4f} "
-              f"{data['final_mean_deficit']:>8.4f} "
-              f"{data['total_discharges']:>10d} "
-              f"{data['mean_degree']:>7.1f} "
-              f"{data['mean_clustering']:>8.3f}")
+    # Detect format by checking first entry's keys
+    sample = next(iter(topo_results.values()), {})
+    if "final_converged" in sample:
+        # Growth-curve format
+        print(f"  {'Topology':<20} {'Conv.':>6} {'t_80%':>7} {'Final dist':>11} "
+              f"{'Deficit':>8} {'Discharges':>10} {'Degree':>7} {'Cluster':>8}")
+        print(f"  {'-'*20} {'-'*6} {'-'*7} {'-'*11} {'-'*8} {'-'*10} {'-'*7} {'-'*8}")
+
+        for topo, data in topo_results.items():
+            t80 = data.get("t_80_percent")
+            t80_str = f"{t80:>7d}" if t80 is not None else "    N/A"
+            print(f"  {topo:<20} {data['final_converged']:>6d} {t80_str} "
+                  f"{data['final_mean_dist']:>11.4f} "
+                  f"{data['final_mean_deficit']:>8.4f} "
+                  f"{data['total_discharges']:>10d} "
+                  f"{data['mean_degree']:>7.1f} "
+                  f"{data['mean_clustering']:>8.3f}")
 
     # Power-law specific
     if "measured_alpha" in next(iter(topo_results.values()), {}):
