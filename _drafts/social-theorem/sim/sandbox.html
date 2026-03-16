@@ -677,12 +677,13 @@ function computeDeficit(f_i, s_i_ambient, V_B, T_neighbors, D, n, cfg) {
   return { total, ch1, ch2, ch3 };
 }
 
-function processDischarges(deficits, forms, TAssignments, TProtos, adj, omega, N, n, cfg) {
+function processDischarges(deficits, forms, TAssignments, TProtos, adj, omega, N, n, cfg, dead) {
   const events = [];
   for (let i = 0; i < N; i++) {
+    if (dead && dead[i]) continue;
     if (deficits[i] < cfg.thetaDischarge) continue;
     const neighbors = [];
-    for (let j = 0; j < N; j++) if (adj[i * N + j]) neighbors.push(j);
+    for (let j = 0; j < N; j++) if (adj[i * N + j] && !(dead && dead[j])) neighbors.push(j);
     if (neighbors.length === 0) continue;
 
     const Ti = TProtos[TAssignments[i]];
@@ -805,6 +806,7 @@ function defaultConfig() {
     lambda3: 0.5,
     kappa: 0.5,
     thetaDischarge: 0.7,
+    maxDischarges: 20,
     edgeProb: 0.15,
     etaPrime: 0.3,
     seed: 42,
@@ -884,23 +886,27 @@ function initSim(cfg, strategyMode = 'want') {
     dischargeEvents: [],
     metaStates: new Uint8Array(N),
     formVelocity: new Float64Array(N),
+    dischargeHits: new Float64Array(N),
+    dead: new Uint8Array(N),
+    deathAge: new Float64Array(N),
   };
 }
 
 function simStep(state) {
-  const { N, n, forms, adj, omega, strategies, sProj, TProtos, TAssignments, cfg } = state;
+  const { N, n, forms, adj, omega, strategies, sProj, TProtos, TAssignments, cfg, dead } = state;
 
   const newForms = new Float64Array(forms.length);
   const tempOut = vecCreate(n);
 
   for (let i = 0; i < N; i++) {
+    if (dead[i]) { newForms.set(forms.subarray(i*n, i*n+n), i*n); continue; }
     const fi = forms.subarray(i * n, i * n + n);
     const si = sProj.subarray(i * n, i * n + n);
 
     // Gather neighbor T operators
     const Tneighbors = [];
     for (let j = 0; j < N; j++) {
-      if (adj[i * N + j]) Tneighbors.push(TProtos[TAssignments[j]]);
+      if (adj[i * N + j] && !dead[j]) Tneighbors.push(TProtos[TAssignments[j]]);
     }
 
     if (Tneighbors.length === 0) {
@@ -927,7 +933,7 @@ function simStep(state) {
       let count = 0;
       const centroid = vecCreate(n);
       for (let j = 0; j < N; j++) {
-        if (adj[i * N + j] && TAssignments[j] === myField) {
+        if (adj[i * N + j] && TAssignments[j] === myField && !dead[j]) {
           for (let k = 0; k < n; k++) centroid[k] += forms[j * n + k];
           count++;
         }
@@ -957,11 +963,18 @@ function simStep(state) {
 
   // Compute deficits
   for (let i = 0; i < N; i++) {
+    if (dead[i]) {
+      state.deficits[i] = 0;
+      state.deficitChannels[i * 3] = 0;
+      state.deficitChannels[i * 3 + 1] = 0;
+      state.deficitChannels[i * 3 + 2] = 0;
+      continue;
+    }
     const fi = newForms.subarray(i * n, i * n + n);
     const si = state.subjects.subarray(i * state.D, i * state.D + state.D);
     const Tneighbors = [];
     for (let j = 0; j < N; j++) {
-      if (adj[i * N + j]) Tneighbors.push(TProtos[TAssignments[j]]);
+      if (adj[i * N + j] && !dead[j]) Tneighbors.push(TProtos[TAssignments[j]]);
     }
     const { total, ch1, ch2, ch3 } = computeDeficit(fi, si, state.V_B, Tneighbors, state.D, n, cfg);
     state.deficits[i] = total;
@@ -972,8 +985,43 @@ function simStep(state) {
 
   // Discharge events
   state.dischargeEvents = processDischarges(
-    state.deficits, state.forms, TAssignments, TProtos, adj, omega, N, n, cfg
+    state.deficits, state.forms, TAssignments, TProtos, adj, omega, N, n, cfg, dead
   );
+
+  // Decay discharge hits, then accumulate new ones and trigger death
+  for (let i = 0; i < N; i++) {
+    if (!dead[i]) state.dischargeHits[i] *= 0.95;
+  }
+  for (const ev of state.dischargeEvents) {
+    state.dischargeHits[ev.to]++;
+    if (state.dischargeHits[ev.to] >= cfg.maxDischarges && !dead[ev.to]) {
+      dead[ev.to] = 1;
+      // Rewire: connect dead node's alive neighbors to each other
+      const deadNeighbors = [];
+      for (let j = 0; j < N; j++) {
+        if (adj[ev.to * N + j] && !dead[j]) deadNeighbors.push(j);
+      }
+      for (let a = 0; a < deadNeighbors.length; a++) {
+        for (let b = a + 1; b < deadNeighbors.length; b++) {
+          const u = deadNeighbors[a], v = deadNeighbors[b];
+          if (!adj[u * N + v]) {
+            adj[u * N + v] = 1;
+            adj[v * N + u] = 1;
+          }
+        }
+      }
+      // Recompute omega for affected nodes
+      for (const j of deadNeighbors) {
+        let deg = 0;
+        for (let k = 0; k < N; k++) if (adj[k * N + j] && !dead[k]) deg++;
+        if (deg > 0) {
+          for (let k = 0; k < N; k++) {
+            omega[k * N + j] = (adj[k * N + j] && !dead[k]) ? 1.0 / deg : 0;
+          }
+        }
+      }
+    }
+  }
 
   // Field assignments
   state.fieldAssignments = assignToFields(state.forms, TProtos, N, n, state.K, cfg.epsilon);
@@ -998,7 +1046,7 @@ function initPositions(N, width, height) {
   return pos;
 }
 
-function forceStep(pos, vel, adj, N, width, height) {
+function forceStep(pos, vel, adj, N, width, height, dead) {
   const repulse = 3000;
   const attract = 0.003;
   const damping = 0.85;
@@ -1006,12 +1054,13 @@ function forceStep(pos, vel, adj, N, width, height) {
   const cx = width / 2, cy = height / 2;
 
   for (let i = 0; i < N; i++) {
+    if (dead && dead[i]) continue;
     let fx = 0, fy = 0;
     const ix = pos[i * 2], iy = pos[i * 2 + 1];
 
     // Repulsion from all nodes
     for (let j = 0; j < N; j++) {
-      if (i === j) continue;
+      if (i === j || (dead && dead[j])) continue;
       let dx = ix - pos[j * 2];
       let dy = iy - pos[j * 2 + 1];
       let distSq = dx * dx + dy * dy;
@@ -1279,14 +1328,15 @@ function App() {
 
         // Chart data (every 5 steps)
         if (sim.t % 5 === 0) {
-          let meanDef = 0, meanSig = 0;
+          let meanDef = 0, meanSig = 0, aliveCount = 0;
           for (let i = 0; i < sim.N; i++) {
+            if (sim.dead[i]) continue;
+            aliveCount++;
             meanDef += sim.deficits[i];
             const fi = sim.forms.subarray(i * sim.n, i * sim.n + sim.n);
             meanSig += recognitionSignal(fi, sim.TProtos[sim.TAssignments[i]], sim.n, sim.cfg.epsilon);
           }
-          meanDef /= sim.N;
-          meanSig /= sim.N;
+          if (aliveCount > 0) { meanDef /= aliveCount; meanSig /= aliveCount; }
 
           const sizes = fieldSizes(sim.fieldAssignments, sim.K);
           const point = {
@@ -1294,6 +1344,7 @@ function App() {
             deficit: +meanDef.toFixed(4),
             signal: +meanSig.toFixed(4),
             discharges: sim.dischargeEvents.length,
+            alive: aliveCount,
           };
           for (let k = 0; k < sim.K; k++) point[`field${k}`] = sizes[k];
 
@@ -1309,7 +1360,7 @@ function App() {
 
       // Force layout step
       if (!dragRef.current.dragging) {
-        forceStep(pos, vel, sim.adj, sim.N, w, h);
+        forceStep(pos, vel, sim.adj, sim.N, w, h, sim.dead);
       }
 
       // PCA form-space projection
@@ -1382,7 +1433,7 @@ function App() {
       // Edges
       for (let i = 0; i < sim.N; i++) {
         for (let j = i + 1; j < sim.N; j++) {
-          if (!sim.adj[i * sim.N + j]) continue;
+          if (!sim.adj[i * sim.N + j] || sim.dead[i] || sim.dead[j]) continue;
           const ow = sim.omega[i * sim.N + j] + sim.omega[j * sim.N + i];
           ctx.beginPath();
           ctx.moveTo(drawPos[i * 2], drawPos[i * 2 + 1]);
@@ -1436,11 +1487,38 @@ function App() {
         ctx.stroke();
       }
 
+      // Increment death ages
+      for (let i = 0; i < sim.N; i++) if (sim.dead[i]) sim.deathAge[i]++;
+
       // Nodes
       const GRAY = '#666677';
       const t = frameCount.current;
       for (let i = 0; i < sim.N; i++) {
+        if (sim.dead[i] && sim.deathAge[i] > 30) continue;
         const x = drawPos[i * 2], y = drawPos[i * 2 + 1];
+
+        // Dead node: fading gray circle with red X
+        if (sim.dead[i]) {
+          const fadeAlpha = Math.max(0, 1 - sim.deathAge[i] / 30);
+          ctx.globalAlpha = fadeAlpha;
+          ctx.beginPath();
+          ctx.arc(x, y, 6, 0, Math.PI * 2);
+          ctx.fillStyle = '#555';
+          ctx.fill();
+          ctx.strokeStyle = '#333';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          // Red X
+          ctx.beginPath();
+          ctx.moveTo(x - 4, y - 4); ctx.lineTo(x + 4, y + 4);
+          ctx.moveTo(x + 4, y - 4); ctx.lineTo(x - 4, y + 4);
+          ctx.strokeStyle = '#ef5350';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+          continue;
+        }
+
         const field = sim.fieldAssignments[i];
         const fieldColor = FIELD_COLORS[field % FIELD_COLORS.length];
         const deficit = sim.deficits[i];
@@ -1542,6 +1620,7 @@ function App() {
     const my = e.clientY - rect.top;
 
     for (let i = 0; i < sim.N; i++) {
+      if (sim.dead[i] && sim.deathAge[i] > 30) continue;
       const dx = dp[i * 2] - mx;
       const dy = dp[i * 2 + 1] - my;
       if (dx * dx + dy * dy < 400) {
@@ -1575,6 +1654,7 @@ function App() {
     // Tooltip
     let found = false;
     for (let i = 0; i < sim.N; i++) {
+      if (sim.dead[i] && sim.deathAge[i] > 30) continue;
       const dx = dp[i * 2] - mx;
       const dy = dp[i * 2 + 1] - my;
       if (dx * dx + dy * dy < 400) {
@@ -1583,7 +1663,7 @@ function App() {
         setTooltip({
           x: e.clientX + 12,
           y: e.clientY - 10,
-          text: `${sim.names[i]} | ${sim.strategies[i]} | \u03C3=${sig.toFixed(3)} | deficit=${sim.deficits[i].toFixed(3)}`
+          text: `${sim.names[i]} | ${sim.strategies[i]} | \u03C3=${sig.toFixed(3)} | deficit=${sim.deficits[i].toFixed(3)} | hits=${sim.dischargeHits[i]}${sim.dead[i] ? ' [DEAD]' : ''}`
         });
         found = true;
         break;
@@ -1727,6 +1807,12 @@ function App() {
     newFA.set(sim.fieldAssignments);
     const newMeta = new Uint8Array(newN);
     newMeta.set(sim.metaStates);
+    const newDead = new Uint8Array(newN);
+    newDead.set(sim.dead);
+    const newDeathAge = new Float64Array(newN);
+    newDeathAge.set(sim.deathAge);
+    const newDischargeHits = new Float64Array(newN);
+    newDischargeHits.set(sim.dischargeHits);
 
     // Update sim
     sim.subjects = newSubjects;
@@ -1741,6 +1827,9 @@ function App() {
     sim.deficitChannels = newDefCh;
     sim.fieldAssignments = newFA;
     sim.metaStates = newMeta;
+    sim.dead = newDead;
+    sim.deathAge = newDeathAge;
+    sim.dischargeHits = newDischargeHits;
     const newFV = new Float64Array(newN);
     newFV.set(sim.formVelocity);
     sim.formVelocity = newFV;
@@ -1795,6 +1884,9 @@ function App() {
       ch2: sim.deficitChannels[i * 3 + 1],
       ch3: sim.deficitChannels[i * 3 + 2],
       meta: sim.metaStates[i],
+      dischargeHits: sim.dischargeHits[i],
+      maxDischarges: sim.cfg.maxDischarges,
+      isDead: !!sim.dead[i],
       neighbors,
     };
   }, [selectedNode, stepCount]);
@@ -1850,6 +1942,7 @@ function App() {
         ['lambdaW', 'Want \u03BB_W', 0, 3, 0.1],
         ['lambdaC', 'Concealment \u03BB_C', 0, 2, 0.1],
         ['thetaDischarge', 'Discharge \u03B8', 0.3, 5, 0.1],
+        ['maxDischarges', 'Death threshold', 3, 50, 1],
       ].map(([key, label, min, max, step]) =>
         h('div', { className: 'slider-group', key }, [
           h('label', {}, [label, h('span', {}, cfg[key].toFixed(3))]),
@@ -1907,7 +2000,7 @@ function App() {
         onMouseLeave: handleMouseUp,
       }),
       h('div', { className: 'status-bar' }, [
-        `t=${stepCount} | N=${simRef.current?.N ?? cfg.N} | K=${simRef.current?.K ?? cfg.K} | ${layoutMode}`,
+        `t=${stepCount} | alive=${simRef.current ? simRef.current.N - Array.from(simRef.current.dead).reduce((a,b)=>a+b,0) : cfg.N}/${simRef.current?.N ?? cfg.N} | K=${simRef.current?.K ?? cfg.K} | ${layoutMode}`,
       ]),
     ]),
 
@@ -1927,6 +2020,9 @@ function App() {
           h('span', {}, 'Signal \u03C3'), h('span', { className: 'val' }, detailInfo.signal.toFixed(4))]),
         h('div', { className: 'stat-row' }, [
           h('span', {}, 'Total deficit'), h('span', { className: 'val' }, detailInfo.deficit.toFixed(4))]),
+        h('div', { className: 'stat-row' }, [
+          h('span', {}, 'Discharge hits'), h('span', { className: 'val', style: detailInfo.isDead ? { color: 'var(--red)' } : {} },
+            `${detailInfo.dischargeHits} / ${detailInfo.maxDischarges}${detailInfo.isDead ? ' [DEAD]' : ''}`)]),
 
         h('h3', {}, 'Deficit Channels'),
         ...[
@@ -1969,6 +2065,7 @@ function App() {
               h(Line, { type: 'monotone', dataKey: 'deficit', stroke: '#ffd369', dot: false, strokeWidth: 1.5, name: 'deficit' }),
               h(Line, { type: 'monotone', dataKey: 'signal', stroke: '#4ecca3', dot: false, strokeWidth: 1.5, name: 'signal' }),
               h(Line, { type: 'monotone', dataKey: 'discharges', stroke: '#ef5350', dot: false, strokeWidth: 1, name: 'discharges' }),
+              h(Line, { type: 'monotone', dataKey: 'alive', stroke: '#4fc3f7', dot: false, strokeWidth: 1, name: 'alive' }),
               ...Array.from({ length: K }, (_, k) =>
                 h(Line, { key: `f${k}`, type: 'monotone', dataKey: `field${k}`, stroke: FIELD_COLORS[k], dot: false, strokeWidth: 1, name: `field ${k}`, strokeDasharray: '3 3' })
               ),

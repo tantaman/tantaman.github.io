@@ -333,6 +333,7 @@ paste.post("/login", async (c) => {
     httpOnly: true,
     secure: true,
     sameSite: "Strict",
+    maxAge: 34560000, // ~400 days, max browsers will honor
   });
   return c.redirect("/paste");
 });
