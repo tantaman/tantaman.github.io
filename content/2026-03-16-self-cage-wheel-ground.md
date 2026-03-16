@@ -3,6 +3,7 @@ title: 'Self, Cage, Wheel, Ground: A Book in Progress'
 tags: [philosophy, politics, culture, religion]
 concern: [self, power, ground, knowledge]
 kind: original
+image: '/img/durer-melencolia.jpg'
 ---
 
 I've been writing a book. Or more precisely — figuring out a book. Now I'm going to write it.
