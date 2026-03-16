@@ -793,10 +793,10 @@ function defaultConfig() {
     D: 64,
     n: 16,
     fixDim: 4,
-    N: 30,
-    K: 3,
-    eta: 0.005,
-    epsilon: 0.1,
+    N: 25,
+    K: 2,
+    eta: 0.01,
+    epsilon: 0.15,
     lambdaW: 1.0,
     lambdaC: 0.3,
     deltaCon: 0.2,
@@ -804,7 +804,7 @@ function defaultConfig() {
     lambda2: 1.0,
     lambda3: 0.5,
     kappa: 0.5,
-    thetaDischarge: 1.5,
+    thetaDischarge: 0.7,
     edgeProb: 0.15,
     etaPrime: 0.3,
     seed: 42,
@@ -842,9 +842,19 @@ function initSim(cfg, strategyMode = 'want') {
   const TAssignments = new Int32Array(N);
   for (let i = 0; i < N; i++) TAssignments[i] = i % K;
 
-  // Forms = sProj + small noise
-  const forms = new Float64Array(sProj);
-  for (let i = 0; i < N * n; i++) forms[i] += 0.01 * rng.normal();
+  // Forms: random unit vectors in grammar space (far from Fix(T) for visible dynamics)
+  const forms = matCreate(N, n);
+  for (let i = 0; i < N; i++) {
+    let norm = 0;
+    for (let j = 0; j < n; j++) {
+      forms[i * n + j] = rng.normal();
+      norm += forms[i * n + j] ** 2;
+    }
+    norm = Math.sqrt(norm);
+    // Scale to match typical sProj norm (~sqrt(n/D))
+    const targetNorm = Math.sqrt(n / D);
+    for (let j = 0; j < n; j++) forms[i * n + j] *= targetNorm / norm;
+  }
 
   // Graph
   const adj = makeGraphER(N, cfg.edgeProb, rng);
@@ -873,6 +883,7 @@ function initSim(cfg, strategyMode = 'want') {
     fieldAssignments: new Int32Array(N),
     dischargeEvents: [],
     metaStates: new Uint8Array(N),
+    formVelocity: new Float64Array(N),
   };
 }
 
@@ -930,6 +941,16 @@ function simStep(state) {
     } else {
       updateWant(out, fi, si, Tneighbors, n, cfg);
     }
+  }
+
+  // Compute form velocity (||f_new - f_old||) per node
+  for (let i = 0; i < N; i++) {
+    let sq = 0;
+    for (let k = 0; k < n; k++) {
+      const d = newForms[i * n + k] - forms[i * n + k];
+      sq += d * d;
+    }
+    state.formVelocity[i] = Math.sqrt(sq);
   }
 
   state.forms = newForms;
@@ -1029,6 +1050,96 @@ function forceStep(pos, vel, adj, N, width, height) {
 
 
 // ============================================================
+// FORM-SPACE PCA PROJECTION
+// ============================================================
+
+function formProjection(forms, N, n, prevEig) {
+  const mean = new Float64Array(n);
+  for (let i = 0; i < N; i++)
+    for (let j = 0; j < n; j++) mean[j] += forms[i * n + j];
+  for (let j = 0; j < n; j++) mean[j] /= N;
+
+  let e1 = prevEig?.e1 ? new Float64Array(prevEig.e1) : null;
+  let e2 = prevEig?.e2 ? new Float64Array(prevEig.e2) : null;
+  if (!e1) {
+    e1 = new Float64Array(n); e2 = new Float64Array(n);
+    e1[0] = 1; e2[1] = 1;
+  }
+
+  const tmp = new Float64Array(n);
+  for (let iter = 0; iter < 2; iter++) {
+    // Power iteration for e1: tmp = C @ e1
+    tmp.fill(0);
+    for (let i = 0; i < N; i++) {
+      let dot = 0;
+      for (let j = 0; j < n; j++) dot += (forms[i * n + j] - mean[j]) * e1[j];
+      for (let j = 0; j < n; j++) tmp[j] += (forms[i * n + j] - mean[j]) * dot;
+    }
+    let norm = 0;
+    for (let j = 0; j < n; j++) norm += tmp[j] * tmp[j];
+    norm = Math.sqrt(norm);
+    if (norm > 1e-10) for (let j = 0; j < n; j++) e1[j] = tmp[j] / norm;
+
+    // Power iteration for e2, deflated
+    tmp.fill(0);
+    for (let i = 0; i < N; i++) {
+      let dot = 0;
+      for (let j = 0; j < n; j++) dot += (forms[i * n + j] - mean[j]) * e2[j];
+      for (let j = 0; j < n; j++) tmp[j] += (forms[i * n + j] - mean[j]) * dot;
+    }
+    let proj = 0;
+    for (let j = 0; j < n; j++) proj += tmp[j] * e1[j];
+    for (let j = 0; j < n; j++) tmp[j] -= proj * e1[j];
+    norm = 0;
+    for (let j = 0; j < n; j++) norm += tmp[j] * tmp[j];
+    norm = Math.sqrt(norm);
+    if (norm > 1e-10) for (let j = 0; j < n; j++) e2[j] = tmp[j] / norm;
+  }
+
+  // Sign-flip correction
+  if (prevEig?.e1) {
+    let d1 = 0, d2 = 0;
+    for (let j = 0; j < n; j++) { d1 += e1[j] * prevEig.e1[j]; d2 += e2[j] * prevEig.e2[j]; }
+    if (d1 < 0) for (let j = 0; j < n; j++) e1[j] = -e1[j];
+    if (d2 < 0) for (let j = 0; j < n; j++) e2[j] = -e2[j];
+  }
+
+  const positions = new Float64Array(N * 2);
+  for (let i = 0; i < N; i++) {
+    let p1 = 0, p2 = 0;
+    for (let j = 0; j < n; j++) {
+      const c = forms[i * n + j] - mean[j];
+      p1 += c * e1[j]; p2 += c * e2[j];
+    }
+    positions[i * 2] = p1;
+    positions[i * 2 + 1] = p2;
+  }
+  return { positions, e1: new Float64Array(e1), e2: new Float64Array(e2) };
+}
+
+
+// ============================================================
+// COLOR HELPERS
+// ============================================================
+
+function hexToRgb(hex) {
+  return [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)];
+}
+
+function lerpColor(hex1, hex2, t) {
+  const [r1, g1, b1] = hexToRgb(hex1);
+  const [r2, g2, b2] = hexToRgb(hex2);
+  return `rgb(${Math.round(r1 + (r2 - r1) * t)},${Math.round(g1 + (g2 - g1) * t)},${Math.round(b1 + (b2 - b1) * t)})`;
+}
+
+function lerpColorAlpha(hex1, hex2, t, alpha) {
+  const [r1, g1, b1] = hexToRgb(hex1);
+  const [r2, g2, b2] = hexToRgb(hex2);
+  return `rgba(${Math.round(r1 + (r2 - r1) * t)},${Math.round(g1 + (g2 - g1) * t)},${Math.round(b1 + (b2 - b1) * t)},${alpha})`;
+}
+
+
+// ============================================================
 // FIELD COLORS
 // ============================================================
 
@@ -1069,8 +1180,16 @@ function App() {
   const animRef = useRef(null);
   const dragRef = useRef({ dragging: false, node: -1, offsetX: 0, offsetY: 0 });
   const sizeRef = useRef({ w: 800, h: 600 });
-  const dischargeFlash = useRef([]); // [{from, to, age}]
+  const dischargeFlash = useRef([]); // projectile arcs: {from, to, progress, trail[], impactAge}
   const chartDataRef = useRef([]);
+  const pcaEigRef = useRef(null);
+  const formPosRef = useRef(null); // PCA-projected 2D positions
+  const prevFieldRef = useRef(null);
+  const fieldSwitchRef = useRef([]); // {node, oldColor, newColor, age}
+  const drawPosRef = useRef(null); // blended positions used for drawing + hit-testing
+  const [layoutMode, setLayoutMode] = useState('blend');
+  const [blendAlpha, setBlendAlpha] = useState(0.6);
+  const frameCount = useRef(0);
 
   // Initialize simulation
   const resetSim = useCallback((newCfg, newStrategy) => {
@@ -1084,6 +1203,11 @@ function App() {
     velRef.current = new Float64Array(sim.N * 2);
     dischargeFlash.current = [];
     chartDataRef.current = [];
+    pcaEigRef.current = null;
+    formPosRef.current = null;
+    drawPosRef.current = null;
+    prevFieldRef.current = null;
+    fieldSwitchRef.current = [];
     setChartData([]);
     setStepCount(0);
     setSelectedNode(null);
@@ -1135,10 +1259,22 @@ function App() {
         }
         setStepCount(sim.t);
 
-        // Record discharge flashes
+        // Record discharge projectiles
         for (const ev of sim.dischargeEvents) {
-          dischargeFlash.current.push({ from: ev.from, to: ev.to, age: 0 });
+          dischargeFlash.current.push({ from: ev.from, to: ev.to, progress: 0, trail: [], impactAge: -1 });
         }
+
+        // Detect field switches
+        if (prevFieldRef.current) {
+          for (let i = 0; i < sim.N; i++) {
+            if (sim.fieldAssignments[i] !== prevFieldRef.current[i]) {
+              const oldColor = FIELD_COLORS[prevFieldRef.current[i] % FIELD_COLORS.length];
+              const newColor = FIELD_COLORS[sim.fieldAssignments[i] % FIELD_COLORS.length];
+              fieldSwitchRef.current.push({ node: i, oldColor, newColor, age: 0 });
+            }
+          }
+        }
+        prevFieldRef.current = new Int32Array(sim.fieldAssignments);
 
         // Chart data (every 5 steps)
         if (sim.t % 5 === 0) {
@@ -1175,10 +1311,66 @@ function App() {
         forceStep(pos, vel, sim.adj, sim.N, w, h);
       }
 
-      // Age discharge flashes
-      dischargeFlash.current = dischargeFlash.current
-        .map(f => ({ ...f, age: f.age + 1 }))
-        .filter(f => f.age < 30);
+      // PCA form-space projection
+      const pcaResult = formProjection(sim.forms, sim.N, sim.n, pcaEigRef.current);
+      pcaEigRef.current = pcaResult;
+      formPosRef.current = pcaResult.positions;
+
+      // Compute blended draw positions
+      const drawPos = new Float64Array(sim.N * 2);
+      if (layoutMode === 'graph') {
+        drawPos.set(pos);
+      } else {
+        // Map PCA positions to canvas space
+        const fp = pcaResult.positions;
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        for (let i = 0; i < sim.N; i++) {
+          minX = Math.min(minX, fp[i * 2]); maxX = Math.max(maxX, fp[i * 2]);
+          minY = Math.min(minY, fp[i * 2 + 1]); maxY = Math.max(maxY, fp[i * 2 + 1]);
+        }
+        const rangeX = maxX - minX || 1;
+        const rangeY = maxY - minY || 1;
+        const pad = 60;
+        const alpha = layoutMode === 'form' ? 1.0 : blendAlpha;
+        for (let i = 0; i < sim.N; i++) {
+          const fx = pad + ((fp[i * 2] - minX) / rangeX) * (w - 2 * pad);
+          const fy = pad + ((fp[i * 2 + 1] - minY) / rangeY) * (h - 2 * pad);
+          drawPos[i * 2] = (1 - alpha) * pos[i * 2] + alpha * fx;
+          drawPos[i * 2 + 1] = (1 - alpha) * pos[i * 2 + 1] + alpha * fy;
+        }
+      }
+
+      drawPosRef.current = drawPos;
+
+      // Advance discharge projectiles
+      dischargeFlash.current = dischargeFlash.current.filter(p => {
+        if (p.impactAge >= 0) {
+          p.impactAge++;
+          return p.impactAge < 25;
+        }
+        p.progress += 1 / 20;
+        // Store trail position
+        const t = p.progress;
+        const x0 = drawPos[p.from * 2], y0 = drawPos[p.from * 2 + 1];
+        const x1 = drawPos[p.to * 2], y1 = drawPos[p.to * 2 + 1];
+        const mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+        const dx = x1 - x0, dy = y1 - y0;
+        const perpX = -dy * 0.25, perpY = dx * 0.25;
+        const cx = mx + perpX, cy = my + perpY;
+        const bx = (1-t)*(1-t)*x0 + 2*(1-t)*t*cx + t*t*x1;
+        const by = (1-t)*(1-t)*y0 + 2*(1-t)*t*cy + t*t*y1;
+        p.trail.push({ x: bx, y: by });
+        if (p.trail.length > 6) p.trail.shift();
+        if (p.progress >= 1) { p.impactAge = 0; }
+        return true;
+      });
+
+      // Age field switch events
+      fieldSwitchRef.current = fieldSwitchRef.current
+        .map(e => ({ ...e, age: e.age + 1 }))
+        .filter(e => e.age < 25);
+
+      frameCount.current++;
 
       // Draw
       const ctx = canvas.getContext('2d');
@@ -1192,32 +1384,93 @@ function App() {
           if (!sim.adj[i * sim.N + j]) continue;
           const ow = sim.omega[i * sim.N + j] + sim.omega[j * sim.N + i];
           ctx.beginPath();
-          ctx.moveTo(pos[i * 2], pos[i * 2 + 1]);
-          ctx.lineTo(pos[j * 2], pos[j * 2 + 1]);
+          ctx.moveTo(drawPos[i * 2], drawPos[i * 2 + 1]);
+          ctx.lineTo(drawPos[j * 2], drawPos[j * 2 + 1]);
           ctx.strokeStyle = `rgba(100, 120, 160, ${0.1 + ow * 0.4})`;
           ctx.lineWidth = 0.5 + ow * 2;
           ctx.stroke();
         }
       }
 
-      // Discharge flashes
-      for (const flash of dischargeFlash.current) {
-        const alpha = 1 - flash.age / 30;
+      // Discharge projectiles
+      for (const proj of dischargeFlash.current) {
+        if (proj.impactAge >= 0) {
+          // Impact ring at target
+          const tx = drawPos[proj.to * 2], ty = drawPos[proj.to * 2 + 1];
+          const ringR = 8 + proj.impactAge * 1.5;
+          const ringAlpha = 1 - proj.impactAge / 25;
+          ctx.beginPath();
+          ctx.arc(tx, ty, ringR, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(239, 83, 80, ${ringAlpha * 0.8})`;
+          ctx.lineWidth = 2 * ringAlpha;
+          ctx.stroke();
+        } else if (proj.trail.length > 0) {
+          // Draw trail (decreasing size circles)
+          for (let ti = 0; ti < proj.trail.length; ti++) {
+            const tp = proj.trail[ti];
+            const frac = (ti + 1) / proj.trail.length;
+            ctx.beginPath();
+            ctx.arc(tp.x, tp.y, 3 * frac, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 200, 100, ${frac * 0.7})`;
+            ctx.fill();
+          }
+          // Draw projectile head
+          const head = proj.trail[proj.trail.length - 1];
+          ctx.beginPath();
+          ctx.arc(head.x, head.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = '#ef5350';
+          ctx.fill();
+        }
+      }
+
+      // Field switch rings
+      for (const fsw of fieldSwitchRef.current) {
+        const x = drawPos[fsw.node * 2], y = drawPos[fsw.node * 2 + 1];
+        const ringR = 8 + fsw.age * 1.2;
+        const alpha = 1 - fsw.age / 25;
         ctx.beginPath();
-        ctx.moveTo(pos[flash.from * 2], pos[flash.from * 2 + 1]);
-        ctx.lineTo(pos[flash.to * 2], pos[flash.to * 2 + 1]);
-        ctx.strokeStyle = `rgba(239, 83, 80, ${alpha})`;
-        ctx.lineWidth = 3 * alpha;
+        ctx.arc(x, y, ringR, 0, Math.PI * 2);
+        ctx.strokeStyle = lerpColorAlpha(fsw.oldColor, fsw.newColor, fsw.age / 25, alpha * 0.6);
+        ctx.lineWidth = 2.5 * alpha;
         ctx.stroke();
       }
 
       // Nodes
+      const GRAY = '#666677';
+      const t = frameCount.current;
       for (let i = 0; i < sim.N; i++) {
-        const x = pos[i * 2], y = pos[i * 2 + 1];
+        const x = drawPos[i * 2], y = drawPos[i * 2 + 1];
         const field = sim.fieldAssignments[i];
-        const color = FIELD_COLORS[field % FIELD_COLORS.length];
+        const fieldColor = FIELD_COLORS[field % FIELD_COLORS.length];
         const deficit = sim.deficits[i];
-        const radius = 6 + Math.min(deficit * 2, 10);
+        const velocity = sim.formVelocity[i];
+
+        // Recognition signal for this node
+        const fi = sim.forms.subarray(i * sim.n, i * sim.n + sim.n);
+        const sigma = recognitionSignal(fi, sim.TProtos[sim.TAssignments[i]], sim.n, sim.cfg.epsilon);
+
+        // Signal-based color saturation: low sigma = gray, high sigma = vivid
+        const color = lerpColor(GRAY, fieldColor, Math.min(1, sigma));
+
+        // Pulsing radius based on form velocity
+        const pulse = Math.min(velocity * 500, 4) * Math.sin(t * 0.1 + i * 0.3);
+        const baseRadius = 6 + Math.min(deficit * 2, 10);
+        const radius = baseRadius + pulse;
+
+        // 3. Convergence halo: Fix(T) distance ring
+        const tf_tmp = vecCreate(sim.n);
+        applyT(tf_tmp, sim.TProtos[sim.TAssignments[i]], fi, sim.n);
+        let distToFix = 0;
+        for (let k = 0; k < sim.n; k++) distToFix += (tf_tmp[k] - fi[k]) ** 2;
+        distToFix = Math.sqrt(distToFix);
+        const haloR = radius + distToFix * 20;
+        if (haloR > radius + 1) {
+          ctx.beginPath();
+          ctx.arc(x, y, haloR, 0, Math.PI * 2);
+          ctx.strokeStyle = lerpColorAlpha(GRAY, fieldColor, sigma, 0.12);
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
 
         // Glow if discharging
         const isDischarging = sim.dischargeEvents.some(e => e.from === i);
@@ -1228,11 +1481,26 @@ function App() {
           ctx.fill();
         }
 
-        // Main circle
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
+        // 6. Deficit heat core: radial gradient when deficit > threshold * 0.5
+        const heatThreshold = sim.cfg.thetaDischarge * 0.5;
+        if (deficit > heatThreshold) {
+          const heatIntensity = Math.min(1, (deficit - heatThreshold) / (sim.cfg.thetaDischarge - heatThreshold));
+          const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+          const [cr, cg, cb] = hexToRgb(color);
+          grad.addColorStop(0, `rgba(${255},${255},${200 + 55 * heatIntensity},${0.3 + 0.7 * heatIntensity})`);
+          grad.addColorStop(0.5, `rgba(${cr},${cg},${cb},0.9)`);
+          grad.addColorStop(1, color);
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
+        } else {
+          // Main circle
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.fill();
+        }
 
         // Border thickness by deficit
         ctx.lineWidth = 1 + Math.min(deficit, 3);
@@ -1252,21 +1520,21 @@ function App() {
 
     animRef.current = requestAnimationFrame(loop);
     return () => { running = false; cancelAnimationFrame(animRef.current); };
-  }, [playing, speed, selectedNode]);
+  }, [playing, speed, selectedNode, layoutMode, blendAlpha]);
 
   // Mouse handlers
   const handleMouseDown = useCallback((e) => {
     const sim = simRef.current;
-    const pos = posRef.current;
-    if (!sim || !pos) return;
+    const dp = drawPosRef.current || posRef.current;
+    if (!sim || !dp) return;
 
     const rect = canvasRef.current.getBoundingClientRect();
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
 
     for (let i = 0; i < sim.N; i++) {
-      const dx = pos[i * 2] - mx;
-      const dy = pos[i * 2 + 1] - my;
+      const dx = dp[i * 2] - mx;
+      const dy = dp[i * 2 + 1] - my;
       if (dx * dx + dy * dy < 400) {
         dragRef.current = { dragging: true, node: i, offsetX: dx, offsetY: dy };
         setSelectedNode(i);
@@ -1279,7 +1547,8 @@ function App() {
   const handleMouseMove = useCallback((e) => {
     const sim = simRef.current;
     const pos = posRef.current;
-    if (!sim || !pos) return;
+    const dp = drawPosRef.current || pos;
+    if (!sim || !dp) return;
 
     const rect = canvasRef.current.getBoundingClientRect();
     const mx = e.clientX - rect.left;
@@ -1297,8 +1566,8 @@ function App() {
     // Tooltip
     let found = false;
     for (let i = 0; i < sim.N; i++) {
-      const dx = pos[i * 2] - mx;
-      const dy = pos[i * 2 + 1] - my;
+      const dx = dp[i * 2] - mx;
+      const dy = dp[i * 2 + 1] - my;
       if (dx * dx + dy * dy < 400) {
         const fi = sim.forms.subarray(i * sim.n, i * sim.n + sim.n);
         const sig = recognitionSignal(fi, sim.TProtos[sim.TAssignments[i]], sim.n, sim.cfg.epsilon);
@@ -1333,13 +1602,13 @@ function App() {
     let c = defaultConfig();
     let strat = 'want';
     if (name === 'convergence') {
-      c.N = 20; c.K = 1; strat = 'want';
+      c.N = 20; c.K = 1; c.eta = 0.008; strat = 'want';
     } else if (name === 'rivalry') {
-      c.N = 30; c.K = 2; c.edgeProb = 0.12; strat = 'want';
+      c.N = 30; c.K = 3; c.edgeProb = 0.12; c.eta = 0.01; strat = 'want';
     } else if (name === 'cascade') {
-      c.N = 25; c.K = 2; c.thetaDischarge = 0.8; strat = 'want';
+      c.N = 25; c.K = 2; c.thetaDischarge = 0.4; c.eta = 0.01; strat = 'want';
     } else if (name === 'mixed') {
-      c.N = 25; c.K = 3; strat = 'mixed';
+      c.N = 30; c.K = 3; c.eta = 0.01; strat = 'mixed';
     }
     setCfg(c);
     setStrategyMode(strat);
@@ -1353,6 +1622,11 @@ function App() {
       velRef.current = new Float64Array(sim.N * 2);
       dischargeFlash.current = [];
       chartDataRef.current = [];
+      pcaEigRef.current = null;
+      formPosRef.current = null;
+      drawPosRef.current = null;
+      prevFieldRef.current = null;
+      fieldSwitchRef.current = [];
       setChartData([]);
       setStepCount(0);
       setSelectedNode(null);
@@ -1516,7 +1790,7 @@ function App() {
   // Chart lines config
   const K = simRef.current ? simRef.current.K : 3;
 
-  return h('div', { id: 'app' }, [
+  return h(F, null,
     // LEFT: Controls
     h('div', { className: 'panel', id: 'controls' }, [
       h('h3', {}, 'Simulation'),
@@ -1535,6 +1809,18 @@ function App() {
       h('div', { className: 'stat-row' }, [
         h('span', {}, 'Step'),
         h('span', { className: 'val' }, stepCount),
+      ]),
+
+      h('h3', {}, 'Layout'),
+      h('div', { className: 'btn-row' }, [
+        h('button', { className: `btn ${layoutMode === 'graph' ? 'active' : ''}`, onClick: () => setLayoutMode('graph') }, 'Graph'),
+        h('button', { className: `btn ${layoutMode === 'blend' ? 'active' : ''}`, onClick: () => setLayoutMode('blend') }, 'Blend'),
+        h('button', { className: `btn ${layoutMode === 'form' ? 'active' : ''}`, onClick: () => setLayoutMode('form') }, 'Form'),
+      ]),
+      layoutMode === 'blend' && h('div', { className: 'slider-group' }, [
+        h('label', {}, ['Blend \u03B1', h('span', {}, blendAlpha.toFixed(2))]),
+        h('input', { type: 'range', min: 0, max: 1, step: 0.05, value: blendAlpha,
+          onChange: e => setBlendAlpha(+e.target.value) }),
       ]),
 
       h('h3', {}, 'Add'),
@@ -1609,7 +1895,7 @@ function App() {
         onMouseLeave: handleMouseUp,
       }),
       h('div', { className: 'status-bar' }, [
-        `t=${stepCount} | N=${simRef.current?.N ?? cfg.N} | K=${simRef.current?.K ?? cfg.K}`,
+        `t=${stepCount} | N=${simRef.current?.N ?? cfg.N} | K=${simRef.current?.K ?? cfg.K} | ${layoutMode}`,
       ]),
     ]),
 
@@ -1680,7 +1966,7 @@ function App() {
 
     // Tooltip overlay
     tooltip && h('div', { className: 'tooltip', style: { left: tooltip.x, top: tooltip.y } }, tooltip.text),
-  ]);
+  );
 }
 
 createRoot(document.getElementById('app')).render(h(App, {}));
