@@ -8,6 +8,8 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import remarkWikiLink from 'remark-wiki-link';
@@ -54,10 +56,12 @@ export default {
           matter(file, { strip: true });
         },
         remarkTransclusion,
+        remarkMath,
         remarkGfm,
         [remarkWikiLink, wikilinkOptions],
       ],
       rehypePlugins: [
+        rehypeKatex,
         [rehypeInferDescriptionMeta, { truncateSize: 255 }],
         rehypeSlug,
         [toc, { headings: ['h1', 'h2'] }],
@@ -189,6 +193,7 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
         matter(file, { strip: true });
       })
       .use(remarkTransclusion)
+      .use(remarkMath)
       .use(remarkGfm)
       .use(remarkWikiLink, wikilinkOptions)
       .use(remarkRehype, { allowDangerousHtml: true }),
@@ -199,6 +204,7 @@ async function processMarkdown(fileOrContent, docAdditions, gottenMatter) {
 
 function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
   return pipeline
+    .use(rehypeKatex)
     .use(rehypeInferDescriptionMeta, { truncateSize: 255 })
     .use(rehypeInferTitleMeta)
     .use(rehypeSlug)

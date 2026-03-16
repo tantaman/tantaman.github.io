@@ -20,7 +20,7 @@ export const doc = {
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     { rel: 'alternate', type: 'application/rss+xml', title: 'Tantaman', href: '/feed.xml' },
   ],
-  css: ['/index.css'],
+  css: ['https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css', '/index.css'],
   headScript: [
     `(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()`,
   ],
