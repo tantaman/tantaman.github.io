@@ -5,8 +5,6 @@ concern: [self, power, ground, knowledge]
 kind: original
 ---
 
-# Self, Cage, Wheel, Ground
-
 I've been writing a book. Or more precisely — I've been figuring out a book, and now I'm going to write it.
 
 The essays on this site over the past several months — on [grammar](/2026-01-23-grammar-rules-all.html), on [the cage and its curtains](/2026-02-09-the-cage-and-the-argument-about-its.html), on [trauma culture](/2026-01-09-trauma-culture-white-guilt-checkmate.html), on [what Marx would say today](/2026-01-27-what-would-marx-say-today.html), on [how power uses education](/2025-12-19-how-power-weaponizes-mass-education.html), on [the epistemology of impotence](/2026-01-09-the-epistemology-of-impotence-how.html), on [political containment](/2026-01-29-the-secret-every-political-philosophy.md), on [the gaze](/2026-02-11-the-gaze.html), on [grace and the cage](/2026-02-26-grace-and-cage.html) — have all been working toward this. Each was an attempt to get one piece right. Now the pieces have a structure.
