@@ -1241,6 +1241,7 @@ function App() {
     let running = true;
     const loop = () => {
       if (!running) return;
+      try {
       const sim = simRef.current;
       const pos = posRef.current;
       const vel = velRef.current;
@@ -1450,7 +1451,13 @@ function App() {
         const sigma = recognitionSignal(fi, sim.TProtos[sim.TAssignments[i]], sim.n, sim.cfg.epsilon);
 
         // Signal-based color saturation: low sigma = gray, high sigma = vivid
-        const color = lerpColor(GRAY, fieldColor, Math.min(1, sigma));
+        const sigmaClamp = Math.min(1, sigma);
+        const [gr, gg, gb] = hexToRgb(GRAY);
+        const [fr, fg, fb] = hexToRgb(fieldColor);
+        const cr = Math.round(gr + (fr - gr) * sigmaClamp);
+        const cg = Math.round(gg + (fg - gg) * sigmaClamp);
+        const cb = Math.round(gb + (fb - gb) * sigmaClamp);
+        const color = `rgb(${cr},${cg},${cb})`;
 
         // Pulsing radius based on form velocity
         const pulse = Math.min(velocity * 500, 4) * Math.sin(t * 0.1 + i * 0.3);
@@ -1486,9 +1493,8 @@ function App() {
         if (deficit > heatThreshold) {
           const heatIntensity = Math.min(1, (deficit - heatThreshold) / (sim.cfg.thetaDischarge - heatThreshold));
           const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
-          const [cr, cg, cb] = hexToRgb(color);
-          grad.addColorStop(0, `rgba(${255},${255},${200 + 55 * heatIntensity},${0.3 + 0.7 * heatIntensity})`);
-          grad.addColorStop(0.5, `rgba(${cr},${cg},${cb},0.9)`);
+          grad.addColorStop(0, `rgba(255,255,${200 + Math.round(55 * heatIntensity)},${0.3 + 0.7 * heatIntensity})`);
+          grad.addColorStop(0.5, `rgba(${cr||0},${cg||0},${cb||0},0.9)`);
           grad.addColorStop(1, color);
           ctx.beginPath();
           ctx.arc(x, y, radius, 0, Math.PI * 2);
@@ -1515,6 +1521,9 @@ function App() {
         ctx.fillText(STRATEGY_ICONS[sim.strategies[i]] || '?', x, y);
       }
 
+      } catch (err) {
+        console.error('Render loop error:', err);
+      }
       animRef.current = requestAnimationFrame(loop);
     };
 
@@ -1732,6 +1741,9 @@ function App() {
     sim.deficitChannels = newDefCh;
     sim.fieldAssignments = newFA;
     sim.metaStates = newMeta;
+    const newFV = new Float64Array(newN);
+    newFV.set(sim.formVelocity);
+    sim.formVelocity = newFV;
     sim.N = newN;
 
     // Expand positions
