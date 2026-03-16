@@ -68,6 +68,11 @@ class SimConfig:
     cluster_eps: float = 0.0        # DBSCAN epsilon (0 = adaptive)
     cluster_min_samples: int = 3    # DBSCAN min_samples
 
+    # Grammar estimation (MC10)
+    grammar_estimation: bool = True       # subjects optimize against estimated grammar T̂
+    eta_hat: float = 0.03                 # learning rate for grammar estimate updates
+    estimation_noise: float = 0.01        # noise scale in grammar estimate updates
+
     # Turnover (open-population dynamics)
     turnover_rate: float = 0.0        # fraction of population replaced per step (0 = closed)
     turnover_bias: str = "random"     # "random" or "disconnected"

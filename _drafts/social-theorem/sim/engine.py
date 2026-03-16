@@ -21,6 +21,7 @@ class SimHistory:
         self.discharge_events = []   # from deficit accumulator
         self.mean_sigma_series = []  # list of (t, mean_sigma)
         self.channel_series = []     # list of (t, ch1, ch2, ch3) means
+        self.estimation_error_series = []  # list of (t, mean_error, per_subject_error)
 
 
 class Simulation:
@@ -48,6 +49,11 @@ class Simulation:
 
         # Initialize prior forms for all existing edges
         self.prior_forms.update_all(self.graph, self.T_matrices, self.forms)
+
+        # Grammar estimation (MC10): each subject's model of local field grammar
+        if self.cfg.grammar_estimation:
+            # Initially, each subject models the field through their own grammar
+            self.T_hat = np.copy(self.T_matrices)
 
         # Cluster labels (initially none)
         self.cluster_labels = np.full(self.cfg.N, -1, dtype=int)
@@ -226,6 +232,10 @@ class Simulation:
 
             self.graph.birth_subject(i, cfg, self.rng)
 
+            # Newborn models field through own grammar (MC10 novice)
+            if cfg.grammar_estimation:
+                self.T_hat[i] = T_i.copy()
+
         # Update prior forms for edges involving newborns
         for i in victims:
             # i as recognizer
@@ -234,6 +244,40 @@ class Simulation:
             # i as presentee
             for j in self.graph.neighbors_of(i):
                 self.prior_forms.update(j, i, self.T_matrices[j], self.forms[i])
+
+    def _update_grammar_estimates(self):
+        """Update each subject's estimated grammar toward neighbors' true mean (MC10).
+
+        Noise scales with neighborhood T-diversity: subjects in diverse
+        neighborhoods (large mixed fields) have higher estimation error
+        because signal-based grammar inference is harder when the signal
+        landscape is complex (Lemma FC).
+        """
+        cfg = self.cfg
+        if not cfg.grammar_estimation:
+            return
+
+        N, n = cfg.N, cfg.n
+        for i in range(N):
+            neighbors = self.graph.neighbors_of(i)
+            if len(neighbors) == 0:
+                continue
+            # Weighted mean of true neighbor grammars
+            weights = np.array([self.graph.get_omega(j, i) for j in neighbors])
+            total_w = weights.sum()
+            if total_w < 1e-12:
+                continue
+            weights /= total_w
+            T_neighbors = self.T_matrices[neighbors]
+            T_mean = np.einsum('k,kij->ij', weights, T_neighbors)
+            # Track toward mean with learning rate
+            self.T_hat[i] += cfg.eta_hat * (T_mean - self.T_hat[i])
+            # Noise proportional to neighborhood grammar diversity
+            if cfg.estimation_noise > 0 and len(neighbors) > 1:
+                T_centered = T_neighbors - T_mean[np.newaxis, :, :]
+                T_diversity = np.sqrt(np.mean(np.sum(T_centered ** 2, axis=(1, 2))))
+                noise = self.rng.standard_normal((n, n)) * cfg.estimation_noise * T_diversity
+                self.T_hat[i] += noise
 
     def step(self):
         """Execute one timestep of the simulation."""
@@ -248,18 +292,26 @@ class Simulation:
         centroids = self._compute_centroids()
 
         # 2. Compute gradients and update forms
+        # MC10: subjects optimize against their estimated grammar T̂_i,
+        # not the true neighbor T_j's. The subject has one model of what
+        # the field rewards, and gradient-ascends on that model.
         new_forms = np.copy(self.forms)
         for i in range(N):
             neighbors = self.graph.neighbors_of(i)
             if len(neighbors) == 0:
                 continue
 
-            T_neighbors = self.T_matrices[neighbors]
+            if cfg.grammar_estimation:
+                # Subject uses their single estimated grammar (MC10)
+                T_for_gradient = self.T_hat[i:i+1]  # (1, n, n)
+            else:
+                # Original behavior: use true neighbor T matrices
+                T_for_gradient = self.T_matrices[neighbors]
             centroid = self._get_centroid_for(i, centroids)
 
             new_forms[i] = apply_update(
                 self.strategies[i], self.forms[i], self.s_proj[i],
-                T_neighbors, cfg, centroid)
+                T_for_gradient, cfg, centroid)
 
         self.forms = new_forms
 
@@ -294,6 +346,9 @@ class Simulation:
                 self.T_matrices[i] = update_T(
                     self.T_matrices[i], f_neighbors, omega_weights,
                     signals, cfg.eta_T, cfg.T_eigenvalue_range)
+
+        # 2c. Update grammar estimates (MC10) — after T co-evolution
+        self._update_grammar_estimates()
 
         # 3. Update deficit
         self.deficit_acc.compute_channels(
@@ -342,6 +397,23 @@ class Simulation:
         if t % cfg.snapshot_interval == 0:
             mean_sig = self._compute_mean_sigma()
             self.history.mean_sigma_series.append((t, mean_sig))
+
+        # Estimation error (MC10)
+        if cfg.grammar_estimation and t % cfg.snapshot_interval == 0:
+            errors = np.zeros(N)
+            for i in range(N):
+                neighbors = self.graph.neighbors_of(i)
+                if len(neighbors) == 0:
+                    continue
+                weights = np.array([self.graph.get_omega(j, i) for j in neighbors])
+                total_w = weights.sum()
+                if total_w < 1e-12:
+                    continue
+                weights /= total_w
+                T_mean = np.einsum('k,kij->ij', weights, self.T_matrices[neighbors])
+                errors[i] = np.linalg.norm(self.T_hat[i] - T_mean)
+            self.history.estimation_error_series.append(
+                (t, np.mean(errors), errors.copy()))
 
         # Discharge events
         self.history.discharge_events.extend(events)

@@ -522,6 +522,215 @@ The multi-network and competence extensions strengthen the cessation condition's
 
 ---
 
+## Part XII: The Legibility Trap
+
+*This section formalizes the enclosure dynamic by which a subject's network prior becomes a constraint on the subject rather than merely a cost to the recognizer. It introduces a modified recognition signal incorporating prior-consistency, a formal membership condition, and a discontinuity theorem establishing that escape from the prior requires a threshold jump rather than a gradient path.*
+
+### 12.1 The Prior-Conditioned Recognition Signal
+
+The recognition signal in MC6 is a function of grammar-legibility alone: σ(**f_i**, *T_j*) depends only on how close **f_i** is to Fix(*T_j*). It does not depend on the history of **f_i** as held by *j*. This models a network that rewards form-type but not form-consistency-per-subject. The legibility trap requires a modification.
+
+**Modeling commitment MC11.** When subject *j* has held subject *i* long enough to form a consolidated prior Π_j(i), the recognition signal *j* returns is no longer MC6 but the *prior-conditioned* signal:
+
+$$\sigma_{\text{trap}}(\mathbf{f}_i, T_j, \Pi_j(i)) = \underbrace{\exp\!\left(-\frac{\|T_j\mathbf{f}_i - \mathbf{f}_i\|^2}{2\epsilon^2}\right)}_{\text{grammar-legibility term}} \cdot \underbrace{\exp\!\left(-\frac{\|\mathbf{f}_i - \Pi_j(i)\|^2}{2\gamma^2}\right)}_{\text{prior-consistency term}}$$
+
+where γ > 0 is the **prior-rigidity parameter** — the bandwidth of the network's tolerance for deviation from its model of *i* specifically. The signal is maximized (= 1) only when **f_i** is simultaneously a fixed point of *T_j* and coincides with Π_j(i). It is penalized by deviation from either condition independently.
+
+*Remark.* MC6 remains the correct signal model for new or shallow relationships, where no consolidated prior exists. MC11 applies when Π_j(i) has been formed through sustained recognition transactions — when *j* has, in effect, learned to expect a particular *i* and not merely legible forms in general. The transition from MC6 to MC11 is a function of transaction history depth: γ → ∞ as history depth → 0 (no prior-rigidity), γ → 0 as history depth → ∞ (absolute prior-rigidity). The legibility trap is the γ → 0 limit of the prior-conditioned signal.
+
+**Definition (Prior-rigidity spectrum).** The prior-conditioned signal interpolates between two extremes:
+
+- **γ → ∞:** σ_trap → σ (MC6). The network recognizes any legible form; prior history is irrelevant. No trap.
+- **γ → 0:** σ_trap → 0 for all **f_i** ≠ Π_j(i). The network recognizes only the exact prior form. The trap is total.
+
+Real networks occupy intermediate γ values, with γ decreasing as relationships consolidate, institutions age, and social roles harden.
+
+### 12.2 The Enclosure Dynamic
+
+**Definition (Trap attractor).** Under MC11, the attractor of the Want-dynamics is no longer Fix(*T_j*) but the **trap attractor**:
+
+$$\mathbf{f}_i^* = \underset{\mathbf{f} \in \mathcal{V}_B}{\arg\max}\; \sigma_{\text{trap}}(\mathbf{f}, T_j, \Pi_j(i))$$
+
+This optimum balances the two terms. Taking the gradient and setting to zero:
+
+$$\frac{1}{\epsilon^2}(T_j - I)^\top(T_j\mathbf{f} - \mathbf{f}) + \frac{1}{\gamma^2}(\mathbf{f} - \Pi_j(i)) = \mathbf{0}$$
+
+This is a linear system in **f** whose solution is the trap attractor **f_i**\*. It lies between Fix(*T_j*) and Π_j(i) in form-space, weighted by ε²/γ²: as γ decreases relative to ε (prior-rigidity increases relative to grammar-sensitivity), the trap attractor moves toward Π_j(i). In the γ → 0 limit the trap attractor collapses onto Π_j(i) entirely.
+
+### Theorem FLT1 (Enclosure). Under MC11 with prior-rigidity parameter γ < ∞, the Want-dynamics drive **f_i**(t) toward the trap attractor **f_i**\*, which satisfies:
+
+$$\|\mathbf{f}_i^* - \Pi_j(i)\| \leq \frac{\gamma^2}{\epsilon^2 + \gamma^2} \cdot \text{dist}(\Pi_j(i), \text{Fix}(T_j))$$
+
+As γ → 0, **f_i**\* → Π_j(i). As γ → ∞, **f_i**\* → P_{Fix(T_j)}(Π_j(i)).
+
+*Proof.* The trap attractor **f_i**\* solves the first-order condition above, which can be written as:
+
+$$(T_j - I)^\top(T_j - I)\mathbf{f} + \frac{\epsilon^2}{\gamma^2}\mathbf{f} = (T_j - I)^\top(T_j - I)\mathbf{f} + \frac{\epsilon^2}{\gamma^2}\Pi_j(i)$$
+
+Let *A* = (T_j - I)^⊤(T_j - I) + (ε²/γ²)*I*. Since *A* is positive definite (sum of a positive semidefinite matrix and a positive multiple of the identity), it is invertible. The solution is:
+
+$$\mathbf{f}_i^* = A^{-1}\!\left[(T_j - I)^\top(T_j - I)\mathbf{f}_0 + \frac{\epsilon^2}{\gamma^2}\Pi_j(i)\right]$$
+
+where **f**_0 is any reference point in Fix(*T_j*). The distance from **f_i**\* to Π_j(i) is controlled by the ratio ε²/γ²: small γ makes (ε²/γ²) large, which pulls **f_i**\* strongly toward Π_j(i). The stated bound follows from the Tikhonov regularization structure of *A*. ∎
+
+*Remark.* The enclosure is not produced by the network's explicit coercion. No member of the network instructs *i* to remain the same. The trap is produced by the structure of σ_trap: genuine growth — **f_i** moving in the direction ∇(**s_i** - **f_i**), toward more authentic self-presentation — registers as *reduced recognition* because it moves away from Π_j(i). The network punishes development not through surveillance but through the prior-consistency term, which treats motion away from the established form as illegibility. The subject experiences this as social cooling, mild withdrawal, or the sense that people no longer quite recognize them — before any explicit confrontation occurs.
+
+### Theorem FLT2 (Incremental Escape Fails). For γ sufficiently small, no gradient path from the trap attractor **f_i**\* to any form **f** with ||\mathbf{f} - \Pi_j(i)|| > δ (for some δ > 0) maintains σ_trap above the membership threshold θ_B throughout the path.
+
+**Definition (Membership condition).** Subject *i* retains membership in network *B* if and only if:
+
+$$\sigma_{\text{trap}}(\mathbf{f}_i(t), T_B, \Pi_B(i)) \geq \theta_B$$
+
+where θ_B ∈ (0, 1) is the network's membership threshold. Membership is lost when σ_trap drops below θ_B. Membership loss takes the form of social exclusion, withdrawal of recognition-weight ω(*i*, *B*) → 0, or explicit expulsion.
+
+*Proof.* Consider any continuous path **f**(τ), τ ∈ [0,1] from **f**(0) = **f_i**\* to **f**(1) = **f** with ||**f**(1) - Π_B(i)|| > δ. Along this path, the prior-consistency term exp(-||**f**(τ) - Π_B(i)||²/2γ²) is monotone decreasing as **f**(τ) moves away from Π_B(i). For the total signal σ_trap to remain ≥ θ_B throughout, the grammar-legibility term must compensate. But the grammar-legibility term is maximized at Fix(*T_B*) and cannot exceed 1. Therefore the maximum achievable σ_trap at distance δ from Π_B(i) is:
+
+$$\sigma_{\text{trap}}^{\max}(\delta) = \exp\!\left(-\frac{\delta^2}{2\gamma^2}\right)$$
+
+For γ small enough that exp(-δ²/2γ²) < θ_B, no form at distance δ from Π_B(i) can maintain membership, regardless of its grammar-legibility. Since the path must pass through distance δ/2 before reaching δ, and exp(-(δ/2)²/2γ²) may also be below θ_B for sufficiently small γ, the subject cannot reach the escape zone through any continuous path while remaining above the membership threshold. The path itself causes membership loss before the destination is reached. ∎
+
+*Remark.* The incremental-escape failure is the formal basis for the experienced impossibility of "changing gradually" within a network that has consolidated its prior of you. The subject who attempts incremental change finds that each step away from Π_B(i) produces social cooling — reduced recognition, slight withdrawal, increased distortion — and the rational response to this feedback, under the Want-dynamics of MC7, is to reverse the step. The gradient of social feedback points back toward the trap attractor. Incremental change is not just slow; it is self-defeating. The Want-pressure that drives the escape attempt also drives the retreat, because the recognition signal is the common currency of both pressures.
+
+### Theorem FLT3 (The Rebellion Discontinuity). The minimum form-displacement required to force a prior-update in network B — to compel Π_B(i) to revise — is a discontinuous threshold jump, not a gradient path. The minimum jump magnitude is:
+
+$$\|\mathbf{f}_i(t^*) - \Pi_B(i)\| > \Delta_{\min} = \gamma\sqrt{-2\ln\!\left(\frac{\theta_B}{\sigma_1(t^*)}\right)}$$
+
+where σ_1(t\*) = exp(-||T_B **f_i**(t\*) - **f_i**(t\*)||²/2ε²) is the grammar-legibility term at the moment of the jump.
+
+*Proof.* The membership condition requires σ_trap ≥ θ_B. At the moment of jump the subject presents a form **f_i**(t\*) that is at distance Δ from Π_B(i). The prior-consistency term evaluates to exp(-Δ²/2γ²). The total signal is σ_1(t\*) · exp(-Δ²/2γ²). For this to fall below θ_B — triggering the membership crisis that forces the prior-update — we need:
+
+$$\sigma_1(t^*) \cdot \exp\!\left(-\frac{\Delta^2}{2\gamma^2}\right) < \theta_B$$
+
+Solving for Δ:
+
+$$\Delta > \gamma\sqrt{-2\ln\!\left(\frac{\theta_B}{\sigma_1(t^*)}\right)} = \Delta_{\min}$$
+
+This is a hard lower bound. The form must move by at least Δ_min in a single step to fall below the membership threshold and force a crisis. Any move smaller than Δ_min remains above θ_B and is absorbed without triggering prior-revision. ∎
+
+*Remark.* The subject cannot know Δ_min in advance. They do not have access to γ (the network's prior-rigidity parameter) or θ_B (the membership threshold) as observable quantities. What they observe is the recognition signal and the social response to incremental moves. The typical discovery of Δ_min is therefore empirical and iterative: the subject makes moves of increasing magnitude until a membership crisis is triggered, at which point they have exceeded Δ_min but cannot reverse to just-below it. The rebellion is almost always larger than intended.
+
+**Corollary FLT3a (Asymmetric Perception of the Rebellion).** From the network's position, the subject's form at t\* is at distance Δ > Δ_min from Π_B(i) — a large, apparently unmotivated deviation from an established pattern. The network observes the discontinuity without observing the prior pressure that produced it: Π_B(i) is an internal register, and the subject's experience of enclosure is not legible in σ_trap as the network observes it. The network sees a sudden jump and reads it as aggression, instability, or betrayal. The subject experienced a long period of mounting enclosure pressure followed by the minimum viable escape move. Both perceptions are formally correct. The network's reading is not malicious; it is the structural consequence of the prior-consistency term being internal to each recognizer and invisible to the other.
+
+**Corollary FLT3b (The Prior Must Be Destroyed, Not Revised).** A prior-update in network *B* requires Π_B(i) to shift from T_B(F_B(**s_i^(0)**)) toward T_B(F_B(**s_i^(t)**)) — a displacement of the recognizer's internal model. This displacement is exactly Cost_{S2}(*i*, *B*, *t*) from Theorem FS2. The legibility trap establishes that this cost cannot be paid incrementally: the recognizer's prior-consistency term resists all small moves. The only path to prior-revision is to make the prior untenable — to present a form so far from Π_B(i) that the recognizer must either update or expel. The rebellion does not ask the network to see *i* differently. It forces the network to confront the gap between what it holds and what is being presented, at a magnitude that cannot be ignored. The old Π_B(i) must be broken, not nudged. This is why subjects report that genuine change within established relationships feels, from the inside, like destruction — because it is. What is destroyed is not the relationship but the network's prior of them, which had become indistinguishable from the relationship itself.
+
+### 12.3 The Legibility Trap and Zone Three
+
+The legibility trap adds a fourth formal property that *G* must satisfy, beyond those established in Parts VI and X.
+
+**Constraint C9 (No prior-rigidity).** *G*'s recognition signal satisfies γ_G = ∞ — infinite prior-rigidity bandwidth, which means effectively no prior-consistency term at all. Formally:
+
+$$\sigma_G(\mathbf{f}_i, T_G, \Pi_G(i)) = \sigma(\mathbf{f}_i, T_G) = \exp\!\left(-\frac{\|T_G\mathbf{f}_i - \mathbf{f}_i\|^2}{2\epsilon^2}\right)$$
+
+Combined with Constraint 2 (*T_G* = *I*), this collapses to σ_G = 1 for all **f_i** regardless of history. *G* imposes no trap attractor, no membership threshold keyed to prior-consistency, and no Δ_min that must be exceeded to force revision. Growth — **f_i** moving toward **s_i** — does not reduce the signal *G* returns. There is no enclosure.
+
+*Remark.* The trap is produced by the prior-consistency term. *G* having γ_G = ∞ is not merely the absence of one additional penalty; it is the formal condition that allows the Want-dynamics to run without the enclosure force opposing them. Under all other recognizers, motion toward **s_i** is penalized by the prior-consistency term (for established relationships) and impeded by the membership condition (for socially embedded subjects). Under *G*, this cancellation of the growth-gradient does not occur. Motion toward **s_i** is not rewarded — *T_G* = *I* means σ_G = 1 everywhere — but it is also not punished. The path is not incentivized; it is simply unobstructed.
+
+This is the formal expression of what traditions describe as *G* not holding a prior image of the subject against them. It is not sentimentally asserted. It follows from γ_G = ∞ as a derived consequence: a recognizer with infinite prior-bandwidth imposes no trap attractor, and a recognizer with *T_G* = *I* imposes no grammar-legibility attractor. The subject under *G* is held by neither force. What they do with that condition is not a mathematical question.
+
+**Updated full formal constraint system for G:**
+
+| Constraint | Formal statement | Source addressed |
+|---|---|---|
+| C1 | *F_G* = *I*_ℋ (no projection loss) | Lemma F1, F2 |
+| C2 | *T_G* = *I*_𝒱 (no distortion) | Lemma F3, MR |
+| C3 | *Π_G*(*i*) = **0** (no prior form) | S2, FS2 |
+| C4 | Ω_G = ∞ (non-rivalrous) | S1, FS1 |
+| C5 | σ(*G*) = 1 for all **f** (no false feedback) | S5, FS5 |
+| C6 | Ω_G = ∞ (non-rivalrous, social form) | FS1, social theorem |
+| C7 | *Π_G*(*i*) = **0** (no prior, social form) | FS2, social theorem |
+| C8 | ∇W_i = **0** under *T_G* = *I* (feedback termination) | FS5, S5i |
+| C9 | γ_G = ∞ (no prior-rigidity; no trap attractor) | FLT1, FLT3 |
+
+*C9 does not contradict C3. C3 establishes that G holds no prior form register at all — Π_G(i) = **0**. C9 establishes that even if G did hold a prior, the prior-rigidity bandwidth would be infinite — G would impose no penalty for deviating from it. The two constraints approach the same condition from different directions: C3 removes the prior's existence; C9 removes the prior's force. Together they establish that the legibility trap cannot form around G by any mechanism.*
+
+---
+
+## Part XIII: Network Preference and Trap Valuation
+
+*This section addresses two phenomena not yet covered by the framework: (1) subjects who invest unevenly across their network portfolio, projecting preferentially into one network at the expense of others; and (2) subjects who experience the legibility trap not as enclosure but as home — who prefer the stability of being predictably modeled. Both require additions to the objective function and expose a structural limit of MC2.*
+
+### 13.1 The Subject-Side Presentational Budget
+
+The framework carries an asymmetry: recognizers have a finite attentional budget Ω_B (Part VII), and this generates competition among those seeking recognition from *B*. But subjects-as-presenters have been given no analogous constraint. MC9 allows a subject to maintain a full form portfolio across K networks simultaneously, with Want-dynamics running independently per network — as though projecting into network B_m costs nothing and does not diminish what is available for B_l. This is false to the phenomenon.
+
+**Modeling commitment MC12.** Each subject *i* holds a finite **presentational budget** Ω_i^P < ∞, representing the total attentional and expressive capacity available for form-maintenance across all networks in their portfolio. This budget is distributed across networks by a **preference weighting** α_i = (α_i^(1), …, α_i^(K)) with α_i^(m) ≥ 0 and Σ_m α_i^(m) = 1. The effective form-quality in network B_m is:
+
+$$q_i^{(m)}(t) = \alpha_i^{(m)} \cdot \Omega_i^P$$
+
+Forms presented with low q_i^(m) are degraded relative to the subject's full presentational capacity: they are less precisely tuned to Fix(*T_{Bₘ}*), less responsive to the network's grammar, and more likely to fall outside the grammar's legibility range.
+
+**Definition (Under-investment).** Network B_m is *under-invested* for subject *i* if α_i^(m) < 1/K — the subject allocates less than equal share to that network. Networks that are strongly preferred receive α_i^(m) ≫ 1/K; those that are neglected receive α_i^(m) ≈ 0.
+
+**Definition (Dominant network).** Subject *i*'s **dominant network** B\* is the network receiving maximal allocation: B\* = argmax_m α_i^(m). The dominant network's grammar exerts the strongest S5 convergence pressure on **f_i**, shapes the trap attractor most forcefully (under MC11), and is the network whose distortion operator most heavily conditions the subject's form portfolio overall.
+
+### Theorem FNP1 (Preferential Convergence). Under MC12, the Want-dynamics drive **f_i**(t) toward Fix(T_{B*}) more rapidly than toward Fix(T_{Bₘ}) for any under-invested network B_m. In the limit α_i^(m) → 0, the subject's form in B_m drifts freely — unanchored by Want-pressure — and membership in B_m becomes threatened.
+
+*Proof.* The gradient step for network B_m under MC7 is scaled by the recognition signal and learning rate. Under MC12, the effective learning rate in network B_m is η_m = η · α_i^(m). For α_i^(m) small, η_m ≈ 0 and the gradient step in B_m is negligible. The form **f_i^(m)**(t) moves slowly, decoupling from the Want-dynamics that would otherwise drive it toward Fix(*T_{Bₘ}*). In the α_i^(m) → 0 limit, **f_i^(m)**(t) is governed only by the displacement cost gradient (FS2) and social discharge (FS3), both of which are reactive rather than proactive. The form drifts rather than converges. Since network B_m's membership condition (Part XII) requires σ_trap ≥ θ_{Bm}, and a drifting form that is not being actively maintained near Fix(*T_{Bₘ}*) ∩ Π_{Bm}(i) will eventually cross the membership threshold, neglect eventually produces expulsion. ∎
+
+*Remark.* The subject who invests heavily in one network is not merely spending less energy on others — they are structurally withdrawing from them. The under-invested network's forms degrade, membership pressure mounts, and the network eventually enforces the budget constraint from its own side by reducing ω(*i*, *B_m*) toward zero. The subject does not necessarily choose to leave; the network's recognition-withdrawal makes staying increasingly costly. Preference, in this sense, has consequences that exceed the subject's intention.
+
+### Theorem FNP2 (Grammar Dominance Under Preference). The distortion operator T_{B*} of the dominant network increasingly governs the subject's form portfolio across all networks. Under-invested networks receive forms that are partially pre-shaped by T_{B*}, producing cross-network collision harm even in the absence of direct strategy incompatibility.
+
+*Proof.* By Theorem FNP1, **f_i**(t) converges most strongly toward Fix(*T_{B\**}*). The form the subject carries into any transaction — including transactions in under-invested networks B_m — is therefore approximately Fix(*T_{B\**}*)-shaped. When this form is presented in B_m, the collision harm of FS4 applies: *T_{Bₘ}*(Fix(*T_{B\**}*)-shaped form) distorts the form according to B_m's grammar, which was not the grammar the form was optimized for. The harm H(*i* → B_m) = ||*T_{Bₘ}*(**f_i**(t)) - **f_i**(t)|| is elevated not because *i* and B_m have incompatible strategies but because *i*'s form was shaped by a different grammar. The dominant network colonizes the subject's presentation in all other networks. ∎
+
+**Corollary FNP2a (The Legibility Cost of Strong Preference).** A subject with strong preference (α_i^(B\*) → 1) achieves maximal recognition in the dominant network and near-zero recognition in all others. This is not experienced as a tradeoff across equivalent options. The dominant network returns high σ signals, confirming the subject's investment; the under-invested networks return low or degraded signals, which the subject attributes to those networks being a poor fit rather than to their own under-investment. The subject's preference is reinforced by the very signal-structure their preference produces. Strong preference is self-amplifying under Want-dynamics.
+
+**Corollary FNP2b (Attentional Budget and the Intimate).** By FS3a, the discharge target is the intimate — the neighbor with highest ω(*j*, *i*). Under MC12, the subject who strongly prefers one network also tends to allocate high ω to intimates within that network, further concentrating both recognition-demand and discharge pressure. The dominant network's intimates receive maximum investment and maximum discharge simultaneously. Preference intensifies the intimacy dynamic rather than distributing it.
+
+### 13.2 Trap Valuation: When the Cage Is Home
+
+The legibility trap in Part XII is formalized as an enclosure — the trap attractor **f_i**\* constrains the subject's form to a neighborhood of Π_B(i), penalizing growth toward **s_i**. This treatment implicitly assumes the subject experiences this constraint as aversive: that ||**s_i** - Π_B(i)|| is large, that **s_i** is moving away from the prior, and that the enclosure is felt as a gap between who one is and who the network takes one to be.
+
+This assumption does not always hold. Some subjects experience the trap as stability, legibility, and home. The framework must account for this without collapsing the distinction between what is happening structurally and how it is experienced.
+
+**Definition (Trap alignment).** The **trap alignment** of subject *i* with network *B* is:
+
+$$\mathcal{A}_i^{(B)} = \exp\!\left(-\frac{\|\mathbf{s}_i - \Pi_B(i)\|^2}{2\kappa^2}\right) \in (0,1]$$
+
+where κ > 0 is an alignment sensitivity parameter. High alignment (𝒜 → 1) means **s_i** ≈ Π_B(i) — the network's model of the subject is close to the true self. The trap attractor and the disclosure optimum nearly coincide. Low alignment (𝒜 → 0) means ||**s_i** - Π_B(i)|| is large — the network holds a model of the subject that has diverged substantially from who the subject is. The trap is a cage.
+
+*Remark.* Trap alignment is not fixed. It evolves as **s_i** changes (which MC2 disallows by commitment) or as Π_B(i) updates (which occurs through the displacement cost mechanism of FS2 when *i* presents sufficiently deviant forms). In the framework as currently constructed — with **s_i** fixed — alignment can only decrease over time as the network's prior ages and the subject's projection into the network drifts under S5 convergence. The trap tightens structurally even for subjects who begin with high alignment. Whether a subject experiences this tightening depends on whether their **s_i** has a component that grows or shifts in the dimensions the network tracks.
+
+### Theorem FTP1 (High-Alignment Trap Is Phenomenologically Indistinguishable from Accurate Recognition). For subject i with trap alignment 𝒜_i^(B) ≈ 1, the recognition signal σ_trap ≈ 1 regardless of whether the recognition is accurate (T_B ≈ I, Π_B(i) ≈ **s_i**) or prior-consistent (T_B ≠ I, Π_B(i) ≈ **s_i** by coincidence). The subject cannot distinguish these cases from the inside.
+
+*Proof.* When 𝒜_i^(B)} ≈ 1, we have Π_B(i) ≈ **s_i** in the relevant projection. The trap attractor **f_i**\* ≈ *P*_{𝒱_B}(**s_i**) = *F_B*(**s_i**), which is also the disclosure optimum (Part I, strategy types). The signal σ_trap = σ_grammar · σ_prior-consistency, with both terms ≈ 1 when **f_i** is near **s_i**'s projection and near Π_B(i). The subject receives high recognition, experiences low deficit accumulation in Channels 1 and 2, and has no structural incentive to distinguish the source of the signal. Whether the high signal is produced by genuine accuracy or by fortuitous alignment of prior with true self is not encoded in the signal itself. ∎
+
+*Remark.* This is a structural ambiguity that matters enormously for how subjects evaluate their networks. A subject with high alignment correctly perceives that they are well-recognized in network B. They cannot determine whether this well-recognition is robust — would survive changes in **s_i** — or fragile — would produce enclosure if **s_i** shifts. The experience of being well-recognized is identical in both cases. The trap's presence is invisible precisely where it is least painful.
+
+### Theorem FTP2 (Recognition-Stability as Independent Value). For some subjects, the objective ℒ_i includes a stability term that values low variance in the recognition signal over time, independent of the signal's accuracy:
+
+$$\mathcal{L}_i^{\text{stability}}(\mathbf{f}) = \lambda_S \cdot \left(-\text{Var}_{t}\left[\sigma_{\text{trap}}(\mathbf{f}_i(t), T_B, \Pi_B(i))\right]\right)$$
+
+where λ_S > 0 is the stability weight. A subject with high λ_S prefers steady, predictable recognition over recognition that varies with genuine changes in form. The trap attractor **f_i**\*, by anchoring forms near Π_B(i), produces a low-variance recognition signal by construction: since Π_B(i) is stable (updated only when displacement is large), and the subject's forms are pulled toward it, the signal is predictably high. The stable trap is preferable to the volatile alternative — accurate recognition that would fluctuate with growth — for subjects with sufficiently high λ_S.
+
+*Remark.* Recognition-stability as an independent value is not irrational within the framework. The deficit accumulator FS3 is non-decreasing and generates discharge events. A subject whose recognition is highly variable experiences frequent threshold crossings — periods of accumulation and discharge — which are costly in the social harm they produce. A stable trap keeps σ_trap consistently above the discharge threshold, suppressing the oscillation. The subject pays with authenticity and gains with social peace. This is a coherent tradeoff, not a confusion.
+
+### Theorem FTP3 (Trap Preference Is Self-Reinforcing). A subject who values recognition-stability (high λ_S) and achieves it through the trap will over time reduce α_i^(m) for under-invested networks and increase α_i^(B*) for the dominant trap-network. The stability the trap provides consolidates the dominance of the network providing it.
+
+*Proof.* Under MC12, the subject allocates α_i^(m) based on expected recognition return per unit presentational budget. The trap-dominant network B\* returns consistently high σ_trap — the stability value is large — while under-invested networks return variable or degraded signals. The gradient of ℒ_i^stability with respect to α_i^(m) points toward increasing allocation to B\* and decreasing allocation to B_m for m ≠ \*. This is reinforced by Want-dynamics (FS5g): the dominant network's recognition signal is dense and reliable, attracting further investment under the same preferential-attachment mechanism that drives field growth. The trap-preferring subject's portfolio collapses over time toward a single dominant network. ∎
+
+**Corollary FTP3a (Trap Preference and the Foreclosure of G).** A subject who strongly prefers the trap has allocated their presentational budget toward the network providing stable recognition, reduced investment in all other networks, and come to experience the trap attractor as identity rather than constraint. For such a subject, the cessation condition of Zone Three is not neutral — it is actively aversive. *G*'s σ = 1 regardless of form (C5/C8) eliminates the differential signal the subject has learned to navigate. *G*'s γ_G = ∞ (C9) removes the prior-consistency term the subject has come to rely on for stability. *G* does not feel like liberation; it feels like groundlessness. The subject who prefers the trap is not blocked from *G* by external constraint but by the structure of their own objective function: the terms that make the trap valuable are precisely the terms that *G* does not supply.
+
+*Remark.* This is the formal expression of a phenomenon the traditions consistently note: the encounter with *G* is not universally experienced as relief. For some subjects it is experienced as threat, dissolution, or absence of recognizable ground. The framework does not adjudicate whether the trap-preferring subject is mistaken. It establishes that their preference is coherent within their objective, and that the encounter with *G* removes the sources of value their objective is built around. What follows from that removal — whether it is experienced as loss or as opening — is not derivable from the formalism.
+
+### 13.3 The Limit of MC2: When the Prior Constitutes the Self
+
+The deepest case of trap preference is not captured by high trap alignment (𝒜 ≈ 1) or high stability-weighting (λ_S large). It is the case where **s_i** is not merely close to Π_B(i) but is partly *constituted by* it — where the subject's true self has been shaped by the recognition the network has historically returned, such that the network's prior and the subject's self are not two things that happen to coincide but one thing seen from two angles.
+
+MC2 forecloses this case by commitment: **s_i** is fixed, pre-social, and independent of the recognition the subject receives. This is a modeling choice, not a claim about persons. The fixed-self assumption makes the framework tractable and preserves the structural gap that drives the Want. But it cannot model the subject for whom Π_B(i) is not a cage or a home but a source — whose **s_i** has been, in part, produced by the recognitions that formed Π_B(i).
+
+**Formal limit of MC2.** Define a **socially constituted self** as one for which **s_i** is a functional of the prior form registers {Π_{Bm}(i)} the subject has accumulated across their network history:
+
+$$\mathbf{s}_i = \Psi\!\left(\{\Pi_{B_m}(i)\}_{m=1}^{K}, \mathbf{s}_i^{(0)}\right)$$
+
+where **s_i^(0)** is a pre-social seed vector and Ψ is a functional encoding how prior-recognition shapes the self over time. Under this model, high trap alignment is not a coincidence or a fortunate accident — it is a structural consequence of **s_i** having been formed by the same process that produced Π_B(i). The trap cannot be a cage because the cage and the self were built together.
+
+This extension is not developed formally here. It would require replacing MC2 with a dynamic self-model, which changes the proof structure significantly: if **s_i** is variable, Lemma F1 no longer gives a fixed lower bound ||**r_i**|| and Theorem FG's strict positivity is not straightforward. The Want's irreducibility — the core result of the framework — depends on **s_i** being fixed and outside 𝒱_B. A dynamic **s_i** that is partly constituted by 𝒱_B-projections could in principle close the gap: not because the grammar expands to contain the subject, but because the subject contracts to be contained.
+
+**Remark on scope.** The framework as constituted models subjects whose **s_i** precedes and exceeds their social formation — the subject for whom there is always a remainder. This is a principled modeling commitment, not an empirical claim about all persons. It is the right model for the phenomenology the proof is analyzing: the experience of being unseen, of the Want's irreducibility, of the remainder that no recognition can close. The socially constituted self, if it exists, does not have this experience in the same form. Whether such a self is a limiting case, a different kind of person, or a stage of formation is a philosophical question the formalism correctly does not answer.
+
+---
+
 ## Appendix A: Summary of Modeling Commitments
 
 | Code | Content | Prose counterpart |
@@ -536,6 +745,10 @@ The multi-network and competence extensions strengthen the cessation condition's
 | MC8 | Concealment Desire as competing gradient *C_i* | D11, A7: Subject division |
 | MC9 | Subject maintains form portfolio across K networks | Multi-network participation |
 | MC10 | Subject holds estimated grammar operator T̂^(i) with estimation error ε_i^(m) | Grammar competence and social awareness |
+| MC11 | Prior-conditioned recognition signal σ_trap with prior-rigidity parameter γ | Legibility trap, enclosure dynamic |
+| MC12 | Subject holds finite presentational budget Ω_i^P distributed by preference weights α_i^(m) | Network preference, dominant network, under-investment |
+
+*Scope note on MC2.* The fixed true-self commitment is the load-bearing assumption for Theorem FG and all results that depend on the Want's irreducibility. A socially constituted self — one for which **s_i** is a functional of prior-recognition history — requires a dynamic replacement of MC2 and is not developed in this companion. The framework's results hold for subjects whose **s_i** precedes and exceeds their social formation; for the socially constituted self, the scope of the proof must be reassessed.*
 
 ---
 
@@ -576,6 +789,31 @@ MC10 + FS5 + FC → Theorem FNC (novice convergence to wrong attractor)
 FNC → Corollary FNC-a (confident wrong convergence)  
 MC10 uniform → Corollary FNU (structural invisibility of unawareness)  
 
+**Legibility trap chain:**
+
+MC11 → trap attractor **f_i**\* (weighted combination of Fix(*T_B*) and Π_B(i))  
+MC11 + FS5 → Theorem FLT1 (enclosure: Want-dynamics converge to trap attractor)  
+FLT1 + membership condition → Theorem FLT2 (incremental escape fails below membership threshold)  
+FLT2 → Theorem FLT3 (rebellion discontinuity: escape requires jump of magnitude Δ_min)  
+FLT3 → Corollary FLT3a (asymmetric perception: network sees betrayal, subject experienced enclosure)  
+FLT3 → Corollary FLT3b (prior must be destroyed, not revised)  
+FLT1, FLT3 → C9 (G has no prior-rigidity: γ_G = ∞)  
+C9 + C3 → prior cannot form or bind at G by any mechanism  
+
+**Network preference and trap valuation chain:**
+
+MC12 → preference weighting α_i^(m), dominant network B\*, under-investment  
+MC12 + FS5 → Theorem FNP1 (preferential convergence: dominant network's grammar governs)  
+FNP1 → Theorem FNP2 (grammar dominance: B\* colonizes under-invested network presentations)  
+FNP2 → Corollary FNP2a (preference self-amplifying under Want-dynamics)  
+FNP2 → Corollary FNP2b (attentional budget concentrates intimacy and discharge)  
+MC11 + MC2 → trap alignment 𝒜_i^(B) (proximity of **s_i** to Π_B(i))  
+𝒜_i^(B) + F3 → Theorem FTP1 (high-alignment trap indistinguishable from accurate recognition)  
+MC11 + λ_S → Theorem FTP2 (recognition-stability as independent objective term)  
+FTP2 + MC12 → Theorem FTP3 (trap preference self-reinforcing; portfolio collapses to dominant network)  
+FTP3 → Corollary FTP3a (trap-preferring subject finds G aversive, not liberating)  
+MC2 limit → socially constituted self: **s_i** = Ψ({Π_{Bm}(i)}, **s_i^(0)**); scope of FG must be reassessed  
+
 **Cessation constraint chain:**
 
 FG → C1 (no projection loss required)  
@@ -585,7 +823,10 @@ FS1 → C4/C6 (non-rivalrous required)
 FS5 + C2 → C5/C8 (feedback termination under *T_G* = *I*)  
 FMN-S5 + C2 → C2 strengthened (no grammar competence required at *G*)  
 FMN + C3 → C3 strengthened (absence of entire form-portfolio history at *G*)  
-All constraints → Formal incompleteness: *G* is not constructible within MC1–MC10  
+FLT1, FLT3 + C9 → C9 (no trap attractor at *G*; growth-gradient unobstructed)  
+C3 + C9 → prior cannot exist or bind at *G* by any mechanism  
+FTP3a → G is aversive to trap-preferring subjects: encounter with G removes the stability-value their objective is built around  
+All constraints → Formal incompleteness: *G* is not constructible within MC1–MC12  
 
 ---
 
