@@ -60,3 +60,5 @@ I will rewrite the whole thing in my own voice. The ideas are mine. The current 
 Movement Four is outlined but not drafted. The question it addresses — whether an exit from the wheel exists that the wheel cannot digest — is the hardest to write. The answer points toward something that resists being captured in argument. Eckhart's *Gelassenheit*. The open hand. Grace as structural necessity rather than religious preference.
 
 Then I rewrite. The draft gave me the book. Now I need to give the book a voice.
+
+The [work in progress](https://github.com/tantaman/tantaman.github.io/tree/master/_drafts/self-cage-wheel-ground) is public.
