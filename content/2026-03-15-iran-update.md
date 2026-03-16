@@ -2,7 +2,6 @@
 title: 'Iran Update'
 tags: [politics]
 concern: [power]
-date: '2026-03-15'
 ---
 
 Not much of an update -- most likely outcome looks like:

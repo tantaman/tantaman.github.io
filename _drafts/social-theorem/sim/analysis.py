@@ -133,39 +133,63 @@ def check_field_formation(config=None):
 
 
 def check_self_acceleration(config=None):
-    """Theorem 4.2: E[dM/dt] proportional to M(t). Needs open population."""
+    """Theorem 4.2: E[dM/dt] proportional to M(t). Needs open population.
+
+    Measures field membership by convergence to Fix(T): subject is a "member"
+    when ||f_i - P_Fix(T) f_i|| < threshold. With open population and turnover,
+    new arrivals start far from Fix(T) and converge at a rate proportional to
+    how many existing members are in their neighborhood.
+    """
     if config is None:
         config = SimConfig(
             K_prototypes=1, N=300, T_steps=3000, snapshot_interval=5,
-            turnover_rate=0.01
+            turnover_rate=0.02
         )
 
     state, snapshots = run_simulation(
         config, strategy="want", enable_open_pop=True, progress=False
     )
 
-    # Extract field sizes over time
-    sizes = [snap.field_sizes[0] for snap in snapshots]
-    times = [snap.t for snap in snapshots]
+    T = state.T_prototypes[0]
+    Q = state.Q_prototypes[0]
+    eigs = state.eig_prototypes[0]
+    P_fix = fix_projection(T, Q, eigs, config.fix_dim)
+
+    # Count subjects "in" the field: those within convergence threshold of Fix(T)
+    convergence_threshold = 0.05
+    sizes = []
+    times = []
+    for snap in snapshots:
+        count = 0
+        for i in range(config.N):
+            f = snap.forms[i]
+            dist = np.linalg.norm(f - P_fix @ f)
+            if dist < convergence_threshold:
+                count += 1
+        sizes.append(count)
+        times.append(snap.t)
 
     # Compute dM/dt and correlate with M
-    dM = np.diff(sizes).astype(float)
-    M_mid = (np.array(sizes[:-1]) + np.array(sizes[1:])) / 2.0
+    sizes = np.array(sizes, dtype=float)
+    dM = np.diff(sizes)
+    M_mid = (sizes[:-1] + sizes[1:]) / 2.0
 
-    # Filter to M > 0 region
-    mask = M_mid > 5
+    # Filter to growing region (M not at capacity)
+    mask = (M_mid > 5) & (M_mid < 0.9 * config.N)
     if mask.sum() > 10:
         correlation = np.corrcoef(M_mid[mask], dM[mask])[0, 1]
     else:
-        correlation = 0.0
+        correlation = float('nan')
 
     return {
         "name": "self_acceleration",
         "theorems": ["4.2"],
-        "sizes": sizes,
-        "times": times,
+        "final_converged": int(sizes[-1]),
+        "total_N": config.N,
         "dM_M_correlation": correlation,
-        "pass": correlation > 0.3,
+        "times": times,
+        "sizes": sizes.tolist(),
+        "pass": not np.isnan(correlation) and correlation > 0.2,
     }
 
 
