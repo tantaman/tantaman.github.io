@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recognition Dynamics Sandbox</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --bg2: #16213e;
+    --bg3: #0f3460;
+    --text: #e0e0e0;
+    --text2: #a0a0b0;
+    --accent: #e94560;
+    --accent2: #533483;
+    --border: #2a2a4a;
+    --green: #4ecca3;
+    --yellow: #ffd369;
+    --blue: #4fc3f7;
+    --orange: #ff8a65;
+    --red: #ef5350;
+    --panel-bg: rgba(22, 33, 62, 0.95);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 260px 1fr 280px;
+    grid-template-rows: 1fr 200px;
+    height: 100vh;
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .panel {
+    background: var(--panel-bg);
+    padding: 12px;
+    overflow-y: auto;
+  }
+
+  #controls {
+    grid-row: 1 / 3;
+    grid-column: 1;
+  }
+
+  #graph-panel {
+    grid-row: 1;
+    grid-column: 2;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #detail-panel {
+    grid-row: 1 / 3;
+    grid-column: 3;
+  }
+
+  #chart-panel {
+    grid-row: 2;
+    grid-column: 2;
+    padding: 8px;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin: 12px 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  .btn {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--accent2); }
+  .btn.active { background: var(--accent); color: #fff; }
+
+  .btn-row {
+    display: flex;
+    gap: 4px;
+    margin: 6px 0;
+    flex-wrap: wrap;
+  }
+
+  .slider-group {
+    margin: 6px 0;
+  }
+  .slider-group label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text2);
+    margin-bottom: 2px;
+  }
+  .slider-group input[type=range] {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+  }
+  .slider-group input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  select {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 4px 6px;
+    font-size: 11px;
+    font-family: inherit;
+    border-radius: 3px;
+    width: 100%;
+    margin: 4px 0;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text2);
+    padding: 2px 0;
+  }
+  .stat-row .val {
+    color: var(--text);
+    font-weight: bold;
+  }
+
+  .deficit-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    margin: 3px 0;
+    overflow: hidden;
+  }
+  .deficit-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.1s;
+  }
+
+  .preset-btn {
+    width: 100%;
+    text-align: left;
+    margin: 2px 0;
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+
+  .tooltip {
+    position: absolute;
+    background: rgba(0,0,0,0.85);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    pointer-events: none;
+    z-index: 100;
+    white-space: nowrap;
+    border: 1px solid var(--border);
+  }
+
+  .status-bar {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 10px;
+    color: var(--text2);
+    z-index: 10;
+    background: rgba(0,0,0,0.5);
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+
+  .legend {
+    font-size: 9px;
+    color: var(--text2);
+    margin: 4px 0;
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 8px;
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .neighbor-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    padding: 2px 0;
+  }
+  .neighbor-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .signal-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .signal-bar-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+  }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom": "https://esm.sh/react-dom@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "recharts": "https://esm.sh/recharts@2.15.3?external=react,react-dom&deps=react@18.3.1,react-dom@18.3.1"
+  }
+}
+</script>
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { createRoot } from 'react-dom/client';
+import { LineChart, Line, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer, Legend as RLegend } from 'recharts';
+
+const h = React.createElement;
+const F = React.Fragment;
+
+// ============================================================
+// MATH PRIMITIVES
+// ============================================================
+
+class RNG {
+  // xoshiro128** PRNG for reproducible results
+  constructor(seed = 42) {
+    this.s = new Uint32Array(4);
+    // Seed via splitmix32
+    let s = seed >>> 0;
+    for (let i = 0; i < 4; i++) {
+      s += 0x9e3779b9;
+      let t = s ^ (s >>> 16);
+      t = Math.imul(t, 0x21f0aaad);
+      t ^= t >>> 15;
+      t = Math.imul(t, 0x735a2d97);
+      t ^= t >>> 15;
+      this.s[i] = t >>> 0;
+    }
+  }
+
+  _next() {
+    const s = this.s;
+    const result = Math.imul(s[1] * 5, 7) << 0;
+    const t = s[1] << 9;
+    s[2] ^= s[0]; s[3] ^= s[1]; s[1] ^= s[2]; s[0] ^= s[3];
+    s[2] ^= t;
+    s[3] = (s[3] << 11) | (s[3] >>> 21);
+    return (result >>> 0) / 4294967296;
+  }
+
+  random() { return this._next(); }
+
+  normal() {
+    // Box-Muller
+    let u, v, s;
+    do {
+      u = 2 * this._next() - 1;
+      v = 2 * this._next() - 1;
+      s = u * u + v * v;
+    } while (s >= 1 || s === 0);
+    const m = Math.sqrt(-2 * Math.log(s) / s);
+    return u * m;
+  }
+
+  uniform(lo, hi) { return lo + this._next() * (hi - lo); }
+
+  choice(n, count, weights) {
+    // Weighted sampling without replacement
+    if (!weights) {
+      const indices = [];
+      const available = Array.from({length: n}, (_, i) => i);
+      for (let c = 0; c < count && available.length > 0; c++) {
+        const idx = Math.floor(this._next() * available.length);
+        indices.push(available[idx]);
+        available[idx] = available[available.length - 1];
+        available.pop();
+      }
+      return indices;
+    }
+    // Weighted
+    const w = new Float64Array(weights);
+    const result = [];
+    for (let c = 0; c < count; c++) {
+      let sum = 0;
+      for (let i = 0; i < n; i++) sum += w[i];
+      if (sum <= 0) break;
+      let r = this._next() * sum;
+      let pick = 0;
+      for (let i = 0; i < n; i++) {
+        r -= w[i];
+        if (r <= 0) { pick = i; break; }
+      }
+      result.push(pick);
+      w[pick] = 0;
+    }
+    return result;
+  }
+}
+
+// Vector operations on Float64Array
+function vecCreate(n) { return new Float64Array(n); }
+function vecCopy(dst, src) { dst.set(src); }
+function vecDot(a, b) {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += a[i] * b[i];
+  return s;
+}
+function vecNorm(v) { return Math.sqrt(vecDot(v, v)); }
+function vecScale(out, v, s) {
+  for (let i = 0; i < v.length; i++) out[i] = v[i] * s;
+  return out;
+}
+function vecAdd(out, a, b) {
+  for (let i = 0; i < a.length; i++) out[i] = a[i] + b[i];
+  return out;
+}
+function vecSub(out, a, b) {
+  for (let i = 0; i < a.length; i++) out[i] = a[i] - b[i];
+  return out;
+}
+function vecAddScaled(out, a, b, s) {
+  for (let i = 0; i < a.length; i++) out[i] = a[i] + b[i] * s;
+  return out;
+}
+function vecNormalize(out, v) {
+  const n = vecNorm(v);
+  if (n > 1e-10) vecScale(out, v, 1 / n);
+  else out.set(v);
+  return out;
+}
+
+// Matrix as flat Float64Array (row-major), rows x cols
+function matCreate(rows, cols) { return new Float64Array(rows * cols); }
+function matGet(m, cols, i, j) { return m[i * cols + j]; }
+function matSet(m, cols, i, j, v) { m[i * cols + j] = v; }
+
+// mat-vec: out = M @ v, M is (rows x cols), v is (cols,)
+function matVec(out, M, rows, cols, v) {
+  for (let i = 0; i < rows; i++) {
+    let s = 0;
+    const off = i * cols;
+    for (let j = 0; j < cols; j++) s += M[off + j] * v[j];
+    out[i] = s;
+  }
+  return out;
+}
+
+// mat^T @ v: M is (rows x cols), v is (rows,), out is (cols,)
+function matTVec(out, M, rows, cols, v) {
+  out.fill(0);
+  for (let i = 0; i < rows; i++) {
+    const off = i * cols;
+    const vi = v[i];
+    for (let j = 0; j < cols; j++) out[j] += M[off + j] * vi;
+  }
+  return out;
+}
+
+// mat @ mat: C = A(m x k) @ B(k x n)
+function matMul(C, A, B, m, k, n) {
+  C.fill(0);
+  for (let i = 0; i < m; i++) {
+    for (let p = 0; p < k; p++) {
+      const a = A[i * k + p];
+      const offC = i * n;
+      const offB = p * n;
+      for (let j = 0; j < n; j++) C[offC + j] += a * B[offB + j];
+    }
+  }
+  return C;
+}
+
+// Modified Gram-Schmidt QR decomposition
+// A is (rows x cols), returns Q (rows x cols) orthonormal columns
+function qrGramSchmidt(A, rows, cols) {
+  const Q = new Float64Array(A);
+  for (let j = 0; j < cols; j++) {
+    // Orthogonalize against previous columns
+    for (let k = 0; k < j; k++) {
+      let dot = 0;
+      for (let i = 0; i < rows; i++) dot += Q[i * cols + k] * Q[i * cols + j];
+      for (let i = 0; i < rows; i++) Q[i * cols + j] -= dot * Q[i * cols + k];
+    }
+    // Normalize
+    let norm = 0;
+    for (let i = 0; i < rows; i++) norm += Q[i * cols + j] ** 2;
+    norm = Math.sqrt(norm);
+    if (norm > 1e-12) {
+      for (let i = 0; i < rows; i++) Q[i * cols + j] /= norm;
+    }
+  }
+  return Q;
+}
+
+
+// ============================================================
+// CORE: subjects, grammars, distortion, signals
+// ============================================================
+
+function makeSubjects(N, D, rng) {
+  // Returns N rows of D-dim unit vectors (flat array N*D)
+  const S = matCreate(N, D);
+  for (let i = 0; i < N; i++) {
+    let norm = 0;
+    for (let j = 0; j < D; j++) {
+      const v = rng.normal();
+      S[i * D + j] = v;
+      norm += v * v;
+    }
+    norm = Math.sqrt(norm);
+    for (let j = 0; j < D; j++) S[i * D + j] /= norm;
+  }
+  return S;
+}
+
+function makeGrammar(D, n, rng) {
+  // Returns V_B (D x n) orthonormal columns via QR
+  const A = matCreate(D, n);
+  for (let i = 0; i < D * n; i++) A[i] = rng.normal();
+  return qrGramSchmidt(A, D, n);
+}
+
+function makeDistortion(n, fixDim, rng) {
+  // Returns { T: (n x n), Q: (n x n), eigenvalues: (n,) }
+  const A = matCreate(n, n);
+  for (let i = 0; i < n * n; i++) A[i] = rng.normal();
+  const Q = qrGramSchmidt(A, n, n);
+
+  const eigenvalues = vecCreate(n);
+  for (let i = 0; i < fixDim; i++) eigenvalues[i] = 1.0;
+  for (let i = fixDim; i < n; i++) eigenvalues[i] = rng.uniform(0.3, 0.9);
+
+  // T = Q @ diag(eigenvalues) @ Q^T
+  const T = matCreate(n, n);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      let s = 0;
+      for (let k = 0; k < n; k++) {
+        s += Q[i * n + k] * eigenvalues[k] * Q[j * n + k];
+      }
+      T[i * n + j] = s;
+    }
+  }
+
+  return { T, Q, eigenvalues };
+}
+
+// Project D-dim vector s onto grammar subspace, return n-dim coefficients
+// V_B is (D x n), s is (D,), out is (n,)
+function projectToSubspace(out, s, V_B, D, n) {
+  return matTVec(out, V_B, D, n, s);
+}
+
+// Lift n-dim coefficients to D-dim: V_B @ coeffs
+function projectToAmbient(out, coeffs, V_B, D, n) {
+  return matVec(out, V_B, D, n, coeffs);
+}
+
+// Recognition signal: sigma = exp(-||Tf - f||^2 / (2 eps^2))
+function recognitionSignal(f, T, n, epsilon) {
+  let sqNorm = 0;
+  for (let i = 0; i < n; i++) {
+    let tf_i = 0;
+    for (let j = 0; j < n; j++) tf_i += T[i * n + j] * f[j];
+    const d = tf_i - f[i];
+    sqNorm += d * d;
+  }
+  return Math.exp(-sqNorm / (2.0 * epsilon * epsilon));
+}
+
+// Compute Tf into out array
+function applyT(out, T, f, n) {
+  for (let i = 0; i < n; i++) {
+    let s = 0;
+    for (let j = 0; j < n; j++) s += T[i * n + j] * f[j];
+    out[i] = s;
+  }
+  return out;
+}
+
+
+// ============================================================
+// DYNAMICS: update rules
+// ============================================================
+
+function wantGradient(out, f_i, T_neighbors, n, epsilon) {
+  // out = gradient pointing toward higher recognition
+  out.fill(0);
+  const nNeighbors = T_neighbors.length;
+  if (nNeighbors === 0) return out;
+
+  const tf = vecCreate(n);
+  const diff = vecCreate(n);
+  const TmI_col = vecCreate(n);
+
+  for (const T_j of T_neighbors) {
+    applyT(tf, T_j, f_i, n);
+    vecSub(diff, tf, f_i);
+    const sigma = Math.exp(-vecDot(diff, diff) / (2.0 * epsilon * epsilon));
+
+    // (T-I)^T @ diff = sum over rows of (T-I) . diff
+    // out += sigma * (T-I)^T @ diff
+    for (let col = 0; col < n; col++) {
+      let val = 0;
+      for (let row = 0; row < n; row++) {
+        const TmI_rc = T_j[row * n + col] - (row === col ? 1 : 0);
+        val += TmI_rc * diff[row];
+      }
+      out[col] += sigma * val;
+    }
+  }
+
+  const scale = -1.0 / (nNeighbors * epsilon * epsilon);
+  for (let i = 0; i < n; i++) out[i] *= scale;
+  return out;
+}
+
+function concealmentGradient(out, f_i, s_proj, n, deltaCon) {
+  vecSub(out, f_i, s_proj);
+  const distSq = vecDot(out, out);
+  const C = Math.exp(-distSq / (2.0 * deltaCon * deltaCon));
+  const scale = -C / (deltaCon * deltaCon);
+  for (let i = 0; i < n; i++) out[i] *= scale;
+  return out;
+}
+
+function updateWant(out, f_i, s_proj, T_neighbors, n, cfg) {
+  const gradW = vecCreate(n);
+  const gradC = vecCreate(n);
+  wantGradient(gradW, f_i, T_neighbors, n, cfg.epsilon);
+  concealmentGradient(gradC, f_i, s_proj, n, cfg.deltaCon);
+  for (let i = 0; i < n; i++) {
+    out[i] = f_i[i] + cfg.eta * (cfg.lambdaW * gradW[i] - cfg.lambdaC * gradC[i]);
+  }
+  return out;
+}
+
+function updateConstructive(out, f_i, s_proj, T_neighbors, n, cfg) {
+  const gradW = vecCreate(n);
+  const gradC = vecCreate(n);
+  wantGradient(gradW, f_i, T_neighbors, n, cfg.epsilon);
+  concealmentGradient(gradC, f_i, s_proj, n, cfg.deltaCon);
+
+  const fNorm = vecNorm(f_i);
+  for (let i = 0; i < n; i++) {
+    let grad = cfg.lambdaW * gradW[i] - cfg.lambdaC * gradC[i];
+    if (fNorm > 1e-10) grad += f_i[i] / fNorm;
+    out[i] = f_i[i] + cfg.eta * grad;
+  }
+  return out;
+}
+
+function updateDisclosure(out, f_i, s_proj, n, cfg) {
+  for (let i = 0; i < n; i++) {
+    out[i] = f_i[i] - cfg.eta * (f_i[i] - s_proj[i]);
+  }
+  return out;
+}
+
+function updateEvasive(out, f_i, s_proj, T_neighbors, n, cfg) {
+  const gradW = vecCreate(n);
+  const gradC = vecCreate(n);
+  wantGradient(gradW, f_i, T_neighbors, n, cfg.epsilon);
+  concealmentGradient(gradC, f_i, s_proj, n, cfg.deltaCon);
+  // Net: -0.7 * lambdaW * gradW - lambdaC * gradC
+  for (let i = 0; i < n; i++) {
+    const grad = -0.7 * cfg.lambdaW * gradW[i] - cfg.lambdaC * gradC[i];
+    out[i] = f_i[i] + cfg.eta * grad;
+  }
+  return out;
+}
+
+function updateCollective(out, f_i, centroid, n, cfg) {
+  for (let i = 0; i < n; i++) {
+    out[i] = f_i[i] + cfg.eta * (centroid[i] - f_i[i]);
+  }
+  return out;
+}
+
+function updateMetaDisclosure(out, f_i, s_proj, n, etaPrime) {
+  for (let i = 0; i < n; i++) {
+    out[i] = f_i[i] - 2.0 * etaPrime * (f_i[i] - s_proj[i]);
+  }
+  return out;
+}
+
+
+// ============================================================
+// DEFICIT
+// ============================================================
+
+function computeDeficit(f_i, s_i_ambient, V_B, T_neighbors, D, n, cfg) {
+  // Channel 1: lossiness — ||s_i - V_B @ f_i||
+  const fAmb = vecCreate(D);
+  projectToAmbient(fAmb, f_i, V_B, D, n);
+  let ch1Sq = 0;
+  for (let d = 0; d < D; d++) ch1Sq += (s_i_ambient[d] - fAmb[d]) ** 2;
+  const ch1 = Math.sqrt(ch1Sq);
+
+  // Channel 2: distortion — mean ||T_j(f_i) - f_i|| over neighbors
+  let ch2 = 0;
+  const tf = vecCreate(n);
+  if (T_neighbors.length > 0) {
+    for (const T_j of T_neighbors) {
+      applyT(tf, T_j, f_i, n);
+      let sq = 0;
+      for (let k = 0; k < n; k++) sq += (tf[k] - f_i[k]) ** 2;
+      ch2 += Math.sqrt(sq);
+    }
+    ch2 /= T_neighbors.length;
+  }
+
+  // Channel 3: exposure cost
+  const sProj = vecCreate(n);
+  projectToSubspace(sProj, s_i_ambient, V_B, D, n);
+  let expSq = 0;
+  for (let k = 0; k < n; k++) expSq += (f_i[k] - sProj[k]) ** 2;
+  const ch3 = Math.exp(-expSq / (2.0 * cfg.kappa * cfg.kappa));
+
+  const total = cfg.lambda1 * ch1 + cfg.lambda2 * ch2 + cfg.lambda3 * ch3;
+  return { total, ch1, ch2, ch3 };
+}
+
+function processDischarges(deficits, forms, TAssignments, TProtos, adj, omega, N, n, cfg) {
+  const events = [];
+  for (let i = 0; i < N; i++) {
+    if (deficits[i] < cfg.thetaDischarge) continue;
+    const neighbors = [];
+    for (let j = 0; j < N; j++) if (adj[i * N + j]) neighbors.push(j);
+    if (neighbors.length === 0) continue;
+
+    const Ti = TProtos[TAssignments[i]];
+    let maxContrib = -Infinity;
+    let jStar = neighbors[0];
+
+    const tf = vecCreate(n);
+    for (const j of neighbors) {
+      applyT(tf, Ti, forms.subarray(j * n, j * n + n), n);
+      let distSq = 0;
+      for (let k = 0; k < n; k++) distSq += (tf[k] - forms[j * n + k]) ** 2;
+      const contrib = omega[j * N + i] * Math.sqrt(distSq);
+      if (contrib > maxContrib) {
+        maxContrib = contrib;
+        jStar = j;
+      }
+    }
+
+    // Reduce attention
+    const reduction = 0.1 * omega[jStar * N + i];
+    omega[jStar * N + i] = Math.max(0, omega[jStar * N + i] - reduction);
+
+    // Redistribute
+    const others = neighbors.filter(j => j !== jStar);
+    if (others.length > 0) {
+      const bonus = reduction / others.length;
+      for (const j of others) omega[j * N + i] += bonus;
+    }
+
+    events.push({ from: i, to: jStar, deficit: deficits[i] });
+  }
+  return events;
+}
+
+
+// ============================================================
+// GRAPH
+// ============================================================
+
+function makeGraphER(N, edgeProb, rng) {
+  const adj = new Uint8Array(N * N);
+  for (let i = 0; i < N; i++) {
+    for (let j = i + 1; j < N; j++) {
+      if (rng.random() < edgeProb) {
+        adj[i * N + j] = 1;
+        adj[j * N + i] = 1;
+      }
+    }
+  }
+  return adj;
+}
+
+function initOmega(adj, N) {
+  const omega = new Float64Array(N * N);
+  for (let j = 0; j < N; j++) {
+    let degree = 0;
+    for (let i = 0; i < N; i++) if (adj[i * N + j]) degree++;
+    if (degree > 0) {
+      for (let i = 0; i < N; i++) {
+        if (adj[i * N + j]) omega[i * N + j] = 1.0 / degree;
+      }
+    }
+  }
+  return omega;
+}
+
+
+// ============================================================
+// FIELDS
+// ============================================================
+
+function assignToFields(forms, TProtos, N, n, K, epsilon) {
+  const assignments = new Int32Array(N);
+  const tf = vecCreate(n);
+  for (let i = 0; i < N; i++) {
+    let bestSig = -1;
+    let bestK = 0;
+    const fi = forms.subarray(i * n, i * n + n);
+    for (let k = 0; k < K; k++) {
+      const sig = recognitionSignal(fi, TProtos[k], n, epsilon);
+      if (sig > bestSig) {
+        bestSig = sig;
+        bestK = k;
+      }
+    }
+    assignments[i] = bestK;
+  }
+  return assignments;
+}
+
+function fieldSizes(assignments, K) {
+  const sizes = new Int32Array(K);
+  for (let i = 0; i < assignments.length; i++) {
+    if (assignments[i] >= 0 && assignments[i] < K) sizes[assignments[i]]++;
+  }
+  return sizes;
+}
+
+
+// ============================================================
+// SIM STATE & ENGINE
+// ============================================================
+
+const STRATEGIES = ['want', 'constructive', 'disclosure', 'evasive', 'collective'];
+
+function defaultConfig() {
+  return {
+    D: 64,
+    n: 16,
+    fixDim: 4,
+    N: 30,
+    K: 3,
+    eta: 0.005,
+    epsilon: 0.1,
+    lambdaW: 1.0,
+    lambdaC: 0.3,
+    deltaCon: 0.2,
+    lambda1: 1.0,
+    lambda2: 1.0,
+    lambda3: 0.5,
+    kappa: 0.5,
+    thetaDischarge: 1.5,
+    edgeProb: 0.15,
+    etaPrime: 0.3,
+    seed: 42,
+  };
+}
+
+function initSim(cfg, strategyMode = 'want') {
+  const rng = new RNG(cfg.seed);
+  const { D, n, N, K, fixDim } = cfg;
+
+  // Subjects
+  const subjects = makeSubjects(N, D, rng);
+
+  // Grammar basis
+  const V_B = makeGrammar(D, n, rng);
+
+  // Project true selves
+  const sProj = matCreate(N, n);
+  for (let i = 0; i < N; i++) {
+    projectToSubspace(sProj.subarray(i * n, i * n + n), subjects.subarray(i * D, i * D + D), V_B, D, n);
+  }
+
+  // Distortion prototypes
+  const TProtos = [];
+  const QProtos = [];
+  const eigProtos = [];
+  for (let k = 0; k < K; k++) {
+    const { T, Q, eigenvalues } = makeDistortion(n, fixDim, rng);
+    TProtos.push(T);
+    QProtos.push(Q);
+    eigProtos.push(eigenvalues);
+  }
+
+  // Assignments (round-robin)
+  const TAssignments = new Int32Array(N);
+  for (let i = 0; i < N; i++) TAssignments[i] = i % K;
+
+  // Forms = sProj + small noise
+  const forms = new Float64Array(sProj);
+  for (let i = 0; i < N * n; i++) forms[i] += 0.01 * rng.normal();
+
+  // Graph
+  const adj = makeGraphER(N, cfg.edgeProb, rng);
+  const omega = initOmega(adj, N);
+
+  // Strategies
+  const strategies = new Array(N);
+  if (strategyMode === 'mixed') {
+    for (let i = 0; i < N; i++) strategies[i] = STRATEGIES[i % STRATEGIES.length];
+  } else {
+    for (let i = 0; i < N; i++) strategies[i] = strategyMode;
+  }
+
+  // Names
+  const names = [];
+  for (let i = 0; i < N; i++) names.push(`S${i}`);
+
+  return {
+    subjects, V_B, sProj, TProtos, QProtos, eigProtos,
+    TAssignments, forms, adj, omega, strategies, names,
+    cfg, rng, N, D: cfg.D, n: cfg.n, K,
+    t: 0,
+    // Mutable tracking
+    deficits: new Float64Array(N),
+    deficitChannels: matCreate(N, 3),
+    fieldAssignments: new Int32Array(N),
+    dischargeEvents: [],
+    metaStates: new Uint8Array(N),
+  };
+}
+
+function simStep(state) {
+  const { N, n, forms, adj, omega, strategies, sProj, TProtos, TAssignments, cfg } = state;
+
+  const newForms = new Float64Array(forms.length);
+  const tempOut = vecCreate(n);
+
+  for (let i = 0; i < N; i++) {
+    const fi = forms.subarray(i * n, i * n + n);
+    const si = sProj.subarray(i * n, i * n + n);
+
+    // Gather neighbor T operators
+    const Tneighbors = [];
+    for (let j = 0; j < N; j++) {
+      if (adj[i * N + j]) Tneighbors.push(TProtos[TAssignments[j]]);
+    }
+
+    if (Tneighbors.length === 0) {
+      newForms.set(fi, i * n);
+      continue;
+    }
+
+    const out = newForms.subarray(i * n, i * n + n);
+    const strat = strategies[i];
+
+    if (state.metaStates[i]) {
+      updateMetaDisclosure(out, fi, si, n, cfg.etaPrime);
+    } else if (strat === 'want') {
+      updateWant(out, fi, si, Tneighbors, n, cfg);
+    } else if (strat === 'constructive') {
+      updateConstructive(out, fi, si, Tneighbors, n, cfg);
+    } else if (strat === 'disclosure') {
+      updateDisclosure(out, fi, si, n, cfg);
+    } else if (strat === 'evasive') {
+      updateEvasive(out, fi, si, Tneighbors, n, cfg);
+    } else if (strat === 'collective') {
+      // Compute cluster centroid
+      const myField = TAssignments[i];
+      let count = 0;
+      const centroid = vecCreate(n);
+      for (let j = 0; j < N; j++) {
+        if (adj[i * N + j] && TAssignments[j] === myField) {
+          for (let k = 0; k < n; k++) centroid[k] += forms[j * n + k];
+          count++;
+        }
+      }
+      if (count > 0) {
+        for (let k = 0; k < n; k++) centroid[k] /= count;
+      } else {
+        centroid.set(fi);
+      }
+      updateCollective(out, fi, centroid, n, cfg);
+    } else {
+      updateWant(out, fi, si, Tneighbors, n, cfg);
+    }
+  }
+
+  state.forms = newForms;
+
+  // Compute deficits
+  for (let i = 0; i < N; i++) {
+    const fi = newForms.subarray(i * n, i * n + n);
+    const si = state.subjects.subarray(i * state.D, i * state.D + state.D);
+    const Tneighbors = [];
+    for (let j = 0; j < N; j++) {
+      if (adj[i * N + j]) Tneighbors.push(TProtos[TAssignments[j]]);
+    }
+    const { total, ch1, ch2, ch3 } = computeDeficit(fi, si, state.V_B, Tneighbors, state.D, n, cfg);
+    state.deficits[i] = total;
+    state.deficitChannels[i * 3] = ch1;
+    state.deficitChannels[i * 3 + 1] = ch2;
+    state.deficitChannels[i * 3 + 2] = ch3;
+  }
+
+  // Discharge events
+  state.dischargeEvents = processDischarges(
+    state.deficits, state.forms, TAssignments, TProtos, adj, omega, N, n, cfg
+  );
+
+  // Field assignments
+  state.fieldAssignments = assignToFields(state.forms, TProtos, N, n, state.K, cfg.epsilon);
+
+  state.t++;
+}
+
+
+// ============================================================
+// FORCE-DIRECTED LAYOUT
+// ============================================================
+
+function initPositions(N, width, height) {
+  const pos = new Float64Array(N * 2);
+  const cx = width / 2, cy = height / 2;
+  const r = Math.min(width, height) * 0.35;
+  for (let i = 0; i < N; i++) {
+    const angle = (2 * Math.PI * i) / N;
+    pos[i * 2] = cx + r * Math.cos(angle);
+    pos[i * 2 + 1] = cy + r * Math.sin(angle);
+  }
+  return pos;
+}
+
+function forceStep(pos, vel, adj, N, width, height) {
+  const repulse = 3000;
+  const attract = 0.003;
+  const damping = 0.85;
+  const centerPull = 0.0005;
+  const cx = width / 2, cy = height / 2;
+
+  for (let i = 0; i < N; i++) {
+    let fx = 0, fy = 0;
+    const ix = pos[i * 2], iy = pos[i * 2 + 1];
+
+    // Repulsion from all nodes
+    for (let j = 0; j < N; j++) {
+      if (i === j) continue;
+      let dx = ix - pos[j * 2];
+      let dy = iy - pos[j * 2 + 1];
+      let distSq = dx * dx + dy * dy;
+      if (distSq < 1) distSq = 1;
+      const f = repulse / distSq;
+      const dist = Math.sqrt(distSq);
+      fx += f * dx / dist;
+      fy += f * dy / dist;
+    }
+
+    // Attraction along edges
+    for (let j = 0; j < N; j++) {
+      if (!adj[i * N + j]) continue;
+      const dx = pos[j * 2] - ix;
+      const dy = pos[j * 2 + 1] - iy;
+      fx += attract * dx;
+      fy += attract * dy;
+    }
+
+    // Center pull
+    fx += centerPull * (cx - ix);
+    fy += centerPull * (cy - iy);
+
+    vel[i * 2] = (vel[i * 2] + fx) * damping;
+    vel[i * 2 + 1] = (vel[i * 2 + 1] + fy) * damping;
+  }
+
+  // Apply velocities + clamp
+  for (let i = 0; i < N; i++) {
+    pos[i * 2] += vel[i * 2];
+    pos[i * 2 + 1] += vel[i * 2 + 1];
+    pos[i * 2] = Math.max(30, Math.min(width - 30, pos[i * 2]));
+    pos[i * 2 + 1] = Math.max(30, Math.min(height - 30, pos[i * 2 + 1]));
+  }
+}
+
+
+// ============================================================
+// FIELD COLORS
+// ============================================================
+
+const FIELD_COLORS = [
+  '#e94560', '#4ecca3', '#4fc3f7', '#ffd369', '#ff8a65',
+  '#ce93d8', '#81c784', '#ffb74d', '#64b5f6', '#f06292',
+];
+
+const STRATEGY_ICONS = {
+  want: '\u25B2',         // triangle up
+  constructive: '\u25C6', // diamond
+  disclosure: '\u25CF',   // circle
+  evasive: '\u25BC',      // triangle down
+  collective: '\u25A0',   // square
+};
+
+
+// ============================================================
+// REACT APP
+// ============================================================
+
+function App() {
+  // Config state
+  const [cfg, setCfg] = useState(defaultConfig);
+  const [strategyMode, setStrategyMode] = useState('want');
+  const [playing, setPlaying] = useState(false);
+  const [speed, setSpeed] = useState(1);
+  const [selectedNode, setSelectedNode] = useState(null);
+  const [chartData, setChartData] = useState([]);
+  const [stepCount, setStepCount] = useState(0);
+  const [tooltip, setTooltip] = useState(null);
+
+  // Refs for mutable sim state
+  const simRef = useRef(null);
+  const posRef = useRef(null);
+  const velRef = useRef(null);
+  const canvasRef = useRef(null);
+  const animRef = useRef(null);
+  const dragRef = useRef({ dragging: false, node: -1, offsetX: 0, offsetY: 0 });
+  const sizeRef = useRef({ w: 800, h: 600 });
+  const dischargeFlash = useRef([]); // [{from, to, age}]
+  const chartDataRef = useRef([]);
+
+  // Initialize simulation
+  const resetSim = useCallback((newCfg, newStrategy) => {
+    const c = newCfg || cfg;
+    const s = newStrategy || strategyMode;
+    const sim = initSim(c, s);
+    simRef.current = sim;
+
+    const { w, h } = sizeRef.current;
+    posRef.current = initPositions(sim.N, w, h);
+    velRef.current = new Float64Array(sim.N * 2);
+    dischargeFlash.current = [];
+    chartDataRef.current = [];
+    setChartData([]);
+    setStepCount(0);
+    setSelectedNode(null);
+  }, [cfg, strategyMode]);
+
+  // Init on mount
+  useEffect(() => {
+    resetSim();
+  }, []);
+
+  // Canvas resize
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const resizeObs = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        canvas.width = width * devicePixelRatio;
+        canvas.height = height * devicePixelRatio;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        sizeRef.current = { w: width, h: height };
+      }
+    });
+    resizeObs.observe(canvas.parentElement);
+    return () => resizeObs.disconnect();
+  }, []);
+
+  // Render loop
+  useEffect(() => {
+    let running = true;
+    const loop = () => {
+      if (!running) return;
+      const sim = simRef.current;
+      const pos = posRef.current;
+      const vel = velRef.current;
+      const canvas = canvasRef.current;
+      if (!sim || !pos || !canvas) {
+        animRef.current = requestAnimationFrame(loop);
+        return;
+      }
+
+      const { w, h } = sizeRef.current;
+
+      // Sim steps
+      if (playing) {
+        for (let s = 0; s < speed; s++) {
+          simStep(sim);
+        }
+        setStepCount(sim.t);
+
+        // Record discharge flashes
+        for (const ev of sim.dischargeEvents) {
+          dischargeFlash.current.push({ from: ev.from, to: ev.to, age: 0 });
+        }
+
+        // Chart data (every 5 steps)
+        if (sim.t % 5 === 0) {
+          let meanDef = 0, meanSig = 0;
+          for (let i = 0; i < sim.N; i++) {
+            meanDef += sim.deficits[i];
+            const fi = sim.forms.subarray(i * sim.n, i * sim.n + sim.n);
+            meanSig += recognitionSignal(fi, sim.TProtos[sim.TAssignments[i]], sim.n, sim.cfg.epsilon);
+          }
+          meanDef /= sim.N;
+          meanSig /= sim.N;
+
+          const sizes = fieldSizes(sim.fieldAssignments, sim.K);
+          const point = {
+            t: sim.t,
+            deficit: +meanDef.toFixed(4),
+            signal: +meanSig.toFixed(4),
+            discharges: sim.dischargeEvents.length,
+          };
+          for (let k = 0; k < sim.K; k++) point[`field${k}`] = sizes[k];
+
+          chartDataRef.current.push(point);
+          if (chartDataRef.current.length > 200) chartDataRef.current.shift();
+
+          // Update React chart state every 20 steps
+          if (sim.t % 20 === 0) {
+            setChartData([...chartDataRef.current]);
+          }
+        }
+      }
+
+      // Force layout step
+      if (!dragRef.current.dragging) {
+        forceStep(pos, vel, sim.adj, sim.N, w, h);
+      }
+
+      // Age discharge flashes
+      dischargeFlash.current = dischargeFlash.current
+        .map(f => ({ ...f, age: f.age + 1 }))
+        .filter(f => f.age < 30);
+
+      // Draw
+      const ctx = canvas.getContext('2d');
+      const dpr = devicePixelRatio;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      // Edges
+      for (let i = 0; i < sim.N; i++) {
+        for (let j = i + 1; j < sim.N; j++) {
+          if (!sim.adj[i * sim.N + j]) continue;
+          const ow = sim.omega[i * sim.N + j] + sim.omega[j * sim.N + i];
+          ctx.beginPath();
+          ctx.moveTo(pos[i * 2], pos[i * 2 + 1]);
+          ctx.lineTo(pos[j * 2], pos[j * 2 + 1]);
+          ctx.strokeStyle = `rgba(100, 120, 160, ${0.1 + ow * 0.4})`;
+          ctx.lineWidth = 0.5 + ow * 2;
+          ctx.stroke();
+        }
+      }
+
+      // Discharge flashes
+      for (const flash of dischargeFlash.current) {
+        const alpha = 1 - flash.age / 30;
+        ctx.beginPath();
+        ctx.moveTo(pos[flash.from * 2], pos[flash.from * 2 + 1]);
+        ctx.lineTo(pos[flash.to * 2], pos[flash.to * 2 + 1]);
+        ctx.strokeStyle = `rgba(239, 83, 80, ${alpha})`;
+        ctx.lineWidth = 3 * alpha;
+        ctx.stroke();
+      }
+
+      // Nodes
+      for (let i = 0; i < sim.N; i++) {
+        const x = pos[i * 2], y = pos[i * 2 + 1];
+        const field = sim.fieldAssignments[i];
+        const color = FIELD_COLORS[field % FIELD_COLORS.length];
+        const deficit = sim.deficits[i];
+        const radius = 6 + Math.min(deficit * 2, 10);
+
+        // Glow if discharging
+        const isDischarging = sim.dischargeEvents.some(e => e.from === i);
+        if (isDischarging) {
+          ctx.beginPath();
+          ctx.arc(x, y, radius + 8, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(239, 83, 80, 0.3)';
+          ctx.fill();
+        }
+
+        // Main circle
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        // Border thickness by deficit
+        ctx.lineWidth = 1 + Math.min(deficit, 3);
+        ctx.strokeStyle = selectedNode === i ? '#fff' : 'rgba(0,0,0,0.5)';
+        ctx.stroke();
+
+        // Strategy icon
+        ctx.fillStyle = '#fff';
+        ctx.font = `${Math.max(8, radius - 1)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(STRATEGY_ICONS[sim.strategies[i]] || '?', x, y);
+      }
+
+      animRef.current = requestAnimationFrame(loop);
+    };
+
+    animRef.current = requestAnimationFrame(loop);
+    return () => { running = false; cancelAnimationFrame(animRef.current); };
+  }, [playing, speed, selectedNode]);
+
+  // Mouse handlers
+  const handleMouseDown = useCallback((e) => {
+    const sim = simRef.current;
+    const pos = posRef.current;
+    if (!sim || !pos) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    for (let i = 0; i < sim.N; i++) {
+      const dx = pos[i * 2] - mx;
+      const dy = pos[i * 2 + 1] - my;
+      if (dx * dx + dy * dy < 400) {
+        dragRef.current = { dragging: true, node: i, offsetX: dx, offsetY: dy };
+        setSelectedNode(i);
+        return;
+      }
+    }
+    setSelectedNode(null);
+  }, []);
+
+  const handleMouseMove = useCallback((e) => {
+    const sim = simRef.current;
+    const pos = posRef.current;
+    if (!sim || !pos) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    if (dragRef.current.dragging) {
+      const i = dragRef.current.node;
+      pos[i * 2] = mx + dragRef.current.offsetX;
+      pos[i * 2 + 1] = my + dragRef.current.offsetY;
+      velRef.current[i * 2] = 0;
+      velRef.current[i * 2 + 1] = 0;
+      return;
+    }
+
+    // Tooltip
+    let found = false;
+    for (let i = 0; i < sim.N; i++) {
+      const dx = pos[i * 2] - mx;
+      const dy = pos[i * 2 + 1] - my;
+      if (dx * dx + dy * dy < 400) {
+        const fi = sim.forms.subarray(i * sim.n, i * sim.n + sim.n);
+        const sig = recognitionSignal(fi, sim.TProtos[sim.TAssignments[i]], sim.n, sim.cfg.epsilon);
+        setTooltip({
+          x: e.clientX + 12,
+          y: e.clientY - 10,
+          text: `${sim.names[i]} | ${sim.strategies[i]} | \u03C3=${sig.toFixed(3)} | deficit=${sim.deficits[i].toFixed(3)}`
+        });
+        found = true;
+        break;
+      }
+    }
+    if (!found) setTooltip(null);
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    dragRef.current.dragging = false;
+  }, []);
+
+  // Config update helper
+  const updateCfg = useCallback((key, val) => {
+    setCfg(prev => {
+      const next = { ...prev, [key]: val };
+      // Live update if sim exists
+      if (simRef.current) simRef.current.cfg[key] = val;
+      return next;
+    });
+  }, []);
+
+  // Presets
+  const applyPreset = useCallback((name) => {
+    let c = defaultConfig();
+    let strat = 'want';
+    if (name === 'convergence') {
+      c.N = 20; c.K = 1; strat = 'want';
+    } else if (name === 'rivalry') {
+      c.N = 30; c.K = 2; c.edgeProb = 0.12; strat = 'want';
+    } else if (name === 'cascade') {
+      c.N = 25; c.K = 2; c.thetaDischarge = 0.8; strat = 'want';
+    } else if (name === 'mixed') {
+      c.N = 25; c.K = 3; strat = 'mixed';
+    }
+    setCfg(c);
+    setStrategyMode(strat);
+    setPlaying(false);
+    // Use timeout to let state settle
+    setTimeout(() => {
+      const sim = initSim(c, strat);
+      simRef.current = sim;
+      const { w, h } = sizeRef.current;
+      posRef.current = initPositions(sim.N, w, h);
+      velRef.current = new Float64Array(sim.N * 2);
+      dischargeFlash.current = [];
+      chartDataRef.current = [];
+      setChartData([]);
+      setStepCount(0);
+      setSelectedNode(null);
+    }, 0);
+  }, []);
+
+  // Add subject
+  const addSubject = useCallback((strat) => {
+    const sim = simRef.current;
+    if (!sim) return;
+    const { D, n, N, K } = sim;
+    const newN = N + 1;
+    const i = N;
+
+    // Expand subjects
+    const newSubjects = new Float64Array(newN * D);
+    newSubjects.set(sim.subjects);
+    let norm = 0;
+    for (let d = 0; d < D; d++) {
+      const v = sim.rng.normal();
+      newSubjects[i * D + d] = v;
+      norm += v * v;
+    }
+    norm = Math.sqrt(norm);
+    for (let d = 0; d < D; d++) newSubjects[i * D + d] /= norm;
+
+    // Expand sProj
+    const newSProj = new Float64Array(newN * n);
+    newSProj.set(sim.sProj);
+    projectToSubspace(newSProj.subarray(i * n, i * n + n), newSubjects.subarray(i * D, i * D + D), sim.V_B, D, n);
+
+    // Expand forms
+    const newForms = new Float64Array(newN * n);
+    newForms.set(sim.forms);
+    for (let k = 0; k < n; k++) newForms[i * n + k] = newSProj[i * n + k] + 0.01 * sim.rng.normal();
+
+    // Expand adj
+    const newAdj = new Uint8Array(newN * newN);
+    for (let a = 0; a < N; a++) {
+      for (let b = 0; b < N; b++) newAdj[a * newN + b] = sim.adj[a * N + b];
+    }
+    // Connect to ~3 random existing nodes
+    const numEdges = Math.min(3, N);
+    const targets = sim.rng.choice(N, numEdges);
+    for (const t of targets) {
+      newAdj[i * newN + t] = 1;
+      newAdj[t * newN + i] = 1;
+    }
+
+    // Expand omega
+    const newOmega = new Float64Array(newN * newN);
+    for (let a = 0; a < N; a++) {
+      for (let b = 0; b < N; b++) newOmega[a * newN + b] = sim.omega[a * N + b];
+    }
+    // Init omega for new node
+    let degree = 0;
+    for (let j = 0; j < newN; j++) if (newAdj[j * newN + i]) degree++;
+    if (degree > 0) {
+      for (let j = 0; j < newN; j++) {
+        if (newAdj[j * newN + i]) newOmega[j * newN + i] = 1.0 / degree;
+      }
+    }
+    // Update omega for nodes that gained new edge
+    for (const t of targets) {
+      let d = 0;
+      for (let j = 0; j < newN; j++) if (newAdj[j * newN + t]) d++;
+      if (d > 0) {
+        for (let j = 0; j < newN; j++) {
+          if (newAdj[j * newN + t]) newOmega[j * newN + t] = 1.0 / d;
+        }
+      }
+    }
+
+    // Expand TAssignments
+    const newTA = new Int32Array(newN);
+    newTA.set(sim.TAssignments);
+    newTA[i] = Math.floor(sim.rng.random() * K);
+
+    // Expand strategies
+    const newStrats = [...sim.strategies, strat];
+    const newNames = [...sim.names, `S${i}`];
+
+    // Expand deficits
+    const newDeficits = new Float64Array(newN);
+    newDeficits.set(sim.deficits);
+    const newDefCh = new Float64Array(newN * 3);
+    newDefCh.set(sim.deficitChannels);
+    const newFA = new Int32Array(newN);
+    newFA.set(sim.fieldAssignments);
+    const newMeta = new Uint8Array(newN);
+    newMeta.set(sim.metaStates);
+
+    // Update sim
+    sim.subjects = newSubjects;
+    sim.sProj = newSProj;
+    sim.forms = newForms;
+    sim.adj = newAdj;
+    sim.omega = newOmega;
+    sim.TAssignments = newTA;
+    sim.strategies = newStrats;
+    sim.names = newNames;
+    sim.deficits = newDeficits;
+    sim.deficitChannels = newDefCh;
+    sim.fieldAssignments = newFA;
+    sim.metaStates = newMeta;
+    sim.N = newN;
+
+    // Expand positions
+    const { w, h } = sizeRef.current;
+    const newPos = new Float64Array(newN * 2);
+    newPos.set(posRef.current);
+    newPos[i * 2] = w / 2 + (sim.rng.random() - 0.5) * 100;
+    newPos[i * 2 + 1] = h / 2 + (sim.rng.random() - 0.5) * 100;
+    posRef.current = newPos;
+
+    const newVel = new Float64Array(newN * 2);
+    newVel.set(velRef.current);
+    velRef.current = newVel;
+  }, []);
+
+  // Add institution (new T prototype)
+  const addInstitution = useCallback(() => {
+    const sim = simRef.current;
+    if (!sim) return;
+    const { T, Q, eigenvalues } = makeDistortion(sim.n, sim.cfg.fixDim, sim.rng);
+    sim.TProtos.push(T);
+    sim.QProtos.push(Q);
+    sim.eigProtos.push(eigenvalues);
+    sim.K = sim.TProtos.length;
+  }, []);
+
+  // Compute detail panel info
+  const detailInfo = useMemo(() => {
+    const sim = simRef.current;
+    if (sim === null || selectedNode === null || selectedNode >= sim.N) return null;
+    const i = selectedNode;
+    const fi = sim.forms.subarray(i * sim.n, i * sim.n + sim.n);
+    const sig = recognitionSignal(fi, sim.TProtos[sim.TAssignments[i]], sim.n, sim.cfg.epsilon);
+    const neighbors = [];
+    for (let j = 0; j < sim.N; j++) {
+      if (sim.adj[i * sim.N + j]) {
+        const fj = sim.forms.subarray(j * sim.n, j * sim.n + sim.n);
+        const nSig = recognitionSignal(fj, sim.TProtos[sim.TAssignments[j]], sim.n, sim.cfg.epsilon);
+        neighbors.push({ id: j, name: sim.names[j], signal: nSig, field: sim.fieldAssignments[j] });
+      }
+    }
+    return {
+      name: sim.names[i],
+      strategy: sim.strategies[i],
+      field: sim.fieldAssignments[i],
+      signal: sig,
+      deficit: sim.deficits[i],
+      ch1: sim.deficitChannels[i * 3],
+      ch2: sim.deficitChannels[i * 3 + 1],
+      ch3: sim.deficitChannels[i * 3 + 2],
+      meta: sim.metaStates[i],
+      neighbors,
+    };
+  }, [selectedNode, stepCount]);
+
+  // Chart lines config
+  const K = simRef.current ? simRef.current.K : 3;
+
+  return h('div', { id: 'app' }, [
+    // LEFT: Controls
+    h('div', { className: 'panel', id: 'controls' }, [
+      h('h3', {}, 'Simulation'),
+      h('div', { className: 'btn-row' }, [
+        h('button', { className: `btn ${playing ? '' : 'active'}`, onClick: () => setPlaying(!playing) },
+          playing ? '\u23F8 Pause' : '\u25B6 Play'),
+        h('button', { className: 'btn', onClick: () => {
+          if (simRef.current) { simStep(simRef.current); setStepCount(simRef.current.t); }
+        }}, 'Step'),
+        h('button', { className: 'btn', onClick: () => { setPlaying(false); resetSim(); }}, 'Reset'),
+      ]),
+      h('div', { className: 'slider-group' }, [
+        h('label', {}, ['Speed', h('span', {}, speed + 'x')]),
+        h('input', { type: 'range', min: 1, max: 20, value: speed, onChange: e => setSpeed(+e.target.value) }),
+      ]),
+      h('div', { className: 'stat-row' }, [
+        h('span', {}, 'Step'),
+        h('span', { className: 'val' }, stepCount),
+      ]),
+
+      h('h3', {}, 'Add'),
+      h('div', { className: 'btn-row' }, [
+        ...STRATEGIES.map(s =>
+          h('button', { key: s, className: 'btn', onClick: () => addSubject(s), title: `Add ${s} subject` },
+            `+ ${STRATEGY_ICONS[s]} ${s.slice(0, 4)}`)),
+      ]),
+      h('button', { className: 'btn', style: { width: '100%', marginTop: 4 }, onClick: addInstitution }, '+ Institution (new T)'),
+
+      h('h3', {}, 'Parameters'),
+      ...([
+        ['eta', 'Learning rate \u03B7', 0.001, 0.05, 0.001],
+        ['epsilon', 'Signal \u03B5', 0.01, 0.5, 0.01],
+        ['lambdaW', 'Want \u03BB_W', 0, 3, 0.1],
+        ['lambdaC', 'Concealment \u03BB_C', 0, 2, 0.1],
+        ['thetaDischarge', 'Discharge \u03B8', 0.3, 5, 0.1],
+      ].map(([key, label, min, max, step]) =>
+        h('div', { className: 'slider-group', key }, [
+          h('label', {}, [label, h('span', {}, cfg[key].toFixed(3))]),
+          h('input', { type: 'range', min, max, step, value: cfg[key],
+            onChange: e => updateCfg(key, +e.target.value) }),
+        ])
+      )),
+
+      h('h3', {}, 'Setup'),
+      h('div', { className: 'slider-group' }, [
+        h('label', {}, ['Subjects N', h('span', {}, cfg.N)]),
+        h('input', { type: 'range', min: 5, max: 60, step: 1, value: cfg.N,
+          onChange: e => setCfg(prev => ({ ...prev, N: +e.target.value })) }),
+      ]),
+      h('div', { className: 'slider-group' }, [
+        h('label', {}, ['Institutions K', h('span', {}, cfg.K)]),
+        h('input', { type: 'range', min: 1, max: 8, step: 1, value: cfg.K,
+          onChange: e => setCfg(prev => ({ ...prev, K: +e.target.value })) }),
+      ]),
+      h('div', { className: 'slider-group' }, [
+        h('label', {}, ['Edge prob', h('span', {}, cfg.edgeProb.toFixed(2))]),
+        h('input', { type: 'range', min: 0.02, max: 0.4, step: 0.01, value: cfg.edgeProb,
+          onChange: e => setCfg(prev => ({ ...prev, edgeProb: +e.target.value })) }),
+      ]),
+      h('label', { style: { fontSize: '10px', color: 'var(--text2)' } }, 'Strategy'),
+      h('select', { value: strategyMode, onChange: e => setStrategyMode(e.target.value) },
+        [...STRATEGIES, 'mixed'].map(s => h('option', { key: s, value: s }, s))),
+
+      h('h3', {}, 'Presets'),
+      ...[
+        ['convergence', 'Convergence — single T, watch field form'],
+        ['rivalry', 'Rivalry — two institutions, competing attractors'],
+        ['cascade', 'Discharge cascade — low threshold'],
+        ['mixed', 'Strategy mix — all strategies interact'],
+      ].map(([key, desc]) =>
+        h('button', { key, className: 'btn preset-btn', onClick: () => applyPreset(key) }, desc)),
+
+      h('h3', {}, 'Legend'),
+      h('div', { className: 'legend' },
+        STRATEGIES.map(s =>
+          h('div', { key: s, className: 'legend-item' }, [
+            h('span', {}, STRATEGY_ICONS[s]),
+            h('span', {}, s),
+          ])
+        )),
+    ]),
+
+    // CENTER TOP: Graph canvas
+    h('div', { id: 'graph-panel' }, [
+      h('canvas', {
+        ref: canvasRef,
+        onMouseDown: handleMouseDown,
+        onMouseMove: handleMouseMove,
+        onMouseUp: handleMouseUp,
+        onMouseLeave: handleMouseUp,
+      }),
+      h('div', { className: 'status-bar' }, [
+        `t=${stepCount} | N=${simRef.current?.N ?? cfg.N} | K=${simRef.current?.K ?? cfg.K}`,
+      ]),
+    ]),
+
+    // RIGHT: Detail panel
+    h('div', { className: 'panel', id: 'detail-panel' }, [
+      h('h3', {}, 'Subject Detail'),
+      detailInfo ? h(F, {}, [
+        h('div', { className: 'stat-row' }, [
+          h('span', {}, 'Name'), h('span', { className: 'val' }, detailInfo.name)]),
+        h('div', { className: 'stat-row' }, [
+          h('span', {}, 'Strategy'), h('span', { className: 'val' }, `${STRATEGY_ICONS[detailInfo.strategy]} ${detailInfo.strategy}`)]),
+        h('div', { className: 'stat-row' }, [
+          h('span', {}, 'Field'),
+          h('span', { className: 'val', style: { color: FIELD_COLORS[detailInfo.field % FIELD_COLORS.length] } }, [
+            `\u25CF ${detailInfo.field}`])]),
+        h('div', { className: 'stat-row' }, [
+          h('span', {}, 'Signal \u03C3'), h('span', { className: 'val' }, detailInfo.signal.toFixed(4))]),
+        h('div', { className: 'stat-row' }, [
+          h('span', {}, 'Total deficit'), h('span', { className: 'val' }, detailInfo.deficit.toFixed(4))]),
+
+        h('h3', {}, 'Deficit Channels'),
+        ...[
+          ['Lossiness', detailInfo.ch1, 'var(--yellow)', 3],
+          ['Distortion', detailInfo.ch2, 'var(--blue)', 2],
+          ['Exposure', detailInfo.ch3, 'var(--accent)', 1],
+        ].map(([label, val, color, maxV]) =>
+          h('div', { key: label }, [
+            h('div', { className: 'stat-row' }, [
+              h('span', {}, label), h('span', { className: 'val' }, val.toFixed(4))]),
+            h('div', { className: 'deficit-bar' }, [
+              h('div', { className: 'deficit-bar-fill', style: { width: `${Math.min(100, val / maxV * 100)}%`, background: color } }),
+            ]),
+          ])
+        ),
+
+        h('h3', {}, `Neighbors (${detailInfo.neighbors.length})`),
+        ...detailInfo.neighbors.slice(0, 20).map(nb =>
+          h('div', { key: nb.id, className: 'neighbor-row', onClick: () => setSelectedNode(nb.id), style: { cursor: 'pointer' } }, [
+            h('span', { className: 'neighbor-dot', style: { background: FIELD_COLORS[nb.field % FIELD_COLORS.length] } }),
+            h('span', { style: { width: 28 } }, nb.name),
+            h('div', { className: 'signal-bar' }, [
+              h('div', { className: 'signal-bar-fill', style: { width: `${nb.signal * 100}%` } }),
+            ]),
+            h('span', { style: { fontSize: '9px', color: 'var(--text2)', width: 36, textAlign: 'right' } }, nb.signal.toFixed(2)),
+          ])
+        ),
+      ]) : h('div', { style: { fontSize: '11px', color: 'var(--text2)', marginTop: 8 } }, 'Click a node to inspect'),
+    ]),
+
+    // CENTER BOTTOM: Charts
+    h('div', { className: 'panel', id: 'chart-panel' }, [
+      chartData.length > 2
+        ? h(ResponsiveContainer, { width: '100%', height: '100%' },
+            h(LineChart, { data: chartData, margin: { top: 5, right: 5, bottom: 5, left: 5 } }, [
+              h(XAxis, { dataKey: 't', tick: { fontSize: 9, fill: '#888' }, stroke: '#444' }),
+              h(YAxis, { tick: { fontSize: 9, fill: '#888' }, stroke: '#444', width: 35 }),
+              h(RTooltip, { contentStyle: { background: '#1a1a2e', border: '1px solid #2a2a4a', fontSize: 10 } }),
+              h(RLegend, { wrapperStyle: { fontSize: 9 } }),
+              h(Line, { type: 'monotone', dataKey: 'deficit', stroke: '#ffd369', dot: false, strokeWidth: 1.5, name: 'deficit' }),
+              h(Line, { type: 'monotone', dataKey: 'signal', stroke: '#4ecca3', dot: false, strokeWidth: 1.5, name: 'signal' }),
+              h(Line, { type: 'monotone', dataKey: 'discharges', stroke: '#ef5350', dot: false, strokeWidth: 1, name: 'discharges' }),
+              ...Array.from({ length: K }, (_, k) =>
+                h(Line, { key: `f${k}`, type: 'monotone', dataKey: `field${k}`, stroke: FIELD_COLORS[k], dot: false, strokeWidth: 1, name: `field ${k}`, strokeDasharray: '3 3' })
+              ),
+            ]))
+        : h('div', { style: { fontSize: '11px', color: 'var(--text2)', textAlign: 'center', paddingTop: 20 } }, 'Press Play to see time series'),
+    ]),
+
+    // Tooltip overlay
+    tooltip && h('div', { className: 'tooltip', style: { left: tooltip.x, top: tooltip.y } }, tooltip.text),
+  ]);
+}
+
+createRoot(document.getElementById('app')).render(h(App, {}));
+</script>
+</body>
+</html>
