@@ -1596,6 +1596,93 @@ const CAPITAL = [
 ];
 
 // ═══════════════════════════════════════════════════════════
+// Credentialism — attention to the label, not the thing
+// ═══════════════════════════════════════════════════════════
+const CREDENTIAL = [
+  {
+    label: 'Curiosity',
+    short: 'Curious',
+    note: 'B genuinely attends to a subject and a mentor — the field is alive',
+    persons: {
+      B: { x: 0.45, y: 0.45, r: 0.075, att: { N1: 0.6, N2: 0.55 } },
+      N1: { x: 0.65, y: 0.32, r: 0.065, att: { B: 0.55, N2: 0.35 } },
+      N2: { x: 0.62, y: 0.6, r: 0.06, att: { B: 0.5, N1: 0.3 } },
+    },
+  },
+  {
+    label: 'Program',
+    short: 'Program',
+    note: 'An institution appears offering to formalize the interest',
+    persons: {
+      B: { x: 0.45, y: 0.45, r: 0.075, att: { N1: 0.5, N2: 0.45, W1: 0.25 } },
+      N1: { x: 0.65, y: 0.32, r: 0.06, att: { B: 0.5, N2: 0.3 } },
+      N2: { x: 0.62, y: 0.6, r: 0.055, att: { B: 0.45, N1: 0.25 } },
+      W1: { x: 0.2, y: 0.6, r: 0.05, inst: true, att: { B: 0.3 } },
+    },
+  },
+  {
+    label: 'Tilt',
+    short: 'Tilt',
+    note: 'Attention shifts from the subject to the credential',
+    persons: {
+      B: { x: 0.42, y: 0.44, r: 0.07, att: { N1: 0.3, N2: 0.2, W1: 0.5 } },
+      N1: { x: 0.68, y: 0.32, r: 0.05, att: { B: 0.35, N2: 0.25 } },
+      N2: { x: 0.65, y: 0.6, r: 0.045, att: { B: 0.3, N1: 0.2 } },
+      W1: { x: 0.2, y: 0.55, r: 0.06, inst: true, att: { B: 0.45 } },
+    },
+  },
+  {
+    label: 'Grinding',
+    short: 'Grind',
+    note: 'The credential demands everything — genuine interest fades',
+    persons: {
+      B: { x: 0.4, y: 0.42, r: 0.065, att: { N1: 0.1, N2: 0.05, W1: 0.75 } },
+      N1: { x: 0.72, y: 0.3, r: 0.04, att: { B: 0.2 } },
+      N2: { x: 0.7, y: 0.6, r: 0.03, op: 0.4, att: { B: 0.1 } },
+      W1: { x: 0.2, y: 0.5, r: 0.07, inst: true, att: { B: 0.65 } },
+    },
+  },
+  {
+    label: 'Graduated',
+    short: 'Grad',
+    note: 'Credential obtained — others suddenly appear attending to B',
+    persons: {
+      B: { x: 0.45, y: 0.4, r: 0.06, att: { W1: 0.6, P1: 0.15, P2: 0.1 } },
+      N1: { x: 0.75, y: 0.3, r: 0.035, op: 0.3, att: { B: 0.1 } },
+      N2: { x: 0.73, y: 0.6, r: 0.025, op: 0.15, att: {} },
+      W1: { x: 0.22, y: 0.45, r: 0.075, inst: true, att: { B: 0.7 } },
+      P1: { x: 0.55, y: 0.68, r: 0.045, att: { B: 0.45 } },
+      P2: { x: 0.65, y: 0.52, r: 0.04, att: { B: 0.4 } },
+    },
+  },
+  {
+    label: 'Legible',
+    short: 'Legible',
+    note: 'B is read through the credential — the label mediates all connection',
+    persons: {
+      B: { x: 0.45, y: 0.4, r: 0.05, att: { W1: 0.5, P1: 0.1, P2: 0.1, P3: 0.1 } },
+      N1: { x: 0.78, y: 0.3, r: 0.03, op: 0.1, att: {} },
+      W1: { x: 0.22, y: 0.42, r: 0.075, inst: true, att: { B: 0.7 } },
+      P1: { x: 0.52, y: 0.7, r: 0.045, att: { B: 0.5 } },
+      P2: { x: 0.65, y: 0.55, r: 0.04, att: { B: 0.45 } },
+      P3: { x: 0.6, y: 0.25, r: 0.04, att: { B: 0.4 } },
+    },
+  },
+  {
+    label: 'Emptied',
+    short: 'Empty',
+    note: 'The credential holds but the original curiosity is gone — known by title',
+    persons: {
+      B: { x: 0.45, y: 0.42, r: 0.045, att: { W1: 0.4, P1: 0.08, P2: 0.08 } },
+      W1: { x: 0.24, y: 0.42, r: 0.075, inst: true, att: { B: 0.65 } },
+      P1: { x: 0.5, y: 0.7, r: 0.045, att: { B: 0.5 } },
+      P2: { x: 0.65, y: 0.55, r: 0.04, att: { B: 0.45 } },
+      P3: { x: 0.6, y: 0.25, r: 0.04, att: { B: 0.4 } },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
 // Scenarios registry
 // ═══════════════════════════════════════════════════════════
 const SCENARIOS = {
@@ -1652,6 +1739,11 @@ const SCENARIOS = {
     label: 'Capital',
     desc: 'Attention harvested, capital returned',
     stages: CAPITAL,
+  },
+  credential: {
+    label: 'Credential',
+    desc: 'Attention to the label, not the thing',
+    stages: CREDENTIAL,
   },
 };
 
