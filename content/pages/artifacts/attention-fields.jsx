@@ -18,6 +18,7 @@ const HUES = {
   F1: 150, F2: 270, F3: 180,
   N1: 25, N2: 195,
   W1: 250, W2: 10,
+  L: 0,
 };
 
 const LABELS = {
@@ -25,6 +26,7 @@ const LABELS = {
   F1: 'F\u2081', F2: 'F\u2082', F3: 'F\u2083',
   N1: 'N\u2081', N2: 'N\u2082',
   W1: 'W\u2081', W2: 'W\u2082',
+  L: 'L',
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -246,12 +248,96 @@ const ALIGNMENT = [
 ];
 
 // ═══════════════════════════════════════════════════════════
+// Scenario: Rivalry (convergent desire, love triangle)
+// ═══════════════════════════════════════════════════════════
+const RIVALRY = [
+  {
+    label: 'The Circle', short: 'Circle', age: 22,
+    note: 'A loose social field \u2014 everyone visible, no one yet claimed',
+    persons: {
+      B: { x: 0.30, y: 0.45, r: 0.07, att: { F1: 0.5, F2: 0.4, F3: 0.3 } },
+      F1: { x: 0.45, y: 0.30, r: 0.065, att: { B: 0.45, F2: 0.35, F3: 0.3 } },
+      F2: { x: 0.60, y: 0.50, r: 0.06, att: { B: 0.35, F1: 0.35, F3: 0.3 } },
+      F3: { x: 0.42, y: 0.62, r: 0.055, att: { B: 0.3, F1: 0.25, F2: 0.3 } },
+      L: { x: 0.75, y: 0.38, r: 0.06, att: { F2: 0.2 } },
+    },
+  },
+  {
+    label: 'L Arrives', short: 'Arrival', age: 22,
+    note: 'A new presence enters and the field rearranges around it',
+    persons: {
+      B: { x: 0.28, y: 0.45, r: 0.07, att: { F1: 0.45, F2: 0.3, F3: 0.25, L: 0.4 } },
+      F1: { x: 0.42, y: 0.30, r: 0.065, att: { B: 0.4, F2: 0.25, F3: 0.2, L: 0.45 } },
+      F2: { x: 0.55, y: 0.55, r: 0.055, att: { B: 0.3, F1: 0.25, F3: 0.3 } },
+      F3: { x: 0.38, y: 0.65, r: 0.05, att: { B: 0.25, F2: 0.3 } },
+      L: { x: 0.65, y: 0.38, r: 0.065, att: { F1: 0.2, B: 0.15, F2: 0.15 } },
+    },
+  },
+  {
+    label: 'Convergence', short: 'Converge', age: 23,
+    note: 'Two fields stretch toward the same glow \u2014 rivalry enters before malice',
+    persons: {
+      B: { x: 0.25, y: 0.45, r: 0.08, att: { F1: 0.2, F2: 0.15, L: 0.75 } },
+      F1: { x: 0.40, y: 0.28, r: 0.075, att: { B: 0.15, L: 0.8 } },
+      F2: { x: 0.50, y: 0.60, r: 0.05, att: { B: 0.2, F3: 0.3 } },
+      F3: { x: 0.35, y: 0.68, r: 0.045, att: { F2: 0.3 } },
+      L: { x: 0.62, y: 0.38, r: 0.07, att: { B: 0.3, F1: 0.35 } },
+    },
+  },
+  {
+    label: 'Curation', short: 'Curate', age: 23,
+    note: 'The self reshapes to pass through the bottleneck of legibility',
+    persons: {
+      B: { x: 0.28, y: 0.42, r: 0.085, att: { L: 0.85, F1: 0.1, F2: 0.08 } },
+      F1: { x: 0.42, y: 0.25, r: 0.08, att: { L: 0.85, B: 0.05 } },
+      F2: { x: 0.48, y: 0.65, r: 0.04, att: { F3: 0.3 } },
+      F3: { x: 0.35, y: 0.72, r: 0.035, att: { F2: 0.25 } },
+      L: { x: 0.60, y: 0.36, r: 0.075, att: { F1: 0.5, B: 0.25 } },
+    },
+  },
+  {
+    label: 'Selection', short: 'Select', age: 24,
+    note: 'L\u2019s field tilts \u2014 one is received, one is remainder',
+    persons: {
+      B: { x: 0.22, y: 0.42, r: 0.075, att: { L: 0.7, F1: 0.05 } },
+      F1: { x: 0.48, y: 0.28, r: 0.075, att: { L: 0.7 } },
+      L: { x: 0.60, y: 0.38, r: 0.08, att: { F1: 0.7, B: 0.1 } },
+      F2: { x: 0.50, y: 0.68, r: 0.035, att: { F3: 0.25 } },
+      F3: { x: 0.38, y: 0.74, r: 0.03, att: { F2: 0.2 } },
+    },
+  },
+  {
+    label: 'Withdrawal', short: 'Withdraw', age: 24,
+    note: 'The form that failed to secure the return contracts inward',
+    persons: {
+      B: { x: 0.18, y: 0.48, r: 0.06, att: { L: 0.2, F2: 0.15 } },
+      F1: { x: 0.52, y: 0.32, r: 0.07, att: { L: 0.75 } },
+      L: { x: 0.62, y: 0.40, r: 0.075, att: { F1: 0.75 } },
+      F2: { x: 0.35, y: 0.65, r: 0.04, att: { B: 0.2, F3: 0.2 } },
+      F3: { x: 0.28, y: 0.72, r: 0.035, att: { F2: 0.2 } },
+    },
+  },
+  {
+    label: 'After', short: 'After', age: 25,
+    note: 'The remainder remembers what the field once reached for',
+    persons: {
+      B: { x: 0.20, y: 0.48, r: 0.065, att: { F2: 0.3, N1: 0.25 } },
+      F1: { x: 0.60, y: 0.35, r: 0.065, att: { L: 0.7 } },
+      L: { x: 0.68, y: 0.42, r: 0.065, att: { F1: 0.7 } },
+      F2: { x: 0.32, y: 0.62, r: 0.045, att: { B: 0.3, N1: 0.2 } },
+      N1: { x: 0.38, y: 0.38, r: 0.05, att: { B: 0.25, F2: 0.2 } },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
 // Scenarios registry
 // ═══════════════════════════════════════════════════════════
 const SCENARIOS = {
   drift: { label: 'Drift', desc: 'Gradual separation from parents', stages: DRIFT },
   fracture: { label: 'Fracture', desc: 'Sharp break from parents', stages: FRACTURE },
   alignment: { label: 'Alignment', desc: 'Stays close to parents', stages: ALIGNMENT },
+  rivalry: { label: 'Rivalry', desc: 'Convergent desire, failed recognition', stages: RIVALRY },
 };
 
 const SCENARIO_KEYS = Object.keys(SCENARIOS);
