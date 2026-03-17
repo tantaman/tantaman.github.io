@@ -21,7 +21,8 @@ var HUES = {
   N2: 195,
   W1: 250,
   W2: 10,
-  L: 0
+  L: 0,
+  G: 48
 };
 var LABELS = {
   M: "M",
@@ -34,7 +35,8 @@ var LABELS = {
   N2: "N\u2082",
   W1: "W\u2081",
   W2: "W\u2082",
-  L: "L"
+  L: "L",
+  G: "G"
 };
 var BIRTH = {
   label: "Birth",
@@ -367,11 +369,113 @@ var RIVALRY = [
     }
   }
 ];
+var ORIENTATION = [
+  {
+    label: "Family of God",
+    short: "Family",
+    age: 0,
+    note: "All attention flows upward \u2014 and through that, toward each other",
+    persons: {
+      G: { x: 0.5, y: 0.1, r: 0.13, att: { M: 0.7, D: 0.7, B: 0.8 } },
+      M: { x: 0.35, y: 0.42, r: 0.085, att: { D: 0.6, B: 0.8, G: 0.7 } },
+      D: { x: 0.62, y: 0.4, r: 0.08, att: { M: 0.6, B: 0.75, G: 0.65 } },
+      B: { x: 0.48, y: 0.62, r: 0.035, att: { M: 0.5, D: 0.4, G: 0.3 } }
+    }
+  },
+  {
+    label: "Childhood",
+    short: "Child",
+    age: 4,
+    note: "The child learns to look where the parents look",
+    persons: {
+      G: { x: 0.5, y: 0.1, r: 0.13, att: { M: 0.7, D: 0.7, B: 0.8 } },
+      M: { x: 0.32, y: 0.4, r: 0.08, att: { D: 0.55, B: 0.8, G: 0.7 } },
+      D: { x: 0.64, y: 0.38, r: 0.075, att: { M: 0.55, B: 0.7, G: 0.65 } },
+      B: { x: 0.48, y: 0.58, r: 0.055, att: { M: 0.7, D: 0.6, G: 0.5 } }
+    }
+  },
+  {
+    label: "School",
+    short: "School",
+    age: 8,
+    note: "Church friends overlap before they even know each other well",
+    persons: {
+      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 } },
+      M: { x: 0.22, y: 0.38, r: 0.07, att: { D: 0.5, B: 0.65, G: 0.65 } },
+      D: { x: 0.38, y: 0.34, r: 0.065, att: { M: 0.5, B: 0.55, G: 0.6 } },
+      B: { x: 0.45, y: 0.52, r: 0.065, att: { M: 0.45, D: 0.4, F1: 0.4, F2: 0.35, G: 0.55 } },
+      F1: { x: 0.62, y: 0.48, r: 0.055, att: { B: 0.4, F2: 0.3, G: 0.5 } },
+      F2: { x: 0.72, y: 0.42, r: 0.05, att: { B: 0.3, F1: 0.3, G: 0.45 } }
+    }
+  },
+  {
+    label: "Adolescence",
+    short: "Teen",
+    age: 13,
+    note: "A friend without the shared orientation drifts at the edge",
+    persons: {
+      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 } },
+      M: { x: 0.18, y: 0.35, r: 0.065, att: { D: 0.5, B: 0.55, G: 0.6 } },
+      D: { x: 0.32, y: 0.3, r: 0.06, att: { M: 0.5, B: 0.5, G: 0.55 } },
+      B: { x: 0.44, y: 0.5, r: 0.075, att: { M: 0.3, D: 0.25, F1: 0.5, F2: 0.4, F3: 0.3, G: 0.5 } },
+      F1: { x: 0.58, y: 0.42, r: 0.06, att: { B: 0.45, F2: 0.35, G: 0.5 } },
+      F2: { x: 0.68, y: 0.38, r: 0.055, att: { B: 0.35, F1: 0.35, G: 0.4 } },
+      F3: { x: 0.78, y: 0.62, r: 0.05, att: { B: 0.3, F1: 0.15 } }
+    }
+  },
+  {
+    label: "High School",
+    short: "HS",
+    age: 16,
+    note: "The oriented overlap even when they barely know each other",
+    persons: {
+      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 } },
+      M: { x: 0.14, y: 0.32, r: 0.06, att: { D: 0.5, B: 0.45, G: 0.6 } },
+      D: { x: 0.26, y: 0.28, r: 0.055, att: { M: 0.5, B: 0.4, G: 0.55 } },
+      B: { x: 0.42, y: 0.48, r: 0.08, att: { M: 0.2, D: 0.15, F1: 0.55, F2: 0.45, G: 0.5 } },
+      F1: { x: 0.56, y: 0.4, r: 0.065, att: { B: 0.5, F2: 0.4, G: 0.5 } },
+      F2: { x: 0.68, y: 0.36, r: 0.06, att: { B: 0.4, F1: 0.4, G: 0.45 } },
+      F3: { x: 0.82, y: 0.65, r: 0.045, att: { B: 0.15 } }
+    }
+  },
+  {
+    label: "College",
+    short: "College",
+    age: 20,
+    note: "A stranger who shares the orientation overlaps immediately",
+    persons: {
+      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.5, D: 0.5, B: 0.8, F1: 0.5, N1: 0.6, N2: 0.3 } },
+      M: { x: 0.1, y: 0.3, r: 0.055, att: { D: 0.5, B: 0.35, G: 0.55 } },
+      D: { x: 0.2, y: 0.27, r: 0.05, att: { M: 0.5, B: 0.3, G: 0.5 } },
+      B: { x: 0.4, y: 0.48, r: 0.08, att: { M: 0.15, D: 0.12, F1: 0.25, N1: 0.5, N2: 0.25, G: 0.5 } },
+      F1: { x: 0.62, y: 0.55, r: 0.05, att: { B: 0.3, G: 0.45 } },
+      N1: { x: 0.58, y: 0.38, r: 0.06, att: { B: 0.45, N2: 0.2, G: 0.5 } },
+      N2: { x: 0.75, y: 0.58, r: 0.05, att: { B: 0.2, N1: 0.15 } }
+    }
+  },
+  {
+    label: "Career",
+    short: "Career",
+    age: 26,
+    note: "Scattered across the world \u2014 still overlapping through what they share",
+    persons: {
+      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.5, D: 0.5, B: 0.8, F1: 0.5, N1: 0.6, W1: 0.4 } },
+      M: { x: 0.08, y: 0.32, r: 0.05, att: { D: 0.5, B: 0.3, G: 0.55 } },
+      D: { x: 0.16, y: 0.28, r: 0.045, att: { M: 0.5, B: 0.25, G: 0.5 } },
+      B: { x: 0.38, y: 0.48, r: 0.08, att: { M: 0.12, D: 0.1, N1: 0.35, W1: 0.35, G: 0.5 } },
+      F1: { x: 0.72, y: 0.52, r: 0.045, att: { B: 0.15, G: 0.45 } },
+      N1: { x: 0.55, y: 0.38, r: 0.055, att: { B: 0.3, G: 0.45 } },
+      W1: { x: 0.5, y: 0.65, r: 0.05, att: { B: 0.3, G: 0.4 } },
+      W2: { x: 0.68, y: 0.7, r: 0.04, att: { W1: 0.25 } }
+    }
+  }
+];
 var SCENARIOS = {
   drift: { label: "Drift", desc: "Gradual separation from parents", stages: DRIFT },
   fracture: { label: "Fracture", desc: "Sharp break from parents", stages: FRACTURE },
   alignment: { label: "Alignment", desc: "Stays close to parents", stages: ALIGNMENT },
-  rivalry: { label: "Rivalry", desc: "Convergent desire, failed recognition", stages: RIVALRY }
+  rivalry: { label: "Rivalry", desc: "Convergent desire, failed recognition", stages: RIVALRY },
+  orientation: { label: "Orientation", desc: "Shared orientation toward God", stages: ORIENTATION }
 };
 var SCENARIO_KEYS = Object.keys(SCENARIOS);
 function lerp(a, b, t) {
@@ -388,6 +492,8 @@ function gaussian(x, sigma) {
   return Math.exp(-(x * x) / (2 * sigma * sigma));
 }
 function hsl(id, alpha) {
+  if (id === "G")
+    return `rgba(255, 248, 220, ${alpha})`;
   const h = HUES[id] || 0;
   return `hsla(${h}, 50%, 52%, ${alpha})`;
 }
