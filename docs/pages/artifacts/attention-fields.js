@@ -34,29 +34,31 @@ var LABELS = {
   W1: "W\u2081",
   W2: "W\u2082"
 };
-var STAGES = [
-  {
-    label: "Birth",
-    short: "Birth",
-    age: 0,
-    note: "A child arrives with a nature not yet known to anyone",
-    persons: {
-      M: { x: 0.42, y: 0.33, r: 0.095, att: { D: 0.7, B: 0.9 } },
-      D: { x: 0.58, y: 0.33, r: 0.085, att: { M: 0.7, B: 0.85 } },
-      B: { x: 0.5, y: 0.58, r: 0.035, att: { M: 0.6, D: 0.5 } }
-    }
-  },
-  {
-    label: "Early Childhood",
-    short: "Early",
-    age: 4,
-    note: "The world is the family; the family is the world",
-    persons: {
-      M: { x: 0.38, y: 0.3, r: 0.09, att: { D: 0.6, B: 0.85 } },
-      D: { x: 0.62, y: 0.3, r: 0.085, att: { M: 0.6, B: 0.75 } },
-      B: { x: 0.5, y: 0.53, r: 0.055, att: { M: 0.8, D: 0.7 } }
-    }
-  },
+var BIRTH = {
+  label: "Birth",
+  short: "Birth",
+  age: 0,
+  note: "A child arrives with a nature not yet known to anyone",
+  persons: {
+    M: { x: 0.42, y: 0.33, r: 0.095, att: { D: 0.7, B: 0.9 } },
+    D: { x: 0.58, y: 0.33, r: 0.085, att: { M: 0.7, B: 0.85 } },
+    B: { x: 0.5, y: 0.58, r: 0.035, att: { M: 0.6, D: 0.5 } }
+  }
+};
+var EARLY = {
+  label: "Early Childhood",
+  short: "Early",
+  age: 4,
+  note: "The world is the family; the family is the world",
+  persons: {
+    M: { x: 0.38, y: 0.3, r: 0.09, att: { D: 0.6, B: 0.85 } },
+    D: { x: 0.62, y: 0.3, r: 0.085, att: { M: 0.6, B: 0.75 } },
+    B: { x: 0.5, y: 0.53, r: 0.055, att: { M: 0.8, D: 0.7 } }
+  }
+};
+var DRIFT = [
+  BIRTH,
+  EARLY,
   {
     label: "Elementary School",
     short: "School",
@@ -126,7 +128,156 @@ var STAGES = [
     }
   }
 ];
-var MAX_T = STAGES.length - 1;
+var FRACTURE = [
+  BIRTH,
+  EARLY,
+  {
+    label: "Elementary School",
+    short: "School",
+    age: 8,
+    note: "The first taste of a world parents cannot see",
+    persons: {
+      M: { x: 0.2, y: 0.25, r: 0.075, att: { D: 0.5, B: 0.55 } },
+      D: { x: 0.32, y: 0.22, r: 0.07, att: { M: 0.5, B: 0.45 } },
+      B: { x: 0.45, y: 0.5, r: 0.065, att: { M: 0.35, D: 0.3, F1: 0.6, F2: 0.5 } },
+      F1: { x: 0.65, y: 0.5, r: 0.055, att: { B: 0.55, F2: 0.35 } },
+      F2: { x: 0.75, y: 0.42, r: 0.05, att: { B: 0.45, F1: 0.35 } }
+    }
+  },
+  {
+    label: "Middle School",
+    short: "Middle",
+    age: 12,
+    note: "The break begins \u2014 not in anger, but in distance",
+    persons: {
+      M: { x: 0.1, y: 0.2, r: 0.06, att: { D: 0.5, B: 0.35 } },
+      D: { x: 0.18, y: 0.18, r: 0.055, att: { M: 0.5, B: 0.25 } },
+      B: { x: 0.42, y: 0.5, r: 0.08, att: { M: 0.1, D: 0.08, F1: 0.75, F2: 0.7, F3: 0.6 } },
+      F1: { x: 0.6, y: 0.42, r: 0.065, att: { B: 0.65, F2: 0.45, F3: 0.4 } },
+      F2: { x: 0.7, y: 0.36, r: 0.06, att: { B: 0.6, F1: 0.45, F3: 0.35 } },
+      F3: { x: 0.65, y: 0.56, r: 0.055, att: { B: 0.55, F1: 0.4, F2: 0.35 } }
+    }
+  },
+  {
+    label: "High School",
+    short: "HS",
+    age: 16,
+    note: "What the family cannot hold, the group absorbs",
+    persons: {
+      M: { x: 0.07, y: 0.18, r: 0.05, att: { D: 0.5, B: 0.25 } },
+      D: { x: 0.14, y: 0.15, r: 0.045, att: { M: 0.5, B: 0.2 } },
+      B: { x: 0.4, y: 0.48, r: 0.09, att: { M: 0.04, D: 0.03, F1: 0.8, F2: 0.75, F3: 0.7 } },
+      F1: { x: 0.58, y: 0.4, r: 0.07, att: { B: 0.75, F2: 0.55, F3: 0.5 } },
+      F2: { x: 0.68, y: 0.36, r: 0.065, att: { B: 0.65, F1: 0.55, F3: 0.45 } },
+      F3: { x: 0.62, y: 0.55, r: 0.06, att: { B: 0.6, F1: 0.5, F2: 0.45 } }
+    }
+  },
+  {
+    label: "College",
+    short: "College",
+    age: 20,
+    note: "Freedom from the prior \u2014 but into what?",
+    persons: {
+      M: { x: 0.06, y: 0.15, r: 0.04, att: { D: 0.5, B: 0.15 } },
+      D: { x: 0.12, y: 0.13, r: 0.035, att: { M: 0.5, B: 0.1 } },
+      B: { x: 0.42, y: 0.46, r: 0.09, att: { M: 0.03, D: 0.02, N1: 0.7, N2: 0.6 } },
+      N1: { x: 0.62, y: 0.42, r: 0.065, att: { B: 0.65, N2: 0.45 } },
+      N2: { x: 0.72, y: 0.52, r: 0.06, att: { B: 0.55, N1: 0.45 } }
+    }
+  },
+  {
+    label: "Early Career",
+    short: "Career",
+    age: 26,
+    note: "The remainder grows where connection was severed",
+    persons: {
+      M: { x: 0.06, y: 0.14, r: 0.035, att: { D: 0.5, B: 0.1 } },
+      D: { x: 0.12, y: 0.12, r: 0.03, att: { M: 0.5, B: 0.08 } },
+      B: { x: 0.4, y: 0.44, r: 0.095, att: { M: 0.02, D: 0.01, N1: 0.3, W1: 0.4, W2: 0.35 } },
+      N1: { x: 0.62, y: 0.3, r: 0.045, att: { B: 0.25 } },
+      W1: { x: 0.55, y: 0.68, r: 0.05, att: { B: 0.35, W2: 0.35 } },
+      W2: { x: 0.68, y: 0.72, r: 0.045, att: { B: 0.3, W1: 0.35 } }
+    }
+  }
+];
+var ALIGNMENT = [
+  BIRTH,
+  EARLY,
+  {
+    label: "Elementary School",
+    short: "School",
+    age: 8,
+    note: "Friends arrive, but the family grammar holds",
+    persons: {
+      M: { x: 0.32, y: 0.3, r: 0.085, att: { D: 0.5, B: 0.8 } },
+      D: { x: 0.48, y: 0.26, r: 0.08, att: { M: 0.5, B: 0.7 } },
+      B: { x: 0.42, y: 0.48, r: 0.065, att: { M: 0.75, D: 0.7, F1: 0.3, F2: 0.25 } },
+      F1: { x: 0.65, y: 0.52, r: 0.045, att: { B: 0.3, F2: 0.2 } },
+      F2: { x: 0.74, y: 0.44, r: 0.04, att: { B: 0.25, F1: 0.2 } }
+    }
+  },
+  {
+    label: "Middle School",
+    short: "Middle",
+    age: 12,
+    note: "The peer group orbits the same values",
+    persons: {
+      M: { x: 0.28, y: 0.28, r: 0.08, att: { D: 0.5, B: 0.75 } },
+      D: { x: 0.42, y: 0.24, r: 0.075, att: { M: 0.5, B: 0.65 } },
+      B: { x: 0.4, y: 0.46, r: 0.075, att: { M: 0.7, D: 0.65, F1: 0.35, F2: 0.3, F3: 0.25 } },
+      F1: { x: 0.62, y: 0.46, r: 0.05, att: { B: 0.35, F2: 0.25, F3: 0.2 } },
+      F2: { x: 0.7, y: 0.38, r: 0.045, att: { B: 0.3, F1: 0.25, F3: 0.2 } },
+      F3: { x: 0.66, y: 0.56, r: 0.04, att: { B: 0.25, F1: 0.2, F2: 0.2 } }
+    }
+  },
+  {
+    label: "High School",
+    short: "HS",
+    age: 16,
+    note: "Tight alignment \u2014 recognition without remainder?",
+    persons: {
+      M: { x: 0.24, y: 0.26, r: 0.075, att: { D: 0.5, B: 0.7 } },
+      D: { x: 0.38, y: 0.22, r: 0.07, att: { M: 0.5, B: 0.6 } },
+      B: { x: 0.38, y: 0.44, r: 0.08, att: { M: 0.65, D: 0.6, F1: 0.4, F2: 0.35, F3: 0.3 } },
+      F1: { x: 0.58, y: 0.42, r: 0.055, att: { B: 0.4, F2: 0.3, F3: 0.25 } },
+      F2: { x: 0.66, y: 0.36, r: 0.05, att: { B: 0.35, F1: 0.3, F3: 0.25 } },
+      F3: { x: 0.62, y: 0.54, r: 0.045, att: { B: 0.3, F1: 0.25, F2: 0.25 } }
+    }
+  },
+  {
+    label: "College",
+    short: "College",
+    age: 20,
+    note: "The prior hardens earliest where love is strongest",
+    persons: {
+      M: { x: 0.2, y: 0.24, r: 0.07, att: { D: 0.5, B: 0.6 } },
+      D: { x: 0.32, y: 0.2, r: 0.065, att: { M: 0.5, B: 0.55 } },
+      B: { x: 0.36, y: 0.44, r: 0.085, att: { M: 0.55, D: 0.5, N1: 0.4, N2: 0.35 } },
+      N1: { x: 0.55, y: 0.4, r: 0.05, att: { B: 0.4, N2: 0.3 } },
+      N2: { x: 0.64, y: 0.48, r: 0.045, att: { B: 0.35, N1: 0.3 } }
+    }
+  },
+  {
+    label: "Early Career",
+    short: "Career",
+    age: 26,
+    note: "To be fully known is to be fully managed",
+    persons: {
+      M: { x: 0.18, y: 0.22, r: 0.065, att: { D: 0.5, B: 0.55 } },
+      D: { x: 0.3, y: 0.19, r: 0.06, att: { M: 0.5, B: 0.5 } },
+      B: { x: 0.35, y: 0.42, r: 0.085, att: { M: 0.5, D: 0.45, N1: 0.3, W1: 0.4, W2: 0.35 } },
+      N1: { x: 0.55, y: 0.32, r: 0.045, att: { B: 0.3 } },
+      W1: { x: 0.48, y: 0.62, r: 0.05, att: { B: 0.35, W2: 0.3 } },
+      W2: { x: 0.62, y: 0.66, r: 0.045, att: { B: 0.3, W1: 0.3 } }
+    }
+  }
+];
+var SCENARIOS = {
+  drift: { label: "Drift", desc: "Gradual separation from parents", stages: DRIFT },
+  fracture: { label: "Fracture", desc: "Sharp break from parents", stages: FRACTURE },
+  alignment: { label: "Alignment", desc: "Stays close to parents", stages: ALIGNMENT }
+};
+var SCENARIO_KEYS = Object.keys(SCENARIOS);
 function lerp(a, b, t) {
   return a + (b - a) * t;
 }
@@ -163,12 +314,13 @@ function lerpPerson(a, b, t) {
     att: lerpAtt(a.att, b.att, t)
   };
 }
-function interpolate(tVal) {
-  const clamped = Math.max(0, Math.min(tVal, MAX_T));
-  const idx = Math.min(Math.floor(clamped), MAX_T);
+function interpolate(tVal, stages) {
+  const maxT = stages.length - 1;
+  const clamped = Math.max(0, Math.min(tVal, maxT));
+  const idx = Math.min(Math.floor(clamped), maxT);
   const frac = smoothstep(clamped - idx);
-  const sA = STAGES[idx];
-  const sB = STAGES[Math.min(idx + 1, MAX_T)];
+  const sA = stages[idx];
+  const sB = stages[Math.min(idx + 1, maxT)];
   const allIds = /* @__PURE__ */ new Set([...Object.keys(sA.persons), ...Object.keys(sB.persons)]);
   const persons = {};
   for (const id of allIds) {
@@ -184,11 +336,11 @@ function interpolate(tVal) {
   }
   let note = "";
   let noteAlpha = 0;
-  for (let i = 0; i <= MAX_T; i++) {
-    const a = Math.max(0, 1 - Math.abs(clamped - i) * 2.5);
+  for (let i = 0; i <= maxT; i++) {
+    const a = Math.max(0, 1 - Math.abs(clamped - i) * 1.2);
     if (a > noteAlpha) {
       noteAlpha = a;
-      note = STAGES[i].note || "";
+      note = stages[i].note || "";
     }
   }
   return { persons, note, noteAlpha };
@@ -292,7 +444,7 @@ function draw(ctx, state, W, H, time) {
   }
   if (note && noteAlpha > 0.01) {
     const fs = Math.max(12, Math.min(14, W * 0.017));
-    ctx.fillStyle = `rgba(170,170,165,${noteAlpha * 0.7})`;
+    ctx.fillStyle = `hsla(45, 50%, 65%, ${noteAlpha * 0.85})`;
     ctx.font = `italic ${fs}px Georgia,serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "bottom";
@@ -309,9 +461,13 @@ function AttentionFields() {
   const animRef = useRef(null);
   const dimsRef = useRef({ w: 800, h: 500 });
   const lastSyncRef = useRef(0);
+  const scenarioRef = useRef("drift");
   const [sliderT, setSliderT] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [dims, setDims] = useState({ w: 800, h: 500 });
+  const [scenario, setScenario] = useState("drift");
+  const stages = SCENARIOS[scenario].stages;
+  const maxT = stages.length - 1;
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
@@ -341,11 +497,13 @@ function AttentionFields() {
     function frame(ts) {
       const ctx = ctxRef.current;
       const { w, h } = dimsRef.current;
+      const sc = SCENARIOS[scenarioRef.current];
+      const mt = sc.stages.length - 1;
       if (ctx) {
         if (playingRef.current && lastFrameRef.current != null) {
           const dt = ts - lastFrameRef.current;
-          tRef.current = Math.min(tRef.current + dt * PLAY_SPEED / 1e3, MAX_T);
-          if (tRef.current >= MAX_T) {
+          tRef.current = Math.min(tRef.current + dt * PLAY_SPEED / 1e3, mt);
+          if (tRef.current >= mt) {
             playingRef.current = false;
             setPlaying(false);
           }
@@ -355,7 +513,7 @@ function AttentionFields() {
           }
         }
         lastFrameRef.current = ts;
-        draw(ctx, interpolate(tRef.current), w, h, ts);
+        draw(ctx, interpolate(tRef.current, sc.stages), w, h, ts);
       }
       animRef.current = requestAnimationFrame(frame);
     }
@@ -368,7 +526,8 @@ function AttentionFields() {
     setSliderT(v);
   }, []);
   const onPlay = useCallback(() => {
-    if (tRef.current >= MAX_T) {
+    const mt = SCENARIOS[scenarioRef.current].stages.length - 1;
+    if (tRef.current >= mt) {
       tRef.current = 0;
       setSliderT(0);
     }
@@ -377,7 +536,16 @@ function AttentionFields() {
     lastFrameRef.current = null;
     setPlaying(next);
   }, []);
-  const nearest = STAGES[Math.min(Math.round(sliderT), MAX_T)];
+  const onScenario = useCallback((key) => {
+    scenarioRef.current = key;
+    setScenario(key);
+    tRef.current = 0;
+    setSliderT(0);
+    playingRef.current = false;
+    setPlaying(false);
+    lastFrameRef.current = null;
+  }, []);
+  const nearest = stages[Math.min(Math.round(sliderT), maxT)];
   const labelText = `${nearest.label}  \xB7  age ${nearest.age}`;
   return /* @__PURE__ */ jsxs("div", {
     ref: containerRef,
@@ -389,6 +557,19 @@ function AttentionFields() {
       /* @__PURE__ */ jsx("canvas", {
         ref: canvasRef,
         style: S.canvas
+      }),
+      /* @__PURE__ */ jsx("div", {
+        style: S.scenarioRow,
+        children: SCENARIO_KEYS.map((key) => /* @__PURE__ */ jsx("button", {
+          onClick: () => onScenario(key),
+          style: {
+            ...S.scenarioBtn,
+            background: scenario === key ? "#2a2a2a" : "transparent",
+            color: scenario === key ? "#ccc" : "#666",
+            borderColor: scenario === key ? "#555" : "#333"
+          },
+          children: SCENARIOS[key].label
+        }, key))
       }),
       /* @__PURE__ */ jsxs("div", {
         style: S.controls,
@@ -404,7 +585,7 @@ function AttentionFields() {
                 type: "range",
                 className: "af-range",
                 min: 0,
-                max: MAX_T,
+                max: maxT,
                 step: 5e-3,
                 value: sliderT,
                 onChange: onSlider
@@ -418,7 +599,7 @@ function AttentionFields() {
           }),
           /* @__PURE__ */ jsx("div", {
             style: S.ticks,
-            children: STAGES.map((s, i) => /* @__PURE__ */ jsx("span", {
+            children: stages.map((s, i) => /* @__PURE__ */ jsx("span", {
               style: {
                 ...S.tick,
                 opacity: Math.abs(sliderT - i) < 0.5 ? 1 : 0.4
@@ -481,8 +662,24 @@ var S = {
     width: "100%",
     borderRadius: 4
   },
+  scenarioRow: {
+    display: "flex",
+    justifyContent: "center",
+    gap: 8,
+    marginTop: 16
+  },
+  scenarioBtn: {
+    padding: "5px 14px",
+    fontSize: 12,
+    border: "1px solid #333",
+    borderRadius: 14,
+    cursor: "pointer",
+    letterSpacing: "0.03em",
+    transition: "all 0.2s",
+    fontFamily: "inherit"
+  },
   controls: {
-    marginTop: 20,
+    marginTop: 16,
     padding: "0 4px"
   },
   label: {
