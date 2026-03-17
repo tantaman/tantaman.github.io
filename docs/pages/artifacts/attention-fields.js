@@ -855,7 +855,23 @@ function AttentionFields() {
     });
     observer.observe(container);
     resize(container.offsetWidth);
-    return () => observer.disconnect();
+    let autoplayed = false;
+    const intersect = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !autoplayed && !playingRef.current) {
+          autoplayed = true;
+          playingRef.current = true;
+          lastFrameRef.current = null;
+          setPlaying(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    intersect.observe(container);
+    return () => {
+      observer.disconnect();
+      intersect.disconnect();
+    };
   }, []);
   useEffect(() => {
     function frame(ts) {
