@@ -614,6 +614,126 @@ var CASCADE = [
     }
   }
 ];
+var CONCEALMENT = [
+  {
+    label: "Open",
+    short: "Open",
+    note: "Before the mask \u2014 attention is what it appears to be",
+    persons: {
+      B: { x: 0.45, y: 0.45, r: 0.08, att: { F1: 0.6, F2: 0.55, F3: 0.5 } },
+      F1: { x: 0.25, y: 0.35, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.65, y: 0.32, r: 0.06, att: { B: 0.5, F1: 0.4, F3: 0.35 } },
+      F3: { x: 0.55, y: 0.65, r: 0.055, att: { B: 0.5, F1: 0.3, F2: 0.35 } },
+      N1: { x: 0.82, y: 0.7, r: 0.045, op: 0.3, att: {} }
+    }
+  },
+  {
+    label: "Doubt",
+    short: "Doubt",
+    note: "Something stirs that doesn\u2019t fit the form",
+    persons: {
+      B: {
+        x: 0.45,
+        y: 0.45,
+        r: 0.08,
+        att: { F1: 0.6, F2: 0.55, F3: 0.5 },
+        innerAtt: { F1: 0.4, F2: 0.35, F3: 0.3, N1: 0.45 }
+      },
+      F1: { x: 0.25, y: 0.35, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.65, y: 0.32, r: 0.06, att: { B: 0.5, F1: 0.4, F3: 0.35 } },
+      F3: { x: 0.55, y: 0.65, r: 0.055, att: { B: 0.5, F1: 0.3, F2: 0.35 } },
+      N1: { x: 0.82, y: 0.68, r: 0.05, op: 0.6, att: { B: 0.2 } }
+    }
+  },
+  {
+    label: "Mask",
+    short: "Mask",
+    note: "The performed self replaces the real one",
+    persons: {
+      B: {
+        x: 0.44,
+        y: 0.44,
+        r: 0.08,
+        att: { F1: 0.65, F2: 0.6, F3: 0.55 },
+        innerAtt: { F1: 0.2, F2: 0.15, F3: 0.15, N1: 0.7 }
+      },
+      F1: { x: 0.24, y: 0.34, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.64, y: 0.3, r: 0.06, att: { B: 0.5, F1: 0.4, F3: 0.35 } },
+      F3: { x: 0.54, y: 0.64, r: 0.055, att: { B: 0.5, F1: 0.3, F2: 0.35 } },
+      N1: { x: 0.8, y: 0.65, r: 0.055, att: { B: 0.35 } }
+    }
+  },
+  {
+    label: "Cost",
+    short: "Cost",
+    note: "Connection without presence \u2014 the mask holds but the person doesn\u2019t",
+    persons: {
+      B: {
+        x: 0.44,
+        y: 0.44,
+        r: 0.07,
+        att: { F1: 0.65, F2: 0.6, F3: 0.55 },
+        innerAtt: { F1: 0.1, F2: 0.1, F3: 0.1, N1: 0.8 }
+      },
+      F1: { x: 0.23, y: 0.33, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.63, y: 0.29, r: 0.06, att: { B: 0.5, F1: 0.4, F3: 0.35 } },
+      F3: { x: 0.53, y: 0.63, r: 0.055, att: { B: 0.5, F1: 0.3, F2: 0.35 } },
+      N1: { x: 0.78, y: 0.6, r: 0.055, att: { B: 0.4 } }
+    }
+  },
+  {
+    label: "Crack",
+    short: "Crack",
+    note: "What is hidden shapes what is seen \u2014 attention leaks",
+    persons: {
+      B: {
+        x: 0.46,
+        y: 0.44,
+        r: 0.07,
+        att: { F1: 0.5, F2: 0.45, F3: 0.4, N1: 0.3 },
+        innerAtt: { F1: 0.15, F2: 0.1, F3: 0.1, N1: 0.75 }
+      },
+      F1: { x: 0.23, y: 0.33, r: 0.065, att: { B: 0.45, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.63, y: 0.29, r: 0.06, att: { B: 0.4, F1: 0.4, F3: 0.35 } },
+      F3: { x: 0.53, y: 0.63, r: 0.055, att: { B: 0.4, F1: 0.3, F2: 0.35 } },
+      N1: { x: 0.76, y: 0.55, r: 0.06, att: { B: 0.5 } }
+    }
+  },
+  {
+    label: "Reveal",
+    short: "Reveal",
+    note: "The true field becomes visible",
+    persons: {
+      B: {
+        x: 0.5,
+        y: 0.45,
+        r: 0.075,
+        att: { F1: 0.25, F2: 0.2, F3: 0.2, N1: 0.7 }
+      },
+      F1: { x: 0.22, y: 0.32, r: 0.065, att: { B: 0.3, F2: 0.45, F3: 0.35 } },
+      F2: { x: 0.62, y: 0.28, r: 0.06, att: { B: 0.25, F1: 0.4, F3: 0.4 } },
+      F3: { x: 0.52, y: 0.63, r: 0.055, att: { B: 0.3, F1: 0.35, F2: 0.4 } },
+      N1: { x: 0.72, y: 0.5, r: 0.065, att: { B: 0.6 } }
+    }
+  },
+  {
+    label: "After",
+    short: "After",
+    note: "The group re-forms around what was always there",
+    persons: {
+      B: {
+        x: 0.52,
+        y: 0.45,
+        r: 0.075,
+        att: { F1: 0.3, F3: 0.25, N1: 0.65 }
+      },
+      F1: { x: 0.2, y: 0.32, r: 0.06, att: { B: 0.25, F2: 0.35, F3: 0.4 } },
+      F2: { x: 0.3, y: 0.28, r: 0.05, op: 0.4, att: { F1: 0.4, F3: 0.3 } },
+      F3: { x: 0.42, y: 0.65, r: 0.055, att: { B: 0.3, F1: 0.35 } },
+      N1: { x: 0.68, y: 0.45, r: 0.065, att: { B: 0.6 } }
+    }
+  }
+];
 var SCENARIOS = {
   cascade: {
     label: "Cascade",
@@ -634,6 +754,11 @@ var SCENARIOS = {
     label: "Orientation",
     desc: "Shared orientation toward God",
     stages: ORIENTATION
+  },
+  concealment: {
+    label: "Concealment",
+    desc: "The gap between the performed self and the true one",
+    stages: CONCEALMENT
   }
 };
 var SCENARIO_KEYS = Object.keys(SCENARIOS);
@@ -667,13 +792,17 @@ function lerpAtt(a, b, t) {
   return result;
 }
 function lerpPerson(a, b, t) {
-  return {
+  const result = {
     x: lerp(a.x, b.x, t),
     y: lerp(a.y, b.y, t),
     r: lerp(a.r, b.r, t),
     op: lerp(a.op !== void 0 ? a.op : 1, b.op !== void 0 ? b.op : 1, t),
     att: lerpAtt(a.att, b.att, t)
   };
+  if (a.innerAtt || b.innerAtt) {
+    result.innerAtt = lerpAtt(a.innerAtt || null, b.innerAtt || null, t);
+  }
+  return result;
 }
 function interpolate(tVal, stages) {
   const maxT = stages.length - 1;
@@ -709,7 +838,7 @@ function interpolate(tVal, stages) {
   }
   return { persons, note, noteAlpha };
 }
-function blobPoints(person, id, all, W, H, time) {
+function blobPoints(person, id, all, W, H, time, attOverride) {
   const px = person.x * W;
   const py = person.y * H;
   const baseR = person.r * W;
@@ -718,7 +847,7 @@ function blobPoints(person, id, all, W, H, time) {
   for (let i = 0; i < NUM_ANGLES; i++) {
     const theta = i * ANGLE_STEP;
     let r = baseR;
-    const att = person.att || {};
+    const att = attOverride || person.att || {};
     for (const [tid, weight] of Object.entries(att)) {
       const target = all[tid];
       if (!target || (target.op || 0) < 0.01)
@@ -778,6 +907,17 @@ function draw(ctx, state, W, H, time) {
     const p = persons[id];
     if (p.op < 0.01)
       continue;
+    if (p.innerAtt && Object.keys(p.innerAtt).length > 0) {
+      const ghostPts = blobPoints(p, id, persons, W, H, time, p.innerAtt);
+      smoothPath(ctx, ghostPts);
+      ctx.fillStyle = hsl(id, 0.1 * p.op);
+      ctx.fill();
+      ctx.setLineDash([6, 4]);
+      ctx.strokeStyle = hsl(id, 0.3 * p.op);
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
     const pts = blobPoints(p, id, persons, W, H, time);
     smoothPath(ctx, pts);
     ctx.fillStyle = hsl(id, 0.18 * p.op);
