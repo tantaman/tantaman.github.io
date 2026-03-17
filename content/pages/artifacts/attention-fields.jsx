@@ -1501,7 +1501,6 @@ export default function AttentionFields() {
 // Styles
 // ═══════════════════════════════════════════════════════════
 const CSS = `
-  html, body { margin: 0; padding: 0; background: ${BG}; }
   .af-range {
     -webkit-appearance: none;
     appearance: none;
@@ -1536,10 +1535,9 @@ const S = {
     width: '100%',
     maxWidth: 900,
     margin: '0 auto',
-    padding: '40px 20px 60px',
+    padding: '20px 0',
     fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',
     background: BG,
-    minHeight: '100vh',
     boxSizing: 'border-box',
   },
   canvas: {
