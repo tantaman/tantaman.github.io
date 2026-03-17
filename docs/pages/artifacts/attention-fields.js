@@ -804,6 +804,123 @@ var MEDIATION = [
     }
   }
 ];
+var CAPITAL = [
+  {
+    label: "Friends",
+    short: "Friends",
+    note: "A rich field \u2014 attention flows freely between people",
+    persons: {
+      B: { x: 0.4, y: 0.45, r: 0.075, att: { F1: 0.6, F2: 0.55, F3: 0.5 } },
+      F1: { x: 0.6, y: 0.32, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.65, y: 0.55, r: 0.06, att: { B: 0.5, F1: 0.4, F3: 0.35 } },
+      F3: { x: 0.45, y: 0.68, r: 0.055, att: { B: 0.5, F1: 0.3, F2: 0.35 } }
+    }
+  },
+  {
+    label: "First Job",
+    short: "Hired",
+    note: "A new kind of node appears \u2014 it wants attention but returns something else",
+    persons: {
+      B: {
+        x: 0.38,
+        y: 0.42,
+        r: 0.075,
+        att: { F1: 0.5, F2: 0.45, F3: 0.4, W1: 0.35 }
+      },
+      F1: { x: 0.58, y: 0.28, r: 0.06, att: { B: 0.5, F2: 0.35, F3: 0.25 } },
+      F2: { x: 0.62, y: 0.52, r: 0.055, att: { B: 0.45, F1: 0.35, F3: 0.3 } },
+      F3: { x: 0.42, y: 0.65, r: 0.05, att: { B: 0.45, F1: 0.25, F2: 0.3 } },
+      W1: { x: 0.2, y: 0.6, r: 0.055, inst: true, att: { B: 0.4 } }
+    }
+  },
+  {
+    label: "Investment",
+    short: "Invest",
+    note: "The institution rewards attention with legibility \u2014 the field tilts",
+    persons: {
+      B: {
+        x: 0.4,
+        y: 0.4,
+        r: 0.075,
+        att: { F1: 0.35, F2: 0.3, F3: 0.25, W1: 0.55, W2: 0.4 }
+      },
+      F1: { x: 0.62, y: 0.28, r: 0.055, att: { B: 0.4, F2: 0.3, F3: 0.2 } },
+      F2: { x: 0.65, y: 0.52, r: 0.05, att: { B: 0.35, F1: 0.3, F3: 0.25 } },
+      F3: { x: 0.45, y: 0.68, r: 0.045, att: { B: 0.3, F2: 0.25 } },
+      W1: { x: 0.2, y: 0.55, r: 0.06, inst: true, att: { B: 0.5, W2: 0.3 } },
+      W2: { x: 0.18, y: 0.72, r: 0.05, inst: true, att: { B: 0.35, W1: 0.3 } }
+    }
+  },
+  {
+    label: "Promotion",
+    short: "Promote",
+    note: "More attention demanded, more capital returned \u2014 the exchange deepens",
+    persons: {
+      B: {
+        x: 0.42,
+        y: 0.38,
+        r: 0.07,
+        att: { F1: 0.2, F2: 0.15, F3: 0.1, W1: 0.7, W2: 0.55 }
+      },
+      F1: { x: 0.65, y: 0.28, r: 0.05, att: { B: 0.3, F2: 0.25 } },
+      F2: { x: 0.68, y: 0.5, r: 0.045, att: { B: 0.2, F1: 0.25, F3: 0.2 } },
+      F3: { x: 0.5, y: 0.68, r: 0.04, att: { B: 0.15, F2: 0.2 } },
+      W1: { x: 0.22, y: 0.5, r: 0.065, inst: true, att: { B: 0.6, W2: 0.35 } },
+      W2: { x: 0.2, y: 0.7, r: 0.055, inst: true, att: { B: 0.45, W1: 0.35 } }
+    }
+  },
+  {
+    label: "Capture",
+    short: "Capture",
+    note: "The institution holds nearly all of B\u2019s attention \u2014 friends become silhouettes",
+    persons: {
+      B: {
+        x: 0.45,
+        y: 0.38,
+        r: 0.065,
+        att: { F1: 0.08, F2: 0.05, W1: 0.8, W2: 0.65 }
+      },
+      F1: { x: 0.72, y: 0.3, r: 0.04, att: { B: 0.15 } },
+      F2: { x: 0.75, y: 0.52, r: 0.035, op: 0.5, att: { B: 0.1, F1: 0.15 } },
+      F3: { x: 0.58, y: 0.72, r: 0.03, op: 0.25, att: {} },
+      W1: { x: 0.24, y: 0.45, r: 0.07, inst: true, att: { B: 0.7, W2: 0.4 } },
+      W2: { x: 0.22, y: 0.68, r: 0.06, inst: true, att: { B: 0.55, W1: 0.4 } }
+    }
+  },
+  {
+    label: "Accumulation",
+    short: "Accum",
+    note: "Capital accumulates \u2014 but what returns from work is not what was sent",
+    persons: {
+      B: {
+        x: 0.48,
+        y: 0.4,
+        r: 0.06,
+        att: { F1: 0.05, W1: 0.8, W2: 0.7 }
+      },
+      F1: { x: 0.75, y: 0.35, r: 0.035, op: 0.35, att: { B: 0.1 } },
+      F2: { x: 0.78, y: 0.55, r: 0.03, op: 0.15, att: {} },
+      W1: { x: 0.25, y: 0.42, r: 0.075, inst: true, att: { B: 0.75, W2: 0.4 } },
+      W2: { x: 0.22, y: 0.65, r: 0.065, inst: true, att: { B: 0.6, W1: 0.4 } }
+    }
+  },
+  {
+    label: "Hollowed",
+    short: "Hollow",
+    note: "Legible, credited, known by title \u2014 but the field that once held people is empty",
+    persons: {
+      B: {
+        x: 0.5,
+        y: 0.42,
+        r: 0.05,
+        att: { W1: 0.6, W2: 0.5 }
+      },
+      F1: { x: 0.78, y: 0.4, r: 0.03, op: 0.1, att: {} },
+      W1: { x: 0.28, y: 0.4, r: 0.075, inst: true, att: { B: 0.7, W2: 0.4 } },
+      W2: { x: 0.25, y: 0.65, r: 0.065, inst: true, att: { B: 0.55, W1: 0.4 } }
+    }
+  }
+];
 var SCENARIOS = {
   cascade: {
     label: "Cascade",
@@ -834,6 +951,11 @@ var SCENARIOS = {
     label: "Mediation",
     desc: "Connected only through a third",
     stages: MEDIATION
+  },
+  capital: {
+    label: "Capital",
+    desc: "Attention harvested, capital returned",
+    stages: CAPITAL
   }
 };
 var SCENARIO_KEYS = Object.keys(SCENARIOS);
@@ -850,9 +972,11 @@ function angleDist(a, b) {
 function gaussian(x, sigma) {
   return Math.exp(-(x * x) / (2 * sigma * sigma));
 }
-function hsl(id, alpha) {
+function hsl(id, alpha, inst) {
   if (id === "G")
     return `rgba(255, 248, 220, ${alpha})`;
+  if (inst)
+    return `rgba(218, 185, 107, ${alpha})`;
   const h = HUES[id] || 0;
   return `hsla(${h}, 50%, 52%, ${alpha})`;
 }
@@ -874,6 +998,8 @@ function lerpPerson(a, b, t) {
     op: lerp(a.op !== void 0 ? a.op : 1, b.op !== void 0 ? b.op : 1, t),
     att: lerpAtt(a.att, b.att, t)
   };
+  if (a.inst || b.inst)
+    result.inst = true;
   if (a.innerAtt || b.innerAtt) {
     result.innerAtt = lerpAtt(a.innerAtt || null, b.innerAtt || null, t);
   }
@@ -985,21 +1111,45 @@ function draw(ctx, state, W, H, time) {
     if (p.innerAtt && Object.keys(p.innerAtt).length > 0) {
       const ghostPts = blobPoints(p, id, persons, W, H, time, p.innerAtt);
       smoothPath(ctx, ghostPts);
-      ctx.fillStyle = hsl(id, 0.1 * p.op);
+      ctx.fillStyle = hsl(id, 0.1 * p.op, p.inst);
       ctx.fill();
       ctx.setLineDash([6, 4]);
-      ctx.strokeStyle = hsl(id, 0.3 * p.op);
+      ctx.strokeStyle = hsl(id, 0.3 * p.op, p.inst);
       ctx.lineWidth = 1.5;
       ctx.stroke();
       ctx.setLineDash([]);
     }
     const pts = blobPoints(p, id, persons, W, H, time);
     smoothPath(ctx, pts);
-    ctx.fillStyle = hsl(id, 0.18 * p.op);
+    ctx.fillStyle = hsl(id, 0.18 * p.op, p.inst);
     ctx.fill();
-    ctx.strokeStyle = hsl(id, 0.4 * p.op);
+    ctx.strokeStyle = hsl(id, 0.4 * p.op, p.inst);
     ctx.lineWidth = 1.8;
     ctx.stroke();
+  }
+  for (const id of ids) {
+    const p = persons[id];
+    if (!p.inst || p.op < 0.01)
+      continue;
+    const px = p.x * W;
+    const py = p.y * H;
+    for (const [tid, weight] of Object.entries(p.att || {})) {
+      const target = persons[tid];
+      if (!target || (target.op !== void 0 ? target.op : 1) < 0.01)
+        continue;
+      if (target.inst)
+        continue;
+      const tx = target.x * W;
+      const ty = target.y * H;
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      ctx.lineTo(tx, ty);
+      ctx.setLineDash([8, 6]);
+      ctx.strokeStyle = `rgba(218, 185, 107, ${0.35 * weight * p.op})`;
+      ctx.lineWidth = Math.max(1.5, weight * 4);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
   }
   for (const id of ids) {
     const p = persons[id];
@@ -1008,13 +1158,27 @@ function draw(ctx, state, W, H, time) {
     const cx = p.x * W;
     const cy = p.y * H;
     const nr = Math.max(10, p.r * W * 0.22);
-    ctx.beginPath();
-    ctx.arc(cx, cy, nr, 0, TWO_PI);
-    ctx.fillStyle = hsl(id, 0.85 * p.op);
-    ctx.fill();
-    ctx.strokeStyle = `rgba(255,255,255,${0.5 * p.op})`;
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
+    if (p.inst) {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - nr);
+      ctx.lineTo(cx + nr, cy);
+      ctx.lineTo(cx, cy + nr);
+      ctx.lineTo(cx - nr, cy);
+      ctx.closePath();
+      ctx.fillStyle = hsl(id, 0.85 * p.op, true);
+      ctx.fill();
+      ctx.strokeStyle = `rgba(218, 185, 107, ${0.6 * p.op})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    } else {
+      ctx.beginPath();
+      ctx.arc(cx, cy, nr, 0, TWO_PI);
+      ctx.fillStyle = hsl(id, 0.85 * p.op);
+      ctx.fill();
+      ctx.strokeStyle = `rgba(255,255,255,${0.5 * p.op})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
     ctx.fillStyle = `rgba(255,255,255,${0.9 * p.op})`;
     ctx.font = `bold ${Math.max(10, nr * 0.85)}px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
     ctx.textAlign = "center";
@@ -1258,6 +1422,7 @@ var S = {
   scenarioRow: {
     display: "flex",
     justifyContent: "center",
+    flexWrap: "wrap",
     gap: 8,
     marginTop: 16
   },
