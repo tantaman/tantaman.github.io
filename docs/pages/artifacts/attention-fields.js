@@ -56,337 +56,6 @@ var LABELS = {
   P7: "P\u2087",
   P8: "P\u2088"
 };
-var BIRTH = {
-  label: "Birth",
-  short: "Birth",
-  age: 0,
-  note: "A child arrives with a nature not yet known to anyone",
-  persons: {
-    M: { x: 0.42, y: 0.33, r: 0.095, att: { D: 0.7, B: 0.9 } },
-    D: { x: 0.58, y: 0.33, r: 0.085, att: { M: 0.7, B: 0.85 } },
-    B: { x: 0.5, y: 0.58, r: 0.035, att: { M: 0.6, D: 0.5 } }
-  }
-};
-var EARLY = {
-  label: "Early Childhood",
-  short: "Early",
-  age: 4,
-  note: "The world is the family; the family is the world",
-  persons: {
-    M: { x: 0.38, y: 0.3, r: 0.09, att: { D: 0.6, B: 0.85 } },
-    D: { x: 0.62, y: 0.3, r: 0.085, att: { M: 0.6, B: 0.75 } },
-    B: { x: 0.5, y: 0.53, r: 0.055, att: { M: 0.8, D: 0.7 } }
-  }
-};
-var DRIFT = [
-  BIRTH,
-  EARLY,
-  {
-    label: "Elementary School",
-    short: "School",
-    age: 8,
-    note: "New fields pull attention in new directions",
-    persons: {
-      M: { x: 0.25, y: 0.28, r: 0.08, att: { D: 0.5, B: 0.65 } },
-      D: { x: 0.38, y: 0.24, r: 0.075, att: { M: 0.5, B: 0.55 } },
-      B: { x: 0.45, y: 0.5, r: 0.065, att: { M: 0.5, D: 0.45, F1: 0.5, F2: 0.4 } },
-      F1: { x: 0.65, y: 0.52, r: 0.055, att: { B: 0.5, F2: 0.3 } },
-      F2: { x: 0.75, y: 0.42, r: 0.05, att: { B: 0.35, F1: 0.3 } }
-    }
-  },
-  {
-    label: "Middle School",
-    short: "Middle",
-    age: 12,
-    note: "The peer group becomes a second gravity",
-    persons: {
-      M: { x: 0.18, y: 0.25, r: 0.07, att: { D: 0.5, B: 0.5 } },
-      D: { x: 0.28, y: 0.22, r: 0.065, att: { M: 0.5, B: 0.4 } },
-      B: { x: 0.42, y: 0.5, r: 0.075, att: { M: 0.3, D: 0.25, F1: 0.65, F2: 0.6, F3: 0.5 } },
-      F1: { x: 0.62, y: 0.45, r: 0.06, att: { B: 0.55, F2: 0.4, F3: 0.35 } },
-      F2: { x: 0.72, y: 0.38, r: 0.055, att: { B: 0.5, F1: 0.4, F3: 0.3 } },
-      F3: { x: 0.67, y: 0.58, r: 0.05, att: { B: 0.45, F1: 0.35, F2: 0.3 } }
-    }
-  },
-  {
-    label: "High School",
-    short: "HS",
-    age: 16,
-    note: "Not imitation \u2014 convergence on what the shared world makes glow",
-    persons: {
-      M: { x: 0.12, y: 0.25, r: 0.065, att: { D: 0.5, B: 0.4 } },
-      D: { x: 0.22, y: 0.22, r: 0.06, att: { M: 0.5, B: 0.35 } },
-      B: { x: 0.38, y: 0.5, r: 0.08, att: { M: 0.2, D: 0.15, F1: 0.7, F2: 0.65, F3: 0.55 } },
-      F1: { x: 0.58, y: 0.42, r: 0.065, att: { B: 0.65, F2: 0.5, F3: 0.45 } },
-      F2: { x: 0.68, y: 0.38, r: 0.06, att: { B: 0.55, F1: 0.5, F3: 0.4 } },
-      F3: { x: 0.63, y: 0.55, r: 0.055, att: { B: 0.5, F1: 0.45, F2: 0.4 } }
-    }
-  },
-  {
-    label: "College",
-    short: "College",
-    age: 20,
-    note: "The prior begins to form \u2014 others learn how to read you",
-    persons: {
-      M: { x: 0.1, y: 0.22, r: 0.06, att: { D: 0.5, B: 0.35 } },
-      D: { x: 0.2, y: 0.2, r: 0.055, att: { M: 0.5, B: 0.3 } },
-      B: { x: 0.42, y: 0.48, r: 0.085, att: { M: 0.15, D: 0.12, N1: 0.65, N2: 0.55 } },
-      N1: { x: 0.62, y: 0.45, r: 0.06, att: { B: 0.6, N2: 0.4 } },
-      N2: { x: 0.72, y: 0.52, r: 0.055, att: { B: 0.5, N1: 0.4 } }
-    }
-  },
-  {
-    label: "Early Career",
-    short: "Career",
-    age: 26,
-    note: "Being understood becomes being trapped",
-    persons: {
-      M: { x: 0.1, y: 0.2, r: 0.055, att: { D: 0.5, B: 0.3 } },
-      D: { x: 0.2, y: 0.18, r: 0.05, att: { M: 0.5, B: 0.25 } },
-      B: { x: 0.4, y: 0.42, r: 0.085, att: { M: 0.12, D: 0.1, N1: 0.45, W1: 0.5, W2: 0.4 } },
-      N1: { x: 0.6, y: 0.32, r: 0.055, att: { B: 0.4 } },
-      W1: { x: 0.55, y: 0.65, r: 0.055, att: { B: 0.45, W2: 0.4 } },
-      W2: { x: 0.68, y: 0.7, r: 0.05, att: { B: 0.35, W1: 0.4 } }
-    }
-  }
-];
-var FRACTURE = [
-  BIRTH,
-  EARLY,
-  {
-    label: "Elementary School",
-    short: "School",
-    age: 8,
-    note: "The first taste of a world parents cannot see",
-    persons: {
-      M: { x: 0.2, y: 0.25, r: 0.075, att: { D: 0.5, B: 0.55 } },
-      D: { x: 0.32, y: 0.22, r: 0.07, att: { M: 0.5, B: 0.45 } },
-      B: { x: 0.45, y: 0.5, r: 0.065, att: { M: 0.35, D: 0.3, F1: 0.6, F2: 0.5 } },
-      F1: { x: 0.65, y: 0.5, r: 0.055, att: { B: 0.55, F2: 0.35 } },
-      F2: { x: 0.75, y: 0.42, r: 0.05, att: { B: 0.45, F1: 0.35 } }
-    }
-  },
-  {
-    label: "Middle School",
-    short: "Middle",
-    age: 12,
-    note: "The break begins \u2014 not in anger, but in distance",
-    persons: {
-      M: { x: 0.1, y: 0.2, r: 0.06, att: { D: 0.5, B: 0.35 } },
-      D: { x: 0.18, y: 0.18, r: 0.055, att: { M: 0.5, B: 0.25 } },
-      B: { x: 0.42, y: 0.5, r: 0.08, att: { M: 0.1, D: 0.08, F1: 0.75, F2: 0.7, F3: 0.6 } },
-      F1: { x: 0.6, y: 0.42, r: 0.065, att: { B: 0.65, F2: 0.45, F3: 0.4 } },
-      F2: { x: 0.7, y: 0.36, r: 0.06, att: { B: 0.6, F1: 0.45, F3: 0.35 } },
-      F3: { x: 0.65, y: 0.56, r: 0.055, att: { B: 0.55, F1: 0.4, F2: 0.35 } }
-    }
-  },
-  {
-    label: "High School",
-    short: "HS",
-    age: 16,
-    note: "What the family cannot hold, the group absorbs",
-    persons: {
-      M: { x: 0.07, y: 0.18, r: 0.05, att: { D: 0.5, B: 0.25 } },
-      D: { x: 0.14, y: 0.15, r: 0.045, att: { M: 0.5, B: 0.2 } },
-      B: { x: 0.4, y: 0.48, r: 0.09, att: { M: 0.04, D: 0.03, F1: 0.8, F2: 0.75, F3: 0.7 } },
-      F1: { x: 0.58, y: 0.4, r: 0.07, att: { B: 0.75, F2: 0.55, F3: 0.5 } },
-      F2: { x: 0.68, y: 0.36, r: 0.065, att: { B: 0.65, F1: 0.55, F3: 0.45 } },
-      F3: { x: 0.62, y: 0.55, r: 0.06, att: { B: 0.6, F1: 0.5, F2: 0.45 } }
-    }
-  },
-  {
-    label: "College",
-    short: "College",
-    age: 20,
-    note: "Freedom from the prior \u2014 but into what?",
-    persons: {
-      M: { x: 0.06, y: 0.15, r: 0.04, att: { D: 0.5, B: 0.15 } },
-      D: { x: 0.12, y: 0.13, r: 0.035, att: { M: 0.5, B: 0.1 } },
-      B: { x: 0.42, y: 0.46, r: 0.09, att: { M: 0.03, D: 0.02, N1: 0.7, N2: 0.6 } },
-      N1: { x: 0.62, y: 0.42, r: 0.065, att: { B: 0.65, N2: 0.45 } },
-      N2: { x: 0.72, y: 0.52, r: 0.06, att: { B: 0.55, N1: 0.45 } }
-    }
-  },
-  {
-    label: "Early Career",
-    short: "Career",
-    age: 26,
-    note: "The remainder grows where connection was severed",
-    persons: {
-      M: { x: 0.06, y: 0.14, r: 0.035, att: { D: 0.5, B: 0.1 } },
-      D: { x: 0.12, y: 0.12, r: 0.03, att: { M: 0.5, B: 0.08 } },
-      B: { x: 0.4, y: 0.44, r: 0.095, att: { M: 0.02, D: 0.01, N1: 0.3, W1: 0.4, W2: 0.35 } },
-      N1: { x: 0.62, y: 0.3, r: 0.045, att: { B: 0.25 } },
-      W1: { x: 0.55, y: 0.68, r: 0.05, att: { B: 0.35, W2: 0.35 } },
-      W2: { x: 0.68, y: 0.72, r: 0.045, att: { B: 0.3, W1: 0.35 } }
-    }
-  }
-];
-var ALIGNMENT = [
-  BIRTH,
-  EARLY,
-  {
-    label: "Elementary School",
-    short: "School",
-    age: 8,
-    note: "Friends arrive, but the family grammar holds",
-    persons: {
-      M: { x: 0.32, y: 0.3, r: 0.085, att: { D: 0.5, B: 0.8 } },
-      D: { x: 0.48, y: 0.26, r: 0.08, att: { M: 0.5, B: 0.7 } },
-      B: { x: 0.42, y: 0.48, r: 0.065, att: { M: 0.75, D: 0.7, F1: 0.3, F2: 0.25 } },
-      F1: { x: 0.65, y: 0.52, r: 0.045, att: { B: 0.3, F2: 0.2 } },
-      F2: { x: 0.74, y: 0.44, r: 0.04, att: { B: 0.25, F1: 0.2 } }
-    }
-  },
-  {
-    label: "Middle School",
-    short: "Middle",
-    age: 12,
-    note: "The peer group orbits the same values",
-    persons: {
-      M: { x: 0.28, y: 0.28, r: 0.08, att: { D: 0.5, B: 0.75 } },
-      D: { x: 0.42, y: 0.24, r: 0.075, att: { M: 0.5, B: 0.65 } },
-      B: { x: 0.4, y: 0.46, r: 0.075, att: { M: 0.7, D: 0.65, F1: 0.35, F2: 0.3, F3: 0.25 } },
-      F1: { x: 0.62, y: 0.46, r: 0.05, att: { B: 0.35, F2: 0.25, F3: 0.2 } },
-      F2: { x: 0.7, y: 0.38, r: 0.045, att: { B: 0.3, F1: 0.25, F3: 0.2 } },
-      F3: { x: 0.66, y: 0.56, r: 0.04, att: { B: 0.25, F1: 0.2, F2: 0.2 } }
-    }
-  },
-  {
-    label: "High School",
-    short: "HS",
-    age: 16,
-    note: "Tight alignment \u2014 recognition without remainder?",
-    persons: {
-      M: { x: 0.24, y: 0.26, r: 0.075, att: { D: 0.5, B: 0.7 } },
-      D: { x: 0.38, y: 0.22, r: 0.07, att: { M: 0.5, B: 0.6 } },
-      B: { x: 0.38, y: 0.44, r: 0.08, att: { M: 0.65, D: 0.6, F1: 0.4, F2: 0.35, F3: 0.3 } },
-      F1: { x: 0.58, y: 0.42, r: 0.055, att: { B: 0.4, F2: 0.3, F3: 0.25 } },
-      F2: { x: 0.66, y: 0.36, r: 0.05, att: { B: 0.35, F1: 0.3, F3: 0.25 } },
-      F3: { x: 0.62, y: 0.54, r: 0.045, att: { B: 0.3, F1: 0.25, F2: 0.25 } }
-    }
-  },
-  {
-    label: "College",
-    short: "College",
-    age: 20,
-    note: "The prior hardens earliest where love is strongest",
-    persons: {
-      M: { x: 0.2, y: 0.24, r: 0.07, att: { D: 0.5, B: 0.6 } },
-      D: { x: 0.32, y: 0.2, r: 0.065, att: { M: 0.5, B: 0.55 } },
-      B: { x: 0.36, y: 0.44, r: 0.085, att: { M: 0.55, D: 0.5, N1: 0.4, N2: 0.35 } },
-      N1: { x: 0.55, y: 0.4, r: 0.05, att: { B: 0.4, N2: 0.3 } },
-      N2: { x: 0.64, y: 0.48, r: 0.045, att: { B: 0.35, N1: 0.3 } }
-    }
-  },
-  {
-    label: "Early Career",
-    short: "Career",
-    age: 26,
-    note: "To be fully known is to be fully managed",
-    persons: {
-      M: { x: 0.18, y: 0.22, r: 0.065, att: { D: 0.5, B: 0.55 } },
-      D: { x: 0.3, y: 0.19, r: 0.06, att: { M: 0.5, B: 0.5 } },
-      B: { x: 0.35, y: 0.42, r: 0.085, att: { M: 0.5, D: 0.45, N1: 0.3, W1: 0.4, W2: 0.35 } },
-      N1: { x: 0.55, y: 0.32, r: 0.045, att: { B: 0.3 } },
-      W1: { x: 0.48, y: 0.62, r: 0.05, att: { B: 0.35, W2: 0.3 } },
-      W2: { x: 0.62, y: 0.66, r: 0.045, att: { B: 0.3, W1: 0.3 } }
-    }
-  }
-];
-var RIVALRY = [
-  {
-    label: "The Circle",
-    short: "Circle",
-    age: 22,
-    note: "A loose social field \u2014 everyone visible, no one yet claimed",
-    persons: {
-      B: { x: 0.3, y: 0.45, r: 0.07, att: { F1: 0.5, F2: 0.4, F3: 0.3 } },
-      F1: { x: 0.45, y: 0.3, r: 0.065, att: { B: 0.45, F2: 0.35, F3: 0.3 } },
-      F2: { x: 0.6, y: 0.5, r: 0.06, att: { B: 0.35, F1: 0.35, F3: 0.3 } },
-      F3: { x: 0.42, y: 0.62, r: 0.055, att: { B: 0.3, F1: 0.25, F2: 0.3 } },
-      L: { x: 0.75, y: 0.38, r: 0.06, att: { F2: 0.2 } }
-    }
-  },
-  {
-    label: "L Arrives",
-    short: "Arrival",
-    age: 22,
-    note: "A new presence enters and the field rearranges around it",
-    persons: {
-      B: { x: 0.28, y: 0.45, r: 0.07, att: { F1: 0.45, F2: 0.3, F3: 0.25, L: 0.4 } },
-      F1: { x: 0.42, y: 0.3, r: 0.065, att: { B: 0.4, F2: 0.25, F3: 0.2, L: 0.45 } },
-      F2: { x: 0.55, y: 0.55, r: 0.055, att: { B: 0.3, F1: 0.25, F3: 0.3 } },
-      F3: { x: 0.38, y: 0.65, r: 0.05, att: { B: 0.25, F2: 0.3 } },
-      L: { x: 0.65, y: 0.38, r: 0.065, att: { F1: 0.2, B: 0.15, F2: 0.15 } }
-    }
-  },
-  {
-    label: "Convergence",
-    short: "Converge",
-    age: 23,
-    note: "Two fields stretch toward the same glow \u2014 rivalry enters before malice",
-    persons: {
-      B: { x: 0.25, y: 0.45, r: 0.08, att: { F1: 0.2, F2: 0.15, L: 0.75 } },
-      F1: { x: 0.4, y: 0.28, r: 0.075, att: { B: 0.15, L: 0.8 } },
-      F2: { x: 0.5, y: 0.6, r: 0.05, att: { B: 0.2, F3: 0.3 } },
-      F3: { x: 0.35, y: 0.68, r: 0.045, att: { F2: 0.3 } },
-      L: { x: 0.62, y: 0.38, r: 0.07, att: { B: 0.3, F1: 0.35 } }
-    }
-  },
-  {
-    label: "Curation",
-    short: "Curate",
-    age: 23,
-    note: "The self reshapes to pass through the bottleneck of legibility",
-    persons: {
-      B: { x: 0.28, y: 0.42, r: 0.085, att: { L: 0.85, F1: 0.1, F2: 0.08 } },
-      F1: { x: 0.42, y: 0.25, r: 0.08, att: { L: 0.85, B: 0.05 } },
-      F2: { x: 0.48, y: 0.65, r: 0.04, att: { F3: 0.3 } },
-      F3: { x: 0.35, y: 0.72, r: 0.035, att: { F2: 0.25 } },
-      L: { x: 0.6, y: 0.36, r: 0.075, att: { F1: 0.5, B: 0.25 } }
-    }
-  },
-  {
-    label: "Selection",
-    short: "Select",
-    age: 24,
-    note: "L\u2019s field tilts \u2014 one is received, one is remainder",
-    persons: {
-      B: { x: 0.22, y: 0.42, r: 0.075, att: { L: 0.7, F1: 0.05 } },
-      F1: { x: 0.48, y: 0.28, r: 0.075, att: { L: 0.7 } },
-      L: { x: 0.6, y: 0.38, r: 0.08, att: { F1: 0.7, B: 0.1 } },
-      F2: { x: 0.5, y: 0.68, r: 0.035, att: { F3: 0.25 } },
-      F3: { x: 0.38, y: 0.74, r: 0.03, att: { F2: 0.2 } }
-    }
-  },
-  {
-    label: "Withdrawal",
-    short: "Withdraw",
-    age: 24,
-    note: "The form that failed to secure the return contracts inward",
-    persons: {
-      B: { x: 0.18, y: 0.48, r: 0.06, att: { L: 0.2, F2: 0.15 } },
-      F1: { x: 0.52, y: 0.32, r: 0.07, att: { L: 0.75 } },
-      L: { x: 0.62, y: 0.4, r: 0.075, att: { F1: 0.75 } },
-      F2: { x: 0.35, y: 0.65, r: 0.04, att: { B: 0.2, F3: 0.2 } },
-      F3: { x: 0.28, y: 0.72, r: 0.035, att: { F2: 0.2 } }
-    }
-  },
-  {
-    label: "After",
-    short: "After",
-    age: 25,
-    note: "The remainder remembers what the field once reached for",
-    persons: {
-      B: { x: 0.2, y: 0.48, r: 0.065, att: { F2: 0.3, N1: 0.25 } },
-      F1: { x: 0.6, y: 0.35, r: 0.065, att: { L: 0.7 } },
-      L: { x: 0.68, y: 0.42, r: 0.065, att: { F1: 0.7 } },
-      F2: { x: 0.32, y: 0.62, r: 0.045, att: { B: 0.3, N1: 0.2 } },
-      N1: { x: 0.38, y: 0.38, r: 0.05, att: { B: 0.25, F2: 0.2 } }
-    }
-  }
-];
 var ORIENTATION = [
   {
     label: "Family of God",
@@ -418,10 +87,20 @@ var ORIENTATION = [
     age: 8,
     note: "Church friends overlap before they even know each other well",
     persons: {
-      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 } },
+      G: {
+        x: 0.5,
+        y: 0.08,
+        r: 0.13,
+        att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 }
+      },
       M: { x: 0.22, y: 0.38, r: 0.07, att: { D: 0.5, B: 0.65, G: 0.65 } },
       D: { x: 0.38, y: 0.34, r: 0.065, att: { M: 0.5, B: 0.55, G: 0.6 } },
-      B: { x: 0.45, y: 0.52, r: 0.065, att: { M: 0.45, D: 0.4, F1: 0.4, F2: 0.35, G: 0.55 } },
+      B: {
+        x: 0.45,
+        y: 0.52,
+        r: 0.065,
+        att: { M: 0.45, D: 0.4, F1: 0.4, F2: 0.35, G: 0.55 }
+      },
       F1: { x: 0.62, y: 0.48, r: 0.055, att: { B: 0.4, F2: 0.3, G: 0.5 } },
       F2: { x: 0.72, y: 0.42, r: 0.05, att: { B: 0.3, F1: 0.3, G: 0.45 } }
     }
@@ -432,10 +111,20 @@ var ORIENTATION = [
     age: 13,
     note: "A friend without the shared orientation drifts at the edge",
     persons: {
-      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 } },
+      G: {
+        x: 0.5,
+        y: 0.08,
+        r: 0.13,
+        att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 }
+      },
       M: { x: 0.18, y: 0.35, r: 0.065, att: { D: 0.5, B: 0.55, G: 0.6 } },
       D: { x: 0.32, y: 0.3, r: 0.06, att: { M: 0.5, B: 0.5, G: 0.55 } },
-      B: { x: 0.44, y: 0.5, r: 0.075, att: { M: 0.3, D: 0.25, F1: 0.5, F2: 0.4, F3: 0.3, G: 0.5 } },
+      B: {
+        x: 0.44,
+        y: 0.5,
+        r: 0.075,
+        att: { M: 0.3, D: 0.25, F1: 0.5, F2: 0.4, F3: 0.3, G: 0.5 }
+      },
       F1: { x: 0.58, y: 0.42, r: 0.06, att: { B: 0.45, F2: 0.35, G: 0.5 } },
       F2: { x: 0.68, y: 0.38, r: 0.055, att: { B: 0.35, F1: 0.35, G: 0.4 } },
       F3: { x: 0.78, y: 0.62, r: 0.05, att: { B: 0.3, F1: 0.15 } }
@@ -447,10 +136,20 @@ var ORIENTATION = [
     age: 16,
     note: "The oriented overlap even when they barely know each other",
     persons: {
-      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 } },
+      G: {
+        x: 0.5,
+        y: 0.08,
+        r: 0.13,
+        att: { M: 0.6, D: 0.6, B: 0.8, F1: 0.6, F2: 0.6 }
+      },
       M: { x: 0.14, y: 0.32, r: 0.06, att: { D: 0.5, B: 0.45, G: 0.6 } },
       D: { x: 0.26, y: 0.28, r: 0.055, att: { M: 0.5, B: 0.4, G: 0.55 } },
-      B: { x: 0.42, y: 0.48, r: 0.08, att: { M: 0.2, D: 0.15, F1: 0.55, F2: 0.45, G: 0.5 } },
+      B: {
+        x: 0.42,
+        y: 0.48,
+        r: 0.08,
+        att: { M: 0.2, D: 0.15, F1: 0.55, F2: 0.45, G: 0.5 }
+      },
       F1: { x: 0.56, y: 0.4, r: 0.065, att: { B: 0.5, F2: 0.4, G: 0.5 } },
       F2: { x: 0.68, y: 0.36, r: 0.06, att: { B: 0.4, F1: 0.4, G: 0.45 } },
       F3: { x: 0.82, y: 0.65, r: 0.045, att: { B: 0.15 } }
@@ -462,10 +161,20 @@ var ORIENTATION = [
     age: 20,
     note: "A stranger who shares the orientation overlaps immediately",
     persons: {
-      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.5, D: 0.5, B: 0.8, F1: 0.5, N1: 0.6, N2: 0.3 } },
+      G: {
+        x: 0.5,
+        y: 0.08,
+        r: 0.13,
+        att: { M: 0.5, D: 0.5, B: 0.8, F1: 0.5, N1: 0.6, N2: 0.3 }
+      },
       M: { x: 0.1, y: 0.3, r: 0.055, att: { D: 0.5, B: 0.35, G: 0.55 } },
       D: { x: 0.2, y: 0.27, r: 0.05, att: { M: 0.5, B: 0.3, G: 0.5 } },
-      B: { x: 0.4, y: 0.48, r: 0.08, att: { M: 0.15, D: 0.12, F1: 0.25, N1: 0.5, N2: 0.25, G: 0.5 } },
+      B: {
+        x: 0.4,
+        y: 0.48,
+        r: 0.08,
+        att: { M: 0.15, D: 0.12, F1: 0.25, N1: 0.5, N2: 0.25, G: 0.5 }
+      },
       F1: { x: 0.62, y: 0.55, r: 0.05, att: { B: 0.3, G: 0.45 } },
       N1: { x: 0.58, y: 0.38, r: 0.06, att: { B: 0.45, N2: 0.2, G: 0.5 } },
       N2: { x: 0.75, y: 0.58, r: 0.05, att: { B: 0.2, N1: 0.15 } }
@@ -477,10 +186,20 @@ var ORIENTATION = [
     age: 26,
     note: "Scattered across the world \u2014 still overlapping through what they share",
     persons: {
-      G: { x: 0.5, y: 0.08, r: 0.13, att: { M: 0.5, D: 0.5, B: 0.8, F1: 0.5, N1: 0.6, W1: 0.4 } },
+      G: {
+        x: 0.5,
+        y: 0.08,
+        r: 0.13,
+        att: { M: 0.5, D: 0.5, B: 0.8, F1: 0.5, N1: 0.6, W1: 0.4 }
+      },
       M: { x: 0.08, y: 0.32, r: 0.05, att: { D: 0.5, B: 0.3, G: 0.55 } },
       D: { x: 0.16, y: 0.28, r: 0.045, att: { M: 0.5, B: 0.25, G: 0.5 } },
-      B: { x: 0.38, y: 0.48, r: 0.08, att: { M: 0.12, D: 0.1, N1: 0.35, W1: 0.35, G: 0.5 } },
+      B: {
+        x: 0.38,
+        y: 0.48,
+        r: 0.08,
+        att: { M: 0.12, D: 0.1, N1: 0.35, W1: 0.35, G: 0.5 }
+      },
       F1: { x: 0.72, y: 0.52, r: 0.045, att: { B: 0.15, G: 0.45 } },
       N1: { x: 0.55, y: 0.38, r: 0.055, att: { B: 0.3, G: 0.45 } },
       W1: { x: 0.5, y: 0.65, r: 0.05, att: { B: 0.3, G: 0.4 } },
@@ -505,7 +224,12 @@ var HUB = [
     short: "Growing",
     note: "New people start attending to B \u2014 attention per person thins",
     persons: {
-      B: { x: 0.5, y: 0.5, r: 0.075, att: { P1: 0.45, P2: 0.4, P3: 0.35, P4: 0.3, P5: 0.25 } },
+      B: {
+        x: 0.5,
+        y: 0.5,
+        r: 0.075,
+        att: { P1: 0.45, P2: 0.4, P3: 0.35, P4: 0.3, P5: 0.25 }
+      },
       P1: { x: 0.28, y: 0.35, r: 0.055, att: { B: 0.6, P2: 0.2 } },
       P2: { x: 0.72, y: 0.35, r: 0.055, att: { B: 0.55, P1: 0.15 } },
       P3: { x: 0.5, y: 0.22, r: 0.05, att: { B: 0.5 } },
@@ -518,7 +242,20 @@ var HUB = [
     short: "Popular",
     note: "Everyone attends to B \u2014 B\u2019s field is pulled in every direction at once",
     persons: {
-      B: { x: 0.5, y: 0.5, r: 0.07, att: { P1: 0.25, P2: 0.25, P3: 0.25, P4: 0.2, P5: 0.2, P6: 0.2, P7: 0.15 } },
+      B: {
+        x: 0.5,
+        y: 0.5,
+        r: 0.07,
+        att: {
+          P1: 0.25,
+          P2: 0.25,
+          P3: 0.25,
+          P4: 0.2,
+          P5: 0.2,
+          P6: 0.2,
+          P7: 0.15
+        }
+      },
       P1: { x: 0.22, y: 0.35, r: 0.05, att: { B: 0.65 } },
       P2: { x: 0.78, y: 0.35, r: 0.05, att: { B: 0.6 } },
       P3: { x: 0.5, y: 0.15, r: 0.045, att: { B: 0.6 } },
@@ -533,7 +270,21 @@ var HUB = [
     short: "Platform",
     note: "B\u2019s blob is a perfect shallow circle \u2014 reaching for everyone, holding no one",
     persons: {
-      B: { x: 0.5, y: 0.5, r: 0.065, att: { P1: 0.12, P2: 0.12, P3: 0.12, P4: 0.1, P5: 0.1, P6: 0.1, P7: 0.1, P8: 0.1 } },
+      B: {
+        x: 0.5,
+        y: 0.5,
+        r: 0.065,
+        att: {
+          P1: 0.12,
+          P2: 0.12,
+          P3: 0.12,
+          P4: 0.1,
+          P5: 0.1,
+          P6: 0.1,
+          P7: 0.1,
+          P8: 0.1
+        }
+      },
       P1: { x: 0.2, y: 0.3, r: 0.045, att: { B: 0.7 } },
       P2: { x: 0.8, y: 0.3, r: 0.045, att: { B: 0.7 } },
       P3: { x: 0.5, y: 0.12, r: 0.04, att: { B: 0.65 } },
@@ -549,7 +300,21 @@ var HUB = [
     short: "Flat",
     note: "B tries to shift but every node holds the old image \u2014 the prior is everyone\u2019s",
     persons: {
-      B: { x: 0.52, y: 0.48, r: 0.06, att: { P1: 0.15, P2: 0.08, P3: 0.08, P4: 0.08, P5: 0.08, P6: 0.08, P7: 0.08, P8: 0.08 } },
+      B: {
+        x: 0.52,
+        y: 0.48,
+        r: 0.06,
+        att: {
+          P1: 0.15,
+          P2: 0.08,
+          P3: 0.08,
+          P4: 0.08,
+          P5: 0.08,
+          P6: 0.08,
+          P7: 0.08,
+          P8: 0.08
+        }
+      },
       P1: { x: 0.2, y: 0.3, r: 0.045, att: { B: 0.7 } },
       P2: { x: 0.8, y: 0.3, r: 0.045, att: { B: 0.7 } },
       P3: { x: 0.5, y: 0.12, r: 0.04, att: { B: 0.65 } },
@@ -565,7 +330,21 @@ var HUB = [
     short: "Managed",
     note: "Being seen everywhere = being known nowhere \u2014 B\u2019s field shrinks inward",
     persons: {
-      B: { x: 0.5, y: 0.5, r: 0.04, att: { P1: 0.05, P2: 0.05, P3: 0.05, P4: 0.05, P5: 0.05, P6: 0.05, P7: 0.05, P8: 0.05 } },
+      B: {
+        x: 0.5,
+        y: 0.5,
+        r: 0.04,
+        att: {
+          P1: 0.05,
+          P2: 0.05,
+          P3: 0.05,
+          P4: 0.05,
+          P5: 0.05,
+          P6: 0.05,
+          P7: 0.05,
+          P8: 0.05
+        }
+      },
       P1: { x: 0.2, y: 0.3, r: 0.045, att: { B: 0.7 } },
       P2: { x: 0.8, y: 0.3, r: 0.045, att: { B: 0.7 } },
       P3: { x: 0.5, y: 0.12, r: 0.04, att: { B: 0.65 } },
@@ -643,7 +422,12 @@ var OSSIFICATION = [
     short: "Attempt",
     note: "B starts shifting \u2014 attention tilts toward a new interest at the edge",
     persons: {
-      B: { x: 0.38, y: 0.58, r: 0.075, att: { F1: 0.5, F2: 0.45, F3: 0.45, N1: 0.4 } },
+      B: {
+        x: 0.38,
+        y: 0.58,
+        r: 0.075,
+        att: { F1: 0.5, F2: 0.45, F3: 0.45, N1: 0.4 }
+      },
       F1: { x: 0.56, y: 0.54, r: 0.075, att: { B: 0.85, F2: 0.75, F3: 0.7 } },
       F2: { x: 0.54, y: 0.4, r: 0.07, att: { B: 0.8, F1: 0.75, F3: 0.7 } },
       F3: { x: 0.44, y: 0.4, r: 0.07, att: { B: 0.8, F1: 0.7, F2: 0.7 } },
@@ -655,7 +439,12 @@ var OSSIFICATION = [
     short: "Resist",
     note: "The group\u2019s fields still reach for B\u2019s old position \u2014 B is stretched between old and new",
     persons: {
-      B: { x: 0.32, y: 0.62, r: 0.07, att: { F1: 0.35, F2: 0.3, F3: 0.3, N1: 0.55 } },
+      B: {
+        x: 0.32,
+        y: 0.62,
+        r: 0.07,
+        att: { F1: 0.35, F2: 0.3, F3: 0.3, N1: 0.55 }
+      },
       F1: { x: 0.56, y: 0.54, r: 0.075, att: { B: 0.8, F2: 0.75, F3: 0.7 } },
       F2: { x: 0.54, y: 0.4, r: 0.07, att: { B: 0.75, F1: 0.75, F3: 0.7 } },
       F3: { x: 0.44, y: 0.4, r: 0.07, att: { B: 0.75, F1: 0.7, F2: 0.7 } },
@@ -680,11 +469,36 @@ var CASCADE = [
     short: "Equal",
     note: "Five people in balanced mutual attention \u2014 roughly equal fields",
     persons: {
-      B: { x: 0.35, y: 0.5, r: 0.065, att: { F1: 0.45, F2: 0.4, F3: 0.4, F4: 0.35 } },
-      F1: { x: 0.55, y: 0.32, r: 0.06, att: { B: 0.45, F2: 0.35, F3: 0.3, F4: 0.25 } },
-      F2: { x: 0.65, y: 0.5, r: 0.06, att: { B: 0.4, F1: 0.35, F3: 0.35, F4: 0.3 } },
-      F3: { x: 0.55, y: 0.68, r: 0.055, att: { B: 0.4, F1: 0.3, F2: 0.35, F4: 0.3 } },
-      F4: { x: 0.35, y: 0.68, r: 0.055, att: { B: 0.35, F1: 0.25, F2: 0.3, F3: 0.3 } }
+      B: {
+        x: 0.35,
+        y: 0.5,
+        r: 0.065,
+        att: { F1: 0.45, F2: 0.4, F3: 0.4, F4: 0.35 }
+      },
+      F1: {
+        x: 0.55,
+        y: 0.32,
+        r: 0.06,
+        att: { B: 0.45, F2: 0.35, F3: 0.3, F4: 0.25 }
+      },
+      F2: {
+        x: 0.65,
+        y: 0.5,
+        r: 0.06,
+        att: { B: 0.4, F1: 0.35, F3: 0.35, F4: 0.3 }
+      },
+      F3: {
+        x: 0.55,
+        y: 0.68,
+        r: 0.055,
+        att: { B: 0.4, F1: 0.3, F2: 0.35, F4: 0.3 }
+      },
+      F4: {
+        x: 0.35,
+        y: 0.68,
+        r: 0.055,
+        att: { B: 0.35, F1: 0.25, F2: 0.3, F3: 0.3 }
+      }
     }
   },
   {
@@ -692,11 +506,36 @@ var CASCADE = [
     short: "Arrival",
     note: "L appears at the edge \u2014 a few people glance toward L",
     persons: {
-      B: { x: 0.35, y: 0.5, r: 0.065, att: { F1: 0.4, F2: 0.35, F3: 0.35, F4: 0.3, L: 0.2 } },
-      F1: { x: 0.55, y: 0.32, r: 0.06, att: { B: 0.4, F2: 0.3, F3: 0.25, F4: 0.2, L: 0.25 } },
-      F2: { x: 0.65, y: 0.5, r: 0.06, att: { B: 0.35, F1: 0.3, F3: 0.3, F4: 0.25 } },
-      F3: { x: 0.55, y: 0.68, r: 0.055, att: { B: 0.35, F1: 0.25, F2: 0.3, F4: 0.25 } },
-      F4: { x: 0.35, y: 0.68, r: 0.055, att: { B: 0.3, F1: 0.2, F2: 0.25, F3: 0.25 } },
+      B: {
+        x: 0.35,
+        y: 0.5,
+        r: 0.065,
+        att: { F1: 0.4, F2: 0.35, F3: 0.35, F4: 0.3, L: 0.2 }
+      },
+      F1: {
+        x: 0.55,
+        y: 0.32,
+        r: 0.06,
+        att: { B: 0.4, F2: 0.3, F3: 0.25, F4: 0.2, L: 0.25 }
+      },
+      F2: {
+        x: 0.65,
+        y: 0.5,
+        r: 0.06,
+        att: { B: 0.35, F1: 0.3, F3: 0.3, F4: 0.25 }
+      },
+      F3: {
+        x: 0.55,
+        y: 0.68,
+        r: 0.055,
+        att: { B: 0.35, F1: 0.25, F2: 0.3, F4: 0.25 }
+      },
+      F4: {
+        x: 0.35,
+        y: 0.68,
+        r: 0.055,
+        att: { B: 0.3, F1: 0.2, F2: 0.25, F3: 0.25 }
+      },
       L: { x: 0.85, y: 0.3, r: 0.06, att: { F1: 0.15, B: 0.1 } }
     }
   },
@@ -705,9 +544,19 @@ var CASCADE = [
     short: "Tilt",
     note: "Attention shifts to L \u2014 F3 and F4\u2019s incoming attention drops",
     persons: {
-      B: { x: 0.38, y: 0.5, r: 0.065, att: { F1: 0.2, F2: 0.15, F3: 0.15, F4: 0.1, L: 0.55 } },
+      B: {
+        x: 0.38,
+        y: 0.5,
+        r: 0.065,
+        att: { F1: 0.2, F2: 0.15, F3: 0.15, F4: 0.1, L: 0.55 }
+      },
       F1: { x: 0.55, y: 0.35, r: 0.06, att: { B: 0.15, F2: 0.1, L: 0.6 } },
-      F2: { x: 0.62, y: 0.5, r: 0.055, att: { B: 0.2, F1: 0.15, F3: 0.15, L: 0.4 } },
+      F2: {
+        x: 0.62,
+        y: 0.5,
+        r: 0.055,
+        att: { B: 0.2, F1: 0.15, F3: 0.15, L: 0.4 }
+      },
       F3: { x: 0.52, y: 0.68, r: 0.05, att: { B: 0.25, F2: 0.2, F4: 0.2 } },
       F4: { x: 0.35, y: 0.68, r: 0.05, att: { B: 0.2, F3: 0.2 } },
       L: { x: 0.8, y: 0.32, r: 0.07, att: { B: 0.2, F1: 0.25 } }
@@ -766,14 +615,26 @@ var CASCADE = [
   }
 ];
 var SCENARIOS = {
-  drift: { label: "Drift", desc: "Gradual separation from parents", stages: DRIFT },
-  fracture: { label: "Fracture", desc: "Sharp break from parents", stages: FRACTURE },
-  alignment: { label: "Alignment", desc: "Stays close to parents", stages: ALIGNMENT },
-  rivalry: { label: "Rivalry", desc: "Convergent desire, failed recognition", stages: RIVALRY },
-  orientation: { label: "Orientation", desc: "Shared orientation toward God", stages: ORIENTATION },
-  hub: { label: "Hub", desc: "Being seen everywhere, known nowhere", stages: HUB },
-  ossification: { label: "Ossification", desc: "Total recognition becomes total control", stages: OSSIFICATION },
-  cascade: { label: "Cascade", desc: "One attractor destabilizes the field", stages: CASCADE }
+  cascade: {
+    label: "Cascade",
+    desc: "One attractor destabilizes the field",
+    stages: CASCADE
+  },
+  ossification: {
+    label: "Ossification",
+    desc: "Total recognition becomes total control",
+    stages: OSSIFICATION
+  },
+  hub: {
+    label: "Hub",
+    desc: "Being seen everywhere, known nowhere",
+    stages: HUB
+  },
+  orientation: {
+    label: "Orientation",
+    desc: "Shared orientation toward God",
+    stages: ORIENTATION
+  }
 };
 var SCENARIO_KEYS = Object.keys(SCENARIOS);
 function lerp(a, b, t) {
@@ -821,7 +682,10 @@ function interpolate(tVal, stages) {
   const frac = smoothstep(clamped - idx);
   const sA = stages[idx];
   const sB = stages[Math.min(idx + 1, maxT)];
-  const allIds = /* @__PURE__ */ new Set([...Object.keys(sA.persons), ...Object.keys(sB.persons)]);
+  const allIds = /* @__PURE__ */ new Set([
+    ...Object.keys(sA.persons),
+    ...Object.keys(sB.persons)
+  ]);
   const persons = {};
   for (const id of allIds) {
     const a = sA.persons[id];
@@ -961,11 +825,11 @@ function AttentionFields() {
   const animRef = useRef(null);
   const dimsRef = useRef({ w: 800, h: 500 });
   const lastSyncRef = useRef(0);
-  const scenarioRef = useRef("drift");
+  const scenarioRef = useRef("cascade");
   const [sliderT, setSliderT] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [dims, setDims] = useState({ w: 800, h: 500 });
-  const [scenario, setScenario] = useState("drift");
+  const [scenario, setScenario] = useState("cascade");
   const stages = SCENARIOS[scenario].stages;
   const maxT = stages.length - 1;
   useEffect(() => {
