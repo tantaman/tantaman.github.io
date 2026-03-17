@@ -807,7 +807,7 @@ function draw(ctx, state, W, H, time) {
     ctx.fillText(LABELS[id] || id, cx, cy + 1);
   }
   if (note && noteAlpha > 0.01) {
-    const fs = Math.max(12, Math.min(14, W * 0.017));
+    const fs = Math.max(14, Math.min(18, W * 0.022));
     ctx.fillStyle = `hsla(45, 50%, 65%, ${noteAlpha * 0.85})`;
     ctx.font = `italic ${fs}px Georgia,serif`;
     ctx.textAlign = "center";
@@ -1079,7 +1079,7 @@ var S = {
   },
   tick: {
     color: "#666",
-    fontSize: 11,
+    fontSize: 13,
     cursor: "pointer",
     transition: "opacity 0.3s",
     userSelect: "none"
