@@ -17,12 +17,21 @@ var HUES = {
   F1: 150,
   F2: 270,
   F3: 180,
+  F4: 120,
   N1: 25,
   N2: 195,
   W1: 250,
   W2: 10,
   L: 0,
-  G: 48
+  G: 48,
+  P1: 30,
+  P2: 70,
+  P3: 100,
+  P4: 135,
+  P5: 200,
+  P6: 240,
+  P7: 285,
+  P8: 315
 };
 var LABELS = {
   M: "M",
@@ -31,12 +40,21 @@ var LABELS = {
   F1: "F\u2081",
   F2: "F\u2082",
   F3: "F\u2083",
+  F4: "F\u2084",
   N1: "N\u2081",
   N2: "N\u2082",
   W1: "W\u2081",
   W2: "W\u2082",
   L: "L",
-  G: "G"
+  G: "G",
+  P1: "P\u2081",
+  P2: "P\u2082",
+  P3: "P\u2083",
+  P4: "P\u2084",
+  P5: "P\u2085",
+  P6: "P\u2086",
+  P7: "P\u2087",
+  P8: "P\u2088"
 };
 var BIRTH = {
   label: "Birth",
@@ -470,12 +488,292 @@ var ORIENTATION = [
     }
   }
 ];
+var HUB = [
+  {
+    label: "Small Circle",
+    short: "Small",
+    note: "A few people, balanced mutual attention \u2014 everyone is seen",
+    persons: {
+      B: { x: 0.5, y: 0.5, r: 0.075, att: { P1: 0.6, P2: 0.55, P3: 0.5 } },
+      P1: { x: 0.3, y: 0.35, r: 0.06, att: { B: 0.6, P2: 0.3, P3: 0.25 } },
+      P2: { x: 0.7, y: 0.35, r: 0.06, att: { B: 0.55, P1: 0.3, P3: 0.25 } },
+      P3: { x: 0.5, y: 0.25, r: 0.055, att: { B: 0.5, P1: 0.25, P2: 0.25 } }
+    }
+  },
+  {
+    label: "Growing",
+    short: "Growing",
+    note: "New people start attending to B \u2014 attention per person thins",
+    persons: {
+      B: { x: 0.5, y: 0.5, r: 0.075, att: { P1: 0.45, P2: 0.4, P3: 0.35, P4: 0.3, P5: 0.25 } },
+      P1: { x: 0.28, y: 0.35, r: 0.055, att: { B: 0.6, P2: 0.2 } },
+      P2: { x: 0.72, y: 0.35, r: 0.055, att: { B: 0.55, P1: 0.15 } },
+      P3: { x: 0.5, y: 0.22, r: 0.05, att: { B: 0.5 } },
+      P4: { x: 0.3, y: 0.65, r: 0.05, att: { B: 0.55 } },
+      P5: { x: 0.7, y: 0.65, r: 0.05, att: { B: 0.5 } }
+    }
+  },
+  {
+    label: "Popular",
+    short: "Popular",
+    note: "Everyone attends to B \u2014 B\u2019s field is pulled in every direction at once",
+    persons: {
+      B: { x: 0.5, y: 0.5, r: 0.07, att: { P1: 0.25, P2: 0.25, P3: 0.25, P4: 0.2, P5: 0.2, P6: 0.2, P7: 0.15 } },
+      P1: { x: 0.22, y: 0.35, r: 0.05, att: { B: 0.65 } },
+      P2: { x: 0.78, y: 0.35, r: 0.05, att: { B: 0.6 } },
+      P3: { x: 0.5, y: 0.15, r: 0.045, att: { B: 0.6 } },
+      P4: { x: 0.25, y: 0.68, r: 0.045, att: { B: 0.6 } },
+      P5: { x: 0.75, y: 0.68, r: 0.045, att: { B: 0.55 } },
+      P6: { x: 0.15, y: 0.52, r: 0.045, att: { B: 0.55 } },
+      P7: { x: 0.85, y: 0.52, r: 0.04, att: { B: 0.5 } }
+    }
+  },
+  {
+    label: "Platform",
+    short: "Platform",
+    note: "B\u2019s blob is a perfect shallow circle \u2014 reaching for everyone, holding no one",
+    persons: {
+      B: { x: 0.5, y: 0.5, r: 0.065, att: { P1: 0.12, P2: 0.12, P3: 0.12, P4: 0.1, P5: 0.1, P6: 0.1, P7: 0.1, P8: 0.1 } },
+      P1: { x: 0.2, y: 0.3, r: 0.045, att: { B: 0.7 } },
+      P2: { x: 0.8, y: 0.3, r: 0.045, att: { B: 0.7 } },
+      P3: { x: 0.5, y: 0.12, r: 0.04, att: { B: 0.65 } },
+      P4: { x: 0.22, y: 0.7, r: 0.04, att: { B: 0.65 } },
+      P5: { x: 0.78, y: 0.7, r: 0.04, att: { B: 0.65 } },
+      P6: { x: 0.12, y: 0.5, r: 0.04, att: { B: 0.6 } },
+      P7: { x: 0.88, y: 0.5, r: 0.04, att: { B: 0.6 } },
+      P8: { x: 0.5, y: 0.85, r: 0.04, att: { B: 0.6 } }
+    }
+  },
+  {
+    label: "Flattened",
+    short: "Flat",
+    note: "B tries to shift but every node holds the old image \u2014 the prior is everyone\u2019s",
+    persons: {
+      B: { x: 0.52, y: 0.48, r: 0.06, att: { P1: 0.15, P2: 0.08, P3: 0.08, P4: 0.08, P5: 0.08, P6: 0.08, P7: 0.08, P8: 0.08 } },
+      P1: { x: 0.2, y: 0.3, r: 0.045, att: { B: 0.7 } },
+      P2: { x: 0.8, y: 0.3, r: 0.045, att: { B: 0.7 } },
+      P3: { x: 0.5, y: 0.12, r: 0.04, att: { B: 0.65 } },
+      P4: { x: 0.22, y: 0.7, r: 0.04, att: { B: 0.65 } },
+      P5: { x: 0.78, y: 0.7, r: 0.04, att: { B: 0.65 } },
+      P6: { x: 0.12, y: 0.5, r: 0.04, att: { B: 0.6 } },
+      P7: { x: 0.88, y: 0.5, r: 0.04, att: { B: 0.6 } },
+      P8: { x: 0.5, y: 0.85, r: 0.04, att: { B: 0.6 } }
+    }
+  },
+  {
+    label: "Managed",
+    short: "Managed",
+    note: "Being seen everywhere = being known nowhere \u2014 B\u2019s field shrinks inward",
+    persons: {
+      B: { x: 0.5, y: 0.5, r: 0.04, att: { P1: 0.05, P2: 0.05, P3: 0.05, P4: 0.05, P5: 0.05, P6: 0.05, P7: 0.05, P8: 0.05 } },
+      P1: { x: 0.2, y: 0.3, r: 0.045, att: { B: 0.7 } },
+      P2: { x: 0.8, y: 0.3, r: 0.045, att: { B: 0.7 } },
+      P3: { x: 0.5, y: 0.12, r: 0.04, att: { B: 0.65 } },
+      P4: { x: 0.22, y: 0.7, r: 0.04, att: { B: 0.65 } },
+      P5: { x: 0.78, y: 0.7, r: 0.04, att: { B: 0.6 } },
+      P6: { x: 0.12, y: 0.5, r: 0.04, att: { B: 0.6 } },
+      P7: { x: 0.88, y: 0.5, r: 0.04, att: { B: 0.55 } },
+      P8: { x: 0.5, y: 0.85, r: 0.04, att: { B: 0.55 } }
+    }
+  },
+  {
+    label: "Exit",
+    short: "Exit",
+    note: "B withdraws \u2014 the crowd\u2019s fields still reach for where B was",
+    persons: {
+      B: { x: 0.5, y: 0.5, r: 0.025, op: 0.3, att: {} },
+      P1: { x: 0.2, y: 0.3, r: 0.045, att: { B: 0.6 } },
+      P2: { x: 0.8, y: 0.3, r: 0.045, att: { B: 0.6 } },
+      P3: { x: 0.5, y: 0.12, r: 0.04, att: { B: 0.55 } },
+      P4: { x: 0.22, y: 0.7, r: 0.04, att: { B: 0.55 } },
+      P5: { x: 0.78, y: 0.7, r: 0.04, att: { B: 0.5 } },
+      P6: { x: 0.12, y: 0.5, r: 0.04, att: { B: 0.5 } },
+      P7: { x: 0.88, y: 0.5, r: 0.04, att: { B: 0.45 } },
+      P8: { x: 0.5, y: 0.85, r: 0.04, att: { B: 0.45 } }
+    }
+  }
+];
+var OSSIFICATION = [
+  {
+    label: "Formation",
+    short: "Form",
+    note: "Four people meet \u2014 light mutual attention",
+    persons: {
+      B: { x: 0.38, y: 0.55, r: 0.065, att: { F1: 0.35, F2: 0.3, F3: 0.3 } },
+      F1: { x: 0.62, y: 0.55, r: 0.06, att: { B: 0.35, F2: 0.25, F3: 0.25 } },
+      F2: { x: 0.55, y: 0.32, r: 0.055, att: { B: 0.3, F1: 0.25, F3: 0.2 } },
+      F3: { x: 0.42, y: 0.32, r: 0.055, att: { B: 0.3, F1: 0.2, F2: 0.2 } }
+    }
+  },
+  {
+    label: "Bonding",
+    short: "Bond",
+    note: "Attention weights increase \u2014 fields overlap more",
+    persons: {
+      B: { x: 0.4, y: 0.55, r: 0.07, att: { F1: 0.55, F2: 0.5, F3: 0.5 } },
+      F1: { x: 0.6, y: 0.55, r: 0.065, att: { B: 0.55, F2: 0.45, F3: 0.4 } },
+      F2: { x: 0.55, y: 0.35, r: 0.06, att: { B: 0.5, F1: 0.45, F3: 0.4 } },
+      F3: { x: 0.42, y: 0.35, r: 0.06, att: { B: 0.5, F1: 0.4, F2: 0.4 } }
+    }
+  },
+  {
+    label: "Tight Circle",
+    short: "Tight",
+    note: "Near-total overlap \u2014 everyone strongly attends to everyone",
+    persons: {
+      B: { x: 0.42, y: 0.54, r: 0.075, att: { F1: 0.75, F2: 0.7, F3: 0.7 } },
+      F1: { x: 0.58, y: 0.54, r: 0.07, att: { B: 0.75, F2: 0.65, F3: 0.6 } },
+      F2: { x: 0.54, y: 0.38, r: 0.065, att: { B: 0.7, F1: 0.65, F3: 0.6 } },
+      F3: { x: 0.44, y: 0.38, r: 0.065, att: { B: 0.7, F1: 0.6, F2: 0.6 } }
+    }
+  },
+  {
+    label: "Comfort",
+    short: "Comfort",
+    note: "Stable \u2014 the prior is locked, all fields rigid, perfectly interlocking",
+    persons: {
+      B: { x: 0.44, y: 0.54, r: 0.08, att: { F1: 0.85, F2: 0.8, F3: 0.8 } },
+      F1: { x: 0.56, y: 0.54, r: 0.075, att: { B: 0.85, F2: 0.75, F3: 0.7 } },
+      F2: { x: 0.54, y: 0.4, r: 0.07, att: { B: 0.8, F1: 0.75, F3: 0.7 } },
+      F3: { x: 0.44, y: 0.4, r: 0.07, att: { B: 0.8, F1: 0.7, F2: 0.7 } }
+    }
+  },
+  {
+    label: "Attempt",
+    short: "Attempt",
+    note: "B starts shifting \u2014 attention tilts toward a new interest at the edge",
+    persons: {
+      B: { x: 0.38, y: 0.58, r: 0.075, att: { F1: 0.5, F2: 0.45, F3: 0.45, N1: 0.4 } },
+      F1: { x: 0.56, y: 0.54, r: 0.075, att: { B: 0.85, F2: 0.75, F3: 0.7 } },
+      F2: { x: 0.54, y: 0.4, r: 0.07, att: { B: 0.8, F1: 0.75, F3: 0.7 } },
+      F3: { x: 0.44, y: 0.4, r: 0.07, att: { B: 0.8, F1: 0.7, F2: 0.7 } },
+      N1: { x: 0.18, y: 0.7, r: 0.05, att: { B: 0.35 } }
+    }
+  },
+  {
+    label: "Resistance",
+    short: "Resist",
+    note: "The group\u2019s fields still reach for B\u2019s old position \u2014 B is stretched between old and new",
+    persons: {
+      B: { x: 0.32, y: 0.62, r: 0.07, att: { F1: 0.35, F2: 0.3, F3: 0.3, N1: 0.55 } },
+      F1: { x: 0.56, y: 0.54, r: 0.075, att: { B: 0.8, F2: 0.75, F3: 0.7 } },
+      F2: { x: 0.54, y: 0.4, r: 0.07, att: { B: 0.75, F1: 0.75, F3: 0.7 } },
+      F3: { x: 0.44, y: 0.4, r: 0.07, att: { B: 0.75, F1: 0.7, F2: 0.7 } },
+      N1: { x: 0.15, y: 0.72, r: 0.055, att: { B: 0.45 } }
+    }
+  },
+  {
+    label: "Snap Back",
+    short: "Snap",
+    note: "The prior is patient \u2014 it can wait out your attempted change",
+    persons: {
+      B: { x: 0.44, y: 0.54, r: 0.08, att: { F1: 0.8, F2: 0.75, F3: 0.75 } },
+      F1: { x: 0.56, y: 0.54, r: 0.075, att: { B: 0.85, F2: 0.75, F3: 0.7 } },
+      F2: { x: 0.54, y: 0.4, r: 0.07, att: { B: 0.8, F1: 0.75, F3: 0.7 } },
+      F3: { x: 0.44, y: 0.4, r: 0.07, att: { B: 0.8, F1: 0.7, F2: 0.7 } }
+    }
+  }
+];
+var CASCADE = [
+  {
+    label: "Equilibrium",
+    short: "Equal",
+    note: "Five people in balanced mutual attention \u2014 roughly equal fields",
+    persons: {
+      B: { x: 0.35, y: 0.5, r: 0.065, att: { F1: 0.45, F2: 0.4, F3: 0.4, F4: 0.35 } },
+      F1: { x: 0.55, y: 0.32, r: 0.06, att: { B: 0.45, F2: 0.35, F3: 0.3, F4: 0.25 } },
+      F2: { x: 0.65, y: 0.5, r: 0.06, att: { B: 0.4, F1: 0.35, F3: 0.35, F4: 0.3 } },
+      F3: { x: 0.55, y: 0.68, r: 0.055, att: { B: 0.4, F1: 0.3, F2: 0.35, F4: 0.3 } },
+      F4: { x: 0.35, y: 0.68, r: 0.055, att: { B: 0.35, F1: 0.25, F2: 0.3, F3: 0.3 } }
+    }
+  },
+  {
+    label: "Arrival",
+    short: "Arrival",
+    note: "L appears at the edge \u2014 a few people glance toward L",
+    persons: {
+      B: { x: 0.35, y: 0.5, r: 0.065, att: { F1: 0.4, F2: 0.35, F3: 0.35, F4: 0.3, L: 0.2 } },
+      F1: { x: 0.55, y: 0.32, r: 0.06, att: { B: 0.4, F2: 0.3, F3: 0.25, F4: 0.2, L: 0.25 } },
+      F2: { x: 0.65, y: 0.5, r: 0.06, att: { B: 0.35, F1: 0.3, F3: 0.3, F4: 0.25 } },
+      F3: { x: 0.55, y: 0.68, r: 0.055, att: { B: 0.35, F1: 0.25, F2: 0.3, F4: 0.25 } },
+      F4: { x: 0.35, y: 0.68, r: 0.055, att: { B: 0.3, F1: 0.2, F2: 0.25, F3: 0.25 } },
+      L: { x: 0.85, y: 0.3, r: 0.06, att: { F1: 0.15, B: 0.1 } }
+    }
+  },
+  {
+    label: "Tilt",
+    short: "Tilt",
+    note: "Attention shifts to L \u2014 F3 and F4\u2019s incoming attention drops",
+    persons: {
+      B: { x: 0.38, y: 0.5, r: 0.065, att: { F1: 0.2, F2: 0.15, F3: 0.15, F4: 0.1, L: 0.55 } },
+      F1: { x: 0.55, y: 0.35, r: 0.06, att: { B: 0.15, F2: 0.1, L: 0.6 } },
+      F2: { x: 0.62, y: 0.5, r: 0.055, att: { B: 0.2, F1: 0.15, F3: 0.15, L: 0.4 } },
+      F3: { x: 0.52, y: 0.68, r: 0.05, att: { B: 0.25, F2: 0.2, F4: 0.2 } },
+      F4: { x: 0.35, y: 0.68, r: 0.05, att: { B: 0.2, F3: 0.2 } },
+      L: { x: 0.8, y: 0.32, r: 0.07, att: { B: 0.2, F1: 0.25 } }
+    }
+  },
+  {
+    label: "Drain",
+    short: "Drain",
+    note: "L is the center of gravity \u2014 the bonds that held the group thin out",
+    persons: {
+      B: { x: 0.42, y: 0.48, r: 0.06, att: { F3: 0.08, F4: 0.05, L: 0.7 } },
+      F1: { x: 0.58, y: 0.36, r: 0.055, att: { L: 0.75 } },
+      F2: { x: 0.6, y: 0.52, r: 0.045, att: { B: 0.1, L: 0.6 } },
+      F3: { x: 0.48, y: 0.68, r: 0.04, att: { B: 0.15, F4: 0.15 } },
+      F4: { x: 0.32, y: 0.7, r: 0.035, att: { B: 0.1, F3: 0.1 } },
+      L: { x: 0.75, y: 0.35, r: 0.075, att: { B: 0.15, F1: 0.2 } }
+    }
+  },
+  {
+    label: "Starvation",
+    short: "Starve",
+    note: "F4 fades, F3 barely visible \u2014 the network has collapsed into a star",
+    persons: {
+      B: { x: 0.45, y: 0.48, r: 0.055, att: { L: 0.75 } },
+      F1: { x: 0.6, y: 0.38, r: 0.05, att: { L: 0.8 } },
+      F2: { x: 0.58, y: 0.55, r: 0.04, att: { L: 0.65 } },
+      F3: { x: 0.42, y: 0.68, r: 0.03, op: 0.5, att: { B: 0.1 } },
+      F4: { x: 0.3, y: 0.72, r: 0.025, op: 0.2, att: {} },
+      L: { x: 0.72, y: 0.38, r: 0.08, att: { F1: 0.15, B: 0.1 } }
+    }
+  },
+  {
+    label: "L Moves On",
+    short: "Gone",
+    note: "L leaves \u2014 the network is broken, the bonds are gone",
+    persons: {
+      B: { x: 0.42, y: 0.48, r: 0.05, att: { F2: 0.1, F3: 0.08 } },
+      F1: { x: 0.58, y: 0.38, r: 0.045, att: { B: 0.1 } },
+      F2: { x: 0.55, y: 0.55, r: 0.035, att: { B: 0.1 } },
+      F3: { x: 0.4, y: 0.65, r: 0.025, op: 0.4, att: {} },
+      F4: { x: 0.3, y: 0.72, r: 0.02, op: 0.1, att: {} },
+      L: { x: 0.9, y: 0.25, r: 0.06, op: 0.3, att: {} }
+    }
+  },
+  {
+    label: "Aftermath",
+    short: "After",
+    note: "Attention is not just scarce \u2014 it is load-bearing",
+    persons: {
+      B: { x: 0.38, y: 0.48, r: 0.045, att: { F1: 0.1, F2: 0.08 } },
+      F1: { x: 0.55, y: 0.4, r: 0.04, att: { B: 0.1 } },
+      F2: { x: 0.52, y: 0.58, r: 0.035, att: { B: 0.08 } },
+      F3: { x: 0.38, y: 0.68, r: 0.025, op: 0.25, att: {} },
+      F4: { x: 0.28, y: 0.72, r: 0.02, op: 0.05, att: {} }
+    }
+  }
+];
 var SCENARIOS = {
   drift: { label: "Drift", desc: "Gradual separation from parents", stages: DRIFT },
   fracture: { label: "Fracture", desc: "Sharp break from parents", stages: FRACTURE },
   alignment: { label: "Alignment", desc: "Stays close to parents", stages: ALIGNMENT },
   rivalry: { label: "Rivalry", desc: "Convergent desire, failed recognition", stages: RIVALRY },
-  orientation: { label: "Orientation", desc: "Shared orientation toward God", stages: ORIENTATION }
+  orientation: { label: "Orientation", desc: "Shared orientation toward God", stages: ORIENTATION },
+  hub: { label: "Hub", desc: "Being seen everywhere, known nowhere", stages: HUB },
+  ossification: { label: "Ossification", desc: "Total recognition becomes total control", stages: OSSIFICATION },
+  cascade: { label: "Cascade", desc: "One attractor destabilizes the field", stages: CASCADE }
 };
 var SCENARIO_KEYS = Object.keys(SCENARIOS);
 function lerp(a, b, t) {
@@ -748,7 +1046,7 @@ function AttentionFields() {
     lastFrameRef.current = null;
   }, []);
   const nearest = stages[Math.min(Math.round(sliderT), maxT)];
-  const labelText = `${nearest.label}  \xB7  age ${nearest.age}`;
+  const labelText = nearest.age != null ? `${nearest.label}  \xB7  age ${nearest.age}` : nearest.label;
   return /* @__PURE__ */ jsxs("div", {
     ref: containerRef,
     style: S.wrap,
