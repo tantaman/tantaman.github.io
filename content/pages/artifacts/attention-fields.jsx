@@ -1094,7 +1094,9 @@ const CONCEALMENT = [
     note: 'Something stirs that doesn\u2019t fit the form',
     persons: {
       B: {
-        x: 0.45, y: 0.45, r: 0.08,
+        x: 0.45,
+        y: 0.45,
+        r: 0.08,
         att: { F1: 0.6, F2: 0.55, F3: 0.5 },
         innerAtt: { F1: 0.4, F2: 0.35, F3: 0.3, N1: 0.45 },
       },
@@ -1110,7 +1112,9 @@ const CONCEALMENT = [
     note: 'The performed self replaces the real one',
     persons: {
       B: {
-        x: 0.44, y: 0.44, r: 0.08,
+        x: 0.44,
+        y: 0.44,
+        r: 0.08,
         att: { F1: 0.65, F2: 0.6, F3: 0.55 },
         innerAtt: { F1: 0.2, F2: 0.15, F3: 0.15, N1: 0.7 },
       },
@@ -1126,7 +1130,9 @@ const CONCEALMENT = [
     note: 'Connection without presence \u2014 the mask holds but the person doesn\u2019t',
     persons: {
       B: {
-        x: 0.44, y: 0.44, r: 0.07,
+        x: 0.44,
+        y: 0.44,
+        r: 0.07,
         att: { F1: 0.65, F2: 0.6, F3: 0.55 },
         innerAtt: { F1: 0.1, F2: 0.1, F3: 0.1, N1: 0.8 },
       },
@@ -1142,7 +1148,9 @@ const CONCEALMENT = [
     note: 'What is hidden shapes what is seen \u2014 attention leaks',
     persons: {
       B: {
-        x: 0.46, y: 0.44, r: 0.07,
+        x: 0.46,
+        y: 0.44,
+        r: 0.07,
         att: { F1: 0.5, F2: 0.45, F3: 0.4, N1: 0.3 },
         innerAtt: { F1: 0.15, F2: 0.1, F3: 0.1, N1: 0.75 },
       },
@@ -1158,7 +1166,9 @@ const CONCEALMENT = [
     note: 'The true field becomes visible',
     persons: {
       B: {
-        x: 0.5, y: 0.45, r: 0.075,
+        x: 0.5,
+        y: 0.45,
+        r: 0.075,
         att: { F1: 0.25, F2: 0.2, F3: 0.2, N1: 0.7 },
       },
       F1: { x: 0.22, y: 0.32, r: 0.065, att: { B: 0.3, F2: 0.45, F3: 0.35 } },
@@ -1173,13 +1183,293 @@ const CONCEALMENT = [
     note: 'The group re-forms around what was always there',
     persons: {
       B: {
-        x: 0.52, y: 0.45, r: 0.075,
+        x: 0.52,
+        y: 0.45,
+        r: 0.075,
         att: { F1: 0.3, F3: 0.25, N1: 0.65 },
       },
       F1: { x: 0.2, y: 0.32, r: 0.06, att: { B: 0.25, F2: 0.35, F3: 0.4 } },
       F2: { x: 0.3, y: 0.28, r: 0.05, op: 0.4, att: { F1: 0.4, F3: 0.3 } },
       F3: { x: 0.42, y: 0.65, r: 0.055, att: { B: 0.3, F1: 0.35 } },
       N1: { x: 0.68, y: 0.45, r: 0.065, att: { B: 0.6 } },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Scenario: Asymmetry (reaching without return)
+// ═══════════════════════════════════════════════════════════
+const ASYMMETRY = [
+  {
+    label: 'Meeting',
+    short: 'Meet',
+    note: 'Two fields touch for the first time',
+    persons: {
+      B: { x: 0.35, y: 0.5, r: 0.065, att: { L: 0.3, F1: 0.4, F2: 0.35 } },
+      L: { x: 0.55, y: 0.38, r: 0.065, att: { B: 0.25, F1: 0.35, F2: 0.3 } },
+      F1: { x: 0.7, y: 0.55, r: 0.055, att: { B: 0.3, L: 0.3, F2: 0.25 } },
+      F2: { x: 0.25, y: 0.32, r: 0.05, att: { B: 0.25, L: 0.2, F1: 0.2 } },
+    },
+  },
+  {
+    label: 'Tilt',
+    short: 'Tilt',
+    note: 'One field begins to reach further than the other',
+    persons: {
+      B: { x: 0.33, y: 0.5, r: 0.07, att: { L: 0.55, F1: 0.3, F2: 0.25 } },
+      L: { x: 0.56, y: 0.37, r: 0.065, att: { B: 0.3, F1: 0.4, F2: 0.25 } },
+      F1: { x: 0.72, y: 0.55, r: 0.055, att: { B: 0.2, L: 0.35, F2: 0.2 } },
+      F2: { x: 0.24, y: 0.3, r: 0.05, att: { B: 0.2, L: 0.15, F1: 0.2 } },
+    },
+  },
+  {
+    label: 'Longing',
+    short: 'Long',
+    note: 'The shape of wanting what doesn\u2019t want you back',
+    persons: {
+      B: { x: 0.32, y: 0.5, r: 0.075, att: { L: 0.8, F1: 0.15, F2: 0.1 } },
+      L: { x: 0.58, y: 0.36, r: 0.065, att: { B: 0.15, F1: 0.5, F2: 0.2 } },
+      F1: { x: 0.74, y: 0.52, r: 0.055, att: { L: 0.45, F2: 0.15 } },
+      F2: { x: 0.22, y: 0.28, r: 0.05, att: { B: 0.1, F1: 0.15 } },
+    },
+  },
+  {
+    label: 'Stable',
+    short: 'Stable',
+    note: 'Asymmetry doesn\u2019t always collapse \u2014 sometimes it just persists',
+    persons: {
+      B: { x: 0.32, y: 0.5, r: 0.075, att: { L: 0.8, F1: 0.12, F2: 0.1 } },
+      L: { x: 0.6, y: 0.35, r: 0.065, att: { B: 0.12, F1: 0.5, F2: 0.15 } },
+      F1: { x: 0.76, y: 0.5, r: 0.055, att: { L: 0.45, F2: 0.1 } },
+      F2: { x: 0.2, y: 0.28, r: 0.05, att: { B: 0.1, F1: 0.1 } },
+    },
+  },
+  {
+    label: 'Withdrawal',
+    short: 'Pull',
+    note: 'The one who reaches decides to stop',
+    persons: {
+      B: { x: 0.3, y: 0.5, r: 0.06, att: { L: 0.15, F1: 0.25, F2: 0.2 } },
+      L: { x: 0.6, y: 0.35, r: 0.065, att: { B: 0.1, F1: 0.5, F2: 0.15 } },
+      F1: { x: 0.76, y: 0.5, r: 0.055, att: { L: 0.45, F2: 0.1 } },
+      F2: { x: 0.2, y: 0.3, r: 0.05, att: { B: 0.2, F1: 0.15 } },
+    },
+  },
+  {
+    label: 'After',
+    short: 'After',
+    note: 'The field remembers the shape it held',
+    persons: {
+      B: { x: 0.3, y: 0.5, r: 0.055, att: { F1: 0.35, F2: 0.3 } },
+      L: { x: 0.62, y: 0.34, r: 0.065, att: { F1: 0.5, F2: 0.1 } },
+      F1: { x: 0.76, y: 0.52, r: 0.055, att: { B: 0.2, L: 0.4, F2: 0.15 } },
+      F2: { x: 0.22, y: 0.32, r: 0.05, att: { B: 0.3, F1: 0.2 } },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Scenario: Grief (the field that reaches into nothing)
+// ═══════════════════════════════════════════════════════════
+const GRIEF = [
+  {
+    label: 'Together',
+    short: 'Together',
+    note: 'The field is shaped by what it loves',
+    persons: {
+      B: { x: 0.4, y: 0.5, r: 0.075, att: { M: 0.8, F1: 0.3 } },
+      M: { x: 0.55, y: 0.4, r: 0.07, att: { B: 0.75, F1: 0.25 } },
+      F1: { x: 0.7, y: 0.6, r: 0.055, att: { B: 0.35, M: 0.3 } },
+    },
+  },
+  {
+    label: 'Present',
+    short: 'Present',
+    note: 'Every field assumes tomorrow',
+    persons: {
+      B: { x: 0.4, y: 0.5, r: 0.075, att: { M: 0.8, F1: 0.3 } },
+      M: { x: 0.55, y: 0.4, r: 0.07, att: { B: 0.75, F1: 0.25 } },
+      F1: { x: 0.7, y: 0.6, r: 0.055, att: { B: 0.35, M: 0.3 } },
+    },
+  },
+  {
+    label: 'Gone',
+    short: 'Gone',
+    note: 'The attention doesn\u2019t know yet',
+    persons: {
+      B: { x: 0.4, y: 0.5, r: 0.075, att: { M: 0.8, F1: 0.15 } },
+      M: { x: 0.55, y: 0.4, r: 0.06, op: 0, att: {} },
+      F1: { x: 0.68, y: 0.58, r: 0.055, att: { B: 0.45 } },
+    },
+  },
+  {
+    label: 'Reaching',
+    short: 'Reach',
+    note: 'The field extends toward what is no longer there',
+    persons: {
+      B: { x: 0.42, y: 0.5, r: 0.075, att: { M: 0.65, F1: 0.1 } },
+      M: { x: 0.55, y: 0.4, r: 0.05, op: 0, att: {} },
+      F1: { x: 0.65, y: 0.58, r: 0.055, att: { B: 0.55 } },
+    },
+  },
+  {
+    label: 'Contracting',
+    short: 'Shrink',
+    note: 'Slowly, the field pulls back \u2014 not because it forgets',
+    persons: {
+      B: { x: 0.44, y: 0.48, r: 0.065, att: { M: 0.25, F1: 0.25 } },
+      M: { x: 0.55, y: 0.4, r: 0.04, op: 0, att: {} },
+      F1: { x: 0.62, y: 0.56, r: 0.055, att: { B: 0.5 } },
+    },
+  },
+  {
+    label: 'Residue',
+    short: 'Residue',
+    note: 'The shape of the absence remains in the shape of what\u2019s left',
+    persons: {
+      B: { x: 0.47, y: 0.47, r: 0.06, att: { F1: 0.4 } },
+      M: { x: 0.55, y: 0.4, r: 0.03, op: 0, att: {} },
+      F1: { x: 0.6, y: 0.55, r: 0.06, att: { B: 0.5 } },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Scenario: Projection (attending to where they were, not where they are)
+// ═══════════════════════════════════════════════════════════
+const PROJECTION = [
+  {
+    label: 'Known',
+    short: 'Known',
+    note: 'You attend to what you recognize',
+    persons: {
+      B: { x: 0.35, y: 0.5, r: 0.07, att: { F1: 0.7, F2: 0.3 } },
+      F1: { x: 0.6, y: 0.45, r: 0.065, att: { B: 0.65, F2: 0.25 } },
+      F2: { x: 0.5, y: 0.28, r: 0.05, att: { B: 0.25, F1: 0.2 } },
+    },
+  },
+  {
+    label: 'Fixed',
+    short: 'Fixed',
+    note: 'The model sets \u2014 you know who they are',
+    persons: {
+      B: { x: 0.35, y: 0.5, r: 0.07, att: { F1: 0.75, F2: 0.25 } },
+      F1: { x: 0.62, y: 0.48, r: 0.065, att: { B: 0.6, F2: 0.2 } },
+      F2: { x: 0.48, y: 0.26, r: 0.05, att: { B: 0.2, F1: 0.2 } },
+    },
+  },
+  {
+    label: 'Drift',
+    short: 'Drift',
+    note: 'They move \u2014 your attention doesn\u2019t',
+    persons: {
+      B: { x: 0.35, y: 0.5, r: 0.07, att: { F1: 0.75, F2: 0.2 } },
+      F1: { x: 0.7, y: 0.58, r: 0.06, att: { B: 0.45, F2: 0.15 } },
+      F2: { x: 0.45, y: 0.24, r: 0.05, att: { B: 0.15, F1: 0.15 } },
+    },
+  },
+  {
+    label: 'Mismatch',
+    short: 'Miss',
+    note: 'The person and the image diverge',
+    persons: {
+      B: { x: 0.35, y: 0.5, r: 0.07, att: { F1: 0.75, F2: 0.15 } },
+      F1: { x: 0.78, y: 0.68, r: 0.055, att: { B: 0.25, F2: 0.1 } },
+      F2: { x: 0.42, y: 0.22, r: 0.05, att: { F1: 0.1 } },
+    },
+  },
+  {
+    label: 'Confrontation',
+    short: 'Break',
+    note: 'When the image meets the person, something has to give',
+    persons: {
+      B: { x: 0.35, y: 0.5, r: 0.065, att: { F1: 0.7, F2: 0.1 } },
+      F1: { x: 0.8, y: 0.72, r: 0.05, att: { B: 0.1 } },
+      F2: { x: 0.4, y: 0.2, r: 0.045, att: {} },
+    },
+  },
+  {
+    label: 'Revision',
+    short: 'Revise',
+    note: 'Letting the image die so the person can live',
+    persons: {
+      B: { x: 0.4, y: 0.55, r: 0.065, att: { F1: 0.5, F2: 0.15 } },
+      F1: { x: 0.75, y: 0.68, r: 0.06, att: { B: 0.45 } },
+      F2: { x: 0.38, y: 0.22, r: 0.045, att: { B: 0.1 } },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Scenario: Mediation (connected only through a third)
+// ═══════════════════════════════════════════════════════════
+const MEDIATION = [
+  {
+    label: 'Separate',
+    short: 'Apart',
+    note: 'Two fields with nothing in common',
+    persons: {
+      F1: { x: 0.2, y: 0.5, r: 0.065, att: {} },
+      F2: { x: 0.8, y: 0.5, r: 0.065, att: {} },
+    },
+  },
+  {
+    label: 'Bridge',
+    short: 'Bridge',
+    note: 'A third field touches both',
+    persons: {
+      B: { x: 0.5, y: 0.45, r: 0.07, att: { F1: 0.55, F2: 0.55 } },
+      F1: { x: 0.2, y: 0.5, r: 0.065, att: { B: 0.5 } },
+      F2: { x: 0.8, y: 0.5, r: 0.065, att: { B: 0.5 } },
+    },
+  },
+  {
+    label: 'Flow',
+    short: 'Flow',
+    note: 'Attention flows through the mediator \u2014 the others overlap in someone else\u2019s space',
+    persons: {
+      B: { x: 0.5, y: 0.45, r: 0.075, att: { F1: 0.7, F2: 0.7 } },
+      F1: { x: 0.22, y: 0.5, r: 0.065, att: { B: 0.65 } },
+      F2: { x: 0.78, y: 0.5, r: 0.065, att: { B: 0.65 } },
+    },
+  },
+  {
+    label: 'Dependent',
+    short: 'Depend',
+    note: 'The connection is real but borrowed',
+    persons: {
+      B: { x: 0.5, y: 0.45, r: 0.075, att: { F1: 0.7, F2: 0.7, F3: 0.45 } },
+      F1: { x: 0.22, y: 0.5, r: 0.065, att: { B: 0.65 } },
+      F2: { x: 0.78, y: 0.5, r: 0.065, att: { B: 0.65 } },
+      F3: { x: 0.5, y: 0.72, r: 0.05, att: { B: 0.5 } },
+    },
+  },
+  {
+    label: 'Withdrawal',
+    short: 'Fade',
+    note: 'The bridge begins to thin',
+    persons: {
+      B: {
+        x: 0.5,
+        y: 0.45,
+        r: 0.065,
+        op: 0.6,
+        att: { F1: 0.35, F2: 0.35, F3: 0.2 },
+      },
+      F1: { x: 0.24, y: 0.5, r: 0.065, att: { B: 0.5 } },
+      F2: { x: 0.76, y: 0.5, r: 0.065, att: { B: 0.5 } },
+      F3: { x: 0.5, y: 0.74, r: 0.05, att: { B: 0.35 } },
+    },
+  },
+  {
+    label: 'Collapse',
+    short: 'Gone',
+    note: 'Remove the mediator and the connection was never yours',
+    persons: {
+      B: { x: 0.5, y: 0.45, r: 0.04, op: 0.15, att: {} },
+      F1: { x: 0.28, y: 0.5, r: 0.06, att: {} },
+      F2: { x: 0.72, y: 0.5, r: 0.06, att: {} },
+      F3: { x: 0.5, y: 0.76, r: 0.045, att: {} },
     },
   },
 ];
@@ -1216,6 +1506,26 @@ const SCENARIOS = {
     label: 'Concealment',
     desc: 'The gap between the performed self and the true one',
     stages: CONCEALMENT,
+  },
+  // asymmetry: {
+  //   label: 'Asymmetry',
+  //   desc: 'Reaching without return',
+  //   stages: ASYMMETRY,
+  // },
+  // grief: {
+  //   label: 'Grief',
+  //   desc: 'The field that reaches into nothing',
+  //   stages: GRIEF,
+  // },
+  // projection: {
+  //   label: 'Projection',
+  //   desc: 'Attending to where they were, not where they are',
+  //   stages: PROJECTION,
+  // },
+  mediation: {
+    label: 'Mediation',
+    desc: 'Connected only through a third',
+    stages: MEDIATION,
   },
 };
 
@@ -1401,7 +1711,7 @@ function draw(ctx, state, W, H, time) {
     if (p.innerAtt && Object.keys(p.innerAtt).length > 0) {
       const ghostPts = blobPoints(p, id, persons, W, H, time, p.innerAtt);
       smoothPath(ctx, ghostPts);
-      ctx.fillStyle = hsl(id, 0.10 * p.op);
+      ctx.fillStyle = hsl(id, 0.1 * p.op);
       ctx.fill();
       ctx.setLineDash([6, 4]);
       ctx.strokeStyle = hsl(id, 0.3 * p.op);

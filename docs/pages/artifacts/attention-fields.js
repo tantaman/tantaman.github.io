@@ -734,6 +734,76 @@ var CONCEALMENT = [
     }
   }
 ];
+var MEDIATION = [
+  {
+    label: "Separate",
+    short: "Apart",
+    note: "Two fields with nothing in common",
+    persons: {
+      F1: { x: 0.2, y: 0.5, r: 0.065, att: {} },
+      F2: { x: 0.8, y: 0.5, r: 0.065, att: {} }
+    }
+  },
+  {
+    label: "Bridge",
+    short: "Bridge",
+    note: "A third field touches both",
+    persons: {
+      B: { x: 0.5, y: 0.45, r: 0.07, att: { F1: 0.55, F2: 0.55 } },
+      F1: { x: 0.2, y: 0.5, r: 0.065, att: { B: 0.5 } },
+      F2: { x: 0.8, y: 0.5, r: 0.065, att: { B: 0.5 } }
+    }
+  },
+  {
+    label: "Flow",
+    short: "Flow",
+    note: "Attention flows through the mediator \u2014 the others overlap in someone else\u2019s space",
+    persons: {
+      B: { x: 0.5, y: 0.45, r: 0.075, att: { F1: 0.7, F2: 0.7 } },
+      F1: { x: 0.22, y: 0.5, r: 0.065, att: { B: 0.65 } },
+      F2: { x: 0.78, y: 0.5, r: 0.065, att: { B: 0.65 } }
+    }
+  },
+  {
+    label: "Dependent",
+    short: "Depend",
+    note: "The connection is real but borrowed",
+    persons: {
+      B: { x: 0.5, y: 0.45, r: 0.075, att: { F1: 0.7, F2: 0.7, F3: 0.45 } },
+      F1: { x: 0.22, y: 0.5, r: 0.065, att: { B: 0.65 } },
+      F2: { x: 0.78, y: 0.5, r: 0.065, att: { B: 0.65 } },
+      F3: { x: 0.5, y: 0.72, r: 0.05, att: { B: 0.5 } }
+    }
+  },
+  {
+    label: "Withdrawal",
+    short: "Fade",
+    note: "The bridge begins to thin",
+    persons: {
+      B: {
+        x: 0.5,
+        y: 0.45,
+        r: 0.065,
+        op: 0.6,
+        att: { F1: 0.35, F2: 0.35, F3: 0.2 }
+      },
+      F1: { x: 0.24, y: 0.5, r: 0.065, att: { B: 0.5 } },
+      F2: { x: 0.76, y: 0.5, r: 0.065, att: { B: 0.5 } },
+      F3: { x: 0.5, y: 0.74, r: 0.05, att: { B: 0.35 } }
+    }
+  },
+  {
+    label: "Collapse",
+    short: "Gone",
+    note: "Remove the mediator and the connection was never yours",
+    persons: {
+      B: { x: 0.5, y: 0.45, r: 0.04, op: 0.15, att: {} },
+      F1: { x: 0.28, y: 0.5, r: 0.06, att: {} },
+      F2: { x: 0.72, y: 0.5, r: 0.06, att: {} },
+      F3: { x: 0.5, y: 0.76, r: 0.045, att: {} }
+    }
+  }
+];
 var SCENARIOS = {
   cascade: {
     label: "Cascade",
@@ -759,6 +829,11 @@ var SCENARIOS = {
     label: "Concealment",
     desc: "The gap between the performed self and the true one",
     stages: CONCEALMENT
+  },
+  mediation: {
+    label: "Mediation",
+    desc: "Connected only through a third",
+    stages: MEDIATION
   }
 };
 var SCENARIO_KEYS = Object.keys(SCENARIOS);
