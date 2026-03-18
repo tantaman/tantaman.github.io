@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-A personal content-driven website (tantaman.com) with a custom static site compiler. Markdown and MDX files in `./content/` are compiled to HTML in `./docs/` using a unified.js pipeline with custom plugins, layouts, and caching.
+A personal knowledge management and blogging platform (tantaman.com). Static blog compiled from markdown/MDX, plus a Cloudflare Worker backend powering a microblog (thoughts), paste bin, TTS, semantic search, knowledge graph canvases, media curation, and an MCP server. Everything is oriented around capturing, connecting, and surfacing ideas.
 
 ## Development
 
@@ -42,11 +42,12 @@ The build uses a file modification time cache (`.build-cache.json`) to skip unch
 ├── docs/                 # Compiled HTML output (served as the site)
 ├── packages/
 │   ├── compiler/         # Custom site compiler (@tantaman/sitecompiler)
-│   ├── frontend/         # Shared frontend components (Mermaid, Figure)
-│   ├── thoughts/         # Vite React app (built to docs/thoughts/)
-│   └── server/           # Server utilities
-├── worker/               # Cloudflare Worker (D1 database, MCP server)
-├── scripts/              # AI-powered generation scripts (embeddings, summaries, theses)
+│   ├── frontend/         # Shared React components (charts, diagrams, figures)
+│   ├── thoughts/         # Vite React SPA — microblog, graph, framings, media curation
+│   └── server/           # Server utilities (WhatsApp provider interface)
+├── worker/               # Cloudflare Worker (D1, R2, KV, Vectorize, Workers AI, MCP)
+├── scripts/              # AI generation (embeddings, summaries, theses, TTS, Substack import)
+├── publishing/           # Pandoc-based book compilation (EPUB/PDF)
 └── .githooks/            # Git hooks (pre-push)
 ```
 
@@ -204,14 +205,103 @@ The default layout footer shows up to 5 related posts, sourced (in priority orde
 2. Manual relationships from `related` frontmatter field
 3. Tag-based suggestions: posts sharing 2+ tags, ranked by overlap count
 
+## Thoughts App (`packages/thoughts`)
+
+A React 19 + Vite SPA (hash-routed, built to `docs/thoughts/`) for personal microblogging and knowledge curation.
+
+### Core Features
+- **Thought feed** — Markdown micro-posts with file attachments (drag & drop, paste from clipboard), voice dictation (browser Speech API), privacy toggle, and version chains (edit creates new version linked to original)
+- **Threaded replies** — Recursive reply nesting with depth limit, version history navigation
+- **Semantic search** — Embedding-based search with similarity scores
+- **Tag filtering** — Auto-extracted `#hashtags`, AND-logic multi-tag filtering in sidebar
+
+### Structured Tags (parsed from thought body)
+- `#t <title>` — Creates a task (shown in Tasks view, toggleable complete/deprioritized)
+- `#e <date> [<time>] <title>` — Creates an event (calendar view with month navigation)
+- `#l <place>` — Creates a location (Leaflet map with Mapbox geocoding)
+- `#m <title>` — Logs a movie (TMDB lookup for poster/year/rating)
+- `#b <title>` — Logs a book (OpenLibrary lookup for cover/author/year)
+- Markdown links and bare URLs — Auto-extracted as bookmarks (OG metadata fetched)
+
+### Visualization
+- **Thought graph** — Canvas-rendered UMAP projection of thought embeddings; nodes sized by reply count, colored by PCA-projected embedding; adjustable similarity-threshold edges; pan/zoom/click-to-navigate
+- **Framings** — ReactFlow-based knowledge graph canvases: drag thoughts and blog posts onto a canvas, create labeled directed edges between them, hierarchical auto-layout, import/export JSON
+
+### Other Views
+- **Media gallery** — Image grid with lightbox, color-coded borders from thought color
+- **Movies/Books** — Poster/cover grids with inline metadata editing (TMDB/OpenLibrary URL pasting)
+- **Bookmarks** — OG-preview cards with refetch capability
+- **Tasks** — Checkbox list with complete/deprioritize toggles, tag filtering
+- **Events** — Calendar widget with day-click event display
+- **Locations** — Leaflet map + list with geocoding trigger
+
 ## Worker (`./worker/`)
 
-A Cloudflare Worker with D1 database for dynamic features:
-- Thoughts/microblog system with attachments, replies, and tags
-- Event tracking
-- MCP (Model Context Protocol) server
-- Task management
-- Embeddings support
+Cloudflare Worker with D1, R2, KV, Vectorize, and Workers AI.
+
+### Thoughts API
+- CRUD with attachment upload to R2, auto-embedding via `@cf/baai/bge-base-en-v1.5`, color projection via frozen PCA basis
+- Reply threading, version chains (`supersede_by`), cascade delete with R2 cleanup
+- Tag/task/event/location/movie/book/bookmark extraction on create
+- Thought graph endpoint (all thoughts with embeddings for UMAP)
+- Version counter + ETag caching (304 responses)
+
+### Paste Bin (`/paste`)
+- Create/view code and markdown snippets (12+ languages)
+- JSX/TSX pastes compile via Sucrase and run as live React apps (esm.sh imports)
+- HTML pastes render directly (full document or fragment)
+- Markdown pastes render with `marked`; TTS "listen" button via Durable Workflow
+- Cookie-based web auth + Bearer token API auth
+- Raw content endpoint
+
+### TTS (Text-to-Speech)
+- Durable Workflow: chunks markdown into ~1900-char segments, generates MP3 via `@cf/deepgram/aura-2-en`, stores chunks in R2, concatenates final audio
+- Streaming playback: client polls for chunks and starts playing as they generate
+- Cached in R2 with immutable cache headers
+
+### MCP Server
+- `search_blog` — Semantic search over blog post embeddings (top-8 passages)
+- `search_thoughts` — Semantic search over thought embeddings (configurable top-K)
+- `browse_posts` — Filter posts by subject/concern/form facets
+- `list_posts` — Browse posts by date range with metadata
+- `list_thoughts` — Chronological thought browsing with pagination
+
+### Other Worker Features
+- **Now page** (`/now`) — Dynamic page showing latest thoughts, tasks, events, books, movies
+- **iCal export** — Token-protected `.ics` endpoint for events
+- **Instagram card generator** (`/api/ig-card`) — Satori + resvg WASM → 1080x1920 PNG cards for blog posts
+- **Comments** — OTP email auth via Resend, JWT sessions, threaded comments with likes
+- **DHA reports** — JSON report storage by date
+- **Posts API** — CRUD for blog posts (title, slug, body, frontmatter, status)
+- **Framings API** — CRUD for knowledge graph canvases with nodes, edges, batch position updates
+
+## Scripts (`./scripts/`)
+
+AI-powered generation and content tooling:
+- `generate-descriptions.mjs` — AI meta descriptions via Anthropic SDK (dry-run support)
+- `generate-theses.mjs` — Thesis statements via Anthropic SDK (cached, dry-run)
+- `generate-embeddings.mjs` — Chat content embeddings via Cloudflare Workers AI
+- `compute-thought-projection.mjs` — PCA basis from Vectorize, backfills thought colors in D1
+- `convert-substack.mjs` — Import Substack posts to markdown (downloads images, HTML→MD)
+- `generate-tts.py` — Local Kokoro TTS for posts with `audio: true` frontmatter → `docs/audio/`
+- `generate-book-tts.py` — TTS for book chapters
+
+## Publishing (`./publishing/`)
+
+Pandoc-based book compilation to EPUB/PDF:
+- `epub3.template` — EPUB3 template with SVG cover support
+- `pagebreak.lua` — Lua filter for cross-format pagebreaks
+- Book projects: `religion-book/`, `self-cage-wheel-ground/`, `mirror-room-collection/`
+
+## Frontend Components (`packages/frontend`)
+
+Shared React components used in MDX posts:
+- `Figure.jsx` — Responsive image with caption/source
+- `Mermaid.js` — Mermaid diagram renderer (dark theme)
+- `PullQuote.jsx` — Styled blockquote
+- Data visualizations (Recharts): `IncomeFertilityParadox`, `FertilityByReligiosity`, `IncomeFertilityUCurve`, `IsraelEducationFertility`
+- `SankeyDiagram.jsx` — Canvas-based flow diagram with color scoring
+- `Timeline.jsx` — Interactive vertical timeline with color interpolation
 
 ## Global Configuration
 
