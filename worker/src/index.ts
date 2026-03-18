@@ -229,27 +229,6 @@ api.get("/thoughts/graph", async (c) => {
 
   const ids = thoughts.map((t) => t.id as number);
 
-  // Fetch attachments
-  const placeholders = ids.map(() => "?").join(",");
-  const attachments = await c.env.DB.prepare(
-    `SELECT thought_id, attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id IN (${placeholders})`
-  ).bind(...ids).all();
-
-  const byThought = new Map<number, { key: string; type: string; name: string }[]>();
-  for (const a of attachments.results) {
-    const tid = a.thought_id as number;
-    if (!byThought.has(tid)) byThought.set(tid, []);
-    byThought.get(tid)!.push({
-      key: a.attachment_key as string,
-      type: a.attachment_type as string,
-      name: a.attachment_name as string,
-    });
-  }
-
-  for (const t of thoughts) {
-    t.attachments = byThought.get(t.id as number) || [];
-  }
-
   // Fetch embeddings from Vectorize
   const embeddings: Record<string, number[]> = {};
   const vecIds = ids.map(String);
