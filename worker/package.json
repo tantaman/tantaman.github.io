@@ -14,7 +14,7 @@
     "@modelcontextprotocol/sdk": "^1.12.1",
     "@resvg/resvg-wasm": "^2.6.2",
     "@tantaman/facets": "workspace:*",
-    "hono": "^4.7.10",
+    "hono": "^4.12.7",
     "marked": "^17.0.3",
     "nanoid": "^5.1.6",
     "satori": "^0.19.2",
