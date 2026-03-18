@@ -43,6 +43,7 @@ export function FramingsListView() {
 
   const handleDelete = async (id: number) => {
     if (!secret) return;
+    if (!window.confirm('Delete this framing? This cannot be undone.')) return;
     mutate({ framings: framings.filter((f) => f.id !== id) }, false);
     try {
       await deleteFraming(id, secret);

@@ -20,8 +20,10 @@ export function LabeledEdge({
   id,
   sourceX,
   sourceY,
+  sourcePosition,
   targetX,
   targetY,
+  targetPosition,
   data,
   selected,
   markerEnd,
@@ -33,8 +35,10 @@ export function LabeledEdge({
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
+    sourcePosition,
     targetX,
     targetY,
+    targetPosition,
   });
 
   const commitLabel = useCallback(() => {
