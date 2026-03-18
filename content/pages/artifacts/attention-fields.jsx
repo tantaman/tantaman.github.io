@@ -1660,7 +1660,12 @@ const CREDENTIAL = [
     short: 'Legible',
     note: 'B is read through the credential — the label mediates all connection',
     persons: {
-      B: { x: 0.45, y: 0.4, r: 0.05, att: { W1: 0.5, P1: 0.1, P2: 0.1, P3: 0.1 } },
+      B: {
+        x: 0.45,
+        y: 0.4,
+        r: 0.05,
+        att: { W1: 0.5, P1: 0.1, P2: 0.1, P3: 0.1 },
+      },
       N1: { x: 0.78, y: 0.3, r: 0.03, op: 0.1, att: {} },
       W1: { x: 0.22, y: 0.42, r: 0.075, inst: true, att: { B: 0.7 } },
       P1: { x: 0.52, y: 0.7, r: 0.045, att: { B: 0.5 } },
@@ -1678,6 +1683,394 @@ const CREDENTIAL = [
       P1: { x: 0.5, y: 0.7, r: 0.045, att: { B: 0.5 } },
       P2: { x: 0.65, y: 0.55, r: 0.04, att: { B: 0.45 } },
       P3: { x: 0.6, y: 0.25, r: 0.04, att: { B: 0.4 } },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Scenario: Addiction — captured by what gives nothing back
+// ═══════════════════════════════════════════════════════════
+const ADDICTION = [
+  {
+    label: 'Free',
+    short: 'Free',
+    note: 'B in a rich field with friends — attention flows freely',
+    persons: {
+      B: { x: 0.45, y: 0.45, r: 0.075, att: { F1: 0.6, F2: 0.55, F3: 0.5 } },
+      F1: { x: 0.65, y: 0.32, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.62, y: 0.6, r: 0.06, att: { B: 0.5, F1: 0.35, F3: 0.3 } },
+      F3: { x: 0.35, y: 0.65, r: 0.055, att: { B: 0.5, F1: 0.3, F2: 0.3 } },
+    },
+  },
+  {
+    label: 'Try',
+    short: 'Try',
+    note: 'L appears at the edge — B glances',
+    persons: {
+      B: {
+        x: 0.45,
+        y: 0.45,
+        r: 0.075,
+        att: { F1: 0.55, F2: 0.5, F3: 0.45, L: 0.15 },
+      },
+      F1: { x: 0.65, y: 0.32, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.62, y: 0.6, r: 0.06, att: { B: 0.5, F1: 0.35, F3: 0.3 } },
+      F3: { x: 0.35, y: 0.65, r: 0.055, att: { B: 0.45, F1: 0.3, F2: 0.3 } },
+      L: { x: 0.2, y: 0.3, r: 0.04, att: {} },
+    },
+  },
+  {
+    label: 'Pull',
+    short: 'Pull',
+    note: 'L\u2019s pull grows — friends notice B drifting',
+    persons: {
+      B: {
+        x: 0.42,
+        y: 0.44,
+        r: 0.07,
+        att: { F1: 0.35, F2: 0.3, F3: 0.25, L: 0.5 },
+      },
+      F1: { x: 0.65, y: 0.32, r: 0.06, att: { B: 0.45, F2: 0.35, F3: 0.25 } },
+      F2: { x: 0.62, y: 0.6, r: 0.055, att: { B: 0.4, F1: 0.3, F3: 0.25 } },
+      F3: { x: 0.35, y: 0.65, r: 0.05, att: { B: 0.35, F1: 0.25, F2: 0.25 } },
+      L: { x: 0.2, y: 0.32, r: 0.05, att: {} },
+    },
+  },
+  {
+    label: 'Need',
+    short: 'Need',
+    note: 'L dominates — B can barely attend to anything else',
+    persons: {
+      B: { x: 0.38, y: 0.42, r: 0.065, att: { F1: 0.1, F2: 0.05, L: 0.8 } },
+      F1: { x: 0.68, y: 0.32, r: 0.05, att: { B: 0.3 } },
+      F2: { x: 0.65, y: 0.6, r: 0.04, op: 0.3, att: { B: 0.15 } },
+      F3: { x: 0.4, y: 0.68, r: 0.035, op: 0.3, att: { B: 0.1 } },
+      L: { x: 0.2, y: 0.35, r: 0.055, att: {} },
+    },
+  },
+  {
+    label: 'Alone',
+    short: 'Alone',
+    note: 'Friends gone — only L and B remain',
+    persons: {
+      B: { x: 0.35, y: 0.42, r: 0.055, att: { F1: 0.05, L: 0.9 } },
+      F1: { x: 0.72, y: 0.35, r: 0.035, op: 0.15, att: { B: 0.1 } },
+      L: { x: 0.2, y: 0.38, r: 0.06, att: {} },
+    },
+  },
+  {
+    label: 'Void',
+    short: 'Void',
+    note: 'L gives nothing back — B\u2019s field is a point aimed at emptiness',
+    persons: {
+      B: { x: 0.32, y: 0.42, r: 0.04, att: { L: 0.95 } },
+      L: { x: 0.2, y: 0.4, r: 0.065, att: {} },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Scenario: Mentorship — attention that enriches rather than depletes
+// ═══════════════════════════════════════════════════════════
+const MENTORSHIP = [
+  {
+    label: 'Seeking',
+    short: 'Seek',
+    note: 'B alone, small, weakly attending outward',
+    persons: {
+      B: { x: 0.5, y: 0.5, r: 0.05, att: {} },
+    },
+  },
+  {
+    label: 'Found',
+    short: 'Found',
+    note: 'B discovers N\u2081 — first real attention',
+    persons: {
+      B: { x: 0.45, y: 0.52, r: 0.06, att: { N1: 0.6 } },
+      N1: { x: 0.6, y: 0.35, r: 0.065, att: { B: 0.55 } },
+    },
+  },
+  {
+    label: 'Learning',
+    short: 'Learn',
+    note: 'The relationship deepens — N\u2081 points B toward a subject',
+    persons: {
+      B: { x: 0.45, y: 0.5, r: 0.07, att: { N1: 0.65, N2: 0.35 } },
+      N1: { x: 0.6, y: 0.32, r: 0.065, att: { B: 0.6, N2: 0.4 } },
+      N2: { x: 0.65, y: 0.6, r: 0.05, att: { N1: 0.3 } },
+    },
+  },
+  {
+    label: 'Reaching',
+    short: 'Reach',
+    note: 'B\u2019s enriched field starts drawing others',
+    persons: {
+      B: { x: 0.45, y: 0.48, r: 0.075, att: { N1: 0.55, N2: 0.4, F1: 0.35 } },
+      N1: { x: 0.6, y: 0.3, r: 0.065, att: { B: 0.55, N2: 0.35 } },
+      N2: { x: 0.65, y: 0.58, r: 0.055, att: { B: 0.3, N1: 0.3 } },
+      F1: { x: 0.3, y: 0.68, r: 0.05, att: { B: 0.45 } },
+    },
+  },
+  {
+    label: 'Radiating',
+    short: 'Radiate',
+    note: 'B\u2019s field is rich — multiple connections flourish',
+    persons: {
+      B: {
+        x: 0.45,
+        y: 0.45,
+        r: 0.08,
+        att: { N1: 0.45, N2: 0.35, F1: 0.45, F2: 0.35 },
+      },
+      N1: { x: 0.62, y: 0.28, r: 0.06, att: { B: 0.5, N2: 0.3 } },
+      N2: { x: 0.68, y: 0.55, r: 0.055, att: { B: 0.35, N1: 0.25 } },
+      F1: { x: 0.28, y: 0.65, r: 0.055, att: { B: 0.5, F2: 0.3 } },
+      F2: { x: 0.55, y: 0.7, r: 0.05, att: { B: 0.4, F1: 0.3 } },
+    },
+  },
+  {
+    label: 'Passing On',
+    short: 'Pass',
+    note: 'B begins mentoring others — the cycle continues',
+    persons: {
+      B: {
+        x: 0.45,
+        y: 0.42,
+        r: 0.08,
+        att: { N1: 0.3, N2: 0.25, F1: 0.55, F2: 0.4 },
+      },
+      N1: { x: 0.65, y: 0.28, r: 0.055, op: 0.5, att: { B: 0.35 } },
+      N2: { x: 0.7, y: 0.55, r: 0.045, att: { B: 0.25 } },
+      F1: { x: 0.3, y: 0.62, r: 0.06, att: { B: 0.6, F2: 0.35 } },
+      F2: { x: 0.55, y: 0.68, r: 0.055, att: { B: 0.5, F1: 0.35 } },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Scenario: Scapegoat — unified only by the target
+// ═══════════════════════════════════════════════════════════
+const SCAPEGOAT = [
+  {
+    label: 'Together',
+    short: 'Together',
+    note: 'A group with healthy mutual attention',
+    persons: {
+      B: {
+        x: 0.5,
+        y: 0.42,
+        r: 0.065,
+        att: { P1: 0.45, P2: 0.4, P3: 0.4, P4: 0.35 },
+      },
+      P1: {
+        x: 0.3,
+        y: 0.3,
+        r: 0.06,
+        att: { B: 0.4, P2: 0.35, P3: 0.3, P4: 0.25 },
+      },
+      P2: {
+        x: 0.7,
+        y: 0.3,
+        r: 0.06,
+        att: { B: 0.4, P1: 0.35, P3: 0.25, P4: 0.3 },
+      },
+      P3: {
+        x: 0.3,
+        y: 0.65,
+        r: 0.06,
+        att: { B: 0.4, P1: 0.3, P2: 0.25, P4: 0.35 },
+      },
+      P4: {
+        x: 0.7,
+        y: 0.65,
+        r: 0.06,
+        att: { B: 0.35, P1: 0.25, P2: 0.3, P3: 0.35 },
+      },
+    },
+  },
+  {
+    label: 'Tension',
+    short: 'Tension',
+    note: 'Something shifts — the group\u2019s mutual attention frays',
+    persons: {
+      B: {
+        x: 0.5,
+        y: 0.42,
+        r: 0.065,
+        att: { P1: 0.4, P2: 0.35, P3: 0.35, P4: 0.3 },
+      },
+      P1: {
+        x: 0.3,
+        y: 0.3,
+        r: 0.06,
+        att: { B: 0.5, P2: 0.15, P3: 0.1, P4: 0.1 },
+      },
+      P2: {
+        x: 0.7,
+        y: 0.3,
+        r: 0.06,
+        att: { B: 0.5, P1: 0.15, P3: 0.1, P4: 0.1 },
+      },
+      P3: {
+        x: 0.3,
+        y: 0.65,
+        r: 0.06,
+        att: { B: 0.5, P1: 0.1, P2: 0.1, P4: 0.15 },
+      },
+      P4: {
+        x: 0.7,
+        y: 0.65,
+        r: 0.06,
+        att: { B: 0.45, P1: 0.1, P2: 0.1, P3: 0.15 },
+      },
+    },
+  },
+  {
+    label: 'Focus',
+    short: 'Focus',
+    note: 'The crowd\u2019s attention converges on B',
+    persons: {
+      B: {
+        x: 0.5,
+        y: 0.42,
+        r: 0.06,
+        att: { P1: 0.3, P2: 0.25, P3: 0.25, P4: 0.2 },
+      },
+      P1: { x: 0.28, y: 0.28, r: 0.06, att: { B: 0.6, P2: 0.05 } },
+      P2: { x: 0.72, y: 0.28, r: 0.06, att: { B: 0.6, P1: 0.05 } },
+      P3: { x: 0.28, y: 0.65, r: 0.06, att: { B: 0.6, P4: 0.05 } },
+      P4: { x: 0.72, y: 0.65, r: 0.06, att: { B: 0.55 } },
+    },
+  },
+  {
+    label: 'Pile-On',
+    short: 'Pile-On',
+    note: 'B is the sole object of attention — crushed',
+    persons: {
+      B: {
+        x: 0.5,
+        y: 0.42,
+        r: 0.05,
+        att: { P1: 0.15, P2: 0.1, P3: 0.1, P4: 0.1 },
+      },
+      P1: { x: 0.26, y: 0.26, r: 0.065, att: { B: 0.7 } },
+      P2: { x: 0.74, y: 0.26, r: 0.065, att: { B: 0.65 } },
+      P3: { x: 0.26, y: 0.66, r: 0.065, att: { B: 0.65 } },
+      P4: { x: 0.74, y: 0.66, r: 0.065, att: { B: 0.6 } },
+    },
+  },
+  {
+    label: 'Expelled',
+    short: 'Expelled',
+    note: 'B pushed to the edge, tiny, still attended to',
+    persons: {
+      B: { x: 0.5, y: 0.18, r: 0.035, att: {} },
+      P1: { x: 0.25, y: 0.45, r: 0.065, att: { B: 0.6 } },
+      P2: { x: 0.75, y: 0.45, r: 0.065, att: { B: 0.6 } },
+      P3: { x: 0.25, y: 0.7, r: 0.065, att: { B: 0.55 } },
+      P4: { x: 0.75, y: 0.7, r: 0.065, att: { B: 0.55 } },
+    },
+  },
+  {
+    label: 'Scattered',
+    short: 'Scatter',
+    note: 'B gone — the group has nothing holding it together',
+    persons: {
+      B: { x: 0.5, y: 0.12, r: 0.025, op: 0.15, att: {} },
+      P1: { x: 0.2, y: 0.4, r: 0.055, att: {} },
+      P2: { x: 0.8, y: 0.35, r: 0.055, att: {} },
+      P3: { x: 0.22, y: 0.75, r: 0.055, att: {} },
+      P4: { x: 0.78, y: 0.72, r: 0.055, att: {} },
+    },
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Scenario: Feed — connected through what replaces connection
+// ═══════════════════════════════════════════════════════════
+const FEED = [
+  {
+    label: 'Connected',
+    short: 'Direct',
+    note: 'B and friends in direct mutual attention',
+    persons: {
+      B: { x: 0.4, y: 0.45, r: 0.075, att: { F1: 0.6, F2: 0.55, F3: 0.5 } },
+      F1: { x: 0.6, y: 0.3, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.65, y: 0.55, r: 0.06, att: { B: 0.5, F1: 0.35, F3: 0.3 } },
+      F3: { x: 0.45, y: 0.7, r: 0.055, att: { B: 0.5, F1: 0.3, F2: 0.3 } },
+    },
+  },
+  {
+    label: 'Scroll',
+    short: 'Scroll',
+    note: 'W\u2081 appears — B starts splitting attention',
+    persons: {
+      B: {
+        x: 0.4,
+        y: 0.45,
+        r: 0.075,
+        att: { F1: 0.5, F2: 0.45, F3: 0.4, W1: 0.2 },
+      },
+      F1: { x: 0.6, y: 0.3, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.65, y: 0.55, r: 0.06, att: { B: 0.5, F1: 0.35, F3: 0.3 } },
+      F3: { x: 0.45, y: 0.7, r: 0.055, att: { B: 0.45, F1: 0.25, F2: 0.25 } },
+      W1: { x: 0.18, y: 0.55, r: 0.05, inst: true, att: { B: 0.3 } },
+    },
+  },
+  {
+    label: 'Hooked',
+    short: 'Hooked',
+    note: 'W\u2081 captures more of B\u2019s attention; direct friend-attention drops',
+    persons: {
+      B: {
+        x: 0.38,
+        y: 0.44,
+        r: 0.07,
+        att: { F1: 0.3, F2: 0.25, F3: 0.2, W1: 0.5 },
+      },
+      F1: { x: 0.62, y: 0.3, r: 0.06, att: { B: 0.45, F2: 0.3, F3: 0.25 } },
+      F2: { x: 0.66, y: 0.55, r: 0.055, att: { B: 0.4, F1: 0.3, F3: 0.25 } },
+      F3: { x: 0.46, y: 0.7, r: 0.05, att: { B: 0.35, F1: 0.2, F2: 0.2 } },
+      W1: { x: 0.18, y: 0.52, r: 0.06, inst: true, att: { B: 0.45 } },
+    },
+  },
+  {
+    label: 'Mediated',
+    short: 'Mediate',
+    note: 'B attends almost entirely through the feed',
+    persons: {
+      B: {
+        x: 0.36,
+        y: 0.42,
+        r: 0.065,
+        att: { F1: 0.12, F2: 0.08, F3: 0.05, W1: 0.7 },
+      },
+      F1: { x: 0.65, y: 0.3, r: 0.05, att: { B: 0.3, F2: 0.2 } },
+      F2: { x: 0.68, y: 0.55, r: 0.045, att: { B: 0.2, F1: 0.2 } },
+      F3: { x: 0.5, y: 0.72, r: 0.04, att: { B: 0.15 } },
+      W1: { x: 0.18, y: 0.48, r: 0.065, inst: true, att: { B: 0.6 } },
+    },
+  },
+  {
+    label: 'Phantom',
+    short: 'Phantom',
+    note: 'Friends fade — B thinks they\u2019re still connected but the feed shows less and less',
+    persons: {
+      B: { x: 0.34, y: 0.42, r: 0.06, att: { F1: 0.05, W1: 0.8 } },
+      F1: { x: 0.7, y: 0.32, r: 0.04, att: { B: 0.15 } },
+      F2: { x: 0.72, y: 0.55, r: 0.035, op: 0.35, att: { B: 0.1 } },
+      F3: { x: 0.55, y: 0.74, r: 0.03, op: 0.3, att: {} },
+      W1: { x: 0.18, y: 0.45, r: 0.07, inst: true, att: { B: 0.7 } },
+    },
+  },
+  {
+    label: 'Alone + Feed',
+    short: 'Alone',
+    note: 'Friends are ghosts — only the feed remains, and it gives everything except what mattered',
+    persons: {
+      B: { x: 0.32, y: 0.42, r: 0.05, att: { W1: 0.85 } },
+      F1: { x: 0.75, y: 0.35, r: 0.03, op: 0.15, att: {} },
+      W1: { x: 0.18, y: 0.42, r: 0.075, inst: true, att: { B: 0.7 } },
     },
   },
 ];
@@ -1744,6 +2137,26 @@ const SCENARIOS = {
     label: 'Credential',
     desc: 'Attention to the label, not the thing',
     stages: CREDENTIAL,
+  },
+  // addiction: {
+  //   label: 'Addiction',
+  //   desc: 'Captured by what gives nothing back',
+  //   stages: ADDICTION,
+  // },
+  // mentorship: {
+  //   label: 'Mentorship',
+  //   desc: 'Attention that enriches rather than depletes',
+  //   stages: MENTORSHIP,
+  // },
+  // scapegoat: {
+  //   label: 'Scapegoat',
+  //   desc: 'Unified only by the target',
+  //   stages: SCAPEGOAT,
+  // },
+  feed: {
+    label: 'Feed',
+    desc: 'Connected through what replaces connection',
+    stages: FEED,
   },
 };
 

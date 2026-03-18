@@ -983,7 +983,12 @@ var CREDENTIAL = [
     short: "Legible",
     note: "B is read through the credential \u2014 the label mediates all connection",
     persons: {
-      B: { x: 0.45, y: 0.4, r: 0.05, att: { W1: 0.5, P1: 0.1, P2: 0.1, P3: 0.1 } },
+      B: {
+        x: 0.45,
+        y: 0.4,
+        r: 0.05,
+        att: { W1: 0.5, P1: 0.1, P2: 0.1, P3: 0.1 }
+      },
       N1: { x: 0.78, y: 0.3, r: 0.03, op: 0.1, att: {} },
       W1: { x: 0.22, y: 0.42, r: 0.075, inst: true, att: { B: 0.7 } },
       P1: { x: 0.52, y: 0.7, r: 0.045, att: { B: 0.5 } },
@@ -1001,6 +1006,92 @@ var CREDENTIAL = [
       P1: { x: 0.5, y: 0.7, r: 0.045, att: { B: 0.5 } },
       P2: { x: 0.65, y: 0.55, r: 0.04, att: { B: 0.45 } },
       P3: { x: 0.6, y: 0.25, r: 0.04, att: { B: 0.4 } }
+    }
+  }
+];
+var FEED = [
+  {
+    label: "Connected",
+    short: "Direct",
+    note: "B and friends in direct mutual attention",
+    persons: {
+      B: { x: 0.4, y: 0.45, r: 0.075, att: { F1: 0.6, F2: 0.55, F3: 0.5 } },
+      F1: { x: 0.6, y: 0.3, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.65, y: 0.55, r: 0.06, att: { B: 0.5, F1: 0.35, F3: 0.3 } },
+      F3: { x: 0.45, y: 0.7, r: 0.055, att: { B: 0.5, F1: 0.3, F2: 0.3 } }
+    }
+  },
+  {
+    label: "Scroll",
+    short: "Scroll",
+    note: "W\u2081 appears \u2014 B starts splitting attention",
+    persons: {
+      B: {
+        x: 0.4,
+        y: 0.45,
+        r: 0.075,
+        att: { F1: 0.5, F2: 0.45, F3: 0.4, W1: 0.2 }
+      },
+      F1: { x: 0.6, y: 0.3, r: 0.065, att: { B: 0.55, F2: 0.4, F3: 0.3 } },
+      F2: { x: 0.65, y: 0.55, r: 0.06, att: { B: 0.5, F1: 0.35, F3: 0.3 } },
+      F3: { x: 0.45, y: 0.7, r: 0.055, att: { B: 0.45, F1: 0.25, F2: 0.25 } },
+      W1: { x: 0.18, y: 0.55, r: 0.05, inst: true, att: { B: 0.3 } }
+    }
+  },
+  {
+    label: "Hooked",
+    short: "Hooked",
+    note: "W\u2081 captures more of B\u2019s attention; direct friend-attention drops",
+    persons: {
+      B: {
+        x: 0.38,
+        y: 0.44,
+        r: 0.07,
+        att: { F1: 0.3, F2: 0.25, F3: 0.2, W1: 0.5 }
+      },
+      F1: { x: 0.62, y: 0.3, r: 0.06, att: { B: 0.45, F2: 0.3, F3: 0.25 } },
+      F2: { x: 0.66, y: 0.55, r: 0.055, att: { B: 0.4, F1: 0.3, F3: 0.25 } },
+      F3: { x: 0.46, y: 0.7, r: 0.05, att: { B: 0.35, F1: 0.2, F2: 0.2 } },
+      W1: { x: 0.18, y: 0.52, r: 0.06, inst: true, att: { B: 0.45 } }
+    }
+  },
+  {
+    label: "Mediated",
+    short: "Mediate",
+    note: "B attends almost entirely through the feed",
+    persons: {
+      B: {
+        x: 0.36,
+        y: 0.42,
+        r: 0.065,
+        att: { F1: 0.12, F2: 0.08, F3: 0.05, W1: 0.7 }
+      },
+      F1: { x: 0.65, y: 0.3, r: 0.05, att: { B: 0.3, F2: 0.2 } },
+      F2: { x: 0.68, y: 0.55, r: 0.045, att: { B: 0.2, F1: 0.2 } },
+      F3: { x: 0.5, y: 0.72, r: 0.04, att: { B: 0.15 } },
+      W1: { x: 0.18, y: 0.48, r: 0.065, inst: true, att: { B: 0.6 } }
+    }
+  },
+  {
+    label: "Phantom",
+    short: "Phantom",
+    note: "Friends fade \u2014 B thinks they\u2019re still connected but the feed shows less and less",
+    persons: {
+      B: { x: 0.34, y: 0.42, r: 0.06, att: { F1: 0.05, W1: 0.8 } },
+      F1: { x: 0.7, y: 0.32, r: 0.04, att: { B: 0.15 } },
+      F2: { x: 0.72, y: 0.55, r: 0.035, op: 0.35, att: { B: 0.1 } },
+      F3: { x: 0.55, y: 0.74, r: 0.03, op: 0.3, att: {} },
+      W1: { x: 0.18, y: 0.45, r: 0.07, inst: true, att: { B: 0.7 } }
+    }
+  },
+  {
+    label: "Alone + Feed",
+    short: "Alone",
+    note: "Friends are ghosts \u2014 only the feed remains, and it gives everything except what mattered",
+    persons: {
+      B: { x: 0.32, y: 0.42, r: 0.05, att: { W1: 0.85 } },
+      F1: { x: 0.75, y: 0.35, r: 0.03, op: 0.15, att: {} },
+      W1: { x: 0.18, y: 0.42, r: 0.075, inst: true, att: { B: 0.7 } }
     }
   }
 ];
@@ -1044,6 +1135,11 @@ var SCENARIOS = {
     label: "Credential",
     desc: "Attention to the label, not the thing",
     stages: CREDENTIAL
+  },
+  feed: {
+    label: "Feed",
+    desc: "Connected through what replaces connection",
+    stages: FEED
   }
 };
 var SCENARIO_KEYS = Object.keys(SCENARIOS);
