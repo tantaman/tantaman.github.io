@@ -47,7 +47,10 @@ export async function deleteThoughtEmbeddings(
 ): Promise<void> {
   try {
     if (ids.length === 0) return;
-    await env.VECTORIZE.deleteByIds(ids.map(String));
+    const strIds = ids.map(String);
+    for (let i = 0; i < strIds.length; i += 20) {
+      await env.VECTORIZE.deleteByIds(strIds.slice(i, i + 20));
+    }
   } catch (e) {
     console.error("Failed to delete thought embeddings:", e);
   }

@@ -232,9 +232,13 @@ api.get("/thoughts/graph", async (c) => {
   // Fetch embeddings from Vectorize
   const embeddings: Record<string, number[]> = {};
   const vecIds = ids.map(String);
-  const vecResults = await c.env.VECTORIZE.getByIds(vecIds);
-  for (const vec of vecResults) {
-    embeddings[vec.id] = Array.from(vec.values);
+  const VECTORIZE_BATCH = 20;
+  for (let i = 0; i < vecIds.length; i += VECTORIZE_BATCH) {
+    const batch = vecIds.slice(i, i + VECTORIZE_BATCH);
+    const vecResults = await c.env.VECTORIZE.getByIds(batch);
+    for (const vec of vecResults) {
+      embeddings[vec.id] = Array.from(vec.values);
+    }
   }
 
   return c.json({ thoughts, embeddings });
