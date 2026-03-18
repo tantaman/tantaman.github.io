@@ -8,3 +8,10 @@ await env.DB.exec("PRAGMA foreign_keys = ON");
 (env as any).AI = {
   run: async () => ({ data: [new Array(768).fill(0)] }),
 };
+
+// Stub Vectorize to avoid remote calls.
+(env as any).VECTORIZE = {
+  getByIds: async () => [],
+  deleteByIds: async () => ({ count: 0 }),
+  upsert: async () => ({ count: 0 }),
+};

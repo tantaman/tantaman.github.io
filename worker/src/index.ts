@@ -382,7 +382,7 @@ api.get("/thoughts/:id/replies", async (c) => {
     name: a.attachment_name as string,
   }));
 
-  // Fetch all descendants recursively
+  // Fetch all descendants recursively with attachments via LEFT JOIN
   const privateFilterCte = authed ? "" : " AND private = 0";
   const privateFilterJoin = authed ? "" : " AND t.private = 0";
   const results = await c.env.DB.prepare(
@@ -394,34 +394,34 @@ api.get("/thoughts/:id/replies", async (c) => {
        FROM thought t JOIN descendants d ON t.parent_id = d.id${privateFilterJoin}
      )
      SELECT d.id, d.parent_id, d.body, d.timestamp, d.created_at, d.color, d.private, d.depth,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id${replyPrivateFilter}) AS reply_count
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id${replyPrivateFilter}) AS reply_count,
+       ta.attachment_key, ta.attachment_type, ta.attachment_name
      FROM descendants d
+     LEFT JOIN thought_attachment ta ON ta.thought_id = d.id
      ORDER BY d.depth ASC, d.timestamp ASC`
   ).bind(parentId).all();
 
-  const replies = results.results as Record<string, unknown>[];
-  if (replies.length > 0) {
-    const ids = replies.map((t) => t.id);
-    const placeholders = ids.map(() => "?").join(",");
-    const attachments = await c.env.DB.prepare(
-      `SELECT thought_id, attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id IN (${placeholders})`
-    ).bind(...ids).all();
-
-    const byThought = new Map<number, { key: string; type: string; name: string }[]>();
-    for (const a of attachments.results) {
-      const tid = a.thought_id as number;
-      if (!byThought.has(tid)) byThought.set(tid, []);
-      byThought.get(tid)!.push({
-        key: a.attachment_key as string,
-        type: a.attachment_type as string,
-        name: a.attachment_name as string,
+  // Group rows by thought id — a thought with N attachments produces N rows
+  const replyMap = new Map<number, Record<string, unknown>>();
+  for (const row of results.results) {
+    const r = row as Record<string, unknown>;
+    const tid = r.id as number;
+    if (!replyMap.has(tid)) {
+      replyMap.set(tid, {
+        id: r.id, parent_id: r.parent_id, body: r.body, timestamp: r.timestamp,
+        created_at: r.created_at, color: r.color, private: r.private, depth: r.depth,
+        reply_count: r.reply_count, attachments: [],
       });
     }
-
-    for (const t of replies) {
-      t.attachments = byThought.get(t.id as number) || [];
+    if (r.attachment_key) {
+      (replyMap.get(tid)!.attachments as { key: string; type: string; name: string }[]).push({
+        key: r.attachment_key as string,
+        type: r.attachment_type as string,
+        name: r.attachment_name as string,
+      });
     }
   }
+  const replies = Array.from(replyMap.values());
 
   // Fetch version chain if this thought is part of one
   const versionRoot = (parent.version_of as number | null) ?? (parent.id as number);
@@ -673,7 +673,7 @@ api.delete("/thoughts/:id", async (c) => {
   ).bind(root, root).all();
   const chainIds = versionChain.results.map((r) => r.id as number);
 
-  // Collect all descendants (replies) of all chain members
+  // Collect all descendants and their attachment keys in one query
   const chainPlaceholders = chainIds.map(() => "?").join(",");
   const descendants = await c.env.DB.prepare(
     `WITH RECURSIVE descendants(id) AS (
@@ -681,25 +681,33 @@ api.delete("/thoughts/:id", async (c) => {
        UNION ALL
        SELECT t.id FROM thought t JOIN descendants d ON t.parent_id = d.id
      )
-     SELECT id FROM descendants`
+     SELECT d.id, ta.attachment_key
+     FROM descendants d
+     LEFT JOIN thought_attachment ta ON ta.thought_id = d.id`
   ).bind(...chainIds).all();
 
-  const descendantIds = descendants.results.map((r) => r.id as number);
+  const descendantIds: number[] = [];
+  const keys: string[] = [];
+  const seen = new Set<number>();
+  for (const row of descendants.results) {
+    const id = row.id as number;
+    if (!seen.has(id)) {
+      seen.add(id);
+      descendantIds.push(id);
+    }
+    if (row.attachment_key) {
+      keys.push(row.attachment_key as string);
+    }
+  }
 
-  const placeholders = descendantIds.map(() => "?").join(",");
-  const attachments = await c.env.DB.prepare(
-    `SELECT attachment_key FROM thought_attachment WHERE thought_id IN (${placeholders})`
-  ).bind(...descendantIds).all();
-
-  const keys = attachments.results.map((a) => a.attachment_key as string);
   if (keys.length > 0) {
     await c.env.BUCKET.delete(keys);
   }
 
-  // Delete all thoughts in the chain and their descendants
+  // Delete chain roots — ON DELETE CASCADE handles descendants and related rows
   await c.env.DB.prepare(
-    `DELETE FROM thought WHERE id IN (${placeholders})`
-  ).bind(...descendantIds).run();
+    `DELETE FROM thought WHERE id IN (${chainPlaceholders})`
+  ).bind(...chainIds).run();
 
   await c.env.DB.prepare(
     "DELETE FROM tag WHERE id NOT IN (SELECT DISTINCT tag_id FROM thought_tag)"
