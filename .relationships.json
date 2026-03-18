@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-03-05T18:08:54.624Z",
+  "generatedAt": "2026-03-18T14:07:34.664Z",
   "config": {
     "model": "text-embedding-3-large",
     "minScore": 0.25,
@@ -641,8 +641,8 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-26-woe-is-me.md",
-          "score": 0.462,
+          "id": "2026-03-16-recognition-dynamics.md",
+          "score": 0.463,
           "type": "semantic"
         }
       ],
@@ -1385,8 +1385,8 @@
           "type": "semantic"
         },
         {
-          "id": "2025-01-01-the-capture-of-american-power-peter.md",
-          "score": 0.497,
+          "id": "2026-03-16-self-cage-wheel-ground.md",
+          "score": 0.512,
           "type": "semantic"
         }
       ],
@@ -2324,6 +2324,11 @@
           "type": "semantic"
         },
         {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.458,
+          "type": "semantic"
+        },
+        {
           "id": "chats/2025-10-15-ai-impact-on-labor.md",
           "score": 0.456,
           "type": "semantic"
@@ -2336,11 +2341,6 @@
         {
           "id": "the-mirror-room/06-gurdjieff-observations.md",
           "score": 0.454,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-28-the-body-as-ground.md",
-          "score": 0.453,
           "type": "semantic"
         }
       ],
@@ -3027,6 +3027,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-16-self-cage-wheel-ground.md",
+          "score": 0.77,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
           "score": 0.763,
           "type": "semantic"
@@ -3064,11 +3069,6 @@
         {
           "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
           "score": 0.731,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-the-two-filters-why-reasonable-ideas.md",
-          "score": 0.73,
           "type": "semantic"
         }
       ],
@@ -4238,13 +4238,13 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-15-know-thyself-greek-vs-christian.md",
-          "score": 0.634,
+          "id": "2026-03-16-self-cage-wheel-ground.md",
+          "score": 0.639,
           "type": "semantic"
         },
         {
-          "id": "2025-12-03-state-of-the-union.md",
-          "score": 0.632,
+          "id": "2025-12-15-know-thyself-greek-vs-christian.md",
+          "score": 0.634,
           "type": "semantic"
         }
       ],
@@ -4905,6 +4905,11 @@
           "type": "semantic"
         },
         {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.694,
+          "type": "semantic"
+        },
+        {
           "id": "2026-02-26-ratchet-stage.md",
           "score": 0.688,
           "type": "semantic"
@@ -4912,11 +4917,6 @@
         {
           "id": "2026-02-26-grace-and-cage.md",
           "score": 0.686,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-03-state-of-the-union.md",
-          "score": 0.684,
           "type": "semantic"
         }
       ],
@@ -4933,6 +4933,11 @@
         {
           "id": "start-here.md",
           "score": 0.699,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-16-self-cage-wheel-ground.md",
+          "score": 0.668,
           "type": "semantic"
         },
         {
@@ -4968,11 +4973,6 @@
         {
           "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
           "score": 0.606,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-17-know-thyself-the-kingdom-within.md",
-          "score": 0.605,
           "type": "semantic"
         }
       ],
@@ -7323,8 +7323,8 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-19-countering-materialism.md",
-          "score": 0.735,
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.745,
           "type": "semantic"
         }
       ],
@@ -7807,6 +7807,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.801,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
           "score": 0.801,
           "type": "semantic"
@@ -7824,11 +7829,6 @@
         {
           "id": "2026-01-09-trauma-culture-a-diagnosis.md",
           "score": 0.787,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-the-selection-of-souls.md",
-          "score": 0.784,
           "type": "semantic"
         }
       ],
@@ -8097,6 +8097,11 @@
           "type": "semantic"
         },
         {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.817,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-18-from-galilee-to-empire-the-institutional.md",
           "score": 0.798,
           "type": "semantic"
@@ -8104,11 +8109,6 @@
         {
           "id": "2025-12-18-the-selection-of-souls.md",
           "score": 0.797,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
-          "score": 0.794,
           "type": "semantic"
         }
       ],
@@ -8240,6 +8240,11 @@
           "type": "semantic"
         },
         {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.818,
+          "type": "semantic"
+        },
+        {
           "id": "2026-02-09-what-holds-you.md",
           "score": 0.818,
           "type": "semantic"
@@ -8272,11 +8277,6 @@
         {
           "id": "2026-02-27-hidden-curriculum.md",
           "score": 0.783,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-01-01-david-graeber-the-utopia-of-rules.md",
-          "score": 0.78,
           "type": "semantic"
         }
       ],
@@ -8316,6 +8316,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-03-16-self-cage-wheel-ground.md",
+          "score": 0.788,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-23-grammar-rules-all.md",
           "score": 0.785,
           "type": "semantic"
@@ -8328,11 +8333,6 @@
         {
           "id": "2026-02-21-desire-engine-table.mdx",
           "score": 0.78,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-26-woe-is-me.md",
-          "score": 0.779,
           "type": "semantic"
         }
       ],
@@ -9127,7 +9127,7 @@
       "related": [
         {
           "id": "2026-03-05-iran-the-resolution.md",
-          "score": 0.873,
+          "score": 0.872,
           "type": "semantic"
         },
         {
@@ -9183,7 +9183,7 @@
       "related": [
         {
           "id": "2026-03-05-iran-the-clearing.md",
-          "score": 0.873,
+          "score": 0.872,
           "type": "semantic"
         },
         {
@@ -9235,6 +9235,200 @@
       "backlinks": [],
       "keywords": []
     },
+    "2026-03-15-iran-update.md": {
+      "related": [
+        {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.467,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/iran-timeline.mdx",
+          "score": 0.411,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-14-the-ideological-trap-for-the-left.md",
+          "score": 0.41,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-12-structure-not-vibes-the-real-state.md",
+          "score": 0.402,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-03-16-recognition-dynamics.md": {
+      "related": [
+        {
+          "id": "pages/structure-of-reality-social-theorem.md",
+          "score": 0.72,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.683,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.663,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-23-grammar-as-alignment-the-world-economic.md",
+          "score": 0.658,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-confessor-proof.md",
+          "score": 0.658,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.657,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-26-ratchet-stage.md",
+          "score": 0.656,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.65,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-01-01-the-capture-of-american-power-peter.md",
+          "score": 0.646,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-02-fertility-is-not-economics.mdx",
+          "score": 0.627,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-03-16-self-cage-wheel-ground.md": {
+      "related": [
+        {
+          "id": "start-here.md",
+          "score": 0.798,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-26-grace-and-cage.md",
+          "score": 0.788,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.776,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-03-state-of-the-union.md",
+          "score": 0.77,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-selection-of-souls.md",
+          "score": 0.76,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-22-religious-development.md",
+          "score": 0.754,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.753,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-desire-engine-table.mdx",
+          "score": 0.753,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.746,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
+          "score": 0.746,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-03-17-S-F_of_S.md": {
+      "related": [
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.801,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.799,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-12-what-if-the-thing-youre-protecting.md",
+          "score": 0.799,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.791,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-selection-of-souls.md",
+          "score": 0.783,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
+          "score": 0.782,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.781,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.775,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
+          "score": 0.771,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-11-the-exhaustion-that-cannot-rest.md",
+          "score": 0.766,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
     "start-here.md": {
       "related": [
         {
@@ -9245,6 +9439,11 @@
         {
           "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
           "score": 0.803,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-16-self-cage-wheel-ground.md",
+          "score": 0.798,
           "type": "semantic"
         },
         {
@@ -9280,11 +9479,6 @@
         {
           "id": "2026-02-21-desire-engine-table.mdx",
           "score": 0.777,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-          "score": 0.776,
           "type": "semantic"
         }
       ],
@@ -12623,6 +12817,22 @@
       "backlinks": [],
       "keywords": []
     },
+    "pages/attention-fields.mdx": {
+      "related": [
+        {
+          "id": "pages/metaphysical-choices.mdx",
+          "score": 0.495,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/nyc-budget-simulator.mdx",
+          "score": 0.452,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
     "pages/church-notes.md": {
       "related": [
         {
@@ -12789,6 +12999,21 @@
           "type": "semantic"
         },
         {
+          "id": "pages/attention-fields.mdx",
+          "score": 0.495,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proofs-all.mdx",
+          "score": 0.489,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-interactive.mdx",
+          "score": 0.476,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-27-manufacturing-luck.mdx",
           "score": 0.446,
           "type": "semantic"
@@ -12796,6 +13021,11 @@
         {
           "id": "start-here.md",
           "score": 0.436,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality.md",
+          "score": 0.423,
           "type": "semantic"
         },
         {
@@ -12811,16 +13041,6 @@
         {
           "id": "2022-05-26-query-builder.mdx",
           "score": 0.405,
-          "type": "semantic"
-        },
-        {
-          "id": "the-mirror-room/03-the-meeting.md",
-          "score": 0.403,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-03-state-of-the-union.md",
-          "score": 0.402,
           "type": "semantic"
         }
       ],
@@ -12840,8 +13060,675 @@
           "type": "semantic"
         },
         {
+          "id": "pages/attention-fields.mdx",
+          "score": 0.452,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-27-manufacturing-luck.mdx",
           "score": 0.42,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-confessor-proof.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.944,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.917,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.889,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.881,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.825,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality-social-theorem.md",
+          "score": 0.81,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.78,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.75,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-22-religious-development.md",
+          "score": 0.727,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-desire-engine-table.mdx",
+          "score": 0.71,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-hider-proof.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.95,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.922,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.907,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.907,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-confessor-proof.md",
+          "score": 0.881,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.878,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality-social-theorem.md",
+          "score": 0.851,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.775,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-27-hidden-curriculum.md",
+          "score": 0.747,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.744,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-performer-proof.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-confessor-proof.md",
+          "score": 0.944,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.924,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.907,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.869,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.856,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality-social-theorem.md",
+          "score": 0.802,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.8,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.746,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.696,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-22-religious-development.md",
+          "score": 0.684,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-poetic.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.854,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.764,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.744,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.733,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.722,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-12-what-if-the-thing-youre-protecting.md",
+          "score": 0.714,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.712,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
+          "score": 0.687,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
+          "score": 0.676,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-26-grace-and-cage.md",
+          "score": 0.676,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-proof-explainer.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.923,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.907,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.865,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.858,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-poetic.md",
+          "score": 0.854,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality-social-theorem.md",
+          "score": 0.808,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.8,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-confessor-proof.md",
+          "score": 0.78,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.762,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.754,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-proof-interactive.mdx": {
+      "related": [
+        {
+          "id": "pages/oldest-want-proofs-all.mdx",
+          "score": 0.917,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.596,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.556,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-poetic.md",
+          "score": 0.477,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/metaphysical-choices.mdx",
+          "score": 0.476,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.468,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.467,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.43,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-19-when-equations-see-what-eyes-cannot.md",
+          "score": 0.429,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality.md",
+          "score": 0.421,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-proof.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.923,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.922,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.918,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality-social-theorem.md",
+          "score": 0.895,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.873,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.856,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-confessor-proof.md",
+          "score": 0.825,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-poetic.md",
+          "score": 0.764,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.736,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-27-hidden-curriculum.md",
+          "score": 0.711,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-proofs-all.mdx": {
+      "related": [
+        {
+          "id": "pages/oldest-want-proof-interactive.mdx",
+          "score": 0.917,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.527,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.521,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/metaphysical-choices.mdx",
+          "score": 0.489,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-poetic.md",
+          "score": 0.472,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.434,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.427,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.411,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-releasement.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.894,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-confessor-proof.md",
+          "score": 0.889,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.878,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.873,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.869,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.858,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality-social-theorem.md",
+          "score": 0.83,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-22-religious-development.md",
+          "score": 0.818,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-desire-engine-table.mdx",
+          "score": 0.817,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.791,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/oldest-want-self-author-proof.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.95,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.924,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.918,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-confessor-proof.md",
+          "score": 0.917,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/structure-of-reality-social-theorem.md",
+          "score": 0.905,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.894,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.865,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.799,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.746,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-22-religious-development.md",
+          "score": 0.744,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/structure-of-reality-social-theorem.md": {
+      "related": [
+        {
+          "id": "pages/oldest-want-self-author-proof.md",
+          "score": 0.905,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof.md",
+          "score": 0.895,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.851,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-releasement.md",
+          "score": 0.83,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-confessor-proof.md",
+          "score": 0.81,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.808,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-performer-proof.md",
+          "score": 0.802,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-17-S-F_of_S.md",
+          "score": 0.75,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.741,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-16-recognition-dynamics.md",
+          "score": 0.72,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "pages/structure-of-reality.md": {
+      "related": [
+        {
+          "id": "start-here.md",
+          "score": 0.476,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-26-grace-and-cage.md",
+          "score": 0.455,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-06-meaning-at-the-boundary.md",
+          "score": 0.446,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-04-fourth-way-of-knowing.md",
+          "score": 0.442,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-04-the-hidden-grammar.md",
+          "score": 0.433,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.43,
+          "type": "semantic"
+        },
+        {
+          "id": "chats/2025-10-13-epistemic-humility-discussion.md",
+          "score": 0.429,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-19-when-equations-see-what-eyes-cannot.md",
+          "score": 0.426,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/metaphysical-choices.mdx",
+          "score": 0.423,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-proof-explainer.md",
+          "score": 0.422,
           "type": "semantic"
         }
       ],
@@ -15395,7 +16282,7 @@
     {
       "source": "2021-01-26-regression-mean-vs-gambler.md",
       "target": "2025-12-19-when-equations-see-what-eyes-cannot.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -15444,8 +16331,8 @@
     },
     {
       "source": "2021-01-26-regression-mean-vs-gambler.md",
-      "target": "2026-02-26-woe-is-me.md",
-      "score": 0.04622874543226415,
+      "target": "2026-03-16-recognition-dynamics.md",
+      "score": 0.0462728001139839,
       "signals": [
         {
           "name": "wikilink",
@@ -15458,10 +16345,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.41228745432264147,
+          "score": 0.412728001139839,
           "weight": 2,
           "details": {
-            "similarity": 0.41228745432264147
+            "similarity": 0.412728001139839
           }
         }
       ],
@@ -18095,7 +18982,7 @@
     {
       "source": "2021-12-27-Personal-Vision.mdx",
       "target": "2025-12-03-state-of-the-union.md",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -18120,7 +19007,7 @@
     {
       "source": "2021-12-27-Personal-Vision.mdx",
       "target": "start-here.md",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -18195,7 +19082,7 @@
     {
       "source": "2021-12-27-Personal-Vision.mdx",
       "target": "2025-12-20-summarizing-19-12-2025.md",
-      "score": 0.2,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -18269,8 +19156,8 @@
     },
     {
       "source": "2021-12-27-Personal-Vision.mdx",
-      "target": "2025-01-01-the-capture-of-american-power-peter.md",
-      "score": 0.049748246593141074,
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -18283,10 +19170,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.4474824659314107,
+          "score": 0.4624926325793238,
           "weight": 2,
           "details": {
-            "similarity": 0.4474824659314107
+            "similarity": 0.4624926325793238
           }
         }
       ],
@@ -21370,7 +22257,7 @@
     {
       "source": "2022-06-16-always-a-body.md",
       "target": "2026-02-06-meaning-at-the-boundary.md",
-      "score": 0.4,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -21494,6 +22381,31 @@
     },
     {
       "source": "2022-06-16-always-a-body.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.04577662640767789,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4077662640767789,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4077662640767789
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2022-06-16-always-a-body.md",
       "target": "chats/2025-10-15-ai-impact-on-labor.md",
       "score": 0.1,
       "signals": [
@@ -21562,31 +22474,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.40433186630754997
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2022-06-16-always-a-body.md",
-      "target": "2026-01-28-the-body-as-ground.md",
-      "score": 0.04529054112214564,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.40290541122145634,
-          "weight": 2,
-          "details": {
-            "similarity": 0.40290541122145634
           }
         }
       ],
@@ -22245,7 +23132,7 @@
     {
       "source": "2025-01-01-david-graeber-the-utopia-of-rules.md",
       "target": "2026-02-21-desire-engine-table.mdx",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -24220,7 +25107,7 @@
     {
       "source": "2025-12-03-state-of-the-union.md",
       "target": "start-here.md",
-      "score": 0.4,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -24237,6 +25124,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.8318327480479285
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-03-state-of-the-union.md",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7203375401533967,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7203375401533967
           }
         }
       ],
@@ -24437,31 +25349,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.6805925874064302
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-03-state-of-the-union.md",
-      "target": "2025-12-18-the-two-filters-why-reasonable-ideas.md",
-      "score": 0.5,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6802143736370405,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6802143736370405
           }
         }
       ],
@@ -26283,10 +27170,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.596556860274291,
+          "score": 0.5965418551885318,
           "weight": 2,
           "details": {
-            "similarity": 0.596556860274291
+            "similarity": 0.5965418551885318
           }
         }
       ],
@@ -26433,10 +27320,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5660323871849848,
+          "score": 0.5660630916264229,
           "weight": 2,
           "details": {
-            "similarity": 0.5660323871849848
+            "similarity": 0.5660630916264229
           }
         }
       ],
@@ -26658,10 +27545,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6649144459757493,
+          "score": 0.66494789375993,
           "weight": 2,
           "details": {
-            "similarity": 0.6649144459757493
+            "similarity": 0.66494789375993
           }
         }
       ],
@@ -28893,6 +29780,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-17-meta-summary-17-12-2025.md",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5891226400206729,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5891226400206729
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-15-know-thyself-greek-vs-christian.md",
       "target": "2025-12-17-meta-summary-17-12-2025.md",
       "score": 0.1,
@@ -28912,31 +29824,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.5840443395941766
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-03-state-of-the-union.md",
-      "target": "2025-12-17-meta-summary-17-12-2025.md",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5823617372102359,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5823617372102359
           }
         }
       ],
@@ -29420,7 +30307,7 @@
     {
       "source": "2025-12-18-from-galilee-to-empire-the-institutional.md",
       "target": "2026-02-21-desire-engine-table.mdx",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -31045,7 +31932,7 @@
     {
       "source": "2025-12-19-the-employable-subject.md",
       "target": "2026-02-11-the-gaze.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -31294,6 +32181,31 @@
     },
     {
       "source": "2025-12-19-when-equations-see-what-eyes-cannot.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.06940551774799016,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6440551774799015,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6440551774799015
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-19-when-equations-see-what-eyes-cannot.md",
       "target": "2026-02-26-ratchet-stage.md",
       "score": 0.4,
       "signals": [
@@ -31343,34 +32255,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-03-state-of-the-union.md",
-      "target": "2025-12-19-when-equations-see-what-eyes-cannot.md",
-      "score": 0.5,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6342236683431504,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6342236683431504
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2025-12-20-summarizing-19-12-2025.md",
       "target": "start-here.md",
-      "score": 0.3,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -31393,9 +32280,34 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2025-12-20-summarizing-19-12-2025.md",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6180190271394008,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6180190271394008
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-03-state-of-the-union.md",
       "target": "2025-12-20-summarizing-19-12-2025.md",
-      "score": 0.3,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -31445,7 +32357,7 @@
     {
       "source": "2025-12-15-know-thyself-greek-vs-christian.md",
       "target": "2025-12-20-summarizing-19-12-2025.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -31495,7 +32407,7 @@
     {
       "source": "2025-12-17-the-invention-of-the-confessing-animal.md",
       "target": "2025-12-20-summarizing-19-12-2025.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -31562,31 +32474,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.5563983505900649
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-17-know-thyself-the-kingdom-within.md",
-      "target": "2025-12-20-summarizing-19-12-2025.md",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5546574246179776,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5546574246179776
           }
         }
       ],
@@ -31795,7 +32682,7 @@
     {
       "source": "2025-12-21-the-incomplete-god-why-science-cannot.md",
       "target": "2026-02-06-meaning-at-the-boundary.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -34170,7 +35057,7 @@
     {
       "source": "2026-01-11-the-exhaustion-that-cannot-rest.md",
       "target": "2026-02-11-the-gaze.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -35258,10 +36145,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5697587646710107,
+          "score": 0.5697901520647822,
           "weight": 2,
           "details": {
-            "similarity": 0.5697587646710107
+            "similarity": 0.5697901520647822
           }
         }
       ],
@@ -35658,10 +36545,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6968740257656023,
+          "score": 0.6968887447034442,
           "weight": 2,
           "details": {
-            "similarity": 0.6968740257656023
+            "similarity": 0.6968887447034442
           }
         }
       ],
@@ -35708,10 +36595,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6887680800531136,
+          "score": 0.6887816042736938,
           "weight": 2,
           "details": {
-            "similarity": 0.6887680800531136
+            "similarity": 0.6887816042736938
           }
         }
       ],
@@ -36595,7 +37482,7 @@
     {
       "source": "2026-01-15-the-return.md",
       "target": "2026-02-22-religious-development.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -37970,7 +38857,7 @@
     {
       "source": "2026-01-26-the-table.md",
       "target": "2026-02-22-religious-development.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -38445,7 +39332,7 @@
     {
       "source": "2026-01-28-the-body-as-ground.md",
       "target": "2026-02-21-desire-engine-table.mdx",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -38645,7 +39532,7 @@
     {
       "source": "2026-01-29-the-secret-every-political-philosophy.md",
       "target": "2026-02-21-desire-engine-table.mdx",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -39495,7 +40382,7 @@
     {
       "source": "2026-02-06-meaning-at-the-boundary.md",
       "target": "2026-02-06-mystical-meaning.md",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -39520,7 +40407,7 @@
     {
       "source": "2026-02-06-meaning-at-the-boundary.md",
       "target": "2026-02-26-grace-and-cage.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -39545,7 +40432,7 @@
     {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-02-06-meaning-at-the-boundary.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -39570,7 +40457,7 @@
     {
       "source": "2026-02-06-meaning-at-the-boundary.md",
       "target": "2026-02-27-hidden-curriculum.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -39595,7 +40482,7 @@
     {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-02-06-meaning-at-the-boundary.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -39668,9 +40555,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-19-countering-materialism.md",
-      "target": "2026-02-06-meaning-at-the-boundary.md",
-      "score": 0.4,
+      "source": "2026-02-06-meaning-at-the-boundary.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.0745241583726538,
       "signals": [
         {
           "name": "wikilink",
@@ -39683,10 +40570,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6845974593133101,
+          "score": 0.695241583726538,
           "weight": 2,
           "details": {
-            "similarity": 0.6845974593133101
+            "similarity": 0.695241583726538
           }
         }
       ],
@@ -40695,7 +41582,7 @@
     {
       "source": "2026-02-09-what-holds-you.md",
       "target": "2026-02-22-religious-development.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -41020,7 +41907,7 @@
     {
       "source": "2026-02-11-the-gaze.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -41045,7 +41932,7 @@
     {
       "source": "2026-02-09-the-cage-and-the-argument-about-its.md",
       "target": "2026-02-11-the-gaze.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -41068,9 +41955,34 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "2026-03-17-S-F_of_S.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7508514693927892,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7508514693927892
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-02-11-the-gaze.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -41137,31 +42049,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.7369291568034642
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-the-selection-of-souls.md",
-      "target": "2026-02-11-the-gaze.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7342402871139562,
-          "weight": 2,
-          "details": {
-            "similarity": 0.7342402871139562
           }
         }
       ],
@@ -41570,7 +42457,7 @@
     {
       "source": "2025-12-03-state-of-the-union.md",
       "target": "2026-02-20-nyc-mamdani-budget.mdx",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -41670,7 +42557,7 @@
     {
       "source": "2026-02-21-desire-engine-table.mdx",
       "target": "2026-02-22-religious-development.md",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -41718,9 +42605,34 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-21-desire-engine-table.mdx",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7667873823111392,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7667873823111392
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-02-21-desire-engine-table.mdx",
-      "score": 0.1,
+      "score": 0.07966784203611994,
       "signals": [
         {
           "name": "wikilink",
@@ -41737,31 +42649,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.7466784203611994
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
-      "target": "2026-02-21-desire-engine-table.mdx",
-      "score": 0.1,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7435985325776704,
-          "weight": 2,
-          "details": {
-            "similarity": 0.7435985325776704
           }
         }
       ],
@@ -41808,10 +42695,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7825251823124049,
+          "score": 0.7825539642333313,
           "weight": 2,
           "details": {
-            "similarity": 0.7825251823124049
+            "similarity": 0.7825539642333313
           }
         }
       ],
@@ -41883,10 +42770,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.816153638109925,
+          "score": 0.8161650900088708,
           "weight": 2,
           "details": {
-            "similarity": 0.816153638109925
+            "similarity": 0.8161650900088708
           }
         }
       ],
@@ -41908,10 +42795,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7894059401024558,
+          "score": 0.7894030469173966,
           "weight": 2,
           "details": {
-            "similarity": 0.7894059401024558
+            "similarity": 0.7894030469173966
           }
         }
       ],
@@ -42118,6 +43005,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-22-religious-development.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7684904382147363,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7684904382147363
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-02-22-religious-development.md",
       "score": 0.2,
@@ -42293,9 +43205,34 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-26-grace-and-cage.md",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7376754111786058,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7376754111786058
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-02-21-desire-engine-table.mdx",
       "target": "2026-02-26-grace-and-cage.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -42312,31 +43249,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.729968889928979
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-26-grace-and-cage.md",
-      "target": "2026-02-26-woe-is-me.md",
-      "score": 0.5,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.729356456417858,
-          "weight": 2,
-          "details": {
-            "similarity": 0.729356456417858
           }
         }
       ],
@@ -42445,7 +43357,7 @@
     {
       "source": "2026-02-11-the-gaze.md",
       "target": "2026-02-26-mask-debate.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -43043,6 +43955,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-26-grace-and-cage.md",
+      "target": "2026-02-26-woe-is-me.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.729356456417858,
+          "weight": 2,
+          "details": {
+            "similarity": 0.729356456417858
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-02-26-woe-is-me.md",
       "score": 0.3,
@@ -43270,7 +44207,7 @@
     {
       "source": "2026-02-26-grace-and-cage.md",
       "target": "2026-02-27-tyson-critique.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -43420,7 +44357,7 @@
     {
       "source": "2026-02-06-meaning-at-the-boundary.md",
       "target": "2026-02-27-tyson-critique.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -43695,7 +44632,7 @@
     {
       "source": "2026-02-11-the-gaze.md",
       "target": "2026-02-28-pharisee-made-flesh.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -45033,10 +45970,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7095095002438817,
+          "score": 0.7095250878393038,
           "weight": 2,
           "details": {
-            "similarity": 0.7095095002438817
+            "similarity": 0.7095250878393038
           }
         }
       ],
@@ -45058,10 +45995,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.822528160836811,
+          "score": 0.8224942261440015,
           "weight": 2,
           "details": {
-            "similarity": 0.822528160836811
+            "similarity": 0.8224942261440015
           }
         }
       ],
@@ -45083,10 +46020,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.769156006041926,
+          "score": 0.7691893782121816,
           "weight": 2,
           "details": {
-            "similarity": 0.769156006041926
+            "similarity": 0.7691893782121816
           }
         }
       ],
@@ -45108,10 +46045,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6515178803388192,
+          "score": 0.6515563880518637,
           "weight": 2,
           "details": {
-            "similarity": 0.6515178803388192
+            "similarity": 0.6515563880518637
           }
         }
       ],
@@ -45133,10 +46070,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6462471265179515,
+          "score": 0.646249442046285,
           "weight": 2,
           "details": {
-            "similarity": 0.6462471265179515
+            "similarity": 0.646249442046285
           }
         }
       ],
@@ -45145,7 +46082,7 @@
     {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-03-05-iran-the-clearing.md",
-      "score": 0.06910300279386833,
+      "score": 0.06910468242462489,
       "signals": [
         {
           "name": "wikilink",
@@ -45158,10 +46095,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6410300279386832,
+          "score": 0.6410468242462488,
           "weight": 2,
           "details": {
-            "similarity": 0.6410300279386832
+            "similarity": 0.6410468242462488
           }
         }
       ],
@@ -45183,10 +46120,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6407747547472862,
+          "score": 0.6407679239665405,
           "weight": 2,
           "details": {
-            "similarity": 0.6407747547472862
+            "similarity": 0.6407679239665405
           }
         }
       ],
@@ -45208,10 +46145,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6364846352215562,
+          "score": 0.6364922729507653,
           "weight": 2,
           "details": {
-            "similarity": 0.6364846352215562
+            "similarity": 0.6364922729507653
           }
         }
       ],
@@ -45233,10 +46170,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7933066844629157,
+          "score": 0.7932997776209231,
           "weight": 2,
           "details": {
-            "similarity": 0.7933066844629157
+            "similarity": 0.7932997776209231
           }
         }
       ],
@@ -45258,10 +46195,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7298468364181708,
+          "score": 0.7298603765972458,
           "weight": 2,
           "details": {
-            "similarity": 0.7298468364181708
+            "similarity": 0.7298603765972458
           }
         }
       ],
@@ -45283,10 +46220,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7268413968710982,
+          "score": 0.7268786003603851,
           "weight": 2,
           "details": {
-            "similarity": 0.7268413968710982
+            "similarity": 0.7268786003603851
           }
         }
       ],
@@ -45308,10 +46245,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7217949225243666,
+          "score": 0.7217955909025267,
           "weight": 2,
           "details": {
-            "similarity": 0.7217949225243666
+            "similarity": 0.7217955909025267
           }
         }
       ],
@@ -45333,10 +46270,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7192462966245949,
+          "score": 0.7192685166584177,
           "weight": 2,
           "details": {
-            "similarity": 0.7192462966245949
+            "similarity": 0.7192685166584177
           }
         }
       ],
@@ -45358,10 +46295,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7170245159415657,
+          "score": 0.7170383426212968,
           "weight": 2,
           "details": {
-            "similarity": 0.7170245159415657
+            "similarity": 0.7170383426212968
           }
         }
       ],
@@ -45383,10 +46320,785 @@
         },
         {
           "name": "semantic",
-          "score": 0.7140129392637258,
+          "score": 0.7140272822323921,
           "weight": 2,
           "details": {
-            "similarity": 0.7140129392637258
+            "similarity": 0.7140272822323921
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-05-iran-the-clearing.md",
+      "target": "2026-03-15-iran-update.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.41703282071491377,
+          "weight": 2,
+          "details": {
+            "similarity": 0.41703282071491377
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-15-iran-update.md",
+      "target": "pages/iran-timeline.mdx",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3612515726536681,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3612515726536681
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-14-the-ideological-trap-for-the-left.md",
+      "target": "2026-03-15-iran-update.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3603635300072832,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3603635300072832
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-12-structure-not-vibes-the-real-state.md",
+      "target": "2026-03-15-iran-update.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.35205380801505165,
+          "weight": 2,
+          "details": {
+            "similarity": 0.35205380801505165
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-recognition-dynamics.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6702686934098918,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6702686934098918
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-recognition-dynamics.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6328030786487524,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6328030786487524
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-recognition-dynamics.md",
+      "target": "pages/oldest-want-hider-proof.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6132128667706455,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6132128667706455
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-23-grammar-as-alignment-the-world-economic.md",
+      "target": "2026-03-16-recognition-dynamics.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6079863031812787,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6079863031812787
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-recognition-dynamics.md",
+      "target": "pages/oldest-want-confessor-proof.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6077233911163856,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6077233911163856
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-recognition-dynamics.md",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6072414163300667,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6072414163300667
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-26-ratchet-stage.md",
+      "target": "2026-03-16-recognition-dynamics.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6063623793976447,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6063623793976447
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-recognition-dynamics.md",
+      "target": "pages/oldest-want-performer-proof.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.600116528481236,
+          "weight": 2,
+          "details": {
+            "similarity": 0.600116528481236
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-01-01-the-capture-of-american-power-peter.md",
+      "target": "2026-03-16-recognition-dynamics.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5964578325860166,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5964578325860166
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-02-fertility-is-not-economics.mdx",
+      "target": "2026-03-16-recognition-dynamics.md",
+      "score": 0.06271445959941997,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5771445959941996,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5771445959941996
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-self-cage-wheel-ground.md",
+      "target": "start-here.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7477591677511196,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7477591677511196
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7257641883160262,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7257641883160262
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-the-selection-of-souls.md",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7103731297114844,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7103731297114844
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-22-religious-development.md",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.70408956546904,
+          "weight": 2,
+          "details": {
+            "similarity": 0.70408956546904
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-self-cage-wheel-ground.md",
+      "target": "2026-03-17-S-F_of_S.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7033398914668263,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7033398914668263
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-21-desire-engine-table.mdx",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7032376763977655,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7032376763977655
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-16-self-cage-wheel-ground.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6964529218922721,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6964529218922721
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-09-the-cage-and-the-argument-about-its.md",
+      "target": "2026-03-16-self-cage-wheel-ground.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6962847763117467,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6962847763117467
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-17-S-F_of_S.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7490607853624359,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7490607853624359
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
+      "target": "2026-03-17-S-F_of_S.md",
+      "score": 0.6,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7490197871078536,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7490197871078536
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-17-S-F_of_S.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7409731199606527,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7409731199606527
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-the-selection-of-souls.md",
+      "target": "2026-03-17-S-F_of_S.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7332264941414073,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7332264941414073
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
+      "target": "2026-03-17-S-F_of_S.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7323820414308667,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7323820414308667
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "2026-03-17-S-F_of_S.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7306341556366631,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7306341556366631
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-17-S-F_of_S.md",
+      "target": "pages/oldest-want-hider-proof.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7249310820712085,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7249310820712085
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-09-the-cage-and-the-argument-about-its.md",
+      "target": "2026-03-17-S-F_of_S.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7209398664225195,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7209398664225195
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-11-the-exhaustion-that-cannot-rest.md",
+      "target": "2026-03-17-S-F_of_S.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7159754545000107,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7159754545000107
           }
         }
       ],
@@ -45395,7 +47107,7 @@
     {
       "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
       "target": "start-here.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -45420,7 +47132,7 @@
     {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "start-here.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -45470,7 +47182,7 @@
     {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "start-here.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -45495,7 +47207,7 @@
     {
       "source": "2026-02-21-desire-engine-table.mdx",
       "target": "start-here.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -45512,31 +47224,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.7273705902068639
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-      "target": "start-here.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7258677706279475,
-          "weight": 2,
-          "details": {
-            "similarity": 0.7258677706279475
           }
         }
       ],
@@ -52783,10 +54470,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5721205812048674,
+          "score": 0.5721059637802635,
           "weight": 2,
           "details": {
-            "similarity": 0.5721205812048674
+            "similarity": 0.5721059637802635
           }
         }
       ],
@@ -54720,7 +56407,7 @@
     {
       "source": "start-here.md",
       "target": "the-mirror-room/index.md",
-      "score": 0.1,
+      "score": 0.04550988945759591,
       "signals": [
         {
           "name": "wikilink",
@@ -55770,7 +57457,7 @@
     {
       "source": "2026-03-05-iran-the-resolution.md",
       "target": "chats/2025-10-14-girards-scapegoat-mechanism.md",
-      "score": 0.05787907613675695,
+      "score": 0.05788104880999249,
       "signals": [
         {
           "name": "wikilink",
@@ -55783,10 +57470,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5287907613675694,
+          "score": 0.5288104880999248,
           "weight": 2,
           "details": {
-            "similarity": 0.5287907613675694
+            "similarity": 0.5288104880999248
           }
         }
       ],
@@ -56593,6 +58280,56 @@
       "edgeType": "semantic"
     },
     {
+      "source": "pages/attention-fields.mdx",
+      "target": "pages/metaphysical-choices.mdx",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4448051720982243,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4448051720982243
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/attention-fields.mdx",
+      "target": "pages/nyc-budget-simulator.mdx",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.40188531428740387,
+          "weight": 2,
+          "details": {
+            "similarity": 0.40188531428740387
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "pages/church-notes.md",
       "target": "pages/what-the-difference-actually-is.md",
       "score": 0.4,
@@ -57120,7 +58857,7 @@
     {
       "source": "2025-12-17-meta-summary-17-12-2025.md",
       "target": "pages/mcp.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -57220,7 +58957,7 @@
     {
       "source": "pages/metaphysical-choices.mdx",
       "target": "pages/nyc-budget-simulator.mdx",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -57243,9 +58980,59 @@
       "edgeType": "semantic"
     },
     {
+      "source": "pages/metaphysical-choices.mdx",
+      "target": "pages/oldest-want-proofs-all.mdx",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4387891366961607,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4387891366961607
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/metaphysical-choices.mdx",
+      "target": "pages/oldest-want-proof-interactive.mdx",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4263974365962047,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4263974365962047
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-27-manufacturing-luck.mdx",
       "target": "pages/metaphysical-choices.mdx",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -57270,7 +59057,7 @@
     {
       "source": "start-here.md",
       "target": "pages/metaphysical-choices.mdx",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -57287,6 +59074,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.38601772308352805
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/metaphysical-choices.mdx",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3734309307723999,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3734309307723999
           }
         }
       ],
@@ -57368,56 +59180,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "the-mirror-room/03-the-meeting.md",
-      "target": "pages/metaphysical-choices.mdx",
-      "score": 0.1,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.35299685674172265,
-          "weight": 2,
-          "details": {
-            "similarity": 0.35299685674172265
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-03-state-of-the-union.md",
-      "target": "pages/metaphysical-choices.mdx",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.35237969148516474,
-          "weight": 2,
-          "details": {
-            "similarity": 0.35237969148516474
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2026-02-20-nyc-mamdani-budget.mdx",
       "target": "pages/nyc-budget-simulator.mdx",
       "score": 0.0561209900731405,
@@ -57462,6 +59224,1956 @@
           "weight": 2,
           "details": {
             "similarity": 0.3703999747095018
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-confessor-proof.md",
+      "target": "pages/oldest-want-performer-proof.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8941857470222664,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8941857470222664
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-confessor-proof.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8671920879806775,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8671920879806775
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-confessor-proof.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.9,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8392334380803683,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8392334380803683
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-confessor-proof.md",
+      "target": "pages/oldest-want-hider-proof.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8306080572470677,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8306080572470677
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-confessor-proof.md",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7752316298541047,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7752316298541047
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-confessor-proof.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7596322661407181,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7596322661407181
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-confessor-proof.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7298230737314364,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7298230737314364
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-17-S-F_of_S.md",
+      "target": "pages/oldest-want-confessor-proof.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7002487898459279,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7002487898459279
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-22-religious-development.md",
+      "target": "pages/oldest-want-confessor-proof.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6767952578187296,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6767952578187296
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-21-desire-engine-table.mdx",
+      "target": "pages/oldest-want-confessor-proof.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6604066680123409,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6604066680123409
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.9000158785465222,
+          "weight": 2,
+          "details": {
+            "similarity": 0.9000158785465222
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8719858577915939,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8719858577915939
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8574462803059778,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8574462803059778
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/oldest-want-performer-proof.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8574192048358842,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8574192048358842
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8284563113295474,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8284563113295474
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8009625096357926,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8009625096357926
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-27-hidden-curriculum.md",
+      "target": "pages/oldest-want-hider-proof.md",
+      "score": 0.07467778273844515,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6967778273844514,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6967778273844514
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "pages/oldest-want-hider-proof.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6943560722001968,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6943560722001968
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-performer-proof.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.9,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.874030100854009,
+          "weight": 2,
+          "details": {
+            "similarity": 0.874030100854009
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-performer-proof.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8189379994440209,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8189379994440209
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-performer-proof.md",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8061590452857509,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8061590452857509
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-performer-proof.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7524733848787838,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7524733848787838
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-performer-proof.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7495187147024802,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7495187147024802
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-17-S-F_of_S.md",
+      "target": "pages/oldest-want-performer-proof.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6961571593947578,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6961571593947578
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "pages/oldest-want-performer-proof.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6457669795562793,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6457669795562793
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-22-religious-development.md",
+      "target": "pages/oldest-want-performer-proof.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6336769788581341,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6336769788581341
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-poetic.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8044930186996715,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8044930186996715
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-poetic.md",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7142330638517003,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7142330638517003
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/oldest-want-poetic.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6937641099709312,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6937641099709312
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-poetic.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6825315029889453,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6825315029889453
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "pages/oldest-want-poetic.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.672299164787285,
+          "weight": 2,
+          "details": {
+            "similarity": 0.672299164787285
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
+      "target": "pages/oldest-want-poetic.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6642846735125304,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6642846735125304
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-poetic.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.661825322186055,
+          "weight": 2,
+          "details": {
+            "similarity": 0.661825322186055
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
+      "target": "pages/oldest-want-poetic.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6373660682908945,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6373660682908945
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
+      "target": "pages/oldest-want-poetic.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6262717146322739,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6262717146322739
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-26-grace-and-cage.md",
+      "target": "pages/oldest-want-poetic.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6262416641079537,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6262416641079537
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-explainer.md",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8725049171458391,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8725049171458391
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-explainer.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.815029408445455,
+          "weight": 2,
+          "details": {
+            "similarity": 0.815029408445455
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-explainer.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8076467380375755,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8076467380375755
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-explainer.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.757640404281248,
+          "weight": 2,
+          "details": {
+            "similarity": 0.757640404281248
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7116336149572464,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7116336149572464
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-17-S-F_of_S.md",
+      "target": "pages/oldest-want-proof-explainer.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7042924851170522,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7042924851170522
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-interactive.mdx",
+      "target": "pages/oldest-want-proofs-all.mdx",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8669330832157446,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8669330832157446
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-explainer.md",
+      "target": "pages/oldest-want-proof-interactive.mdx",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5462634914963433,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5462634914963433
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-interactive.mdx",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5062161299001385,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5062161299001385
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-poetic.md",
+      "target": "pages/oldest-want-proof-interactive.mdx",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4273324375562869,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4273324375562869
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-interactive.mdx",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.41766165150129403,
+          "weight": 2,
+          "details": {
+            "similarity": 0.41766165150129403
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/oldest-want-proof-interactive.mdx",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4169757478372192,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4169757478372192
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-performer-proof.md",
+      "target": "pages/oldest-want-proof-interactive.mdx",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3802491181073334,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3802491181073334
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-19-when-equations-see-what-eyes-cannot.md",
+      "target": "pages/oldest-want-proof-interactive.mdx",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.37850431944362156,
+          "weight": 2,
+          "details": {
+            "similarity": 0.37850431944362156
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-interactive.mdx",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.37135917666944246,
+          "weight": 2,
+          "details": {
+            "similarity": 0.37135917666944246
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8677451876883024,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8677451876883024
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8446318130775675,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8446318130775675
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof.md",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.823191659254707,
+          "weight": 2,
+          "details": {
+            "similarity": 0.823191659254707
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-17-S-F_of_S.md",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6855356894698732,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6855356894698732
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-27-hidden-curriculum.md",
+      "target": "pages/oldest-want-proof.md",
+      "score": 0.07105577918816802,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6605577918816802,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6605577918816802
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-explainer.md",
+      "target": "pages/oldest-want-proofs-all.mdx",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4772832373741873,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4772832373741873
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof.md",
+      "target": "pages/oldest-want-proofs-all.mdx",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.47099228718486374,
+          "weight": 2,
+          "details": {
+            "similarity": 0.47099228718486374
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-poetic.md",
+      "target": "pages/oldest-want-proofs-all.mdx",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4217185165798328,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4217185165798328
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proofs-all.mdx",
+      "target": "pages/oldest-want-releasement.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.38441032786822715,
+          "weight": 2,
+          "details": {
+            "similarity": 0.38441032786822715
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-hider-proof.md",
+      "target": "pages/oldest-want-proofs-all.mdx",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3766722946492282,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3766722946492282
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-performer-proof.md",
+      "target": "pages/oldest-want-proofs-all.mdx",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3610528412794161,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3610528412794161
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-releasement.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.8,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8442374156618819,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8442374156618819
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-releasement.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7796267309390449,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7796267309390449
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-self-author-proof.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.8549436703882419,
+          "weight": 2,
+          "details": {
+            "similarity": 0.8549436703882419
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6962832558527963,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6962832558527963
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-22-religious-development.md",
+      "target": "pages/oldest-want-self-author-proof.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6938391505565489,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6938391505565489
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-17-S-F_of_S.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7001787469853727,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7001787469853727
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "pages/structure-of-reality-social-theorem.md",
+      "score": 0.07405608745924538,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6905608745924537,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6905608745924537
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "start-here.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.4256333228925482,
+          "weight": 2,
+          "details": {
+            "similarity": 0.4256333228925482
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-26-grace-and-cage.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.40523788874504935,
+          "weight": 2,
+          "details": {
+            "similarity": 0.40523788874504935
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-06-meaning-at-the-boundary.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3962415058239459,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3962415058239459
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-04-fourth-way-of-knowing.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.39171178191126294,
+          "weight": 2,
+          "details": {
+            "similarity": 0.39171178191126294
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-04-the-hidden-grammar.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3833852028363138,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3833852028363138
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3798465624793555,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3798465624793555
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "chats/2025-10-13-epistemic-humility-discussion.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.37877954139611697,
+          "weight": 2,
+          "details": {
+            "similarity": 0.37877954139611697
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-19-when-equations-see-what-eyes-cannot.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.37597011817103754,
+          "weight": 2,
+          "details": {
+            "similarity": 0.37597011817103754
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "pages/oldest-want-proof-explainer.md",
+      "target": "pages/structure-of-reality.md",
+      "score": 0.04215889456473909,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3715889456473909,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3715889456473909
           }
         }
       ],
@@ -57520,7 +61232,7 @@
     {
       "source": "2026-02-11-the-gaze.md",
       "target": "pages/the-same-week.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -57807,19 +61519,19 @@
       "2020-05-25-Non-Conceptual-Definitions.md": 2,
       "2020-06-29-all-things-are-permitted.md": 3,
       "2020-09-13-declarative.md": 0,
-      "2021-01-21-false-positive-rate.md": 4,
-      "2021-01-26-regression-mean-vs-gambler.md": 4,
-      "2021-02-07-volatility-isnt-risk.md": 4,
+      "2021-01-21-false-positive-rate.md": 0,
+      "2021-01-26-regression-mean-vs-gambler.md": 0,
+      "2021-02-07-volatility-isnt-risk.md": 0,
       "2021-02-08-reactive-markdown.md": 0,
       "2021-02-12-Todo-MVC.md": 0,
       "2021-02-14-Pi-Cloud.mdx": 0,
-      "2021-03-01-Nic-Cage-Genre.md": 5,
+      "2021-03-01-Nic-Cage-Genre.md": 4,
       "2021-04-05-Religion-Last.md": 2,
       "2021-08-22-Understanding-Generics.md": 0,
       "2021-12-15-React-Anemic-Models.md": 0,
       "2021-12-16-Missing-Mutation-Primitives.md": 0,
       "2021-12-17-Object-Identity.mdx": 0,
-      "2021-12-20-American-Spirit.md": 6,
+      "2021-12-20-American-Spirit.md": 5,
       "2021-12-20-mathematician-running-the-world.md": 2,
       "2021-12-23-Deeply-Nested-Updates-React.mdx": 0,
       "2021-12-27-Observability-Driven-Development.md": 0,
@@ -57830,7 +61542,7 @@
       "2022-01-17-why-fetching-earliy-is-difficult-to-express.md": 0,
       "2022-04-07-your-package-is-two.mdx": 0,
       "2022-04-25-doing-for-others.md": 2,
-      "2022-04-25-foundational-myths.md": 2,
+      "2022-04-25-foundational-myths.md": 5,
       "2022-05-12-simple-mdx.mdx": 0,
       "2022-05-12-skipping-the-bundling.md": 0,
       "2022-05-13-large-local-storage.md": 0,
@@ -57842,115 +61554,115 @@
       "2022-06-06-not-machine-readable.md": 2,
       "2022-06-16-always-a-body.md": 2,
       "2022-08-23-why-sqlite-why-now.md": 0,
-      "2022-10-18-lamport-clock.md": 7,
-      "2022-10-18-lamport-sufficient-for-lww.md": 7,
+      "2022-10-18-lamport-clock.md": 6,
+      "2022-10-18-lamport-sufficient-for-lww.md": 6,
       "2022-10-19-meta-scales-mysql.md": 0,
-      "2025-01-01-david-graeber-the-utopia-of-rules.md": 8,
-      "2025-01-01-financial-power-and-imperial-rule.md": 6,
-      "2025-01-01-resurrecting-ted-kaczynski.md": 6,
-      "2025-01-01-the-architecture-of-meaning-a-deeper.md": 2,
-      "2025-01-01-the-capture-of-american-power-peter.md": 4,
-      "2025-01-01-the-letter-to-the-therapeutics.md": 6,
-      "2025-01-01-you-are-not-your-diagnosis.md": 6,
+      "2025-01-01-david-graeber-the-utopia-of-rules.md": 7,
+      "2025-01-01-financial-power-and-imperial-rule.md": 5,
+      "2025-01-01-resurrecting-ted-kaczynski.md": 5,
+      "2025-01-01-the-architecture-of-meaning-a-deeper.md": 8,
+      "2025-01-01-the-capture-of-american-power-peter.md": 5,
+      "2025-01-01-the-letter-to-the-therapeutics.md": 5,
+      "2025-01-01-you-are-not-your-diagnosis.md": 9,
       "2025-12-02-monotheism-oneness-traps.md": 2,
       "2025-12-03-state-of-the-union.md": 2,
-      "2025-12-09-exploring-religin-marx.md": 8,
-      "2025-12-09-monstrous_doubles_girard_essay.md": 9,
-      "2025-12-09-secular_eschaton_essay.md": 8,
-      "2025-12-10-arhictecture-of-harm.md": 8,
-      "2025-12-10-calvinism-to-capitalism.md": 8,
+      "2025-12-09-exploring-religin-marx.md": 7,
+      "2025-12-09-monstrous_doubles_girard_essay.md": 8,
+      "2025-12-09-secular_eschaton_essay.md": 7,
+      "2025-12-10-arhictecture-of-harm.md": 7,
+      "2025-12-10-calvinism-to-capitalism.md": 2,
       "2025-12-10-husk-of-god.md": 2,
-      "2025-12-10-indigenous-violence-slavery-documentation.md": 8,
-      "2025-12-10-peasent-uprisings.md": 8,
-      "2025-12-12-making-sense-of-us-ukraine-negotations.md": 4,
-      "2025-12-12-structure-not-vibes-the-real-state.md": 4,
-      "2025-12-12-the-vulnerability-principle.md": 4,
-      "2025-12-12-trumps-techno-fetish.md": 4,
-      "2025-12-12-why-cultures-differentiate.md": 8,
-      "2025-12-15-burnout-is-a-modern-invention.md": 6,
-      "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 9,
-      "2025-12-15-know-thyself-greek-vs-christian.md": 9,
-      "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 9,
-      "2025-12-17-know-thyself-no-self.md": 9,
-      "2025-12-17-know-thyself-the-kingdom-within.md": 9,
-      "2025-12-17-know-thyself-through-what.md": 9,
-      "2025-12-17-meta-summary-17-12-2025.md": 8,
-      "2025-12-17-the-invention-of-the-confessing-animal.md": 9,
+      "2025-12-10-indigenous-violence-slavery-documentation.md": 7,
+      "2025-12-10-peasent-uprisings.md": 7,
+      "2025-12-12-making-sense-of-us-ukraine-negotations.md": 5,
+      "2025-12-12-structure-not-vibes-the-real-state.md": 5,
+      "2025-12-12-the-vulnerability-principle.md": 5,
+      "2025-12-12-trumps-techno-fetish.md": 5,
+      "2025-12-12-why-cultures-differentiate.md": 7,
+      "2025-12-15-burnout-is-a-modern-invention.md": 5,
+      "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 8,
+      "2025-12-15-know-thyself-greek-vs-christian.md": 8,
+      "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 8,
+      "2025-12-17-know-thyself-no-self.md": 8,
+      "2025-12-17-know-thyself-the-kingdom-within.md": 8,
+      "2025-12-17-know-thyself-through-what.md": 8,
+      "2025-12-17-meta-summary-17-12-2025.md": 7,
+      "2025-12-17-the-invention-of-the-confessing-animal.md": 8,
       "2025-12-18-a-systems-analysis-of-why-your-worldview.md": 2,
-      "2025-12-18-from-galilee-to-empire-the-institutional.md": 8,
-      "2025-12-18-the-alchemy-of-power.md": 8,
-      "2025-12-18-the-battlefield-of-attention.md": 8,
+      "2025-12-18-from-galilee-to-empire-the-institutional.md": 7,
+      "2025-12-18-the-alchemy-of-power.md": 7,
+      "2025-12-18-the-battlefield-of-attention.md": 7,
       "2025-12-18-the-selection-of-souls.md": 2,
-      "2025-12-18-the-shape-of-the-container.md": 8,
-      "2025-12-18-the-two-filters-why-reasonable-ideas.md": 2,
+      "2025-12-18-the-shape-of-the-container.md": 7,
+      "2025-12-18-the-two-filters-why-reasonable-ideas.md": 5,
       "2025-12-19-countering-materialism.md": 2,
       "2025-12-19-how-power-weaponizes-mass-education.md": 2,
       "2025-12-19-the-employable-subject.md": 2,
       "2025-12-19-when-equations-see-what-eyes-cannot.md": 2,
-      "2025-12-20-summarizing-19-12-2025.md": 9,
+      "2025-12-20-summarizing-19-12-2025.md": 7,
       "2025-12-21-the-incomplete-god-why-science-cannot.md": 2,
       "2025-12-21-the-liquefaction-of-being-materialism.md": 2,
       "2025-12-21-what-modernity-needs-a-return-to.md": 2,
       "2025-12-22-the-laboratory-of-the-human-shakespeare.md": 2,
-      "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 6,
-      "2026-01-09-diagnosing-white-guilt.md": 6,
-      "2026-01-09-leftism-is-worse-than-fascism.md": 6,
-      "2026-01-09-pathologies-of-eastern-secularism.md": 8,
-      "2026-01-09-the-epistemology-of-impotence-how.md": 4,
-      "2026-01-09-the-theological-structure-of-secular.md": 8,
-      "2026-01-09-trauma-culture-a-diagnosis.md": 6,
-      "2026-01-09-trauma-culture-white-guilt-checkmate.md": 6,
-      "2026-01-09-why-the-secularism-in-the-west-became.md": 8,
-      "2026-01-11-debugging-the-confusion-liberalism.md": 6,
-      "2026-01-11-the-exhaustion-that-cannot-rest.md": 6,
-      "2026-01-11-the-socialists-convenient-blindness.md": 6,
-      "2026-01-12-principalities-and-powers.md": 8,
-      "2026-01-12-the-economy-of-refusal.md": 8,
-      "2026-01-12-the-epistle-to-the-managed.md": 6,
-      "2026-01-12-the-new-lords.md": 6,
-      "2026-01-12-the-recurring-pattern-left-islamist.md": 4,
+      "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 5,
+      "2026-01-09-diagnosing-white-guilt.md": 5,
+      "2026-01-09-leftism-is-worse-than-fascism.md": 5,
+      "2026-01-09-pathologies-of-eastern-secularism.md": 7,
+      "2026-01-09-the-epistemology-of-impotence-how.md": 5,
+      "2026-01-09-the-theological-structure-of-secular.md": 7,
+      "2026-01-09-trauma-culture-a-diagnosis.md": 5,
+      "2026-01-09-trauma-culture-white-guilt-checkmate.md": 5,
+      "2026-01-09-why-the-secularism-in-the-west-became.md": 7,
+      "2026-01-11-debugging-the-confusion-liberalism.md": 5,
+      "2026-01-11-the-exhaustion-that-cannot-rest.md": 5,
+      "2026-01-11-the-socialists-convenient-blindness.md": 5,
+      "2026-01-12-principalities-and-powers.md": 7,
+      "2026-01-12-the-economy-of-refusal.md": 7,
+      "2026-01-12-the-epistle-to-the-managed.md": 5,
+      "2026-01-12-the-new-lords.md": 5,
+      "2026-01-12-the-recurring-pattern-left-islamist.md": 5,
       "2026-01-14-the-fence-you-cannot-see.md": 2,
-      "2026-01-14-the-ideological-trap-for-the-left.md": 4,
-      "2026-01-14-the-violence-you-fear-may-be-the.md": 4,
-      "2026-01-14-we-can-capture-our-way-out.md": 4,
-      "2026-01-15-the-physicians-of-decay.md": 2,
-      "2026-01-15-the-return.md": 8,
-      "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 6,
-      "2026-01-23-grammar-as-alignment-the-world-economic.md": 2,
+      "2026-01-14-the-ideological-trap-for-the-left.md": 5,
+      "2026-01-14-the-violence-you-fear-may-be-the.md": 5,
+      "2026-01-14-we-can-capture-our-way-out.md": 5,
+      "2026-01-15-the-physicians-of-decay.md": 5,
+      "2026-01-15-the-return.md": 7,
+      "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 5,
+      "2026-01-23-grammar-as-alignment-the-world-economic.md": 5,
       "2026-01-23-grammar-rules-all.md": 2,
-      "2026-01-23-the-language-that-thinks-for-you.md": 6,
-      "2026-01-25-the-ice-protest-that-changes-nothing.md": 4,
+      "2026-01-23-the-language-that-thinks-for-you.md": 5,
+      "2026-01-25-the-ice-protest-that-changes-nothing.md": 5,
       "2026-01-25-the-machine-that-eats-the-world.md": 2,
-      "2026-01-26-the-table.md": 8,
-      "2026-01-27-manufacturing-luck.mdx": 4,
-      "2026-01-27-what-would-marx-say-today.md": 6,
-      "2026-01-28-the-body-as-ground.md": 8,
-      "2026-01-29-the-secret-every-political-philosophy.md": 8,
+      "2026-01-26-the-table.md": 7,
+      "2026-01-27-manufacturing-luck.mdx": 0,
+      "2026-01-27-what-would-marx-say-today.md": 5,
+      "2026-01-28-the-body-as-ground.md": 7,
+      "2026-01-29-the-secret-every-political-philosophy.md": 7,
       "2026-01-31-education-cannot-save-us.md": 2,
-      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 6,
+      "2026-01-31-malcom-x-on-kendi-and-diangelo.md": 5,
       "2026-02-02-the-executive-function-curriculum.md": 2,
       "2026-02-06-meaning-at-the-boundary.md": 2,
       "2026-02-06-mystical-meaning.md": 2,
-      "2026-02-07-the-lamb-part-ii.md": 6,
-      "2026-02-07-the-lamb.md": 6,
-      "2026-02-07-tyler-durden-on-how-they-broke-you.md": 6,
-      "2026-02-09-the-cage-and-the-argument-about-its.md": 2,
+      "2026-02-07-the-lamb-part-ii.md": 9,
+      "2026-02-07-the-lamb.md": 9,
+      "2026-02-07-tyler-durden-on-how-they-broke-you.md": 9,
+      "2026-02-09-the-cage-and-the-argument-about-its.md": 5,
       "2026-02-09-the-invisible-right-on-what-becomes.md": 2,
-      "2026-02-09-what-holds-you.md": 8,
-      "2026-02-11-nine-months-two-men.md": 6,
-      "2026-02-11-the-gaze.md": 6,
-      "2026-02-12-the-ironist-gen-z-and-the-ground.md": 6,
-      "2026-02-12-what-if-the-thing-youre-protecting.md": 2,
-      "2026-02-19-mysticism-research-list.md": 9,
-      "2026-02-20-nyc-mamdani-budget.mdx": 4,
-      "2026-02-21-desire-engine-table.mdx": 8,
-      "2026-02-21-structural-wisdom-biblical-eschatology.mdx": 8,
-      "2026-02-21-west-psychodrama.md": 8,
-      "2026-02-22-religious-development.md": 8,
+      "2026-02-09-what-holds-you.md": 7,
+      "2026-02-11-nine-months-two-men.md": 9,
+      "2026-02-11-the-gaze.md": 9,
+      "2026-02-12-the-ironist-gen-z-and-the-ground.md": 9,
+      "2026-02-12-what-if-the-thing-youre-protecting.md": 9,
+      "2026-02-19-mysticism-research-list.md": 8,
+      "2026-02-20-nyc-mamdani-budget.mdx": 5,
+      "2026-02-21-desire-engine-table.mdx": 7,
+      "2026-02-21-structural-wisdom-biblical-eschatology.mdx": 7,
+      "2026-02-21-west-psychodrama.md": 7,
+      "2026-02-22-religious-development.md": 7,
       "2026-02-26-grace-and-cage.md": 2,
       "2026-02-26-mask-debate.md": 2,
-      "2026-02-26-ratchet-stage.md": 2,
-      "2026-02-26-the-honest-record.md": 8,
+      "2026-02-26-ratchet-stage.md": 5,
+      "2026-02-26-the-honest-record.md": 7,
       "2026-02-26-woe-is-me.md": 2,
       "2026-02-27-hidden-curriculum.md": 2,
       "2026-02-27-tyson-critique.md": 2,
@@ -57958,188 +61670,212 @@
       "2026-03-02-data-doesnt-speak.md": 2,
       "2026-03-02-fertility-is-not-economics.mdx": 2,
       "2026-03-02-the-genealogy-of-the-empty-cradle.md": 2,
-      "2026-03-03-one-party-system-two-party-theatre.md": 4,
+      "2026-03-03-one-party-system-two-party-theatre.md": 5,
       "2026-03-04-fourth-way-of-knowing.md": 2,
       "2026-03-04-the-hidden-grammar.md": 2,
-      "2026-03-04-the-undesigned-narrative.md": 8,
-      "2026-03-05-iran-the-clearing.md": 4,
-      "2026-03-05-iran-the-resolution.md": 8,
-      "start-here.md": 2,
-      "bookmarks/alecmuffet.com.md": 10,
-      "bookmarks/allenfarrington.medium.com.md": 10,
-      "bookmarks/antonz.org.md": 7,
-      "bookmarks/assemblyai.com.md": 7,
-      "bookmarks/bartoszsypytkowski.com.md": 7,
-      "bookmarks/beautifulracket.com.md": 7,
-      "bookmarks/blockprotocol.org.md": 10,
-      "bookmarks/cgi.luddy.indiana.edu.md": 7,
-      "bookmarks/cs.utexas.edu.md": 7,
-      "bookmarks/daveliepmann.com.md": 10,
+      "2026-03-04-the-undesigned-narrative.md": 7,
+      "2026-03-05-iran-the-clearing.md": 5,
+      "2026-03-05-iran-the-resolution.md": 7,
+      "2026-03-15-iran-update.md": 5,
+      "2026-03-16-recognition-dynamics.md": 10,
+      "2026-03-16-self-cage-wheel-ground.md": 7,
+      "2026-03-17-S-F_of_S.md": 10,
+      "start-here.md": 7,
+      "bookmarks/alecmuffet.com.md": 11,
+      "bookmarks/allenfarrington.medium.com.md": 11,
+      "bookmarks/antonz.org.md": 6,
+      "bookmarks/assemblyai.com.md": 6,
+      "bookmarks/bartoszsypytkowski.com.md": 6,
+      "bookmarks/beautifulracket.com.md": 6,
+      "bookmarks/blockprotocol.org.md": 11,
+      "bookmarks/cgi.luddy.indiana.edu.md": 6,
+      "bookmarks/cs.utexas.edu.md": 6,
+      "bookmarks/daveliepmann.com.md": 11,
       "bookmarks/david-dahan.com.md": 0,
-      "bookmarks/david.rothlis.net.md": 7,
-      "bookmarks/desolenator.com.md": 10,
-      "bookmarks/developers.soundcloud.com.md": 7,
+      "bookmarks/david.rothlis.net.md": 6,
+      "bookmarks/desolenator.com.md": 11,
+      "bookmarks/developers.soundcloud.com.md": 6,
       "bookmarks/devever.net.md": 0,
-      "bookmarks/dist-prog-book.com.md": 7,
-      "bookmarks/dwitter.net.md": 10,
-      "bookmarks/edwardtufte.github.io.md": 10,
-      "bookmarks/fly.io.md": 7,
-      "bookmarks/glitch.com.md": 10,
-      "bookmarks/hal.inria.fr.md": 7,
-      "bookmarks/hash.ai.md": 10,
-      "bookmarks/kinopio.club.md": 10,
-      "bookmarks/lago.com.md": 10,
-      "bookmarks/nature.com.md": 10,
-      "bookmarks/netfuture.ch.md": 10,
-      "bookmarks/philo.substack.com.md": 10,
-      "bookmarks/pketh.org.md": 10,
-      "bookmarks/pouet.net.md": 10,
-      "bookmarks/sigbus.info.md": 7,
-      "bookmarks/skiff.com.md": 10,
-      "bookmarks/unpaywall.org.md": 10,
+      "bookmarks/dist-prog-book.com.md": 6,
+      "bookmarks/dwitter.net.md": 11,
+      "bookmarks/edwardtufte.github.io.md": 11,
+      "bookmarks/fly.io.md": 6,
+      "bookmarks/glitch.com.md": 11,
+      "bookmarks/hal.inria.fr.md": 6,
+      "bookmarks/hash.ai.md": 11,
+      "bookmarks/kinopio.club.md": 11,
+      "bookmarks/lago.com.md": 11,
+      "bookmarks/nature.com.md": 11,
+      "bookmarks/netfuture.ch.md": 11,
+      "bookmarks/philo.substack.com.md": 5,
+      "bookmarks/pketh.org.md": 11,
+      "bookmarks/pouet.net.md": 11,
+      "bookmarks/sigbus.info.md": 6,
+      "bookmarks/skiff.com.md": 11,
+      "bookmarks/unpaywall.org.md": 11,
       "bookmarks/wundergraph.hasnode.dev.md": 0,
-      "notes/2025-gift-list.md": 7,
-      "notes/2025-murder-mystery.md": 8,
-      "notes/a protocol for integrations.md": 10,
-      "notes/bloom.md": 7,
-      "notes/bookmark management.md": 10,
-      "notes/calm.md": 7,
-      "notes/crdts.md": 7,
-      "notes/delta state crdts.md": 7,
-      "notes/distributed systems.md": 7,
-      "notes/future jobs.md": 10,
-      "notes/logical clocks.md": 7,
-      "notes/monotheism and oneness.md": 4,
+      "notes/2025-gift-list.md": 6,
+      "notes/2025-murder-mystery.md": 7,
+      "notes/a protocol for integrations.md": 11,
+      "notes/bloom.md": 6,
+      "notes/bookmark management.md": 11,
+      "notes/calm.md": 6,
+      "notes/crdts.md": 6,
+      "notes/delta state crdts.md": 6,
+      "notes/distributed systems.md": 6,
+      "notes/future jobs.md": 11,
+      "notes/logical clocks.md": 6,
+      "notes/monotheism and oneness.md": 5,
       "notes/query builder arguments.md": 0,
-      "notes/scratch.md": 11,
-      "notes/streaming systems.md": 7,
-      "notes/tla+.md": 7,
-      "notes/type systems.md": 7,
-      "notes/vector clock growth.md": 12,
-      "the-mirror-room/01-the-consistent-man.md": 6,
-      "the-mirror-room/02-the-mirror-room.md": 6,
-      "the-mirror-room/03-the-meeting.md": 6,
-      "the-mirror-room/04-the-paradox-of-becoming.md": 6,
-      "the-mirror-room/05-the-readers-crisis.md": 6,
-      "the-mirror-room/06-gurdjieff-observations.md": 2,
-      "the-mirror-room/index.md": 6,
-      "the-mirror-room/scratch.md": 2,
+      "notes/scratch.md": 12,
+      "notes/streaming systems.md": 6,
+      "notes/tla+.md": 6,
+      "notes/type systems.md": 6,
+      "notes/vector clock growth.md": 13,
+      "the-mirror-room/01-the-consistent-man.md": 9,
+      "the-mirror-room/02-the-mirror-room.md": 9,
+      "the-mirror-room/03-the-meeting.md": 9,
+      "the-mirror-room/04-the-paradox-of-becoming.md": 9,
+      "the-mirror-room/05-the-readers-crisis.md": 9,
+      "the-mirror-room/06-gurdjieff-observations.md": 9,
+      "the-mirror-room/index.md": 9,
+      "the-mirror-room/scratch.md": 9,
       "chats/2025-10-13-adding-chats-section.md": 0,
       "chats/2025-10-13-epistemic-humility-discussion.md": 2,
-      "chats/2025-10-14-2k-years-christiantiy.md": 8,
-      "chats/2025-10-14-girards-scapegoat-mechanism.md": 8,
-      "chats/2025-10-14-summarize-fear-of-falling.md": 8,
+      "chats/2025-10-14-2k-years-christiantiy.md": 7,
+      "chats/2025-10-14-girards-scapegoat-mechanism.md": 7,
+      "chats/2025-10-14-summarize-fear-of-falling.md": 7,
       "chats/2025-10-15-ai-impact-on-labor.md": 2,
-      "chats/2025-12-03-paul-and-roman-conspiracy.md": 8,
-      "pages/church-notes.md": 8,
-      "pages/iran-timeline.mdx": 4,
+      "chats/2025-12-03-paul-and-roman-conspiracy.md": 7,
+      "pages/attention-fields.mdx": 10,
+      "pages/church-notes.md": 7,
+      "pages/iran-timeline.mdx": 5,
       "pages/mcp.md": 0,
-      "pages/metaphysical-choices.mdx": 4,
-      "pages/nyc-budget-simulator.mdx": 4,
-      "pages/the-same-week.md": 6,
-      "pages/what-the-difference-actually-is.md": 8,
-      "pages/yagni.md": 13
+      "pages/metaphysical-choices.mdx": 10,
+      "pages/nyc-budget-simulator.mdx": 10,
+      "pages/oldest-want-confessor-proof.md": 10,
+      "pages/oldest-want-hider-proof.md": 10,
+      "pages/oldest-want-performer-proof.md": 10,
+      "pages/oldest-want-poetic.md": 10,
+      "pages/oldest-want-proof-explainer.md": 10,
+      "pages/oldest-want-proof-interactive.mdx": 10,
+      "pages/oldest-want-proof.md": 10,
+      "pages/oldest-want-proofs-all.mdx": 10,
+      "pages/oldest-want-releasement.md": 10,
+      "pages/oldest-want-self-author-proof.md": 10,
+      "pages/structure-of-reality-social-theorem.md": 10,
+      "pages/structure-of-reality.md": 2,
+      "pages/the-same-week.md": 9,
+      "pages/what-the-difference-actually-is.md": 7,
+      "pages/yagni.md": 14
     },
     "clusterMeta": [
       {
         "id": 0,
         "centerX": 4.898587196589413e-14,
         "centerY": -800,
-        "nodeCount": 39,
+        "nodeCount": 43,
         "name": "Software"
       },
       {
         "id": 1,
-        "centerX": 347.10699129404657,
-        "centerY": -720.7750943219353,
+        "centerX": 325.3893144606401,
+        "centerY": -730.8363661140806,
         "nodeCount": 1
       },
       {
         "id": 2,
-        "centerX": 625.4651859744239,
-        "centerY": -498.7918414869868,
-        "nodeCount": 52,
+        "centerX": 594.5158603819154,
+        "centerY": -535.3044850870866,
+        "nodeCount": 43,
         "name": "Philosophy & Culture"
       },
       {
         "id": 3,
-        "centerX": 779.9423297454589,
-        "centerY": -178.01674716505153,
+        "centerX": 760.8452130361228,
+        "centerY": -247.2135954999579,
         "nodeCount": 1
       },
       {
         "id": 4,
-        "centerX": 779.9423297454589,
-        "centerY": 178.01674716505153,
-        "nodeCount": 22,
-        "name": "Politics & Economics"
+        "centerX": 795.6175162946187,
+        "centerY": 83.62277061412271,
+        "nodeCount": 1
       },
       {
         "id": 5,
-        "centerX": 625.4651859744239,
-        "centerY": 498.7918414869868,
-        "nodeCount": 1
+        "centerX": 692.820323027551,
+        "centerY": 399.9999999999999,
+        "nodeCount": 43,
+        "name": "Politics & Culture"
       },
       {
         "id": 6,
-        "centerX": 347.10699129404657,
-        "centerY": 720.7750943219353,
-        "nodeCount": 33,
-        "name": "Fiction & Culture"
+        "centerX": 470.2282018339785,
+        "centerY": 647.2135954999579,
+        "nodeCount": 24,
+        "name": "Clock & Lamport"
       },
       {
         "id": 7,
-        "centerX": 4.898587196589413e-14,
-        "centerY": 800,
-        "nodeCount": 24,
-        "name": "Clock & Events"
-      },
-      {
-        "id": 8,
-        "centerX": -347.10699129404645,
-        "centerY": 720.7750943219353,
-        "nodeCount": 37,
+        "centerX": 166.32935265420738,
+        "centerY": 782.5180805870446,
+        "nodeCount": 39,
         "name": "Religion & Politics"
       },
       {
-        "id": 9,
-        "centerX": -625.4651859744238,
-        "centerY": 498.79184148698687,
+        "id": 8,
+        "centerX": -166.3293526542073,
+        "centerY": 782.5180805870446,
         "nodeCount": 10,
-        "name": "Religion & Philosophy"
+        "name": "Philosophy & Religion"
+      },
+      {
+        "id": 9,
+        "centerX": -470.2282018339784,
+        "centerY": 647.2135954999579,
+        "nodeCount": 17,
+        "name": "Fiction & Philosophy"
       },
       {
         "id": 10,
-        "centerX": -779.9423297454589,
-        "centerY": 178.0167471650516,
-        "nodeCount": 21,
-        "name": "Home & Bookmarks"
+        "centerX": -692.8203230275508,
+        "centerY": 400.0000000000003,
+        "nodeCount": 16,
+        "name": "Form & Recognition"
       },
       {
         "id": 11,
-        "centerX": -779.9423297454591,
-        "centerY": -178.01674716505073,
-        "nodeCount": 1
+        "centerX": -795.6175162946187,
+        "centerY": 83.62277061412334,
+        "nodeCount": 20,
+        "name": "Bookmarks & Home"
       },
       {
         "id": 12,
-        "centerX": -625.4651859744239,
-        "centerY": -498.7918414869867,
+        "centerX": -760.8452130361229,
+        "centerY": -247.21359549995782,
         "nodeCount": 1
       },
       {
         "id": 13,
-        "centerX": -347.10699129404594,
-        "centerY": -720.7750943219356,
+        "centerX": -594.5158603819151,
+        "centerY": -535.3044850870868,
+        "nodeCount": 1
+      },
+      {
+        "id": 14,
+        "centerX": -325.3893144606401,
+        "centerY": -730.8363661140808,
         "nodeCount": 1
       }
     ],
-    "modularity": 0.6239517476915495
+    "modularity": 0.6435113111263292
   },
   "metadata": {
-    "totalNodes": 244,
-    "totalEdges": 11907,
-    "buildTimeMs": 1954,
+    "totalNodes": 261,
+    "totalEdges": 13748,
+    "buildTimeMs": 5982,
     "signalsUsed": [
       "wikilink",
       "semantic"
