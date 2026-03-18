@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, Question, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, Question, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -462,6 +462,65 @@ export async function importFraming(
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Import failed');
   return r.json();
+}
+
+// --- Canvases API ---
+
+export function getCanvases(): Promise<{ canvases: Canvas[] }> {
+  return fetch(`${API}/canvases`).then((r) => r.json());
+}
+
+export function getCanvas(id: number): Promise<CanvasDetail> {
+  return fetch(`${API}/canvases/${id}`).then((r) => {
+    if (!r.ok) throw new Error('not found');
+    return r.json();
+  });
+}
+
+export async function createCanvas(
+  name: string,
+  secret: string,
+): Promise<Canvas> {
+  const r = await fetch(`${API}/canvases`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ name }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  return r.json();
+}
+
+export async function updateCanvas(
+  id: number,
+  updates: { name?: string; snapshot?: string },
+  secret: string,
+): Promise<CanvasDetail> {
+  const r = await fetch(`${API}/canvases/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(updates),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
+export async function deleteCanvas(
+  id: number,
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/canvases/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Delete failed');
 }
 
 // --- Posts Manifest ---

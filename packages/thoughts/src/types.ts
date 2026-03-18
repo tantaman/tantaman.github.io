@@ -158,6 +158,17 @@ export interface FramingDetail {
   edges: FramingEdge[];
 }
 
+export interface Canvas {
+  id: number;
+  name: string;
+  created_at: number;
+  updated_at: number;
+}
+
+export interface CanvasDetail extends Canvas {
+  snapshot: string;
+}
+
 export interface PostSummary {
   slug: string;
   title: string;
@@ -196,4 +207,6 @@ export type Route =
   | { view: 'books' }
   | { view: 'bookmarks' }
   | { view: 'questions' }
+  | { view: 'canvases' }
+  | { view: 'canvas'; id: number }
   | { view: 'graph' };

@@ -13,6 +13,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "swr": "^2.4.0",
+    "tldraw": "^4.5.3",
     "umap-js": "^1.4.0"
   },
   "devDependencies": {

@@ -19,7 +19,7 @@ export function Layout({
   selectFraming: (id: number | null) => void;
   children: ReactNode;
 }) {
-  if (route.view === 'framing' || route.view === 'graph') {
+  if (route.view === 'framing' || route.view === 'graph' || route.view === 'canvas') {
     return <div id="thoughts-page">{children}</div>;
   }
 

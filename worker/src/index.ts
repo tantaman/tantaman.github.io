@@ -43,6 +43,8 @@ import {
   UpdateMovieBody,
   UpdateBookBody,
   UpdateQuestionBody,
+  CreateCanvasBody,
+  UpdateCanvasBody,
 } from "./schemas";
 
 export interface Env {
@@ -1565,6 +1567,85 @@ api.patch("/framings/:id/batch", async (c) => {
   await c.env.DB.batch(stmts);
 
   return c.json({ updated: nodes.length });
+});
+
+// --- Canvases ---
+
+api.get("/canvases", async (c) => {
+  const results = await c.env.DB.prepare(
+    "SELECT id, name, created_at, updated_at FROM canvas ORDER BY updated_at DESC"
+  ).all();
+  return c.json({ canvases: results.results });
+});
+
+api.post("/canvases", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const { name } = CreateCanvasBody.parse(await c.req.json());
+  const now = Math.floor(Date.now() / 1000);
+  const result = await c.env.DB.prepare(
+    "INSERT INTO canvas (name, snapshot, created_at, updated_at) VALUES (?, '{}', ?, ?)"
+  ).bind(name, now, now).run();
+
+  return c.json({
+    id: result.meta.last_row_id,
+    name,
+    created_at: now,
+    updated_at: now,
+  }, 201);
+});
+
+api.get("/canvases/:id", async (c) => {
+  const id = parseInt(c.req.param("id"), 10);
+  const row = await c.env.DB.prepare(
+    "SELECT id, name, snapshot, created_at, updated_at FROM canvas WHERE id = ?"
+  ).bind(id).first();
+  if (!row) return c.json({ error: "Not found" }, 404);
+  return c.json(row);
+});
+
+api.patch("/canvases/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = parseInt(c.req.param("id"), 10);
+  const updates = UpdateCanvasBody.parse(await c.req.json());
+
+  const sets: string[] = [];
+  const binds: unknown[] = [];
+  if (updates.name !== undefined) { sets.push("name = ?"); binds.push(updates.name); }
+  if (updates.snapshot !== undefined) { sets.push("snapshot = ?"); binds.push(updates.snapshot); }
+  if (sets.length === 0) return c.json({ error: "No fields to update" }, 400);
+
+  sets.push("updated_at = ?");
+  binds.push(Math.floor(Date.now() / 1000));
+  binds.push(id);
+
+  await c.env.DB.prepare(
+    `UPDATE canvas SET ${sets.join(", ")} WHERE id = ?`
+  ).bind(...binds).run();
+
+  const row = await c.env.DB.prepare(
+    "SELECT id, name, snapshot, created_at, updated_at FROM canvas WHERE id = ?"
+  ).bind(id).first();
+  if (!row) return c.json({ error: "Not found" }, 404);
+  return c.json(row);
+});
+
+api.delete("/canvases/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = parseInt(c.req.param("id"), 10);
+  await c.env.DB.prepare("DELETE FROM canvas WHERE id = ?").bind(id).run();
+  return c.json({ ok: true });
 });
 
 api.get("/attachments/*", async (c) => {

@@ -87,6 +87,17 @@ export const ImportFramingBody = z.object({
   })),
 });
 
+// POST /canvases
+export const CreateCanvasBody = z.object({
+  name: z.string().trim().min(1),
+});
+
+// PATCH /canvases/:id
+export const UpdateCanvasBody = z.object({
+  name: z.string().trim().min(1).optional(),
+  snapshot: z.string().optional(),
+});
+
 // POST /dha/reports
 export const CreateDhaReportBody = z.object({
   report_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD"),

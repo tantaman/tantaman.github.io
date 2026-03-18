@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import type { Route } from './types';
 import { getSecret, setSecret } from './auth';
 import { SWRProvider } from './swr-config';
@@ -10,7 +10,9 @@ import { QuestionsView } from './components/QuestionsView';
 import { EventsView } from './components/EventsView';
 import { SecretToggle } from './components/SecretToggle';
 import { FramingsListView } from './components/FramingsListView';
+import { CanvasesListView } from './components/CanvasesListView';
 import { FramingCanvasView } from './components/framing/FramingCanvasView';
+const TldrawCanvasView = React.lazy(() => import('./components/TldrawCanvasView').then(m => ({ default: m.TldrawCanvasView })));
 import { LocationsView } from './components/LocationsView';
 import { MediaView } from './components/MediaView';
 import { MoviesView } from './components/MoviesView';
@@ -30,6 +32,9 @@ function parseHash(): Route {
   if (hash === '#events') return { view: 'events' };
   if (hash === '#graph') return { view: 'graph' };
   if (hash === '#framings') return { view: 'framings' };
+  if (hash === '#canvases') return { view: 'canvases' };
+  const canvasMatch = hash.match(/^#canvas-(\d+)$/);
+  if (canvasMatch) return { view: 'canvas', id: parseInt(canvasMatch[1], 10) };
   if (hash === '#locations') return { view: 'locations' };
   if (hash === '#media') return { view: 'media' };
   if (hash === '#movies') return { view: 'movies' };
@@ -79,8 +84,14 @@ export function App() {
         <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag} selectedFraming={selectedFraming} selectFraming={selectFraming}>
           {route.view === 'graph' ? (
             <ThoughtGraph />
+          ) : route.view === 'canvas' ? (
+            <React.Suspense fallback={<div className="thought-loading">Loading…</div>}>
+              <TldrawCanvasView id={route.id} />
+            </React.Suspense>
           ) : route.view === 'framing' ? (
             <FramingCanvasView id={route.id} />
+          ) : route.view === 'canvases' ? (
+            <CanvasesListView />
           ) : route.view === 'framings' ? (
             <FramingsListView />
           ) : route.view === 'media' ? (
