@@ -161,8 +161,8 @@ describe("GET /thoughts — feed excludes superseded", () => {
     });
     const B = (await resB.json()) as any;
 
-    // Fetch feed
-    const feed = await req("/api/thoughts", { headers: AUTH });
+    // Fetch feed (use high limit to avoid being pushed out by future-timestamped insertThought rows)
+    const feed = await req("/api/thoughts?limit=200", { headers: AUTH });
     const feedBody = (await feed.json()) as any;
     const ids = feedBody.thoughts.map((t: any) => t.id);
 
@@ -185,7 +185,7 @@ describe("GET /thoughts — feed excludes superseded", () => {
     });
     const B = (await resB.json()) as any;
 
-    const feed = await req("/api/thoughts", { headers: AUTH });
+    const feed = await req("/api/thoughts?limit=200", { headers: AUTH });
     const feedBody = (await feed.json()) as any;
 
     const latestInFeed = feedBody.thoughts.find((t: any) => t.id === B.id);

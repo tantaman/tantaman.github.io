@@ -1,0 +1,21 @@
+name = "tantamanlands"
+main = "src/index.ts"
+compatibility_date = "2025-03-03"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "KV"
+id = "c616f080e03e4c1292ff8004b93cbd0b"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "thought"
+database_id = "a1190a47-fe1e-4fdb-8d7a-06dd5714fc6b"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "thought-attachments"
+
+[[r2_buckets]]
+binding = "AUDIO_BUCKET"
+bucket_name = "tantaman-audio"
