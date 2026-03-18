@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 import { AuthContext } from '../App';
 import { useThoughtGraph } from '../hooks/useCache';
 import { projectEmbeddings, type ProjectedPoint } from '../umap';
+import { computeClusters, type ClusterInfo } from '../clustering';
 import type { Thought } from '../types';
 
 const PADDING = 60;
@@ -48,6 +49,7 @@ export function ThoughtGraph() {
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   const [showEdges, setShowEdges] = useState(false);
+  const [showClusters, setShowClusters] = useState(true);
   const [threshold, setThreshold] = useState(0.82);
   const [hoveredNode, setHoveredNode] = useState<NodeData | null>(null);
   const [selectedNode, setSelectedNode] = useState<NodeData | null>(null);
@@ -94,6 +96,11 @@ export function ThoughtGraph() {
     return set;
   }, [selectedNode, data, nodes, threshold, showEdges]);
 
+  const clusters = useMemo(() => {
+    if (!showClusters || nodes.length === 0) return [];
+    return computeClusters(nodes);
+  }, [nodes, showClusters]);
+
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -123,6 +130,52 @@ export function ThoughtGraph() {
       // Apply camera
       node.screenX = (node.screenX - w / 2) * cam.zoom + w / 2 + cam.offsetX;
       node.screenY = (node.screenY - h / 2) * cam.zoom + h / 2 + cam.offsetY;
+    }
+
+    // Draw clusters
+    if (showClusters && clusters.length > 0) {
+      for (const cluster of clusters) {
+        // If filtering, only show clusters with at least one visible node
+        if (visibleIds) {
+          let hasVisible = false;
+          for (const nid of cluster.nodeIds) {
+            if (visibleIds.has(nid)) { hasVisible = true; break; }
+          }
+          if (!hasVisible) continue;
+        }
+
+        // Transform cluster center and radius to screen space
+        const scrCX = (PADDING + cluster.centerX * plotW - w / 2) * cam.zoom + w / 2 + cam.offsetX;
+        const scrCY = (PADDING + cluster.centerY * plotH - h / 2) * cam.zoom + h / 2 + cam.offsetY;
+        const scrR = cluster.radius * Math.max(plotW, plotH) * cam.zoom;
+
+        // Parse cluster color for alpha manipulation
+        const hex = cluster.color;
+        const cr = parseInt(hex.slice(1, 3), 16);
+        const cg = parseInt(hex.slice(3, 5), 16);
+        const cb = parseInt(hex.slice(5, 7), 16);
+
+        // Filled circle
+        ctx.beginPath();
+        ctx.arc(scrCX, scrCY, scrR, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, 0.08)`;
+        ctx.fill();
+
+        // Dashed border
+        ctx.setLineDash([6, 4]);
+        ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, 0.3)`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Label
+        const fontSize = Math.max(10, Math.min(16, 13 * cam.zoom));
+        ctx.font = `${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, 0.7)`;
+        ctx.fillText(cluster.name, scrCX, scrCY - scrR - 4);
+      }
     }
 
     // Draw edges
@@ -159,7 +212,7 @@ export function ThoughtGraph() {
       ctx.fill();
       ctx.globalAlpha = 1;
     }
-  }, [nodes, showEdges, threshold, data, hoveredNode, visibleIds]);
+  }, [nodes, showEdges, showClusters, clusters, threshold, data, hoveredNode, visibleIds]);
 
   useEffect(() => {
     draw();
@@ -290,6 +343,10 @@ export function ThoughtGraph() {
           history.pushState(null, '', '/thoughts/');
           window.dispatchEvent(new HashChangeEvent('hashchange'));
         }}>← Back</a>
+        <label className="thought-graph-toggle">
+          <input type="checkbox" checked={showClusters} onChange={(e) => setShowClusters(e.target.checked)} />
+          Clusters
+        </label>
         <label className="thought-graph-toggle">
           <input type="checkbox" checked={showEdges} onChange={(e) => setShowEdges(e.target.checked)} />
           Edges
