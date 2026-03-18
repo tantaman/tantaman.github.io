@@ -227,17 +227,39 @@ api.get("/thoughts/graph", async (c) => {
     return c.json({ thoughts: [], embeddings: {} });
   }
 
-  const ids = thoughts.map((t) => t.id as number);
+  const ids = new Set(thoughts.map((t) => String(t.id)));
+  const cacheKey = `graph-embeddings-${authed ? "a" : "p"}`;
+  const version = await getVersion(c.env.DB);
 
-  // Fetch embeddings from Vectorize
+  // Try KV cache
+  let allEmbeddings: Record<string, number[]> | null = null;
+  const cached = await c.env.KV.get<{ version: number; embeddings: Record<string, number[]> }>(cacheKey, "json");
+
+  if (cached && cached.version === version) {
+    allEmbeddings = cached.embeddings;
+  } else {
+    // Cache miss or stale — fetch all from Vectorize
+    allEmbeddings = {};
+    const vecIds = [...ids];
+    const VECTORIZE_BATCH = 20;
+    for (let i = 0; i < vecIds.length; i += VECTORIZE_BATCH) {
+      const batch = vecIds.slice(i, i + VECTORIZE_BATCH);
+      const vecResults = await c.env.VECTORIZE.getByIds(batch);
+      for (const vec of vecResults) {
+        allEmbeddings[vec.id] = Array.from(vec.values);
+      }
+    }
+    // Write cache — fire and forget
+    c.executionCtx.waitUntil(
+      c.env.KV.put(cacheKey, JSON.stringify({ version, embeddings: allEmbeddings }))
+    );
+  }
+
+  // Filter to only IDs from the D1 query
   const embeddings: Record<string, number[]> = {};
-  const vecIds = ids.map(String);
-  const VECTORIZE_BATCH = 20;
-  for (let i = 0; i < vecIds.length; i += VECTORIZE_BATCH) {
-    const batch = vecIds.slice(i, i + VECTORIZE_BATCH);
-    const vecResults = await c.env.VECTORIZE.getByIds(batch);
-    for (const vec of vecResults) {
-      embeddings[vec.id] = Array.from(vec.values);
+  for (const id of ids) {
+    if (allEmbeddings[id]) {
+      embeddings[id] = allEmbeddings[id];
     }
   }
 
