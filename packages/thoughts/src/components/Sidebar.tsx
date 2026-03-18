@@ -13,6 +13,7 @@ export function Sidebar({ route }: { route: Route }) {
         <a href="#media" className={`thoughts-nav-link${route.view === 'media' ? ' active' : ''}`}>Media</a>
         <a href="#framings" className={`thoughts-nav-link${route.view === 'framings' || route.view === 'framing' ? ' active' : ''}`}>Framings</a>
         <a href="#canvases" className={`thoughts-nav-link${route.view === 'canvases' || route.view === 'canvas' ? ' active' : ''}`}>Canvases</a>
+        <a href="/paste" className="thoughts-nav-link">Pastes</a>
         <a href="#graph" className={`thoughts-nav-link${route.view === 'graph' ? ' active' : ''}`}>Graph</a>
         <hr className="thoughts-nav-divider" />
         <a href="#tasks" className={`thoughts-nav-link${route.view === 'tasks' ? ' active' : ''}`}>Tasks <span className="nav-tag-pill">#t</span></a>
