@@ -50,6 +50,7 @@ export function ThoughtGraph() {
   const [showEdges, setShowEdges] = useState(false);
   const [threshold, setThreshold] = useState(0.82);
   const [hoveredNode, setHoveredNode] = useState<NodeData | null>(null);
+  const [selectedNode, setSelectedNode] = useState<NodeData | null>(null);
 
   // Camera state
   const cameraRef = useRef({ offsetX: 0, offsetY: 0, zoom: 1 });
@@ -75,6 +76,23 @@ export function ThoughtGraph() {
       return { ...p, thought, r, screenX: 0, screenY: 0 };
     });
   }, [data, projected]);
+
+  const visibleIds = useMemo(() => {
+    if (!selectedNode || !data) return null;
+    const set = new Set<number>([selectedNode.thought.id]);
+    if (showEdges) {
+      const selVec = data.embeddings[String(selectedNode.thought.id)];
+      if (selVec) {
+        for (const node of nodes) {
+          const vec = data.embeddings[String(node.thought.id)];
+          if (vec && cosineSimilarity(selVec, vec) >= threshold) {
+            set.add(node.thought.id);
+          }
+        }
+      }
+    }
+    return set;
+  }, [selectedNode, data, nodes, threshold, showEdges]);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -111,9 +129,11 @@ export function ThoughtGraph() {
     if (showEdges && data) {
       ctx.lineWidth = 0.5;
       for (let i = 0; i < nodes.length; i++) {
+        if (visibleIds && !visibleIds.has(nodes[i].thought.id)) continue;
         const vecA = data.embeddings[String(nodes[i].thought.id)];
         if (!vecA) continue;
         for (let j = i + 1; j < nodes.length; j++) {
+          if (visibleIds && !visibleIds.has(nodes[j].thought.id)) continue;
           const vecB = data.embeddings[String(nodes[j].thought.id)];
           if (!vecB) continue;
           const sim = cosineSimilarity(vecA, vecB);
@@ -131,6 +151,7 @@ export function ThoughtGraph() {
 
     // Draw nodes
     for (const node of nodes) {
+      if (visibleIds && !visibleIds.has(node.thought.id)) continue;
       ctx.beginPath();
       ctx.arc(node.screenX, node.screenY, node.r * cam.zoom, 0, Math.PI * 2);
       ctx.fillStyle = node.thought.color || DEFAULT_COLOR;
@@ -138,7 +159,7 @@ export function ThoughtGraph() {
       ctx.fill();
       ctx.globalAlpha = 1;
     }
-  }, [nodes, showEdges, threshold, data, hoveredNode]);
+  }, [nodes, showEdges, threshold, data, hoveredNode, visibleIds]);
 
   useEffect(() => {
     draw();
@@ -166,6 +187,7 @@ export function ThoughtGraph() {
     let closestDist = Infinity;
 
     for (const node of nodes) {
+      if (visibleIds && !visibleIds.has(node.thought.id)) continue;
       const dx = mx - node.screenX;
       const dy = my - node.screenY;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -176,7 +198,7 @@ export function ThoughtGraph() {
       }
     }
     return closest;
-  }, [nodes]);
+  }, [nodes, visibleIds]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (draggingRef.current) {
@@ -242,11 +264,15 @@ export function ThoughtGraph() {
     const dy = Math.abs(e.clientY - dragStartRef.current.y);
     if (dx < 3 && dy < 3) {
       const node = hitTest(e.clientX, e.clientY);
-      if (node) {
-        location.hash = `#thought-${node.thought.id}`;
+      if (node && selectedNode && node.thought.id === selectedNode.thought.id) {
+        setSelectedNode(null);
+      } else if (node) {
+        setSelectedNode(node);
+      } else {
+        setSelectedNode(null);
       }
     }
-  }, [hitTest]);
+  }, [hitTest, selectedNode]);
 
   if (isLoading) {
     return <div className="thought-graph-wrap"><p style={{ padding: 20, opacity: 0.5 }}>Loading graph...</p></div>;
