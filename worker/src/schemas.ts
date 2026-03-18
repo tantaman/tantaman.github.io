@@ -14,6 +14,11 @@ export const UpdateTaskBody = z.object({
   deprioritized: z.boolean().optional(),
 });
 
+// PATCH /questions/:id
+export const UpdateQuestionBody = z.object({
+  answered: z.boolean().optional(),
+});
+
 // POST /framings
 export const CreateFramingBody = z.object({
   name: z.string().trim().min(1),

@@ -85,6 +85,15 @@ export interface Book {
   created_at: number;
 }
 
+export interface Question {
+  id: number;
+  thought_id: number;
+  title: string;
+  description: string | null;
+  created_at: number;
+  answered_at: number | null;
+}
+
 export interface Bookmark {
   id: number;
   url: string;
@@ -186,4 +195,5 @@ export type Route =
   | { view: 'movies' }
   | { view: 'books' }
   | { view: 'bookmarks' }
+  | { view: 'questions' }
   | { view: 'graph' };

@@ -9,6 +9,7 @@ import { extractLocations, geocodeLocation } from "./locations";
 import { extractMovies } from "./movies";
 import { lookupMovie, fetchMovieById } from "./tmdb";
 import { extractBooks } from "./books";
+import { extractQuestions } from "./questions";
 import { lookupBook, fetchBookByKey } from "./openlibrary";
 import { extractBookmarks } from "./bookmarks";
 import { fetchOgMetadata } from "./opengraph";
@@ -41,6 +42,7 @@ import {
   CreateCommentBody,
   UpdateMovieBody,
   UpdateBookBody,
+  UpdateQuestionBody,
 } from "./schemas";
 
 export interface Env {
@@ -594,6 +596,13 @@ api.post("/thoughts", async (c) => {
     ).bind(thoughtId, book.title, book.description, meta?.coverUrl ?? null, meta?.author ?? null, meta?.year ?? null, meta?.olKey ?? null, timestamp).run();
   }
 
+  const questions = extractQuestions(trimmed);
+  for (const question of questions) {
+    await c.env.DB.prepare(
+      "INSERT INTO question (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
+    ).bind(thoughtId, question.title, question.description, timestamp).run();
+  }
+
   const bookmarkDefs = extractBookmarks(trimmed);
   for (const bm of bookmarkDefs) {
     await c.env.DB.prepare(
@@ -796,6 +805,71 @@ api.patch("/tasks/:id", async (c) => {
   }
 
   return c.json(task);
+});
+
+api.get("/questions", async (c) => {
+  const status = c.req.query("status") || "open";
+  const tagsParam = c.req.query("tags");
+  const tags = tagsParam ? tagsParam.split(",").map((t) => decodeURIComponent(t.trim())).filter(Boolean) : [];
+
+  let baseWhere = "";
+  if (status === "open") {
+    baseWhere = "WHERE q.answered_at IS NULL";
+  } else if (status === "answered") {
+    baseWhere = "WHERE q.answered_at IS NOT NULL";
+  }
+
+  let tagFilter = "";
+  if (tags.length > 0) {
+    const placeholders = tags.map(() => "?").join(",");
+    tagFilter = `${baseWhere ? " AND" : " WHERE"} q.thought_id IN (
+      SELECT tt.thought_id FROM thought_tag tt
+      JOIN tag tg ON tg.id = tt.tag_id
+      WHERE tg.name IN (${placeholders})
+      GROUP BY tt.thought_id
+      HAVING COUNT(DISTINCT tg.name) = ?
+    )`;
+  }
+
+  const query = `SELECT q.id, q.thought_id, q.title, q.description, q.created_at, q.answered_at FROM question q ${baseWhere}${tagFilter} ORDER BY q.created_at DESC`;
+  const bindings = tags.length > 0 ? [...tags, tags.length] : [];
+
+  const results = await c.env.DB.prepare(query).bind(...bindings).all();
+
+  return c.json({ questions: results.results });
+});
+
+api.patch("/questions/:id", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const id = c.req.param("id");
+  const { answered } = UpdateQuestionBody.parse(await c.req.json());
+
+  if (answered !== undefined) {
+    if (answered) {
+      const now = Math.floor(Date.now() / 1000);
+      await c.env.DB.prepare(
+        "UPDATE question SET answered_at = ? WHERE id = ?"
+      ).bind(now, id).run();
+    } else {
+      await c.env.DB.prepare(
+        "UPDATE question SET answered_at = NULL WHERE id = ?"
+      ).bind(id).run();
+    }
+  }
+
+  const question = await c.env.DB.prepare(
+    "SELECT id, thought_id, title, description, created_at, answered_at FROM question WHERE id = ?"
+  ).bind(id).first();
+
+  if (!question) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  return c.json(question);
 });
 
 api.get("/events", async (c) => {

@@ -6,6 +6,7 @@ import { Layout } from './components/Layout';
 import { Feed } from './components/Feed';
 import { ThreadView } from './components/ThreadView';
 import { TasksView } from './components/TasksView';
+import { QuestionsView } from './components/QuestionsView';
 import { EventsView } from './components/EventsView';
 import { SecretToggle } from './components/SecretToggle';
 import { FramingsListView } from './components/FramingsListView';
@@ -25,6 +26,7 @@ export const AuthContext = createContext<{
 function parseHash(): Route {
   const hash = location.hash;
   if (hash === '#tasks') return { view: 'tasks' };
+  if (hash === '#questions') return { view: 'questions' };
   if (hash === '#events') return { view: 'events' };
   if (hash === '#graph') return { view: 'graph' };
   if (hash === '#framings') return { view: 'framings' };
@@ -93,6 +95,8 @@ export function App() {
             <LocationsView />
           ) : route.view === 'events' ? (
             <EventsView />
+          ) : route.view === 'questions' ? (
+            <QuestionsView tags={selectedTags} />
           ) : route.view === 'tasks' ? (
             <TasksView tags={selectedTags} />
           ) : route.view === 'thread' ? (

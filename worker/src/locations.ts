@@ -47,7 +47,7 @@ export function extractLocations(body: string): LocationDef[] {
       current = { title: match[1].trim(), description: null };
       descLines = [];
     } else if (current) {
-      if (line.match(EVENT_RE) || line.match(/^#[tmb]\s+/)) {
+      if (line.match(EVENT_RE) || line.match(/^#[tmbq]\s+/)) {
         current.description = descLines.join('\n').trim() || null;
         locations.push(current);
         current = null;

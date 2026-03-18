@@ -24,7 +24,7 @@ export function extractMovies(body: string): MovieDef[] {
       current = { title: match[1].trim(), description: null };
       descLines = [];
     } else if (current) {
-      if (line.match(EVENT_RE) || line.match(/^#[tlb]\s+/) || line.match(LOCATION_RE)) {
+      if (line.match(EVENT_RE) || line.match(/^#[tlbq]\s+/) || line.match(LOCATION_RE)) {
         current.description = descLines.join('\n').trim() || null;
         movies.push(current);
         current = null;

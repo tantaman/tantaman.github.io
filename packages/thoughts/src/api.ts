@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, Question, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -122,6 +122,33 @@ export async function patchTask(
   secret: string,
 ): Promise<Task> {
   const r = await fetch(`${API}/tasks/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(action),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
+export function getQuestions(
+  status: 'open' | 'answered' | 'all' = 'open',
+  tags?: string[],
+): Promise<{ questions: Question[] }> {
+  let url = `${API}/questions?status=${status}`;
+  if (tags && tags.length > 0) url += `&tags=${tags.map(encodeURIComponent).join(',')}`;
+  return fetch(url).then((r) => r.json());
+}
+
+export async function patchQuestion(
+  id: number,
+  action: { answered?: boolean },
+  secret: string,
+): Promise<Question> {
+  const r = await fetch(`${API}/questions/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
