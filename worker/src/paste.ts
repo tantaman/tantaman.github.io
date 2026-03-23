@@ -992,7 +992,12 @@ paste.get("/:id", async (c) => {
 
   let rendered: string;
   if (row.language === "markdown") {
-    rendered = `<div class="content">${await marked.parse(row.body)}</div>`;
+    // Strip leading heading if it matches the extracted title to avoid duplication
+    let mdBody = row.body;
+    if (title && /^#{1,6}\s+/.test(mdBody.trimStart())) {
+      mdBody = mdBody.trimStart().replace(/^#{1,6}\s+.+\n?/, "");
+    }
+    rendered = `<div class="content">${await marked.parse(mdBody)}</div>`;
   } else {
     rendered = `<div class="content"><pre><code class="language-${escapeHtml(row.language)}">${escapeHtml(row.body)}</code></pre></div>`;
   }
