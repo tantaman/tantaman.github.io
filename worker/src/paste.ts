@@ -297,6 +297,11 @@ function languageOptions(selected: string): string {
   ).join("\n          ");
 }
 
+function excerpt(body: string, maxLen = 150): string {
+  const plain = body.replace(/[#*_`~\[\]()>]/g, "").replace(/\s+/g, " ").trim();
+  return plain.length > maxLen ? plain.slice(0, maxLen) + "…" : plain;
+}
+
 function compileJsx(source: string, lang: "jsx" | "tsx"): string {
   const transforms: ("jsx" | "typescript")[] =
     lang === "tsx" ? ["jsx", "typescript"] : ["jsx"];
@@ -361,40 +366,72 @@ paste.get("/logout", async (c) => {
   return c.redirect("/paste/login");
 });
 
-// GET /all — list all pastes (auth required)
+// GET /all — list all pastes (authed: all, public: shared only)
 paste.get("/all", async (c) => {
-  if (!isAuthed(c)) {
-    return c.redirect("/paste/login");
-  }
+  const authed = isAuthed(c);
 
-  const rows = await c.env.DB.prepare(
-    "SELECT id, title, language, created_at, parent_id FROM paste ORDER BY created_at DESC"
-  ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null }>();
+  const rows = authed
+    ? await c.env.DB.prepare(
+        "SELECT id, title, language, created_at, parent_id, shared FROM paste ORDER BY created_at DESC"
+      ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>()
+    : await c.env.DB.prepare(
+        "SELECT id, title, language, created_at, parent_id, shared FROM paste WHERE shared = 1 ORDER BY shared_at DESC"
+      ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>();
 
   const items = rows.results
     .map((r) => {
       const date = new Date(r.created_at).toISOString().split("T")[0];
       const title = escapeHtml(r.title || "Untitled");
       const fork = r.parent_id ? ` <a href="/paste/${escapeHtml(r.parent_id)}" style="color:var(--fg-dim);font-size:0.7rem" title="forked from">↑</a>` : "";
-      return `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a>${fork}</span><span class="paste-meta">${date}</span></li>`;
+      const shared = authed && r.shared ? ` <span style="color:var(--fg-dim);font-size:0.7rem">●</span>` : "";
+      return `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a>${fork}${shared}</span><span class="paste-meta">${date}</span></li>`;
     })
     .join("\n      ");
 
+  const heading = authed ? "All pastes" : "Shared pastes";
+  const nav = authed ? undefined : "";
+
   const body = htmlPage(
-    "All Pastes",
-    `<h1>All pastes</h1>
+    heading,
+    `<h1>${heading}</h1>
     <p class="meta" style="margin-bottom:2rem">${rows.results.length} paste${rows.results.length === 1 ? "" : "s"}</p>
     <ul class="paste-list">
       ${items}
-    </ul>`
+    </ul>`,
+    nav
   );
   return c.html(body);
 });
 
-// GET / — creation form (auth required)
+// GET / — creation form (authed) or public shared listing
 paste.get("/", async (c) => {
   if (!isAuthed(c)) {
-    return c.redirect("/paste/login");
+    // Public landing: show shared pastes
+    const rows = await c.env.DB.prepare(
+      "SELECT id, title, body, language, shared_at FROM paste WHERE shared = 1 ORDER BY shared_at DESC LIMIT 20"
+    ).all<{ id: string; title: string | null; body: string; language: string; shared_at: number }>();
+
+    const items = rows.results
+      .map((r) => {
+        const date = new Date(r.shared_at).toISOString().split("T")[0];
+        const title = escapeHtml(r.title || "Untitled");
+        const desc = escapeHtml(excerpt(r.body));
+        return `<li style="flex-direction:column;align-items:flex-start;gap:0.25rem;padding:0.75rem 0">
+          <span style="display:flex;justify-content:space-between;width:100%;align-items:baseline;gap:1rem"><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a></span><span class="paste-meta">${date}</span></span>
+          <span class="meta" style="font-size:0.75rem">${desc}</span>
+        </li>`;
+      })
+      .join("\n      ");
+
+    const body = htmlPage(
+      "paste",
+      `<h1>paste</h1>
+      <p class="meta" style="margin-bottom:2rem">shared snippets</p>
+      ${rows.results.length > 0 ? `<ul class="paste-list">${items}</ul>` : `<p class="meta">nothing shared yet.</p>`}
+      ${rows.results.length > 0 ? `<p style="margin-top:1.5rem;font-size:0.8125rem"><a href="/paste/all">all shared</a></p>` : ""}`,
+      ""
+    );
+    return c.html(body);
   }
 
   // Fork pre-population
@@ -648,6 +685,31 @@ paste.delete("/:id/audio", async (c) => {
   return c.json({ ok: true, deleted: r2Key });
 });
 
+// POST /:id/share — toggle shared status (auth required)
+paste.post("/:id/share", async (c) => {
+  if (!isAuthed(c)) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+  const id = c.req.param("id");
+  const row = await c.env.DB.prepare("SELECT shared FROM paste WHERE id = ?")
+    .bind(id)
+    .first<{ shared: number }>();
+  if (!row) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  const nowShared = row.shared ? 0 : 1;
+  await c.env.DB.prepare("UPDATE paste SET shared = ?, shared_at = ? WHERE id = ?")
+    .bind(nowShared, nowShared ? Date.now() : null, id)
+    .run();
+
+  const contentType = c.req.header("Content-Type") || "";
+  if (contentType.includes("application/json")) {
+    return c.json({ shared: !!nowShared });
+  }
+  return c.redirect(`/paste/${id}`);
+});
+
 // GET /:id/diff — diff against parent (public)
 paste.get("/:id/diff", async (c) => {
   const id = c.req.param("id");
@@ -711,7 +773,7 @@ paste.get("/:id", async (c) => {
   const id = c.req.param("id");
   const row = await c.env.DB.prepare("SELECT * FROM paste WHERE id = ?")
     .bind(id)
-    .first<{ id: string; body: string; language: string; title: string | null; created_at: number; parent_id: string | null }>();
+    .first<{ id: string; body: string; language: string; title: string | null; created_at: number; parent_id: string | null; shared: number }>();
 
   if (!row) {
     return c.html(htmlPage("Not Found", `<h1>Not found</h1><p class="meta" style="margin-top:1rem">This paste doesn't exist.</p>`), 404);
@@ -851,18 +913,24 @@ paste.get("/:id", async (c) => {
   }
 
   const diffLink = row.parent_id ? `<a href="/paste/${escapeHtml(row.id)}/diff">diff</a>` : "";
+  const authed = isAuthed(c);
+  const shareToggle = authed
+    ? `<form method="POST" action="/paste/${escapeHtml(row.id)}/share" style="display:inline"><button type="submit" style="background:none;color:var(--accent);padding:0;font-weight:300;letter-spacing:normal;font-size:0.8125rem">${row.shared ? "unshare" : "share"}</button></form>`
+    : "";
+  const sharedIndicator = row.shared ? ` · <span style="color:var(--accent)">shared</span>` : "";
 
   const html = htmlPage(
     title,
     `<h1>${escapeHtml(title)}</h1>
-    <p class="meta">${date} · ${escapeHtml(row.language)}</p>
+    <p class="meta">${date} · ${escapeHtml(row.language)}${sharedIndicator}</p>
     ${revisionBarHtml}
     <hr class="rule">
     ${rendered}
     <div class="actions">
       <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>
       <a href="/paste?fork=${escapeHtml(row.id)}">fork</a>${diffLink ? `
-      ${diffLink}` : ""}${row.language === "markdown" ? `
+      ${diffLink}` : ""}${shareToggle ? `
+      ${shareToggle}` : ""}${row.language === "markdown" ? `
       <button id="play-btn" style="display:inline-block;vertical-align:middle;padding:0.35rem 1rem;font-size:0.75rem">listen</button>
       <audio id="audio-player" preload="none" style="display:none;height:2rem;vertical-align:middle"></audio>
       <span id="audio-status" class="meta" style="margin-left:0.5rem"></span>
