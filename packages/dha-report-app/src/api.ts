@@ -54,6 +54,7 @@ export interface BudgetVariance {
 
 export interface ReportData {
   reportDate: string;
+  priorYearDeficit?: number;
   budgetAlerts?: BudgetAlert[];
   budgetVariances?: BudgetVariance[];
   reserveFund?: {
