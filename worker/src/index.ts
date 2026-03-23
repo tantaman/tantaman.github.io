@@ -23,6 +23,7 @@ import { comments } from "./comments";
 import { igCard } from "./ig-card";
 import { paste } from "./paste";
 import { now } from "./now";
+import { thoughtOg } from "./thought-og";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -1695,6 +1696,7 @@ app.get("/audio/*", async (c) => {
 // Mount paste routes (top-level, not under /api)
 app.route("/paste", paste);
 app.route("/now", now);
+app.route("/thoughts/t", thoughtOg);
 
 // Mount API routes
 app.route("/api", api);

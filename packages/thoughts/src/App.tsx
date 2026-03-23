@@ -26,6 +26,11 @@ export const AuthContext = createContext<{
 }>({ secret: null, updateSecret: () => {} });
 
 function parseHash(): Route {
+  const pathMatch = location.pathname.match(/\/thoughts\/t\/(\d+)/);
+  if (pathMatch) {
+    history.replaceState(null, '', '/thoughts/#thought-' + pathMatch[1]);
+    return { view: 'thread', id: parseInt(pathMatch[1], 10) };
+  }
   const hash = location.hash;
   if (hash === '#tasks') return { view: 'tasks' };
   if (hash === '#questions') return { view: 'questions' };

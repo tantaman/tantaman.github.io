@@ -17,51 +17,47 @@ function isAuthed(c: Context<{ Bindings: Env }>): boolean {
 }
 
 const PAGE_STYLE = `
-  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
-
   :root {
-    --fg: #2c2c2c;
-    --fg-dim: #8a8a8a;
-    --bg: #faf9f7;
-    --bg-surface: #f0eeeb;
-    --border: #e0ddd8;
-    --accent: #c45d3e;
-    --accent-hover: #a84830;
-    --mono: 'DM Mono', 'Menlo', monospace;
-    --serif: 'Newsreader', 'Georgia', serif;
+    --bg: #ffffff;
+    --bg-soft: #f8f8f8;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --accent: #1a1a1a;
+    --border: #e5e5e5;
+    --border-heavy: #d0d0d0;
+    --code-bg: #f6f6f6;
+    --subtext: #888;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --fg: #d4d0ca;
-      --fg-dim: #7a7770;
-      --bg: #1c1b19;
-      --bg-surface: #262522;
-      --border: #3a3835;
-      --accent: #e0815f;
-      --accent-hover: #c45d3e;
-    }
+  [data-theme='dark'] {
+    --bg: #1a1a1a;
+    --bg-soft: #242424;
+    --text: #e0e0e0;
+    --text-muted: #999;
+    --accent: #e0e0e0;
+    --border: #333;
+    --border-heavy: #444;
+    --code-bg: #242424;
+    --subtext: #888;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: var(--mono);
-    font-weight: 300;
+    font-family: system-ui, -apple-system, sans-serif;
     font-size: 14px;
     line-height: 1.7;
     max-width: 720px;
     margin: 0 auto;
     padding: 3rem 1.5rem;
-    color: var(--fg);
+    color: var(--text);
     background: var(--bg);
     -webkit-font-smoothing: antialiased;
   }
 
   h1 {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-style: italic;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 700;
     font-size: 1.75rem;
     letter-spacing: -0.02em;
     margin-bottom: 0.25rem;
@@ -69,29 +65,29 @@ const PAGE_STYLE = `
   }
 
   h2 {
-    font-family: var(--mono);
-    font-weight: 400;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 600;
     font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--fg-dim);
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    color: var(--text-muted);
     margin-bottom: 0.75rem;
   }
 
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  a { color: var(--text); text-decoration: none; }
+  a:hover { color: var(--text-muted); }
 
-  .meta { color: var(--fg-dim); font-size: 0.8125rem; }
+  .meta { color: var(--text-muted); font-size: 0.8125rem; }
 
   .rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 
   /* Forms */
   select {
-    font-family: var(--mono);
+    font-family: system-ui, -apple-system, sans-serif;
     font-size: 0.8125rem;
     padding: 0.35rem 0.5rem;
-    background: var(--bg-surface);
-    color: var(--fg);
+    background: var(--bg-soft);
+    color: var(--text);
     border: 1px solid var(--border);
     border-radius: 3px;
     cursor: pointer;
@@ -107,94 +103,93 @@ const PAGE_STYLE = `
     width: 100%;
     min-height: 50vh;
     padding: 1rem;
-    font-family: var(--mono);
+    font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, monospace;
     font-size: 14px;
-    font-weight: 300;
     line-height: 1.7;
-    color: var(--fg);
-    background: var(--bg-surface);
+    color: var(--text);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: 3px;
     resize: vertical;
     outline: none;
     transition: border-color 0.2s;
   }
-  textarea:focus { border-color: var(--accent); }
-  textarea::placeholder { color: var(--fg-dim); }
+  textarea:focus { border-color: var(--border-heavy); }
+  textarea::placeholder { color: var(--text-muted); }
 
   input[type="password"], input[type="text"] {
-    font-family: var(--mono);
+    font-family: system-ui, -apple-system, sans-serif;
     font-size: 14px;
-    font-weight: 300;
     padding: 0.5rem 0.75rem;
     width: 100%;
     max-width: 320px;
-    color: var(--fg);
-    background: var(--bg-surface);
+    color: var(--text);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: 3px;
     outline: none;
     transition: border-color 0.2s;
   }
-  input:focus { border-color: var(--accent); }
+  input:focus { border-color: var(--border-heavy); }
 
   .field { margin-bottom: 1.25rem; }
   label {
     display: block;
     font-size: 0.75rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--fg-dim);
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    color: var(--text-muted);
     margin-bottom: 0.4rem;
   }
 
   button {
-    font-family: var(--mono);
+    font-family: system-ui, -apple-system, sans-serif;
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.04em;
     color: var(--bg);
-    background: var(--accent);
+    background: var(--text);
     border: none;
     padding: 0.5rem 1.75rem;
     border-radius: 3px;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: opacity 0.15s;
   }
-  button:hover { background: var(--accent-hover); }
+  button:hover { opacity: 0.8; }
 
   /* Paste content */
   .content { line-height: 1.8; }
   .content h1, .content h2, .content h3 {
-    font-family: var(--serif);
-    font-weight: 400;
+    font-family: system-ui, -apple-system, sans-serif;
     margin: 1.75em 0 0.5em;
   }
-  .content h1 { font-size: 1.5rem; }
-  .content h2 { font-size: 1.2rem; text-transform: none; letter-spacing: normal; color: var(--fg); }
-  .content h3 { font-size: 1rem; }
+  .content h1 { font-size: 1.5rem; font-weight: 700; }
+  .content h2 { font-size: 1.2rem; font-weight: 600; text-transform: none; letter-spacing: normal; color: var(--text); }
+  .content h3 { font-size: 1rem; font-weight: 600; }
   .content p { margin: 0.75em 0; }
   .content pre {
     padding: 1rem;
     overflow-x: auto;
     border-radius: 3px;
-    background: var(--bg-surface);
+    background: var(--code-bg);
     border: 1px solid var(--border);
     font-size: 0.875rem;
   }
-  .content code { font-size: 0.9em; font-family: var(--mono); }
+  .content code { font-size: 0.9em; font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, monospace; }
   .content img { max-width: 100%; border-radius: 3px; }
   .content blockquote {
-    border-left: 2px solid var(--accent);
+    border-left: 2px solid var(--border-heavy);
     padding-left: 1.25rem;
     margin: 1.25em 0;
-    color: var(--fg-dim);
+    color: var(--text-muted);
     font-style: italic;
   }
   .content ul, .content ol { padding-left: 1.25rem; margin: 0.75em 0; }
+  .content a { text-decoration: underline; }
 
   .actions { margin-top: 2rem; font-size: 0.8125rem; }
-  .actions a { margin-right: 1.25rem; }
+  .actions a { margin-right: 1.25rem; color: var(--text-muted); }
+  .actions a:hover { color: var(--text); }
 
   /* Lists */
   .paste-list { list-style: none; padding: 0; }
@@ -208,36 +203,83 @@ const PAGE_STYLE = `
   }
   .paste-list li:last-child { border-bottom: none; }
   .paste-list .paste-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .paste-list .paste-meta { flex-shrink: 0; font-size: 0.75rem; color: var(--fg-dim); }
+  .paste-list .paste-meta { flex-shrink: 0; font-size: 0.75rem; color: var(--text-muted); }
 
   /* Header bar */
   .topbar {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
   }
   .topbar-title {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-style: italic;
     font-size: 0.9375rem;
-    color: var(--fg-dim);
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    color: var(--text-muted);
   }
-  .topbar-title a { color: var(--fg-dim); }
-  .topbar-title a:hover { color: var(--accent); }
-  .topbar-nav { font-size: 0.75rem; color: var(--fg-dim); }
-  .topbar-nav a { color: var(--fg-dim); margin-left: 1rem; }
-  .topbar-nav a:hover { color: var(--accent); }
+  .topbar-title a { color: var(--text-muted); }
+  .topbar-title a:hover { color: var(--text); }
+  .topbar-nav { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 1rem; }
+  .topbar-nav a { color: var(--text-muted); }
+  .topbar-nav a:hover { color: var(--text); }
+
+  /* Theme toggle */
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    line-height: 1;
+  }
+  .theme-toggle:hover { color: var(--text); opacity: 1; }
 
   /* Revision bar */
-  .revision-bar { font-size: 0.8125rem; color: var(--fg-dim); margin: 0.5rem 0; line-height: 1.6; }
-  .revision-bar a { color: var(--accent); }
-  .revision-bar .current { font-weight: 500; color: var(--fg); }
+  .revision-bar { font-size: 0.8125rem; color: var(--text-muted); margin: 0.5rem 0; line-height: 1.6; }
+  .revision-bar a { color: var(--text-muted); text-decoration: underline; }
+  .revision-bar a:hover { color: var(--text); }
+  .revision-bar .current { font-weight: 500; color: var(--text); }
+`;
+
+const THEME_SCRIPT = `
+(function() {
+  function getTheme() {
+    var stored = localStorage.getItem('theme');
+    if (stored) return stored;
+    return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.querySelectorAll('.theme-toggle').forEach(function(btn) {
+      btn.textContent = theme === 'dark' ? '\\u2600' : '\\u263E';
+      btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    });
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') || getTheme();
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+  }
+  applyTheme(getTheme());
+  document.addEventListener('DOMContentLoaded', function() {
+    applyTheme(getTheme());
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.theme-toggle')) toggleTheme();
+    });
+  });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    if (!localStorage.getItem('theme')) applyTheme(getTheme());
+  });
+})();
 `;
 
 function htmlPage(title: string, body: string, nav?: string): string {
-  const navHtml = nav ?? `<span class="topbar-nav"><a href="/paste/logout">log out</a></span>`;
+  const navLinks = nav ?? `<a href="/paste/logout">log out</a>`;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -245,11 +287,15 @@ function htmlPage(title: string, body: string, nav?: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} — paste</title>
   <style>${PAGE_STYLE}</style>
+  <script>${THEME_SCRIPT}</script>
 </head>
 <body>
   <header class="topbar">
     <span class="topbar-title"><a href="/paste">paste</a></span>
-    ${navHtml}
+    <span class="topbar-nav">
+      ${navLinks}
+      <button class="theme-toggle" aria-label="Toggle theme"></button>
+    </span>
   </header>
   ${body}
 </body>
@@ -436,8 +482,8 @@ paste.get("/all", async (c) => {
     .map((r) => {
       const date = new Date(r.created_at).toISOString().split("T")[0];
       const title = escapeHtml(r.title || "Untitled");
-      const fork = r.parent_id ? ` <a href="/paste/${escapeHtml(r.parent_id)}" style="color:var(--fg-dim);font-size:0.7rem" title="forked from">↑</a>` : "";
-      const shared = authed && r.shared ? ` <span style="color:var(--fg-dim);font-size:0.7rem">●</span>` : "";
+      const fork = r.parent_id ? ` <a href="/paste/${escapeHtml(r.parent_id)}" style="color:var(--text-muted);font-size:0.7rem" title="forked from">↑</a>` : "";
+      const shared = authed && r.shared ? ` <span style="color:var(--text-muted);font-size:0.7rem">●</span>` : "";
       return `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a>${fork}${shared}</span><span class="paste-meta">${date}</span></li>`;
     })
     .join("\n      ");
@@ -780,8 +826,8 @@ paste.get("/:id/diff", async (c) => {
     <script id="parent-body" type="application/json">${safeJson(parent.body)}</script>
     <script id="current-body" type="application/json">${safeJson(row.body)}</script>
     <style>
-      .diff-add { color: #2a2; } .diff-del { color: #c44; } .diff-hunk { color: var(--accent); }
-      @media (prefers-color-scheme: dark) { .diff-add { color: #5d8; } .diff-del { color: #e66; } }
+      .diff-add { color: #2a2; } .diff-del { color: #c44; } .diff-hunk { color: var(--text-muted); }
+      [data-theme='dark'] .diff-add { color: #5d8; } [data-theme='dark'] .diff-del { color: #e66; }
     </style>
     <script type="module">
       import { createTwoFilesPatch } from 'https://esm.sh/diff@7';
@@ -869,17 +915,21 @@ paste.get("/:id", async (c) => {
   <style>
     ${PAGE_STYLE}
     body { max-width: none; padding: 0; }
+  </style>
+  <script>${THEME_SCRIPT}</script>
+  <style>
     #root { min-height: 100vh; padding: 2rem; }
     .paste-toolbar {
       position: fixed; bottom: 1rem; right: 1rem;
-      font-family: var(--mono); font-size: 0.75rem;
-      background: var(--bg-surface); border: 1px solid var(--border);
+      font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, monospace; font-size: 0.75rem;
+      background: var(--bg-soft); border: 1px solid var(--border);
       border-radius: 3px; padding: 0.35rem 0.75rem;
-      color: var(--fg-dim); z-index: 9999;
+      color: var(--text-muted); z-index: 9999;
       display: flex; gap: 0.75rem; align-items: center;
     }
-    .paste-toolbar a { color: var(--accent); }
-    .paste-error { color: var(--accent); padding: 2rem; font-family: var(--mono); font-size: 0.875rem; white-space: pre-wrap; }
+    .paste-toolbar a { color: var(--text-muted); text-decoration: underline; }
+    .paste-toolbar a:hover { color: var(--text); }
+    .paste-error { color: var(--text); padding: 2rem; font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, monospace; font-size: 0.875rem; white-space: pre-wrap; }
   </style>
 </head>
 <body>
@@ -910,12 +960,12 @@ paste.get("/:id", async (c) => {
   if (row.language === "html") {
     const toolbar = `<div class="paste-toolbar" style="
       position: fixed; bottom: 1rem; right: 1rem;
-      font-family: monospace; font-size: 0.75rem;
-      background: #1a1a2e; border: 1px solid #333;
+      font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, monospace; font-size: 0.75rem;
+      background: #1a1a1a; border: 1px solid #333;
       border-radius: 3px; padding: 0.35rem 0.75rem;
-      color: #888; z-index: 9999;
+      color: #999; z-index: 9999;
       display: flex; gap: 0.75rem; align-items: center;
-    "><span>html</span><a href="/paste/${escapeHtml(row.id)}/raw" style="color:#6c9ef8">source</a><a href="/paste/fork/${escapeHtml(row.id)}" style="color:#6c9ef8">fork</a></div>`;
+    "><span>html</span><a href="/paste/${escapeHtml(row.id)}/raw" style="color:#e0e0e0;text-decoration:none">source</a><a href="/paste/fork/${escapeHtml(row.id)}" style="color:#e0e0e0;text-decoration:none">fork</a></div>`;
 
     const isFullDocument = /<!DOCTYPE|<html/i.test(row.body);
     if (isFullDocument) {
@@ -950,9 +1000,9 @@ paste.get("/:id", async (c) => {
   const diffLink = row.parent_id ? `<a href="/paste/${escapeHtml(row.id)}/diff">diff</a>` : "";
   const authed = isAuthed(c);
   const shareToggle = authed
-    ? `<form method="POST" action="/paste/${escapeHtml(row.id)}/share" style="display:inline"><button type="submit" style="background:none;color:var(--accent);padding:0;font-weight:300;letter-spacing:normal;font-size:0.8125rem">${row.shared ? "unshare" : "share"}</button></form>`
+    ? `<form method="POST" action="/paste/${escapeHtml(row.id)}/share" style="display:inline"><button type="submit" style="background:none;color:var(--text-muted);padding:0;font-weight:400;letter-spacing:normal;font-size:0.8125rem">${row.shared ? "unshare" : "share"}</button></form>`
     : "";
-  const sharedIndicator = row.shared ? ` · <span style="color:var(--accent)">shared</span>` : "";
+  const sharedIndicator = row.shared ? ` · <span style="color:var(--text-muted)">shared</span>` : "";
 
   const html = htmlPage(
     title,

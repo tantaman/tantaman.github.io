@@ -284,6 +284,22 @@ input[type="checkbox"]:disabled {
   color: #c44;
 }
 
+.thought-share {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: var(--text-muted);
+  opacity: 0.4;
+  padding: 0 0.25rem;
+  transition: opacity 0.15s, color 0.15s;
+}
+.thought-share:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+
 .thought-edit {
   background: none;
   border: none;

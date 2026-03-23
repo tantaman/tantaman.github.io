@@ -44,6 +44,14 @@ export function ThoughtCard({
 }) {
   const { secret, updateSecret } = useContext(AuthContext);
   const [editing, setEditing] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    const url = `https://tantaman.com/thoughts/t/${thought.id}`;
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
   const handleDelete = async () => {
     if (!secret || !confirm('Delete this thought?')) return;
@@ -85,6 +93,15 @@ export function ThoughtCard({
             </>
           )}
         </a>
+        {!editing && (
+          <button
+            className="thought-share"
+            aria-label={copied ? 'Copied!' : 'Copy share link'}
+            onClick={handleShare}
+          >
+            {copied ? '\u2713' : '\u2197'}
+          </button>
+        )}
         {secret && !editing && (
           <>
             {onEdited && thought.parent_id == null && (
