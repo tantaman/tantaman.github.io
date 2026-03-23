@@ -229,6 +229,11 @@ const PAGE_STYLE = `
   .topbar-nav { font-size: 0.75rem; color: var(--fg-dim); }
   .topbar-nav a { color: var(--fg-dim); margin-left: 1rem; }
   .topbar-nav a:hover { color: var(--accent); }
+
+  /* Revision bar */
+  .revision-bar { font-size: 0.8125rem; color: var(--fg-dim); margin: 0.5rem 0; line-height: 1.6; }
+  .revision-bar a { color: var(--accent); }
+  .revision-bar .current { font-weight: 500; color: var(--fg); }
 `;
 
 function htmlPage(title: string, body: string, nav?: string): string {
@@ -279,6 +284,18 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+
+const LANGUAGES: [string, string][] = [
+  ["markdown", "Markdown"], ["plaintext", "Plain text"], ["javascript", "JavaScript"],
+  ["typescript", "TypeScript"], ["jsx", "JSX"], ["tsx", "TSX"], ["python", "Python"],
+  ["rust", "Rust"], ["html", "HTML"], ["css", "CSS"], ["json", "JSON"], ["sql", "SQL"],
+];
+
+function languageOptions(selected: string): string {
+  return LANGUAGES.map(([val, label]) =>
+    `<option value="${val}"${val === selected ? " selected" : ""}>${label}</option>`
+  ).join("\n          ");
+}
 
 function compileJsx(source: string, lang: "jsx" | "tsx"): string {
   const transforms: ("jsx" | "typescript")[] =
@@ -351,14 +368,15 @@ paste.get("/all", async (c) => {
   }
 
   const rows = await c.env.DB.prepare(
-    "SELECT id, title, language, created_at FROM paste ORDER BY created_at DESC"
-  ).all<{ id: string; title: string | null; language: string; created_at: number }>();
+    "SELECT id, title, language, created_at, parent_id FROM paste ORDER BY created_at DESC"
+  ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null }>();
 
   const items = rows.results
     .map((r) => {
       const date = new Date(r.created_at).toISOString().split("T")[0];
       const title = escapeHtml(r.title || "Untitled");
-      return `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a></span><span class="paste-meta">${date}</span></li>`;
+      const fork = r.parent_id ? ` <a href="/paste/${escapeHtml(r.parent_id)}" style="color:var(--fg-dim);font-size:0.7rem" title="forked from">↑</a>` : "";
+      return `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a>${fork}</span><span class="paste-meta">${date}</span></li>`;
     })
     .join("\n      ");
 
@@ -379,6 +397,24 @@ paste.get("/", async (c) => {
     return c.redirect("/paste/login");
   }
 
+  // Fork pre-population
+  const forkId = c.req.query("fork");
+  let forkSource: { id: string; body: string; language: string; title: string | null } | null = null;
+  if (forkId) {
+    forkSource = await c.env.DB.prepare("SELECT id, body, language, title FROM paste WHERE id = ?")
+      .bind(forkId)
+      .first<{ id: string; body: string; language: string; title: string | null }>();
+  }
+
+  const selectedLang = forkSource?.language || "markdown";
+  const prefillBody = forkSource ? escapeHtml(forkSource.body) : "";
+  const forkNotice = forkSource
+    ? `<p class="meta" style="margin-bottom:1rem">Forking <a href="/paste/${escapeHtml(forkSource.id)}">${escapeHtml(forkSource.title || "Untitled")}</a></p>`
+    : "";
+  const parentInput = forkSource
+    ? `<input type="hidden" name="parent_id" value="${escapeHtml(forkSource.id)}">`
+    : "";
+
   // Fetch 5 most recent pastes
   const recents = await c.env.DB.prepare(
     "SELECT id, title, created_at FROM paste ORDER BY created_at DESC LIMIT 5"
@@ -398,27 +434,17 @@ paste.get("/", async (c) => {
   }
 
   const body = htmlPage(
-    "New Paste",
-    `<form method="POST" action="/paste">
+    forkSource ? "Fork Paste" : "New Paste",
+    `${forkNotice}<form method="POST" action="/paste">
+      ${parentInput}
       <div class="field" style="display:flex;align-items:baseline;gap:0.75rem;margin-bottom:1.5rem">
         <label for="language" style="margin:0">Lang</label>
         <select id="language" name="language">
-          <option value="markdown" selected>Markdown</option>
-          <option value="plaintext">Plain text</option>
-          <option value="javascript">JavaScript</option>
-          <option value="typescript">TypeScript</option>
-          <option value="jsx">JSX</option>
-          <option value="tsx">TSX</option>
-          <option value="python">Python</option>
-          <option value="rust">Rust</option>
-          <option value="html">HTML</option>
-          <option value="css">CSS</option>
-          <option value="json">JSON</option>
-          <option value="sql">SQL</option>
+          ${languageOptions(selectedLang)}
         </select>
       </div>
       <div class="field">
-        <textarea id="body" name="body" required placeholder="Write something..." autofocus></textarea>
+        <textarea id="body" name="body" required placeholder="Write something..." autofocus>${prefillBody}</textarea>
       </div>
       <button type="submit">Save</button>
     </form>
@@ -433,6 +459,7 @@ paste.post("/", async (c) => {
   let body: string;
   let title: string | undefined;
   let language: string;
+  let parentId: string | null = null;
   let isForm = false;
 
   if (contentType.includes("application/json")) {
@@ -444,6 +471,7 @@ paste.post("/", async (c) => {
     body = json.body;
     title = json.title;
     language = json.language || "markdown";
+    parentId = json.parent_id || null;
   } else {
     // Form submission — auth via cookie
     isForm = true;
@@ -454,6 +482,7 @@ paste.post("/", async (c) => {
     body = form.body as string;
     title = (form.title as string) || undefined;
     language = (form.language as string) || "markdown";
+    parentId = (form.parent_id as string) || null;
   }
 
   if (!body) {
@@ -471,9 +500,9 @@ paste.post("/", async (c) => {
   const now = Date.now();
 
   await c.env.DB.prepare(
-    "INSERT INTO paste (id, body, language, title, created_at) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO paste (id, body, language, title, created_at, parent_id) VALUES (?, ?, ?, ?, ?, ?)"
   )
-    .bind(id, body, language, title || null, now)
+    .bind(id, body, language, title || null, now, parentId)
     .run();
 
   if (isForm) {
@@ -619,12 +648,70 @@ paste.delete("/:id/audio", async (c) => {
   return c.json({ ok: true, deleted: r2Key });
 });
 
+// GET /:id/diff — diff against parent (public)
+paste.get("/:id/diff", async (c) => {
+  const id = c.req.param("id");
+  const row = await c.env.DB.prepare("SELECT id, body, title, parent_id FROM paste WHERE id = ?")
+    .bind(id)
+    .first<{ id: string; body: string; title: string | null; parent_id: string | null }>();
+
+  if (!row) {
+    return c.html(htmlPage("Not Found", `<h1>Not found</h1>`), 404);
+  }
+  if (!row.parent_id) {
+    return c.html(htmlPage("No Parent", `<h1>No parent</h1><p class="meta" style="margin-top:1rem">This paste has no parent to diff against.</p><p style="margin-top:1rem"><a href="/paste/${escapeHtml(row.id)}">back</a></p>`));
+  }
+
+  const parent = await c.env.DB.prepare("SELECT id, body, title FROM paste WHERE id = ?")
+    .bind(row.parent_id)
+    .first<{ id: string; body: string; title: string | null }>();
+
+  if (!parent) {
+    return c.html(htmlPage("Parent Missing", `<h1>Parent missing</h1><p class="meta" style="margin-top:1rem">The parent paste no longer exists.</p><p style="margin-top:1rem"><a href="/paste/${escapeHtml(row.id)}">back</a></p>`));
+  }
+
+  const safeJson = (s: string) => JSON.stringify(s).replace(/<\//g, "<\\/");
+  const currentTitle = escapeHtml(row.title || "Untitled");
+  const parentTitle = escapeHtml(parent.title || "Untitled");
+
+  const html = htmlPage(
+    "Diff",
+    `<h1>Diff</h1>
+    <p class="meta"><a href="/paste/${escapeHtml(parent.id)}">${parentTitle}</a> &rarr; <a href="/paste/${escapeHtml(row.id)}">${currentTitle}</a></p>
+    <hr class="rule">
+    <pre id="diff-output" style="font-size:0.8125rem;line-height:1.7;overflow-x:auto"></pre>
+    <script id="parent-body" type="application/json">${safeJson(parent.body)}</script>
+    <script id="current-body" type="application/json">${safeJson(row.body)}</script>
+    <style>
+      .diff-add { color: #2a2; } .diff-del { color: #c44; } .diff-hunk { color: var(--accent); }
+      @media (prefers-color-scheme: dark) { .diff-add { color: #5d8; } .diff-del { color: #e66; } }
+    </style>
+    <script type="module">
+      import { createTwoFilesPatch } from 'https://esm.sh/diff@7';
+      const p = JSON.parse(document.getElementById('parent-body').textContent);
+      const cur = JSON.parse(document.getElementById('current-body').textContent);
+      const patch = createTwoFilesPatch('parent', 'current', p, cur, '', '', { context: 4 });
+      const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      const lines = patch.split('\\n').slice(2).map(l => {
+        const e = esc(l);
+        if (l.startsWith('+')) return '<span class="diff-add">' + e + '</span>';
+        if (l.startsWith('-')) return '<span class="diff-del">' + e + '</span>';
+        if (l.startsWith('@@')) return '<span class="diff-hunk">' + e + '</span>';
+        return e;
+      }).join('\\n');
+      document.getElementById('diff-output').innerHTML = lines;
+    </script>`,
+    ""
+  );
+  return c.html(html);
+});
+
 // GET /:id — view paste (public)
 paste.get("/:id", async (c) => {
   const id = c.req.param("id");
   const row = await c.env.DB.prepare("SELECT * FROM paste WHERE id = ?")
     .bind(id)
-    .first<{ id: string; body: string; language: string; title: string | null; created_at: number }>();
+    .first<{ id: string; body: string; language: string; title: string | null; created_at: number; parent_id: string | null }>();
 
   if (!row) {
     return c.html(htmlPage("Not Found", `<h1>Not found</h1><p class="meta" style="margin-top:1rem">This paste doesn't exist.</p>`), 404);
@@ -632,6 +719,48 @@ paste.get("/:id", async (c) => {
 
   const date = new Date(row.created_at).toISOString().split("T")[0];
   const title = row.title || "Untitled";
+
+  // Fetch revision chain (ancestors + children)
+  const [ancestorRows, childRows] = await Promise.all([
+    row.parent_id
+      ? c.env.DB.prepare(`
+          WITH RECURSIVE ancestors(id, title, parent_id, depth) AS (
+            SELECT id, title, parent_id, 0 FROM paste WHERE id = ?
+            UNION ALL
+            SELECT p.id, p.title, p.parent_id, a.depth + 1
+            FROM paste p JOIN ancestors a ON p.id = a.parent_id
+            WHERE a.depth < 20
+          )
+          SELECT id, title FROM ancestors WHERE id != ? ORDER BY depth DESC
+        `).bind(id, id).all<{ id: string; title: string | null }>()
+      : Promise.resolve({ results: [] as { id: string; title: string | null }[] }),
+    c.env.DB.prepare("SELECT id, title, created_at FROM paste WHERE parent_id = ? ORDER BY created_at ASC")
+      .bind(id)
+      .all<{ id: string; title: string | null; created_at: number }>(),
+  ]);
+
+  const ancestors = ancestorRows.results;
+  const children = childRows.results;
+
+  let revisionBarHtml = "";
+  if (ancestors.length > 0 || children.length > 0) {
+    let bar = '<div class="revision-bar">';
+    if (ancestors.length > 0) {
+      const crumbs = ancestors
+        .map((a) => `<a href="/paste/${escapeHtml(a.id)}">${escapeHtml(a.title || "Untitled")}</a>`)
+        .join(" › ");
+      bar += `${crumbs} › <span class="current">${escapeHtml(title)}</span>`;
+    }
+    if (children.length > 0) {
+      const forks = children
+        .map((ch) => `<a href="/paste/${escapeHtml(ch.id)}">${escapeHtml(ch.title || "Untitled")}</a>`)
+        .join(", ");
+      if (ancestors.length > 0) bar += "<br>";
+      bar += `forks: ${forks}`;
+    }
+    bar += "</div>";
+    revisionBarHtml = bar;
+  }
 
   if (row.language === "jsx" || row.language === "tsx") {
     const runnerHtml = `<!DOCTYPE html>
@@ -661,6 +790,7 @@ paste.get("/:id", async (c) => {
   <div class="paste-toolbar">
     <span>${escapeHtml(row.language)}</span>
     <a href="/paste/${escapeHtml(row.id)}/raw">source</a>
+    <a href="/paste?fork=${escapeHtml(row.id)}">fork</a>
   </div>
   <script type="module">
     try {
@@ -688,7 +818,7 @@ paste.get("/:id", async (c) => {
       border-radius: 3px; padding: 0.35rem 0.75rem;
       color: #888; z-index: 9999;
       display: flex; gap: 0.75rem; align-items: center;
-    "><span>html</span><a href="/paste/${escapeHtml(row.id)}/raw" style="color:#6c9ef8">source</a></div>`;
+    "><span>html</span><a href="/paste/${escapeHtml(row.id)}/raw" style="color:#6c9ef8">source</a><a href="/paste?fork=${escapeHtml(row.id)}" style="color:#6c9ef8">fork</a></div>`;
 
     const isFullDocument = /<!DOCTYPE|<html/i.test(row.body);
     if (isFullDocument) {
@@ -720,14 +850,19 @@ paste.get("/:id", async (c) => {
     rendered = `<div class="content"><pre><code class="language-${escapeHtml(row.language)}">${escapeHtml(row.body)}</code></pre></div>`;
   }
 
+  const diffLink = row.parent_id ? `<a href="/paste/${escapeHtml(row.id)}/diff">diff</a>` : "";
+
   const html = htmlPage(
     title,
     `<h1>${escapeHtml(title)}</h1>
     <p class="meta">${date} · ${escapeHtml(row.language)}</p>
+    ${revisionBarHtml}
     <hr class="rule">
     ${rendered}
     <div class="actions">
-      <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>${row.language === "markdown" ? `
+      <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>
+      <a href="/paste?fork=${escapeHtml(row.id)}">fork</a>${diffLink ? `
+      ${diffLink}` : ""}${row.language === "markdown" ? `
       <button id="play-btn" style="display:inline-block;vertical-align:middle;padding:0.35rem 1rem;font-size:0.75rem">listen</button>
       <audio id="audio-player" preload="none" style="display:none;height:2rem;vertical-align:middle"></audio>
       <span id="audio-status" class="meta" style="margin-left:0.5rem"></span>

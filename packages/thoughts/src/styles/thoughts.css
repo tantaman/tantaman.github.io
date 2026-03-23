@@ -831,7 +831,7 @@ input[type="checkbox"]:disabled {
   border-radius: 0;
 }
 
-.thought-body--md a {
+#thoughts-page .thought-body--md a {
   color: var(--accent);
   text-decoration: underline;
 }
