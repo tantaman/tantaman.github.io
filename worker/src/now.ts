@@ -25,52 +25,51 @@ function relativeTime(ts: number): string {
   return `${months}mo ago`;
 }
 
-const PAGE_STYLE = `
-  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap');
+function excerpt(body: string, maxLen = 150): string {
+  const plain = body.replace(/[#*_`~\[\]()>]/g, "").replace(/\s+/g, " ").trim();
+  return plain.length > maxLen ? plain.slice(0, maxLen) + "…" : plain;
+}
 
+const PAGE_STYLE = `
   :root {
-    --fg: #2c2c2c;
-    --fg-dim: #8a8a8a;
-    --bg: #faf9f7;
-    --bg-surface: #f0eeeb;
-    --border: #e0ddd8;
-    --accent: #c45d3e;
-    --accent-hover: #a84830;
-    --mono: 'DM Mono', 'Menlo', monospace;
-    --serif: 'Newsreader', 'Georgia', serif;
+    --bg: #ffffff;
+    --bg-soft: #f8f8f8;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --accent: #1a1a1a;
+    --border: #e5e5e5;
+    --border-heavy: #d0d0d0;
+    --code-bg: #f6f6f6;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --fg: #d4d0ca;
-      --fg-dim: #7a7770;
-      --bg: #1c1b19;
-      --bg-surface: #262522;
-      --border: #3a3835;
-      --accent: #e0815f;
-      --accent-hover: #c45d3e;
-    }
+  [data-theme='dark'] {
+    --bg: #1a1a1a;
+    --bg-soft: #242424;
+    --text: #e0e0e0;
+    --text-muted: #999;
+    --accent: #e0e0e0;
+    --border: #333;
+    --border-heavy: #444;
+    --code-bg: #242424;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: var(--mono);
-    font-weight: 300;
+    font-family: system-ui, -apple-system, sans-serif;
     font-size: 14px;
     line-height: 1.7;
     max-width: 720px;
     margin: 0 auto;
     padding: 3rem 1.5rem;
-    color: var(--fg);
+    color: var(--text);
     background: var(--bg);
     -webkit-font-smoothing: antialiased;
   }
 
   h1 {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-style: italic;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 700;
     font-size: 1.75rem;
     letter-spacing: -0.02em;
     margin-bottom: 0.25rem;
@@ -78,40 +77,54 @@ const PAGE_STYLE = `
   }
 
   h2 {
-    font-family: var(--mono);
-    font-weight: 400;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 600;
     font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--fg-dim);
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    color: var(--text-muted);
     margin-bottom: 0.75rem;
   }
 
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  a { color: var(--text); text-decoration: none; }
+  a:hover { color: var(--text-muted); }
 
-  .meta { color: var(--fg-dim); font-size: 0.8125rem; }
+  .meta { color: var(--text-muted); font-size: 0.8125rem; }
 
   .rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 
+  /* Header bar */
   .topbar {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
   }
   .topbar-title {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-style: italic;
     font-size: 0.9375rem;
-    color: var(--fg-dim);
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    color: var(--text-muted);
   }
-  .topbar-title a { color: var(--fg-dim); }
-  .topbar-title a:hover { color: var(--accent); }
-  .topbar-nav { font-size: 0.75rem; color: var(--fg-dim); }
-  .topbar-nav a { color: var(--fg-dim); margin-left: 1rem; }
-  .topbar-nav a:hover { color: var(--accent); }
+  .topbar-title a { color: var(--text-muted); }
+  .topbar-title a:hover { color: var(--text); }
+  .topbar-nav { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 1rem; }
+  .topbar-nav a { color: var(--text-muted); }
+  .topbar-nav a:hover { color: var(--text); }
+
+  /* Theme toggle */
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    line-height: 1;
+  }
+  .theme-toggle:hover { color: var(--text); opacity: 1; }
 
   section { margin-bottom: 2.5rem; }
 
@@ -124,13 +137,13 @@ const PAGE_STYLE = `
   .thought-body { line-height: 1.8; }
   .thought-body p { margin: 0.5em 0; }
   .thought-body p:first-child { margin-top: 0; }
-  .thought-body a { color: var(--accent); }
-  .thought-body code { font-size: 0.9em; font-family: var(--mono); }
+  .thought-body a { color: var(--text); text-decoration: underline; }
+  .thought-body code { font-size: 0.9em; font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, monospace; }
   .thought-body blockquote {
-    border-left: 2px solid var(--accent);
+    border-left: 2px solid var(--border-heavy);
     padding-left: 1.25rem;
     margin: 0.75em 0;
-    color: var(--fg-dim);
+    color: var(--text-muted);
     font-style: italic;
   }
   .thought-meta { margin-top: 0.35rem; }
@@ -146,7 +159,7 @@ const PAGE_STYLE = `
   }
   .item-list li:last-child { border-bottom: none; }
   .item-title { flex: 1; min-width: 0; }
-  .item-meta { flex-shrink: 0; font-size: 0.75rem; color: var(--fg-dim); }
+  .item-meta { flex-shrink: 0; font-size: 0.75rem; color: var(--text-muted); }
 
   .media-grid {
     display: grid;
@@ -159,28 +172,75 @@ const PAGE_STYLE = `
     aspect-ratio: 2/3;
     object-fit: cover;
     border-radius: 3px;
-    background: var(--bg-surface);
+    background: var(--bg-soft);
   }
   .media-card .media-label {
     font-size: 0.75rem;
     margin-top: 0.35rem;
-    color: var(--fg);
+    color: var(--text);
     line-height: 1.4;
   }
   .media-card .media-sublabel {
     font-size: 0.6875rem;
-    color: var(--fg-dim);
+    color: var(--text-muted);
   }
+
+  /* Paste list */
+  .paste-list { list-style: none; padding: 0; }
+  .paste-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .paste-list li:last-child { border-bottom: none; }
+  .paste-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .paste-meta { flex-shrink: 0; font-size: 0.75rem; color: var(--text-muted); }
 
   footer {
     margin-top: 3rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
     font-size: 0.75rem;
-    color: var(--fg-dim);
+    color: var(--text-muted);
   }
-  footer a { color: var(--fg-dim); }
-  footer a:hover { color: var(--accent); }
+  footer a { color: var(--text-muted); }
+  footer a:hover { color: var(--text); }
+`;
+
+const THEME_SCRIPT = `
+(function() {
+  function getTheme() {
+    var stored = localStorage.getItem('theme');
+    if (stored) return stored;
+    return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.querySelectorAll('.theme-toggle').forEach(function(btn) {
+      btn.textContent = theme === 'dark' ? '\\u2600' : '\\u263E';
+      btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    });
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') || getTheme();
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+  }
+  applyTheme(getTheme());
+  document.addEventListener('DOMContentLoaded', function() {
+    applyTheme(getTheme());
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.theme-toggle')) toggleTheme();
+    });
+  });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    if (!localStorage.getItem('theme')) applyTheme(getTheme());
+  });
+})();
 `;
 
 interface Thought {
@@ -212,11 +272,19 @@ interface Movie {
   year: string | null;
 }
 
+interface Paste {
+  id: string;
+  title: string | null;
+  body: string;
+  language: string;
+  shared_at: number;
+}
+
 now.get("/", async (c) => {
   const db = c.env.DB;
   const nowEpoch = Date.now();
 
-  const [thoughts, tasks, events, books, movies] = await Promise.all([
+  const [thoughts, tasks, events, books, movies, pastes] = await Promise.all([
     db
       .prepare(
         `SELECT id, body, timestamp FROM thought
@@ -251,6 +319,13 @@ now.get("/", async (c) => {
          ORDER BY created_at DESC LIMIT 5`
       )
       .all<Movie>(),
+    db
+      .prepare(
+        `SELECT id, title, body, language, shared_at FROM paste
+         WHERE shared = 1
+         ORDER BY shared_at DESC LIMIT 10`
+      )
+      .all<Paste>(),
   ]);
 
   const sections: string[] = [];
@@ -307,7 +382,7 @@ now.get("/", async (c) => {
       .map((b) => {
         const img = b.cover_url
           ? `<img src="${escapeHtml(b.cover_url)}" alt="${escapeHtml(b.title)}" loading="lazy">`
-          : `<div style="width:100%;aspect-ratio:2/3;background:var(--bg-surface);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--fg-dim);padding:0.5rem;text-align:center">${escapeHtml(b.title)}</div>`;
+          : `<div style="width:100%;aspect-ratio:2/3;background:var(--bg-soft);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--text-muted);padding:0.5rem;text-align:center">${escapeHtml(b.title)}</div>`;
         const author = b.author
           ? `<div class="media-sublabel">${escapeHtml(b.author)}</div>`
           : "";
@@ -326,7 +401,7 @@ now.get("/", async (c) => {
       .map((m) => {
         const img = m.poster_url
           ? `<img src="${escapeHtml(m.poster_url)}" alt="${escapeHtml(m.title)}" loading="lazy">`
-          : `<div style="width:100%;aspect-ratio:2/3;background:var(--bg-surface);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--fg-dim);padding:0.5rem;text-align:center">${escapeHtml(m.title)}</div>`;
+          : `<div style="width:100%;aspect-ratio:2/3;background:var(--bg-soft);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--text-muted);padding:0.5rem;text-align:center">${escapeHtml(m.title)}</div>`;
         const year = m.year
           ? `<div class="media-sublabel">${escapeHtml(m.year)}</div>`
           : "";
@@ -336,6 +411,25 @@ now.get("/", async (c) => {
     sections.push(`<section>
       <h2>watching</h2>
       <div class="media-grid">${items}</div>
+    </section>`);
+  }
+
+  // Pastes
+  if (pastes.results.length > 0) {
+    const items = pastes.results
+      .map((p) => {
+        const date = new Date(p.shared_at).toISOString().split("T")[0];
+        const title = escapeHtml(p.title || "Untitled");
+        const desc = escapeHtml(excerpt(p.body));
+        return `<li>
+          <span style="display:flex;justify-content:space-between;width:100%;align-items:baseline;gap:1rem"><span class="paste-title"><a href="/paste/${escapeHtml(p.id)}">${title}</a></span><span class="paste-meta">${date}</span></span>
+          <span class="meta" style="font-size:0.75rem">${desc}</span>
+        </li>`;
+      })
+      .join("\n      ");
+    sections.push(`<section>
+      <h2>shared</h2>
+      <ul class="paste-list">${items}</ul>
     </section>`);
   }
 
@@ -349,17 +443,22 @@ now.get("/", async (c) => {
   <title>now — tantaman</title>
   <meta name="description" content="What Matt is up to right now.">
   <style>${PAGE_STYLE}</style>
+  <script>${THEME_SCRIPT}</script>
 </head>
 <body>
   <header class="topbar">
     <span class="topbar-title"><a href="https://tantaman.com">tantaman</a></span>
-    <span class="topbar-nav"><a href="https://tantaman.com/thoughts/">thoughts</a></span>
+    <span class="topbar-nav">
+      <a href="https://tantaman.com/thoughts/">thoughts</a>
+      <a href="/paste">paste</a>
+      <button class="theme-toggle" aria-label="Toggle theme"></button>
+    </span>
   </header>
   <h1>now</h1>
   <p class="meta" style="margin-bottom:2.5rem">A living snapshot of what I'm up to.</p>
   ${sections.join("\n<hr class=\"rule\">\n")}
   <footer>
-    last updated ${updatedAt} · <a href="https://tantaman.com/thoughts/">thoughts</a> · <a href="https://tantaman.com">tantaman.com</a>
+    last updated ${updatedAt} · <a href="https://tantaman.com/thoughts/">thoughts</a> · <a href="/paste">paste</a> · <a href="https://tantaman.com">tantaman.com</a>
   </footer>
 </body>
 </html>`;
