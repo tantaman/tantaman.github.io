@@ -104,8 +104,8 @@ export default async function defaultLayout(
         </h1>
         <nav>
           <a href="/tags.html">Browse</a>
-          <a href="/graph.html">Graph</a>
           <a href="/thoughts/">Thoughts</a>
+          <a href="/paste">Paste</a>
           <div id="notification-jewel"></div>
           <div class="settings-menu">
             <button class="settings-menu-btn" type="button" aria-label="Settings">
@@ -115,6 +115,7 @@ export default async function defaultLayout(
               </svg>
             </button>
             <div class="settings-menu-dropdown">
+              <a href="/graph.html">Graph</a>
               <a href="/pages/mcp.html">MCP</a>
               <button class="theme-toggle" type="button"></button>
             </div>
