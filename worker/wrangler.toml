@@ -9,7 +9,6 @@ routes = [
   { pattern = "tantaman.com/api/*", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/audio/*", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/paste", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/paste/", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/paste/*", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/now", zone_name = "tantaman.com" }
 ]

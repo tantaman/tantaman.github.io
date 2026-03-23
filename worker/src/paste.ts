@@ -366,6 +366,60 @@ paste.get("/logout", async (c) => {
   return c.redirect("/paste/login");
 });
 
+// GET /fork/:id — fork a paste (auth required)
+paste.get("/fork/:id", async (c) => {
+  if (!isAuthed(c)) {
+    return c.redirect("/paste/login");
+  }
+
+  const forkId = c.req.param("id");
+  const forkSource = await c.env.DB.prepare("SELECT id, body, language, title FROM paste WHERE id = ?")
+    .bind(forkId)
+    .first<{ id: string; body: string; language: string; title: string | null }>();
+
+  if (!forkSource) {
+    return c.html(htmlPage("Not Found", `<h1>Not found</h1><p class="meta" style="margin-top:1rem">This paste doesn't exist.</p>`), 404);
+  }
+
+  // Fetch 5 most recent pastes
+  const recents = await c.env.DB.prepare(
+    "SELECT id, title, created_at FROM paste ORDER BY created_at DESC LIMIT 5"
+  ).all<{ id: string; title: string | null; created_at: number }>();
+
+  let recentHtml = "";
+  if (recents.results.length > 0) {
+    const items = recents.results
+      .map((r) => `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${escapeHtml(r.title || "Untitled")}</a></span><span class="paste-meta">${new Date(r.created_at).toISOString().split("T")[0]}</span></li>`)
+      .join("\n        ");
+    recentHtml = `
+    <hr class="rule">
+    <h2>Recent <a href="/paste/all" style="text-transform:none;letter-spacing:normal;font-weight:300">/ all</a></h2>
+    <ul class="paste-list">
+        ${items}
+    </ul>`;
+  }
+
+  const body = htmlPage(
+    "Fork Paste",
+    `<p class="meta" style="margin-bottom:1rem">Forking <a href="/paste/${escapeHtml(forkSource.id)}">${escapeHtml(forkSource.title || "Untitled")}</a></p>
+    <form method="POST" action="/paste">
+      <input type="hidden" name="parent_id" value="${escapeHtml(forkSource.id)}">
+      <div class="field" style="display:flex;align-items:baseline;gap:0.75rem;margin-bottom:1.5rem">
+        <label for="language" style="margin:0">Lang</label>
+        <select id="language" name="language">
+          ${languageOptions(forkSource.language)}
+        </select>
+      </div>
+      <div class="field">
+        <textarea id="body" name="body" required placeholder="Write something..." autofocus>${escapeHtml(forkSource.body)}</textarea>
+      </div>
+      <button type="submit">Save</button>
+    </form>
+    ${recentHtml}`
+  );
+  return c.html(body);
+});
+
 // GET /all — list all pastes (authed: all, public: shared only)
 paste.get("/all", async (c) => {
   const authed = isAuthed(c);
@@ -434,24 +488,6 @@ paste.get("/", async (c) => {
     return c.html(body);
   }
 
-  // Fork pre-population
-  const forkId = c.req.query("fork");
-  let forkSource: { id: string; body: string; language: string; title: string | null } | null = null;
-  if (forkId) {
-    forkSource = await c.env.DB.prepare("SELECT id, body, language, title FROM paste WHERE id = ?")
-      .bind(forkId)
-      .first<{ id: string; body: string; language: string; title: string | null }>();
-  }
-
-  const selectedLang = forkSource?.language || "markdown";
-  const prefillBody = forkSource ? escapeHtml(forkSource.body) : "";
-  const forkNotice = forkSource
-    ? `<p class="meta" style="margin-bottom:1rem">Forking <a href="/paste/${escapeHtml(forkSource.id)}">${escapeHtml(forkSource.title || "Untitled")}</a></p>`
-    : "";
-  const parentInput = forkSource
-    ? `<input type="hidden" name="parent_id" value="${escapeHtml(forkSource.id)}">`
-    : "";
-
   // Fetch 5 most recent pastes
   const recents = await c.env.DB.prepare(
     "SELECT id, title, created_at FROM paste ORDER BY created_at DESC LIMIT 5"
@@ -471,17 +507,16 @@ paste.get("/", async (c) => {
   }
 
   const body = htmlPage(
-    forkSource ? "Fork Paste" : "New Paste",
-    `${forkNotice}<form method="POST" action="/paste">
-      ${parentInput}
+    "New Paste",
+    `<form method="POST" action="/paste">
       <div class="field" style="display:flex;align-items:baseline;gap:0.75rem;margin-bottom:1.5rem">
         <label for="language" style="margin:0">Lang</label>
         <select id="language" name="language">
-          ${languageOptions(selectedLang)}
+          ${languageOptions("markdown")}
         </select>
       </div>
       <div class="field">
-        <textarea id="body" name="body" required placeholder="Write something..." autofocus>${prefillBody}</textarea>
+        <textarea id="body" name="body" required placeholder="Write something..." autofocus></textarea>
       </div>
       <button type="submit">Save</button>
     </form>
@@ -852,7 +887,7 @@ paste.get("/:id", async (c) => {
   <div class="paste-toolbar">
     <span>${escapeHtml(row.language)}</span>
     <a href="/paste/${escapeHtml(row.id)}/raw">source</a>
-    <a href="/paste?fork=${escapeHtml(row.id)}">fork</a>
+    <a href="/paste/fork/${escapeHtml(row.id)}">fork</a>
   </div>
   <script type="module">
     try {
@@ -880,7 +915,7 @@ paste.get("/:id", async (c) => {
       border-radius: 3px; padding: 0.35rem 0.75rem;
       color: #888; z-index: 9999;
       display: flex; gap: 0.75rem; align-items: center;
-    "><span>html</span><a href="/paste/${escapeHtml(row.id)}/raw" style="color:#6c9ef8">source</a><a href="/paste?fork=${escapeHtml(row.id)}" style="color:#6c9ef8">fork</a></div>`;
+    "><span>html</span><a href="/paste/${escapeHtml(row.id)}/raw" style="color:#6c9ef8">source</a><a href="/paste/fork/${escapeHtml(row.id)}" style="color:#6c9ef8">fork</a></div>`;
 
     const isFullDocument = /<!DOCTYPE|<html/i.test(row.body);
     if (isFullDocument) {
@@ -928,7 +963,7 @@ paste.get("/:id", async (c) => {
     ${rendered}
     <div class="actions">
       <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>
-      <a href="/paste?fork=${escapeHtml(row.id)}">fork</a>${diffLink ? `
+      <a href="/paste/fork/${escapeHtml(row.id)}">fork</a>${diffLink ? `
       ${diffLink}` : ""}${shareToggle ? `
       ${shareToggle}` : ""}${row.language === "markdown" ? `
       <button id="play-btn" style="display:inline-block;vertical-align:middle;padding:0.35rem 1rem;font-size:0.75rem">listen</button>
