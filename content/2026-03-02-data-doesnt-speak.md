@@ -1,6 +1,7 @@
 ---
 title: "The Data Doesn't Speak"
 tags: [philosophy]
+author: [tantaman, claude]
 concern: [knowledge, ground]
 form: essay
 kind: original

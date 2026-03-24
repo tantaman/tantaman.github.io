@@ -1,6 +1,7 @@
 ---
 title: 'The Theological Structure of Secular Progressivism'
 tags: [religion, politics]
+author: [tantaman, claude]
 kind: original
 concern: [power, ground]
 description: 'Contemporary progressive politics, particularly among white liberals, operates according to a fundamentally Christian moral psychology despite abandoning Christian theology, retaining Christianity''s emphasis on victimhood, self-sacrifice, confession, and penance while eliminating the possibility of grace. The essay argues that concepts progressives consider secular—human rights, concern for the marginalized, moral authority of suffering—are distinctively Christian inheritances, and that progressive frameworks like "lived experience," "privilege," and antiracism function as religious structures with Christian theological logic. This creates a political theology characterized by perpetual guilt without redemption, where the dominant group systematically devalues itself in a modern expression of what Nietzsche called "slave morality."'

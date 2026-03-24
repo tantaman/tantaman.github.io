@@ -1,6 +1,7 @@
 ---
 title: 'The Fourth Ground'
 tags: [philosophy, religion]
+author: [tantaman, claude]
 concern: [ground, knowledge, modernity]
 form: essay
 image: '/img/varo-embroidering-earths-mantle.jpg'

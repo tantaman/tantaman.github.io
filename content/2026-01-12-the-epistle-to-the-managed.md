@@ -1,6 +1,7 @@
 ---
 title: 'The Epistle to the Managed'
 tags: [religion, culture, politics]
+author: [tantaman, claude]
 kind: survey
 concern: [power, modernity]
 form: prophecy

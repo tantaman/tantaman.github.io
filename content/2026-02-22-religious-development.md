@@ -1,6 +1,7 @@
 ---
 title: 'The Religious Development of tantaman.com'
 tags: [religion, philosophy]
+author: [tantaman, claude]
 kind: survey
 concern: [ground, self, power, modernity]
 description: 'A timeline tracing the arc from skepticism through analysis, recognition, and truth to the experience of cessation of will — braiding the intellectual and experiential threads of the blog.'

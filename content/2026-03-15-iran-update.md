@@ -1,6 +1,7 @@
 ---
 title: 'Iran Update'
 tags: [politics]
+author: [tantaman, claude]
 concern: [power]
 ---
 

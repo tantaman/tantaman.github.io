@@ -1,6 +1,7 @@
 ---
 title: 'The Ironist (Gen-Z) and the Ground'
 tags: [fiction, culture]
+author: [tantaman, claude]
 kind: original
 concern: [self, modernity]
 form: story

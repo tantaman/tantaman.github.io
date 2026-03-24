@@ -1,6 +1,7 @@
 ---
 title: 'Secularized Worship'
 tags: [religion, politics, culture]
+author: [tantaman, claude]
 kind: original
 concern: [power, ground]
 description: 'The Book of Revelation''s pattern of institutional power demanding total allegiance and reshaping those who serve it reappears across modern secular systems, from Stalin''s cult of personality that appropriated religious worship to Mao''s struggle sessions that colonized the inner life through forced confession and public humiliation. In both cases, systems initially presented as opportunity gradually became coercive, requiring visible ideological conformity and participation that transformed people into extensions of the system itself. The worshippers become like what they serve, whether through Stalin''s propagandized devotion or Mao''s systematic destruction of private identity and social bonds outside Party loyalty.'

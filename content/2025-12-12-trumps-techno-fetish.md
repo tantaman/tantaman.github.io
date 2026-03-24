@@ -1,6 +1,7 @@
 ---
 title: 'Trump''s Techno-Fetish'
 tags: [politics, economics]
+author: [tantaman, claude]
 kind: survey
 concern: [power]
 description: 'Trump''s push against the EU stems partly from viewing its digital regulations as a de facto tariff system targeting U.S. tech companies, with compliance costs reaching $97.6 billion annually for American firms through direct expenses, fines, and lost revenue. The EU''s regulatory framework—encompassing GDPR, DMA, DSA, and the AI Act—has grown from 27 pages in 2015 to 931 pages by 2024, with fines disproportionately hitting American companies (83% of GDPR penalties) while European firms face minimal penalties. By threatening to weaken these regulations in exchange for EU cooperation on Ukraine and defense, Trump is leveraging geopolitical leverage to reduce what he frames as protectionist barriers against American technology companies.'

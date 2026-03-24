@@ -1,6 +1,7 @@
 ---
 title: 'Principalities and Powers'
 tags: [religion, politics]
+author: [tantaman, claude]
 kind: original
 concern: [power, ground]
 description: 'Paul''s epistle to the Ephesians describes spiritual forces not as supernatural demons but as the self-perpetuating logic of systems and institutions—the underlying structures of power that persist regardless of individual leaders or intentions, a insight that subject peoples like the Jews understood better than the Romans at the center of power. The author argues that Rome''s true genius was not military might but the colonization of entire populations through infrastructure, law, ritual, and especially the imperial cult, which shaped behavior and thus shaped souls over time, forcing early Christians to refuse even symbolic compliance because they understood that every practice forms the interior life. This ancient political theology is more sophisticated than modern institutional analysis because it recognized that power operates through structures that transcend individual actors and that performing submission eventually produces genuine submission.'

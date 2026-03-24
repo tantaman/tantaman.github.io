@@ -1,6 +1,7 @@
 ---
 title: 'When Experts Were Clearly Wrong: A Historical Compendium'
 tags: [knowledge]
+author: [tantaman, claude]
 image: '/img/bruegel-blind-leading-blind.jpg'
 ---
 

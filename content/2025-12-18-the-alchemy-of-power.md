@@ -1,6 +1,7 @@
 ---
 title: 'The Alchemy of Power'
 tags: [religion, politics]
+author: [tantaman, claude]
 kind: original
 concern: [power]
 description: 'Spiritual and revolutionary insights resist institutional capture, yet they are invariably standardized, codified, and absorbed by power structures—a pattern visible across religions and modern secular organizations alike. Through textual canonization, state sponsorship, credentialing systems, and enforcement mechanisms like confession and courts, institutions transform liberating teachings into tools of control and administration. This institutional physics operates predictably across traditions, converting moral authority into administrative authority and selecting for interpretations that are legible, enforceable, and identity-forming.'

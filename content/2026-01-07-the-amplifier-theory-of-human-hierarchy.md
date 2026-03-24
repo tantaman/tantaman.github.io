@@ -1,6 +1,7 @@
 ---
 title: 'The Amplifier Theory of Human Hierarchy'
 tags: [history, politics]
+author: [tantaman, claude]
 kind: original
 concern: [power]
 description: 'Human societies display radical egalitarianism or strict hierarchy depending not on culture or nature but on the presence of "amplifiers"—mechanisms that extend individual power beyond collective resistance, such as concentrated resources, defensive technologies, debt systems, or ideological justifications. The same species produces both the fiercely egalitarian Ju/''hoansi and the slave-holding Tlingit based on whether environmental and technological conditions allow power to accumulate and become self-reinforcing. Historical and archaeological evidence shows that hierarchy emerges predictably wherever amplifiers exist, suggesting stratification is not inevitable to human nature but contingent on specific conditions.'

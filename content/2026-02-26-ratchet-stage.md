@@ -1,6 +1,7 @@
 ---
 title: 'The Ratchet: Capital, Complexity, and the Gravity of Power'
 tags: [history, politics]
+author: [tantaman, claude]
 kind: original
 concern: [power]
 description: "Power and capital follow natural law"

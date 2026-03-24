@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: The Kingdom Within'
 tags: [religion, philosophy]
+author: [tantaman, claude]
 kind: survey
 concern: [self, ground]
 description: 'Self-knowledge in early Christian wisdom traditions, particularly in sayings like the Gospel of Thomas, differs fundamentally from later Augustinian Christianity by locating the divine kingdom as an already-present inner reality that people fail to perceive, rather than as hidden sin requiring confession and institutional mediation. The early Jesus tradition emphasizes awakening to the divine spark within through direct perception and practice, aligning more closely with Eastern mystical traditions than with the psychology of sin, opacity, and verbal confession that became dominant in institutional Christianity. This recovers a suppressed strand of Christian thought that treats self-knowledge not as excavating hidden guilt but as recognizing one''s divine origin and bringing forth the transformative light already present within.'

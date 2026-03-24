@@ -1,6 +1,7 @@
 ---
 title: 'What Would Marx Say Today?'
 tags: [economics, politics]
+author: [tantaman, claude]
 kind: survey
 concern: [power]
 description: 'The post argues that a new ruling class—the professional-managerial credentialed class—has emerged and superseded the bourgeoisie by controlling access to economic participation through credentials rather than owning capital. The credential functions as a monopolistic barrier maintained by the credentialed themselves, who present their class interests as objective expertise and neutral knowledge while being insulated from market discipline through employment in the state, nonprofits, universities, and corporate bureaucracies. This class perpetuates itself by pathologizing resistance to its authority and continuously expanding the domains of life that require credentialed expert intervention.'

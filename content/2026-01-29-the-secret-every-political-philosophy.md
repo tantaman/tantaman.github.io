@@ -1,6 +1,7 @@
 ---
 title: 'The Secret Every Political Philosophy Shares'
 tags: [politics, philosophy]
+author: [tantaman, claude]
 kind: original
 concern: [power, knowledge]
 description: 'Every political philosophy, from liberalism to anarchism to progressivism, is fundamentally a containment theory disguised as liberation—a blueprint for managing human nature''s inherent drive to dominate rather than truly transforming it. Political systems can only constrain behavior through various mechanisms (laws, shame, hierarchy, or social pressure), but they cannot change what humans fundamentally are, so the danger persists across all ideological configurations. The only genuine transformation requires something beyond politics entirely—grace, enlightenment, or spiritual rebirth that comes from outside the human will and cannot be legislated, mandated, or achieved through policy.'

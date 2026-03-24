@@ -1,6 +1,7 @@
 ---
 title: 'Voices from Below: Primary Sources and the Evolution of Peasant Uprisings'
 tags: [politics, religion]
+author: [tantaman, claude]
 kind: survey
 concern: [power]
 description: 'Peasant uprisings across six centuries emerged from genuine violations of the "moral economy"—peasants'' belief in their right to subsistence and traditional protection—but were structured and led by marginalized elites like radical priests and disaffected scholars who provided organization and ideological frameworks that dispersed rural communities lacked. Primary sources from the Peasants'' Revolt in England (1381) and the German Peasants'' War (1525) reveal how figures like John Ball and Thomas Müntzer articulated theological and scriptural justifications for rebellion, while established ruling elites countered by redirecting anger, dividing coalitions, and justifying brutal repression. The peasantry supplied the numbers and grievances, while marginalized elites supplied the spark and direction, framing revolt not as revolution but as restoration of violated norms—a pattern that repeated across different civilizations and centuries.'

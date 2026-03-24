@@ -1,6 +1,7 @@
 ---
 title: 'The Same Machine'
 tags: [politics, philosophy]
+author: [tantaman, claude]
 concern: [power, systems]
 kind: original
 ---

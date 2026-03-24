@@ -1,6 +1,7 @@
 ---
 title: "The Secular Eschaton: Christianity's Structural Inheritance in Marxist Thought and Practice"
 tags: [philosophy, religion, economics]
+author: [tantaman, claude]
 kind: survey
 concern: [power, ground]
 description: 'Marxism structurally inherits Christianity''s narrative patterns, institutional forms, and moral grammar despite its explicit atheism, replicating Christian theological architecture at a deep level that explains why Communist movements exhibit characteristic patterns like missionary zeal, heresy-hunting, and eschatological politics. Drawing on scholars including Voegelin, Löwith, and Talmon, the essay argues that modern secular ideologies like Marxism represent a secularization of Christian eschatology—transplanting salvation from the afterlife to earthly political transformation—which generates predictable pathologies when utopian redemption is sought through material history rather than transcendence. This structural inheritance means Marxism functions as a political religion operating through the same psychological and institutional logic as Christianity itself, making the ideology''s resemblance to theocratic practice not coincidental but systemic.'

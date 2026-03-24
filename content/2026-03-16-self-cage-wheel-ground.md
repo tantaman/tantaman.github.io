@@ -1,6 +1,7 @@
 ---
 title: 'Self, Cage, Wheel, Ground: A Book in Progress'
 tags: [philosophy, politics, culture, religion]
+author: [tantaman, claude]
 concern: [self, power, ground, knowledge]
 kind: original
 image: '/img/durer-melencolia.jpg'

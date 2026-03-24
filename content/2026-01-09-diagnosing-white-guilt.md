@@ -1,6 +1,7 @@
 ---
 title: 'Diagnosing "White Guilt"'
 tags: [religion, culture]
+author: [tantaman, claude]
 kind: survey
 concern: [modernity, power]
 description: 'The post argues that contemporary white guilt functions as a secular religion modeled on Christianity''s doctrine of original sin, but without any mechanism for absolution or redemption. Unlike traditional Christian confession, which offers a path to forgiveness and restoration, white guilt creates an infinite, inescapable cycle of self-accusation where no amount of confession, penance, or behavioral change can ever wash away the inherent sin of existing in a white body. The author contends that this perpetual guilt persists not out of genuine moral commitment but because it provides psychological and social benefits to practitioners—signaling elite status, tribal belonging, and a shield against criticism—making it ultimately an exercise in vanity disguised as virtue.'

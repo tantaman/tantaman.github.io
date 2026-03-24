@@ -1,6 +1,7 @@
 ---
 title: 'Malcom X on Kendi, DiAngelo and the DEI Complex'
 tags: [politics, culture]
+author: [tantaman, claude]
 kind: survey
 concern: [power, modernity]
 description: 'The post critiques contemporary racial equity movements led by figures like Ibram Kendi and Robin DiAngelo, arguing they have created a billion-dollar industry that actually reinforces Black dependence on white validation rather than fostering genuine liberation and Black power. It contends that these movements trap Black people in perpetual grievance waiting for white confession instead of building independent institutions and collective economic power, while serving the interests of consultants, corporations, and political elites who benefit from maintaining the status quo. The post argues both conservatives and progressives work to prevent Black collective self-determination, with progressives offering permanent victimhood and conservatives offering individual assimilation, when true liberation requires building autonomous Black institutions and negotiating from a position of strength.'

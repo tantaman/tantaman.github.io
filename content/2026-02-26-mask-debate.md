@@ -1,6 +1,7 @@
 ---
 title: 'The Mask Debate: An Evening with Slavoj Žižek'
 tags: [philosophy, fiction]
+author: [tantaman, claude]
 kind: original
 concern: [self, knowledge]
 form: story

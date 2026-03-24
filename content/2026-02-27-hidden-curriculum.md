@@ -1,6 +1,7 @@
 ---
 title: 'The Hidden Curriculum: Why Reality Must Be Opaque'
 tags: [philosophy, religion]
+author: [tantaman, claude]
 kind: original
 concern: [ground, self, knowledge]
 form: essay

@@ -1,6 +1,7 @@
 ---
 title: 'The Recurring Pattern: Left-Islamist Alliances and the Triumph of Islam'
 tags: [politics, religion, history]
+author: [tantaman, claude]
 kind: survey
 concern: [power]
 description: 'Leftist and Islamist movements have repeatedly formed tactical alliances against common enemies, only for Islamists to systematically eliminate their leftist partners once in power—a pattern documented across Iran, Sudan, Algeria, and Egypt. The Iranian Revolution of 1979 exemplifies this cycle: communists and leftists helped overthrow the Shah expecting a "non-capitalist path of development," but Khomeini explicitly stated his intention to destroy communism alongside capitalism and Zionism, proceeding to ban leftist parties, purge universities, execute thousands of leftists, and culminate in the 1988 massacre of up to 30,000 political prisoners deemed communist or apostate. Western intellectuals like Michel Foucault romanticized the revolution''s "political spirituality" while ignoring these systematic destructions, enabling the left''s complicity in its own defeat.'

@@ -1,6 +1,7 @@
 ---
 title: 'The Honest Record'
 tags: [religion, philosophy, politics]
+author: [tantaman, claude]
 kind: original
 concern: [power, knowledge]
 image: /img/el-greco-christ-driving-money-changers.jpg

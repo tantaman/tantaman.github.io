@@ -1,6 +1,7 @@
 ---
 title: 'Iran: The Resolution'
 tags: [politics, religion, history, philosophy]
+author: [tantaman, claude]
 concern: [power, modernity]
 kind: original
 form: essay

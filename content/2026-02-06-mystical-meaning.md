@@ -1,6 +1,7 @@
 ---
 title: 'Mystical Meaning'
 tags: [philosophy, religion]
+author: [tantaman, claude]
 kind: original
 concern: [ground, knowledge]
 form: meditation

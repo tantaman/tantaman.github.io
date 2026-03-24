@@ -1,6 +1,7 @@
 ---
 title: 'The Liquefaction of Being: Materialism, Technology, and the Dissolution of the Self'
 tags: [philosophy, culture]
+author: [tantaman, claude]
 kind: original
 concern: [ground, modernity]
 description: 'The essay argues that liquid modernity—characterized by the dissolution of stable identity, relationships as optimizable investments, and the self-as-brand—is not the root cause of contemporary depression and anxiety but rather a downstream symptom of a deeper metaphysical shift in which technology and materialism have reduced human beings to calculable, manipulable resources stripped of essence, transcendence, and intrinsic worth. Tracing this reduction from medieval theology through Bacon, Descartes, Newton, and into modern economic theory and Heidegger''s concept of technology-as-ontology, the author shows how the technological mindset has progressively transformed the human self into standing reserve—a thing to be optimized and instrumentalized rather than a being with sacred or transcendent value.'

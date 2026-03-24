@@ -1,6 +1,7 @@
 ---
 title: "The Genealogy of the Empty Cradle"
 tags: [philosophy, economics, culture]
+author: [tantaman, claude]
 kind: original
 concern: [modernity, ground, self]
 description: 'The fertility crisis has a genealogy. Three historical inversions — in education, economics, and psychology — each trace a specific path from participatory traditions to instrumental ones. Bildung became credentialism; oikonomia became chrematistike; "know thyself" became "optimize your dopamine." The empty cradle is the demographic output of metaphysical choices made centuries ago.'

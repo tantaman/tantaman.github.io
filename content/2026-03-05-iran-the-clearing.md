@@ -1,6 +1,7 @@
 ---
 title: 'Iran: The Board Was Already Clear'
 tags: [politics, history, philosophy]
+author: [tantaman, claude]
 concern: [power, modernity]
 kind: original
 form: essay

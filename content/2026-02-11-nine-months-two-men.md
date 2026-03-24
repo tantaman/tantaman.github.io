@@ -1,6 +1,7 @@
 ---
 title: 'Nine Months, Two Men'
 tags: [fiction]
+author: [tantaman, claude]
 kind: original
 concern: [self]
 form: story

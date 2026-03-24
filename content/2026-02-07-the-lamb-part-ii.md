@@ -1,6 +1,7 @@
 ---
 title: 'The Lamb, Part II'
 tags: [fiction, philosophy]
+author: [tantaman, claude]
 kind: original
 concern: [self, ground]
 form: story

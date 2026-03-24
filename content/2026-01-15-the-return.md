@@ -1,6 +1,7 @@
 ---
 title: 'The Return'
 tags: [religion, philosophy]
+author: [tantaman, claude]
 kind: original
 concern: [ground]
 form: prophecy

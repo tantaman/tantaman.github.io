@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: Through What?'
 tags: [philosophy]
+author: [tantaman, claude]
 kind: survey
 concern: [self, knowledge]
 description: 'The essay examines how twentieth-century philosophers Ludwig Wittgenstein and Martin Heidegger challenge the assumption that language can effectively serve self-knowledge, arguing instead that linguistic tools fundamentally distort or construct the "self" rather than discover it. Through Wittgenstein''s private language argument and analysis of meaning-as-use, the text shows that the inner experiences we believe we know through introspection cannot be adequately captured or verified through language, since language derives its meaning from public criteria rather than private sensations. The essay suggests that the traditional project of self-knowledge may be confused not because the self is difficult to access, but because the medium of language itself is structurally unsuited to the task.'

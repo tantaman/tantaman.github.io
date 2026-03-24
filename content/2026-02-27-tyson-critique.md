@@ -1,6 +1,7 @@
 ---
 title: 'The Universe Is Under No Obligation'
 tags: [philosophy, religion, culture]
+author: [tantaman, claude]
 kind: original
 concern: [ground, knowledge]
 form: essay

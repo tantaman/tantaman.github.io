@@ -1,6 +1,7 @@
 ---
 title: 'To My Friends on the Left: A Difficult Reckoning'
 tags: [politics, culture]
+author: [tantaman, claude]
 kind: survey
 concern: [power, modernity]
 description: 'The author argues that progressives have constructed an insular information bubble that treats roughly 75 million Trump voters as irrational rather than genuinely attempting to understand their perspectives, and through institutional capture, cancellations of dissenters, tolerance of political violence, and undisguised contempt for conservatives, have inadvertently created the very populist backlash they feared. The post urges the left to reckon with how their methods of enforcing ideological conformity—dismissing arguments rather than engaging them, weaponizing institutions, and radiating moral superiority—have delegitimized the institutions they control and motivated opponents to dismantle them entirely.'

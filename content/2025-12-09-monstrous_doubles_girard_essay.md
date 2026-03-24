@@ -1,6 +1,7 @@
 ---
 title: "Monstrous Doubles: René Girard and the Mimetic Inheritance of Religious Structure"
 tags: [philosophy, religion, economics]
+author: [tantaman, claude]
 kind: survey
 concern: [power, ground]
 description: 'René Girard''s mimetic theory explains why opposing movements paradoxically become structural mirrors of each other, exemplified by how Marxism replicated Christianity''s narrative and institutional forms despite explicitly opposing it. Human desire is fundamentally imitative—we want what others want—and when rivals occupy the same social space, intense opposition generates not distinction but resemblance, as each side mirrors the other''s escalations until the distinction between them collapses into what Girard calls a "monstrous double." This framework reveals why contemporary political polarization and historical ideological conflicts show maximum resemblance experienced as maximum difference, rooted in the nature of human desire itself rather than in accidental structural inheritance.'

@@ -1,6 +1,7 @@
 ---
 title: 'Leftism Is Worse Than Fascism'
 tags: [politics, culture]
+author: [tantaman, claude]
 kind: survey
 concern: [power, modernity]
 description: 'The post argues that leftism represents a more dangerous and total form of tyranny than fascism based on three criteria: while fascism killed more people directly, leftism is worse because it makes resistance invisible and nearly impossible, colonizes individual thought rather than merely controlling behavior, disguises its domination as compassion and liberation, and eliminates the very category of honest resistance by pathologizing dissent rather than punishing it. The author contends that fascism''s visible, announced evil is ultimately less totalitarian than leftism''s structural dishonesty and psychological control, which turns people into willing participants in their own servitude.'

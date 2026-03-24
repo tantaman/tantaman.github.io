@@ -1,6 +1,7 @@
 ---
 title: 'The Grammar That Teaches Grammar'
 tags: [philosophy, culture]
+author: [tantaman, claude]
 concern: [ground, knowledge, power]
 form: essay
 image: '/img/scroller-classroom.png'

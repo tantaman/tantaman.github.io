@@ -1,6 +1,7 @@
 ---
 title: 'Grace and the Cage'
 tags: [philosophy, religion]
+author: [tantaman, claude]
 kind: original
 concern: [ground, self]
 description: "Is transcendence real, or just the cage's most elegant pressure-release valve?"

@@ -1,6 +1,7 @@
 ---
 title: 'The Body as Ground'
 tags: [religion, culture]
+author: [tantaman, claude]
 kind: original
 concern: [ground, self]
 form: meditation

@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: No Self'
 tags: [philosophy]
+author: [tantaman, claude]
 kind: survey
 concern: [self]
 description: 'The essay explores three philosophical traditions—Daoism, Nietzsche, and Indigenous relational ontologies—that fundamentally challenge the assumption underlying most self-knowledge traditions: that there is a unified self that can be known through effort. Daoism argues that self-consciousness and analytical effort actually prevent naturalness and authentic being, advocating instead for wu-wei (effortless action) and the forgetting of the calculating mind. Nietzsche and Indigenous perspectives further destabilize the notion of a fixed, knowable self by suggesting it may be a linguistic fiction or that identity is fundamentally relational and external rather than internal.'

@@ -1,6 +1,7 @@
 ---
 title: 'The Language That Thinks For You'
 tags: [culture, philosophy]
+author: [tantaman, claude]
 kind: original
 concern: [knowledge, power]
 description: 'Different linguistic frameworks—therapy grammar versus traditional moral grammar—have become so entrenched that people on opposite sides of the political divide literally cannot understand each other; each registers the other''s speech as pathological rather than as a coherent alternative viewpoint. When half the country speaks in terms of feelings and exploration while the other speaks in terms of right and wrong, political discourse becomes impossible because disagreement requires a shared framework for what counts as an argument. Language doesn''t merely express thought but fundamentally shapes what can be thought, making mutual intelligibility nearly impossible between those operating in incompatible grammatical systems.'

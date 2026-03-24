@@ -1,6 +1,7 @@
 ---
 title: 'Know Thyself: Gurdjieff, Kierkegaard, Eckhart'
 tags: [philosophy, religion]
+author: [tantaman, claude]
 kind: survey
 concern: [self]
 description: 'Gurdjieff argues that humans lack a unified self and instead operate as mechanical pluralities of competing impulses, requiring conscious self-observation and intentional labor to actually construct a coherent soul. Kierkegaard and Eckhart extend this critique by suggesting the self is not given but achieved through radical choice and commitment, or dissolved entirely through mystical surrender to divine ground. Together, these three thinkers challenge the assumption that "knowing thyself" presupposes a stable self to know.'

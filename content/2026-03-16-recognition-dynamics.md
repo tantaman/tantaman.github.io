@@ -1,6 +1,7 @@
 ---
 title: 'Recognition Dynamics: A Formal Model of Social Grammar, Want, and Field Formation'
 tags: [math, philosophy]
+author: [tantaman, claude]
 concern: [knowledge, self]
 kind: original
 ---

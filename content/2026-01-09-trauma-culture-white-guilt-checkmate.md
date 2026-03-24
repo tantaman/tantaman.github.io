@@ -1,6 +1,7 @@
 ---
 title: 'Trauma Culture + White Guilt = Checkmate'
 tags: [politics, culture]
+author: [tantaman, claude]
 kind: original
 concern: [modernity, power]
 description: 'The post argues that trauma culture and white guilt combine to create an epistemic and moral lockdown: trauma culture grants designated victim groups unquestionable moral and epistemic authority based on their suffering, while white guilt silences designated perpetrator groups by framing any disagreement as pathology, rendering legitimate debate impossible. This system is actually controlled by a professional-managerial class of administrators, therapists, and academics who benefit from administering these frameworks, creating a totalizing structure that colonizes morality, epistemology, psychology, politics, and aesthetics while making its participants feel liberated rather than controlled.'

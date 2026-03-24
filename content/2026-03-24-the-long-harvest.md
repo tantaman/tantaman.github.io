@@ -1,6 +1,7 @@
 ---
 title: 'The Long Harvest'
 tags: [self]
+author: [tantaman, claude]
 image: '/img/wyeth-christinas-world.jpg'
 ---
 

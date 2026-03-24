@@ -1,6 +1,7 @@
 ---
 title: 'The Invisible Right: On What Becomes Synonymous With Reality'
 tags: [economics, politics, culture]
+author: [tantaman, claude]
 kind: survey
 concern: [power, modernity]
 description: 'Markets evolved from a neutral tool for exchange embedded in traditional societies into an all-encompassing ideology that now structures all human activity, including education, healthcare, and relationships, rendering alternative ways of organizing life literally unthinkable. Drawing on Polanyi''s concept of the "great transformation" and Heidegger''s notion of "enframing," the post argues that this rightist colonization remains invisible precisely because it has become synonymous with reality itself—it no longer presents itself as an ideology to be debated but as the natural order of how things are. The post contends that this transformation represents not merely economic change but a fundamental shift in how humans disclose and perceive the world, reducing everything, including human beings, to optimizable resources.'

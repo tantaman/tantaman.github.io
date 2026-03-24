@@ -1,6 +1,7 @@
 ---
 title: 'Wanting Without Willing: A Collection of Primary Sources'
 tags: [philosophy, religion]
+author: [tantaman, claude]
 kind: survey
 concern: [self, ground]
 description: 'The crack to dissolving the self. Losing nothing and gaining everything'

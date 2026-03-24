@@ -1,6 +1,7 @@
 ---
 title: 'Making Sense of US-Ukraine Negotations'
 tags: [politics]
+author: [tantaman, claude]
 kind: original
 concern: [power]
 description: 'Changes in US Ukraine policy under Trump reflect competing strategic doctrines within American foreign policy rather than alignment with Russia. Trump''s approach prioritizes transactional deterrence, burden-sharing with Europe, negotiation leverage, and domestic interests over the traditional post-Cold War architecture of sustained alliances and aid commitments. Withholding aid, negotiating with Putin, and appearing to deprioritize Ukraine are tactical choices within this alternative strategic framework, not evidence of a fundamental realignment with Russia, since underlying US institutional structures and long-term rivalry with Russia remain unchanged.'

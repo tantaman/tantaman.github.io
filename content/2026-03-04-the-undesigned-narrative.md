@@ -1,6 +1,7 @@
 ---
 title: 'The Undesigned Narrative'
 tags: [religion, philosophy, history]
+author: [tantaman, claude]
 concern: [ground, power, knowledge]
 form: essay
 kind: original
