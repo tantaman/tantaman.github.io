@@ -1108,7 +1108,7 @@ img {
 .author-logos {
   display: inline-flex;
   align-items: baseline;
-  gap: 3px;
+  gap: 5px;
   vertical-align: baseline;
 }
 
@@ -1116,7 +1116,6 @@ img {
   display: inline-block;
   width: 14px;
   height: 14px;
-  vertical-align: middle;
 }
 
 .author-logo-tantaman {
@@ -1126,22 +1125,29 @@ img {
   line-height: 1;
   width: auto;
   height: auto;
+  color: #555;
 }
 
 .author-logo-claude {
-  color: #D97757;
+  color: #d97757;
+  position: relative;
+  top: 2px;
 }
 
 .author-logo-qwen {
-  color: #6366F1;
+  color: #6366f1;
+}
+
+[data-theme='dark'] .author-logo-tantaman {
+  color: #aaa;
 }
 
 [data-theme='dark'] .author-logo-claude {
-  color: #E8956A;
+  color: #e8956a;
 }
 
 [data-theme='dark'] .author-logo-qwen {
-  color: #818CF8;
+  color: #818cf8;
 }
 
 /* Audio player */
