@@ -489,7 +489,7 @@ paste.get("/all", async (c) => {
     .join("\n      ");
 
   const heading = authed ? "All pastes" : "Shared pastes";
-  const nav = authed ? undefined : "";
+  const nav = authed ? undefined : '<a href="/paste/login">log in</a>';
 
   const body = htmlPage(
     heading,
@@ -529,7 +529,7 @@ paste.get("/", async (c) => {
       <p class="meta" style="margin-bottom:2rem">shared snippets</p>
       ${rows.results.length > 0 ? `<ul class="paste-list">${items}</ul>` : `<p class="meta">nothing shared yet.</p>`}
       ${rows.results.length > 0 ? `<p style="margin-top:1.5rem;font-size:0.8125rem"><a href="/paste/all">all shared</a></p>` : ""}`,
-      ""
+      '<a href="/paste/login">log in</a>'
     );
     return c.html(body);
   }
