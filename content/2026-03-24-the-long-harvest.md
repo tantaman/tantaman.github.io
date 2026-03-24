@@ -1,7 +1,10 @@
 ---
 title: 'The Long Harvest'
 tags: [self]
+image: '/img/wyeth-christinas-world.jpg'
 ---
+
+![Andrew Wyeth — Christina's World (1948)](/img/wyeth-christinas-world.jpg)
 
 > Part of a series as I try to uncover the terminus of the liberal and neoliberal order.
 > - [[2026-02-11-the-gaze:The Gaze]] - Generational identity construction

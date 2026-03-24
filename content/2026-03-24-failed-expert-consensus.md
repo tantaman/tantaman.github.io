@@ -9,6 +9,8 @@ image: '/img/bruegel-blind-leading-blind.jpg'
 > *"The priest said: 'God speaks through me.' The bourgeois said: 'Reason speaks through the market.' The expert says: 'Science speaks through institutions.' In each case, a particular class claims to be the vehicle of a universal truth."*
 > — [[2026-01-27-what-would-marx-say-today:What Would Marx Say Today?]]
 
+> Another great companion piece is [[2025-12-18-the-two-filters-why-reasonable-ideas:Why Reasonable Ideas Die]]
+
 ---
 
 ## How to Read This Document
