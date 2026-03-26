@@ -37,7 +37,6 @@ docs/audio_output/
 
 # IG carousel output (generated PNGs)
 ig-output/
-.carousel-cache.json
 .font-cache/
 
 __pycache__
