@@ -28,7 +28,25 @@ The conclusion of that project is this:
 
 [[2026-03-17-S-F_of_S:In plain terms]]:
 
-> We take on different forms to be accepted by different groups. The gamer nerd at the con. The rugged bear drinker at the brewery. Forms that we perform frequently get expectations attached to them. Your boss knows certain things about your work self: what projects you like, how late you will stay, what tasks you avoid. Sometimes we want to revise our forms. This is met with resistance or ignored: "oh, he is having a bad day" or "he's in a bad mood" or "they're going through a phase." To get the change to stick and be accepted often requires a rupture. A pattern of behavior so outside the expected norm that it finally registers. That it is powerful enough to dissolve the old expectations that were holding your old form in place. Telling your boss you'll quit unless given some new type of opportunity. Telling your wife you never want to go on a certain type of trip again.
+> We take on different forms to be accepted by different groups.
+>
+> The gamer nerd at the con.
+> The rugged bear drinker at the brewery.
+>
+> Forms that we perform frequently get expectations attached to them.
+> 
+> Your boss knows certain things about your work self. What projects you like, how late you will stay, what tasks you avoid.
+>
+> Sometimes we want to revise our forms.
+> This is met with resistance or ignored: 
+>
+> - "oh, he is having a bad day"
+> - "he's in a bad mood"
+> - "they're going through a phase." 
+>
+> To get the change to stick and be accepted often a rupture. A pattern of behavior so outside the expected norm that it finally registers. That it is powerful enough to dissolve the old expectations that were holding your old form in place.
+>
+> Telling your boss you'll quit unless given some new type of opportunity. Telling your wife you never want to go on a certain type of trip again.
 
 America has had a specific form for the last 80 years. One of hegemon, regional stabilizer, lender of last resort, security blanket. This has come at significant cost to America itself although we will not debate that here. Retreating from this form is near impossible. Any minor deviation will be reversed by the pull of prior commitments. The global policy network, NGOs, foreign alliances, prior commitments.
 

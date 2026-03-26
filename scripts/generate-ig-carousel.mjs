@@ -363,15 +363,29 @@ async function renderSlide(element, fontData) {
 
 // --- Generate slides for a single post ---
 
-async function generateForPost(entry, carouselCache, memeCache, fontData, baseOutputDir) {
+async function generateForPost(entry, carouselCache, memeCache, fontData, baseOutputDir, force) {
   const points = carouselCache[entry.title];
   if (!points || points.length === 0) return false;
-
-  entry.thesis = entry.thesis || memeCache[entry.title] || null;
 
   const maxPoints = MAX_SLIDES - 2;
   const usedPoints = points.slice(0, maxPoints);
   const totalSlides = usedPoints.length + 2;
+
+  // Check if all slides already exist
+  if (!force) {
+    const outputDir = join(baseOutputDir, entry.slug);
+    const allExist = Array.from({ length: totalSlides }, (_, i) => {
+      if (i === 0) return join(outputDir, 'slide-0-title.png');
+      if (i === totalSlides - 1) return join(outputDir, `slide-${i}-cta.png`);
+      return join(outputDir, `slide-${i}-content.png`);
+    }).every((p) => existsSync(p));
+    if (allExist) {
+      console.log(`  SKIP: "${entry.title}" (${totalSlides} slides exist)`);
+      return false;
+    }
+  }
+
+  entry.thesis = entry.thesis || memeCache[entry.title] || null;
 
   console.log(`\nGenerating ${totalSlides} slides for "${entry.title}"...`);
 
@@ -416,6 +430,7 @@ async function generateForPost(entry, carouselCache, memeCache, fontData, baseOu
 async function main() {
   const args = process.argv.slice(2);
   const slugs = args.filter((a) => !a.startsWith('--'));
+  const force = args.includes('--force');
   const limitArg = args.find((a) => a.startsWith('--limit='));
   const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : Infinity;
   const outputArg = args.find((a) => a.startsWith('--output='));
@@ -455,7 +470,7 @@ async function main() {
 
   let rendered = 0;
   for (const entry of entries) {
-    const ok = await generateForPost(entry, carouselCache, memeCache, fontData, baseOutputDir);
+    const ok = await generateForPost(entry, carouselCache, memeCache, fontData, baseOutputDir, force);
     if (ok) rendered++;
   }
 
