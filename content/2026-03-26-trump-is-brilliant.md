@@ -66,7 +66,7 @@ We shall see if Iran provides the US the off-ramp it requires to exit or if Isra
 
 **But why?**
 
-The new form is a concentration of power in the Western hemisphere _because_ of the coming climate crisis. The consensus is that the right-wing is all a bunch of climate deniers. That is true if you listen to their words. If you watch their actions, it is the opposite. The right is dominated by military thinking. And the military _knows_ climate crisis is coming. They move bases. They publish reports. They build new asset types. The plan war games around rising sea levels.
+The new form is a concentration of power in the Western hemisphere _because_ of the coming climate crisis. The consensus is that the right-wing is all a bunch of climate deniers. That is true if you listen to their words. If you watch their actions, it is the opposite. The right is dominated by military thinking. And the military _knows_ climate crisis is coming. They built the threat models, published the reports, integrated it into war games, and now act geopolitically as if the threat is real while publicly scorning it.
 
 What is the one region to see minimal impact due to climate change? North America. What opens up as the world warms? Greenland. The arctic. Canada.
 
