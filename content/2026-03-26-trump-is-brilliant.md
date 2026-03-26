@@ -76,7 +76,7 @@ The US is resurrecting the monroe doctrine because we cannot be on the hook for 
 
 Did Trump orchestrate it? Is this a lucky break that accidentally produces a new form? Is Peter Thiel — that devout Girardian — providing the intellectual architecture? Or am I finding structure in chaos because finding structure is what I do?
 
-I don't know. But the form is changing. Watch the actions, not the words.
+I don't know. But the form is changing.
 
 ---
 
