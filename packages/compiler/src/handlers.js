@@ -43,7 +43,7 @@ import { doc, meta } from './layouts/global.js';
 // Actually just auto-create broken links and render what their backlinks are.
 const wikilinkOptions = {
   hrefTemplate: (permalink) => `/${permalink}`,
-  pageResolver: (name) => [name.replace(/ /g, '%20').toLowerCase()],
+  pageResolver: (name) => [name.replace(/ /g, '%20')],
 };
 export default {
   async mdx(file, cwd) {
