@@ -1,7 +1,7 @@
 ---
 title: 'Shadow of the Liberal Project'
 tags: [knowledge]
-author: [tantaman, claude]
+author: [tantaman, qwen, claude]
 ---
 
 The Shadow and the Substance: Communism as the Radical Fulfillment of Liberalism
