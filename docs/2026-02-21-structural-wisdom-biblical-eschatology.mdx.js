@@ -98,6 +98,13 @@ function _createMdxContent(props) {
             href: "#ix-what-remains",
             children: "IX. What Remains"
           })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#suggested-reading",
+            children: "Suggested Reading"
+          })
         })]
       })
     }), "\n", "\n", _jsxs("figure", {
@@ -752,6 +759,52 @@ function _createMdxContent(props) {
       children: _jsx(_components.em, {
         children: "These reflections owe their existence to the conviction that the class struggle, which a historian schooled in Marx always has before his eyes, is a fight not only for the crude and material things but also for the refined and spiritual ones — and that in this fight, the biblical tradition is not the opiate of the people but the dynamite underneath the throne."
       })
+    }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
+      id: "suggested-reading",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#suggested-reading",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "Suggested Reading"]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Walter Benjamin, ", _jsx(_components.em, {
+          children: "Illuminations"
+        }), " (1968, trans. Arendt)."]
+      }), " The formal model for this essay. Benjamin's \"Theses on the Philosophy of History\" — eighteen fragments written on the eve of his death — demonstrated that theology and historical materialism could be fused rather than opposed. His angel of history, blown backward into the future by the storm of progress, seeing only the wreckage accumulate, is the image this essay's structural analysis makes systematic. Benjamin understood that the Marxist critique of religion was itself a secularized theology, and that acknowledging this did not weaken the critique but sharpened it."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Karl Popper, ", _jsx(_components.em, {
+          children: "The Open Society and Its Enemies"
+        }), " (1945)."]
+      }), " Popper's argument that historicism — the claim to know where history is heading — is the root of totalitarianism arrives at the same conclusion as Jesus's \"no one knows the day or the hour,\" by a different route. His analysis of how Plato, Hegel, and Marx each provided intellectual architecture for closed societies by claiming to possess the future explains the mechanism this essay identifies in eschatological capture: whoever owns the destination controls the route. Popper needed two volumes. The essay argues that the biblical tradition stated it more economically."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Jacques Ellul, ", _jsx(_components.em, {
+          children: "The Subversion of Christianity"
+        }), " (1984)."]
+      }), " Ellul, a French Reformed theologian and sociologist, traces how Christianity became the opposite of what its founder intended — not through external persecution but through internal success. His account of how the church absorbed Roman imperial structures, converted grace into law, and transformed a movement of the dispossessed into a legitimation apparatus for empire is the historical flesh on this essay's structural bones. Ellul's key insight is that the subversion was not a betrayal but a structural inevitability: any movement that succeeds institutionally will be captured by the logic of institutions."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["William Stringfellow, ", _jsx(_components.em, {
+          children: "An Ethic for Christians and Other Aliens in a Strange Land"
+        }), " (1973)."]
+      }), " Stringfellow reads Revelation as political theology rather than prediction — the beast and Babylon as names for the principalities and powers that inhabit every institution, including religious ones. His concept of \"the Fall\" as applying to institutions and systems rather than just individuals provides the vocabulary this essay's structural analysis requires. The state, the corporation, the university, the church: each is a \"power\" that was created for human flourishing and has become demonic — not through malice but through the structural tendency of institutions to demand loyalty to their own survival above everything else."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Eric Voegelin, ", _jsx(_components.em, {
+          children: "The New Science of Politics"
+        }), " (1952)."]
+      }), " Voegelin's analysis of modernity as the \"immanentization of the eschaton\" — the attempt to realize transcendent perfection within historical time — is the conceptual framework this essay applies to both the religious right and the secular left. His genealogy traces how Joachim of Fiore's twelfth-century periodization of history into three ages (Father, Son, Spirit) provided the template for every subsequent secular eschatology: Comte's three stages, Marx's dialectical progression, the liberal narrative of expanding rights. The engine of capture, in Voegelin's account, runs on the fuel of immanentized hope."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["René Girard, ", _jsx(_components.em, {
+          children: "Things Hidden Since the Foundation of the World"
+        }), " (1978)."]
+      }), " Girard's theory of mimetic desire and the scapegoat mechanism provides the anthropological engine beneath this essay's structural analysis. Why do liberation movements reproduce oppression? Girard's answer: because the desire for liberation is itself mimetic — it takes the oppressor as its model, desires what the oppressor has, and when it succeeds, occupies the oppressor's position with the oppressor's desires. The biblical tradition, Girard argues, is the only textual tradition that systematically exposes the scapegoat mechanism rather than participating in it — which is precisely why it can include its own institutions in the scope of its critique."]
     })]
   });
 }

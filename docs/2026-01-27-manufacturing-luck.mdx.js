@@ -592,15 +592,75 @@ export function LuckSimulation() {
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
-    ol: "ol"
+    ol: "ol",
+    li: "li",
+    a: "a",
+    hr: "hr",
+    h2: "h2",
+    span: "span",
+    p: "p",
+    strong: "strong",
+    em: "em"
   }, props.components);
   return _jsxs(_Fragment, {
     children: [_jsx(_components.nav, {
       className: "toc",
       children: _jsx(_components.ol, {
-        className: "toc-level toc-level-1"
+        className: "toc-level toc-level-1",
+        children: _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#suggested-reading",
+            children: "Suggested Reading"
+          })
+        })
       })
-    }), "\n", "\n", "\n", _jsx(LuckSimulation, {})]
+    }), "\n", "\n", "\n", _jsx(LuckSimulation, {}), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
+      id: "suggested-reading",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#suggested-reading",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "Suggested Reading"]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Nassim Nicholas Taleb, ", _jsx(_components.em, {
+          children: "Fooled by Randomness"
+        }), " (2001)."]
+      }), " Taleb's account of how humans systematically misread random outcomes as skill — and skill as luck — is the psychological backdrop against which this essay's mathematical framework operates. His concept of \"alternative histories\" (the outcomes that could have happened but didn't) explains why survivorship bias makes the manufacturing of luck invisible: we see the winners and attribute their success to positioning, but we don't see the equally well-positioned people who drew unlucky samples. The formula works in expectation. Any individual draw is still a draw."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Robert Frank, ", _jsx(_components.em, {
+          children: "Success and Luck"
+        }), " (2016)."]
+      }), " Frank demonstrates empirically what this essay models mathematically: that in winner-take-all markets, small differences in luck produce enormous differences in outcome, and that successful people systematically underestimate luck's contribution. His key insight — that acknowledging luck's role does not diminish the importance of effort, because effort is what positions you to ", _jsx(_components.em, {
+        children: "receive"
+      }), " luck — is the philosophical complement to the positioning multipliers modeled here."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Michael Mauboussin, ", _jsx(_components.em, {
+          children: "The Success Equation"
+        }), " (2012)."]
+      }), " Mauboussin provides the framework for distinguishing domains where skill dominates (chess, surgery) from domains where luck dominates (venture capital, startup outcomes) — and shows that most consequential life outcomes fall in between. His \"skill-luck continuum\" explains why the positioning multipliers in this essay work: in high-luck domains, marginal improvements in positioning have outsized effects on outcomes precisely because the baseline is so random. You cannot skill your way to certainty, but you can skill your way to better distributions."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Daniel Kahneman, ", _jsx(_components.em, {
+          children: "Thinking, Fast and Slow"
+        }), " (2011)."]
+      }), " Kahneman's documentation of how humans intuitively misjudge probabilities — underweighting base rates, ignoring sample size, confusing the probability of a single event with the probability of at least one success across many events — explains why the core formula of this essay is counterintuitive. The insight that a 1% per-attempt probability compounds to 90%+ over 230 attempts ", _jsx(_components.em, {
+        children: "feels"
+      }), " wrong because System 1 processes the 1% and ignores the exponent. Kahneman's work explains why manufacturing luck requires mathematical discipline rather than intuition."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Annie Duke, ", _jsx(_components.em, {
+          children: "Thinking in Bets"
+        }), " (2018)."]
+      }), " Duke's framework for decision-making under uncertainty — treating every decision as a bet with probabilistic outcomes rather than a choice between right and wrong — operationalizes the essay's thesis. Her concept of \"resulting\" (judging the quality of a decision by its outcome rather than its process) explains why most people fail to manufacture luck: they abandon good positioning after a few unlucky draws, confusing a bad sample with a bad strategy."]
+    })]
   });
 }
 function MDXContent(props = {}) {

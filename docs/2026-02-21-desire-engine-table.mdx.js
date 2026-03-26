@@ -77,6 +77,13 @@ function _createMdxContent(props) {
             href: "#vi-the-architecture-complete",
             children: "VI. The Architecture Complete"
           })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#suggested-reading",
+            children: "Suggested Reading"
+          })
         })]
       })
     }), "\n", _jsx(_components.p, {
@@ -543,6 +550,60 @@ function _createMdxContent(props) {
       children: _jsx(_components.em, {
         children: "The tradition tells us that at a certain meal, the bread was broken and the guest was recognized, and in the moment of recognition he vanished. This is the complete icon of what is offered here: presence that arrives unbidden, is recognized in the breaking, and cannot be held — only received again, at the next table, with open hands."
       })
+    }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
+      id: "suggested-reading",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#suggested-reading",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "Suggested Reading"]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Meister Eckhart, ", _jsx(_components.em, {
+          children: "Selected Writings"
+        }), " (trans. Oliver Davies, Penguin)."]
+      }), " The central thinker of this essay. Eckhart's sermons and treatises articulate ", _jsx(_components.em, {
+        children: "Gelassenheit"
+      }), " not as a technique to be practiced but as what remains when every technique has been released — including the technique of releasing. His German sermons, preached to lay audiences, achieve a precision about the limits of will that no subsequent philosopher has matched. The notorious proposition for which he was condemned — \"the eye with which I see God is the same eye with which God sees me\" — is the structural claim at the essay's center: the subject that grasps and the subject that receives are not the same subject."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Simone Weil, ", _jsx(_components.em, {
+          children: "Gravity and Grace"
+        }), " (1947)."]
+      }), " Weil's concept of ", _jsx(_components.em, {
+        children: "decreation"
+      }), " — the voluntary un-making of the self so that God's creative attention can pass through it unobstructed — is the French translation of Eckhart's ", _jsx(_components.em, {
+        children: "Gelassenheit"
+      }), ". Her insight that attention is the rarest and purest form of generosity, and that the self must empty itself to attend fully to anything outside itself, provides the epistemological ground for the essay's claim that will cannot escape the engine. Weil's biography embodies the paradox: a woman of extraordinary intellectual will who understood that will was the obstacle, and who could not resolve the paradox except by living it to destruction."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Alexander Schmemann, ", _jsx(_components.em, {
+          children: "For the Life of the World"
+        }), " (1963)."]
+      }), " Schmemann's sacramental theology provides the fullest account of what this essay calls \"the table.\" His argument that the Eucharist is not a ritual performed within the church but the act by which the church ", _jsx(_components.em, {
+        children: "becomes"
+      }), " the church — that the gathering around the meal is not a religious activity added to life but the restoration of life's proper orientation — is the ecclesiological content of the essay's structural claim. The table is not an institution that hosts a presence. The table is the presence, and only exists while the gathering is actual."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Martin Buber, ", _jsx(_components.em, {
+          children: "I and Thou"
+        }), " (1923)."]
+      }), " Buber's distinction between I-Thou (encounter with irreducible otherness) and I-It (instrumental relating) maps precisely onto the essay's distinction between the engine's grasping and the open hand's reception. His argument that God is not an object of experience but the \"eternal Thou\" encountered in every genuine I-Thou relation provides the relational ontology this essay requires. The child, the stranger, the bread on the table: each is an occasion for I-Thou if the posture is reception, and each is absorbed into I-It if the posture is will."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Jean-Luc Marion, ", _jsx(_components.em, {
+          children: "God Without Being"
+        }), " (1982)."]
+      }), " Marion's phenomenology of the gift — his argument that the gift, properly understood, exceeds every economy of exchange and cannot be possessed without ceasing to be a gift — is the philosophical framework for Paul's concept of grace as this essay reads it. Marion's \"saturated phenomenon\" — an event so excessive that no concept or intention can contain it — is the phenomenological name for what the essay calls \"the outside.\" His critique of onto-theology (treating God as a being among beings, subject to the economy of the system) explains why every institutional capture of the sacred converts the gift into a transaction."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["William Cavanaugh, ", _jsx(_components.em, {
+          children: "Torture and Eucharist"
+        }), " (1998)."]
+      }), " Written about Pinochet's Chile, this book argues that the Eucharist is not merely a spiritual practice but a counter-politics — a social body that refuses the state's claim to be the ultimate community. Cavanaugh's account of how the Chilean church's Eucharistic practice became a form of political resistance not by opposing the state on its own terms but by constituting an alternative social reality illuminates why this essay insists that the table is not an institution. The table's political significance lies precisely in its refusal to be political in the engine's sense — to compete for power, to scale, to administer."]
     })]
   });
 }

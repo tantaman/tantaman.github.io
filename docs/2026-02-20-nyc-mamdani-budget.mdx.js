@@ -1221,15 +1221,71 @@ export function NYCBudgetEssay() {
 function _createMdxContent(props) {
   const _components = Object.assign({
     nav: "nav",
-    ol: "ol"
+    ol: "ol",
+    li: "li",
+    a: "a",
+    hr: "hr",
+    h2: "h2",
+    span: "span",
+    p: "p",
+    strong: "strong",
+    em: "em"
   }, props.components);
   return _jsxs(_Fragment, {
     children: [_jsx(_components.nav, {
       className: "toc",
       children: _jsx(_components.ol, {
-        className: "toc-level toc-level-1"
+        className: "toc-level toc-level-1",
+        children: _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#suggested-reading",
+            children: "Suggested Reading"
+          })
+        })
       })
-    }), "\n", "\n", _jsx(NYCBudgetEssay, {})]
+    }), "\n", "\n", _jsx(NYCBudgetEssay, {}), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
+      id: "suggested-reading",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#suggested-reading",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "Suggested Reading"]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Mancur Olson, ", _jsx(_components.em, {
+          children: "The Rise and Decline of Nations"
+        }), " (1982)."]
+      }), " Olson's theory of institutional sclerosis — that stable democracies accumulate distributional coalitions (unions, professional associations, regulatory-capture groups) whose interests progressively calcify the state's cost structure — is the theoretical framework for NYC's budget trap. Each individual contract, pension promise, and benefit negotiation was rational for its participants. The aggregate is Olson's prediction: a polity so encrusted with accumulated claims that adaptive change becomes structurally impossible without crisis."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["William Baumol, ", _jsx(_components.em, {
+          children: "The Cost Disease"
+        }), " (2012)."]
+      }), " Baumol's law — that labor-intensive service sectors (education, healthcare, policing) see costs rise faster than productivity because they cannot substitute capital for labor the way manufacturing can — explains why NYC's personnel costs grow at 4–5% annually while revenue grows at 2.8%. You cannot make a teacher teach twice as many students or a police officer patrol twice as fast. The structural gap between service-sector cost growth and economy-wide productivity growth is the engine beneath the budget trap. No amount of political will can repeal Baumol's law."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Albert Hirschman, ", _jsx(_components.em, {
+          children: "Exit, Voice, and Loyalty"
+        }), " (1970)."]
+      }), " The migration problem at the heart of the essay — millionaires and corporations relocating in response to tax increases — is Hirschman's exit-voice framework applied to municipal finance. When exit is cheap (as it is for mobile capital and high-net-worth individuals), voice (political engagement, willingness to pay) weakens, because the threat of exit disciplines the polity more effectively than any vote. NYC's structural vulnerability is that its highest-value taxpayers have the lowest exit costs, and every tax increase raises the probability that exit beats voice."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Edward Glaeser, ", _jsx(_components.em, {
+          children: "Triumph of the City"
+        }), " (2011)."]
+      }), " Glaeser's urban economics provides the positive case for why cities like New York generate enormous wealth — agglomeration effects, knowledge spillovers, density-driven innovation — and therefore why the budget can sustain the size it does. But his analysis also identifies the fragility: the agglomeration premium depends on talent concentration, and talent is mobile. The budget's dependence on a narrow tax base of high earners is the fiscal expression of an agglomeration economy — immensely productive when it holds, structurally fragile when exit begins."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["James Buchanan & Gordon Tullock, ", _jsx(_components.em, {
+          children: "The Calculus of Consent"
+        }), " (1962)."]
+      }), " The foundational text of public choice theory, which explains why democratic decision-making systematically produces outcomes that no individual voter would choose. The NYC budget is a textbook public choice problem: concentrated benefits (union members receive above-market compensation) and dispersed costs (taxpayers each bear a small share of the aggregate burden). Buchanan and Tullock's framework explains why no mayor can fix the structural trap — the political incentives for any individual negotiation always favor the concentrated beneficiary over the dispersed payer."]
+    })]
   });
 }
 function MDXContent(props = {}) {

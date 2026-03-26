@@ -85,6 +85,13 @@ function _createMdxContent(props) {
           className: "toc-item toc-item-h2",
           children: _jsx(_components.a, {
             className: "toc-link toc-link-h2",
+            href: "#suggested-reading",
+            children: "Suggested Reading"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
             href: "#follow-up-essays",
             children: "Follow-Up Essays:"
           })
@@ -440,6 +447,58 @@ function _createMdxContent(props) {
       }), "?"]
     }), "\n", _jsx(_components.p, {
       children: "The birth rate decline is the receipt for having dissolved every institution that once supplied an answer. The receipt cannot tell you how to get them back."
+    }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
+      id: "suggested-reading",
+      children: [_jsx(_components.a, {
+        "aria-hidden": "true",
+        tabIndex: "-1",
+        href: "#suggested-reading",
+        children: _jsx(_components.span, {
+          className: "icon icon-link"
+        })
+      }), "Suggested Reading"]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Martin Heidegger, ", _jsx(_components.em, {
+          children: "The Question Concerning Technology"
+        }), " (1954)."]
+      }), " The philosophical source for the essay's central concept. Heidegger's ", _jsx(_components.em, {
+        children: "Gestell"
+      }), " — the mode of revealing in which everything appears as standing-reserve, raw material for optimization — is not a critique of particular technologies but of the ontological condition technology produces. The essay translates his claim into demographic terms: when human beings appear within Gestell, the child can only appear as resource or cost, never as encounter. His alternative, ", _jsx(_components.em, {
+        children: "Gelassenheit"
+      }), ", is not a technique but a mode of being that must be cultivated — which is the essay's formational thesis in phenomenological dress."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Alasdair MacIntyre, ", _jsx(_components.em, {
+          children: "After Virtue"
+        }), " (1981)."]
+      }), " The argument that modern moral discourse is incoherent because it consists of fragments torn from older traditions that once gave them meaning. MacIntyre's account of how the Enlightenment project of grounding morality in pure reason failed — and left behind a culture that can describe preferences but not purposes — explains why the question \"what is human life for?\" has become unanswerable within the framework. His concept of ", _jsx(_components.em, {
+        children: "practice"
+      }), " — activity oriented toward internal goods that can only be recognized from within a tradition — is the theoretical basis for understanding why Torah study and barn raisings resist optimization."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Charles Taylor, ", _jsx(_components.em, {
+          children: "A Secular Age"
+        }), " (2007)."]
+      }), " Taylor traces how Western societies moved from a condition where belief in God was the default to one where it is one option among many — and how this shift transformed not just religious life but the entire structure of meaning-making. His concept of the \"immanent frame\" — the self-enclosed natural order within which modern people live — explains why the optimization framework has no external referent. There is nowhere for a telos to come from if the immanent frame is all there is. The otherwise-oriented communities this essay identifies are, in Taylor's terms, people who have maintained access to what he calls \"fullness\" within conditions of secularity."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Philip Rieff, ", _jsx(_components.em, {
+          children: "The Triumph of the Therapeutic"
+        }), " (1966)."]
+      }), " Rieff predicted, sixty years in advance, the condition this essay documents. His argument that Western culture was replacing \"commitment therapy\" (formation within a shared moral order) with \"analytic therapy\" (liberation from all moral orders) describes the mechanism by which the self-project replaced the communal project. The therapeutic culture does not oppose formation — it replaces it with a formation that presents itself as liberation, producing selves that experience all binding commitment as constraint. The fertility data is the demographic output of Rieff's \"psychological man.\""]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Byung-Chul Han, ", _jsx(_components.em, {
+          children: "The Burnout Society"
+        }), " (2010)."]
+      }), " Han updates Foucault's disciplinary society into the \"achievement society\" — a condition where external compulsion has been replaced by self-exploitation. The modern subject is not oppressed by an external authority but driven by an internalized imperative to optimize, perform, and produce. Han's insight that this produces not revolution but depression maps directly onto the essay's account of why the optimization framework generates exhaustion rather than resistance. The self formed for permanent self-improvement cannot receive what it has not planned."]
+    }), "\n", _jsxs(_components.p, {
+      children: [_jsxs(_components.strong, {
+        children: ["Ivan Illich, ", _jsx(_components.em, {
+          children: "Deschooling Society"
+        }), " (1971)."]
+      }), " Illich's argument that institutionalized education produces not learning but dependence on institutions illuminates the essay's claim about the credential economy. The years spent in higher education do not merely delay childbearing; they reshape the self through what Illich calls the \"hidden curriculum\" — the implicit lesson that all valuable knowledge is certified, all growth is credentialed, all life is a sequence of managed stages. The self that emerges from this formation experiences the unmanaged arrival of a child as an interruption of the only process it knows."]
     }), "\n", _jsx(_components.hr, {}), "\n", _jsxs(_components.h2, {
       id: "follow-up-essays",
       children: [_jsx(_components.a, {

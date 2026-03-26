@@ -85,3 +85,17 @@ Anyway. That's — I think that's probably — yeah. That's the end. Thank you.
 The universe is under no obligation to make sense to you. But you — you — are under some obligation to at least not pretend that it does.
 
 *[Walks off. No bird hands.]*
+
+---
+
+## Suggested Reading
+
+**Stewart Lee, *How I Escaped My Certain Fate* (2010).** The formal model. Lee's annotated transcripts of his own stand-up sets — in which he explains the structural logic of each routine while demonstrating that explaining the logic doesn't defuse it — are the closest thing in contemporary comedy to the recursive self-awareness this piece attempts. His method of building a satisfying argument and then collapsing it by showing the audience their own satisfaction is the technique the final section deploys. Lee would also point out that citing him here is itself a move within the cage.
+
+**Blaise Pascal, *Pensées* (1670).** Pascal's wager is the famous part, and it's the least interesting part. The devastating sections are the ones about *divertissement* — his observation that human beings will do anything to avoid sitting alone in a room with the question of whether their existence matters. Tyson's Saturday show, the forty-dollar ticket, the bird hands: these are Pascal's diversions performed in the vocabulary of science rather than religion. Pascal understood that premature comfort — the satisfaction of having arrived at a settled position — is the primary obstacle to genuine seeking, which is the essay's core claim.
+
+**Rudolf Otto, *The Idea of the Holy* (1917).** Otto's distinction between the *numinous* (the experience of the holy as tremendum et fascinans — simultaneously terrifying and attractive) and its domesticated institutional expressions is the theoretical basis for the essay's distinction between awe and wonder. Wonder is safe. Awe is "I am not sure I survive this." Otto argued that the numinous experience is irreducible — cannot be explained away as psychology, morality, or aesthetics — and that every attempt to make it comfortable is a betrayal of its essential character. Tyson has wonder. Sagan had awe. Otto explains why the difference matters.
+
+**Meister Eckhart, *Selected Writings* (trans. Oliver Davies, Penguin).** The "serious version of the thing" that Russell never engaged. Eckhart's sermons demolish every concept of God — including the concept that God exists as an object among objects — from inside the theological tradition, centuries before the New Atheists thought they were saying something new. His proposition "I pray God to rid me of God" makes Russell's critique of the First Cause argument look like it's engaging with a children's version of the question. The essay's claim that the mystics "got there first" is Eckhart's claim.
+
+**Søren Kierkegaard, *Concluding Unscientific Postscript* (1846).** Kierkegaard's attack on systematic philosophy — his argument that existential truth cannot be captured in a system because the system always stands outside the thinker, while the thinker is the thing that needs to be transformed — is the philosophical version of the essay's recursive collapse. Every satisfying framework, including the one that critiques satisfying frameworks, becomes a cage. Kierkegaard understood that the only honest response is not a better system but a different relationship to the question — one that does not seek the comfort of resolution.
