@@ -85,3 +85,17 @@ The obvious, and explicitly stated by the administration, reads of the chaos:
 - Flooding the zone with activity creates exhaustion for the left, as the ideology of the left is reactive and forces it to respond to all injustice without focus
 - The Right must create irreversible change as they stand to lose in 2028
 
+---
+
+## Suggested Reading
+
+**René Girard, *Things Hidden Since the Foundation of the World* (1978).** The Girardian connection is not incidental — Peter Thiel is a committed Girardian, and the logic of mimetic rivalry and sacrificial crisis maps directly onto the rupture strategy described here. Girard's argument that social order is maintained through the controlled channeling of mimetic violence, and that the only exit from an over-determined structure is through a crisis that resets the mimetic field, is the theoretical architecture behind the form-breaking this essay identifies. If Thiel is supplying intellectual scaffolding, this is where it comes from.
+
+**Peter Zeihan, *The End of the World Is Just the Beginning* (2022).** The most detailed case for why American retrenchment is not chaos but strategy. Zeihan's demographic and geographic analysis of why the US is uniquely positioned for self-sufficiency — energy independent, agriculturally secure, demographically younger than competitors, bounded by oceans — is the material basis for the Monroe Doctrine revival this essay describes. His argument that American engagement in global security was always a Cold War anomaly, not a natural state, reframes the "chaos" as a return to baseline.
+
+**Hal Brands & Michael Beckley, *Danger Zone* (2022).** The strategic logic of why great powers in relative decline become more dangerous, not less. Brands and Beckley argue that a peaking China will grow more aggressive before its demographic and economic headwinds hit — and that American grand strategy must prepare for this window. The Western hemisphere consolidation described here reads as one response to the danger zone thesis: reduce exposure to regions you can't hold, concentrate force where geography favors you.
+
+**Erving Goffman, *The Presentation of Self in Everyday Life* (1956).** The sociological foundation for the Attention-Subject-Form framework this essay applies to geopolitics. Goffman's account of how individuals maintain "fronts" and how audiences enforce consistency in performed roles is the micro-level mechanism this essay scales to nations. The insight that form-change requires backstage preparation and a dramatic enough performance to override audience expectations is Goffman applied to statecraft.
+
+**Parag Khanna, *Move: The Forces Uprooting Us* (2021).** The climate migration thesis that undergirds the essay's "but why" section. Khanna maps the coming redistribution of human geography as climate renders large portions of the tropics and subtropics uninhabitable, and identifies northern North America as among the most valuable real estate on Earth by 2050. The Monroe Doctrine as climate preparation is Khanna's map read through a realist lens.
+

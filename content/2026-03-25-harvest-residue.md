@@ -165,3 +165,19 @@ They would not find it in the data. It was in the other column. It had no notati
 
 
 *Related: [[2026-03-24-the-long-harvest:The Long Harvest]] · [[2026-02-11-the-gaze:The Gaze]]*
+
+---
+
+## Suggested Reading
+
+**Wendell Berry, *The Unsettling of America* (1977).** Berry saw the Harlan pattern before most of the data existed. His argument that the industrialization of agriculture was simultaneously the dissolution of rural community — that you could not extract the economic function from the social web without killing both — is the agricultural version of this essay's dissolution thesis. Berry's insistence that the land requires a density of attention that only permanence can sustain is Mrs. Calhoun's knowledge rendered as ecological principle.
+
+**Philip Rieff, *The Triumph of the Therapeutic* (1966).** The essay's Section III — the expansion of the therapeutic apparatus into the jurisdiction vacated by community — is Rieff's thesis dramatized across generations. Rieff argued that Western culture was shifting from a model organized around communal commitment to one organized around individual well-being, and that the therapeutic would not simply replace religion but would produce a fundamentally different kind of person: one incapable of the self-surrender that communal life requires. Renee is Rieff's "psychological man" given a name and a therapist.
+
+**Christopher Lasch, *Haven in a Heartless World* (1977).** Lasch traces the colonization of the family by professional expertise — how therapeutic, educational, and social-work institutions progressively absorbed functions that families and communities had performed, while presenting this absorption as help. The gap economy described in Section II — the market filling the spaces liberation opened — is Lasch's argument in miniature. His insight that professional care both addresses real needs and dissolves the capacity for non-professional care captures exactly the double motion the essay tracks.
+
+**Robert Putnam, *Bowling Alone* (2000).** The quantitative backbone for the essay's qualitative claims. Putnam's documentation of the collapse of American associational life — the civic organizations, churches, lodges, and informal social networks that constituted the web — provides the aggregate data for what this essay narrates through individual lives. The friendship collapse cited in Section IV is Putnam's finding, updated and worsened.
+
+**Simone Weil, *The Need for Roots* (1949).** Weil wrote this while in exile, watching her country dissolve, and the result is the most precise philosophical account of what uprootedness does to the human person. Her argument that rootedness — participation in a community that preserves living treasures of the past — is a need of the soul as fundamental as food is the theoretical framework this essay illustrates empirically. The unchosen obligation, the density of witness, the community you cannot exit: these are Weil's "roots" described from the inside.
+
+**Ivan Illich, *Medical Nemesis* (1975).** Illich's argument that the professionalization of health care produces *iatrogenesis* — illness caused by the treatment itself — extends directly to the essay's account of therapeutic jurisdiction. When professional systems absorb functions that communities once performed, they don't just provide a service; they destroy the capacity of communities to perform that function, creating permanent dependence on the professional system. The daycare worker, the grief counselor, the mental health clinic: each is Illich's iatrogenesis applied to the social body.
