@@ -23,6 +23,8 @@ const SKIP_FILES = new Set([
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
 const force = args.includes('--force');
+const limitArg = args.find((a) => a.startsWith('--limit='));
+const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : Infinity;
 
 if (dryRun) console.log('DRY RUN - no files will be modified\n');
 
@@ -110,7 +112,7 @@ async function getEligiblePosts() {
   }
 
   posts.sort((a, b) => b.date.localeCompare(a.date));
-  return posts;
+  return posts.slice(0, limit);
 }
 
 async function generateCarouselPoints(title, body) {

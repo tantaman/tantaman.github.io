@@ -2,8 +2,9 @@
 title: 'Trump is Brilliant'
 tags: [politics]
 author: [tantaman]
-image: '/img/greenland-melt.jpg'
 ---
+
+![Greenland Ice Melt](/img/greenland-melt.jpg)
 
 All the chaos, all the flooding, all the entanglements:
 

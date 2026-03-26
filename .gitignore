@@ -35,6 +35,11 @@ yarn-error.log*
 docs/audio/
 docs/audio_output/
 
+# IG carousel output (generated PNGs)
+ig-output/
+.carousel-cache.json
+.font-cache/
+
 __pycache__
 _drafts/religion-book/audio/
 ignore/
