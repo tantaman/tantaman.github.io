@@ -44,11 +44,11 @@ The conclusion of that project is this:
 > - "he's in a bad mood"
 > - "they're going through a phase." 
 >
-> To get the change to stick and be accepted often a rupture. A pattern of behavior so outside the expected norm that it finally registers. That it is powerful enough to dissolve the old expectations that were holding your old form in place.
+> To get the change to stick and be accepted requires a rupture. A pattern of behavior so outside the expected norm that it finally registers. That it is powerful enough to dissolve the old expectations that were holding your old form in place.
 >
 > Telling your boss you'll quit unless given some new type of opportunity. Telling your wife you never want to go on a certain type of trip again.
 
-America has had a specific form for the last 80 years. One of hegemon, regional stabilizer, lender of last resort, security blanket. This has come at significant cost to America itself although we will not debate that here. Retreating from this form is near impossible. Any minor deviation will be reversed by the pull of prior commitments. The global policy network, NGOs, foreign alliances, prior commitments.
+America has had a specific form for the last 80 years. One of hegemon, regional stabilizer, lender of last resort, security blanket. This has come at significant cost to America itself although we will not debate that here. Retreating from this form is near impossible. Any minor deviation will be reversed by the pull of prior commitments. The global policy network, NGOs, foreign alliances, the next administration.
 
 The only way to break such a thoroughly entangled form is through complete chaos and rupture. To make America present as something completely different. A destabilizer. A cannibalizer of allies. A threat to its own interests. A threat to its own security guarantees.
 
