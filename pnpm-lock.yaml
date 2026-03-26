@@ -20,6 +20,9 @@ importers:
       rehype-stringify:
         specifier: ^9.0.3
         version: 9.0.4
+      satori:
+        specifier: ^0.19.2
+        version: 0.19.2
       serve:
         specifier: ^13.0.2
         version: 13.0.4

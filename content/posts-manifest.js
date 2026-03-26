@@ -12,6 +12,11 @@ export default async function postsManifest() {
         memeCache = JSON.parse(await fs.promises.readFile('.meme-cache.json', 'utf-8'));
       } catch {}
 
+      let carouselCache = {};
+      try {
+        carouselCache = JSON.parse(await fs.promises.readFile('.carousel-cache.json', 'utf-8'));
+      } catch {}
+
       const posts = [];
 
       Object.entries(indices).forEach(([collection, index]) => {
@@ -36,6 +41,7 @@ export default async function postsManifest() {
               color: meta.sentimentColor || null,
               image: fm.image || meta.firstImage || null,
               thesis: memeCache[fm.title || slug] || null,
+              carouselPoints: carouselCache[fm.title || slug] || null,
               sourceFile: key,
             });
           });
