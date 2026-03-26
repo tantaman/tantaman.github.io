@@ -83,7 +83,7 @@ I don't know. But the form is changing.
 The obvious, and explicitly stated by the administration, reads of the chaos:
 
 - Flooding the zone with activity creates exhaustion for the left, as the ideology of the left is reactive and forces it to respond to all injustice without focus
-- The Right must create irreversible change as they stand to lose in 2028
+- The Right must create irreversible change if they stand to lose in 2028
 
 ---
 
