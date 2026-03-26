@@ -92,3 +92,17 @@ Scientific method is a tool for testing visible hypotheses. Narrative grounding 
 ---
 
 You have a narrative. You've always had one. The education system didn't give you the tools to see it, because seeing it would require a category the system doesn't have.
+
+---
+
+## Suggested Reading
+
+**Hans-Georg Gadamer, *Truth and Method* (1960).** The philosophical foundation for everything this essay argues. Gadamer's concept of the hermeneutic circle — that all understanding begins from a prior framework of understanding, that there is no presuppositionless interpretation — is the epistemological claim the essay translates into plain English. His rehabilitation of "prejudice" (Vorurteil) as the necessary precondition of understanding rather than its enemy explains why the fact/opinion binary is not merely incomplete but structurally incapable of seeing what it excludes.
+
+**Thomas Kuhn, *The Structure of Scientific Revolutions* (1962).** Kuhn demonstrated that even science — the domain the fact/opinion binary treats as the gold standard of objectivity — operates within paradigms that determine what counts as a problem, what counts as evidence, and what counts as a solution. His account of how "normal science" is puzzle-solving within an unquestioned framework, and how paradigm shifts occur not through accumulation of evidence but through gestalt switches, is the scientific version of the essay's claim about narrative grounding. The data doesn't speak. The paradigm speaks for it.
+
+**Paulo Freire, *Pedagogy of the Oppressed* (1968).** Freire's concept of the "banking model" of education — in which knowledge is deposited into passive recipients — describes the mechanism by which the fact/opinion binary is installed. His alternative, "problem-posing education," requires exactly what the binary excludes: the capacity to examine the framework through which knowledge is organized, not just the knowledge itself. Freire understood that the deepest form of oppression is not the denial of information but the denial of the categories that would make the denial visible.
+
+**Alasdair MacIntyre, *Whose Justice? Which Rationality?* (1988).** MacIntyre's argument that rationality is always tradition-constituted — that there is no tradition-free standpoint from which to evaluate competing accounts of justice or truth — provides the philosophical muscle behind the essay's claim that the postmodern move ("all narratives are equally groundless") is the fact/opinion binary in disguise. His demonstration that traditions can be rationally evaluated from within, through their capacity to solve their own internal problems and account for the strengths of rival traditions, shows that narrative grounding is not arbitrary even though it is not "objective" in the binary's sense.
+
+**Neil Postman, *Amusing Ourselves to Death* (1985).** Postman's argument that the medium of communication shapes the epistemological culture — that television produced a world in which information is entertainment and coherent argument is structurally impossible — extends the essay's pipeline analysis. The fact/opinion binary is not only installed by education. It is reinforced by a media environment that presents all claims as equivalent information-bites, making the category of narrative grounding not just invisible but experientially impossible. You cannot hold a hermeneutic circle in a tweet.
