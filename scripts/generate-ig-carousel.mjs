@@ -116,34 +116,6 @@ function buildOverlay() {
   });
 }
 
-function buildDots(current, total) {
-  const dots = Array.from({ length: total }, (_, i) =>
-    h('div', {
-      style: {
-        width: 12,
-        height: 12,
-        borderRadius: 6,
-        backgroundColor: i === current ? 'white' : 'rgba(255, 255, 255, 0.35)',
-        margin: '0 4px',
-      },
-    }),
-  );
-  return h(
-    'div',
-    {
-      style: {
-        position: 'absolute',
-        bottom: 40,
-        left: 0,
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-      },
-    },
-    ...dots,
-  );
-}
-
 function buildAttribution() {
   return h(
     'div',
@@ -161,7 +133,7 @@ function buildAttribution() {
   );
 }
 
-function buildSlideWrapper(bgDataUri, slideIndex, totalSlides, ...contentChildren) {
+function buildSlideWrapper(bgDataUri, ...contentChildren) {
   return h(
     'div',
     {
@@ -177,13 +149,12 @@ function buildSlideWrapper(bgDataUri, slideIndex, totalSlides, ...contentChildre
     buildOverlay(),
     ...contentChildren,
     buildAttribution(),
-    buildDots(slideIndex, totalSlides),
   );
 }
 
 // --- Slide Builders ---
 
-function buildTitleSlide(entry, bgDataUri, totalSlides) {
+function buildTitleSlide(entry, bgDataUri) {
   const title = entry.title;
   const thesis = entry.thesis;
   const titleSize = adaptFontSize(title, { large: 64, medium: 56, small: 48 });
@@ -251,10 +222,10 @@ function buildTitleSlide(entry, bgDataUri, totalSlides) {
     ...children,
   );
 
-  return buildSlideWrapper(bgDataUri, 0, totalSlides, content);
+  return buildSlideWrapper(bgDataUri, content);
 }
 
-function buildContentSlide(bgDataUri, pointText, slideIndex, totalSlides) {
+function buildContentSlide(bgDataUri, pointText, slideIndex) {
   const fontSize = adaptFontSize(pointText);
 
   // Alternate vertical positioning for visual variety
@@ -298,10 +269,10 @@ function buildContentSlide(bgDataUri, pointText, slideIndex, totalSlides) {
     ),
   );
 
-  return buildSlideWrapper(bgDataUri, slideIndex, totalSlides, content);
+  return buildSlideWrapper(bgDataUri, content);
 }
 
-function buildCtaSlide(entry, bgDataUri, totalSlides) {
+function buildCtaSlide(entry, bgDataUri) {
   const slug = entry.slug;
 
   const content = h(
@@ -369,7 +340,7 @@ function buildCtaSlide(entry, bgDataUri, totalSlides) {
     ),
   );
 
-  return buildSlideWrapper(bgDataUri, totalSlides - 1, totalSlides, content);
+  return buildSlideWrapper(bgDataUri, content);
 }
 
 // --- Rendering ---
@@ -390,22 +361,65 @@ async function renderSlide(element, fontData) {
   return sharp(Buffer.from(svg)).png().toBuffer();
 }
 
+// --- Generate slides for a single post ---
+
+async function generateForPost(entry, carouselCache, memeCache, fontData, baseOutputDir) {
+  const points = carouselCache[entry.title];
+  if (!points || points.length === 0) return false;
+
+  entry.thesis = entry.thesis || memeCache[entry.title] || null;
+
+  const maxPoints = MAX_SLIDES - 2;
+  const usedPoints = points.slice(0, maxPoints);
+  const totalSlides = usedPoints.length + 2;
+
+  console.log(`\nGenerating ${totalSlides} slides for "${entry.title}"...`);
+
+  // Fetch background image
+  let bgDataUri = null;
+  if (entry.image) {
+    const imageUrl = entry.image.startsWith('http')
+      ? entry.image
+      : `https://tantaman.com${entry.image}`;
+    bgDataUri = await fetchImageAsDataUri(imageUrl);
+    if (!bgDataUri) console.log('  Background image skipped, using gradient');
+  }
+
+  const outputDir = join(baseOutputDir, entry.slug);
+  await mkdir(outputDir, { recursive: true });
+
+  const slides = [];
+  slides.push({ name: 'slide-0-title', element: buildTitleSlide(entry, bgDataUri) });
+  for (let i = 0; i < usedPoints.length; i++) {
+    slides.push({
+      name: `slide-${i + 1}-content`,
+      element: buildContentSlide(bgDataUri, usedPoints[i], i + 1),
+    });
+  }
+  slides.push({
+    name: `slide-${totalSlides - 1}-cta`,
+    element: buildCtaSlide(entry, bgDataUri),
+  });
+
+  for (const slide of slides) {
+    const outPath = join(outputDir, `${slide.name}.png`);
+    console.log(`  ${slide.name}`);
+    const png = await renderSlide(slide.element, fontData);
+    await writeFile(outPath, png);
+  }
+
+  return true;
+}
+
 // --- Main ---
 
 async function main() {
-  const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
-  const flags = process.argv.slice(2).filter((a) => a.startsWith('--'));
-  const outputFlag = flags.find((f) => f.startsWith('--output='));
-
-  if (args.length === 0) {
-    console.error('Usage: node scripts/generate-ig-carousel.mjs <slug> [--output=dir]');
-    process.exit(1);
-  }
-
-  const slug = args[0];
-  const outputDir = outputFlag
-    ? outputFlag.split('=')[1]
-    : join(ROOT, 'ig-output', slug);
+  const args = process.argv.slice(2);
+  const slugs = args.filter((a) => !a.startsWith('--'));
+  const limitArg = args.find((a) => a.startsWith('--limit='));
+  const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : Infinity;
+  const outputArg = args.find((a) => a.startsWith('--output='));
+  const baseOutputDir = outputArg ? outputArg.split('=')[1] : join(ROOT, 'ig-output');
 
   // Load data
   const [carouselCache, memeCache, manifest, fontData] = await Promise.all([
@@ -415,77 +429,37 @@ async function main() {
     loadFont(),
   ]);
 
-  // Find post
-  const entry = manifest.find((p) => p.slug === slug);
-  if (!entry) {
-    console.error(`Post not found in manifest: ${slug}`);
-    console.error('Available slugs:', manifest.slice(0, 10).map((p) => p.slug).join(', '), '...');
-    process.exit(1);
-  }
-
-  // Get key points
-  const points = carouselCache[entry.title];
-  if (!points || points.length === 0) {
-    console.error(`No carousel points found for "${entry.title}"`);
-    console.error('Run: pnpm carousel-points');
-    process.exit(1);
-  }
-
-  // Add thesis from meme cache if not already on entry
-  entry.thesis = entry.thesis || memeCache[entry.title] || null;
-
-  // Cap points so total slides (title + points + CTA) <= MAX_SLIDES
-  const maxPoints = MAX_SLIDES - 2;
-  const usedPoints = points.slice(0, maxPoints);
-  const totalSlides = usedPoints.length + 2;
-
-  console.log(`Generating ${totalSlides} slides for "${entry.title}"...`);
-
-  // Fetch background image
-  let bgDataUri = null;
-  if (entry.image) {
-    const imageUrl = entry.image.startsWith('http')
-      ? entry.image
-      : `https://tantaman.com${entry.image}`;
-    console.log(`  Fetching background image: ${imageUrl}`);
-    bgDataUri = await fetchImageAsDataUri(imageUrl);
-    if (!bgDataUri) console.log('  Background image skipped (unsupported format or too large)');
-  }
-  if (!bgDataUri) {
-    console.log('  Using gradient fallback background');
-  }
-
-  // Create output directory
-  await mkdir(outputDir, { recursive: true });
-
-  // Render all slides
-  const slides = [];
-
-  // Slide 0: Title
-  slides.push({ name: 'slide-0-title', element: buildTitleSlide(entry, bgDataUri, totalSlides) });
-
-  // Slides 1..N: Content
-  for (let i = 0; i < usedPoints.length; i++) {
-    slides.push({
-      name: `slide-${i + 1}-content`,
-      element: buildContentSlide(bgDataUri, usedPoints[i], i + 1, totalSlides),
+  // Determine which posts to process
+  let entries;
+  if (slugs.length > 0) {
+    entries = slugs.map((slug) => {
+      const entry = manifest.find((p) => p.slug === slug);
+      if (!entry) {
+        console.error(`Post not found: ${slug}`);
+        process.exit(1);
+      }
+      return entry;
     });
+  } else {
+    // All posts that have carousel points, newest first (manifest is already date-sorted)
+    entries = manifest.filter((p) => carouselCache[p.title]?.length > 0);
+    entries = entries.slice(0, limit);
   }
 
-  // Last slide: CTA
-  slides.push({
-    name: `slide-${totalSlides - 1}-cta`,
-    element: buildCtaSlide(entry, bgDataUri, totalSlides),
-  });
-
-  for (const slide of slides) {
-    const outPath = join(outputDir, `${slide.name}.png`);
-    console.log(`  Rendering ${slide.name}...`);
-    const png = await renderSlide(slide.element, fontData);
-    await writeFile(outPath, png);
+  if (entries.length === 0) {
+    console.error('No posts with carousel points found. Run: pnpm carousel-points');
+    process.exit(1);
   }
 
-  console.log(`\nDone! ${totalSlides} slides written to ${outputDir}/`);
+  console.log(`Processing ${entries.length} post(s)...`);
+
+  let rendered = 0;
+  for (const entry of entries) {
+    const ok = await generateForPost(entry, carouselCache, memeCache, fontData, baseOutputDir);
+    if (ok) rendered++;
+  }
+
+  console.log(`\nDone! Rendered carousels for ${rendered} post(s) in ${baseOutputDir}/`);
 }
 
 main().catch((err) => {

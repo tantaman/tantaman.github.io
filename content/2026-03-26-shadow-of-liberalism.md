@@ -2,6 +2,7 @@
 title: 'Shadow of the Liberal Project'
 tags: [knowledge]
 author: [tantaman, qwen, claude]
+image: '/img/mystery-melancholy-street.jpg'
 ---
 
 The Shadow and the Substance: Communism as the Radical Fulfillment of Liberalism
