@@ -4,6 +4,8 @@ tags: [culture, philosophy]
 concern: [modernity, self]
 ---
 
+![nighthawks](/img/hopper-nighthawks.jpg)
+
 We all know the easiest way to make a change. Change your environment.
 
 - You don't want to eat junk food? Don't have it in the house.
