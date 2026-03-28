@@ -39,6 +39,8 @@ To see this play out in real time:
 
 ---
 
+**Communism? Socialism? lol, no**
+
 The obvious reflex is to reach for an alternative — socialism, communism, some collective arrangement that redistributes what liberalism has privatized. But the dominant versions of those projects share liberalism's anthropology. They disagree about who controls the means of production; they don't disagree that the individual is the basic unit, freedom-from-obligation the basic good, and tradition a set of constraints to be overcome. In practice, the Soviet project was as aggressively corrosive of obligatory community as any market society — it dismantled villages, suppressed churches, severed extended family bonds, all in the name of a different kind of progress. The mechanism changed. The environment-stripping logic didn't.
 
 The problem isn't which system manages the economy. The problem is the shared premise underneath: that freedom from obligation is what human beings most need. As long as that premise holds, the environment will keep being optimized against the conditions that make community automatic. The system that rebuilds those conditions will have to be built on a different anthropology entirely — one that takes obligation not as a constraint on the good life, but as one of its load-bearing structures.
