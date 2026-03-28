@@ -288,6 +288,7 @@ function htmlPage(title: string, body: string, nav?: string): string {
   <title>${escapeHtml(title)} — paste</title>
   <style>${PAGE_STYLE}</style>
   <script>${THEME_SCRIPT}</script>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
 </head>
 <body>
   <header class="topbar">
@@ -917,6 +918,7 @@ paste.get("/:id", async (c) => {
     body { max-width: none; padding: 0; }
   </style>
   <script>${THEME_SCRIPT}</script>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
   <style>
     #root { min-height: 100vh; padding: 2rem; }
     .paste-toolbar {
@@ -981,6 +983,7 @@ paste.get("/:id", async (c) => {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} — paste</title>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
 </head>
 <body>
   ${row.body}
