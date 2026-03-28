@@ -26,11 +26,9 @@ export const doc = {
   ],
   js: [
     {
-      src: 'https://www.googletagmanager.com/gtag/js?id=G-87CH8D1XSS',
-      async: true,
-    },
-    {
-      src: '/ga.js',
+      src: 'https://cloud.umami.is/script.js',
+      defer: true,
+      'data-website-id': 'f2e3a69c-3f8b-4eef-9619-75b2677c4ee6',
     },
     {
       src: '/toc.js',
