@@ -32,7 +32,6 @@ To see this play out in real time:
 
 - [[2026-03-24-the-long-harvest:The Long Harvest]] - Follows one individual in each generation
 - [[2026-03-25-harvest-residue:The Residue]] - A mirror to the harvest, following the communities that were left behind
-- [[2026-03-25-knowledge-cannot-centralize:Knowledge Cannot Centralize]] - A theory of communal and distributed knowledge. Something that is being dissolved along with communities.
 
 > The problem is the shared premise underneath: that freedom from obligation is what human beings most need. As long as that premise holds, the environment will keep being optimized against the conditions that make community automatic.
 
@@ -43,3 +42,9 @@ The obvious reflex is to reach for an alternative — socialism, communism, some
 The problem isn't which system manages the economy. The problem is the shared premise underneath: that freedom from obligation is what human beings most need. As long as that premise holds, the environment will keep being optimized against the conditions that make community automatic. The system that rebuilds those conditions will have to be built on a different anthropology entirely — one that takes obligation not as a constraint on the good life, but as one of its load-bearing structures.
 
 - [[2026-03-26-shadow-of-liberalism:The Shadow of Liberalism]] - Communism & socialism share the same fate and root as liberalism
+
+---
+
+Further consequences:
+
+- [[2026-03-25-knowledge-cannot-centralize:Knowledge Cannot Centralize]] - A theory of communal and distributed knowledge. Something that is being dissolved along with communities.
