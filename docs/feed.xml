@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://tantaman.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>The Gender Cascade: A Network Illustration</title>
+      <link>https://tantaman.com/2026-03-28-gender-network.html</link>
+      <guid>https://tantaman.com/2026-03-28-gender-network.html</guid>
+      <pubDate>Sat, 28 Mar 2026 00:00:00 GMT</pubDate>
+      <description>The following applies the five-mechanism network framework — zealot persistence, structural holes, preferential attachment, rich-club propagation, and influence maximization — to the spread of gender identity ideology from academic theory into e...</description>
+    </item>
+    <item>
+      <title>No One Is Driving: Network Theory and the Collapse of Conspiracy</title>
+      <link>https://tantaman.com/2026-03-28-network-conspiracy.html</link>
+      <guid>https://tantaman.com/2026-03-28-network-conspiracy.html</guid>
+      <pubDate>Sat, 28 Mar 2026 00:00:00 GMT</pubDate>
+      <description>There is a recurring argument in popular discourse that goes like this: *if you can predict outcomes by watching a small group of people, those people must be in control.* The conspiracy theorist and the cynic share this premise. They differ onl...</description>
+    </item>
+    <item>
       <title>No Community? No Duh</title>
       <link>https://tantaman.com/2026-03-28-no-community-no-duh.html</link>
       <guid>https://tantaman.com/2026-03-28-no-community-no-duh.html</guid>
@@ -195,20 +209,6 @@ There&apos;s a fourth. It&apos;s been hidden — not deliberately, but structura
 ---
 
 This essay is a companion to [[2026-03-02-fertility-is-not-economics:&quot;The Optimization Trap,&quot;]] which argues that fertility decline is a symptom of a civilization t...</description>
-    </item>
-    <item>
-      <title>The Optimization Trap: Why the Birth Rate Can&apos;t Be Fixed</title>
-      <link>https://tantaman.com/2026-03-02-fertility-is-not-economics.html</link>
-      <guid>https://tantaman.com/2026-03-02-fertility-is-not-economics.html</guid>
-      <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
-      <description>The birth rate decline is not an economic problem with economic solutions. Across the OECD, within education levels, higher income is positively correlated with fertility — the suppressive force is not money but the mode of life that credentialing produces. Communities that sustain dramatically above-replacement fertility do so through formational density: communal structures thick enough to build selves capable of receiving children as participants in a shared world rather than managing them as costs in a private optimization. The fertility crisis is what happens when every institution that once answered the question &quot;what is human life for?&quot; has been dissolved by a framework that cannot ask it.</description>
-    </item>
-    <item>
-      <title>The Genealogy of the Empty Cradle</title>
-      <link>https://tantaman.com/2026-03-02-the-genealogy-of-the-empty-cradle.html</link>
-      <guid>https://tantaman.com/2026-03-02-the-genealogy-of-the-empty-cradle.html</guid>
-      <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
-      <description>The fertility crisis has a genealogy. Three historical inversions — in education, economics, and psychology — each trace a specific path from participatory traditions to instrumental ones. Bildung became credentialism; oikonomia became chrematistike; &quot;know thyself&quot; became &quot;optimize your dopamine.&quot; The empty cradle is the demographic output of metaphysical choices made centuries ago.</description>
     </item>
   </channel>
 </rss>

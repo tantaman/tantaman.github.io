@@ -29,6 +29,7 @@ import { compile as compileMdx } from '@mdx-js/mdx';
 import { matter } from 'vfile-matter';
 import injectLayoutCSS from './inject-layout-css.js';
 import rehypeSocialPreview from './rehype-social-preview.js';
+import rehypeMermaid from './rehype-mermaid.js';
 
 import clojure from 'highlight.js/lib/languages/clojure';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -66,6 +67,7 @@ export default {
         rehypeSlug,
         [toc, { headings: ['h1', 'h2'] }],
         rehypeAutolinkHeadings,
+        rehypeMermaid,
         [
           rehypeHighlight,
           {
@@ -211,6 +213,7 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
     .use(toc, { headings: ['h1', 'h2'] })
     .use(rehypeInferReadingTimeMeta)
     .use(rehypeAutolinkHeadings)
+    .use(rehypeMermaid)
     .use(rehypeHighlight, {
       languages: { clojure, typescript, javascript, java, xml, rust },
     })
@@ -221,12 +224,17 @@ function addRehypePlugins(pipeline, docAdditions, gottenMatter) {
         const layoutCSS = file.data?.layoutCSS || [];
         const cssToUse = (doc.css || []).concat((docAdditions || {}).css || []).concat(layoutCSS);
 
+        const mermaidScript = file.data.hasMermaid
+          ? [`import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';\nmermaid.initialize({ startOnLoad: true, theme: 'dark' });`]
+          : [];
+
         // Apply rehypeDocument directly with computed CSS
         return rehypeDocument({
           ...doc,
           ...docAdditions,
           js: (doc.js || []).concat((docAdditions || {}).js || []),
           css: cssToUse,
+          script: [].concat((docAdditions || {}).script || []).concat(mermaidScript),
           headScript: (doc.headScript || []).concat((docAdditions || {}).headScript || []),
         })(tree, file);
       };
