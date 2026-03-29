@@ -4,6 +4,8 @@ tags: [politics]
 author: [tantaman, claude]
 ---
 
+![Leonardo da Vinci, Studies of Water](/img/leonardo-deluge.png)
+
 The following applies the five-mechanism network framework — zealot persistence, structural holes, preferential attachment, rich-club propagation, and influence maximization — to the spread of gender identity ideology from academic theory into elementary school curricula and public library programming. The goal is not polemic in either direction. It is to show that the same structural logic that produced shareholder primacy in corporate governance produced this outcome, and that both are better explained by network dynamics than by either conspiracy or accident.
 
 ---

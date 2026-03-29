@@ -4,6 +4,8 @@ tags: [politics]
 author: [tantaman, claude]
 ---
 
+![Leonardo da Vinci, A Deluge](/img/leonardo-turbulence.png)
+
 There is a recurring argument in popular discourse that goes like this: *if you can predict outcomes by watching a small group of people, those people must be in control.* The conspiracy theorist and the cynic share this premise. They differ only in their emotional register.
 
 Network theory breaks the premise.
@@ -24,6 +26,40 @@ The mechanism is *preferential attachment*. When a new node joins a network, it 
 
 Consider the American airport system. Hub-and-spoke routing — itself a product of deregulation in 1978 — triggered preferential attachment in the airline network. Passengers connecting through Atlanta or Chicago attracted more routes, which attracted more passengers, which attracted more routes. By the 2000s, a handful of hub airports had become so load-bearing that their weather, their labor disputes, their gate configurations shaped the travel experience of the entire country. A snowstorm in Dallas cascades into delays in Portland and Miami. No one decided this. No aviation authority conspired to make Dallas that powerful. Preferential attachment did it, and then the hub became too structurally central to be challenged. Cities without hubs watched their economies slowly drain toward cities with them — not because anyone chose to disadvantage them, but because the geometry made periphery self-reinforcing.
 
+```mermaid
+graph TD
+    ATL["Atlanta<br/><i>hub</i>"]
+    ORD["Chicago<br/><i>hub</i>"]
+    DFW["Dallas<br/><i>hub</i>"]
+
+    ATL --- ORD
+    ATL --- DFW
+    ORD --- DFW
+
+    ATL --- P1["Portland"]
+    ATL --- P2["Miami"]
+    ATL --- P3["Nashville"]
+    ATL --- P4["Charlotte"]
+    ORD --- P5["Minneapolis"]
+    ORD --- P6["Detroit"]
+    ORD --- P2
+    DFW --- P7["Albuquerque"]
+    DFW --- P8["Tulsa"]
+    DFW --- P1
+
+    style ATL fill:#5a3a3a,color:#fff
+    style ORD fill:#5a3a3a,color:#fff
+    style DFW fill:#5a3a3a,color:#fff
+    style P1 fill:#3a4a5a,color:#fff
+    style P2 fill:#3a4a5a,color:#fff
+    style P3 fill:#3a4a5a,color:#fff
+    style P4 fill:#3a4a5a,color:#fff
+    style P5 fill:#3a4a5a,color:#fff
+    style P6 fill:#3a4a5a,color:#fff
+    style P7 fill:#3a4a5a,color:#fff
+    style P8 fill:#3a4a5a,color:#fff
+```
+
 ---
 
 ## II. The Broker's Advantage: Structural Holes
@@ -36,6 +72,38 @@ McKinsey & Company is a nearly perfect institutional instantiation of this dynam
 
 The result is that McKinsey has shaped the internal organization of more institutions than any single government policy — not through power in any conventional sense, but through structural position. Their influence on how organizations think about headcount, efficiency, and metrics has been total and largely invisible, because it arrived not as a mandate but as advice, mediated through a node that sat between everything.
 
+```mermaid
+graph LR
+    subgraph Academic World
+        MT["Management<br/>Theory"]
+    end
+
+    subgraph Corporate Sectors
+        TEL["Telecom"]
+        HOSP["Hospitals"]
+        SD["School<br/>Districts"]
+    end
+
+    subgraph Government
+        GOV["Public Policy"]
+    end
+
+    MCK["McKinsey<br/><i>(structural hole broker)</i>"]
+
+    MT ---|"ideas"| MCK
+    MCK ---|"framework"| TEL
+    MCK ---|"same framework"| HOSP
+    MCK ---|"same framework"| SD
+    MCK ---|"advisory"| GOV
+
+    style MCK fill:#5a4a3a,color:#fff
+    style MT fill:#4a4a6a,color:#fff
+    style TEL fill:#3a5a3a,color:#fff
+    style HOSP fill:#3a5a3a,color:#fff
+    style SD fill:#3a5a3a,color:#fff
+    style GOV fill:#3a4a5a,color:#fff
+```
+
 ---
 
 ## III. The Rich Club: Elites Find Each Other
@@ -45,6 +113,42 @@ In scale-free networks, hubs don't just accumulate connections — they preferen
 The consequences are structural and automatic. Communication within the rich club is faster, more redundant, and less noisy than communication in the periphery. Signals that enter the club propagate quickly throughout it. Signals from outside reach it slowly if at all.
 
 The Basel Committee on Banking Supervision illustrates this cleanly. Formed in 1974 by the central bank governors of ten wealthy nations, the committee has no formal legal authority over any country. It cannot compel legislation. It issues standards — capital requirements, liquidity ratios, risk-weighting frameworks — that emerge from deliberation among central bankers who are, by definition, the rich-club nodes of global finance. These standards then propagate globally, because any country that wants access to international capital markets must be legible to institutions that use Basel frameworks. Basel III's capital requirements shaped the lending behavior of banks in Nigeria and Vietnam, whose regulators had no seat at the table and no vote on the outcome. The rich club did not impose its will through force. The network made the club's outputs the default, and the default became the rule.
+
+```mermaid
+graph TD
+    FED["Federal<br/>Reserve"]
+    BOE["Bank of<br/>England"]
+    ECB["European<br/>Central Bank"]
+    BOJ["Bank of<br/>Japan"]
+    SNB["Swiss Natl.<br/>Bank"]
+    BUBA["Deutsche<br/>Bundesbank"]
+
+    FED --- BOE
+    FED --- ECB
+    FED --- BOJ
+    FED --- BUBA
+    BOE --- ECB
+    BOE --- BUBA
+    BOE --- SNB
+    ECB --- BUBA
+    ECB --- BOJ
+    BOJ --- SNB
+    SNB --- FED
+
+    FED -.->|"Basel III"| NIG["Nigerian<br/>Banks"]
+    ECB -.->|"Basel III"| VN["Vietnamese<br/>Banks"]
+    BOJ -.->|"Basel III"| BR["Brazilian<br/>Banks"]
+
+    style FED fill:#6a4a6a,color:#fff
+    style BOE fill:#6a4a6a,color:#fff
+    style ECB fill:#6a4a6a,color:#fff
+    style BOJ fill:#6a4a6a,color:#fff
+    style SNB fill:#6a4a6a,color:#fff
+    style BUBA fill:#6a4a6a,color:#fff
+    style NIG fill:#3a4a5a,color:#fff
+    style VN fill:#3a4a5a,color:#fff
+    style BR fill:#3a4a5a,color:#fff
+```
 
 ---
 
@@ -85,6 +189,42 @@ Michael Jensen and William Meckling's 1976 paper on agency theory — which form
 The Business Roundtable, the lobbying organization of America's largest corporations, was the rich club. In 1978 it issued a statement endorsing the idea that corporations had obligations to multiple stakeholders — employees, communities, suppliers. By 1997 it had reversed this entirely, declaring that the principal obligation of corporations was to their shareholders. No external force compelled this. The club's internal communication was fast and dense. The updated position propagated through the corporate governance network — board interlocks, shared law firms, shared compensation consultants — faster than any countervailing signal could organize.
 
 By the 1980s, the doctrine was functionally hegemonic. Stock buybacks, which had been restricted as market manipulation, were deregulated in 1982. Executive compensation decoupled from worker wages and tracked share price instead. Corporate planning horizons shortened. Supply chains were hollowed in favor of quarterly returns. A factory worker in Ohio in 1995 experienced the consequences: plant closure, wage stagnation, loss of benefits, community contraction. The closure was not caused by any conspiracy. It was caused by a board applying a framework it had absorbed as obvious, recommended by consultants who had learned it as neutral, enforced by analysts who had inherited it as metric, all of them downstream of a network cascade that had begun with a zealot holding a position in Chicago in 1946.
+
+```mermaid
+graph TD
+    Z["<b>Zealot</b><br/>Friedman / Chicago School<br/><i>1946–1970</i>"]
+
+    Z --> CHICAGO["Chicago School<br/><i>broker → law & business</i>"]
+
+    CHICAGO --> BSCHOOL["Elite Business Schools<br/>HBS · Wharton · Stanford<br/><i>hub</i>"]
+    CHICAGO --> LEGAL["Law & Economics<br/>Movement<br/><i>hub</i>"]
+
+    BSCHOOL --> JENSEN["Jensen & Meckling<br/>Agency Theory<br/><i>seed · 1976</i>"]
+
+    JENSEN --> COMP["Compensation<br/>Consultants"]
+    JENSEN --> BOARDS["Boards &<br/>Proxy Advisors"]
+
+    BSCHOOL --> CLUB["Rich Club<br/>Business Roundtable<br/><i>reversal · 1997</i>"]
+    LEGAL --> CLUB
+    COMP --> CLUB
+    BOARDS --> CLUB
+
+    CLUB --> BUYBACKS["Buyback<br/>Deregulation"]
+    CLUB --> EXEC["Exec Pay Tied<br/>to Share Price"]
+    CLUB --> SUPPLY["Supply Chain<br/>Hollowing"]
+
+    BUYBACKS --> WORKER["Factory Worker<br/>in Ohio<br/><i>1995</i>"]
+    EXEC --> WORKER
+    SUPPLY --> WORKER
+
+    style Z fill:#4a4a6a,color:#fff
+    style CHICAGO fill:#5a4a3a,color:#fff
+    style BSCHOOL fill:#3a5a3a,color:#fff
+    style LEGAL fill:#3a5a3a,color:#fff
+    style JENSEN fill:#5a3a5a,color:#fff
+    style CLUB fill:#6a4a6a,color:#fff
+    style WORKER fill:#3a5a5a,color:#fff
+```
 
 This is the collapse. The conspiracy theorist, watching the factory close, identifies the board and calls them the cause. The naive structuralist says it's globalization, it's technology, it's nobody. Network theory says something harder: *there are identifiable nodes whose behavior predicts this outcome with high accuracy, and none of them were in control.*
 
