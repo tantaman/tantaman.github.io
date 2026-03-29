@@ -211,6 +211,22 @@ graph TD
 
 ---
 
+## Why This Cascade Was Fast
+
+The shareholder primacy cascade took roughly thirty years to move from Friedman's 1970 essay to functional hegemony in the late 1990s. The gender identity cascade moved from academic periphery to elementary school curricula in roughly ten. The five mechanisms are the same. The speed difference requires explanation, and the explanation is structural.
+
+**The network was pre-built.** The gay rights movement had already wired the organizational infrastructure that gender identity advocacy inherited. HRC, the ACLU, PFLAG, and the major philanthropic foundations were not new nodes that had to be created and connected. They were already densely linked, already funded, already experienced at translating academic claims into legal and institutional language. The shareholder primacy cascade had to construct its network — think tanks, law and economics programs, business school curricula — from near-zero. The gender identity cascade plugged into a network that had just won its previous fight. The wiring was hot.
+
+**Social media created a parallel cascade.** The institutional top-down cascade described above was happening simultaneously with a grassroots bottom-up cascade through Tumblr, Twitter, and later TikTok that had no equivalent in the shareholder primacy story. These two cascades reinforced each other. Activist framing circulated on social media. Journalists on Twitter amplified it. Institutional actors, monitoring the same platforms, experienced the framing as emergent public consensus rather than activist pressure. Institutions responded, which validated the framing, which circulated back through social media as proof of mainstream acceptance. The shareholder primacy cascade propagated through a single institutional channel. This one propagated through two channels simultaneously, each accelerating the other.
+
+**The civil rights framing removed friction in one direction.** The ACLU's brokering did something beyond translation. By mapping gender identity onto the existing civil rights framework, it created an asymmetric cost structure. Adopting the new framework carried no professional risk for a teacher, school administrator, pediatrician, or corporate HR department. Questioning it carried potentially career-ending risk — not from any central enforcer, but from the legal and reputational exposure that the civil rights framing made automatic. This is not just a cascade. It is a cascade with friction removed in the direction of adoption and added in the direction of resistance. The result is speed that looks like consensus but is partly compliance.
+
+**The opposition was elsewhere during the critical window.** Religious and social conservatives — the nodes most likely to generate counter-signals — were focused on opposing same-sex marriage through 2015. The *Obergefell* decision in June of that year absorbed the organizational energy, funding, and public attention of the counter-network at precisely the moment when the DSM-5 reclassification (2013) and the Title IX guidance (2016) were seeding the cascade. By the time conservative organizations pivoted to gender identity as a primary concern, the institutional cascade was already downstream of the hubs. The window between 2013 and 2017 was largely uncontested in institutional space. In network terms, the counter-signal arrived after the cascade had already passed the critical threshold.
+
+These four factors are not separate from the five-mechanism framework. They are network-level accelerants: a pre-wired topology, a parallel propagation channel, asymmetric friction, and a temporarily absent counter-network. Together they explain why the same structural logic that took three decades in one case took one decade in another.
+
+---
+
 ## What the Map Shows
 
 The parallel to shareholder primacy is close enough to be instructive.
