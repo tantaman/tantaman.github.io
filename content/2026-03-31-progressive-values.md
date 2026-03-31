@@ -1,4 +1,9 @@
-# The Progressive Contradiction Resolution Tree
+---
+title: 'The Progressive Contradiction Resolution Tree'
+tags: [politics]
+author: [tantaman, claude]
+---
+
 ### A Field Guide to Never Being Wrong
 
 > *The following hierarchy does not exist. It has never been written down. This is the first time it has been written down. Please do not share.*

@@ -7,11 +7,19 @@
     <language>en</language>
     <atom:link href="https://tantaman.com/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title></title>
+      <title>The Progressive Contradiction Resolution Tree</title>
       <link>https://tantaman.com/2026-03-31-progressive-values.html</link>
       <guid>https://tantaman.com/2026-03-31-progressive-values.html</guid>
       <pubDate>Tue, 31 Mar 2026 00:00:00 GMT</pubDate>
-      <description></description>
+      <description>### A Field Guide to Never Being Wrong
+
+&gt; *The following hierarchy does not exist. It has never been written down. This is the first time it has been written down. Please do not share.*
+
+---
+
+```mermaid
+flowchart TD
+    classDef q fill:#eeedfe,s...</description>
     </item>
     <item>
       <title>The Gender Cascade: A Network Illustration</title>
