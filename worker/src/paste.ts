@@ -906,7 +906,12 @@ paste.get("/:id", async (c) => {
     revisionBarHtml = bar;
   }
 
+  const authed = isAuthed(c);
+
   if (row.language === "jsx" || row.language === "tsx") {
+    const shareBtn = authed
+      ? `<form method="POST" action="/paste/${escapeHtml(row.id)}/share" style="display:inline;margin:0"><button type="submit" style="background:none;border:none;color:var(--text-muted);padding:0;font:inherit;cursor:pointer;text-decoration:underline">${row.shared ? "unshare" : "share"}</button></form>`
+      : "";
     const runnerHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -940,6 +945,7 @@ paste.get("/:id", async (c) => {
     <span>${escapeHtml(row.language)}</span>
     <a href="/paste/${escapeHtml(row.id)}/raw">source</a>
     <a href="/paste/fork/${escapeHtml(row.id)}">fork</a>
+    ${shareBtn}
   </div>
   <script type="module">
     try {
