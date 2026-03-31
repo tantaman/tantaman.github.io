@@ -1000,7 +1000,15 @@ paste.get("/:id", async (c) => {
     if (title && /^#{1,6}\s+/.test(mdBody.trimStart())) {
       mdBody = mdBody.trimStart().replace(/^#{1,6}\s+.+\n?/, "");
     }
-    rendered = `<div class="content">${await marked.parse(mdBody)}</div>`;
+    let parsedMd = await marked.parse(mdBody);
+    const hasMermaid = parsedMd.includes('class="language-mermaid"');
+    if (hasMermaid) {
+      parsedMd = parsedMd.replace(
+        /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+        (_, code) => `<div class="mermaid">${code}</div>`
+      );
+    }
+    rendered = `<div class="content">${parsedMd}</div>${hasMermaid ? `<script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';mermaid.initialize({ startOnLoad: true, theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default' });</script>` : ''}`;
   } else {
     rendered = `<div class="content"><pre><code class="language-${escapeHtml(row.language)}">${escapeHtml(row.body)}</code></pre></div>`;
   }
