@@ -10,14 +10,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
 <link rel="stylesheet" href="/index.css?v=6c8fcbdd">
 
-<meta name="description" content="I can&#x27;t access the iframe content to read the essay. Could you paste the text of the essay here so I can distill it into a provocative sentence?">
+<meta name="description" content="Progressive Identity Tier List">
 <meta name="keywords" content="politics, culture, software, statistics, economics">
 <meta name="author" content="Matt Wonlaw">
 <meta name="copyright" content="© 2026 Matt Wonlaw">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tantamanlands">
 <meta property="og:title" content="Progressive Identity Tier List">
-<meta property="og:description" content="I can&#x27;t access the iframe content to read the essay. Could you paste the text of the essay here so I can distill it into a provocative sentence?">
+<meta property="og:description" content="Progressive Identity Tier List">
 <meta property="og:image" content="https://tantaman.com/img/tier-list.png">
 <meta property="article:tag" content="politics">
 <meta property="article:tag" content="culture">
@@ -26,7 +26,33 @@
 <meta name="twitter:site" content="@tantaman">
 </head>
 <body>
-<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><iframe src="https://tantaman.com/paste/49SiAMvYy0" style="width:100%;height:100vh;border:none;"></iframe>
+<nav class="toc"><ol class="toc-level toc-level-1"></ol></nav><div style="position:fixed;top:12px;right:12px;z-index:9999;">
+<button id="share-ig" style="background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Story image</button>
+</div>
+<iframe src="https://tantaman.com/paste/49SiAMvYy0" style="width:100%;height:100vh;border:none;"></iframe>
+<script>
+document.getElementById('share-ig').onclick = async function() {
+  const btn = this;
+  const slug = '2026-04-01-progressive-tier-list';
+  btn.textContent = 'Loading…';
+  try {
+    const resp = await fetch('https://tantaman.com/api/ig-card/' + slug);
+    if (!resp.ok) throw new Error('Failed');
+    const blob = await resp.blob();
+    const file = new File([blob], slug + '.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file] });
+    } else {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = slug + '.png';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+  } catch(e) {}
+  btn.textContent = 'Story image';
+};
+</script>
 <script src="https://cloud.umami.is/script.js" defer data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
 <script src="/toc.js?v=51ad7973"></script>
 <script src="/theme.js?v=0386783a"></script>
