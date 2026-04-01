@@ -341,7 +341,7 @@ function buildCard(card) {
       {
         style: {
           fontSize: 24,
-          color: '#bbb',
+          color: '#e0e0e0',
           lineHeight: 1.4,
           marginBottom: 6,
         },
@@ -353,7 +353,7 @@ function buildCard(card) {
       {
         style: {
           fontSize: 19,
-          color: '#777',
+          color: '#aaa',
           lineHeight: 1.4,
           fontStyle: 'italic',
         },
