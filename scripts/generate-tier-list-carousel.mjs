@@ -220,7 +220,7 @@ const TIERS = [
         tag: 'maybe racist',
         tagType: 'y',
         ability: 'Faith tolerated only while politics remain correct.',
-        tooltip: 'Religious identity provides partial cover but is immediately suspended on political nonconformity. Internalized oppression charge standing by. Identity card pending review.',
+        tooltip: 'Minority identity provides partial cover but is immediately suspended on political nonconformity. Internalized oppression charge standing by. Identity card pending review.',
       },
     ],
   },
@@ -303,7 +303,7 @@ function buildCard(card) {
       'div',
       {
         style: {
-          fontSize: 22,
+          fontSize: 30,
           fontWeight: 700,
           color: '#e8e8e8',
           marginBottom: 8,
@@ -323,9 +323,9 @@ function buildCard(card) {
         'div',
         {
           style: {
-            fontSize: 14,
+            fontSize: 19,
             fontWeight: 700,
-            padding: '4px 10px',
+            padding: '5px 12px',
             borderRadius: 4,
             backgroundColor: tagStyle.bg,
             color: tagStyle.color,
@@ -340,7 +340,7 @@ function buildCard(card) {
       'div',
       {
         style: {
-          fontSize: 17,
+          fontSize: 24,
           color: '#bbb',
           lineHeight: 1.4,
           marginBottom: 6,
@@ -352,7 +352,7 @@ function buildCard(card) {
       'div',
       {
         style: {
-          fontSize: 14,
+          fontSize: 19,
           color: '#777',
           lineHeight: 1.4,
           fontStyle: 'italic',
