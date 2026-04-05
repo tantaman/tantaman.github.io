@@ -458,6 +458,7 @@ paste.get("/fork/:id", async (c) => {
         </select>
       </div>
       <div class="field">
+        <div style="margin-bottom:0.5rem"><button type="button" onclick="document.getElementById('body').value='';document.getElementById('body').focus()" style="font-size:0.75rem;padding:0.2rem 0.5rem">Clear</button></div>
         <textarea id="body" name="body" required placeholder="Write something..." autofocus>${escapeHtml(forkSource.body)}</textarea>
       </div>
       <button type="submit">Save</button>
@@ -1030,6 +1031,12 @@ paste.get("/:id", async (c) => {
     `<h1>${escapeHtml(title)}</h1>
     <p class="meta">${date} · ${escapeHtml(row.language)}${sharedIndicator}</p>
     ${revisionBarHtml}
+    <div class="actions">
+      <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>
+      <a href="/paste/fork/${escapeHtml(row.id)}">fork</a>${diffLink ? `
+      ${diffLink}` : ""}${shareToggle ? `
+      ${shareToggle}` : ""}
+    </div>
     <hr class="rule">
     ${rendered}
     <div class="actions">
