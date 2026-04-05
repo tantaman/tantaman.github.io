@@ -430,7 +430,7 @@ paste.get("/fork/:id", async (c) => {
 
   // Fetch 5 most recent pastes
   const recents = await c.env.DB.prepare(
-    "SELECT id, title, created_at FROM paste ORDER BY created_at DESC LIMIT 5"
+    "SELECT id, title, created_at FROM paste p WHERE NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY created_at DESC LIMIT 5"
   ).all<{ id: string; title: string | null; created_at: number }>();
 
   let recentHtml = "";
@@ -473,10 +473,10 @@ paste.get("/all", async (c) => {
 
   const rows = authed
     ? await c.env.DB.prepare(
-        "SELECT id, title, language, created_at, parent_id, shared FROM paste ORDER BY created_at DESC"
+        "SELECT id, title, language, created_at, parent_id, shared FROM paste p WHERE NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY created_at DESC"
       ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>()
     : await c.env.DB.prepare(
-        "SELECT id, title, language, created_at, parent_id, shared FROM paste WHERE shared = 1 ORDER BY shared_at DESC"
+        "SELECT id, title, language, created_at, parent_id, shared FROM paste p WHERE shared = 1 AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY shared_at DESC"
       ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>();
 
   const items = rows.results
@@ -509,7 +509,7 @@ paste.get("/", async (c) => {
   if (!isAuthed(c)) {
     // Public landing: show shared pastes
     const rows = await c.env.DB.prepare(
-      "SELECT id, title, body, language, shared_at FROM paste WHERE shared = 1 ORDER BY shared_at DESC LIMIT 20"
+      "SELECT id, title, body, language, shared_at FROM paste p WHERE shared = 1 AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY shared_at DESC LIMIT 20"
     ).all<{ id: string; title: string | null; body: string; language: string; shared_at: number }>();
 
     const items = rows.results
@@ -537,7 +537,7 @@ paste.get("/", async (c) => {
 
   // Fetch 5 most recent pastes
   const recents = await c.env.DB.prepare(
-    "SELECT id, title, created_at FROM paste ORDER BY created_at DESC LIMIT 5"
+    "SELECT id, title, created_at FROM paste p WHERE NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY created_at DESC LIMIT 5"
   ).all<{ id: string; title: string | null; created_at: number }>();
 
   let recentHtml = "";
@@ -1020,7 +1020,6 @@ paste.get("/:id", async (c) => {
   }
 
   const diffLink = row.parent_id ? `<a href="/paste/${escapeHtml(row.id)}/diff">diff</a>` : "";
-  const authed = isAuthed(c);
   const shareToggle = authed
     ? `<form method="POST" action="/paste/${escapeHtml(row.id)}/share" style="display:inline"><button type="submit" style="background:none;color:var(--text-muted);padding:0;font-weight:400;letter-spacing:normal;font-size:0.8125rem">${row.shared ? "unshare" : "share"}</button></form>`
     : "";
