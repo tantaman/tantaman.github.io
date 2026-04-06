@@ -2,6 +2,7 @@
 title: 'The Technology of the Soul: Ignatian Formation and Its Sources'
 tags: [self]
 concern: [formation]
+image: '/img/pozzo-sant-ignazio-ceiling.jpg'
 ---
 
 The Society of Jesus, founded by Ignatius of Loyola in 1540, produced within its first century some of the most consequential educators, missionaries, scientists, and political advisors in the Western world. It did this not by recruiting exceptional people — though it recruited carefully — but by running them through a formation system so precisely engineered that contemporaries compared it to military training, and enemies compared it to brainwashing. Both comparisons miss what was actually happening, which was something older and more serious than either: a systematic attempt to answer the question Plato had posed and the academy had abandoned. What does it take to reorder a self?
