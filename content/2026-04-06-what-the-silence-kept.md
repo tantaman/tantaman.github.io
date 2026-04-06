@@ -3,8 +3,9 @@ title: '[WIP] What the Silence Kept'
 form: story
 tags: [ground]
 concern: [civilization]
-image: '/img/roden-crater-klaus-obermeyer.webp'
 ---
+
+![crater](/img/roden-crater-klaus-obermeyer.webp)
 
 ## I. Maret
 
