@@ -102,7 +102,7 @@ Another pause.
 
 ---
 
-Walking home, she took the long way — through the humanities building, because she had parked there that morning and forgotten, and discovered only outside the committee room that she had no reason to retrace her steps.
+Walking home, she took the long way — through the humanities building, because it was the longer route and she wasn't ready to be home yet.
 
 The lights were on in the third-floor seminar room. Through the dome's inner window she could see a woman at the front of a room designed for twenty with eight students in it. The woman was reading aloud from a book held open in both hands, her face tilted slightly down, the students around the table not taking notes. Just listening.
 
@@ -224,11 +224,9 @@ His section of the committee report was thorough. It established the boundary of
 
 He added one more sentence, which he debated for three days before including: *The nature of the phenomenon cannot be determined from available data, and the Committee does not recommend characterizing it further pending additional investigation.*
 
-A physicist of his reputation writing a sentence that said: we don't know what this is and we're not going to guess. Usually he knew what he didn't know and could say it clearly. This was something else.
+A physicist of his reputation writing a sentence that said: we don't know what this is and we're not going to guess. Usually he knew what he didn't know and could say it clearly. This was something else — the kind of something else that didn't belong in the report, which was why, that night, he told his wife.
 
----
-
-That night he told his wife Amara about the data. She taught literature. The enrollment numbers in her department had been declining for thirty years in ways the social cohesion metrics found statistically insignificant.
+Amara taught literature. The enrollment numbers in her department had been declining for thirty years in ways the social cohesion metrics found statistically insignificant.
 
 "What kind of silence?" she said.
 
