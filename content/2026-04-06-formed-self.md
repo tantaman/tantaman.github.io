@@ -2,6 +2,7 @@
 title: 'Fate, Structure, Mimesis'
 tags: [ground]
 concern: [civilization]
+image: '/img/scheffer-paolo-francesca.jpg'
 ---
 
 # The Formed Self: Rome, Modernity, and the Grammar of Stagnation

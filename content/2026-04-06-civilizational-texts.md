@@ -2,6 +2,7 @@
 title: 'Civilizational Texts'
 tags: [ground]
 concern: [civilization]
+image: '/img/raphael-school-of-athens.jpg'
 ---
 
 # The Choosing: Civilizational Texts and the Societies They Made
