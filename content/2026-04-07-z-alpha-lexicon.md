@@ -1,4 +1,8 @@
-# The Embedded Ontologies: A Philosophical Lexicon of Gen Z and Gen Alpha Slang
+---
+title: 'The Embedded Ontologies: A Philosophical Lexicon of Gen Z and Gen Alpha Slang'
+tags: [language]
+concern: [civilization]
+---
 
 *Each word is a compressed worldview. What follows is the decompression.*
 
