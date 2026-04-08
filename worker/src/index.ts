@@ -22,6 +22,7 @@ import { posts } from "./posts";
 import { comments } from "./comments";
 import { igCard } from "./ig-card";
 import { paste } from "./paste";
+import { lists } from "./lists";
 import { now } from "./now";
 import { thoughtOg } from "./thought-og";
 import {
@@ -1680,6 +1681,7 @@ api.route("/dha", dha);
 api.route("/posts", posts);
 api.route("/comments", comments);
 api.route("/ig-card", igCard);
+api.route("/lists", lists);
 
 // Serve audio files from R2
 app.get("/audio/*", async (c) => {

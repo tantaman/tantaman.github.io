@@ -186,6 +186,38 @@ export const UpdateBookBody = z.object({
   { message: "Must provide title or ol_key" },
 );
 
+// --- Lists ---
+
+// POST /lists
+export const CreateListBody = z.object({
+  name: z.string().trim().min(1).max(200),
+});
+
+// PATCH /lists/:id
+export const UpdateListBody = z.object({
+  name: z.string().trim().min(1).max(200).optional(),
+});
+
+// POST /lists/:id/items
+export const CreateListItemBody = z.object({
+  text: z.string().trim().min(1).max(1000),
+});
+
+// PATCH /lists/:id/items/:itemId
+export const UpdateListItemBody = z.object({
+  text: z.string().trim().min(1).max(1000).optional(),
+  completed: z.boolean().optional(),
+  position: z.number().int().min(0).optional(),
+});
+
+// PATCH /lists/:id/items/reorder
+export const ReorderListItemsBody = z.object({
+  items: z.array(z.object({
+    id: z.number().int(),
+    position: z.number().int().min(0),
+  })).min(1),
+});
+
 // POST /comments/:slug
 export const CreateCommentBody = z.object({
   body: z.string().trim().min(1).max(2000),

@@ -1,0 +1,17 @@
+CREATE TABLE list (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  created_at INTEGER NOT NULL,
+  archived_at INTEGER
+);
+
+CREATE TABLE list_item (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  list_id INTEGER NOT NULL REFERENCES list(id) ON DELETE CASCADE,
+  text TEXT NOT NULL,
+  completed INTEGER NOT NULL DEFAULT 0,
+  position INTEGER NOT NULL DEFAULT 0,
+  created_at INTEGER NOT NULL
+);
+
+CREATE INDEX idx_list_item_list ON list_item(list_id);
