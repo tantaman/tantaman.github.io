@@ -23,8 +23,8 @@ const swrOptions = {
 const Config = SWRConfig as any;
 
 function parseHash(): Route {
-  const match = location.hash.match(/^#list-(\d+)$/);
-  if (match) return { view: 'list', id: parseInt(match[1], 10) };
+  const match = location.hash.match(/^#list-(.+)$/);
+  if (match) return { view: 'list', uuid: match[1] };
   return { view: 'dashboard' };
 }
 
@@ -43,9 +43,9 @@ function Dashboard({ secret }: { secret: string }) {
     mutate((prev: List[] | undefined) => prev ? [created, ...prev] : [created], false);
   };
 
-  const handleDelete = async (id: number) => {
-    await api.deleteList(id, secret);
-    mutate((prev: List[] | undefined) => prev?.filter((l: List) => l.id !== id), false);
+  const handleDelete = async (uuid: string) => {
+    await api.deleteList(uuid, secret);
+    mutate((prev: List[] | undefined) => prev?.filter((l: List) => l.uuid !== uuid), false);
   };
 
   return (
@@ -62,7 +62,7 @@ function Dashboard({ secret }: { secret: string }) {
       </form>
       <div className="list-grid">
         {lists?.map((list) => (
-          <ListCard key={list.id} list={list} onDelete={handleDelete} />
+          <ListCard key={list.uuid} list={list} onDelete={handleDelete} />
         ))}
         {lists && lists.length === 0 && (
           <p className="list-empty">No lists yet. Create one above.</p>
@@ -74,8 +74,8 @@ function Dashboard({ secret }: { secret: string }) {
 
 // --- List View ---
 
-function ListView({ id, secret }: { id: number; secret: string }) {
-  const { data, mutate } = useSWR(`list-${id}`, () => api.getList(id, secret));
+function ListView({ uuid }: { uuid: string }) {
+  const { data, mutate } = useSWR(`list-${uuid}`, () => api.getList(uuid));
   const [newItem, setNewItem] = useState('');
   const [hideCompleted, setHideCompleted] = useState(false);
   const [editingName, setEditingName] = useState(false);
@@ -91,7 +91,7 @@ function ListView({ id, secret }: { id: number; secret: string }) {
     e.preventDefault();
     const text = newItem.trim();
     if (!text) return;
-    const created = await api.createItem(id, text, secret);
+    const created = await api.createItem(uuid, text);
     setNewItem('');
     mutate(
       (prev: any) => prev ? { ...prev, items: [...prev.items, created] } : prev,
@@ -111,7 +111,7 @@ function ListView({ id, secret }: { id: number; secret: string }) {
       } : prev,
       false,
     );
-    await api.updateItem(id, item.id, { completed: newCompleted }, secret);
+    await api.updateItem(uuid, item.id, { completed: newCompleted });
   };
 
   const handleDeleteItem = async (item: ListItemType) => {
@@ -122,23 +122,16 @@ function ListView({ id, secret }: { id: number; secret: string }) {
       } : prev,
       false,
     );
-    await api.deleteItem(id, item.id, secret);
+    await api.deleteItem(uuid, item.id);
   };
 
   const handleNameSave = async () => {
     const trimmed = nameValue.trim();
     if (trimmed && list && trimmed !== list.name) {
-      await api.updateList(id, trimmed, secret);
+      await api.updateList(uuid, trimmed);
       mutate();
     }
     setEditingName(false);
-  };
-
-  const handleDeleteList = async () => {
-    if (list && confirm(`Delete "${list.name}"?`)) {
-      await api.deleteList(id, secret);
-      location.hash = '';
-    }
   };
 
   const completedCount = items.filter((i) => i.completed === 1).length;
@@ -149,9 +142,6 @@ function ListView({ id, secret }: { id: number; secret: string }) {
     <>
       <div className="list-view-header">
         <a href="#" className="list-back">&larr; Lists</a>
-        <div className="list-view-actions">
-          <button className="list-delete-btn" onClick={handleDeleteList}>Delete list</button>
-        </div>
       </div>
 
       {editingName ? (
@@ -232,6 +222,8 @@ export function App() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
+  const isDashboard = route.view === 'dashboard';
+
   return (
     <AuthContext.Provider value={{ secret, updateSecret }}>
       <Config value={swrOptions}>
@@ -241,15 +233,15 @@ export function App() {
             <h1>Lists</h1>
           </header>
           <main className="lists-main">
-            {!secret ? (
+            {isDashboard && !secret ? (
               <p className="list-empty">Enter your secret to access lists.</p>
-            ) : route.view === 'dashboard' ? (
-              <Dashboard secret={secret} />
+            ) : isDashboard ? (
+              <Dashboard secret={secret!} />
             ) : (
-              <ListView id={route.id} secret={secret} />
+              <ListView uuid={route.uuid} />
             )}
           </main>
-          <SecretToggle />
+          {isDashboard && <SecretToggle />}
         </div>
       </Config>
     </AuthContext.Provider>

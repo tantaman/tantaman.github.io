@@ -1,5 +1,6 @@
 export interface List {
   id: number;
+  uuid: string;
   name: string;
   created_at: number;
   archived_at: number | null;
@@ -18,4 +19,4 @@ export interface ListItem {
 
 export type Route =
   | { view: 'dashboard' }
-  | { view: 'list'; id: number };
+  | { view: 'list'; uuid: string };

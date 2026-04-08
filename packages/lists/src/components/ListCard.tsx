@@ -2,7 +2,7 @@ import type { List } from '../types';
 
 interface Props {
   list: List;
-  onDelete: (id: number) => void;
+  onDelete: (uuid: string) => void;
 }
 
 export function ListCard({ list, onDelete }: Props) {
@@ -10,7 +10,7 @@ export function ListCard({ list, onDelete }: Props) {
   const done = list.completed_count ?? 0;
 
   return (
-    <a className="list-card" href={`#list-${list.id}`}>
+    <a className="list-card" href={`#list-${list.uuid}`}>
       <div className="list-card-header">
         <span className="list-card-name">{list.name}</span>
         <button
@@ -20,7 +20,7 @@ export function ListCard({ list, onDelete }: Props) {
             e.preventDefault();
             e.stopPropagation();
             if (confirm(`Delete "${list.name}"?`)) {
-              onDelete(list.id);
+              onDelete(list.uuid);
             }
           }}
         >
