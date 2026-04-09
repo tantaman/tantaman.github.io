@@ -74,9 +74,3 @@ He closes the document. He opens his previous assessment. It is nearly complete.
 He tells himself he will return to the prior hypothesis question. He does not return to it.
 
 Sarah's memo is filed.
-
----
-
-This brings us to the real question, which Sarah identified in that 2013 moment: **how do you know when to adjudicate between models rather than update parameters within one?**
-
-The radical empiricist has a principled answer: evidence forces adjudication. Keep updating until the evidence demands a new model. This sounds right. The problem is that it assumes the evidence will be visible to the framework doing the updating. If the framework is constitutively blind to certain inputs — if it can only see parameter failures and not category failures — then no amount of evidence will force adjudication. Every failure looks like *more of the same needed*, never *something different needed entirely*.
