@@ -5,6 +5,8 @@ concern: [civilization]
 form: story
 ---
 
+![The Ambassadors, Hans Holbein the Younger, 1533](/img/holbein-ambassadors.jpg)
+
 *Langley, 2006.*
 
 Sarah has spent eleven years studying Iran. She reads Farsi, has lived in Tehran, has spent months in the Shia seminaries of Qom — not as a Muslim but as a scholar, close enough to feel the texture of the place. She understands, not just propositionally but in her bones, what Karbala means. How Hussein's death in 680 AD is not history but a living present, re-enacted every Ashura, wept over as though it happened last week, because in a meaningful sense it did and does and always will.
