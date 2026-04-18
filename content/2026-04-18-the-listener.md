@@ -6,6 +6,8 @@ form: story
 author: [tantaman, claude]
 ---
 
+![Tsukioka Yoshitoshi](/img/yoshitoshi-listener.jpg)
+
 > Related:
 > - [[2026-04-18-the-lamp:The Lamp]]
 > - [[2026-04-18-the-jihad:Dune - The Jihad Was Against the Frame]]
