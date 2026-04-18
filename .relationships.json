@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-04-06T22:34:41.874Z",
+  "generatedAt": "2026-04-18T14:51:18.646Z",
   "config": {
     "model": "text-embedding-3-large",
     "minScore": 0.25,
@@ -438,6 +438,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-07-z-alpha-lexicon.md",
+          "score": 0.47,
+          "type": "semantic"
+        },
+        {
           "id": "chats/2025-10-13-epistemic-humility-discussion.md",
           "score": 0.469,
           "type": "semantic"
@@ -470,11 +475,6 @@
         {
           "id": "2025-12-03-state-of-the-union.md",
           "score": 0.439,
-          "type": "semantic"
-        },
-        {
-          "id": "the-mirror-room/04-the-paradox-of-becoming.md",
-          "score": 0.435,
           "type": "semantic"
         }
       ],
@@ -2288,8 +2288,8 @@
           "type": "semantic"
         },
         {
-          "id": "2020-05-19-These-Are-Not-Types.md",
-          "score": 0.414,
+          "id": "2026-04-18-the-jihad.md",
+          "score": 0.418,
           "type": "semantic"
         }
       ],
@@ -2894,6 +2894,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.749,
+          "type": "semantic"
+        },
+        {
           "id": "2026-02-21-desire-engine-table.mdx",
           "score": 0.743,
           "type": "semantic"
@@ -2901,11 +2906,6 @@
         {
           "id": "2025-01-01-david-graeber-the-utopia-of-rules.md",
           "score": 0.741,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-12-principalities-and-powers.md",
-          "score": 0.739,
           "type": "semantic"
         }
       ],
@@ -2945,6 +2945,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.778,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-09-diagnosing-white-guilt.md",
           "score": 0.752,
           "type": "semantic"
@@ -2957,11 +2962,6 @@
         {
           "id": "2026-01-26-the-table.md",
           "score": 0.748,
-          "type": "semantic"
-        },
-        {
-          "id": "the-mirror-room/03-the-meeting.md",
-          "score": 0.746,
           "type": "semantic"
         }
       ],
@@ -3571,13 +3571,13 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-12-trumps-techno-fetish.md",
-          "score": 0.577,
+          "id": "2026-04-09-radical-empiricism-story.md",
+          "score": 0.588,
           "type": "semantic"
         },
         {
-          "id": "2026-03-28-network-conspiracy.md",
-          "score": 0.566,
+          "id": "2025-12-12-trumps-techno-fetish.md",
+          "score": 0.577,
           "type": "semantic"
         }
       ],
@@ -3628,7 +3628,7 @@
         },
         {
           "id": "2026-03-28-network-conspiracy.md",
-          "score": 0.709,
+          "score": 0.708,
           "type": "semantic"
         },
         {
@@ -5572,6 +5572,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.84,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-10-husk-of-god.md",
           "score": 0.829,
           "type": "semantic"
@@ -5589,11 +5594,6 @@
         {
           "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
           "score": 0.802,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-01-01-the-letter-to-the-therapeutics.md",
-          "score": 0.8,
           "type": "semantic"
         }
       ],
@@ -6824,8 +6824,8 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-21-what-modernity-needs-a-return-to.md",
-          "score": 0.754,
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.755,
           "type": "semantic"
         }
       ],
@@ -7028,6 +7028,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.762,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-11-the-exhaustion-that-cannot-rest.md",
           "score": 0.758,
           "type": "semantic"
@@ -7045,11 +7050,6 @@
         {
           "id": "2026-01-12-the-economy-of-refusal.md",
           "score": 0.753,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
-          "score": 0.741,
           "type": "semantic"
         }
       ],
@@ -7273,7 +7273,7 @@
         },
         {
           "id": "2026-03-28-network-conspiracy.md",
-          "score": 0.645,
+          "score": 0.644,
           "type": "semantic"
         }
       ],
@@ -7756,6 +7756,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.71,
+          "type": "semantic"
+        },
+        {
           "id": "2026-02-07-the-lamb-part-ii.md",
           "score": 0.707,
           "type": "semantic"
@@ -7773,11 +7778,6 @@
         {
           "id": "2026-03-25-harvest-residue.md",
           "score": 0.694,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-01-01-you-are-not-your-diagnosis.md",
-          "score": 0.692,
           "type": "semantic"
         }
       ],
@@ -7827,13 +7827,13 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-09-what-holds-you.md",
-          "score": 0.79,
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.792,
           "type": "semantic"
         },
         {
-          "id": "2026-01-09-trauma-culture-a-diagnosis.md",
-          "score": 0.787,
+          "id": "2026-02-09-what-holds-you.md",
+          "score": 0.79,
           "type": "semantic"
         }
       ],
@@ -7924,6 +7924,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.837,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-11-the-exhaustion-that-cannot-rest.md",
           "score": 0.833,
           "type": "semantic"
@@ -7941,11 +7946,6 @@
         {
           "id": "2025-12-19-countering-materialism.md",
           "score": 0.816,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
-          "score": 0.814,
           "type": "semantic"
         }
       ],
@@ -8693,6 +8693,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-18-the-jihad.md",
+          "score": 0.792,
+          "type": "semantic"
+        },
+        {
           "id": "2026-02-27-hidden-curriculum.md",
           "score": 0.791,
           "type": "semantic"
@@ -8725,11 +8730,6 @@
         {
           "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
           "score": 0.774,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-11-the-gaze.md",
-          "score": 0.772,
           "type": "semantic"
         }
       ],
@@ -8866,6 +8866,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.759,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
           "score": 0.756,
           "type": "semantic"
@@ -8893,11 +8898,6 @@
         {
           "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
           "score": 0.736,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-12-what-if-the-thing-youre-protecting.md",
-          "score": 0.731,
           "type": "semantic"
         }
       ],
@@ -9156,6 +9156,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-09-radical-empiricism-story.md",
+          "score": 0.734,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-12-structure-not-vibes-the-real-state.md",
           "score": 0.715,
           "type": "semantic"
@@ -9172,11 +9177,6 @@
         },
         {
           "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
-          "score": 0.691,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
           "score": 0.691,
           "type": "semantic"
         }
@@ -9508,6 +9508,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-18-the-lamp.md",
+          "score": 0.701,
+          "type": "semantic"
+        },
+        {
           "id": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
           "score": 0.688,
           "type": "semantic"
@@ -9528,6 +9533,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-18-the-jihad.md",
+          "score": 0.657,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
           "score": 0.648,
           "type": "semantic"
@@ -9535,16 +9545,6 @@
         {
           "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
           "score": 0.641,
-          "type": "semantic"
-        },
-        {
-          "id": "2025-12-18-the-selection-of-souls.md",
-          "score": 0.634,
-          "type": "semantic"
-        },
-        {
-          "id": "pages/the-same-week.md",
-          "score": 0.633,
           "type": "semantic"
         }
       ],
@@ -9599,8 +9599,8 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
-          "score": 0.749,
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.753,
           "type": "semantic"
         }
       ],
@@ -9763,7 +9763,7 @@
         },
         {
           "id": "2026-01-09-the-epistemology-of-impotence-how.md",
-          "score": 0.691,
+          "score": 0.69,
           "type": "semantic"
         },
         {
@@ -9804,7 +9804,7 @@
         },
         {
           "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
-          "score": 0.741,
+          "score": 0.74,
           "type": "semantic"
         },
         {
@@ -9865,7 +9865,7 @@
         },
         {
           "id": "2025-12-18-the-selection-of-souls.md",
-          "score": 0.77,
+          "score": 0.769,
           "type": "semantic"
         },
         {
@@ -9981,6 +9981,11 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-07-z-alpha-lexicon.md",
+          "score": 0.423,
+          "type": "semantic"
+        },
+        {
           "id": "2026-01-11-debugging-the-confusion-liberalism.md",
           "score": 0.422,
           "type": "semantic"
@@ -9988,11 +9993,6 @@
         {
           "id": "pages/iran-timeline.mdx",
           "score": 0.419,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-01-22-to-my-friends-on-the-left-a-difficult.md",
-          "score": 0.409,
           "type": "semantic"
         }
       ],
@@ -10215,8 +10215,8 @@
           "type": "semantic"
         },
         {
-          "id": "2025-12-18-the-alchemy-of-power.md",
-          "score": 0.732,
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.734,
           "type": "semantic"
         }
       ],
@@ -10226,6 +10226,11 @@
     "2026-04-06-what-the-silence-kept.md": {
       "related": [
         {
+          "id": "2026-04-18-the-lamp.md",
+          "score": 0.743,
+          "type": "semantic"
+        },
+        {
           "id": "2026-03-24-the-long-harvest.md",
           "score": 0.724,
           "type": "semantic"
@@ -10233,6 +10238,11 @@
         {
           "id": "pages/oldest-want-releasement.md",
           "score": 0.702,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-04-18-the-jihad.md",
+          "score": 0.695,
           "type": "semantic"
         },
         {
@@ -10261,18 +10271,344 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-07-the-lamb-part-ii.md",
+          "id": "2026-01-23-grammar-rules-all.md",
           "score": 0.659,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-04-07-z-alpha-lexicon.md": {
+      "related": [
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.714,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.698,
+          "type": "semantic"
+        },
+        {
+          "id": "start-here.md",
+          "score": 0.692,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-09-trauma-culture-a-diagnosis.md",
+          "score": 0.688,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
+          "score": 0.688,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
+          "score": 0.687,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-17-know-thyself-no-self.md",
+          "score": 0.678,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
+          "score": 0.677,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-19-the-employable-subject.md",
+          "score": 0.674,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-what-modernity-needs-a-return-to.md",
+          "score": 0.674,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-04-08-the-reckoning.md": {
+      "related": [
+        {
+          "id": "2026-01-09-trauma-culture-a-diagnosis.md",
+          "score": 0.84,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-12-what-if-the-thing-youre-protecting.md",
+          "score": 0.837,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-11-the-exhaustion-that-cannot-rest.md",
+          "score": 0.801,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.795,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-the-gaze.md",
+          "score": 0.792,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-01-01-resurrecting-ted-kaczynski.md",
+          "score": 0.79,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
+          "score": 0.789,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-selection-of-souls.md",
+          "score": 0.785,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-14-the-fence-you-cannot-see.md",
+          "score": 0.783,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
+          "score": 0.781,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-04-09-radical-empiricism-story.md": {
+      "related": [
+        {
+          "id": "2026-03-05-iran-the-clearing.md",
+          "score": 0.734,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-28-network-conspiracy.md",
+          "score": 0.682,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-14-the-ideological-trap-for-the-left.md",
+          "score": 0.68,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-02-data-doesnt-speak.md",
+          "score": 0.674,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-22-to-my-friends-on-the-left-a-difficult.md",
+          "score": 0.671,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-24-failed-expert-consensus.md",
+          "score": 0.67,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.67,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-west-psychodrama.md",
+          "score": 0.67,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-28-pharisee-made-flesh.md",
+          "score": 0.666,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-26-trump-is-brilliant.md",
+          "score": 0.666,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-04-18-the-jihad.md": {
+      "related": [
+        {
+          "id": "2026-02-28-pharisee-made-flesh.md",
+          "score": 0.792,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-21-the-liquefaction-of-being-materialism.md",
+          "score": 0.764,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-25-harvest-residue.md",
+          "score": 0.751,
+          "type": "semantic"
+        },
+        {
+          "id": "2025-12-18-the-selection-of-souls.md",
+          "score": 0.746,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-invisible-right-on-what-becomes.md",
+          "score": 0.745,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-12-what-if-the-thing-youre-protecting.md",
+          "score": 0.738,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-09-the-cage-and-the-argument-about-its.md",
+          "score": 0.735,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-05-iran-the-resolution.md",
+          "score": 0.732,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+          "score": 0.729,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-25-the-machine-that-eats-the-world.md",
+          "score": 0.727,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-04-18-the-lamp.md": {
+      "related": [
+        {
+          "id": "2026-04-06-what-the-silence-kept.md",
+          "score": 0.743,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-24-the-long-harvest.md",
+          "score": 0.701,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-25-harvest-residue.md",
+          "score": 0.696,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-04-18-the-jihad.md",
+          "score": 0.695,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
+          "score": 0.681,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-07-the-lamb-part-ii.md",
+          "score": 0.673,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-15-the-return.md",
+          "score": 0.669,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-nine-months-two-men.md",
+          "score": 0.654,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/the-same-week.md",
+          "score": 0.651,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-07-the-lamb.md",
+          "score": 0.642,
+          "type": "semantic"
+        }
+      ],
+      "backlinks": [],
+      "keywords": []
+    },
+    "2026-04-18-the-listener.md": {
+      "related": [
+        {
+          "id": "2026-04-06-what-the-silence-kept.md",
+          "score": 0.617,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-04-18-the-lamp.md",
+          "score": 0.613,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-04-18-the-jihad.md",
+          "score": 0.594,
           "type": "semantic"
         },
         {
           "id": "2026-01-23-grammar-rules-all.md",
-          "score": 0.659,
+          "score": 0.585,
           "type": "semantic"
         },
         {
-          "id": "2026-01-15-the-physicians-of-decay.md",
-          "score": 0.656,
+          "id": "2026-03-04-the-hidden-grammar.md",
+          "score": 0.573,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/the-same-week.md",
+          "score": 0.57,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-03-25-harvest-residue.md",
+          "score": 0.569,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-01-23-the-language-that-thinks-for-you.md",
+          "score": 0.566,
+          "type": "semantic"
+        },
+        {
+          "id": "2026-02-11-nine-months-two-men.md",
+          "score": 0.563,
+          "type": "semantic"
+        },
+        {
+          "id": "pages/oldest-want-hider-proof.md",
+          "score": 0.563,
           "type": "semantic"
         }
       ],
@@ -12915,8 +13251,8 @@
           "type": "semantic"
         },
         {
-          "id": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
-          "score": 0.674,
+          "id": "2026-04-08-the-reckoning.md",
+          "score": 0.684,
           "type": "semantic"
         }
       ],
@@ -13593,17 +13929,17 @@
           "type": "semantic"
         },
         {
+          "id": "2026-04-18-the-jihad.md",
+          "score": 0.694,
+          "type": "semantic"
+        },
+        {
           "id": "2025-12-21-what-modernity-needs-a-return-to.md",
           "score": 0.693,
           "type": "semantic"
         },
         {
           "id": "2026-02-12-what-if-the-thing-youre-protecting.md",
-          "score": 0.688,
-          "type": "semantic"
-        },
-        {
-          "id": "2026-03-25-harvest-residue.md",
           "score": 0.688,
           "type": "semantic"
         }
@@ -14577,7 +14913,7 @@
           "type": "semantic"
         },
         {
-          "id": "2026-03-28-network-conspiracy.md",
+          "id": "2026-04-07-z-alpha-lexicon.md",
           "score": 0.423,
           "type": "semantic"
         }
@@ -16381,6 +16717,31 @@
     },
     {
       "source": "2020-05-25-Non-Conceptual-Definitions.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.41985481435183986,
+          "weight": 2,
+          "details": {
+            "similarity": 0.41985481435183986
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2020-05-25-Non-Conceptual-Definitions.md",
       "target": "chats/2025-10-13-epistemic-humility-discussion.md",
       "score": 0.2,
       "signals": [
@@ -16549,31 +16910,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.38874007480756273
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2020-05-25-Non-Conceptual-Definitions.md",
-      "target": "the-mirror-room/04-the-paradox-of-becoming.md",
-      "score": 0.1,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.38544798422534887,
-          "weight": 2,
-          "details": {
-            "similarity": 0.38544798422534887
           }
         }
       ],
@@ -18982,7 +19318,7 @@
     {
       "source": "2021-12-17-Object-Identity.mdx",
       "target": "2026-03-28-network-conspiracy.md",
-      "score": 0.05546049019373061,
+      "score": 0.055461056819807564,
       "signals": [
         {
           "name": "wikilink",
@@ -18995,10 +19331,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.504604901937306,
+          "score": 0.5046105681980756,
           "weight": 2,
           "details": {
-            "similarity": 0.504604901937306
+            "similarity": 0.5046105681980756
           }
         }
       ],
@@ -22957,7 +23293,7 @@
     {
       "source": "2022-06-06-not-machine-readable.md",
       "target": "2026-02-28-pharisee-made-flesh.md",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -23099,6 +23435,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.36819007280067606
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2022-06-06-not-machine-readable.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3679016078368709,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3679016078368709
           }
         }
       ],
@@ -23970,10 +24331,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5152281597872037,
+          "score": 0.5152446192332895,
           "weight": 2,
           "details": {
-            "similarity": 0.5152281597872037
+            "similarity": 0.5152446192332895
           }
         }
       ],
@@ -24020,10 +24381,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5026374939857154,
+          "score": 0.5026216239114285,
           "weight": 2,
           "details": {
-            "similarity": 0.5026374939857154
+            "similarity": 0.5026216239114285
           }
         }
       ],
@@ -24420,10 +24781,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5485898706002209,
+          "score": 0.5485462363340269,
           "weight": 2,
           "details": {
-            "similarity": 0.5485898706002209
+            "similarity": 0.5485462363340269
           }
         }
       ],
@@ -25170,10 +25531,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7121075237898624,
+          "score": 0.7121042920803821,
           "weight": 2,
           "details": {
-            "similarity": 0.7121075237898624
+            "similarity": 0.7121042920803821
           }
         }
       ],
@@ -25307,7 +25668,7 @@
     {
       "source": "2025-01-01-the-letter-to-the-therapeutics.md",
       "target": "2026-01-09-trauma-culture-a-diagnosis.md",
-      "score": 0.3,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -25357,7 +25718,7 @@
     {
       "source": "2025-01-01-the-letter-to-the-therapeutics.md",
       "target": "2026-01-12-the-epistle-to-the-managed.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -25432,7 +25793,7 @@
     {
       "source": "2025-01-01-the-letter-to-the-therapeutics.md",
       "target": "2025-12-18-the-battlefield-of-attention.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -25449,6 +25810,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.7061809503592129
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-01-01-the-letter-to-the-therapeutics.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.698923192720572,
+          "weight": 2,
+          "details": {
+            "similarity": 0.698923192720572
           }
         }
       ],
@@ -25499,31 +25885,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.6907799921997652
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-the-letter-to-the-therapeutics.md",
-      "target": "2026-01-12-principalities-and-powers.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6893642188174077,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6893642188174077
           }
         }
       ],
@@ -25582,7 +25943,7 @@
     {
       "source": "2025-01-01-you-are-not-your-diagnosis.md",
       "target": "2026-01-09-trauma-culture-a-diagnosis.md",
-      "score": 0.4,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -25632,7 +25993,7 @@
     {
       "source": "2025-01-01-you-are-not-your-diagnosis.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.5,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -25674,6 +26035,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.7285085457789133
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-01-01-you-are-not-your-diagnosis.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.6,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7281599839787559,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7281599839787559
           }
         }
       ],
@@ -25749,31 +26135,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.6977317171360591
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-you-are-not-your-diagnosis.md",
-      "target": "the-mirror-room/03-the-meeting.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6955562390737767,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6955562390737767
           }
         }
       ],
@@ -26320,10 +26681,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7426477101457543,
+          "score": 0.7426360518248597,
           "weight": 2,
           "details": {
-            "similarity": 0.7426477101457543
+            "similarity": 0.7426360518248597
           }
         }
       ],
@@ -26695,10 +27056,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.709200330449902,
+          "score": 0.7091886282728791,
           "weight": 2,
           "details": {
-            "similarity": 0.709200330449902
+            "similarity": 0.7091886282728791
           }
         }
       ],
@@ -26745,10 +27106,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.772130403670062,
+          "score": 0.7721163457800635,
           "weight": 2,
           "details": {
-            "similarity": 0.772130403670062
+            "similarity": 0.7721163457800635
           }
         }
       ],
@@ -26920,10 +27281,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6951673304234829,
+          "score": 0.6951708900007515,
           "weight": 2,
           "details": {
-            "similarity": 0.6951673304234829
+            "similarity": 0.6951708900007515
           }
         }
       ],
@@ -27995,10 +28356,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6047431870645495,
+          "score": 0.604723896407816,
           "weight": 2,
           "details": {
-            "similarity": 0.6047431870645495
+            "similarity": 0.604723896407816
           }
         }
       ],
@@ -28082,7 +28443,7 @@
     {
       "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
       "target": "2025-12-12-structure-not-vibes-the-real-state.md",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -28107,7 +28468,7 @@
     {
       "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
       "target": "2026-03-26-trump-is-brilliant.md",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -28120,10 +28481,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6398247038836757,
+          "score": 0.6398145385683099,
           "weight": 2,
           "details": {
-            "similarity": 0.6398247038836757
+            "similarity": 0.6398145385683099
           }
         }
       ],
@@ -28157,7 +28518,7 @@
     {
       "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
       "target": "2025-12-12-the-vulnerability-principle.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -28182,7 +28543,7 @@
     {
       "source": "2025-01-01-the-capture-of-american-power-peter.md",
       "target": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -28232,7 +28593,7 @@
     {
       "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
       "target": "2026-03-05-iran-the-clearing.md",
-      "score": 0.5,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -28281,8 +28642,33 @@
     },
     {
       "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5378535425668383,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5378535425668383
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
       "target": "2025-12-12-trumps-techno-fetish.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -28305,31 +28691,6 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-12-making-sense-of-us-ukraine-negotations.md",
-      "target": "2026-03-28-network-conspiracy.md",
-      "score": 0.1,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5158240693023041,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5158240693023041
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
       "source": "2025-12-12-structure-not-vibes-the-real-state.md",
       "target": "2026-03-26-trump-is-brilliant.md",
       "score": 0.8,
@@ -28345,10 +28706,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.725411061208807,
+          "score": 0.7254062214023966,
           "weight": 2,
           "details": {
-            "similarity": 0.725411061208807
+            "similarity": 0.7254062214023966
           }
         }
       ],
@@ -28495,10 +28856,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6585202727249425,
+          "score": 0.6584870566818848,
           "weight": 2,
           "details": {
-            "similarity": 0.6585202727249425
+            "similarity": 0.6584870566818848
           }
         }
       ],
@@ -28545,10 +28906,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6153231734687024,
+          "score": 0.6153437107361203,
           "weight": 2,
           "details": {
-            "similarity": 0.6153231734687024
+            "similarity": 0.6153437107361203
           }
         }
       ],
@@ -28645,10 +29006,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.555992866839268,
+          "score": 0.5559845602031871,
           "weight": 2,
           "details": {
-            "similarity": 0.555992866839268
+            "similarity": 0.5559845602031871
           }
         }
       ],
@@ -28745,10 +29106,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5407258910733755,
+          "score": 0.5406887645423484,
           "weight": 2,
           "details": {
-            "similarity": 0.5407258910733755
+            "similarity": 0.5406887645423484
           }
         }
       ],
@@ -28870,10 +29231,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.4825065017615886,
+          "score": 0.4825054923607605,
           "weight": 2,
           "details": {
-            "similarity": 0.4825065017615886
+            "similarity": 0.4825054923607605
           }
         }
       ],
@@ -28970,10 +29331,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.45407617564200947,
+          "score": 0.4540567481290027,
           "weight": 2,
           "details": {
-            "similarity": 0.45407617564200947
+            "similarity": 0.4540567481290027
           }
         }
       ],
@@ -29020,10 +29381,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5888438099320693,
+          "score": 0.5888314684052993,
           "weight": 2,
           "details": {
-            "similarity": 0.5888438099320693
+            "similarity": 0.5888314684052993
           }
         }
       ],
@@ -29307,7 +29668,7 @@
     {
       "source": "2025-12-15-burnout-is-a-modern-invention.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -29670,10 +30031,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7032819195186267,
+          "score": 0.7032941491265603,
           "weight": 2,
           "details": {
-            "similarity": 0.7032819195186267
+            "similarity": 0.7032941491265603
           }
         }
       ],
@@ -29845,10 +30206,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7689514075953362,
+          "score": 0.7689493513349392,
           "weight": 2,
           "details": {
-            "similarity": 0.7689514075953362
+            "similarity": 0.7689493513349392
           }
         }
       ],
@@ -31782,7 +32143,7 @@
     {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -32170,10 +32531,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7356090429678437,
+          "score": 0.7355974232084739,
           "weight": 2,
           "details": {
-            "similarity": 0.7356090429678437
+            "similarity": 0.7355974232084739
           }
         }
       ],
@@ -32307,7 +32668,7 @@
     {
       "source": "2025-12-19-countering-materialism.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -32445,10 +32806,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7138151907969194,
+          "score": 0.7138085024547032,
           "weight": 2,
           "details": {
-            "similarity": 0.7138151907969194
+            "similarity": 0.7138085024547032
           }
         }
       ],
@@ -32470,10 +32831,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6912727345981916,
+          "score": 0.6912486406442291,
           "weight": 2,
           "details": {
-            "similarity": 0.6912727345981916
+            "similarity": 0.6912486406442291
           }
         }
       ],
@@ -33707,7 +34068,7 @@
     {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -33782,7 +34143,7 @@
     {
       "source": "2025-12-21-what-modernity-needs-a-return-to.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -33945,10 +34306,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6302344738726696,
+          "score": 0.630230846680056,
           "weight": 2,
           "details": {
-            "similarity": 0.6302344738726696
+            "similarity": 0.630230846680056
           }
         }
       ],
@@ -34332,7 +34693,7 @@
     {
       "source": "2026-01-09-diagnosing-white-guilt.md",
       "target": "2026-01-09-trauma-culture-a-diagnosis.md",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -34507,7 +34868,7 @@
     {
       "source": "2026-01-09-diagnosing-white-guilt.md",
       "target": "2026-02-11-the-gaze.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -35332,7 +35693,7 @@
     {
       "source": "2026-01-09-trauma-culture-a-diagnosis.md",
       "target": "2026-01-11-the-exhaustion-that-cannot-rest.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -35382,7 +35743,7 @@
     {
       "source": "2026-01-09-trauma-culture-a-diagnosis.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.3,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -35399,6 +35760,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.7958333059650112
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-09-trauma-culture-a-diagnosis.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7900959858955005,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7900959858955005
           }
         }
       ],
@@ -35982,7 +36368,7 @@
     {
       "source": "2026-01-11-the-exhaustion-that-cannot-rest.md",
       "target": "2026-02-11-the-gaze.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -36945,10 +37331,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6653366269645972,
+          "score": 0.6653411275412083,
           "weight": 2,
           "details": {
-            "similarity": 0.6653366269645972
+            "similarity": 0.6653411275412083
           }
         }
       ],
@@ -37570,10 +37956,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6777361169872412,
+          "score": 0.6777390973904162,
           "weight": 2,
           "details": {
-            "similarity": 0.6777361169872412
+            "similarity": 0.6777390973904162
           }
         }
       ],
@@ -37845,10 +38231,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.615910360498596,
+          "score": 0.6159099055798289,
           "weight": 2,
           "details": {
-            "similarity": 0.615910360498596
+            "similarity": 0.6159099055798289
           }
         }
       ],
@@ -38745,10 +39131,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6885274522309109,
+          "score": 0.6885120831517764,
           "weight": 2,
           "details": {
-            "similarity": 0.6885274522309109
+            "similarity": 0.6885120831517764
           }
         }
       ],
@@ -39557,7 +39943,7 @@
     {
       "source": "2026-01-25-the-machine-that-eats-the-world.md",
       "target": "2026-02-09-the-cage-and-the-argument-about-its.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -39607,7 +39993,7 @@
     {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-01-25-the-machine-that-eats-the-world.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -39682,7 +40068,7 @@
     {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-01-25-the-machine-that-eats-the-world.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -39730,9 +40116,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
-      "target": "2026-01-25-the-machine-that-eats-the-world.md",
-      "score": 0.4,
+      "source": "2026-01-25-the-machine-that-eats-the-world.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -39745,10 +40131,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7040546987101012,
+          "score": 0.7049847451247603,
           "weight": 2,
           "details": {
-            "similarity": 0.7040546987101012
+            "similarity": 0.7049847451247603
           }
         }
       ],
@@ -40120,10 +40506,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.4749777530000834,
+          "score": 0.47500361023854865,
           "weight": 2,
           "details": {
-            "similarity": 0.4749777530000834
+            "similarity": 0.47500361023854865
           }
         }
       ],
@@ -40330,9 +40716,34 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-01-28-the-body-as-ground.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7123909256565909,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7123909256565909
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-01-11-the-exhaustion-that-cannot-rest.md",
       "target": "2026-01-28-the-body-as-ground.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -40357,7 +40768,7 @@
     {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-01-28-the-body-as-ground.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -40382,7 +40793,7 @@
     {
       "source": "2025-12-21-what-modernity-needs-a-return-to.md",
       "target": "2026-01-28-the-body-as-ground.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -40424,31 +40835,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.7026550831926416
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
-      "target": "2026-01-28-the-body-as-ground.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6911046220555501,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6911046220555501
           }
         }
       ],
@@ -41195,10 +41581,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6219050907134396,
+          "score": 0.6218726047241259,
           "weight": 2,
           "details": {
-            "similarity": 0.6219050907134396
+            "similarity": 0.6218726047241259
           }
         }
       ],
@@ -41220,10 +41606,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6191614997003345,
+          "score": 0.6191455639195915,
           "weight": 2,
           "details": {
-            "similarity": 0.6191614997003345
+            "similarity": 0.6191455639195915
           }
         }
       ],
@@ -41320,10 +41706,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5945222692851072,
+          "score": 0.5944837400794403,
           "weight": 2,
           "details": {
-            "similarity": 0.5945222692851072
+            "similarity": 0.5944837400794403
           }
         }
       ],
@@ -41907,7 +42293,7 @@
     {
       "source": "2026-02-07-the-lamb-part-ii.md",
       "target": "2026-02-11-nine-months-two-men.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -42157,7 +42543,7 @@
     {
       "source": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
       "target": "2026-02-11-the-gaze.md",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -42457,7 +42843,7 @@
     {
       "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -42657,7 +43043,7 @@
     {
       "source": "2026-02-07-the-lamb.md",
       "target": "2026-02-11-nine-months-two-men.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -42682,7 +43068,7 @@
     {
       "source": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
       "target": "2026-02-11-nine-months-two-men.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -42707,7 +43093,7 @@
     {
       "source": "2026-02-11-nine-months-two-men.md",
       "target": "2026-02-11-the-gaze.md",
-      "score": 0.4,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -42724,6 +43110,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.6601478434641486
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-nine-months-two-men.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6597652028706047,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6597652028706047
           }
         }
       ],
@@ -42757,7 +43168,7 @@
     {
       "source": "2026-02-11-nine-months-two-men.md",
       "target": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "score": 0.2,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -42782,7 +43193,7 @@
     {
       "source": "2026-02-11-nine-months-two-men.md",
       "target": "2026-03-25-harvest-residue.md",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -42799,31 +43210,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.6440800404034044
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-01-01-you-are-not-your-diagnosis.md",
-      "target": "2026-02-11-nine-months-two-men.md",
-      "score": 0.4,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6417649989008655,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6417649989008655
           }
         }
       ],
@@ -42955,6 +43341,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-11-the-gaze.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7421435505083611,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7421435505083611
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-02-09-what-holds-you.md",
       "target": "2026-02-11-the-gaze.md",
       "score": 0.4,
@@ -42974,31 +43385,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.7399902154186924
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-09-trauma-culture-a-diagnosis.md",
-      "target": "2026-02-11-the-gaze.md",
-      "score": 0.4,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7369291568034642,
-          "weight": 2,
-          "details": {
-            "similarity": 0.7369291568034642
           }
         }
       ],
@@ -43124,6 +43510,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.7088045817720546
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7865961725877654,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7865961725877654
           }
         }
       ],
@@ -43320,10 +43731,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6127338834070959,
+          "score": 0.6127124930278249,
           "weight": 2,
           "details": {
-            "similarity": 0.6127338834070959
+            "similarity": 0.6127124930278249
           }
         }
       ],
@@ -43732,7 +44143,7 @@
     {
       "source": "2026-02-21-west-psychodrama.md",
       "target": "2026-03-05-iran-the-clearing.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -44307,7 +44718,7 @@
     {
       "source": "2026-02-11-the-gaze.md",
       "target": "2026-02-26-mask-debate.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -44420,10 +44831,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6396659595913663,
+          "score": 0.639687126044825,
           "weight": 2,
           "details": {
-            "similarity": 0.6396659595913663
+            "similarity": 0.639687126044825
           }
         }
       ],
@@ -44495,10 +44906,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7581772166215707,
+          "score": 0.7581849997997835,
           "weight": 2,
           "details": {
-            "similarity": 0.7581772166215707
+            "similarity": 0.7581849997997835
           }
         }
       ],
@@ -44595,10 +45006,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7071992406615505,
+          "score": 0.707207098519581,
           "weight": 2,
           "details": {
-            "similarity": 0.7071992406615505
+            "similarity": 0.707207098519581
           }
         }
       ],
@@ -45430,6 +45841,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-02-28-pharisee-made-flesh.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7415226081193983,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7415226081193983
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2026-02-27-hidden-curriculum.md",
       "target": "2026-02-28-pharisee-made-flesh.md",
       "score": 0.4,
@@ -45482,7 +45918,7 @@
     {
       "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
       "target": "2026-02-28-pharisee-made-flesh.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -45507,7 +45943,7 @@
     {
       "source": "2025-12-19-the-employable-subject.md",
       "target": "2026-02-28-pharisee-made-flesh.md",
-      "score": 0.6,
+      "score": 0.5,
       "signals": [
         {
           "name": "wikilink",
@@ -45574,31 +46010,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.7242373278451868
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-11-the-gaze.md",
-      "target": "2026-02-28-pharisee-made-flesh.md",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.7224333295128351,
-          "weight": 2,
-          "details": {
-            "similarity": 0.7224333295128351
           }
         }
       ],
@@ -45707,7 +46118,7 @@
     {
       "source": "2026-03-02-data-doesnt-speak.md",
       "target": "2026-03-25-harvest-residue.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -45857,7 +46268,7 @@
     {
       "source": "2026-03-02-fertility-is-not-economics.mdx",
       "target": "2026-03-25-harvest-residue.md",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -46055,6 +46466,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7094605078027353,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7094605078027353
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
       "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
       "score": 0.5,
@@ -46082,7 +46518,7 @@
     {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -46107,7 +46543,7 @@
     {
       "source": "2025-12-21-what-modernity-needs-a-return-to.md",
       "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -46132,7 +46568,7 @@
     {
       "source": "2025-12-18-the-selection-of-souls.md",
       "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -46157,7 +46593,7 @@
     {
       "source": "2026-02-28-pharisee-made-flesh.md",
       "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -46182,7 +46618,7 @@
     {
       "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
       "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -46199,31 +46635,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.685820670601735
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
-      "target": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.681115389581205,
-          "weight": 2,
-          "details": {
-            "similarity": 0.681115389581205
           }
         }
       ],
@@ -46320,10 +46731,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6086486783627645,
+          "score": 0.6086359774948776,
           "weight": 2,
           "details": {
-            "similarity": 0.6086486783627645
+            "similarity": 0.6086359774948776
           }
         }
       ],
@@ -46932,7 +47343,7 @@
     {
       "source": "2026-03-05-iran-the-clearing.md",
       "target": "2026-03-05-iran-the-resolution.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -46957,7 +47368,7 @@
     {
       "source": "2026-03-05-iran-the-clearing.md",
       "target": "pages/iran-timeline.mdx",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -46995,10 +47406,35 @@
         },
         {
           "name": "semantic",
-          "score": 0.6982354450179896,
+          "score": 0.6982634210589062,
           "weight": 2,
           "details": {
-            "similarity": 0.6982354450179896
+            "similarity": 0.6982634210589062
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-05-iran-the-clearing.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6840938499183473,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6840938499183473
           }
         }
       ],
@@ -47032,7 +47468,7 @@
     {
       "source": "2025-12-18-the-battlefield-of-attention.md",
       "target": "2026-03-05-iran-the-clearing.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -47074,31 +47510,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.6410468242462488
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
-      "target": "2026-03-05-iran-the-clearing.md",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6407679239665405,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6407679239665405
           }
         }
       ],
@@ -47345,10 +47756,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.36106335428073255,
+          "score": 0.36104636593243195,
           "weight": 2,
           "details": {
-            "similarity": 0.36106335428073255
+            "similarity": 0.36104636593243195
           }
         }
       ],
@@ -47495,10 +47906,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6121526966169927,
+          "score": 0.6121845558456082,
           "weight": 2,
           "details": {
-            "similarity": 0.6121526966169927
+            "similarity": 0.6121845558456082
           }
         }
       ],
@@ -47620,10 +48031,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6046214037536964,
+          "score": 0.6046061426825319,
           "weight": 2,
           "details": {
-            "similarity": 0.6046214037536964
+            "similarity": 0.6046061426825319
           }
         }
       ],
@@ -48120,10 +48531,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.702921841491328,
+          "score": 0.7029186280682949,
           "weight": 2,
           "details": {
-            "similarity": 0.702921841491328
+            "similarity": 0.7029186280682949
           }
         }
       ],
@@ -48195,10 +48606,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6704935020897737,
+          "score": 0.6704720325382265,
           "weight": 2,
           "details": {
-            "similarity": 0.6704935020897737
+            "similarity": 0.6704720325382265
           }
         }
       ],
@@ -48307,7 +48718,7 @@
     {
       "source": "2026-03-24-the-long-harvest.md",
       "target": "2026-04-06-what-the-silence-kept.md",
-      "score": 0.1,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -48320,10 +48731,35 @@
         },
         {
           "name": "semantic",
-          "score": 0.6740074725464532,
+          "score": 0.6740204054446822,
           "weight": 2,
           "details": {
-            "similarity": 0.6740074725464532
+            "similarity": 0.6740204054446822
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-24-the-long-harvest.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6508063983421577,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6508063983421577
           }
         }
       ],
@@ -48332,7 +48768,7 @@
     {
       "source": "2026-03-02-the-genealogy-of-the-empty-cradle.md",
       "target": "2026-03-24-the-long-harvest.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -48357,7 +48793,7 @@
     {
       "source": "2026-03-02-fertility-is-not-economics.mdx",
       "target": "2026-03-24-the-long-harvest.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -48382,7 +48818,7 @@
     {
       "source": "2026-03-24-the-long-harvest.md",
       "target": "the-mirror-room/05-the-readers-crisis.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -48430,9 +48866,34 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-03-24-the-long-harvest.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6067477020418478,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6067477020418478
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
       "target": "2026-03-24-the-long-harvest.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -48457,7 +48918,7 @@
     {
       "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
       "target": "2026-03-24-the-long-harvest.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -48474,56 +48935,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.5905167209908411
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2025-12-18-the-selection-of-souls.md",
-      "target": "2026-03-24-the-long-harvest.md",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5841397852245466,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5841397852245466
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-03-24-the-long-harvest.md",
-      "target": "pages/the-same-week.md",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.5830133024419695,
-          "weight": 2,
-          "details": {
-            "similarity": 0.5830133024419695
           }
         }
       ],
@@ -48607,7 +49018,7 @@
     {
       "source": "2026-02-11-the-gaze.md",
       "target": "2026-03-25-harvest-residue.md",
-      "score": 0.2,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -48632,7 +49043,7 @@
     {
       "source": "2025-12-21-what-modernity-needs-a-return-to.md",
       "target": "2026-03-25-harvest-residue.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -48655,9 +49066,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-18-a-systems-analysis-of-why-your-worldview.md",
-      "target": "2026-03-25-harvest-residue.md",
-      "score": 0.5,
+      "source": "2026-03-25-harvest-residue.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -48670,10 +49081,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6989247444400499,
+          "score": 0.7026279787164209,
           "weight": 2,
           "details": {
-            "similarity": 0.6989247444400499
+            "similarity": 0.7026279787164209
           }
         }
       ],
@@ -48770,10 +49181,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.544378252364101,
+          "score": 0.5443597489912239,
           "weight": 2,
           "details": {
-            "similarity": 0.544378252364101
+            "similarity": 0.5443597489912239
           }
         }
       ],
@@ -48820,10 +49231,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5199815125842914,
+          "score": 0.5199723239108007,
           "weight": 2,
           "details": {
-            "similarity": 0.5199815125842914
+            "similarity": 0.5199723239108007
           }
         }
       ],
@@ -48945,10 +49356,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7400220819228533,
+          "score": 0.740045322755972,
           "weight": 2,
           "details": {
-            "similarity": 0.7400220819228533
+            "similarity": 0.740045322755972
           }
         }
       ],
@@ -48970,10 +49381,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7007603632554147,
+          "score": 0.7007560258080666,
           "weight": 2,
           "details": {
-            "similarity": 0.7007603632554147
+            "similarity": 0.7007560258080666
           }
         }
       ],
@@ -48995,10 +49406,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.691564650360217,
+          "score": 0.6916065124032535,
           "weight": 2,
           "details": {
-            "similarity": 0.691564650360217
+            "similarity": 0.6916065124032535
           }
         }
       ],
@@ -49020,10 +49431,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6861263769288443,
+          "score": 0.6861040908513123,
           "weight": 2,
           "details": {
-            "similarity": 0.6861263769288443
+            "similarity": 0.6861040908513123
           }
         }
       ],
@@ -49045,10 +49456,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6825624829981101,
+          "score": 0.6825879064334587,
           "weight": 2,
           "details": {
-            "similarity": 0.6825624829981101
+            "similarity": 0.6825879064334587
           }
         }
       ],
@@ -49070,10 +49481,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.682137541349013,
+          "score": 0.6821416348486024,
           "weight": 2,
           "details": {
-            "similarity": 0.682137541349013
+            "similarity": 0.6821416348486024
           }
         }
       ],
@@ -49095,10 +49506,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6777312400904716,
+          "score": 0.6777706509908961,
           "weight": 2,
           "details": {
-            "similarity": 0.6777312400904716
+            "similarity": 0.6777706509908961
           }
         }
       ],
@@ -49120,10 +49531,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6999512127755264,
+          "score": 0.699953612745451,
           "weight": 2,
           "details": {
-            "similarity": 0.6999512127755264
+            "similarity": 0.699953612745451
           }
         }
       ],
@@ -49145,10 +49556,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6658489016184932,
+          "score": 0.6658579836237313,
           "weight": 2,
           "details": {
-            "similarity": 0.6658489016184932
+            "similarity": 0.6658579836237313
           }
         }
       ],
@@ -49170,10 +49581,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6610612960623616,
+          "score": 0.6610096771844184,
           "weight": 2,
           "details": {
-            "similarity": 0.6610612960623616
+            "similarity": 0.6610096771844184
           }
         }
       ],
@@ -49195,10 +49606,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6492667667895734,
+          "score": 0.6492553637137877,
           "weight": 2,
           "details": {
-            "similarity": 0.6492667667895734
+            "similarity": 0.6492553637137877
           }
         }
       ],
@@ -49220,10 +49631,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.640581566173559,
+          "score": 0.6405556528027886,
           "weight": 2,
           "details": {
-            "similarity": 0.640581566173559
+            "similarity": 0.6405556528027886
           }
         }
       ],
@@ -49245,10 +49656,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6405023343203958,
+          "score": 0.6404644698267461,
           "weight": 2,
           "details": {
-            "similarity": 0.6405023343203958
+            "similarity": 0.6404644698267461
           }
         }
       ],
@@ -49270,10 +49681,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.8528067805873741,
+          "score": 0.8528051588848181,
           "weight": 2,
           "details": {
-            "similarity": 0.8528067805873741
+            "similarity": 0.8528051588848181
           }
         }
       ],
@@ -49295,10 +49706,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7033061791777151,
+          "score": 0.7033002927116961,
           "weight": 2,
           "details": {
-            "similarity": 0.7033061791777151
+            "similarity": 0.7033002927116961
           }
         }
       ],
@@ -49320,10 +49731,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6986955734795485,
+          "score": 0.6986785811892563,
           "weight": 2,
           "details": {
-            "similarity": 0.6986955734795485
+            "similarity": 0.6986785811892563
           }
         }
       ],
@@ -49345,10 +49756,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6925846868300859,
+          "score": 0.6925611844216629,
           "weight": 2,
           "details": {
-            "similarity": 0.6925846868300859
+            "similarity": 0.6925611844216629
           }
         }
       ],
@@ -49370,10 +49781,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6909863009899962,
+          "score": 0.6909509662649799,
           "weight": 2,
           "details": {
-            "similarity": 0.6909863009899962
+            "similarity": 0.6909509662649799
           }
         }
       ],
@@ -49395,10 +49806,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.690506939778918,
+          "score": 0.6904952684527876,
           "weight": 2,
           "details": {
-            "similarity": 0.690506939778918
+            "similarity": 0.6904952684527876
           }
         }
       ],
@@ -49420,10 +49831,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6836162240244169,
+          "score": 0.6836125080376108,
           "weight": 2,
           "details": {
-            "similarity": 0.6836162240244169
+            "similarity": 0.6836125080376108
           }
         }
       ],
@@ -49445,10 +49856,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6745342136415817,
+          "score": 0.6745007864384774,
           "weight": 2,
           "details": {
-            "similarity": 0.6745342136415817
+            "similarity": 0.6745007864384774
           }
         }
       ],
@@ -49470,10 +49881,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6679176511446691,
+          "score": 0.6678842656431471,
           "weight": 2,
           "details": {
-            "similarity": 0.6679176511446691
+            "similarity": 0.6678842656431471
           }
         }
       ],
@@ -49495,10 +49906,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7343796955298598,
+          "score": 0.7343505569314092,
           "weight": 2,
           "details": {
-            "similarity": 0.7343796955298598
+            "similarity": 0.7343505569314092
           }
         }
       ],
@@ -49520,10 +49931,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7327549765900266,
+          "score": 0.7327480050599777,
           "weight": 2,
           "details": {
-            "similarity": 0.7327549765900266
+            "similarity": 0.7327480050599777
           }
         }
       ],
@@ -49545,10 +49956,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7233122578662617,
+          "score": 0.7233244073326845,
           "weight": 2,
           "details": {
-            "similarity": 0.7233122578662617
+            "similarity": 0.7233244073326845
           }
         }
       ],
@@ -49570,10 +49981,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7195008386998232,
+          "score": 0.7194834497824449,
           "weight": 2,
           "details": {
-            "similarity": 0.7195008386998232
+            "similarity": 0.7194834497824449
           }
         }
       ],
@@ -49595,10 +50006,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7162286728249163,
+          "score": 0.716220759864432,
           "weight": 2,
           "details": {
-            "similarity": 0.7162286728249163
+            "similarity": 0.716220759864432
           }
         }
       ],
@@ -49620,10 +50031,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7150906825361248,
+          "score": 0.7150937467659325,
           "weight": 2,
           "details": {
-            "similarity": 0.7150906825361248
+            "similarity": 0.7150937467659325
           }
         }
       ],
@@ -49645,10 +50056,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6049254797555814,
+          "score": 0.6049612687685789,
           "weight": 2,
           "details": {
-            "similarity": 0.6049254797555814
+            "similarity": 0.6049612687685789
           }
         }
       ],
@@ -49670,10 +50081,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6043079085759046,
+          "score": 0.604264622580098,
           "weight": 2,
           "details": {
-            "similarity": 0.6043079085759046
+            "similarity": 0.604264622580098
           }
         }
       ],
@@ -49695,10 +50106,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5991058318383518,
+          "score": 0.5990522598701885,
           "weight": 2,
           "details": {
-            "similarity": 0.5991058318383518
+            "similarity": 0.5990522598701885
           }
         }
       ],
@@ -49720,10 +50131,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5939784102883896,
+          "score": 0.5939506969824112,
           "weight": 2,
           "details": {
-            "similarity": 0.5939784102883896
+            "similarity": 0.5939506969824112
           }
         }
       ],
@@ -49745,10 +50156,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5917970116530133,
+          "score": 0.5917695259192484,
           "weight": 2,
           "details": {
-            "similarity": 0.5917970116530133
+            "similarity": 0.5917695259192484
           }
         }
       ],
@@ -49770,10 +50181,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5894210127697108,
+          "score": 0.5894023148841558,
           "weight": 2,
           "details": {
-            "similarity": 0.5894210127697108
+            "similarity": 0.5894023148841558
           }
         }
       ],
@@ -49795,10 +50206,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5792854079546168,
+          "score": 0.5792361528516466,
           "weight": 2,
           "details": {
-            "similarity": 0.5792854079546168
+            "similarity": 0.5792361528516466
           }
         }
       ],
@@ -49820,10 +50231,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5767146689903243,
+          "score": 0.5766685621557419,
           "weight": 2,
           "details": {
-            "similarity": 0.5767146689903243
+            "similarity": 0.5766685621557419
           }
         }
       ],
@@ -49845,10 +50256,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5727280234563322,
+          "score": 0.5726852912912602,
           "weight": 2,
           "details": {
-            "similarity": 0.5727280234563322
+            "similarity": 0.5726852912912602
           }
         }
       ],
@@ -49870,10 +50281,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5710354473694352,
+          "score": 0.5709902637937051,
           "weight": 2,
           "details": {
-            "similarity": 0.5710354473694352
+            "similarity": 0.5709902637937051
           }
         }
       ],
@@ -49882,7 +50293,7 @@
     {
       "source": "2026-01-09-the-epistemology-of-impotence-how.md",
       "target": "2026-04-01-progressive-tier-list.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -49895,10 +50306,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.4023162163445317,
+          "score": 0.40235000018784584,
           "weight": 2,
           "details": {
-            "similarity": 0.4023162163445317
+            "similarity": 0.40235000018784584
           }
         }
       ],
@@ -49920,10 +50331,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.4006553168891456,
+          "score": 0.4006982888191541,
           "weight": 2,
           "details": {
-            "similarity": 0.4006553168891456
+            "similarity": 0.4006982888191541
           }
         }
       ],
@@ -49932,7 +50343,7 @@
     {
       "source": "2026-04-01-progressive-tier-list.md",
       "target": "start-here.md",
-      "score": 0.04409132848090058,
+      "score": 0.04409265805267127,
       "signals": [
         {
           "name": "wikilink",
@@ -49945,10 +50356,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.39091328480900583,
+          "score": 0.3909265805267127,
           "weight": 2,
           "details": {
-            "similarity": 0.39091328480900583
+            "similarity": 0.3909265805267127
           }
         }
       ],
@@ -49957,7 +50368,7 @@
     {
       "source": "2026-01-09-the-theological-structure-of-secular.md",
       "target": "2026-04-01-progressive-tier-list.md",
-      "score": 0.04365404251053884,
+      "score": 0.04365273623053826,
       "signals": [
         {
           "name": "wikilink",
@@ -49970,10 +50381,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.3865404251053884,
+          "score": 0.3865273623053826,
           "weight": 2,
           "details": {
-            "similarity": 0.3865404251053884
+            "similarity": 0.3865273623053826
           }
         }
       ],
@@ -49982,7 +50393,7 @@
     {
       "source": "2026-04-01-progressive-tier-list.md",
       "target": "the-mirror-room/05-the-readers-crisis.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -49995,10 +50406,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.38640550572976873,
+          "score": 0.3864271096852266,
           "weight": 2,
           "details": {
-            "similarity": 0.38640550572976873
+            "similarity": 0.3864271096852266
           }
         }
       ],
@@ -50020,10 +50431,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.38327199915155946,
+          "score": 0.3832492184286858,
           "weight": 2,
           "details": {
-            "similarity": 0.38327199915155946
+            "similarity": 0.3832492184286858
           }
         }
       ],
@@ -50032,7 +50443,7 @@
     {
       "source": "2026-02-20-nyc-mamdani-budget.mdx",
       "target": "2026-04-01-progressive-tier-list.md",
-      "score": 0.04245258857117443,
+      "score": 0.042453555591763316,
       "signals": [
         {
           "name": "wikilink",
@@ -50045,10 +50456,35 @@
         },
         {
           "name": "semantic",
-          "score": 0.3745258857117442,
+          "score": 0.37453555591763316,
           "weight": 2,
           "details": {
-            "similarity": 0.3745258857117442
+            "similarity": 0.37453555591763316
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-01-progressive-tier-list.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.3733221741766961,
+          "weight": 2,
+          "details": {
+            "similarity": 0.3733221741766961
           }
         }
       ],
@@ -50057,7 +50493,7 @@
     {
       "source": "2026-01-11-debugging-the-confusion-liberalism.md",
       "target": "2026-04-01-progressive-tier-list.md",
-      "score": 0.2,
+      "score": 0.1,
       "signals": [
         {
           "name": "wikilink",
@@ -50070,10 +50506,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.37228254369427044,
+          "score": 0.37229175263953296,
           "weight": 2,
           "details": {
-            "similarity": 0.37228254369427044
+            "similarity": 0.37229175263953296
           }
         }
       ],
@@ -50082,7 +50518,7 @@
     {
       "source": "2026-04-01-progressive-tier-list.md",
       "target": "pages/iran-timeline.mdx",
-      "score": 0.041933900463188026,
+      "score": 0.04193271206012686,
       "signals": [
         {
           "name": "wikilink",
@@ -50095,35 +50531,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.36933900463188024,
+          "score": 0.36932712060126854,
           "weight": 2,
           "details": {
-            "similarity": 0.36933900463188024
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-01-22-to-my-friends-on-the-left-a-difficult.md",
-      "target": "2026-04-01-progressive-tier-list.md",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.35872723206100027,
-          "weight": 2,
-          "details": {
-            "similarity": 0.35872723206100027
+            "similarity": 0.36932712060126854
           }
         }
       ],
@@ -50145,10 +50556,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.659408358056635,
+          "score": 0.6594250852304072,
           "weight": 2,
           "details": {
-            "similarity": 0.659408358056635
+            "similarity": 0.6594250852304072
           }
         }
       ],
@@ -50170,10 +50581,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6421289924784082,
+          "score": 0.6421042577089855,
           "weight": 2,
           "details": {
-            "similarity": 0.6421289924784082
+            "similarity": 0.6421042577089855
           }
         }
       ],
@@ -50195,10 +50606,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.635887193909647,
+          "score": 0.6359002816828992,
           "weight": 2,
           "details": {
-            "similarity": 0.635887193909647
+            "similarity": 0.6359002816828992
           }
         }
       ],
@@ -50220,10 +50631,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6303972426305245,
+          "score": 0.6304069081981813,
           "weight": 2,
           "details": {
-            "similarity": 0.6303972426305245
+            "similarity": 0.6304069081981813
           }
         }
       ],
@@ -50245,10 +50656,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6204109343257982,
+          "score": 0.6204213550946401,
           "weight": 2,
           "details": {
-            "similarity": 0.6204109343257982
+            "similarity": 0.6204213550946401
           }
         }
       ],
@@ -50270,10 +50681,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6198709479514657,
+          "score": 0.6198689330849426,
           "weight": 2,
           "details": {
-            "similarity": 0.6198709479514657
+            "similarity": 0.6198689330849426
           }
         }
       ],
@@ -50295,10 +50706,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6173142333464897,
+          "score": 0.617322456800121,
           "weight": 2,
           "details": {
-            "similarity": 0.6173142333464897
+            "similarity": 0.617322456800121
           }
         }
       ],
@@ -50320,10 +50731,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6145500568505662,
+          "score": 0.6145435480369157,
           "weight": 2,
           "details": {
-            "similarity": 0.6145500568505662
+            "similarity": 0.6145435480369157
           }
         }
       ],
@@ -50345,10 +50756,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6144362966704564,
+          "score": 0.6144513121031006,
           "weight": 2,
           "details": {
-            "similarity": 0.6144362966704564
+            "similarity": 0.6144513121031006
           }
         }
       ],
@@ -50370,10 +50781,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7924770393166863,
+          "score": 0.7924591882293734,
           "weight": 2,
           "details": {
-            "similarity": 0.7924770393166863
+            "similarity": 0.7924591882293734
           }
         }
       ],
@@ -50395,10 +50806,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7206147516606698,
+          "score": 0.7205897960963646,
           "weight": 2,
           "details": {
-            "similarity": 0.7206147516606698
+            "similarity": 0.7205897960963646
           }
         }
       ],
@@ -50420,10 +50831,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7141436980947321,
+          "score": 0.714132838804658,
           "weight": 2,
           "details": {
-            "similarity": 0.7141436980947321
+            "similarity": 0.714132838804658
           }
         }
       ],
@@ -50445,10 +50856,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6981529470295842,
+          "score": 0.698183353079584,
           "weight": 2,
           "details": {
-            "similarity": 0.6981529470295842
+            "similarity": 0.698183353079584
           }
         }
       ],
@@ -50470,10 +50881,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6946825925997338,
+          "score": 0.6946786032006305,
           "weight": 2,
           "details": {
-            "similarity": 0.6946825925997338
+            "similarity": 0.6946786032006305
           }
         }
       ],
@@ -50495,10 +50906,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6912250953068209,
+          "score": 0.6912226685140116,
           "weight": 2,
           "details": {
-            "similarity": 0.6912250953068209
+            "similarity": 0.6912226685140116
           }
         }
       ],
@@ -50520,10 +50931,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6882505356323166,
+          "score": 0.6882446835291378,
           "weight": 2,
           "details": {
-            "similarity": 0.6882505356323166
+            "similarity": 0.6882446835291378
           }
         }
       ],
@@ -50545,10 +50956,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6834101222362828,
+          "score": 0.6833971900622026,
           "weight": 2,
           "details": {
-            "similarity": 0.6834101222362828
+            "similarity": 0.6833971900622026
           }
         }
       ],
@@ -50570,10 +50981,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6831903367748483,
+          "score": 0.6831757140551622,
           "weight": 2,
           "details": {
-            "similarity": 0.6831903367748483
+            "similarity": 0.6831757140551622
           }
         }
       ],
@@ -50595,10 +51006,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7618235023903331,
+          "score": 0.7618061329358441,
           "weight": 2,
           "details": {
-            "similarity": 0.7618235023903331
+            "similarity": 0.7618061329358441
           }
         }
       ],
@@ -50620,10 +51031,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7434107972505395,
+          "score": 0.7433850453552866,
           "weight": 2,
           "details": {
-            "similarity": 0.7434107972505395
+            "similarity": 0.7433850453552866
           }
         }
       ],
@@ -50645,10 +51056,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7334606815537666,
+          "score": 0.733485711005832,
           "weight": 2,
           "details": {
-            "similarity": 0.7334606815537666
+            "similarity": 0.733485711005832
           }
         }
       ],
@@ -50670,10 +51081,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7317203599199492,
+          "score": 0.7317155188805926,
           "weight": 2,
           "details": {
-            "similarity": 0.7317203599199492
+            "similarity": 0.7317155188805926
           }
         }
       ],
@@ -50695,10 +51106,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7289290900017377,
+          "score": 0.7289074119595582,
           "weight": 2,
           "details": {
-            "similarity": 0.7289290900017377
+            "similarity": 0.7289074119595582
           }
         }
       ],
@@ -50720,10 +51131,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7167638996766451,
+          "score": 0.7167487138402588,
           "weight": 2,
           "details": {
-            "similarity": 0.7167638996766451
+            "similarity": 0.7167487138402588
           }
         }
       ],
@@ -50745,10 +51156,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7166346754084826,
+          "score": 0.7166107089391077,
           "weight": 2,
           "details": {
-            "similarity": 0.7166346754084826
+            "similarity": 0.7166107089391077
           }
         }
       ],
@@ -50770,10 +51181,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7075914661813126,
+          "score": 0.7075571511908644,
           "weight": 2,
           "details": {
-            "similarity": 0.7075914661813126
+            "similarity": 0.7075571511908644
           }
         }
       ],
@@ -50782,7 +51193,7 @@
     {
       "source": "2025-12-18-from-galilee-to-empire-the-institutional.md",
       "target": "2026-04-06-jesuit-formation.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -50795,10 +51206,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7133464937662006,
+          "score": 0.7132713550405556,
           "weight": 2,
           "details": {
-            "similarity": 0.7133464937662006
+            "similarity": 0.7132713550405556
           }
         }
       ],
@@ -50820,10 +51231,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7095788324547877,
+          "score": 0.7095564296465076,
           "weight": 2,
           "details": {
-            "similarity": 0.7095788324547877
+            "similarity": 0.7095564296465076
           }
         }
       ],
@@ -50845,10 +51256,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.707715222722731,
+          "score": 0.7077018882757758,
           "weight": 2,
           "details": {
-            "similarity": 0.707715222722731
+            "similarity": 0.7077018882757758
           }
         }
       ],
@@ -50870,10 +51281,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7046912347185029,
+          "score": 0.7046740240300515,
           "weight": 2,
           "details": {
-            "similarity": 0.7046912347185029
+            "similarity": 0.7046740240300515
           }
         }
       ],
@@ -50895,10 +51306,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.7006839046329368,
+          "score": 0.7006565554358434,
           "weight": 2,
           "details": {
-            "similarity": 0.7006839046329368
+            "similarity": 0.7006565554358434
           }
         }
       ],
@@ -50920,10 +51331,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6956402995141794,
+          "score": 0.6956327900154025,
           "weight": 2,
           "details": {
-            "similarity": 0.6956402995141794
+            "similarity": 0.6956327900154025
           }
         }
       ],
@@ -50945,19 +51356,19 @@
         },
         {
           "name": "semantic",
-          "score": 0.6859006538839171,
+          "score": 0.6858816539349485,
           "weight": 2,
           "details": {
-            "similarity": 0.6859006538839171
+            "similarity": 0.6858816539349485
           }
         }
       ],
       "edgeType": "semantic"
     },
     {
-      "source": "2025-12-18-the-alchemy-of-power.md",
-      "target": "2026-04-06-jesuit-formation.md",
-      "score": 0.3,
+      "source": "2026-04-06-jesuit-formation.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -50970,10 +51381,35 @@
         },
         {
           "name": "semantic",
-          "score": 0.6819411033159112,
+          "score": 0.684288827585736,
           "weight": 2,
           "details": {
-            "similarity": 0.6819411033159112
+            "similarity": 0.684288827585736
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-06-what-the-silence-kept.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.6,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.693359124577788,
+          "weight": 2,
+          "details": {
+            "similarity": 0.693359124577788
           }
         }
       ],
@@ -50995,10 +51431,35 @@
         },
         {
           "name": "semantic",
-          "score": 0.6521820451380481,
+          "score": 0.6521678281723153,
           "weight": 2,
           "details": {
-            "similarity": 0.6521820451380481
+            "similarity": 0.6521678281723153
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-06-what-the-silence-kept.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6454155464356041,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6454155464356041
           }
         }
       ],
@@ -51020,10 +51481,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6428420179786735,
+          "score": 0.6428460252664776,
           "weight": 2,
           "details": {
-            "similarity": 0.6428420179786735
+            "similarity": 0.6428460252664776
           }
         }
       ],
@@ -51031,6 +51492,31 @@
     },
     {
       "source": "2026-01-15-the-return.md",
+      "target": "2026-04-06-what-the-silence-kept.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6248056204210246,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6248056204210246
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
       "target": "2026-04-06-what-the-silence-kept.md",
       "score": 0.2,
       "signals": [
@@ -51045,35 +51531,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6247910633731993,
+          "score": 0.6189066446264792,
           "weight": 2,
           "details": {
-            "similarity": 0.6247910633731993
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
-      "target": "2026-04-06-what-the-silence-kept.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.618940508293231,
-          "weight": 2,
-          "details": {
-            "similarity": 0.618940508293231
+            "similarity": 0.6189066446264792
           }
         }
       ],
@@ -51082,7 +51543,7 @@
     {
       "source": "2026-02-07-the-lamb.md",
       "target": "2026-04-06-what-the-silence-kept.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -51095,10 +51556,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6181236699868544,
+          "score": 0.6180982481470705,
           "weight": 2,
           "details": {
-            "similarity": 0.6181236699868544
+            "similarity": 0.6180982481470705
           }
         }
       ],
@@ -51120,35 +51581,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.614312699042464,
+          "score": 0.6143361479700218,
           "weight": 2,
           "details": {
-            "similarity": 0.614312699042464
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-02-07-the-lamb-part-ii.md",
-      "target": "2026-04-06-what-the-silence-kept.md",
-      "score": 0.2,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6085545193605785,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6085545193605785
+            "similarity": 0.6143361479700218
           }
         }
       ],
@@ -51170,18 +51606,93 @@
         },
         {
           "name": "semantic",
-          "score": 0.6085371651935833,
+          "score": 0.6085567608343116,
           "weight": 2,
           "details": {
-            "similarity": 0.6085371651935833
+            "similarity": 0.6085567608343116
           }
         }
       ],
       "edgeType": "semantic"
     },
     {
-      "source": "2026-01-15-the-physicians-of-decay.md",
-      "target": "2026-04-06-what-the-silence-kept.md",
+      "source": "2026-02-11-the-gaze.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6636123645344879,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6636123645344879
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6482369479802407,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6482369479802407
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-07-z-alpha-lexicon.md",
+      "target": "start-here.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6420797367162752,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6420797367162752
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-09-trauma-culture-a-diagnosis.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
       "score": 0.1,
       "signals": [
         {
@@ -51195,10 +51706,1235 @@
         },
         {
           "name": "semantic",
-          "score": 0.6057520124971811,
+          "score": 0.6383001154954382,
           "weight": 2,
           "details": {
-            "similarity": 0.6057520124971811
+            "similarity": 0.6383001154954382
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-09-the-cage-and-the-argument-about-its.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6378592556070926,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6378592556070926
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6369208458823935,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6369208458823935
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-17-know-thyself-no-self.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6275616385463211,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6275616385463211
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-01-01-the-architecture-of-meaning-a-deeper.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6266656668632686,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6266656668632686
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-19-the-employable-subject.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6243899760832258,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6243899760832258
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-what-modernity-needs-a-return-to.md",
+      "target": "2026-04-07-z-alpha-lexicon.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.62395576213327,
+          "weight": 2,
+          "details": {
+            "similarity": 0.62395576213327
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-11-the-exhaustion-that-cannot-rest.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.7,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7508071411516688,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7508071411516688
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7452952391426718,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7452952391426718
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-01-01-resurrecting-ted-kaczynski.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7400153241705112,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7400153241705112
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7394927357223647,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7394927357223647
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-the-selection-of-souls.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7345001365892035,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7345001365892035
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-14-the-fence-you-cannot-see.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7327637876693546,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7327637876693546
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-09-the-cage-and-the-argument-about-its.md",
+      "target": "2026-04-08-the-reckoning.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7308289649393259,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7308289649393259
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-28-network-conspiracy.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.06818719442041409,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6318719442041408,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6318719442041408
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-14-the-ideological-trap-for-the-left.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6300664690169323,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6300664690169323
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-02-data-doesnt-speak.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6235351941186879,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6235351941186879
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-22-to-my-friends-on-the-left-a-difficult.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.06712408110837144,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6212408110837143,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6212408110837143
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-24-failed-expert-consensus.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6204805304821452,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6204805304821452
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-05-iran-the-resolution.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6204160917213368,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6204160917213368
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-21-west-psychodrama.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6201986159669077,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6201986159669077
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-28-pharisee-made-flesh.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6164969264290128,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6164969264290128
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-26-trump-is-brilliant.md",
+      "target": "2026-04-09-radical-empiricism-story.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6163340429662433,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6163340429662433
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-21-the-liquefaction-of-being-materialism.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.714189862920719,
+          "weight": 2,
+          "details": {
+            "similarity": 0.714189862920719
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-25-harvest-residue.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.7007899029112974,
+          "weight": 2,
+          "details": {
+            "similarity": 0.7007899029112974
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-12-18-the-selection-of-souls.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6957972644920185,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6957972644920185
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-09-the-invisible-right-on-what-becomes.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6950830219482511,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6950830219482511
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6882499461461867,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6882499461461867
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-09-the-cage-and-the-argument-about-its.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6847516728857896,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6847516728857896
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-05-iran-the-resolution.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6817666087214201,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6817666087214201
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-21-structural-wisdom-biblical-eschatology.mdx",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6785529673094964,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6785529673094964
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-25-the-machine-that-eats-the-world.md",
+      "target": "2026-04-18-the-jihad.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6773719749104951,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6773719749104951
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-25-harvest-residue.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6455630180340235,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6455630180340235
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-18-the-jihad.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6445700651068605,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6445700651068605
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6307614243291353,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6307614243291353
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-07-the-lamb-part-ii.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6228119848940037,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6228119848940037
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-15-the-return.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.06693734239265492,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6193734239265491,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6193734239265491
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-nine-months-two-men.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.6,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6037978692231075,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6037978692231075
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-18-the-lamp.md",
+      "target": "pages/the-same-week.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6014071143167358,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6014071143167358
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-07-the-lamb.md",
+      "target": "2026-04-18-the-lamp.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5923868974685262,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5923868974685262
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-06-what-the-silence-kept.md",
+      "target": "2026-04-18-the-listener.md",
+      "score": 0.4,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5672157534799399,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5672157534799399
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-18-the-lamp.md",
+      "target": "2026-04-18-the-listener.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.562920743742541,
+          "weight": 2,
+          "details": {
+            "similarity": 0.562920743742541
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-18-the-jihad.md",
+      "target": "2026-04-18-the-listener.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5437791133790773,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5437791133790773
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-23-grammar-rules-all.md",
+      "target": "2026-04-18-the-listener.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5345533760318241,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5345533760318241
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-04-the-hidden-grammar.md",
+      "target": "2026-04-18-the-listener.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5232374202854996,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5232374202854996
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-18-the-listener.md",
+      "target": "pages/the-same-week.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5202084787587512,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5202084787587512
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-03-25-harvest-residue.md",
+      "target": "2026-04-18-the-listener.md",
+      "score": 0.056919633601777236,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5191963360177723,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5191963360177723
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-01-23-the-language-that-thinks-for-you.md",
+      "target": "2026-04-18-the-listener.md",
+      "score": 0.1,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5157219094023265,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5157219094023265
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-02-11-nine-months-two-men.md",
+      "target": "2026-04-18-the-listener.md",
+      "score": 0.2,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5133888469597533,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5133888469597533
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2026-04-18-the-listener.md",
+      "target": "pages/oldest-want-hider-proof.md",
+      "score": 0.05628017869798344,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.5128017869798344,
+          "weight": 2,
+          "details": {
+            "similarity": 0.5128017869798344
           }
         }
       ],
@@ -51670,10 +53406,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.40246635224216487,
+          "score": 0.4024688992663727,
           "weight": 2,
           "details": {
-            "similarity": 0.40246635224216487
+            "similarity": 0.4024688992663727
           }
         }
       ],
@@ -56320,10 +58056,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.42566277847133793,
+          "score": 0.4256590333777375,
           "weight": 2,
           "details": {
-            "similarity": 0.42566277847133793
+            "similarity": 0.4256590333777375
           }
         }
       ],
@@ -56370,10 +58106,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.39976831792527845,
+          "score": 0.3997863955902038,
           "weight": 2,
           "details": {
-            "similarity": 0.39976831792527845
+            "similarity": 0.3997863955902038
           }
         }
       ],
@@ -58670,10 +60406,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.567031915558129,
+          "score": 0.5670566793815885,
           "weight": 2,
           "details": {
-            "similarity": 0.567031915558129
+            "similarity": 0.5670566793815885
           }
         }
       ],
@@ -58695,10 +60431,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.5644014423057511,
+          "score": 0.5643925236136309,
           "weight": 2,
           "details": {
-            "similarity": 0.5644014423057511
+            "similarity": 0.5643925236136309
           }
         }
       ],
@@ -59232,7 +60968,7 @@
     {
       "source": "2026-02-07-the-lamb.md",
       "target": "the-mirror-room/01-the-consistent-man.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -59257,7 +60993,7 @@
     {
       "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
       "target": "the-mirror-room/01-the-consistent-man.md",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -59282,7 +61018,7 @@
     {
       "source": "the-mirror-room/01-the-consistent-man.md",
       "target": "pages/the-same-week.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -59307,7 +61043,7 @@
     {
       "source": "2026-02-07-tyler-durden-on-how-they-broke-you.md",
       "target": "the-mirror-room/01-the-consistent-man.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -59355,9 +61091,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2026-02-12-the-ironist-gen-z-and-the-ground.md",
+      "source": "2026-04-08-the-reckoning.md",
       "target": "the-mirror-room/01-the-consistent-man.md",
-      "score": 0.4,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -59370,10 +61106,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6241255023644893,
+          "score": 0.6341754428371839,
           "weight": 2,
           "details": {
-            "similarity": 0.6241255023644893
+            "similarity": 0.6341754428371839
           }
         }
       ],
@@ -59457,7 +61193,7 @@
     {
       "source": "the-mirror-room/01-the-consistent-man.md",
       "target": "the-mirror-room/02-the-mirror-room.md",
-      "score": 0.7,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -59482,7 +61218,7 @@
     {
       "source": "2026-02-11-the-gaze.md",
       "target": "the-mirror-room/02-the-mirror-room.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -59607,7 +61343,7 @@
     {
       "source": "2025-01-01-you-are-not-your-diagnosis.md",
       "target": "the-mirror-room/02-the-mirror-room.md",
-      "score": 0.5,
+      "score": 0.4,
       "signals": [
         {
           "name": "wikilink",
@@ -59699,6 +61435,31 @@
           "weight": 2,
           "details": {
             "similarity": 0.6977845117272584
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
+      "source": "2025-01-01-you-are-not-your-diagnosis.md",
+      "target": "the-mirror-room/03-the-meeting.md",
+      "score": 0.3,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6955562390737767,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6955562390737767
           }
         }
       ],
@@ -60182,7 +61943,7 @@
     {
       "source": "2025-01-01-you-are-not-your-diagnosis.md",
       "target": "the-mirror-room/05-the-readers-crisis.md",
-      "score": 0.4,
+      "score": 0.3,
       "signals": [
         {
           "name": "wikilink",
@@ -60382,7 +62143,7 @@
     {
       "source": "2026-02-12-what-if-the-thing-youre-protecting.md",
       "target": "the-mirror-room/06-gurdjieff-observations.md",
-      "score": 0.3,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -61907,7 +63668,7 @@
     {
       "source": "2026-02-28-pharisee-made-flesh.md",
       "target": "chats/2025-10-15-ai-impact-on-labor.md",
-      "score": 0.5,
+      "score": 0.6,
       "signals": [
         {
           "name": "wikilink",
@@ -62080,6 +63841,31 @@
       "edgeType": "semantic"
     },
     {
+      "source": "2026-04-18-the-jihad.md",
+      "target": "chats/2025-10-15-ai-impact-on-labor.md",
+      "score": 0.5,
+      "signals": [
+        {
+          "name": "wikilink",
+          "score": 0,
+          "weight": 2.5,
+          "details": {
+            "aLinksToB": false,
+            "bLinksToA": false
+          }
+        },
+        {
+          "name": "semantic",
+          "score": 0.6437869194406359,
+          "weight": 2,
+          "details": {
+            "similarity": 0.6437869194406359
+          }
+        }
+      ],
+      "edgeType": "semantic"
+    },
+    {
       "source": "2025-12-21-what-modernity-needs-a-return-to.md",
       "target": "chats/2025-10-15-ai-impact-on-labor.md",
       "score": 0.4,
@@ -62124,31 +63910,6 @@
           "weight": 2,
           "details": {
             "similarity": 0.6381713290303338
-          }
-        }
-      ],
-      "edgeType": "semantic"
-    },
-    {
-      "source": "2026-03-25-harvest-residue.md",
-      "target": "chats/2025-10-15-ai-impact-on-labor.md",
-      "score": 0.3,
-      "signals": [
-        {
-          "name": "wikilink",
-          "score": 0,
-          "weight": 2.5,
-          "details": {
-            "aLinksToB": false,
-            "bLinksToA": false
-          }
-        },
-        {
-          "name": "semantic",
-          "score": 0.6379149143300163,
-          "weight": 2,
-          "details": {
-            "similarity": 0.6379149143300163
           }
         }
       ],
@@ -62845,10 +64606,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.6088748612274122,
+          "score": 0.6088783726855171,
           "weight": 2,
           "details": {
-            "similarity": 0.6088748612274122
+            "similarity": 0.6088783726855171
           }
         }
       ],
@@ -65280,9 +67041,9 @@
       "edgeType": "semantic"
     },
     {
-      "source": "2026-03-28-network-conspiracy.md",
+      "source": "2026-04-07-z-alpha-lexicon.md",
       "target": "pages/structure-of-reality.md",
-      "score": 0.1,
+      "score": 0.2,
       "signals": [
         {
           "name": "wikilink",
@@ -65295,10 +67056,10 @@
         },
         {
           "name": "semantic",
-          "score": 0.37267387365432475,
+          "score": 0.372876186828281,
           "weight": 2,
           "details": {
-            "similarity": 0.37267387365432475
+            "similarity": 0.372876186828281
           }
         }
       ],
@@ -65689,42 +67450,42 @@
       "2025-01-01-the-capture-of-american-power-peter.md": 4,
       "2025-01-01-the-letter-to-the-therapeutics.md": 6,
       "2025-01-01-you-are-not-your-diagnosis.md": 6,
-      "2025-12-02-monotheism-oneness-traps.md": 8,
+      "2025-12-02-monotheism-oneness-traps.md": 2,
       "2025-12-03-state-of-the-union.md": 2,
-      "2025-12-09-exploring-religin-marx.md": 8,
+      "2025-12-09-exploring-religin-marx.md": 9,
       "2025-12-09-monstrous_doubles_girard_essay.md": 9,
-      "2025-12-09-secular_eschaton_essay.md": 8,
-      "2025-12-10-arhictecture-of-harm.md": 8,
-      "2025-12-10-calvinism-to-capitalism.md": 8,
-      "2025-12-10-husk-of-god.md": 8,
-      "2025-12-10-indigenous-violence-slavery-documentation.md": 8,
-      "2025-12-10-peasent-uprisings.md": 8,
+      "2025-12-09-secular_eschaton_essay.md": 9,
+      "2025-12-10-arhictecture-of-harm.md": 9,
+      "2025-12-10-calvinism-to-capitalism.md": 9,
+      "2025-12-10-husk-of-god.md": 2,
+      "2025-12-10-indigenous-violence-slavery-documentation.md": 9,
+      "2025-12-10-peasent-uprisings.md": 9,
       "2025-12-12-making-sense-of-us-ukraine-negotations.md": 4,
       "2025-12-12-structure-not-vibes-the-real-state.md": 4,
       "2025-12-12-the-vulnerability-principle.md": 4,
       "2025-12-12-trumps-techno-fetish.md": 4,
-      "2025-12-12-why-cultures-differentiate.md": 8,
-      "2025-12-15-burnout-is-a-modern-invention.md": 2,
+      "2025-12-12-why-cultures-differentiate.md": 2,
+      "2025-12-15-burnout-is-a-modern-invention.md": 6,
       "2025-12-15-know-thyself-confucian-buddhist-hindu.md": 9,
       "2025-12-15-know-thyself-greek-vs-christian.md": 9,
       "2025-12-16-know-thyself-gurdjieff-kierkegaard.md": 9,
       "2025-12-17-know-thyself-no-self.md": 9,
       "2025-12-17-know-thyself-the-kingdom-within.md": 9,
       "2025-12-17-know-thyself-through-what.md": 9,
-      "2025-12-17-meta-summary-17-12-2025.md": 8,
+      "2025-12-17-meta-summary-17-12-2025.md": 9,
       "2025-12-17-the-invention-of-the-confessing-animal.md": 9,
       "2025-12-18-a-systems-analysis-of-why-your-worldview.md": 2,
-      "2025-12-18-from-galilee-to-empire-the-institutional.md": 8,
-      "2025-12-18-the-alchemy-of-power.md": 8,
-      "2025-12-18-the-battlefield-of-attention.md": 8,
+      "2025-12-18-from-galilee-to-empire-the-institutional.md": 2,
+      "2025-12-18-the-alchemy-of-power.md": 2,
+      "2025-12-18-the-battlefield-of-attention.md": 2,
       "2025-12-18-the-selection-of-souls.md": 2,
-      "2025-12-18-the-shape-of-the-container.md": 8,
+      "2025-12-18-the-shape-of-the-container.md": 2,
       "2025-12-18-the-two-filters-why-reasonable-ideas.md": 4,
       "2025-12-19-countering-materialism.md": 2,
-      "2025-12-19-how-power-weaponizes-mass-education.md": 8,
+      "2025-12-19-how-power-weaponizes-mass-education.md": 2,
       "2025-12-19-the-employable-subject.md": 2,
       "2025-12-19-when-equations-see-what-eyes-cannot.md": 2,
-      "2025-12-20-summarizing-19-12-2025.md": 2,
+      "2025-12-20-summarizing-19-12-2025.md": 8,
       "2025-12-21-the-incomplete-god-why-science-cannot.md": 2,
       "2025-12-21-the-liquefaction-of-being-materialism.md": 2,
       "2025-12-21-what-modernity-needs-a-return-to.md": 2,
@@ -65732,25 +67493,25 @@
       "2026-01-07-the-amplifier-theory-of-human-hierarchy.md": 4,
       "2026-01-09-diagnosing-white-guilt.md": 6,
       "2026-01-09-leftism-is-worse-than-fascism.md": 6,
-      "2026-01-09-pathologies-of-eastern-secularism.md": 8,
+      "2026-01-09-pathologies-of-eastern-secularism.md": 9,
       "2026-01-09-the-epistemology-of-impotence-how.md": 6,
-      "2026-01-09-the-theological-structure-of-secular.md": 8,
+      "2026-01-09-the-theological-structure-of-secular.md": 9,
       "2026-01-09-trauma-culture-a-diagnosis.md": 6,
       "2026-01-09-trauma-culture-white-guilt-checkmate.md": 6,
-      "2026-01-09-why-the-secularism-in-the-west-became.md": 8,
+      "2026-01-09-why-the-secularism-in-the-west-became.md": 9,
       "2026-01-11-debugging-the-confusion-liberalism.md": 6,
       "2026-01-11-the-exhaustion-that-cannot-rest.md": 6,
       "2026-01-11-the-socialists-convenient-blindness.md": 6,
-      "2026-01-12-principalities-and-powers.md": 8,
-      "2026-01-12-the-economy-of-refusal.md": 8,
+      "2026-01-12-principalities-and-powers.md": 2,
+      "2026-01-12-the-economy-of-refusal.md": 2,
       "2026-01-12-the-epistle-to-the-managed.md": 6,
       "2026-01-12-the-new-lords.md": 6,
-      "2026-01-12-the-recurring-pattern-left-islamist.md": 8,
+      "2026-01-12-the-recurring-pattern-left-islamist.md": 9,
       "2026-01-14-the-fence-you-cannot-see.md": 2,
       "2026-01-14-the-ideological-trap-for-the-left.md": 4,
       "2026-01-14-the-violence-you-fear-may-be-the.md": 6,
       "2026-01-14-we-can-capture-our-way-out.md": 4,
-      "2026-01-15-the-physicians-of-decay.md": 6,
+      "2026-01-15-the-physicians-of-decay.md": 2,
       "2026-01-15-the-return.md": 8,
       "2026-01-22-to-my-friends-on-the-left-a-difficult.md": 6,
       "2026-01-23-grammar-as-alignment-the-world-economic.md": 4,
@@ -65781,14 +67542,14 @@
       "2026-02-19-mysticism-research-list.md": 9,
       "2026-02-20-nyc-mamdani-budget.mdx": 4,
       "2026-02-21-desire-engine-table.mdx": 8,
-      "2026-02-21-structural-wisdom-biblical-eschatology.mdx": 8,
-      "2026-02-21-west-psychodrama.md": 8,
+      "2026-02-21-structural-wisdom-biblical-eschatology.mdx": 2,
+      "2026-02-21-west-psychodrama.md": 4,
       "2026-02-22-religious-development.md": 8,
       "2026-02-26-grace-and-cage.md": 2,
       "2026-02-26-mask-debate.md": 6,
       "2026-02-26-ratchet-stage.md": 4,
-      "2026-02-26-the-honest-record.md": 8,
-      "2026-02-26-woe-is-me.md": 8,
+      "2026-02-26-the-honest-record.md": 2,
+      "2026-02-26-woe-is-me.md": 2,
       "2026-02-27-hidden-curriculum.md": 2,
       "2026-02-27-tyson-critique.md": 2,
       "2026-02-28-pharisee-made-flesh.md": 2,
@@ -65798,29 +67559,35 @@
       "2026-03-03-one-party-system-two-party-theatre.md": 6,
       "2026-03-04-fourth-way-of-knowing.md": 2,
       "2026-03-04-the-hidden-grammar.md": 2,
-      "2026-03-04-the-undesigned-narrative.md": 8,
+      "2026-03-04-the-undesigned-narrative.md": 2,
       "2026-03-05-iran-the-clearing.md": 4,
-      "2026-03-05-iran-the-resolution.md": 8,
+      "2026-03-05-iran-the-resolution.md": 2,
       "2026-03-15-iran-update.md": 4,
       "2026-03-16-recognition-dynamics.md": 10,
-      "2026-03-16-self-cage-wheel-ground.md": 2,
+      "2026-03-16-self-cage-wheel-ground.md": 8,
       "2026-03-17-S-F_of_S.md": 10,
       "2026-03-24-failed-expert-consensus.md": 4,
       "2026-03-24-the-long-harvest.md": 2,
       "2026-03-25-harvest-residue.md": 2,
       "2026-03-25-knowledge-cannot-centralize.md": 2,
-      "2026-03-26-shadow-of-liberalism.md": 8,
+      "2026-03-26-shadow-of-liberalism.md": 9,
       "2026-03-26-trump-is-brilliant.md": 4,
       "2026-03-28-gender-network.md": 4,
       "2026-03-28-network-conspiracy.md": 4,
       "2026-03-28-no-community-no-duh.md": 2,
       "2026-04-01-progressive-tier-list.md": 6,
-      "2026-04-06-civilizational-texts.md": 8,
+      "2026-04-06-civilizational-texts.md": 2,
       "2026-04-06-formation-we-admit-to.md": 2,
       "2026-04-06-formed-self.md": 2,
       "2026-04-06-jesuit-formation.md": 2,
       "2026-04-06-what-the-silence-kept.md": 6,
-      "start-here.md": 2,
+      "2026-04-07-z-alpha-lexicon.md": 2,
+      "2026-04-08-the-reckoning.md": 6,
+      "2026-04-09-radical-empiricism-story.md": 4,
+      "2026-04-18-the-jihad.md": 2,
+      "2026-04-18-the-lamp.md": 6,
+      "2026-04-18-the-listener.md": 6,
+      "start-here.md": 8,
       "bookmarks/alecmuffet.com.md": 11,
       "bookmarks/allenfarrington.medium.com.md": 11,
       "bookmarks/antonz.org.md": 7,
@@ -65855,7 +67622,7 @@
       "bookmarks/unpaywall.org.md": 11,
       "bookmarks/wundergraph.hasnode.dev.md": 0,
       "notes/2025-gift-list.md": 7,
-      "notes/2025-murder-mystery.md": 8,
+      "notes/2025-murder-mystery.md": 9,
       "notes/a protocol for integrations.md": 11,
       "notes/bloom.md": 7,
       "notes/bookmark management.md": 11,
@@ -65877,18 +67644,18 @@
       "the-mirror-room/03-the-meeting.md": 6,
       "the-mirror-room/04-the-paradox-of-becoming.md": 6,
       "the-mirror-room/05-the-readers-crisis.md": 6,
-      "the-mirror-room/06-gurdjieff-observations.md": 6,
+      "the-mirror-room/06-gurdjieff-observations.md": 2,
       "the-mirror-room/index.md": 6,
-      "the-mirror-room/scratch.md": 6,
+      "the-mirror-room/scratch.md": 2,
       "chats/2025-10-13-adding-chats-section.md": 0,
       "chats/2025-10-13-epistemic-humility-discussion.md": 2,
-      "chats/2025-10-14-2k-years-christiantiy.md": 8,
-      "chats/2025-10-14-girards-scapegoat-mechanism.md": 8,
-      "chats/2025-10-14-summarize-fear-of-falling.md": 8,
+      "chats/2025-10-14-2k-years-christiantiy.md": 2,
+      "chats/2025-10-14-girards-scapegoat-mechanism.md": 9,
+      "chats/2025-10-14-summarize-fear-of-falling.md": 9,
       "chats/2025-10-15-ai-impact-on-labor.md": 2,
-      "chats/2025-12-03-paul-and-roman-conspiracy.md": 8,
+      "chats/2025-12-03-paul-and-roman-conspiracy.md": 2,
       "pages/attention-fields.mdx": 10,
-      "pages/church-notes.md": 8,
+      "pages/church-notes.md": 2,
       "pages/iran-timeline.mdx": 4,
       "pages/mcp.md": 0,
       "pages/metaphysical-choices.mdx": 10,
@@ -65906,7 +67673,7 @@
       "pages/structure-of-reality-social-theorem.md": 10,
       "pages/structure-of-reality.md": 2,
       "pages/the-same-week.md": 6,
-      "pages/what-the-difference-actually-is.md": 8,
+      "pages/what-the-difference-actually-is.md": 2,
       "pages/yagni.md": 14
     },
     "clusterMeta": [
@@ -65927,7 +67694,7 @@
         "id": 2,
         "centerX": 594.5158603819154,
         "centerY": -535.3044850870866,
-        "nodeCount": 48,
+        "nodeCount": 69,
         "name": "Philosophy & Culture"
       },
       {
@@ -65940,7 +67707,7 @@
         "id": 4,
         "centerX": 795.6175162946187,
         "centerY": 83.62277061412271,
-        "nodeCount": 25,
+        "nodeCount": 27,
         "name": "Politics & Economics"
       },
       {
@@ -65953,8 +67720,8 @@
         "id": 6,
         "centerX": 470.2282018339785,
         "centerY": 647.2135954999579,
-        "nodeCount": 45,
-        "name": "Culture & Fiction"
+        "nodeCount": 46,
+        "name": "Culture & Politics"
       },
       {
         "id": 7,
@@ -65967,14 +67734,14 @@
         "id": 8,
         "centerX": -166.3293526542073,
         "centerY": 782.5180805870446,
-        "nodeCount": 43,
-        "name": "Religion & Politics"
+        "nodeCount": 10,
+        "name": "Religion & Philosophy"
       },
       {
         "id": 9,
         "centerX": -470.2282018339784,
         "centerY": 647.2135954999579,
-        "nodeCount": 9,
+        "nodeCount": 24,
         "name": "Religion & Philosophy"
       },
       {
@@ -66010,12 +67777,12 @@
         "nodeCount": 1
       }
     ],
-    "modularity": 0.6454422378695768
+    "modularity": 0.6319654946881512
   },
   "metadata": {
-    "totalNodes": 276,
-    "totalEdges": 16075,
-    "buildTimeMs": 14064,
+    "totalNodes": 282,
+    "totalEdges": 17064,
+    "buildTimeMs": 3251,
     "signalsUsed": [
       "wikilink",
       "semantic"
