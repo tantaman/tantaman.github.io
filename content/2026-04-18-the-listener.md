@@ -3,6 +3,7 @@ title: 'The Listener'
 tags: [self, knowledge]
 concern: [civilization]
 form: story
+author: [tantaman, claude]
 ---
 
 > Related:
