@@ -79,7 +79,7 @@ He closed his eyes. Somewhere — not in the square, because the box was silent 
 
 # True Story?
 
-Adult Japanese are unable to hear the difference between `lag` and `rag`. The ability to discern must be acquired prior to 6 months, after which the cognitive path for acquisition is pruned.
+Adult Japanese have significant difficulty hearing the difference between lag and rag. The ability to discriminate the contrast narrows over the first year of life — roughly between 6 and 12 months — after which the brain commits to its native phonetic scheme and the contrast becomes much harder to acquire.
 
 - [An effect of linguistic experience: The discrimination of \[r\] and \[l\] by native speakers of Japanese and English](https://link.springer.com/article/10.3758/BF03211209)
 - [Kuhl et al. (2008), "Phonetic learning as a pathway to language: new data and native language magnet theory expanded (NLM-e)" ](https://pmc.ncbi.nlm.nih.gov/articles/PMC2606791/)
