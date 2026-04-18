@@ -35,7 +35,7 @@ That night Shizu asked him why he had been quiet at supper. He said he had been 
 
 Here is what he had understood.
 
-The scholar's certainty was not wrong in the way a sum is wrong. It was wrong in the way a map is wrong that has left off a mountain. The scholar had a frame that made the mountain a hill. Inside the frame everything fit. The boy heard the sounds as different, fine; call it sharp hearing, call it a trick of the ear, call it a contrast the village had not happened to name — the frame could hold it as a small local anomaly, something to write down, something to propose an experiment for, something to file under *further study*. And there was no move Haru could make, from where he stood, to get the scholar to see what he saw. Any demonstration would be read through the frame that had already decided what such demonstrations could mean.
+The scholar's certainty was not wrong in the way a sum is wrong. It was wrong in the way a map is wrong that has left off a mountain. The scholar had a frame that made the mountain a hill. Inside the frame everything fit. The boy heard the sounds as different, fine; call it a contrast the village's ear had not been tuned to hold or a difference the village's hearing did not make — the frame could hold it as a small local anomaly, something to write down, something to propose an experiment for, something to file under *further study*. And there was no move Haru could make, from where he stood, to get the scholar to see what he saw. Any demonstration would be read through the frame that had already decided what such demonstrations could mean.
 
 Still, in those years, Haru was a thing the scholar's world knew how to see. A puzzle. An anomaly for the notebook. A curiosity to be explained away, but a curiosity — logged, measured, dismissible but existent. He did not know, then, how much of his peace rested on this.
 
@@ -79,8 +79,16 @@ He closed his eyes. Somewhere — not in the square, because the box was silent 
 
 # True Story?
 
-Adult Japanese have significant difficulty hearing the difference between lag and rag. The ability to discriminate the contrast narrows over the first year of life — roughly between 6 and 12 months — after which the brain commits to its native phonetic scheme and the contrast becomes much harder to acquire.
+Adult Japanese speakers have great difficulty hearing the difference between `lag` and `rag`. The standard explanation — that they are "missing" the contrast the way a colorblind viewer is missing a channel — is wrong, and the correct explanation is stranger.
 
-- [An effect of linguistic experience: The discrimination of \[r\] and \[l\] by native speakers of Japanese and English](https://link.springer.com/article/10.3758/BF03211209)
-- [Kuhl et al. (2008), "Phonetic learning as a pathway to language: new data and native language magnet theory expanded (NLM-e)" ](https://pmc.ncbi.nlm.nih.gov/articles/PMC2606791/)
-- [Kuhl (2000), "A new view of language acquisition"](https://www.pnas.org/doi/10.1073/pnas.97.22.11850)
+Exposure to a native language in the first year of life does not delete phonetic distinctions. It warps the geometry of perceptual similarity itself. Sounds near the center of a learned category get pulled toward the category's prototype and heard as more alike; sounds near category boundaries get pushed apart and heard as more different. Japanese adults are not failing to register an acoustic cue in /r/ and /l/. They are attending to a different acoustic dimension (F2) than English speakers attend to (F3), because their perceptual system has been trained to weight the dimensions differently. The English speaker and the Japanese speaker are not hearing the same signal with one of them degraded. They are hearing through different metrics.
+
+The warping is not a loss. It is the mechanism by which any language-competent hearing exists at all. You get English-specific sensitivity by losing universal sensitivity. Japanese listeners acquire discriminations — pitch accent, moraic length, certain tonal and timing contrasts — that English adults genuinely cannot hear, by the same process. Specialization and loss are the same fact.
+
+The window closes gradually over the first year. Vowel categories stabilize around six months; consonant categories, including /r/–/l/, between about ten and twelve months. After that the brain commits to its native phonetic scheme, and perception of non-native contrasts does not disappear but becomes slow, effortful, and structurally interfered with by the native categories already in place. Adults can be retrained, but the training is working against an installed geometry, not filling in a blank.
+
+Which means the scholar in the story is not an exception. Every adult listener has been formed into competence at hearing some distinctions by being formed into incompetence at hearing others. The villagers who cannot tell the box's two words apart are not missing a feature the scholar possesses. The scholar is also a villager, for some other box, in some other square, that he will pass his whole life without registering as a signal.
+
+* [Goto (1971), "An effect of linguistic experience: The discrimination of [r] and [l] by native speakers of Japanese and English"](https://link.springer.com/article/10.3758/BF03211209)
+* [Kuhl et al. (2008), "Phonetic learning as a pathway to language: new data and native language magnet theory expanded (NLM-e)"](https://pmc.ncbi.nlm.nih.gov/articles/PMC2606791/)
+* [Kuhl (2000), "A new view of language acquisition"](https://www.pnas.org/doi/10.1073/pnas.97.22.11850)
