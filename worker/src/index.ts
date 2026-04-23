@@ -16,7 +16,7 @@ import { fetchOgMetadata } from "./opengraph";
 import { extractTags } from "./tags";
 import { extractThoughtLinks } from "./thought-links";
 import { createMcpServer } from "./mcp";
-import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings, upsertPasteEmbedding, upsertAmplificationEmbedding, classifyVectorId } from "./embeddings";
+import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings, upsertPasteEmbedding, upsertAmplificationEmbedding, classifyVectorId, chunkPasteBody } from "./embeddings";
 import { hashBody, attachDuplicateIds } from "./body-hash";
 import { dha } from "./dha";
 import { posts } from "./posts";
@@ -234,21 +234,26 @@ api.get("/search", async (c) => {
   });
 
   const thoughtMatches: { id: number; score: number }[] = [];
-  const pasteMatches: { id: string; score: number }[] = [];
+  const pasteBestByRef = new Map<string, { id: string; score: number; chunk: number }>();
   const ampMatches: { id: number; score: number }[] = [];
 
   for (const m of vecResults.matches) {
-    const { kind, ref } = classifyVectorId(m.id);
+    const { kind, ref, chunk } = classifyVectorId(m.id);
     if (kind === "thought") {
       const n = parseInt(ref, 10);
       if (!Number.isNaN(n)) thoughtMatches.push({ id: n, score: m.score });
     } else if (kind === "paste") {
-      pasteMatches.push({ id: ref, score: m.score });
+      // Dedup chunks: keep the best-scoring chunk per paste.
+      const existing = pasteBestByRef.get(ref);
+      if (!existing || m.score > existing.score) {
+        pasteBestByRef.set(ref, { id: ref, score: m.score, chunk: chunk ?? 0 });
+      }
     } else if (kind === "amplification") {
       const n = parseInt(ref, 10);
       if (!Number.isNaN(n)) ampMatches.push({ id: n, score: m.score });
     }
   }
+  const pasteMatches = [...pasteBestByRef.values()];
 
   const [thoughts, pastes, amplifications] = await Promise.all([
     fetchThoughtsForSearch(c.env.DB, thoughtMatches, authed),
@@ -310,28 +315,48 @@ async function fetchThoughtsForSearch(
 
 async function fetchPastesForSearch(
   db: D1Database,
-  matches: { id: string; score: number }[],
+  matches: { id: string; score: number; chunk: number }[],
   authed: boolean,
 ): Promise<Record<string, unknown>[]> {
   if (matches.length === 0) return [];
   const ids = matches.map((m) => m.id);
-  const scoreById = new Map(matches.map((m) => [m.id, m.score]));
+  const matchById = new Map(matches.map((m) => [m.id, m]));
   const placeholders = ids.map(() => "?").join(",");
   const sharedFilter = authed ? "" : " AND p.shared = 1";
 
+  // Fetch full body so we can re-chunk and return the matching chunk as preview.
   const results = await db.prepare(
-    `SELECT p.id, p.title, p.language, p.shared, p.created_at,
-       SUBSTR(p.body, 1, 300) AS body_preview
+    `SELECT p.id, p.title, p.language, p.shared, p.created_at, p.body
      FROM paste p
      WHERE p.id IN (${placeholders}) AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id)${sharedFilter}`
-  ).bind(...ids).all();
+  ).bind(...ids).all<{
+    id: string;
+    title: string | null;
+    language: string;
+    shared: number;
+    created_at: number;
+    body: string;
+  }>();
 
-  const pastes = results.results as Record<string, unknown>[];
-  for (const p of pastes) {
-    p.score = scoreById.get(p.id as string) || 0;
-  }
-  pastes.sort((a, b) => (b.score as number) - (a.score as number));
-  return pastes;
+  const pastes = results.results.map((p) => {
+    const match = matchById.get(p.id);
+    const score = match?.score ?? 0;
+    const chunkIdx = match?.chunk ?? 0;
+    const chunks = chunkPasteBody(p.title, p.body);
+    const snippet = chunks[chunkIdx] ?? chunks[0] ?? p.body.slice(0, 300);
+    return {
+      id: p.id,
+      title: p.title,
+      language: p.language,
+      shared: p.shared,
+      created_at: p.created_at,
+      body_preview: snippet.slice(0, 500),
+      score,
+    };
+  });
+
+  pastes.sort((a, b) => b.score - a.score);
+  return pastes as unknown as Record<string, unknown>[];
 }
 
 async function fetchAmplificationsForSearch(

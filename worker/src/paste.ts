@@ -626,9 +626,16 @@ paste.post("/", async (c) => {
     .bind(id, body, language, title || null, now, parentId)
     .run();
 
-  // Only the latest leaf of a fork chain is indexed. Drop the parent's vector, embed the new leaf.
+  // Only the latest leaf of a fork chain is indexed. Drop the parent's vectors, embed the new leaf.
   if (parentId) {
-    c.executionCtx.waitUntil(deletePasteEmbeddings(c.env, [parentId]));
+    const parent = await c.env.DB.prepare("SELECT title, body FROM paste WHERE id = ?")
+      .bind(parentId)
+      .first<{ title: string | null; body: string }>();
+    if (parent) {
+      c.executionCtx.waitUntil(
+        deletePasteEmbeddings(c.env, [{ id: parentId, title: parent.title, body: parent.body }]),
+      );
+    }
   }
   c.executionCtx.waitUntil(upsertPasteEmbedding(c.env, id, title || null, body, now));
 

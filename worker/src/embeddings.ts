@@ -61,21 +61,72 @@ export async function deleteThoughtEmbeddings(
 
 const PASTE_PREFIX = "paste-";
 const AMP_PREFIX = "amp-";
-const PASTE_EMBED_MAX_CHARS = 2000;
+const PASTE_CHUNK_MAX_CHARS = 1800;
 const AMP_EMBED_MAX_CHARS = 1500;
 
-export function pasteVectorId(pasteId: string): string {
-  return `${PASTE_PREFIX}${pasteId}`;
+export function pasteChunkVectorId(pasteId: string, chunk: number): string {
+  return `${PASTE_PREFIX}${pasteId}-${chunk}`;
 }
 
 export function amplificationVectorId(ampId: number): string {
   return `${AMP_PREFIX}${ampId}`;
 }
 
-export function classifyVectorId(id: string): { kind: "thought" | "paste" | "amplification"; ref: string } {
-  if (id.startsWith(PASTE_PREFIX)) return { kind: "paste", ref: id.slice(PASTE_PREFIX.length) };
+/**
+ * Parse a Vectorize ID into its type + ref. Handles both the legacy single-vector
+ * `paste-{id}` format and the chunked `paste-{id}-{n}` format.
+ */
+export function classifyVectorId(
+  id: string,
+): { kind: "thought" | "paste" | "amplification"; ref: string; chunk?: number } {
+  if (id.startsWith(PASTE_PREFIX)) {
+    const rest = id.slice(PASTE_PREFIX.length);
+    const m = rest.match(/^(.+)-(\d+)$/);
+    if (m) return { kind: "paste", ref: m[1], chunk: parseInt(m[2], 10) };
+    return { kind: "paste", ref: rest, chunk: 0 };
+  }
   if (id.startsWith(AMP_PREFIX)) return { kind: "amplification", ref: id.slice(AMP_PREFIX.length) };
   return { kind: "thought", ref: id };
+}
+
+/**
+ * Split a paste into embedding-sized chunks. Prepends the title to every chunk so
+ * each one carries enough context to match title-referencing queries. Splits on blank
+ * lines, then hard-splits any paragraph that is itself too large.
+ */
+export function chunkPasteBody(title: string | null, body: string): string[] {
+  const header = title ? `${title}\n\n` : "";
+  if (!body.trim()) return header.trim() ? [header.trim()] : [];
+
+  // Fast path: whole thing fits.
+  if (header.length + body.length <= PASTE_CHUNK_MAX_CHARS) {
+    return [(header + body).trim()];
+  }
+
+  const budget = PASTE_CHUNK_MAX_CHARS - header.length;
+  const paragraphs = body.split(/\n\s*\n/);
+  const packed: string[] = [];
+  let current = "";
+
+  for (const p of paragraphs) {
+    if (p.length > budget) {
+      // Hard-split oversized paragraph.
+      if (current) { packed.push(current); current = ""; }
+      for (let i = 0; i < p.length; i += budget) {
+        packed.push(p.slice(i, i + budget));
+      }
+      continue;
+    }
+    if ((current ? current.length + 2 : 0) + p.length > budget) {
+      packed.push(current);
+      current = p;
+    } else {
+      current = current ? `${current}\n\n${p}` : p;
+    }
+  }
+  if (current) packed.push(current);
+
+  return packed.map((c) => (header + c).trim());
 }
 
 export async function upsertPasteEmbedding(
@@ -86,28 +137,44 @@ export async function upsertPasteEmbedding(
   createdAt: number,
 ): Promise<void> {
   try {
-    const text = [title ?? "", body.slice(0, PASTE_EMBED_MAX_CHARS)].filter(Boolean).join("\n\n");
-    if (!text.trim()) return;
-    const vec = await embedText(env.AI, text);
-    await env.VECTORIZE.upsert([
-      {
-        id: pasteVectorId(pasteId),
-        values: vec,
-        metadata: { kind: "paste", timestamp: createdAt },
-      },
-    ]);
+    const chunks = chunkPasteBody(title, body);
+    if (chunks.length === 0) return;
+    // Embed each chunk sequentially; Workers AI usually rate-limits parallel calls.
+    for (let i = 0; i < chunks.length; i++) {
+      const vec = await embedText(env.AI, chunks[i]);
+      await env.VECTORIZE.upsert([
+        {
+          id: pasteChunkVectorId(pasteId, i),
+          values: vec,
+          metadata: { kind: "paste", timestamp: createdAt, chunk: i },
+        },
+      ]);
+    }
   } catch (e) {
     console.error("Failed to upsert paste embedding:", e);
   }
 }
 
+/**
+ * Delete every chunk belonging to the given pastes. Callers pass the body/title so
+ * the chunker can compute exactly how many chunks exist.
+ * Legacy single-vector `paste-{id}` entries are also swept for back-compat.
+ */
 export async function deletePasteEmbeddings(
   env: Env,
-  pasteIds: string[],
+  pastes: { id: string; title: string | null; body: string }[],
 ): Promise<void> {
   try {
-    if (pasteIds.length === 0) return;
-    const ids = pasteIds.map(pasteVectorId);
+    if (pastes.length === 0) return;
+    const ids: string[] = [];
+    for (const p of pastes) {
+      const chunks = chunkPasteBody(p.title, p.body);
+      for (let i = 0; i < chunks.length; i++) {
+        ids.push(pasteChunkVectorId(p.id, i));
+      }
+      // Sweep legacy unchunked format.
+      ids.push(`${PASTE_PREFIX}${p.id}`);
+    }
     for (let i = 0; i < ids.length; i += 20) {
       await env.VECTORIZE.deleteByIds(ids.slice(i, i + 20));
     }
