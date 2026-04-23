@@ -2803,12 +2803,17 @@ a.movie-title:hover {
 
 .browse-cluster-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
   padding: 0.35rem 0.5rem;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.browse-cluster-item input {
+  margin-top: 0.15rem;
 }
 
 .browse-cluster-item:hover {
@@ -2827,15 +2832,16 @@ a.movie-title:hover {
 .browse-cluster-label {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .browse-cluster-size {
   color: var(--text-muted, #888);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  padding-top: 0.05rem;
 }
 
 .browse-clear {
