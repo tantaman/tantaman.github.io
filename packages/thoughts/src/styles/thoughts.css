@@ -2647,6 +2647,21 @@ a.movie-title:hover {
   background: rgba(255, 255, 255, 0.05);
 }
 
+.amplification-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.bookmark-card:hover .amplification-actions {
+  opacity: 1;
+}
+
 .capture-help {
   max-width: 560px;
   margin-top: 2.5rem;

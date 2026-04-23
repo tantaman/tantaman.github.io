@@ -302,6 +302,19 @@ export async function deleteAmplification(id: number, secret: string): Promise<v
   if (!r.ok) throw new Error('Delete failed');
 }
 
+export async function refetchAmplification(id: number, secret: string): Promise<Amplification> {
+  const r = await fetch(`${API}/amplifications/${id}`, {
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({ error: 'Refetch failed' }));
+    throw new Error(err.error || 'Refetch failed');
+  }
+  return r.json();
+}
+
 export function attachmentUrl(key: string): string {
   return `${API}/attachments/${key}`;
 }

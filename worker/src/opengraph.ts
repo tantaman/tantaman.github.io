@@ -39,10 +39,16 @@ export async function fetchOgMetadata(
         : concatUint8Arrays(chunks, totalBytes),
     );
 
-    const ogTitle = extractMeta(html, "og:title");
-    const ogImage = extractMeta(html, "og:image");
+    const ogTitle =
+      extractMeta(html, "og:title") ??
+      extractNameMeta(html, "twitter:title") ??
+      extractTitle(html);
+    const ogImage =
+      extractMeta(html, "og:image") ?? extractNameMeta(html, "twitter:image");
     const ogDesc =
-      extractMeta(html, "og:description") ?? extractNameMeta(html, "description");
+      extractMeta(html, "og:description") ??
+      extractNameMeta(html, "twitter:description") ??
+      extractNameMeta(html, "description");
     const ogSiteName = extractMeta(html, "og:site_name");
 
     if (!ogImage && !ogDesc && !ogTitle && !ogSiteName) return null;
@@ -100,6 +106,22 @@ function extractNameMeta(html: string, name: string): string | null {
   );
   const m = html.match(re);
   return m ? (m[1] ?? m[2] ?? null) : null;
+}
+
+function extractTitle(html: string): string | null {
+  const m = html.match(/<title[^>]*>([^<]{1,400})<\/title>/i);
+  if (!m) return null;
+  return decodeEntities(m[1].trim()) || null;
+}
+
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'");
 }
 
 function escapeRegex(s: string): string {

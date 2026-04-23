@@ -2,6 +2,16 @@ import { Hono } from "hono";
 import type { Env } from "./index";
 import { CreateAmplificationBody } from "./schemas";
 import { fetchOgMetadata } from "./opengraph";
+import type { OgMetadata } from "./opengraph";
+import { isSubstackNoteUrl, fetchSubstackNoteMetadata } from "./substack";
+
+async function enrichUrl(url: string, source: string): Promise<OgMetadata | null> {
+  if (source === "substack" && isSubstackNoteUrl(url)) {
+    const fromApi = await fetchSubstackNoteMetadata(url);
+    if (fromApi) return fromApi;
+  }
+  return fetchOgMetadata(url);
+}
 
 export const amplifications = new Hono<{ Bindings: Env }>();
 
@@ -68,7 +78,7 @@ amplifications.post("/", async (c) => {
     return c.json({ ...row, duplicate: true });
   }
 
-  const og = await fetchOgMetadata(body.url);
+  const og = await enrichUrl(body.url, source);
 
   const result = await c.env.DB.prepare(
     "INSERT INTO amplification (url, source, note, title, image_url, description, site_name, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
@@ -97,14 +107,14 @@ amplifications.patch("/:id", async (c) => {
   }
 
   const id = parseInt(c.req.param("id"), 10);
-  const row = await c.env.DB.prepare("SELECT url FROM amplification WHERE id = ?").bind(id).first<{ url: string }>();
+  const row = await c.env.DB.prepare("SELECT url, source FROM amplification WHERE id = ?").bind(id).first<{ url: string; source: string }>();
   if (!row) return c.json({ error: "Not found" }, 404);
 
-  const og = await fetchOgMetadata(row.url);
-  if (!og) return c.json({ error: "Could not fetch OG metadata" }, 422);
+  const og = await enrichUrl(row.url, row.source);
+  if (!og) return c.json({ error: "Could not fetch metadata" }, 422);
 
   await c.env.DB.prepare(
-    "UPDATE amplification SET title = COALESCE(title, ?), image_url = ?, description = ?, site_name = ? WHERE id = ?"
+    "UPDATE amplification SET title = ?, image_url = ?, description = ?, site_name = ? WHERE id = ?"
   ).bind(og.title, og.imageUrl, og.description, og.siteName, id).run();
 
   const updated = await c.env.DB.prepare(
