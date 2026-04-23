@@ -434,15 +434,14 @@ api.get("/thoughts/graph", async (c) => {
     return c.json({ thoughts: [], clusters: [] });
   }
 
-  const ids = thoughts.map((t) => t.id);
-  const placeholders = ids.map(() => "?").join(",");
-
   // Primary cluster per thought (rank=0 row from cluster_membership).
+  // Fetch all rank-0 memberships and intersect in memory — D1 caps prepared-statement
+  // variables around 100, so an IN (?,?,...) with hundreds of ids would 500.
   const memRows = await c.env.DB.prepare(
     `SELECT CAST(item_id AS INTEGER) AS id, cluster_id
      FROM cluster_membership
-     WHERE item_kind = 'thought' AND rank = 0 AND CAST(item_id AS INTEGER) IN (${placeholders})`
-  ).bind(...ids).all<{ id: number; cluster_id: number }>();
+     WHERE item_kind = 'thought' AND rank = 0`
+  ).all<{ id: number; cluster_id: number }>();
   const clusterIdByThought = new Map<number, number>();
   for (const r of memRows.results) clusterIdByThought.set(r.id, r.cluster_id);
 
