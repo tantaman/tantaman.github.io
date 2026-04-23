@@ -5,6 +5,8 @@ concern: [knowledge]
 author: [tantaman, claude]
 ---
 
+![Habiballah of Sava](/img/habiballah-birds.jpg)
+
 Radical empiricism updates beliefs from experience. It does not update the experiencer. That single asymmetry holds the whole framework together, and it's the reason a serious defender of the position has to refuse the seven claims below. Each of them reaches beneath the belief layer to the aperture itself. Grant any one, and the framework cannot hold.
 
 What follows is the seven claims, briefly, with the evidence that makes each one hard to escape.

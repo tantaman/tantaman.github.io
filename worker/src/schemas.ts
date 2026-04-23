@@ -218,6 +218,13 @@ export const ReorderListItemsBody = z.object({
   })).min(1),
 });
 
+// POST /amplifications
+export const CreateAmplificationBody = z.object({
+  url: z.string().url().max(2048),
+  source: z.string().trim().min(1).max(64).optional(),
+  note: z.string().max(2000).optional(),
+});
+
 // POST /comments/:slug
 export const CreateCommentBody = z.object({
   body: z.string().trim().min(1).max(2000),

@@ -26,6 +26,7 @@ import { paste } from "./paste";
 import { lists } from "./lists";
 import { now } from "./now";
 import { thoughtOg } from "./thought-og";
+import { amplifications } from "./amplifications";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -1692,6 +1693,7 @@ api.route("/posts", posts);
 api.route("/comments", comments);
 api.route("/ig-card", igCard);
 api.route("/lists", lists);
+api.route("/amplifications", amplifications);
 
 // Serve audio files from R2
 app.get("/audio/*", async (c) => {

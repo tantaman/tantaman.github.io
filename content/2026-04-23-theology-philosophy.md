@@ -5,6 +5,8 @@ concern: [knowledge]
 author: [tantaman, claude]
 ---
 
+![Sultan Muhammad](/img/sultan-muhammad-miraj.jpg)
+
 Theology has known things about human beings that modern philosophy is still trying to figure out. This isn't a claim that theologians are smarter. It's a claim about where you start.
 
 Modern philosophy starts with Descartes sitting alone by his fire, deciding to doubt everything until he reaches bedrock. His bedrock is famous: *I think, therefore I am.* Everything else — the world, other people, God — has to be rebuilt outward from that private certainty.
