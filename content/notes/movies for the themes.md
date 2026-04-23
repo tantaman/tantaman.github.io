@@ -1,0 +1,78 @@
+---
+title: 'Movies for the Themes'
+tags: [film, culture]
+---
+
+# Movies for the Tantamanlands Themes
+
+Curated to the author's voice — diagnostic about systems, mythic about rupture. Each cluster matches an actual stance in the corpus, not just topic adjacency.
+
+## 1. The Wheel — institutional capture, recursive betrayal
+
+- **The Battle of Algiers** (Pontecorvo, 1966) — liberation movements reproducing the structure they fought.
+- **A Hidden Life** (Malick, 2019) — refusal as the only exit from the ratchet; Jägerstätter as an unengineerable rupture.
+- **The Conformist** (Bertolucci, 1970) — fascism not as villainy but as the path of least social resistance.
+- **The Lives of Others** (von Donnersmarck, 2006) — surveillance state seen from inside its own grammar.
+- **Children of Men** (Cuarón, 2006) — hollowed institutions running on inertia; "no one is driving."
+
+## 2. Formation & the Gaze — selves made, not chosen
+
+- **Persona** (Bergman, 1966) — identity as performance under the gaze of the other.
+- **The Mirror** (Tarkovsky, 1975) — generational formation; the four selves bleeding into each other.
+- **Phantom Thread** (Anderson, 2017) — the formed self as craft, ritual, and mutual capture.
+- **Synecdoche, New York** (Kaufman, 2008) — the disengaged-optimized self watching itself perform.
+- **Roma** (Cuarón, 2018) — class formation as background radiation no character can name.
+
+## 3. Grammar & Legibility — language as cage
+
+- **Arrival** (Villeneuve, 2016) — grammar restructuring what can be perceived and willed.
+- **Pontypool** (McDonald, 2008) — language as the literal infection vector of power.
+- **Brazil** (Gilliam, 1985) — bureaucratic legibility producing the unspeakable.
+- **The Tribe** (Slaboshpytskyi, 2014) — an entire alternative grammar, no subtitles, no escape.
+- **The Death of Stalin** (Iannucci, 2017) — political grammar shifting mid-sentence and crushing whoever spoke last.
+
+## 4. Theological Inheritance — Christian skeleton in secular bones
+
+- **First Reformed** (Schrader, 2017) — secular eschatology resurrecting the priest's despair.
+- **Silence** (Scorsese, 2016) — apostasy, grace, and the cost of faith without institutional cover.
+- **Calvary** (McDonagh, 2014) — the world judging the priest using moral grammar it inherited from him.
+- **Andrei Rublev** (Tarkovsky, 1966) — faith inside history's machinery.
+- **The Mission** (Joffé, 1986) — Christianity colliding with its own institutional contradictions.
+
+## 5. Mystical Cessation — the exit that cannot be engineered
+
+- **Stalker** (Tarkovsky, 1979) — the Room granting only what you didn't know to want.
+- **Ordet** (Dreyer, 1955) — the open hand; grace arriving structurally, not earned.
+- **Of Gods and Men** (Beauvois, 2010) — surrender as the only remaining freedom.
+- **Diary of a Country Priest** (Bresson, 1951) — "tout est grâce."
+- **Wings of Desire** (Wenders, 1987) — Gelassenheit; descending into being from observation.
+- **The Tree of Life** (Malick, 2011) — the way of nature versus the way of grace, stated outright.
+
+## 6. Layer Zero — the colonized body
+
+- **Modern Times** (Chaplin, 1936) — the body broken on the rhythm of capital.
+- **Burning** (Lee Chang-dong, 2018) — dysregulated nervous systems under late modernity.
+- **The Worst Person in the World** (Trier, 2021) — the exhausted optimized self running out of rooms.
+- **4 Months, 3 Weeks and 2 Days** (Mungiu, 2007) — the body in extremis under bureaucratic indifference.
+- **The Turin Horse** (Tarr, 2011) — the will collapsing into pure embodied repetition until it stops.
+
+## 7. Network Dynamics — the machine without a driver
+
+- **Margin Call** (Chandor, 2011) — cascade through people who individually understand nothing.
+- **Burn After Reading** (Coens, 2008) — catastrophe from a network with no conspirator.
+- **Syriana** (Gaghan, 2005) — interlocking systems where no node is the cause.
+- **Traffic** (Soderbergh, 2000) — the drug economy as preferential-attachment graph.
+- **Werckmeister Harmonies** (Tarr, 2000) — the crowd as field, order shifting without leader.
+
+## 8. Ground & Presence — what remains when selves dissolve
+
+- **Tokyo Story** (Ozu, 1953) — the sacred mundane; presence after the family dissolves.
+- **Paterson** (Jarmusch, 2016) — the ground beneath the routine; attention as practice.
+- **Drive My Car** (Hamaguchi, 2021) — what remains underneath grief once striving stops.
+- **Au Hasard Balthazar** (Bresson, 1966) — apophatic; the donkey carrying what cannot be said.
+- **A Ghost Story** (Lowery, 2017) — presence, time, the ground that outlives the self.
+- **Uncle Boonmee Who Can Recall His Past Lives** (Weerasethakul, 2010) — mystical without explanation.
+
+---
+
+**A few that span multiple clusters and might be the truest matches to the corpus's voice:** *Stalker*, *First Reformed*, *A Hidden Life*, *The Tree of Life*, *Synecdoche New York*, *Werckmeister Harmonies*. Start there if you want one film per evening that earns the comparison.
