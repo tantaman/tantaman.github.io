@@ -427,51 +427,52 @@ api.get("/thoughts/graph", async (c) => {
      FROM thought t
      WHERE t.parent_id IS NULL AND t.superseded_by IS NULL${privateFilter}
      ORDER BY t.timestamp DESC`
-  ).all();
+  ).all<{ id: number; body: string; timestamp: number; created_at: string; color: string | null; private: number; version_of: number | null; superseded_by: number | null; reply_count: number }>();
 
-  const thoughts = results.results as Record<string, unknown>[];
-
+  const thoughts = results.results;
   if (thoughts.length === 0) {
-    return c.json({ thoughts: [], embeddings: {} });
+    return c.json({ thoughts: [], clusters: [] });
   }
 
-  const ids = new Set(thoughts.map((t) => String(t.id)));
-  const cacheKey = `graph-embeddings-${authed ? "a" : "p"}`;
-  const version = await getVersion(c.env.DB);
+  const ids = thoughts.map((t) => t.id);
+  const placeholders = ids.map(() => "?").join(",");
 
-  // Try KV cache
-  let allEmbeddings: Record<string, number[]> | null = null;
-  const cached = await c.env.KV.get<{ version: number; embeddings: Record<string, number[]> }>(cacheKey, "json");
+  // Primary cluster per thought (rank=0 row from cluster_membership).
+  const memRows = await c.env.DB.prepare(
+    `SELECT CAST(item_id AS INTEGER) AS id, cluster_id
+     FROM cluster_membership
+     WHERE item_kind = 'thought' AND rank = 0 AND CAST(item_id AS INTEGER) IN (${placeholders})`
+  ).bind(...ids).all<{ id: number; cluster_id: number }>();
+  const clusterIdByThought = new Map<number, number>();
+  for (const r of memRows.results) clusterIdByThought.set(r.id, r.cluster_id);
 
-  if (cached && cached.version === version) {
-    allEmbeddings = cached.embeddings;
-  } else {
-    // Cache miss or stale — fetch all from Vectorize
-    allEmbeddings = {};
-    const vecIds = [...ids];
-    const VECTORIZE_BATCH = 20;
-    for (let i = 0; i < vecIds.length; i += VECTORIZE_BATCH) {
-      const batch = vecIds.slice(i, i + VECTORIZE_BATCH);
-      const vecResults = await c.env.VECTORIZE.getByIds(batch);
-      for (const vec of vecResults) {
-        allEmbeddings[vec.id] = Array.from(vec.values);
-      }
-    }
-    // Write cache — fire and forget
-    c.executionCtx.waitUntil(
-      c.env.KV.put(cacheKey, JSON.stringify({ version, embeddings: allEmbeddings }))
-    );
-  }
-
-  // Filter to only IDs from the D1 query
-  const embeddings: Record<string, number[]> = {};
-  for (const id of ids) {
-    if (allEmbeddings[id]) {
-      embeddings[id] = allEmbeddings[id];
+  // Positions from KV (graph:positions), keyed by `thought:{id}`.
+  let positions: Record<string, [number, number]> = {};
+  const rawPositions = await c.env.KV.get("graph:positions");
+  if (rawPositions) {
+    try {
+      const parsed = JSON.parse(rawPositions) as { positions: Record<string, [number, number]> };
+      positions = parsed.positions ?? {};
+    } catch {
+      // ignore
     }
   }
 
-  return c.json({ thoughts, embeddings });
+  const withCoords = thoughts.map((t) => {
+    const pos = positions[`thought:${t.id}`];
+    return {
+      ...t,
+      x: pos ? pos[0] : null,
+      y: pos ? pos[1] : null,
+      cluster_id: clusterIdByThought.get(t.id) ?? null,
+    };
+  });
+
+  const clusterRows = await c.env.DB.prepare(
+    "SELECT id, label, size FROM cluster ORDER BY size DESC"
+  ).all<{ id: number; label: string; size: number }>();
+
+  return c.json({ thoughts: withCoords, clusters: clusterRows.results });
 });
 
 api.get("/thoughts", async (c) => {

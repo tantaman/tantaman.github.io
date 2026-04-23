@@ -45,6 +45,9 @@ importers:
       turndown:
         specifier: ^7.2.2
         version: 7.2.2
+      umap-js:
+        specifier: ^1.4.0
+        version: 1.4.0
 
   packages/comments:
     dependencies:

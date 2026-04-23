@@ -1,30 +1,32 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { AuthContext } from '../App';
 import { useThoughtGraph } from '../hooks/useCache';
-import { projectEmbeddings, type ProjectedPoint } from '../umap';
-import { computeClusters, type ClusterInfo } from '../clustering';
-import type { Thought } from '../types';
+import type { GraphThought } from '../types';
 
 const PADDING = 60;
 const NODE_MIN_R = 5;
 const NODE_MAX_R = 18;
 const DEFAULT_COLOR = '#888';
 
-interface NodeData extends ProjectedPoint {
-  thought: Thought;
+interface NodeData {
+  id: number;
+  x: number;
+  y: number;
+  cluster_id: number | null;
+  thought: GraphThought;
   r: number;
   screenX: number;
   screenY: number;
 }
 
-function cosineSimilarity(a: number[], b: number[]): number {
-  let dot = 0, magA = 0, magB = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    magA += a[i] * a[i];
-    magB += b[i] * b[i];
-  }
-  return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+interface ClusterCircle {
+  id: number;
+  name: string;
+  centerX: number;
+  centerY: number;
+  radius: number;
+  color: string;
+  nodeIds: Set<number>;
 }
 
 function truncate(text: string, max: number): string {
@@ -40,6 +42,21 @@ function formatDate(timestamp: number): string {
   });
 }
 
+function averageHex(colors: string[]): string {
+  if (colors.length === 0) return DEFAULT_COLOR;
+  let r = 0, g = 0, b = 0, count = 0;
+  for (const c of colors) {
+    if (!c || c.length !== 7 || c[0] !== '#') continue;
+    r += parseInt(c.slice(1, 3), 16);
+    g += parseInt(c.slice(3, 5), 16);
+    b += parseInt(c.slice(5, 7), 16);
+    count++;
+  }
+  if (count === 0) return DEFAULT_COLOR;
+  const toHex = (n: number) => Math.round(n / count).toString(16).padStart(2, '0');
+  return '#' + toHex(r) + toHex(g) + toHex(b);
+}
+
 export function ThoughtGraph() {
   const { secret } = useContext(AuthContext);
   const { data, isLoading } = useThoughtGraph(secret);
@@ -48,58 +65,78 @@ export function ThoughtGraph() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
-  const [showEdges, setShowEdges] = useState(false);
   const [showClusters, setShowClusters] = useState(true);
-  const [threshold, setThreshold] = useState(0.82);
   const [hoveredNode, setHoveredNode] = useState<NodeData | null>(null);
-  const [selectedNode, setSelectedNode] = useState<NodeData | null>(null);
+  const [selectedCluster, setSelectedCluster] = useState<number | null>(null);
 
-  // Camera state
   const cameraRef = useRef({ offsetX: 0, offsetY: 0, zoom: 1 });
   const draggingRef = useRef(false);
   const lastMouseRef = useRef({ x: 0, y: 0 });
   const dragStartRef = useRef({ x: 0, y: 0 });
 
-  const projected = useMemo(() => {
-    if (!data || data.thoughts.length === 0) return [];
-    const ids = data.thoughts.map((t) => t.id);
-    return projectEmbeddings(ids, data.embeddings);
-  }, [data]);
-
   const nodes: NodeData[] = useMemo(() => {
-    if (!data || projected.length === 0) return [];
-    const thoughtMap = new Map(data.thoughts.map((t) => [t.id, t]));
+    if (!data || data.thoughts.length === 0) return [];
     const maxReplies = Math.max(1, ...data.thoughts.map((t) => t.reply_count));
 
-    return projected.map((p) => {
-      const thought = thoughtMap.get(p.id)!;
-      const t = thought.reply_count / maxReplies;
-      const r = NODE_MIN_R + t * (NODE_MAX_R - NODE_MIN_R);
-      return { ...p, thought, r, screenX: 0, screenY: 0 };
+    return data.thoughts.map((t) => {
+      const ratio = t.reply_count / maxReplies;
+      const r = NODE_MIN_R + ratio * (NODE_MAX_R - NODE_MIN_R);
+      return {
+        id: t.id,
+        x: t.x ?? 0.5,
+        y: t.y ?? 0.5,
+        cluster_id: t.cluster_id,
+        thought: t,
+        r,
+        screenX: 0,
+        screenY: 0,
+      };
     });
-  }, [data, projected]);
+  }, [data]);
+
+  const clusters: ClusterCircle[] = useMemo(() => {
+    if (!data || nodes.length === 0) return [];
+
+    const byCluster = new Map<number, NodeData[]>();
+    for (const n of nodes) {
+      if (n.cluster_id == null) continue;
+      let list = byCluster.get(n.cluster_id);
+      if (!list) { list = []; byCluster.set(n.cluster_id, list); }
+      list.push(n);
+    }
+
+    const out: ClusterCircle[] = [];
+    for (const c of data.clusters) {
+      const members = byCluster.get(c.id);
+      if (!members || members.length === 0) continue;
+      let sx = 0, sy = 0;
+      for (const n of members) { sx += n.x; sy += n.y; }
+      const cx = sx / members.length;
+      const cy = sy / members.length;
+      let maxD = 0;
+      for (const n of members) {
+        const dx = n.x - cx, dy = n.y - cy;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d > maxD) maxD = d;
+      }
+      out.push({
+        id: c.id,
+        name: c.label,
+        centerX: cx,
+        centerY: cy,
+        radius: Math.max(0.015, maxD + 0.01),
+        color: averageHex(members.map((m) => m.thought.color ?? '')),
+        nodeIds: new Set(members.map((m) => m.id)),
+      });
+    }
+    return out;
+  }, [data, nodes]);
 
   const visibleIds = useMemo(() => {
-    if (!selectedNode || !data) return null;
-    const set = new Set<number>([selectedNode.thought.id]);
-    if (showEdges) {
-      const selVec = data.embeddings[String(selectedNode.thought.id)];
-      if (selVec) {
-        for (const node of nodes) {
-          const vec = data.embeddings[String(node.thought.id)];
-          if (vec && cosineSimilarity(selVec, vec) >= threshold) {
-            set.add(node.thought.id);
-          }
-        }
-      }
-    }
-    return set;
-  }, [selectedNode, data, nodes, threshold, showEdges]);
-
-  const clusters = useMemo(() => {
-    if (!showClusters || nodes.length === 0) return [];
-    return computeClusters(nodes);
-  }, [nodes, showClusters]);
+    if (selectedCluster == null) return null;
+    const cluster = clusters.find((c) => c.id === selectedCluster);
+    return cluster ? cluster.nodeIds : null;
+  }, [selectedCluster, clusters]);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -122,89 +159,51 @@ export function ThoughtGraph() {
     const plotW = w - PADDING * 2;
     const plotH = h - PADDING * 2;
 
-    // Compute screen positions
     for (const node of nodes) {
-      node.screenX = PADDING + node.x * plotW;
-      node.screenY = PADDING + node.y * plotH;
-
-      // Apply camera
-      node.screenX = (node.screenX - w / 2) * cam.zoom + w / 2 + cam.offsetX;
-      node.screenY = (node.screenY - h / 2) * cam.zoom + h / 2 + cam.offsetY;
+      const plotX = PADDING + node.x * plotW;
+      const plotY = PADDING + node.y * plotH;
+      node.screenX = (plotX - w / 2) * cam.zoom + w / 2 + cam.offsetX;
+      node.screenY = (plotY - h / 2) * cam.zoom + h / 2 + cam.offsetY;
     }
 
-    // Draw clusters
     if (showClusters && clusters.length > 0) {
       for (const cluster of clusters) {
-        // If filtering, only show clusters with at least one visible node
-        if (visibleIds) {
-          let hasVisible = false;
-          for (const nid of cluster.nodeIds) {
-            if (visibleIds.has(nid)) { hasVisible = true; break; }
-          }
-          if (!hasVisible) continue;
+        if (visibleIds && !cluster.nodeIds.has([...visibleIds][0])) {
+          // Selected-cluster filter: only draw the active cluster.
+          if (cluster.id !== selectedCluster) continue;
         }
 
-        // Transform cluster center and radius to screen space
         const scrCX = (PADDING + cluster.centerX * plotW - w / 2) * cam.zoom + w / 2 + cam.offsetX;
         const scrCY = (PADDING + cluster.centerY * plotH - h / 2) * cam.zoom + h / 2 + cam.offsetY;
         const scrR = cluster.radius * Math.max(plotW, plotH) * cam.zoom;
 
-        // Parse cluster color for alpha manipulation
         const hex = cluster.color;
         const cr = parseInt(hex.slice(1, 3), 16);
         const cg = parseInt(hex.slice(3, 5), 16);
         const cb = parseInt(hex.slice(5, 7), 16);
 
-        // Filled circle
         ctx.beginPath();
         ctx.arc(scrCX, scrCY, scrR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, 0.08)`;
+        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, ${cluster.id === selectedCluster ? 0.18 : 0.08})`;
         ctx.fill();
 
-        // Dashed border
         ctx.setLineDash([6, 4]);
-        ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, 0.3)`;
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, ${cluster.id === selectedCluster ? 0.6 : 0.3})`;
+        ctx.lineWidth = cluster.id === selectedCluster ? 2 : 1.5;
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Label
         const fontSize = Math.max(10, Math.min(16, 13 * cam.zoom));
         ctx.font = `${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
-        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, 0.7)`;
+        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, 0.8)`;
         ctx.fillText(cluster.name, scrCX, scrCY - scrR - 4);
       }
     }
 
-    // Draw edges
-    if (showEdges && data) {
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i < nodes.length; i++) {
-        if (visibleIds && !visibleIds.has(nodes[i].thought.id)) continue;
-        const vecA = data.embeddings[String(nodes[i].thought.id)];
-        if (!vecA) continue;
-        for (let j = i + 1; j < nodes.length; j++) {
-          if (visibleIds && !visibleIds.has(nodes[j].thought.id)) continue;
-          const vecB = data.embeddings[String(nodes[j].thought.id)];
-          if (!vecB) continue;
-          const sim = cosineSimilarity(vecA, vecB);
-          if (sim >= threshold) {
-            const alpha = Math.min(1, (sim - threshold) / (1 - threshold) * 0.6 + 0.1);
-            ctx.strokeStyle = `rgba(150, 150, 150, ${alpha})`;
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].screenX, nodes[i].screenY);
-            ctx.lineTo(nodes[j].screenX, nodes[j].screenY);
-            ctx.stroke();
-          }
-        }
-      }
-    }
-
-    // Draw nodes
     for (const node of nodes) {
-      if (visibleIds && !visibleIds.has(node.thought.id)) continue;
+      if (visibleIds && !visibleIds.has(node.id)) continue;
       ctx.beginPath();
       ctx.arc(node.screenX, node.screenY, node.r * cam.zoom, 0, Math.PI * 2);
       ctx.fillStyle = node.thought.color || DEFAULT_COLOR;
@@ -212,18 +211,14 @@ export function ThoughtGraph() {
       ctx.fill();
       ctx.globalAlpha = 1;
     }
-  }, [nodes, showEdges, showClusters, clusters, threshold, data, hoveredNode, visibleIds]);
+  }, [nodes, showClusters, clusters, hoveredNode, visibleIds, selectedCluster]);
 
-  useEffect(() => {
-    draw();
-  }, [draw]);
+  useEffect(() => { draw(); }, [draw]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const onResize = () => draw();
-    const observer = new ResizeObserver(onResize);
+    const observer = new ResizeObserver(() => draw());
     observer.observe(canvas);
     return () => observer.disconnect();
   }, [draw]);
@@ -240,7 +235,7 @@ export function ThoughtGraph() {
     let closestDist = Infinity;
 
     for (const node of nodes) {
-      if (visibleIds && !visibleIds.has(node.thought.id)) continue;
+      if (visibleIds && !visibleIds.has(node.id)) continue;
       const dx = mx - node.screenX;
       const dy = my - node.screenY;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -252,6 +247,29 @@ export function ThoughtGraph() {
     }
     return closest;
   }, [nodes, visibleIds]);
+
+  const hitTestCluster = useCallback((clientX: number, clientY: number): ClusterCircle | null => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    const mx = clientX - rect.left;
+    const my = clientY - rect.top;
+    const cam = cameraRef.current;
+    const w = rect.width;
+    const h = rect.height;
+    const plotW = w - PADDING * 2;
+    const plotH = h - PADDING * 2;
+
+    for (const cluster of clusters) {
+      const scrCX = (PADDING + cluster.centerX * plotW - w / 2) * cam.zoom + w / 2 + cam.offsetX;
+      const scrCY = (PADDING + cluster.centerY * plotH - h / 2) * cam.zoom + h / 2 + cam.offsetY;
+      const scrR = cluster.radius * Math.max(plotW, plotH) * cam.zoom;
+      const dx = mx - scrCX;
+      const dy = my - scrCY;
+      if (dx * dx + dy * dy <= scrR * scrR) return cluster;
+    }
+    return null;
+  }, [clusters]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (draggingRef.current) {
@@ -269,7 +287,6 @@ export function ThoughtGraph() {
     setHoveredNode(node);
 
     if (node && tooltipRef.current) {
-      const rect = wrapRef.current!.getBoundingClientRect();
       const tx = node.screenX;
       const ty = node.screenY - node.r * cameraRef.current.zoom - 10;
       tooltipRef.current.style.left = `${tx}px`;
@@ -277,7 +294,6 @@ export function ThoughtGraph() {
     }
   }, [hitTest, draw]);
 
-  // Attach wheel listener imperatively to get { passive: false }
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -286,15 +302,12 @@ export function ThoughtGraph() {
       const rect = canvas.getBoundingClientRect();
       const mx = e.clientX - rect.left;
       const my = e.clientY - rect.top;
-
       const cam = cameraRef.current;
       const factor = e.deltaY > 0 ? 0.9 : 1.1;
       const newZoom = Math.max(0.3, Math.min(10, cam.zoom * factor));
-
       cam.offsetX = mx - (mx - cam.offsetX) * (newZoom / cam.zoom);
       cam.offsetY = my - (my - cam.offsetY) * (newZoom / cam.zoom);
       cam.zoom = newZoom;
-
       draw();
     };
     canvas.addEventListener('wheel', onWheel, { passive: false });
@@ -312,28 +325,32 @@ export function ThoughtGraph() {
     if (!draggingRef.current) return;
     draggingRef.current = false;
 
-    // If barely moved, treat as click
     const dx = Math.abs(e.clientX - dragStartRef.current.x);
     const dy = Math.abs(e.clientY - dragStartRef.current.y);
     if (dx < 3 && dy < 3) {
       const node = hitTest(e.clientX, e.clientY);
-      if (node && selectedNode && node.thought.id === selectedNode.thought.id) {
-        setSelectedNode(null);
-      } else if (node) {
-        setSelectedNode(node);
-      } else {
-        setSelectedNode(null);
+      if (node) {
+        location.hash = `#thought-${node.thought.id}`;
+        return;
       }
+      const cluster = hitTestCluster(e.clientX, e.clientY);
+      if (cluster) {
+        setSelectedCluster(selectedCluster === cluster.id ? null : cluster.id);
+        return;
+      }
+      setSelectedCluster(null);
     }
-  }, [hitTest, selectedNode]);
+  }, [hitTest, hitTestCluster, selectedCluster]);
 
   if (isLoading) {
-    return <div className="thought-graph-wrap"><p style={{ padding: 20, opacity: 0.5 }}>Loading graph...</p></div>;
+    return <div className="thought-graph-wrap"><p style={{ padding: 20, opacity: 0.5 }}>Loading graph…</p></div>;
   }
 
   if (!data || data.thoughts.length === 0) {
     return <div className="thought-graph-wrap"><p style={{ padding: 20, opacity: 0.5 }}>No thoughts to display.</p></div>;
   }
+
+  const missingPositions = data.thoughts.some((t) => t.x == null);
 
   return (
     <div className="thought-graph-wrap" ref={wrapRef}>
@@ -347,23 +364,13 @@ export function ThoughtGraph() {
           <input type="checkbox" checked={showClusters} onChange={(e) => setShowClusters(e.target.checked)} />
           Clusters
         </label>
-        <label className="thought-graph-toggle">
-          <input type="checkbox" checked={showEdges} onChange={(e) => setShowEdges(e.target.checked)} />
-          Edges
-        </label>
-        {showEdges && (
-          <label className="thought-graph-slider-label">
-            <input
-              type="range"
-              min="0.5"
-              max="0.98"
-              step="0.01"
-              value={threshold}
-              onChange={(e) => setThreshold(parseFloat(e.target.value))}
-              className="thought-graph-slider"
-            />
-            {threshold.toFixed(2)}
-          </label>
+        {selectedCluster != null && (
+          <button className="thought-graph-toggle" onClick={() => setSelectedCluster(null)}>
+            Clear filter
+          </button>
+        )}
+        {missingPositions && (
+          <span style={{ fontSize: 12, opacity: 0.6 }}>Some items have no position — run <code>pnpm clusters --positions-only</code></span>
         )}
       </div>
 

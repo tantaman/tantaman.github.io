@@ -244,9 +244,15 @@ export interface MediaItem {
   color: string | null;
 }
 
+export interface GraphThought extends Thought {
+  x: number | null;
+  y: number | null;
+  cluster_id: number | null;
+}
+
 export interface GraphResponse {
-  thoughts: Thought[];
-  embeddings: Record<string, number[]>;
+  thoughts: GraphThought[];
+  clusters: Cluster[];
 }
 
 export type Route =

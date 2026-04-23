@@ -2,19 +2,23 @@
 
 /**
  * Cluster thoughts + pastes + amplifications by their embeddings into K groups.
- * Writes cluster labels + per-item soft memberships (top-5) to D1, centroids to KV.
+ * Writes cluster labels + per-item soft memberships (top-5) to D1, centroids + 2D
+ * UMAP positions to KV.
  *
- * Usage: node scripts/compute-clusters.mjs [--k 15] [--dry-run] [--llm-labels]
+ * Usage:
+ *   node scripts/compute-clusters.mjs [--k 15] [--dry-run] [--llm-labels]
+ *   node scripts/compute-clusters.mjs --positions-only
  *
- * Runs k-means on Float32 vectors pulled via wrangler vectorize. Followed by TF-IDF
- * bigram labeling (or Anthropic LLM labels behind --llm-labels). Pastes are represented
- * by the centroid of their chunks; non-leaf pastes are skipped.
+ * --positions-only skips k-means, labeling, and D1 writes. It only fetches vectors,
+ * runs UMAP, and writes `graph:positions` to KV. Useful when you just want to update
+ * the graph layout without touching existing clusters.
  */
 
 import { execFileSync } from 'node:child_process';
 import { writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { UMAP } from 'umap-js';
 
 const VECTORIZE_INDEX = 'thought-embeddings';
 const D1_DB = 'thought';
@@ -22,6 +26,7 @@ const KV_BINDING = 'KV';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const LLM_LABELS = process.argv.includes('--llm-labels');
+const POSITIONS_ONLY = process.argv.includes('--positions-only');
 const K_ARG = process.argv.indexOf('--k');
 const K = K_ARG !== -1 ? parseInt(process.argv[K_ARG + 1], 10) : 15;
 const TOP_K = 5;
@@ -371,8 +376,24 @@ async function main() {
     items.push({ kind: 'paste', id: String(p.id), text, vec: rep });
   }
 
-  console.log(`\nClustering ${items.length} items into K=${K}...`);
   const vectors = items.map((it) => it.vec);
+
+  if (POSITIONS_ONLY) {
+    console.log('\nRunning UMAP (positions-only mode)...');
+    const positions = computePositions(items, vectors);
+    if (DRY_RUN) {
+      console.log('Dry run — not writing KV.');
+      for (let i = 0; i < Math.min(3, positions.length); i++) {
+        console.log(`  ${positions[i].key} → [${positions[i].x.toFixed(3)}, ${positions[i].y.toFixed(3)}]`);
+      }
+      return;
+    }
+    writePositionsKV(positions);
+    console.log('Done.');
+    return;
+  }
+
+  console.log(`\nClustering ${items.length} items into K=${K}...`);
   let centroids = kmeans(vectors, K, 50);
 
   // Hard-assign for label generation + size counts.
@@ -472,7 +493,48 @@ async function main() {
     rmSync(tmp, { recursive: true, force: true });
   }
 
+  console.log('\nRunning UMAP for graph positions...');
+  const positions = computePositions(items, vectors);
+  writePositionsKV(positions);
+
   console.log('\nDone.');
+}
+
+function computePositions(items, vectors) {
+  if (vectors.length < 2) {
+    return items.map((it) => ({ key: `${it.kind}:${it.id}`, x: 0.5, y: 0.5 }));
+  }
+  const nNeighbors = Math.min(15, Math.floor(vectors.length / 2));
+  const umap = new UMAP({ nNeighbors, nComponents: 2, minDist: 0.1, spread: 1.0 });
+  const projected = umap.fit(vectors);
+
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (const [x, y] of projected) {
+    if (x < minX) minX = x; if (x > maxX) maxX = x;
+    if (y < minY) minY = y; if (y > maxY) maxY = y;
+  }
+  const rangeX = maxX - minX || 1;
+  const rangeY = maxY - minY || 1;
+
+  return items.map((it, i) => ({
+    key: `${it.kind}:${it.id}`,
+    x: (projected[i][0] - minX) / rangeX,
+    y: (projected[i][1] - minY) / rangeY,
+  }));
+}
+
+function writePositionsKV(positions) {
+  const payload = {};
+  for (const p of positions) payload[p.key] = [p.x, p.y];
+  const tmp = mkdtempSync(join(tmpdir(), 'graph-pos-'));
+  const file = join(tmp, 'positions.json');
+  try {
+    writeFileSync(file, JSON.stringify({ version: Math.floor(Date.now() / 1000), positions: payload }), 'utf-8');
+    wrangler('kv', 'key', 'put', '--binding', KV_BINDING, 'graph:positions', '--path', file, '--remote');
+    console.log(`  wrote ${positions.length} positions`);
+  } finally {
+    rmSync(tmp, { recursive: true, force: true });
+  }
 }
 
 function titleOf(item) {
