@@ -70,6 +70,7 @@ export interface Movie {
   vote_average: number | null;
   vote_count: number | null;
   reply_count: number;
+  mention_count: number;
   created_at: number;
 }
 

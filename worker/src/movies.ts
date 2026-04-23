@@ -8,6 +8,10 @@ export interface MovieDef {
 
 export const MOVIE_RE = /^#m\s+(.+)/i;
 
+export function normalizeMovieTitle(title: string): string {
+  return title.toLowerCase().trim();
+}
+
 export function extractMovies(body: string): MovieDef[] {
   const lines = body.split('\n');
   const movies: MovieDef[] = [];

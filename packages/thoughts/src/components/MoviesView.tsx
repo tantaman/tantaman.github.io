@@ -103,6 +103,11 @@ export function MoviesView() {
                   href={`#thought-${movie.thought_id}`}
                 >
                   {movie.title}
+                  {movie.mention_count > 1 && (
+                    <span className="movie-mention-count" title={`Mentioned in ${movie.mention_count} thoughts`}>
+                      ×{movie.mention_count}
+                    </span>
+                  )}
                 </a>
                 {movie.year && <span className="movie-year">{movie.year}</span>}
                 {movie.vote_average != null && movie.vote_average > 0 && (

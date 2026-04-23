@@ -6,7 +6,7 @@ import { extractEvents } from "./events";
 import { generateICS } from "./ical";
 import { extractTasks } from "./tasks";
 import { extractLocations, geocodeLocation } from "./locations";
-import { extractMovies } from "./movies";
+import { extractMovies, normalizeMovieTitle } from "./movies";
 import { lookupMovie, fetchMovieById } from "./tmdb";
 import { extractBooks } from "./books";
 import { extractQuestions } from "./questions";
@@ -600,10 +600,25 @@ api.post("/thoughts", async (c) => {
 
   const movies = extractMovies(trimmed);
   for (const movie of movies) {
-    const meta = c.env.TMDB_API_KEY ? await lookupMovie(movie.title, c.env.TMDB_API_KEY) : null;
+    const normalized = normalizeMovieTitle(movie.title);
+    const existing = await c.env.DB.prepare(
+      "SELECT id FROM movie WHERE normalized_title = ?"
+    ).bind(normalized).first<{ id: number }>();
+
+    let movieId: number;
+    if (existing) {
+      movieId = existing.id;
+    } else {
+      const meta = c.env.TMDB_API_KEY ? await lookupMovie(movie.title, c.env.TMDB_API_KEY) : null;
+      const result = await c.env.DB.prepare(
+        "INSERT INTO movie (title, normalized_title, description, poster_url, year, tmdb_id, vote_average, vote_count, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+      ).bind(movie.title, normalized, movie.description, meta?.posterUrl ?? null, meta?.year ?? null, meta?.tmdbId ?? null, meta?.voteAverage ?? null, meta?.voteCount ?? null, timestamp).run();
+      movieId = result.meta.last_row_id as number;
+    }
+
     await c.env.DB.prepare(
-      "INSERT INTO movie (thought_id, title, description, poster_url, year, tmdb_id, vote_average, vote_count, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-    ).bind(thoughtId, movie.title, movie.description, meta?.posterUrl ?? null, meta?.year ?? null, meta?.tmdbId ?? null, meta?.voteAverage ?? null, meta?.voteCount ?? null, timestamp).run();
+      "INSERT OR IGNORE INTO thought_movie (thought_id, movie_id, description, created_at) VALUES (?, ?, ?, ?)"
+    ).bind(thoughtId, movieId, movie.description, timestamp).run();
   }
 
   const books = extractBooks(trimmed);
@@ -993,14 +1008,30 @@ api.post("/locations/:id/geocode", async (c) => {
 
 // --- Movies ---
 
+const MOVIE_SELECT = `
+  SELECT m.id, m.title, m.description, m.poster_url, m.year, m.tmdb_id, m.vote_average, m.vote_count, m.created_at,
+    agg.mention_count, agg.thought_id,
+    (SELECT COUNT(*) FROM thought r WHERE r.parent_id = agg.thought_id AND r.private = 0) AS reply_count
+  FROM movie m
+  JOIN (
+    SELECT tm.movie_id,
+      COUNT(DISTINCT tm.thought_id) AS mention_count,
+      MIN(tm.thought_id) AS thought_id
+    FROM thought_movie tm
+    JOIN thought t ON t.id = tm.thought_id
+    WHERE t.private = 0
+    GROUP BY tm.movie_id
+  ) agg ON agg.movie_id = m.id
+`;
+
 api.get("/movies", async (c) => {
   const thoughtId = c.req.query("thought_id");
 
-  let query = "SELECT m.id, m.thought_id, m.title, m.description, m.poster_url, m.year, m.tmdb_id, m.vote_average, m.vote_count, m.created_at, (SELECT COUNT(*) FROM thought r WHERE r.parent_id = m.thought_id AND r.private = 0) AS reply_count FROM movie m";
+  let query = MOVIE_SELECT;
   const bindings: (string | number)[] = [];
 
   if (thoughtId) {
-    query += " WHERE m.thought_id = ?";
+    query += " WHERE m.id IN (SELECT movie_id FROM thought_movie WHERE thought_id = ?)";
     bindings.push(parseInt(thoughtId, 10));
   }
 
@@ -1052,11 +1083,11 @@ api.patch("/movies/:id", async (c) => {
   if (!meta) return c.json({ error: "Movie not found on TMDB" }, 404);
 
   await c.env.DB.prepare(
-    "UPDATE movie SET title = ?, poster_url = ?, year = ?, tmdb_id = ?, vote_average = ?, vote_count = ? WHERE id = ?"
-  ).bind(meta.title, meta.posterUrl, meta.year, meta.tmdbId, meta.voteAverage, meta.voteCount, id).run();
+    "UPDATE movie SET title = ?, normalized_title = ?, poster_url = ?, year = ?, tmdb_id = ?, vote_average = ?, vote_count = ? WHERE id = ?"
+  ).bind(meta.title, normalizeMovieTitle(meta.title), meta.posterUrl, meta.year, meta.tmdbId, meta.voteAverage, meta.voteCount, id).run();
 
   const row = await c.env.DB.prepare(
-    "SELECT m.id, m.thought_id, m.title, m.description, m.poster_url, m.year, m.tmdb_id, m.vote_average, m.vote_count, m.created_at, (SELECT COUNT(*) FROM thought r WHERE r.parent_id = m.thought_id AND r.private = 0) AS reply_count FROM movie m WHERE m.id = ?"
+    `${MOVIE_SELECT} WHERE m.id = ?`
   ).bind(id).first();
 
   return c.json(row);

@@ -2181,6 +2181,18 @@ a.movie-title:hover {
   color: var(--text-muted);
 }
 
+.movie-mention-count {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  background: var(--accent, #1a73e8);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  vertical-align: baseline;
+}
+
 .movie-rating {
   font-size: 0.75rem;
   color: var(--text-muted);
