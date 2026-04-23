@@ -5,7 +5,7 @@ description: 'New here? This blog began in software engineering, then expanded i
 concern: [self, craft]
 ---
 
-New here? This blog began in software engineering, then expanded into philosophy, religion, politics, and fiction. This guide organizes the writing into thematic paths. Pick what interests you, or follow the arc from diagnosis to ground.
+New here? This blog began in software engineering, then expanded into philosophy, religion, politics, and fiction. The arc, roughly: something is wrong → here is the machine → here is how it shapes you through language and formation → here is what to build. This guide organizes the writing into thematic paths. Pick what interests you, or follow the arc from diagnosis to ground.
 
 ---
 
@@ -19,6 +19,8 @@ The on-ramp. Something is off and the data confirms it.
 4. **[Burnout Is a Modern Invention](/2025-12-15-burnout-is-a-modern-invention)** - Pre-capitalist societies didn't burn out because they hadn't moralized labor
 5. **[You Are Not Your Diagnosis](/2025-01-01-you-are-not-your-diagnosis)** - Pain is a catalyst, not an identity
 6. **[The Liquefaction of Being](/2025-12-21-the-liquefaction-of-being-materialism)** - Technology and materialism dissolved the self into standing reserve
+7. **[The Reckoning](/2026-04-08-the-reckoning)** - Thirty years of comfort is ending; the vocabulary of self-discovery cannot meet what's coming
+8. **[The Ratchet](/2026-02-26-ratchet-stage)** - Power and capital accumulate like a law of nature, across every scale
 
 ---
 
@@ -35,6 +37,8 @@ Genealogy: how religion became secularism, and what was lost in transit.
 5. **[From Galilee to Empire](/2025-12-18-from-galilee-to-empire-the-institutional)** - How a radical movement became an instrument of state power
 6. **[The Alchemy of Power](/2025-12-18-the-alchemy-of-power)** - Spiritual insights resist capture, yet institutions always absorb them
 7. **[From Calvinism to Capitalism](/2025-12-10-calvinism-to-capitalism)** - How predestination produced the perfect subject for the market
+8. **[The Invention of the Confessing Animal](/2025-12-17-the-invention-of-the-confessing-animal)** - Confession made people legible, and legible subjects are governable
+9. **[The Genealogy of the Empty Cradle](/2026-03-02-the-genealogy-of-the-empty-cradle)** - Three historical inversions turned participatory traditions into instruments
 
 ## Patterns Across Traditions
 
@@ -43,6 +47,12 @@ Genealogy: how religion became secularism, and what was lost in transit.
 3. **[Principalities and Powers](/2026-01-12-principalities-and-powers)** - Paul's epistle describes self-perpetuating systems, not supernatural demons
 4. **[The Battlefield of Attention](/2025-12-18-the-battlefield-of-attention)** - You become like what you worship—and empires know it
 5. **[Secularized Worship](/2025-12-18-the-shape-of-the-container)** - Revelation's pattern of total allegiance reappears across modern systems
+6. **[The West Is Trapped in a Religious Psychodrama](/2026-02-21-west-psychodrama)** - Three Abrahamic eschatologies locked in a self-fulfilling conflict spiral
+
+## Primary Sources
+
+1. **[Voices from Below: Peasant Uprisings](/2025-12-10-peasent-uprisings)** - Peasants supply the numbers; marginalized elites supply the direction
+2. **[Indigenous Slavery, Conquest, and Child Soldiers](/2025-12-10-indigenous-violence-slavery-documentation)** - Primary sources showing violence is human, not imported
 
 ---
 
@@ -58,6 +68,15 @@ How power operates through structure, not conspiracy.
 4. **[How Power Uses Mass Education](/2025-12-19-how-power-weaponizes-mass-education)** - Canons, curricula, and the shaping of imagination at scale
 5. **[The Capture of American Power](/2025-01-01-the-capture-of-american-power-peter)** - From the Epstein class to the Thiel class
 6. **[Financial Power and Imperial Rule](/2025-01-01-financial-power-and-imperial-rule)** - How Britain weaponized credit into empire
+7. **[Why Cultures Differentiate](/2025-12-12-why-cultures-differentiate)** - Geography creates different fitness landscapes for the humans inside them
+8. **[The Utopia of Rules](/2025-01-01-david-graeber-the-utopia-of-rules)** - Graeber on how egalitarian structures reproduce hierarchy without ideology
+
+## Networks and the Death of Conspiracy
+
+1. **[No One Is Driving](/2026-03-28-network-conspiracy)** - Predictive power comes from network structure, not control
+2. **[The Gender Cascade](/2026-03-28-gender-network)** - How gender theory spread through network dynamics, without a plan
+3. **[Knowledge Cannot Centralize](/2026-03-25-knowledge-cannot-centralize)** - Local, contextual knowledge cannot be extracted without transforming it
+4. **[Shadow of the Liberal Project](/2026-03-26-shadow-of-liberalism)** - Communism as liberalism stripped of its hesitations and fully realized
 
 ## The Machine Today
 
@@ -66,19 +85,41 @@ How power operates through structure, not conspiracy.
 3. **[The Employable Subject](/2025-12-19-the-employable-subject)** - Education produces adaptable workers, not flourishing humans
 4. **[The Cage and the Argument About Its Curtains](/2026-02-09-the-cage-and-the-argument-about-its)** - Left and right argue within market totality without questioning it
 5. **[The Invisible Right](/2026-02-09-the-invisible-right-on-what-becomes)** - When an ideology becomes synonymous with reality, it disappears from debate
+6. **[The Same Machine](/2026-03-03-one-party-system-two-party-theatre)** - Both parties agree on everything important; the fights are distractions
+7. **[The Structural Trap: NYC's $127 Billion Budget](/2026-02-20-nyc-mamdani-budget)** - Compensation consumes 59% of the budget; no mayor can escape it
+8. **[The Formation We Admit To](/2026-04-06-formation-we-admit-to)** - Netflix's culture deck is an unintended proof that texts reshape people
 
 ---
 
-# IV. If You Want to See Through Language
+# IV. If You Want to See Through Language and Formation
 
-Grammar, epistemology, and the limits of knowledge.
+Grammar, narrative, recognition, and the limits of knowledge.
 
 ## Grammar and Thought
 
 1. **[Grammar Rules All](/2026-01-23-grammar-rules-all)** - Grammar determines which values are available before you "choose"
 2. **[The Language That Thinks For You](/2026-01-23-the-language-that-thinks-for-you)** - Therapy grammar vs. moral grammar—mutual unintelligibility
 3. **[Grammar as Alignment: The WEF](/2026-01-23-grammar-as-alignment-the-world-economic)** - How Davos generates the grammar that cascades through institutions
-4. **[Non-Conceptual Definitions](/2020-05-25-Non-Conceptual-Definitions)** - Some words are defined by examples, not principles
+4. **[The Grammar That Teaches Grammar](/2026-03-04-the-hidden-grammar)** - The fact/opinion split hides narrative's epistemological role
+5. **[The Embedded Ontologies: Gen Z and Gen Alpha Slang](/2026-04-07-z-alpha-lexicon)** - Vast vocabulary, few underlying anthropologies
+6. **[Non-Conceptual Definitions](/2020-05-25-Non-Conceptual-Definitions)** - Some words are defined by examples, not principles
+
+## Narrative as Knowing
+
+1. **[The Fourth Ground](/2026-03-04-fourth-way-of-knowing)** - Narrative is the missing fourth way of knowing, alongside empirical, rational, intuitive
+2. **[The Undesigned Narrative](/2026-03-04-the-undesigned-narrative)** - The Bible's testimony to institutional capture, because no one designed it to say that
+3. **[The Hidden Curriculum](/2026-02-27-hidden-curriculum)** - Ethics cannot be rationally grounded; foundations are always imported
+4. **[The Data Doesn't Speak](/2026-03-02-data-doesnt-speak)** - Formation shapes what counts as evidence, before any data is read
+5. **[Civilizational Texts](/2026-04-06-civilizational-texts)** - How societies canonize texts, and how those texts then form the society
+6. **[The Laboratory of the Human: Shakespeare as Knowledge](/2025-12-22-the-laboratory-of-the-human-shakespeare)** - Literature as experimental science of behavior
+7. **[Seven Things Radical Empiricism Cannot Grant](/2026-04-23-seven-points)** - Formation limits cognition; literature changes the knower
+8. **[Theology Is Ahead of Philosophy](/2026-04-23-theology-philosophy)** - Call and address precede doubt as the foundation for thinking
+
+## Recognition and Legibility
+
+1. **[Recognition Dynamics: A Formal Model](/2026-03-16-recognition-dynamics)** - A mathematical model of recognition deficit and the legibility trap
+2. **[Why Recognition Becomes Control](/2026-03-17-S-F_of_S)** - Recognition requires reduction to legible forms; legibility enables management
+3. **[Two Analysts](/2026-04-09-radical-empiricism-story)** - Lived knowledge is unlegible to institutions; template-fitting guides policy anyway
 
 ## Epistemology and Statistics
 
@@ -86,11 +127,12 @@ Grammar, epistemology, and the limits of knowledge.
 2. **[Regression to the Mean vs Gambler's Fallacy](/2021-01-26-regression-mean-vs-gambler)** - They don't contradict
 3. **[Volatility Isn't Risk](/2021-02-07-volatility-isnt-risk)** - Finance's biggest lie
 4. **[Manufacturing Luck](/2026-01-27-manufacturing-luck)** - Luck is a system, not an event
+5. **[When Experts Were Clearly Wrong](/2026-03-24-failed-expert-consensus)** - Historical cases of expert failure from missing feedback loops
 
 ## What Knowledge Can and Cannot Do
 
 1. **[When Equations See What Eyes Cannot](/2025-12-19-when-equations-see-what-eyes-cannot)** - Mathematics as a window into invisible reality
-2. **[The Incomplete God](/2025-12-21-the-incomplete-god-why-science-cannot)** - Why science cannot ground itself: Godel, computation, consciousness
+2. **[The Incomplete God](/2025-12-21-the-incomplete-god-why-science-cannot)** - Why science cannot ground itself: Gödel, computation, consciousness
 3. **[Meaning at the Boundary](/2026-02-06-meaning-at-the-boundary)** - Meaning emerges from the interface between systems
 4. **[Dangerous Ideas](/2020-05-17-dangerous-ideas)** - Ideas need frameworks like power tools need safety protocols
 
@@ -108,12 +150,15 @@ Cultural diagnosis and political critique.
 4. **[The Physicians of Decay](/2026-01-15-the-physicians-of-decay)** - Foucault and Derrida as saboteurs disguised as analysts
 5. **[The Return](/2026-01-15-the-return)** - The demolition worked. Now what?
 6. **[Debugging Liberalism vs Leftism](/2026-01-11-debugging-the-confusion-liberalism)** - Classical liberalism has been replaced by therapeutic leftism
+7. **[The Pharisee Made Flesh](/2026-02-28-pharisee-made-flesh)** - AI alignment trains on humanity's own groundlessness
+8. **[The Universe Is Under No Obligation](/2026-02-27-tyson-critique)** - Neil deGrasse Tyson as the popularized affect of intelligence
 
-## Trauma & Guilt
+## Trauma, Guilt, and the Self as Project
 
 1. **[Diagnosing White Guilt](/2026-01-09-diagnosing-white-guilt)** - Original sin without absolution
 2. **[Diagnosing Trauma Culture](/2026-01-09-trauma-culture-a-diagnosis)** - Suffering as currency, victimhood as identity
 3. **[Trauma Culture + White Guilt = Checkmate](/2026-01-09-trauma-culture-white-guilt-checkmate)** - Together they create epistemic and moral lockdown
+4. **[Resurrecting Ted Kaczynski](/2025-01-01-resurrecting-ted-kaczynski)** - Trauma culture and white guilt as systematized psychological control
 
 ## Political Analysis
 
@@ -124,6 +169,19 @@ Cultural diagnosis and political critique.
 5. **[The Fence You Cannot See](/2026-01-14-the-fence-you-cannot-see)** - Inherited structures encode solutions to problems you've never had to face
 6. **[Education Cannot Save Us](/2026-01-31-education-cannot-save-us)** - Reason can't resolve disagreements about values
 7. **[The Executive Function Curriculum](/2026-02-02-the-executive-function-curriculum)** - Teaching children to be optimizable
+8. **[Progressive Identity Tier List](/2026-04-01-progressive-tier-list)** - Ranking progressive identities by their immunity to criticism
+9. **[Trump is Brilliant](/2026-03-26-trump-is-brilliant)** - What looks like chaos is coherent strategy across attention, subject, and form
+10. **[No Community? No Duh](/2026-03-28-no-community-no-duh)** - Community requires obligatory environmental structures; modernity erased them
+
+## Geopolitics and the State
+
+1. **[Structure, Not Vibes](/2025-12-12-structure-not-vibes-the-real-state)** - The US is structurally strong; its vulnerability is narrative breakdown
+2. **[The Vulnerability Principle](/2025-12-12-the-vulnerability-principle)** - A leader's legal jeopardy becomes a coalition lever for structural change
+3. **[Trump's Techno-Fetish](/2025-12-12-trumps-techno-fetish)** - EU regulations cost US tech $97.6B annually—tariff by regulation
+4. **[Making Sense of US-Ukraine Negotiations](/2025-12-12-making-sense-of-us-ukraine-negotations)** - The Trump doctrine: transactional deterrence, not Russia alignment
+5. **[Iran: The Board Was Already Clear](/2026-03-05-iran-the-clearing)** - Proxy destruction and convergence cleared the board before the first shot
+6. **[Iran: The Resolution](/2026-03-05-iran-the-resolution)** - A Girardian reading of coalition logic and the scapegoat mechanism
+7. **[Iran Update](/2026-03-15-iran-update)** - Iran holds Hormuz; the US loses; emboldened actors reshape the region
 
 ## Direct Addresses
 
@@ -143,6 +201,15 @@ Cultural diagnosis and political critique.
 
 The constructive heart. From diagnosis to ground.
 
+## Self, Cage, Wheel, Ground
+
+The synthesizing work. A book in progress, four movements:
+
+1. **[Self, Cage, Wheel, Ground: A Book in Progress](/2026-03-16-self-cage-wheel-ground)** - Formation, selection, power, and ground—the four movements
+2. **[Fate, Structure, Mimesis](/2026-04-06-formed-self)** - The self as output of forces; Rome, modernity, and the grammar of stagnation
+3. **[The Long Harvest](/2026-03-24-the-long-harvest)** - One woman's generational liberation, from rural constraint to the city
+4. **[The Residue](/2026-03-25-harvest-residue)** - What was lost in the liberation: inherited community and belonging
+
 ## Know Thyself
 
 A six-part series on how civilizations have understood self-knowledge:
@@ -160,6 +227,18 @@ A six-part series on how civilizations have understood self-knowledge:
 2. **[A Return to Polytheism](/2025-12-21-what-modernity-needs-a-return-to)** - Monotheistic thinking reduces plural goods to a single metric
 3. **[What If Religion Is Last?](/2021-04-05-Religion-Last)** - Religion as culmination, not precursor
 4. **[The Secret Every Political Philosophy Shares](/2026-01-29-the-secret-every-political-philosophy)** - Every political system is containment disguised as liberation
+5. **[The Architecture of Meaning](/2025-01-01-the-architecture-of-meaning-a-deeper)** - Materialism fails to ground meaning; grace offers exit
+
+## The Mystical Turn
+
+1. **[The Open Hand: On Desire, the Engine, and the Table](/2026-02-21-desire-engine-table)** - Gelassenheit as the posture that escapes optimization's grip
+2. **[Grace and the Cage](/2026-02-26-grace-and-cage)** - Is transcendence real, or just the cage's pressure-release valve?
+3. **[The Mask Debate: An Evening with Žižek](/2026-02-26-mask-debate)** - Žižek vs. Gelassenheit on self, mask, and identification
+4. **[Woe Is Me](/2026-02-26-woe-is-me)** - Scripture reveals that the universe does not organize around human merit
+5. **[The Unengineerable Rupture](/2026-02-21-structural-wisdom-biblical-eschatology)** - Every system designed to liberate gets captured by the forces it overcame
+6. **[Wanting Without Willing](/2026-02-19-mysticism-research-list)** - A primary source collection on the cessation of will
+7. **[The Technology of the Soul: Ignatian Formation](/2026-04-06-jesuit-formation)** - Systematic reordering of will through the surfacing of disordered affections
+8. **[The Religious Development of tantaman.com](/2026-02-22-religious-development)** - Timeline of this blog's arc from skepticism to cessation of will
 
 ## Ground and Community
 
@@ -169,6 +248,7 @@ A six-part series on how civilizations have understood self-knowledge:
 4. **[The Economy of Refusal](/2026-01-12-the-economy-of-refusal)** - Resistance requires alternative communal structures
 5. **[The Table](/2026-01-26-the-table)** - A rupture: living in communion now, not waiting for permission
 6. **[What If the Thing You're Protecting Yourself From...](/2026-02-12-what-if-the-thing-youre-protecting)** - ...is the only thing that can save you?
+7. **[The Honest Record](/2026-02-26-the-honest-record)** - The Bible's multi-millennial record of institutional capture beats any theory
 
 ## Prophetic Writings
 
@@ -236,16 +316,40 @@ A six-part series on how civilizations have understood self-knowledge:
 
 Stories as another way of knowing.
 
+## The Mirror Room
+
 1. **[The Mirror Room](/the-mirror-room/)** - A collection of short stories exploring identity, consistency, and becoming
-2. **[The Lamb](/2026-02-07-the-lamb)** - A man optimizes himself into a magnificent emergency—then stops
-3. **[The Lamb, Part II](/2026-02-07-the-lamb-part-ii)** - Awareness of wrongdoing strips away comfortable ignorance
-4. **[Nine Months, Two Men](/2026-02-11-nine-months-two-men)** - Same man, same trauma, two ways through
-5. **[The Ironist](/2026-02-12-the-ironist-gen-z-and-the-ground)** - Gen-Z irony vs. the capacity for genuine encounter
-6. **[The Gaze](/2026-02-11-the-gaze)** - Each generation builds a self to avoid the judgment that destroyed the last
+
+## The Lamb
+
+1. **[The Lamb](/2026-02-07-the-lamb)** - A man optimizes himself into a magnificent emergency—then stops
+2. **[The Lamb, Part II](/2026-02-07-the-lamb-part-ii)** - Awareness of wrongdoing strips away comfortable ignorance
+
+## The Generations
+
+1. **[The Long Harvest](/2026-03-24-the-long-harvest)** - One woman's escape from rural constraint into urban liberation
+2. **[The Residue](/2026-03-25-harvest-residue)** - The counternarrative: what the liberation cost
+
+## Parables
+
+1. **[The Lamp](/2026-04-18-the-lamp)** - A village lamp gradually makes the unmarked old woman invisible
+2. **[The Listener](/2026-04-18-the-listener)** - A boy hears in the machine what the scholar cannot recognize
+3. **[What the Silence Kept](/2026-04-06-what-the-silence-kept)** - A color and a language exist beyond existing frameworks
+4. **[Two Analysts](/2026-04-09-radical-empiricism-story)** - Lived knowledge is unlegible to institutions; templates guide policy instead
+5. **[The Jihad Was Against the Frame](/2026-04-18-the-jihad)** - Herbert's Jihad was against executable frames, not machines
+
+## Identity and Gaze
+
+1. **[Nine Months, Two Men](/2026-02-11-nine-months-two-men)** - Same man, same trauma, two ways through
+2. **[The Ironist](/2026-02-12-the-ironist-gen-z-and-the-ground)** - Gen-Z irony vs. the capacity for genuine encounter
+3. **[The Gaze](/2026-02-11-the-gaze)** - Each generation builds a self to avoid the judgment that destroyed the last
+4. **[The Reckoning](/2026-04-08-the-reckoning)** - Thirty years of comfort is ending; the old vocabularies are inadequate
 
 ---
 
 # The Big Picture
+
+**[Self, Cage, Wheel, Ground](/2026-03-16-self-cage-wheel-ground)** - The book in progress: four movements on formation, selection, power, and ground.
 
 **[What Holds You](/2026-02-09-what-holds-you)** - The map: four layers from market cage to colonized body.
 
@@ -255,4 +359,4 @@ Stories as another way of knowing.
 
 ---
 
-*Still lost? The throughline is this: **understanding is liberation**. Whether it's understanding how monotheism shaped our cognitive style, how grammar constrains what values are available to you, or how every institution built to help becomes a system of control—deep understanding leads to better choices. But understanding alone is not enough. Something must be built.*
+*Still lost? The throughline is this: **understanding is liberation, but understanding alone is not enough.** Whether it's understanding how monotheism shaped our cognitive style, how grammar constrains what values are available, how formation precedes reasoning, or how every institution built to help becomes a system of control—deep understanding leads to better choices. But something must be built. The ground is not a conclusion. It is a posture.*

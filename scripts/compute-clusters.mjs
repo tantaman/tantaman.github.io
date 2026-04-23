@@ -455,7 +455,9 @@ async function main() {
     'DELETE FROM cluster;',
   ];
   for (let c = 0; c < labels.length; c++) {
-    sqlParts.push(`INSERT INTO cluster (id, label, size, created_at) VALUES (${c + 1}, ${sqlString(labels[c])}, ${membersByCluster[c].length}, ${nowSec});`);
+    // size is filled in after cluster_membership inserts so it reflects the soft
+    // membership count (top-5) — what a single-cluster browse selection actually returns.
+    sqlParts.push(`INSERT INTO cluster (id, label, size, created_at) VALUES (${c + 1}, ${sqlString(labels[c])}, 0, ${nowSec});`);
   }
   d1Execute(sqlParts.join('\n'));
 
@@ -475,6 +477,9 @@ async function main() {
     d1Execute(`INSERT INTO cluster_membership (item_kind, item_id, cluster_id, rank, distance, title, preview) VALUES\n${batch.join(',\n')};`);
     console.log(`  ${Math.min(i + BATCH, rows.length)}/${rows.length}`);
   }
+
+  console.log('Syncing cluster.size to soft-membership counts...');
+  d1Execute('UPDATE cluster SET size = (SELECT COUNT(*) FROM cluster_membership WHERE cluster_id = cluster.id);');
 
   console.log('\nWriting centroids + version to KV...');
   const kvPayload = {
