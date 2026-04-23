@@ -1219,8 +1219,6 @@ const MOVIE_SELECT = `
       COUNT(DISTINCT tm.thought_id) AS mention_count,
       MIN(tm.thought_id) AS thought_id
     FROM thought_movie tm
-    JOIN thought t ON t.id = tm.thought_id
-    WHERE t.private = 0
     GROUP BY tm.movie_id
   ) agg ON agg.movie_id = m.id
 `;
