@@ -15,21 +15,25 @@ export function parseSubstackNoteId(
 }
 
 /**
- * Fetches Substack Note (comment) metadata via the reader API.
- * Returns OG-shaped data for the caller to persist in the same columns as regular OG fetches.
- * Handles:
- *  - c-{id} URLs → /api/v1/reader/comment/{id} — returns the note body + author
- *  - p-{id} URLs → let the caller fall through to OG fetch (those redirect to the SSR'd post page)
+ * Fetches Substack metadata via the reader/post APIs.
+ *  - c-{id} (notes)           → /api/v1/reader/comment/{id}
+ *  - p-{id} (restacked posts) → /api/v1/posts/by-id/{id}
+ * Needed because Substack renders the client-side HTML with generic OG shell when fetched
+ * from a Cloudflare Worker, so we can't rely on the shared OG scraper.
  */
 export async function fetchSubstackNoteMetadata(
   url: string,
 ): Promise<OgMetadata | null> {
   const parsed = parseSubstackNoteId(url);
-  if (!parsed || parsed.kind !== "c") return null;
+  if (!parsed) return null;
+  if (parsed.kind === "c") return fetchSubstackComment(parsed.id);
+  return fetchSubstackPost(parsed.id);
+}
 
+async function fetchSubstackComment(id: string): Promise<OgMetadata | null> {
   try {
     const res = await fetch(
-      `https://substack.com/api/v1/reader/comment/${parsed.id}`,
+      `https://substack.com/api/v1/reader/comment/${id}`,
       {
         headers: {
           Accept: "application/json",
@@ -62,6 +66,43 @@ export async function fetchSubstackNoteMetadata(
   }
 }
 
+async function fetchSubstackPost(id: string): Promise<OgMetadata | null> {
+  try {
+    const res = await fetch(
+      `https://substack.com/api/v1/posts/by-id/${id}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "TantamanBot/1.0",
+        },
+        redirect: "follow",
+        signal: AbortSignal.timeout(5000),
+      },
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as SubstackPostResponse;
+
+    const post = data.post;
+    if (!post) return null;
+
+    const title = post.title || post.social_title || null;
+    const description =
+      post.description ||
+      post.subtitle ||
+      post.search_engine_description ||
+      (post.truncated_body_text ? truncate(post.truncated_body_text, 280) : null) ||
+      null;
+    const imageUrl = post.cover_image || null;
+    const siteName = data.publication?.name || "Substack";
+
+    if (!title && !description && !imageUrl) return null;
+
+    return { title, description, imageUrl, siteName };
+  } catch {
+    return null;
+  }
+}
+
 interface SubstackReaderResponse {
   item?: {
     comment?: {
@@ -71,6 +112,22 @@ interface SubstackReaderResponse {
       photo_url?: string;
       attachments?: SubstackAttachment[];
     };
+  };
+}
+
+interface SubstackPostResponse {
+  post?: {
+    title?: string;
+    social_title?: string;
+    subtitle?: string;
+    description?: string;
+    search_engine_description?: string;
+    truncated_body_text?: string;
+    cover_image?: string;
+    canonical_url?: string;
+  };
+  publication?: {
+    name?: string;
   };
 }
 
