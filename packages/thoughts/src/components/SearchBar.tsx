@@ -13,7 +13,7 @@ export function SearchBar({ onSearch }: { onSearch: (query: string) => void }) {
       <input
         className="search-input"
         type="text"
-        placeholder="Search thoughts..."
+        placeholder="Search thoughts, pastes, amps..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />

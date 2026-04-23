@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getBookmarks, getAmplifications, searchThoughts, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph } from '../api';
+import { getThread, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -25,6 +25,12 @@ export function useQuestions(status: 'open' | 'answered' | 'all', tags: string[]
 }
 
 export function useSearch(query: string, secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  const key = query ? `search-all-${query}-${authKey}` : null;
+  return useSWR(key, () => searchAll(query, secret || undefined));
+}
+
+export function useThoughtSearch(query: string, secret?: string | null) {
   const authKey = secret ? 'a' : 'p';
   const key = query ? `search-${query}-${authKey}` : null;
   return useSWR(key, () => searchThoughts(query, secret || undefined));

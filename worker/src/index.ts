@@ -16,7 +16,7 @@ import { fetchOgMetadata } from "./opengraph";
 import { extractTags } from "./tags";
 import { extractThoughtLinks } from "./thought-links";
 import { createMcpServer } from "./mcp";
-import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
+import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings, upsertPasteEmbedding, upsertAmplificationEmbedding, classifyVectorId } from "./embeddings";
 import { hashBody, attachDuplicateIds } from "./body-hash";
 import { dha } from "./dha";
 import { posts } from "./posts";
@@ -166,9 +166,14 @@ api.get("/thoughts/search", async (c) => {
     return c.json({ thoughts: [] });
   }
 
-  const ids = vecResults.matches.map((m) => parseInt(m.id, 10));
+  // Filter out non-thought matches (pastes and amplifications share the same Vectorize index).
+  const thoughtMatches = vecResults.matches.filter((m) => /^\d+$/.test(m.id));
+  if (thoughtMatches.length === 0) {
+    return c.json({ thoughts: [] });
+  }
+  const ids = thoughtMatches.map((m) => parseInt(m.id, 10));
   const scoreById = new Map(
-    vecResults.matches.map((m) => [parseInt(m.id, 10), m.score])
+    thoughtMatches.map((m) => [parseInt(m.id, 10), m.score])
   );
 
   const placeholders = ids.map(() => "?").join(",");
@@ -212,6 +217,177 @@ api.get("/thoughts/search", async (c) => {
   thoughts.sort((a, b) => (b.score as number) - (a.score as number));
 
   return c.json({ thoughts });
+});
+
+// Unified semantic search across thoughts, pastes (latest fork only), and amplifications.
+api.get("/search", async (c) => {
+  const query = c.req.query("q");
+  if (!query) {
+    return c.json({ error: "Missing q parameter" }, 400);
+  }
+
+  const authed = isAuthed(c);
+  const queryVec = await embedText(c.env.AI, query);
+  const vecResults = await c.env.VECTORIZE.query(queryVec, {
+    topK: 50,
+    returnMetadata: "all",
+  });
+
+  const thoughtMatches: { id: number; score: number }[] = [];
+  const pasteMatches: { id: string; score: number }[] = [];
+  const ampMatches: { id: number; score: number }[] = [];
+
+  for (const m of vecResults.matches) {
+    const { kind, ref } = classifyVectorId(m.id);
+    if (kind === "thought") {
+      const n = parseInt(ref, 10);
+      if (!Number.isNaN(n)) thoughtMatches.push({ id: n, score: m.score });
+    } else if (kind === "paste") {
+      pasteMatches.push({ id: ref, score: m.score });
+    } else if (kind === "amplification") {
+      const n = parseInt(ref, 10);
+      if (!Number.isNaN(n)) ampMatches.push({ id: n, score: m.score });
+    }
+  }
+
+  const [thoughts, pastes, amplifications] = await Promise.all([
+    fetchThoughtsForSearch(c.env.DB, thoughtMatches, authed),
+    fetchPastesForSearch(c.env.DB, pasteMatches, authed),
+    fetchAmplificationsForSearch(c.env.DB, ampMatches),
+  ]);
+
+  return c.json({ thoughts, pastes, amplifications });
+});
+
+async function fetchThoughtsForSearch(
+  db: D1Database,
+  matches: { id: number; score: number }[],
+  authed: boolean,
+): Promise<Record<string, unknown>[]> {
+  if (matches.length === 0) return [];
+  const ids = matches.map((m) => m.id);
+  const scoreById = new Map(matches.map((m) => [m.id, m.score]));
+  const placeholders = ids.map(() => "?").join(",");
+  const privateFilter = authed ? "" : " AND t.private = 0";
+  const replyPrivateFilter = authed ? "" : " AND r.private = 0";
+
+  const results = await db.prepare(
+    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.parent_id, t.color, t.private, t.version_of, t.superseded_by,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
+     FROM thought t
+     WHERE t.id IN (${placeholders}) AND t.superseded_by IS NULL${privateFilter}`
+  ).bind(...ids).all();
+
+  const thoughts = results.results as Record<string, unknown>[];
+  if (thoughts.length === 0) return [];
+
+  const tIds = thoughts.map((t) => t.id as number);
+  const aPlaceholders = tIds.map(() => "?").join(",");
+  const attachments = await db.prepare(
+    `SELECT thought_id, attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id IN (${aPlaceholders})`
+  ).bind(...tIds).all();
+
+  const byThought = new Map<number, { key: string; type: string; name: string }[]>();
+  for (const a of attachments.results) {
+    const tid = a.thought_id as number;
+    if (!byThought.has(tid)) byThought.set(tid, []);
+    byThought.get(tid)!.push({
+      key: a.attachment_key as string,
+      type: a.attachment_type as string,
+      name: a.attachment_name as string,
+    });
+  }
+
+  for (const t of thoughts) {
+    t.attachments = byThought.get(t.id as number) || [];
+    t.score = scoreById.get(t.id as number) || 0;
+  }
+
+  await attachDuplicateIds(db, thoughts, authed);
+  thoughts.sort((a, b) => (b.score as number) - (a.score as number));
+  return thoughts;
+}
+
+async function fetchPastesForSearch(
+  db: D1Database,
+  matches: { id: string; score: number }[],
+  authed: boolean,
+): Promise<Record<string, unknown>[]> {
+  if (matches.length === 0) return [];
+  const ids = matches.map((m) => m.id);
+  const scoreById = new Map(matches.map((m) => [m.id, m.score]));
+  const placeholders = ids.map(() => "?").join(",");
+  const sharedFilter = authed ? "" : " AND p.shared = 1";
+
+  const results = await db.prepare(
+    `SELECT p.id, p.title, p.language, p.shared, p.created_at,
+       SUBSTR(p.body, 1, 300) AS body_preview
+     FROM paste p
+     WHERE p.id IN (${placeholders}) AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id)${sharedFilter}`
+  ).bind(...ids).all();
+
+  const pastes = results.results as Record<string, unknown>[];
+  for (const p of pastes) {
+    p.score = scoreById.get(p.id as string) || 0;
+  }
+  pastes.sort((a, b) => (b.score as number) - (a.score as number));
+  return pastes;
+}
+
+async function fetchAmplificationsForSearch(
+  db: D1Database,
+  matches: { id: number; score: number }[],
+): Promise<Record<string, unknown>[]> {
+  if (matches.length === 0) return [];
+  const ids = matches.map((m) => m.id);
+  const scoreById = new Map(matches.map((m) => [m.id, m.score]));
+  const placeholders = ids.map(() => "?").join(",");
+
+  const results = await db.prepare(
+    `SELECT id, url, source, note, title, image_url, description, site_name, created_at
+     FROM amplification WHERE id IN (${placeholders})`
+  ).bind(...ids).all();
+
+  const amps = results.results as Record<string, unknown>[];
+  for (const a of amps) {
+    a.score = scoreById.get(a.id as number) || 0;
+  }
+  amps.sort((a, b) => (b.score as number) - (a.score as number));
+  return amps;
+}
+
+// Backfill embeddings for existing leaf pastes and amplifications. One-shot after deploy.
+api.post("/search/backfill", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+
+  const kind = c.req.query("kind") ?? "all";
+  let pastesEmbedded = 0;
+  let ampsEmbedded = 0;
+
+  if (kind === "all" || kind === "pastes") {
+    const pastes = await c.env.DB.prepare(
+      `SELECT p.id, p.title, p.body, p.created_at FROM paste p
+       WHERE NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id)`
+    ).all<{ id: string; title: string | null; body: string; created_at: number }>();
+
+    for (const p of pastes.results) {
+      await upsertPasteEmbedding(c.env, p.id, p.title, p.body, p.created_at);
+      pastesEmbedded++;
+    }
+  }
+
+  if (kind === "all" || kind === "amplifications") {
+    const amps = await c.env.DB.prepare(
+      "SELECT id, title, description, note, created_at FROM amplification"
+    ).all<{ id: number; title: string | null; description: string | null; note: string | null; created_at: number }>();
+
+    for (const a of amps.results) {
+      await upsertAmplificationEmbedding(c.env, a.id, a.title, a.description, a.note, a.created_at);
+      ampsEmbedded++;
+    }
+  }
+
+  return c.json({ pastes: pastesEmbedded, amplifications: ampsEmbedded });
 });
 
 api.get("/thoughts/graph", async (c) => {

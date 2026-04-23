@@ -123,6 +123,26 @@ export interface SearchResult extends Thought {
   score: number;
 }
 
+export interface PasteSearchResult {
+  id: string;
+  title: string | null;
+  language: string;
+  shared: number;
+  created_at: number;
+  body_preview: string;
+  score: number;
+}
+
+export interface AmplificationSearchResult extends Amplification {
+  score: number;
+}
+
+export interface UnifiedSearchResponse {
+  thoughts: SearchResult[];
+  pastes: PasteSearchResult[];
+  amplifications: AmplificationSearchResult[];
+}
+
 export interface Framing {
   id: number;
   name: string;

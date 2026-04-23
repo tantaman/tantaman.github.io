@@ -4,6 +4,7 @@ import { CreateAmplificationBody } from "./schemas";
 import { fetchOgMetadata } from "./opengraph";
 import type { OgMetadata } from "./opengraph";
 import { isSubstackNoteUrl, fetchSubstackNoteMetadata } from "./substack";
+import { upsertAmplificationEmbedding, deleteAmplificationEmbeddings } from "./embeddings";
 
 async function enrichUrl(url: string, source: string): Promise<OgMetadata | null> {
   if (source === "substack" && isSubstackNoteUrl(url)) {
@@ -74,7 +75,12 @@ amplifications.post("/", async (c) => {
     }
     const row = await c.env.DB.prepare(
       "SELECT id, url, source, note, title, image_url, description, site_name, created_at FROM amplification WHERE id = ?"
-    ).bind(existing.id).first();
+    ).bind(existing.id).first<AmpRow>();
+    if (row) {
+      c.executionCtx.waitUntil(
+        upsertAmplificationEmbedding(c.env, row.id, row.title, row.description, row.note, row.created_at),
+      );
+    }
     return c.json({ ...row, duplicate: true });
   }
 
@@ -95,10 +101,28 @@ amplifications.post("/", async (c) => {
 
   const row = await c.env.DB.prepare(
     "SELECT id, url, source, note, title, image_url, description, site_name, created_at FROM amplification WHERE id = ?"
-  ).bind(result.meta.last_row_id).first();
+  ).bind(result.meta.last_row_id).first<AmpRow>();
+
+  if (row) {
+    c.executionCtx.waitUntil(
+      upsertAmplificationEmbedding(c.env, row.id, row.title, row.description, row.note, row.created_at),
+    );
+  }
 
   return c.json(row, 201);
 });
+
+interface AmpRow {
+  id: number;
+  url: string;
+  source: string;
+  note: string | null;
+  title: string | null;
+  image_url: string | null;
+  description: string | null;
+  site_name: string | null;
+  created_at: number;
+}
 
 amplifications.patch("/:id", async (c) => {
   const auth = c.req.header("Authorization");
@@ -119,7 +143,14 @@ amplifications.patch("/:id", async (c) => {
 
   const updated = await c.env.DB.prepare(
     "SELECT id, url, source, note, title, image_url, description, site_name, created_at FROM amplification WHERE id = ?"
-  ).bind(id).first();
+  ).bind(id).first<AmpRow>();
+
+  if (updated) {
+    c.executionCtx.waitUntil(
+      upsertAmplificationEmbedding(c.env, updated.id, updated.title, updated.description, updated.note, updated.created_at),
+    );
+  }
+
   return c.json(updated);
 });
 
@@ -130,5 +161,6 @@ amplifications.delete("/:id", async (c) => {
   }
   const id = parseInt(c.req.param("id"), 10);
   await c.env.DB.prepare("DELETE FROM amplification WHERE id = ?").bind(id).run();
+  c.executionCtx.waitUntil(deleteAmplificationEmbeddings(c.env, [id]));
   return c.json({ deleted: true });
 });

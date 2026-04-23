@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, Amplification, Question, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -26,6 +26,13 @@ export function searchThoughts(
   secret?: string,
 ): Promise<{ thoughts: SearchResult[] }> {
   return fetch(`${API}/thoughts/search?q=${encodeURIComponent(query)}`, { headers: authHeaders(secret) }).then((r) => r.json());
+}
+
+export function searchAll(
+  query: string,
+  secret?: string,
+): Promise<UnifiedSearchResponse> {
+  return fetch(`${API}/search?q=${encodeURIComponent(query)}`, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 
 export function getThoughts(

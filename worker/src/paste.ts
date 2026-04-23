@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { transform } from "sucrase";
 import type { Env } from "./index";
 import { stripMarkdown, chunkText } from "./tts-utils.js";
+import { upsertPasteEmbedding, deletePasteEmbeddings } from "./embeddings.js";
 
 export const paste = new Hono<{ Bindings: Env }>();
 
@@ -624,6 +625,12 @@ paste.post("/", async (c) => {
   )
     .bind(id, body, language, title || null, now, parentId)
     .run();
+
+  // Only the latest leaf of a fork chain is indexed. Drop the parent's vector, embed the new leaf.
+  if (parentId) {
+    c.executionCtx.waitUntil(deletePasteEmbeddings(c.env, [parentId]));
+  }
+  c.executionCtx.waitUntil(upsertPasteEmbedding(c.env, id, title || null, body, now));
 
   if (isForm) {
     return c.redirect(`/paste/${id}`);
