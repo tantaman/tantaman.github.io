@@ -16,6 +16,7 @@ export function Sidebar({ route }: { route: Route }) {
         <a href="/lists/" className="thoughts-nav-link">Lists</a>
         <a href="/paste" className="thoughts-nav-link">Pastes</a>
         <a href="#graph" className={`thoughts-nav-link${route.view === 'graph' ? ' active' : ''}`}>Graph</a>
+        <a href="#browse" className={`thoughts-nav-link${route.view === 'browse' ? ' active' : ''}`}>Browse</a>
         <hr className="thoughts-nav-divider" />
         <a href="#tasks" className={`thoughts-nav-link${route.view === 'tasks' ? ' active' : ''}`}>Tasks <span className="nav-tag-pill">#t</span></a>
         <a href="#questions" className={`thoughts-nav-link${route.view === 'questions' ? ' active' : ''}`}>Questions <span className="nav-tag-pill">#q</span></a>

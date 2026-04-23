@@ -14,7 +14,7 @@ export async function upsertThoughtEmbedding(
   body: string,
   timestamp: number,
   parentId: number | null
-): Promise<string | null> {
+): Promise<{ color: string | null; vec: number[] | null }> {
   try {
     const vec = await embedText(env.AI, body);
     await env.VECTORIZE.upsert([
@@ -34,10 +34,10 @@ export async function upsertThoughtEmbedding(
         .bind(color, thoughtId)
         .run();
     }
-    return color;
+    return { color, vec };
   } catch (e) {
     console.error("Failed to upsert thought embedding:", e);
-    return null;
+    return { color: null, vec: null };
   }
 }
 
@@ -135,13 +135,15 @@ export async function upsertPasteEmbedding(
   title: string | null,
   body: string,
   createdAt: number,
-): Promise<void> {
+): Promise<{ vec: number[] | null }> {
   try {
     const chunks = chunkPasteBody(title, body);
-    if (chunks.length === 0) return;
+    if (chunks.length === 0) return { vec: null };
+    const chunkVecs: number[][] = [];
     // Embed each chunk sequentially; Workers AI usually rate-limits parallel calls.
     for (let i = 0; i < chunks.length; i++) {
       const vec = await embedText(env.AI, chunks[i]);
+      chunkVecs.push(vec);
       await env.VECTORIZE.upsert([
         {
           id: pasteChunkVectorId(pasteId, i),
@@ -150,8 +152,15 @@ export async function upsertPasteEmbedding(
         },
       ]);
     }
+    // Centroid of chunk vectors = representative for clustering.
+    const d = chunkVecs[0].length;
+    const avg = new Array(d).fill(0);
+    for (const v of chunkVecs) for (let j = 0; j < d; j++) avg[j] += v[j];
+    for (let j = 0; j < d; j++) avg[j] /= chunkVecs.length;
+    return { vec: avg };
   } catch (e) {
     console.error("Failed to upsert paste embedding:", e);
+    return { vec: null };
   }
 }
 
@@ -190,13 +199,13 @@ export async function upsertAmplificationEmbedding(
   description: string | null,
   note: string | null,
   createdAt: number,
-): Promise<void> {
+): Promise<{ vec: number[] | null }> {
   try {
     const text = [title ?? "", description ?? "", note ?? ""]
       .filter(Boolean)
       .join("\n\n")
       .slice(0, AMP_EMBED_MAX_CHARS);
-    if (!text.trim()) return;
+    if (!text.trim()) return { vec: null };
     const vec = await embedText(env.AI, text);
     await env.VECTORIZE.upsert([
       {
@@ -205,8 +214,10 @@ export async function upsertAmplificationEmbedding(
         metadata: { kind: "amplification", timestamp: createdAt },
       },
     ]);
+    return { vec };
   } catch (e) {
     console.error("Failed to upsert amplification embedding:", e);
+    return { vec: null };
   }
 }
 

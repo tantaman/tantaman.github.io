@@ -322,6 +322,24 @@ export async function refetchAmplification(id: number, secret: string): Promise<
   return r.json();
 }
 
+export function getClusters(secret?: string): Promise<{ clusters: Cluster[] }> {
+  return fetch(`${API}/clusters`, { headers: authHeaders(secret) }).then((r) => r.json());
+}
+
+export function getClusterItems(
+  ids: number[],
+  limit: number,
+  offset: number,
+  secret?: string,
+): Promise<{ items: ClusterItem[]; meta: { limit: number; offset: number; selected: number } }> {
+  const params = new URLSearchParams({
+    ids: ids.join(','),
+    limit: String(limit),
+    offset: String(offset),
+  });
+  return fetch(`${API}/clusters/items?${params.toString()}`, { headers: authHeaders(secret) }).then((r) => r.json());
+}
+
 export function attachmentUrl(key: string): string {
   return `${API}/attachments/${key}`;
 }

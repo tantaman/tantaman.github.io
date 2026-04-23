@@ -27,6 +27,7 @@ import { lists } from "./lists";
 import { now } from "./now";
 import { thoughtOg } from "./thought-og";
 import { amplifications } from "./amplifications";
+import { clusters, assignClusters, removeClusterMembership, scheduleBackground } from "./clusters";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -883,7 +884,13 @@ api.post("/thoughts", async (c) => {
     attachments.push({ key, type: file.type, name: file.name });
   }
 
-  const color = await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
+  const { color, vec } = await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
+
+  if (vec) {
+    const title = trimmed.split("\n")[0]?.slice(0, 80) ?? null;
+    const preview = trimmed.slice(0, 200);
+    scheduleBackground(c, assignClusters(c.env, "thought", thoughtId, title, preview, vec));
+  }
 
   const thought: Record<string, unknown> = {
     id: thoughtId,
@@ -969,6 +976,9 @@ api.delete("/thoughts/:id", async (c) => {
   ).run();
 
   await deleteThoughtEmbeddings(c.env, descendantIds);
+  for (const tid of descendantIds) {
+    scheduleBackground(c, removeClusterMembership(c.env, "thought", tid));
+  }
 
   return c.body(null, 204);
 });
@@ -1964,6 +1974,7 @@ api.route("/comments", comments);
 api.route("/ig-card", igCard);
 api.route("/lists", lists);
 api.route("/amplifications", amplifications);
+api.route("/clusters", clusters);
 
 // Serve audio files from R2
 app.get("/audio/*", async (c) => {

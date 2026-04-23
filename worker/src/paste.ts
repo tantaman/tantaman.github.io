@@ -6,6 +6,7 @@ import { transform } from "sucrase";
 import type { Env } from "./index";
 import { stripMarkdown, chunkText } from "./tts-utils.js";
 import { upsertPasteEmbedding, deletePasteEmbeddings } from "./embeddings.js";
+import { assignClusters, removeClusterMembership } from "./clusters.js";
 
 export const paste = new Hono<{ Bindings: Env }>();
 
@@ -636,8 +637,17 @@ paste.post("/", async (c) => {
         deletePasteEmbeddings(c.env, [{ id: parentId, title: parent.title, body: parent.body }]),
       );
     }
+    c.executionCtx.waitUntil(removeClusterMembership(c.env, "paste", parentId));
   }
-  c.executionCtx.waitUntil(upsertPasteEmbedding(c.env, id, title || null, body, now));
+  c.executionCtx.waitUntil(
+    (async () => {
+      const { vec } = await upsertPasteEmbedding(c.env, id, title || null, body, now);
+      if (vec) {
+        const preview = body.slice(0, 200);
+        await assignClusters(c.env, "paste", id, title || "(untitled paste)", preview, vec);
+      }
+    })(),
+  );
 
   if (isForm) {
     return c.redirect(`/paste/${id}`);

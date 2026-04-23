@@ -213,6 +213,27 @@ export interface PostSummary {
   color: string | null;
 }
 
+export interface Cluster {
+  id: number;
+  label: string;
+  size: number;
+}
+
+export interface ClusterItemFacets {
+  books: { id: number; title: string }[];
+  movies: { id: number; title: string }[];
+  events: { id: number; title: string; date_text: string }[];
+}
+
+export interface ClusterItem {
+  kind: 'thought' | 'paste' | 'amplification';
+  id: string;
+  title: string | null;
+  preview: string | null;
+  score: number;
+  facets: ClusterItemFacets | null;
+}
+
 export interface MediaItem {
   key: string;
   type: string;
@@ -242,6 +263,7 @@ export type Route =
   | { view: 'bookmarks' }
   | { view: 'amplifications' }
   | { view: 'capture'; url?: string; text?: string; title?: string }
+  | { view: 'browse' }
   | { view: 'questions' }
   | { view: 'canvases' }
   | { view: 'canvas'; id: number }

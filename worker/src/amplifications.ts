@@ -5,6 +5,19 @@ import { fetchOgMetadata } from "./opengraph";
 import type { OgMetadata } from "./opengraph";
 import { isSubstackNoteUrl, fetchSubstackNoteMetadata } from "./substack";
 import { upsertAmplificationEmbedding, deleteAmplificationEmbeddings } from "./embeddings";
+import { assignClusters, removeClusterMembership } from "./clusters";
+
+async function embedAndCluster(
+  env: Env,
+  row: { id: number; title: string | null; description: string | null; note: string | null; url: string; created_at: number },
+): Promise<void> {
+  const { vec } = await upsertAmplificationEmbedding(env, row.id, row.title, row.description, row.note, row.created_at);
+  if (vec) {
+    const title = row.title ?? row.url;
+    const preview = [row.note, row.description].filter(Boolean).join(" — ").slice(0, 200);
+    await assignClusters(env, "amplification", row.id, title, preview || row.url, vec);
+  }
+}
 
 async function enrichUrl(url: string, source: string): Promise<OgMetadata | null> {
   if (source === "substack" && isSubstackNoteUrl(url)) {
@@ -77,9 +90,7 @@ amplifications.post("/", async (c) => {
       "SELECT id, url, source, note, title, image_url, description, site_name, created_at FROM amplification WHERE id = ?"
     ).bind(existing.id).first<AmpRow>();
     if (row) {
-      c.executionCtx.waitUntil(
-        upsertAmplificationEmbedding(c.env, row.id, row.title, row.description, row.note, row.created_at),
-      );
+      c.executionCtx.waitUntil(embedAndCluster(c.env, row));
     }
     return c.json({ ...row, duplicate: true });
   }
@@ -146,9 +157,7 @@ amplifications.patch("/:id", async (c) => {
   ).bind(id).first<AmpRow>();
 
   if (updated) {
-    c.executionCtx.waitUntil(
-      upsertAmplificationEmbedding(c.env, updated.id, updated.title, updated.description, updated.note, updated.created_at),
-    );
+    c.executionCtx.waitUntil(embedAndCluster(c.env, updated));
   }
 
   return c.json(updated);
@@ -162,5 +171,6 @@ amplifications.delete("/:id", async (c) => {
   const id = parseInt(c.req.param("id"), 10);
   await c.env.DB.prepare("DELETE FROM amplification WHERE id = ?").bind(id).run();
   c.executionCtx.waitUntil(deleteAmplificationEmbeddings(c.env, [id]));
+  c.executionCtx.waitUntil(removeClusterMembership(c.env, "amplification", id));
   return c.json({ deleted: true });
 });

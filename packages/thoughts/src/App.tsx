@@ -20,6 +20,7 @@ import { BooksView } from './components/BooksView';
 import { BookmarksView } from './components/BookmarksView';
 import { AmplificationsView } from './components/AmplificationsView';
 import { CaptureView } from './components/CaptureView';
+import { BrowseView } from './components/BrowseView';
 import { ThoughtGraph } from './components/ThoughtGraph';
 
 export const AuthContext = createContext<{
@@ -59,6 +60,7 @@ function parseHash(): Route {
   if (hash === '#books') return { view: 'books' };
   if (hash === '#bookmarks') return { view: 'bookmarks' };
   if (hash === '#amplifications') return { view: 'amplifications' };
+  if (hash === '#browse') return { view: 'browse' };
   if (hash === '#capture') return { view: 'capture' };
   const framingMatch = hash.match(/^#framing-(\d+)$/);
   if (framingMatch) return { view: 'framing', id: parseInt(framingMatch[1], 10) };
@@ -124,6 +126,8 @@ export function App() {
             <AmplificationsView />
           ) : route.view === 'capture' ? (
             <CaptureView initialUrl={route.url} initialText={route.text} initialTitle={route.title} />
+          ) : route.view === 'browse' ? (
+            <BrowseView />
           ) : route.view === 'books' ? (
             <BooksView />
           ) : route.view === 'locations' ? (
