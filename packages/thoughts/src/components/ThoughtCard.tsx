@@ -5,6 +5,7 @@ import * as api from '../api';
 import { AuthContext } from '../App';
 import { renderMarkdown } from '../markdown';
 import { ComposeForm } from './ComposeForm';
+import { ThoughtDuplicatesPopover } from './ThoughtDuplicatesPopover';
 
 function formatTime(timestamp: number): string {
   const d = new Date(timestamp * 1000);
@@ -93,6 +94,9 @@ export function ThoughtCard({
             </>
           )}
         </a>
+        {thought.duplicate_ids && thought.duplicate_ids.length > 0 && (
+          <ThoughtDuplicatesPopover ids={thought.duplicate_ids} />
+        )}
         {!editing && (
           <button
             className="thought-share"

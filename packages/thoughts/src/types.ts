@@ -15,6 +15,7 @@ export interface Thought {
   attachments: Attachment[];
   color: string | null;
   private: boolean;
+  duplicate_ids: number[];
 }
 
 export interface ThoughtVersion {

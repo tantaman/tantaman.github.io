@@ -17,6 +17,7 @@ import { extractTags } from "./tags";
 import { extractThoughtLinks } from "./thought-links";
 import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings } from "./embeddings";
+import { hashBody, attachDuplicateIds } from "./body-hash";
 import { dha } from "./dha";
 import { posts } from "./posts";
 import { comments } from "./comments";
@@ -173,7 +174,7 @@ api.get("/thoughts/search", async (c) => {
   const privateFilter = authed ? "" : " AND t.private = 0";
   const replyPrivateFilter = authed ? "" : " AND r.private = 0";
   const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.timestamp, t.created_at, t.parent_id, t.color, t.private, t.version_of, t.superseded_by,
+    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.parent_id, t.color, t.private, t.version_of, t.superseded_by,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
      WHERE t.id IN (${placeholders}) AND t.superseded_by IS NULL${privateFilter}`
@@ -203,6 +204,8 @@ api.get("/thoughts/search", async (c) => {
       t.attachments = byThought.get(t.id as number) || [];
       t.score = scoreById.get(t.id as number) || 0;
     }
+
+    await attachDuplicateIds(c.env.DB, thoughts, authed);
   }
 
   thoughts.sort((a, b) => (b.score as number) - (a.score as number));
@@ -301,7 +304,7 @@ api.get("/thoughts", async (c) => {
   binds.push(limitParam, offsetParam);
 
   const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by,
+    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
      WHERE t.parent_id IS NULL AND t.superseded_by IS NULL${privateFilter}${extraWhere}
@@ -332,6 +335,8 @@ api.get("/thoughts", async (c) => {
     for (const t of thoughts) {
       t.attachments = byThought.get(t.id as number) || [];
     }
+
+    await attachDuplicateIds(c.env.DB, thoughts, authed);
   }
 
   return c.json({
@@ -384,7 +389,7 @@ api.get("/thoughts/:id/replies", async (c) => {
 
   // Fetch parent thought
   const parentRow = await c.env.DB.prepare(
-    `SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by,
+    `SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
      WHERE t.id = ?`
@@ -414,14 +419,14 @@ api.get("/thoughts/:id/replies", async (c) => {
   const privateFilterCte = authed ? "" : " AND private = 0";
   const privateFilterJoin = authed ? "" : " AND t.private = 0";
   const results = await c.env.DB.prepare(
-    `WITH RECURSIVE descendants(id, parent_id, body, timestamp, created_at, color, private, depth) AS (
-       SELECT id, parent_id, body, timestamp, created_at, color, private, 0
+    `WITH RECURSIVE descendants(id, parent_id, body, body_hash, timestamp, created_at, color, private, depth) AS (
+       SELECT id, parent_id, body, body_hash, timestamp, created_at, color, private, 0
        FROM thought WHERE parent_id = ?${privateFilterCte}
        UNION ALL
-       SELECT t.id, t.parent_id, t.body, t.timestamp, t.created_at, t.color, t.private, d.depth + 1
+       SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, d.depth + 1
        FROM thought t JOIN descendants d ON t.parent_id = d.id${privateFilterJoin}
      )
-     SELECT d.id, d.parent_id, d.body, d.timestamp, d.created_at, d.color, d.private, d.depth,
+     SELECT d.id, d.parent_id, d.body, d.body_hash, d.timestamp, d.created_at, d.color, d.private, d.depth,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id${replyPrivateFilter}) AS reply_count,
        ta.attachment_key, ta.attachment_type, ta.attachment_name
      FROM descendants d
@@ -436,7 +441,7 @@ api.get("/thoughts/:id/replies", async (c) => {
     const tid = r.id as number;
     if (!replyMap.has(tid)) {
       replyMap.set(tid, {
-        id: r.id, parent_id: r.parent_id, body: r.body, timestamp: r.timestamp,
+        id: r.id, parent_id: r.parent_id, body: r.body, body_hash: r.body_hash, timestamp: r.timestamp,
         created_at: r.created_at, color: r.color, private: r.private, depth: r.depth,
         reply_count: r.reply_count, attachments: [],
       });
@@ -450,6 +455,8 @@ api.get("/thoughts/:id/replies", async (c) => {
     }
   }
   const replies = Array.from(replyMap.values());
+
+  await attachDuplicateIds(c.env.DB, [parent, ...replies], authed);
 
   // Fetch version chain if this thought is part of one
   const versionRoot = (parent.version_of as number | null) ?? (parent.id as number);
@@ -546,10 +553,11 @@ api.post("/thoughts", async (c) => {
   }
 
   const timestamp = Math.floor(Date.now() / 1000);
+  const bodyHash = await hashBody(trimmed);
 
   const result = await c.env.DB.prepare(
-    "INSERT INTO thought (body, timestamp, parent_id, private, version_of) VALUES (?, ?, ?, ?, ?)"
-  ).bind(trimmed, timestamp, parentId, isPrivate ? 1 : 0, resolvedVersionOf).run();
+    "INSERT INTO thought (body, body_hash, timestamp, parent_id, private, version_of) VALUES (?, ?, ?, ?, ?, ?)"
+  ).bind(trimmed, bodyHash, timestamp, parentId, isPrivate ? 1 : 0, resolvedVersionOf).run();
 
   const thoughtId = result.meta.last_row_id;
 
@@ -660,9 +668,10 @@ api.post("/thoughts", async (c) => {
 
   const color = await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
 
-  const thought = {
+  const thought: Record<string, unknown> = {
     id: thoughtId,
     body: trimmed,
+    body_hash: bodyHash,
     timestamp,
     created_at: new Date().toISOString().replace("T", " ").slice(0, 19),
     parent_id: parentId,
@@ -672,6 +681,7 @@ api.post("/thoughts", async (c) => {
     attachments,
     color,
   };
+  await attachDuplicateIds(c.env.DB, [thought], true);
 
   return c.json(thought, 201);
 });

@@ -1,7 +1,7 @@
 ---
 title: 'The Listener'
-tags: [self, knowledge]
-concern: [civilization]
+tags: [self]
+concern: [civilization, knowledge]
 form: story
 author: [tantaman, claude]
 ---
