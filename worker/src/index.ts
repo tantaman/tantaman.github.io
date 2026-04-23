@@ -1240,6 +1240,46 @@ api.get("/movies", async (c) => {
   return c.json({ movies: results.results });
 });
 
+// One-off: rebuild thought_movie links by re-parsing thought bodies.
+// Needed because the 0038 migration's seed INSERT apparently executed against remote D1
+// without populating the join table, leaving every movie orphaned from its source thought.
+api.post("/movies/rebuild-links", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+
+  const thoughts = await c.env.DB.prepare(
+    "SELECT id, body, created_at FROM thought WHERE body LIKE '%#m %'"
+  ).all<{ id: number; body: string; created_at: number }>();
+
+  const movieRows = await c.env.DB.prepare(
+    "SELECT id, normalized_title FROM movie"
+  ).all<{ id: number; normalized_title: string }>();
+
+  const movieIdByNormTitle = new Map(
+    movieRows.results.map((r) => [r.normalized_title, r.id]),
+  );
+
+  let linksCreated = 0;
+  let missingMovies = 0;
+
+  for (const t of thoughts.results) {
+    const movies = extractMovies(t.body);
+    for (const m of movies) {
+      const norm = normalizeMovieTitle(m.title);
+      const movieId = movieIdByNormTitle.get(norm);
+      if (!movieId) {
+        missingMovies++;
+        continue;
+      }
+      const res = await c.env.DB.prepare(
+        "INSERT OR IGNORE INTO thought_movie (thought_id, movie_id, description, created_at) VALUES (?, ?, ?, ?)"
+      ).bind(t.id, movieId, m.description, t.created_at).run();
+      if (res.meta.changes > 0) linksCreated++;
+    }
+  }
+
+  return c.json({ links_created: linksCreated, thoughts_scanned: thoughts.results.length, missing_movies: missingMovies });
+});
+
 api.post("/movies/backfill", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
