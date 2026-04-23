@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, Question, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, Amplification, Question, SearchResult, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -261,6 +261,45 @@ export async function patchBookmark(
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Update failed');
   return r.json();
+}
+
+export function getAmplifications(
+  source?: string,
+): Promise<{ amplifications: Amplification[]; meta: { hasMore: boolean } }> {
+  let url = `${API}/amplifications`;
+  if (source) url += `?source=${encodeURIComponent(source)}`;
+  return fetch(url).then((r) => r.json());
+}
+
+export async function createAmplification(
+  url: string,
+  secret: string,
+  note?: string,
+  source?: string,
+): Promise<Amplification & { duplicate?: boolean }> {
+  const r = await fetch(`${API}/amplifications`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ url, note, source }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({ error: 'Save failed' }));
+    throw new Error(err.error || 'Save failed');
+  }
+  return r.json();
+}
+
+export async function deleteAmplification(id: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/amplifications/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Delete failed');
 }
 
 export function attachmentUrl(key: string): string {

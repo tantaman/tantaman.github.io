@@ -106,6 +106,18 @@ export interface Bookmark {
   created_at: number;
 }
 
+export interface Amplification {
+  id: number;
+  url: string;
+  source: string;
+  note: string | null;
+  title: string | null;
+  image_url: string | null;
+  description: string | null;
+  site_name: string | null;
+  created_at: number;
+}
+
 export interface SearchResult extends Thought {
   score: number;
 }
@@ -207,6 +219,8 @@ export type Route =
   | { view: 'movies' }
   | { view: 'books' }
   | { view: 'bookmarks' }
+  | { view: 'amplifications' }
+  | { view: 'capture'; url?: string; text?: string; title?: string }
   | { view: 'questions' }
   | { view: 'canvases' }
   | { view: 'canvas'; id: number }

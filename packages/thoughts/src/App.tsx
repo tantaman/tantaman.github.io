@@ -18,6 +18,8 @@ import { MediaView } from './components/MediaView';
 import { MoviesView } from './components/MoviesView';
 import { BooksView } from './components/BooksView';
 import { BookmarksView } from './components/BookmarksView';
+import { AmplificationsView } from './components/AmplificationsView';
+import { CaptureView } from './components/CaptureView';
 import { ThoughtGraph } from './components/ThoughtGraph';
 
 export const AuthContext = createContext<{
@@ -30,6 +32,17 @@ function parseHash(): Route {
   if (pathMatch) {
     history.replaceState(null, '', '/thoughts/#thought-' + pathMatch[1]);
     return { view: 'thread', id: parseInt(pathMatch[1], 10) };
+  }
+  // PWA share target / bookmarklet: ?share_url=...&share_text=...&share_title=...
+  if (location.search) {
+    const params = new URLSearchParams(location.search);
+    const shareUrl = params.get('share_url') ?? undefined;
+    const shareText = params.get('share_text') ?? undefined;
+    const shareTitle = params.get('share_title') ?? undefined;
+    if (shareUrl || shareText || shareTitle) {
+      history.replaceState(null, '', '/thoughts/#capture');
+      return { view: 'capture', url: shareUrl, text: shareText, title: shareTitle };
+    }
   }
   const hash = location.hash;
   if (hash === '#tasks') return { view: 'tasks' };
@@ -45,6 +58,8 @@ function parseHash(): Route {
   if (hash === '#movies') return { view: 'movies' };
   if (hash === '#books') return { view: 'books' };
   if (hash === '#bookmarks') return { view: 'bookmarks' };
+  if (hash === '#amplifications') return { view: 'amplifications' };
+  if (hash === '#capture') return { view: 'capture' };
   const framingMatch = hash.match(/^#framing-(\d+)$/);
   if (framingMatch) return { view: 'framing', id: parseInt(framingMatch[1], 10) };
   const threadMatch = hash.match(/^#thought-(\d+)$/);
@@ -105,6 +120,10 @@ export function App() {
             <MoviesView />
           ) : route.view === 'bookmarks' ? (
             <BookmarksView />
+          ) : route.view === 'amplifications' ? (
+            <AmplificationsView />
+          ) : route.view === 'capture' ? (
+            <CaptureView initialUrl={route.url} initialText={route.text} initialTitle={route.title} />
           ) : route.view === 'books' ? (
             <BooksView />
           ) : route.view === 'locations' ? (
