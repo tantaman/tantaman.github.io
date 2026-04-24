@@ -7,6 +7,7 @@ import type { Amplification } from '../types';
 type SavedAmplification = Amplification & { duplicate?: boolean };
 
 const BOOKMARKLET = "javascript:(function(){var u=encodeURIComponent(location.href);var t=encodeURIComponent(document.title||'');var s=encodeURIComponent((window.getSelection&&window.getSelection().toString())||'');window.open('https://tantaman.com/thoughts/?share_url='+u+'&share_title='+t+'&share_text='+s,'_blank');})();";
+const THOUGHT_BOOKMARKLET = "javascript:(function(){var u=encodeURIComponent(location.href);var t=encodeURIComponent(document.title||'');var s=encodeURIComponent((window.getSelection&&window.getSelection().toString())||'');window.open('https://tantaman.com/thoughts/?share_url='+u+'&share_title='+t+'&share_text='+s+'&as=thought','_blank');})();";
 
 function classifySource(url: string): string {
   try {
@@ -39,8 +40,10 @@ export function CaptureView({ initialUrl, initialText, initialTitle }: Props) {
   const [saved, setSaved] = useState<SavedAmplification | null>(null);
 
   const bookmarkletRef = useRef<HTMLAnchorElement>(null);
+  const thoughtBookmarkletRef = useRef<HTMLAnchorElement>(null);
   useEffect(() => {
     if (bookmarkletRef.current) bookmarkletRef.current.href = BOOKMARKLET;
+    if (thoughtBookmarkletRef.current) thoughtBookmarkletRef.current.href = THOUGHT_BOOKMARKLET;
   }, []);
 
   useEffect(() => {
@@ -169,11 +172,18 @@ export function CaptureView({ initialUrl, initialText, initialTitle }: Props) {
       {!initialUrl && !initialText && (
         <div className="capture-help">
           <h3 className="capture-help-title">Install the bookmarklet</h3>
-          <p>Drag this link to your bookmarks bar. Click it on any page to capture the URL.</p>
+          <p>Drag a link to your bookmarks bar. Click it on any page to capture the URL.</p>
           <p>
             <a ref={bookmarkletRef} className="capture-bookmarklet" href="#">
               Amplify ▶
             </a>
+            {' '}
+            <a ref={thoughtBookmarkletRef} className="capture-bookmarklet" href="#">
+              Bookmark ▶
+            </a>
+          </p>
+          <p className="capture-hint">
+            Amplify saves to amplifications. Bookmark opens the feed with a prefilled thought — edit, add tags, post.
           </p>
           <h3 className="capture-help-title">Mobile share sheet</h3>
           <p>

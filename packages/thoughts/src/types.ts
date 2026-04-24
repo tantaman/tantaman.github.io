@@ -256,7 +256,7 @@ export interface GraphResponse {
 }
 
 export type Route =
-  | { view: 'feed' }
+  | { view: 'feed'; prefill?: string }
   | { view: 'thread'; id: number }
   | { view: 'tasks' }
   | { view: 'events' }

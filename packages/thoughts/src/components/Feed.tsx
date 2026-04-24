@@ -7,7 +7,7 @@ import { ThoughtCard } from './ThoughtCard';
 import { ComposeForm } from './ComposeForm';
 import { SearchBar } from './SearchBar';
 
-export function Feed({ tags, framing }: { tags: string[]; framing?: number | null }) {
+export function Feed({ tags, framing, prefill }: { tags: string[]; framing?: number | null; prefill?: string }) {
   const { secret } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
   const handleSearch = useCallback((q: string) => setSearchQuery(q), []);
@@ -70,7 +70,7 @@ export function Feed({ tags, framing }: { tags: string[]; framing?: number | nul
 
       {!isSearching && secret && (
         <div className="thoughts-form-wrap">
-          <ComposeForm onPosted={handlePosted} />
+          <ComposeForm onPosted={handlePosted} initialBody={prefill} />
         </div>
       )}
 

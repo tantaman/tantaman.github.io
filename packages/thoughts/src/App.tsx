@@ -35,12 +35,23 @@ function parseHash(): Route {
     return { view: 'thread', id: parseInt(pathMatch[1], 10) };
   }
   // PWA share target / bookmarklet: ?share_url=...&share_text=...&share_title=...
+  // ?as=thought routes to feed with a prefilled compose (markdown link + selection).
   if (location.search) {
     const params = new URLSearchParams(location.search);
     const shareUrl = params.get('share_url') ?? undefined;
     const shareText = params.get('share_text') ?? undefined;
     const shareTitle = params.get('share_title') ?? undefined;
+    const as = params.get('as');
     if (shareUrl || shareText || shareTitle) {
+      if (as === 'thought') {
+        history.replaceState(null, '', '/thoughts/');
+        const link = shareUrl
+          ? (shareTitle ? `[${shareTitle}](${shareUrl})` : shareUrl)
+          : '';
+        const note = shareText?.trim();
+        const body = [link, note].filter(Boolean).join('\n\n');
+        return { view: 'feed', prefill: body };
+      }
       history.replaceState(null, '', '/thoughts/#capture');
       return { view: 'capture', url: shareUrl, text: shareText, title: shareTitle };
     }
@@ -141,7 +152,11 @@ export function App() {
           ) : route.view === 'thread' ? (
             <ThreadView id={route.id} />
           ) : (
-            <Feed tags={selectedTags} framing={selectedFraming} />
+            <Feed
+              tags={selectedTags}
+              framing={selectedFraming}
+              prefill={route.view === 'feed' ? route.prefill : undefined}
+            />
           )}
         </Layout>
         <SecretToggle />
