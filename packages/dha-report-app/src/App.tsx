@@ -691,21 +691,6 @@ const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCa
           </div>
         </div>
 
-        {/* Prior-Year Deficit Banner */}
-        {reportData?.priorYearDeficit != null && reportData.priorYearDeficit > 0 && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex items-start gap-3">
-            <span className="text-red-500 text-lg leading-none mt-0.5">⚠</span>
-            <div>
-              <p className="text-red-800 font-semibold text-sm">
-                2025 ended with a {formatCurrency(reportData.priorYearDeficit)} operating deficit
-              </p>
-              <p className="text-red-600 text-xs mt-0.5">
-                Budget tracking below is for the current fiscal year only.
-              </p>
-            </div>
-          </div>
-        )}
-
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
