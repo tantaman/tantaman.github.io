@@ -18,6 +18,29 @@ type PasteMeta = {
   ogUrl: string;
 };
 
+async function listSplashIds(bucket: R2Bucket): Promise<Set<string>> {
+  const ids = new Set<string>();
+  let cursor: string | undefined = undefined;
+  for (let i = 0; i < 20; i++) {
+    const result: R2Objects = await bucket.list({
+      prefix: "paste-cards/",
+      limit: 1000,
+      cursor,
+    });
+    for (const obj of result.objects) {
+      const m = obj.key.match(/^paste-cards\/(.+)\.png$/);
+      if (m) ids.add(m[1]);
+    }
+    if (!result.truncated) break;
+    cursor = result.cursor;
+  }
+  return ids;
+}
+
+function thumbHtml(id: string): string {
+  return `<img src="/paste/${escapeHtml(id)}/splash.png" alt="" loading="lazy" width="72" height="38" style="flex-shrink:0;width:72px;height:38px;object-fit:cover;border-radius:3px;border:1px solid var(--border);background:var(--bg-soft)">`;
+}
+
 function metaTagsHtml(meta: PasteMeta): string {
   return `<meta property="og:title" content="${escapeHtml(meta.ogTitle)}">
   <meta property="og:description" content="${escapeHtml(meta.ogDescription)}">
@@ -223,8 +246,8 @@ const PAGE_STYLE = `
     border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.75rem;
   }
   .paste-list li:last-child { border-bottom: none; }
   .paste-list .paste-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -499,13 +522,16 @@ paste.get("/fork/:id", async (c) => {
 paste.get("/all", async (c) => {
   const authed = isAuthed(c);
 
-  const rows = authed
-    ? await c.env.DB.prepare(
-        "SELECT id, title, language, created_at, parent_id, shared FROM paste p WHERE NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY created_at DESC"
-      ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>()
-    : await c.env.DB.prepare(
-        "SELECT id, title, language, created_at, parent_id, shared FROM paste p WHERE shared = 1 AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY shared_at DESC"
-      ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>();
+  const [rows, splashIds] = await Promise.all([
+    authed
+      ? c.env.DB.prepare(
+          "SELECT id, title, language, created_at, parent_id, shared FROM paste p WHERE NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY created_at DESC"
+        ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>()
+      : c.env.DB.prepare(
+          "SELECT id, title, language, created_at, parent_id, shared FROM paste p WHERE shared = 1 AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY shared_at DESC"
+        ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>(),
+    listSplashIds(c.env.BUCKET),
+  ]);
 
   const items = rows.results
     .map((r) => {
@@ -513,7 +539,8 @@ paste.get("/all", async (c) => {
       const title = escapeHtml(r.title || "Untitled");
       const fork = r.parent_id ? ` <a href="/paste/${escapeHtml(r.parent_id)}" style="color:var(--text-muted);font-size:0.7rem" title="forked from">↑</a>` : "";
       const shared = authed && r.shared ? ` <span style="color:var(--text-muted);font-size:0.7rem">●</span>` : "";
-      return `<li><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a>${fork}${shared}</span><span class="paste-meta">${date}</span></li>`;
+      const thumb = splashIds.has(r.id) ? thumbHtml(r.id) : "";
+      return `<li>${thumb}<span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a>${fork}${shared}</span><span class="paste-meta">${date}</span></li>`;
     })
     .join("\n      ");
 
@@ -536,18 +563,27 @@ paste.get("/all", async (c) => {
 paste.get("/", async (c) => {
   if (!isAuthed(c)) {
     // Public landing: show shared pastes
-    const rows = await c.env.DB.prepare(
-      "SELECT id, title, body, language, shared_at FROM paste p WHERE shared = 1 AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY shared_at DESC LIMIT 20"
-    ).all<{ id: string; title: string | null; body: string; language: string; shared_at: number }>();
+    const [rows, splashIds] = await Promise.all([
+      c.env.DB.prepare(
+        "SELECT id, title, body, language, shared_at FROM paste p WHERE shared = 1 AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY shared_at DESC LIMIT 20"
+      ).all<{ id: string; title: string | null; body: string; language: string; shared_at: number }>(),
+      listSplashIds(c.env.BUCKET),
+    ]);
 
     const items = rows.results
       .map((r) => {
         const date = new Date(r.shared_at).toISOString().split("T")[0];
         const title = escapeHtml(r.title || "Untitled");
         const desc = escapeHtml(excerpt(r.body));
-        return `<li style="flex-direction:column;align-items:flex-start;gap:0.25rem;padding:0.75rem 0">
-          <span style="display:flex;justify-content:space-between;width:100%;align-items:baseline;gap:1rem"><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a></span><span class="paste-meta">${date}</span></span>
-          <span class="meta" style="font-size:0.75rem">${desc}</span>
+        const thumb = splashIds.has(r.id)
+          ? `<img src="/paste/${escapeHtml(r.id)}/splash.png" alt="" loading="lazy" width="96" height="50" style="flex-shrink:0;width:96px;height:50px;object-fit:cover;border-radius:3px;border:1px solid var(--border);background:var(--bg-soft);margin-top:0.15rem">`
+          : "";
+        return `<li style="flex-direction:row;align-items:flex-start;gap:0.75rem;padding:0.75rem 0">
+          ${thumb}
+          <span style="display:flex;flex-direction:column;flex:1;min-width:0;gap:0.25rem">
+            <span style="display:flex;justify-content:space-between;width:100%;align-items:baseline;gap:1rem"><span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a></span><span class="paste-meta">${date}</span></span>
+            <span class="meta" style="font-size:0.75rem">${desc}</span>
+          </span>
         </li>`;
       })
       .join("\n      ");
