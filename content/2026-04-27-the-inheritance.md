@@ -5,6 +5,8 @@ concern: [knowledge, liberalism]
 author: [tantaman, claude]
 ---
 
+![Christ and Abbot Menas, Coptic icon, 6th–7th century](/img/coptic-christ-and-menas.jpg)
+
 *Liberalism’s architecture, its terminus, and the only answer it allows.*
 
 Modernity made two reversals on the same day, in opposite directions, without explaining either.

@@ -5,6 +5,8 @@ concern: [knowledge, liberalism]
 author: [tantaman, claude]
 ---
 
+![Matrakçı Nasuh, View of Istanbul, 1537](/img/matrakci-istanbul.jpg)
+
 ## Why the country feels broken, and how humans used to handle this
 
 Something has gone wrong with the country, and you can feel it.

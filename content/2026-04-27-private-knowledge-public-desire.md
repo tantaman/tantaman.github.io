@@ -5,6 +5,8 @@ concern: [knowledge, liberalism]
 author: [tantaman, claude]
 ---
 
+![Hakuin Ekaku, Daruma, 18th century](/img/hakuin-daruma.jpg)
+
 *The architecture of free self-exploitation*
 
 Modernity issues two rules without ever stating them as rules.
