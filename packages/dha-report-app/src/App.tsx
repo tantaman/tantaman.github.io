@@ -162,9 +162,14 @@ const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCa
   // Scapers
   const [scapersSpend, setScapersSpend] = useState(reportData.landscapeCommittee.scapersSpend);
 
-  // Landscape Committee
-  const [lcBudget, setLcBudget] = useState(reportData.landscapeCommittee.budget);
-  const [lcSpend, setLcSpend] = useState(reportData.landscapeCommittee.spend);
+  // Snow Removal (broken out from Landscape Committee)
+  const [snowBudget, setSnowBudget] = useState(reportData.snowRemoval?.budget ?? 0);
+  const [snowSpend, setSnowSpend] = useState(reportData.snowRemoval?.spend ?? 0);
+  const hasSnow = reportData.snowRemoval != null;
+
+  // Landscape Committee (display values exclude snow when snowRemoval is set)
+  const [lcBudget, setLcBudget] = useState(reportData.landscapeCommittee.budget - (reportData.snowRemoval?.budget ?? 0));
+  const [lcSpend, setLcSpend] = useState(reportData.landscapeCommittee.spend - (reportData.snowRemoval?.spend ?? 0));
 
   // TMGA
   const [tmgaBudget, setTmgaBudget] = useState(reportData.tmga.budget);
@@ -189,8 +194,10 @@ const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCa
     setSandySpringReserve(data.assets.sandySpringReserve);
     setOtherAssets(data.assets.otherAssets);
     setScapersSpend(data.landscapeCommittee.scapersSpend);
-    setLcBudget(data.landscapeCommittee.budget);
-    setLcSpend(data.landscapeCommittee.spend);
+    setSnowBudget(data.snowRemoval?.budget ?? 0);
+    setSnowSpend(data.snowRemoval?.spend ?? 0);
+    setLcBudget(data.landscapeCommittee.budget - (data.snowRemoval?.budget ?? 0));
+    setLcSpend(data.landscapeCommittee.spend - (data.snowRemoval?.spend ?? 0));
     setTmgaBudget(data.tmga.budget);
     setTmgaSpend(data.tmga.spend);
     setSocialBudget(data.socialCommittee.budget);
@@ -733,7 +740,7 @@ const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCa
                 ({calcPercent(scapersSpend, lcSpend)}% of LC spend)
               </p>
             </div>
-            {(reportData as ReportData & { budgetAlerts?: BudgetAlert[] }).budgetAlerts?.map((alert, i) => (
+            {(reportData as ReportData & { budgetAlerts?: BudgetAlert[] }).budgetAlerts?.filter(a => a.category !== 'Snow Removal').map((alert, i) => (
               <div key={i} className="mt-2 pt-2 border-t border-dashed text-sm">
                 <div className="flex items-center gap-1 text-amber-700">
                   <span>⚠️</span>
@@ -743,6 +750,28 @@ const ReportDashboard: React.FC<ReportDashboardProps> = ({ reportDates, reportCa
               </div>
             ))}
           </BudgetCard>
+
+          {/* Snow Removal */}
+          {hasSnow && (
+            <BudgetCard
+              title="Snow Removal"
+              budget={snowBudget}
+              spend={snowSpend}
+              budgetSetter={setSnowBudget}
+              spendSetter={setSnowSpend}
+              yearPercent={(new Date(selectedDate + 'T00:00:00').getMonth() + 1) / 12 * 100}
+            >
+              {(reportData as ReportData & { budgetAlerts?: BudgetAlert[] }).budgetAlerts?.filter(a => a.category === 'Snow Removal').map((alert, i) => (
+                <div key={i} className="mt-2 pt-2 border-t border-dashed text-sm">
+                  <div className="flex items-center gap-1 text-amber-700">
+                    <span>⚠️</span>
+                    <span>{formatCurrency(Math.abs(alert.variance))} over annual budget</span>
+                  </div>
+                  {alert.note && <p className="text-xs text-gray-500 ml-5">{alert.note}</p>}
+                </div>
+              ))}
+            </BudgetCard>
+          )}
 
           {/* TMGA */}
           <BudgetCard

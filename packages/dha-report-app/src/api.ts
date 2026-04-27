@@ -90,6 +90,10 @@ export interface ReportData {
     spend: number;
     details: DetailItem[];
   };
+  snowRemoval?: {
+    budget: number;
+    spend: number;
+  };
 }
 
 export async function uploadReport(
