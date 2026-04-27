@@ -7,6 +7,29 @@ import type { Env } from "./index";
 import { stripMarkdown, chunkText } from "./tts-utils.js";
 import { upsertPasteEmbedding, deletePasteEmbeddings } from "./embeddings.js";
 import { assignClusters, removeClusterMembership } from "./clusters.js";
+import { renderPasteCard } from "./paste-card.js";
+
+const SITE_URL = "https://tantaman.com";
+
+type PasteMeta = {
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  ogUrl: string;
+};
+
+function metaTagsHtml(meta: PasteMeta): string {
+  return `<meta property="og:title" content="${escapeHtml(meta.ogTitle)}">
+  <meta property="og:description" content="${escapeHtml(meta.ogDescription)}">
+  <meta property="og:image" content="${escapeHtml(meta.ogImage)}">
+  <meta property="og:url" content="${escapeHtml(meta.ogUrl)}">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escapeHtml(meta.ogTitle)}">
+  <meta name="twitter:description" content="${escapeHtml(meta.ogDescription)}">
+  <meta name="twitter:image" content="${escapeHtml(meta.ogImage)}">
+  <meta name="description" content="${escapeHtml(meta.ogDescription)}">`;
+}
 
 export const paste = new Hono<{ Bindings: Env }>();
 
@@ -280,14 +303,16 @@ const THEME_SCRIPT = `
 })();
 `;
 
-function htmlPage(title: string, body: string, nav?: string): string {
+function htmlPage(title: string, body: string, nav?: string, meta?: PasteMeta): string {
   const navLinks = nav ?? `<a href="/paste/logout">log out</a>`;
+  const metaBlock = meta ? metaTagsHtml(meta) : "";
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} — paste</title>
+  ${metaBlock}
   <style>${PAGE_STYLE}</style>
   <script>${THEME_SCRIPT}</script>
   <script defer src="https://cloud.umami.is/script.js" data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
@@ -889,6 +914,13 @@ paste.get("/:id", async (c) => {
   const date = new Date(row.created_at).toISOString().split("T")[0];
   const title = row.title || "Untitled";
 
+  const ogMeta: PasteMeta = {
+    ogTitle: title,
+    ogDescription: excerpt(row.body, 200) || "A paste on tantaman.com",
+    ogImage: `${SITE_URL}/paste/${row.id}/splash.png`,
+    ogUrl: `${SITE_URL}/paste/${row.id}`,
+  };
+
   // Fetch revision chain (ancestors + children)
   const [ancestorRows, childRows] = await Promise.all([
     row.parent_id
@@ -943,6 +975,7 @@ paste.get("/:id", async (c) => {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} — paste</title>
+  ${metaTagsHtml(ogMeta)}
   <style>
     ${PAGE_STYLE}
     body { max-width: none; padding: 0; }
@@ -1002,8 +1035,11 @@ paste.get("/:id", async (c) => {
 
     const isFullDocument = /<!DOCTYPE|<html/i.test(row.body);
     if (isFullDocument) {
-      // Inject toolbar before </body>
-      const html = row.body.replace(/<\/body>/i, `${toolbar}</body>`);
+      // Inject toolbar before </body> and OG tags before </head> (if present).
+      let html = row.body.replace(/<\/body>/i, `${toolbar}</body>`);
+      if (/<\/head>/i.test(html)) {
+        html = html.replace(/<\/head>/i, `${metaTagsHtml(ogMeta)}\n</head>`);
+      }
       return c.html(html);
     }
 
@@ -1014,6 +1050,7 @@ paste.get("/:id", async (c) => {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} — paste</title>
+  ${metaTagsHtml(ogMeta)}
   <script defer src="https://cloud.umami.is/script.js" data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
 </head>
 <body>
@@ -1163,10 +1200,57 @@ paste.get("/:id", async (c) => {
         });
       })();
       </script>` : ""}
-    </div>`
+    </div>`,
+    undefined,
+    ogMeta
   );
 
   return c.html(html);
+});
+
+// GET /:id/splash.png — auto-generated splash card (public, lazy R2 cache)
+paste.get("/:id/splash.png", async (c) => {
+  const id = c.req.param("id");
+  const r2Key = `paste-cards/${id}.png`;
+
+  const cached = await c.env.BUCKET.get(r2Key);
+  if (cached) {
+    return new Response(cached.body, {
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    });
+  }
+
+  const row = await c.env.DB.prepare(
+    "SELECT id, title, body, language FROM paste WHERE id = ?",
+  )
+    .bind(id)
+    .first<{ id: string; title: string | null; body: string; language: string }>();
+
+  if (!row) return c.text("Not found", 404);
+
+  try {
+    const png = await renderPasteCard(c.env.KV, {
+      id: row.id,
+      title: row.title,
+      language: row.language,
+      body: row.body,
+    });
+    await c.env.BUCKET.put(r2Key, png, {
+      httpMetadata: { contentType: "image/png" },
+    });
+    return new Response(png, {
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    });
+  } catch (err) {
+    console.error(`[paste-splash] error rendering ${id}:`, err);
+    return c.text("Failed to render splash", 500);
+  }
 });
 
 // GET /:id/raw — raw content (public)

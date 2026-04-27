@@ -1,19 +1,14 @@
 import { Hono } from "hono";
 import type { Env } from "./index";
-import satori, { init as initSatori } from "satori/standalone";
-// @ts-expect-error -- WASM module import handled by wrangler bundler
-import yogaWasm from "satori/yoga.wasm";
-import { initWasm, Resvg } from "@resvg/resvg-wasm";
-// @ts-expect-error -- WASM module import handled by wrangler bundler
-import resvgWasm from "@resvg/resvg-wasm/index_bg.wasm";
+import satori from "satori/standalone";
+import { Resvg } from "@resvg/resvg-wasm";
+import { ensureWasm, loadInterBold } from "./satori-wasm.js";
 
 const SITE_URL = "https://tantaman.com";
 const CARD_WIDTH = 1080;
 const CARD_HEIGHT = 1920;
 const MANIFEST_KV_KEY = "ig-card:posts-manifest";
-const FONT_KV_KEY = "font:inter-bold";
 const MANIFEST_TTL = 3600;
-const FONT_CSS_URL = "https://fonts.googleapis.com/css2?family=Inter:wght@700";
 
 type ManifestEntry = {
   slug: string;
@@ -22,16 +17,6 @@ type ManifestEntry = {
   image: string | null;
   color: string | null;
 };
-
-let wasmInitialized = false;
-
-async function ensureWasm() {
-  if (!wasmInitialized) {
-    await initSatori(yogaWasm);
-    await initWasm(resvgWasm);
-    wasmInitialized = true;
-  }
-}
 
 function arrayBufferToBase64(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer);
@@ -46,28 +31,6 @@ function arrayBufferToBase64(buffer: ArrayBuffer): string {
     );
   }
   return btoa(chunks.join(""));
-}
-
-async function loadFont(kv: KVNamespace): Promise<ArrayBuffer> {
-  const cached = await kv.get(FONT_KV_KEY, "arrayBuffer");
-  if (cached) return cached;
-
-  // Fetch Google Fonts CSS with a User-Agent that returns .ttf format
-  const css = await fetch(FONT_CSS_URL, {
-    headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; de-at) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1",
-    },
-  }).then((r) => r.text());
-
-  const urlMatch = css.match(/src:\s*url\(([^)]+)\)/);
-  if (!urlMatch) throw new Error("Could not parse font URL from Google Fonts");
-
-  const fontData = await fetch(urlMatch[1]).then((r) => r.arrayBuffer());
-  await kv.put(FONT_KV_KEY, fontData, {
-    expirationTtl: 60 * 60 * 24 * 365,
-  });
-  return fontData;
 }
 
 async function fetchManifest(kv: KVNamespace): Promise<ManifestEntry[]> {
@@ -318,7 +281,7 @@ igCard.get("/:slug", async (c) => {
     await ensureWasm();
 
     // Load font
-    const fontData = await loadFont(c.env.KV);
+    const fontData = await loadInterBold(c.env.KV);
     console.log(`[ig-card] font loaded, ${fontData.byteLength} bytes`);
 
     // Render SVG via satori
