@@ -116,6 +116,18 @@ The work, where it happens at all, will happen there. Not on schedule. Not at sc
 
 -----
 
+## Postscript — May 4
+
+The retrospective above closes the thirty-day arc. It does not close the question. The day after it was written, two essays continue the move from diagnosis toward what comes next.
+
+[[2026-05-04-what-you-were-not-given:What You Were Not Given]] strips the formation argument of its religious case clothes. The boy across the table from his youth pastor is not a Christian crisis; he is the universal modern situation. *You will be formed. There is no exit. The only real question is whether you do the forming with your eyes open.* Objectivity is restated as the gap conscious formation creates — not the absence of a place to stand, but the presence of a place to stand from which one's own life becomes visible. The drifter has no such vantage. They are the current.
+
+[[2026-05-04-what-isnt-available:What Isn't Available]] then maps the disqualifications. The constructed tradition, the hollowed tradition, the instrumentalized practice, the pseudo-tradition, the closed form, the solo mystic, the accidental tradition — seven failures, each looking from outside like the answer, each disqualified by the same structural fact. *Most of what looks like a tradition is not one, and most of what looks like an answer is the thing the question was about.* What remains, after the clearing, is small.
+
+The retrospective said the work would happen *not on schedule, not at scale, not legibly to the apparatus*. The May 4 pair begins the harder follow-on work of saying which structures are still able to do the work at all.
+
+-----
+
 *Index of posts referenced (in order written):*
 
 - April 6 — [[2026-04-06-formed-self:Fate, Structure, Mimesis]], [[2026-04-06-jesuit-formation:The Technology of the Soul]], [[2026-04-06-formation-we-admit-to:The Formation We Admit To]], [[2026-04-06-civilizational-texts:Civilizational Texts]], [[2026-04-06-what-the-silence-kept:What the Silence Kept]]
@@ -127,3 +139,4 @@ The work, where it happens at all, will happen there. Not on schedule. Not at sc
 - April 27 — [[2026-04-27-private-knowledge-public-desire:Private Desire, Public Knowledge]], [[2026-04-27-the-inheritance:The Inheritance]], [[2026-04-27-the-cause:The Cause]], [[2026-04-27-good-fences:Good Fences]]
 - April 28 — [[2026-04-28-the-lights-were-on:The Light That Was Already On]]
 - May 3 — [[2026-05-03-load-bearing-walls:Load-Bearing Walls]], [[2026-05-03-who-built-the-walls:Who Built the Walls]], [[2026-05-03-the-demolition-crew:The Demolition Crew]], [[2026-05-03-the-quiet-dissolutions:The Quiet Dissolutions]], [[2026-05-03-self-formation-of-rulers:The Self-Formation of Rulers]], [[2026-05-03-the-dinner-party:The Dinner Party]]
+- May 4 — [[2026-05-04-what-you-were-not-given:What You Were Not Given]], [[2026-05-04-what-isnt-available:What Isn't Available]]
