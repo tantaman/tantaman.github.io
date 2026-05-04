@@ -3,6 +3,7 @@ title: 'Two Analysts'
 tags: [self]
 concern: [civilization]
 form: story
+description: 'Deep knowledge of a subject''s cultural and historical context can produce accurate analysis that institutional frameworks systematically exclude in favor of legible but mechanistically flawed models. The post illustrates how Sarah''s eleven years of lived understanding of Iran''s martyrdom theology generates correct predictions about how sanctions strengthen rather than weaken the regime, yet her memos are filed away while her colleague Tom''s simpler aversion-compliance model drives policy despite repeatedly failing, because Tom''s assessments fit institutional templates and answer the questions decision-makers know how to ask. The tragedy is that even when Tom recognizes the problem and attempts to test whether his fundamental mechanism is correct, he lacks the experiential foothold necessary to generate meaningful falsification criteria, and institutional pressures ensure he returns to his incomplete but convenient model rather than undertaking the deeper epistemic work required.'
 ---
 
 ![The Ambassadors, Hans Holbein the Younger, 1533](/img/holbein-ambassadors.jpg)

@@ -2,6 +2,7 @@
 title: 'No Community? No Duh'
 tags: [culture, philosophy]
 concern: [modernity, self]
+description: 'Modern society has eliminated obligatory community structures in the name of individual freedom, leaving people dependent on willpower alone to maintain chosen communities—a fragile foundation that explains why adults struggle to form lasting friendships after school. Both liberalism and its proposed alternatives (socialism, communism) share the same underlying assumption that freedom from obligation is the primary human good, so they all optimize environments against the conditions that allow community to form naturally. Rebuilding genuine community requires rejecting this shared premise and recognizing obligation itself as essential to human flourishing, not as a constraint to overcome.'
 ---
 
 ![nighthawks](/img/hopper-nighthawks.jpg)

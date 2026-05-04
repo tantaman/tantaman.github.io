@@ -1,6 +1,7 @@
 ---
 title: 'Movies for the Themes'
 tags: [film, culture]
+description: 'A curated film list organized around eight thematic clusters that map onto the philosophical and theological concerns of the Tantamanlands corpus: institutional capture and recursion, the social construction of identity, language as constraining force, Christian inheritance in secular modernity, mystical surrender, embodied colonization under capital, emergent network effects without intentional actors, and the persistence of ground and presence beyond the self. Each film is selected not for topical similarity but for diagnostic precision about how systems trap their inhabitants and how escape—if possible at all—requires rupture rather than reform.'
 ---
 
 # Movies for the Tantamanlands Themes

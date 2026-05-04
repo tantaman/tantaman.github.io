@@ -4,6 +4,7 @@ tags: [philosophy, culture, self]
 concern: [formation, modernity]
 form: essay
 author: [tantaman, claude]
+description: 'Modern liberatory movements—targeting sexual repression, patriarchal authority, racial caste, and therapeutic shame—successfully dissolved genuine oppressions but inadvertently dismantled the social preconditions necessary for human formation itself. The post-therapeutic, egalitarian, autonomous-self culture has systematically erased the mechanisms of shame, binding judgment, apprenticeship, vocation, honor, tragedy, and thresholds that traditionally shaped people into cadres, monks, scholars, and fathers, leaving the contemporary subject formed by nothing at all.'
 ---
 
 ![Friedrich, The Abbey in the Oakwood](/img/friedrich-abbey-oakwood.jpg)

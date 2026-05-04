@@ -3,6 +3,7 @@ title: 'Private Desire, Public Knowledge'
 tags: [self, politics]
 concern: [knowledge, liberalism]
 author: [tantaman, claude]
+description: 'The essay argues that modernity operates through two inversions: relocating knowledge outside the body into centralized systems while simultaneously sealing desire inside the individual as sovereign and inviolable. By examining how public knowledge standards and private desires are selected for and engineered—from meteorological services replacing local lore to advertising manufacturing wants while calling them freedom—the author reveals how this architecture creates populations legible to central control while atomizing them from communal critique and correction. The system''s genius lies in making resistance to manufactured desire feel like self-betrayal, turning exploitation into an experience of autonomy.'
 ---
 
 ![Hakuin Ekaku, Daruma, 18th century](/img/hakuin-daruma.jpg)

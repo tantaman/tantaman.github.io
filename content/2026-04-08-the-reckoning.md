@@ -2,6 +2,7 @@
 title: 'The Reckoning'
 tags: [self]
 concern: [civilization]
+description: 'A generation raised in unprecedented prosperity and comfort, shaped by therapy culture and social media to prioritize self-discovery and the elimination of suffering, now faces a world of genuine hardship and necessity that their formation has left them unprepared to endure. The institutions that promised they could heal their way to a life free of structural suffering have failed to build the kind of fortitude, obligation, and capacity for endurance that civilizations require to survive crises. The easy world that created this ideology is ending, and reality is returning with demands that no amount of therapeutic work or boundary-setting can satisfy.'
 ---
 
 Reality is coming. It is going to rip you apart. And you are not ready. You were never going to be ready. Because the last thirty years were a lie — a long, comfortable, well-lit lie — and you bought it completely, and now the bill is here and you are standing at the door in your self-discovery vocabulary holding a credit card that doesn't work in this economy.

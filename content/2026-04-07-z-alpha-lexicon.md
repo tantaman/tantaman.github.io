@@ -2,6 +2,7 @@
 title: 'The Embedded Ontologies: A Philosophical Lexicon of Gen Z and Gen Alpha Slang'
 tags: [language]
 concern: [civilization]
+description: 'Slang functions as embedded philosophy, encoding moral frameworks and worldviews rather than merely providing alternative vocabulary, and Gen Z and Gen Alpha internet-native slang operates with unusual speed and ontological precision to install specific assumptions about authenticity, social performance, failure, and personhood. The post analyzes clusters of slang terms grouped by shared moral frameworks—the authenticity cluster being largest—revealing that while the vocabulary is vast, the underlying anthropologies are few, and each term carries philosophical content that shapes how speakers think about truth, social approval, consciousness, and virtue. The essay demonstrates how words like "based," "cringe," "NPC," and "clout chaser" function as compressed worldviews that install systematic ways of seeing and evaluating reality, often producing unintended epistemological and affective consequences in those who adopt them.'
 ---
 
 *Each word is a compressed worldview. What follows is the decompression.*

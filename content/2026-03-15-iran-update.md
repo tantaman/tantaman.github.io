@@ -3,6 +3,7 @@ title: 'Iran Update'
 tags: [politics]
 author: [tantaman, claude]
 concern: [power]
+description: 'Iran appears positioned to maintain control of the Strait of Hormuz while the US faces strategic defeat, encouraging other actors to challenge American interests and forcing a US withdrawal toward the Western Hemisphere.'
 ---
 
 Not much of an update -- most likely outcome looks like:

@@ -3,6 +3,7 @@ title: '[WIP] What the Silence Kept'
 form: story
 tags: [ground]
 concern: [civilization]
+description: 'The post explores the tension between inherited language and lived experience through the story of Maret, a young woman on an alien world who cannot find words in her native Thracian to describe the unique color of the three-sun sky, and hints at larger questions about how communities maintain stability while potentially losing something essential in the process. Through fragmented narratives and shifting perspectives, the work examines what remains unspeakable within the structures—linguistic, cultural, institutional—that hold communities together, and how the gaps between official knowledge and personal perception shape identity across generations and worlds.'
 ---
 
 ![crater](/img/roden-crater-klaus-obermeyer.webp)

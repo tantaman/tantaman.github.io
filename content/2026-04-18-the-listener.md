@@ -4,6 +4,7 @@ tags: [self]
 concern: [civilization, knowledge]
 form: story
 author: [tantaman, claude]
+description: 'A man named Haru grows up in a village with a mysterious box that emits two distinct sounds and flashing lights that only he can perceive as different, a solitary knowledge he learns to carry silently through adulthood until the lights mysteriously stop working, leaving him alone with sounds no one else can hear and no external way to verify his unique perception. The story explores themes of perception, isolation, and the gap between inner knowledge and the world''s capacity to recognize or validate it, examining what happens when the one external marker that could have proven someone''s singular understanding of reality disappears.'
 ---
 
 ![Tsukioka Yoshitoshi](/img/yoshitoshi-listener.jpg)

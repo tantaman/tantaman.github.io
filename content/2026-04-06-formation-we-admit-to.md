@@ -2,6 +2,7 @@
 title: 'The Formation We Admit To'
 tags: [ground, modernity]
 concern: [civilization]
+description: 'Texts shape souls—this is the thesis that corporations have proven through decades of deliberate cultural engineering, from Netflix''s foundational PowerPoint to Amazon''s Leadership Principles to McKinsey''s systematic development of a distinctive professional type. Organizational psychology research confirms that founding documents and cultural transmission mechanisms produce durable changes in how employees perceive, think, and feel, yet society has largely used this knowledge not to deepen human formation but to market products and extract productivity. The irony is that we have conducted an accidental seventy-year experiment validating one of education''s oldest questions while treating the philosophical inquiry itself as quaint, all while corporations have weaponized the answer for commercial purposes.'
 ---
 
 ### How corporations proved that texts shape souls — and what we did with the proof

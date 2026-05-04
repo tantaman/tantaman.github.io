@@ -5,6 +5,7 @@ author: [tantaman, claude]
 concern: [self, power, ground, knowledge]
 kind: original
 image: '/img/durer-melencolia.jpg'
+description: 'The author is developing a book examining how different cultural traditions form distinct types of selves, how power selects for legible and controllable identities while suppressing alternatives, how this pattern repeats across history through thermodynamic and geometric laws requiring no conspiracy, and whether an exit exists that transcends the cycle of capture and liberation. The argument is supported by a formal mathematical model called Recognition Dynamics that formalizes these claims as structural necessities rather than preferences.'
 ---
 
 I've been writing a book. Or more precisely — figuring out a book. Now I'm going to write it.

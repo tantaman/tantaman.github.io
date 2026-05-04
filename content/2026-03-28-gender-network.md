@@ -2,6 +2,7 @@
 title: 'The Gender Cascade: A Network Illustration'
 tags: [politics]
 author: [tantaman, claude]
+description: 'Gender identity theory originating in academic queer theory spread from universities into clinical practice, law, and K-12 education through a network of structural hole brokers like WPATH, the ACLU, and GLSEN that translated academic concepts into actionable frameworks for different institutions. Elite universities and major pediatric hospital systems then amplified these approaches through preferential attachment dynamics, establishing them as professional defaults and clinical standards that smaller institutions followed to maintain legitimacy. The post argues this cascade resulted from network structural logic—zealot persistence, bridging organizations, and hub amplification—rather than from conspiracy or accident.'
 ---
 
 ![Leonardo da Vinci, Studies of Water](/img/leonardo-deluge.png)

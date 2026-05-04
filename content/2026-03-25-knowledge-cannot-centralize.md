@@ -2,6 +2,7 @@
 title: 'Knowledge Cannot Centralize'
 tags: [knowledge]
 author: [tantaman, claude]
+description: 'Knowledge cannot be centralized because it is inherently local and temporal, existing in the lived experience and context-specific awareness of people embedded in particular places and times. Bureaucratic systems that attempt to extract and standardize this knowledge through surveys and official processes necessarily fail—they cannot access contextually-indexed information, they repel the most knowledgeable people, and they transform living knowledge into abstracted maps disconnected from reality. Decentralization is therefore not a political choice but an epistemological necessity, since centralized systems are structurally blind to what they don''t know they''re missing, while the costs of their abstractions fall on the very people they claim to serve.'
 ---
 
 ![view from 9th ave](/img/view-9th-ave.jpg)

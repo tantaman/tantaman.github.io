@@ -3,6 +3,7 @@ title: 'The Long Harvest'
 tags: [self]
 author: [tantaman, claude]
 image: '/img/wyeth-christinas-world.jpg'
+description: 'Dorothy leaves her small Kentucky town for Pittsburgh to become a person rather than a predetermined role, building an independent life as a typist and wife. Her daughter Carol continues this trajectory by divorcing, pursuing education and career advancement, and modeling self-determined choices that reshape what women could aspire to. Renee, the granddaughter, inherits this freedom but finds herself trapped by the anxiety of constant self-examination and the pressure to authentically choose, discovering that unlimited choice can become its own constraint.'
 ---
 
 ![Andrew Wyeth — Christina's World (1948)](/img/wyeth-christinas-world.jpg)

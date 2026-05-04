@@ -3,6 +3,7 @@ title: 'Good Fences'
 tags: [self, politics]
 concern: [knowledge, liberalism]
 author: [tantaman, claude]
+description: 'Fundamental disagreements about how to live—not social media or inequality—are destroying American cohesion, and the solution is not more dialogue but learning from historical precedents like the Peace of Westphalia, where separate groups governed themselves without trying to impose unified rules on matters of deepest belief. Modern liberalism worked only under specific conditions: cultural homogeneity, limited government scope, and economic growth that compensated losers, all of which have disappeared, leaving the system structurally broken and incapable of producing the peace and trust it once did.'
 ---
 
 ![Matrakçı Nasuh, View of Istanbul, 1537](/img/matrakci-istanbul.jpg)

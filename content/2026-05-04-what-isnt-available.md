@@ -5,6 +5,7 @@ concern: [formation, modernity, self]
 form: essay
 author: [tantaman, claude]
 image: '/img/hammershoi-sunbeams.jpg'
+description: 'The modern self, when confronted with formation problems, instinctively constructs solutions by shopping and assembling practices from multiple sources, but everything within reach is already disqualified by its very nature—constructed traditions lack ballast because you selected them, hollowed traditions have had their destination removed while keeping the structure, instrumentalized practices serve the modern self rather than transcend it, pseudo-traditions like political identity actively prevent self-examination, and even closed traditional forms often refuse honest questioning of the formation itself. The reflex that produces the solution is the same reflex that produced the problem, and until this is named and killed, nothing else can move.'
 ---
 
 ![Vilhelm Hammershøi, Sunbeams (Strandgade 30), 1900](/img/hammershoi-sunbeams.jpg)

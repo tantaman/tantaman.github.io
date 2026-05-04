@@ -2,8 +2,6 @@
 title: "The Cloud of Unknowing"
 ---
 
-# The Cloud of Unknowing
-
 *A Book of Contemplation the Which Is Called the Cloud of Unknowing,*
 *in the Which a Soul Is Oned with God*
 

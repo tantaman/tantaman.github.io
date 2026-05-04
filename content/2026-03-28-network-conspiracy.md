@@ -2,6 +2,7 @@
 title: 'No One Is Driving: Network Theory and the Collapse of Conspiracy'
 tags: [politics]
 author: [tantaman, claude]
+description: 'Network theory reveals that apparent control by small groups results not from conspiracy but from the structural properties of real-world networks themselves. Scale-free networks concentrate predictive power in hub nodes through preferential attachment, structural holes grant brokers disproportionate influence over information flow, and elite clusters naturally form densely interconnected subnetworks that propagate their frameworks globally—all without any intentional coordination or hidden strings. Understanding these network dynamics fundamentally reframes causality: outcomes that seem orchestrated by powerful actors are often simply the inevitable result of network geometry and the mathematics of connection.'
 ---
 
 ![Leonardo da Vinci, A Deluge](/img/leonardo-turbulence.png)

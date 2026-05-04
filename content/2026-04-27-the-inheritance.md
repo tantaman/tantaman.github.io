@@ -3,6 +3,7 @@ title: 'The Inheritance'
 tags: [self, politics]
 concern: [knowledge, liberalism]
 author: [tantaman, claude]
+description: 'Modernity relocated knowledge outward to measurable apparatuses while relocating desire inward to sovereign individuals, a double reversal that created a legible population controlled by central systems that manufacture the wants they claim to merely serve. The essay traces how this arrangement systematically dissolved the older formations—families, guilds, parishes, communities—that once shaped desires and transmitted knowledge, replacing them with an industrial apparatus of algorithmic suggestion and consumption that presents manipulation as freedom. Liberalism''s fatal contradiction is that it requires civic dispositions and shared restraint it cannot itself produce, having dismantled the formative institutions that once supplied them.'
 ---
 
 ![Christ and Abbot Menas, Coptic icon, 6th–7th century](/img/coptic-christ-and-menas.jpg)

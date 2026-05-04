@@ -3,6 +3,7 @@ title: 'Civilizational Texts'
 tags: [ground]
 concern: [civilization]
 image: '/img/raphael-school-of-athens.jpg'
+description: 'Civilizational texts are not naturally great but deliberately chosen through acts of commissioning, compilation, and preservation that reflect the societies making those choices, and these chosen texts then shape the societies that preserve them in return. The post traces major canonization mechanisms from Mesopotamia through early modernity, examining how scribal guilds, royal courts, and religious authorities selected which texts would encode and transmit their civilizations'' values, and how these canonical choices produced distinctive forms of human consciousness, institutional practice, and intellectual constraint. Each civilization''s canon reveals what it wanted to become, what it feared, and what it needed to forget — and demonstrates how textual authority and social formation are inseparable processes.'
 ---
 
 # The Choosing: Civilizational Texts and the Societies They Made

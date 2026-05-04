@@ -3,6 +3,7 @@ title: 'Seven Things Radical Empiricism Cannot Grant'
 tags: [self, philosophy]
 concern: [knowledge]
 author: [tantaman, claude]
+description: 'Radical empiricism assumes beliefs update from experience while the experiencer remains unchanged, but this asymmetry collapses when examined closely: formation shapes the knower before reasoning begins, literature reshapes perception rather than merely adding beliefs, tacit knowledge exists beyond language, knowledge encompasses contemplation beyond prediction, desire directs attention before belief does, virtue is prerequisite for moral perception, and the framework cannot account for how the knower is fundamentally transformed by what they come to know.'
 ---
 
 ![Habiballah of Sava](/img/habiballah-birds.jpg)

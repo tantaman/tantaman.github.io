@@ -4,6 +4,7 @@ tags: [history, politics, self]
 concern: [power, formation]
 form: essay
 author: [tantaman, claude]
+description: 'Exceptional historical figures deliberately construct themselves for the roles they will eventually occupy, studying predecessors, rehearsing their intended actions through reading and writing, and submitting to disciplined self-formation over decades before the historical moment arrives to receive them. The essay examines Napoleon, Caesar, and Lincoln as cases of this pattern, showing how Napoleon spent fifteen years reading military history and classical biography before the Revolution opened the door, how Caesar measured himself against Alexander the Great and wrote his own historical record into existence, and how Lincoln methodically assembled a curriculum of texts to construct the voice and reasoning that would eventually deliver the Cooper Union speech. The visibility of this deliberate labor in the historical archive reveals that "great men" are not simply discovered by their moment but have already formed themselves into the figures that moment requires.'
 ---
 
 ![David, The Emperor Napoleon in His Study at the Tuileries](/img/david-napoleon-study.jpg)

@@ -2,6 +2,7 @@
 title: 'Trump is Brilliant'
 tags: [politics]
 author: [tantaman]
+description: 'Trump''s chaotic policy moves—from mass deportations to tariff wars to territorial claims on Greenland and Canada—represent not incompetence but a deliberate "rupture" strategy to break America''s 80-year form as global hegemon and shift toward a concentrated Monroe Doctrine focused on Western hemisphere dominance. The underlying logic, driven by military-strategic thinking about climate crisis, is to retreat from unsustainable global commitments and consolidate power in the one region most insulated from coming environmental catastrophe. Whether orchestrated or accidentally achieved, this reorientation reflects a geopolitical calculation that America cannot afford to stabilize a warming world while securing its own future.'
 ---
 
 ![Greenland Ice Melt](/img/greenland-melt.jpg)

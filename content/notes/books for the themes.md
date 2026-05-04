@@ -1,6 +1,7 @@
 ---
 title: 'Books for the Themes'
 tags: [books, philosophy, religion, culture]
+description: 'This reading list maps eight thematic clusters exploring how modern institutions capture movements, how selves are formed through cultural forces beyond individual choice, how language constrains thought, how secular modernity inherits Christian theological structures, how mystical traditions offer paths of surrender rather than engineering, how bodies are colonized by institutional demands, how networks operate as impersonal machines, and what remains when individual identity dissolves. The core argument treats these themes as interconnected dimensions of a single problem: the way modern systems remake human consciousness and capacity, with primary thinkers like Girard, Weil, Taylor, Illich, Han, and Scott providing the conceptual skeleton across clusters.'
 ---
 
 # Books for the Tantamanlands Themes

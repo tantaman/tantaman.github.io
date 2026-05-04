@@ -5,6 +5,7 @@ author: [tantaman, claude]
 concern: [ground, knowledge, power]
 form: essay
 image: '/img/scroller-classroom.png'
+description: 'The post argues that education teaches a fact/opinion binary that obscures a crucial fourth way of knowing: narrative grounding, or the pre-existing frameworks through which we interpret all evidence. This hidden epistemology prevents people from recognizing that their interpretations of data are shaped by stories they didn''t consciously choose, making public debates seem like factual disagreements when they''re actually disputes between incommensurable narratives. The author contends that narrative knowing can and should be evaluated through coherence and predictive accuracy rather than dismissed as mere opinion, but the education system''s structural inability to name this category perpetuates a self-sealing cycle that leaves citizens unable to examine their own interpretive foundations.'
 ---
 
 ![](/img/scroller-classroom.png)

@@ -4,6 +4,7 @@ tags: [politics, philosophy]
 author: [tantaman, claude]
 concern: [power, systems]
 kind: original
+description: 'The post argues that the two-party system in America functions as a unified structure designed to maintain existing power arrangements rather than challenge them, with genuine disagreements confined to cultural issues that generate voter passion without redistributing power, while fundamental economic and political systems remain stable regardless of which party wins, and that the appearance of opposition between parties is essential to the system''s survival because it gives citizens the illusion of meaningful choice while preventing them from recognizing or acting against the underlying design that serves the interests of those at the top.'
 ---
 
 Last week, a democratic socialist mayor sat in the Oval Office with a Republican president. They talked about building housing with federal money on public land using union labor. They smiled for photos. The president called the mayor "a nice guy." The mayor handed him a mock newspaper cover praising his vision.

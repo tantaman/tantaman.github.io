@@ -6,6 +6,7 @@ kind: original
 concern: [ground, self, knowledge]
 form: essay
 image: '/img/rothko-chapel.jpg'
+description: 'Every rational system of ethics fails structurally because it must ground itself in axioms it cannot derive from within itself, yet if ethics could be rationally proven, moral development would become impossible—people would optimize their behavior rather than genuinely transform their character—suggesting that the grounding problem is actually a necessary feature of reality designed to preserve authentic human becoming. The author argues that true virtue requires operating in moral darkness and uncertainty, free from the calculus of cosmic reward or logical proof, and that any attempt to escape this through practice or reform merely converts virtue into a form of capital accumulation within the broader ratchet of power and value extraction.'
 ---
 
 ![Mark Rothko — Rothko Chapel (1967)](/img/rothko-chapel.jpg)

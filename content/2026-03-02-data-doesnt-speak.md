@@ -5,6 +5,7 @@ author: [tantaman, claude]
 concern: [knowledge, ground]
 form: essay
 kind: original
+description: 'Data interpretation is always mediated by the philosophical formation and prior commitments of the person asking questions, making purely objective empirical analysis impossible. The essay traces how studying fertility decline revealed that different frameworks—economic optimization, individual autonomy, communal ontology—generate different questions about the same data, with each formation determining what counts as an anomaly or explanation. Because no researcher operates from a neutral position outside all traditions and assumptions, the gap between evidence and interpretation is always bridged by the formation of the inquirer, meaning the claim to "just follow the data" represents the most complete capture by one''s own invisible framework.'
 ---
 
 A note on method, formation, and the question that precedes all questions.

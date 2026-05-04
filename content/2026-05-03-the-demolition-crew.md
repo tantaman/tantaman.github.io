@@ -4,6 +4,7 @@ tags: [philosophy, religion]
 concern: [ground, formation]
 form: essay
 author: [tantaman, claude]
+description: 'Grounding one''s worldview in distant historical narratives requires trusting a long chain of narrators whose decisions and biases you cannot independently verify, which is a fundamentally different and weaker form of knowledge than the practical, embodied wisdom gained through direct participation in real life—cooking, relationships, work, community. Rather than pursuing "better history" as a response to discovering textbook lies, the real question is why we privilege theoretical knowledge of distant abstractions over the tacit knowledge of proximate realities that actually enables us to live well.'
 ---
 
 ![Millet, The Gleaners](/img/millet-gleaners.jpg)

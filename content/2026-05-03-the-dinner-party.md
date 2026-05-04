@@ -4,6 +4,7 @@ tags: [self]
 concern: [self, formation]
 form: story
 author: [tantaman, claude]
+description: 'A man named Cal encounters Nora at a dinner party and becomes gradually absorbed into her social circle, subtly reshaping his tastes, opinions, and self-presentation in order to align with what he perceives as her values and aesthetic preferences. Over the following weeks, he finds himself strategically studying the group''s social grammar, editing his genuine interests to fit their expectations, and losing touch with aspects of himself that don''t seem to register as legible to her. The narrative explores how desire and the wish to be seen by a particular person can operate as a form of self-erasure that feels indistinguishable from genuine learning or growth.'
 ---
 
 ![Manet, A Bar at the Folies-Bergère](/img/manet-folies-bergere.jpg)

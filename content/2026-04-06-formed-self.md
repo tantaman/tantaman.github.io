@@ -3,6 +3,7 @@ title: 'Fate, Structure, Mimesis'
 tags: [ground]
 concern: [civilization]
 image: '/img/scheffer-paolo-francesca.jpg'
+description: 'The essay traces how Western thought across centuries—from ancient Rome through modernity—has persistently understood the self as an output of forces beyond individual control, whether framed as fate, class structure, mimetic desire, or the unconscious, revealing that what appears as modern scientific insight about human nature is actually a rediscovery of an ancient Roman grammar of determinism. The author argues this understanding dominates from Virgil''s fatum and Stoic philosophy through Marx, Freud, and Bourdieu, suggesting we have repeatedly returned to the same fundamental picture of persons as vessels for larger structural forces. Against this persistent grammar, Dante''s Commedia is briefly invoked as offering a radical alternative vision where the damned remain eternally themselves through eternal choosing rather than victimhood to structure.'
 ---
 
 # The Formed Self: Rome, Modernity, and the Grammar of Stagnation

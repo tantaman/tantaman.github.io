@@ -4,6 +4,7 @@ tags: [history, religion, philosophy, politics]
 concern: [power, ground]
 form: essay
 author: [tantaman, claude]
+description: 'The essay traces how myths about the medieval Church and the conflict between religion and science became embedded in modern curricula through five successive historical actors—the absolutist state redefining religion as private belief, Protestant polemicists delegitimizing Rome, nineteenth-century liberal regimes justifying expropriations of Church property, secular research universities differentiating themselves from confessional institutions, and the psychological need for historical scapegoats—each layer reinforcing the others and surviving centuries of scholarly refutation.'
 ---
 
 ![Bruegel, The Tower of Babel](/img/bruegel-tower-of-babel.jpg)

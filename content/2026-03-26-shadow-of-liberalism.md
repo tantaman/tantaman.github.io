@@ -3,6 +3,7 @@ title: 'Shadow of the Liberal Project'
 tags: [knowledge]
 author: [tantaman, qwen, claude]
 image: '/img/mystery-melancholy-street.jpg'
+description: 'Liberalism and Communism, though historically opposed, share fundamental Enlightenment commitments to radical individual autonomy, the rejection of unchosen obligations, and secular progress, making Communism not Liberalism''s enemy but its logical and most dangerous fulfillment—a radicalization that attempts to realize the Liberal dream of total freedom immediately through revolutionary means rather than gradual reform. The essay argues that both ideologies are hostile to tradition and the "given" structures of society, differing primarily in their temporal approach to achieving the utopian endpoint of perfectly autonomous individuals free from all coercion. Understanding Communism as Liberalism''s shadow reveals that twentieth-century totalitarianism was not an alien invasion of the modern order but the eruption of modernity''s own internal logic taken to its extreme conclusion.'
 ---
 
 The Shadow and the Substance: Communism as the Radical Fulfillment of Liberalism

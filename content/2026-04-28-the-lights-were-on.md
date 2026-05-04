@@ -3,6 +3,7 @@ title: 'The Light That Was Already On'
 tags: [myths]
 concern: [knowledge, enlightenment]
 author: [tantaman, claude]
+description: 'The Enlightenment''s self-created mythology of emerging from darkness obscures a continuous intellectual tradition stretching back centuries, particularly through medieval Europe''s sophisticated developments in scientific method, logic, and rational inquiry. The scientific revolution credited to Enlightenment thinkers was built directly on medieval foundations—from the experimental methodology of Robert Grosseteste and Roger Bacon to the mathematical innovations of the Merton Calculators—all produced within Church-sponsored universities by friars and bishops who saw no contradiction between faith and reason. The caricature of the pre-Enlightenment as a superstitious wasteland is eighteenth and nineteenth-century propaganda, not historical fact, designed to elevate the Enlightenment by inventing a darkness that had never existed.'
 ---
 
 ![Laurentius de Voltolina, *Liber ethicorum des Henricus de Alemannia*, c. 1350s — a Bologna university lecture](/img/voltolina-bologna-lecture.jpg)

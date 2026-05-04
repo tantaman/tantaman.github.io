@@ -3,6 +3,7 @@ title: 'The Residue'
 tags: [self]
 author: [tantaman, claude]
 image: '/img/tooker-the-subway.jpg'
+description: 'The liberal order measures value through the metric of individual choice and freedom, but this framework cannot account for the irreplaceable goods that depend on sustained proximity, inherited obligation, and the absence of exit options—goods like witness, memory, and care-as-duty rather than service. When people exercise their freedom to leave constraining circumstances, they dissolve the webs of mutual obligation and communal knowledge that sustained those left behind, replacing them with professional services and market transactions that are not the same thing. The order has no language for what is lost in this exchange because it recognizes only preferences and constraints, leaving the residue of depleted communities and atomized lives unmeasured and unmourned.'
 ---
 
 ![George Tooker — The Subway (1950)](/img/tooker-the-subway.jpg)

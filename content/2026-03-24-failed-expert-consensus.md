@@ -3,6 +3,7 @@ title: 'When Experts Were Clearly Wrong: A Historical Compendium'
 tags: [knowledge]
 author: [tantaman, claude]
 image: '/img/bruegel-blind-leading-blind.jpg'
+description: 'Historical examples demonstrate how credentialed experts have been systematically and catastrophically wrong about medical treatments and public health policy, from ulcers caused by stress to fat causing heart disease to lobotomies and thalidomide, revealing recurring structural failures including absent feedback loops, institutional resistance to dissenting evidence, and financial incentives that protect failed frameworks rather than correct them. The post argues that these errors persist longest when costs fall on powerless populations, when powerful institutions profit from the status quo, and when credentialed gatekeepers can dismiss contrary evidence as insufficiently legitimate, suggesting that expertise claims deserve skepticism when those making them face no real consequences for error.'
 ---
 
 ![Pieter Bruegel the Elder — The Blind Leading the Blind (1568)](/img/bruegel-blind-leading-blind.jpg)

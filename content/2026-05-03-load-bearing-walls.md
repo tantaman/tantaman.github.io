@@ -4,6 +4,7 @@ tags: [history, religion, philosophy, politics]
 concern: [power, ground]
 form: essay
 author: [tantaman, claude]
+description: 'The secular liberal order rests on mythologized historical narratives that collapse under scrutiny: the Wars of Religion were primarily state-formation conflicts fought across confessional lines, not religious bloodbaths, making the secular state a rival sacrality rather than a neutral peacemaker; the Inquisition''s actual death toll of thousands has been inflated to millions by nineteenth-century polemicists, obscuring the fact that the twentieth century''s secular ideologies killed orders of magnitude more; and the witch trials peaked during the early modern period of Enlightenment thought, concentrated in Protestant regions, suggesting they reflect state violence and epistemological upheaval rather than medieval religious superstition. Removing these load-bearing myths forces the secular liberal order to defend itself as a contingent political settlement with its own theological claims rather than as the inevitable culmination of human progress.'
 ---
 
 ![Piranesi, The Drawbridge (Carceri d'Invenzione, plate VII)](/img/piranesi-drawbridge.jpg)

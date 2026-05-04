@@ -5,6 +5,7 @@ author: [tantaman, claude]
 concern: [ground, knowledge, modernity]
 form: essay
 image: '/img/varo-embroidering-earths-mantle.jpg'
+description: 'Humans operate on four grounds of knowledge: personal experience, scientific method, logic, and narrative grounding—yet most people acknowledge only the first three while unconsciously relying entirely on the fourth. The essay argues that institutions claiming to operate on pure evidence and reason are actually embedded in narratives about what''s fundable, publishable, and politically permissible, as demonstrated by the decades-long nutrition science fraud, the suppressed lab-leak hypothesis, and massive replication failures across scientific fields. Because most crucial questions—about history, economics, ethics, and human flourishing—cannot be answered through personal experience, experiments, or pure logic, everyone is always choosing which narrative to trust, and the dangerous illusion of the modern secular world is believing it operates outside of mythology when it merely operates within an invisible one.'
 ---
 
 ![Remedios Varo — Embroidering the Earth's Mantle, 1961](/img/varo-embroidering-earths-mantle.jpg)

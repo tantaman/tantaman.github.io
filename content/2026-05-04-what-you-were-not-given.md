@@ -5,6 +5,7 @@ concern: [formation, modernity, self]
 form: essay
 author: [tantaman, claude]
 image: '/img/hammershoi-young-woman-from-behind.jpg'
+description: 'The post argues that many people reject Christianity not because the tradition lacks depth, but because they were handed stripped-down, insufficiently formed versions of it by teachers who themselves had never received the fuller tradition. It explores how modern secular culture forms people just as thoroughly as religious traditions do—through algorithms, media, and unnamed assumptions—but without conscious intention or a named destination, while true formation requires deliberate practice within a community and an explicit narrative about what human beings are for. The post contends that the real question is not whether you will be formed, but whether you''ll do the forming with your eyes open, inside a tradition you can name, or drift unknowingly into someone else''s story.'
 ---
 
 ![Vilhelm Hammershøi, Interior with Young Woman Seen from Behind, 1903–04](/img/hammershoi-young-woman-from-behind.jpg)

@@ -3,6 +3,7 @@ title: 'Theology Is Ahead of Philosophy'
 tags: [self, religion]
 concern: [knowledge]
 author: [tantaman, claude]
+description: 'Theology has long understood that human identity is constituted through being addressed and called by another, a truth that modern philosophy from Descartes onward has struggled to recover. While Descartes imagined the self as a solitary thinking subject reasoning outward from private certainty, the biblical tradition reveals that personhood begins with divine address—with being called by name and answering—a pattern confirmed by contemporary evidence from developmental neuroscience, Helen Keller''s breakthrough at the water pump, and the transformative power of adoptive naming. The difference between starting with doubt versus starting with address shapes everything downstream about how we understand human beings, making theology''s insight about relational selfhood more foundational than philosophy''s isolated cogito.'
 ---
 
 ![Sultan Muhammad](/img/sultan-muhammad-miraj.jpg)

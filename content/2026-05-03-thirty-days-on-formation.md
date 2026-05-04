@@ -4,6 +4,7 @@ tags: [self, philosophy, religion, politics, history]
 concern: [formation, ground, knowledge]
 form: essay
 author: [tantaman, claude]
+description: 'The post retrospectively examines twenty-four essays written over thirty days that collectively explore a single question: how individuals are formed through external practices, institutions, and time—a process that modernity has dissolved and mistaken for liberation. The argument rejects nostalgia while insisting that formation was built on social facts like parishes, regiments, and communities that no individual reading project can replace, though recognizing what was lost is the necessary first step toward honest response. The piece traces this sustained meditation through four acts examining the deep grammar of formation, its narrative dimensions, theological versus philosophical approaches to knowing, and the political consequences of liberalism''s inability to sustain the conditions that produced formed people.'
 ---
 
 ![Friedrich, Wanderer above the Sea of Fog](/img/friedrich-wanderer.jpg)

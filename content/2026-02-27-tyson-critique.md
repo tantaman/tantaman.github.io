@@ -6,6 +6,7 @@ kind: original
 concern: [ground, knowledge]
 form: essay
 image: '/img/wright-orrery.jpg'
+description: 'The essay critiques how popular science communicators like Neil deGrasse Tyson use wonder and cosmic indifference to settle people''s existential anxieties, comparing this to how religion functions—both offering comfort rather than genuine engagement with life''s deepest questions. It argues that serious religious mystics and scientists like Carl Sagan actually grappled with authentic awe and mystery in ways that contemporary popularizers like Tyson avoid, and that by dismissing contemplative traditions while paradoxically experiencing the same profound encounters with existence, modern atheist science communicators miss the real depth of what they''re describing.'
 ---
 
 ![Joseph Wright of Derby — A Philosopher Lecturing on the Orrery (1766)](/img/wright-orrery.jpg)
