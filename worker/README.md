@@ -7,8 +7,8 @@ Also exposes a thoughts API — ephemeral micro-posts with file attachments, sto
 ## How it works
 
 1. A build script chunks all blog posts and generates vector embeddings via Cloudflare Workers AI
-2. Embeddings are uploaded to Cloudflare KV
-3. A Cloudflare Worker exposes an MCP server with a `search_blog` tool
+2. Embeddings are upserted into the shared Cloudflare Vectorize index (`thought-embeddings`) under a `blog-` ID prefix
+3. A Cloudflare Worker exposes an MCP server with a `search_blog` tool that queries Vectorize
 4. Visitors connect the MCP server to Claude Desktop or claude.ai and ask questions about the blog
 5. Claude calls `search_blog`, retrieves relevant passages, and synthesizes answers with citations
 6. A D1-backed thoughts API with R2-powered file attachments allows posting and reading ephemeral micro-posts, authenticated via bearer token
@@ -24,46 +24,31 @@ Zero LLM cost for the site owner — visitors use their own Claude subscription.
 
 ## Setup
 
-### 1. Generate embeddings
+### 1. Generate and upload embeddings
+
+The script embeds blog chunks via Workers AI and upserts them directly into the
+Vectorize index named in `wrangler.toml` (`thought-embeddings`). The same index
+also holds thought, paste, and amplification vectors — they're distinguished by
+ID prefix.
 
 From the repo root:
 
 ```sh
-# Set credentials
+# Set credentials (token needs Workers AI + Vectorize edit perms)
 export CLOUDFLARE_ACCOUNT_ID="your-account-id"
 export CLOUDFLARE_API_TOKEN="your-api-token"
 
 # Dry run to verify content discovery
 node scripts/generate-embeddings.mjs --dry-run
 
-# Generate embeddings (calls Cloudflare Workers AI API)
+# Embed and upsert into Vectorize
 node scripts/generate-embeddings.mjs
 ```
 
-This produces `.chat-embeddings.json` at the repo root (~2MB). A cache file `.chat-embeddings-cache.json` tracks content hashes so subsequent runs only re-embed changed posts.
+A cache file `.chat-embeddings-cache.json` tracks `{hash, chunkCount}` per post
+so subsequent runs only re-embed changed posts and clean up orphaned chunks.
 
-### 2. Create KV namespace
-
-```sh
-wrangler login
-wrangler kv namespace create EMBEDDINGS
-```
-
-Copy the namespace ID from the output and update `wrangler.toml`:
-
-```toml
-[[kv_namespaces]]
-binding = "EMBEDDINGS"
-id = "your-namespace-id-here"
-```
-
-### 3. Upload embeddings to KV
-
-```sh
-wrangler kv key put --namespace-id=<your-namespace-id> "embeddings:all" --path=../.chat-embeddings.json --remote
-```
-
-### 4. Install dependencies and deploy
+### 2. Install dependencies and deploy
 
 ```sh
 cd worker
@@ -89,10 +74,10 @@ From the repo root:
 
 ```sh
 node scripts/generate-embeddings.mjs
-wrangler kv key put --namespace-id=<your-namespace-id> "embeddings:all" --path=.chat-embeddings.json
 ```
 
-The cache ensures only new or changed posts are re-embedded.
+The cache ensures only new or changed posts are re-embedded; deleted posts have
+their chunks removed from Vectorize automatically.
 
 ## Connecting as a visitor
 
@@ -199,6 +184,7 @@ curl -X POST https://tantamanlands.tantaman.workers.dev/thoughts \
 Everything runs within Cloudflare's free tier:
 - **Workers**: 100K requests/day
 - **KV**: 100K reads/day, 1GB storage
+- **Vectorize**: 30M queried vector dimensions/month, 5M stored dimensions
 - **Workers AI**: Free tier for `bge-base-en-v1.5` embeddings
 - **D1**: 5M rows read/day, 100K rows written/day, 5GB storage
 - **R2**: 10GB storage, 10M Class A ops/month, 10M Class B ops/month

@@ -27,7 +27,7 @@
     "relationships": "cd packages/compiler && pnpm build && cd ../.. && relationships",
     "search-index": "cd packages/compiler && pnpm build && cd ../.. && search-index",
     "chat-embeddings": "node scripts/generate-embeddings.mjs",
-    "upload-embeddings": "node scripts/generate-embeddings.mjs && wrangler kv key put --namespace-id=c616f080e03e4c1292ff8004b93cbd0b embeddings:all --path=.chat-embeddings.json --remote",
+    "upload-embeddings": "node scripts/generate-embeddings.mjs",
     "descriptions": "node scripts/generate-descriptions.mjs",
     "theses": "node scripts/generate-theses.mjs",
     "carousel-points": "node scripts/generate-carousel-points.mjs",

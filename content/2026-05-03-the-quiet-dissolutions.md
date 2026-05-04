@@ -6,6 +6,8 @@ form: essay
 author: [tantaman, claude]
 ---
 
+![Friedrich, The Abbey in the Oakwood](/img/friedrich-abbey-oakwood.jpg)
+
 > Related:
 > - [[2026-05-03-self-formation-of-rulers:The Self-Formation of Rulers]]
 > - [[2026-05-03-the-dinner-party:The Dinner Party]]

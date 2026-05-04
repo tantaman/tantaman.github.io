@@ -6,6 +6,8 @@ form: essay
 author: [tantaman, claude]
 ---
 
+![Piranesi, The Drawbridge (Carceri d'Invenzione, plate VII)](/img/piranesi-drawbridge.jpg)
+
 > Related:
 > - [[2026-05-03-who-built-the-walls:Who Built the Walls]]
 > - [[2026-05-03-the-demolition-crew:The Demolition Crew]]

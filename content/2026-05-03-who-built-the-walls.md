@@ -6,6 +6,8 @@ form: essay
 author: [tantaman, claude]
 ---
 
+![Bruegel, The Tower of Babel](/img/bruegel-tower-of-babel.jpg)
+
 > Related:
 > - [[2026-05-03-load-bearing-walls:Load-Bearing Walls]]
 > - [[2026-05-03-the-demolition-crew:The Demolition Crew]]

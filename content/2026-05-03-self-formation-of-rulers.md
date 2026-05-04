@@ -6,6 +6,8 @@ form: essay
 author: [tantaman, claude]
 ---
 
+![David, The Emperor Napoleon in His Study at the Tuileries](/img/david-napoleon-study.jpg)
+
 > Related:
 > - [[2026-05-03-the-quiet-dissolutions:The Quiet Dissolutions]]
 > - [[2026-05-03-the-dinner-party:The Dinner Party]]

@@ -56,11 +56,12 @@ export async function deleteThoughtEmbeddings(
   }
 }
 
-// Pastes and amplifications share the same Vectorize index as thoughts,
-// distinguished by id prefix so a single query can surface all three types.
+// Pastes, amplifications, and blog chunks share the same Vectorize index as
+// thoughts, distinguished by id prefix so a single query can surface all kinds.
 
 const PASTE_PREFIX = "paste-";
 const AMP_PREFIX = "amp-";
+const BLOG_PREFIX = "blog-";
 const PASTE_CHUNK_MAX_CHARS = 1800;
 const AMP_EMBED_MAX_CHARS = 1500;
 
@@ -72,13 +73,19 @@ export function amplificationVectorId(ampId: number): string {
   return `${AMP_PREFIX}${ampId}`;
 }
 
+/** Vectorize IDs only allow `[A-Za-z0-9_-]`, so swap `/`, `.`, `#` for `_`. */
+export function blogChunkVectorId(fileKey: string, chunk: number): string {
+  const safe = fileKey.replace(/[^A-Za-z0-9_-]/g, "_");
+  return `${BLOG_PREFIX}${safe}-${chunk}`;
+}
+
 /**
  * Parse a Vectorize ID into its type + ref. Handles both the legacy single-vector
  * `paste-{id}` format and the chunked `paste-{id}-{n}` format.
  */
 export function classifyVectorId(
   id: string,
-): { kind: "thought" | "paste" | "amplification"; ref: string; chunk?: number } {
+): { kind: "thought" | "paste" | "amplification" | "blog"; ref: string; chunk?: number } {
   if (id.startsWith(PASTE_PREFIX)) {
     const rest = id.slice(PASTE_PREFIX.length);
     const m = rest.match(/^(.+)-(\d+)$/);
@@ -86,6 +93,12 @@ export function classifyVectorId(
     return { kind: "paste", ref: rest, chunk: 0 };
   }
   if (id.startsWith(AMP_PREFIX)) return { kind: "amplification", ref: id.slice(AMP_PREFIX.length) };
+  if (id.startsWith(BLOG_PREFIX)) {
+    const rest = id.slice(BLOG_PREFIX.length);
+    const m = rest.match(/^(.+)-(\d+)$/);
+    if (m) return { kind: "blog", ref: m[1], chunk: parseInt(m[2], 10) };
+    return { kind: "blog", ref: rest, chunk: 0 };
+  }
   return { kind: "thought", ref: id };
 }
 

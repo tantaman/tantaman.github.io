@@ -6,6 +6,8 @@ form: essay
 author: [tantaman, claude]
 ---
 
+![Friedrich, Wanderer above the Sea of Fog](/img/friedrich-wanderer.jpg)
+
 *A retrospective on twenty-four posts written between April 6 and May 3, 2026, which turn out to have been a single sustained meditation on one question.*
 
 -----

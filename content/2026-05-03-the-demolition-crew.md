@@ -6,6 +6,8 @@ form: essay
 author: [tantaman, claude]
 ---
 
+![Millet, The Gleaners](/img/millet-gleaners.jpg)
+
 > Related:
 > - [[2026-05-03-load-bearing-walls:Load-Bearing Walls]]
 > - [[2026-05-03-who-built-the-walls:Who Built the Walls]]

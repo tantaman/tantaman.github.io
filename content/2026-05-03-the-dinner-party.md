@@ -6,6 +6,8 @@ form: story
 author: [tantaman, claude]
 ---
 
+![Manet, A Bar at the Folies-Bergère](/img/manet-folies-bergere.jpg)
+
 > Related:
 > - [[2026-05-03-the-quiet-dissolutions:The Quiet Dissolutions]]
 > - [[2026-05-03-self-formation-of-rulers:The Self-Formation of Rulers]]

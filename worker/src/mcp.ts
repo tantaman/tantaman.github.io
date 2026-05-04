@@ -2,20 +2,8 @@ import { StreamableHTTPTransport } from "@hono/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { Env } from "./index";
-import { embedText } from "./embeddings";
+import { embedText, classifyVectorId } from "./embeddings";
 import { filterPosts, countFacetValues, tagId, type Post } from "@tantaman/facets";
-
-interface Chunk {
-  id: string;
-  postTitle: string;
-  postUrl: string;
-  chunkIndex: number;
-  text: string;
-  embedding: number[];
-}
-
-// Module-level caches
-let cachedChunks: Chunk[] | null = null;
 
 interface ManifestEntry {
   slug: string;
@@ -61,28 +49,6 @@ async function loadManifest(): Promise<Post[]> {
   return cachedManifest;
 }
 
-async function loadChunks(kv: KVNamespace): Promise<Chunk[]> {
-  if (cachedChunks) return cachedChunks;
-
-  const data = await kv.get("embeddings:all", "json");
-  if (!data) throw new Error("Embeddings not found in KV");
-
-  cachedChunks = data as Chunk[];
-  return cachedChunks;
-}
-
-export function cosineSimilarity(a: number[], b: number[]): number {
-  let dot = 0;
-  let normA = 0;
-  let normB = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
-  }
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
-}
-
 export function createMcpServer(env: Env) {
   const server = new McpServer({
     name: "tantaman-blog",
@@ -96,28 +62,28 @@ export function createMcpServer(env: Env) {
     async ({ query }) => {
       const queryVec = await embedText(env.AI, query);
 
-      // Load chunks from KV
-      const chunks = await loadChunks(env.KV);
+      // Vectorize index is shared across thoughts, pastes, amps, and blog
+      // chunks. Over-query and filter to blog-prefixed IDs.
+      const results = await env.VECTORIZE.query(queryVec, {
+        topK: 40,
+        returnMetadata: "all",
+      });
+      const blogMatches = results.matches
+        .filter((m) => classifyVectorId(m.id).kind === "blog")
+        .slice(0, 8);
 
-      // Compute similarities
-      const scored = chunks.map((chunk) => ({
-        chunk,
-        score: cosineSimilarity(queryVec, chunk.embedding),
-      }));
+      const lines = [`Found ${blogMatches.length} relevant passages from the blog:\n`];
 
-      // Sort by score descending, take top 8
-      scored.sort((a, b) => b.score - a.score);
-      const topResults = scored.slice(0, 8);
-
-      // Format response
-      const lines = [`Found ${topResults.length} relevant passages from the blog:\n`];
-
-      for (let i = 0; i < topResults.length; i++) {
-        const { chunk, score } = topResults[i];
+      for (let i = 0; i < blogMatches.length; i++) {
+        const m = blogMatches[i];
+        const md = m.metadata ?? {};
+        const title = (md.postTitle as string) ?? "(unknown)";
+        const url = (md.postUrl as string) ?? "";
+        const text = (md.text as string) ?? "(text unavailable)";
         lines.push(
-          `--- [${i + 1}] From "${chunk.postTitle}" (${chunk.postUrl}) [relevance: ${score.toFixed(3)}] ---`
+          `--- [${i + 1}] From "${title}" (${url}) [relevance: ${m.score.toFixed(3)}] ---`
         );
-        lines.push(chunk.text);
+        lines.push(text);
         lines.push("");
       }
 
@@ -137,18 +103,22 @@ export function createMcpServer(env: Env) {
     async ({ query, topK }) => {
       const queryVec = await embedText(env.AI, query);
 
+      // Vectorize index is shared; over-query and keep only thought hits.
       const results = await env.VECTORIZE.query(queryVec, {
-        topK,
+        topK: topK * 4,
         returnMetadata: "all",
       });
+      const thoughtMatches = results.matches
+        .filter((m) => classifyVectorId(m.id).kind === "thought")
+        .slice(0, topK);
 
-      if (results.matches.length === 0) {
+      if (thoughtMatches.length === 0) {
         return {
           content: [{ type: "text" as const, text: "No matching thoughts found." }],
         };
       }
 
-      const ids = results.matches.map((m) => parseInt(m.id, 10));
+      const ids = thoughtMatches.map((m) => parseInt(m.id, 10));
       const placeholders = ids.map(() => "?").join(",");
       const rows = await env.DB.prepare(
         `SELECT id, body, timestamp, parent_id FROM thought WHERE id IN (${placeholders}) AND superseded_by IS NULL`
@@ -163,10 +133,10 @@ export function createMcpServer(env: Env) {
         });
       }
 
-      const lines = [`Found ${results.matches.length} relevant thoughts:\n`];
+      const lines = [`Found ${thoughtMatches.length} relevant thoughts:\n`];
 
-      for (let i = 0; i < results.matches.length; i++) {
-        const match = results.matches[i];
+      for (let i = 0; i < thoughtMatches.length; i++) {
+        const match = thoughtMatches[i];
         const id = parseInt(match.id, 10);
         const thought = bodyById.get(id);
         const body = thought?.body ?? (match.metadata?.body as string) ?? "(body unavailable)";
