@@ -2,8 +2,8 @@
 import React from 'https://esm.sh/react';
 import { useQuery } from 'https://esm.sh/@vlcn.io/react?deps=react,react-dom';
 import cytoscape from 'https://esm.sh/cytoscape';
-import dagre from 'https://esm.sh/cytoscape-dagre';
-import nodeHtmlLabel from 'https://esm.sh/cytoscape-node-html-label';
+import dagre from 'https://esm.sh/cytoscape-dagre?deps=cytoscape';
+import nodeHtmlLabel from 'https://esm.sh/cytoscape-node-html-label?deps=cytoscape';
 
 cytoscape.use(dagre);
 nodeHtmlLabel(cytoscape);
@@ -82,6 +82,10 @@ export default function DagStateGraph({ ctx, nodeName }) {
       },
     ]);
     setCy(aCy);
+    return () => {
+      aCy.destroy();
+      setCy(null);
+    };
   }, [root.current]);
 
   React.useEffect(() => {

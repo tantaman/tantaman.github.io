@@ -1,0 +1,119 @@
+---
+title: 'Differential Dataflow For Mere Mortals'
+tags: [software]
+concern: [systems]
+description: 'Demystifying Differential Dataflow.'
+---
+
+# Differential Dataflow For Mere Mortals
+
+## Differental Dataflow
+
+Differential Dataflow is a technique for incrementally maintaining views and query results.
+
+Consider a music application. A music app may normalize its data and store it across a number of tables.
+
+- Track table
+- Playlist table
+- Artist table
+- Album table
+- Playlist_Track junction table
+- Track_Artist junction table
+
+When viewing a playlist we'll need to join all of these tables together to get the whole picture.
+
+```sql
+SELECT
+  playlist.track_num,
+  track.name,
+  track.duration,
+  group_array(artist.name),
+  album.name,
+  album.art_handle
+FROM playlist
+  JOIN playlist_track ON playlist_track.playlist_id = playlist.id,
+  JOIN track ON track = playlist_track.track_id
+  JOIN album ON album = track.album_id
+  JOIN track_artist ON track_artist.track_id = track.id
+  JOIN artist ON artist.id = track_artist.artist_id
+WHERE playlist.id = 1
+```
+
+That's a very expensive operation for what will be a common query in a music application. Ideally we could de-normalize this data into a single table and query _that_ instead.
+
+```sql
+SELECT track_num, name, duration, artist_names, album_name, art_handle FROM playlist_denormalized WHERE id = 1;
+```
+
+There's a problem with de-normalizing, however. After de-normalizing there will be multiple copies of the same data to keep in sync.
+This problem can be made more tractable by forcing all de-normalized forms of the data to be read-only. Doing this means that the normalized form
+becomes the single source of truth for the data.
+
+The problem created by this solution, however, is that the de-normalized forms must somehow be updated whenever a write occurs to one of it's input tables.
+
+> How can we efficiently update the de-normalized form when a write happens to one of its input tables?
+
+This is the problem of incremental view maintenance and differential dataflow is one solution to this problem.
+
+## For Mere Mortals
+
+Knowing the problem and a solution to that problem, can the solution be made accessible to average developers?
+
+There is no lack of literature on differential dataflow:
+
+- https://timelydataflow.github.io/differential-dataflow/introduction.html
+- https://materialize.com/blog/differential-from-scratch/
+- https://arxiv.org/abs/2203.16684
+
+But it is rather inaccessible, even though differential dataflow it based on some simple ideas.
+
+Those ideas are:
+
+- The Z-Set
+- Linear and non-linear operations
+- Operator Graph
+- Operator Memory
+
+## The Z-Set
+
+> A `Z-Set` is the same thing as a set except that each element contains a magnitude indicating the number of times that element should be present. In addition, duplicate elements (same value and magnitude) are allowed as well as negative magnitudes.
+
+Before getting into how this is helpful for incremental view maintenance, it'll be useful to understand this definition a bit more.
+
+Capturing the english definition as a type definition:
+
+```ts
+// A ZSet is an array of tuples. The first element of the tuple
+// can be anything. The second element is an integer representing its weight.
+type ZSet = Vec<(any, int)>;
+```
+
+Some example z-sets that fit the definition follow.
+
+1. A set where each element is present exactly once
+
+```python
+a = [(A, 1), (B, 1), (C, 1)]
+```
+
+2. Another set where each element is present once. This set is equal to the first.
+
+```python
+a = [(A, 2), (A, -1), (B, 2), (B, -1), (C, 2), (C, -1)]
+```
+
+Normalizing or consolidating a z-set allows comparing z-sets and is a matter of summing the weights of identical elements and removing those with a weight of 0.
+
+In the examples, (2) becomes (1) after summing weights.
+
+### Application to Incremental View maintenance
+
+A `Z-Set` is useful for incremental view maintenance since its weights allow tracking how a set is changing over time.
+
+Given a stream of updates to a `Z-Set`, the weights tell:
+
+- If an item was added (positive weight)
+- If an item was removed (negative weight)
+- How many times the item was added or removed (sum of and magnitude of weight for that item)
+
+> _This post was left unfinished on the original site._

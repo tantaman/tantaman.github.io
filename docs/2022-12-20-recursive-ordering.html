@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recursive Ordering - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate" type="application/rss+xml" title="Tantaman" href="/feed.xml">
+<script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<link rel="stylesheet" href="/index.css?v=8f988914">
+
+<meta name="description" content="Keeping things sorted without interleaving edits.">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2026 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Recursive Ordering">
+<meta property="og:description" content="Keeping things sorted without interleaving edits.">
+<meta property="og:image" content="https://tantaman.com/blog/recursive-ordering/list.png">
+<meta property="article:tag" content="software">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/blog/recursive-ordering/list.png">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="2-4 minutes">
+<link rel="stylesheet" href="/comments/comments.css?v=ac042500"></head>
+<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>Recursive Ordering</h1><span class="published subtext">Published 2022-12-20 · <span class="author-logos"><span class="author-logo author-logo-tantaman" aria-label="Tantaman">T</span></span></span><div id="engagement-strip" data-slug="2022-12-20-recursive-ordering"></div><div class="card-pills"><span class="pill pill-subject">software</span><span class="pill pill-concern">systems</span><span class="pill pill-form">essay</span></div>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#recursive-ordering">Recursive Ordering</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#how-recursive-ordering-works">How Recursive Ordering Works</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#pros">Pros</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#cons">Cons</a></li><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#why-is-it-recursive">Why is it "recursive"</a></li></ol></nav><h1 id="recursive-ordering"><a aria-hidden="true" tabindex="-1" href="#recursive-ordering"><span class="icon icon-link"></span></a>Recursive Ordering</h1>
+<p>We previously covered <a href="/2023-01-26-fractional-indexing.html">fractional indexing</a> which is useful for cases where:</p>
+<ol>
+<li>You have a large number of rows</li>
+<li>You want to provide an order to those rows</li>
+<li>Changing the order of one row, with respect to the others, should not require modifying any row except the one being moved</li>
+<li>Retrieving rows in sorted order should be fast</li>
+</ol>
+<p>But it had some downsides</p>
+<ol>
+<li>A fraction will lose precision quickly</li>
+<li>Arbitrary precision floats could get very large in pathological cases</li>
+<li>In a distributed setting, fractional indices can collide preventing insertions of items between the collision</li>
+<li>In a distributed setting, concurrent edits based on fractional index will interleave</li>
+</ol>
+<p>Recursive ordering gets around these drawbacks and it is possible to efficiently order by a recurisve relationship -- even in a relational database. To skip how the algorithm works and jump directly to implementing it in sqlite, see <a href="/2022-12-20-recursive-ordering-in-sqlite.html">recursive-ordering-in-sqlite</a>.</p>
+<h1 id="how-recursive-ordering-works"><a aria-hidden="true" tabindex="-1" href="#how-recursive-ordering-works"><span class="icon icon-link"></span></a>How Recursive Ordering Works</h1>
+<blockquote>
+<p>This first pass at recursive ordering will assume we're dealing with a centralized rather than distributed system. Later explorations will create derivations of the algorithm that work in a distributed setting.</p>
+</blockquote>
+<p>Recursive ordering leverages relationships between items to create an order. The simplest example of this is a linked list. The order of the linked list provides the order of the items.</p>
+<p><img src="/blog/recursive-ordering/list.png" alt="list"></p>
+<blockquote>
+<p>Note that we link each item to the thing it was inserted after. This will become useful later.</p>
+</blockquote>
+<p>If we order things like this, updating the position of something is just a matter of updating a few pointers rather than re-numbering all of the items in the set.</p>
+<ul>
+<li>Worst case, 3 pointers</li>
+<li>Best case, 1 pointer</li>
+</ul>
+<p><img src="/blog/recursive-ordering/insert-before-b.png" alt="insert-before-b"></p>
+<p><img src="/blog/recursive-ordering/move-d-after-b.png" alt="move-d-after-b"></p>
+<p>You can create a linked list in a table through a schema like the following:</p>
+<pre><code class="hljs language-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> node (
+  id <span class="hljs-keyword">primary</span> key <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  parent_id,
+  content,
+);
+<span class="hljs-keyword">CREATE</span> INDEX node_parent_id <span class="hljs-keyword">ON</span> node (parent_id);
+</code></pre>
+<p>Where each <code>node</code> has an <code>id</code> and points to the id of its parent, providing the ordering. You're likely wondering:</p>
+<ul>
+<li>How do you order a table by a relationship?</li>
+<li>Is ordering tables through relationships even performant?</li>
+</ul>
+<p>See <a href="/2022-12-20-recursive-ordering-in-sqlite.html">recursive-ordering-in-sqlite</a>.</p>
+<h1 id="pros"><a aria-hidden="true" tabindex="-1" href="#pros"><span class="icon icon-link"></span></a>Pros</h1>
+<ul>
+<li>Insertions only requiring updating at most 3 records</li>
+<li>If you have a given start node you can easily find all nodes before it by traversing pointers</li>
+<li>If you need to go in both directions, you can store the other direction of the relationship without much extra cost to insertion time</li>
+</ul>
+<h1 id="cons"><a aria-hidden="true" tabindex="-1" href="#cons"><span class="icon icon-link"></span></a>Cons</h1>
+<ul>
+<li>Without additional constraints, this will not work in a distributed setting where writers can update the ordering without coordinating. Someone could move B before D on one node and D before B on another, creating a cycle and breaking the list.</li>
+</ul>
+<h1 id="why-is-it-recursive"><a aria-hidden="true" tabindex="-1" href="#why-is-it-recursive"><span class="icon icon-link"></span></a>Why is it "recursive"</h1>
+<p>This is a considered a recursive ordering since determining the total ordering of the set requires recursively following pointers until arriving at the root.</p>
+<script src="https://cloud.umami.is/script.js" defer data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
+<script src="/toc.js?v=51ad7973"></script>
+<script src="/theme.js?v=0386783a"></script>
+</main><section id="comments-section" data-slug="2022-12-20-recursive-ordering"></section><footer id="footer"><div class="container related-section"><a href="/graph.html" class="view-graph-link">View Content Graph →</a></div></footer><script src="/comments/comments.js?v=c8b32171" defer type="module"></script></body>
+</html>

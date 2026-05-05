@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Differential Dataflow For Mere Mortals - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate" type="application/rss+xml" title="Tantaman" href="/feed.xml">
+<script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<link rel="stylesheet" href="/index.css?v=8f988914">
+
+<meta name="description" content="Demystifying Differential Dataflow.">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2026 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="Differential Dataflow For Mere Mortals">
+<meta property="og:description" content="Demystifying Differential Dataflow.">
+<meta property="og:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta property="og:image:alt" content="Tantaman">
+<meta property="og:image:width" content="312">
+<meta property="og:image:height" content="369">
+<meta property="article:tag" content="software">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/img/avatar-icon.png">
+<meta name="twitter:image:alt" content="Tantaman">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="3-5 minutes">
+<link rel="stylesheet" href="/comments/comments.css?v=ac042500"></head>
+<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>Differential Dataflow For Mere Mortals</h1><span class="published subtext">Published 2023-10-04 · <span class="author-logos"><span class="author-logo author-logo-tantaman" aria-label="Tantaman">T</span></span></span><div id="engagement-strip" data-slug="2023-10-04-differential-dataflow"></div><div class="card-pills"><span class="pill pill-subject">software</span><span class="pill pill-concern">systems</span><span class="pill pill-form">essay</span></div>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#differential-dataflow-for-mere-mortals">Differential Dataflow For Mere Mortals</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#differental-dataflow">Differental Dataflow</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#for-mere-mortals">For Mere Mortals</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#the-z-set">The Z-Set</a></li></ol></li></ol></nav><h1 id="differential-dataflow-for-mere-mortals"><a aria-hidden="true" tabindex="-1" href="#differential-dataflow-for-mere-mortals"><span class="icon icon-link"></span></a>Differential Dataflow For Mere Mortals</h1>
+<h2 id="differental-dataflow"><a aria-hidden="true" tabindex="-1" href="#differental-dataflow"><span class="icon icon-link"></span></a>Differental Dataflow</h2>
+<p>Differential Dataflow is a technique for incrementally maintaining views and query results.</p>
+<p>Consider a music application. A music app may normalize its data and store it across a number of tables.</p>
+<ul>
+<li>Track table</li>
+<li>Playlist table</li>
+<li>Artist table</li>
+<li>Album table</li>
+<li>Playlist_Track junction table</li>
+<li>Track_Artist junction table</li>
+</ul>
+<p>When viewing a playlist we'll need to join all of these tables together to get the whole picture.</p>
+<pre><code class="hljs language-sql"><span class="hljs-keyword">SELECT</span>
+  playlist.track_num,
+  track.name,
+  track.duration,
+  group_array(artist.name),
+  album.name,
+  album.art_handle
+<span class="hljs-keyword">FROM</span> playlist
+  <span class="hljs-keyword">JOIN</span> playlist_track <span class="hljs-keyword">ON</span> playlist_track.playlist_id <span class="hljs-operator">=</span> playlist.id,
+  <span class="hljs-keyword">JOIN</span> track <span class="hljs-keyword">ON</span> track <span class="hljs-operator">=</span> playlist_track.track_id
+  <span class="hljs-keyword">JOIN</span> album <span class="hljs-keyword">ON</span> album <span class="hljs-operator">=</span> track.album_id
+  <span class="hljs-keyword">JOIN</span> track_artist <span class="hljs-keyword">ON</span> track_artist.track_id <span class="hljs-operator">=</span> track.id
+  <span class="hljs-keyword">JOIN</span> artist <span class="hljs-keyword">ON</span> artist.id <span class="hljs-operator">=</span> track_artist.artist_id
+<span class="hljs-keyword">WHERE</span> playlist.id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>
+</code></pre>
+<p>That's a very expensive operation for what will be a common query in a music application. Ideally we could de-normalize this data into a single table and query <em>that</em> instead.</p>
+<pre><code class="hljs language-sql"><span class="hljs-keyword">SELECT</span> track_num, name, duration, artist_names, album_name, art_handle <span class="hljs-keyword">FROM</span> playlist_denormalized <span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;
+</code></pre>
+<p>There's a problem with de-normalizing, however. After de-normalizing there will be multiple copies of the same data to keep in sync.
+This problem can be made more tractable by forcing all de-normalized forms of the data to be read-only. Doing this means that the normalized form
+becomes the single source of truth for the data.</p>
+<p>The problem created by this solution, however, is that the de-normalized forms must somehow be updated whenever a write occurs to one of it's input tables.</p>
+<blockquote>
+<p>How can we efficiently update the de-normalized form when a write happens to one of its input tables?</p>
+</blockquote>
+<p>This is the problem of incremental view maintenance and differential dataflow is one solution to this problem.</p>
+<h2 id="for-mere-mortals"><a aria-hidden="true" tabindex="-1" href="#for-mere-mortals"><span class="icon icon-link"></span></a>For Mere Mortals</h2>
+<p>Knowing the problem and a solution to that problem, can the solution be made accessible to average developers?</p>
+<p>There is no lack of literature on differential dataflow:</p>
+<ul>
+<li><a href="https://timelydataflow.github.io/differential-dataflow/introduction.html">https://timelydataflow.github.io/differential-dataflow/introduction.html</a></li>
+<li><a href="https://materialize.com/blog/differential-from-scratch/">https://materialize.com/blog/differential-from-scratch/</a></li>
+<li><a href="https://arxiv.org/abs/2203.16684">https://arxiv.org/abs/2203.16684</a></li>
+</ul>
+<p>But it is rather inaccessible, even though differential dataflow it based on some simple ideas.</p>
+<p>Those ideas are:</p>
+<ul>
+<li>The Z-Set</li>
+<li>Linear and non-linear operations</li>
+<li>Operator Graph</li>
+<li>Operator Memory</li>
+</ul>
+<h2 id="the-z-set"><a aria-hidden="true" tabindex="-1" href="#the-z-set"><span class="icon icon-link"></span></a>The Z-Set</h2>
+<blockquote>
+<p>A <code>Z-Set</code> is the same thing as a set except that each element contains a magnitude indicating the number of times that element should be present. In addition, duplicate elements (same value and magnitude) are allowed as well as negative magnitudes.</p>
+</blockquote>
+<p>Before getting into how this is helpful for incremental view maintenance, it'll be useful to understand this definition a bit more.</p>
+<p>Capturing the english definition as a type definition:</p>
+<pre><code class="hljs language-ts"><span class="hljs-comment">// A ZSet is an array of tuples. The first element of the tuple</span>
+<span class="hljs-comment">// can be anything. The second element is an integer representing its weight.</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ZSet</span> = <span class="hljs-title class_">Vec</span>&#x3C;(<span class="hljs-built_in">any</span>, int)>;
+</code></pre>
+<p>Some example z-sets that fit the definition follow.</p>
+<ol>
+<li>A set where each element is present exactly once</li>
+</ol>
+<pre><code class="hljs language-python">a = [(A, <span class="hljs-number">1</span>), (B, <span class="hljs-number">1</span>), (C, <span class="hljs-number">1</span>)]
+</code></pre>
+<ol start="2">
+<li>Another set where each element is present once. This set is equal to the first.</li>
+</ol>
+<pre><code class="hljs language-python">a = [(A, <span class="hljs-number">2</span>), (A, -<span class="hljs-number">1</span>), (B, <span class="hljs-number">2</span>), (B, -<span class="hljs-number">1</span>), (C, <span class="hljs-number">2</span>), (C, -<span class="hljs-number">1</span>)]
+</code></pre>
+<p>Normalizing or consolidating a z-set allows comparing z-sets and is a matter of summing the weights of identical elements and removing those with a weight of 0.</p>
+<p>In the examples, (2) becomes (1) after summing weights.</p>
+<h3 id="application-to-incremental-view-maintenance"><a aria-hidden="true" tabindex="-1" href="#application-to-incremental-view-maintenance"><span class="icon icon-link"></span></a>Application to Incremental View maintenance</h3>
+<p>A <code>Z-Set</code> is useful for incremental view maintenance since its weights allow tracking how a set is changing over time.</p>
+<p>Given a stream of updates to a <code>Z-Set</code>, the weights tell:</p>
+<ul>
+<li>If an item was added (positive weight)</li>
+<li>If an item was removed (negative weight)</li>
+<li>How many times the item was added or removed (sum of and magnitude of weight for that item)</li>
+</ul>
+<blockquote>
+<p><em>This post was left unfinished on the original site.</em></p>
+</blockquote>
+<script src="https://cloud.umami.is/script.js" defer data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
+<script src="/toc.js?v=51ad7973"></script>
+<script src="/theme.js?v=0386783a"></script>
+</main><section id="comments-section" data-slug="2023-10-04-differential-dataflow"></section><footer id="footer"><div class="container related-section"><a href="/graph.html" class="view-graph-link">View Content Graph →</a></div></footer><script src="/comments/comments.js?v=c8b32171" defer type="module"></script></body>
+</html>

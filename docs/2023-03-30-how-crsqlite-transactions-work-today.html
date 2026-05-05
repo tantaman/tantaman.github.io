@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How CR-SQLite Transactions Work Today - Tantamanlands</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate" type="application/rss+xml" title="Tantaman" href="/feed.xml">
+<script>(function(){var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<link rel="stylesheet" href="/index.css?v=8f988914">
+
+<meta name="description" content="An overview of the design decisions for the current implementation of cr-sqlite and their impact on transaction guarantees.">
+<meta name="keywords" content="software, statistics, economics">
+<meta name="author" content="Matt Wonlaw">
+<meta name="copyright" content="© 2026 Matt Wonlaw">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tantamanlands">
+<meta property="og:title" content="How CR-SQLite Transactions Work Today">
+<meta property="og:description" content="An overview of the design decisions for the current implementation of cr-sqlite and their impact on transaction guarantees.">
+<meta property="og:image" content="https://tantaman.com/blog/how-it-works-today/tx-sync.png">
+<meta property="article:tag" content="software">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tantaman.com/blog/how-it-works-today/tx-sync.png">
+<meta name="twitter:site" content="@tantaman">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="3-4 minutes">
+<link rel="stylesheet" href="/comments/comments.css?v=ac042500"></head>
+<body><header class="post-header"><a href="/">tantaman</a><div class="post-header-actions"><div id="notification-jewel"></div><button class="theme-toggle" type="button"></button></div></header><main id="static"><h1>How CR-SQLite Transactions Work Today</h1><span class="published subtext">Published 2023-03-30 · <span class="author-logos"><span class="author-logo author-logo-tantaman" aria-label="Tantaman">T</span></span></span><div id="engagement-strip" data-slug="2023-03-30-how-crsqlite-transactions-work-today"></div><div class="card-pills"><span class="pill pill-subject">software</span><span class="pill pill-concern">systems</span><span class="pill pill-form">essay</span></div>
+<nav class="toc"><ol class="toc-level toc-level-1"><li class="toc-item toc-item-h1"><a class="toc-link toc-link-h1" href="#how-cr-sqlite-transactions-work-today">How CR-SQLite Transactions Work Today</a><ol class="toc-level toc-level-2"><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#syncing-transactions">Syncing Transactions</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#upside">Upside</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#delta-state">Delta State</a></li><li class="toc-item toc-item-h2"><a class="toc-link toc-link-h2" href="#merging">Merging</a></li></ol></li></ol></nav><h1 id="how-cr-sqlite-transactions-work-today"><a aria-hidden="true" tabindex="-1" href="#how-cr-sqlite-transactions-work-today"><span class="icon icon-link"></span></a>How CR-SQLite Transactions Work Today</h1>
+<p>cr-sqlite started with a few foundational decisions:</p>
+<ol>
+<li>Re-use as much of SQLite as possible. No custom trees or VFSs.</li>
+<li>Have 0 impact on read performance.</li>
+<li>Writes to CRRs should be no slower than 2.5x a write to a normal SQLite table.</li>
+<li>The amount of storage required should be a constant factor of the size of the base data, no matter how long a peer is offline.</li>
+<li>Deltas between two databases can be computed by only exchanging Lamport timestamps.</li>
+</ol>
+<p>The most influential decision is (4). This means that we <em>only</em> keep current state around. We do not retain the history of modifications that have occurred on the database nor do we keep an event log.</p>
+<p>This has some practical impacts on syncing transaction.</p>
+<h2 id="syncing-transactions"><a aria-hidden="true" tabindex="-1" href="#syncing-transactions"><span class="icon icon-link"></span></a>Syncing Transactions</h2>
+<p>Every commit to the database gets a unique <code>db_version</code> associated with it. When asking <code>crsql_changes</code> for all changes with a given <code>db_version</code> you will get all updates committed in that transaction with one exception.</p>
+<p>The exception comes from the fact that cr-sqlite only stores the latest state (decision 4).</p>
+<p>Given this, later transactions can overwrite values from earlier transactions. What this means is that when asking for all changes with a given db_version, you will be missing any values for that transaction that were overwritten by a later transaction.</p>
+<p>Visually this looks like:
+<img src="/blog/how-it-works-today/tx-sync.png" alt="transaction depiction and venn diagram where first tx is missing all overlap with the second"></p>
+<p>You can deal with this in a few ways:</p>
+<ol>
+<li>Handle it in your application by understanding this limitation</li>
+<li>In your network layer, sync after every commit</li>
+<li>In your network layer, sync all changes from N to current db_version in a single transaction</li>
+<li>In your network layer, keep a log of changeset batches to sync. Like 3 but split into chunks on transaction boundaries.</li>
+<li>Wait for cr-sqlite to include a full fidelity transaction log for these use cases</li>
+</ol>
+<p>So while you can commit atomic transactions locally, when syncing a transaction <em>might be</em> split up across two db_versions unless you've written a custom networking layer.</p>
+<p>To see how we'll better support transactional guarantees in the future, see <a href="/2023-06-14-how-crsqlite-transactions-work-tomorrow.html">How CR-SQLite Transactions Work Tomorrow</a>.</p>
+<h2 id="upside"><a aria-hidden="true" tabindex="-1" href="#upside"><span class="icon icon-link"></span></a>Upside</h2>
+<p>Aside from minimal storage footprint, the other big advantage of the current approach is in dealing with high frequency writes. Given we only store current state, it does not matter if someone updates some set of rows thousands of times a second. Those updates:</p>
+<ol>
+<li>Will not increase the size of the databases</li>
+<li>Will not increase the number of entries in crsql_changes</li>
+<li>Will not overload the network with sync events</li>
+</ol>
+<p>If we kept full fidelity history of what things looked like at every transaction, high frequency updates would present a problem.</p>
+<h2 id="delta-state"><a aria-hidden="true" tabindex="-1" href="#delta-state"><span class="icon icon-link"></span></a>Delta State</h2>
+<p>Regarding decision (5), each cell that is written also has the <code>db_version</code> recorded along side it. This allows us to find all cells that were create/updated after a given <code>db_version</code>.</p>
+<h2 id="merging"><a aria-hidden="true" tabindex="-1" href="#merging"><span class="icon icon-link"></span></a>Merging</h2>
+<p>Merging is done cell-wise. Each cell contains a logical clock that is incremented on mutation of that cell. When merging cells, we take the cell with the highest logical clock. If the two tie, we take the cell with the greater value.</p>
+<script src="https://cloud.umami.is/script.js" defer data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"></script>
+<script src="/toc.js?v=51ad7973"></script>
+<script src="/theme.js?v=0386783a"></script>
+</main><section id="comments-section" data-slug="2023-03-30-how-crsqlite-transactions-work-today"></section><footer id="footer"><div class="container related-section"><a href="/graph.html" class="view-graph-link">View Content Graph →</a></div></footer><script src="/comments/comments.js?v=c8b32171" defer type="module"></script></body>
+</html>
