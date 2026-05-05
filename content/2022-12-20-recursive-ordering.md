@@ -5,8 +5,6 @@ concern: [systems]
 description: 'Keeping things sorted without interleaving edits.'
 ---
 
-# Recursive Ordering
-
 We previously covered [fractional indexing](/2023-01-26-fractional-indexing.html) which is useful for cases where:
 
 1. You have a large number of rows

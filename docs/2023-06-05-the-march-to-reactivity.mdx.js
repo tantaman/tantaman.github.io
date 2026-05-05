@@ -7,11 +7,10 @@ function _createMdxContent(props) {
     ol: "ol",
     li: "li",
     a: "a",
-    h1: "h1",
-    span: "span",
     p: "p",
     pre: "pre",
     code: "code",
+    span: "span",
     ul: "ul",
     h2: "h2",
     em: "em"
@@ -19,51 +18,31 @@ function _createMdxContent(props) {
   return _jsxs(_Fragment, {
     children: [_jsx(_components.nav, {
       className: "toc",
-      children: _jsx(_components.ol, {
+      children: _jsxs(_components.ol, {
         className: "toc-level toc-level-1",
-        children: _jsxs(_components.li, {
-          className: "toc-item toc-item-h1",
-          children: [_jsx(_components.a, {
-            className: "toc-link toc-link-h1",
-            href: "#the-march-to-reactivity",
-            children: "The March to Reactivity"
-          }), _jsxs(_components.ol, {
-            className: "toc-level toc-level-2",
-            children: [_jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#today-naively-via-update_hook",
-                children: "Today: Naively via update_hook"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#tomorrow-smarter-via-differential-data-flow",
-                children: "Tomorrow: Smarter via Differential Data Flow"
-              })
-            }), _jsx(_components.li, {
-              className: "toc-item toc-item-h2",
-              children: _jsx(_components.a, {
-                className: "toc-link toc-link-h2",
-                href: "#tomorrow-even-smarter-with-an-inverted-database",
-                children: "Tomorrow++: Even Smarter with an Inverted Database"
-              })
-            })]
-          })]
-        })
+        children: [_jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#today-naively-via-update_hook",
+            children: "Today: Naively via update_hook"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#tomorrow-smarter-via-differential-data-flow",
+            children: "Tomorrow: Smarter via Differential Data Flow"
+          })
+        }), _jsx(_components.li, {
+          className: "toc-item toc-item-h2",
+          children: _jsx(_components.a, {
+            className: "toc-link toc-link-h2",
+            href: "#tomorrow-even-smarter-with-an-inverted-database",
+            children: "Tomorrow++: Even Smarter with an Inverted Database"
+          })
+        })]
       })
-    }), "\n", _jsxs(_components.h1, {
-      id: "the-march-to-reactivity",
-      children: [_jsx(_components.a, {
-        "aria-hidden": "true",
-        tabIndex: "-1",
-        href: "#the-march-to-reactivity",
-        children: _jsx(_components.span, {
-          className: "icon icon-link"
-        })
-      }), "The March to Reactivity"]
     }), "\n", _jsx(_components.p, {
       children: "The request-response pattern isn't optimal for the types of applications we'd like to build today. If you want your application to update as soon as information is available, it is much easier for that information to be pushed to you incrementally than for you to have to go request it."
     }), "\n", _jsx(_components.p, {

@@ -5,8 +5,6 @@ concern: [systems]
 description: 'Demystifying Differential Dataflow.'
 ---
 
-# Differential Dataflow For Mere Mortals
-
 ## Differental Dataflow
 
 Differential Dataflow is a technique for incrementally maintaining views and query results.

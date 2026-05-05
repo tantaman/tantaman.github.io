@@ -5,8 +5,6 @@ concern: [systems]
 description: 'An overview of the design decisions for the current implementation of cr-sqlite and their impact on transaction guarantees.'
 ---
 
-# How CR-SQLite Transactions Work Today
-
 cr-sqlite started with a few foundational decisions:
 
 1. Re-use as much of SQLite as possible. No custom trees or VFSs.
