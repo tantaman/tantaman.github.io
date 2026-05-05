@@ -705,7 +705,7 @@
           "feed.js": 1771541181925,
           "graph.js": 1771682034306,
           "index.js": 1772732434665,
-          "notes": 1777046699812,
+          "notes": 1777990402698,
           "pages": 1777834755109,
           "posts-manifest.js": 1774535463537,
           "religion-is-the-nexus": 1769375750208,
@@ -805,6 +805,7 @@
           "crdts.md",
           "delta state crdts.md",
           "distributed systems.md",
+          "fiction for the themes.md",
           "future jobs.md",
           "logical clocks.md",
           "monotheism and oneness.md",
@@ -814,7 +815,8 @@
           "streaming systems.md",
           "tla+.md",
           "type systems.md",
-          "vector clock growth.md"
+          "vector clock growth.md",
+          "wild suggestions.md"
         ],
         "mtimes": {
           "2025-gift-list.md": 1764377076104,
@@ -827,16 +829,18 @@
           "crdts.md": 1753056386474,
           "delta state crdts.md": 1753056386474,
           "distributed systems.md": 1753056386474,
+          "fiction for the themes.md": 1777988673476,
           "future jobs.md": 1753056386475,
           "logical clocks.md": 1753056386475,
           "monotheism and oneness.md": 1764876630071,
-          "movies for the themes.md": 1777921557864,
+          "movies for the themes.md": 1777988865964,
           "query builder arguments.md": 1753056386475,
           "scratch.md": 1764784793980,
           "streaming systems.md": 1753056386475,
           "tla+.md": 1753056386475,
           "type systems.md": 1753056386475,
-          "vector clock growth.md": 1753056386475
+          "vector clock growth.md": 1753056386475,
+          "wild suggestions.md": 1777990402697
         }
       },
       "./content/the-mirror-room/": {
@@ -1430,7 +1434,7 @@
           "feed.js": 1771541181925,
           "graph.js": 1771682034306,
           "index.js": 1772732434665,
-          "notes": 1777046699812,
+          "notes": 1777990402698,
           "pages": 1777834755109,
           "posts-manifest.js": 1774535463537,
           "religion-is-the-nexus": 1769375750208,
@@ -1530,6 +1534,7 @@
           "crdts.md",
           "delta state crdts.md",
           "distributed systems.md",
+          "fiction for the themes.md",
           "future jobs.md",
           "logical clocks.md",
           "monotheism and oneness.md",
@@ -1539,7 +1544,8 @@
           "streaming systems.md",
           "tla+.md",
           "type systems.md",
-          "vector clock growth.md"
+          "vector clock growth.md",
+          "wild suggestions.md"
         ],
         "mtimes": {
           "2025-gift-list.md": 1764377076104,
@@ -1552,16 +1558,18 @@
           "crdts.md": 1753056386474,
           "delta state crdts.md": 1753056386474,
           "distributed systems.md": 1753056386474,
+          "fiction for the themes.md": 1777988673476,
           "future jobs.md": 1753056386475,
           "logical clocks.md": 1753056386475,
           "monotheism and oneness.md": 1764876630071,
-          "movies for the themes.md": 1777921557864,
+          "movies for the themes.md": 1777988865964,
           "query builder arguments.md": 1753056386475,
           "scratch.md": 1764784793980,
           "streaming systems.md": 1753056386475,
           "tla+.md": 1753056386475,
           "type systems.md": 1753056386475,
-          "vector clock growth.md": 1753056386475
+          "vector clock growth.md": 1753056386475,
+          "wild suggestions.md": 1777990402697
         }
       },
       "./content/the-mirror-room/": {
@@ -2159,7 +2167,7 @@
           "feed.js": 1771541181925,
           "graph.js": 1771682034306,
           "index.js": 1772732434665,
-          "notes": 1777046699812,
+          "notes": 1777990402698,
           "pages": 1777834755109,
           "posts-manifest.js": 1774535463537,
           "religion-is-the-nexus": 1769375750208,
@@ -2259,6 +2267,7 @@
           "crdts.md",
           "delta state crdts.md",
           "distributed systems.md",
+          "fiction for the themes.md",
           "future jobs.md",
           "logical clocks.md",
           "monotheism and oneness.md",
@@ -2268,7 +2277,8 @@
           "streaming systems.md",
           "tla+.md",
           "type systems.md",
-          "vector clock growth.md"
+          "vector clock growth.md",
+          "wild suggestions.md"
         ],
         "mtimes": {
           "2025-gift-list.md": 1764377076104,
@@ -2281,16 +2291,18 @@
           "crdts.md": 1753056386474,
           "delta state crdts.md": 1753056386474,
           "distributed systems.md": 1753056386474,
+          "fiction for the themes.md": 1777988673476,
           "future jobs.md": 1753056386475,
           "logical clocks.md": 1753056386475,
           "monotheism and oneness.md": 1764876630071,
-          "movies for the themes.md": 1777921557864,
+          "movies for the themes.md": 1777988865964,
           "query builder arguments.md": 1753056386475,
           "scratch.md": 1764784793980,
           "streaming systems.md": 1753056386475,
           "tla+.md": 1753056386475,
           "type systems.md": 1753056386475,
-          "vector clock growth.md": 1753056386475
+          "vector clock growth.md": 1753056386475,
+          "wild suggestions.md": 1777990402697
         }
       },
       "./content/the-mirror-room/": {
@@ -2889,7 +2901,7 @@
           "feed.js": 1771541181925,
           "graph.js": 1771682034306,
           "index.js": 1772732434665,
-          "notes": 1777046699812,
+          "notes": 1777990402698,
           "pages": 1777834755109,
           "posts-manifest.js": 1774535463537,
           "religion-is-the-nexus": 1769375750208,
@@ -2989,6 +3001,7 @@
           "crdts.md",
           "delta state crdts.md",
           "distributed systems.md",
+          "fiction for the themes.md",
           "future jobs.md",
           "logical clocks.md",
           "monotheism and oneness.md",
@@ -2998,7 +3011,8 @@
           "streaming systems.md",
           "tla+.md",
           "type systems.md",
-          "vector clock growth.md"
+          "vector clock growth.md",
+          "wild suggestions.md"
         ],
         "mtimes": {
           "2025-gift-list.md": 1764377076104,
@@ -3011,16 +3025,18 @@
           "crdts.md": 1753056386474,
           "delta state crdts.md": 1753056386474,
           "distributed systems.md": 1753056386474,
+          "fiction for the themes.md": 1777988673476,
           "future jobs.md": 1753056386475,
           "logical clocks.md": 1753056386475,
           "monotheism and oneness.md": 1764876630071,
-          "movies for the themes.md": 1777921557864,
+          "movies for the themes.md": 1777988865964,
           "query builder arguments.md": 1753056386475,
           "scratch.md": 1764784793980,
           "streaming systems.md": 1753056386475,
           "tla+.md": 1753056386475,
           "type systems.md": 1753056386475,
-          "vector clock growth.md": 1753056386475
+          "vector clock growth.md": 1753056386475,
+          "wild suggestions.md": 1777990402697
         }
       },
       "./content/the-mirror-room/": {
@@ -3614,7 +3630,7 @@
           "feed.js": 1771541181925,
           "graph.js": 1771682034306,
           "index.js": 1772732434665,
-          "notes": 1777046699812,
+          "notes": 1777990402698,
           "pages": 1777834755109,
           "posts-manifest.js": 1774535463537,
           "religion-is-the-nexus": 1769375750208,
@@ -3714,6 +3730,7 @@
           "crdts.md",
           "delta state crdts.md",
           "distributed systems.md",
+          "fiction for the themes.md",
           "future jobs.md",
           "logical clocks.md",
           "monotheism and oneness.md",
@@ -3723,7 +3740,8 @@
           "streaming systems.md",
           "tla+.md",
           "type systems.md",
-          "vector clock growth.md"
+          "vector clock growth.md",
+          "wild suggestions.md"
         ],
         "mtimes": {
           "2025-gift-list.md": 1764377076104,
@@ -3736,16 +3754,18 @@
           "crdts.md": 1753056386474,
           "delta state crdts.md": 1753056386474,
           "distributed systems.md": 1753056386474,
+          "fiction for the themes.md": 1777988673476,
           "future jobs.md": 1753056386475,
           "logical clocks.md": 1753056386475,
           "monotheism and oneness.md": 1764876630071,
-          "movies for the themes.md": 1777921557864,
+          "movies for the themes.md": 1777988865964,
           "query builder arguments.md": 1753056386475,
           "scratch.md": 1764784793980,
           "streaming systems.md": 1753056386475,
           "tla+.md": 1753056386475,
           "type systems.md": 1753056386475,
-          "vector clock growth.md": 1753056386475
+          "vector clock growth.md": 1753056386475,
+          "wild suggestions.md": 1777990402697
         }
       },
       "./content/the-mirror-room/": {
@@ -4354,7 +4374,7 @@
           "feed.js": 1771541181925,
           "graph.js": 1771682034306,
           "index.js": 1772732434665,
-          "notes": 1777046699812,
+          "notes": 1777990402698,
           "pages": 1777834755109,
           "posts-manifest.js": 1774535463537,
           "religion-is-the-nexus": 1769375750208,
@@ -4454,6 +4474,7 @@
           "crdts.md",
           "delta state crdts.md",
           "distributed systems.md",
+          "fiction for the themes.md",
           "future jobs.md",
           "logical clocks.md",
           "monotheism and oneness.md",
@@ -4463,7 +4484,8 @@
           "streaming systems.md",
           "tla+.md",
           "type systems.md",
-          "vector clock growth.md"
+          "vector clock growth.md",
+          "wild suggestions.md"
         ],
         "mtimes": {
           "2025-gift-list.md": 1764377076104,
@@ -4476,16 +4498,18 @@
           "crdts.md": 1753056386474,
           "delta state crdts.md": 1753056386474,
           "distributed systems.md": 1753056386474,
+          "fiction for the themes.md": 1777988673476,
           "future jobs.md": 1753056386475,
           "logical clocks.md": 1753056386475,
           "monotheism and oneness.md": 1764876630071,
-          "movies for the themes.md": 1777921557864,
+          "movies for the themes.md": 1777988865964,
           "query builder arguments.md": 1753056386475,
           "scratch.md": 1764784793980,
           "streaming systems.md": 1753056386475,
           "tla+.md": 1753056386475,
           "type systems.md": 1753056386475,
-          "vector clock growth.md": 1753056386475
+          "vector clock growth.md": 1753056386475,
+          "wild suggestions.md": 1777990402697
         }
       },
       "./content/the-mirror-room/": {
@@ -5079,7 +5103,7 @@
           "feed.js": 1771541181925,
           "graph.js": 1771682034306,
           "index.js": 1772732434665,
-          "notes": 1777046699812,
+          "notes": 1777990402698,
           "pages": 1777834755109,
           "posts-manifest.js": 1774535463537,
           "religion-is-the-nexus": 1769375750208,
@@ -5179,6 +5203,7 @@
           "crdts.md",
           "delta state crdts.md",
           "distributed systems.md",
+          "fiction for the themes.md",
           "future jobs.md",
           "logical clocks.md",
           "monotheism and oneness.md",
@@ -5188,7 +5213,8 @@
           "streaming systems.md",
           "tla+.md",
           "type systems.md",
-          "vector clock growth.md"
+          "vector clock growth.md",
+          "wild suggestions.md"
         ],
         "mtimes": {
           "2025-gift-list.md": 1764377076104,
@@ -5201,16 +5227,18 @@
           "crdts.md": 1753056386474,
           "delta state crdts.md": 1753056386474,
           "distributed systems.md": 1753056386474,
+          "fiction for the themes.md": 1777988673476,
           "future jobs.md": 1753056386475,
           "logical clocks.md": 1753056386475,
           "monotheism and oneness.md": 1764876630071,
-          "movies for the themes.md": 1777921557864,
+          "movies for the themes.md": 1777988865964,
           "query builder arguments.md": 1753056386475,
           "scratch.md": 1764784793980,
           "streaming systems.md": 1753056386475,
           "tla+.md": 1753056386475,
           "type systems.md": 1753056386475,
-          "vector clock growth.md": 1753056386475
+          "vector clock growth.md": 1753056386475,
+          "wild suggestions.md": 1777990402697
         }
       },
       "./content/the-mirror-room/": {
@@ -5399,7 +5427,7 @@
   "/2026-04-18-the-listener.md": 1777921500648,
   "/2026-04-23-seven-points.md": 1777921503269,
   "/2026-04-23-theology-philosophy.md": 1777921506423,
-  "notes//movies for the themes.md": 1777921557864,
+  "notes//movies for the themes.md": 1777988865964,
   "notes//books for the themes.md": 1777921554819,
   "/2026-04-27-good-fences.md": 1777921509241,
   "/2026-04-27-private-knowledge-public-desire.md": 1777921512019,
@@ -5433,5 +5461,7 @@
   "/2022-12-20-recursive-ordering.md": 1777950265204,
   "/2023-03-30-how-crsqlite-transactions-work-today.md": 1777950272780,
   "/2023-06-14-how-crsqlite-transactions-work-tomorrow.md": 1777950287597,
-  "/2023-10-04-differential-dataflow.md": 1777950294134
+  "/2023-10-04-differential-dataflow.md": 1777950294134,
+  "notes//fiction for the themes.md": 1777988673476,
+  "notes//wild suggestions.md": 1777990402697
 }
