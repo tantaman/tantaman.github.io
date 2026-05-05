@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useCallback } from 'https://esm.sh/react';
-import { useQuery } from 'https://esm.sh/@vlcn.io/react';
+import { useQuery } from 'https://esm.sh/@vlcn.io/react?deps=react,react-dom';
 import { newIID as newId } from './id.js';
 import { injectStyle } from '../shared/injectStyle.js';
 import { CSS } from './styles.js';

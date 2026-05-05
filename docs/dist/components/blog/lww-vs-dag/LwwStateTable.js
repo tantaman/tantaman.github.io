@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'https://esm.sh/react';
-import { useQuery } from 'https://esm.sh/@vlcn.io/react';
+import { useQuery } from 'https://esm.sh/@vlcn.io/react?deps=react,react-dom';
 export default function LwwStateTable({ ctx }) {
     const allTodos = useQuery(ctx, `SELECT todo.id, todo."text", todo.completed,
       json_group_object(__crsql_col_name, json_array(__crsql_col_version, __crsql_db_version)) as clocks FROM todo

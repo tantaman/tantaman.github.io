@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'https://esm.sh/react';
-import { useQuery } from 'https://esm.sh/@vlcn.io/react';
+import { useQuery } from 'https://esm.sh/@vlcn.io/react?deps=react,react-dom';
 import cytoscape from 'https://esm.sh/cytoscape';
 import dagre from 'https://esm.sh/cytoscape-dagre';
 import nodeHtmlLabel from 'https://esm.sh/cytoscape-node-html-label';

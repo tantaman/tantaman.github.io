@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'https://esm.sh/react';
-import { useQuery } from 'https://esm.sh/@vlcn.io/react';
+import { useQuery } from 'https://esm.sh/@vlcn.io/react?deps=react,react-dom';
 export default function EventTable({ ctx, nodeName }) {
     const allEvents = useQuery(ctx, `SELECT id, item_id as itemId, type, value FROM event ORDER BY id ASC`, []);
     return (React.createElement(React.Fragment, null,
