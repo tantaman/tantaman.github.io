@@ -751,6 +751,60 @@ input[type="checkbox"]:disabled {
 
 .thought--parent { padding-bottom: 1.5rem; border-bottom: 2px solid var(--border-heavy); }
 
+.ancestor-chain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--border);
+}
+.ancestor-chain-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.1rem;
+}
+.ancestor-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.5rem 0.7rem;
+  border-left: 3px solid var(--border-heavy);
+  background: var(--bg-soft);
+  border-radius: 2px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  opacity: 0.78;
+  transition: opacity 0.12s;
+}
+.ancestor-card:hover { opacity: 1; background: var(--border); }
+.ancestor-body {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.ancestor-meta {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.ancestor-chain-arrow {
+  align-self: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0.1rem 0 -0.2rem;
+}
+
 .related-panel {
   margin: 1.25rem 0 0.5rem;
   display: flex;

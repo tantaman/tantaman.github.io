@@ -23,6 +23,15 @@ export interface ThoughtVersion {
   timestamp: number;
 }
 
+export interface Ancestor {
+  id: number;
+  parent_id: number | null;
+  body: string;
+  timestamp: number;
+  color: string | null;
+  private: boolean;
+}
+
 export interface RelatedItem {
   id: number;
   body: string;

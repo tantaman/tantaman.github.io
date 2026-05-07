@@ -6,6 +6,7 @@ import { ThoughtCard } from './ThoughtCard';
 import { ThreadThought } from './ThreadThought';
 import { ComposeForm } from './ComposeForm';
 import { RelatedPanel } from './RelatedPanel';
+import { AncestorChain } from './AncestorChain';
 
 function buildChildrenMap(replies: Thought[]): Map<number, Thought[]> {
   const map = new Map<number, Thought[]>();
@@ -118,6 +119,10 @@ export function ThreadView({ id }: { id: number }) {
             )
           ))}
         </div>
+      )}
+
+      {data.ancestors && data.ancestors.length > 0 && (
+        <AncestorChain ancestors={data.ancestors} />
       )}
 
       <ThoughtCard

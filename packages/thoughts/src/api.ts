@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem, RelatedResponse } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem, RelatedResponse, Ancestor } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -15,6 +15,7 @@ interface ThreadResponse {
   parent: Thought;
   replies: Thought[];
   versions: ThoughtVersion[];
+  ancestors?: Ancestor[];
 }
 
 interface TagsResponse {

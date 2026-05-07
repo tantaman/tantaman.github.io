@@ -678,7 +678,31 @@ api.get("/thoughts/:id/replies", async (c) => {
     ? versionRows.results.map((r) => ({ id: r.id as number, timestamp: r.timestamp as number }))
     : [];
 
-  return c.json({ parent, replies, versions });
+  // Fetch ancestor chain (root → immediate parent) so direct-linked replies have context.
+  // The recursive walk stops at private ancestors for non-authed callers, breaking the chain.
+  let ancestors: Record<string, unknown>[] = [];
+  const directParentId = parent.parent_id as number | null;
+  if (directParentId != null) {
+    const ancestorPrivateFilter = authed ? "" : " AND private = 0";
+    const ancestorJoinFilter = authed ? "" : " AND t.private = 0";
+    const ancestorRows = await c.env.DB.prepare(
+      `WITH RECURSIVE ancestors(id, parent_id, body, timestamp, color, private, depth) AS (
+         SELECT id, parent_id, body, timestamp, color, private, 0
+         FROM thought WHERE id = ?${ancestorPrivateFilter}
+         UNION ALL
+         SELECT t.id, t.parent_id, t.body, t.timestamp, t.color, t.private, a.depth + 1
+         FROM thought t JOIN ancestors a ON t.id = a.parent_id${ancestorJoinFilter}
+       )
+       SELECT id, parent_id, body, timestamp, color, private, depth
+       FROM ancestors ORDER BY depth DESC`
+    ).bind(directParentId).all();
+    ancestors = ancestorRows.results.map((r) => ({
+      id: r.id, parent_id: r.parent_id, body: r.body, timestamp: r.timestamp,
+      color: r.color, private: r.private,
+    }));
+  }
+
+  return c.json({ parent, replies, versions, ancestors });
 });
 
 // Related thoughts: explicit [[id]] links (in/out) + embedding-based "similar"
