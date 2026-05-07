@@ -1245,6 +1245,27 @@ api.post("/locations/:id/geocode", async (c) => {
   });
 });
 
+api.patch("/locations/:id", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+
+  const id = parseInt(c.req.param("id"), 10);
+  const body = await c.req.json() as { title?: string };
+  const newTitle = (body.title ?? "").trim();
+  if (!newTitle) return c.json({ error: "title required" }, 400);
+
+  const geo = await geocodeLocation(newTitle, c.env.MAPBOX_TOKEN);
+
+  await c.env.DB.prepare(
+    "UPDATE location SET title = ?, lat = ?, lng = ?, resolved_name = ? WHERE id = ?"
+  ).bind(newTitle, geo?.lat ?? null, geo?.lng ?? null, geo?.resolvedName ?? null, id).run();
+
+  const row = await c.env.DB.prepare(
+    "SELECT id, thought_id, title, description, lat, lng, resolved_name, created_at FROM location WHERE id = ?"
+  ).bind(id).first();
+
+  return c.json(row);
+});
+
 api.post("/locations/regeocode", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {

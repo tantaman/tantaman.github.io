@@ -6,7 +6,7 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import type { Location } from '../types';
 import { useLocations } from '../hooks/useCache';
-import { geocodeLocation } from '../api';
+import { geocodeLocation, patchLocation } from '../api';
 import { AuthContext } from '../App';
 import { useSWRConfig } from 'swr';
 
@@ -35,6 +35,37 @@ export function LocationsView() {
   const mapInstanceRef = useRef<L.Map | null>(null);
   const [geocoding, setGeocoding] = useState<number | null>(null);
   const [geocodeError, setGeocodeError] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  function startEdit(loc: Location) {
+    setEditingId(loc.id);
+    setEditValue(loc.title);
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditValue('');
+  }
+
+  async function submitEdit(loc: Location) {
+    if (!secret || !editValue.trim()) return;
+    setSaving(true);
+    try {
+      const updated = await patchLocation(loc.id, { title: editValue.trim() }, secret);
+      mutate('locations', (prev: { locations: Location[] } | undefined) => {
+        if (!prev) return prev;
+        return { locations: prev.locations.map((l) => l.id === loc.id ? { ...l, ...updated } : l) };
+      }, { revalidate: false });
+      setEditingId(null);
+      setEditValue('');
+    } catch {
+      mutate('locations');
+    } finally {
+      setSaving(false);
+    }
+  }
 
   const geoLocations = locations.filter(
     (loc): loc is Location & { lat: number; lng: number } =>
@@ -131,14 +162,23 @@ export function LocationsView() {
                   ) : (
                     <span className="location-unresolved">Not resolved</span>
                   )}
-                  {secret && (
-                    <button
-                      className="location-geocode-btn"
-                      onClick={() => handleGeocode(loc)}
-                      disabled={geocoding != null}
-                    >
-                      {geocoding === loc.id ? 'Geocoding...' : 'Re-geocode'}
-                    </button>
+                  {secret && editingId !== loc.id && (
+                    <>
+                      <button
+                        className="location-geocode-btn"
+                        onClick={() => handleGeocode(loc)}
+                        disabled={geocoding != null}
+                      >
+                        {geocoding === loc.id ? 'Geocoding...' : 'Re-geocode'}
+                      </button>
+                      <button
+                        className="location-geocode-btn"
+                        onClick={() => startEdit(loc)}
+                        disabled={geocoding != null}
+                      >
+                        Edit
+                      </button>
+                    </>
                   )}
                   {loc.created_at > 0 && (
                     <>
@@ -150,6 +190,30 @@ export function LocationsView() {
                     <span className="location-geocode-error">{geocodeError}</span>
                   )}
                 </span>
+                {editingId === loc.id && (
+                  <form
+                    className="movie-edit-form"
+                    onSubmit={(e) => { e.preventDefault(); submitEdit(loc); }}
+                  >
+                    <input
+                      className="movie-edit-input"
+                      type="text"
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                      placeholder="Location name..."
+                      disabled={saving}
+                      autoFocus
+                    />
+                    <div className="movie-edit-actions">
+                      <button type="submit" className="movie-edit-save" disabled={saving || !editValue.trim()}>
+                        {saving ? '...' : 'Save & geocode'}
+                      </button>
+                      <button type="button" className="movie-edit-cancel" onClick={cancelEdit} disabled={saving}>
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                )}
               </li>
             ))}
           </ul>
