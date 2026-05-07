@@ -21,7 +21,9 @@ import {
   deleteFramingEdge,
   postThought,
   getThread,
+  getRelated,
 } from '../../api';
+import type { RelatedItem } from '../../types';
 import type { ThoughtNodeData } from './ThoughtNode';
 import type { PostNodeData } from './PostNode';
 import type { LabeledEdgeData } from './LabeledEdge';
@@ -35,10 +37,16 @@ const NODE_H = 150;
 const HGAP = 60;
 const VGAP = 80;
 
+type ThoughtCallbacks = {
+  onRemove: (nodeId: number) => void;
+  onExpandReplies: (nodeId: number) => void | Promise<void>;
+  onExpandLinks: (nodeId: number) => void | Promise<void>;
+  onExpandBacklinks: (nodeId: number) => void | Promise<void>;
+};
+
 function framingNodeToRFNode(
   n: FramingNode,
-  onRemove: (nodeId: number) => void,
-  onExpandReplies: (nodeId: number) => void,
+  thoughtCbs: ThoughtCallbacks,
   postsMap: Map<string, PostSummary>,
 ): Node<ThoughtNodeData | PostNodeData> | null {
   if (n.node_type === 'thought') {
@@ -53,8 +61,12 @@ function framingNodeToRFNode(
         nodeId: n.id,
         color: n.color ?? null,
         replyCount: n.reply_count ?? 0,
-        onRemove,
-        onExpandReplies,
+        linkCount: n.link_count ?? 0,
+        backlinkCount: n.backlink_count ?? 0,
+        onRemove: thoughtCbs.onRemove,
+        onExpandReplies: thoughtCbs.onExpandReplies,
+        onExpandLinks: thoughtCbs.onExpandLinks,
+        onExpandBacklinks: thoughtCbs.onExpandBacklinks,
       },
     };
   }
@@ -74,16 +86,21 @@ function framingNodeToRFNode(
       date: post.date,
       tags: post.tags,
       color: post.color,
-      onRemove,
+      onRemove: thoughtCbs.onRemove,
     },
   };
 }
+
+const KIND_COLORS: Record<string, string> = {
+  reply: '#7aa2f7',
+  link: '#9ece6a',
+};
 
 function framingEdgeToRFEdge(
   e: FramingEdgeType,
   onLabelChange: (edgeDbId: number, label: string) => void,
 ): Edge<LabeledEdgeData> {
-  const isReply = e.kind === 'reply';
+  const color = e.kind ? KIND_COLORS[e.kind] : undefined;
   return {
     id: `e-${e.id}`,
     source: String(e.source_node_id),
@@ -91,8 +108,8 @@ function framingEdgeToRFEdge(
     sourceHandle: e.source_handle ?? undefined,
     targetHandle: e.target_handle ?? undefined,
     type: 'labeled',
-    markerEnd: { type: MarkerType.ArrowClosed, color: isReply ? '#7aa2f7' : undefined },
-    style: isReply ? { stroke: '#7aa2f7' } : undefined,
+    markerEnd: { type: MarkerType.ArrowClosed, color },
+    style: color ? { stroke: color } : undefined,
     data: { label: e.label, edgeDbId: e.id, kind: e.kind, onLabelChange },
   };
 }
@@ -177,24 +194,44 @@ export function useFramingCanvas(framingId: number) {
     [framingId, secret, mutate],
   );
 
-  // Stable wrapper around expandReplies — declared after the implementation runs,
-  // but bound here via a ref so framing nodes can carry a single callback identity.
+  // Stable wrappers around the expand* implementations — declared after they
+  // run, but bound here via refs so framing nodes can carry a single callback
+  // identity across renders.
   const expandRepliesRef = useRef<(framingNodeId: number) => Promise<void>>(
+    async () => {},
+  );
+  const expandLinksRef = useRef<(framingNodeId: number) => Promise<void>>(
+    async () => {},
+  );
+  const expandBacklinksRef = useRef<(framingNodeId: number) => Promise<void>>(
     async () => {},
   );
   const handleExpandReplies = useCallback((framingNodeId: number) => {
     return expandRepliesRef.current(framingNodeId);
   }, []);
+  const handleExpandLinks = useCallback((framingNodeId: number) => {
+    return expandLinksRef.current(framingNodeId);
+  }, []);
+  const handleExpandBacklinks = useCallback((framingNodeId: number) => {
+    return expandBacklinksRef.current(framingNodeId);
+  }, []);
+
+  const thoughtCbs = useMemo<ThoughtCallbacks>(() => ({
+    onRemove: handleRemoveNode,
+    onExpandReplies: handleExpandReplies,
+    onExpandLinks: handleExpandLinks,
+    onExpandBacklinks: handleExpandBacklinks,
+  }), [handleRemoveNode, handleExpandReplies, handleExpandLinks, handleExpandBacklinks]);
 
   // Sync SWR data → local state on initial load / revalidation
   useEffect(() => {
     if (!data) return;
     const rfNodes = data.nodes
-      .map((n) => framingNodeToRFNode(n, handleRemoveNode, handleExpandReplies, postsMap))
+      .map((n) => framingNodeToRFNode(n, thoughtCbs, postsMap))
       .filter((n): n is Node<ThoughtNodeData | PostNodeData> => n !== null);
     setNodes(rfNodes as Node[]);
     setEdges(data.edges.map((e) => framingEdgeToRFEdge(e, handleLabelChange)));
-  }, [data, handleRemoveNode, handleLabelChange, handleExpandReplies, postsMap]);
+  }, [data, thoughtCbs, handleLabelChange, postsMap]);
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => {
@@ -261,7 +298,13 @@ export function useFramingCanvas(framingId: number) {
           ...displayData,
           nodeId: tempId,
           onRemove: handleRemoveNode,
-          ...(nodeType === 'thought' ? { onExpandReplies: handleExpandReplies } : {}),
+          ...(nodeType === 'thought'
+            ? {
+                onExpandReplies: handleExpandReplies,
+                onExpandLinks: handleExpandLinks,
+                onExpandBacklinks: handleExpandBacklinks,
+              }
+            : {}),
         },
       };
       setNodes((prev) => [...prev, tempNode]);
@@ -290,6 +333,8 @@ export function useFramingCanvas(framingId: number) {
         thoughtId,
         color: null,
         replyCount: 0,
+        linkCount: 0,
+        backlinkCount: 0,
       } as any, x, y);
     },
     [addNode],
@@ -311,23 +356,38 @@ export function useFramingCanvas(framingId: number) {
     [addNode, postsMap],
   );
 
-  const expandReplies = useCallback(
-    async (parentFramingNodeId: number) => {
+  type ExpandItem = {
+    id: number;
+    body: string;
+    timestamp: number;
+    color: string | null;
+    replyCount?: number;
+  };
+  type ExpansionDirection = 'down' | 'right' | 'left';
+  type ExpansionConfig = {
+    fetch: (parentThoughtId: number) => Promise<ExpandItem[]>;
+    direction: ExpansionDirection;
+    edgeKind: 'reply' | 'link';
+    sourceFromParent: boolean; // true: parent → item; false: item → parent
+    sourceHandle: string;
+    targetHandle: string;
+  };
+
+  const runExpansion = useCallback(
+    async (parentFramingNodeId: number, cfg: ExpansionConfig) => {
       if (!secret) return;
 
-      const currentNodes = nodesRef.current;
-      const parent = currentNodes.find((n) => Number(n.id) === parentFramingNodeId);
+      const parent = nodesRef.current.find((n) => Number(n.id) === parentFramingNodeId);
       if (!parent || parent.type !== 'thought') return;
       const parentData = parent.data as ThoughtNodeData;
 
-      let replies;
+      let items: ExpandItem[];
       try {
-        const thread = await getThread(parentData.thoughtId, secret);
-        replies = thread.replies;
+        items = await cfg.fetch(parentData.thoughtId);
       } catch {
         return;
       }
-      if (replies.length === 0) return;
+      if (items.length === 0) return;
 
       const placedByThoughtId = new Map<number, number>();
       for (const n of nodesRef.current) {
@@ -337,63 +397,83 @@ export function useFramingCanvas(framingId: number) {
         }
       }
 
-      const newReplies = replies.filter((r) => !placedByThoughtId.has(r.id));
-      const totalNewW = newReplies.length > 0 ? newReplies.length * (NODE_W + HGAP) - HGAP : 0;
-      const baseY = parent.position.y + NODE_H + VGAP;
-      const startX = parent.position.x + NODE_W / 2 - totalNewW / 2;
-      let newIdx = 0;
+      const newItems = items.filter((r) => !placedByThoughtId.has(r.id));
+      const newCount = newItems.length;
+
+      // Layout: center the column/row of new nodes around the parent's mid-axis.
+      const computePos = (newIdx: number) => {
+        if (cfg.direction === 'down') {
+          const totalW = newCount * (NODE_W + HGAP) - HGAP;
+          const startX = parent.position.x + NODE_W / 2 - totalW / 2;
+          return {
+            x: startX + newIdx * (NODE_W + HGAP),
+            y: parent.position.y + NODE_H + VGAP,
+          };
+        }
+        const totalH = newCount * (NODE_H + VGAP) - VGAP;
+        const startY = parent.position.y + NODE_H / 2 - totalH / 2;
+        const x = cfg.direction === 'right'
+          ? parent.position.x + NODE_W + HGAP
+          : parent.position.x - NODE_W - HGAP;
+        return { x, y: startY + newIdx * (NODE_H + VGAP) };
+      };
 
       const existingEdgeKeys = new Set(
         edgesRef.current.map((e) => `${e.source}->${e.target}`),
       );
 
-      for (const reply of replies) {
-        let replyFramingNodeId = placedByThoughtId.get(reply.id);
+      let newIdx = 0;
+      for (const item of items) {
+        let itemFramingNodeId = placedByThoughtId.get(item.id);
 
-        if (replyFramingNodeId == null) {
-          const x = startX + newIdx * (NODE_W + HGAP);
-          const y = baseY;
-          newIdx++;
+        if (itemFramingNodeId == null) {
+          const { x, y } = computePos(newIdx++);
           try {
             const result = await addNodeToFraming(
-              framingId, 'thought', String(reply.id), x, y, secret,
+              framingId, 'thought', String(item.id), x, y, secret,
             );
-            replyFramingNodeId = result.id;
+            itemFramingNodeId = result.id;
             const newRfNode: Node = {
               id: String(result.id),
               type: 'thought',
               position: { x, y },
               data: {
-                body: reply.body,
-                timestamp: reply.timestamp,
-                thoughtId: reply.id,
+                body: item.body,
+                timestamp: item.timestamp,
+                thoughtId: item.id,
                 nodeId: result.id,
-                color: reply.color ?? null,
-                replyCount: reply.reply_count,
+                color: item.color ?? null,
+                replyCount: item.replyCount ?? 0,
+                linkCount: 0,
+                backlinkCount: 0,
                 onRemove: handleRemoveNode,
                 onExpandReplies: handleExpandReplies,
+                onExpandLinks: handleExpandLinks,
+                onExpandBacklinks: handleExpandBacklinks,
               } as ThoughtNodeData,
             };
             setNodes((prev) => [...prev, newRfNode]);
-            placedByThoughtId.set(reply.id, result.id);
+            placedByThoughtId.set(item.id, result.id);
           } catch {
             continue;
           }
         }
 
-        const edgeKey = `${parentFramingNodeId}->${replyFramingNodeId}`;
+        const sourceId = cfg.sourceFromParent ? parentFramingNodeId : itemFramingNodeId;
+        const targetId = cfg.sourceFromParent ? itemFramingNodeId : parentFramingNodeId;
+        const edgeKey = `${sourceId}->${targetId}`;
         if (existingEdgeKeys.has(edgeKey)) continue;
 
         try {
           const edge = await createFramingEdge(
             framingId,
-            parentFramingNodeId,
-            replyFramingNodeId,
+            sourceId,
+            targetId,
             secret,
             undefined,
-            'bottom-source',
-            'top-target',
-            'reply',
+            cfg.sourceHandle,
+            cfg.targetHandle,
+            cfg.edgeKind,
           );
           setEdges((prev) => [...prev, framingEdgeToRFEdge(edge, handleLabelChange)]);
           existingEdgeKeys.add(edgeKey);
@@ -401,12 +481,72 @@ export function useFramingCanvas(framingId: number) {
           // ignore
         }
       }
+
+      // Refetch so newly placed nodes pick up real reply/link/backlink counts.
+      mutate(undefined);
     },
-    [framingId, secret, handleRemoveNode, handleExpandReplies, handleLabelChange],
+    [framingId, secret, handleRemoveNode, handleExpandReplies, handleExpandLinks, handleExpandBacklinks, handleLabelChange, mutate],
   );
 
-  // Keep the stable wrapper pointing at the latest implementation.
+  const expandReplies = useCallback(
+    (parentFramingNodeId: number) => runExpansion(parentFramingNodeId, {
+      fetch: async (parentThoughtId) => {
+        const thread = await getThread(parentThoughtId, secret ?? undefined);
+        return thread.replies.map((r) => ({
+          id: r.id,
+          body: r.body,
+          timestamp: r.timestamp,
+          color: r.color,
+          replyCount: r.reply_count,
+        }));
+      },
+      direction: 'down',
+      edgeKind: 'reply',
+      sourceFromParent: true,
+      sourceHandle: 'bottom-source',
+      targetHandle: 'top-target',
+    }),
+    [runExpansion, secret],
+  );
+
+  const expandLinks = useCallback(
+    (parentFramingNodeId: number) => runExpansion(parentFramingNodeId, {
+      fetch: async (parentThoughtId) => {
+        const related = await getRelated(parentThoughtId, secret ?? undefined);
+        return related.outbound.map((r: RelatedItem) => ({
+          id: r.id, body: r.body, timestamp: r.timestamp, color: r.color,
+        }));
+      },
+      direction: 'right',
+      edgeKind: 'link',
+      sourceFromParent: true,
+      sourceHandle: 'right-source',
+      targetHandle: 'left-target',
+    }),
+    [runExpansion, secret],
+  );
+
+  const expandBacklinks = useCallback(
+    (parentFramingNodeId: number) => runExpansion(parentFramingNodeId, {
+      fetch: async (parentThoughtId) => {
+        const related = await getRelated(parentThoughtId, secret ?? undefined);
+        return related.inbound.map((r: RelatedItem) => ({
+          id: r.id, body: r.body, timestamp: r.timestamp, color: r.color,
+        }));
+      },
+      direction: 'left',
+      edgeKind: 'link',
+      sourceFromParent: false,
+      sourceHandle: 'right-source',
+      targetHandle: 'left-target',
+    }),
+    [runExpansion, secret],
+  );
+
+  // Keep the stable wrappers pointing at the latest implementations.
   expandRepliesRef.current = expandReplies;
+  expandLinksRef.current = expandLinks;
+  expandBacklinksRef.current = expandBacklinks;
 
   const deleteEdge = useCallback(
     async (edgeId: string) => {

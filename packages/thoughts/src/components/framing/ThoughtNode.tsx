@@ -11,28 +11,39 @@ export type ThoughtNodeData = {
   nodeId: number;
   color?: string | null;
   replyCount?: number;
+  linkCount?: number;
+  backlinkCount?: number;
   onRemove?: (nodeId: number) => void;
   onExpandReplies?: (nodeId: number) => void | Promise<void>;
+  onExpandLinks?: (nodeId: number) => void | Promise<void>;
+  onExpandBacklinks?: (nodeId: number) => void | Promise<void>;
 };
 
 export type ThoughtNodeType = Node<ThoughtNodeData, 'thought'>;
+
+type PillKind = 'replies' | 'links' | 'backlinks';
 
 export const ThoughtNode = memo(function ThoughtNode({
   data,
 }: NodeProps<ThoughtNodeType>) {
   const { secret } = useContext(AuthContext);
-  const [expanding, setExpanding] = useState(false);
+  const [busy, setBusy] = useState<PillKind | null>(null);
   const body = data.body.length > 500 ? data.body.slice(0, 500) + '…' : data.body;
   const html = renderMarkdown(body);
   const replyCount = data.replyCount ?? 0;
+  const linkCount = data.linkCount ?? 0;
+  const backlinkCount = data.backlinkCount ?? 0;
 
-  const handleExpand = async () => {
-    if (!data.onExpandReplies || expanding) return;
-    setExpanding(true);
+  const runExpand = async (
+    kind: PillKind,
+    fn: ((nodeId: number) => void | Promise<void>) | undefined,
+  ) => {
+    if (!fn || busy) return;
+    setBusy(kind);
     try {
-      await data.onExpandReplies(data.nodeId);
+      await fn(data.nodeId);
     } finally {
-      setExpanding(false);
+      setBusy(null);
     }
   };
 
@@ -53,12 +64,32 @@ export const ThoughtNode = memo(function ThoughtNode({
       />
       {replyCount > 0 && (
         <button
-          className="framing-node-expand-replies"
-          onClick={handleExpand}
-          disabled={expanding || !secret}
+          className="framing-node-expand framing-node-expand-replies"
+          onClick={() => runExpand('replies', data.onExpandReplies)}
+          disabled={busy !== null || !secret}
           title={secret ? `Expand ${replyCount} ${replyCount === 1 ? 'reply' : 'replies'}` : 'Sign in to expand replies'}
         >
-          {expanding ? '…' : '↓'} {replyCount}
+          {busy === 'replies' ? '…' : '↓'} {replyCount}
+        </button>
+      )}
+      {backlinkCount > 0 && (
+        <button
+          className="framing-node-expand framing-node-expand-backlinks"
+          onClick={() => runExpand('backlinks', data.onExpandBacklinks)}
+          disabled={busy !== null || !secret}
+          title={secret ? `Expand ${backlinkCount} back-${backlinkCount === 1 ? 'link' : 'links'}` : 'Sign in to expand back-links'}
+        >
+          {busy === 'backlinks' ? '…' : '←'} {backlinkCount}
+        </button>
+      )}
+      {linkCount > 0 && (
+        <button
+          className="framing-node-expand framing-node-expand-links"
+          onClick={() => runExpand('links', data.onExpandLinks)}
+          disabled={busy !== null || !secret}
+          title={secret ? `Expand ${linkCount} ${linkCount === 1 ? 'link' : 'links'}` : 'Sign in to expand links'}
+        >
+          {linkCount} {busy === 'links' ? '…' : '→'}
         </button>
       )}
       <Handle type="target" position={Position.Top} id="top-target" />

@@ -2049,11 +2049,8 @@ input[type="checkbox"]:disabled {
   color: #e55;
 }
 
-.framing-node-expand-replies {
+.framing-node-expand {
   position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -2067,14 +2064,43 @@ input[type="checkbox"]:disabled {
   transition: border-color 0.15s, color 0.15s;
 }
 
-.framing-node-expand-replies:hover:not(:disabled) {
+.framing-node-expand:hover:not(:disabled) {
   border-color: var(--accent);
   color: var(--accent);
 }
 
-.framing-node-expand-replies:disabled {
+.framing-node-expand:disabled {
   cursor: default;
   opacity: 0.6;
+}
+
+.framing-node-expand-replies {
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.framing-node-expand-replies:hover:not(:disabled) {
+  border-color: #7aa2f7;
+  color: #7aa2f7;
+}
+
+.framing-node-expand-links {
+  right: -10px;
+  top: 50%;
+  transform: translate(50%, -50%);
+}
+
+.framing-node-expand-backlinks {
+  left: -10px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.framing-node-expand-links:hover:not(:disabled),
+.framing-node-expand-backlinks:hover:not(:disabled) {
+  border-color: #9ece6a;
+  color: #9ece6a;
 }
 
 /* ---- Labeled Edge ---- */
@@ -2094,9 +2120,14 @@ input[type="checkbox"]:disabled {
   border-color: var(--accent);
 }
 
-.framing-edge-label.reply {
+.framing-edge-label.kind-reply {
   border-color: #7aa2f7;
   color: #7aa2f7;
+}
+
+.framing-edge-label.kind-link {
+  border-color: #9ece6a;
+  color: #9ece6a;
 }
 
 .framing-edge-label.hidden {

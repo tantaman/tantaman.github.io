@@ -1876,7 +1876,19 @@ api.get("/framings/:id", async (c) => {
             CASE WHEN fn.node_type = 'thought'
               THEN (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id AND r.private = 0)
               ELSE NULL
-            END AS reply_count
+            END AS reply_count,
+            CASE WHEN fn.node_type = 'thought'
+              THEN (SELECT COUNT(*) FROM thought_edge te
+                    JOIN thought lt ON lt.id = te.target_id
+                    WHERE te.source_id = t.id AND lt.private = 0 AND lt.superseded_by IS NULL)
+              ELSE NULL
+            END AS link_count,
+            CASE WHEN fn.node_type = 'thought'
+              THEN (SELECT COUNT(*) FROM thought_edge te
+                    JOIN thought st ON st.id = te.source_id
+                    WHERE te.target_id = t.id AND st.private = 0 AND st.superseded_by IS NULL)
+              ELSE NULL
+            END AS backlink_count
      FROM framing_node fn
      LEFT JOIN thought t ON fn.node_type = 'thought' AND t.id = CAST(fn.item_id AS INTEGER)
      WHERE fn.framing_id = ?`

@@ -50,17 +50,20 @@ export function LabeledEdge({
     }
   }, [data, value]);
 
-  const isReply = data?.kind === 'reply';
+  const kind = data?.kind ?? null;
+  const isAuto = kind === 'reply' || kind === 'link';
   const hasLabel = !!data?.label;
-  // Hide the empty label pill on reply edges; show on hover/edit/selected only.
-  const showLabelBox = editing || selected || hasLabel || !isReply;
+  // Hide the empty label pill on auto-generated edges; only show when there is
+  // text to display, the edge is selected, or the user is editing.
+  const showLabelBox = editing || selected || hasLabel || !isAuto;
+  const kindClass = kind ? ` kind-${kind}` : '';
 
   return (
     <>
       <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} style={style} />
       <EdgeLabelRenderer>
         <div
-          className={`framing-edge-label${selected ? ' selected' : ''}${isReply ? ' reply' : ''}${showLabelBox ? '' : ' hidden'}`}
+          className={`framing-edge-label${selected ? ' selected' : ''}${kindClass}${showLabelBox ? '' : ' hidden'}`}
           style={{
             position: 'absolute',
             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
