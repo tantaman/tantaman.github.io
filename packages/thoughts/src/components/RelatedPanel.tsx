@@ -5,7 +5,7 @@ import type { RelatedItem, SimilarItem } from '../types';
 
 function excerpt(body: string, maxLen = 140): string {
   const plain = body
-    .replace(/\[\[(\d+)\]\]/g, '')
+    .replace(/\[\[(\d+)(?:\|([^\]|]+))?\]\]/g, (_, _id, title) => (title ? title.trim() : ''))
     .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
     .replace(/[#*_`~>]/g, '')
     .replace(/\s+/g, ' ')

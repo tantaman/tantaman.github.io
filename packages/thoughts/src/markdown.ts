@@ -21,14 +21,20 @@ function highlightTags(html: string): string {
 }
 
 /**
- * Replace [[123]] wiki-link syntax with anchors to #thought-123.
+ * Replace [[123]] or [[123|title]] wiki-link syntax with anchors to #thought-123.
  * Operates on text nodes only (outside of HTML tags) to avoid mangling markup.
  */
 function linkThoughts(html: string): string {
   return html.replace(/(>[^<]*)/g, (segment) => {
     return segment.replace(
-      /\[\[(\d+)\]\]/g,
-      '<a href="#thought-$1" class="thought-link">i$1</a>',
+      /\[\[(\d+)(?:\|([^\]|]+))?\]\]/g,
+      (_, id, title) => {
+        const text = (title?.trim() || `i${id}`)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+        return `<a href="#thought-${id}" class="thought-link">${text}</a>`;
+      },
     );
   });
 }
