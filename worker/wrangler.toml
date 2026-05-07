@@ -44,6 +44,10 @@ name = "tts-workflow"
 binding = "TTS_WORKFLOW"
 class_name = "TtsWorkflow"
 
+[triggers]
+# Weekly digest email — Mondays at 14:00 UTC (~6/7am PT)
+crons = ["0 14 * * 1"]
+
 [observability]
 [observability.logs]
 enabled = false

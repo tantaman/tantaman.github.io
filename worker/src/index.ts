@@ -27,6 +27,7 @@ import { igCard } from "./ig-card";
 import { paste } from "./paste";
 import { lists } from "./lists";
 import { now } from "./now";
+import { sendDigest } from "./digest";
 import { thoughtOg } from "./thought-og";
 import { amplifications } from "./amplifications";
 import { clusters, assignClusters, removeClusterMembership, scheduleBackground } from "./clusters";
@@ -67,6 +68,7 @@ export interface Env {
   MAPBOX_TOKEN: string;
   TMDB_API_KEY: string;
   RESEND_API_KEY: string;
+  DIGEST_EMAIL_TO: string;
   ICAL_TOKEN: string;
   TTS_WORKFLOW: Workflow;
 }
@@ -2095,8 +2097,26 @@ app.route("/paste", paste);
 app.route("/now", now);
 app.route("/thoughts/t", thoughtOg);
 
+// Manual digest trigger (auth-gated) — useful for testing the cron job
+api.post("/digest/run", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const result = await sendDigest(c.env);
+  return c.json(result, result.ok ? 200 : 500);
+});
+
 // Mount API routes
 app.route("/api", api);
 
 export { TtsWorkflow } from "./tts-workflow.js";
-export default app;
+
+const handler = app as typeof app & {
+  scheduled: (event: ScheduledController, env: Env, ctx: ExecutionContext) => void;
+};
+handler.scheduled = (_event, env, ctx) => {
+  ctx.waitUntil(
+    sendDigest(env).then((r) => {
+      if (!r.ok) console.error("digest failed:", r.reason);
+    })
+  );
+};
+export default handler;
