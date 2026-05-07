@@ -33,6 +33,7 @@ export function LocationsView() {
   const loading = !data;
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const markersRef = useRef<globalThis.Map<number, L.Marker>>(new globalThis.Map());
   const [geocoding, setGeocoding] = useState<number | null>(null);
   const [geocodeError, setGeocodeError] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -72,6 +73,16 @@ export function LocationsView() {
       loc.lat != null && loc.lng != null,
   );
 
+  function handleZoomTo(loc: Location) {
+    if (loc.lat == null || loc.lng == null) return;
+    const map = mapInstanceRef.current;
+    if (!map) return;
+    map.flyTo([loc.lat, loc.lng], 14, { duration: 0.6 });
+    const marker = markersRef.current.get(loc.id);
+    marker?.openPopup();
+    mapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
   async function handleGeocode(loc: Location) {
     if (!secret || geocoding != null) return;
     setGeocoding(loc.id);
@@ -104,6 +115,7 @@ export function LocationsView() {
       maxZoom: 19,
     }).addTo(map);
 
+    markersRef.current.clear();
     const markers: L.Marker[] = [];
     for (const loc of geoLocations) {
       const marker = L.marker([loc.lat, loc.lng]).addTo(map);
@@ -112,6 +124,7 @@ export function LocationsView() {
         : `<strong>${loc.title}</strong>`;
       marker.bindPopup(popup);
       markers.push(marker);
+      markersRef.current.set(loc.id, marker);
     }
 
     if (markers.length === 1) {
@@ -147,7 +160,17 @@ export function LocationsView() {
           <ul className="events-list">
             {locations.map((loc) => (
               <li key={loc.id} className="event-item">
-                <span className="event-title">{loc.title}</span>
+                {loc.lat != null && loc.lng != null ? (
+                  <button
+                    type="button"
+                    className="event-title location-title-btn"
+                    onClick={() => handleZoomTo(loc)}
+                  >
+                    {loc.title}
+                  </button>
+                ) : (
+                  <span className="event-title">{loc.title}</span>
+                )}
                 {loc.resolved_name && (
                   <span className="location-resolved">{loc.resolved_name}</span>
                 )}

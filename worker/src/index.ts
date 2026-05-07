@@ -681,6 +681,92 @@ api.get("/thoughts/:id/replies", async (c) => {
   return c.json({ parent, replies, versions });
 });
 
+// Related thoughts: explicit [[id]] links (in/out) + embedding-based "similar"
+api.get("/thoughts/:id/related", async (c) => {
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "bad id" }, 400);
+  const authed = isAuthed(c);
+  const privateFilter = authed ? "" : " AND t.private = 0";
+
+  const sourceRow = await c.env.DB.prepare(
+    "SELECT id, version_of, private FROM thought WHERE id = ?"
+  ).bind(id).first<{ id: number; version_of: number | null; private: number }>();
+  if (!sourceRow) return c.json({ error: "Thought not found" }, 404);
+  if (!authed && sourceRow.private) return c.json({ error: "Thought not found" }, 404);
+
+  const versionRoot = sourceRow.version_of ?? sourceRow.id;
+
+  const [outboundRes, inboundRes] = await Promise.all([
+    c.env.DB.prepare(
+      `SELECT t.id, t.body, t.timestamp, t.color
+       FROM thought_edge e JOIN thought t ON t.id = e.target_id
+       WHERE e.source_id = ? AND t.superseded_by IS NULL${privateFilter}`
+    ).bind(id).all<{ id: number; body: string; timestamp: number; color: string | null }>(),
+    c.env.DB.prepare(
+      `SELECT t.id, t.body, t.timestamp, t.color
+       FROM thought_edge e JOIN thought t ON t.id = e.source_id
+       WHERE e.target_id = ? AND t.superseded_by IS NULL${privateFilter}
+       ORDER BY t.timestamp DESC`
+    ).bind(id).all<{ id: number; body: string; timestamp: number; color: string | null }>(),
+  ]);
+
+  const outbound = outboundRes.results;
+  const inbound = inboundRes.results;
+  const explicitIds = new Set<number>([
+    ...outbound.map((r) => r.id),
+    ...inbound.map((r) => r.id),
+  ]);
+
+  const similar: { id: number; body: string; timestamp: number; color: string | null; score: number }[] = [];
+  try {
+    const got = await c.env.VECTORIZE.getByIds([String(id)]);
+    const vec = got[0]?.values as number[] | undefined;
+    if (vec && vec.length > 0) {
+      const queryRes = await c.env.VECTORIZE.query(vec, { topK: 30 });
+      const candidateIds: number[] = [];
+      for (const m of queryRes.matches) {
+        if (classifyVectorId(m.id).kind !== "thought") continue;
+        const cid = parseInt(m.id, 10);
+        if (cid === id || explicitIds.has(cid)) continue;
+        candidateIds.push(cid);
+        if (candidateIds.length >= 20) break;
+      }
+      if (candidateIds.length > 0) {
+        const placeholders = candidateIds.map(() => "?").join(",");
+        const rows = await c.env.DB.prepare(
+          `SELECT t.id, t.body, t.timestamp, t.color, t.version_of
+           FROM thought t
+           WHERE t.id IN (${placeholders}) AND t.superseded_by IS NULL${privateFilter}`
+        ).bind(...candidateIds).all<{ id: number; body: string; timestamp: number; color: string | null; version_of: number | null }>();
+        const rowById = new Map(rows.results.map((r) => [r.id, r]));
+        const scoreById = new Map<number, number>();
+        for (const m of queryRes.matches) {
+          const cid = parseInt(m.id, 10);
+          if (!scoreById.has(cid)) scoreById.set(cid, m.score);
+        }
+        for (const cid of candidateIds) {
+          const r = rowById.get(cid);
+          if (!r) continue;
+          const root = r.version_of ?? r.id;
+          if (root === versionRoot) continue;
+          similar.push({
+            id: r.id,
+            body: r.body,
+            timestamp: r.timestamp,
+            color: r.color,
+            score: scoreById.get(cid) ?? 0,
+          });
+          if (similar.length >= 5) break;
+        }
+      }
+    }
+  } catch (e) {
+    console.error("similar lookup failed:", e);
+  }
+
+  return c.json({ outbound, inbound, similar });
+});
+
 api.post("/thoughts", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {

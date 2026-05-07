@@ -23,6 +23,23 @@ export interface ThoughtVersion {
   timestamp: number;
 }
 
+export interface RelatedItem {
+  id: number;
+  body: string;
+  timestamp: number;
+  color: string | null;
+}
+
+export interface SimilarItem extends RelatedItem {
+  score: number;
+}
+
+export interface RelatedResponse {
+  outbound: RelatedItem[];
+  inbound: RelatedItem[];
+  similar: SimilarItem[];
+}
+
 export interface Tag {
   name: string;
   count: number;

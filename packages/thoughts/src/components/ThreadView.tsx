@@ -5,6 +5,7 @@ import { useThread } from '../hooks/useCache';
 import { ThoughtCard } from './ThoughtCard';
 import { ThreadThought } from './ThreadThought';
 import { ComposeForm } from './ComposeForm';
+import { RelatedPanel } from './RelatedPanel';
 
 function buildChildrenMap(replies: Thought[]): Map<number, Thought[]> {
   const map = new Map<number, Thought[]>();
@@ -124,6 +125,8 @@ export function ThreadView({ id }: { id: number }) {
         isParent
         onDelete={handleParentDelete}
       />
+
+      <RelatedPanel thoughtId={id} />
 
       <div className="replies-label">
         {replyCount > 0

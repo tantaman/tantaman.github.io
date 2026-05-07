@@ -1,11 +1,16 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems } from '../api';
+import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
   const authKey = secret ? 'a' : 'p';
   return useSWR(`thread-${id}-${authKey}`, () => getThread(id, secret || undefined));
+}
+
+export function useRelated(id: number, secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  return useSWR(`related-${id}-${authKey}`, () => getRelated(id, secret || undefined));
 }
 
 export function useTags(selectedTags: string[], secret?: string | null) {

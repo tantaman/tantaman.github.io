@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem, RelatedResponse } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -50,6 +50,13 @@ export function getThoughts(
 
 export function getThread(id: number, secret?: string): Promise<ThreadResponse> {
   return fetch(`${API}/thoughts/${id}/replies`, { headers: authHeaders(secret) }).then((r) => {
+    if (!r.ok) throw new Error('not found');
+    return r.json();
+  });
+}
+
+export function getRelated(id: number, secret?: string): Promise<RelatedResponse> {
+  return fetch(`${API}/thoughts/${id}/related`, { headers: authHeaders(secret) }).then((r) => {
     if (!r.ok) throw new Error('not found');
     return r.json();
   });
