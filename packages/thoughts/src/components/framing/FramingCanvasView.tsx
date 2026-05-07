@@ -1,4 +1,4 @@
-import { useCallback, useContext, useRef, type MouseEvent as ReactMouseEvent } from 'react';
+import { useCallback, useContext, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react';
 import {
   ReactFlow,
   Background,
@@ -14,6 +14,7 @@ import { PostNode, type PostNodeData } from './PostNode';
 import { LabeledEdge, type LabeledEdgeData } from './LabeledEdge';
 import { ComposeNode } from './ComposeNode';
 import { FramingLeftPanel } from './FramingLeftPanel';
+import { FramingDetailPane } from './FramingDetailPane';
 import { updateFraming } from '../../api';
 import { AuthContext } from '../../App';
 import type { Node, Edge } from '@xyflow/react';
@@ -236,6 +237,15 @@ export function FramingCanvasView({ id }: { id: number }) {
   );
 
   const rfRef = useRef<ReactFlowInstance | null>(null);
+  const [selectedThoughtId, setSelectedThoughtId] = useState<number | null>(null);
+
+  const handleNodeClick = useCallback((_e: ReactMouseEvent, node: Node) => {
+    if (node.type !== 'thought') return;
+    const data = node.data as ThoughtNodeData;
+    setSelectedThoughtId(data.thoughtId);
+  }, []);
+
+  const closeDetailPane = useCallback(() => setSelectedThoughtId(null), []);
 
   const onDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -330,6 +340,7 @@ export function FramingCanvasView({ id }: { id: number }) {
           onDragOver={onDragOver}
           onDrop={onDrop}
           onPaneClick={handlePaneClick}
+          onNodeClick={handleNodeClick}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
@@ -357,6 +368,13 @@ export function FramingCanvasView({ id }: { id: number }) {
           </div>
         </ReactFlow>
       </div>
+      {selectedThoughtId !== null && (
+        <FramingDetailPane
+          key={selectedThoughtId}
+          thoughtId={selectedThoughtId}
+          onClose={closeDetailPane}
+        />
+      )}
     </div>
   );
 }

@@ -47,12 +47,17 @@ export const ThoughtNode = memo(function ThoughtNode({
     }
   };
 
+  const stop = (e: React.MouseEvent) => e.stopPropagation();
+
   return (
     <div className="framing-thought-node" style={data.color ? { backgroundColor: data.color + '14' } : undefined}>
       {secret && data.onRemove && (
         <button
           className="framing-node-remove"
-          onClick={() => data.onRemove!(data.nodeId)}
+          onClick={(e) => {
+            e.stopPropagation();
+            data.onRemove!(data.nodeId);
+          }}
           title="Remove from framing"
         >
           ×
@@ -65,7 +70,8 @@ export const ThoughtNode = memo(function ThoughtNode({
       {replyCount > 0 && (
         <button
           className="framing-node-expand framing-node-expand-replies"
-          onClick={() => runExpand('replies', data.onExpandReplies)}
+          onClick={(e) => { e.stopPropagation(); runExpand('replies', data.onExpandReplies); }}
+          onMouseDown={stop}
           disabled={busy !== null || !secret}
           title={secret ? `Expand ${replyCount} ${replyCount === 1 ? 'reply' : 'replies'}` : 'Sign in to expand replies'}
         >
@@ -75,7 +81,8 @@ export const ThoughtNode = memo(function ThoughtNode({
       {backlinkCount > 0 && (
         <button
           className="framing-node-expand framing-node-expand-backlinks"
-          onClick={() => runExpand('backlinks', data.onExpandBacklinks)}
+          onClick={(e) => { e.stopPropagation(); runExpand('backlinks', data.onExpandBacklinks); }}
+          onMouseDown={stop}
           disabled={busy !== null || !secret}
           title={secret ? `Expand ${backlinkCount} back-${backlinkCount === 1 ? 'link' : 'links'}` : 'Sign in to expand back-links'}
         >
@@ -85,7 +92,8 @@ export const ThoughtNode = memo(function ThoughtNode({
       {linkCount > 0 && (
         <button
           className="framing-node-expand framing-node-expand-links"
-          onClick={() => runExpand('links', data.onExpandLinks)}
+          onClick={(e) => { e.stopPropagation(); runExpand('links', data.onExpandLinks); }}
+          onMouseDown={stop}
           disabled={busy !== null || !secret}
           title={secret ? `Expand ${linkCount} ${linkCount === 1 ? 'link' : 'links'}` : 'Sign in to expand links'}
         >
