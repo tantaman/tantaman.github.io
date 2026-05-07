@@ -12,9 +12,9 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function relativeTime(ts: number): string {
-  const diff = Date.now() - ts;
-  const mins = Math.floor(diff / 60000);
+function relativeTime(tsSeconds: number): string {
+  const diffSec = Math.floor(Date.now() / 1000) - tsSeconds;
+  const mins = Math.floor(diffSec / 60);
   if (mins < 1) return "just now";
   if (mins < 60) return `${mins}m ago`;
   const hours = Math.floor(mins / 60);
@@ -280,11 +280,36 @@ interface Paste {
   shared_at: number;
 }
 
+interface Post {
+  slug: string;
+  title: string;
+  description: string | null;
+  date: string;
+  thesis: string | null;
+  collection: string;
+}
+
+async function fetchRecentPosts(limit: number): Promise<Post[]> {
+  try {
+    const res = await fetch("https://tantaman.com/posts-manifest.json", {
+      cf: { cacheTtl: 300, cacheEverything: true },
+    });
+    if (!res.ok) return [];
+    const all = (await res.json()) as Post[];
+    return all
+      .filter((p) => /^\d{4}-\d{2}-\d{2}$/.test(p.date))
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .slice(0, limit);
+  } catch {
+    return [];
+  }
+}
+
 now.get("/", async (c) => {
   const db = c.env.DB;
-  const nowEpoch = Date.now();
+  const nowEpoch = Math.floor(Date.now() / 1000);
 
-  const [thoughts, tasks, events, books, movies, pastes] = await Promise.all([
+  const [thoughts, tasks, events, books, movies, pastes, posts] = await Promise.all([
     db
       .prepare(
         `SELECT id, body, timestamp FROM thought
@@ -326,6 +351,7 @@ now.get("/", async (c) => {
          ORDER BY shared_at DESC LIMIT 10`
       )
       .all<Paste>(),
+    fetchRecentPosts(6),
   ]);
 
   const sections: string[] = [];
@@ -345,6 +371,26 @@ now.get("/", async (c) => {
     sections.push(`<section>
       <h2>thinking about</h2>
       ${items.join("\n")}
+    </section>`);
+  }
+
+  // Posts
+  if (posts.length > 0) {
+    const items = posts
+      .map((p) => {
+        const blurb = p.thesis || p.description || "";
+        const desc = blurb
+          ? `<div class="meta" style="margin-top:0.2rem">${escapeHtml(excerpt(blurb, 180))}</div>`
+          : "";
+        return `<li>
+          <span style="display:flex;justify-content:space-between;width:100%;align-items:baseline;gap:1rem"><span class="paste-title"><a href="https://tantaman.com/${escapeHtml(p.slug)}.html">${escapeHtml(p.title)}</a></span><span class="paste-meta">${escapeHtml(p.date)}</span></span>
+          ${desc}
+        </li>`;
+      })
+      .join("\n      ");
+    sections.push(`<section>
+      <h2>writing</h2>
+      <ul class="paste-list">${items}</ul>
     </section>`);
   }
 
