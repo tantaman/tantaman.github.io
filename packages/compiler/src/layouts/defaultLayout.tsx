@@ -155,13 +155,16 @@ async function buildFooter(file: VFile) {
   const indices = await indexFrontmatter();
   const allPosts: Map<
     string,
-    { filename: string; title: string; url: string; tags: string[] }
+    { filename: string; title: string; url: string; tags: string[]; collection: string }
+  > = new Map();
+  // Broader map for backlinks — includes bookmarks/notes since they may reference posts
+  const allPostsForBacklinks: Map<
+    string,
+    { filename: string; title: string; url: string; collection: string }
   > = new Map();
 
   // Collect all posts
   Object.entries(indices).forEach(([collection, index]) => {
-    if (collection === 'bookmarks/' || collection === 'notes/' || collection === 'pages/') return;
-
     Object.entries(index).forEach(([filename, postMeta]) => {
       if (
         filename === 'index.js' ||
@@ -174,19 +177,19 @@ async function buildFooter(file: VFile) {
         return;
 
       const fullId = collection + filename;
-      allPosts.set(fullId, {
+      const entry = {
         filename,
         title: postMeta.frontmatter?.title || filename,
         url: postMeta.compiledFilename,
-        tags: postMeta.frontmatter?.tags || [],
-      });
-      // Also index by just filename for backward compatibility
-      allPosts.set(filename, {
-        filename,
-        title: postMeta.frontmatter?.title || filename,
-        url: postMeta.compiledFilename,
-        tags: postMeta.frontmatter?.tags || [],
-      });
+        collection,
+      };
+      allPostsForBacklinks.set(fullId, entry);
+      allPostsForBacklinks.set(filename, entry);
+
+      if (collection === 'bookmarks/' || collection === 'notes/' || collection === 'pages/') return;
+      const tagged = { ...entry, tags: postMeta.frontmatter?.tags || [] };
+      allPosts.set(fullId, tagged);
+      allPosts.set(filename, tagged);
     });
   });
 
@@ -255,34 +258,65 @@ async function buildFooter(file: VFile) {
     }
   }
 
+  // Resolve backlinks (posts that wiki-link TO this one)
+  const backlinkIds: string[] = [];
+  for (const candidate of [currentFileId, '/' + currentFileId]) {
+    const ids = relationships?.posts?.[candidate]?.backlinks;
+    if (ids) {
+      backlinkIds.push(...ids);
+      break;
+    }
+  }
+  const backlinks: Array<{ title: string; url: string }> = [];
+  const seenBacklinkUrls = new Set<string>();
+  for (const id of backlinkIds) {
+    const post =
+      allPostsForBacklinks.get(id) ||
+      allPostsForBacklinks.get(id.replace(/^(the-mirror-room\/|chats\/|bookmarks\/|notes\/)/, ''));
+    if (post && !seenBacklinkUrls.has(post.url)) {
+      seenBacklinkUrls.add(post.url);
+      backlinks.push({ title: post.title, url: post.url });
+    }
+  }
+
+  // Hide backlinked posts from the "Related" list to avoid duplication
+  const dedupedRelated = relatedPosts.filter((p) => !seenBacklinkUrls.has(p.url));
+
   if (
-    relatedPosts.length === 0 &&
+    backlinks.length === 0 &&
+    dedupedRelated.length === 0 &&
     currentTags.length === 0 &&
     relatedFilenames.length === 0
   ) {
     return null;
   }
 
-  if (relatedPosts.length === 0) {
-    return (
-      <div class="container related-section">
-        <a href="/graph.html" class="view-graph-link">
-          View Content Graph →
-        </a>
-      </div>
-    );
-  }
-
   return (
     <div class="container related-section">
-      <h3 class="related-title">Related Posts</h3>
-      <ul class="related-posts-list">
-        {relatedPosts.map((post) => (
-          <li>
-            <a href={'/' + post.url}>{post.title}</a>
-          </li>
-        ))}
-      </ul>
+      {backlinks.length > 0 ? (
+        <>
+          <h3 class="related-title">Referenced by</h3>
+          <ul class="related-posts-list backlinks-list">
+            {backlinks.map((post) => (
+              <li>
+                <a href={'/' + post.url}>{post.title}</a>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+      {dedupedRelated.length > 0 ? (
+        <>
+          <h3 class="related-title">Related Posts</h3>
+          <ul class="related-posts-list">
+            {dedupedRelated.map((post) => (
+              <li>
+                <a href={'/' + post.url}>{post.title}</a>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
       <a href="/graph.html" class="view-graph-link">
         View Content Graph →
       </a>
