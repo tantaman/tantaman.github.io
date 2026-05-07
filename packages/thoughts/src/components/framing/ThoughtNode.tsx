@@ -28,6 +28,7 @@ export const ThoughtNode = memo(function ThoughtNode({
 }: NodeProps<ThoughtNodeType>) {
   const { secret } = useContext(AuthContext);
   const [busy, setBusy] = useState<PillKind | null>(null);
+  const [pucked, setPucked] = useState(false);
   const body = data.body.length > 500 ? data.body.slice(0, 500) + '…' : data.body;
   const html = renderMarkdown(body);
   const replyCount = data.replyCount ?? 0;
@@ -49,9 +50,24 @@ export const ThoughtNode = memo(function ThoughtNode({
 
   const stop = (e: React.MouseEvent) => e.stopPropagation();
 
+  const className = `framing-thought-node${pucked ? ' framing-thought-node--pucked' : ''}`;
+  const style: React.CSSProperties | undefined = data.color
+    ? pucked
+      ? { backgroundColor: data.color, borderColor: data.color }
+      : { backgroundColor: data.color + '14', borderLeft: `3px solid ${data.color}` }
+    : undefined;
+
   return (
-    <div className="framing-thought-node" style={data.color ? { backgroundColor: data.color + '14' } : undefined}>
-      {secret && data.onRemove && (
+    <div className={className} style={style}>
+      <button
+        className="framing-node-puck-toggle"
+        onClick={(e) => { e.stopPropagation(); setPucked((p) => !p); }}
+        onMouseDown={stop}
+        title={pucked ? 'Expand' : 'Collapse to puck'}
+      >
+        {pucked ? '⤢' : '◌'}
+      </button>
+      {secret && data.onRemove && !pucked && (
         <button
           className="framing-node-remove"
           onClick={(e) => {
@@ -67,7 +83,7 @@ export const ThoughtNode = memo(function ThoughtNode({
         className="thought-body thought-body--md framing-node-body"
         dangerouslySetInnerHTML={{ __html: html }}
       />
-      {replyCount > 0 && (
+      {!pucked && replyCount > 0 && (
         <button
           className="framing-node-expand framing-node-expand-replies"
           onClick={(e) => { e.stopPropagation(); runExpand('replies', data.onExpandReplies); }}
@@ -78,7 +94,7 @@ export const ThoughtNode = memo(function ThoughtNode({
           {busy === 'replies' ? '…' : '↓'} {replyCount}
         </button>
       )}
-      {backlinkCount > 0 && (
+      {!pucked && backlinkCount > 0 && (
         <button
           className="framing-node-expand framing-node-expand-backlinks"
           onClick={(e) => { e.stopPropagation(); runExpand('backlinks', data.onExpandBacklinks); }}
@@ -89,7 +105,7 @@ export const ThoughtNode = memo(function ThoughtNode({
           {busy === 'backlinks' ? '…' : '←'} {backlinkCount}
         </button>
       )}
-      {linkCount > 0 && (
+      {!pucked && linkCount > 0 && (
         <button
           className="framing-node-expand framing-node-expand-links"
           onClick={(e) => { e.stopPropagation(); runExpand('links', data.onExpandLinks); }}
