@@ -207,6 +207,7 @@ export interface FramingThoughtNode extends FramingNodeBase {
   body: string;
   timestamp: number;
   color: string | null;
+  reply_count: number;
 }
 
 export interface FramingPostNode extends FramingNodeBase {

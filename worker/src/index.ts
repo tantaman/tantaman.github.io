@@ -1872,7 +1872,11 @@ api.get("/framings/:id", async (c) => {
 
   const nodes = await c.env.DB.prepare(
     `SELECT fn.id, fn.node_type, fn.item_id, fn.x, fn.y, fn.w, fn.h,
-            t.body, t.timestamp, t.color
+            t.body, t.timestamp, t.color,
+            CASE WHEN fn.node_type = 'thought'
+              THEN (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id AND r.private = 0)
+              ELSE NULL
+            END AS reply_count
      FROM framing_node fn
      LEFT JOIN thought t ON fn.node_type = 'thought' AND t.id = CAST(fn.item_id AS INTEGER)
      WHERE fn.framing_id = ?`
