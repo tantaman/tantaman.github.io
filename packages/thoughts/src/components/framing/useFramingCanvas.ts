@@ -83,6 +83,7 @@ function framingEdgeToRFEdge(
   e: FramingEdgeType,
   onLabelChange: (edgeDbId: number, label: string) => void,
 ): Edge<LabeledEdgeData> {
+  const isReply = e.kind === 'reply';
   return {
     id: `e-${e.id}`,
     source: String(e.source_node_id),
@@ -90,8 +91,9 @@ function framingEdgeToRFEdge(
     sourceHandle: e.source_handle ?? undefined,
     targetHandle: e.target_handle ?? undefined,
     type: 'labeled',
-    markerEnd: { type: MarkerType.ArrowClosed },
-    data: { label: e.label, edgeDbId: e.id, onLabelChange },
+    markerEnd: { type: MarkerType.ArrowClosed, color: isReply ? '#7aa2f7' : undefined },
+    style: isReply ? { stroke: '#7aa2f7' } : undefined,
+    data: { label: e.label, edgeDbId: e.id, kind: e.kind, onLabelChange },
   };
 }
 
@@ -391,6 +393,7 @@ export function useFramingCanvas(framingId: number) {
             undefined,
             'bottom-source',
             'top-target',
+            'reply',
           );
           setEdges((prev) => [...prev, framingEdgeToRFEdge(edge, handleLabelChange)]);
           existingEdgeKeys.add(edgeKey);

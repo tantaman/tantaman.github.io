@@ -1883,7 +1883,7 @@ api.get("/framings/:id", async (c) => {
   ).bind(id).all();
 
   const edges = await c.env.DB.prepare(
-    "SELECT id, source_node_id, target_node_id, label, source_handle, target_handle FROM framing_edge WHERE framing_id = ?"
+    "SELECT id, source_node_id, target_node_id, label, source_handle, target_handle, kind FROM framing_edge WHERE framing_id = ?"
   ).bind(id).all();
 
   return c.json({
@@ -2058,11 +2058,11 @@ api.post("/framings/:id/edges", async (c) => {
   }
 
   const framingId = c.req.param("id");
-  const { source_node_id, target_node_id, label, source_handle, target_handle } = CreateEdgeBody.parse(await c.req.json());
+  const { source_node_id, target_node_id, label, source_handle, target_handle, kind } = CreateEdgeBody.parse(await c.req.json());
 
   const result = await c.env.DB.prepare(
-    "INSERT INTO framing_edge (framing_id, source_node_id, target_node_id, label, source_handle, target_handle) VALUES (?, ?, ?, ?, ?, ?)"
-  ).bind(parseInt(framingId), source_node_id, target_node_id, label?.trim() || null, source_handle || null, target_handle || null).run();
+    "INSERT INTO framing_edge (framing_id, source_node_id, target_node_id, label, source_handle, target_handle, kind) VALUES (?, ?, ?, ?, ?, ?, ?)"
+  ).bind(parseInt(framingId), source_node_id, target_node_id, label?.trim() || null, source_handle || null, target_handle || null, kind || null).run();
 
   return c.json({
     id: result.meta.last_row_id,
@@ -2072,6 +2072,7 @@ api.post("/framings/:id/edges", async (c) => {
     label: label?.trim() || null,
     source_handle: source_handle || null,
     target_handle: target_handle || null,
+    kind: kind || null,
   }, 201);
 });
 
@@ -2094,7 +2095,7 @@ api.patch("/framings/:id/edges/:edgeId", async (c) => {
   }
 
   const edge = await c.env.DB.prepare(
-    "SELECT id, framing_id, source_node_id, target_node_id, label, source_handle, target_handle FROM framing_edge WHERE id = ?"
+    "SELECT id, framing_id, source_node_id, target_node_id, label, source_handle, target_handle, kind FROM framing_edge WHERE id = ?"
   ).bind(edgeId).first();
 
   return c.json(edge);

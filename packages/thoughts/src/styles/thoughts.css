@@ -2094,6 +2094,15 @@ input[type="checkbox"]:disabled {
   border-color: var(--accent);
 }
 
+.framing-edge-label.reply {
+  border-color: #7aa2f7;
+  color: #7aa2f7;
+}
+
+.framing-edge-label.hidden {
+  display: none;
+}
+
 .framing-edge-label-text {
   user-select: none;
 }

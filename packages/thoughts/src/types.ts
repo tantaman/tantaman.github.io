@@ -226,6 +226,7 @@ export interface FramingEdge {
   label: string | null;
   source_handle: string | null;
   target_handle: string | null;
+  kind: string | null;
 }
 
 export interface FramingDetail {

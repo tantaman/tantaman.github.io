@@ -56,6 +56,7 @@ export const CreateEdgeBody = z.object({
   label: z.string().optional(),
   source_handle: z.string().nullable().optional(),
   target_handle: z.string().nullable().optional(),
+  kind: z.string().nullable().optional(),
 });
 
 // PATCH /framings/:id/edges/:edgeId

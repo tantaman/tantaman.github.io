@@ -11,6 +11,7 @@ import { AuthContext } from '../../App';
 export type LabeledEdgeData = {
   label: string | null;
   edgeDbId: number;
+  kind?: string | null;
   onLabelChange?: (edgeDbId: number, label: string) => void;
 };
 
@@ -27,6 +28,7 @@ export function LabeledEdge({
   data,
   selected,
   markerEnd,
+  style,
 }: EdgeProps<LabeledEdgeType>) {
   const { secret } = useContext(AuthContext);
   const [editing, setEditing] = useState(false);
@@ -48,12 +50,17 @@ export function LabeledEdge({
     }
   }, [data, value]);
 
+  const isReply = data?.kind === 'reply';
+  const hasLabel = !!data?.label;
+  // Hide the empty label pill on reply edges; show on hover/edit/selected only.
+  const showLabelBox = editing || selected || hasLabel || !isReply;
+
   return (
     <>
-      <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} />
+      <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} style={style} />
       <EdgeLabelRenderer>
         <div
-          className={`framing-edge-label${selected ? ' selected' : ''}`}
+          className={`framing-edge-label${selected ? ' selected' : ''}${isReply ? ' reply' : ''}${showLabelBox ? '' : ' hidden'}`}
           style={{
             position: 'absolute',
             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,

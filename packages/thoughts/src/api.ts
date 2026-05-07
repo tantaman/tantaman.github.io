@@ -526,6 +526,7 @@ export async function createFramingEdge(
   label?: string,
   sourceHandle?: string | null,
   targetHandle?: string | null,
+  kind?: string | null,
 ): Promise<FramingEdge> {
   const r = await fetch(`${API}/framings/${framingId}/edges`, {
     method: 'POST',
@@ -539,6 +540,7 @@ export async function createFramingEdge(
       label,
       source_handle: sourceHandle ?? null,
       target_handle: targetHandle ?? null,
+      kind: kind ?? null,
     }),
   });
   if (r.status === 401) throw new Error('Unauthorized');
