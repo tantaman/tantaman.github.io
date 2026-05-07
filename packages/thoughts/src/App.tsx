@@ -17,6 +17,7 @@ import { LocationsView } from './components/LocationsView';
 import { MediaView } from './components/MediaView';
 import { MoviesView } from './components/MoviesView';
 import { BooksView } from './components/BooksView';
+import { MusicView } from './components/MusicView';
 import { BookmarksView } from './components/BookmarksView';
 import { AmplificationsView } from './components/AmplificationsView';
 import { CaptureView } from './components/CaptureView';
@@ -69,6 +70,7 @@ function parseHash(): Route {
   if (hash === '#media') return { view: 'media' };
   if (hash === '#movies') return { view: 'movies' };
   if (hash === '#books') return { view: 'books' };
+  if (hash === '#music') return { view: 'music' };
   if (hash === '#bookmarks') return { view: 'bookmarks' };
   if (hash === '#amplifications') return { view: 'amplifications' };
   if (hash === '#browse') return { view: 'browse' };
@@ -141,6 +143,8 @@ export function App() {
             <BrowseView />
           ) : route.view === 'books' ? (
             <BooksView />
+          ) : route.view === 'music' ? (
+            <MusicView />
           ) : route.view === 'locations' ? (
             <LocationsView />
           ) : route.view === 'events' ? (

@@ -186,6 +186,15 @@ export const UpdateBookBody = z.object({
   { message: "Must provide title or ol_key" },
 );
 
+// PATCH /albums/:id
+export const UpdateAlbumBody = z.object({
+  title: z.string().trim().min(1).optional(),
+  itunes_id: z.number().int().positive().optional(),
+}).refine(
+  (data) => data.title !== undefined || data.itunes_id !== undefined,
+  { message: "Must provide title or itunes_id" },
+);
+
 // --- Lists ---
 
 // POST /lists

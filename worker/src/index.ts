@@ -8,6 +8,8 @@ import { extractTasks } from "./tasks";
 import { extractLocations, geocodeLocation } from "./locations";
 import { extractMovies, normalizeMovieTitle } from "./movies";
 import { lookupMovie, fetchMovieById } from "./tmdb";
+import { lookupAlbum, fetchAlbumById } from "./itunes";
+import { extractAlbums, normalizeAlbumTitle } from "./albums";
 import { extractBooks } from "./books";
 import { extractQuestions } from "./questions";
 import { lookupBook, fetchBookByKey } from "./openlibrary";
@@ -47,6 +49,7 @@ import {
   CreateCommentBody,
   UpdateMovieBody,
   UpdateBookBody,
+  UpdateAlbumBody,
   UpdateQuestionBody,
   CreateCanvasBody,
   UpdateCanvasBody,
@@ -831,6 +834,29 @@ api.post("/thoughts", async (c) => {
     ).bind(thoughtId, book.title, book.description, meta?.coverUrl ?? null, meta?.author ?? null, meta?.year ?? null, meta?.olKey ?? null, timestamp).run();
   }
 
+  const albums = extractAlbums(trimmed);
+  for (const album of albums) {
+    const normalized = normalizeAlbumTitle(album.title);
+    const existing = await c.env.DB.prepare(
+      "SELECT id FROM album WHERE normalized_title = ?"
+    ).bind(normalized).first<{ id: number }>();
+
+    let albumId: number;
+    if (existing) {
+      albumId = existing.id;
+    } else {
+      const meta = await lookupAlbum(album.title);
+      const result = await c.env.DB.prepare(
+        "INSERT INTO album (title, normalized_title, artist, year, cover_url, itunes_id, genre, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+      ).bind(album.title, normalized, meta?.artist ?? null, meta?.year ?? null, meta?.coverUrl ?? null, meta?.itunesId ?? null, meta?.genre ?? null, timestamp).run();
+      albumId = result.meta.last_row_id as number;
+    }
+
+    await c.env.DB.prepare(
+      "INSERT OR IGNORE INTO thought_album (thought_id, album_id, description, created_at) VALUES (?, ?, ?, ?)"
+    ).bind(thoughtId, albumId, album.description, timestamp).run();
+  }
+
   const questions = extractQuestions(trimmed);
   for (const question of questions) {
     await c.env.DB.prepare(
@@ -1406,6 +1432,82 @@ api.patch("/books/:id", async (c) => {
     `SELECT b.id, b.thought_id, b.title, b.description, b.cover_url, b.author, b.year, b.ol_key, b.created_at,
       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = b.thought_id AND r.private = 0) AS reply_count
     FROM book b WHERE b.id = ?`
+  ).bind(id).first();
+
+  return c.json(row);
+});
+
+// --- Albums ---
+
+const ALBUM_SELECT = `
+  SELECT a.id, a.title, a.artist, a.year, a.cover_url, a.itunes_id, a.genre, a.created_at,
+    agg.mention_count, agg.thought_id,
+    (SELECT COUNT(*) FROM thought r WHERE r.parent_id = agg.thought_id AND r.private = 0) AS reply_count
+  FROM album a
+  JOIN (
+    SELECT ta.album_id,
+      COUNT(DISTINCT ta.thought_id) AS mention_count,
+      MIN(ta.thought_id) AS thought_id
+    FROM thought_album ta
+    GROUP BY ta.album_id
+  ) agg ON agg.album_id = a.id
+`;
+
+api.get("/albums", async (c) => {
+  const thoughtId = c.req.query("thought_id");
+
+  let query = ALBUM_SELECT;
+  const bindings: (string | number)[] = [];
+
+  if (thoughtId) {
+    query += " WHERE a.id IN (SELECT album_id FROM thought_album WHERE thought_id = ?)";
+    bindings.push(parseInt(thoughtId, 10));
+  }
+
+  query += " ORDER BY a.created_at DESC";
+
+  const results = await c.env.DB.prepare(query).bind(...bindings).all();
+  return c.json({ albums: results.results });
+});
+
+api.post("/albums/backfill", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+
+  const rows = await c.env.DB.prepare(
+    "SELECT id, title FROM album WHERE cover_url IS NULL"
+  ).all();
+
+  let updated = 0;
+  for (const row of rows.results) {
+    const meta = await lookupAlbum(row.title as string);
+    if (meta) {
+      await c.env.DB.prepare(
+        "UPDATE album SET artist = ?, year = ?, cover_url = ?, itunes_id = ?, genre = ? WHERE id = ?"
+      ).bind(meta.artist, meta.year, meta.coverUrl, meta.itunesId, meta.genre, row.id).run();
+      updated++;
+    }
+  }
+
+  return c.json({ backfilled: updated, total: rows.results.length });
+});
+
+api.patch("/albums/:id", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+
+  const id = parseInt(c.req.param("id"), 10);
+  const body = UpdateAlbumBody.parse(await c.req.json());
+
+  const meta = body.itunes_id
+    ? await fetchAlbumById(body.itunes_id)
+    : await lookupAlbum(body.title!);
+  if (!meta) return c.json({ error: "Album not found on iTunes" }, 404);
+
+  await c.env.DB.prepare(
+    "UPDATE album SET title = ?, normalized_title = ?, artist = ?, year = ?, cover_url = ?, itunes_id = ?, genre = ? WHERE id = ?"
+  ).bind(meta.title, normalizeAlbumTitle(meta.title), meta.artist, meta.year, meta.coverUrl, meta.itunesId, meta.genre, id).run();
+
+  const row = await c.env.DB.prepare(
+    `${ALBUM_SELECT} WHERE a.id = ?`
   ).bind(id).first();
 
   return c.json(row);

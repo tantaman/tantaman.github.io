@@ -221,6 +221,7 @@ A React 19 + Vite SPA (hash-routed, built to `docs/thoughts/`) for personal micr
 - `#l <place>` — Creates a location (Leaflet map with Mapbox geocoding)
 - `#m <title>` — Logs a movie (TMDB lookup for poster/year/rating)
 - `#b <title>` — Logs a book (OpenLibrary lookup for cover/author/year)
+- `#a <title>` — Logs an album (iTunes lookup for cover/artist/year/genre)
 - Markdown links and bare URLs — Auto-extracted as bookmarks (OG metadata fetched)
 
 ### Visualization

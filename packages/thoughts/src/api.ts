@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -241,6 +241,32 @@ export async function patchBook(
   secret: string,
 ): Promise<Book> {
   const r = await fetch(`${API}/books/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
+export function getAlbums(
+  thoughtId?: number,
+): Promise<{ albums: Album[] }> {
+  let url = `${API}/albums`;
+  if (thoughtId != null) url += `?thought_id=${thoughtId}`;
+  return fetch(url).then((r) => r.json());
+}
+
+export async function patchAlbum(
+  id: number,
+  body: { title?: string; itunes_id?: number },
+  secret: string,
+): Promise<Album> {
+  const r = await fetch(`${API}/albums/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

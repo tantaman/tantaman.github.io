@@ -26,7 +26,7 @@ export function extractQuestions(body: string): QuestionDef[] {
       current = { title: match[1].trim(), description: null };
       descLines = [];
     } else if (current) {
-      if (line.match(EVENT_RE) || line.match(/^#[tlmb]\s+/) || line.match(LOCATION_RE)) {
+      if (line.match(EVENT_RE) || line.match(/^#[tlmba]\s+/) || line.match(LOCATION_RE)) {
         current.description = descLines.join('\n').trim() || null;
         questions.push(current);
         current = null;

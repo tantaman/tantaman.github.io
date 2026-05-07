@@ -87,6 +87,21 @@ export interface Book {
   created_at: number;
 }
 
+export interface Album {
+  id: number;
+  thought_id: number;
+  title: string;
+  artist: string | null;
+  year: string | null;
+  cover_url: string | null;
+  itunes_id: number | null;
+  genre: string | null;
+  description: string | null;
+  reply_count: number;
+  mention_count: number;
+  created_at: number;
+}
+
 export interface Question {
   id: number;
   thought_id: number;
@@ -266,6 +281,7 @@ export type Route =
   | { view: 'media' }
   | { view: 'movies' }
   | { view: 'books' }
+  | { view: 'music' }
   | { view: 'bookmarks' }
   | { view: 'amplifications' }
   | { view: 'capture'; url?: string; text?: string; title?: string }

@@ -1,34 +1,36 @@
 import { EVENT_RE } from "./events";
 import { LOCATION_RE } from "./locations";
-import { MOVIE_RE } from "./movies";
-import { BOOK_RE } from "./books";
-import { QUESTION_RE } from "./questions";
-import { ALBUM_RE } from "./albums";
 
-export interface TaskDef {
+export interface AlbumDef {
   title: string;
   description: string | null;
 }
 
-export function extractTasks(body: string): TaskDef[] {
+export const ALBUM_RE = /^#a\s+(.+)/i;
+
+export function normalizeAlbumTitle(title: string): string {
+  return title.toLowerCase().trim();
+}
+
+export function extractAlbums(body: string): AlbumDef[] {
   const lines = body.split('\n');
-  const tasks: TaskDef[] = [];
-  let current: TaskDef | null = null;
+  const albums: AlbumDef[] = [];
+  let current: AlbumDef | null = null;
   let descLines: string[] = [];
 
   for (const line of lines) {
-    const match = line.match(/^#t\s+(.+)/);
+    const match = line.match(ALBUM_RE);
     if (match) {
       if (current) {
         current.description = descLines.join('\n').trim() || null;
-        tasks.push(current);
+        albums.push(current);
       }
       current = { title: match[1].trim(), description: null };
       descLines = [];
     } else if (current) {
-      if (line.match(EVENT_RE) || line.match(LOCATION_RE) || line.match(MOVIE_RE) || line.match(BOOK_RE) || line.match(QUESTION_RE) || line.match(ALBUM_RE)) {
+      if (line.match(EVENT_RE) || line.match(/^#[tlmbq]\s+/) || line.match(LOCATION_RE)) {
         current.description = descLines.join('\n').trim() || null;
-        tasks.push(current);
+        albums.push(current);
         current = null;
         descLines = [];
       } else {
@@ -39,8 +41,8 @@ export function extractTasks(body: string): TaskDef[] {
 
   if (current) {
     current.description = descLines.join('\n').trim() || null;
-    tasks.push(current);
+    albums.push(current);
   }
 
-  return tasks;
+  return albums;
 }

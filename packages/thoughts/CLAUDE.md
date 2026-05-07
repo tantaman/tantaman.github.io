@@ -17,6 +17,7 @@ Thoughts are plain text with markdown support. Special tags at the start of a li
 | `#l` | Location | `#l San Francisco` | Mapbox geocoding → lat/lng, Leaflet map |
 | `#m` | Movie | `#m The Matrix` | Media gallery |
 | `#b` | Book | `#b Gödel Escher Bach` | Media gallery |
+| `#a` | Album | `#a Kid A` | iTunes lookup → cover/artist/year |
 
 Lines following a tag are captured as its description until the next tag or end of body.
 
@@ -42,6 +43,7 @@ Hash-based client-side routing (`#tasks`, `#events`, `#thought-{id}`, etc.):
 | `#media` | Media | Lightbox gallery of attachments |
 | `#movies` | Movies | Movie list |
 | `#books` | Books | Book list |
+| `#music` | Music | Album gallery |
 | `#framings` | Framings | List of graph canvases |
 | `#framing-{id}` | Framing | Single ReactFlow canvas |
 

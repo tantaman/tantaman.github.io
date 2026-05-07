@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems } from '../api';
+import { getThread, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -52,6 +52,10 @@ export function useMovies() {
 
 export function useBooks() {
   return useSWR('books', () => getBooks());
+}
+
+export function useAlbums() {
+  return useSWR('albums', () => getAlbums());
 }
 
 export function useBookmarks() {

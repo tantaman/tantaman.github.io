@@ -272,6 +272,12 @@ interface Movie {
   year: string | null;
 }
 
+interface Album {
+  title: string;
+  artist: string | null;
+  cover_url: string | null;
+}
+
 interface Paste {
   id: string;
   title: string | null;
@@ -289,17 +295,22 @@ interface Post {
   collection: string;
 }
 
-async function fetchRecentPosts(limit: number): Promise<Post[]> {
+async function fetchPosts(limit: number, random: boolean): Promise<Post[]> {
   try {
     const res = await fetch("https://tantaman.com/posts-manifest.json", {
       cf: { cacheTtl: 300, cacheEverything: true },
     });
     if (!res.ok) return [];
     const all = (await res.json()) as Post[];
-    return all
-      .filter((p) => /^\d{4}-\d{2}-\d{2}$/.test(p.date))
-      .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, limit);
+    const dated = all.filter((p) => /^\d{4}-\d{2}-\d{2}$/.test(p.date));
+    if (random) {
+      for (let i = dated.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [dated[i], dated[j]] = [dated[j], dated[i]];
+      }
+      return dated.slice(0, limit);
+    }
+    return dated.sort((a, b) => b.date.localeCompare(a.date)).slice(0, limit);
   } catch {
     return [];
   }
@@ -308,50 +319,37 @@ async function fetchRecentPosts(limit: number): Promise<Post[]> {
 now.get("/", async (c) => {
   const db = c.env.DB;
   const nowEpoch = Math.floor(Date.now() / 1000);
+  const isRandom = c.req.query("mode") === "random";
+  const order = isRandom ? "RANDOM()" : null;
 
-  const [thoughts, tasks, events, books, movies, pastes, posts] = await Promise.all([
-    db
-      .prepare(
-        `SELECT id, body, timestamp FROM thought
-         WHERE superseded_by IS NULL AND private = 0 AND parent_id IS NULL
-         ORDER BY timestamp DESC LIMIT 10`
-      )
-      .all<Thought>(),
-    db
-      .prepare(
-        `SELECT title, created_at FROM task
-         WHERE completed_at IS NULL AND deprioritized_at IS NULL
-         ORDER BY created_at DESC LIMIT 10`
-      )
-      .all<Task>(),
-    db
-      .prepare(
-        `SELECT title, date_text, date_epoch FROM event
-         WHERE date_epoch >= ?
-         ORDER BY date_epoch ASC LIMIT 10`
-      )
-      .bind(nowEpoch)
-      .all<Event>(),
-    db
-      .prepare(
-        `SELECT title, author, cover_url FROM book
-         ORDER BY created_at DESC LIMIT 5`
-      )
-      .all<Book>(),
-    db
-      .prepare(
-        `SELECT title, poster_url, year FROM movie
-         ORDER BY created_at DESC LIMIT 5`
-      )
-      .all<Movie>(),
-    db
-      .prepare(
-        `SELECT id, title, body, language, shared_at FROM paste
-         WHERE shared = 1
-         ORDER BY shared_at DESC LIMIT 10`
-      )
-      .all<Paste>(),
-    fetchRecentPosts(6),
+  const thoughtsQ = `SELECT id, body, timestamp FROM thought
+    WHERE superseded_by IS NULL AND private = 0 AND parent_id IS NULL
+    ORDER BY ${order ?? "timestamp DESC"} LIMIT 10`;
+  const tasksQ = `SELECT title, created_at FROM task
+    WHERE deprioritized_at IS NULL${isRandom ? "" : " AND completed_at IS NULL"}
+    ORDER BY ${order ?? "created_at DESC"} LIMIT 10`;
+  const eventsQ = isRandom
+    ? `SELECT title, date_text, date_epoch FROM event ORDER BY RANDOM() LIMIT 10`
+    : `SELECT title, date_text, date_epoch FROM event WHERE date_epoch >= ? ORDER BY date_epoch ASC LIMIT 10`;
+  const booksQ = `SELECT title, author, cover_url FROM book ORDER BY ${order ?? "created_at DESC"} LIMIT 5`;
+  const moviesQ = `SELECT title, poster_url, year FROM movie ORDER BY ${order ?? "created_at DESC"} LIMIT 5`;
+  const albumsQ = `SELECT title, artist, cover_url FROM album ORDER BY ${order ?? "created_at DESC"} LIMIT 5`;
+  const pastesQ = `SELECT id, title, body, language, shared_at FROM paste
+    WHERE shared = 1 ORDER BY ${order ?? "shared_at DESC"} LIMIT 10`;
+
+  const eventsStmt = isRandom
+    ? db.prepare(eventsQ)
+    : db.prepare(eventsQ).bind(nowEpoch);
+
+  const [thoughts, tasks, events, books, movies, albums, pastes, posts] = await Promise.all([
+    db.prepare(thoughtsQ).all<Thought>(),
+    db.prepare(tasksQ).all<Task>(),
+    eventsStmt.all<Event>(),
+    db.prepare(booksQ).all<Book>(),
+    db.prepare(moviesQ).all<Movie>(),
+    db.prepare(albumsQ).all<Album>(),
+    db.prepare(pastesQ).all<Paste>(),
+    fetchPosts(6, isRandom),
   ]);
 
   const sections: string[] = [];
@@ -369,7 +367,7 @@ now.get("/", async (c) => {
       })
     );
     sections.push(`<section>
-      <h2>thinking about</h2>
+      <h2>${isRandom ? "thoughts" : "thinking about"}</h2>
       ${items.join("\n")}
     </section>`);
   }
@@ -403,7 +401,7 @@ now.get("/", async (c) => {
       )
       .join("\n");
     sections.push(`<section>
-      <h2>working on</h2>
+      <h2>${isRandom ? "tasks" : "working on"}</h2>
       <ul class="item-list">${items}</ul>
     </section>`);
   }
@@ -417,7 +415,7 @@ now.get("/", async (c) => {
       )
       .join("\n");
     sections.push(`<section>
-      <h2>upcoming</h2>
+      <h2>${isRandom ? "events" : "upcoming"}</h2>
       <ul class="item-list">${items}</ul>
     </section>`);
   }
@@ -460,6 +458,25 @@ now.get("/", async (c) => {
     </section>`);
   }
 
+  // Albums (music)
+  if (albums.results.length > 0) {
+    const items = albums.results
+      .map((a) => {
+        const img = a.cover_url
+          ? `<img src="${escapeHtml(a.cover_url)}" alt="${escapeHtml(a.title)}" loading="lazy" style="aspect-ratio:1/1">`
+          : `<div style="width:100%;aspect-ratio:1/1;background:var(--bg-soft);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--text-muted);padding:0.5rem;text-align:center">${escapeHtml(a.title)}</div>`;
+        const artist = a.artist
+          ? `<div class="media-sublabel">${escapeHtml(a.artist)}</div>`
+          : "";
+        return `<div class="media-card">${img}<div class="media-label">${escapeHtml(a.title)}</div>${artist}</div>`;
+      })
+      .join("\n");
+    sections.push(`<section>
+      <h2>listening</h2>
+      <div class="media-grid">${items}</div>
+    </section>`);
+  }
+
   // Pastes
   if (pastes.results.length > 0) {
     const items = pastes.results
@@ -480,15 +497,32 @@ now.get("/", async (c) => {
   }
 
   const updatedAt = new Date().toISOString().replace("T", " ").slice(0, 16) + " UTC";
+  const heading = isRandom ? "random" : "now";
+  const altMode = isRandom ? "now" : "random";
+  const altHref = isRandom ? "/now" : "/now?mode=random";
+  const subtitle = isRandom
+    ? "A random draw from the archive. Refresh for another."
+    : "A living snapshot of what I'm up to.";
 
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>now — tantaman</title>
-  <meta name="description" content="What Matt is up to right now.">
-  <style>${PAGE_STYLE}</style>
+  <title>${heading} — tantaman</title>
+  <meta name="description" content="${escapeHtml(subtitle)}">
+  <style>${PAGE_STYLE}
+    .mode-toggle { display: inline-flex; align-items: baseline; gap: 0.5rem; }
+    .mode-toggle .mode-alt {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .mode-toggle .mode-alt:hover { color: var(--text); }
+    .mode-toggle .mode-alt::before { content: "/ "; opacity: 0.6; }
+  </style>
   <script>${THEME_SCRIPT}</script>
 </head>
 <body>
@@ -500,8 +534,8 @@ now.get("/", async (c) => {
       <button class="theme-toggle" aria-label="Toggle theme"></button>
     </span>
   </header>
-  <h1>now</h1>
-  <p class="meta" style="margin-bottom:2.5rem">A living snapshot of what I'm up to.</p>
+  <h1 class="mode-toggle">${heading}<a class="mode-alt" href="${altHref}">${altMode}</a></h1>
+  <p class="meta" style="margin-bottom:2.5rem">${escapeHtml(subtitle)}</p>
   ${sections.join("\n<hr class=\"rule\">\n")}
   <footer>
     last updated ${updatedAt} · <a href="https://tantaman.com/thoughts/">thoughts</a> · <a href="/paste">paste</a> · <a href="https://tantaman.com">tantaman.com</a>
@@ -510,6 +544,6 @@ now.get("/", async (c) => {
 </html>`;
 
   return c.html(html, 200, {
-    "Cache-Control": "public, max-age=300",
+    "Cache-Control": isRandom ? "no-store" : "public, max-age=300",
   });
 });
