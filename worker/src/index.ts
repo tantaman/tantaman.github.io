@@ -1245,6 +1245,34 @@ api.post("/locations/:id/geocode", async (c) => {
   });
 });
 
+api.post("/locations/regeocode", async (c) => {
+  const auth = c.req.header("Authorization");
+  if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+
+  const rows = await c.env.DB.prepare(
+    "SELECT id, title FROM location WHERE lat IS NULL"
+  ).all<{ id: number; title: string }>();
+
+  const results: Array<{ id: number; title: string; resolved: boolean }> = [];
+  for (const row of rows.results) {
+    const geo = await geocodeLocation(row.title, c.env.MAPBOX_TOKEN);
+    if (geo) {
+      await c.env.DB.prepare(
+        "UPDATE location SET lat = ?, lng = ?, resolved_name = ? WHERE id = ?"
+      ).bind(geo.lat, geo.lng, geo.resolvedName, row.id).run();
+    }
+    results.push({ id: row.id, title: row.title, resolved: !!geo });
+  }
+
+  return c.json({
+    total: rows.results.length,
+    resolved: results.filter((r) => r.resolved).length,
+    results,
+  });
+});
+
 // --- Movies ---
 
 const MOVIE_SELECT = `
