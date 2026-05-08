@@ -3442,67 +3442,73 @@ a.movie-title:hover {
   color: #d9534f;
 }
 
-/* Document edit view */
+/* Document edit view — Notion-style: full canvas, minimal sticky chrome,
+   centered content column, title is the first H1 inside the editor. */
 .document-edit {
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-height: 100vh;
   color: var(--text);
+  background: var(--bg);
 }
 
 .document-topbar {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter: saturate(140%) blur(8px);
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
 }
 
 .document-topbar-back {
   color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  transition: opacity 0.15s, color 0.15s;
 }
 
 .document-topbar-back:hover {
   color: var(--text);
+  opacity: 1;
 }
 
-.document-title-input {
-  flex: 1;
-  min-width: 200px;
-  padding: 0.4rem 0.6rem;
-  background: var(--bg-soft);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
+.document-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .document-private-toggle {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   cursor: pointer;
   user-select: none;
 }
 
 .document-save-btn {
-  padding: 0.4rem 1rem;
-  background: var(--accent);
-  color: var(--bg);
-  border: none;
-  border-radius: 4px;
+  padding: 0.35rem 0.9rem;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.document-save-btn:hover:not(:disabled) {
+  border-color: var(--text-muted);
+  background: var(--bg-soft);
 }
 
 .document-save-btn:disabled {
@@ -3511,14 +3517,55 @@ a.movie-title:hover {
 }
 
 .document-save-status {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
+  font-style: italic;
 }
 
 .document-editor-surface {
-  flex: 1;
-  max-width: 68ch;
-  margin: 0 auto;
   width: 100%;
-  padding: 1.5rem 1rem 4rem;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 5rem 4rem 8rem;
+}
+
+@media (max-width: 720px) {
+  .document-editor-surface {
+    padding: 3rem 1.25rem 5rem;
+  }
+}
+
+/* Title-feel for the first H1 in a document. */
+.document-editor-surface .tiptap h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.25rem;
+}
+
+.document-editor-surface .tiptap h2 {
+  font-size: 1.65rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+.document-editor-surface .tiptap h3 {
+  font-size: 1.3rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.document-editor-surface .tiptap p {
+  margin: 0.4rem 0;
+}
+
+.document-editor-surface .tiptap {
+  min-height: 60vh;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+/* Notion-like soft placeholder rendering. */
+.document-editor-surface .tiptap .is-empty::before {
+  color: var(--text-muted);
+  opacity: 0.45;
 }

@@ -12,10 +12,19 @@ import { common, createLowlight } from 'lowlight';
 
 const lowlight = createLowlight(common);
 
+export type PlaceholderResolver = (args: {
+  editor: Editor;
+  node: any;
+  pos: number;
+  hasAnchor: boolean;
+}) => string;
+
 export interface UseMarkdownEditorOptions {
-  placeholder?: string;
+  placeholder?: string | PlaceholderResolver;
   autofocus?: boolean | 'start' | 'end' | 'all' | number;
   spellcheck?: boolean;
+  /** Apply per-node placeholders (placeholder shows for any empty top-level node, not just the current one). */
+  placeholderShowOnAllEmpty?: boolean;
 }
 
 /**
@@ -24,12 +33,21 @@ export interface UseMarkdownEditorOptions {
  * highlighting, links, images, task lists, placeholder).
  */
 export function useMarkdownEditor(opts: UseMarkdownEditorOptions = {}): Editor | null {
-  const { placeholder = 'Start writing... (type / for commands)', autofocus, spellcheck = true } = opts;
+  const {
+    placeholder = 'Start writing... (type / for commands)',
+    autofocus,
+    spellcheck = true,
+    placeholderShowOnAllEmpty,
+  } = opts;
   return useEditor({
     autofocus: autofocus ?? false,
     extensions: [
       StarterKit.configure({ codeBlock: false }),
-      Placeholder.configure({ placeholder }),
+      Placeholder.configure({
+        placeholder: placeholder as any,
+        showOnlyCurrent: !placeholderShowOnAllEmpty,
+        includeChildren: !!placeholderShowOnAllEmpty,
+      }),
       Link.configure({ openOnClick: false }),
       Image,
       TaskList,
