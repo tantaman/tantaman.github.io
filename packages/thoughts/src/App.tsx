@@ -11,6 +11,8 @@ import { EventsView } from './components/EventsView';
 import { SecretToggle } from './components/SecretToggle';
 import { FramingsListView } from './components/FramingsListView';
 import { CanvasesListView } from './components/CanvasesListView';
+import { DocumentsListView } from './components/DocumentsListView';
+import { DocumentEditView } from './components/DocumentEditView';
 import { FramingCanvasView } from './components/framing/FramingCanvasView';
 const TldrawCanvasView = React.lazy(() => import('./components/TldrawCanvasView').then(m => ({ default: m.TldrawCanvasView })));
 import { LocationsView } from './components/LocationsView';
@@ -58,6 +60,10 @@ function parseHash(): Route {
     }
   }
   const hash = location.hash;
+  if (hash === '#documents') return { view: 'documents' };
+  if (hash === '#document-new') return { view: 'document-new' };
+  const documentMatch = hash.match(/^#document-(\d+)$/);
+  if (documentMatch) return { view: 'document', id: parseInt(documentMatch[1], 10) };
   if (hash === '#tasks') return { view: 'tasks' };
   if (hash === '#questions') return { view: 'questions' };
   if (hash === '#events') return { view: 'events' };
@@ -119,6 +125,12 @@ export function App() {
         <Layout route={route} selectedTags={selectedTags} toggleTag={toggleTag} selectedFraming={selectedFraming} selectFraming={selectFraming}>
           {route.view === 'graph' ? (
             <ThoughtGraph />
+          ) : route.view === 'documents' ? (
+            <DocumentsListView />
+          ) : route.view === 'document' ? (
+            <DocumentEditView id={route.id} />
+          ) : route.view === 'document-new' ? (
+            <DocumentEditView />
           ) : route.view === 'canvas' ? (
             <React.Suspense fallback={<div className="thought-loading">Loading…</div>}>
               <TldrawCanvasView id={route.id} />

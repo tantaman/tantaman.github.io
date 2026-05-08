@@ -22,6 +22,7 @@ import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings, upsertPaste
 import { hashBody, attachDuplicateIds } from "./body-hash";
 import { dha } from "./dha";
 import { posts } from "./posts";
+import { documents } from "./documents";
 import { comments } from "./comments";
 import { igCard } from "./ig-card";
 import { paste } from "./paste";
@@ -2250,6 +2251,7 @@ api.get("/attachments/*", async (c) => {
 
 api.route("/dha", dha);
 api.route("/posts", posts);
+api.route("/documents", documents);
 api.route("/comments", comments);
 api.route("/ig-card", igCard);
 api.route("/lists", lists);

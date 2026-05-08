@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem, RelatedResponse, Ancestor } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, Canvas, CanvasDetail, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem, RelatedResponse, Ancestor, Document, DocumentSummary } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -664,4 +664,55 @@ export async function getPostsManifest(): Promise<PostSummary[]> {
   const data = await r.json() as PostSummary[];
   postsManifestCache = data;
   return data;
+}
+
+// --- Documents API ---
+
+export function getDocuments(secret?: string): Promise<{ documents: DocumentSummary[] }> {
+  return fetch(`${API}/documents`, { headers: authHeaders(secret) }).then((r) => r.json());
+}
+
+export function getDocument(id: number, secret?: string): Promise<Document> {
+  return fetch(`${API}/documents/${id}`, { headers: authHeaders(secret) }).then((r) => {
+    if (!r.ok) throw new Error('not found');
+    return r.json();
+  });
+}
+
+export async function createDocument(
+  data: { title: string; body?: string; private?: boolean },
+  secret: string,
+): Promise<Document> {
+  const r = await fetch(`${API}/documents`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify(data),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Create failed');
+  return r.json();
+}
+
+export async function updateDocument(
+  id: number,
+  updates: { title?: string; body?: string; private?: boolean },
+  secret: string,
+): Promise<Document> {
+  const r = await fetch(`${API}/documents/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify(updates),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
+export async function deleteDocument(id: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/documents/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Delete failed');
 }

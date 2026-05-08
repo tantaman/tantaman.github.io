@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems } from '../api';
+import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems, getDocuments, getDocument } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -86,6 +86,16 @@ export function useCanvases() {
 
 export function useCanvas(id: number) {
   return useSWR(`canvas-${id}`, () => getCanvas(id));
+}
+
+export function useDocuments(secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  return useSWR(`documents-${authKey}`, () => getDocuments(secret || undefined));
+}
+
+export function useDocument(id: number, secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  return useSWR(`document-${id}-${authKey}`, () => getDocument(id, secret || undefined));
 }
 
 export function useThoughtGraph(secret?: string | null) {

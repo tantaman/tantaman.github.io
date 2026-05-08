@@ -289,53 +289,7 @@ importers:
         specifier: ^7.2.4
         version: 7.3.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0)
 
-  packages/facets:
-    dependencies:
-      esbuild:
-        specifier: ^0.14.38
-        version: 0.14.54
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-
-  packages/frontend:
-    devDependencies:
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.2.2
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.2.2(@types/react@19.2.2)
-
-  packages/lists:
-    dependencies:
-      react:
-        specifier: ^19.1.0
-        version: 19.2.4
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.2.4(react@19.2.4)
-      swr:
-        specifier: ^2.4.0
-        version: 2.4.0(react@19.2.4)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.1.8
-        version: 19.2.14
-      '@types/react-dom':
-        specifier: ^19.1.6
-        version: 19.2.3(@types/react@19.2.14)
-      '@vitejs/plugin-react':
-        specifier: ^4.5.2
-        version: 4.7.0(vite@6.4.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0))
-      typescript:
-        specifier: ^5.8.3
-        version: 5.9.3
-      vite:
-        specifier: ^6.3.5
-        version: 6.4.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0)
-
-  packages/posts:
+  packages/editor:
     dependencies:
       '@tiptap/core':
         specifier: ^2.12.0
@@ -389,6 +343,80 @@ importers:
       '@types/react-dom':
         specifier: ^19.1.6
         version: 19.2.3(@types/react@19.2.14)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+
+  packages/facets:
+    dependencies:
+      esbuild:
+        specifier: ^0.14.38
+        version: 0.14.54
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/frontend:
+    devDependencies:
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.2.2
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.2.2(@types/react@19.2.2)
+
+  packages/lists:
+    dependencies:
+      react:
+        specifier: ^19.1.0
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.2.4(react@19.2.4)
+      swr:
+        specifier: ^2.4.0
+        version: 2.4.0(react@19.2.4)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.2.3(@types/react@19.2.14)
+      '@vitejs/plugin-react':
+        specifier: ^4.5.2
+        version: 4.7.0(vite@6.4.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0))
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      vite:
+        specifier: ^6.3.5
+        version: 6.4.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0)
+
+  packages/posts:
+    dependencies:
+      '@tantaman/editor':
+        specifier: workspace:*
+        version: link:../editor
+      '@tiptap/core':
+        specifier: ^2.12.0
+        version: 2.27.2(@tiptap/pm@3.20.4)
+      '@tiptap/react':
+        specifier: ^2.12.0
+        version: 2.27.2(@tiptap/core@2.27.2(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react:
+        specifier: ^19.1.0
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.2.4(react@19.2.4)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.1.8
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.1.6
+        version: 19.2.3(@types/react@19.2.14)
       '@vitejs/plugin-react':
         specifier: ^4.5.2
         version: 4.7.0(vite@6.4.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.0))
@@ -410,6 +438,15 @@ importers:
 
   packages/thoughts:
     dependencies:
+      '@tantaman/editor':
+        specifier: workspace:*
+        version: link:../editor
+      '@tiptap/core':
+        specifier: ^2.12.0
+        version: 2.27.2(@tiptap/pm@3.20.4)
+      '@tiptap/react':
+        specifier: ^2.12.0
+        version: 2.27.2(@tiptap/core@2.27.2(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@xyflow/react':
         specifier: ^12.10.1
         version: 12.10.1(@types/react@19.2.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -8200,6 +8237,10 @@ snapshots:
     dependencies:
       '@tiptap/pm': 2.27.2
 
+  '@tiptap/core@2.27.2(@tiptap/pm@3.20.4)':
+    dependencies:
+      '@tiptap/pm': 3.20.4
+
   '@tiptap/core@3.20.4(@tiptap/pm@3.20.4)':
     dependencies:
       '@tiptap/pm': 3.20.4
@@ -8224,6 +8265,12 @@ snapshots:
     dependencies:
       '@tiptap/core': 2.27.2(@tiptap/pm@2.27.2)
       '@tiptap/pm': 2.27.2
+      tippy.js: 6.3.7
+
+  '@tiptap/extension-bubble-menu@2.27.2(@tiptap/core@2.27.2(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)':
+    dependencies:
+      '@tiptap/core': 2.27.2(@tiptap/pm@3.20.4)
+      '@tiptap/pm': 3.20.4
       tippy.js: 6.3.7
 
   '@tiptap/extension-bubble-menu@3.20.4(@tiptap/core@3.20.4(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)':
@@ -8293,6 +8340,12 @@ snapshots:
     dependencies:
       '@tiptap/core': 2.27.2(@tiptap/pm@2.27.2)
       '@tiptap/pm': 2.27.2
+      tippy.js: 6.3.7
+
+  '@tiptap/extension-floating-menu@2.27.2(@tiptap/core@2.27.2(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)':
+    dependencies:
+      '@tiptap/core': 2.27.2(@tiptap/pm@3.20.4)
+      '@tiptap/pm': 3.20.4
       tippy.js: 6.3.7
 
   '@tiptap/extension-floating-menu@3.20.4(@floating-ui/dom@1.7.6)(@tiptap/core@3.20.4(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)':
@@ -8494,6 +8547,18 @@ snapshots:
       '@tiptap/extension-bubble-menu': 2.27.2(@tiptap/core@2.27.2(@tiptap/pm@2.27.2))(@tiptap/pm@2.27.2)
       '@tiptap/extension-floating-menu': 2.27.2(@tiptap/core@2.27.2(@tiptap/pm@2.27.2))(@tiptap/pm@2.27.2)
       '@tiptap/pm': 2.27.2
+      '@types/use-sync-external-store': 0.0.6
+      fast-deep-equal: 3.1.3
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+      use-sync-external-store: 1.6.0(react@19.2.4)
+
+  '@tiptap/react@2.27.2(@tiptap/core@2.27.2(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+    dependencies:
+      '@tiptap/core': 2.27.2(@tiptap/pm@3.20.4)
+      '@tiptap/extension-bubble-menu': 2.27.2(@tiptap/core@2.27.2(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)
+      '@tiptap/extension-floating-menu': 2.27.2(@tiptap/core@2.27.2(@tiptap/pm@3.20.4))(@tiptap/pm@3.20.4)
+      '@tiptap/pm': 3.20.4
       '@types/use-sync-external-store': 0.0.6
       fast-deep-equal: 3.1.3
       react: 19.2.4

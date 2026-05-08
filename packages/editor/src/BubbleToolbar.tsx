@@ -4,7 +4,7 @@ import type { Editor } from '@tiptap/core';
 export function BubbleToolbar({ editor }: { editor: Editor }) {
   return (
     <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-      <div className="pe-bubble-toolbar">
+      <div className="md-bubble-toolbar">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={editor.isActive('bold') ? 'is-active' : ''}

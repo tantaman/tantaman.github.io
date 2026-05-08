@@ -244,6 +244,18 @@ export interface Canvas {
   updated_at: number;
 }
 
+export interface DocumentSummary {
+  id: number;
+  title: string;
+  private: boolean;
+  created_at: number;
+  updated_at: number;
+}
+
+export interface Document extends DocumentSummary {
+  body: string;
+}
+
 export interface CanvasDetail extends Canvas {
   snapshot: string;
 }
@@ -319,4 +331,7 @@ export type Route =
   | { view: 'questions' }
   | { view: 'canvases' }
   | { view: 'canvas'; id: number }
+  | { view: 'documents' }
+  | { view: 'document'; id: number }
+  | { view: 'document-new' }
   | { view: 'graph' };

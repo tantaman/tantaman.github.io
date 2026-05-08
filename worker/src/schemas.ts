@@ -150,6 +150,22 @@ export const UpdatePostBody = z.object({
   status: z.enum(["draft", "published"]).optional(),
 });
 
+// --- Documents ---
+
+// POST /documents
+export const CreateDocumentBody = z.object({
+  title: z.string().trim().min(1),
+  body: z.string().optional(),
+  private: z.boolean().optional(),
+});
+
+// PATCH /documents/:id
+export const UpdateDocumentBody = z.object({
+  title: z.string().trim().min(1).optional(),
+  body: z.string().optional(),
+  private: z.boolean().optional(),
+});
+
 // --- Comments ---
 
 // POST /comments/:slug/like

@@ -111,7 +111,6 @@ export function useSlashMenu(editor: Editor | null) {
 
       if (event.key === 'Enter') {
         if (filtered[selectedIndex]) {
-          // Delete the slash and query text
           const { from } = editor.state.selection;
           const slashPos = from - query.length - 1;
           editor.chain().deleteRange({ from: slashPos, to: from }).run();
@@ -138,11 +137,9 @@ export function useSlashMenu(editor: Editor | null) {
       }
     };
 
-    // Listen for the '/' key to open the menu
     const handleSlash = ({ editor: ed }: { editor: Editor }) => {
       const { $from } = ed.state.selection;
       const textBefore = $from.parent.textContent.slice(0, $from.parentOffset);
-      // Open only if '/' is typed at start of line or after a space
       if (textBefore.endsWith('/') && (textBefore.length === 1 || textBefore.at(-2) === ' ')) {
         const coords = ed.view.coordsAtPos(ed.state.selection.from);
         setPosition({ top: coords.bottom + 4, left: coords.left });
@@ -161,7 +158,6 @@ export function useSlashMenu(editor: Editor | null) {
     };
   }, [editor, open, query, selectedIndex, filtered, close]);
 
-  // Close on click outside
   useEffect(() => {
     if (!open) return;
     const handler = () => close();
@@ -213,7 +209,7 @@ export function SlashMenu({
   return (
     <div
       ref={menuRef}
-      className="pe-slash-menu"
+      className="md-slash-menu"
       style={{
         position: 'fixed',
         top: position.top,
@@ -229,7 +225,7 @@ export function SlashMenu({
             select(item);
           }}
         >
-          <span className="pe-slash-icon">{item.icon}</span>
+          <span className="md-slash-icon">{item.icon}</span>
           {item.label}
         </button>
       ))}

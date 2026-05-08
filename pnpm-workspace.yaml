@@ -2,6 +2,7 @@ packages:
   - packages/facets
   - packages/compiler
   - packages/frontend
+  - packages/editor
   - packages/thoughts
   - packages/lists
   - packages/comments

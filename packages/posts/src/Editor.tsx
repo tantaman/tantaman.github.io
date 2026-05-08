@@ -5,23 +5,18 @@ import {
   useCallback,
   useRef,
 } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Placeholder from '@tiptap/extension-placeholder';
-import Link from '@tiptap/extension-link';
-import Image from '@tiptap/extension-image';
-import TaskList from '@tiptap/extension-task-list';
-import TaskItem from '@tiptap/extension-task-item';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import { Markdown } from 'tiptap-markdown';
-import { common, createLowlight } from 'lowlight';
+import { EditorContent } from '@tiptap/react';
+import {
+  useMarkdownEditor,
+  getMarkdown,
+  setMarkdown,
+  BubbleToolbar,
+  SlashMenu,
+  useSlashMenu,
+} from '@tantaman/editor';
 import { AuthContext } from './App';
 import { getPost, createPost, updatePost } from './api';
-import { BubbleToolbar } from './BubbleToolbar';
-import { SlashMenu, useSlashMenu } from './SlashMenu';
 import type { PostFrontmatter } from './types';
-
-const lowlight = createLowlight(common);
 
 function slugify(text: string): string {
   return text
@@ -44,34 +39,7 @@ export function Editor({ postId }: { postId?: number }) {
   const slugManuallyEdited = useRef(false);
   const loadedRef = useRef(false);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        codeBlock: false,
-      }),
-      Placeholder.configure({
-        placeholder: 'Start writing... (type / for commands)',
-      }),
-      Link.configure({
-        openOnClick: false,
-      }),
-      Image,
-      TaskList,
-      TaskItem.configure({
-        nested: true,
-      }),
-      CodeBlockLowlight.configure({
-        lowlight,
-      }),
-      Markdown,
-    ],
-    editorProps: {
-      attributes: {
-        spellcheck: 'true',
-      },
-    },
-  });
-
+  const editor = useMarkdownEditor();
   const slashMenu = useSlashMenu(editor);
 
   // Load existing post
@@ -82,9 +50,7 @@ export function Editor({ postId }: { postId?: number }) {
         const md = post.title
           ? `# ${post.title}\n\n${post.body || ''}`
           : post.body || '';
-        editor.commands.setContent(
-          editor.storage.markdown.parser.parse(md),
-        );
+        setMarkdown(editor, md);
         setSlug(post.slug);
         setStatus(post.status);
         setFrontmatter(post.frontmatter || {});
@@ -121,7 +87,7 @@ export function Editor({ postId }: { postId?: number }) {
   const handleSave = useCallback(async () => {
     if (!editor || !secret) return;
 
-    const markdown = editor.storage.markdown.getMarkdown() as string;
+    const markdown = getMarkdown(editor);
 
     // Extract title from first H1
     const titleMatch = markdown.match(/^#\s+(.+)$/m);
@@ -235,7 +201,7 @@ export function Editor({ postId }: { postId?: number }) {
         />
       )}
 
-      <div className="pe-editor-area">
+      <div className="md-editor-area pe-editor-surface">
         {editor && <BubbleToolbar editor={editor} />}
         <EditorContent editor={editor} />
         <SlashMenu {...slashMenu} />
