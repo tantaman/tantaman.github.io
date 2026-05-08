@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import { createDocument, deleteDocument } from '../api';
+import { useContext } from 'react';
+import { deleteDocument } from '../api';
 import { AuthContext } from '../App';
 import { useDocuments } from '../hooks/useCache';
 
@@ -17,24 +17,6 @@ export function DocumentsListView() {
   const documents = data?.documents ?? [];
   const loading = !data;
 
-  const [title, setTitle] = useState('');
-  const [creating, setCreating] = useState(false);
-
-  const handleCreate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!secret || !title.trim()) return;
-    setCreating(true);
-    try {
-      const doc = await createDocument({ title: title.trim() }, secret);
-      mutate();
-      setTitle('');
-      window.location.hash = `document-${doc.id}`;
-    } catch {
-      // ignore
-    }
-    setCreating(false);
-  };
-
   const handleDelete = async (id: number) => {
     if (!secret) return;
     if (!window.confirm('Delete this document? This cannot be undone.')) return;
@@ -51,25 +33,14 @@ export function DocumentsListView() {
 
   return (
     <div className="documents-view">
-      <h2 className="documents-title">Documents</h2>
-      {secret && (
-        <form className="documents-create" onSubmit={handleCreate}>
-          <input
-            type="text"
-            className="documents-name-input"
-            placeholder="New document title…"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="documents-create-btn"
-            disabled={creating || !title.trim()}
-          >
-            Create
-          </button>
-        </form>
-      )}
+      <div className="documents-header">
+        <h2 className="documents-title">Documents</h2>
+        {secret && (
+          <a href="#document-new" className="documents-new-btn">
+            + New
+          </a>
+        )}
+      </div>
       {loading ? (
         <div className="thought-loading">Loading…</div>
       ) : documents.length === 0 ? (

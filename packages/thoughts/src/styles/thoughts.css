@@ -3342,41 +3342,34 @@ a.movie-title:hover {
   max-width: 720px;
 }
 
+.documents-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .documents-title {
   font-size: 1.25rem;
-  margin: 0 0 1rem;
+  margin: 0;
   color: var(--text);
 }
 
-.documents-create {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.documents-name-input {
-  flex: 1;
-  padding: 0.5rem 0.75rem;
-  background: var(--bg);
+.documents-new-btn {
+  padding: 0.4rem 0.85rem;
+  background: transparent;
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
 }
 
-.documents-create-btn {
-  padding: 0.5rem 1rem;
-  background: var(--accent);
-  color: var(--bg);
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.documents-create-btn:disabled {
-  opacity: 0.5;
-  cursor: default;
+.documents-new-btn:hover {
+  border-color: var(--text-muted);
+  background: var(--bg-soft);
 }
 
 .documents-list {
