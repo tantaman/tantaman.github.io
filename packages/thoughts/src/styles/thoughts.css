@@ -3435,12 +3435,130 @@ a.movie-title:hover {
   color: #d9534f;
 }
 
+/* Document sidebar — Notion-style left rail, lists docs alongside the editor. */
+.document-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  background: var(--bg-soft);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.document-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.document-sidebar-home {
+  color: var(--text-muted);
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.document-sidebar-home:hover {
+  color: var(--text);
+  background: var(--bg);
+}
+
+.document-sidebar-title {
+  flex: 1;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.document-sidebar-title:hover {
+  color: var(--accent);
+}
+
+.document-sidebar-new {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  text-decoration: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.document-sidebar-new:hover {
+  color: var(--text);
+  background: var(--bg);
+}
+
+.document-sidebar-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.document-sidebar-empty {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.document-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 4px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: color 0.15s, background 0.15s;
+}
+
+.document-sidebar-item:hover {
+  color: var(--text);
+  background: var(--bg);
+}
+
+.document-sidebar-item.active {
+  color: var(--text);
+  background: var(--bg);
+  font-weight: 500;
+}
+
+.document-sidebar-item-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.document-sidebar-item-badge {
+  color: var(--text-muted);
+  opacity: 0.6;
+  font-size: 0.85em;
+}
+
 /* Document edit view — Notion-style: full canvas, minimal sticky chrome,
    centered content column, title is the first H1 inside the editor. */
 .document-edit {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   min-height: 100vh;
   color: var(--text);
   background: var(--bg);
@@ -3452,24 +3570,12 @@ a.movie-title:hover {
   z-index: 50;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 1rem;
   padding: 0.75rem 1.25rem;
   background: color-mix(in srgb, var(--bg) 80%, transparent);
   backdrop-filter: saturate(140%) blur(8px);
   -webkit-backdrop-filter: saturate(140%) blur(8px);
-}
-
-.document-topbar-back {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  opacity: 0.75;
-  transition: opacity 0.15s, color 0.15s;
-}
-
-.document-topbar-back:hover {
-  color: var(--text);
-  opacity: 1;
 }
 
 .document-actions {

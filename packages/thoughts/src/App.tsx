@@ -13,6 +13,7 @@ import { FramingsListView } from './components/FramingsListView';
 import { CanvasesListView } from './components/CanvasesListView';
 import { DocumentsListView } from './components/DocumentsListView';
 import { DocumentEditView } from './components/DocumentEditView';
+import { DocumentsSidebar } from './components/DocumentsSidebar';
 import { FramingCanvasView } from './components/framing/FramingCanvasView';
 const TldrawCanvasView = React.lazy(() => import('./components/TldrawCanvasView').then(m => ({ default: m.TldrawCanvasView })));
 import { LocationsView } from './components/LocationsView';
@@ -128,9 +129,15 @@ export function App() {
           ) : route.view === 'documents' ? (
             <DocumentsListView />
           ) : route.view === 'document' ? (
-            <DocumentEditView id={route.id} />
+            <>
+              <DocumentsSidebar currentId={route.id} />
+              <DocumentEditView id={route.id} />
+            </>
           ) : route.view === 'document-new' ? (
-            <DocumentEditView />
+            <>
+              <DocumentsSidebar />
+              <DocumentEditView />
+            </>
           ) : route.view === 'canvas' ? (
             <React.Suspense fallback={<div className="thought-loading">Loading…</div>}>
               <TldrawCanvasView id={route.id} />

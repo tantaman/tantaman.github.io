@@ -230,7 +230,6 @@ export function DocumentEditView({ id }: Props) {
   return (
     <div className="document-edit">
       <div className="document-topbar">
-        <a href="#documents" className="document-topbar-back">← Documents</a>
         <div className="document-actions">
           {statusLabel && (
             <span
