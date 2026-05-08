@@ -3520,6 +3520,23 @@ a.movie-title:hover {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-style: italic;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.document-save-status[data-state='saving'],
+.document-save-status[data-state='dirty'] {
+  opacity: 0.7;
+}
+
+.document-save-status[data-state='saved'] {
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+
+.document-save-status[data-state='error'] {
+  color: #d9534f;
+  font-style: normal;
+  opacity: 1;
 }
 
 .document-editor-surface {
