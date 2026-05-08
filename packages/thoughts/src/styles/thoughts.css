@@ -1248,6 +1248,63 @@ input[type="checkbox"]:disabled {
   gap: 0.4rem;
 }
 
+.task-add {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.task-add-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.task-add-input:focus {
+  border-color: var(--text-muted);
+}
+
+.task-add-input:disabled {
+  opacity: 0.6;
+}
+
+.task-add-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.task-add-btn:hover:not(:disabled) {
+  border-color: var(--text-muted);
+  background: var(--bg-soft);
+}
+
+.task-add-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.task-add-error {
+  flex-basis: 100%;
+  color: #d9534f;
+  font-size: 0.8rem;
+}
+
 .tasks-list {
   list-style: none;
   padding: 0;
@@ -1280,6 +1337,7 @@ input[type="checkbox"]:disabled {
   text-align: left;
   padding: 0;
   line-height: 1.4;
+  text-decoration: none;
 }
 
 .task-title:hover {

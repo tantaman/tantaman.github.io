@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { patchTask } from '../api';
+import { patchTask, postThought } from '../api';
 import { AuthContext } from '../App';
 import { useTasks } from '../hooks/useCache';
 
@@ -7,12 +7,33 @@ export function TasksView({ tags }: { tags: string[] }) {
   const { secret } = useContext(AuthContext);
   const [showCompleted, setShowCompleted] = useState(false);
   const [showDeprioritized, setShowDeprioritized] = useState(false);
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [newTitle, setNewTitle] = useState('');
+  const [adding, setAdding] = useState(false);
+  const [addError, setAddError] = useState('');
 
   const status = showCompleted || showDeprioritized ? 'all' : 'incomplete';
   const { data, mutate } = useTasks(status, tags);
   const allTasks = data?.tasks ?? [];
   const loading = !data;
+
+  const addTask = async () => {
+    const title = newTitle.trim();
+    if (!title || !secret || adding) return;
+    setAdding(true);
+    setAddError('');
+    const body = tags.length > 0
+      ? `#t ${title}\n\n${tags.map((t) => `#${t}`).join(' ')}`
+      : `#t ${title}`;
+    try {
+      await postThought(body, secret);
+      setNewTitle('');
+      mutate();
+    } catch (e: any) {
+      setAddError(e?.message || 'Failed to add task');
+    } finally {
+      setAdding(false);
+    }
+  };
 
   // Client-side filter when showing all: hide categories user hasn't toggled on
   const tasks = status === 'all'
@@ -82,6 +103,32 @@ export function TasksView({ tags }: { tags: string[] }) {
           </label>
         </div>
       </div>
+      {secret && (
+        <form
+          className="task-add"
+          onSubmit={(e) => {
+            e.preventDefault();
+            addTask();
+          }}
+        >
+          <input
+            type="text"
+            className="task-add-input"
+            placeholder="Add a task…"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            disabled={adding}
+          />
+          <button
+            type="submit"
+            className="task-add-btn"
+            disabled={adding || !newTitle.trim()}
+          >
+            {adding ? 'Adding…' : 'Add'}
+          </button>
+          {addError && <span className="task-add-error">{addError}</span>}
+        </form>
+      )}
       {loading ? (
         <div className="thought-loading">Loading…</div>
       ) : tasks.length === 0 ? (
@@ -107,16 +154,13 @@ export function TasksView({ tags }: { tags: string[] }) {
                 >
                   −
                 </button>
-                <button
+                <a
+                  href={`#thought-${task.thought_id}`}
                   className={`task-title${task.completed_at !== null ? ' task-title--done' : ''}${task.deprioritized_at != null && task.completed_at === null ? ' task-title--deprioritized' : ''}`}
-                  onClick={() => setExpandedId(expandedId === task.id ? null : task.id)}
                 >
                   {task.title}
-                </button>
+                </a>
               </div>
-              {expandedId === task.id && task.description && (
-                <div className="task-description">{task.description}</div>
-              )}
             </li>
           ))}
         </ul>
