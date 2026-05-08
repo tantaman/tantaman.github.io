@@ -53,7 +53,7 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "remark-wiki-link": "^1.0.4",
-    "rollup": "^2.72.1",
+    "rollup": "^2.80.0",
     "serve": "^13.0.2",
     "sharp": "^0.34.5",
     "to-vfile": "^7.2.3",
