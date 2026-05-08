@@ -131,12 +131,12 @@ export function App() {
           ) : route.view === 'document' ? (
             <>
               <DocumentsSidebar currentId={route.id} />
-              <DocumentEditView id={route.id} />
+              <DocumentEditView key={route.id} id={route.id} />
             </>
           ) : route.view === 'document-new' ? (
             <>
               <DocumentsSidebar />
-              <DocumentEditView />
+              <DocumentEditView key="new" />
             </>
           ) : route.view === 'canvas' ? (
             <React.Suspense fallback={<div className="thought-loading">Loading…</div>}>

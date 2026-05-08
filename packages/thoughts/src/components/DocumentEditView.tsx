@@ -175,20 +175,30 @@ export function DocumentEditView({ id }: Props) {
   useEffect(() => {
     const onBeforeUnload = () => {
       const { secret, isPrivate, currentId, editor, saveState } = stateRef.current;
-      if (!editor || !secret || !currentId) return;
+      if (!editor || !secret) return;
       if (saveState !== 'dirty') return;
       const body = getMarkdown(editor);
       const title = extractTitle(body);
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${secret}`,
+      };
       try {
-        fetch(`${API}/documents/${currentId}`, {
-          method: 'PATCH',
-          keepalive: true,
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${secret}`,
-          },
-          body: JSON.stringify({ title, body, private: isPrivate }),
-        });
+        if (currentId) {
+          fetch(`${API}/documents/${currentId}`, {
+            method: 'PATCH',
+            keepalive: true,
+            headers,
+            body: JSON.stringify({ title, body, private: isPrivate }),
+          });
+        } else {
+          fetch(`${API}/documents`, {
+            method: 'POST',
+            keepalive: true,
+            headers,
+            body: JSON.stringify({ title, body, private: isPrivate }),
+          });
+        }
       } catch {
         // best effort
       }
@@ -197,18 +207,25 @@ export function DocumentEditView({ id }: Props) {
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, []);
 
-  // Save-on-unmount: in-app navigation away from this view.
+  // Save-on-unmount: in-app navigation away from this view (e.g., switching to another doc).
   useEffect(() => {
     return () => {
       const { secret, editor, saveState, currentId, isPrivate } = stateRef.current;
-      if (!editor || !secret || !currentId) return;
+      if (!editor || !secret) return;
       if (saveState !== 'dirty') return;
       const body = getMarkdown(editor);
       const title = extractTitle(body);
+      const after = () => invalidateDocumentsList();
       // Fire-and-forget; the page is staying open so the request will complete normally.
-      updateDocument(currentId, { title, body, private: isPrivate }, secret)
-        .then(() => invalidateDocumentsList())
-        .catch(() => {});
+      if (currentId) {
+        updateDocument(currentId, { title, body, private: isPrivate }, secret)
+          .then(after)
+          .catch(() => {});
+      } else {
+        createDocument({ title, body, private: isPrivate }, secret)
+          .then(after)
+          .catch(() => {});
+      }
     };
   }, []);
 
