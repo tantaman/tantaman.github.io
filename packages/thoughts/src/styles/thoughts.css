@@ -3719,6 +3719,24 @@ a.movie-title:hover {
   overflow: hidden;
 }
 
+.document-sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 1001;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+}
+
 .document-sidebar-header {
   display: flex;
   align-items: center;
@@ -3917,7 +3935,68 @@ a.movie-title:hover {
 
 @media (max-width: 720px) {
   .document-editor-surface {
-    padding: 3rem 1.25rem 5rem;
+    padding: 3.5rem 1rem 5rem;
+  }
+
+  .document-editor-surface .tiptap h1 {
+    font-size: 1.85rem;
+    margin: 0 0 0.85rem;
+  }
+
+  .document-editor-surface .tiptap {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .document-sidebar-toggle {
+    display: inline-flex;
+  }
+
+  .document-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+  }
+
+  .document-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .document-edit {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .document-topbar {
+    padding: 0.6rem 0.75rem 0.6rem 3.25rem;
+    gap: 0.5rem;
+  }
+
+  .document-actions {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .document-save-status {
+    font-size: 0.7rem;
+  }
+
+  .document-private-toggle {
+    font-size: 0.75rem;
+  }
+
+  .document-save-btn {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
   }
 }
 
