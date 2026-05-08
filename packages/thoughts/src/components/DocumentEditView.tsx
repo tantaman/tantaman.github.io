@@ -146,18 +146,23 @@ export function DocumentEditView({ id }: Props) {
     }
   }, [editor, secret, isPrivate, currentId, mutate]);
 
+  // Latest persist closure — read at timer-fire time so we always save fresh state
+  // (otherwise toggling the privacy checkbox alone schedules autosave with a stale
+  // closure and the PATCH sends the previous value).
+  const persistRef = useRef(persist);
+  useEffect(() => {
+    persistRef.current = persist;
+  });
+
   // Single shared debounce timer — fed by editor edits and the privacy toggle.
   const autosaveTimerRef = useRef<number | null>(null);
-  const scheduleAutosaveRef = useRef<() => void>(() => {});
-  useEffect(() => {
-    scheduleAutosaveRef.current = () => {
-      if (autosaveTimerRef.current != null) clearTimeout(autosaveTimerRef.current);
-      autosaveTimerRef.current = window.setTimeout(() => {
-        autosaveTimerRef.current = null;
-        persist();
-      }, AUTOSAVE_DELAY_MS);
-    };
-  });
+  const scheduleAutosave = useCallback(() => {
+    if (autosaveTimerRef.current != null) clearTimeout(autosaveTimerRef.current);
+    autosaveTimerRef.current = window.setTimeout(() => {
+      autosaveTimerRef.current = null;
+      persistRef.current();
+    }, AUTOSAVE_DELAY_MS);
+  }, []);
   useEffect(() => {
     return () => {
       if (autosaveTimerRef.current != null) clearTimeout(autosaveTimerRef.current);
@@ -167,8 +172,8 @@ export function DocumentEditView({ id }: Props) {
   const markDirtyAndSchedule = useCallback(() => {
     if (!initializedRef.current) return;
     setSaveState((prev) => (prev === 'saving' ? prev : 'dirty'));
-    scheduleAutosaveRef.current();
-  }, []);
+    scheduleAutosave();
+  }, [scheduleAutosave]);
 
   // Editor edits → mark dirty + schedule autosave.
   useEffect(() => {
