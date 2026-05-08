@@ -1,4 +1,4 @@
-import { Node, mergeAttributes, nodeInputRule, nodePasteRule } from '@tiptap/core';
+import { Node, mergeAttributes, InputRule, nodePasteRule } from '@tiptap/core';
 import { Plugin } from '@tiptap/pm/state';
 import type { Editor } from '@tiptap/core';
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
@@ -88,15 +88,22 @@ export const WikiLink = Node.create({
   },
 
   addInputRules() {
+    const nodeType = this.type;
     return [
-      nodeInputRule({
+      new InputRule({
         find: PATTERN_END,
-        type: this.type,
-        getAttributes: (match) => ({
-          kind: match[1] === 'd' ? 'doc' : 'thought',
-          targetId: parseInt(match[2], 10),
-          label: match[3]?.trim() || null,
-        }),
+        handler: ({ state, range, match }) => {
+          const [, prefix, idStr, label] = match;
+          const targetId = parseInt(idStr, 10);
+          if (!Number.isFinite(targetId)) return null;
+          const kind: WikiLinkKind = prefix === 'd' ? 'doc' : 'thought';
+          const node = nodeType.create({
+            kind,
+            targetId,
+            label: label?.trim() || null,
+          });
+          state.tr.replaceWith(range.from, range.to, node);
+        },
       }),
     ];
   },
