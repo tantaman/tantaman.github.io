@@ -50,7 +50,7 @@ function invalidateDocumentsList() {
 
 export function DocumentEditView({ id }: Props) {
   const { secret } = useContext(AuthContext);
-  const { data: doc, mutate } = useDocument(id ?? -1, secret);
+  const { data: doc, error, mutate } = useDocument(id ?? -1, secret);
   const isLoaded = id ? !!doc : true;
 
   const [isPrivate, setIsPrivate] = useState(false);
@@ -96,6 +96,12 @@ export function DocumentEditView({ id }: Props) {
       initializedRef.current = true;
     }
   }, [editor, id, doc]);
+
+  // Read-only when not signed in.
+  useEffect(() => {
+    if (!editor) return;
+    editor.setEditable(!!secret);
+  }, [editor, secret]);
 
   // Latest-state ref so unload/unmount handlers see fresh values.
   const stateRef = useRef({
@@ -260,8 +266,12 @@ export function DocumentEditView({ id }: Props) {
     };
   }, []);
 
-  if (!secret) {
-    return <div className="thought-loading">Sign in to edit documents.</div>;
+  // Creating a new doc requires auth; viewing an existing one does not.
+  if (!id && !secret) {
+    return <div className="thought-loading">Sign in to create documents.</div>;
+  }
+  if (id && error) {
+    return <div className="thought-loading">Document not found.</div>;
   }
   if (id && !isLoaded) {
     return <div className="thought-loading">Loading…</div>;
@@ -277,42 +287,44 @@ export function DocumentEditView({ id }: Props) {
 
   return (
     <div className="document-edit">
-      <div className="document-topbar">
-        <div className="document-actions">
-          {statusLabel && (
-            <span
-              className="document-save-status"
-              data-state={saveState}
+      {secret && (
+        <div className="document-topbar">
+          <div className="document-actions">
+            {statusLabel && (
+              <span
+                className="document-save-status"
+                data-state={saveState}
+              >
+                {statusLabel}
+              </span>
+            )}
+            <label className="document-private-toggle" title="Private">
+              <input
+                type="checkbox"
+                checked={isPrivate}
+                onChange={(e) => {
+                  setIsPrivate(e.target.checked);
+                  markDirtyAndSchedule();
+                }}
+              />
+              Private
+            </label>
+            <button
+              className="document-save-btn"
+              onClick={handleSave}
+              disabled={saveState === 'saving'}
             >
-              {statusLabel}
-            </span>
-          )}
-          <label className="document-private-toggle" title="Private">
-            <input
-              type="checkbox"
-              checked={isPrivate}
-              onChange={(e) => {
-                setIsPrivate(e.target.checked);
-                markDirtyAndSchedule();
-              }}
-            />
-            Private
-          </label>
-          <button
-            className="document-save-btn"
-            onClick={handleSave}
-            disabled={saveState === 'saving'}
-          >
-            Save
-          </button>
+              Save
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="md-editor-area document-editor-surface">
-        {editor && <BubbleToolbar editor={editor} />}
+        {editor && secret && <BubbleToolbar editor={editor} />}
         <EditorContent editor={editor} />
-        <SlashMenu {...slashMenu} />
-        <WikiLinkMenu {...wikiMenu} />
+        {secret && <SlashMenu {...slashMenu} />}
+        {secret && <WikiLinkMenu {...wikiMenu} />}
       </div>
     </div>
   );
