@@ -1,6 +1,7 @@
 import type { Post, PostListResponse, PostFrontmatter } from './types';
 
 const BASE = '/api/posts';
+const API_BASE = '/api';
 
 function headers(secret: string): HeadersInit {
   return {
@@ -84,4 +85,30 @@ export async function deletePost(
     headers: headers(secret),
   });
   if (!res.ok) throw new Error(`Failed to delete post: ${res.status}`);
+}
+
+// --- Wikilink typeahead ---
+
+export type TypeaheadKindLetter = 'd' | 't' | 'p' | 'f' | 'b';
+
+export interface TypeaheadResult {
+  id: string;
+  title: string;
+  snippet?: string;
+}
+
+export async function typeahead(
+  kind: TypeaheadKindLetter,
+  query: string,
+  signal: AbortSignal,
+  secret?: string,
+): Promise<TypeaheadResult[]> {
+  const params = new URLSearchParams({ kind, q: query, limit: '10' });
+  const res = await fetch(`${API_BASE}/typeahead?${params}`, {
+    headers: secret ? { Authorization: `Bearer ${secret}` } : undefined,
+    signal,
+  });
+  if (!res.ok) return [];
+  const data = (await res.json()) as { results: TypeaheadResult[] };
+  return data.results || [];
 }

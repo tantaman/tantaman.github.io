@@ -716,3 +716,29 @@ export async function deleteDocument(id: number, secret: string): Promise<void> 
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Delete failed');
 }
+
+// --- Wikilink typeahead ---
+
+export type TypeaheadKindLetter = 'd' | 't' | 'p' | 'f' | 'b';
+
+export interface TypeaheadResult {
+  id: string;
+  title: string;
+  snippet?: string;
+}
+
+export async function typeahead(
+  kind: TypeaheadKindLetter,
+  query: string,
+  signal: AbortSignal,
+  secret?: string,
+): Promise<TypeaheadResult[]> {
+  const params = new URLSearchParams({ kind, q: query, limit: '10' });
+  const r = await fetch(`${API}/typeahead?${params}`, {
+    headers: authHeaders(secret),
+    signal,
+  });
+  if (!r.ok) return [];
+  const data = (await r.json()) as { results: TypeaheadResult[] };
+  return data.results || [];
+}

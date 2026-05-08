@@ -14,10 +14,22 @@ import {
   BubbleToolbar,
   SlashMenu,
   useSlashMenu,
+  WikiLinkMenu,
+  useWikiLinkMenu,
+  type WikiLinkSearch,
+  type WikiLinkKind,
 } from '@tantaman/editor';
 import { AuthContext } from '../App';
 import { useDocument } from '../hooks/useCache';
-import { createDocument, updateDocument } from '../api';
+import { createDocument, updateDocument, typeahead, type TypeaheadKindLetter } from '../api';
+
+const KIND_LETTERS: Record<WikiLinkKind, TypeaheadKindLetter> = {
+  doc: 'd',
+  thought: 't',
+  paste: 'p',
+  frame: 'f',
+  post: 'b',
+};
 
 interface Props {
   id?: number;
@@ -54,6 +66,14 @@ export function DocumentEditView({ id }: Props) {
     placeholderShowOnAllEmpty: true,
   });
   const slashMenu = useSlashMenu(editor);
+  const wikiSearch = useCallback<WikiLinkSearch>(
+    (kind, query, signal) =>
+      typeahead(KIND_LETTERS[kind], query, signal, secret).then((rs) =>
+        rs.map((r) => ({ id: r.id, title: r.title, snippet: r.snippet })),
+      ),
+    [secret],
+  );
+  const wikiMenu = useWikiLinkMenu(editor, wikiSearch);
   const initializedRef = useRef(false);
 
   // Hydrate the editor once we have data (or initialize for a new doc).
@@ -287,6 +307,7 @@ export function DocumentEditView({ id }: Props) {
         {editor && <BubbleToolbar editor={editor} />}
         <EditorContent editor={editor} />
         <SlashMenu {...slashMenu} />
+        <WikiLinkMenu {...wikiMenu} />
       </div>
     </div>
   );

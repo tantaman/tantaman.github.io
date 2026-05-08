@@ -13,10 +13,22 @@ import {
   BubbleToolbar,
   SlashMenu,
   useSlashMenu,
+  WikiLinkMenu,
+  useWikiLinkMenu,
+  type WikiLinkSearch,
+  type WikiLinkKind,
 } from '@tantaman/editor';
 import { AuthContext } from './App';
-import { getPost, createPost, updatePost } from './api';
+import { getPost, createPost, updatePost, typeahead, type TypeaheadKindLetter } from './api';
 import type { PostFrontmatter } from './types';
+
+const KIND_LETTERS: Record<WikiLinkKind, TypeaheadKindLetter> = {
+  doc: 'd',
+  thought: 't',
+  paste: 'p',
+  frame: 'f',
+  post: 'b',
+};
 
 function slugify(text: string): string {
   return text
@@ -41,6 +53,14 @@ export function Editor({ postId }: { postId?: number }) {
 
   const editor = useMarkdownEditor();
   const slashMenu = useSlashMenu(editor);
+  const wikiSearch = useCallback<WikiLinkSearch>(
+    (kind, query, signal) =>
+      typeahead(KIND_LETTERS[kind], query, signal, secret).then((rs) =>
+        rs.map((r) => ({ id: r.id, title: r.title, snippet: r.snippet })),
+      ),
+    [secret],
+  );
+  const wikiMenu = useWikiLinkMenu(editor, wikiSearch);
 
   // Load existing post
   useEffect(() => {
@@ -205,6 +225,7 @@ export function Editor({ postId }: { postId?: number }) {
         {editor && <BubbleToolbar editor={editor} />}
         <EditorContent editor={editor} />
         <SlashMenu {...slashMenu} />
+        <WikiLinkMenu {...wikiMenu} />
       </div>
     </div>
   );

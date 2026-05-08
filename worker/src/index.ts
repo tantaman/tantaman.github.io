@@ -32,6 +32,7 @@ import { sendDigest } from "./digest";
 import { thoughtOg } from "./thought-og";
 import { amplifications } from "./amplifications";
 import { clusters, assignClusters, removeClusterMembership, scheduleBackground } from "./clusters";
+import { typeahead } from "./typeahead";
 import {
   CreateThoughtBody,
   UpdateTaskBody,
@@ -2257,6 +2258,7 @@ api.route("/ig-card", igCard);
 api.route("/lists", lists);
 api.route("/amplifications", amplifications);
 api.route("/clusters", clusters);
+api.route("/typeahead", typeahead);
 
 // Serve audio files from R2
 app.get("/audio/*", async (c) => {

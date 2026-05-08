@@ -4,6 +4,8 @@ export { useMarkdownEditor, getMarkdown, setMarkdown } from './useMarkdownEditor
 export type { UseMarkdownEditorOptions, PlaceholderResolver } from './useMarkdownEditor';
 export { BubbleToolbar } from './BubbleToolbar';
 export { SlashMenu, useSlashMenu } from './SlashMenu';
-export { WikiLink, applyWikiLinkTransform } from './WikiLink';
+export { WikiLink, applyWikiLinkTransform, hrefFor as wikiLinkHrefFor } from './WikiLink';
 export type { WikiLinkAttrs, WikiLinkKind } from './WikiLink';
+export { WikiLinkMenu, useWikiLinkMenu } from './WikiLinkMenu';
+export type { WikiLinkResult, WikiLinkSearch, WikiLinkMenuProps } from './WikiLinkMenu';
 export type { Editor } from '@tiptap/core';

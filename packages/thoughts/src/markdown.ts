@@ -10,8 +10,6 @@ const marked = new Marked({
  * Operates on text nodes only (outside of HTML tags) to avoid mangling markup.
  */
 function highlightTags(html: string): string {
-  // Split into "inside a tag" vs "outside a tag" segments.
-  // We only transform text that is outside of < ... >.
   return html.replace(/(>[^<]*)/g, (segment) => {
     return segment.replace(
       /(^|[\s])#([a-zA-Z][a-zA-Z0-9_-]*)/g,
@@ -20,20 +18,39 @@ function highlightTags(html: string): string {
   });
 }
 
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+const KIND_HREF: Record<string, (id: string) => string> = {
+  d: (id) => `#document-${id}`,
+  t: (id) => `#thought-${id}`,
+  p: (id) => `/paste/${id}`,
+  f: (id) => `#framing-${id}`,
+  b: (slug) => `/${slug}.html`,
+};
+
+const KIND_NAME: Record<string, string> = {
+  d: 'doc',
+  t: 'thought',
+  p: 'paste',
+  f: 'frame',
+  b: 'post',
+};
+
 /**
- * Replace [[123]] or [[123|title]] wiki-link syntax with anchors to #thought-123.
+ * Replace `[[X id]]` and `[[X id|label]]` wiki-link syntax with anchors.
  * Operates on text nodes only (outside of HTML tags) to avoid mangling markup.
  */
-function linkThoughts(html: string): string {
+function linkWiki(html: string): string {
   return html.replace(/(>[^<]*)/g, (segment) => {
     return segment.replace(
-      /\[\[(\d+)(?:\|([^\]|]+))?\]\]/g,
-      (_, id, title) => {
-        const text = (title?.trim() || `i${id}`)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
-        return `<a href="#thought-${id}" class="thought-link">${text}</a>`;
+      /\[\[([dtpfb]) ([A-Za-z0-9_\-.]+)(?:\|([^\]|]+))?\]\]/g,
+      (_, letter: string, id: string, label?: string) => {
+        const href = KIND_HREF[letter](id);
+        const kind = KIND_NAME[letter];
+        const text = escapeHtml((label?.trim() || `${letter} ${id}`));
+        return `<a href="${href}" class="wiki-link" data-kind="${kind}" data-id="${escapeHtml(id)}">${text}</a>`;
       },
     );
   });
@@ -42,7 +59,6 @@ function linkThoughts(html: string): string {
 /** Parse markdown text and return sanitised HTML with hashtag highlighting. */
 export function renderMarkdown(text: string): string {
   const raw = marked.parse(text);
-  // marked.parse can return string | Promise<string>; with async: false (default) it's sync
   const html = typeof raw === 'string' ? raw : '';
-  return highlightTags(linkThoughts(html));
+  return highlightTags(linkWiki(html));
 }
