@@ -126,33 +126,39 @@ export function DocumentEditView({ id }: Props) {
     }
   }, [editor, secret, isPrivate, currentId, mutate]);
 
-  // Debounced auto-save when the editor content changes.
+  // Single shared debounce timer — fed by editor edits and the privacy toggle.
+  const autosaveTimerRef = useRef<number | null>(null);
+  const scheduleAutosaveRef = useRef<() => void>(() => {});
   useEffect(() => {
-    if (!editor) return;
-    let timer: number | null = null;
-    const onUpdate = () => {
-      if (!initializedRef.current) return;
-      setSaveState((prev) => (prev === 'saving' ? prev : 'dirty'));
-      if (timer != null) clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        timer = null;
+    scheduleAutosaveRef.current = () => {
+      if (autosaveTimerRef.current != null) clearTimeout(autosaveTimerRef.current);
+      autosaveTimerRef.current = window.setTimeout(() => {
+        autosaveTimerRef.current = null;
         persist();
       }, AUTOSAVE_DELAY_MS);
     };
+  });
+  useEffect(() => {
+    return () => {
+      if (autosaveTimerRef.current != null) clearTimeout(autosaveTimerRef.current);
+    };
+  }, []);
+
+  const markDirtyAndSchedule = useCallback(() => {
+    if (!initializedRef.current) return;
+    setSaveState((prev) => (prev === 'saving' ? prev : 'dirty'));
+    scheduleAutosaveRef.current();
+  }, []);
+
+  // Editor edits → mark dirty + schedule autosave.
+  useEffect(() => {
+    if (!editor) return;
+    const onUpdate = () => markDirtyAndSchedule();
     editor.on('update', onUpdate);
     return () => {
       editor.off('update', onUpdate);
-      if (timer != null) clearTimeout(timer);
     };
-  }, [editor, persist]);
-
-  // Also debounce-trigger when the privacy toggle flips.
-  useEffect(() => {
-    if (!initializedRef.current) return;
-    setSaveState((prev) => (prev === 'saving' ? prev : 'dirty'));
-    const t = window.setTimeout(() => persist(), AUTOSAVE_DELAY_MS);
-    return () => clearTimeout(t);
-  }, [isPrivate, persist]);
+  }, [editor, markDirtyAndSchedule]);
 
   const handleSave = useCallback(() => {
     persist();
@@ -260,7 +266,10 @@ export function DocumentEditView({ id }: Props) {
             <input
               type="checkbox"
               checked={isPrivate}
-              onChange={(e) => setIsPrivate(e.target.checked)}
+              onChange={(e) => {
+                setIsPrivate(e.target.checked);
+                markDirtyAndSchedule();
+              }}
             />
             Private
           </label>

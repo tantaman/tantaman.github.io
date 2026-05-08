@@ -94,6 +94,31 @@
   text-decoration: underline;
 }
 
+/* Wiki links: [[dNN]] / [[tNN]] atoms */
+.md-editor-area .tiptap a.wiki-link {
+  display: inline;
+  color: var(--accent);
+  text-decoration: none;
+  background: var(--bg-soft);
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+  font-size: 0.95em;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.md-editor-area .tiptap a.wiki-link:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.md-editor-area .tiptap a.wiki-link.ProseMirror-selectednode {
+  border-color: var(--accent);
+  outline: none;
+}
+
 .md-editor-area .tiptap .is-empty::before {
   content: attr(data-placeholder);
   color: var(--text-muted);

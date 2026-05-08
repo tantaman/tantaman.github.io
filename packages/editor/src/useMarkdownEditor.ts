@@ -9,6 +9,7 @@ import TaskItem from '@tiptap/extension-task-item';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { Markdown } from 'tiptap-markdown';
 import { common, createLowlight } from 'lowlight';
+import { WikiLink, applyWikiLinkTransform } from './WikiLink';
 
 const lowlight = createLowlight(common);
 
@@ -53,6 +54,7 @@ export function useMarkdownEditor(opts: UseMarkdownEditorOptions = {}): Editor |
       TaskList,
       TaskItem.configure({ nested: true }),
       CodeBlockLowlight.configure({ lowlight }),
+      WikiLink,
       Markdown,
     ],
     editorProps: {
@@ -71,4 +73,5 @@ export function getMarkdown(editor: Editor): string {
 /** Replace the document with parsed markdown. */
 export function setMarkdown(editor: Editor, markdown: string): void {
   editor.commands.setContent(editor.storage.markdown.parser.parse(markdown));
+  applyWikiLinkTransform(editor);
 }
