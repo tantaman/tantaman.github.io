@@ -33,7 +33,7 @@ export const UpdateFramingBody = z.object({
 
 // POST /framings/:id/nodes
 export const PlaceNodeBody = z.object({
-  node_type: z.enum(["thought", "post"]),
+  node_type: z.enum(["thought", "post", "document"]),
   item_id: z.string(),
   x: z.number(),
   y: z.number(),

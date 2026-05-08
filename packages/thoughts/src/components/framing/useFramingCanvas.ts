@@ -26,6 +26,7 @@ import {
 import type { RelatedItem } from '../../types';
 import type { ThoughtNodeData } from './ThoughtNode';
 import type { PostNodeData } from './PostNode';
+import type { DocumentNodeData } from './DocumentNode';
 import type { LabeledEdgeData } from './LabeledEdge';
 import type { FramingNode, FramingEdge as FramingEdgeType, PostSummary } from '../../types';
 
@@ -48,7 +49,7 @@ function framingNodeToRFNode(
   n: FramingNode,
   thoughtCbs: ThoughtCallbacks,
   postsMap: Map<string, PostSummary>,
-): Node<ThoughtNodeData | PostNodeData> | null {
+): Node<ThoughtNodeData | PostNodeData | DocumentNodeData> | null {
   if (n.node_type === 'thought') {
     return {
       id: String(n.id),
@@ -67,6 +68,24 @@ function framingNodeToRFNode(
         onExpandReplies: thoughtCbs.onExpandReplies,
         onExpandLinks: thoughtCbs.onExpandLinks,
         onExpandBacklinks: thoughtCbs.onExpandBacklinks,
+      },
+    };
+  }
+
+  if (n.node_type === 'document') {
+    if (n.title == null) return null; // private doc not visible to current viewer
+    return {
+      id: String(n.id),
+      type: 'document',
+      position: { x: n.x, y: n.y },
+      data: {
+        nodeId: n.id,
+        documentId: Number(n.item_id),
+        title: n.title,
+        body: n.body ?? '',
+        updatedAt: n.updated_at,
+        private: n.private,
+        onRemove: thoughtCbs.onRemove,
       },
     };
   }
@@ -228,7 +247,7 @@ export function useFramingCanvas(framingId: number) {
     if (!data) return;
     const rfNodes = data.nodes
       .map((n) => framingNodeToRFNode(n, thoughtCbs, postsMap))
-      .filter((n): n is Node<ThoughtNodeData | PostNodeData> => n !== null);
+      .filter((n): n is Node<ThoughtNodeData | PostNodeData | DocumentNodeData> => n !== null);
     setNodes(rfNodes as Node[]);
     setEdges(data.edges.map((e) => framingEdgeToRFEdge(e, handleLabelChange)));
   }, [data, thoughtCbs, handleLabelChange, postsMap]);
@@ -281,9 +300,9 @@ export function useFramingCanvas(framingId: number) {
 
   const addNode = useCallback(
     async (
-      nodeType: 'thought' | 'post',
+      nodeType: 'thought' | 'post' | 'document',
       itemId: string,
-      displayData: Partial<ThoughtNodeData & PostNodeData>,
+      displayData: Partial<ThoughtNodeData & PostNodeData & DocumentNodeData>,
       x: number,
       y: number,
     ) => {
@@ -354,6 +373,29 @@ export function useFramingCanvas(framingId: number) {
       } as any, x, y);
     },
     [addNode, postsMap],
+  );
+
+  const addDocument = useCallback(
+    async (
+      documentId: number,
+      title: string,
+      body: string,
+      updatedAt: number,
+      isPrivate: boolean,
+      x: number,
+      y: number,
+    ) => {
+      await addNode('document', String(documentId), {
+        documentId,
+        title,
+        body,
+        updatedAt,
+        private: isPrivate,
+      } as any, x, y);
+      // Refetch so the body (not carried in the drag payload) is filled in.
+      mutate(undefined);
+    },
+    [addNode, mutate],
   );
 
   type ExpandItem = {
@@ -616,6 +658,9 @@ export function useFramingCanvas(framingId: number) {
       } else if (n.type === 'post') {
         const d = n.data as PostNodeData;
         keys.add(`post:${d.slug}`);
+      } else if (n.type === 'document') {
+        const d = n.data as DocumentNodeData;
+        keys.add(`document:${d.documentId}`);
       }
     }
     return keys;
@@ -649,6 +694,7 @@ export function useFramingCanvas(framingId: number) {
     onConnect,
     addThought,
     addPost,
+    addDocument,
     deleteEdge,
     startCompose,
     applyLayout,

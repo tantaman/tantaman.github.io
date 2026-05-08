@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useThoughts } from '../../hooks/useThoughts';
-import { useSearch, usePostsManifest } from '../../hooks/useCache';
+import { useSearch, usePostsManifest, useDocuments } from '../../hooks/useCache';
 import { renderMarkdown } from '../../markdown';
 import { AuthContext } from '../../App';
-import type { Thought, PostSummary } from '../../types';
+import type { Thought, PostSummary, DocumentSummary } from '../../types';
 
 function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
@@ -134,6 +134,69 @@ function FeedResults({
   );
 }
 
+function DocumentItem({
+  doc,
+  placed,
+}: {
+  doc: DocumentSummary;
+  placed: boolean;
+}) {
+  return (
+    <div
+      className={`framing-panel-document${placed ? ' placed' : ''}`}
+      draggable={!placed}
+      onDragStart={(e) => {
+        if (placed) {
+          e.preventDefault();
+          return;
+        }
+        e.dataTransfer.setData('application/node-type', 'document');
+        e.dataTransfer.setData('application/item-id', String(doc.id));
+        e.dataTransfer.setData('application/document-title', doc.title);
+        e.dataTransfer.setData('application/document-body', '');
+        e.dataTransfer.setData('application/document-updated', String(doc.updated_at));
+        e.dataTransfer.setData('application/document-private', doc.private ? '1' : '0');
+        e.dataTransfer.effectAllowed = 'copy';
+      }}
+    >
+      <div className="framing-panel-document-title">
+        {doc.title || 'Untitled'}
+        {doc.private && <span className="framing-panel-document-private" title="Private">·</span>}
+      </div>
+    </div>
+  );
+}
+
+function DocumentsResults({
+  placedKeys,
+  filter,
+}: {
+  placedKeys: Set<string>;
+  filter: string;
+}) {
+  const { secret } = useContext(AuthContext);
+  const { data, isLoading } = useDocuments(secret);
+  const documents = data?.documents ?? [];
+
+  const filtered = useMemo(() => {
+    if (!filter) return documents;
+    const lower = filter.toLowerCase();
+    return documents.filter((d) => d.title.toLowerCase().includes(lower));
+  }, [documents, filter]);
+
+  if (isLoading) return <div className="framing-panel-status">Loading…</div>;
+  if (filtered.length === 0)
+    return <div className="framing-panel-status">No documents found</div>;
+
+  return (
+    <div className="framing-panel-list">
+      {filtered.map((d) => (
+        <DocumentItem key={d.id} doc={d} placed={placedKeys.has(`document:${d.id}`)} />
+      ))}
+    </div>
+  );
+}
+
 function PostsResults({
   placedKeys,
   filter,
@@ -194,7 +257,7 @@ export function FramingLeftPanel({
     }
   }, [editValue, framingName, onRename]);
 
-  const [tab, setTab] = useState<'thoughts' | 'posts'>('thoughts');
+  const [tab, setTab] = useState<'thoughts' | 'posts' | 'documents'>('thoughts');
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const timerRef = { current: undefined as ReturnType<typeof setTimeout> | undefined };
@@ -250,12 +313,24 @@ export function FramingLeftPanel({
         >
           Posts
         </button>
+        <button
+          className={`framing-panel-tab${tab === 'documents' ? ' active' : ''}`}
+          onClick={() => { setTab('documents'); setQuery(''); setDebouncedQuery(''); }}
+        >
+          Docs
+        </button>
       </div>
       <div className="framing-panel-search">
         <input
           type="text"
           className="framing-panel-search-input"
-          placeholder={tab === 'thoughts' ? 'Search thoughts…' : 'Filter posts…'}
+          placeholder={
+            tab === 'thoughts'
+              ? 'Search thoughts…'
+              : tab === 'posts'
+              ? 'Filter posts…'
+              : 'Filter documents…'
+          }
           value={query}
           onChange={(e) => handleInput(e.target.value)}
         />
@@ -277,8 +352,10 @@ export function FramingLeftPanel({
         ) : (
           <FeedResults placedKeys={placedItemKeys} />
         )
-      ) : (
+      ) : tab === 'posts' ? (
         <PostsResults placedKeys={placedItemKeys} filter={debouncedQuery} />
+      ) : (
+        <DocumentsResults placedKeys={placedItemKeys} filter={debouncedQuery} />
       )}
     </div>
   );

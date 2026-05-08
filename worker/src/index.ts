@@ -1872,9 +1872,18 @@ api.get("/framings/:id", async (c) => {
     return c.json({ error: "Not found" }, 404);
   }
 
+  const authed = c.req.header("Authorization") === `Bearer ${c.env.THOUGHT_SECRET}`;
+  const docPrivacyClause = authed ? "" : " AND d.private = 0";
+
   const nodes = await c.env.DB.prepare(
     `SELECT fn.id, fn.node_type, fn.item_id, fn.x, fn.y, fn.w, fn.h,
-            t.body, t.timestamp, t.color,
+            CASE WHEN fn.node_type = 'thought' THEN t.body
+                 WHEN fn.node_type = 'document' THEN d.body
+                 ELSE NULL END AS body,
+            t.timestamp, t.color,
+            CASE WHEN fn.node_type = 'document' THEN d.title ELSE NULL END AS title,
+            CASE WHEN fn.node_type = 'document' THEN d.updated_at ELSE NULL END AS updated_at,
+            CASE WHEN fn.node_type = 'document' THEN d.private ELSE NULL END AS private,
             CASE WHEN fn.node_type = 'thought'
               THEN (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id AND r.private = 0)
               ELSE NULL
@@ -1893,6 +1902,7 @@ api.get("/framings/:id", async (c) => {
             END AS backlink_count
      FROM framing_node fn
      LEFT JOIN thought t ON fn.node_type = 'thought' AND t.id = CAST(fn.item_id AS INTEGER)
+     LEFT JOIN document d ON fn.node_type = 'document' AND d.id = CAST(fn.item_id AS INTEGER)${docPrivacyClause}
      WHERE fn.framing_id = ?`
   ).bind(id).all();
 

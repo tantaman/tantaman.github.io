@@ -470,7 +470,7 @@ export async function updateFraming(
 
 export async function addNodeToFraming(
   framingId: number,
-  nodeType: 'thought' | 'post',
+  nodeType: 'thought' | 'post' | 'document',
   itemId: string,
   x: number,
   y: number,

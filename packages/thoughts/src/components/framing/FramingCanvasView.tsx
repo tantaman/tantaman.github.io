@@ -11,6 +11,7 @@ import { useSWRConfig } from 'swr';
 import { useFramingCanvas } from './useFramingCanvas';
 import { ThoughtNode, type ThoughtNodeData } from './ThoughtNode';
 import { PostNode, type PostNodeData } from './PostNode';
+import { DocumentNode, type DocumentNodeData } from './DocumentNode';
 import { LabeledEdge, type LabeledEdgeData } from './LabeledEdge';
 import { ComposeNode } from './ComposeNode';
 import { FramingLeftPanel } from './FramingLeftPanel';
@@ -25,8 +26,10 @@ const HGAP = 60;
 const VGAP = 80;
 
 function hierarchicalLayout(nodes: Node[], edges: Edge[]): Map<string, { x: number; y: number }> {
-  // Only layout real content nodes (thought/post)
-  const layoutNodes = nodes.filter((n) => n.type === 'thought' || n.type === 'post');
+  // Only layout real content nodes (thought/post/document)
+  const layoutNodes = nodes.filter(
+    (n) => n.type === 'thought' || n.type === 'post' || n.type === 'document',
+  );
   if (layoutNodes.length === 0) return new Map();
 
   const ids = new Set(layoutNodes.map((n) => n.id));
@@ -129,6 +132,7 @@ function hierarchicalLayout(nodes: Node[], edges: Edge[]): Map<string, { x: numb
 const nodeTypes = {
   thought: ThoughtNode,
   post: PostNode,
+  document: DocumentNode,
   compose: ComposeNode,
 } as any;
 
@@ -145,7 +149,7 @@ function exportFraming(
   const rfIdToExportId = new Map<string, number | string>();
 
   const exportedNodes = nodes
-    .filter((n) => n.type === 'thought' || n.type === 'post')
+    .filter((n) => n.type === 'thought' || n.type === 'post' || n.type === 'document')
     .map((n) => {
       if (n.type === 'thought') {
         const d = n.data as ThoughtNodeData;
@@ -158,6 +162,20 @@ function exportFraming(
           body: d.body,
           timestamp: d.timestamp,
           color: d.color ?? null,
+        };
+      }
+      if (n.type === 'document') {
+        const d = n.data as DocumentNodeData;
+        rfIdToExportId.set(n.id, `doc:${d.documentId}`);
+        return {
+          id: d.documentId,
+          type: 'document' as const,
+          x: n.position.x,
+          y: n.position.y,
+          title: d.title,
+          body: d.body,
+          updated_at: d.updatedAt,
+          private: d.private,
         };
       }
       const d = n.data as PostNodeData;
@@ -212,6 +230,7 @@ export function FramingCanvasView({ id }: { id: number }) {
     onConnect,
     addThought,
     addPost,
+    addDocument,
     deleteEdge,
     startCompose,
     applyLayout,
@@ -267,6 +286,22 @@ export function FramingCanvasView({ id }: { id: number }) {
         const slug = e.dataTransfer.getData('application/item-id');
         if (!slug) return;
         addPost(slug, position.x, position.y);
+      } else if (nodeType === 'document') {
+        const docId = e.dataTransfer.getData('application/item-id');
+        const title = e.dataTransfer.getData('application/document-title');
+        const body = e.dataTransfer.getData('application/document-body');
+        const updatedAt = e.dataTransfer.getData('application/document-updated');
+        const isPrivate = e.dataTransfer.getData('application/document-private') === '1';
+        if (!docId) return;
+        addDocument(
+          Number(docId),
+          title,
+          body,
+          Number(updatedAt) || 0,
+          isPrivate,
+          position.x,
+          position.y,
+        );
       } else {
         const thoughtId = e.dataTransfer.getData('application/thought-id');
         const body = e.dataTransfer.getData('application/thought-body');
@@ -275,7 +310,7 @@ export function FramingCanvasView({ id }: { id: number }) {
         addThought(Number(thoughtId), body, Number(timestamp), position.x, position.y);
       }
     },
-    [addThought, addPost],
+    [addThought, addPost, addDocument],
   );
 
   const lastPaneClick = useRef<{ time: number; x: number; y: number } | null>(null);

@@ -194,7 +194,7 @@ export interface Framing {
 
 export interface FramingNodeBase {
   id: number;
-  node_type: 'thought' | 'post';
+  node_type: 'thought' | 'post' | 'document';
   item_id: string;
   x: number;
   y: number;
@@ -219,7 +219,15 @@ export interface FramingPostNode extends FramingNodeBase {
   color: null;
 }
 
-export type FramingNode = FramingThoughtNode | FramingPostNode;
+export interface FramingDocumentNode extends FramingNodeBase {
+  node_type: 'document';
+  title: string;
+  body: string;
+  updated_at: number;
+  private: boolean;
+}
+
+export type FramingNode = FramingThoughtNode | FramingPostNode | FramingDocumentNode;
 
 export interface FramingEdge {
   id: number;
