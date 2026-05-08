@@ -112,7 +112,7 @@ export function ShareButton({ slug }: Props) {
             </svg>
             {status === 'loading' ? 'Loading…' : 'Story image'}
           </button>
-          {navigator.share && (
+          {typeof navigator.share === 'function' && (
             <button class="comments-share-menu-item" onClick={handleNativeShare} type="button">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />

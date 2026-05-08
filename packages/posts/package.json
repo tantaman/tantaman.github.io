@@ -9,6 +9,7 @@
   "dependencies": {
     "@tantaman/editor": "workspace:*",
     "@tiptap/core": "^2.12.0",
+    "@tiptap/pm": "^2.12.0",
     "@tiptap/react": "^2.12.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

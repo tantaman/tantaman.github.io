@@ -731,11 +731,11 @@ export async function typeahead(
   kind: TypeaheadKindLetter,
   query: string,
   signal: AbortSignal,
-  secret?: string,
+  secret?: string | null,
 ): Promise<TypeaheadResult[]> {
   const params = new URLSearchParams({ kind, q: query, limit: '10' });
   const r = await fetch(`${API}/typeahead?${params}`, {
-    headers: authHeaders(secret),
+    headers: authHeaders(secret ?? undefined),
     signal,
   });
   if (!r.ok) return [];

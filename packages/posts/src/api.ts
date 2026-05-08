@@ -101,7 +101,7 @@ export async function typeahead(
   kind: TypeaheadKindLetter,
   query: string,
   signal: AbortSignal,
-  secret?: string,
+  secret?: string | null,
 ): Promise<TypeaheadResult[]> {
   const params = new URLSearchParams({ kind, q: query, limit: '10' });
   const res = await fetch(`${API_BASE}/typeahead?${params}`, {
