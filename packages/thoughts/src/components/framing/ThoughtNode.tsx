@@ -60,6 +60,7 @@ export const ThoughtNode = memo(function ThoughtNode({
   return (
     <div className={className} style={style}>
       <button
+        type="button"
         className="framing-node-puck-toggle"
         onClick={(e) => { e.stopPropagation(); setPucked((p) => !p); }}
         onMouseDown={stop}
@@ -69,6 +70,7 @@ export const ThoughtNode = memo(function ThoughtNode({
       </button>
       {secret && data.onRemove && !pucked && (
         <button
+          type="button"
           className="framing-node-remove"
           onClick={(e) => {
             e.stopPropagation();
@@ -85,6 +87,7 @@ export const ThoughtNode = memo(function ThoughtNode({
       />
       {!pucked && replyCount > 0 && (
         <button
+          type="button"
           className="framing-node-expand framing-node-expand-replies"
           onClick={(e) => { e.stopPropagation(); runExpand('replies', data.onExpandReplies); }}
           onMouseDown={stop}
@@ -96,6 +99,7 @@ export const ThoughtNode = memo(function ThoughtNode({
       )}
       {!pucked && backlinkCount > 0 && (
         <button
+          type="button"
           className="framing-node-expand framing-node-expand-backlinks"
           onClick={(e) => { e.stopPropagation(); runExpand('backlinks', data.onExpandBacklinks); }}
           onMouseDown={stop}
@@ -107,6 +111,7 @@ export const ThoughtNode = memo(function ThoughtNode({
       )}
       {!pucked && linkCount > 0 && (
         <button
+          type="button"
           className="framing-node-expand framing-node-expand-links"
           onClick={(e) => { e.stopPropagation(); runExpand('links', data.onExpandLinks); }}
           onMouseDown={stop}

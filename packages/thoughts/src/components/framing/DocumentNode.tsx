@@ -69,16 +69,36 @@ export const DocumentNode = memo(function DocumentNode({
   const body = bodyOverride ?? data.body ?? '';
   const preview = previewBody(body);
 
+  const openFullView = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.hash = `#document-${data.documentId}`;
+    },
+    [data.documentId],
+  );
+
+  // The browser navigates by default when a drop lands on or near an <a> with
+  // an in-page href (drop-on-link). ReactFlow's onDrop doesn't always intercept
+  // those events, so guard the node wrapper itself.
+  const swallowDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+  }, []);
+
   return (
     <div
       className={`framing-document-node${expanded ? ' expanded' : ''}`}
+      onDragOver={swallowDrop}
+      onDrop={swallowDrop}
     >
       <div className="framing-document-node-header">
         <a
           href={`#document-${data.documentId}`}
           className="framing-document-node-title"
           title="Open in full view"
-          onClick={(e) => e.stopPropagation()}
+          draggable={false}
+          onClick={openFullView}
+          onDragStart={(e) => e.preventDefault()}
         >
           {title || 'Untitled'}
           {data.private && (
@@ -154,7 +174,6 @@ function DocumentNodeEditor({
       node.type.name === 'heading' && node.attrs?.level === 1
         ? 'Untitled'
         : "Press '/' for commands",
-    placeholderShowOnAllEmpty: true,
   });
   const slashMenu = useSlashMenu(editor);
   const wikiSearch = useCallback<WikiLinkSearch>(

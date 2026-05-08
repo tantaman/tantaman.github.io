@@ -63,7 +63,6 @@ export function DocumentEditView({ id }: Props) {
       node.type.name === 'heading' && node.attrs?.level === 1
         ? 'Untitled'
         : "Press '/' for commands",
-    placeholderShowOnAllEmpty: true,
   });
   const slashMenu = useSlashMenu(editor);
   const wikiSearch = useCallback<WikiLinkSearch>(
