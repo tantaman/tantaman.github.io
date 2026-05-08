@@ -4,33 +4,54 @@ import type { Editor } from '@tiptap/core';
 import type { Node as ProseMirrorNode } from '@tiptap/pm/model';
 
 /**
- * Wikilink atom: `[[dNN]]` → document NN, `[[tNN]]` → thought NN.
- * Optional alt label: `[[dNN|some label]]`.
+ * Wikilink atom:
+ *   `[[dNN]]`        → document NN
+ *   `[[tNN]]`        → thought NN
+ *   `[[p-XXX]]`      → paste XXX (alphanumeric id)
+ *   `[[…|label]]`    → optional alt label for any of the above
  *
- * - Renders as a styled `<a>` that navigates via location.hash.
- * - Round-trips to markdown as `[[dNN]]` (or `[[dNN|label]]`).
+ * - Renders as a styled `<a>` that navigates on click (hash for docs/thoughts,
+ *   top-level `/paste/<id>` for pastes).
+ * - Round-trips to markdown verbatim.
  * - Created by InputRule (typing) and PasteRule (pasting).
  * - Loaded markdown is post-processed by `applyWikiLinkTransform` since
- *   markdown-it parses `[[…]]` as plain text.
+ *   markdown-it parses the `[[…]]` syntax as plain text.
  */
 
-export type WikiLinkKind = 'doc' | 'thought';
+export type WikiLinkKind = 'doc' | 'thought' | 'paste';
 
 export interface WikiLinkAttrs {
   kind: WikiLinkKind;
-  targetId: number;
+  targetId: string;
   label: string | null;
 }
 
-const PATTERN_GLOBAL = /\[\[(d|t)(\d+)(?:\|([^\]|]+))?\]\]/g;
-const PATTERN_END = /\[\[(d|t)(\d+)(?:\|([^\]|]+))?\]\]$/;
+// match[1] = the bare ref ("d5" / "t12" / "p-V1StGXR")
+// match[2] = optional label
+const PATTERN_GLOBAL = /\[\[(d\d+|t\d+|p-[A-Za-z0-9_-]+)(?:\|([^\]|]+))?\]\]/g;
+const PATTERN_END = /\[\[(d\d+|t\d+|p-[A-Za-z0-9_-]+)(?:\|([^\]|]+))?\]\]$/;
 
-function hrefFor(kind: WikiLinkKind, targetId: number): string {
-  return kind === 'doc' ? `#document-${targetId}` : `#thought-${targetId}`;
+function parseRef(ref: string): { kind: WikiLinkKind; targetId: string } | null {
+  if (ref.startsWith('p-')) return { kind: 'paste', targetId: ref.slice(2) };
+  if (ref.startsWith('d')) return { kind: 'doc', targetId: ref.slice(1) };
+  if (ref.startsWith('t')) return { kind: 'thought', targetId: ref.slice(1) };
+  return null;
 }
 
-function defaultLabelFor(kind: WikiLinkKind, targetId: number): string {
+function refFor(kind: WikiLinkKind, targetId: string): string {
+  if (kind === 'paste') return `p-${targetId}`;
   return `${kind === 'doc' ? 'd' : 't'}${targetId}`;
+}
+
+function hrefFor(kind: WikiLinkKind, targetId: string): string {
+  if (kind === 'doc') return `#document-${targetId}`;
+  if (kind === 'thought') return `#thought-${targetId}`;
+  return `/paste/${targetId}`;
+}
+
+function defaultLabelFor(kind: WikiLinkKind, targetId: string): string {
+  if (kind === 'paste' && targetId.length > 8) return `p-${targetId.slice(0, 7)}…`;
+  return refFor(kind, targetId);
 }
 
 export const WikiLink = Node.create({
@@ -44,7 +65,7 @@ export const WikiLink = Node.create({
   addAttributes() {
     return {
       kind: { default: 'doc' as WikiLinkKind },
-      targetId: { default: null },
+      targetId: { default: '' },
       label: { default: null },
     };
   },
@@ -56,8 +77,8 @@ export const WikiLink = Node.create({
         getAttrs: (el: any) => {
           const dom = el as HTMLElement;
           const kind = (dom.getAttribute('data-kind') as WikiLinkKind) || 'doc';
-          const targetId = Number(dom.getAttribute('data-id'));
-          if (!Number.isFinite(targetId)) return false;
+          const targetId = dom.getAttribute('data-id') || '';
+          if (!targetId) return false;
           return {
             kind,
             targetId,
@@ -70,7 +91,7 @@ export const WikiLink = Node.create({
 
   renderHTML({ node, HTMLAttributes }) {
     const kind = node.attrs.kind as WikiLinkKind;
-    const targetId = node.attrs.targetId as number;
+    const targetId = String(node.attrs.targetId ?? '');
     const label = node.attrs.label as string | null;
     const text = label || defaultLabelFor(kind, targetId);
     return [
@@ -78,7 +99,7 @@ export const WikiLink = Node.create({
       mergeAttributes(HTMLAttributes, {
         'data-wikilink': '',
         'data-kind': kind,
-        'data-id': String(targetId),
+        'data-id': targetId,
         ...(label ? { 'data-label': label } : {}),
         href: hrefFor(kind, targetId),
         class: 'wiki-link',
@@ -93,14 +114,12 @@ export const WikiLink = Node.create({
       new InputRule({
         find: PATTERN_END,
         handler: ({ state, range, match }) => {
-          const [, prefix, idStr, label] = match;
-          const targetId = parseInt(idStr, 10);
-          if (!Number.isFinite(targetId)) return null;
-          const kind: WikiLinkKind = prefix === 'd' ? 'doc' : 'thought';
+          const parsed = parseRef(match[1]);
+          if (!parsed) return null;
           const node = nodeType.create({
-            kind,
-            targetId,
-            label: label?.trim() || null,
+            kind: parsed.kind,
+            targetId: parsed.targetId,
+            label: match[2]?.trim() || null,
           });
           state.tr.replaceWith(range.from, range.to, node);
         },
@@ -113,11 +132,15 @@ export const WikiLink = Node.create({
       nodePasteRule({
         find: PATTERN_GLOBAL,
         type: this.type,
-        getAttributes: (match) => ({
-          kind: match[1] === 'd' ? 'doc' : 'thought',
-          targetId: parseInt(match[2], 10),
-          label: match[3]?.trim() || null,
-        }),
+        getAttributes: (match) => {
+          const parsed = parseRef(match[1]);
+          if (!parsed) return false as any;
+          return {
+            kind: parsed.kind,
+            targetId: parsed.targetId,
+            label: match[2]?.trim() || null,
+          };
+        },
       }),
     ];
   },
@@ -129,10 +152,14 @@ export const WikiLink = Node.create({
           handleClickOn(_view, _pos, node, _nodePos, event) {
             if (node.type.name !== 'wikiLink') return false;
             const kind = node.attrs.kind as WikiLinkKind;
-            const targetId = node.attrs.targetId as number;
+            const targetId = String(node.attrs.targetId ?? '');
             if (!targetId) return false;
             event.preventDefault();
-            window.location.hash = hrefFor(kind, targetId).slice(1);
+            if (kind === 'paste') {
+              window.location.href = `/paste/${targetId}`;
+            } else {
+              window.location.hash = hrefFor(kind, targetId).slice(1);
+            }
             return true;
           },
         },
@@ -145,11 +172,11 @@ export const WikiLink = Node.create({
       markdown: {
         serialize(state: any, node: ProseMirrorNode) {
           const kind = node.attrs.kind as WikiLinkKind;
-          const targetId = node.attrs.targetId as number;
+          const targetId = String(node.attrs.targetId ?? '');
           const label = node.attrs.label as string | null;
-          const prefix = kind === 'doc' ? 'd' : 't';
-          if (label) state.write(`[[${prefix}${targetId}|${label}]]`);
-          else state.write(`[[${prefix}${targetId}]]`);
+          const ref = refFor(kind, targetId);
+          if (label) state.write(`[[${ref}|${label}]]`);
+          else state.write(`[[${ref}]]`);
         },
       },
     };
@@ -157,7 +184,7 @@ export const WikiLink = Node.create({
 });
 
 /**
- * Replace text matching `[[(d|t)NN(|label)?]]` with WikiLink atom nodes.
+ * Replace text matching the wikilink syntax with WikiLink atom nodes.
  * Call after parsing markdown into the editor (markdown-it sees the syntax
  * as plain text, so we lift it to atoms once the doc is in place).
  */
@@ -174,15 +201,14 @@ export function applyWikiLinkTransform(editor: Editor): void {
     let m: RegExpExecArray | null;
     const re = new RegExp(PATTERN_GLOBAL.source, 'g');
     while ((m = re.exec(text)) !== null) {
-      const [whole, prefix, idStr, label] = m;
+      const [whole, ref, label] = m;
+      const parsed = parseRef(ref);
+      if (!parsed) continue;
       const start = pos + m.index;
       const end = start + whole.length;
-      const kind: WikiLinkKind = prefix === 'd' ? 'doc' : 'thought';
-      const targetId = parseInt(idStr, 10);
-      if (!Number.isFinite(targetId)) continue;
       const wikiNode = wikiNodeType.create({
-        kind,
-        targetId,
+        kind: parsed.kind,
+        targetId: parsed.targetId,
         label: label?.trim() || null,
       });
       replacements.push({ from: start, to: end, node: wikiNode });
@@ -192,11 +218,9 @@ export function applyWikiLinkTransform(editor: Editor): void {
   if (replacements.length === 0) return;
 
   const tr = state.tr;
-  // Apply in reverse so earlier offsets remain valid.
   for (const r of replacements.reverse()) {
     tr.replaceWith(r.from, r.to, r.node);
   }
-  // Avoid clobbering the user's selection.
   tr.setMeta('addToHistory', false);
   editor.view.dispatch(tr);
 }
