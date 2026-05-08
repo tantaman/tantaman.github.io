@@ -92,6 +92,13 @@ export const DocumentNode = memo(function DocumentNode({
       onDrop={swallowDrop}
     >
       <div className="framing-document-node-header">
+        <button
+          className="framing-document-node-toggle"
+          onClick={() => setExpanded((v) => !v)}
+          title={expanded ? 'Collapse' : 'Expand to edit'}
+        >
+          {expanded ? '⤢' : '⤡'}
+        </button>
         <a
           href={`#document-${data.documentId}`}
           className="framing-document-node-title"
@@ -105,24 +112,15 @@ export const DocumentNode = memo(function DocumentNode({
             <span className="framing-document-node-private" title="Private">·</span>
           )}
         </a>
-        <div className="framing-document-node-actions">
+        {secret && data.onRemove && (
           <button
-            className="framing-document-node-toggle"
-            onClick={() => setExpanded((v) => !v)}
-            title={expanded ? 'Collapse' : 'Expand to edit'}
+            className="framing-node-remove framing-document-node-remove"
+            onClick={() => data.onRemove!(data.nodeId)}
+            title="Remove from framing"
           >
-            {expanded ? '⤢' : '⤡'}
+            ×
           </button>
-          {secret && data.onRemove && (
-            <button
-              className="framing-node-remove"
-              onClick={() => data.onRemove!(data.nodeId)}
-              title="Remove from framing"
-            >
-              ×
-            </button>
-          )}
-        </div>
+        )}
       </div>
 
       {expanded ? (

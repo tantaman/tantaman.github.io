@@ -2110,13 +2110,13 @@ input[type="checkbox"]:disabled {
 .framing-document-node-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  padding-right: 1.25rem; /* leave room for the absolute × button */
 }
 
 .framing-document-node.expanded .framing-document-node-header {
-  padding: 0 0.75rem;
+  padding: 0 1.25rem 0.5rem 0.75rem;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 0.5rem;
 }
 
 .framing-document-node-title {
@@ -2146,22 +2146,17 @@ input[type="checkbox"]:disabled {
   color: var(--text-muted);
 }
 
-.framing-document-node-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
 .framing-document-node-toggle {
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
   cursor: pointer;
-  padding: 0 4px;
+  padding: 0 2px;
   line-height: 1;
   opacity: 0;
   transition: opacity 0.15s;
+  flex: 0 0 auto;
 }
 
 .framing-document-node.expanded .framing-document-node-toggle {
