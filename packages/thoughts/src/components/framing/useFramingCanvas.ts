@@ -27,6 +27,7 @@ import type { RelatedItem } from '../../types';
 import type { ThoughtNodeData } from './ThoughtNode';
 import type { PostNodeData } from './PostNode';
 import type { DocumentNodeData } from './DocumentNode';
+import type { FramingNodeData } from './FramingNode';
 import type { LabeledEdgeData } from './LabeledEdge';
 import type { FramingNode, FramingEdge as FramingEdgeType, PostSummary } from '../../types';
 
@@ -49,7 +50,7 @@ function framingNodeToRFNode(
   n: FramingNode,
   thoughtCbs: ThoughtCallbacks,
   postsMap: Map<string, PostSummary>,
-): Node<ThoughtNodeData | PostNodeData | DocumentNodeData> | null {
+): Node<ThoughtNodeData | PostNodeData | DocumentNodeData | FramingNodeData> | null {
   if (n.node_type === 'thought') {
     return {
       id: String(n.id),
@@ -85,6 +86,20 @@ function framingNodeToRFNode(
         body: n.body ?? '',
         updatedAt: n.updated_at,
         private: n.private,
+        onRemove: thoughtCbs.onRemove,
+      },
+    };
+  }
+
+  if (n.node_type === 'framing') {
+    return {
+      id: String(n.id),
+      type: 'framing',
+      position: { x: n.x, y: n.y },
+      data: {
+        nodeId: n.id,
+        framingId: Number(n.item_id),
+        title: n.title,
         onRemove: thoughtCbs.onRemove,
       },
     };
@@ -247,7 +262,7 @@ export function useFramingCanvas(framingId: number) {
     if (!data) return;
     const rfNodes = data.nodes
       .map((n) => framingNodeToRFNode(n, thoughtCbs, postsMap))
-      .filter((n): n is Node<ThoughtNodeData | PostNodeData | DocumentNodeData> => n !== null);
+      .filter((n): n is Node<ThoughtNodeData | PostNodeData | DocumentNodeData | FramingNodeData> => n !== null);
     setNodes(rfNodes as Node[]);
     setEdges(data.edges.map((e) => framingEdgeToRFEdge(e, handleLabelChange)));
   }, [data, thoughtCbs, handleLabelChange, postsMap]);
@@ -300,9 +315,9 @@ export function useFramingCanvas(framingId: number) {
 
   const addNode = useCallback(
     async (
-      nodeType: 'thought' | 'post' | 'document',
+      nodeType: 'thought' | 'post' | 'document' | 'framing',
       itemId: string,
-      displayData: Partial<ThoughtNodeData & PostNodeData & DocumentNodeData>,
+      displayData: Partial<ThoughtNodeData & PostNodeData & DocumentNodeData & FramingNodeData>,
       x: number,
       y: number,
     ) => {
@@ -396,6 +411,16 @@ export function useFramingCanvas(framingId: number) {
       mutate(undefined);
     },
     [addNode, mutate],
+  );
+
+  const addFraming = useCallback(
+    (targetFramingId: number, title: string | null, x: number, y: number) => {
+      return addNode('framing', String(targetFramingId), {
+        framingId: targetFramingId,
+        title,
+      } as any, x, y);
+    },
+    [addNode],
   );
 
   type ExpandItem = {
@@ -661,6 +686,9 @@ export function useFramingCanvas(framingId: number) {
       } else if (n.type === 'document') {
         const d = n.data as DocumentNodeData;
         keys.add(`document:${d.documentId}`);
+      } else if (n.type === 'framing') {
+        const d = n.data as FramingNodeData;
+        keys.add(`framing:${d.framingId}`);
       }
     }
     return keys;
@@ -695,6 +723,7 @@ export function useFramingCanvas(framingId: number) {
     addThought,
     addPost,
     addDocument,
+    addFraming,
     deleteEdge,
     startCompose,
     applyLayout,

@@ -2217,6 +2217,64 @@ input[type="checkbox"]:disabled {
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
+.framing-framing-node {
+  background: var(--bg);
+  border: 1px dashed var(--accent);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  min-width: 180px;
+  max-width: 320px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.framing-framing-node:hover {
+  border-style: solid;
+}
+
+.framing-framing-node:hover .framing-node-remove,
+.framing-framing-node:hover .framing-framing-node-enter {
+  opacity: 1;
+}
+
+.framing-framing-node-icon {
+  font-size: 1.05rem;
+  color: var(--accent);
+  flex: 0 0 auto;
+}
+
+.framing-framing-node-title {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.framing-framing-node-title:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+
+.framing-framing-node-enter {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  flex: 0 0 auto;
+}
+
 .framing-document-node.expanded {
   width: 640px;
   max-width: 640px;
@@ -2406,6 +2464,31 @@ input[type="checkbox"]:disabled {
 .framing-panel-document-private {
   margin-left: 0.25rem;
   color: var(--text-muted);
+}
+
+.framing-panel-framing {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border: 1px dashed var(--accent);
+  border-radius: 6px;
+  cursor: grab;
+  font-size: 0.85rem;
+  background: var(--bg);
+  transition: border-style 0.15s, border-color 0.15s;
+}
+
+.framing-panel-framing:hover {
+  border-style: solid;
+}
+
+.framing-panel-framing.placed {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.framing-panel-framing-title {
+  font-weight: 600;
+  color: var(--text);
 }
 
 .framing-node-body {

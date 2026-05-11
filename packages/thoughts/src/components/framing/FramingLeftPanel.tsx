@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useThoughts } from '../../hooks/useThoughts';
-import { useSearch, usePostsManifest, useDocuments } from '../../hooks/useCache';
+import { useSearch, usePostsManifest, useDocuments, useFramings } from '../../hooks/useCache';
 import { renderMarkdown } from '../../markdown';
 import { AuthContext } from '../../App';
-import type { Thought, PostSummary, DocumentSummary } from '../../types';
+import type { Thought, PostSummary, DocumentSummary, Framing } from '../../types';
 
 function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
@@ -197,6 +197,64 @@ function DocumentsResults({
   );
 }
 
+function FramingItem({
+  framing,
+  placed,
+}: {
+  framing: Framing;
+  placed: boolean;
+}) {
+  return (
+    <div
+      className={`framing-panel-framing${placed ? ' placed' : ''}`}
+      draggable={!placed}
+      onDragStart={(e) => {
+        if (placed) {
+          e.preventDefault();
+          return;
+        }
+        e.dataTransfer.setData('application/node-type', 'framing');
+        e.dataTransfer.setData('application/item-id', String(framing.id));
+        e.dataTransfer.setData('application/framing-title', framing.name);
+        e.dataTransfer.effectAllowed = 'copy';
+      }}
+    >
+      <div className="framing-panel-framing-title">{framing.name || 'Untitled'}</div>
+    </div>
+  );
+}
+
+function FramingsResults({
+  placedKeys,
+  filter,
+  currentFramingId,
+}: {
+  placedKeys: Set<string>;
+  filter: string;
+  currentFramingId: number;
+}) {
+  const { data, isLoading } = useFramings();
+
+  const filtered = useMemo(() => {
+    const all = (data?.framings ?? []).filter((f) => f.id !== currentFramingId);
+    if (!filter) return all;
+    const lower = filter.toLowerCase();
+    return all.filter((f) => f.name.toLowerCase().includes(lower));
+  }, [data, filter, currentFramingId]);
+
+  if (isLoading) return <div className="framing-panel-status">Loading…</div>;
+  if (filtered.length === 0)
+    return <div className="framing-panel-status">No framings found</div>;
+
+  return (
+    <div className="framing-panel-list">
+      {filtered.map((f) => (
+        <FramingItem key={f.id} framing={f} placed={placedKeys.has(`framing:${f.id}`)} />
+      ))}
+    </div>
+  );
+}
+
 function PostsResults({
   placedKeys,
   filter,
@@ -227,10 +285,12 @@ function PostsResults({
 }
 
 export function FramingLeftPanel({
+  framingId,
   framingName,
   placedItemKeys,
   onRename,
 }: {
+  framingId: number;
   framingName: string;
   placedItemKeys: Set<string>;
   onRename?: (name: string) => void;
@@ -257,7 +317,7 @@ export function FramingLeftPanel({
     }
   }, [editValue, framingName, onRename]);
 
-  const [tab, setTab] = useState<'thoughts' | 'posts' | 'documents'>('thoughts');
+  const [tab, setTab] = useState<'thoughts' | 'posts' | 'documents' | 'framings'>('thoughts');
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const timerRef = { current: undefined as ReturnType<typeof setTimeout> | undefined };
@@ -319,6 +379,12 @@ export function FramingLeftPanel({
         >
           Docs
         </button>
+        <button
+          className={`framing-panel-tab${tab === 'framings' ? ' active' : ''}`}
+          onClick={() => { setTab('framings'); setQuery(''); setDebouncedQuery(''); }}
+        >
+          Framings
+        </button>
       </div>
       <div className="framing-panel-search">
         <input
@@ -329,7 +395,9 @@ export function FramingLeftPanel({
               ? 'Search thoughts…'
               : tab === 'posts'
               ? 'Filter posts…'
-              : 'Filter documents…'
+              : tab === 'documents'
+              ? 'Filter documents…'
+              : 'Filter framings…'
           }
           value={query}
           onChange={(e) => handleInput(e.target.value)}
@@ -354,8 +422,14 @@ export function FramingLeftPanel({
         )
       ) : tab === 'posts' ? (
         <PostsResults placedKeys={placedItemKeys} filter={debouncedQuery} />
-      ) : (
+      ) : tab === 'documents' ? (
         <DocumentsResults placedKeys={placedItemKeys} filter={debouncedQuery} />
+      ) : (
+        <FramingsResults
+          placedKeys={placedItemKeys}
+          filter={debouncedQuery}
+          currentFramingId={framingId}
+        />
       )}
     </div>
   );

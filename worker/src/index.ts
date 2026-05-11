@@ -1881,8 +1881,12 @@ api.get("/framings/:id", async (c) => {
                  WHEN fn.node_type = 'document' THEN d.body
                  ELSE NULL END AS body,
             t.timestamp, t.color,
-            CASE WHEN fn.node_type = 'document' THEN d.title ELSE NULL END AS title,
-            CASE WHEN fn.node_type = 'document' THEN d.updated_at ELSE NULL END AS updated_at,
+            CASE WHEN fn.node_type = 'document' THEN d.title
+                 WHEN fn.node_type = 'framing' THEN nf.name
+                 ELSE NULL END AS title,
+            CASE WHEN fn.node_type = 'document' THEN d.updated_at
+                 WHEN fn.node_type = 'framing' THEN nf.updated_at
+                 ELSE NULL END AS updated_at,
             CASE WHEN fn.node_type = 'document' THEN d.private ELSE NULL END AS private,
             CASE WHEN fn.node_type = 'thought'
               THEN (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id AND r.private = 0)
@@ -1903,6 +1907,7 @@ api.get("/framings/:id", async (c) => {
      FROM framing_node fn
      LEFT JOIN thought t ON fn.node_type = 'thought' AND t.id = CAST(fn.item_id AS INTEGER)
      LEFT JOIN document d ON fn.node_type = 'document' AND d.id = CAST(fn.item_id AS INTEGER)${docPrivacyClause}
+     LEFT JOIN framing nf ON fn.node_type = 'framing' AND nf.id = CAST(fn.item_id AS INTEGER)
      WHERE fn.framing_id = ?`
   ).bind(id).all();
 

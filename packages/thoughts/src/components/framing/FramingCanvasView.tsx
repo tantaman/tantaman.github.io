@@ -12,6 +12,7 @@ import { useFramingCanvas } from './useFramingCanvas';
 import { ThoughtNode, type ThoughtNodeData } from './ThoughtNode';
 import { PostNode, type PostNodeData } from './PostNode';
 import { DocumentNode, type DocumentNodeData } from './DocumentNode';
+import { FramingNode, type FramingNodeData } from './FramingNode';
 import { LabeledEdge, type LabeledEdgeData } from './LabeledEdge';
 import { ComposeNode } from './ComposeNode';
 import { FramingLeftPanel } from './FramingLeftPanel';
@@ -26,9 +27,9 @@ const HGAP = 60;
 const VGAP = 80;
 
 function hierarchicalLayout(nodes: Node[], edges: Edge[]): Map<string, { x: number; y: number }> {
-  // Only layout real content nodes (thought/post/document)
+  // Only layout real content nodes (thought/post/document/framing)
   const layoutNodes = nodes.filter(
-    (n) => n.type === 'thought' || n.type === 'post' || n.type === 'document',
+    (n) => n.type === 'thought' || n.type === 'post' || n.type === 'document' || n.type === 'framing',
   );
   if (layoutNodes.length === 0) return new Map();
 
@@ -133,6 +134,7 @@ const nodeTypes = {
   thought: ThoughtNode,
   post: PostNode,
   document: DocumentNode,
+  framing: FramingNode,
   compose: ComposeNode,
 } as any;
 
@@ -149,7 +151,7 @@ function exportFraming(
   const rfIdToExportId = new Map<string, number | string>();
 
   const exportedNodes = nodes
-    .filter((n) => n.type === 'thought' || n.type === 'post' || n.type === 'document')
+    .filter((n) => n.type === 'thought' || n.type === 'post' || n.type === 'document' || n.type === 'framing')
     .map((n) => {
       if (n.type === 'thought') {
         const d = n.data as ThoughtNodeData;
@@ -176,6 +178,17 @@ function exportFraming(
           body: d.body,
           updated_at: d.updatedAt,
           private: d.private,
+        };
+      }
+      if (n.type === 'framing') {
+        const d = n.data as FramingNodeData;
+        rfIdToExportId.set(n.id, `framing:${d.framingId}`);
+        return {
+          id: d.framingId,
+          type: 'framing' as const,
+          x: n.position.x,
+          y: n.position.y,
+          title: d.title,
         };
       }
       const d = n.data as PostNodeData;
@@ -231,6 +244,7 @@ export function FramingCanvasView({ id }: { id: number }) {
     addThought,
     addPost,
     addDocument,
+    addFraming,
     deleteEdge,
     startCompose,
     applyLayout,
@@ -302,6 +316,12 @@ export function FramingCanvasView({ id }: { id: number }) {
           position.x,
           position.y,
         );
+      } else if (nodeType === 'framing') {
+        const targetId = e.dataTransfer.getData('application/item-id');
+        const title = e.dataTransfer.getData('application/framing-title') || null;
+        if (!targetId) return;
+        if (Number(targetId) === id) return; // can't nest a framing inside itself
+        addFraming(Number(targetId), title, position.x, position.y);
       } else {
         const thoughtId = e.dataTransfer.getData('application/thought-id');
         const body = e.dataTransfer.getData('application/thought-body');
@@ -310,7 +330,7 @@ export function FramingCanvasView({ id }: { id: number }) {
         addThought(Number(thoughtId), body, Number(timestamp), position.x, position.y);
       }
     },
-    [addThought, addPost, addDocument],
+    [id, addThought, addPost, addDocument, addFraming],
   );
 
   const lastPaneClick = useRef<{ time: number; x: number; y: number } | null>(null);
@@ -357,6 +377,7 @@ export function FramingCanvasView({ id }: { id: number }) {
   return (
     <div className="framing-canvas-wrap">
       <FramingLeftPanel
+        framingId={id}
         framingName={framing?.name ?? ''}
         placedItemKeys={placedItemKeys}
         onRename={handleRename}
