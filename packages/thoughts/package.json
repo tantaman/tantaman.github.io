@@ -7,6 +7,8 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.169.2",
+    "@tanstack/react-router-devtools": "^1.166.13",
     "@tantaman/editor": "workspace:*",
     "@tiptap/core": "^2.12.0",
     "@tiptap/pm": "^2.12.0",
@@ -21,6 +23,7 @@
     "umap-js": "^1.4.0"
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.167.35",
     "@types/leaflet": "^1.9.21",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
