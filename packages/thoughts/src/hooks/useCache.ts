@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getCanvases, getCanvas, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems, getDocuments, getDocument } from '../api';
+import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems, getDocuments, getDocument } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -78,14 +78,6 @@ export function useFramings() {
 
 export function useFraming(id: number) {
   return useSWR(`framing-${id}`, () => getFraming(id));
-}
-
-export function useCanvases() {
-  return useSWR('canvases', getCanvases);
-}
-
-export function useCanvas(id: number) {
-  return useSWR(`canvas-${id}`, () => getCanvas(id));
 }
 
 export function useDocuments(secret?: string | null) {

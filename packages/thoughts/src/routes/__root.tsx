@@ -21,8 +21,6 @@ function legacyHashRedirect(hash: string): string | null {
   if (thoughtMatch) return `/t/${thoughtMatch[1]}`;
   const framingMatch = h.match(/^framing-(\d+)$/);
   if (framingMatch) return `/framings/${framingMatch[1]}`;
-  const canvasMatch = h.match(/^canvas-(\d+)$/);
-  if (canvasMatch) return `/canvases/${canvasMatch[1]}`;
   const documentMatch = h.match(/^document-(\d+)$/);
   if (documentMatch) return `/documents/${documentMatch[1]}`;
   if (h === 'document-new') return '/documents/new';
@@ -33,7 +31,6 @@ function legacyHashRedirect(hash: string): string | null {
     events: '/events',
     graph: '/graph',
     framings: '/framings',
-    canvases: '/canvases',
     locations: '/locations',
     media: '/media',
     movies: '/movies',

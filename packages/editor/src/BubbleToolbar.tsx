@@ -1,9 +1,9 @@
-import { BubbleMenu } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/react/menus';
 import type { Editor } from '@tiptap/core';
 
 export function BubbleToolbar({ editor }: { editor: Editor }) {
   return (
-    <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+    <BubbleMenu editor={editor}>
       <div className="md-bubble-toolbar">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}

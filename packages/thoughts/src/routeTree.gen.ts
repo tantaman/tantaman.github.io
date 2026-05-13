@@ -19,7 +19,6 @@ import { Route as GraphRouteImport } from './routes/graph'
 import { Route as FramingsRouteImport } from './routes/framings'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CaptureRouteImport } from './routes/capture'
-import { Route as CanvasesRouteImport } from './routes/canvases'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as BooksRouteImport } from './routes/books'
 import { Route as BookmarksRouteImport } from './routes/bookmarks'
@@ -28,7 +27,6 @@ import { Route as DocumentsRouteImport } from './routes/_documents'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TIdRouteImport } from './routes/t.$id'
 import { Route as FramingsIdRouteImport } from './routes/framings_.$id'
-import { Route as CanvasesIdRouteImport } from './routes/canvases_.$id'
 import { Route as DocumentsDocumentsRouteImport } from './routes/_documents.documents'
 import { Route as DocumentsDocumentsNewRouteImport } from './routes/_documents.documents_.new'
 import { Route as DocumentsDocumentsIdRouteImport } from './routes/_documents.documents_.$id'
@@ -83,11 +81,6 @@ const CaptureRoute = CaptureRouteImport.update({
   path: '/capture',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CanvasesRoute = CanvasesRouteImport.update({
-  id: '/canvases',
-  path: '/canvases',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BrowseRoute = BrowseRouteImport.update({
   id: '/browse',
   path: '/browse',
@@ -127,11 +120,6 @@ const FramingsIdRoute = FramingsIdRouteImport.update({
   path: '/framings/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CanvasesIdRoute = CanvasesIdRouteImport.update({
-  id: '/canvases_/$id',
-  path: '/canvases/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DocumentsDocumentsRoute = DocumentsDocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -154,7 +142,6 @@ export interface FileRoutesByFullPath {
   '/bookmarks': typeof BookmarksRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
-  '/canvases': typeof CanvasesRoute
   '/capture': typeof CaptureRoute
   '/events': typeof EventsRoute
   '/framings': typeof FramingsRoute
@@ -166,7 +153,6 @@ export interface FileRoutesByFullPath {
   '/questions': typeof QuestionsRoute
   '/tasks': typeof TasksRoute
   '/documents': typeof DocumentsDocumentsRoute
-  '/canvases/$id': typeof CanvasesIdRoute
   '/framings/$id': typeof FramingsIdRoute
   '/t/$id': typeof TIdRoute
   '/documents/$id': typeof DocumentsDocumentsIdRoute
@@ -178,7 +164,6 @@ export interface FileRoutesByTo {
   '/bookmarks': typeof BookmarksRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
-  '/canvases': typeof CanvasesRoute
   '/capture': typeof CaptureRoute
   '/events': typeof EventsRoute
   '/framings': typeof FramingsRoute
@@ -190,7 +175,6 @@ export interface FileRoutesByTo {
   '/questions': typeof QuestionsRoute
   '/tasks': typeof TasksRoute
   '/documents': typeof DocumentsDocumentsRoute
-  '/canvases/$id': typeof CanvasesIdRoute
   '/framings/$id': typeof FramingsIdRoute
   '/t/$id': typeof TIdRoute
   '/documents/$id': typeof DocumentsDocumentsIdRoute
@@ -204,7 +188,6 @@ export interface FileRoutesById {
   '/bookmarks': typeof BookmarksRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
-  '/canvases': typeof CanvasesRoute
   '/capture': typeof CaptureRoute
   '/events': typeof EventsRoute
   '/framings': typeof FramingsRoute
@@ -216,7 +199,6 @@ export interface FileRoutesById {
   '/questions': typeof QuestionsRoute
   '/tasks': typeof TasksRoute
   '/_documents/documents': typeof DocumentsDocumentsRoute
-  '/canvases_/$id': typeof CanvasesIdRoute
   '/framings_/$id': typeof FramingsIdRoute
   '/t/$id': typeof TIdRoute
   '/_documents/documents_/$id': typeof DocumentsDocumentsIdRoute
@@ -230,7 +212,6 @@ export interface FileRouteTypes {
     | '/bookmarks'
     | '/books'
     | '/browse'
-    | '/canvases'
     | '/capture'
     | '/events'
     | '/framings'
@@ -242,7 +223,6 @@ export interface FileRouteTypes {
     | '/questions'
     | '/tasks'
     | '/documents'
-    | '/canvases/$id'
     | '/framings/$id'
     | '/t/$id'
     | '/documents/$id'
@@ -254,7 +234,6 @@ export interface FileRouteTypes {
     | '/bookmarks'
     | '/books'
     | '/browse'
-    | '/canvases'
     | '/capture'
     | '/events'
     | '/framings'
@@ -266,7 +245,6 @@ export interface FileRouteTypes {
     | '/questions'
     | '/tasks'
     | '/documents'
-    | '/canvases/$id'
     | '/framings/$id'
     | '/t/$id'
     | '/documents/$id'
@@ -279,7 +257,6 @@ export interface FileRouteTypes {
     | '/bookmarks'
     | '/books'
     | '/browse'
-    | '/canvases'
     | '/capture'
     | '/events'
     | '/framings'
@@ -291,7 +268,6 @@ export interface FileRouteTypes {
     | '/questions'
     | '/tasks'
     | '/_documents/documents'
-    | '/canvases_/$id'
     | '/framings_/$id'
     | '/t/$id'
     | '/_documents/documents_/$id'
@@ -305,7 +281,6 @@ export interface RootRouteChildren {
   BookmarksRoute: typeof BookmarksRoute
   BooksRoute: typeof BooksRoute
   BrowseRoute: typeof BrowseRoute
-  CanvasesRoute: typeof CanvasesRoute
   CaptureRoute: typeof CaptureRoute
   EventsRoute: typeof EventsRoute
   FramingsRoute: typeof FramingsRoute
@@ -316,7 +291,6 @@ export interface RootRouteChildren {
   MusicRoute: typeof MusicRoute
   QuestionsRoute: typeof QuestionsRoute
   TasksRoute: typeof TasksRoute
-  CanvasesIdRoute: typeof CanvasesIdRoute
   FramingsIdRoute: typeof FramingsIdRoute
   TIdRoute: typeof TIdRoute
 }
@@ -393,13 +367,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaptureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/canvases': {
-      id: '/canvases'
-      path: '/canvases'
-      fullPath: '/canvases'
-      preLoaderRoute: typeof CanvasesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/browse': {
       id: '/browse'
       path: '/browse'
@@ -456,13 +423,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FramingsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/canvases_/$id': {
-      id: '/canvases_/$id'
-      path: '/canvases/$id'
-      fullPath: '/canvases/$id'
-      preLoaderRoute: typeof CanvasesIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_documents/documents': {
       id: '/_documents/documents'
       path: '/documents'
@@ -510,7 +470,6 @@ const rootRouteChildren: RootRouteChildren = {
   BookmarksRoute: BookmarksRoute,
   BooksRoute: BooksRoute,
   BrowseRoute: BrowseRoute,
-  CanvasesRoute: CanvasesRoute,
   CaptureRoute: CaptureRoute,
   EventsRoute: EventsRoute,
   FramingsRoute: FramingsRoute,
@@ -521,7 +480,6 @@ const rootRouteChildren: RootRouteChildren = {
   MusicRoute: MusicRoute,
   QuestionsRoute: QuestionsRoute,
   TasksRoute: TasksRoute,
-  CanvasesIdRoute: CanvasesIdRoute,
   FramingsIdRoute: FramingsIdRoute,
   TIdRoute: TIdRoute,
 }

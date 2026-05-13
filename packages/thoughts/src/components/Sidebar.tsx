@@ -48,7 +48,6 @@ export function Sidebar({ route }: { route: Route }) {
           }}>Thoughts</a>
           <a href="#media" className={`thoughts-nav-link${route.view === 'media' ? ' active' : ''}`} onClick={closeOnNav}>Media</a>
           <a href="#framings" className={`thoughts-nav-link${route.view === 'framings' || route.view === 'framing' ? ' active' : ''}`} onClick={closeOnNav}>Framings</a>
-          <a href="#canvases" className={`thoughts-nav-link${route.view === 'canvases' || route.view === 'canvas' ? ' active' : ''}`} onClick={closeOnNav}>Canvases</a>
           <a href="#documents" className={`thoughts-nav-link${route.view === 'documents' || route.view === 'document' || route.view === 'document-new' ? ' active' : ''}`} onClick={closeOnNav}>Documents</a>
           <a href="/lists/" className="thoughts-nav-link">Lists</a>
           <a href="/paste" className="thoughts-nav-link">Pastes</a>

@@ -255,13 +255,6 @@ export interface FramingDetail {
   edges: FramingEdge[];
 }
 
-export interface Canvas {
-  id: number;
-  name: string;
-  created_at: number;
-  updated_at: number;
-}
-
 export interface DocumentSummary {
   id: number;
   title: string;
@@ -272,10 +265,6 @@ export interface DocumentSummary {
 
 export interface Document extends DocumentSummary {
   body: string;
-}
-
-export interface CanvasDetail extends Canvas {
-  snapshot: string;
 }
 
 export interface PostSummary {
@@ -347,8 +336,6 @@ export type Route =
   | { view: 'capture'; url?: string; text?: string; title?: string }
   | { view: 'browse' }
   | { view: 'questions' }
-  | { view: 'canvases' }
-  | { view: 'canvas'; id: number }
   | { view: 'documents' }
   | { view: 'document'; id: number }
   | { view: 'document-new' }

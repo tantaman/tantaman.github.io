@@ -65,13 +65,22 @@ export function useMarkdownEditor(opts: UseMarkdownEditorOptions = {}): Editor |
   });
 }
 
+interface MarkdownStorage {
+  getMarkdown(): string;
+  parser: { parse(markdown: string): unknown };
+}
+
+function markdownStorage(editor: Editor): MarkdownStorage {
+  return (editor.storage as unknown as Record<string, MarkdownStorage>).markdown;
+}
+
 /** Get the current document as markdown. */
 export function getMarkdown(editor: Editor): string {
-  return editor.storage.markdown.getMarkdown() as string;
+  return markdownStorage(editor).getMarkdown();
 }
 
 /** Replace the document with parsed markdown. */
 export function setMarkdown(editor: Editor, markdown: string): void {
-  editor.commands.setContent(editor.storage.markdown.parser.parse(markdown));
+  editor.commands.setContent(markdownStorage(editor).parser.parse(markdown) as never);
   applyWikiLinkTransform(editor);
 }

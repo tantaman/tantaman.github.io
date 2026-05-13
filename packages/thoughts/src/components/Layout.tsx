@@ -22,7 +22,6 @@ export function Layout({
   if (
     route.view === 'framing' ||
     route.view === 'graph' ||
-    route.view === 'canvas' ||
     route.view === 'document' ||
     route.view === 'document-new'
   ) {
