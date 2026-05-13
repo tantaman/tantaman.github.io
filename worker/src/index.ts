@@ -2292,6 +2292,20 @@ app.route("/paste", paste);
 app.route("/now", now);
 app.route("/thoughts/t", thoughtOg);
 
+// SPA fallback for the thoughts app. wrangler.toml routes `tantaman.com/thoughts/*`
+// through this worker. Asset requests (paths with file extensions) pass through to
+// the static origin; route paths (extensionless) get the SPA shell (`/thoughts/`).
+// `/thoughts/t/$id` is handled earlier by `thoughtOg` for OG injection.
+app.all("/thoughts/*", async (c) => {
+  const url = new URL(c.req.url);
+  const pathname = url.pathname;
+  if (/\.[a-z0-9]+$/i.test(pathname)) {
+    return fetch(c.req.raw);
+  }
+  const shellUrl = new URL("/thoughts/", url);
+  return fetch(new Request(shellUrl.toString(), c.req.raw));
+});
+
 // Manual digest trigger (auth-gated) — useful for testing the cron job
 api.post("/digest/run", async (c) => {
   if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);

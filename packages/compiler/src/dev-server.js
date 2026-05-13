@@ -107,6 +107,30 @@ app.get('*', (req, res) => {
         : filePath + '/index.html';
       if (fs.existsSync(htmlPath)) {
         serveFile(htmlPath);
+      } else if (!path.extname(req.path)) {
+        // SPA fallback: walk up the URL path looking for an ancestor `index.html`
+        // (e.g. /thoughts/t/123 → docs/thoughts/index.html). Restricts to
+        // extension-less paths so missing assets still 404 instead of being
+        // masked by the SPA shell.
+        const segments = req.path.split('/').filter(Boolean);
+        let served = false;
+        for (let i = segments.length - 1; i >= 1; i--) {
+          const ancestorIndex = path.join(STATIC_DIR, ...segments.slice(0, i), 'index.html');
+          if (fs.existsSync(ancestorIndex)) {
+            serveFile(ancestorIndex);
+            served = true;
+            break;
+          }
+        }
+        if (!served) {
+          const notFoundPath = path.join(STATIC_DIR, '404.html');
+          if (fs.existsSync(notFoundPath)) {
+            res.status(404);
+            serveFile(notFoundPath);
+          } else {
+            res.status(404).send('Page not found');
+          }
+        }
       } else {
         // Serve 404 page if it exists, otherwise default 404
         const notFoundPath = path.join(STATIC_DIR, '404.html');

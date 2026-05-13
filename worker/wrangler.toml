@@ -12,7 +12,8 @@ routes = [
   { pattern = "tantaman.com/paste/*", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/now", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/now*", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/thoughts/t/*", zone_name = "tantaman.com" }
+  { pattern = "tantaman.com/thoughts/t/*", zone_name = "tantaman.com" },
+  { pattern = "tantaman.com/thoughts/*", zone_name = "tantaman.com" }
 ]
 
 [[kv_namespaces]]
