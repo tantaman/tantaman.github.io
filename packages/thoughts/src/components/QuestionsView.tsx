@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { patchQuestion } from '../api';
 import { AuthContext } from '../App';
 import { useQuestions } from '../hooks/useCache';
@@ -67,8 +68,9 @@ export function QuestionsView({ tags }: { tags: string[] }) {
                   onChange={() => toggleAnswered(question)}
                   title="Mark answered"
                 />
-                <a
-                  href={`#thought-${question.thought_id}`}
+                <Link
+                  to="/t/$id"
+                  params={{ id: String(question.thought_id) }}
                   className={`task-title${question.answered_at !== null ? ' task-title--done' : ''}`}
                   onClick={(e) => {
                     if (question.description) {
@@ -78,12 +80,12 @@ export function QuestionsView({ tags }: { tags: string[] }) {
                   }}
                 >
                   {question.title}
-                </a>
+                </Link>
               </div>
               {expandedId === question.id && (
                 <div className="task-description">
                   {question.description && <p>{question.description}</p>}
-                  <a href={`#thought-${question.thought_id}`} className="question-source-link">View source thought</a>
+                  <Link to="/t/$id" params={{ id: String(question.thought_id) }} className="question-source-link">View source thought</Link>
                 </div>
               )}
             </li>

@@ -3,10 +3,11 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Feed } from '../components/Feed';
 import { TagsContext } from '../tags-context';
 
+type IndexSearch = { prefill?: string };
+
 export const Route = createFileRoute('/')({
-  validateSearch: (search: Record<string, unknown>) => ({
-    prefill: typeof search.prefill === 'string' ? search.prefill : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): IndexSearch =>
+    typeof search.prefill === 'string' ? { prefill: search.prefill } : {},
   staticData: { view: 'feed' as const },
   component: IndexRoute,
 });

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 
 export function ThoughtDuplicatesPopover({ ids }: { ids: number[] }) {
   const [open, setOpen] = useState(false);
@@ -44,12 +45,13 @@ export function ThoughtDuplicatesPopover({ ids }: { ids: number[] }) {
           <ul className="thought-dupes-list">
             {ids.map((id) => (
               <li key={id}>
-                <a
-                  href={`#thought-${id}`}
+                <Link
+                  to="/t/$id"
+                  params={{ id: String(id) }}
                   onClick={() => setOpen(false)}
                 >
                   #{id}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

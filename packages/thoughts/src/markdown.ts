@@ -23,10 +23,10 @@ function escapeHtml(s: string): string {
 }
 
 const KIND_HREF: Record<string, (id: string) => string> = {
-  d: (id) => `#document-${id}`,
-  t: (id) => `#thought-${id}`,
+  d: (id) => `/thoughts/documents/${id}`,
+  t: (id) => `/thoughts/t/${id}`,
   p: (id) => `/paste/${id}`,
-  f: (id) => `#framing-${id}`,
+  f: (id) => `/thoughts/framings/${id}`,
   b: (slug) => `/${slug}.html`,
 };
 

@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
-import type { Route } from '../types';
+import { Link, useRouterState } from '@tanstack/react-router';
 
-export function Sidebar({ route }: { route: Route }) {
+const ACTIVE = { className: 'thoughts-nav-link active' };
+const INACTIVE = { className: 'thoughts-nav-link' };
+
+export function Sidebar() {
   const [open, setOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
     setOpen(false);
-  }, [route]);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -21,7 +25,7 @@ export function Sidebar({ route }: { route: Route }) {
     };
   }, [open]);
 
-  const closeOnNav = () => setOpen(false);
+  const ampActive = pathname.startsWith('/amplifications') || pathname.startsWith('/capture');
 
   return (
     <>
@@ -36,33 +40,28 @@ export function Sidebar({ route }: { route: Route }) {
           <span /><span /><span />
         </span>
       </button>
-      {open && <div className="thoughts-nav-backdrop" onClick={closeOnNav} />}
+      {open && <div className="thoughts-nav-backdrop" onClick={() => setOpen(false)} />}
       <aside className={`thoughts-sidebar${open ? ' open' : ''}`}>
         <nav className="thoughts-nav">
           <a href="/" className="thoughts-nav-link">Tantaman</a>
-          <a href="/thoughts/" className={`thoughts-nav-link${route.view === 'feed' ? ' active' : ''}`} onClick={(e) => {
-            e.preventDefault();
-            history.pushState(null, '', location.pathname);
-            window.dispatchEvent(new HashChangeEvent('hashchange'));
-            closeOnNav();
-          }}>Thoughts</a>
-          <a href="#media" className={`thoughts-nav-link${route.view === 'media' ? ' active' : ''}`} onClick={closeOnNav}>Media</a>
-          <a href="#framings" className={`thoughts-nav-link${route.view === 'framings' || route.view === 'framing' ? ' active' : ''}`} onClick={closeOnNav}>Framings</a>
-          <a href="#documents" className={`thoughts-nav-link${route.view === 'documents' || route.view === 'document' || route.view === 'document-new' ? ' active' : ''}`} onClick={closeOnNav}>Documents</a>
+          <Link to="/" activeOptions={{ exact: true }} activeProps={ACTIVE} inactiveProps={INACTIVE}>Thoughts</Link>
+          <Link to="/media" activeProps={ACTIVE} inactiveProps={INACTIVE}>Media</Link>
+          <Link to="/framings" activeOptions={{ exact: false }} activeProps={ACTIVE} inactiveProps={INACTIVE}>Framings</Link>
+          <Link to="/documents" activeOptions={{ exact: false }} activeProps={ACTIVE} inactiveProps={INACTIVE}>Documents</Link>
           <a href="/lists/" className="thoughts-nav-link">Lists</a>
           <a href="/paste" className="thoughts-nav-link">Pastes</a>
-          <a href="#graph" className={`thoughts-nav-link${route.view === 'graph' ? ' active' : ''}`} onClick={closeOnNav}>Graph</a>
-          <a href="#browse" className={`thoughts-nav-link${route.view === 'browse' ? ' active' : ''}`} onClick={closeOnNav}>Browse</a>
+          <Link to="/graph" activeProps={ACTIVE} inactiveProps={INACTIVE}>Graph</Link>
+          <Link to="/browse" activeProps={ACTIVE} inactiveProps={INACTIVE}>Browse</Link>
           <hr className="thoughts-nav-divider" />
-          <a href="#tasks" className={`thoughts-nav-link${route.view === 'tasks' ? ' active' : ''}`} onClick={closeOnNav}>Tasks <span className="nav-tag-pill">#t</span></a>
-          <a href="#questions" className={`thoughts-nav-link${route.view === 'questions' ? ' active' : ''}`} onClick={closeOnNav}>Questions <span className="nav-tag-pill">#q</span></a>
-          <a href="#events" className={`thoughts-nav-link${route.view === 'events' ? ' active' : ''}`} onClick={closeOnNav}>Events <span className="nav-tag-pill">#e</span></a>
-          <a href="#locations" className={`thoughts-nav-link${route.view === 'locations' ? ' active' : ''}`} onClick={closeOnNav}>Locations <span className="nav-tag-pill">#l</span></a>
-          <a href="#books" className={`thoughts-nav-link${route.view === 'books' ? ' active' : ''}`} onClick={closeOnNav}>Books <span className="nav-tag-pill">#b</span></a>
-          <a href="#movies" className={`thoughts-nav-link${route.view === 'movies' ? ' active' : ''}`} onClick={closeOnNav}>Movies <span className="nav-tag-pill">#m</span></a>
-          <a href="#music" className={`thoughts-nav-link${route.view === 'music' ? ' active' : ''}`} onClick={closeOnNav}>Music <span className="nav-tag-pill">#a</span></a>
-          <a href="#bookmarks" className={`thoughts-nav-link${route.view === 'bookmarks' ? ' active' : ''}`} onClick={closeOnNav}>Bookmarks</a>
-          <a href="#amplifications" className={`thoughts-nav-link${route.view === 'amplifications' || route.view === 'capture' ? ' active' : ''}`} onClick={closeOnNav}>Amplifications</a>
+          <Link to="/tasks" activeProps={ACTIVE} inactiveProps={INACTIVE}>Tasks <span className="nav-tag-pill">#t</span></Link>
+          <Link to="/questions" activeProps={ACTIVE} inactiveProps={INACTIVE}>Questions <span className="nav-tag-pill">#q</span></Link>
+          <Link to="/events" activeProps={ACTIVE} inactiveProps={INACTIVE}>Events <span className="nav-tag-pill">#e</span></Link>
+          <Link to="/locations" activeProps={ACTIVE} inactiveProps={INACTIVE}>Locations <span className="nav-tag-pill">#l</span></Link>
+          <Link to="/books" activeProps={ACTIVE} inactiveProps={INACTIVE}>Books <span className="nav-tag-pill">#b</span></Link>
+          <Link to="/movies" activeProps={ACTIVE} inactiveProps={INACTIVE}>Movies <span className="nav-tag-pill">#m</span></Link>
+          <Link to="/music" activeProps={ACTIVE} inactiveProps={INACTIVE}>Music <span className="nav-tag-pill">#a</span></Link>
+          <Link to="/bookmarks" activeProps={ACTIVE} inactiveProps={INACTIVE}>Bookmarks</Link>
+          <Link to="/amplifications" className={`thoughts-nav-link${ampActive ? ' active' : ''}`}>Amplifications</Link>
         </nav>
       </aside>
     </>

@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Link, useNavigate } from '@tanstack/react-router';
 import type { Thought, ThoughtVersion } from '../types';
 import { AuthContext } from '../App';
 import { useThread } from '../hooks/useCache';
@@ -19,24 +20,12 @@ function buildChildrenMap(replies: Thought[]): Map<number, Thought[]> {
   return map;
 }
 
-function navigateToFeed() {
-  history.pushState(null, '', location.pathname);
-  window.dispatchEvent(new HashChangeEvent('hashchange'));
-}
-
 function BackLink() {
   return (
     <div className="thread-back">
-      <a
-        href="#"
-        className="thread-back-link"
-        onClick={(e) => {
-          e.preventDefault();
-          navigateToFeed();
-        }}
-      >
+      <Link to="/" className="thread-back-link">
         &larr; Back
-      </a>
+      </Link>
     </div>
   );
 }
@@ -44,6 +33,7 @@ function BackLink() {
 export function ThreadView({ id }: { id: number }) {
   const { secret } = useContext(AuthContext);
   const { data, error, mutate } = useThread(id, secret);
+  const navigate = useNavigate();
 
   if (error) {
     return (
@@ -51,16 +41,9 @@ export function ThreadView({ id }: { id: number }) {
         <BackLink />
         <div className="thought-loading">
           Thought not found.{' '}
-          <a
-            href="#"
-            className="thread-back-link"
-            onClick={(e) => {
-              e.preventDefault();
-              navigateToFeed();
-            }}
-          >
+          <Link to="/" className="thread-back-link">
             Back to feed
-          </a>
+          </Link>
         </div>
       </>
     );
@@ -81,7 +64,7 @@ export function ThreadView({ id }: { id: number }) {
   const versions: ThoughtVersion[] = data.versions || [];
 
   const handleParentDelete = () => {
-    navigateToFeed();
+    navigate({ to: '/' });
   };
 
   const handleReplyPosted = (t: Thought) => {
@@ -105,7 +88,7 @@ export function ThreadView({ id }: { id: number }) {
       {isSuperseded && latestVersionId != null && (
         <div className="version-banner">
           This thought has been revised.{' '}
-          <a href={`#thought-${latestVersionId}`}>View latest version</a>
+          <Link to="/t/$id" params={{ id: String(latestVersionId) }}>View latest version</Link>
         </div>
       )}
 
@@ -115,7 +98,7 @@ export function ThreadView({ id }: { id: number }) {
             v.id === id ? (
               <span key={v.id} className="version-link version-link--current">v{i + 1}</span>
             ) : (
-              <a key={v.id} href={`#thought-${v.id}`} className="version-link">v{i + 1}</a>
+              <Link key={v.id} to="/t/$id" params={{ id: String(v.id) }} className="version-link">v{i + 1}</Link>
             )
           ))}
         </div>

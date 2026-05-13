@@ -1,6 +1,7 @@
 import { memo, useCallback, useContext } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import type { NodeProps, Node } from '@xyflow/react';
+import { useNavigate } from '@tanstack/react-router';
 import { AuthContext } from '../../App';
 
 export type FramingNodeData = {
@@ -16,14 +17,15 @@ export const FramingNode = memo(function FramingNode({
   data,
 }: NodeProps<FramingNodeType>) {
   const { secret } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const open = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      window.location.hash = `#framing-${data.framingId}`;
+      navigate({ to: '/framings/$id', params: { id: String(data.framingId) } });
     },
-    [data.framingId],
+    [data.framingId, navigate],
   );
 
   return (
@@ -46,7 +48,7 @@ export const FramingNode = memo(function FramingNode({
       )}
       <div className="framing-framing-node-icon" aria-hidden="true">⌘</div>
       <a
-        href={`#framing-${data.framingId}`}
+        href={`/thoughts/framings/${data.framingId}`}
         className="framing-framing-node-title"
         onClick={open}
         draggable={false}

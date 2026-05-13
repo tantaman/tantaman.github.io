@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import type { Ancestor } from '../types';
 
 function excerpt(body: string, maxLen = 220): string {
@@ -20,10 +21,11 @@ export function AncestorChain({ ancestors }: { ancestors: Ancestor[] }) {
     <div className="ancestor-chain">
       <div className="ancestor-chain-label">in reply to</div>
       {ancestors.map((a, i) => (
-        <a
+        <Link
           key={a.id}
+          to="/t/$id"
+          params={{ id: String(a.id) }}
           className="ancestor-card"
-          href={`#thought-${a.id}`}
           style={a.color ? { borderLeftColor: a.color } : undefined}
           data-depth={ancestors.length - 1 - i}
         >
@@ -31,7 +33,7 @@ export function AncestorChain({ ancestors }: { ancestors: Ancestor[] }) {
           <div className="ancestor-meta">
             <span>{shortDate(a.timestamp)}</span>
           </div>
-        </a>
+        </Link>
       ))}
       <div className="ancestor-chain-arrow" aria-hidden>↓</div>
     </div>

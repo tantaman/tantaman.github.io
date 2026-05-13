@@ -19,6 +19,7 @@ import {
   type WikiLinkSearch,
   type WikiLinkKind,
 } from '@tantaman/editor';
+import { useNavigate } from '@tanstack/react-router';
 import { AuthContext } from '../App';
 import { useDocument } from '../hooks/useCache';
 import { createDocument, updateDocument, typeahead, type TypeaheadKindLetter } from '../api';
@@ -57,6 +58,7 @@ export function DocumentEditView({ id }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'dirty' | 'saving' | 'saved' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [currentId, setCurrentId] = useState<number | undefined>(id);
+  const navigate = useNavigate();
 
   const editor = useMarkdownEditor({
     placeholder: ({ node }) =>
@@ -137,8 +139,7 @@ export function DocumentEditView({ id }: Props) {
         );
         savedId = created.id;
         setCurrentId(created.id);
-        // Replace state so back/forward works; avoid a full hashchange round-trip.
-        history.replaceState(null, '', `#document-${created.id}`);
+        navigate({ to: '/documents/$id', params: { id: String(created.id) }, replace: true });
       }
       invalidateDocumentsList();
       setSaveState('saved');

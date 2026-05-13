@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Link } from '@tanstack/react-router';
 import { AuthContext } from '../App';
 import { useRelated } from '../hooks/useCache';
 import type { RelatedItem, SimilarItem } from '../types';
@@ -20,9 +21,10 @@ function shortDate(ts: number): string {
 function RelatedRow({ item }: { item: RelatedItem | SimilarItem }) {
   const score = 'score' in item ? item.score : null;
   return (
-    <a
+    <Link
+      to="/t/$id"
+      params={{ id: String(item.id) }}
       className="related-row"
-      href={`#thought-${item.id}`}
       style={item.color ? { borderLeftColor: item.color } : undefined}
     >
       <div className="related-row-body">{excerpt(item.body)}</div>
@@ -30,7 +32,7 @@ function RelatedRow({ item }: { item: RelatedItem | SimilarItem }) {
         <span>{shortDate(item.timestamp)}</span>
         {score != null && <span className="related-row-score">{score.toFixed(2)}</span>}
       </div>
-    </a>
+    </Link>
   );
 }
 

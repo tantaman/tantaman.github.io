@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { Book } from '../types';
 import { useBooks } from '../hooks/useCache';
 import { patchBook } from '../api';
@@ -98,25 +99,27 @@ export function BooksView() {
                 </div>
               )}
               <div className="movie-info">
-                <a
+                <Link
+                  to="/t/$id"
+                  params={{ id: String(book.thought_id) }}
                   className="movie-title"
-                  href={`#thought-${book.thought_id}`}
                 >
                   {book.title}
-                </a>
+                </Link>
                 {book.author && <span className="movie-year">{book.author}</span>}
                 {book.year && <span className="movie-year">{book.year}</span>}
                 {book.description && (
                   <span className="movie-description">{book.description}</span>
                 )}
                 {book.reply_count > 0 && (
-                  <a
+                  <Link
+                    to="/t/$id"
+                    params={{ id: String(book.thought_id) }}
                     className="movie-reply-count"
-                    href={`#thought-${book.thought_id}`}
                   >
                     💬 {book.reply_count}{' '}
                     {book.reply_count === 1 ? 'reply' : 'replies'}
-                  </a>
+                  </Link>
                 )}
                 {secret && editingId !== book.id && (
                   <button

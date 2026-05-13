@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import { AuthContext } from '../App';
 import { useThoughtGraph } from '../hooks/useCache';
 import type { GraphThought } from '../types';
@@ -60,6 +61,7 @@ function averageHex(colors: string[]): string {
 export function ThoughtGraph() {
   const { secret } = useContext(AuthContext);
   const { data, isLoading } = useThoughtGraph(secret);
+  const navigate = useNavigate();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -330,7 +332,7 @@ export function ThoughtGraph() {
     if (dx < 3 && dy < 3) {
       const node = hitTest(e.clientX, e.clientY);
       if (node) {
-        location.hash = `#thought-${node.thought.id}`;
+        navigate({ to: '/t/$id', params: { id: String(node.thought.id) } });
         return;
       }
       const cluster = hitTestCluster(e.clientX, e.clientY);
@@ -340,7 +342,7 @@ export function ThoughtGraph() {
       }
       setSelectedCluster(null);
     }
-  }, [hitTest, hitTestCluster, selectedCluster]);
+  }, [hitTest, hitTestCluster, selectedCluster, navigate]);
 
   if (isLoading) {
     return <div className="thought-graph-wrap"><p style={{ padding: 20, opacity: 0.5 }}>Loading graph…</p></div>;

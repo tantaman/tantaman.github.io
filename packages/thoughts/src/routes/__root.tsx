@@ -12,7 +12,6 @@ import { TagsContext } from '../tags-context';
 import { Layout } from '../components/Layout';
 import { SecretToggle } from '../components/SecretToggle';
 import { getSecret, setSecret } from '../auth';
-import type { Route as RouteType } from '../types';
 
 function legacyHashRedirect(hash: string): string | null {
   if (!hash || hash === '#') return null;
@@ -89,16 +88,24 @@ function RootComponent() {
     setSelectedFraming((prev) => (prev === id ? null : id));
   }, []);
 
-  // Shim: catch in-app `<a href="#xxx">` clicks until Phase 2 rewrites them to <Link>.
+  // Intercept clicks on wiki-link anchors rendered inside dangerouslySetInnerHTML markdown,
+  // since they can't be TanStack <Link> components. Routes same-origin /thoughts/* hrefs
+  // through the router instead of letting the browser do a full reload. Same-origin links
+  // outside /thoughts/ (e.g. paste, blog posts) keep their default browser navigation.
   useEffect(() => {
-    const onHash = () => {
-      const target = legacyHashRedirect(window.location.hash);
-      if (target) {
-        router.navigate({ to: target, replace: true } as never);
-      }
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented) return;
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = (e.target as HTMLElement | null)?.closest?.('a.wiki-link');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href || !href.startsWith('/thoughts/')) return;
+      const path = href.slice('/thoughts'.length) || '/';
+      e.preventDefault();
+      router.navigate({ to: path, replace: false } as never);
     };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
   }, [router]);
 
   return (
@@ -128,15 +135,8 @@ function RouteShell({
 }) {
   const matches = useMatches();
   const deepest = matches[matches.length - 1];
-  const staticData = deepest?.staticData as { view?: RouteType['view']; bare?: boolean } | undefined;
-  const view = staticData?.view ?? 'feed';
-  const bare = staticData?.bare === true;
-
-  // Synthesize a Route value for Layout/Sidebar. They only read .view in Phase 1.
-  // Phase 2 step 1 deletes this when Sidebar moves to <Link activeProps>.
-  const route = { view } as RouteType;
-
-  if (bare) {
+  const staticData = deepest?.staticData as { bare?: boolean } | undefined;
+  if (staticData?.bare === true) {
     return (
       <div id="thoughts-page">
         <Outlet />
@@ -145,7 +145,6 @@ function RouteShell({
   }
   return (
     <Layout
-      route={route}
       selectedTags={selectedTags}
       toggleTag={toggleTag}
       selectedFraming={selectedFraming}

@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { Movie } from '../types';
 import { useMovies } from '../hooks/useCache';
 import { patchMovie } from '../api';
@@ -98,9 +99,10 @@ export function MoviesView() {
                 </div>
               )}
               <div className="movie-info">
-                <a
+                <Link
+                  to="/t/$id"
+                  params={{ id: String(movie.thought_id) }}
                   className="movie-title"
-                  href={`#thought-${movie.thought_id}`}
                 >
                   {movie.title}
                   {movie.mention_count > 1 && (
@@ -108,7 +110,7 @@ export function MoviesView() {
                       ×{movie.mention_count}
                     </span>
                   )}
-                </a>
+                </Link>
                 {movie.year && <span className="movie-year">{movie.year}</span>}
                 {movie.vote_average != null && movie.vote_average > 0 && (
                   <span className="movie-rating">
@@ -122,13 +124,14 @@ export function MoviesView() {
                   <span className="movie-description">{movie.description}</span>
                 )}
                 {movie.reply_count > 0 && (
-                  <a
+                  <Link
+                    to="/t/$id"
+                    params={{ id: String(movie.thought_id) }}
                     className="movie-reply-count"
-                    href={`#thought-${movie.thought_id}`}
                   >
                     💬 {movie.reply_count}{' '}
                     {movie.reply_count === 1 ? 'reply' : 'replies'}
-                  </a>
+                  </Link>
                 )}
                 {secret && editingId !== movie.id && (
                   <button

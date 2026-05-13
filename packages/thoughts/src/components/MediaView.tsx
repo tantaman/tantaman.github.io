@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { useMedia } from '../hooks/useCache';
 import { attachmentUrl } from '../api';
 import { AuthContext } from '../App';
@@ -20,9 +21,9 @@ function Lightbox({ item, onClose }: { item: MediaItem; onClose: () => void }) {
         <button className="media-lightbox-close" onClick={onClose}>&times;</button>
         <img src={attachmentUrl(item.key)} alt={item.name} />
         <div className="media-lightbox-caption">
-          <a href={`#thought-${item.thought_id}`} className="media-lightbox-link">
+          <Link to="/t/$id" params={{ id: String(item.thought_id) }} className="media-lightbox-link">
             {formatDate(item.timestamp)}
-          </a>
+          </Link>
         </div>
       </div>
     </div>

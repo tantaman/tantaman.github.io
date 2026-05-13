@@ -1,4 +1,5 @@
 import { useContext, useMemo, useState, type ReactNode } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { Thought } from '../types';
 import { attachmentUrl } from '../api';
 import * as api from '../api';
@@ -77,7 +78,7 @@ export function ThoughtCard({
       style={thought.color ? { backgroundColor: thought.color + '14' } : undefined}
     >
       <div className="thought-header">
-        <a href={`#thought-${thought.id}`} className="thought-header-link">
+        <Link to="/t/$id" params={{ id: String(thought.id) }} className="thought-header-link">
           <span className="thought-number">#{thought.id}</span>
           <span className="thought-meta-sep">&middot;</span>
           <span className="thought-time">{formatTime(thought.timestamp)}</span>
@@ -93,7 +94,7 @@ export function ThoughtCard({
               <span className="thought-revised-badge">revised</span>
             </>
           )}
-        </a>
+        </Link>
         {thought.duplicate_ids && thought.duplicate_ids.length > 0 && (
           <ThoughtDuplicatesPopover ids={thought.duplicate_ids} />
         )}

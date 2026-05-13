@@ -14,6 +14,7 @@ import {
   type WikiLinkSearch,
   type WikiLinkKind,
 } from '@tantaman/editor';
+import { useNavigate } from '@tanstack/react-router';
 import { AuthContext } from '../../App';
 import {
   getDocument,
@@ -61,6 +62,7 @@ export const DocumentNode = memo(function DocumentNode({
   data,
 }: NodeProps<DocumentNodeType>) {
   const { secret } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const [titleOverride, setTitleOverride] = useState<string | null>(null);
   const [bodyOverride, setBodyOverride] = useState<string | null>(null);
@@ -73,9 +75,9 @@ export const DocumentNode = memo(function DocumentNode({
     (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      window.location.hash = `#document-${data.documentId}`;
+      navigate({ to: '/documents/$id', params: { id: String(data.documentId) } });
     },
-    [data.documentId],
+    [data.documentId, navigate],
   );
 
   // The browser navigates by default when a drop lands on or near an <a> with
@@ -100,7 +102,7 @@ export const DocumentNode = memo(function DocumentNode({
           {expanded ? '⤢' : '⤡'}
         </button>
         <a
-          href={`#document-${data.documentId}`}
+          href={`/thoughts/documents/${data.documentId}`}
           className="framing-document-node-title"
           title="Open in full view"
           draggable={false}

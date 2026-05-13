@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { patchTask, postThought } from '../api';
 import { AuthContext } from '../App';
 import { useTasks } from '../hooks/useCache';
@@ -154,12 +155,13 @@ export function TasksView({ tags }: { tags: string[] }) {
                 >
                   −
                 </button>
-                <a
-                  href={`#thought-${task.thought_id}`}
+                <Link
+                  to="/t/$id"
+                  params={{ id: String(task.thought_id) }}
                   className={`task-title${task.completed_at !== null ? ' task-title--done' : ''}${task.deprioritized_at != null && task.completed_at === null ? ' task-title--deprioritized' : ''}`}
                 >
                   {task.title}
-                </a>
+                </Link>
               </div>
             </li>
           ))}

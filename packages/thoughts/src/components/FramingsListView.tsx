@@ -1,4 +1,5 @@
 import { useContext, useRef, useState } from 'react';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { createFraming, deleteFraming, importFraming } from '../api';
 import { AuthContext } from '../App';
 import { useFramings } from '../hooks/useCache';
@@ -8,6 +9,7 @@ export function FramingsListView() {
   const { data, mutate } = useFramings();
   const framings = data?.framings ?? [];
   const loading = !data;
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [creating, setCreating] = useState(false);
@@ -34,7 +36,7 @@ export function FramingsListView() {
       const text = await file.text();
       const data = JSON.parse(text);
       const { id } = await importFraming(data, secret);
-      window.location.hash = `framing-${id}`;
+      navigate({ to: '/framings/$id', params: { id: String(id) } });
     } catch {
       // ignore
     }
@@ -87,10 +89,10 @@ export function FramingsListView() {
         <ul className="framings-list">
           {framings.map((f) => (
             <li key={f.id} className="framings-item">
-              <a href={`#framing-${f.id}`} className="framings-item-link">
+              <Link to="/framings/$id" params={{ id: String(f.id) }} className="framings-item-link">
                 <span className="framings-item-name">{f.name}</span>
                 {f.description && <span className="framings-item-desc">{f.description}</span>}
-              </a>
+              </Link>
               {secret && (
                 <button
                   className="framings-delete-btn"

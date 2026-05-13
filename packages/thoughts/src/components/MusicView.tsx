@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { Album } from '../types';
 import { useAlbums } from '../hooks/useCache';
 import { patchAlbum } from '../api';
@@ -104,9 +105,10 @@ export function MusicView() {
                   <div className="movie-poster-link">{cover}</div>
                 )}
                 <div className="movie-info">
-                  <a
+                  <Link
+                    to="/t/$id"
+                    params={{ id: String(album.thought_id) }}
                     className="movie-title"
-                    href={`#thought-${album.thought_id}`}
                   >
                     {album.title}
                     {album.mention_count > 1 && (
@@ -114,7 +116,7 @@ export function MusicView() {
                         ×{album.mention_count}
                       </span>
                     )}
-                  </a>
+                  </Link>
                   {album.artist && <span className="movie-year">{album.artist}</span>}
                   {album.year && <span className="movie-year">{album.year}</span>}
                   {album.genre && <span className="movie-year">{album.genre}</span>}
@@ -122,13 +124,14 @@ export function MusicView() {
                     <span className="movie-description">{album.description}</span>
                   )}
                   {album.reply_count > 0 && (
-                    <a
+                    <Link
+                      to="/t/$id"
+                      params={{ id: String(album.thought_id) }}
                       className="movie-reply-count"
-                      href={`#thought-${album.thought_id}`}
                     >
                       💬 {album.reply_count}{' '}
                       {album.reply_count === 1 ? 'reply' : 'replies'}
-                    </a>
+                    </Link>
                   )}
                   {secret && editingId !== album.id && (
                     <button

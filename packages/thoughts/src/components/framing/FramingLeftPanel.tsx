@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { useThoughts } from '../../hooks/useThoughts';
 import { useSearch, usePostsManifest, useDocuments, useFramings } from '../../hooks/useCache';
 import { renderMarkdown } from '../../markdown';
@@ -334,7 +335,7 @@ export function FramingLeftPanel({
   return (
     <div className="framing-left-panel">
       <div className="framing-panel-header">
-        <a href="#framings" className="framing-panel-back">&larr; Framings</a>
+        <Link to="/framings" className="framing-panel-back">&larr; Framings</Link>
         {editing ? (
           <input
             ref={inputRef}

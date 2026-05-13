@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { AuthContext } from '../App';
 import { createAmplification } from '../api';
 import { useSWRConfig } from 'swr';
@@ -30,6 +31,7 @@ interface Props {
 
 export function CaptureView({ initialUrl, initialText, initialTitle }: Props) {
   const { secret } = useContext(AuthContext);
+  const navigate = useNavigate();
   const { mutate } = useSWRConfig();
 
   const [url, setUrl] = useState(initialUrl ?? '');
@@ -90,7 +92,7 @@ export function CaptureView({ initialUrl, initialText, initialTitle }: Props) {
     setSource('other');
     setSaved(null);
     setError(null);
-    history.replaceState(null, '', '/thoughts/#capture');
+    navigate({ to: '/capture', search: {}, replace: true });
   }
 
   if (saved) {
@@ -109,7 +111,7 @@ export function CaptureView({ initialUrl, initialText, initialTitle }: Props) {
           {saved.description && <p className="capture-saved-desc">{saved.description}</p>}
           <div className="capture-actions">
             <button type="button" onClick={reset}>Capture another</button>
-            <a className="capture-link-btn" href="#amplifications">View all</a>
+            <Link className="capture-link-btn" to="/amplifications">View all</Link>
           </div>
         </div>
       </div>

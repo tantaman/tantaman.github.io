@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { AuthContext } from '../App';
 import { useDocuments } from '../hooks/useCache';
 
@@ -41,18 +42,19 @@ export function DocumentsSidebar({ currentId }: { currentId?: number }) {
       {open && <div className="thoughts-nav-backdrop" onClick={() => setOpen(false)} />}
       <aside className={`document-sidebar${open ? ' open' : ''}`}>
         <div className="document-sidebar-header">
-          <a href="/thoughts/" className="document-sidebar-home" title="Back to Thoughts">⌂</a>
-          <a href="#documents" className="document-sidebar-title">Documents</a>
-          <a href="#document-new" className="document-sidebar-new" title="New document">+</a>
+          <Link to="/" className="document-sidebar-home" title="Back to Thoughts">⌂</Link>
+          <Link to="/documents" className="document-sidebar-title">Documents</Link>
+          <Link to="/documents/new" className="document-sidebar-new" title="New document">+</Link>
         </div>
         <nav className="document-sidebar-list">
           {documents.length === 0 ? (
             <span className="document-sidebar-empty">No documents</span>
           ) : (
             documents.map((d) => (
-              <a
+              <Link
                 key={d.id}
-                href={`#document-${d.id}`}
+                to="/documents/$id"
+                params={{ id: String(d.id) }}
                 className={`document-sidebar-item${d.id === currentId ? ' active' : ''}`}
                 title={d.title}
                 onClick={() => setOpen(false)}
@@ -61,7 +63,7 @@ export function DocumentsSidebar({ currentId }: { currentId?: number }) {
                   {d.title || 'Untitled'}
                 </span>
                 {d.private && <span className="document-sidebar-item-badge">·</span>}
-              </a>
+              </Link>
             ))
           )}
         </nav>

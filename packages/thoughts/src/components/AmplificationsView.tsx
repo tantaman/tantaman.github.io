@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { Amplification } from '../types';
 import { useAmplifications } from '../hooks/useCache';
 import { deleteAmplification, refetchAmplification } from '../api';
@@ -75,7 +76,7 @@ export function AmplificationsView() {
     <div className="events-view">
       <div className="events-header">
         <h2 className="events-title">Amplifications</h2>
-        <a className="capture-link-btn" href="#capture">Capture new</a>
+        <Link className="capture-link-btn" to="/capture">Capture new</Link>
       </div>
       <div className="amplification-filters">
         {SOURCE_FILTERS.map((f) => (

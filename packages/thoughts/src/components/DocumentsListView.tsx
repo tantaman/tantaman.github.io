@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Link } from '@tanstack/react-router';
 import { deleteDocument } from '../api';
 import { AuthContext } from '../App';
 import { useDocuments } from '../hooks/useCache';
@@ -36,9 +37,9 @@ export function DocumentsListView() {
       <div className="documents-header">
         <h2 className="documents-title">Documents</h2>
         {secret && (
-          <a href="#document-new" className="documents-new-btn">
+          <Link to="/documents/new" className="documents-new-btn">
             + New
-          </a>
+          </Link>
         )}
       </div>
       {loading ? (
@@ -49,7 +50,7 @@ export function DocumentsListView() {
         <ul className="documents-list">
           {documents.map((d) => (
             <li key={d.id} className="documents-item">
-              <a href={`#document-${d.id}`} className="documents-item-link">
+              <Link to="/documents/$id" params={{ id: String(d.id) }} className="documents-item-link">
                 <span className="documents-item-name">
                   {d.title}
                   {d.private && <span className="documents-item-badge">private</span>}
@@ -57,7 +58,7 @@ export function DocumentsListView() {
                 <span className="documents-item-meta">
                   Updated {formatDate(d.updated_at)}
                 </span>
-              </a>
+              </Link>
               {secret && (
                 <button
                   className="documents-delete-btn"

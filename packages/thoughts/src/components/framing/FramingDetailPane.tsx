@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { Thought, ThoughtVersion } from '../../types';
 import { AuthContext } from '../../App';
 import { useThread } from '../../hooks/useCache';
@@ -40,13 +41,14 @@ export function FramingDetailPane({
   return (
     <aside className="framing-detail-pane" aria-label="Thought detail">
       <div className="framing-detail-header">
-        <a
-          href={`#thought-${thoughtId}`}
+        <Link
+          to="/t/$id"
+          params={{ id: String(thoughtId) }}
           className="framing-detail-open"
           title="Open in full thread view"
         >
           Open ↗
-        </a>
+        </Link>
         <button
           type="button"
           className="framing-detail-close"
@@ -116,7 +118,7 @@ function DetailContent({
       {isSuperseded && latestVersionId != null && (
         <div className="version-banner">
           This thought has been revised.{' '}
-          <a href={`#thought-${latestVersionId}`}>View latest version</a>
+          <Link to="/t/$id" params={{ id: String(latestVersionId) }}>View latest version</Link>
         </div>
       )}
 
@@ -128,13 +130,14 @@ function DetailContent({
                 v{i + 1}
               </span>
             ) : (
-              <a
+              <Link
                 key={v.id}
-                href={`#thought-${v.id}`}
+                to="/t/$id"
+                params={{ id: String(v.id) }}
                 className="version-link"
               >
                 v{i + 1}
-              </a>
+              </Link>
             ),
           )}
         </div>
