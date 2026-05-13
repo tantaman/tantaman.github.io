@@ -319,24 +319,3 @@ export interface GraphResponse {
   clusters: Cluster[];
 }
 
-export type Route =
-  | { view: 'feed'; prefill?: string }
-  | { view: 'thread'; id: number }
-  | { view: 'tasks' }
-  | { view: 'events' }
-  | { view: 'framings' }
-  | { view: 'framing'; id: number }
-  | { view: 'locations' }
-  | { view: 'media' }
-  | { view: 'movies' }
-  | { view: 'books' }
-  | { view: 'music' }
-  | { view: 'bookmarks' }
-  | { view: 'amplifications' }
-  | { view: 'capture'; url?: string; text?: string; title?: string }
-  | { view: 'browse' }
-  | { view: 'questions' }
-  | { view: 'documents' }
-  | { view: 'document'; id: number }
-  | { view: 'document-new' }
-  | { view: 'graph' };

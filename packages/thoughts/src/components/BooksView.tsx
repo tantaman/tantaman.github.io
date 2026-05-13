@@ -101,7 +101,7 @@ export function BooksView() {
               <div className="movie-info">
                 <Link
                   to="/t/$id"
-                  params={{ id: String(book.thought_id) }}
+                  params={{ id: book.thought_id }}
                   className="movie-title"
                 >
                   {book.title}
@@ -114,7 +114,7 @@ export function BooksView() {
                 {book.reply_count > 0 && (
                   <Link
                     to="/t/$id"
-                    params={{ id: String(book.thought_id) }}
+                    params={{ id: book.thought_id }}
                     className="movie-reply-count"
                   >
                     💬 {book.reply_count}{' '}

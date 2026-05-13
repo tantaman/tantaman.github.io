@@ -86,7 +86,7 @@ export function Feed({ tags, framing, prefill }: { tags: string[]; framing?: num
                 thought={t}
                 maxBodyChars={1000}
                 readMore={
-                  <Link to="/t/$id" params={{ id: String(t.id) }} className="thought-read-more">read more</Link>
+                  <Link to="/t/$id" params={{ id: t.id }} className="thought-read-more">read more</Link>
                 }
                 onDelete={() => handleDelete(t.id)}
                 onEdited={secret ? handleEdited : undefined}
@@ -141,7 +141,7 @@ function SearchResults({ query, secret }: { query: string; secret: string | null
               key={t.id}
               thought={t}
               maxBodyChars={1000}
-              readMore={<Link to="/t/$id" params={{ id: String(t.id) }} className="thought-read-more">read more</Link>}
+              readMore={<Link to="/t/$id" params={{ id: t.id }} className="thought-read-more">read more</Link>}
               footer={<SearchFooter score={t.score} thoughtId={t.id} replyCount={t.reply_count} />}
             />
           ))}
@@ -217,7 +217,7 @@ function SearchFooter({
     <div className="thought-footer">
       <span className="search-score">{pct}% match</span>
       {replyCount > 0 && (
-        <Link to="/t/$id" params={{ id: String(thoughtId) }} className="thought-replies-link">
+        <Link to="/t/$id" params={{ id: thoughtId }} className="thought-replies-link">
           {replyCount} {replyCount === 1 ? 'reply' : 'replies'}
         </Link>
       )}
@@ -236,7 +236,7 @@ function ThoughtFooter({
   if (count > 0) {
     return (
       <div className="thought-footer">
-        <Link to="/t/$id" params={{ id: String(thought.id) }} className="thought-replies-link">
+        <Link to="/t/$id" params={{ id: thought.id }} className="thought-replies-link">
           {count} {count === 1 ? 'reply' : 'replies'}
         </Link>
       </div>
@@ -247,7 +247,7 @@ function ThoughtFooter({
       <div className="thought-footer">
         <Link
           to="/t/$id"
-          params={{ id: String(thought.id) }}
+          params={{ id: thought.id }}
           className="thought-replies-link thought-replies-link--subtle"
         >
           Reply

@@ -332,7 +332,7 @@ export function ThoughtGraph() {
     if (dx < 3 && dy < 3) {
       const node = hitTest(e.clientX, e.clientY);
       if (node) {
-        navigate({ to: '/t/$id', params: { id: String(node.thought.id) } });
+        navigate({ to: '/t/$id', params: { id: node.thought.id } });
         return;
       }
       const cluster = hitTestCluster(e.clientX, e.clientY);

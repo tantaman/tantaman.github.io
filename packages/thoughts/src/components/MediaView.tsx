@@ -21,7 +21,7 @@ function Lightbox({ item, onClose }: { item: MediaItem; onClose: () => void }) {
         <button className="media-lightbox-close" onClick={onClose}>&times;</button>
         <img src={attachmentUrl(item.key)} alt={item.name} />
         <div className="media-lightbox-caption">
-          <Link to="/t/$id" params={{ id: String(item.thought_id) }} className="media-lightbox-link">
+          <Link to="/t/$id" params={{ id: item.thought_id }} className="media-lightbox-link">
             {formatDate(item.timestamp)}
           </Link>
         </div>

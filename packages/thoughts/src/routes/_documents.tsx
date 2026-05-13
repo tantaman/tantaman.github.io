@@ -9,11 +9,11 @@ export const Route = createFileRoute('/_documents')({
 function DocumentsLayout() {
   const matches = useMatches();
   const deepest = matches[matches.length - 1];
-  const params = (deepest?.params ?? {}) as { id?: string };
-  const currentId = params.id ? Number(params.id) : undefined;
+  const params = (deepest?.params ?? {}) as { id?: number };
+  const currentId = params.id;
   // List view (`/documents`) renders without a sidebar — sidebar is for edit/new.
-  const staticData = deepest?.staticData as { view?: string } | undefined;
-  const showSidebar = staticData?.view === 'document' || staticData?.view === 'document-new';
+  const staticData = deepest?.staticData as { withSidebar?: boolean } | undefined;
+  const showSidebar = staticData?.withSidebar === true;
 
   if (!showSidebar) {
     return <Outlet />;

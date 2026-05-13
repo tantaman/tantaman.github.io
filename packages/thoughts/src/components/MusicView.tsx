@@ -107,7 +107,7 @@ export function MusicView() {
                 <div className="movie-info">
                   <Link
                     to="/t/$id"
-                    params={{ id: String(album.thought_id) }}
+                    params={{ id: album.thought_id }}
                     className="movie-title"
                   >
                     {album.title}
@@ -126,7 +126,7 @@ export function MusicView() {
                   {album.reply_count > 0 && (
                     <Link
                       to="/t/$id"
-                      params={{ id: String(album.thought_id) }}
+                      params={{ id: album.thought_id }}
                       className="movie-reply-count"
                     >
                       💬 {album.reply_count}{' '}

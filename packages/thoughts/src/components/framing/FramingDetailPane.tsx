@@ -43,7 +43,7 @@ export function FramingDetailPane({
       <div className="framing-detail-header">
         <Link
           to="/t/$id"
-          params={{ id: String(thoughtId) }}
+          params={{ id: thoughtId }}
           className="framing-detail-open"
           title="Open in full thread view"
         >
@@ -118,7 +118,7 @@ function DetailContent({
       {isSuperseded && latestVersionId != null && (
         <div className="version-banner">
           This thought has been revised.{' '}
-          <Link to="/t/$id" params={{ id: String(latestVersionId) }}>View latest version</Link>
+          <Link to="/t/$id" params={{ id: latestVersionId }}>View latest version</Link>
         </div>
       )}
 
@@ -133,7 +133,7 @@ function DetailContent({
               <Link
                 key={v.id}
                 to="/t/$id"
-                params={{ id: String(v.id) }}
+                params={{ id: v.id }}
                 className="version-link"
               >
                 v{i + 1}

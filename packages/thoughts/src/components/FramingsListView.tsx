@@ -36,7 +36,7 @@ export function FramingsListView() {
       const text = await file.text();
       const data = JSON.parse(text);
       const { id } = await importFraming(data, secret);
-      navigate({ to: '/framings/$id', params: { id: String(id) } });
+      navigate({ to: '/framings/$id', params: { id: id } });
     } catch {
       // ignore
     }
@@ -89,7 +89,7 @@ export function FramingsListView() {
         <ul className="framings-list">
           {framings.map((f) => (
             <li key={f.id} className="framings-item">
-              <Link to="/framings/$id" params={{ id: String(f.id) }} className="framings-item-link">
+              <Link to="/framings/$id" params={{ id: f.id }} className="framings-item-link">
                 <span className="framings-item-name">{f.name}</span>
                 {f.description && <span className="framings-item-desc">{f.description}</span>}
               </Link>

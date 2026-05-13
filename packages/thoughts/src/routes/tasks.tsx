@@ -4,7 +4,6 @@ import { TasksView } from '../components/TasksView';
 import { TagsContext } from '../tags-context';
 
 export const Route = createFileRoute('/tasks')({
-  staticData: { view: 'tasks' as const },
   component: TasksRoute,
 });
 

@@ -70,7 +70,7 @@ export function QuestionsView({ tags }: { tags: string[] }) {
                 />
                 <Link
                   to="/t/$id"
-                  params={{ id: String(question.thought_id) }}
+                  params={{ id: question.thought_id }}
                   className={`task-title${question.answered_at !== null ? ' task-title--done' : ''}`}
                   onClick={(e) => {
                     if (question.description) {
@@ -85,7 +85,7 @@ export function QuestionsView({ tags }: { tags: string[] }) {
               {expandedId === question.id && (
                 <div className="task-description">
                   {question.description && <p>{question.description}</p>}
-                  <Link to="/t/$id" params={{ id: String(question.thought_id) }} className="question-source-link">View source thought</Link>
+                  <Link to="/t/$id" params={{ id: question.thought_id }} className="question-source-link">View source thought</Link>
                 </div>
               )}
             </li>

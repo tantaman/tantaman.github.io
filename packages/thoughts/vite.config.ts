@@ -8,7 +8,7 @@ export default defineConfig({
       target: 'react',
       routesDirectory: 'src/routes',
       generatedRouteTree: 'src/routeTree.gen.ts',
-      autoCodeSplitting: false,
+      autoCodeSplitting: true,
     }),
     react(),
   ],

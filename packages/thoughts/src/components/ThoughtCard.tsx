@@ -78,7 +78,7 @@ export function ThoughtCard({
       style={thought.color ? { backgroundColor: thought.color + '14' } : undefined}
     >
       <div className="thought-header">
-        <Link to="/t/$id" params={{ id: String(thought.id) }} className="thought-header-link">
+        <Link to="/t/$id" params={{ id: thought.id }} className="thought-header-link">
           <span className="thought-number">#{thought.id}</span>
           <span className="thought-meta-sep">&middot;</span>
           <span className="thought-time">{formatTime(thought.timestamp)}</span>

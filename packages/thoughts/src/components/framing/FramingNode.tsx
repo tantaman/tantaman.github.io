@@ -23,7 +23,7 @@ export const FramingNode = memo(function FramingNode({
     (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      navigate({ to: '/framings/$id', params: { id: String(data.framingId) } });
+      navigate({ to: '/framings/$id', params: { id: data.framingId } });
     },
     [data.framingId, navigate],
   );

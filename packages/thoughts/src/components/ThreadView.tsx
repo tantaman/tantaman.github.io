@@ -88,7 +88,7 @@ export function ThreadView({ id }: { id: number }) {
       {isSuperseded && latestVersionId != null && (
         <div className="version-banner">
           This thought has been revised.{' '}
-          <Link to="/t/$id" params={{ id: String(latestVersionId) }}>View latest version</Link>
+          <Link to="/t/$id" params={{ id: latestVersionId }}>View latest version</Link>
         </div>
       )}
 
@@ -98,7 +98,7 @@ export function ThreadView({ id }: { id: number }) {
             v.id === id ? (
               <span key={v.id} className="version-link version-link--current">v{i + 1}</span>
             ) : (
-              <Link key={v.id} to="/t/$id" params={{ id: String(v.id) }} className="version-link">v{i + 1}</Link>
+              <Link key={v.id} to="/t/$id" params={{ id: v.id }} className="version-link">v{i + 1}</Link>
             )
           ))}
         </div>

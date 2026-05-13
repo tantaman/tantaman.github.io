@@ -75,7 +75,7 @@ export const DocumentNode = memo(function DocumentNode({
     (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      navigate({ to: '/documents/$id', params: { id: String(data.documentId) } });
+      navigate({ to: '/documents/$id', params: { id: data.documentId } });
     },
     [data.documentId, navigate],
   );

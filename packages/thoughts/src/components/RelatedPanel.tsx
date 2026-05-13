@@ -23,7 +23,7 @@ function RelatedRow({ item }: { item: RelatedItem | SimilarItem }) {
   return (
     <Link
       to="/t/$id"
-      params={{ id: String(item.id) }}
+      params={{ id: item.id }}
       className="related-row"
       style={item.color ? { borderLeftColor: item.color } : undefined}
     >

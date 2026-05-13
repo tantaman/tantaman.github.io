@@ -50,7 +50,7 @@ export function DocumentsListView() {
         <ul className="documents-list">
           {documents.map((d) => (
             <li key={d.id} className="documents-item">
-              <Link to="/documents/$id" params={{ id: String(d.id) }} className="documents-item-link">
+              <Link to="/documents/$id" params={{ id: d.id }} className="documents-item-link">
                 <span className="documents-item-name">
                   {d.title}
                   {d.private && <span className="documents-item-badge">private</span>}

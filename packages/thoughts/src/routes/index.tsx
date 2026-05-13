@@ -8,7 +8,6 @@ type IndexSearch = { prefill?: string };
 export const Route = createFileRoute('/')({
   validateSearch: (search: Record<string, unknown>): IndexSearch =>
     typeof search.prefill === 'string' ? { prefill: search.prefill } : {},
-  staticData: { view: 'feed' as const },
   component: IndexRoute,
 });
 

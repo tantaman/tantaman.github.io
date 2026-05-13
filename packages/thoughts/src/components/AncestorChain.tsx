@@ -24,7 +24,7 @@ export function AncestorChain({ ancestors }: { ancestors: Ancestor[] }) {
         <Link
           key={a.id}
           to="/t/$id"
-          params={{ id: String(a.id) }}
+          params={{ id: a.id }}
           className="ancestor-card"
           style={a.color ? { borderLeftColor: a.color } : undefined}
           data-depth={ancestors.length - 1 - i}

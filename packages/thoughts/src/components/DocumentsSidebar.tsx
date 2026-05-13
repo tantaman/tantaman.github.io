@@ -54,7 +54,7 @@ export function DocumentsSidebar({ currentId }: { currentId?: number }) {
               <Link
                 key={d.id}
                 to="/documents/$id"
-                params={{ id: String(d.id) }}
+                params={{ id: d.id }}
                 className={`document-sidebar-item${d.id === currentId ? ' active' : ''}`}
                 title={d.title}
                 onClick={() => setOpen(false)}

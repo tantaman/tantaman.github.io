@@ -139,7 +139,7 @@ export function DocumentEditView({ id }: Props) {
         );
         savedId = created.id;
         setCurrentId(created.id);
-        navigate({ to: '/documents/$id', params: { id: String(created.id) }, replace: true });
+        navigate({ to: '/documents/$id', params: { id: created.id }, replace: true });
       }
       invalidateDocumentsList();
       setSaveState('saved');

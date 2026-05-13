@@ -47,7 +47,7 @@ export function ThoughtDuplicatesPopover({ ids }: { ids: number[] }) {
               <li key={id}>
                 <Link
                   to="/t/$id"
-                  params={{ id: String(id) }}
+                  params={{ id: id }}
                   onClick={() => setOpen(false)}
                 >
                   #{id}

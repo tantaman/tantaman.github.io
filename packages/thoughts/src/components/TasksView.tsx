@@ -157,7 +157,7 @@ export function TasksView({ tags }: { tags: string[] }) {
                 </button>
                 <Link
                   to="/t/$id"
-                  params={{ id: String(task.thought_id) }}
+                  params={{ id: task.thought_id }}
                   className={`task-title${task.completed_at !== null ? ' task-title--done' : ''}${task.deprioritized_at != null && task.completed_at === null ? ' task-title--deprioritized' : ''}`}
                 >
                   {task.title}

@@ -11,7 +11,6 @@ export const Route = createFileRoute('/capture')({
     if (typeof search.title === 'string') out.title = search.title;
     return out;
   },
-  staticData: { view: 'capture' as const },
   component: CaptureRoute,
 });
 

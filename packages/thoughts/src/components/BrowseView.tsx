@@ -138,7 +138,7 @@ function ItemCard({ item }: { item: ClusterItem }) {
   }
   if (item.kind === 'thought') {
     return (
-      <Link className="browse-item-card" to="/t/$id" params={{ id: String(item.id) }}>
+      <Link className="browse-item-card" to="/t/$id" params={{ id: Number(item.id) }}>
         <ItemCardInner item={item} />
       </Link>
     );
