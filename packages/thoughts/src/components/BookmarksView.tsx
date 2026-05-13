@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import type { Bookmark } from '../types';
 import { useBookmarks } from '../hooks/useCache';
 import { patchBookmark } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useSWRConfig } from 'swr';
 
 function getDomain(url: string): string {

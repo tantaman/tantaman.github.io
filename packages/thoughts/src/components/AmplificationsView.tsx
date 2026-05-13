@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import type { Amplification } from '../types';
 import { useAmplifications } from '../hooks/useCache';
 import { deleteAmplification, refetchAmplification } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useSWRConfig } from 'swr';
 
 function getDomain(url: string): string {

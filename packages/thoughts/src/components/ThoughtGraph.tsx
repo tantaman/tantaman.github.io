@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from '@tanstack/react-router';
-import { AuthContext } from '../App';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { AuthContext } from '../auth-context';
 import { useThoughtGraph } from '../hooks/useCache';
 import type { GraphThought } from '../types';
 
@@ -357,11 +357,7 @@ export function ThoughtGraph() {
   return (
     <div className="thought-graph-wrap" ref={wrapRef}>
       <div className="thought-graph-controls">
-        <a href="/thoughts/" className="thoughts-nav-link" onClick={(e) => {
-          e.preventDefault();
-          history.pushState(null, '', '/thoughts/');
-          window.dispatchEvent(new HashChangeEvent('hashchange'));
-        }}>← Back</a>
+        <Link to="/" className="thoughts-nav-link">← Back</Link>
         <label className="thought-graph-toggle">
           <input type="checkbox" checked={showClusters} onChange={(e) => setShowClusters(e.target.checked)} />
           Clusters

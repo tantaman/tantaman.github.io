@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { patchTask, postThought } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useTasks } from '../hooks/useCache';
 
 export function TasksView({ tags }: { tags: string[] }) {

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { Thought, ThoughtVersion } from '../../types';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../auth-context';
 import { useThread } from '../../hooks/useCache';
 import { ThoughtCard } from '../ThoughtCard';
 import { ThreadThought } from '../ThreadThought';

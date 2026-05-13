@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useDocuments } from '../hooks/useCache';
 
 export function DocumentsSidebar({ currentId }: { currentId?: number }) {

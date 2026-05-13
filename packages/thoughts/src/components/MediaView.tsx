@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { useMedia } from '../hooks/useCache';
 import { attachmentUrl } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import type { MediaItem } from '../types';
 
 function formatDate(timestamp: number): string {

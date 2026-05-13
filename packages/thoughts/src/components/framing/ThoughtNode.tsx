@@ -2,7 +2,7 @@ import { memo, useContext, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import type { NodeProps, Node } from '@xyflow/react';
 import { renderMarkdown } from '../../markdown';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../auth-context';
 
 export type ThoughtNodeData = {
   body: string;

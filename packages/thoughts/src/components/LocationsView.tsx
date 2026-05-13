@@ -7,7 +7,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import type { Location } from '../types';
 import { useLocations } from '../hooks/useCache';
 import { geocodeLocation, patchLocation } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useSWRConfig } from 'swr';
 
 // Fix Leaflet default marker icons with bundlers

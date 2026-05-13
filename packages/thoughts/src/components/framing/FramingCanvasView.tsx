@@ -18,7 +18,7 @@ import { ComposeNode } from './ComposeNode';
 import { FramingLeftPanel } from './FramingLeftPanel';
 import { FramingDetailPane } from './FramingDetailPane';
 import { updateFraming } from '../../api';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../auth-context';
 import type { Node, Edge } from '@xyflow/react';
 
 const NODE_W = 250;

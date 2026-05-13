@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import { useThoughts } from '../../hooks/useThoughts';
 import { useSearch, usePostsManifest, useDocuments, useFramings } from '../../hooks/useCache';
 import { renderMarkdown } from '../../markdown';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../auth-context';
 import type { Thought, PostSummary, DocumentSummary, Framing } from '../../types';
 
 function truncate(text: string, max: number): string {

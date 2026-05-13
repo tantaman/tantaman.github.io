@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import type { Movie } from '../types';
 import { useMovies } from '../hooks/useCache';
 import { patchMovie } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useSWRConfig } from 'swr';
 
 export function MoviesView() {

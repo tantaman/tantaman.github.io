@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { createAmplification } from '../api';
 import { useSWRConfig } from 'swr';
 import type { Amplification } from '../types';

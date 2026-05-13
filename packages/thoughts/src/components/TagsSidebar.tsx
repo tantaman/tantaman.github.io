@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useTags, useFramings } from '../hooks/useCache';
 
 export function TagsSidebar({

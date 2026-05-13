@@ -1,8 +1,6 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 
-export { AuthContext } from './auth-context';
-
 const router = createRouter({
   routeTree,
   basepath: '/thoughts/',

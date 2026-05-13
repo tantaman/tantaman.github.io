@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { createFraming, deleteFraming, importFraming } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useFramings } from '../hooks/useCache';
 
 export function FramingsListView() {

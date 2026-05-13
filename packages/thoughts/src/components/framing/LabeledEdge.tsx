@@ -6,7 +6,7 @@ import {
   type EdgeProps,
   type Edge,
 } from '@xyflow/react';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../auth-context';
 
 export type LabeledEdgeData = {
   label: string | null;

@@ -2,7 +2,7 @@ import { memo, useCallback, useContext } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import type { NodeProps, Node } from '@xyflow/react';
 import { useNavigate } from '@tanstack/react-router';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../auth-context';
 
 export type FramingNodeData = {
   nodeId: number;

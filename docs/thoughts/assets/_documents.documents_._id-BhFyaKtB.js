@@ -1,0 +1,1 @@
+import{af as o,j as e}from"./index-DdAEvwLO.js";import{D as m}from"./DocumentEditView-CBSQrdCs.js";import"./WikiLinkMenu-BAbJXfcY.js";function n(){const{id:t}=o.useParams();return e.jsx(m,{id:t},t)}export{n as component};

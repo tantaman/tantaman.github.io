@@ -20,7 +20,7 @@ import {
   type WikiLinkKind,
 } from '@tantaman/editor';
 import { useNavigate } from '@tanstack/react-router';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useDocument } from '../hooks/useCache';
 import { createDocument, updateDocument, typeahead, type TypeaheadKindLetter } from '../api';
 

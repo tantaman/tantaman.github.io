@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link } from '@tanstack/react-router';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useRelated } from '../hooks/useCache';
 import type { RelatedItem, SimilarItem } from '../types';
 

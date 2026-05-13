@@ -11,7 +11,7 @@ import {
   type ClipboardEvent,
 } from 'react';
 import { postThought } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { renderMarkdown } from '../markdown';
 import { useDictation } from '../hooks/useDictation';
 

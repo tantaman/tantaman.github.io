@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import type { Album } from '../types';
 import { useAlbums } from '../hooks/useCache';
 import { patchAlbum } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useSWRConfig } from 'swr';
 
 const ITUNES_ID_PATTERNS = [

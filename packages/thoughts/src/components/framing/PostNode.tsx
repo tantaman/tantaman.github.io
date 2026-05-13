@@ -1,7 +1,7 @@
 import { memo, useContext } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import type { NodeProps, Node } from '@xyflow/react';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../auth-context';
 
 export type PostNodeData = {
   nodeId: number;

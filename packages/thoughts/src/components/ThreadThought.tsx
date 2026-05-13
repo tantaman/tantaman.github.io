@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import type { Thought } from '../types';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { ThoughtCard } from './ThoughtCard';
 import { ComposeForm } from './ComposeForm';
 

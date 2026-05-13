@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 
 export function SecretToggle() {
   const { secret, updateSecret } = useContext(AuthContext);

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { patchQuestion } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useQuestions } from '../hooks/useCache';
 
 export function QuestionsView({ tags }: { tags: string[] }) {

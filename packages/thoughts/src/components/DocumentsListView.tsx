@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from '@tanstack/react-router';
 import { deleteDocument } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useDocuments } from '../hooks/useCache';
 
 function formatDate(epoch: number): string {

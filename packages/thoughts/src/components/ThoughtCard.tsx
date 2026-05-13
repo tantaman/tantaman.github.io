@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import type { Thought } from '../types';
 import { attachmentUrl } from '../api';
 import * as api from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { renderMarkdown } from '../markdown';
 import { ComposeForm } from './ComposeForm';
 import { ThoughtDuplicatesPopover } from './ThoughtDuplicatesPopover';

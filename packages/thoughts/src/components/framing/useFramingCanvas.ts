@@ -11,7 +11,7 @@ import {
   type Connection,
 } from '@xyflow/react';
 import { useFraming, usePostsManifest } from '../../hooks/useCache';
-import { AuthContext } from '../../App';
+import { AuthContext } from '../../auth-context';
 import {
   addNodeToFraming,
   removeNodeFromFraming,

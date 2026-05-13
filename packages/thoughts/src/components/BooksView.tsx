@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import type { Book } from '../types';
 import { useBooks } from '../hooks/useCache';
 import { patchBook } from '../api';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useSWRConfig } from 'swr';
 
 export function BooksView() {

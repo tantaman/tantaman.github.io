@@ -1,7 +1,7 @@
 import { useContext, useState, useCallback } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { Thought, PasteSearchResult, AmplificationSearchResult } from '../types';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 import { useThoughts } from '../hooks/useThoughts';
 import { useSearch } from '../hooks/useCache';
 import { ThoughtCard } from './ThoughtCard';

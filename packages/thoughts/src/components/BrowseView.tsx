@@ -2,7 +2,7 @@ import { useContext, useMemo, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { Cluster, ClusterItem } from '../types';
 import { useClusters, useClusterItems } from '../hooks/useCache';
-import { AuthContext } from '../App';
+import { AuthContext } from '../auth-context';
 
 const KIND_PILLS: Record<ClusterItem['kind'], { label: string; className: string }> = {
   thought: { label: 'thought', className: 'browse-pill browse-pill--thought' },
