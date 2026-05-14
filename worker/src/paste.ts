@@ -344,6 +344,7 @@ function htmlPage(title: string, body: string, nav?: string, meta?: PasteMeta): 
   <header class="topbar">
     <span class="topbar-title"><a href="/paste">paste</a></span>
     <span class="topbar-nav">
+      <a href="/thoughts/">thoughts</a>
       ${navLinks}
       <button class="theme-toggle" aria-label="Toggle theme"></button>
     </span>
