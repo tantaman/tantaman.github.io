@@ -230,6 +230,7 @@ export function App() {
         <div id="lists-page">
           <header className="lists-header">
             <a href="/" className="lists-home">Tantamanlands</a>
+            <a href="/thoughts/" className="lists-home">Thoughts</a>
             <h1>Lists</h1>
           </header>
           <main className="lists-main">
