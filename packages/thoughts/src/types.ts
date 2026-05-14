@@ -260,10 +260,30 @@ export interface FramingDetail {
   edges: FramingEdge[];
 }
 
+export type DocumentStatus = 'document' | 'draft' | 'published';
+
+export interface DocumentFrontmatter {
+  tags?: string[];
+  description?: string;
+  layout?: string;
+  related?: string[];
+  wide?: boolean;
+  concern?: string[];
+  image?: string;
+  date?: string;
+  minimalHeader?: boolean;
+  noHeader?: boolean;
+  js?: string[];
+  form?: string;
+}
+
 export interface DocumentSummary {
   id: number;
   title: string;
   private: boolean;
+  slug: string | null;
+  status: DocumentStatus;
+  frontmatter: DocumentFrontmatter;
   created_at: number;
   updated_at: number;
 }

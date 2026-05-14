@@ -273,7 +273,7 @@ Cloudflare Worker with D1, R2, KV, Vectorize, and Workers AI.
 - **Instagram card generator** (`/api/ig-card`) — Satori + resvg WASM → 1080x1920 PNG cards for blog posts
 - **Comments** — OTP email auth via Resend, JWT sessions, threaded comments with likes
 - **DHA reports** — JSON report storage by date
-- **Posts API** — CRUD for blog posts (title, slug, body, frontmatter, status)
+- **Documents API** — CRUD for documents (title, body, private, slug, status, frontmatter). A document can be `status='document'` (personal note), `status='draft'` (post-in-progress), or `status='published'` (live post). Slug and frontmatter are optional and only meaningful when status is draft/published.
 - **Framings API** — CRUD for knowledge graph canvases with nodes, edges, batch position updates
 
 ## Scripts (`./scripts/`)

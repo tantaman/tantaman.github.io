@@ -18,7 +18,7 @@
     "unified": "^10.1.2"
   },
   "scripts": {
-    "build": "cd packages/facets && pnpm build && cd ../compiler && pnpm build && cd ../frontend && pnpm build && cd ../thoughts && pnpm build && cd ../lists && pnpm build && cd ../comments && pnpm build && cd ../posts && pnpm build && cd ../dha-report-app && pnpm build && cd ../.. && sitecompiler",
+    "build": "cd packages/facets && pnpm build && cd ../compiler && pnpm build && cd ../frontend && pnpm build && cd ../thoughts && pnpm build && cd ../lists && pnpm build && cd ../comments && pnpm build && cd ../dha-report-app && pnpm build && cd ../.. && sitecompiler",
     "build:cloudflare": "cd worker",
     "deploy:cloudflare": "cd worker && wrangler publish",
     "dev": "sitecompiler-watch",

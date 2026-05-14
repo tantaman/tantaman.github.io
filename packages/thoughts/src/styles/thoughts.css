@@ -3592,6 +3592,36 @@ a.movie-title:hover {
   background: var(--bg-soft);
 }
 
+.documents-filter {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.documents-filter-btn {
+  padding: 0.2rem 0.6rem;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.documents-filter-btn[data-active='true'] {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: transparent;
+}
+
+.documents-item-slug {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-right: 0.5rem;
+}
+
 .documents-list {
   list-style: none;
   padding: 0;
@@ -3818,6 +3848,118 @@ a.movie-title:hover {
   top: 0;
   align-self: flex-start;
   max-height: 100vh;
+}
+
+/* Frontmatter panel — shown when promoting a document to a post. */
+.doc-fm {
+  max-width: 68ch;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1rem 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+}
+
+.doc-fm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.doc-fm-field.doc-fm-wide {
+  grid-column: 1 / -1;
+}
+
+.doc-fm-field label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.doc-fm-field input,
+.doc-fm-field select,
+.doc-fm-field textarea {
+  padding: 0.35rem 0.5rem;
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.doc-fm-field textarea {
+  resize: vertical;
+  min-height: 3rem;
+}
+
+.doc-fm-checkbox {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.5rem !important;
+}
+
+.doc-fm-checkbox label {
+  text-transform: none;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* Status pill + slug input in the document topbar. */
+.doc-status-pill {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.doc-status-pill[data-status='draft'] {
+  background: color-mix(in srgb, #c98a14 25%, transparent);
+  color: var(--text);
+  border-color: transparent;
+}
+
+.doc-status-pill[data-status='published'] {
+  background: color-mix(in srgb, #1f6020 30%, transparent);
+  color: var(--text);
+  border-color: transparent;
+}
+
+.doc-slug-input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  min-width: 16ch;
+}
+
+.doc-promote-btn,
+.doc-meta-toggle {
+  font-size: 0.78rem;
+  padding: 0.3rem 0.7rem;
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.doc-promote-btn:hover,
+.doc-meta-toggle:hover {
+  background: var(--bg);
+}
+
+.doc-meta-toggle[data-active='true'] {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: transparent;
 }
 
 .document-topbar {

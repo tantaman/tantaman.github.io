@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -609,8 +609,12 @@ export async function getPostsManifest(): Promise<PostSummary[]> {
 
 // --- Documents API ---
 
-export function getDocuments(secret?: string): Promise<{ documents: DocumentSummary[] }> {
-  return fetch(`${API}/documents`, { headers: authHeaders(secret) }).then((r) => r.json());
+export function getDocuments(
+  secret?: string,
+  status?: DocumentStatus,
+): Promise<{ documents: DocumentSummary[] }> {
+  const qs = status ? `?status=${status}` : '';
+  return fetch(`${API}/documents${qs}`, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 
 export function getDocument(id: number, secret?: string): Promise<Document> {
@@ -620,8 +624,26 @@ export function getDocument(id: number, secret?: string): Promise<Document> {
   });
 }
 
+export interface CreateDocumentData {
+  title: string;
+  body?: string;
+  private?: boolean;
+  slug?: string;
+  status?: DocumentStatus;
+  frontmatter?: DocumentFrontmatter;
+}
+
+export interface UpdateDocumentData {
+  title?: string;
+  body?: string;
+  private?: boolean;
+  slug?: string | null;
+  status?: DocumentStatus;
+  frontmatter?: DocumentFrontmatter;
+}
+
 export async function createDocument(
-  data: { title: string; body?: string; private?: boolean },
+  data: CreateDocumentData,
   secret: string,
 ): Promise<Document> {
   const r = await fetch(`${API}/documents`, {
@@ -630,13 +652,14 @@ export async function createDocument(
     body: JSON.stringify(data),
   });
   if (r.status === 401) throw new Error('Unauthorized');
+  if (r.status === 409) throw new Error('Slug already exists');
   if (!r.ok) throw new Error('Create failed');
   return r.json();
 }
 
 export async function updateDocument(
   id: number,
-  updates: { title?: string; body?: string; private?: boolean },
+  updates: UpdateDocumentData,
   secret: string,
 ): Promise<Document> {
   const r = await fetch(`${API}/documents/${id}`, {
@@ -645,6 +668,7 @@ export async function updateDocument(
     body: JSON.stringify(updates),
   });
   if (r.status === 401) throw new Error('Unauthorized');
+  if (r.status === 409) throw new Error('Slug already exists');
   if (!r.ok) throw new Error('Update failed');
   return r.json();
 }

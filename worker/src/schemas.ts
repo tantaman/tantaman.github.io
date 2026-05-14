@@ -116,9 +116,9 @@ export const BatchUpdateBody = z.object({
   })).min(1),
 });
 
-// --- Posts ---
+// --- Documents ---
 
-export const PostFrontmatter = z.object({
+export const DocumentFrontmatter = z.object({
   tags: z.array(z.string()).optional(),
   description: z.string().optional(),
   layout: z.string().optional(),
@@ -133,30 +133,17 @@ export const PostFrontmatter = z.object({
   form: z.string().optional(),
 }).strict();
 
-// POST /posts
-export const CreatePostBody = z.object({
-  title: z.string().trim().min(1),
-  slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase hyphenated"),
-  body: z.string().optional(),
-  frontmatter: PostFrontmatter.optional(),
-});
-
-// PATCH /posts/:id
-export const UpdatePostBody = z.object({
-  title: z.string().trim().min(1).optional(),
-  slug: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase hyphenated").optional(),
-  body: z.string().optional(),
-  frontmatter: PostFrontmatter.optional(),
-  status: z.enum(["draft", "published"]).optional(),
-});
-
-// --- Documents ---
+export const DocumentStatus = z.enum(["document", "draft", "published"]);
+export const DocumentSlug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase hyphenated");
 
 // POST /documents
 export const CreateDocumentBody = z.object({
   title: z.string().trim().min(1),
   body: z.string().optional(),
   private: z.boolean().optional(),
+  slug: DocumentSlug.optional(),
+  status: DocumentStatus.optional(),
+  frontmatter: DocumentFrontmatter.optional(),
 });
 
 // PATCH /documents/:id
@@ -164,6 +151,9 @@ export const UpdateDocumentBody = z.object({
   title: z.string().trim().min(1).optional(),
   body: z.string().optional(),
   private: z.boolean().optional(),
+  slug: DocumentSlug.nullable().optional(),
+  status: DocumentStatus.optional(),
+  frontmatter: DocumentFrontmatter.optional(),
 });
 
 // --- Comments ---

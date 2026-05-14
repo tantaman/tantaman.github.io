@@ -21,7 +21,6 @@ import { createMcpServer } from "./mcp";
 import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings, upsertPasteEmbedding, upsertAmplificationEmbedding, classifyVectorId, chunkPasteBody } from "./embeddings";
 import { hashBody, attachDuplicateIds } from "./body-hash";
 import { dha } from "./dha";
-import { posts } from "./posts";
 import { documents } from "./documents";
 import { comments } from "./comments";
 import { igCard } from "./ig-card";
@@ -44,8 +43,6 @@ import {
   UpdateEdgeBody,
   BatchUpdateBody,
   ImportFramingBody,
-  CreatePostBody,
-  UpdatePostBody,
   LikeBody,
   RequestOtpBody,
   VerifyOtpBody,
@@ -157,20 +154,35 @@ api.get("/", (c) => {
 });
 
 // Highlights: thoughts containing "#h <source>" tag, where source is
-// "doc:<id>" or "post:<slug>". The thought body is a markdown blockquote of
+// "doc:<id>" or "post:<slug>". When source is "post:<slug>", we resolve to
+// the underlying document id so a promoted document's existing #h doc:<id>
+// highlights remain reachable. The thought body is a markdown blockquote of
 // the captured text followed by the tag. Returns the parsed quoted text.
 api.get("/highlights", async (c) => {
   const source = c.req.query("source");
   if (!source) {
     return c.json({ error: "Missing source parameter" }, 400);
   }
-  if (!/^(doc:\d+|post:[a-z0-9-]+)$/i.test(source)) {
+  if (!/^(doc:\d+|post:[a-z0-9]+(-[a-z0-9]+)*)$/i.test(source)) {
     return c.json({ error: "Invalid source format" }, 400);
+  }
+
+  // Resolve post:<slug> → doc:<id> via the document table.
+  let resolvedSource = source;
+  if (source.startsWith("post:")) {
+    const slug = source.slice("post:".length);
+    const row = await c.env.DB.prepare(
+      "SELECT id FROM document WHERE slug = ?"
+    ).bind(slug).first<{ id: number }>();
+    if (!row) {
+      return c.json({ highlights: [] });
+    }
+    resolvedSource = `doc:${row.id}`;
   }
 
   const authed = isAuthed(c);
   const privateFilter = authed ? "" : " AND private = 0";
-  const likePattern = `%#h ${source}%`;
+  const likePattern = `%#h ${resolvedSource}%`;
   const results = await c.env.DB.prepare(
     `SELECT id, body, color FROM thought
      WHERE body LIKE ? AND superseded_by IS NULL${privateFilter}
@@ -178,7 +190,7 @@ api.get("/highlights", async (c) => {
   ).bind(likePattern).all<{ id: number; body: string; color: string | null }>();
 
   // Confirm exact tag match (word-boundary) and extract blockquote text.
-  const tagRegex = new RegExp(`(^|\\s)#h ${source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\s|$)`);
+  const tagRegex = new RegExp(`(^|\\s)#h ${resolvedSource.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\s|$)`);
   const highlights: { id: number; quoted_text: string; color: string | null }[] = [];
   for (const row of results.results) {
     if (!tagRegex.test(row.body)) continue;
@@ -2336,7 +2348,6 @@ api.get("/attachments/*", async (c) => {
 });
 
 api.route("/dha", dha);
-api.route("/posts", posts);
 api.route("/documents", documents);
 api.route("/comments", comments);
 api.route("/ig-card", igCard);

@@ -14,6 +14,9 @@ interface DocumentRow {
   title: string;
   body: string;
   private: number;
+  slug: string | null;
+  status: string;
+  frontmatter: string;
   created_at: number;
   updated_at: number;
 }
@@ -24,6 +27,9 @@ function rowToDoc(row: DocumentRow) {
     title: row.title,
     body: row.body,
     private: !!row.private,
+    slug: row.slug,
+    status: row.status,
+    frontmatter: JSON.parse(row.frontmatter || "{}"),
     created_at: row.created_at,
     updated_at: row.updated_at,
   };
@@ -32,13 +38,24 @@ function rowToDoc(row: DocumentRow) {
 // List (without body for efficiency)
 documents.get("/", async (c) => {
   const authed = isAuthed(c);
+  const status = c.req.query("status"); // optional: 'document' | 'draft' | 'published'
   const limit = Math.min(parseInt(c.req.query("limit") || "100", 10) || 100, 500);
   const offset = parseInt(c.req.query("offset") || "0", 10) || 0;
 
-  const where = authed ? "" : "WHERE private = 0";
+  const conds: string[] = [];
+  const bindings: (string | number)[] = [];
+  if (!authed) conds.push("private = 0");
+  if (status) {
+    conds.push("status = ?");
+    bindings.push(status);
+  }
+  const where = conds.length ? `WHERE ${conds.join(" AND ")}` : "";
+
+  bindings.push(limit, offset);
   const results = await c.env.DB.prepare(
-    `SELECT id, title, '' AS body, private, created_at, updated_at FROM document ${where} ORDER BY updated_at DESC LIMIT ? OFFSET ?`
-  ).bind(limit, offset).all<DocumentRow>();
+    `SELECT id, title, '' AS body, private, slug, status, frontmatter, created_at, updated_at
+     FROM document ${where} ORDER BY updated_at DESC LIMIT ? OFFSET ?`
+  ).bind(...bindings).all<DocumentRow>();
 
   const hasMore = results.results.length === limit;
   return c.json({
@@ -52,7 +69,7 @@ documents.get("/:id", async (c) => {
   const authed = isAuthed(c);
   const id = c.req.param("id");
   const row = await c.env.DB.prepare(
-    "SELECT id, title, body, private, created_at, updated_at FROM document WHERE id = ?"
+    "SELECT id, title, body, private, slug, status, frontmatter, created_at, updated_at FROM document WHERE id = ?"
   ).bind(id).first<DocumentRow>();
 
   if (!row) return c.json({ error: "Not found" }, 404);
@@ -64,21 +81,44 @@ documents.get("/:id", async (c) => {
 // Create
 documents.post("/", async (c) => {
   if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
-  const { title, body, private: priv } = CreateDocumentBody.parse(await c.req.json());
+  const parsed = CreateDocumentBody.parse(await c.req.json());
   const now = Math.floor(Date.now() / 1000);
+  const status = parsed.status ?? "document";
+  const slug = parsed.slug ?? null;
+  const frontmatter = JSON.stringify(parsed.frontmatter ?? {});
 
-  const result = await c.env.DB.prepare(
-    "INSERT INTO document (title, body, private, created_at, updated_at) VALUES (?, ?, ?, ?, ?)"
-  ).bind(title.trim(), body || "", priv ? 1 : 0, now, now).run();
+  try {
+    const result = await c.env.DB.prepare(
+      `INSERT INTO document (title, body, private, slug, status, frontmatter, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(
+      parsed.title.trim(),
+      parsed.body || "",
+      parsed.private ? 1 : 0,
+      slug,
+      status,
+      frontmatter,
+      now,
+      now,
+    ).run();
 
-  return c.json({
-    id: result.meta.last_row_id as number,
-    title: title.trim(),
-    body: body || "",
-    private: !!priv,
-    created_at: now,
-    updated_at: now,
-  }, 201);
+    return c.json({
+      id: result.meta.last_row_id as number,
+      title: parsed.title.trim(),
+      body: parsed.body || "",
+      private: !!parsed.private,
+      slug,
+      status,
+      frontmatter: parsed.frontmatter ?? {},
+      created_at: now,
+      updated_at: now,
+    }, 201);
+  } catch (e: any) {
+    if (e.message?.includes("UNIQUE constraint")) {
+      return c.json({ error: "Slug already exists" }, 409);
+    }
+    throw e;
+  }
 });
 
 // Update (PATCH semantics)
@@ -106,12 +146,31 @@ documents.patch("/:id", async (c) => {
     sets.push("private = ?");
     bindings.push(updates.private ? 1 : 0);
   }
+  if (updates.slug !== undefined) {
+    sets.push("slug = ?");
+    bindings.push(updates.slug);
+  }
+  if (updates.status !== undefined) {
+    sets.push("status = ?");
+    bindings.push(updates.status);
+  }
+  if (updates.frontmatter !== undefined) {
+    sets.push("frontmatter = ?");
+    bindings.push(JSON.stringify(updates.frontmatter));
+  }
 
   bindings.push(parseInt(id));
-  await c.env.DB.prepare(`UPDATE document SET ${sets.join(", ")} WHERE id = ?`).bind(...bindings).run();
+  try {
+    await c.env.DB.prepare(`UPDATE document SET ${sets.join(", ")} WHERE id = ?`).bind(...bindings).run();
+  } catch (e: any) {
+    if (e.message?.includes("UNIQUE constraint")) {
+      return c.json({ error: "Slug already exists" }, 409);
+    }
+    throw e;
+  }
 
   const row = await c.env.DB.prepare(
-    "SELECT id, title, body, private, created_at, updated_at FROM document WHERE id = ?"
+    "SELECT id, title, body, private, slug, status, frontmatter, created_at, updated_at FROM document WHERE id = ?"
   ).bind(id).first<DocumentRow>();
 
   return c.json(rowToDoc(row!));

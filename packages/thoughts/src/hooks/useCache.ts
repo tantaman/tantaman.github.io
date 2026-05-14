@@ -87,9 +87,13 @@ export function useFraming(id: number) {
   return useSWR(`framing-${id}`, () => getFraming(id));
 }
 
-export function useDocuments(secret?: string | null) {
+export function useDocuments(
+  secret?: string | null,
+  status?: 'document' | 'draft' | 'published',
+) {
   const authKey = secret ? 'a' : 'p';
-  return useSWR(`documents-${authKey}`, () => getDocuments(secret || undefined));
+  const key = `documents-${authKey}${status ? `-${status}` : ''}`;
+  return useSWR(key, () => getDocuments(secret || undefined, status));
 }
 
 export function useDocument(id: number, secret?: string | null) {
