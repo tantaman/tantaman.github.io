@@ -15,6 +15,9 @@ export interface MarkdownEditorProps {
   /** Imperative editor ref. Use for setMarkdown after async load. */
   editorRef?: (editor: Editor | null) => void;
   className?: string;
+  /** When provided, shows a highlight button in the bubble toolbar that calls
+   * this with the current selection text. */
+  onHighlight?: (text: string) => void | Promise<void>;
 }
 
 /**
@@ -29,6 +32,7 @@ export function MarkdownEditor({
   autofocus,
   editorRef,
   className,
+  onHighlight,
 }: MarkdownEditorProps) {
   const editor = useMarkdownEditor({ placeholder, autofocus });
   const slashMenu = useSlashMenu(editor);
@@ -59,7 +63,7 @@ export function MarkdownEditor({
 
   return (
     <div className={className ?? 'md-editor-area'}>
-      {editor && <BubbleToolbar editor={editor} />}
+      {editor && <BubbleToolbar editor={editor} onHighlight={onHighlight} />}
       <EditorContent editor={editor} />
       <SlashMenu {...slashMenu} />
     </div>

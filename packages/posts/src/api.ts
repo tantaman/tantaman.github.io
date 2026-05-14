@@ -112,3 +112,19 @@ export async function typeahead(
   const data = (await res.json()) as { results: TypeaheadResult[] };
   return data.results || [];
 }
+
+export async function createThought(
+  secret: string,
+  body: string,
+): Promise<{ id: number }> {
+  const res = await fetch(`${API_BASE}/thoughts`, {
+    method: 'POST',
+    headers: headers(secret),
+    body: JSON.stringify({ body }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Create thought failed: ${res.status} ${text}`);
+  }
+  return res.json();
+}

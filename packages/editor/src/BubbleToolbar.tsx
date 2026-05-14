@@ -1,7 +1,14 @@
 import { BubbleMenu } from '@tiptap/react/menus';
 import type { Editor } from '@tiptap/core';
 
-export function BubbleToolbar({ editor }: { editor: Editor }) {
+export interface BubbleToolbarProps {
+  editor: Editor;
+  /** Optional handler invoked with the currently selected text. When provided,
+   * the toolbar shows a highlight button that calls this with the selection. */
+  onHighlight?: (text: string) => void | Promise<void>;
+}
+
+export function BubbleToolbar({ editor, onHighlight }: BubbleToolbarProps) {
   return (
     <BubbleMenu editor={editor}>
       <div className="md-bubble-toolbar">
@@ -47,6 +54,18 @@ export function BubbleToolbar({ editor }: { editor: Editor }) {
         >
           &#128279;
         </button>
+        {onHighlight && (
+          <button
+            onClick={() => {
+              const { from, to } = editor.state.selection;
+              const text = editor.state.doc.textBetween(from, to, '\n\n', ' ').trim();
+              if (text) onHighlight(text);
+            }}
+            title="Capture as thought"
+          >
+            &#128396;
+          </button>
+        )}
       </div>
     </BubbleMenu>
   );

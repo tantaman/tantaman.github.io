@@ -19,7 +19,7 @@ import {
   type WikiLinkKind,
 } from '@tantaman/editor';
 import { AuthContext } from './App';
-import { getPost, createPost, updatePost, typeahead, type TypeaheadKindLetter } from './api';
+import { getPost, createPost, updatePost, typeahead, createThought, type TypeaheadKindLetter } from './api';
 import type { PostFrontmatter } from './types';
 
 const KIND_LETTERS: Record<WikiLinkKind, TypeaheadKindLetter> = {
@@ -61,6 +61,23 @@ export function Editor({ postId }: { postId?: number }) {
     [secret],
   );
   const wikiMenu = useWikiLinkMenu(editor, wikiSearch);
+
+  const handleHighlight = useCallback(
+    async (text: string) => {
+      if (!secret) return;
+      const indented = text.split('\n').map((l) => `> ${l}`).join('\n');
+      const body = slug ? `${indented}\n\n#h ${slug}` : indented;
+      try {
+        await createThought(secret, body);
+        setSaveMsg('Highlight captured');
+      } catch (e: any) {
+        setSaveMsg(e.message || 'Highlight failed');
+      } finally {
+        setTimeout(() => setSaveMsg(''), 3000);
+      }
+    },
+    [secret, slug],
+  );
 
   // Load existing post
   useEffect(() => {
@@ -222,7 +239,7 @@ export function Editor({ postId }: { postId?: number }) {
       )}
 
       <div className="md-editor-area pe-editor-surface">
-        {editor && <BubbleToolbar editor={editor} />}
+        {editor && <BubbleToolbar editor={editor} onHighlight={handleHighlight} />}
         <EditorContent editor={editor} />
         <SlashMenu {...slashMenu} />
         <WikiLinkMenu {...wikiMenu} />

@@ -3,6 +3,7 @@ export type { MarkdownEditorProps } from './MarkdownEditor';
 export { useMarkdownEditor, getMarkdown, setMarkdown } from './useMarkdownEditor';
 export type { UseMarkdownEditorOptions, PlaceholderResolver } from './useMarkdownEditor';
 export { BubbleToolbar } from './BubbleToolbar';
+export type { BubbleToolbarProps } from './BubbleToolbar';
 export { SlashMenu, useSlashMenu } from './SlashMenu';
 export { WikiLink, applyWikiLinkTransform, hrefFor as wikiLinkHrefFor } from './WikiLink';
 export type { WikiLinkAttrs, WikiLinkKind } from './WikiLink';
