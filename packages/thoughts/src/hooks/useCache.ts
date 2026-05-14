@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph, getClusters, getClusterItems, getDocuments, getDocument } from '../api';
+import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph, getDocuments, getDocument } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -93,17 +93,6 @@ export function useDocument(id: number, secret?: string | null) {
 export function useThoughtGraph(secret?: string | null) {
   const authKey = secret ? 'a' : 'p';
   return useSWR(`thought-graph-${authKey}`, () => getThoughtGraph(secret || undefined));
-}
-
-export function useClusters(secret?: string | null) {
-  const authKey = secret ? 'a' : 'p';
-  return useSWR(`clusters-${authKey}`, () => getClusters(secret || undefined));
-}
-
-export function useClusterItems(ids: number[], secret?: string | null) {
-  const authKey = secret ? 'a' : 'p';
-  const key = ids.length > 0 ? `cluster-items-${ids.slice().sort().join(',')}-${authKey}` : null;
-  return useSWR(key, () => getClusterItems(ids, 100, 0, secret || undefined));
 }
 
 export function usePostsManifest() {

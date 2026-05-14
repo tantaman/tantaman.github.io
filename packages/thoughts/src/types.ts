@@ -288,21 +288,6 @@ export interface Cluster {
   size: number;
 }
 
-export interface ClusterItemFacets {
-  books: { id: number; title: string }[];
-  movies: { id: number; title: string }[];
-  events: { id: number; title: string; date_text: string }[];
-}
-
-export interface ClusterItem {
-  kind: 'thought' | 'paste' | 'amplification';
-  id: string;
-  title: string | null;
-  preview: string | null;
-  score: number;
-  facets: ClusterItemFacets | null;
-}
-
 export interface MediaItem {
   key: string;
   type: string;

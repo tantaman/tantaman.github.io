@@ -51,7 +51,6 @@ export function Sidebar() {
           <a href="/lists/" className="thoughts-nav-link">Lists</a>
           <a href="/paste" className="thoughts-nav-link">Pastes</a>
           <Link to="/graph" activeProps={ACTIVE} inactiveProps={INACTIVE}>Graph</Link>
-          <Link to="/browse" activeProps={ACTIVE} inactiveProps={INACTIVE}>Browse</Link>
           <hr className="thoughts-nav-divider" />
           <Link to="/tasks" activeProps={ACTIVE} inactiveProps={INACTIVE}>Tasks <span className="nav-tag-pill">#t</span></Link>
           <Link to="/questions" activeProps={ACTIVE} inactiveProps={INACTIVE}>Questions <span className="nav-tag-pill">#q</span></Link>

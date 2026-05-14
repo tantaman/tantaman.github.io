@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, Cluster, ClusterItem, RelatedResponse, Ancestor, Document, DocumentSummary } from './types';
+import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -372,24 +372,6 @@ export async function refetchAmplification(id: number, secret: string): Promise<
     throw new Error(err.error || 'Refetch failed');
   }
   return r.json();
-}
-
-export function getClusters(secret?: string): Promise<{ clusters: Cluster[] }> {
-  return fetch(`${API}/clusters`, { headers: authHeaders(secret) }).then((r) => r.json());
-}
-
-export function getClusterItems(
-  ids: number[],
-  limit: number,
-  offset: number,
-  secret?: string,
-): Promise<{ items: ClusterItem[]; meta: { limit: number; offset: number; selected: number } }> {
-  const params = new URLSearchParams({
-    ids: ids.join(','),
-    limit: String(limit),
-    offset: String(offset),
-  });
-  return fetch(`${API}/clusters/items?${params.toString()}`, { headers: authHeaders(secret) }).then((r) => r.json());
 }
 
 export function attachmentUrl(key: string): string {

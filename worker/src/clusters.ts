@@ -1,7 +1,4 @@
-import { Hono } from "hono";
 import type { Env } from "./index";
-
-export const clusters = new Hono<{ Bindings: Env }>();
 
 const TOP_K = 5;
 
@@ -98,11 +95,6 @@ export async function removeClusterMembership(
   }
 }
 
-function isAuthed(c: { req: { header: (name: string) => string | undefined }; env: { THOUGHT_SECRET: string } }): boolean {
-  const auth = c.req.header("Authorization");
-  return auth === `Bearer ${c.env.THOUGHT_SECRET}`;
-}
-
 /**
  * Schedule async work to run past the response. Falls back to fire-and-forget if
  * the Hono context has no ExecutionContext (test harness).
@@ -117,74 +109,3 @@ export function scheduleBackground(
     promise.catch((e) => console.error("scheduleBackground caught:", e));
   }
 }
-
-clusters.get("/", async (c) => {
-  const rows = await c.env.DB.prepare(
-    "SELECT id, label, size FROM cluster ORDER BY size DESC"
-  ).all();
-  return c.json({ clusters: rows.results });
-});
-
-clusters.get("/items", async (c) => {
-  const idsParam = c.req.query("ids");
-  if (!idsParam) return c.json({ error: "Missing ids" }, 400);
-  const ids = idsParam.split(",").map((s) => parseInt(s, 10)).filter(Number.isFinite).slice(0, 5);
-  if (ids.length === 0) return c.json({ error: "Invalid ids" }, 400);
-
-  const limit = Math.min(parseInt(c.req.query("limit") ?? "50", 10) || 50, 200);
-  const offset = parseInt(c.req.query("offset") ?? "0", 10) || 0;
-  const authed = isAuthed(c);
-
-  const placeholders = ids.map(() => "?").join(",");
-  const privateFilter = authed
-    ? ""
-    : "AND NOT (item_kind = 'thought' AND CAST(item_id AS INTEGER) IN (SELECT id FROM thought WHERE private = 1))";
-
-  const results = await c.env.DB.prepare(
-    `SELECT item_kind, item_id, title, preview, AVG(distance) AS avg_dist
-     FROM cluster_membership
-     WHERE cluster_id IN (${placeholders}) ${privateFilter}
-     GROUP BY item_kind, item_id
-     HAVING COUNT(*) = ?
-     ORDER BY avg_dist ASC
-     LIMIT ? OFFSET ?`
-  ).bind(...ids, ids.length, limit, offset).all<{
-    item_kind: string;
-    item_id: string;
-    title: string | null;
-    preview: string | null;
-    avg_dist: number;
-  }>();
-
-  // Attach derived-type facets to thought rows (books/movies/events via thought_id).
-  const thoughtIds = results.results
-    .filter((r) => r.item_kind === "thought")
-    .map((r) => parseInt(r.item_id, 10))
-    .filter(Number.isFinite);
-
-  const facets = new Map<number, { books: { id: number; title: string }[]; movies: { id: number; title: string }[]; events: { id: number; title: string; date_text: string }[] }>();
-  for (const tid of thoughtIds) facets.set(tid, { books: [], movies: [], events: [] });
-
-  if (thoughtIds.length > 0) {
-    const ph = thoughtIds.map(() => "?").join(",");
-    const [books, events, movies] = await Promise.all([
-      c.env.DB.prepare(`SELECT thought_id, id, title FROM book WHERE thought_id IN (${ph})`).bind(...thoughtIds).all<{ thought_id: number; id: number; title: string }>(),
-      c.env.DB.prepare(`SELECT thought_id, id, title, date_text FROM event WHERE thought_id IN (${ph})`).bind(...thoughtIds).all<{ thought_id: number; id: number; title: string; date_text: string }>(),
-      c.env.DB.prepare(`SELECT tm.thought_id, m.id, m.title FROM thought_movie tm JOIN movie m ON m.id = tm.movie_id WHERE tm.thought_id IN (${ph})`).bind(...thoughtIds).all<{ thought_id: number; id: number; title: string }>(),
-    ]);
-    for (const b of books.results) facets.get(b.thought_id)?.books.push({ id: b.id, title: b.title });
-    for (const e of events.results) facets.get(e.thought_id)?.events.push({ id: e.id, title: e.title, date_text: e.date_text });
-    for (const m of movies.results) facets.get(m.thought_id)?.movies.push({ id: m.id, title: m.title });
-  }
-
-  const items = results.results.map((r) => ({
-    kind: r.item_kind,
-    id: r.item_id,
-    title: r.title,
-    preview: r.preview,
-    score: r.avg_dist,
-    facets: r.item_kind === "thought" ? facets.get(parseInt(r.item_id, 10)) ?? null : null,
-  }));
-
-  return c.json({ items, meta: { limit, offset, selected: ids.length } });
-});

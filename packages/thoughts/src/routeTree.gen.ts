@@ -19,7 +19,6 @@ import { Route as GraphRouteImport } from './routes/graph'
 import { Route as FramingsRouteImport } from './routes/framings'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CaptureRouteImport } from './routes/capture'
-import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as BooksRouteImport } from './routes/books'
 import { Route as BookmarksRouteImport } from './routes/bookmarks'
 import { Route as AmplificationsRouteImport } from './routes/amplifications'
@@ -81,11 +80,6 @@ const CaptureRoute = CaptureRouteImport.update({
   path: '/capture',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BrowseRoute = BrowseRouteImport.update({
-  id: '/browse',
-  path: '/browse',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BooksRoute = BooksRouteImport.update({
   id: '/books',
   path: '/books',
@@ -141,7 +135,6 @@ export interface FileRoutesByFullPath {
   '/amplifications': typeof AmplificationsRoute
   '/bookmarks': typeof BookmarksRoute
   '/books': typeof BooksRoute
-  '/browse': typeof BrowseRoute
   '/capture': typeof CaptureRoute
   '/events': typeof EventsRoute
   '/framings': typeof FramingsRoute
@@ -163,7 +156,6 @@ export interface FileRoutesByTo {
   '/amplifications': typeof AmplificationsRoute
   '/bookmarks': typeof BookmarksRoute
   '/books': typeof BooksRoute
-  '/browse': typeof BrowseRoute
   '/capture': typeof CaptureRoute
   '/events': typeof EventsRoute
   '/framings': typeof FramingsRoute
@@ -187,7 +179,6 @@ export interface FileRoutesById {
   '/amplifications': typeof AmplificationsRoute
   '/bookmarks': typeof BookmarksRoute
   '/books': typeof BooksRoute
-  '/browse': typeof BrowseRoute
   '/capture': typeof CaptureRoute
   '/events': typeof EventsRoute
   '/framings': typeof FramingsRoute
@@ -211,7 +202,6 @@ export interface FileRouteTypes {
     | '/amplifications'
     | '/bookmarks'
     | '/books'
-    | '/browse'
     | '/capture'
     | '/events'
     | '/framings'
@@ -233,7 +223,6 @@ export interface FileRouteTypes {
     | '/amplifications'
     | '/bookmarks'
     | '/books'
-    | '/browse'
     | '/capture'
     | '/events'
     | '/framings'
@@ -256,7 +245,6 @@ export interface FileRouteTypes {
     | '/amplifications'
     | '/bookmarks'
     | '/books'
-    | '/browse'
     | '/capture'
     | '/events'
     | '/framings'
@@ -280,7 +268,6 @@ export interface RootRouteChildren {
   AmplificationsRoute: typeof AmplificationsRoute
   BookmarksRoute: typeof BookmarksRoute
   BooksRoute: typeof BooksRoute
-  BrowseRoute: typeof BrowseRoute
   CaptureRoute: typeof CaptureRoute
   EventsRoute: typeof EventsRoute
   FramingsRoute: typeof FramingsRoute
@@ -365,13 +352,6 @@ declare module '@tanstack/react-router' {
       path: '/capture'
       fullPath: '/capture'
       preLoaderRoute: typeof CaptureRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/browse': {
-      id: '/browse'
-      path: '/browse'
-      fullPath: '/browse'
-      preLoaderRoute: typeof BrowseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/books': {
@@ -469,7 +449,6 @@ const rootRouteChildren: RootRouteChildren = {
   AmplificationsRoute: AmplificationsRoute,
   BookmarksRoute: BookmarksRoute,
   BooksRoute: BooksRoute,
-  BrowseRoute: BrowseRoute,
   CaptureRoute: CaptureRoute,
   EventsRoute: EventsRoute,
   FramingsRoute: FramingsRoute,

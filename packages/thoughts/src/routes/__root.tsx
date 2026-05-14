@@ -37,7 +37,6 @@ function legacyHashRedirect(hash: string): string | null {
     music: '/music',
     bookmarks: '/bookmarks',
     amplifications: '/amplifications',
-    browse: '/browse',
     capture: '/capture',
   };
   return staticMap[h] ?? null;

@@ -48,7 +48,6 @@ File-based routing under `src/routes/` via TanStack Router. All paths are relati
 | `/bookmarks` | Bookmarks | chrome | OG-preview cards |
 | `/amplifications` | Amplifications | chrome | Captured external links |
 | `/capture` | Capture | chrome | New amplification form. `?url=`/`?text=`/`?title=` pre-fill (PWA share target). |
-| `/browse` | Browse | chrome | Cluster browse |
 | `/graph` | Graph | bare | UMAP thought graph |
 | `/framings` | Framings list | chrome | List of graph canvases |
 | `/framings/$id` | Framing | bare | Single ReactFlow canvas (lazy chunk) |
@@ -88,7 +87,7 @@ src/
 │   ├── _documents.documents_.new.tsx        # /documents/new
 │   ├── _documents.documents_.$id.tsx        # /documents/$id
 │   ├── framings.tsx, framings_.$id.tsx      # /framings, /framings/$id
-│   └── (tasks, questions, events, locations, media, movies, books, music, bookmarks, amplifications, capture, browse, graph).tsx
+│   └── (tasks, questions, events, locations, media, movies, books, music, bookmarks, amplifications, capture, graph).tsx
 ├── auth-context.ts      # AuthContext (consumed via useContext)
 ├── tags-context.ts      # TagsContext: selectedTags + selectedFraming, hoisted into __root.tsx state
 ├── api.ts               # All API calls (fetch wrappers)
