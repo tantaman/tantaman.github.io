@@ -597,10 +597,16 @@ api.get("/thoughts/:id/replies", async (c) => {
   const authed = isAuthed(c);
   const replyPrivateFilter = authed ? "" : " AND r.private = 0";
 
-  // Fetch parent thought
+  // Fetch parent thought.
+  //
+  // reply_count counts direct replies attached to *any* version of this thought
+  // (via its version-root), so the count is stable across versions. Superseded
+  // replies are excluded so the count matches the visible tree.
   const parentRow = await c.env.DB.prepare(
     `SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
+       (SELECT COUNT(*) FROM thought r
+        WHERE r.parent_id IN (SELECT id FROM thought WHERE COALESCE(version_of, id) = COALESCE(t.version_of, t.id))
+          AND r.superseded_by IS NULL${replyPrivateFilter}) AS reply_count
      FROM thought t
      WHERE t.id = ?`
   ).bind(parentId).first();
@@ -614,6 +620,7 @@ api.get("/thoughts/:id/replies", async (c) => {
   }
 
   const parent = parentRow as Record<string, unknown>;
+  const parentVersionRoot = (parent.version_of as number | null) ?? (parent.id as number);
 
   // Fetch parent attachments
   const parentAttachments = await c.env.DB.prepare(
@@ -625,24 +632,44 @@ api.get("/thoughts/:id/replies", async (c) => {
     name: a.attachment_name as string,
   }));
 
-  // Fetch all descendants recursively with attachments via LEFT JOIN
-  const privateFilterCte = authed ? "" : " AND private = 0";
+  // Fetch all descendants recursively with attachments via LEFT JOIN.
+  //
+  // The CTE walks the tree by *version-root*: a reply is a child of any thought
+  // in the same version-chain as its raw parent_id. This means replies posted
+  // on older versions of a parent still surface when viewing the latest version
+  // (and vice versa). Superseded rows are filtered so the tree only contains
+  // canonical-latest versions; each row carries its parent's version-root so
+  // the client can group children consistently without tracking the raw
+  // parent_id chains.
+  const privateFilterCte = authed ? "" : " AND t.private = 0";
   const privateFilterJoin = authed ? "" : " AND t.private = 0";
   const results = await c.env.DB.prepare(
-    `WITH RECURSIVE descendants(id, parent_id, body, body_hash, timestamp, created_at, color, private, depth) AS (
-       SELECT id, parent_id, body, body_hash, timestamp, created_at, color, private, 0
-       FROM thought WHERE parent_id = ?${privateFilterCte}
+    `WITH RECURSIVE descendants(id, parent_id, body, body_hash, timestamp, created_at, color, private, version_of, superseded_by, depth, version_root) AS (
+       SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by, 0,
+              COALESCE(t.version_of, t.id)
+       FROM thought t
+       JOIN thought p ON p.id = t.parent_id
+       WHERE COALESCE(p.version_of, p.id) = ?
+         AND t.superseded_by IS NULL${privateFilterCte}
        UNION ALL
-       SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, d.depth + 1
-       FROM thought t JOIN descendants d ON t.parent_id = d.id${privateFilterJoin}
+       SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by, d.depth + 1,
+              COALESCE(t.version_of, t.id)
+       FROM thought t
+       JOIN thought p ON p.id = t.parent_id
+       JOIN descendants d ON COALESCE(p.version_of, p.id) = d.version_root
+       WHERE t.superseded_by IS NULL${privateFilterJoin}
      )
-     SELECT d.id, d.parent_id, d.body, d.body_hash, d.timestamp, d.created_at, d.color, d.private, d.depth,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id${replyPrivateFilter}) AS reply_count,
+     SELECT d.id, d.parent_id, d.body, d.body_hash, d.timestamp, d.created_at, d.color, d.private, d.version_of, d.superseded_by, d.depth, d.version_root,
+       COALESCE(p.version_of, p.id) AS parent_version_root,
+       (SELECT COUNT(*) FROM thought r
+        WHERE r.parent_id IN (SELECT id FROM thought WHERE COALESCE(version_of, id) = d.version_root)
+          AND r.superseded_by IS NULL${replyPrivateFilter}) AS reply_count,
        ta.attachment_key, ta.attachment_type, ta.attachment_name
      FROM descendants d
+     LEFT JOIN thought p ON p.id = d.parent_id
      LEFT JOIN thought_attachment ta ON ta.thought_id = d.id
      ORDER BY d.depth ASC, d.timestamp ASC`
-  ).bind(parentId).all();
+  ).bind(parentVersionRoot).all();
 
   // Group rows by thought id — a thought with N attachments produces N rows
   const replyMap = new Map<number, Record<string, unknown>>();
@@ -652,7 +679,9 @@ api.get("/thoughts/:id/replies", async (c) => {
     if (!replyMap.has(tid)) {
       replyMap.set(tid, {
         id: r.id, parent_id: r.parent_id, body: r.body, body_hash: r.body_hash, timestamp: r.timestamp,
-        created_at: r.created_at, color: r.color, private: r.private, depth: r.depth,
+        created_at: r.created_at, color: r.color, private: r.private,
+        version_of: r.version_of, superseded_by: r.superseded_by,
+        depth: r.depth, parent_version_root: r.parent_version_root,
         reply_count: r.reply_count, attachments: [],
       });
     }
@@ -669,12 +698,11 @@ api.get("/thoughts/:id/replies", async (c) => {
   await attachDuplicateIds(c.env.DB, [parent, ...replies], authed);
 
   // Fetch version chain if this thought is part of one
-  const versionRoot = (parent.version_of as number | null) ?? (parent.id as number);
   const versionRows = await c.env.DB.prepare(
     `SELECT id, timestamp FROM thought
      WHERE id = ? OR version_of = ?
      ORDER BY id ASC`
-  ).bind(versionRoot, versionRoot).all();
+  ).bind(parentVersionRoot, parentVersionRoot).all();
 
   const versions = versionRows.results.length > 1
     ? versionRows.results.map((r) => ({ id: r.id as number, timestamp: r.timestamp as number }))
@@ -841,8 +869,11 @@ api.post("/thoughts", async (c) => {
     if (!target) {
       return c.json({ error: "Target thought not found" }, 404);
     }
+    // A new version of a reply inherits the parent_id of the original.
+    // The client-side `parent_id + version_of` mutex was already enforced above,
+    // so it's safe to set parentId here from the target's row.
     if (target.parent_id != null) {
-      return c.json({ error: "Cannot version a reply" }, 400);
+      parentId = target.parent_id;
     }
     // Resolve to root
     resolvedVersionOf = target.version_of ?? target.id;

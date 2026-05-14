@@ -16,6 +16,11 @@ export interface Thought {
   color: string | null;
   private: boolean;
   duplicate_ids: number[];
+  // Present on replies returned from /thoughts/:id/replies — the version-root
+  // of this reply's direct parent. Used to group children under their parent's
+  // canonical chain rather than the literal parent_id, which may point at a
+  // superseded version after an edit.
+  parent_version_root?: number;
 }
 
 export interface ThoughtVersion {

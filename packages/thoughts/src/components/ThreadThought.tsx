@@ -10,17 +10,22 @@ export function ThreadThought({
   depth,
   onReplyPosted,
   onDelete,
+  onEdited,
 }: {
   thought: Thought;
   childrenMap: Map<number, Thought[]>;
   depth: number;
   onReplyPosted: (t: Thought) => void;
   onDelete: (id: number) => void;
+  onEdited: (newReply: Thought) => void;
 }) {
   const { secret } = useContext(AuthContext);
   const [showReply, setShowReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const children = childrenMap.get(thought.id) || [];
+  // Look up children by this reply's version-root so descendants of older
+  // versions surface under the canonical (latest) reply.
+  const myRoot = thought.version_of ?? thought.id;
+  const children = childrenMap.get(myRoot) || [];
   const nextDepth = Math.min(depth + 1, 4);
 
   const footer = secret ? (
@@ -50,6 +55,7 @@ export function ThreadThought({
           </button>
         }
         onDelete={() => onDelete(thought.id)}
+        onEdited={secret ? onEdited : undefined}
         footer={footer}
       />
 
@@ -78,6 +84,7 @@ export function ThreadThought({
               depth={nextDepth}
               onReplyPosted={onReplyPosted}
               onDelete={onDelete}
+              onEdited={onEdited}
             />
           ))}
         </div>

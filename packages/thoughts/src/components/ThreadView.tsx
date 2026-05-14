@@ -9,13 +9,19 @@ import { ComposeForm } from './ComposeForm';
 import { RelatedPanel } from './RelatedPanel';
 import { AncestorChain } from './AncestorChain';
 
+// Group replies by their parent's version-root. The worker returns
+// `parent_version_root` on each reply so children attached to an older version
+// of a thought still group under the same key as children attached to the
+// latest version. Falls back to raw `parent_id` for callers (e.g. older worker
+// responses) that don't include the field.
 function buildChildrenMap(replies: Thought[]): Map<number, Thought[]> {
   const map = new Map<number, Thought[]>();
   for (const r of replies) {
-    if (r.parent_id == null) continue;
-    const list = map.get(r.parent_id) || [];
+    const key = r.parent_version_root ?? r.parent_id;
+    if (key == null) continue;
+    const list = map.get(key) || [];
     list.push(r);
-    map.set(r.parent_id, list);
+    map.set(key, list);
   }
   return map;
 }
@@ -59,12 +65,17 @@ export function ThreadView({ id }: { id: number }) {
   }
 
   const childrenMap = buildChildrenMap(data.replies);
-  const rootChildren = childrenMap.get(id) || [];
+  const parentRoot = data.parent.version_of ?? data.parent.id;
+  const rootChildren = childrenMap.get(parentRoot) || [];
   const replyCount = data.replies.length;
   const versions: ThoughtVersion[] = data.versions || [];
 
   const handleParentDelete = () => {
     navigate({ to: '/' });
+  };
+
+  const handleParentEdited = (t: Thought) => {
+    navigate({ to: '/t/$id', params: { id: t.id } });
   };
 
   const handleReplyPosted = (t: Thought) => {
@@ -74,6 +85,25 @@ export function ThreadView({ id }: { id: number }) {
   const handleReplyDelete = (deletedId: number) => {
     mutate(
       { ...data, replies: data.replies.filter((r) => r.id !== deletedId) },
+      false,
+    );
+  };
+
+  const handleReplyEdited = (t: Thought) => {
+    // Drop the version we just superseded and append the new one.
+    // A fresh refetch will return the same shape (worker filters
+    // superseded_by IS NULL), so this just keeps the UI consistent until then.
+    const supersededId = t.version_of;
+    mutate(
+      {
+        ...data,
+        replies: [
+          ...data.replies.filter(
+            (r) => r.id !== supersededId && r.version_of !== supersededId,
+          ),
+          t,
+        ],
+      },
       false,
     );
   };
@@ -112,6 +142,7 @@ export function ThreadView({ id }: { id: number }) {
         thought={data.parent}
         isParent
         onDelete={handleParentDelete}
+        onEdited={secret ? handleParentEdited : undefined}
       />
 
       <RelatedPanel thoughtId={id} />
@@ -130,6 +161,7 @@ export function ThreadView({ id }: { id: number }) {
           depth={0}
           onReplyPosted={handleReplyPosted}
           onDelete={handleReplyDelete}
+          onEdited={handleReplyEdited}
         />
       ))}
 

@@ -109,7 +109,7 @@ export function ThoughtCard({
         )}
         {secret && !editing && (
           <>
-            {onEdited && thought.parent_id == null && (
+            {onEdited && (
               <button
                 className="thought-edit"
                 aria-label="Edit thought"

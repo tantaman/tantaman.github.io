@@ -123,23 +123,35 @@ describe("POST /thoughts — version creation", () => {
     expect(body.error).toMatch(/not found/i);
   });
 
-  test("version_of pointing to a reply returns 400", async () => {
-    const resParent = await json("/api/thoughts", { body: "parent" });
+  test("versioning a reply inherits parent_id and supersedes previous", async () => {
+    const resParent = await json("/api/thoughts", { body: "rev-parent" });
     const parent = (await resParent.json()) as any;
 
     const resReply = await json("/api/thoughts", {
-      body: "reply",
+      body: "rev-reply-v1",
       parent_id: parent.id,
     });
     const reply = (await resReply.json()) as any;
 
     const res = await json("/api/thoughts", {
-      body: "version of reply",
+      body: "rev-reply-v2",
       version_of: reply.id,
     });
-    expect(res.status).toBe(400);
-    const body = (await res.json()) as any;
-    expect(body.error).toMatch(/Cannot version a reply/);
+    expect(res.status).toBe(201);
+    const v2 = (await res.json()) as any;
+
+    // v2 inherits parent_id from the original reply and points at the version-root
+    expect(v2.parent_id).toBe(parent.id);
+    expect(v2.version_of).toBe(reply.id);
+    expect(v2.superseded_by).toBeNull();
+
+    // The original reply is now superseded by v2
+    const r1Row = await env.DB.prepare(
+      "SELECT superseded_by FROM thought WHERE id = ?"
+    )
+      .bind(reply.id)
+      .first<{ superseded_by: number }>();
+    expect(r1Row!.superseded_by).toBe(v2.id);
   });
 });
 
@@ -267,29 +279,119 @@ describe("GET /thoughts/:id/replies — version chain", () => {
   });
 });
 
-// ---------- GET /thoughts/:id/replies — replies stay on their version ----------
+// ---------- GET /thoughts/:id/replies — replies follow version chain ----------
 
-describe("GET /thoughts/:id/replies — replies stay on their version", () => {
-  test("replies belong to the version they were posted on", async () => {
-    // Seed: A (root), reply R on A, B (version_of=A), A.superseded_by=B
-    const A = await insertThought("reply-owner-A");
-    const R = await insertThought("reply-on-A", { parent_id: A });
-    const B = await insertThought("reply-owner-B", { version_of: A });
+describe("GET /thoughts/:id/replies — replies follow version chain", () => {
+  test("replies attached to any version of the parent appear under every version", async () => {
+    // Seed: A (root), reply R_on_A on A, B (version_of=A), A.superseded_by=B,
+    // R_on_B reply on B.
+    const A = await insertThought("vc-parent-A");
+    const R_on_A = await insertThought("vc-reply-on-A", { parent_id: A });
+    const B = await insertThought("vc-parent-B", { version_of: A });
     await env.DB.prepare("UPDATE thought SET superseded_by = ? WHERE id = ?")
       .bind(B, A)
       .run();
+    const R_on_B = await insertThought("vc-reply-on-B", { parent_id: B });
 
-    // GET thread for A: replies include R
+    // GET thread for A: replies include BOTH R_on_A and R_on_B
     const resA = await req(`/api/thoughts/${A}/replies`, { headers: AUTH });
     const bodyA = (await resA.json()) as any;
     const replyIdsA = bodyA.replies.map((r: any) => r.id);
-    expect(replyIdsA).toContain(R);
+    expect(replyIdsA).toContain(R_on_A);
+    expect(replyIdsA).toContain(R_on_B);
 
-    // GET thread for B: replies do NOT include R
+    // GET thread for B: same set
     const resB = await req(`/api/thoughts/${B}/replies`, { headers: AUTH });
     const bodyB = (await resB.json()) as any;
     const replyIdsB = bodyB.replies.map((r: any) => r.id);
-    expect(replyIdsB).not.toContain(R);
+    expect(replyIdsB).toContain(R_on_A);
+    expect(replyIdsB).toContain(R_on_B);
+  });
+
+  test("children of any version of an interior reply surface together", async () => {
+    // Tree: P -> R1, child C1 of R1, version R2 of R1, child C2 of R2.
+    const P = await insertThought("vc-int-P");
+    const R1 = await insertThought("vc-int-R1", { parent_id: P });
+    const C1 = await insertThought("vc-int-C1", { parent_id: R1 });
+    const R2 = await insertThought("vc-int-R2", {
+      parent_id: P,
+      version_of: R1,
+    });
+    await env.DB.prepare("UPDATE thought SET superseded_by = ? WHERE id = ?")
+      .bind(R2, R1)
+      .run();
+    const C2 = await insertThought("vc-int-C2", { parent_id: R2 });
+
+    const res = await req(`/api/thoughts/${P}/replies`, { headers: AUTH });
+    const body = (await res.json()) as any;
+    const ids = body.replies.map((r: any) => r.id);
+
+    // Tree includes R2 (latest version of R) and both children.
+    expect(ids).toContain(R2);
+    expect(ids).toContain(C1);
+    expect(ids).toContain(C2);
+
+    // Superseded R1 is hidden from the tree.
+    expect(ids).not.toContain(R1);
+
+    // Both children share the same parent_version_root (= R1, the chain root).
+    const c1Row = body.replies.find((r: any) => r.id === C1);
+    const c2Row = body.replies.find((r: any) => r.id === C2);
+    expect(c1Row.parent_version_root).toBe(R1);
+    expect(c2Row.parent_version_root).toBe(R1);
+  });
+
+  test("parent reply_count counts across the version chain", async () => {
+    // P -> R (one reply). Then edit P -> P2; both endpoints should report 1.
+    const P = await insertThought("rc-P");
+    await insertThought("rc-R", { parent_id: P });
+    const P2 = await insertThought("rc-P2", { version_of: P });
+    await env.DB.prepare("UPDATE thought SET superseded_by = ? WHERE id = ?")
+      .bind(P2, P)
+      .run();
+
+    const resP = await req(`/api/thoughts/${P}/replies`, { headers: AUTH });
+    expect((await resP.json() as any).parent.reply_count).toBe(1);
+
+    const resP2 = await req(`/api/thoughts/${P2}/replies`, { headers: AUTH });
+    expect((await resP2.json() as any).parent.reply_count).toBe(1);
+
+    // Post a new reply on P2; count goes to 2 from both endpoints.
+    await insertThought("rc-R2", { parent_id: P2 });
+
+    const resP_after = await req(`/api/thoughts/${P}/replies`, { headers: AUTH });
+    expect((await resP_after.json() as any).parent.reply_count).toBe(2);
+
+    const resP2_after = await req(`/api/thoughts/${P2}/replies`, { headers: AUTH });
+    expect((await resP2_after.json() as any).parent.reply_count).toBe(2);
+  });
+
+  test("private replies are filtered from version-chain descendants for unauthed callers", async () => {
+    const A = await insertThought("pf-A");
+    const R_pub = await insertThought("pf-pub", { parent_id: A });
+    const B = await insertThought("pf-B", { version_of: A });
+    await env.DB.prepare("UPDATE thought SET superseded_by = ? WHERE id = ?")
+      .bind(B, A)
+      .run();
+    // Insert a private reply on B directly
+    const privInsert = await env.DB.prepare(
+      "INSERT INTO thought (body, timestamp, parent_id, private) VALUES (?, ?, ?, 1)"
+    )
+      .bind("pf-priv", Date.now() / 1000 + 200_000, B)
+      .run();
+    const R_priv = privInsert.meta.last_row_id;
+
+    // Authed: both appear
+    const authedRes = await req(`/api/thoughts/${A}/replies`, { headers: AUTH });
+    const authedIds = ((await authedRes.json()) as any).replies.map((r: any) => r.id);
+    expect(authedIds).toContain(R_pub);
+    expect(authedIds).toContain(R_priv);
+
+    // Unauthed: only the public one
+    const pubRes = await req(`/api/thoughts/${A}/replies`);
+    const pubIds = ((await pubRes.json()) as any).replies.map((r: any) => r.id);
+    expect(pubIds).toContain(R_pub);
+    expect(pubIds).not.toContain(R_priv);
   });
 });
 
@@ -320,6 +422,39 @@ describe("DELETE /thoughts/:id — deletes entire version chain", () => {
         .first();
       expect(row).toBeNull();
     }
+  });
+
+  test("delete a versioned reply cascades to its children across versions", async () => {
+    // Tree:
+    //   P -> R1 (child C1) -> R2 = version_of R1 (child C2)
+    // Deleting R2 should remove the whole reply chain plus all child rows.
+    const P = await insertThought("dvr-P");
+    const R1 = await insertThought("dvr-R1", { parent_id: P });
+    const C1 = await insertThought("dvr-C1", { parent_id: R1 });
+    const R2 = await insertThought("dvr-R2", { parent_id: P, version_of: R1 });
+    await env.DB.prepare("UPDATE thought SET superseded_by = ? WHERE id = ?")
+      .bind(R2, R1)
+      .run();
+    const C2 = await insertThought("dvr-C2", { parent_id: R2 });
+
+    const res = await req(`/api/thoughts/${R2}`, {
+      method: "DELETE",
+      headers: AUTH,
+    });
+    expect(res.status).toBe(204);
+
+    for (const id of [R1, R2, C1, C2]) {
+      const row = await env.DB.prepare("SELECT id FROM thought WHERE id = ?")
+        .bind(id)
+        .first();
+      expect(row).toBeNull();
+    }
+
+    // P is untouched
+    const pRow = await env.DB.prepare("SELECT id FROM thought WHERE id = ?")
+      .bind(P)
+      .first();
+    expect(pRow).not.toBeNull();
   });
 
   test("delete from root deletes entire chain", async () => {
