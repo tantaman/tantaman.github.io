@@ -3802,6 +3802,24 @@ a.movie-title:hover {
   background: var(--bg);
 }
 
+.document-edit-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.document-edit-body > .md-editor-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.document-edit-body > .framing-detail-pane {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  max-height: 100vh;
+}
+
 .document-topbar {
   position: sticky;
   top: 0;

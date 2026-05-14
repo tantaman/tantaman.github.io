@@ -22,6 +22,24 @@ interface TagsResponse {
   tags: Tag[];
 }
 
+export interface HighlightRow {
+  id: number;
+  quoted_text: string;
+  color: string | null;
+}
+
+export function getHighlights(
+  source: string,
+  secret?: string,
+): Promise<{ highlights: HighlightRow[] }> {
+  return fetch(`${API}/highlights?source=${encodeURIComponent(source)}`, {
+    headers: authHeaders(secret),
+  }).then((r) => {
+    if (!r.ok) return { highlights: [] };
+    return r.json();
+  });
+}
+
 export function searchThoughts(
   query: string,
   secret?: string,

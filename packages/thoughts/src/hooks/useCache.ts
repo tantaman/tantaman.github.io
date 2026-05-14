@@ -1,11 +1,18 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph, getDocuments, getDocument } from '../api';
+import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph, getDocuments, getDocument, getHighlights } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
   const authKey = secret ? 'a' : 'p';
   return useSWR(`thread-${id}-${authKey}`, () => getThread(id, secret || undefined));
+}
+
+export function useHighlights(source: string | null, secret?: string | null) {
+  const authKey = secret ? 'a' : 'p';
+  return useSWR(source ? `highlights-${source}-${authKey}` : null, () =>
+    getHighlights(source!, secret || undefined),
+  );
 }
 
 export function useRelated(id: number, secret?: string | null) {

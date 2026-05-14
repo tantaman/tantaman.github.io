@@ -317,3 +317,27 @@
 [data-theme='dark'] .md-editor-area .tiptap a.wiki-link[data-kind='paste']   { color: #a8e3a8; }
 [data-theme='dark'] .md-editor-area .tiptap a.wiki-link[data-kind='frame']   { color: #d4b1ff; }
 [data-theme='dark'] .md-editor-area .tiptap a.wiki-link[data-kind='post']    { color: #ffb1da; }
+
+/* Highlights captured via the bubble toolbar — rendered as inline marks via
+   the HighlightDecorations extension. */
+.md-highlight {
+  --highlight-color: #ffd76b;
+  background: color-mix(in srgb, var(--highlight-color) 35%, transparent);
+  border-bottom: 2px solid var(--highlight-color);
+  cursor: pointer;
+  padding: 0 1px;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.md-highlight:hover {
+  background: color-mix(in srgb, var(--highlight-color) 55%, transparent);
+}
+
+[data-theme='dark'] .md-highlight {
+  background: color-mix(in srgb, var(--highlight-color) 25%, transparent);
+}
+
+[data-theme='dark'] .md-highlight:hover {
+  background: color-mix(in srgb, var(--highlight-color) 45%, transparent);
+}

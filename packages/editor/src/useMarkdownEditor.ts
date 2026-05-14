@@ -10,6 +10,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { Markdown } from 'tiptap-markdown';
 import { common, createLowlight } from 'lowlight';
 import { WikiLink, applyWikiLinkTransform } from './WikiLink';
+import { HighlightDecorations } from './HighlightDecorations';
 
 const lowlight = createLowlight(common);
 
@@ -26,6 +27,8 @@ export interface UseMarkdownEditorOptions {
   spellcheck?: boolean;
   /** Apply per-node placeholders (placeholder shows for any empty top-level node, not just the current one). */
   placeholderShowOnAllEmpty?: boolean;
+  /** Click handler for highlight decorations (set via setHighlights command). */
+  onHighlightClick?: (thoughtId: number) => void;
 }
 
 /**
@@ -39,6 +42,7 @@ export function useMarkdownEditor(opts: UseMarkdownEditorOptions = {}): Editor |
     autofocus,
     spellcheck = true,
     placeholderShowOnAllEmpty,
+    onHighlightClick,
   } = opts;
   return useEditor({
     autofocus: autofocus ?? false,
@@ -55,6 +59,7 @@ export function useMarkdownEditor(opts: UseMarkdownEditorOptions = {}): Editor |
       TaskItem.configure({ nested: true }),
       CodeBlockLowlight.configure({ lowlight }),
       WikiLink,
+      HighlightDecorations.configure({ onClick: onHighlightClick }),
       Markdown,
     ],
     editorProps: {

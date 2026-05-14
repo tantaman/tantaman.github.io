@@ -156,6 +156,45 @@ api.get("/", (c) => {
   });
 });
 
+// Highlights: thoughts containing "#h <source>" tag, where source is
+// "doc:<id>" or "post:<slug>". The thought body is a markdown blockquote of
+// the captured text followed by the tag. Returns the parsed quoted text.
+api.get("/highlights", async (c) => {
+  const source = c.req.query("source");
+  if (!source) {
+    return c.json({ error: "Missing source parameter" }, 400);
+  }
+  if (!/^(doc:\d+|post:[a-z0-9-]+)$/i.test(source)) {
+    return c.json({ error: "Invalid source format" }, 400);
+  }
+
+  const authed = isAuthed(c);
+  const privateFilter = authed ? "" : " AND private = 0";
+  const likePattern = `%#h ${source}%`;
+  const results = await c.env.DB.prepare(
+    `SELECT id, body, color FROM thought
+     WHERE body LIKE ? AND superseded_by IS NULL${privateFilter}
+     ORDER BY id DESC LIMIT 200`
+  ).bind(likePattern).all<{ id: number; body: string; color: string | null }>();
+
+  // Confirm exact tag match (word-boundary) and extract blockquote text.
+  const tagRegex = new RegExp(`(^|\\s)#h ${source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\s|$)`);
+  const highlights: { id: number; quoted_text: string; color: string | null }[] = [];
+  for (const row of results.results) {
+    if (!tagRegex.test(row.body)) continue;
+    const quoted = row.body
+      .split("\n")
+      .filter((line) => line.startsWith("> "))
+      .map((line) => line.slice(2))
+      .join("\n")
+      .trim();
+    if (!quoted) continue;
+    highlights.push({ id: row.id, quoted_text: quoted, color: row.color });
+  }
+
+  return c.json({ highlights });
+});
+
 api.get("/thoughts/search", async (c) => {
   const query = c.req.query("q");
   if (!query) {

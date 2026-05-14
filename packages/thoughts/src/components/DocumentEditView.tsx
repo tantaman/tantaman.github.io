@@ -21,8 +21,9 @@ import {
 } from '@tantaman/editor';
 import { useNavigate } from '@tanstack/react-router';
 import { AuthContext } from '../auth-context';
-import { useDocument } from '../hooks/useCache';
-import { createDocument, updateDocument, typeahead, type TypeaheadKindLetter } from '../api';
+import { useDocument, useHighlights } from '../hooks/useCache';
+import { createDocument, updateDocument, typeahead, postThought, type TypeaheadKindLetter } from '../api';
+import { FramingDetailPane } from './framing/FramingDetailPane';
 
 const KIND_LETTERS: Record<WikiLinkKind, TypeaheadKindLetter> = {
   doc: 'd',
@@ -58,6 +59,7 @@ export function DocumentEditView({ id }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'dirty' | 'saving' | 'saved' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [currentId, setCurrentId] = useState<number | undefined>(id);
+  const [openHighlightId, setOpenHighlightId] = useState<number | null>(null);
   const navigate = useNavigate();
 
   const editor = useMarkdownEditor({
@@ -65,6 +67,9 @@ export function DocumentEditView({ id }: Props) {
       node.type.name === 'heading' && node.attrs?.level === 1
         ? 'Untitled'
         : "Press '/' for commands",
+    onHighlightClick: useCallback((thoughtId: number) => {
+      setOpenHighlightId(thoughtId);
+    }, []),
   });
   const slashMenu = useSlashMenu(editor);
   const wikiSearch = useCallback<WikiLinkSearch>(
@@ -76,6 +81,34 @@ export function DocumentEditView({ id }: Props) {
   );
   const wikiMenu = useWikiLinkMenu(editor, wikiSearch);
   const initializedRef = useRef(false);
+
+  const highlightSource = currentId ? `doc:${currentId}` : null;
+  const { data: highlightsData, mutate: mutateHighlights } = useHighlights(
+    highlightSource,
+    secret,
+  );
+
+  // Push highlights into the editor's decoration extension whenever they change
+  // or the editor finishes initializing.
+  useEffect(() => {
+    if (!editor) return;
+    editor.commands.setHighlights(highlightsData?.highlights || []);
+  }, [editor, highlightsData]);
+
+  const handleHighlight = useCallback(
+    async (text: string) => {
+      if (!secret || !currentId) return;
+      const indented = text.split('\n').map((l) => `> ${l}`).join('\n');
+      const body = `${indented}\n\n#h doc:${currentId}`;
+      try {
+        await postThought(body, secret);
+        mutateHighlights();
+      } catch {
+        // best effort
+      }
+    },
+    [secret, currentId, mutateHighlights],
+  );
 
   // Hydrate the editor once we have data (or initialize for a new doc).
   useEffect(() => {
@@ -320,11 +353,26 @@ export function DocumentEditView({ id }: Props) {
         </div>
       )}
 
-      <div className="md-editor-area document-editor-surface">
-        {editor && secret && <BubbleToolbar editor={editor} />}
-        <EditorContent editor={editor} />
-        {secret && <SlashMenu {...slashMenu} />}
-        {secret && <WikiLinkMenu {...wikiMenu} />}
+      <div className="document-edit-body">
+        <div className="md-editor-area document-editor-surface">
+          {editor && secret && (
+            <BubbleToolbar
+              editor={editor}
+              onHighlight={currentId ? handleHighlight : undefined}
+            />
+          )}
+          <EditorContent editor={editor} />
+          {secret && <SlashMenu {...slashMenu} />}
+          {secret && <WikiLinkMenu {...wikiMenu} />}
+        </div>
+
+        {openHighlightId != null && (
+          <FramingDetailPane
+            key={openHighlightId}
+            thoughtId={openHighlightId}
+            onClose={() => setOpenHighlightId(null)}
+          />
+        )}
       </div>
     </div>
   );

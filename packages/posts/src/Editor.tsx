@@ -66,7 +66,7 @@ export function Editor({ postId }: { postId?: number }) {
     async (text: string) => {
       if (!secret) return;
       const indented = text.split('\n').map((l) => `> ${l}`).join('\n');
-      const body = slug ? `${indented}\n\n#h ${slug}` : indented;
+      const body = slug ? `${indented}\n\n#h post:${slug}` : indented;
       try {
         await createThought(secret, body);
         setSaveMsg('Highlight captured');

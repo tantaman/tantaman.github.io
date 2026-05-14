@@ -7,6 +7,8 @@ export type { BubbleToolbarProps } from './BubbleToolbar';
 export { SlashMenu, useSlashMenu } from './SlashMenu';
 export { WikiLink, applyWikiLinkTransform, hrefFor as wikiLinkHrefFor } from './WikiLink';
 export type { WikiLinkAttrs, WikiLinkKind } from './WikiLink';
+export { HighlightDecorations } from './HighlightDecorations';
+export type { Highlight } from './HighlightDecorations';
 export { WikiLinkMenu, useWikiLinkMenu } from './WikiLinkMenu';
 export type { WikiLinkResult, WikiLinkSearch, WikiLinkMenuProps } from './WikiLinkMenu';
 export type { Editor } from '@tiptap/core';
