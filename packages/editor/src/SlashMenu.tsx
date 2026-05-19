@@ -55,6 +55,16 @@ const ITEMS: SlashItem[] = [
     action: (e) => e.chain().focus().toggleBlockquote().run(),
   },
   {
+    label: 'Table',
+    icon: '⊞',
+    action: (e) =>
+      e
+        .chain()
+        .focus()
+        .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+        .run(),
+  },
+  {
     label: 'Image',
     icon: '🖼',
     action: (e) => {
