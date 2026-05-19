@@ -257,6 +257,100 @@ export function createMcpServer(env: Env) {
   );
 
   server.tool(
+    "wardrobe_archive",
+    "Read Matt Wonlaw's curated wardrobe archive — clothing items he's considering, has shortlisted, or has decided to keep. Returns a markdown manifest with brand, status, price, facet tags (category/style/sleeve/season/fit/color), notes, source links, and direct photo URLs. Use this to suggest similar pieces, adjacent brands, or items that would complete the set.",
+    {
+      statuses: z
+        .array(z.enum(["candidate", "shortlist", "keep", "own", "cut"]))
+        .optional()
+        .default(["keep", "own", "shortlist"])
+        .describe("Which statuses to include (default: keep, own, shortlist — the retained set)"),
+    },
+    async ({ statuses }) => {
+      const placeholders = statuses.map(() => "?").join(",");
+      const itemsQ = await env.DB
+        .prepare(`SELECT id, name, brand, notes, facets, links, price_cents, status, rating FROM wardrobe_item WHERE user_id = 'me' AND status IN (${placeholders}) ORDER BY status ASC, json_extract(facets, '$.category') ASC, updated_at DESC`)
+        .bind(...statuses)
+        .all<{ id: number; name: string | null; brand: string | null; notes: string; facets: string; links: string; price_cents: number | null; status: string; rating: number | null }>();
+      const items = itemsQ.results;
+      if (items.length === 0) {
+        return {
+          content: [{ type: "text" as const, text: `No wardrobe items with status ${statuses.join(", ")}.` }],
+        };
+      }
+
+      const photoRows = await env.DB
+        .prepare(`SELECT item_id, attachment_key FROM wardrobe_photo WHERE item_id IN (${items.map(() => "?").join(",")}) ORDER BY position ASC`)
+        .bind(...items.map((i) => i.id))
+        .all<{ item_id: number; attachment_key: string }>();
+      const photosByItem = new Map<number, string[]>();
+      for (const p of photoRows.results) {
+        if (!photosByItem.has(p.item_id)) photosByItem.set(p.item_id, []);
+        photosByItem.get(p.item_id)!.push(p.attachment_key);
+      }
+
+      const fmtPrice = (cents: number | null) =>
+        cents == null ? null : `$${(cents / 100).toFixed(cents % 100 === 0 ? 0 : 2)}`;
+      const stars = (r: number | null) => (r == null ? null : "★".repeat(r) + "☆".repeat(5 - r));
+
+      const lines: string[] = [
+        `# Wardrobe Archive`,
+        ``,
+        `${items.length} ${items.length === 1 ? "piece" : "pieces"} · statuses: ${statuses.join(", ")}`,
+        ``,
+      ];
+
+      for (const row of items) {
+        const facets = (() => { try { return JSON.parse(row.facets) as Record<string, string>; } catch { return {}; } })();
+        const links = (() => { try { return JSON.parse(row.links) as { url: string; title?: string; price_cents?: number }[]; } catch { return []; } })();
+        const photos = photosByItem.get(row.id) ?? [];
+
+        lines.push(`## № ${String(row.id).padStart(3, "0")} · ${row.name || row.brand || "Untitled"}`);
+        lines.push("");
+        const meta: string[] = [`**Status:** ${row.status.toUpperCase()}`];
+        if (row.brand) meta.push(`**Brand:** ${row.brand}`);
+        const price = fmtPrice(row.price_cents);
+        if (price) meta.push(`**Price:** ${price}`);
+        const r = stars(row.rating);
+        if (r) meta.push(`**Rating:** ${r}`);
+        lines.push(meta.join("  \n"));
+        lines.push("");
+
+        const facetEntries = Object.entries(facets).filter(([, v]) => v);
+        if (facetEntries.length > 0) {
+          lines.push(facetEntries.map(([k, v]) => `**${k}:** ${v}`).join(" · "));
+          lines.push("");
+        }
+
+        if (row.notes && row.notes.trim()) {
+          lines.push(row.notes.trim());
+          lines.push("");
+        }
+
+        if (links.length > 0) {
+          lines.push(`**Sources:**`);
+          for (const l of links) {
+            const title = l.title || (() => { try { return new URL(l.url).hostname.replace(/^www\./, ""); } catch { return l.url; } })();
+            const lp = fmtPrice(l.price_cents ?? null);
+            lines.push(`- [${title}](${l.url})${lp ? ` — ${lp}` : ""}`);
+          }
+          lines.push("");
+        }
+
+        if (photos.length > 0) {
+          lines.push(`**Photos:**`);
+          for (const k of photos) lines.push(`- https://tantaman.com/api/attachments/${k}`);
+          lines.push("");
+        }
+      }
+
+      return {
+        content: [{ type: "text" as const, text: lines.join("\n") }],
+      };
+    }
+  );
+
+  server.tool(
     "list_thoughts",
     "Browse Matt Wonlaw's thoughts (short-form posts) chronologically. Supports date range filtering and pagination. Returns full thought body content inline.",
     {

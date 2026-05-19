@@ -46,8 +46,8 @@ function rowToItem(row: ItemRow, photos: PhotoRow[]) {
     name: row.name,
     brand: row.brand,
     notes: row.notes,
-    facets: safeJson(row.facets, {}),
-    links: safeJson(row.links, []),
+    facets: safeJson<Record<string, string>>(row.facets, {}),
+    links: safeJson<LinkInput[]>(row.links, []),
     price_cents: row.price_cents,
     status: row.status,
     rating: row.rating,
@@ -111,6 +111,143 @@ async function fetchItems(db: D1Database, ids: number[]) {
     .all<PhotoRow>();
   return { photos: photosQ.results };
 }
+
+// Export — markdown by default, JSON when ?format=json. Designed to be
+// pasted into an LLM context so it can suggest more pieces along similar
+// lines. Filters by status (defaults to retained items: keep, own, shortlist).
+wardrobe.get("/export", async (c) => {
+  const format = c.req.query("format") ?? "md";
+  const statusParam = c.req.query("status");
+  const requested = statusParam
+    ? statusParam.split(",").map((s) => s.trim()).filter((s) => ALLOWED_STATUSES.has(s))
+    : ["keep", "own", "shortlist"];
+
+  const placeholders = requested.map(() => "?").join(",");
+  const itemsQ = await c.env.DB
+    .prepare(`SELECT id, name, brand, notes, facets, links, price_cents, status, rating, created_at, updated_at FROM wardrobe_item WHERE user_id = ? AND status IN (${placeholders}) ORDER BY status ASC, json_extract(facets, '$.category') ASC, updated_at DESC`)
+    .bind(USER_ID, ...requested)
+    .all<ItemRow>();
+  const items = itemsQ.results;
+  const { photos } = await fetchItems(c.env.DB, items.map((i) => i.id));
+
+  // Resolve schema for prettier facet labels in the markdown.
+  const schemaRow = await c.env.DB
+    .prepare("SELECT schema FROM wardrobe_facet_schema WHERE user_id = ?")
+    .bind(USER_ID)
+    .first<{ schema: string }>();
+  const schema = schemaRow ? safeJson<Array<{ key: string; label: string; options: Array<{ value: string; label: string }> }>>(schemaRow.schema, []) : [];
+  const facetLabel = new Map(schema.map((f) => [f.key, f.label]));
+  const facetOptionLabels = new Map<string, Map<string, string>>();
+  for (const f of schema) {
+    facetOptionLabels.set(f.key, new Map(f.options.map((o) => [o.value, o.label])));
+  }
+
+  const built = items.map((row) => rowToItem(row, photos));
+
+  if (format === "json") {
+    return c.json({
+      generated_at: new Date().toISOString(),
+      statuses: requested,
+      count: built.length,
+      items: built.map((i) => ({
+        ...i,
+        photo_urls: i.photos.map((p) => `https://tantaman.com/api/attachments/${p.key}`),
+      })),
+    });
+  }
+
+  // Markdown render
+  const fmtPrice = (cents: number | null | undefined) =>
+    cents == null ? null : `$${(cents / 100).toFixed(cents % 100 === 0 ? 0 : 2)}`;
+  const stars = (r: number | null) => (r == null ? "—" : "★".repeat(r) + "☆".repeat(5 - r));
+
+  const lines: string[] = [];
+  lines.push(`# Wardrobe Archive`);
+  lines.push("");
+  lines.push(`_Generated ${new Date().toISOString().slice(0, 10)} · ${built.length} ${built.length === 1 ? "piece" : "pieces"} · statuses: ${requested.join(", ")}_`);
+  lines.push("");
+  lines.push(`This is a curated wardrobe under active selection. Each entry lists what's known so far — brand, source links, facet tags, notes, and direct image URLs. Use it as context when proposing similar pieces, alternative brands at adjacent price points, or things that would complete the set.`);
+  lines.push("");
+
+  // Group by status for readability
+  const byStatus = new Map<string, ReturnType<typeof rowToItem>[]>();
+  for (const it of built) {
+    if (!byStatus.has(it.status)) byStatus.set(it.status, []);
+    byStatus.get(it.status)!.push(it);
+  }
+  const STATUS_LABEL: Record<string, string> = {
+    own: "Owned",
+    keep: "Keep",
+    shortlist: "Shortlist",
+    candidate: "Candidates",
+    cut: "Cut",
+  };
+
+  for (const status of requested) {
+    const group = byStatus.get(status);
+    if (!group || group.length === 0) continue;
+    lines.push(`---`);
+    lines.push("");
+    lines.push(`## ${STATUS_LABEL[status] ?? status} (${group.length})`);
+    lines.push("");
+
+    for (const item of group) {
+      const catnum = `№ ${String(item.id).padStart(3, "0")}`;
+      const heading = item.name || item.brand || "Untitled";
+      lines.push(`### ${catnum} · ${heading}`);
+      lines.push("");
+
+      const meta: string[] = [];
+      if (item.brand) meta.push(`**Brand:** ${item.brand}`);
+      const price = fmtPrice(item.price_cents);
+      if (price) meta.push(`**Price:** ${price}`);
+      meta.push(`**Status:** ${(STATUS_LABEL[item.status] ?? item.status).toUpperCase()}`);
+      if (item.rating != null) meta.push(`**Rating:** ${stars(item.rating)}`);
+      if (meta.length > 0) {
+        lines.push(meta.join("  \n"));
+        lines.push("");
+      }
+
+      const facetEntries = Object.entries(item.facets).filter(([, v]) => v);
+      if (facetEntries.length > 0) {
+        const parts = facetEntries.map(([k, v]) => {
+          const lk = facetLabel.get(k) ?? k;
+          const lv = facetOptionLabels.get(k)?.get(v) ?? v;
+          return `**${lk}:** ${lv}`;
+        });
+        lines.push(parts.join(" · "));
+        lines.push("");
+      }
+
+      if (item.notes && item.notes.trim()) {
+        lines.push(item.notes.trim());
+        lines.push("");
+      }
+
+      if (item.links && item.links.length > 0) {
+        lines.push(`**Sources:**`);
+        for (const l of item.links) {
+          const linkPrice = fmtPrice(l.price_cents);
+          const title = l.title ? l.title : new URL(l.url).hostname.replace(/^www\./, "");
+          lines.push(`- [${title}](${l.url})${linkPrice ? ` — ${linkPrice}` : ""}`);
+        }
+        lines.push("");
+      }
+
+      if (item.photos.length > 0) {
+        lines.push(`**Photos:**`);
+        for (const p of item.photos) {
+          lines.push(`- https://tantaman.com/api/attachments/${p.key}`);
+        }
+        lines.push("");
+      }
+    }
+  }
+
+  return new Response(lines.join("\n"), {
+    headers: { "Content-Type": "text/markdown; charset=utf-8" },
+  });
+});
 
 // List items
 wardrobe.get("/items", async (c) => {
