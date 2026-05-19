@@ -279,7 +279,7 @@ input, textarea, select {
   font-weight: 500;
 }
 
-.facets__option--active::before {
+.facets__option--active > span:first-child::before {
   content: '·';
   margin-right: 6px;
   color: var(--accent);
