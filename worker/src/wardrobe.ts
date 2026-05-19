@@ -120,7 +120,7 @@ wardrobe.get("/export", async (c) => {
   const statusParam = c.req.query("status");
   const requested = statusParam
     ? statusParam.split(",").map((s) => s.trim()).filter((s) => ALLOWED_STATUSES.has(s))
-    : ["keep", "own", "shortlist"];
+    : ["own", "keep", "shortlist", "candidate", "cut"];
 
   const placeholders = requested.map(() => "?").join(",");
   const itemsQ = await c.env.DB

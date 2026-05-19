@@ -258,13 +258,13 @@ export function createMcpServer(env: Env) {
 
   server.tool(
     "wardrobe_archive",
-    "Read Matt Wonlaw's curated wardrobe archive — clothing items he's considering, has shortlisted, or has decided to keep. Returns a markdown manifest with brand, status, price, facet tags (category/style/sleeve/season/fit/color), notes, source links, and direct photo URLs. Use this to suggest similar pieces, adjacent brands, or items that would complete the set.",
+    "Read Matt Wonlaw's full wardrobe archive — every clothing item under consideration, on the shortlist, currently owned, decided to keep, or already cut. Returns a markdown manifest with brand, status, price, facet tags (category/style/sleeve/season/fit/color), notes, source links, and direct photo URLs. The cut items are informative too — what was rejected reveals taste. Use this to suggest similar pieces, adjacent brands, or items that would complete the set.",
     {
       statuses: z
         .array(z.enum(["candidate", "shortlist", "keep", "own", "cut"]))
         .optional()
-        .default(["keep", "own", "shortlist"])
-        .describe("Which statuses to include (default: keep, own, shortlist — the retained set)"),
+        .default(["own", "keep", "shortlist", "candidate", "cut"])
+        .describe("Which statuses to include (default: everything)"),
     },
     async ({ statuses }) => {
       const placeholders = statuses.map(() => "?").join(",");
