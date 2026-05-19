@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
+import { Link } from '@tanstack/react-router';
 import { useItems, useFacets, useTargets } from '../hooks/useItems';
 import { ItemCard } from './ItemCard';
-import { Link } from '../router';
 import type { Item } from '../types';
 
 export function WardrobeView() {

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { useFacets, useTargets } from '../hooks/useItems';
 import { getSecret, setSecret } from '../auth';
 import * as api from '../api';
 import type { Target, FacetDef } from '../types';
-import { Link } from '../router';
 
 export function Settings() {
   const { facets, mutate: mutateFacets } = useFacets();

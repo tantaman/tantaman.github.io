@@ -1,6 +1,6 @@
 import type { Item, ItemStatus } from '../types';
 import { attachmentUrl } from '../api';
-import { Link } from '../router';
+import { Link } from '@tanstack/react-router';
 
 function formatPrice(cents: number | null | undefined): string | null {
   if (cents == null) return null;
@@ -33,7 +33,7 @@ export function ItemCard({ item, selected, onToggleSelect }: Props) {
 
   return (
     <div className={`card ${item.status === 'cut' ? 'card--cut' : ''} ${selected ? 'card--selected' : ''}`}>
-      <Link to={`/item/${item.id}`}>
+      <Link to="/item/$id" params={{ id: item.id }}>
         <div className="card__frame">
           <span className="card__catnum">{catalogNumber(item.id)}</span>
           <span className={`card__status card__status--${item.status}`}>{statusLabel(item.status)}</span>

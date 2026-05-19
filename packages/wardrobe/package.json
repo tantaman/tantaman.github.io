@@ -7,11 +7,14 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.169.2",
+    "@tanstack/react-router-devtools": "^1.166.13",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "swr": "^2.4.0"
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.167.35",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",

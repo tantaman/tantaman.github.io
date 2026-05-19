@@ -1,10 +1,10 @@
 import { Fragment, useMemo } from 'react';
+import { Link, useNavigate } from '@tanstack/react-router';
 import useSWR from 'swr';
 import * as api from '../api';
 import { getSecret } from '../auth';
 import { useFacets } from '../hooks/useItems';
 import { attachmentUrl } from '../api';
-import { Link, navigate } from '../router';
 import type { Item, ItemStatus } from '../types';
 
 function formatPrice(cents: number | null | undefined): string | null {
@@ -18,6 +18,7 @@ function catalogNumber(id: number): string {
 }
 
 export function CompareView({ idsParam }: { idsParam: string }) {
+  const navigate = useNavigate();
   const ids = useMemo(() => idsParam.split(',').map(Number).filter((n) => Number.isFinite(n)), [idsParam]);
   const secret = getSecret();
   const { data, error, isLoading, mutate } = useSWR(
@@ -54,7 +55,7 @@ export function CompareView({ idsParam }: { idsParam: string }) {
           const price = formatPrice(item.price_cents);
           return (
             <div key={item.id} className="compare__panel">
-              <Link to={`/item/${item.id}`} className="compare__panel-frame">
+              <Link to="/item/$id" params={{ id: item.id }} className="compare__panel-frame">
                 {hero ? (
                   <img src={attachmentUrl(hero.key)} alt={item.name ?? 'item'} />
                 ) : item.links[0]?.image ? (
@@ -93,7 +94,7 @@ export function CompareView({ idsParam }: { idsParam: string }) {
                 >Cut</button>
                 <button
                   className="status-btn"
-                  onClick={() => navigate(`/item/${item.id}`)}
+                  onClick={() => navigate({ to: '/item/$id', params: { id: item.id } })}
                 >Detail →</button>
               </div>
             </div>

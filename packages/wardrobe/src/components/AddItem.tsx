@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import * as api from '../api';
 import { getSecret } from '../auth';
-import { navigate } from '../router';
 import { useFacets } from '../hooks/useItems';
 import type { ItemStatus } from '../types';
 
@@ -13,6 +13,7 @@ interface LinkDraft {
 }
 
 export function AddItem() {
+  const navigate = useNavigate();
   const { facets: facetDefs } = useFacets();
   const [name, setName] = useState('');
   const [brand, setBrand] = useState('');
@@ -99,7 +100,7 @@ export function AddItem() {
         files,
         secret,
       );
-      navigate(`/item/${item.id}`);
+      navigate({ to: '/item/$id', params: { id: item.id } });
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -248,7 +249,7 @@ export function AddItem() {
       )}
 
       <div className="compose__actions">
-        <button className="btn btn--ghost" onClick={() => navigate('/')}>Cancel</button>
+        <button className="btn btn--ghost" onClick={() => navigate({ to: '/' })}>Cancel</button>
         <button className="btn" onClick={submit} disabled={submitting}>
           {submitting ? 'Saving…' : 'Catalogue'}
         </button>

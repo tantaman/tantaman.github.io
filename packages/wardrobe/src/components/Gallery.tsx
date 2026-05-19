@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { Route as IndexRoute } from '../routes/index';
 import { useItems, useFacets } from '../hooks/useItems';
 import { ItemCard } from './ItemCard';
-import { navigate, Link } from '../router';
 import type { ItemStatus, Item } from '../types';
 
 const STATUSES: { value: ItemStatus | 'all'; label: string }[] = [
@@ -14,17 +15,56 @@ const STATUSES: { value: ItemStatus | 'all'; label: string }[] = [
 ];
 
 export function Gallery() {
-  const [status, setStatus] = useState<ItemStatus | 'all'>('all');
-  const [facetFilter, setFacetFilter] = useState<Record<string, string>>({});
+  const search = IndexRoute.useSearch();
+  const navigate = useNavigate({ from: '/' });
+
+  const status: ItemStatus | 'all' = search.status ?? 'all';
+  const facetFilter = search.facets ?? {};
+  const includeCut = search.showCut ?? false;
+
   const [selected, setSelected] = useState<Set<number>>(new Set());
-  const [includeCut, setIncludeCut] = useState(false);
 
-  const filterFacets = useMemo(() => {
-    return Object.fromEntries(Object.entries(facetFilter).filter(([, v]) => v));
-  }, [facetFilter]);
-
-  const { items, isLoading } = useItems(status, filterFacets);
+  const { items, isLoading } = useItems(status, facetFilter);
   const { facets: facetDefs } = useFacets();
+
+  const setStatus = (next: ItemStatus | 'all') => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        status: next === 'all' ? undefined : next,
+      }),
+      replace: false,
+    });
+  };
+
+  const toggleFacet = (key: string, value: string) => {
+    navigate({
+      search: (prev) => {
+        const cur = { ...(prev.facets ?? {}) };
+        if (cur[key] === value) delete cur[key];
+        else cur[key] = value;
+        return {
+          ...prev,
+          facets: Object.keys(cur).length > 0 ? cur : undefined,
+        };
+      },
+      replace: false,
+    });
+  };
+
+  const toggleCut = () => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        showCut: prev.showCut ? undefined : true,
+      }),
+      replace: false,
+    });
+  };
+
+  const resetFilters = () => {
+    navigate({ search: {}, replace: false });
+  };
 
   const visible = useMemo(() => {
     if (status !== 'all') return items;
@@ -32,7 +72,6 @@ export function Gallery() {
     return items.filter((i) => i.status !== 'cut');
   }, [items, status, includeCut]);
 
-  // count by status
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: 0, candidate: 0, shortlist: 0, keep: 0, own: 0, cut: 0 };
     for (const it of items) {
@@ -68,10 +107,11 @@ export function Gallery() {
 
   const goCompare = () => {
     if (selected.size < 2) return;
-    navigate(`/compare?ids=${Array.from(selected).join(',')}`);
+    navigate({ to: '/compare', search: { ids: Array.from(selected).join(',') } });
   };
 
   const facetPicked = Object.values(facetFilter).filter(Boolean).length;
+  const hasFilters = facetPicked > 0 || includeCut || (status !== 'all' && status != null);
 
   return (
     <div className="shell">
@@ -92,7 +132,7 @@ export function Gallery() {
             {status === 'all' && (
               <div
                 className={`facets__option ${includeCut ? 'facets__option--active' : ''}`}
-                onClick={() => setIncludeCut((v) => !v)}
+                onClick={toggleCut}
                 style={{ marginTop: 6 }}
               >
                 <span>Show cut</span>
@@ -110,12 +150,7 @@ export function Gallery() {
                   <div
                     key={opt.value}
                     className={`facets__option ${active ? 'facets__option--active' : ''}`}
-                    onClick={() =>
-                      setFacetFilter((prev) => ({
-                        ...prev,
-                        [fd.key]: active ? '' : opt.value,
-                      }))
-                    }
+                    onClick={() => toggleFacet(fd.key, opt.value)}
                   >
                     <span>{opt.label}</span>
                     <span className="facets__count">{count}</span>
@@ -124,12 +159,8 @@ export function Gallery() {
               })}
             </div>
           ))}
-          {(facetPicked > 0 || includeCut) && (
-            <div className="facets__reset" onClick={() => {
-              setFacetFilter({});
-              setIncludeCut(false);
-              setStatus('all');
-            }}>
+          {hasFilters && (
+            <div className="facets__reset" onClick={resetFilters}>
               Reset filters
             </div>
           )}

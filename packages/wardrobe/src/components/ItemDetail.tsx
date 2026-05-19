@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useItem, useFacets } from '../hooks/useItems';
 import * as api from '../api';
 import { attachmentUrl } from '../api';
 import { getSecret } from '../auth';
-import { navigate, Link } from '../router';
 import type { ItemStatus, Item } from '../types';
 
 const STATUS_BUTTONS: { value: ItemStatus; label: string; cls?: string }[] = [
@@ -27,6 +27,7 @@ function catalogNumber(id: number): string {
 interface Props { id: number }
 
 export function ItemDetail({ id }: Props) {
+  const navigate = useNavigate();
   const { item, isLoading, mutate } = useItem(id);
   const { facets: facetDefs } = useFacets();
   const [activePhoto, setActivePhoto] = useState(0);
@@ -107,7 +108,7 @@ export function ItemDetail({ id }: Props) {
     const secret = getSecret();
     if (!secret) return;
     await api.deleteItem(item.id, secret);
-    navigate('/');
+    navigate({ to: '/' });
   };
 
   const hero = item.photos[activePhoto] ?? item.photos[0];

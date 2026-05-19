@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { useItems, useFacets } from '../hooks/useItems';
 import * as api from '../api';
 import { getSecret } from '../auth';
 import { attachmentUrl } from '../api';
-import { Link } from '../router';
 import type { Item } from '../types';
 
 function catalogNumber(id: number): string {
