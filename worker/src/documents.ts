@@ -3,6 +3,8 @@ import type { Env } from "./index";
 import { CreateDocumentBody, UpdateDocumentBody } from "./schemas";
 
 export const documents = new Hono<{ Bindings: Env }>();
+// re-exported so the collab helpers can name it in their type signatures
+export type { Env };
 
 function isAuthed(c: { req: { header: (name: string) => string | undefined }; env: { THOUGHT_SECRET: string } }): boolean {
   const auth = c.req.header("Authorization");
@@ -19,6 +21,8 @@ interface DocumentRow {
   frontmatter: string;
   created_at: number;
   updated_at: number;
+  collab_version: number;
+  doc_json: string | null;
 }
 
 function rowToDoc(row: DocumentRow) {
@@ -32,6 +36,8 @@ function rowToDoc(row: DocumentRow) {
     frontmatter: JSON.parse(row.frontmatter || "{}"),
     created_at: row.created_at,
     updated_at: row.updated_at,
+    collab_version: row.collab_version,
+    doc_json: row.doc_json ? JSON.parse(row.doc_json) : null,
   };
 }
 
@@ -53,7 +59,7 @@ documents.get("/", async (c) => {
 
   bindings.push(limit, offset);
   const results = await c.env.DB.prepare(
-    `SELECT id, title, '' AS body, private, slug, status, frontmatter, created_at, updated_at
+    `SELECT id, title, '' AS body, private, slug, status, frontmatter, created_at, updated_at, collab_version, NULL AS doc_json
      FROM document ${where} ORDER BY updated_at DESC LIMIT ? OFFSET ?`
   ).bind(...bindings).all<DocumentRow>();
 
@@ -69,7 +75,7 @@ documents.get("/:id", async (c) => {
   const authed = isAuthed(c);
   const id = c.req.param("id");
   const row = await c.env.DB.prepare(
-    "SELECT id, title, body, private, slug, status, frontmatter, created_at, updated_at FROM document WHERE id = ?"
+    "SELECT id, title, body, private, slug, status, frontmatter, created_at, updated_at, collab_version, doc_json FROM document WHERE id = ?"
   ).bind(id).first<DocumentRow>();
 
   if (!row) return c.json({ error: "Not found" }, 404);
@@ -112,6 +118,8 @@ documents.post("/", async (c) => {
       frontmatter: parsed.frontmatter ?? {},
       created_at: now,
       updated_at: now,
+      collab_version: 0,
+      doc_json: null,
     }, 201);
   } catch (e: any) {
     if (e.message?.includes("UNIQUE constraint")) {
@@ -170,10 +178,73 @@ documents.patch("/:id", async (c) => {
   }
 
   const row = await c.env.DB.prepare(
-    "SELECT id, title, body, private, slug, status, frontmatter, created_at, updated_at FROM document WHERE id = ?"
+    "SELECT id, title, body, private, slug, status, frontmatter, created_at, updated_at, collab_version, doc_json FROM document WHERE id = ?"
   ).bind(id).first<DocumentRow>();
 
   return c.json(rowToDoc(row!));
+});
+
+// --- Collab routes — proxy to the DocCollabRoom Durable Object. -------------
+
+type CollabCtx = {
+  req: { raw: Request; param: (k: string) => string };
+  env: Env;
+};
+
+async function forwardToCollabRoom(c: CollabCtx, action: string): Promise<Response> {
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) {
+    return new Response(JSON.stringify({ error: "Bad id" }), { status: 400, headers: { "Content-Type": "application/json" } });
+  }
+  const objId = c.env.DOC_COLLAB.idFromName(`doc:${id}`);
+  const stub = c.env.DOC_COLLAB.get(objId);
+  const innerUrl = new URL(c.req.raw.url);
+  innerUrl.pathname = `/collab/${id}/${action}`;
+  const method = c.req.raw.method;
+  const init: RequestInit = {
+    method,
+    headers: c.req.raw.headers,
+    body: method === "GET" || method === "HEAD" ? undefined : await c.req.raw.clone().arrayBuffer(),
+  };
+  return stub.fetch(innerUrl.toString(), init);
+}
+
+async function visibleDoc(c: CollabCtx): Promise<{ id: number; private: number } | null> {
+  return c.env.DB
+    .prepare("SELECT id, private FROM document WHERE id = ?")
+    .bind(c.req.param("id"))
+    .first<{ id: number; private: number }>();
+}
+
+documents.get("/:id/collab/bootstrap", async (c) => {
+  const row = await visibleDoc(c);
+  if (!row) return c.json({ error: "Not found" }, 404);
+  if (row.private && !isAuthed(c)) return c.json({ error: "Not found" }, 404);
+  return forwardToCollabRoom(c, "bootstrap");
+});
+
+documents.post("/:id/collab/seed", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const row = await visibleDoc(c);
+  if (!row) return c.json({ error: "Not found" }, 404);
+  return forwardToCollabRoom(c, "seed");
+});
+
+documents.get("/:id/collab/steps", async (c) => {
+  const row = await visibleDoc(c);
+  if (!row) return c.json({ error: "Not found" }, 404);
+  if (row.private && !isAuthed(c)) return c.json({ error: "Not found" }, 404);
+  return forwardToCollabRoom(c, "steps");
+});
+
+documents.post("/:id/collab/steps", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  return forwardToCollabRoom(c, "steps");
+});
+
+documents.post("/:id/collab/snapshot", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  return forwardToCollabRoom(c, "snapshot");
 });
 
 // Delete

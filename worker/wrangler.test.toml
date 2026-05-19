@@ -19,3 +19,11 @@ bucket_name = "thought-attachments"
 [[r2_buckets]]
 binding = "AUDIO_BUCKET"
 bucket_name = "tantaman-audio"
+
+[[durable_objects.bindings]]
+name = "DOC_COLLAB"
+class_name = "DocCollabRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DocCollabRoom"]

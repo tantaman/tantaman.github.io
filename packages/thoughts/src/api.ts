@@ -673,6 +673,105 @@ export async function updateDocument(
   return r.json();
 }
 
+// --- Document collab (prosemirror-collab) ---
+
+import type { CollabBootstrap, CollabStepsResponse, CollabStepEntry } from './types';
+
+export class CollabStaleError extends Error {
+  constructor(public snapshotVersion: number) {
+    super('Local version is older than the snapshot floor — reload required');
+  }
+}
+
+export class CollabConflictError extends Error {
+  constructor(public missed: { head: number; steps: CollabStepEntry[] }) {
+    super('Server has newer steps; rebase required');
+  }
+}
+
+export async function collabBootstrap(
+  id: number,
+  secret?: string | null,
+): Promise<CollabBootstrap> {
+  const r = await fetch(`${API}/documents/${id}/collab/bootstrap`, {
+    headers: secret ? { Authorization: `Bearer ${secret}` } : {},
+  });
+  if (!r.ok) throw new Error(`Bootstrap failed (${r.status})`);
+  return r.json();
+}
+
+export async function collabSeed(
+  id: number,
+  payload: { doc: unknown; body: string; title: string },
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/documents/${id}/collab/seed`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify(payload),
+  });
+  if (r.status === 409) return; // already seeded by another tab — fine
+  if (!r.ok) throw new Error(`Seed failed (${r.status})`);
+}
+
+export async function collabPullSteps(
+  id: number,
+  since: number,
+  secret: string | null | undefined,
+  signal?: AbortSignal,
+): Promise<CollabStepsResponse> {
+  const r = await fetch(`${API}/documents/${id}/collab/steps?since=${since}`, {
+    headers: secret ? { Authorization: `Bearer ${secret}` } : {},
+    signal,
+  });
+  if (r.status === 410) {
+    const body = await r.json().catch(() => ({}));
+    throw new CollabStaleError((body as any).snapshotVersion ?? 0);
+  }
+  if (!r.ok) throw new Error(`Pull failed (${r.status})`);
+  return r.json();
+}
+
+export async function collabSubmitSteps(
+  id: number,
+  payload: { baseVersion: number; steps: unknown[]; clientID: number | string },
+  secret: string,
+): Promise<{ version: number; head: number; shouldSnapshot?: boolean }> {
+  const r = await fetch(`${API}/documents/${id}/collab/steps`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify(payload),
+  });
+  if (r.status === 410) {
+    const body = await r.json().catch(() => ({}));
+    throw new CollabStaleError((body as any).snapshotVersion ?? 0);
+  }
+  if (r.status === 409) {
+    const body = await r.json().catch(() => ({}));
+    if ((body as any).error === 'snapshot-required') {
+      // Treat like a stale local clone — host must push a snapshot before
+      // continuing. Surfacing as conflict-empty triggers a re-bootstrap.
+      throw new CollabConflictError({ head: (body as any).head, steps: [] });
+    }
+    throw new CollabConflictError({ head: (body as any).head, steps: (body as any).steps ?? [] });
+  }
+  if (!r.ok) throw new Error(`Submit failed (${r.status})`);
+  return r.json();
+}
+
+export async function collabPushSnapshot(
+  id: number,
+  payload: { version: number; doc: unknown; body: string; title: string },
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/documents/${id}/collab/snapshot`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify(payload),
+  });
+  if (!r.ok && r.status !== 200) throw new Error(`Snapshot failed (${r.status})`);
+}
+
 export async function deleteDocument(id: number, secret: string): Promise<void> {
   const r = await fetch(`${API}/documents/${id}`, {
     method: 'DELETE',

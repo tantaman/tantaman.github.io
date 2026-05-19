@@ -40,6 +40,14 @@ bucket_name = "tantaman-audio"
 binding = "VECTORIZE"
 index_name = "thought-embeddings"
 
+[[durable_objects.bindings]]
+name = "DOC_COLLAB"
+class_name = "DocCollabRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["DocCollabRoom"]
+
 [[workflows]]
 name = "tts-workflow"
 binding = "TTS_WORKFLOW"

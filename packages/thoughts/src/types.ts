@@ -290,6 +290,28 @@ export interface DocumentSummary {
 
 export interface Document extends DocumentSummary {
   body: string;
+  collab_version: number;
+  doc_json: unknown | null;
+}
+
+export interface CollabStepEntry {
+  version: number;
+  step: unknown;
+  clientID: number | string;
+}
+
+export type CollabBootstrap =
+  | { initialized: false; head: number }
+  | {
+      initialized: true;
+      snapshot: { version: number; doc: unknown; body: string; title: string };
+      steps: CollabStepEntry[];
+      head: number;
+    };
+
+export interface CollabStepsResponse {
+  head: number;
+  steps: CollabStepEntry[];
 }
 
 export interface PostSummary {

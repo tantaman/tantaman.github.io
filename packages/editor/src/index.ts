@@ -1,6 +1,12 @@
 export { MarkdownEditor } from './MarkdownEditor';
 export type { MarkdownEditorProps } from './MarkdownEditor';
-export { useMarkdownEditor, getMarkdown, setMarkdown } from './useMarkdownEditor';
+export {
+  useMarkdownEditor,
+  getMarkdown,
+  setMarkdown,
+  parseMarkdownToDoc,
+  docToMarkdown,
+} from './useMarkdownEditor';
 export type { UseMarkdownEditorOptions, PlaceholderResolver } from './useMarkdownEditor';
 export { BubbleToolbar } from './BubbleToolbar';
 export type { BubbleToolbarProps } from './BubbleToolbar';
@@ -11,4 +17,6 @@ export { HighlightDecorations } from './HighlightDecorations';
 export type { Highlight } from './HighlightDecorations';
 export { WikiLinkMenu, useWikiLinkMenu } from './WikiLinkMenu';
 export type { WikiLinkResult, WikiLinkSearch, WikiLinkMenuProps } from './WikiLinkMenu';
+export { Collab, getCollabVersion, getSendableSteps, receiveSteps } from './CollabExtension';
+export type { CollabOptions } from './CollabExtension';
 export type { Editor } from '@tiptap/core';

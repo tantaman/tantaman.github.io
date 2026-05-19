@@ -10,7 +10,10 @@ import { EditorContent } from '@tiptap/react';
 import {
   useMarkdownEditor,
   getMarkdown,
-  setMarkdown,
+  parseMarkdownToDoc,
+  getCollabVersion,
+  getSendableSteps,
+  receiveSteps,
   BubbleToolbar,
   SlashMenu,
   useSlashMenu,
@@ -22,8 +25,22 @@ import {
 import { useNavigate } from '@tanstack/react-router';
 import { AuthContext } from '../auth-context';
 import { useDocument, useHighlights } from '../hooks/useCache';
-import { createDocument, updateDocument, typeahead, postThought, type TypeaheadKindLetter } from '../api';
-import type { DocumentStatus, DocumentFrontmatter } from '../types';
+import {
+  createDocument,
+  updateDocument,
+  typeahead,
+  postThought,
+  getDocument,
+  collabBootstrap,
+  collabSeed,
+  collabPullSteps,
+  collabSubmitSteps,
+  collabPushSnapshot,
+  CollabStaleError,
+  CollabConflictError,
+  type TypeaheadKindLetter,
+} from '../api';
+import type { DocumentStatus, DocumentFrontmatter, CollabStepEntry } from '../types';
 import { FramingDetailPane } from './framing/FramingDetailPane';
 import { FrontmatterPanel } from './FrontmatterPanel';
 
@@ -39,8 +56,9 @@ interface Props {
   id?: number;
 }
 
-const AUTOSAVE_DELAY_MS = 1500;
-const API = 'https://tantaman.com/api';
+const METADATA_AUTOSAVE_MS = 1500;
+const STEP_FLUSH_DEBOUNCE_MS = 300;
+const POLL_INTERVAL_MS = 3000;
 
 function extractTitle(markdown: string): string {
   const m = markdown.match(/^#\s+(.+)$/m);
@@ -60,22 +78,33 @@ function invalidateDocumentsList() {
   );
 }
 
+function newClientID(): number {
+  return Math.floor(Math.random() * 0xffffffff);
+}
+
 export function DocumentEditView({ id }: Props) {
   const { secret } = useContext(AuthContext);
-  const { data: doc, error, mutate } = useDocument(id ?? -1, secret);
-  const isLoaded = id ? !!doc : true;
-
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [saveState, setSaveState] = useState<'idle' | 'dirty' | 'saving' | 'saved' | 'error'>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
   const [currentId, setCurrentId] = useState<number | undefined>(id);
-  const [openHighlightId, setOpenHighlightId] = useState<number | null>(null);
+  const { data: doc, error } = useDocument(currentId ?? -1, secret);
+  const navigate = useNavigate();
+
+  // --- Metadata state (kept on the regular PATCH path — last write wins) ---
+  const [isPrivate, setIsPrivate] = useState(false);
   const [status, setStatus] = useState<DocumentStatus>('document');
   const [slug, setSlug] = useState<string>('');
   const [frontmatter, setFrontmatter] = useState<DocumentFrontmatter>({});
   const [showMeta, setShowMeta] = useState(false);
   const slugManuallyEdited = useRef(false);
-  const navigate = useNavigate();
+  const metadataHydratedRef = useRef(false);
+
+  // --- Collab state ---
+  const [collabConfig, setCollabConfig] = useState<{ version: number; clientID: number } | null>(null);
+  const [initialContent, setInitialContent] = useState<unknown>(null);
+  const [pendingBootstrapSteps, setPendingBootstrapSteps] = useState<CollabStepEntry[] | null>(null);
+  const [phase, setPhase] = useState<'init' | 'creating' | 'ready' | 'stale' | 'error'>('init');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [saveState, setSaveState] = useState<'idle' | 'dirty' | 'saving' | 'saved' | 'error'>('idle');
+  const [openHighlightId, setOpenHighlightId] = useState<number | null>(null);
 
   const editor = useMarkdownEditor({
     placeholder: ({ node }) =>
@@ -85,7 +114,10 @@ export function DocumentEditView({ id }: Props) {
     onHighlightClick: useCallback((thoughtId: number) => {
       setOpenHighlightId(thoughtId);
     }, []),
+    collab: collabConfig ?? undefined,
+    content: initialContent ?? undefined,
   });
+
   const slashMenu = useSlashMenu(editor);
   const wikiSearch = useCallback<WikiLinkSearch>(
     (kind, query, signal) =>
@@ -95,7 +127,6 @@ export function DocumentEditView({ id }: Props) {
     [secret],
   );
   const wikiMenu = useWikiLinkMenu(editor, wikiSearch);
-  const initializedRef = useRef(false);
 
   const highlightSource = currentId ? `doc:${currentId}` : null;
   const { data: highlightsData, mutate: mutateHighlights } = useHighlights(
@@ -103,8 +134,7 @@ export function DocumentEditView({ id }: Props) {
     secret,
   );
 
-  // Push highlights into the editor's decoration extension whenever they change
-  // or the editor finishes initializing.
+  // Highlights → decorations.
   useEffect(() => {
     if (!editor) return;
     editor.commands.setHighlights(highlightsData?.highlights || []);
@@ -125,32 +155,120 @@ export function DocumentEditView({ id }: Props) {
     [secret, currentId, mutateHighlights],
   );
 
-  // Hydrate the editor once we have data (or initialize for a new doc).
+  // --- Create-on-mount when no id ----------------------------------------
   useEffect(() => {
-    if (!editor || initializedRef.current) return;
-    if (id) {
-      if (!doc) return;
-      setIsPrivate(!!doc.private);
-      setStatus(doc.status);
-      setSlug(doc.slug ?? '');
-      setFrontmatter(doc.frontmatter ?? {});
-      if (doc.slug) slugManuallyEdited.current = true;
-      setMarkdown(editor, doc.body || '');
-      initializedRef.current = true;
-    } else {
-      editor.commands.setContent({
-        type: 'doc',
-        content: [
-          { type: 'heading', attrs: { level: 1 } },
-          { type: 'paragraph' },
-        ],
-      });
-      editor.commands.focus('start');
-      initializedRef.current = true;
-    }
-  }, [editor, id, doc]);
+    if (currentId || phase !== 'init') return;
+    if (!secret) return;
+    setPhase('creating');
+    (async () => {
+      try {
+        const created = await createDocument(
+          { title: 'Untitled', body: '', status: 'document' },
+          secret,
+        );
+        setCurrentId(created.id);
+        navigate({ to: '/documents/$id', params: { id: created.id }, replace: true });
+        // Bootstrap effect will fire once currentId updates.
+        setPhase('init');
+      } catch (e: any) {
+        setErrorMsg(e?.message || 'Create failed');
+        setPhase('error');
+      }
+    })();
+  }, [currentId, secret, phase, navigate]);
 
-  // Auto-generate slug from first H1 when in post mode and not user-edited.
+  // --- Bootstrap (or seed) the collab room -------------------------------
+  useEffect(() => {
+    if (!currentId) return;
+    if (collabConfig !== null) return; // already bootstrapped
+    if (phase === 'creating') return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const bs = await collabBootstrap(currentId, secret);
+        if (cancelled) return;
+        if (bs.initialized) {
+          setPendingBootstrapSteps(bs.steps);
+          setInitialContent(bs.snapshot.doc);
+          setCollabConfig({ version: bs.snapshot.version, clientID: newClientID() });
+          setPhase('ready');
+          return;
+        }
+        // Not initialized — seed from current D1 markdown body.
+        if (!secret) {
+          setErrorMsg('Sign in to view this document');
+          setPhase('error');
+          return;
+        }
+        const fresh = doc ?? (await getDocument(currentId, secret));
+        if (cancelled) return;
+        const markdown = fresh.body || '';
+        const docJson = markdown
+          ? parseMarkdownToDoc(markdown)
+          : {
+              type: 'doc',
+              content: [
+                { type: 'heading', attrs: { level: 1 } },
+                { type: 'paragraph' },
+              ],
+            };
+        const title = extractTitle(markdown);
+        await collabSeed(currentId, { doc: docJson, body: markdown, title }, secret);
+        if (cancelled) return;
+        setInitialContent(docJson);
+        setCollabConfig({ version: 0, clientID: newClientID() });
+        setPendingBootstrapSteps([]);
+        setPhase('ready');
+      } catch (e: any) {
+        if (cancelled) return;
+        if (e instanceof CollabStaleError) {
+          setPhase('stale');
+        } else {
+          setErrorMsg(e?.message || 'Bootstrap failed');
+          setPhase('error');
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [currentId, secret, collabConfig, phase, doc]);
+
+  // Apply bootstrap steps once the editor has been re-mounted with the
+  // matching collab config.
+  useEffect(() => {
+    if (!editor || !pendingBootstrapSteps || pendingBootstrapSteps.length === 0) {
+      if (pendingBootstrapSteps && pendingBootstrapSteps.length === 0) {
+        setPendingBootstrapSteps(null);
+      }
+      return;
+    }
+    receiveSteps(
+      editor,
+      pendingBootstrapSteps.map((s) => s.step),
+      pendingBootstrapSteps.map((s) => s.clientID),
+    );
+    setPendingBootstrapSteps(null);
+  }, [editor, pendingBootstrapSteps]);
+
+  // Metadata hydration from SWR.
+  useEffect(() => {
+    if (!doc || metadataHydratedRef.current) return;
+    setIsPrivate(!!doc.private);
+    setStatus(doc.status);
+    setSlug(doc.slug ?? '');
+    setFrontmatter(doc.frontmatter ?? {});
+    if (doc.slug) slugManuallyEdited.current = true;
+    metadataHydratedRef.current = true;
+  }, [doc]);
+
+  // Editable iff signed in.
+  useEffect(() => {
+    if (!editor) return;
+    editor.setEditable(!!secret);
+  }, [editor, secret]);
+
+  // Slug autogen from H1.
   useEffect(() => {
     if (!editor || status === 'document' || slugManuallyEdited.current) return;
     const handleUpdate = () => {
@@ -172,123 +290,236 @@ export function DocumentEditView({ id }: Props) {
     };
   }, [editor, status]);
 
-  // Read-only when not signed in.
-  useEffect(() => {
-    if (!editor) return;
-    editor.setEditable(!!secret);
-  }, [editor, secret]);
+  // --- Step flush loop ---------------------------------------------------
+  const submittingRef = useRef(false);
+  const flushTimerRef = useRef<number | null>(null);
 
-  // Latest-state ref so unload/unmount handlers see fresh values.
-  const stateRef = useRef({
-    secret,
-    isPrivate,
-    currentId,
-    editor,
-    saveState,
-    status,
-    slug,
-    frontmatter,
-  });
-  useEffect(() => {
-    stateRef.current = { secret, isPrivate, currentId, editor, saveState, status, slug, frontmatter };
-  });
+  const scheduleFlush = useCallback(() => {
+    if (flushTimerRef.current != null) clearTimeout(flushTimerRef.current);
+    flushTimerRef.current = window.setTimeout(() => {
+      flushTimerRef.current = null;
+      flushRef.current();
+    }, STEP_FLUSH_DEBOUNCE_MS);
+  }, []);
 
-  // Persist current editor state. Returns the new doc id (if a create happened).
-  const persist = useCallback(async (): Promise<number | undefined> => {
-    if (!editor || !secret) return;
-    if (!initializedRef.current) return;
-    const body = getMarkdown(editor);
-    const title = extractTitle(body);
-    // Only send slug/frontmatter when the doc is a post; for plain documents
-    // they're ignored by the server but we still send status so changes stick.
-    const isPost = status !== 'document';
-    const slugForSave = isPost ? (slug || undefined) : null;
+  const flush = useCallback(async (): Promise<void> => {
+    if (!editor || !secret || !currentId || !collabConfig) return;
+    if (submittingRef.current) return;
+    const sendable = getSendableSteps(editor);
+    if (!sendable) return;
+    submittingRef.current = true;
     setSaveState('saving');
     try {
-      let savedId = currentId;
-      if (currentId) {
-        const updated = await updateDocument(
-          currentId,
-          {
-            title,
-            body,
-            private: isPrivate,
-            status,
-            slug: slugForSave,
-            frontmatter: isPost ? frontmatter : undefined,
-          },
-          secret,
-        );
-        mutate(updated, false);
-      } else {
-        const created = await createDocument(
-          {
-            title,
-            body,
-            private: isPrivate,
-            status,
-            slug: slugForSave || undefined,
-            frontmatter: isPost ? frontmatter : undefined,
-          },
-          secret,
-        );
-        savedId = created.id;
-        setCurrentId(created.id);
-        navigate({ to: '/documents/$id', params: { id: created.id }, replace: true });
-      }
-      invalidateDocumentsList();
+      const result = await collabSubmitSteps(
+        currentId,
+        {
+          baseVersion: sendable.version,
+          steps: sendable.steps as unknown[],
+          clientID: sendable.clientID,
+        },
+        secret,
+      );
+      // Echo our own steps back into the local collab plugin so it advances
+      // its confirmed version pointer past them.
+      receiveSteps(
+        editor,
+        sendable.steps as unknown[],
+        sendable.steps.map(() => sendable.clientID),
+      );
       setSaveState('saved');
       setErrorMsg('');
-      return savedId;
+      if (result.shouldSnapshot) {
+        const md = getMarkdown(editor);
+        collabPushSnapshot(
+          currentId,
+          {
+            version: getCollabVersion(editor),
+            doc: editor.getJSON(),
+            body: md,
+            title: extractTitle(md),
+          },
+          secret,
+        )
+          .then(() => invalidateDocumentsList())
+          .catch(() => {});
+      }
     } catch (e: any) {
-      setSaveState('error');
-      setErrorMsg(e?.message || 'Save failed');
-      return undefined;
+      if (e instanceof CollabConflictError) {
+        if (e.missed.steps.length === 0) {
+          // Server demanded a snapshot or returned an opaque conflict — easiest
+          // to restart from the latest snapshot.
+          setPhase('stale');
+        } else {
+          receiveSteps(
+            editor,
+            e.missed.steps.map((s) => s.step),
+            e.missed.steps.map((s) => s.clientID),
+          );
+          setSaveState('dirty');
+        }
+      } else if (e instanceof CollabStaleError) {
+        setPhase('stale');
+      } else {
+        setSaveState('error');
+        setErrorMsg(e?.message || 'Save failed');
+      }
+    } finally {
+      submittingRef.current = false;
+      if (editor && getSendableSteps(editor)) {
+        scheduleFlush();
+      }
     }
-  }, [editor, secret, isPrivate, currentId, status, slug, frontmatter, mutate]);
+  }, [editor, secret, currentId, collabConfig, scheduleFlush]);
 
-  // Latest persist closure — read at timer-fire time so we always save fresh state
-  // (otherwise toggling the privacy checkbox alone schedules autosave with a stale
-  // closure and the PATCH sends the previous value).
-  const persistRef = useRef(persist);
+  const flushRef = useRef(flush);
   useEffect(() => {
-    persistRef.current = persist;
+    flushRef.current = flush;
   });
 
-  // Single shared debounce timer — fed by editor edits and the privacy toggle.
-  const autosaveTimerRef = useRef<number | null>(null);
-  const scheduleAutosave = useCallback(() => {
-    if (autosaveTimerRef.current != null) clearTimeout(autosaveTimerRef.current);
-    autosaveTimerRef.current = window.setTimeout(() => {
-      autosaveTimerRef.current = null;
-      persistRef.current();
-    }, AUTOSAVE_DELAY_MS);
-  }, []);
+  // Editor updates → mark dirty + schedule flush.
   useEffect(() => {
-    return () => {
-      if (autosaveTimerRef.current != null) clearTimeout(autosaveTimerRef.current);
+    if (!editor || !collabConfig) return;
+    const onUpdate = () => {
+      if (!getSendableSteps(editor)) return;
+      setSaveState((prev) => (prev === 'saving' ? prev : 'dirty'));
+      scheduleFlush();
     };
-  }, []);
-
-  const markDirtyAndSchedule = useCallback(() => {
-    if (!initializedRef.current) return;
-    setSaveState((prev) => (prev === 'saving' ? prev : 'dirty'));
-    scheduleAutosave();
-  }, [scheduleAutosave]);
-
-  // Editor edits → mark dirty + schedule autosave.
-  useEffect(() => {
-    if (!editor) return;
-    const onUpdate = () => markDirtyAndSchedule();
     editor.on('update', onUpdate);
     return () => {
       editor.off('update', onUpdate);
     };
-  }, [editor, markDirtyAndSchedule]);
+  }, [editor, collabConfig, scheduleFlush]);
 
-  const handleSave = useCallback(() => {
-    persist();
-  }, [persist]);
+  useEffect(() => {
+    return () => {
+      if (flushTimerRef.current != null) clearTimeout(flushTimerRef.current);
+    };
+  }, []);
+
+  // --- Polling for remote steps -----------------------------------------
+  useEffect(() => {
+    if (!editor || !currentId || !collabConfig || phase !== 'ready') return;
+    let active = true;
+    const tick = async () => {
+      if (!active) return;
+      try {
+        const since = getCollabVersion(editor);
+        const result = await collabPullSteps(currentId, since, secret);
+        if (!active) return;
+        if (result.steps.length > 0) {
+          receiveSteps(
+            editor,
+            result.steps.map((s) => s.step),
+            result.steps.map((s) => s.clientID),
+          );
+          if (getSendableSteps(editor)) scheduleFlush();
+        }
+      } catch (e) {
+        if (e instanceof CollabStaleError) {
+          setPhase('stale');
+        }
+        // Other errors: swallow, retry next tick.
+      }
+    };
+    const interval = window.setInterval(tick, POLL_INTERVAL_MS);
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
+  }, [editor, currentId, collabConfig, phase, secret, scheduleFlush]);
+
+  // --- Metadata PATCH (separate from collab) ----------------------------
+  const metadataTimerRef = useRef<number | null>(null);
+
+  const persistMetadata = useCallback(async (): Promise<void> => {
+    if (!secret || !currentId) return;
+    const isPost = status !== 'document';
+    try {
+      await updateDocument(
+        currentId,
+        {
+          private: isPrivate,
+          status,
+          slug: isPost ? (slug || undefined) : null,
+          frontmatter: isPost ? frontmatter : undefined,
+        },
+        secret,
+      );
+      invalidateDocumentsList();
+    } catch (e: any) {
+      setErrorMsg(e?.message || 'Save failed');
+    }
+  }, [secret, currentId, isPrivate, status, slug, frontmatter]);
+
+  const metadataRef = useRef(persistMetadata);
+  useEffect(() => {
+    metadataRef.current = persistMetadata;
+  });
+
+  const scheduleMetadata = useCallback(() => {
+    if (metadataTimerRef.current != null) clearTimeout(metadataTimerRef.current);
+    metadataTimerRef.current = window.setTimeout(() => {
+      metadataTimerRef.current = null;
+      metadataRef.current();
+    }, METADATA_AUTOSAVE_MS);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (metadataTimerRef.current != null) clearTimeout(metadataTimerRef.current);
+    };
+  }, []);
+
+  // --- Save-on-unmount: flush sendable steps via keepalive --------------
+  const stateRef = useRef({ secret, currentId, editor, collabConfig });
+  useEffect(() => {
+    stateRef.current = { secret, currentId, editor, collabConfig };
+  });
+
+  const keepaliveFlushSteps = useCallback(() => {
+    const { secret, currentId, editor, collabConfig } = stateRef.current;
+    if (!editor || !secret || !currentId || !collabConfig) return;
+    const sendable = getSendableSteps(editor);
+    if (!sendable) return;
+    try {
+      fetch(`https://tantaman.com/api/documents/${currentId}/collab/steps`, {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+        body: JSON.stringify({
+          baseVersion: sendable.version,
+          steps: sendable.steps,
+          clientID: sendable.clientID,
+        }),
+      });
+    } catch {
+      // best effort
+    }
+  }, []);
+
+  useEffect(() => {
+    const onBeforeUnload = () => keepaliveFlushSteps();
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [keepaliveFlushSteps]);
+
+  useEffect(() => {
+    return () => {
+      keepaliveFlushSteps();
+    };
+  }, [keepaliveFlushSteps]);
+
+  // Cmd/Ctrl+S — force-flush.
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        flushRef.current();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
   const handlePromote = useCallback(() => {
     if (status !== 'document') return;
@@ -298,119 +529,32 @@ export function DocumentEditView({ id }: Props) {
       if (title && title !== 'Untitled') setSlug(slugify(title));
     }
     setShowMeta(true);
-    markDirtyAndSchedule();
-  }, [status, slug, editor, markDirtyAndSchedule]);
+    scheduleMetadata();
+  }, [status, slug, editor, scheduleMetadata]);
 
-  // Cmd/Ctrl+S — manual flush.
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
-        e.preventDefault();
-        handleSave();
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [handleSave]);
-
-  // Save-on-close: tab close / external navigation.
-  // Uses fetch keepalive so the request can outlive the page.
-  useEffect(() => {
-    const onBeforeUnload = () => {
-      const { secret, isPrivate, currentId, editor, saveState, status, slug, frontmatter } = stateRef.current;
-      if (!editor || !secret) return;
-      if (saveState !== 'dirty') return;
-      const body = getMarkdown(editor);
-      const title = extractTitle(body);
-      const isPost = status !== 'document';
-      const payload: Record<string, unknown> = { title, body, private: isPrivate, status };
-      if (isPost) {
-        payload.slug = slug || null;
-        payload.frontmatter = frontmatter;
-      } else {
-        payload.slug = null;
-      }
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${secret}`,
-      };
-      try {
-        if (currentId) {
-          fetch(`${API}/documents/${currentId}`, {
-            method: 'PATCH',
-            keepalive: true,
-            headers,
-            body: JSON.stringify(payload),
-          });
-        } else {
-          fetch(`${API}/documents`, {
-            method: 'POST',
-            keepalive: true,
-            headers,
-            body: JSON.stringify(payload),
-          });
-        }
-      } catch {
-        // best effort
-      }
-    };
-    window.addEventListener('beforeunload', onBeforeUnload);
-    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  const handleReload = useCallback(() => {
+    // Clear collab state and re-bootstrap.
+    setCollabConfig(null);
+    setInitialContent(null);
+    setPendingBootstrapSteps(null);
+    setPhase('init');
+    setSaveState('idle');
+    setErrorMsg('');
+    metadataHydratedRef.current = false;
   }, []);
 
-  // Save-on-unmount: in-app navigation away from this view (e.g., switching to another doc).
-  useEffect(() => {
-    return () => {
-      const { secret, editor, saveState, currentId, isPrivate, status, slug, frontmatter } = stateRef.current;
-      if (!editor || !secret) return;
-      if (saveState !== 'dirty') return;
-      const body = getMarkdown(editor);
-      const title = extractTitle(body);
-      const isPost = status !== 'document';
-      const slugForSave = isPost ? (slug || undefined) : null;
-      const after = () => invalidateDocumentsList();
-      if (currentId) {
-        updateDocument(
-          currentId,
-          {
-            title,
-            body,
-            private: isPrivate,
-            status,
-            slug: slugForSave,
-            frontmatter: isPost ? frontmatter : undefined,
-          },
-          secret,
-        )
-          .then(after)
-          .catch(() => {});
-      } else {
-        createDocument(
-          {
-            title,
-            body,
-            private: isPrivate,
-            status,
-            slug: slugForSave || undefined,
-            frontmatter: isPost ? frontmatter : undefined,
-          },
-          secret,
-        )
-          .then(after)
-          .catch(() => {});
-      }
-    };
-  }, []);
-
-  // Creating a new doc requires auth; viewing an existing one does not.
-  if (!id && !secret) {
+  // --- Render -----------------------------------------------------------
+  if (!currentId && !secret) {
     return <div className="thought-loading">Sign in to create documents.</div>;
   }
-  if (id && error) {
+  if (currentId && error) {
     return <div className="thought-loading">Document not found.</div>;
   }
-  if (id && !isLoaded) {
+  if (phase === 'init' || phase === 'creating' || !editor || collabConfig === null) {
     return <div className="thought-loading">Loading…</div>;
+  }
+  if (phase === 'error') {
+    return <div className="thought-loading">Error: {errorMsg || 'unknown'}</div>;
   }
 
   let statusLabel = '';
@@ -423,6 +567,13 @@ export function DocumentEditView({ id }: Props) {
 
   return (
     <div className="document-edit">
+      {phase === 'stale' && (
+        <div className="document-stale-banner" role="alert">
+          This document was updated from another device beyond what we can
+          reconcile here. Reload to continue.
+          <button onClick={handleReload}>Reload</button>
+        </div>
+      )}
       {secret && (
         <div className="document-topbar">
           <span className="doc-status-pill" data-status={status}>
@@ -437,7 +588,7 @@ export function DocumentEditView({ id }: Props) {
                 onChange={(e) => {
                   slugManuallyEdited.current = true;
                   setSlug(e.target.value);
-                  markDirtyAndSchedule();
+                  scheduleMetadata();
                 }}
               />
               <select
@@ -445,7 +596,7 @@ export function DocumentEditView({ id }: Props) {
                 value={status}
                 onChange={(e) => {
                   setStatus(e.target.value as DocumentStatus);
-                  markDirtyAndSchedule();
+                  scheduleMetadata();
                 }}
                 aria-label="Post status"
               >
@@ -488,14 +639,14 @@ export function DocumentEditView({ id }: Props) {
                 checked={isPrivate}
                 onChange={(e) => {
                   setIsPrivate(e.target.checked);
-                  markDirtyAndSchedule();
+                  scheduleMetadata();
                 }}
               />
               Private
             </label>
             <button
               className="document-save-btn"
-              onClick={handleSave}
+              onClick={() => flushRef.current()}
               disabled={saveState === 'saving'}
             >
               Save
@@ -509,7 +660,7 @@ export function DocumentEditView({ id }: Props) {
           frontmatter={frontmatter}
           onChange={(fm) => {
             setFrontmatter(fm);
-            markDirtyAndSchedule();
+            scheduleMetadata();
           }}
         />
       )}

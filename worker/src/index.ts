@@ -22,6 +22,7 @@ import { embedText, upsertThoughtEmbedding, deleteThoughtEmbeddings, upsertPaste
 import { hashBody, attachDuplicateIds } from "./body-hash";
 import { dha } from "./dha";
 import { documents } from "./documents";
+import { DocCollabRoom } from "./doc-collab";
 import { comments } from "./comments";
 import { igCard } from "./ig-card";
 import { paste } from "./paste";
@@ -70,6 +71,7 @@ export interface Env {
   DIGEST_EMAIL_TO: string;
   ICAL_TOKEN: string;
   TTS_WORKFLOW: Workflow;
+  DOC_COLLAB: DurableObjectNamespace;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -2397,6 +2399,7 @@ api.post("/digest/run", async (c) => {
 app.route("/api", api);
 
 export { TtsWorkflow } from "./tts-workflow.js";
+export { DocCollabRoom };
 
 const handler = app as typeof app & {
   scheduled: (event: ScheduledController, env: Env, ctx: ExecutionContext) => void;
