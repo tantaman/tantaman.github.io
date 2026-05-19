@@ -321,12 +321,16 @@ export function DocumentEditView({ id }: Props) {
         secret,
       );
       // Echo our own steps back into the local collab plugin so it advances
-      // its confirmed version pointer past them.
-      receiveSteps(
-        editor,
-        sendable.steps as unknown[],
-        sendable.steps.map(() => sendable.clientID),
-      );
+      // its confirmed version pointer past them — unless the polling loop
+      // already pulled them in (in which case confirmed has moved past
+      // sendable.version and re-applying would double-advance the version).
+      if (getCollabVersion(editor) === sendable.version) {
+        receiveSteps(
+          editor,
+          sendable.steps as unknown[],
+          sendable.steps.map(() => sendable.clientID),
+        );
+      }
       setSaveState('saved');
       setErrorMsg('');
       if (result.shouldSnapshot) {
@@ -407,11 +411,15 @@ export function DocumentEditView({ id }: Props) {
         const since = getCollabVersion(editor);
         const result = await collabPullSteps(currentId, since, secret);
         if (!active) return;
-        if (result.steps.length > 0) {
+        // Filter out anything we've already received (e.g. a submit's echo
+        // arrived between when this poll was issued and when it resolved).
+        const localVersion = getCollabVersion(editor);
+        const newSteps = result.steps.filter((s) => s.version > localVersion);
+        if (newSteps.length > 0) {
           receiveSteps(
             editor,
-            result.steps.map((s) => s.step),
-            result.steps.map((s) => s.clientID),
+            newSteps.map((s) => s.step),
+            newSteps.map((s) => s.clientID),
           );
           if (getSendableSteps(editor)) scheduleFlush();
         }

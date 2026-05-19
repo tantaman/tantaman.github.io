@@ -31,6 +31,7 @@ import { now } from "./now";
 import { sendDigest } from "./digest";
 import { thoughtOg } from "./thought-og";
 import { amplifications } from "./amplifications";
+import { wardrobe } from "./wardrobe";
 import { assignClusters, removeClusterMembership, scheduleBackground } from "./clusters";
 import { typeahead } from "./typeahead";
 import {
@@ -2356,6 +2357,7 @@ api.route("/ig-card", igCard);
 api.route("/lists", lists);
 api.route("/amplifications", amplifications);
 api.route("/typeahead", typeahead);
+api.route("/wardrobe", wardrobe);
 
 // Serve audio files from R2
 app.get("/audio/*", async (c) => {

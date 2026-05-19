@@ -755,6 +755,14 @@ export async function collabSubmitSteps(
     }
     throw new CollabConflictError({ head: (body as any).head, steps: (body as any).steps ?? [] });
   }
+  if (r.status === 400) {
+    // baseVersion ahead of server head — the local collab plugin is out of
+    // sync with the authority. Recover by forcing a re-bootstrap.
+    const body = await r.json().catch(() => ({}));
+    if ((body as any).error === 'future-version') {
+      throw new CollabConflictError({ head: 0, steps: [] });
+    }
+  }
   if (!r.ok) throw new Error(`Submit failed (${r.status})`);
   return r.json();
 }

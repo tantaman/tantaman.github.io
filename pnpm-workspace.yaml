@@ -4,6 +4,7 @@ packages:
   - packages/frontend
   - packages/editor
   - packages/thoughts
+  - packages/wardrobe
   - packages/lists
   - packages/comments
   - packages/server
