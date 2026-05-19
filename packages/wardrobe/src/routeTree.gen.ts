@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WardrobeRouteImport } from './routes/wardrobe'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as OutfitsRouteImport } from './routes/outfits'
 import { Route as NewRouteImport } from './routes/new'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as BracketRouteImport } from './routes/bracket'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OutfitsIdRouteImport } from './routes/outfits_.$id'
 import { Route as ItemIdRouteImport } from './routes/item.$id'
 
 const WardrobeRoute = WardrobeRouteImport.update({
@@ -25,6 +27,11 @@ const WardrobeRoute = WardrobeRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutfitsRoute = OutfitsRouteImport.update({
+  id: '/outfits',
+  path: '/outfits',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NewRoute = NewRouteImport.update({
@@ -47,6 +54,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OutfitsIdRoute = OutfitsIdRouteImport.update({
+  id: '/outfits_/$id',
+  path: '/outfits/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ItemIdRoute = ItemIdRouteImport.update({
   id: '/item/$id',
   path: '/item/$id',
@@ -58,18 +70,22 @@ export interface FileRoutesByFullPath {
   '/bracket': typeof BracketRoute
   '/compare': typeof CompareRoute
   '/new': typeof NewRoute
+  '/outfits': typeof OutfitsRoute
   '/settings': typeof SettingsRoute
   '/wardrobe': typeof WardrobeRoute
   '/item/$id': typeof ItemIdRoute
+  '/outfits/$id': typeof OutfitsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bracket': typeof BracketRoute
   '/compare': typeof CompareRoute
   '/new': typeof NewRoute
+  '/outfits': typeof OutfitsRoute
   '/settings': typeof SettingsRoute
   '/wardrobe': typeof WardrobeRoute
   '/item/$id': typeof ItemIdRoute
+  '/outfits/$id': typeof OutfitsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,9 +93,11 @@ export interface FileRoutesById {
   '/bracket': typeof BracketRoute
   '/compare': typeof CompareRoute
   '/new': typeof NewRoute
+  '/outfits': typeof OutfitsRoute
   '/settings': typeof SettingsRoute
   '/wardrobe': typeof WardrobeRoute
   '/item/$id': typeof ItemIdRoute
+  '/outfits_/$id': typeof OutfitsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -88,27 +106,33 @@ export interface FileRouteTypes {
     | '/bracket'
     | '/compare'
     | '/new'
+    | '/outfits'
     | '/settings'
     | '/wardrobe'
     | '/item/$id'
+    | '/outfits/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/bracket'
     | '/compare'
     | '/new'
+    | '/outfits'
     | '/settings'
     | '/wardrobe'
     | '/item/$id'
+    | '/outfits/$id'
   id:
     | '__root__'
     | '/'
     | '/bracket'
     | '/compare'
     | '/new'
+    | '/outfits'
     | '/settings'
     | '/wardrobe'
     | '/item/$id'
+    | '/outfits_/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -116,9 +140,11 @@ export interface RootRouteChildren {
   BracketRoute: typeof BracketRoute
   CompareRoute: typeof CompareRoute
   NewRoute: typeof NewRoute
+  OutfitsRoute: typeof OutfitsRoute
   SettingsRoute: typeof SettingsRoute
   WardrobeRoute: typeof WardrobeRoute
   ItemIdRoute: typeof ItemIdRoute
+  OutfitsIdRoute: typeof OutfitsIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -135,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outfits': {
+      id: '/outfits'
+      path: '/outfits'
+      fullPath: '/outfits'
+      preLoaderRoute: typeof OutfitsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/new': {
@@ -165,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/outfits_/$id': {
+      id: '/outfits_/$id'
+      path: '/outfits/$id'
+      fullPath: '/outfits/$id'
+      preLoaderRoute: typeof OutfitsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/item/$id': {
       id: '/item/$id'
       path: '/item/$id'
@@ -180,9 +220,11 @@ const rootRouteChildren: RootRouteChildren = {
   BracketRoute: BracketRoute,
   CompareRoute: CompareRoute,
   NewRoute: NewRoute,
+  OutfitsRoute: OutfitsRoute,
   SettingsRoute: SettingsRoute,
   WardrobeRoute: WardrobeRoute,
   ItemIdRoute: ItemIdRoute,
+  OutfitsIdRoute: OutfitsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

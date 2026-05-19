@@ -52,6 +52,7 @@ function Masthead() {
         <div className="masthead__nav-inner">
           <Link to="/" className={`nav-link ${isActive('/') ? 'nav-link--active' : ''}`}>Archive</Link>
           <Link to="/wardrobe" className={`nav-link ${isActive('/wardrobe') ? 'nav-link--active' : ''}`}>The Set</Link>
+          <Link to="/outfits" className={`nav-link ${isActive('/outfits') ? 'nav-link--active' : ''}`}>Outfits</Link>
           <Link to="/bracket" className={`nav-link ${isActive('/bracket') ? 'nav-link--active' : ''}`}>Eliminations</Link>
           <Link to="/new" className={`nav-link ${isActive('/new') ? 'nav-link--active' : ''}`}>Acquire</Link>
           <Link to="/settings" className={`nav-link ${isActive('/settings') ? 'nav-link--active' : ''}`}>Settings</Link>

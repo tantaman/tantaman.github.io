@@ -1,4 +1,4 @@
-import type { Item, ItemsResponse, FacetDef, Target, ItemStatus } from './types';
+import type { Item, ItemsResponse, FacetDef, Target, ItemStatus, OutfitSummary, OutfitDetail } from './types';
 import { authHeaders } from './auth';
 
 const API = '/api/wardrobe';
@@ -139,6 +139,35 @@ export async function getTargets(secret?: string | null): Promise<{ targets: Tar
   return r.json();
 }
 
+export interface OgResponse {
+  url: string;
+  title: string | null;
+  image: string | null;
+  description: string | null;
+  site_name: string | null;
+  price_cents: number | null;
+  price_currency: string | null;
+}
+
+export async function fetchOg(url: string): Promise<OgResponse | null> {
+  const r = await fetch(`${API}/og?url=${encodeURIComponent(url)}`);
+  if (!r.ok) return null;
+  return r.json();
+}
+
+export async function suggestFacets(itemId: number, secret: string): Promise<{ suggestions: Record<string, string>; raw?: string }> {
+  const r = await fetch(`${API}/items/${itemId}/suggest-facets`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({ error: 'Request failed' }));
+    throw new Error((err as { error: string }).error || 'Request failed');
+  }
+  return r.json();
+}
+
 export async function setTargets(targets: Target[], secret: string): Promise<{ targets: Target[] }> {
   const r = await fetch(`${API}/targets`, {
     method: 'PUT',
@@ -148,4 +177,74 @@ export async function setTargets(targets: Target[], secret: string): Promise<{ t
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Update failed');
   return r.json();
+}
+
+// Outfits
+
+export async function getOutfits(secret?: string | null): Promise<{ outfits: OutfitSummary[] }> {
+  const r = await fetch(`${API}/outfits`, { headers: authHeaders(secret) });
+  if (!r.ok) throw new Error('Fetch failed');
+  return r.json();
+}
+
+export async function getOutfit(id: number, secret?: string | null): Promise<OutfitDetail> {
+  const r = await fetch(`${API}/outfits/${id}`, { headers: authHeaders(secret) });
+  if (!r.ok) throw new Error('Fetch failed');
+  return r.json();
+}
+
+export async function createOutfit(
+  data: { name: string; occasion?: string; notes?: string },
+  secret: string,
+): Promise<OutfitDetail> {
+  const r = await fetch(`${API}/outfits`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify(data),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Create failed');
+  return r.json();
+}
+
+export async function patchOutfit(
+  id: number,
+  data: { name?: string; occasion?: string | null; notes?: string },
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/outfits/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify(data),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+}
+
+export async function deleteOutfit(id: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/outfits/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Delete failed');
+}
+
+export async function addItemToOutfit(outfitId: number, itemId: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/outfits/${outfitId}/items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ item_id: itemId }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Add failed');
+}
+
+export async function removeItemFromOutfit(outfitId: number, itemId: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/outfits/${outfitId}/items/${itemId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Remove failed');
 }

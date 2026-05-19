@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import type { Env } from "./index";
+import { fetchOgMetadata } from "./opengraph";
 
 export const wardrobe = new Hono<{ Bindings: Env }>();
 
@@ -111,6 +112,26 @@ async function fetchItems(db: D1Database, ids: number[]) {
     .all<PhotoRow>();
   return { photos: photosQ.results };
 }
+
+// OG metadata for a single URL. Used when adding a product link so we can
+// auto-fill title/image/price without the user transcribing.
+wardrobe.get("/og", async (c) => {
+  const url = c.req.query("url");
+  if (!url || !/^https?:\/\//i.test(url)) {
+    return c.json({ error: "Provide a valid http(s) URL" }, 400);
+  }
+  const og = await fetchOgMetadata(url);
+  if (!og) return c.json({ error: "No metadata found" }, 404);
+  return c.json({
+    url,
+    title: og.title,
+    image: og.imageUrl,
+    description: og.description,
+    site_name: og.siteName,
+    price_cents: og.priceCents ?? null,
+    price_currency: og.priceCurrency ?? null,
+  });
+});
 
 // Export — markdown by default, JSON when ?format=json. Designed to be
 // pasted into an LLM context so it can suggest more pieces along similar
@@ -588,6 +609,250 @@ wardrobe.put("/facets", async (c) => {
     .run();
 
   return c.json({ facets: cleaned });
+});
+
+// AI facet suggestions — use Workers AI vision to read the first photo and
+// propose facet values. Falls back gracefully if the model returns junk.
+wardrobe.post("/items/:id/suggest-facets", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  // Load the schema and first photo.
+  const schemaRow = await c.env.DB
+    .prepare("SELECT schema FROM wardrobe_facet_schema WHERE user_id = ?")
+    .bind(USER_ID)
+    .first<{ schema: string }>();
+  const schema = schemaRow
+    ? safeJson<Array<{ key: string; label: string; options: Array<{ value: string; label: string }> }>>(schemaRow.schema, [])
+    : [];
+  if (schema.length === 0) return c.json({ error: "No facet schema configured" }, 400);
+
+  const photo = await c.env.DB
+    .prepare("SELECT attachment_key FROM wardrobe_photo WHERE item_id = ? ORDER BY position ASC LIMIT 1")
+    .bind(id)
+    .first<{ attachment_key: string }>();
+  if (!photo) return c.json({ error: "Item has no photos" }, 422);
+
+  const obj = await c.env.BUCKET.get(photo.attachment_key);
+  if (!obj) return c.json({ error: "Photo missing in R2" }, 422);
+  const buffer = await obj.arrayBuffer();
+  const bytes = Array.from(new Uint8Array(buffer));
+
+  const facetLines = schema
+    .map((f) => `- ${f.key}: ${f.options.map((o) => o.value).join(" | ")}`)
+    .join("\n");
+
+  const prompt = `You are a fashion archivist cataloguing a clothing item from a photo.
+
+Look at the image and suggest values for each facet below. Choose ONLY from the listed options. If a facet does not apply or you cannot tell from the image, omit the key.
+
+Facets:
+${facetLines}
+
+Respond with ONLY a single JSON object mapping facet keys to chosen values — no prose, no markdown, no code fences.
+Example: {"category":"shirt","sleeve":"short","color":"navy"}`;
+
+  let raw: string;
+  try {
+    const result = await c.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct" as any, {
+      image: bytes,
+      prompt,
+      max_tokens: 200,
+    } as any) as { response?: string; description?: string };
+    raw = result.response ?? result.description ?? "";
+  } catch (e) {
+    return c.json({ error: `AI call failed: ${(e as Error).message}` }, 500);
+  }
+
+  // Extract the first JSON object in the response.
+  const match = raw.match(/\{[\s\S]*?\}/);
+  if (!match) return c.json({ suggestions: {}, raw }, 200);
+
+  let parsed: Record<string, unknown>;
+  try { parsed = JSON.parse(match[0]); } catch {
+    return c.json({ suggestions: {}, raw }, 200);
+  }
+
+  // Validate suggestions against schema (key must exist, value must be in options).
+  const valid: Record<string, string> = {};
+  for (const f of schema) {
+    const v = parsed[f.key];
+    if (typeof v !== "string") continue;
+    if (f.options.some((o) => o.value === v)) {
+      valid[f.key] = v;
+    }
+  }
+
+  return c.json({ suggestions: valid, raw });
+});
+
+// Outfits — named combinations of items.
+wardrobe.get("/outfits", async (c) => {
+  const outfits = await c.env.DB
+    .prepare("SELECT id, name, occasion, notes, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
+    .bind(USER_ID)
+    .all<{ id: number; name: string; occasion: string | null; notes: string; created_at: number; updated_at: number }>();
+
+  const outfitIds = outfits.results.map((o) => o.id);
+  let memberships: { outfit_id: number; item_id: number; position: number }[] = [];
+  if (outfitIds.length > 0) {
+    const placeholders = outfitIds.map(() => "?").join(",");
+    const memQ = await c.env.DB
+      .prepare(`SELECT outfit_id, item_id, position FROM wardrobe_outfit_item WHERE outfit_id IN (${placeholders}) ORDER BY position ASC`)
+      .bind(...outfitIds)
+      .all<{ outfit_id: number; item_id: number; position: number }>();
+    memberships = memQ.results;
+  }
+
+  const memByOutfit = new Map<number, number[]>();
+  for (const m of memberships) {
+    if (!memByOutfit.has(m.outfit_id)) memByOutfit.set(m.outfit_id, []);
+    memByOutfit.get(m.outfit_id)!.push(m.item_id);
+  }
+
+  // Get thumbnail photos for up to 4 items per outfit
+  const allItemIds = Array.from(new Set(memberships.map((m) => m.item_id)));
+  let thumbs = new Map<number, string>();
+  if (allItemIds.length > 0) {
+    const placeholders = allItemIds.map(() => "?").join(",");
+    const photoQ = await c.env.DB
+      .prepare(`SELECT item_id, attachment_key FROM wardrobe_photo WHERE item_id IN (${placeholders}) AND position = 0`)
+      .bind(...allItemIds)
+      .all<{ item_id: number; attachment_key: string }>();
+    for (const p of photoQ.results) thumbs.set(p.item_id, p.attachment_key);
+  }
+
+  return c.json({
+    outfits: outfits.results.map((o) => {
+      const itemIds = memByOutfit.get(o.id) ?? [];
+      return {
+        ...o,
+        item_ids: itemIds,
+        thumbnails: itemIds.slice(0, 4).map((id) => ({
+          item_id: id,
+          photo_key: thumbs.get(id) ?? null,
+        })),
+      };
+    }),
+  });
+});
+
+wardrobe.get("/outfits/:id", async (c) => {
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  const row = await c.env.DB
+    .prepare("SELECT id, name, occasion, notes, created_at, updated_at FROM wardrobe_outfit WHERE id = ? AND user_id = ?")
+    .bind(id, USER_ID)
+    .first<{ id: number; name: string; occasion: string | null; notes: string; created_at: number; updated_at: number }>();
+  if (!row) return c.json({ error: "Not found" }, 404);
+
+  const members = await c.env.DB
+    .prepare(`SELECT i.id, i.name, i.brand, i.notes, i.facets, i.links, i.price_cents, i.status, i.rating, i.created_at, i.updated_at, oi.position
+              FROM wardrobe_outfit_item oi JOIN wardrobe_item i ON i.id = oi.item_id
+              WHERE oi.outfit_id = ? ORDER BY oi.position ASC`)
+    .bind(id)
+    .all<ItemRow & { position: number }>();
+  const itemRows = members.results;
+
+  const { photos } = await fetchItems(c.env.DB, itemRows.map((i) => i.id));
+
+  return c.json({
+    ...row,
+    items: itemRows.map((r) => rowToItem(r, photos)),
+  });
+});
+
+wardrobe.post("/outfits", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const body = await c.req.json();
+  const name = typeof body.name === "string" && body.name.trim() ? body.name.trim().slice(0, 200) : "Untitled outfit";
+  const occasion = typeof body.occasion === "string" ? body.occasion.slice(0, 200) : null;
+  const notes = typeof body.notes === "string" ? body.notes.slice(0, 5000) : "";
+  const now = Math.floor(Date.now() / 1000);
+  const result = await c.env.DB
+    .prepare("INSERT INTO wardrobe_outfit (user_id, name, occasion, notes, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)")
+    .bind(USER_ID, name, occasion, notes, now, now)
+    .run();
+  return c.json({ id: result.meta.last_row_id, name, occasion, notes, created_at: now, updated_at: now, items: [] }, 201);
+});
+
+wardrobe.patch("/outfits/:id", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  const body = await c.req.json();
+  const updates: string[] = [];
+  const binds: (string | number | null)[] = [];
+  if ("name" in body && typeof body.name === "string") {
+    updates.push("name = ?");
+    binds.push(body.name.slice(0, 200));
+  }
+  if ("occasion" in body) {
+    updates.push("occasion = ?");
+    binds.push(body.occasion == null ? null : String(body.occasion).slice(0, 200));
+  }
+  if ("notes" in body) {
+    updates.push("notes = ?");
+    binds.push(String(body.notes ?? "").slice(0, 5000));
+  }
+  if (updates.length === 0) return c.json({ ok: true });
+  const now = Math.floor(Date.now() / 1000);
+  updates.push("updated_at = ?");
+  binds.push(now);
+  binds.push(id);
+  await c.env.DB
+    .prepare(`UPDATE wardrobe_outfit SET ${updates.join(", ")} WHERE id = ? AND user_id = ?`)
+    .bind(...binds, USER_ID)
+    .run();
+  return c.json({ ok: true });
+});
+
+wardrobe.delete("/outfits/:id", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+  await c.env.DB.prepare("DELETE FROM wardrobe_outfit_item WHERE outfit_id = ?").bind(id).run();
+  await c.env.DB.prepare("DELETE FROM wardrobe_outfit WHERE id = ? AND user_id = ?").bind(id, USER_ID).run();
+  return c.json({ ok: true });
+});
+
+wardrobe.post("/outfits/:id/items", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const outfitId = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(outfitId)) return c.json({ error: "Bad id" }, 400);
+  const body = await c.req.json();
+  const itemId = parseInt(body.item_id, 10);
+  if (!Number.isFinite(itemId)) return c.json({ error: "Bad item_id" }, 400);
+
+  const last = await c.env.DB
+    .prepare("SELECT COALESCE(MAX(position), -1) AS maxpos FROM wardrobe_outfit_item WHERE outfit_id = ?")
+    .bind(outfitId)
+    .first<{ maxpos: number }>();
+  const pos = (last?.maxpos ?? -1) + 1;
+  await c.env.DB
+    .prepare("INSERT OR IGNORE INTO wardrobe_outfit_item (outfit_id, item_id, position) VALUES (?, ?, ?)")
+    .bind(outfitId, itemId, pos)
+    .run();
+  const now = Math.floor(Date.now() / 1000);
+  await c.env.DB.prepare("UPDATE wardrobe_outfit SET updated_at = ? WHERE id = ?").bind(now, outfitId).run();
+  return c.json({ ok: true });
+});
+
+wardrobe.delete("/outfits/:outfitId/items/:itemId", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const outfitId = parseInt(c.req.param("outfitId"), 10);
+  const itemId = parseInt(c.req.param("itemId"), 10);
+  if (!Number.isFinite(outfitId) || !Number.isFinite(itemId)) return c.json({ error: "Bad ids" }, 400);
+  await c.env.DB
+    .prepare("DELETE FROM wardrobe_outfit_item WHERE outfit_id = ? AND item_id = ?")
+    .bind(outfitId, itemId)
+    .run();
+  const now = Math.floor(Date.now() / 1000);
+  await c.env.DB.prepare("UPDATE wardrobe_outfit SET updated_at = ? WHERE id = ?").bind(now, outfitId).run();
+  return c.json({ ok: true });
 });
 
 // Targets

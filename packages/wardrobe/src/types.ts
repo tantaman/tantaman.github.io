@@ -49,3 +49,24 @@ export interface ItemsResponse {
   items: Item[];
   meta: { hasMore: boolean };
 }
+
+export interface OutfitSummary {
+  id: number;
+  name: string;
+  occasion: string | null;
+  notes: string;
+  created_at: number;
+  updated_at: number;
+  item_ids: number[];
+  thumbnails: { item_id: number; photo_key: string | null }[];
+}
+
+export interface OutfitDetail {
+  id: number;
+  name: string;
+  occasion: string | null;
+  notes: string;
+  created_at: number;
+  updated_at: number;
+  items: Item[];
+}

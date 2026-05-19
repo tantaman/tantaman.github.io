@@ -24,6 +24,7 @@ export function AddItem() {
   const [picked, setPicked] = useState<Record<string, string>>({});
   const [linkUrl, setLinkUrl] = useState('');
   const [links, setLinks] = useState<LinkDraft[]>([]);
+  const [fetchingLink, setFetchingLink] = useState(false);
   const [status] = useState<ItemStatus>('candidate');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -67,10 +68,37 @@ export function AddItem() {
     setFiles((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const addLink = () => {
-    if (!linkUrl.trim()) return;
-    setLinks((prev) => [...prev, { url: linkUrl.trim() }]);
+  const addLink = async () => {
+    const url = linkUrl.trim();
+    if (!url) return;
     setLinkUrl('');
+    setFetchingLink(true);
+    // Optimistic insert so the UI feels responsive; enrich when OG resolves.
+    const placeholder: LinkDraft = { url };
+    setLinks((prev) => [...prev, placeholder]);
+    try {
+      const og = await api.fetchOg(url);
+      if (og) {
+        setLinks((prev) =>
+          prev.map((l) =>
+            l.url === url && !l.title
+              ? {
+                  url,
+                  title: og.title ?? og.site_name ?? undefined,
+                  image: og.image ?? undefined,
+                  price_cents: og.price_cents ?? undefined,
+                }
+              : l,
+          ),
+        );
+        // First link sets brand and price if those are still empty
+        if (og.site_name && !brand) setBrand(og.site_name);
+        if (og.price_cents != null && !priceStr) setPriceStr((og.price_cents / 100).toString());
+        if (og.title && !name) setName(og.title);
+      }
+    } finally {
+      setFetchingLink(false);
+    }
   };
 
   const removeLink = (idx: number) => {
@@ -201,9 +229,14 @@ export function AddItem() {
             <div className="detail__links" style={{ marginBottom: 12 }}>
               {links.map((l, idx) => (
                 <div key={idx} className="link-row">
+                  {l.image && <div className="link-row__thumb" style={{ backgroundImage: `url(${l.image})` }} />}
                   <div className="link-row__body">
+                    {l.title && <div className="link-row__title">{l.title}</div>}
                     <div className="link-row__url">{l.url}</div>
                   </div>
+                  {l.price_cents != null && (
+                    <div className="link-row__price">${(l.price_cents / 100).toFixed(l.price_cents % 100 === 0 ? 0 : 2)}</div>
+                  )}
                   <button className="link-row__remove" onClick={() => removeLink(idx)}>Remove</button>
                 </div>
               ))}
@@ -225,7 +258,9 @@ export function AddItem() {
               placeholder="https://…"
               onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addLink(); } }}
             />
-            <button className="btn btn--small btn--ghost" onClick={addLink}>Add</button>
+            <button className="btn btn--small btn--ghost" onClick={addLink} disabled={fetchingLink}>
+              {fetchingLink ? 'Fetching…' : 'Add'}
+            </button>
           </div>
         </div>
       </div>
