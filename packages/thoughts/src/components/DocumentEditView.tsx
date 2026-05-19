@@ -15,6 +15,7 @@ import {
   getSendableSteps,
   receiveSteps,
   BubbleToolbar,
+  TableMenu,
   SlashMenu,
   useSlashMenu,
   WikiLinkMenu,
@@ -673,6 +674,7 @@ export function DocumentEditView({ id }: Props) {
               onHighlight={currentId ? handleHighlight : undefined}
             />
           )}
+          {editor && secret && <TableMenu editor={editor} />}
           <EditorContent editor={editor} />
           {secret && <SlashMenu {...slashMenu} />}
           {secret && <WikiLinkMenu {...wikiMenu} />}

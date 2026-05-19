@@ -1,1 +1,0 @@
-import{ab as o,j as m}from"./index-DSvIRNF0.js";import{D as r}from"./DocumentEditView-CPAXsHv5.js";import"./FramingDetailPane-B-UW891e.js";import"./ThoughtCard-DWwZwdz6.js";import"./AncestorChain-DmGqs3HN.js";function u(){const{id:t}=o.useParams();return m.jsx(r,{id:t},t)}export{u as component};
