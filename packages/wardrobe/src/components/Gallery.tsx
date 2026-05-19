@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { Route as IndexRoute } from '../routes/index';
 import { useItems, useFacets } from '../hooks/useItems';
@@ -23,6 +23,22 @@ export function Gallery() {
   const includeCut = search.showCut ?? false;
 
   const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  useEffect(() => {
+    if (!filtersOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prevOverflow; };
+  }, [filtersOpen]);
+
+  // Close drawer on Escape
+  useEffect(() => {
+    if (!filtersOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setFiltersOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [filtersOpen]);
 
   const { items, isLoading } = useItems(status, facetFilter);
   const { facets: facetDefs } = useFacets();
@@ -111,11 +127,20 @@ export function Gallery() {
   };
 
   const facetPicked = Object.values(facetFilter).filter(Boolean).length;
-  const hasFilters = facetPicked > 0 || includeCut || (status !== 'all' && status != null);
+  const activeFilterCount = facetPicked + (includeCut ? 1 : 0) + (status !== 'all' ? 1 : 0);
+  const hasFilters = activeFilterCount > 0;
 
   return (
     <div className="shell">
-      <aside>
+      <div
+        className={`filter-backdrop ${filtersOpen ? 'filter-backdrop--open' : ''}`}
+        onClick={() => setFiltersOpen(false)}
+      />
+      <aside className={`shell__aside ${filtersOpen ? 'shell__aside--open' : ''}`}>
+        <div className="filter-drawer__head">
+          <h2 className="filter-drawer__title">Filters</h2>
+          <button className="filter-drawer__close" onClick={() => setFiltersOpen(false)}>Done</button>
+        </div>
         <div className="facets">
           <div className="facets__group">
             <h2 className="facets__heading">Status</h2>
@@ -176,6 +201,10 @@ export function Gallery() {
             {visible.length} {visible.length === 1 ? 'specimen' : 'specimens'}
           </div>
           <div className="section-head__actions">
+            <button className="filter-toggle" onClick={() => setFiltersOpen(true)}>
+              Filters
+              {activeFilterCount > 0 && <span className="filter-toggle__badge">{activeFilterCount}</span>}
+            </button>
             <Link to="/new" className="btn btn--small">+ Acquire</Link>
           </div>
         </div>
