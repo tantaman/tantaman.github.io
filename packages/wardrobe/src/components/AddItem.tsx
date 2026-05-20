@@ -95,6 +95,14 @@ export function AddItem() {
         if (og.site_name && !brand) setBrand(og.site_name);
         if (og.price_cents != null && !priceStr) setPriceStr((og.price_cents / 100).toString());
         if (og.title && !name) setName(og.title);
+        // Pull the description into notes for context
+        setNotes((prev) => (prev.trim() ? prev : og.description ?? ''));
+        // Pull the OG image into photos so we get a hero shot for free.
+        // Best-effort — silently ignored if the proxy or fetch fails.
+        if (og.image) {
+          const file = await api.fetchOgImageAsFile(og.image);
+          if (file) setFiles((prev) => [...prev, file]);
+        }
       }
     } finally {
       setFetchingLink(false);
@@ -139,6 +147,49 @@ export function AddItem() {
   return (
     <div className="compose">
       <h1 className="compose__title">Acquire a piece</h1>
+
+      <div className="compose__row">
+        <div className="compose__label">From a link</div>
+        <div>
+          {links.length > 0 && (
+            <div className="detail__links" style={{ marginBottom: 12 }}>
+              {links.map((l, idx) => (
+                <div key={idx} className="link-row">
+                  {l.image && <div className="link-row__thumb" style={{ backgroundImage: `url(${l.image})` }} />}
+                  <div className="link-row__body">
+                    {l.title && <div className="link-row__title">{l.title}</div>}
+                    <div className="link-row__url">{l.url}</div>
+                  </div>
+                  {l.price_cents != null && (
+                    <div className="link-row__price">${(l.price_cents / 100).toFixed(l.price_cents % 100 === 0 ? 0 : 2)}</div>
+                  )}
+                  <button className="link-row__remove" onClick={() => removeLink(idx)}>Remove</button>
+                </div>
+              ))}
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input
+              style={{
+                flex: 1,
+                background: 'transparent',
+                border: '1px solid var(--hairline)',
+                padding: '8px 10px',
+                fontFamily: 'var(--sans)',
+                fontSize: 13,
+                color: 'var(--ink)',
+              }}
+              value={linkUrl}
+              onChange={(e) => setLinkUrl(e.target.value)}
+              placeholder="Paste a product URL — autofills brand, price, photo, notes"
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addLink(); } }}
+            />
+            <button className="btn btn--small btn--ghost" onClick={addLink} disabled={fetchingLink}>
+              {fetchingLink ? 'Importing…' : 'Import'}
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div className="compose__row">
         <div className="compose__label">Photos</div>
@@ -219,49 +270,6 @@ export function AddItem() {
               </select>
             </div>
           ))}
-        </div>
-      </div>
-
-      <div className="compose__row">
-        <div className="compose__label">Links</div>
-        <div>
-          {links.length > 0 && (
-            <div className="detail__links" style={{ marginBottom: 12 }}>
-              {links.map((l, idx) => (
-                <div key={idx} className="link-row">
-                  {l.image && <div className="link-row__thumb" style={{ backgroundImage: `url(${l.image})` }} />}
-                  <div className="link-row__body">
-                    {l.title && <div className="link-row__title">{l.title}</div>}
-                    <div className="link-row__url">{l.url}</div>
-                  </div>
-                  {l.price_cents != null && (
-                    <div className="link-row__price">${(l.price_cents / 100).toFixed(l.price_cents % 100 === 0 ? 0 : 2)}</div>
-                  )}
-                  <button className="link-row__remove" onClick={() => removeLink(idx)}>Remove</button>
-                </div>
-              ))}
-            </div>
-          )}
-          <div style={{ display: 'flex', gap: 8 }}>
-            <input
-              style={{
-                flex: 1,
-                background: 'transparent',
-                border: '1px solid var(--hairline)',
-                padding: '8px 10px',
-                fontFamily: 'var(--sans)',
-                fontSize: 13,
-                color: 'var(--ink)',
-              }}
-              value={linkUrl}
-              onChange={(e) => setLinkUrl(e.target.value)}
-              placeholder="https://…"
-              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addLink(); } }}
-            />
-            <button className="btn btn--small btn--ghost" onClick={addLink} disabled={fetchingLink}>
-              {fetchingLink ? 'Fetching…' : 'Add'}
-            </button>
-          </div>
         </div>
       </div>
 

@@ -155,6 +155,27 @@ export async function fetchOg(url: string): Promise<OgResponse | null> {
   return r.json();
 }
 
+// Fetch an OG image through the worker proxy and return it as a File so it
+// can be uploaded with the rest of the item's photos.
+export async function fetchOgImageAsFile(imageUrl: string): Promise<File | null> {
+  try {
+    const r = await fetch(`${API}/og-image?url=${encodeURIComponent(imageUrl)}`);
+    if (!r.ok) return null;
+    const blob = await r.blob();
+    if (blob.size === 0 || !blob.type.startsWith('image/')) return null;
+    const ext = (blob.type.split('/')[1] || 'jpg').split('+')[0];
+    let baseName = 'og-image';
+    try {
+      const u = new URL(imageUrl);
+      const last = u.pathname.split('/').filter(Boolean).pop();
+      if (last) baseName = last.replace(/\.[a-z0-9]+$/i, '').slice(0, 60) || 'og-image';
+    } catch {}
+    return new File([blob], `${baseName}.${ext}`, { type: blob.type });
+  } catch {
+    return null;
+  }
+}
+
 export async function suggestFacets(itemId: number, secret: string): Promise<{ suggestions: Record<string, string>; raw?: string }> {
   const r = await fetch(`${API}/items/${itemId}/suggest-facets`, {
     method: 'POST',

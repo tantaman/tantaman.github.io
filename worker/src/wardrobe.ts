@@ -133,6 +133,49 @@ wardrobe.get("/og", async (c) => {
   });
 });
 
+// Proxy fetch for an OG image so the browser can pull the bytes (via fetch)
+// without CORS getting in the way during quick-import. The browser then
+// turns this into a File and uploads it with the rest of the item's photos.
+wardrobe.get("/og-image", async (c) => {
+  const url = c.req.query("url");
+  if (!url || !/^https?:\/\//i.test(url)) {
+    return c.json({ error: "Provide a valid http(s) URL" }, 400);
+  }
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      headers: {
+        "User-Agent": "Twitterbot/1.0",
+        Accept: "image/*",
+      },
+      redirect: "follow",
+      signal: AbortSignal.timeout(8000),
+    });
+  } catch {
+    return c.json({ error: "Fetch failed" }, 502);
+  }
+  if (!res.ok || !res.body) return c.json({ error: `Fetch failed (${res.status})` }, 502);
+
+  const contentType = res.headers.get("Content-Type") || "image/jpeg";
+  if (!contentType.startsWith("image/")) {
+    return c.json({ error: "Not an image" }, 415);
+  }
+  // Cap at MAX_FILE_SIZE so we can't be used as an unbounded proxy.
+  const lenHeader = res.headers.get("Content-Length");
+  if (lenHeader) {
+    const len = parseInt(lenHeader, 10);
+    if (Number.isFinite(len) && len > MAX_FILE_SIZE) {
+      return c.json({ error: "Image too large" }, 413);
+    }
+  }
+  return new Response(res.body, {
+    headers: {
+      "Content-Type": contentType,
+      "Cache-Control": "public, max-age=300",
+    },
+  });
+});
+
 // Export — markdown by default, JSON when ?format=json. Designed to be
 // pasted into an LLM context so it can suggest more pieces along similar
 // lines. Filters by status (defaults to retained items: keep, own, shortlist).
