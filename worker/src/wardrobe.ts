@@ -687,16 +687,32 @@ ${facetLines}
 Respond with ONLY a single JSON object mapping facet keys to chosen values — no prose, no markdown, no code fences.
 Example: {"category":"shirt","sleeve":"short","color":"navy"}`;
 
+  const MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
+  const runVision = () => env.AI.run(MODEL as any, {
+    image: bytes,
+    prompt,
+    max_tokens: 200,
+  } as any) as Promise<{ response?: string; description?: string }>;
+
   let raw: string;
   try {
-    const result = (await env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct" as any, {
-      image: bytes,
-      prompt,
-      max_tokens: 200,
-    } as any)) as { response?: string; description?: string };
+    const result = await runVision();
     raw = result.response ?? result.description ?? "";
   } catch (e) {
-    return { error: `AI call failed: ${(e as Error).message}` };
+    const msg = (e as Error).message ?? "";
+    // Cloudflare gates llama vision behind a one-time license acceptance:
+    // submit prompt 'agree' to accept, then the model becomes usable.
+    if (/submit the prompt 'agree'/i.test(msg)) {
+      try {
+        await env.AI.run(MODEL as any, { prompt: "agree" } as any);
+        const retry = await runVision();
+        raw = retry.response ?? retry.description ?? "";
+      } catch (e2) {
+        return { error: `AI call failed: ${(e2 as Error).message}` };
+      }
+    } else {
+      return { error: `AI call failed: ${msg}` };
+    }
   }
 
   const match = raw.match(/\{[\s\S]*?\}/);
