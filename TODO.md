@@ -1,3 +1,36 @@
+A few candidates, ranked by usefulness for your actual
+  workflow:
+
+  1. OG metadata fetch on link paste — biggest UX win.
+  Paste a Drake's product page URL → worker fetches the
+  page, auto-fills title, hero image, and price. The
+  bookmarks/amplifications endpoints already do this; we'd
+  reuse fetchOgMetadata from worker/src/opengraph.ts.
+  Without this, every linked item needs manual
+  transcription.
+  2. PWA share target — on mobile, "Share to Wardrobe" from
+   any product page in Safari/Chrome opens the Acquire form
+   pre-filled with the URL. The thoughts app already does
+  this pattern (/capture route). Half a day, transforms the
+   capture flow.
+  3. Deploy + commit — none of this is live yet. You still
+  need to: apply the D1 migration (cd worker && wrangler d1
+   migrations apply thought --remote), deploy the worker
+  (cd worker && pnpm deploy), and commit/push the SPA
+  build. I noticed unrelated uncommitted thoughts changes
+  in the tree earlier — worth sorting those before
+  committing my work.
+  4. Sort options + photo lightbox — minor polish. Sort by
+  newest/oldest/rating/price; click hero photo to zoom.
+  Skip unless you find yourself reaching for them.
+  5. Outfit assembly + AI facet suggestions — both came up
+  earlier as v2 candidates. Defer.
+
+  My recommendation: do #1 today (it pays off immediately
+  on every new item), then #2 if you find yourself
+  capturing a lot on mobile. Want me to wire OG fetch in?
+  
+
 The remaining vulnerability is Ch. 10. It's the book's hinge between
   "something happened" and "what happened was real knowing," and the
   inductive argument (convergence) is weaker than the structural

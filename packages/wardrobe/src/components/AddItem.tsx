@@ -25,6 +25,7 @@ export function AddItem() {
   const [linkUrl, setLinkUrl] = useState('');
   const [links, setLinks] = useState<LinkDraft[]>([]);
   const [fetchingLink, setFetchingLink] = useState(false);
+  const [suggestingFacets, setSuggestingFacets] = useState(false);
   const [status] = useState<ItemStatus>('candidate');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -97,10 +98,27 @@ export function AddItem() {
         if (og.title && !name) setName(og.title);
         // Pull the description into notes for context
         setNotes((prev) => (prev.trim() ? prev : og.description ?? ''));
-        // Pull the OG image into photos so we get a hero shot for free.
-        // Best-effort — silently ignored if the proxy or fetch fails.
+        // Pull the OG image into photos and also use it to seed facet
+        // suggestions in the background. Both are best-effort.
         if (og.image) {
-          const file = await api.fetchOgImageAsFile(og.image);
+          const imageUrl = og.image;
+          const secret = getSecret();
+          if (secret) {
+            setSuggestingFacets(true);
+            api.suggestFacetsFromImage(imageUrl, secret)
+              .then((res) => {
+                if (!res?.suggestions) return;
+                setPicked((prev) => {
+                  const merged = { ...prev };
+                  for (const [k, v] of Object.entries(res.suggestions)) {
+                    if (!merged[k]) merged[k] = v;
+                  }
+                  return merged;
+                });
+              })
+              .finally(() => setSuggestingFacets(false));
+          }
+          const file = await api.fetchOgImageAsFile(imageUrl);
           if (file) setFiles((prev) => [...prev, file]);
         }
       }
@@ -253,7 +271,14 @@ export function AddItem() {
       </div>
 
       <div className="compose__row">
-        <div className="compose__label">Facets</div>
+        <div className="compose__label">
+          Facets
+          {suggestingFacets && (
+            <div style={{ marginTop: 6, fontSize: 9, letterSpacing: '0.14em', color: 'var(--ink-faint)', textTransform: 'none' }}>
+              detecting…
+            </div>
+          )}
+        </div>
         <div className="facet-grid">
           {facetDefs.map((fd) => (
             <div key={fd.key} className="facet-cell">

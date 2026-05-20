@@ -189,6 +189,26 @@ export async function suggestFacets(itemId: number, secret: string): Promise<{ s
   return r.json();
 }
 
+// Stateless variant used by quick-import — suggests facets from a public
+// image URL without an item existing yet. Best-effort; returns null on any
+// failure so the caller can carry on filling the form.
+export async function suggestFacetsFromImage(
+  imageUrl: string,
+  secret: string,
+): Promise<{ suggestions: Record<string, string> } | null> {
+  try {
+    const r = await fetch(`${API}/suggest-facets-from-image`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+      body: JSON.stringify({ image_url: imageUrl }),
+    });
+    if (!r.ok) return null;
+    return r.json();
+  } catch {
+    return null;
+  }
+}
+
 export async function setTargets(targets: Target[], secret: string): Promise<{ targets: Target[] }> {
   const r = await fetch(`${API}/targets`, {
     method: 'PUT',

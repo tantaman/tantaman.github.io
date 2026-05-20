@@ -654,34 +654,25 @@ wardrobe.put("/facets", async (c) => {
   return c.json({ facets: cleaned });
 });
 
-// AI facet suggestions — use Workers AI vision to read the first photo and
-// propose facet values. Falls back gracefully if the model returns junk.
-wardrobe.post("/items/:id/suggest-facets", async (c) => {
-  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
-  const id = parseInt(c.req.param("id"), 10);
-  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+type FacetSchema = Array<{ key: string; label: string; options: Array<{ value: string; label: string }> }>;
 
-  // Load the schema and first photo.
-  const schemaRow = await c.env.DB
+async function loadFacetSchema(db: D1Database): Promise<FacetSchema> {
+  const row = await db
     .prepare("SELECT schema FROM wardrobe_facet_schema WHERE user_id = ?")
     .bind(USER_ID)
     .first<{ schema: string }>();
-  const schema = schemaRow
-    ? safeJson<Array<{ key: string; label: string; options: Array<{ value: string; label: string }> }>>(schemaRow.schema, [])
-    : [];
-  if (schema.length === 0) return c.json({ error: "No facet schema configured" }, 400);
+  return row ? safeJson<FacetSchema>(row.schema, []) : [];
+}
 
-  const photo = await c.env.DB
-    .prepare("SELECT attachment_key FROM wardrobe_photo WHERE item_id = ? ORDER BY position ASC LIMIT 1")
-    .bind(id)
-    .first<{ attachment_key: string }>();
-  if (!photo) return c.json({ error: "Item has no photos" }, 422);
-
-  const obj = await c.env.BUCKET.get(photo.attachment_key);
-  if (!obj) return c.json({ error: "Photo missing in R2" }, 422);
-  const buffer = await obj.arrayBuffer();
-  const bytes = Array.from(new Uint8Array(buffer));
-
+// Run Workers AI vision against image bytes and return suggestions that
+// match the user's facet schema. Returns null on hard failure (caller
+// decides how to surface it); empty suggestions just mean the model
+// declined to pick anything.
+async function suggestFacetsForImage(
+  env: Env,
+  schema: FacetSchema,
+  bytes: number[],
+): Promise<{ suggestions: Record<string, string>; raw: string } | { error: string }> {
   const facetLines = schema
     .map((f) => `- ${f.key}: ${f.options.map((o) => o.value).join(" | ")}`)
     .join("\n");
@@ -698,26 +689,24 @@ Example: {"category":"shirt","sleeve":"short","color":"navy"}`;
 
   let raw: string;
   try {
-    const result = await c.env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct" as any, {
+    const result = (await env.AI.run("@cf/meta/llama-3.2-11b-vision-instruct" as any, {
       image: bytes,
       prompt,
       max_tokens: 200,
-    } as any) as { response?: string; description?: string };
+    } as any)) as { response?: string; description?: string };
     raw = result.response ?? result.description ?? "";
   } catch (e) {
-    return c.json({ error: `AI call failed: ${(e as Error).message}` }, 500);
+    return { error: `AI call failed: ${(e as Error).message}` };
   }
 
-  // Extract the first JSON object in the response.
   const match = raw.match(/\{[\s\S]*?\}/);
-  if (!match) return c.json({ suggestions: {}, raw }, 200);
+  if (!match) return { suggestions: {}, raw };
 
   let parsed: Record<string, unknown>;
   try { parsed = JSON.parse(match[0]); } catch {
-    return c.json({ suggestions: {}, raw }, 200);
+    return { suggestions: {}, raw };
   }
 
-  // Validate suggestions against schema (key must exist, value must be in options).
   const valid: Record<string, string> = {};
   for (const f of schema) {
     const v = parsed[f.key];
@@ -726,8 +715,72 @@ Example: {"category":"shirt","sleeve":"short","color":"navy"}`;
       valid[f.key] = v;
     }
   }
+  return { suggestions: valid, raw };
+}
 
-  return c.json({ suggestions: valid, raw });
+// AI facet suggestions — use Workers AI vision to read the first photo and
+// propose facet values. Falls back gracefully if the model returns junk.
+wardrobe.post("/items/:id/suggest-facets", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  const schema = await loadFacetSchema(c.env.DB);
+  if (schema.length === 0) return c.json({ error: "No facet schema configured" }, 400);
+
+  const photo = await c.env.DB
+    .prepare("SELECT attachment_key FROM wardrobe_photo WHERE item_id = ? ORDER BY position ASC LIMIT 1")
+    .bind(id)
+    .first<{ attachment_key: string }>();
+  if (!photo) return c.json({ error: "Item has no photos" }, 422);
+
+  const obj = await c.env.BUCKET.get(photo.attachment_key);
+  if (!obj) return c.json({ error: "Photo missing in R2" }, 422);
+  const buffer = await obj.arrayBuffer();
+  const bytes = Array.from(new Uint8Array(buffer));
+
+  const result = await suggestFacetsForImage(c.env, schema, bytes);
+  if ("error" in result) return c.json({ error: result.error }, 500);
+  return c.json(result);
+});
+
+// Quick-import variant: suggest facets directly from a public image URL,
+// no item required. Used when pasting a product link so the form can
+// preview facet values before the user commits.
+wardrobe.post("/suggest-facets-from-image", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+
+  let body: { image_url?: unknown };
+  try { body = await c.req.json(); } catch { return c.json({ error: "Bad JSON" }, 400); }
+  const url = typeof body.image_url === "string" ? body.image_url : "";
+  if (!url || !/^https?:\/\//i.test(url)) {
+    return c.json({ error: "Provide a valid http(s) image_url" }, 400);
+  }
+
+  const schema = await loadFacetSchema(c.env.DB);
+  if (schema.length === 0) return c.json({ error: "No facet schema configured" }, 400);
+
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      headers: { "User-Agent": "Twitterbot/1.0", Accept: "image/*" },
+      redirect: "follow",
+      signal: AbortSignal.timeout(8000),
+    });
+  } catch {
+    return c.json({ error: "Image fetch failed" }, 502);
+  }
+  if (!res.ok) return c.json({ error: `Image fetch failed (${res.status})` }, 502);
+  const contentType = res.headers.get("Content-Type") || "image/jpeg";
+  if (!contentType.startsWith("image/")) return c.json({ error: "Not an image" }, 415);
+
+  const buffer = await res.arrayBuffer();
+  if (buffer.byteLength > MAX_FILE_SIZE) return c.json({ error: "Image too large" }, 413);
+  const bytes = Array.from(new Uint8Array(buffer));
+
+  const result = await suggestFacetsForImage(c.env, schema, bytes);
+  if ("error" in result) return c.json({ error: result.error }, 500);
+  return c.json(result);
 });
 
 // Outfits — named combinations of items.
