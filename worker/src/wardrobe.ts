@@ -240,6 +240,22 @@ wardrobe.get("/export", async (c) => {
     for (const r of q.results) missingById.set(r.id, r);
   }
 
+  // Photos for every outfit member, in position order. Used so an LLM looking
+  // at a single outfit gets the image URLs inline (e.g. to feed into Gemini
+  // for a virtual try-on) without cross-referencing the items section.
+  const outfitPhotosByItem = new Map<number, string[]>();
+  if (memberIds.length > 0) {
+    const phs = memberIds.map(() => "?").join(",");
+    const photoQ = await c.env.DB
+      .prepare(`SELECT item_id, attachment_key FROM wardrobe_photo WHERE item_id IN (${phs}) ORDER BY position ASC`)
+      .bind(...memberIds)
+      .all<{ item_id: number; attachment_key: string }>();
+    for (const p of photoQ.results) {
+      if (!outfitPhotosByItem.has(p.item_id)) outfitPhotosByItem.set(p.item_id, []);
+      outfitPhotosByItem.get(p.item_id)!.push(p.attachment_key);
+    }
+  }
+
   const outfits = outfitRows.map((o) => ({
     id: o.id,
     name: o.name,
@@ -252,11 +268,21 @@ wardrobe.get("/export", async (c) => {
       .sort((a, b) => a.position - b.position)
       .map((m) => {
         const k = knownById.get(m.item_id);
-        if (k) return { id: k.id, name: k.name, brand: k.brand, status: k.status };
-        const x = missingById.get(m.item_id);
-        return x ? { id: x.id, name: x.name, brand: x.brand, status: x.status } : null;
+        const base = k
+          ? { id: k.id, name: k.name, brand: k.brand, status: k.status }
+          : (() => {
+              const x = missingById.get(m.item_id);
+              return x ? { id: x.id, name: x.name, brand: x.brand, status: x.status } : null;
+            })();
+        if (!base) return null;
+        const keys = outfitPhotosByItem.get(m.item_id) ?? [];
+        return {
+          ...base,
+          photo_keys: keys,
+          photo_urls: keys.map((k) => `https://tantaman.com/api/attachments/${k}`),
+        };
       })
-      .filter((x): x is { id: number; name: string | null; brand: string | null; status: string } => x !== null),
+      .filter((x): x is { id: number; name: string | null; brand: string | null; status: string; photo_keys: string[]; photo_urls: string[] } => x !== null),
   }));
 
   if (format === "json") {
@@ -384,9 +410,19 @@ wardrobe.get("/export", async (c) => {
           const catnum = `№ ${String(it.id).padStart(3, "0")}`;
           const heading = it.name || it.brand || "Untitled";
           const statusLabel = (STATUS_LABEL[it.status] ?? it.status).toUpperCase();
-          lines.push(`- ${catnum} · ${heading} _(${statusLabel})_`);
+          const primary = it.photo_urls[0];
+          lines.push(`- ${catnum} · ${heading} _(${statusLabel})_${primary ? ` — ${primary}` : ""}`);
         }
         lines.push("");
+
+        // Bare URL list — easy for an LLM to extract per-outfit and hand off
+        // (e.g. to an image model for virtual try-on).
+        const allUrls = o.items.flatMap((it) => it.photo_urls);
+        if (allUrls.length > 0) {
+          lines.push(`**Outfit photos:**`);
+          for (const u of allUrls) lines.push(`- ${u}`);
+          lines.push("");
+        }
       }
     }
   }

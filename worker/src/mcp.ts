@@ -258,7 +258,7 @@ export function createMcpServer(env: Env) {
 
   server.tool(
     "wardrobe_archive",
-    "Read Matt Wonlaw's full wardrobe archive — every clothing item under consideration, on the shortlist, currently owned, decided to keep, or already cut, plus named outfits showing how pieces get composed. Returns a markdown manifest with brand, status, price, facet tags (category/style/sleeve/season/fit/color), notes, source links, photo URLs, and a final outfits section listing each look and its member pieces by catalog number. The cut items are informative too — what was rejected reveals taste. Use this to suggest similar pieces, adjacent brands, items that would complete the set, or new outfit combinations.",
+    "Read Matt Wonlaw's full wardrobe archive — every clothing item under consideration, on the shortlist, currently owned, decided to keep, or already cut, plus named outfits showing how pieces get composed. Returns a markdown manifest with brand, status, price, facet tags (category/style/sleeve/season/fit/color), notes, source links, photo URLs, and a final outfits section. Each outfit lists its pieces by catalog number with the primary photo URL inline, followed by an `Outfit photos` block of all member photo URLs grouped together — ready to hand to an image model for virtual try-on or composition. The cut items are informative too — what was rejected reveals taste. Use this to suggest similar pieces, adjacent brands, items that would complete the set, or new outfit combinations.",
     {
       statuses: z
         .array(z.enum(["candidate", "shortlist", "keep", "own", "cut"]))
@@ -369,6 +369,21 @@ export function createMcpServer(env: Env) {
           for (const r of lookupQ.results) missingById.set(r.id, r);
         }
 
+        // Photos for every outfit member, position-ordered. Inlined per piece
+        // so an LLM looking at one outfit can hand the URLs to an image model
+        // (e.g. Gemini virtual try-on) without cross-referencing.
+        const outfitPhotosByItem = new Map<number, string[]>();
+        if (memberIds.length > 0) {
+          const photoQ = await env.DB
+            .prepare(`SELECT item_id, attachment_key FROM wardrobe_photo WHERE item_id IN (${memberIds.map(() => "?").join(",")}) ORDER BY position ASC`)
+            .bind(...memberIds)
+            .all<{ item_id: number; attachment_key: string }>();
+          for (const p of photoQ.results) {
+            if (!outfitPhotosByItem.has(p.item_id)) outfitPhotosByItem.set(p.item_id, []);
+            outfitPhotosByItem.get(p.item_id)!.push(p.attachment_key);
+          }
+        }
+
         lines.push(`---`);
         lines.push("");
         lines.push(`# Outfits (${outfits.length})`);
@@ -392,14 +407,24 @@ export function createMcpServer(env: Env) {
             .sort((a, b) => a.position - b.position);
           if (members.length > 0) {
             lines.push(`**Pieces:**`);
+            const outfitUrls: string[] = [];
             for (const m of members) {
               const k = knownById.get(m.item_id);
               const x = k ?? missingById.get(m.item_id);
               if (!x) continue;
               const heading = x.name || x.brand || "Untitled";
-              lines.push(`- № ${String(x.id).padStart(3, "0")} · ${heading} _(${x.status.toUpperCase()})_`);
+              const keys = outfitPhotosByItem.get(m.item_id) ?? [];
+              const primary = keys[0];
+              const primaryUrl = primary ? `https://tantaman.com/api/attachments/${primary}` : null;
+              lines.push(`- № ${String(x.id).padStart(3, "0")} · ${heading} _(${x.status.toUpperCase()})_${primaryUrl ? ` — ${primaryUrl}` : ""}`);
+              for (const key of keys) outfitUrls.push(`https://tantaman.com/api/attachments/${key}`);
             }
             lines.push("");
+            if (outfitUrls.length > 0) {
+              lines.push(`**Outfit photos:**`);
+              for (const u of outfitUrls) lines.push(`- ${u}`);
+              lines.push("");
+            }
           }
         }
       }
