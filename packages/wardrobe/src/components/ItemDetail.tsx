@@ -209,47 +209,45 @@ export function ItemDetail({ id }: Props) {
             <div className="card__empty" style={{ fontSize: 48 }}>untitled</div>
           )}
         </div>
-        {item.photos.length > 0 && (
-          <div className="detail__thumbs">
-            {item.photos.map((p, idx) => (
-              <div
-                key={p.key}
-                className={`detail__thumb ${idx === activePhoto ? 'detail__thumb--active' : ''}`}
-                onClick={() => setActivePhoto(idx)}
-              >
-                <img src={attachmentUrl(p.key)} alt="" />
-                <span className="detail__thumb-remove" onClick={(e) => { e.stopPropagation(); removePhoto(p.key); }}>×</span>
-              </div>
-            ))}
+        <div className="detail__thumbs">
+          {item.photos.map((p, idx) => (
             <div
-              className="detail__thumb"
-              onClick={() => fileInput.current?.click()}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'var(--mono)',
-                fontSize: 10,
-                color: 'var(--ink-faint)',
-                cursor: 'pointer',
-                borderStyle: 'dashed',
-              }}
+              key={p.key}
+              className={`detail__thumb ${idx === activePhoto ? 'detail__thumb--active' : ''}`}
+              onClick={() => setActivePhoto(idx)}
             >
-              + add
+              <img src={attachmentUrl(p.key)} alt="" />
+              <span className="detail__thumb-remove" onClick={(e) => { e.stopPropagation(); removePhoto(p.key); }}>×</span>
             </div>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              ref={fileInput}
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                const fs = Array.from(e.target.files ?? []);
-                if (fs.length > 0) onAddPhotos(fs);
-              }}
-            />
+          ))}
+          <div
+            className="detail__thumb"
+            onClick={() => fileInput.current?.click()}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'var(--mono)',
+              fontSize: 10,
+              color: 'var(--ink-faint)',
+              cursor: 'pointer',
+              borderStyle: 'dashed',
+            }}
+          >
+            + add
           </div>
-        )}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            ref={fileInput}
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              const fs = Array.from(e.target.files ?? []);
+              if (fs.length > 0) onAddPhotos(fs);
+            }}
+          />
+        </div>
       </div>
 
       <div className="detail__body">
