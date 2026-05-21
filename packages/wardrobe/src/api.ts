@@ -250,7 +250,7 @@ export async function createOutfit(
 
 export async function patchOutfit(
   id: number,
-  data: { name?: string; occasion?: string | null; notes?: string },
+  data: { name?: string; occasion?: string | null; notes?: string; prefer_mosaic_cover?: boolean },
   secret: string,
 ): Promise<void> {
   const r = await fetch(`${API}/outfits/${id}`, {

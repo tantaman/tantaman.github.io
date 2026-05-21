@@ -56,6 +56,7 @@ export interface OutfitSummary {
   occasion: string | null;
   notes: string;
   cover_attachment_key: string | null;
+  prefer_mosaic_cover: number;
   created_at: number;
   updated_at: number;
   item_ids: number[];
@@ -68,6 +69,7 @@ export interface OutfitDetail {
   occasion: string | null;
   notes: string;
   cover_attachment_key: string | null;
+  prefer_mosaic_cover: number;
   created_at: number;
   updated_at: number;
   items: Item[];

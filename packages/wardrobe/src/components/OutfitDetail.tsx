@@ -147,12 +147,34 @@ export function OutfitDetail({ id }: Props) {
       )}
 
       <div style={{ marginBottom: 28 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10, gap: 12, flexWrap: 'wrap' }}>
           <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>
             Worn / rendered
           </div>
           {outfit.cover_attachment_key && (
-            <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <div
+                role="group"
+                aria-label="Cover source"
+                style={{ display: 'inline-flex', border: '1px solid var(--hairline)' }}
+              >
+                <button
+                  className={`status-btn ${!outfit.prefer_mosaic_cover ? 'status-btn--active' : ''}`}
+                  style={{ borderWidth: 0 }}
+                  onClick={() => { if (outfit.prefer_mosaic_cover) void patch({ prefer_mosaic_cover: false }); }}
+                  title="Use this rendering as the cover"
+                >
+                  Rendering
+                </button>
+                <button
+                  className={`status-btn ${outfit.prefer_mosaic_cover ? 'status-btn--active' : ''}`}
+                  style={{ borderWidth: 0, borderLeft: '1px solid var(--hairline)' }}
+                  onClick={() => { if (!outfit.prefer_mosaic_cover) void patch({ prefer_mosaic_cover: true }); }}
+                  title="Use the items mosaic as the cover; keep this rendering for reference"
+                >
+                  Items
+                </button>
+              </div>
               <button className="btn btn--small btn--ghost" onClick={() => coverInputRef.current?.click()} disabled={coverUploading}>
                 Replace
               </button>
@@ -169,6 +191,11 @@ export function OutfitDetail({ id }: Props) {
               alt={`${outfit.name} worn`}
               style={{ width: '100%', display: 'block' }}
             />
+            {outfit.prefer_mosaic_cover ? (
+              <div style={{ padding: '8px 12px', fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', borderTop: '1px solid var(--hairline)' }}>
+                Reference only — cards show the items mosaic.
+              </div>
+            ) : null}
           </div>
         ) : (
           <div

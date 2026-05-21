@@ -211,9 +211,9 @@ wardrobe.get("/export", async (c) => {
   // Outfits — named combinations. Included regardless of status filter so the
   // composition record stays intact; member items get resolved from any status.
   const outfitsQ = await c.env.DB
-    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
+    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, prefer_mosaic_cover, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
     .bind(USER_ID)
-    .all<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; created_at: number; updated_at: number }>();
+    .all<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; prefer_mosaic_cover: number; created_at: number; updated_at: number }>();
   const outfitRows = outfitsQ.results;
 
   let outfitMembers: { outfit_id: number; item_id: number; position: number }[] = [];
@@ -263,6 +263,7 @@ wardrobe.get("/export", async (c) => {
     notes: o.notes,
     cover_attachment_key: o.cover_attachment_key,
     cover_url: o.cover_attachment_key ? `https://tantaman.com/api/attachments/${o.cover_attachment_key}` : null,
+    prefer_mosaic_cover: o.prefer_mosaic_cover === 1,
     created_at: o.created_at,
     updated_at: o.updated_at,
     items: outfitMembers
@@ -927,9 +928,9 @@ wardrobe.post("/suggest-facets-from-image", async (c) => {
 // Outfits — named combinations of items.
 wardrobe.get("/outfits", async (c) => {
   const outfits = await c.env.DB
-    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
+    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, prefer_mosaic_cover, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
     .bind(USER_ID)
-    .all<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; created_at: number; updated_at: number }>();
+    .all<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; prefer_mosaic_cover: number; created_at: number; updated_at: number }>();
 
   const outfitIds = outfits.results.map((o) => o.id);
   let memberships: { outfit_id: number; item_id: number; position: number }[] = [];
@@ -980,9 +981,9 @@ wardrobe.get("/outfits/:id", async (c) => {
   if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
 
   const row = await c.env.DB
-    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, created_at, updated_at FROM wardrobe_outfit WHERE id = ? AND user_id = ?")
+    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, prefer_mosaic_cover, created_at, updated_at FROM wardrobe_outfit WHERE id = ? AND user_id = ?")
     .bind(id, USER_ID)
-    .first<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; created_at: number; updated_at: number }>();
+    .first<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; prefer_mosaic_cover: number; created_at: number; updated_at: number }>();
   if (!row) return c.json({ error: "Not found" }, 404);
 
   const members = await c.env.DB
@@ -1047,7 +1048,7 @@ wardrobe.post("/outfits", async (c) => {
       .run();
   }
 
-  return c.json({ id: outfitId, name, occasion, notes, cover_attachment_key: null, created_at: now, updated_at: now, item_ids: validIds, items: [] }, 201);
+  return c.json({ id: outfitId, name, occasion, notes, cover_attachment_key: null, prefer_mosaic_cover: 0, created_at: now, updated_at: now, item_ids: validIds, items: [] }, 201);
 });
 
 wardrobe.patch("/outfits/:id", async (c) => {
@@ -1069,6 +1070,10 @@ wardrobe.patch("/outfits/:id", async (c) => {
   if ("notes" in body) {
     updates.push("notes = ?");
     binds.push(String(body.notes ?? "").slice(0, 5000));
+  }
+  if ("prefer_mosaic_cover" in body) {
+    updates.push("prefer_mosaic_cover = ?");
+    binds.push(body.prefer_mosaic_cover ? 1 : 0);
   }
   if (updates.length === 0) return c.json({ ok: true });
   const now = Math.floor(Date.now() / 1000);

@@ -275,7 +275,7 @@ function OutfitCard({ outfit }: { outfit: OutfitSummary }) {
   return (
     <Link to="/outfits/$id" params={{ id: outfit.id }} className="outfit-card">
       <div className="outfit-card__frame">
-        {outfit.cover_attachment_key ? (
+        {outfit.cover_attachment_key && !outfit.prefer_mosaic_cover ? (
           <div
             className="outfit-card__cover"
             style={{ backgroundImage: `url(${attachmentUrl(outfit.cover_attachment_key)})` }}
