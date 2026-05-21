@@ -235,9 +235,9 @@ export async function getOutfit(id: number, secret?: string | null): Promise<Out
 }
 
 export async function createOutfit(
-  data: { name: string; occasion?: string; notes?: string },
+  data: { name: string; occasion?: string; notes?: string; item_ids?: number[] },
   secret: string,
-): Promise<OutfitDetail> {
+): Promise<OutfitDetail & { item_ids?: number[] }> {
   const r = await fetch(`${API}/outfits`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },

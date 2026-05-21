@@ -965,12 +965,47 @@ wardrobe.post("/outfits", async (c) => {
   const name = typeof body.name === "string" && body.name.trim() ? body.name.trim().slice(0, 200) : "Untitled outfit";
   const occasion = typeof body.occasion === "string" ? body.occasion.slice(0, 200) : null;
   const notes = typeof body.notes === "string" ? body.notes.slice(0, 5000) : "";
+
+  // Optional item_ids — used by the "import outfit" flow so an LLM-suggested
+  // outfit can become a real one in a single call. Unknown / non-user ids
+  // are silently dropped; the order the caller supplied is preserved.
+  const validIds: number[] = [];
+  if (Array.isArray(body.item_ids) && body.item_ids.length > 0) {
+    const rawIds = (body.item_ids as unknown[])
+      .map((v) => typeof v === "number" ? Math.round(v) : parseInt(String(v), 10))
+      .filter((n): n is number => Number.isFinite(n) && n > 0);
+    if (rawIds.length > 0) {
+      const phs = rawIds.map(() => "?").join(",");
+      const validQ = await c.env.DB
+        .prepare(`SELECT id FROM wardrobe_item WHERE id IN (${phs}) AND user_id = ?`)
+        .bind(...rawIds, USER_ID)
+        .all<{ id: number }>();
+      const validSet = new Set(validQ.results.map((r) => r.id));
+      const seen = new Set<number>();
+      for (const id of rawIds) {
+        if (validSet.has(id) && !seen.has(id)) {
+          validIds.push(id);
+          seen.add(id);
+        }
+      }
+    }
+  }
+
   const now = Math.floor(Date.now() / 1000);
   const result = await c.env.DB
     .prepare("INSERT INTO wardrobe_outfit (user_id, name, occasion, notes, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)")
     .bind(USER_ID, name, occasion, notes, now, now)
     .run();
-  return c.json({ id: result.meta.last_row_id, name, occasion, notes, created_at: now, updated_at: now, items: [] }, 201);
+  const outfitId = result.meta.last_row_id as number;
+
+  for (let i = 0; i < validIds.length; i++) {
+    await c.env.DB
+      .prepare("INSERT OR IGNORE INTO wardrobe_outfit_item (outfit_id, item_id, position) VALUES (?, ?, ?)")
+      .bind(outfitId, validIds[i], i)
+      .run();
+  }
+
+  return c.json({ id: outfitId, name, occasion, notes, created_at: now, updated_at: now, item_ids: validIds, items: [] }, 201);
 });
 
 wardrobe.patch("/outfits/:id", async (c) => {
