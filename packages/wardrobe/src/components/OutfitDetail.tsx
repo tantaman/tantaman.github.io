@@ -186,11 +186,27 @@ export function OutfitDetail({ id }: Props) {
         </div>
         {outfit.cover_attachment_key ? (
           <div style={{ border: '1px solid var(--hairline)' }}>
-            <img
-              src={attachmentUrl(outfit.cover_attachment_key)}
-              alt={`${outfit.name} worn`}
-              style={{ width: '100%', display: 'block' }}
-            />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                background: 'var(--paper-deep)',
+                maxHeight: '70vh',
+                overflow: 'hidden',
+              }}
+            >
+              <img
+                src={attachmentUrl(outfit.cover_attachment_key)}
+                alt={`${outfit.name} worn`}
+                style={{
+                  maxHeight: '70vh',
+                  maxWidth: '100%',
+                  width: 'auto',
+                  height: 'auto',
+                  display: 'block',
+                }}
+              />
+            </div>
             {outfit.prefer_mosaic_cover ? (
               <div style={{ padding: '8px 12px', fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', borderTop: '1px solid var(--hairline)' }}>
                 Reference only — cards show the items mosaic.
