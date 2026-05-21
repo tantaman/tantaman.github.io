@@ -275,7 +275,12 @@ function OutfitCard({ outfit }: { outfit: OutfitSummary }) {
   return (
     <Link to="/outfits/$id" params={{ id: outfit.id }} className="outfit-card">
       <div className="outfit-card__frame">
-        {outfit.thumbnails.length > 0 ? (
+        {outfit.cover_attachment_key ? (
+          <div
+            className="outfit-card__cover"
+            style={{ backgroundImage: `url(${attachmentUrl(outfit.cover_attachment_key)})` }}
+          />
+        ) : outfit.thumbnails.length > 0 ? (
           <div className={`outfit-card__mosaic outfit-card__mosaic--${Math.min(outfit.thumbnails.length, 4)}`}>
             {outfit.thumbnails.map((t) => (
               <div

@@ -211,9 +211,9 @@ wardrobe.get("/export", async (c) => {
   // Outfits — named combinations. Included regardless of status filter so the
   // composition record stays intact; member items get resolved from any status.
   const outfitsQ = await c.env.DB
-    .prepare("SELECT id, name, occasion, notes, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
+    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
     .bind(USER_ID)
-    .all<{ id: number; name: string; occasion: string | null; notes: string; created_at: number; updated_at: number }>();
+    .all<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; created_at: number; updated_at: number }>();
   const outfitRows = outfitsQ.results;
 
   let outfitMembers: { outfit_id: number; item_id: number; position: number }[] = [];
@@ -261,6 +261,8 @@ wardrobe.get("/export", async (c) => {
     name: o.name,
     occasion: o.occasion,
     notes: o.notes,
+    cover_attachment_key: o.cover_attachment_key,
+    cover_url: o.cover_attachment_key ? `https://tantaman.com/api/attachments/${o.cover_attachment_key}` : null,
     created_at: o.created_at,
     updated_at: o.updated_at,
     items: outfitMembers
@@ -396,6 +398,10 @@ wardrobe.get("/export", async (c) => {
     for (const o of outfits) {
       lines.push(`### ${o.name}`);
       lines.push("");
+      if (o.cover_url) {
+        lines.push(`**Worn / rendered:** ${o.cover_url}`);
+        lines.push("");
+      }
       if (o.occasion) {
         lines.push(`**Occasion:** ${o.occasion}`);
         lines.push("");
@@ -921,9 +927,9 @@ wardrobe.post("/suggest-facets-from-image", async (c) => {
 // Outfits — named combinations of items.
 wardrobe.get("/outfits", async (c) => {
   const outfits = await c.env.DB
-    .prepare("SELECT id, name, occasion, notes, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
+    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
     .bind(USER_ID)
-    .all<{ id: number; name: string; occasion: string | null; notes: string; created_at: number; updated_at: number }>();
+    .all<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; created_at: number; updated_at: number }>();
 
   const outfitIds = outfits.results.map((o) => o.id);
   let memberships: { outfit_id: number; item_id: number; position: number }[] = [];
@@ -974,9 +980,9 @@ wardrobe.get("/outfits/:id", async (c) => {
   if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
 
   const row = await c.env.DB
-    .prepare("SELECT id, name, occasion, notes, created_at, updated_at FROM wardrobe_outfit WHERE id = ? AND user_id = ?")
+    .prepare("SELECT id, name, occasion, notes, cover_attachment_key, created_at, updated_at FROM wardrobe_outfit WHERE id = ? AND user_id = ?")
     .bind(id, USER_ID)
-    .first<{ id: number; name: string; occasion: string | null; notes: string; created_at: number; updated_at: number }>();
+    .first<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null; created_at: number; updated_at: number }>();
   if (!row) return c.json({ error: "Not found" }, 404);
 
   const members = await c.env.DB
@@ -1041,7 +1047,7 @@ wardrobe.post("/outfits", async (c) => {
       .run();
   }
 
-  return c.json({ id: outfitId, name, occasion, notes, created_at: now, updated_at: now, item_ids: validIds, items: [] }, 201);
+  return c.json({ id: outfitId, name, occasion, notes, cover_attachment_key: null, created_at: now, updated_at: now, item_ids: validIds, items: [] }, 201);
 });
 
 wardrobe.patch("/outfits/:id", async (c) => {
@@ -1080,8 +1086,76 @@ wardrobe.delete("/outfits/:id", async (c) => {
   if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
   const id = parseInt(c.req.param("id"), 10);
   if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+  const existing = await c.env.DB
+    .prepare("SELECT cover_attachment_key FROM wardrobe_outfit WHERE id = ? AND user_id = ?")
+    .bind(id, USER_ID)
+    .first<{ cover_attachment_key: string | null }>();
+  if (existing?.cover_attachment_key) {
+    try { await c.env.BUCKET.delete(existing.cover_attachment_key); } catch {}
+  }
   await c.env.DB.prepare("DELETE FROM wardrobe_outfit_item WHERE outfit_id = ?").bind(id).run();
   await c.env.DB.prepare("DELETE FROM wardrobe_outfit WHERE id = ? AND user_id = ?").bind(id, USER_ID).run();
+  return c.json({ ok: true });
+});
+
+// Cover photo — a "worn" or AI-rendered shot of the whole outfit.
+// Replaces any existing cover; old blob is cleaned up from R2.
+wardrobe.post("/outfits/:id/cover", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  const existing = await c.env.DB
+    .prepare("SELECT cover_attachment_key FROM wardrobe_outfit WHERE id = ? AND user_id = ?")
+    .bind(id, USER_ID)
+    .first<{ cover_attachment_key: string | null }>();
+  if (!existing) return c.json({ error: "Not found" }, 404);
+
+  const form = await c.req.formData();
+  const raw = form.get("file");
+  if (!raw || typeof raw === "string") return c.json({ error: "Missing file" }, 400);
+  const file = raw as File;
+  if (file.size === 0) return c.json({ error: "Empty file" }, 400);
+  if (file.size > MAX_FILE_SIZE) return c.json({ error: `File too large: ${file.name}` }, 413);
+
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const key = `wardrobe/outfit/${id}/cover-${Date.now()}-${safeName}`;
+  await c.env.BUCKET.put(key, file.stream(), {
+    httpMetadata: { contentType: file.type || "image/jpeg" },
+  });
+
+  // Swap the cover, then drop the previous one. (Drop after swap so a race
+  // can't leave the row pointing at a deleted blob.)
+  const now = Math.floor(Date.now() / 1000);
+  await c.env.DB
+    .prepare("UPDATE wardrobe_outfit SET cover_attachment_key = ?, updated_at = ? WHERE id = ? AND user_id = ?")
+    .bind(key, now, id, USER_ID)
+    .run();
+  if (existing.cover_attachment_key && existing.cover_attachment_key !== key) {
+    try { await c.env.BUCKET.delete(existing.cover_attachment_key); } catch {}
+  }
+
+  return c.json({ id, cover_attachment_key: key });
+});
+
+wardrobe.delete("/outfits/:id/cover", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  const existing = await c.env.DB
+    .prepare("SELECT cover_attachment_key FROM wardrobe_outfit WHERE id = ? AND user_id = ?")
+    .bind(id, USER_ID)
+    .first<{ cover_attachment_key: string | null }>();
+  if (!existing) return c.json({ error: "Not found" }, 404);
+  if (existing.cover_attachment_key) {
+    try { await c.env.BUCKET.delete(existing.cover_attachment_key); } catch {}
+  }
+  const now = Math.floor(Date.now() / 1000);
+  await c.env.DB
+    .prepare("UPDATE wardrobe_outfit SET cover_attachment_key = NULL, updated_at = ? WHERE id = ? AND user_id = ?")
+    .bind(now, id, USER_ID)
+    .run();
   return c.json({ ok: true });
 });
 

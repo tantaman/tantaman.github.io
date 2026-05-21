@@ -289,3 +289,29 @@ export async function removeItemFromOutfit(outfitId: number, itemId: number, sec
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Remove failed');
 }
+
+export async function setOutfitCover(
+  outfitId: number,
+  file: File,
+  secret: string,
+): Promise<{ id: number; cover_attachment_key: string }> {
+  const form = new FormData();
+  form.append('file', file);
+  const r = await fetch(`${API}/outfits/${outfitId}/cover`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${secret}` },
+    body: form,
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Upload failed');
+  return r.json();
+}
+
+export async function removeOutfitCover(outfitId: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/outfits/${outfitId}/cover`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Remove failed');
+}

@@ -55,6 +55,7 @@ export interface OutfitSummary {
   name: string;
   occasion: string | null;
   notes: string;
+  cover_attachment_key: string | null;
   created_at: number;
   updated_at: number;
   item_ids: number[];
@@ -66,6 +67,7 @@ export interface OutfitDetail {
   name: string;
   occasion: string | null;
   notes: string;
+  cover_attachment_key: string | null;
   created_at: number;
   updated_at: number;
   items: Item[];

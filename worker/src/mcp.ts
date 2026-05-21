@@ -347,8 +347,8 @@ export function createMcpServer(env: Env) {
       // Outfits — named combinations. Always included; member items are resolved
       // separately so outfits remain intact even when items are status-filtered.
       const outfitsQ = await env.DB
-        .prepare("SELECT id, name, occasion, notes FROM wardrobe_outfit WHERE user_id = 'me' ORDER BY updated_at DESC")
-        .all<{ id: number; name: string; occasion: string | null; notes: string }>();
+        .prepare("SELECT id, name, occasion, notes, cover_attachment_key FROM wardrobe_outfit WHERE user_id = 'me' ORDER BY updated_at DESC")
+        .all<{ id: number; name: string; occasion: string | null; notes: string; cover_attachment_key: string | null }>();
       const outfits = outfitsQ.results;
 
       if (outfits.length > 0) {
@@ -394,6 +394,10 @@ export function createMcpServer(env: Env) {
         for (const o of outfits) {
           lines.push(`## ${o.name}`);
           lines.push("");
+          if (o.cover_attachment_key) {
+            lines.push(`**Worn / rendered:** https://tantaman.com/api/attachments/${o.cover_attachment_key}`);
+            lines.push("");
+          }
           if (o.occasion) {
             lines.push(`**Occasion:** ${o.occasion}`);
             lines.push("");

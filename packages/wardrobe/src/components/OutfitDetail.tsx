@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Link, useNavigate } from '@tanstack/react-router';
 import * as api from '../api';
@@ -22,6 +22,10 @@ export function OutfitDetail({ id }: Props) {
   const [editingOccasion, setEditingOccasion] = useState(false);
   const [draftOccasion, setDraftOccasion] = useState('');
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [coverUploading, setCoverUploading] = useState(false);
+  const [coverError, setCoverError] = useState<string | null>(null);
+  const [coverDragging, setCoverDragging] = useState(false);
+  const coverInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (outfit) {
@@ -55,6 +59,36 @@ export function OutfitDetail({ id }: Props) {
   const removeMember = async (itemId: number) => {
     if (!secret) return;
     await api.removeItemFromOutfit(outfit.id, itemId, secret);
+    await mutate();
+  };
+
+  const uploadCover = async (file: File) => {
+    if (!secret) { setCoverError('Set the auth secret in Settings.'); return; }
+    if (!file.type.startsWith('image/')) { setCoverError('Only image files.'); return; }
+    setCoverError(null);
+    setCoverUploading(true);
+    try {
+      await api.setOutfitCover(outfit.id, file, secret);
+      await mutate();
+    } catch (e) {
+      setCoverError((e as Error).message);
+    } finally {
+      setCoverUploading(false);
+    }
+  };
+
+  const onCoverDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setCoverDragging(false);
+    const file = Array.from(e.dataTransfer.files).find((f) => f.type.startsWith('image/'));
+    if (file) void uploadCover(file);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [outfit?.id, secret]);
+
+  const clearCover = async () => {
+    if (!secret) return;
+    if (!confirm('Remove the cover photo?')) return;
+    await api.removeOutfitCover(outfit.id, secret);
     await mutate();
   };
 
@@ -112,6 +146,63 @@ export function OutfitDetail({ id }: Props) {
           {outfit.occasion || '+ add occasion'}
         </div>
       )}
+
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>
+            Worn / rendered
+          </div>
+          {outfit.cover_attachment_key && (
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button className="btn btn--small btn--ghost" onClick={() => coverInputRef.current?.click()} disabled={coverUploading}>
+                Replace
+              </button>
+              <button className="btn btn--small btn--ghost" onClick={clearCover} disabled={coverUploading}>
+                Remove
+              </button>
+            </div>
+          )}
+        </div>
+        {outfit.cover_attachment_key ? (
+          <div style={{ border: '1px solid var(--hairline)' }}>
+            <img
+              src={attachmentUrl(outfit.cover_attachment_key)}
+              alt={`${outfit.name} worn`}
+              style={{ width: '100%', display: 'block' }}
+            />
+          </div>
+        ) : (
+          <div
+            className={`dropzone ${coverDragging ? 'dropzone--active' : ''}`}
+            onDragOver={(e) => { e.preventDefault(); setCoverDragging(true); }}
+            onDragLeave={() => setCoverDragging(false)}
+            onDrop={onCoverDrop}
+            onClick={() => coverInputRef.current?.click()}
+          >
+            {coverUploading
+              ? 'Uploading…'
+              : coverDragging
+                ? 'Release to upload'
+                : 'Drop or click to upload — a photo of you in the outfit, or an AI rendering'}
+          </div>
+        )}
+        <input
+          ref={coverInputRef}
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) void uploadCover(f);
+            e.target.value = '';
+          }}
+        />
+        {coverError && (
+          <div style={{ color: 'var(--accent)', fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 8 }}>
+            {coverError}
+          </div>
+        )}
+      </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--hairline)', paddingBottom: 12, marginBottom: 20 }}>
         <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>
