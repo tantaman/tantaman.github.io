@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Link, useNavigate } from '@tanstack/react-router';
 import * as api from '../api';
@@ -77,13 +77,12 @@ export function OutfitDetail({ id }: Props) {
     }
   };
 
-  const onCoverDrop = useCallback((e: React.DragEvent) => {
+  const onCoverDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setCoverDragging(false);
     const file = Array.from(e.dataTransfer.files).find((f) => f.type.startsWith('image/'));
     if (file) void uploadCover(file);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [outfit?.id, secret]);
+  };
 
   const clearCover = async () => {
     if (!secret) return;
