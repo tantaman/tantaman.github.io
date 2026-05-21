@@ -258,7 +258,7 @@ export function createMcpServer(env: Env) {
 
   server.tool(
     "wardrobe_archive",
-    "Read Matt Wonlaw's full wardrobe archive — every clothing item under consideration, on the shortlist, currently owned, decided to keep, or already cut. Returns a markdown manifest with brand, status, price, facet tags (category/style/sleeve/season/fit/color), notes, source links, and direct photo URLs. The cut items are informative too — what was rejected reveals taste. Use this to suggest similar pieces, adjacent brands, or items that would complete the set.",
+    "Read Matt Wonlaw's full wardrobe archive — every clothing item under consideration, on the shortlist, currently owned, decided to keep, or already cut, plus named outfits showing how pieces get composed. Returns a markdown manifest with brand, status, price, facet tags (category/style/sleeve/season/fit/color), notes, source links, photo URLs, and a final outfits section listing each look and its member pieces by catalog number. The cut items are informative too — what was rejected reveals taste. Use this to suggest similar pieces, adjacent brands, items that would complete the set, or new outfit combinations.",
     {
       statuses: z
         .array(z.enum(["candidate", "shortlist", "keep", "own", "cut"]))
@@ -341,6 +341,66 @@ export function createMcpServer(env: Env) {
           lines.push(`**Photos:**`);
           for (const k of photos) lines.push(`- https://tantaman.com/api/attachments/${k}`);
           lines.push("");
+        }
+      }
+
+      // Outfits — named combinations. Always included; member items are resolved
+      // separately so outfits remain intact even when items are status-filtered.
+      const outfitsQ = await env.DB
+        .prepare("SELECT id, name, occasion, notes FROM wardrobe_outfit WHERE user_id = 'me' ORDER BY updated_at DESC")
+        .all<{ id: number; name: string; occasion: string | null; notes: string }>();
+      const outfits = outfitsQ.results;
+
+      if (outfits.length > 0) {
+        const memQ = await env.DB
+          .prepare(`SELECT outfit_id, item_id, position FROM wardrobe_outfit_item WHERE outfit_id IN (${outfits.map(() => "?").join(",")}) ORDER BY position ASC`)
+          .bind(...outfits.map((o) => o.id))
+          .all<{ outfit_id: number; item_id: number; position: number }>();
+
+        const knownById = new Map(items.map((i) => [i.id, i]));
+        const memberIds = Array.from(new Set(memQ.results.map((m) => m.item_id)));
+        const missingIds = memberIds.filter((id) => !knownById.has(id));
+        const missingById = new Map<number, { id: number; name: string | null; brand: string | null; status: string }>();
+        if (missingIds.length > 0) {
+          const lookupQ = await env.DB
+            .prepare(`SELECT id, name, brand, status FROM wardrobe_item WHERE id IN (${missingIds.map(() => "?").join(",")}) AND user_id = 'me'`)
+            .bind(...missingIds)
+            .all<{ id: number; name: string | null; brand: string | null; status: string }>();
+          for (const r of lookupQ.results) missingById.set(r.id, r);
+        }
+
+        lines.push(`---`);
+        lines.push("");
+        lines.push(`# Outfits (${outfits.length})`);
+        lines.push("");
+        lines.push(`Named combinations — how individual pieces get composed into looks.`);
+        lines.push("");
+
+        for (const o of outfits) {
+          lines.push(`## ${o.name}`);
+          lines.push("");
+          if (o.occasion) {
+            lines.push(`**Occasion:** ${o.occasion}`);
+            lines.push("");
+          }
+          if (o.notes && o.notes.trim()) {
+            lines.push(o.notes.trim());
+            lines.push("");
+          }
+          const members = memQ.results
+            .filter((m) => m.outfit_id === o.id)
+            .sort((a, b) => a.position - b.position);
+          if (members.length > 0) {
+            lines.push(`**Pieces:**`);
+            for (const m of members) {
+              const k = knownById.get(m.item_id);
+              const x = k ?? missingById.get(m.item_id);
+              if (!x) continue;
+              const heading = x.name || x.brand || "Untitled";
+              lines.push(`- № ${String(x.id).padStart(3, "0")} · ${heading} _(${x.status.toUpperCase()})_`);
+            }
+            lines.push("");
+          }
         }
       }
 

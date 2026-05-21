@@ -208,6 +208,57 @@ wardrobe.get("/export", async (c) => {
 
   const built = items.map((row) => rowToItem(row, photos));
 
+  // Outfits — named combinations. Included regardless of status filter so the
+  // composition record stays intact; member items get resolved from any status.
+  const outfitsQ = await c.env.DB
+    .prepare("SELECT id, name, occasion, notes, created_at, updated_at FROM wardrobe_outfit WHERE user_id = ? ORDER BY updated_at DESC")
+    .bind(USER_ID)
+    .all<{ id: number; name: string; occasion: string | null; notes: string; created_at: number; updated_at: number }>();
+  const outfitRows = outfitsQ.results;
+
+  let outfitMembers: { outfit_id: number; item_id: number; position: number }[] = [];
+  if (outfitRows.length > 0) {
+    const phs = outfitRows.map(() => "?").join(",");
+    const memQ = await c.env.DB
+      .prepare(`SELECT outfit_id, item_id, position FROM wardrobe_outfit_item WHERE outfit_id IN (${phs}) ORDER BY position ASC`)
+      .bind(...outfitRows.map((o) => o.id))
+      .all<{ outfit_id: number; item_id: number; position: number }>();
+    outfitMembers = memQ.results;
+  }
+
+  // Resolve member items: prefer already-loaded items, look up any others.
+  const knownById = new Map(built.map((i) => [i.id, i]));
+  const memberIds = Array.from(new Set(outfitMembers.map((m) => m.item_id)));
+  const missingIds = memberIds.filter((id) => !knownById.has(id));
+  const missingById = new Map<number, { id: number; name: string | null; brand: string | null; status: string }>();
+  if (missingIds.length > 0) {
+    const phs = missingIds.map(() => "?").join(",");
+    const q = await c.env.DB
+      .prepare(`SELECT id, name, brand, status FROM wardrobe_item WHERE id IN (${phs}) AND user_id = ?`)
+      .bind(...missingIds, USER_ID)
+      .all<{ id: number; name: string | null; brand: string | null; status: string }>();
+    for (const r of q.results) missingById.set(r.id, r);
+  }
+
+  const outfits = outfitRows.map((o) => ({
+    id: o.id,
+    name: o.name,
+    occasion: o.occasion,
+    notes: o.notes,
+    created_at: o.created_at,
+    updated_at: o.updated_at,
+    items: outfitMembers
+      .filter((m) => m.outfit_id === o.id)
+      .sort((a, b) => a.position - b.position)
+      .map((m) => {
+        const k = knownById.get(m.item_id);
+        if (k) return { id: k.id, name: k.name, brand: k.brand, status: k.status };
+        const x = missingById.get(m.item_id);
+        return x ? { id: x.id, name: x.name, brand: x.brand, status: x.status } : null;
+      })
+      .filter((x): x is { id: number; name: string | null; brand: string | null; status: string } => x !== null),
+  }));
+
   if (format === "json") {
     return c.json({
       generated_at: new Date().toISOString(),
@@ -217,6 +268,7 @@ wardrobe.get("/export", async (c) => {
         ...i,
         photo_urls: i.photos.map((p) => `https://tantaman.com/api/attachments/${p.key}`),
       })),
+      outfits,
     });
   }
 
@@ -302,6 +354,37 @@ wardrobe.get("/export", async (c) => {
         lines.push(`**Photos:**`);
         for (const p of item.photos) {
           lines.push(`- https://tantaman.com/api/attachments/${p.key}`);
+        }
+        lines.push("");
+      }
+    }
+  }
+
+  if (outfits.length > 0) {
+    lines.push(`---`);
+    lines.push("");
+    lines.push(`## Outfits (${outfits.length})`);
+    lines.push("");
+    lines.push(`Named combinations — how individual pieces get composed into looks.`);
+    lines.push("");
+    for (const o of outfits) {
+      lines.push(`### ${o.name}`);
+      lines.push("");
+      if (o.occasion) {
+        lines.push(`**Occasion:** ${o.occasion}`);
+        lines.push("");
+      }
+      if (o.notes && o.notes.trim()) {
+        lines.push(o.notes.trim());
+        lines.push("");
+      }
+      if (o.items.length > 0) {
+        lines.push(`**Pieces:**`);
+        for (const it of o.items) {
+          const catnum = `№ ${String(it.id).padStart(3, "0")}`;
+          const heading = it.name || it.brand || "Untitled";
+          const statusLabel = (STATUS_LABEL[it.status] ?? it.status).toUpperCase();
+          lines.push(`- ${catnum} · ${heading} _(${statusLabel})_`);
         }
         lines.push("");
       }
