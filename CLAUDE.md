@@ -22,6 +22,11 @@ The build uses a file modification time cache (`.build-cache.json`) to skip unch
 - `pnpm todos` - Find TODO comments in TypeScript files
 - `pnpm thought-projection` - Compute PCA basis for thought embedding→color projection and backfill existing thought colors (requires `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`). The frozen PCA basis lives in `worker/src/color-projection.ts`. **Re-run periodically** (e.g. every few hundred new thoughts) to keep colors well-distributed as the corpus grows.
 
+### Local Environment Utilities
+
+Not part of the repo, but useful from WSL:
+- `keep-awake {on|off|status}` (`~/.local/bin/keep-awake`) — toggles Windows sleep via `powercfg.exe`. Saves current AC/DC standby timeouts to `~/.local/state/keep-awake.state` on `on`, restores them on `off`. Use before starting a long remote-control session.
+
 ## Package Management
 
 - **pnpm only** - Enforced via `only-allow` preinstall script; `npm` and `yarn` will fail
