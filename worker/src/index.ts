@@ -36,6 +36,8 @@ import { assignClusters, removeClusterMembership, scheduleBackground } from "./c
 import { typeahead } from "./typeahead";
 import {
   CreateThoughtBody,
+  UpdateThoughtBody,
+  RevertThoughtBody,
   UpdateTaskBody,
   CreateFramingBody,
   UpdateFramingBody,
@@ -89,6 +91,65 @@ async function getVersion(db: D1Database): Promise<number> {
 
 async function bumpVersion(db: D1Database): Promise<void> {
   await db.prepare("UPDATE version SET counter = counter + 1 WHERE id = 1").run();
+}
+
+// Re-derive a thought's #hashtags from its body. Used on create and on edit so
+// the tag set always reflects the current body. Stateful extractions (tasks,
+// events, movies, ...) are intentionally NOT re-derived on edit.
+async function syncThoughtTags(db: D1Database, thoughtId: number | bigint, body: string): Promise<void> {
+  const tags = extractTags(body);
+  await db.prepare("DELETE FROM thought_tag WHERE thought_id = ?").bind(thoughtId).run();
+  for (const tagName of tags) {
+    await db.prepare("INSERT OR IGNORE INTO tag (name) VALUES (?)").bind(tagName).run();
+    const tagRow = await db.prepare("SELECT id FROM tag WHERE name = ?").bind(tagName).first<{ id: number }>();
+    if (tagRow) {
+      await db.prepare("INSERT OR IGNORE INTO thought_tag (thought_id, tag_id) VALUES (?, ?)").bind(thoughtId, tagRow.id).run();
+    }
+  }
+}
+
+// Edit a thought's body in place. The stable row keeps its id; the body trigger
+// snapshots the prior version into thought_history; tags and the embedding are
+// re-derived. Shared by PATCH /thoughts/:id and the revert endpoint.
+async function applyThoughtBodyEdit(
+  c: { env: Env; executionCtx: { waitUntil: (p: Promise<unknown>) => void } },
+  existing: { id: number; timestamp: number; parent_id: number | null },
+  newBody: string,
+): Promise<{ bodyHash: string; color: string | null; updatedAt: number }> {
+  const env = c.env;
+  const updatedAt = Math.floor(Date.now() / 1000);
+  const bodyHash = await hashBody(newBody);
+  await env.DB.prepare(
+    "UPDATE thought SET body = ?, body_hash = ?, version = version + 1, updated_at = ? WHERE id = ?"
+  ).bind(newBody, bodyHash, updatedAt, existing.id).run();
+  await syncThoughtTags(env.DB, existing.id, newBody);
+  // Re-embed in place (same vector id) so search/graph reflect the new body and
+  // no stale version vectors accumulate. The vector keeps the original creation
+  // timestamp in its metadata.
+  const { color, vec } = await upsertThoughtEmbedding(env, existing.id, newBody, existing.timestamp, existing.parent_id);
+  if (vec) {
+    const title = newBody.split("\n")[0]?.slice(0, 80) ?? null;
+    scheduleBackground(c, assignClusters(env, "thought", existing.id, title, newBody.slice(0, 200), vec));
+  }
+  return { bodyHash, color, updatedAt };
+}
+
+// Build the canonical single-thought JSON (matching the feed/thread item shape)
+// for the given id, including attachments. Returns null if the row is gone.
+async function fetchThoughtResponse(db: D1Database, id: number): Promise<Record<string, unknown> | null> {
+  const row = await db.prepare(
+    "SELECT id, body, body_hash, timestamp, updated_at, version, created_at, parent_id, private, color FROM thought WHERE id = ?"
+  ).bind(id).first<Record<string, unknown>>();
+  if (!row) return null;
+  const atts = await db.prepare(
+    "SELECT attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id = ?"
+  ).bind(id).all();
+  row.attachments = atts.results.map((a) => ({
+    key: a.attachment_key as string,
+    type: a.attachment_type as string,
+    name: a.attachment_name as string,
+  }));
+  return row;
 }
 
 const app = new Hono<{ Bindings: Env }>();
@@ -188,7 +249,7 @@ api.get("/highlights", async (c) => {
   const likePattern = `%#h ${resolvedSource}%`;
   const results = await c.env.DB.prepare(
     `SELECT id, body, color FROM thought
-     WHERE body LIKE ? AND superseded_by IS NULL${privateFilter}
+     WHERE body LIKE ?${privateFilter}
      ORDER BY id DESC LIMIT 200`
   ).bind(likePattern).all<{ id: number; body: string; color: string | null }>();
 
@@ -242,10 +303,10 @@ api.get("/thoughts/search", async (c) => {
   const privateFilter = authed ? "" : " AND t.private = 0";
   const replyPrivateFilter = authed ? "" : " AND r.private = 0";
   const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.parent_id, t.color, t.private, t.version_of, t.superseded_by,
+    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.updated_at, t.version, t.parent_id, t.color, t.private,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
-     WHERE t.id IN (${placeholders}) AND t.superseded_by IS NULL${privateFilter}`
+     WHERE t.id IN (${placeholders})${privateFilter}`
   ).bind(...ids).all();
 
   const thoughts = results.results as Record<string, unknown>[];
@@ -339,10 +400,10 @@ async function fetchThoughtsForSearch(
   const replyPrivateFilter = authed ? "" : " AND r.private = 0";
 
   const results = await db.prepare(
-    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.parent_id, t.color, t.private, t.version_of, t.superseded_by,
+    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.updated_at, t.version, t.parent_id, t.color, t.private,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
-     WHERE t.id IN (${placeholders}) AND t.superseded_by IS NULL${privateFilter}`
+     WHERE t.id IN (${placeholders})${privateFilter}`
   ).bind(...ids).all();
 
   const thoughts = results.results as Record<string, unknown>[];
@@ -483,12 +544,12 @@ api.get("/thoughts/graph", async (c) => {
   const replyPrivateFilter = authed ? "" : " AND r.private = 0";
 
   const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by,
+    `SELECT t.id, t.body, t.timestamp, t.created_at, t.updated_at, t.version, t.color, t.private,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
-     WHERE t.parent_id IS NULL AND t.superseded_by IS NULL${privateFilter}
+     WHERE t.parent_id IS NULL${privateFilter}
      ORDER BY t.timestamp DESC`
-  ).all<{ id: number; body: string; timestamp: number; created_at: string; color: string | null; private: number; version_of: number | null; superseded_by: number | null; reply_count: number }>();
+  ).all<{ id: number; body: string; timestamp: number; created_at: string; updated_at: number; version: number; color: string | null; private: number; reply_count: number }>();
 
   const thoughts = results.results;
   if (thoughts.length === 0) {
@@ -568,10 +629,10 @@ api.get("/thoughts", async (c) => {
   binds.push(limitParam, offsetParam);
 
   const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by,
+    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.updated_at, t.version, t.color, t.private,
        (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
-     WHERE t.parent_id IS NULL AND t.superseded_by IS NULL${privateFilter}${extraWhere}
+     WHERE t.parent_id IS NULL${privateFilter}${extraWhere}
      ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
   ).bind(...binds).all();
 
@@ -621,7 +682,7 @@ api.get("/thoughts/tags", async (c) => {
       `SELECT tg.name, COUNT(DISTINCT tt.thought_id) AS count
        FROM tag tg
        JOIN thought_tag tt ON tt.tag_id = tg.id
-       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL AND th.superseded_by IS NULL${privateFilter}
+       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL${privateFilter}
        WHERE tt.thought_id IN (
          SELECT tt2.thought_id FROM thought_tag tt2
          JOIN tag tg2 ON tg2.id = tt2.tag_id
@@ -637,7 +698,7 @@ api.get("/thoughts/tags", async (c) => {
       `SELECT t.name, COUNT(tt.thought_id) AS count
        FROM tag t
        JOIN thought_tag tt ON tt.tag_id = t.id
-       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL AND th.superseded_by IS NULL${privateFilter}
+       JOIN thought th ON th.id = tt.thought_id AND th.parent_id IS NULL${privateFilter}
        GROUP BY t.id
        ORDER BY count DESC`
     ).all();
@@ -657,10 +718,8 @@ api.get("/thoughts/:id/replies", async (c) => {
   // (via its version-root), so the count is stable across versions. Superseded
   // replies are excluded so the count matches the visible tree.
   const parentRow = await c.env.DB.prepare(
-    `SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by,
-       (SELECT COUNT(*) FROM thought r
-        WHERE r.parent_id IN (SELECT id FROM thought WHERE COALESCE(version_of, id) = COALESCE(t.version_of, t.id))
-          AND r.superseded_by IS NULL${replyPrivateFilter}) AS reply_count
+    `SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.updated_at, t.version, t.color, t.private,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
      FROM thought t
      WHERE t.id = ?`
   ).bind(parentId).first();
@@ -674,7 +733,6 @@ api.get("/thoughts/:id/replies", async (c) => {
   }
 
   const parent = parentRow as Record<string, unknown>;
-  const parentVersionRoot = (parent.version_of as number | null) ?? (parent.id as number);
 
   // Fetch parent attachments
   const parentAttachments = await c.env.DB.prepare(
@@ -686,44 +744,28 @@ api.get("/thoughts/:id/replies", async (c) => {
     name: a.attachment_name as string,
   }));
 
-  // Fetch all descendants recursively with attachments via LEFT JOIN.
-  //
-  // The CTE walks the tree by *version-root*: a reply is a child of any thought
-  // in the same version-chain as its raw parent_id. This means replies posted
-  // on older versions of a parent still surface when viewing the latest version
-  // (and vice versa). Superseded rows are filtered so the tree only contains
-  // canonical-latest versions; each row carries its parent's version-root so
-  // the client can group children consistently without tracking the raw
-  // parent_id chains.
+  // Fetch all reply descendants recursively with attachments via LEFT JOIN.
+  // Replies point at the stable parent id, so this is a plain parent_id walk.
   const privateFilterCte = authed ? "" : " AND t.private = 0";
   const privateFilterJoin = authed ? "" : " AND t.private = 0";
   const results = await c.env.DB.prepare(
-    `WITH RECURSIVE descendants(id, parent_id, body, body_hash, timestamp, created_at, color, private, version_of, superseded_by, depth, version_root) AS (
-       SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by, 0,
-              COALESCE(t.version_of, t.id)
+    `WITH RECURSIVE descendants(id, parent_id, body, body_hash, timestamp, created_at, updated_at, version, color, private, depth) AS (
+       SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.updated_at, t.version, t.color, t.private, 0
        FROM thought t
-       JOIN thought p ON p.id = t.parent_id
-       WHERE COALESCE(p.version_of, p.id) = ?
-         AND t.superseded_by IS NULL${privateFilterCte}
+       WHERE t.parent_id = ?${privateFilterCte}
        UNION ALL
-       SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.color, t.private, t.version_of, t.superseded_by, d.depth + 1,
-              COALESCE(t.version_of, t.id)
+       SELECT t.id, t.parent_id, t.body, t.body_hash, t.timestamp, t.created_at, t.updated_at, t.version, t.color, t.private, d.depth + 1
        FROM thought t
-       JOIN thought p ON p.id = t.parent_id
-       JOIN descendants d ON COALESCE(p.version_of, p.id) = d.version_root
-       WHERE t.superseded_by IS NULL${privateFilterJoin}
+       JOIN descendants d ON t.parent_id = d.id
+       WHERE 1 = 1${privateFilterJoin}
      )
-     SELECT d.id, d.parent_id, d.body, d.body_hash, d.timestamp, d.created_at, d.color, d.private, d.version_of, d.superseded_by, d.depth, d.version_root,
-       COALESCE(p.version_of, p.id) AS parent_version_root,
-       (SELECT COUNT(*) FROM thought r
-        WHERE r.parent_id IN (SELECT id FROM thought WHERE COALESCE(version_of, id) = d.version_root)
-          AND r.superseded_by IS NULL${replyPrivateFilter}) AS reply_count,
+     SELECT d.id, d.parent_id, d.body, d.body_hash, d.timestamp, d.created_at, d.updated_at, d.version, d.color, d.private, d.depth,
+       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = d.id${replyPrivateFilter}) AS reply_count,
        ta.attachment_key, ta.attachment_type, ta.attachment_name
      FROM descendants d
-     LEFT JOIN thought p ON p.id = d.parent_id
      LEFT JOIN thought_attachment ta ON ta.thought_id = d.id
      ORDER BY d.depth ASC, d.timestamp ASC`
-  ).bind(parentVersionRoot).all();
+  ).bind(parentId).all();
 
   // Group rows by thought id — a thought with N attachments produces N rows
   const replyMap = new Map<number, Record<string, unknown>>();
@@ -733,9 +775,8 @@ api.get("/thoughts/:id/replies", async (c) => {
     if (!replyMap.has(tid)) {
       replyMap.set(tid, {
         id: r.id, parent_id: r.parent_id, body: r.body, body_hash: r.body_hash, timestamp: r.timestamp,
-        created_at: r.created_at, color: r.color, private: r.private,
-        version_of: r.version_of, superseded_by: r.superseded_by,
-        depth: r.depth, parent_version_root: r.parent_version_root,
+        created_at: r.created_at, updated_at: r.updated_at, version: r.version, color: r.color, private: r.private,
+        depth: r.depth,
         reply_count: r.reply_count, attachments: [],
       });
     }
@@ -751,15 +792,16 @@ api.get("/thoughts/:id/replies", async (c) => {
 
   await attachDuplicateIds(c.env.DB, [parent, ...replies], authed);
 
-  // Fetch version chain if this thought is part of one
-  const versionRows = await c.env.DB.prepare(
-    `SELECT id, timestamp FROM thought
-     WHERE id = ? OR version_of = ?
-     ORDER BY id ASC`
-  ).bind(parentVersionRoot, parentVersionRoot).all();
-
-  const versions = versionRows.results.length > 1
-    ? versionRows.results.map((r) => ({ id: r.id as number, timestamp: r.timestamp as number }))
+  // Version history: prior versions (thought_history) plus the current one.
+  // Empty unless the thought has actually been edited (version > 1).
+  const histRows = await c.env.DB.prepare(
+    "SELECT version, timestamp FROM thought_history WHERE thought_id = ? ORDER BY version ASC"
+  ).bind(parent.id).all<{ version: number; timestamp: number }>();
+  const versions = histRows.results.length > 0
+    ? [
+        ...histRows.results.map((r) => ({ version: r.version, timestamp: r.timestamp })),
+        { version: parent.version as number, timestamp: parent.updated_at as number },
+      ]
     : [];
 
   // Fetch ancestor chain (root → immediate parent) so direct-linked replies have context.
@@ -797,23 +839,21 @@ api.get("/thoughts/:id/related", async (c) => {
   const privateFilter = authed ? "" : " AND t.private = 0";
 
   const sourceRow = await c.env.DB.prepare(
-    "SELECT id, version_of, private FROM thought WHERE id = ?"
-  ).bind(id).first<{ id: number; version_of: number | null; private: number }>();
+    "SELECT id, private FROM thought WHERE id = ?"
+  ).bind(id).first<{ id: number; private: number }>();
   if (!sourceRow) return c.json({ error: "Thought not found" }, 404);
   if (!authed && sourceRow.private) return c.json({ error: "Thought not found" }, 404);
-
-  const versionRoot = sourceRow.version_of ?? sourceRow.id;
 
   const [outboundRes, inboundRes] = await Promise.all([
     c.env.DB.prepare(
       `SELECT t.id, t.body, t.timestamp, t.color
        FROM thought_edge e JOIN thought t ON t.id = e.target_id
-       WHERE e.source_id = ? AND t.superseded_by IS NULL${privateFilter}`
+       WHERE e.source_id = ?${privateFilter}`
     ).bind(id).all<{ id: number; body: string; timestamp: number; color: string | null }>(),
     c.env.DB.prepare(
       `SELECT t.id, t.body, t.timestamp, t.color
        FROM thought_edge e JOIN thought t ON t.id = e.source_id
-       WHERE e.target_id = ? AND t.superseded_by IS NULL${privateFilter}
+       WHERE e.target_id = ?${privateFilter}
        ORDER BY t.timestamp DESC`
     ).bind(id).all<{ id: number; body: string; timestamp: number; color: string | null }>(),
   ]);
@@ -842,10 +882,10 @@ api.get("/thoughts/:id/related", async (c) => {
       if (candidateIds.length > 0) {
         const placeholders = candidateIds.map(() => "?").join(",");
         const rows = await c.env.DB.prepare(
-          `SELECT t.id, t.body, t.timestamp, t.color, t.version_of
+          `SELECT t.id, t.body, t.timestamp, t.color
            FROM thought t
-           WHERE t.id IN (${placeholders}) AND t.superseded_by IS NULL${privateFilter}`
-        ).bind(...candidateIds).all<{ id: number; body: string; timestamp: number; color: string | null; version_of: number | null }>();
+           WHERE t.id IN (${placeholders})${privateFilter}`
+        ).bind(...candidateIds).all<{ id: number; body: string; timestamp: number; color: string | null }>();
         const rowById = new Map(rows.results.map((r) => [r.id, r]));
         const scoreById = new Map<number, number>();
         for (const m of queryRes.matches) {
@@ -855,8 +895,6 @@ api.get("/thoughts/:id/related", async (c) => {
         for (const cid of candidateIds) {
           const r = rowById.get(cid);
           if (!r) continue;
-          const root = r.version_of ?? r.id;
-          if (root === versionRoot) continue;
           similar.push({
             id: r.id,
             body: r.body,
@@ -884,7 +922,6 @@ api.post("/thoughts", async (c) => {
   let trimmed: string;
   let files: File[] = [];
   let parentId: number | null = null;
-  let versionOf: number | null = null;
   let isPrivate = false;
 
   const contentType = c.req.header("Content-Type") || "";
@@ -894,52 +931,16 @@ api.post("/thoughts", async (c) => {
     files = (formData.getAll("file") as unknown as (string | File)[]).filter((f): f is File => typeof f !== "string");
     const parentIdStr = formData.get("parent_id") as string | null;
     if (parentIdStr) parentId = parseInt(parentIdStr, 10);
-    const versionOfStr = formData.get("version_of") as string | null;
-    if (versionOfStr) versionOf = parseInt(versionOfStr, 10);
     isPrivate = formData.get("private") === "true";
   } else {
     const json = CreateThoughtBody.parse(await c.req.json());
     trimmed = (json.body || "").trim();
     if (json.parent_id != null) parentId = json.parent_id;
-    if (json.version_of != null) versionOf = json.version_of;
     if (json.private) isPrivate = true;
   }
 
   if (!trimmed) {
     return c.json({ error: "Body must be non-empty" }, 400);
-  }
-
-  if (parentId != null && versionOf != null) {
-    return c.json({ error: "Cannot set both parent_id and version_of" }, 400);
-  }
-
-  // Resolve version chain
-  let resolvedVersionOf: number | null = null;
-  let previousLatestId: number | null = null;
-  if (versionOf != null) {
-    const target = await c.env.DB.prepare(
-      "SELECT id, version_of, parent_id FROM thought WHERE id = ?"
-    ).bind(versionOf).first<{ id: number; version_of: number | null; parent_id: number | null }>();
-    if (!target) {
-      return c.json({ error: "Target thought not found" }, 404);
-    }
-    // A new version of a reply inherits the parent_id of the original.
-    // The client-side `parent_id + version_of` mutex was already enforced above,
-    // so it's safe to set parentId here from the target's row.
-    if (target.parent_id != null) {
-      parentId = target.parent_id;
-    }
-    // Resolve to root
-    resolvedVersionOf = target.version_of ?? target.id;
-
-    // Find current latest in chain
-    const latest = await c.env.DB.prepare(
-      "SELECT id FROM thought WHERE (id = ? OR version_of = ?) AND superseded_by IS NULL"
-    ).bind(resolvedVersionOf, resolvedVersionOf).first<{ id: number }>();
-    if (!latest) {
-      return c.json({ error: "Version chain is broken" }, 500);
-    }
-    previousLatestId = latest.id;
   }
 
   if (parentId != null) {
@@ -961,24 +962,12 @@ api.post("/thoughts", async (c) => {
   const bodyHash = await hashBody(trimmed);
 
   const result = await c.env.DB.prepare(
-    "INSERT INTO thought (body, body_hash, timestamp, parent_id, private, version_of) VALUES (?, ?, ?, ?, ?, ?)"
-  ).bind(trimmed, bodyHash, timestamp, parentId, isPrivate ? 1 : 0, resolvedVersionOf).run();
+    "INSERT INTO thought (body, body_hash, timestamp, updated_at, parent_id, private) VALUES (?, ?, ?, ?, ?, ?)"
+  ).bind(trimmed, bodyHash, timestamp, timestamp, parentId, isPrivate ? 1 : 0).run();
 
   const thoughtId = result.meta.last_row_id;
 
-  // Update previous latest version to point to this new one
-  if (previousLatestId != null) {
-    await c.env.DB.prepare(
-      "UPDATE thought SET superseded_by = ? WHERE id = ?"
-    ).bind(thoughtId, previousLatestId).run();
-  }
-
-  const tags = extractTags(trimmed);
-  for (const tagName of tags) {
-    await c.env.DB.prepare("INSERT OR IGNORE INTO tag (name) VALUES (?)").bind(tagName).run();
-    const tagRow = await c.env.DB.prepare("SELECT id FROM tag WHERE name = ?").bind(tagName).first();
-    await c.env.DB.prepare("INSERT OR IGNORE INTO thought_tag (thought_id, tag_id) VALUES (?, ?)").bind(thoughtId, tagRow!.id).run();
-  }
+  await syncThoughtTags(c.env.DB, thoughtId, trimmed);
 
   const tasks = extractTasks(trimmed);
   for (const task of tasks) {
@@ -1122,10 +1111,10 @@ api.post("/thoughts", async (c) => {
     body: trimmed,
     body_hash: bodyHash,
     timestamp,
+    updated_at: timestamp,
+    version: 1,
     created_at: new Date().toISOString().replace("T", " ").slice(0, 19),
     parent_id: parentId,
-    version_of: resolvedVersionOf,
-    superseded_by: null,
     private: isPrivate ? 1 : 0,
     attachments,
     color,
@@ -1133,6 +1122,148 @@ api.post("/thoughts", async (c) => {
   await attachDuplicateIds(c.env.DB, [thought], true);
 
   return c.json(thought, 201);
+});
+
+// Edit a thought in place. The stable row keeps its id; the body trigger
+// snapshots the prior version into thought_history.
+api.patch("/thoughts/:id", async (c) => {
+  if (!isAuthed(c)) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) {
+    return c.json({ error: "Bad id" }, 400);
+  }
+
+  let newBodyRaw: string | undefined;
+  let isPrivate: boolean | undefined;
+  let files: File[] = [];
+
+  const contentType = c.req.header("Content-Type") || "";
+  if (contentType.includes("multipart/form-data")) {
+    const formData = await c.req.formData();
+    const b = formData.get("body");
+    if (b != null) newBodyRaw = String(b);
+    const p = formData.get("private");
+    if (p != null) isPrivate = p === "true";
+    files = (formData.getAll("file") as unknown as (string | File)[]).filter((f): f is File => typeof f !== "string");
+  } else {
+    const json = UpdateThoughtBody.parse(await c.req.json());
+    if (json.body !== undefined) newBodyRaw = json.body;
+    if (json.private !== undefined) isPrivate = json.private;
+  }
+
+  const existing = await c.env.DB.prepare(
+    "SELECT id, body, timestamp, parent_id, private FROM thought WHERE id = ?"
+  ).bind(id).first<{ id: number; body: string; timestamp: number; parent_id: number | null; private: number }>();
+  if (!existing) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  for (const file of files) {
+    if (file.size > MAX_FILE_SIZE) {
+      return c.json({ error: `File "${file.name}" exceeds 5MB limit` }, 400);
+    }
+  }
+
+  // Body change → snapshot prior version (trigger) + re-derive tags/embedding.
+  if (newBodyRaw !== undefined) {
+    const trimmed = newBodyRaw.trim();
+    if (!trimmed) {
+      return c.json({ error: "Body must be non-empty" }, 400);
+    }
+    if (trimmed !== existing.body) {
+      await applyThoughtBodyEdit(c, existing, trimmed);
+    }
+  }
+
+  // Privacy toggle — not a body change, so no new version / snapshot.
+  if (isPrivate !== undefined && (isPrivate ? 1 : 0) !== existing.private) {
+    await c.env.DB.prepare("UPDATE thought SET private = ? WHERE id = ?").bind(isPrivate ? 1 : 0, id).run();
+  }
+
+  // Append any new attachments to the stable row (existing ones are preserved).
+  for (const file of files) {
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const key = `thoughts/${id}/${safeName}`;
+    await c.env.BUCKET.put(key, file.stream(), { httpMetadata: { contentType: file.type } });
+    await c.env.DB.prepare(
+      "INSERT INTO thought_attachment (thought_id, attachment_key, attachment_type, attachment_name) VALUES (?, ?, ?, ?)"
+    ).bind(id, key, file.type, file.name).run();
+  }
+
+  const thought = await fetchThoughtResponse(c.env.DB, id);
+  if (!thought) {
+    return c.json({ error: "Not found" }, 404);
+  }
+  await attachDuplicateIds(c.env.DB, [thought], true);
+  return c.json(thought);
+});
+
+// Full version history of a thought: prior versions (from thought_history) plus
+// the current body, ordered oldest-first.
+api.get("/thoughts/:id/history", async (c) => {
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) {
+    return c.json({ error: "Bad id" }, 400);
+  }
+  const authed = isAuthed(c);
+  const cur = await c.env.DB.prepare(
+    "SELECT id, body, timestamp, updated_at, version, private FROM thought WHERE id = ?"
+  ).bind(id).first<{ id: number; body: string; timestamp: number; updated_at: number; version: number; private: number }>();
+  if (!cur) {
+    return c.json({ error: "Not found" }, 404);
+  }
+  if (cur.private && !authed) {
+    return c.json({ error: "Not found" }, 404);
+  }
+  const hist = await c.env.DB.prepare(
+    "SELECT version, body, timestamp FROM thought_history WHERE thought_id = ? ORDER BY version ASC"
+  ).bind(id).all<{ version: number; body: string; timestamp: number }>();
+  const versions = [
+    ...hist.results.map((h) => ({ version: h.version, body: h.body, timestamp: h.timestamp })),
+    { version: cur.version, body: cur.body, timestamp: cur.updated_at },
+  ];
+  return c.json({ versions });
+});
+
+// Revert a thought to a past version by re-applying that version's body as a new
+// edit (which snapshots the current body into history first).
+api.post("/thoughts/:id/revert", async (c) => {
+  if (!isAuthed(c)) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) {
+    return c.json({ error: "Bad id" }, 400);
+  }
+  const { version } = RevertThoughtBody.parse(await c.req.json());
+
+  const existing = await c.env.DB.prepare(
+    "SELECT id, body, timestamp, parent_id, version FROM thought WHERE id = ?"
+  ).bind(id).first<{ id: number; body: string; timestamp: number; parent_id: number | null; version: number }>();
+  if (!existing) {
+    return c.json({ error: "Not found" }, 404);
+  }
+
+  if (version !== existing.version) {
+    const target = await c.env.DB.prepare(
+      "SELECT body FROM thought_history WHERE thought_id = ? AND version = ?"
+    ).bind(id, version).first<{ body: string }>();
+    if (!target) {
+      return c.json({ error: "Version not found" }, 404);
+    }
+    if (target.body !== existing.body) {
+      await applyThoughtBodyEdit(c, existing, target.body);
+    }
+  }
+
+  const thought = await fetchThoughtResponse(c.env.DB, id);
+  if (!thought) {
+    return c.json({ error: "Not found" }, 404);
+  }
+  await attachDuplicateIds(c.env.DB, [thought], true);
+  return c.json(thought);
 });
 
 api.delete("/thoughts/:id", async (c) => {
@@ -1143,35 +1274,26 @@ api.delete("/thoughts/:id", async (c) => {
 
   const id = parseInt(c.req.param("id"), 10);
 
-  // Resolve version chain root
   const target = await c.env.DB.prepare(
-    "SELECT id, version_of FROM thought WHERE id = ?"
-  ).bind(id).first<{ id: number; version_of: number | null }>();
+    "SELECT id FROM thought WHERE id = ?"
+  ).bind(id).first<{ id: number }>();
 
   if (!target) {
     return c.json({ error: "Not found" }, 404);
   }
 
-  const root = target.version_of ?? target.id;
-
-  // Collect all version chain IDs (root + all versions)
-  const versionChain = await c.env.DB.prepare(
-    "SELECT id FROM thought WHERE id = ? OR version_of = ?"
-  ).bind(root, root).all();
-  const chainIds = versionChain.results.map((r) => r.id as number);
-
-  // Collect all descendants and their attachment keys in one query
-  const chainPlaceholders = chainIds.map(() => "?").join(",");
+  // Collect this thought + all reply descendants with their attachment keys.
+  // thought_history, tags, and other child rows are removed by ON DELETE CASCADE.
   const descendants = await c.env.DB.prepare(
     `WITH RECURSIVE descendants(id) AS (
-       SELECT id FROM thought WHERE id IN (${chainPlaceholders})
+       SELECT id FROM thought WHERE id = ?
        UNION ALL
        SELECT t.id FROM thought t JOIN descendants d ON t.parent_id = d.id
      )
      SELECT d.id, ta.attachment_key
      FROM descendants d
      LEFT JOIN thought_attachment ta ON ta.thought_id = d.id`
-  ).bind(...chainIds).all();
+  ).bind(id).all();
 
   const descendantIds: number[] = [];
   const keys: string[] = [];
@@ -1191,10 +1313,8 @@ api.delete("/thoughts/:id", async (c) => {
     await c.env.BUCKET.delete(keys);
   }
 
-  // Delete chain roots — ON DELETE CASCADE handles descendants and related rows
-  await c.env.DB.prepare(
-    `DELETE FROM thought WHERE id IN (${chainPlaceholders})`
-  ).bind(...chainIds).run();
+  // ON DELETE CASCADE removes reply descendants, thought_history, tags, attachments, etc.
+  await c.env.DB.prepare("DELETE FROM thought WHERE id = ?").bind(id).run();
 
   await c.env.DB.prepare(
     "DELETE FROM tag WHERE id NOT IN (SELECT DISTINCT tag_id FROM thought_tag)"
@@ -1980,13 +2100,13 @@ api.get("/framings/:id", async (c) => {
             CASE WHEN fn.node_type = 'thought'
               THEN (SELECT COUNT(*) FROM thought_edge te
                     JOIN thought lt ON lt.id = te.target_id
-                    WHERE te.source_id = t.id AND lt.private = 0 AND lt.superseded_by IS NULL)
+                    WHERE te.source_id = t.id AND lt.private = 0)
               ELSE NULL
             END AS link_count,
             CASE WHEN fn.node_type = 'thought'
               THEN (SELECT COUNT(*) FROM thought_edge te
                     JOIN thought st ON st.id = te.source_id
-                    WHERE te.target_id = t.id AND st.private = 0 AND st.superseded_by IS NULL)
+                    WHERE te.target_id = t.id AND st.private = 0)
               ELSE NULL
             END AS backlink_count
      FROM framing_node fn

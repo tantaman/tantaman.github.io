@@ -30,21 +30,14 @@ export function Feed({ tags, framing, prefill }: { tags: string[]; framing?: num
   };
 
   const handleEdited = (t: Thought) => {
+    // Edits keep the same id and feed position — swap in place.
     mutate(
       (pages) => {
-        if (!pages || pages.length === 0) return pages;
-        const supersededId = t.version_of;
-        const filtered = supersededId != null
-          ? pages.map((page) => ({
-              ...page,
-              thoughts: page.thoughts.filter((th) => th.id !== supersededId && th.version_of !== supersededId),
-            }))
-          : pages;
-        const firstPage = filtered[0];
-        return [
-          { ...firstPage, thoughts: [t, ...firstPage.thoughts] },
-          ...filtered.slice(1),
-        ];
+        if (!pages) return pages;
+        return pages.map((page) => ({
+          ...page,
+          thoughts: page.thoughts.map((th) => (th.id === t.id ? { ...th, ...t } : th)),
+        }));
       },
       false,
     );

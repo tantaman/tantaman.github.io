@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
-import type { Thought, ThoughtVersion } from '../../types';
+import type { Thought } from '../../types';
 import { AuthContext } from '../../auth-context';
 import { useThread } from '../../hooks/useCache';
 import { ThoughtCard } from '../ThoughtCard';
@@ -8,6 +8,7 @@ import { ThreadThought } from '../ThreadThought';
 import { ComposeForm } from '../ComposeForm';
 import { RelatedPanel } from '../RelatedPanel';
 import { AncestorChain } from '../AncestorChain';
+import { VersionHistory } from '../VersionHistory';
 
 function buildChildrenMap(replies: Thought[]): Map<number, Thought[]> {
   const map = new Map<number, Thought[]>();
@@ -96,7 +97,10 @@ function DetailContent({
   const childrenMap = buildChildrenMap(data.replies);
   const rootChildren = childrenMap.get(thoughtId) || [];
   const replyCount = data.replies.length;
-  const versions: ThoughtVersion[] = data.versions || [];
+
+  const handleParentEdited = (t: Thought) => {
+    mutate({ ...data, parent: { ...data.parent, ...t } }, false);
+  };
 
   const handleReplyPosted = (t: Thought) => {
     mutate({ ...data, replies: [...data.replies, t] }, false);
@@ -109,40 +113,15 @@ function DetailContent({
     );
   };
 
-  const latestVersionId =
-    versions.length > 0 ? versions[versions.length - 1].id : null;
-  const isSuperseded = data.parent.superseded_by != null;
+  const handleReplyEdited = (t: Thought) => {
+    mutate(
+      { ...data, replies: data.replies.map((r) => (r.id === t.id ? { ...r, ...t } : r)) },
+      false,
+    );
+  };
 
   return (
     <>
-      {isSuperseded && latestVersionId != null && (
-        <div className="version-banner">
-          This thought has been revised.{' '}
-          <Link to="/t/$id" params={{ id: latestVersionId }}>View latest version</Link>
-        </div>
-      )}
-
-      {versions.length > 1 && (
-        <div className="version-history">
-          {versions.map((v, i) =>
-            v.id === thoughtId ? (
-              <span key={v.id} className="version-link version-link--current">
-                v{i + 1}
-              </span>
-            ) : (
-              <Link
-                key={v.id}
-                to="/t/$id"
-                params={{ id: v.id }}
-                className="version-link"
-              >
-                v{i + 1}
-              </Link>
-            ),
-          )}
-        </div>
-      )}
-
       {data.ancestors && data.ancestors.length > 0 && (
         <AncestorChain ancestors={data.ancestors} />
       )}
@@ -151,7 +130,10 @@ function DetailContent({
         thought={data.parent}
         isParent
         onDelete={onParentDeleted}
+        onEdited={secret ? handleParentEdited : undefined}
       />
+
+      <VersionHistory thought={data.parent} onReverted={handleParentEdited} />
 
       <RelatedPanel thoughtId={thoughtId} />
 
@@ -169,6 +151,7 @@ function DetailContent({
           depth={0}
           onReplyPosted={handleReplyPosted}
           onDelete={handleReplyDelete}
+          onEdited={secret ? handleReplyEdited : undefined}
         />
       ))}
 

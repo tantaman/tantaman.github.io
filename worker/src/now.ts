@@ -323,7 +323,7 @@ now.get("/", async (c) => {
   const order = isRandom ? "RANDOM()" : null;
 
   const thoughtsQ = `SELECT id, body, timestamp FROM thought
-    WHERE superseded_by IS NULL AND private = 0 AND parent_id IS NULL
+    WHERE private = 0 AND parent_id IS NULL
     ORDER BY ${order ?? "timestamp DESC"} LIMIT 10`;
   const tasksQ = `SELECT title, created_at FROM task
     WHERE deprioritized_at IS NULL${isRandom ? "" : " AND completed_at IS NULL"}

@@ -17,15 +17,12 @@ export function ThreadThought({
   depth: number;
   onReplyPosted: (t: Thought) => void;
   onDelete: (id: number) => void;
-  onEdited: (newReply: Thought) => void;
+  onEdited?: (newReply: Thought) => void;
 }) {
   const { secret } = useContext(AuthContext);
   const [showReply, setShowReply] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  // Look up children by this reply's version-root so descendants of older
-  // versions surface under the canonical (latest) reply.
-  const myRoot = thought.version_of ?? thought.id;
-  const children = childrenMap.get(myRoot) || [];
+  const children = childrenMap.get(thought.id) || [];
   const nextDepth = Math.min(depth + 1, 4);
 
   const footer = secret ? (

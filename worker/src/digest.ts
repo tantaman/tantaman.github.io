@@ -43,7 +43,7 @@ async function pickThoughts(db: D1Database, n: number): Promise<Thought[]> {
   const res = await db
     .prepare(
       `SELECT id, body, timestamp FROM thought
-       WHERE superseded_by IS NULL AND private = 0 AND parent_id IS NULL
+       WHERE private = 0 AND parent_id IS NULL
          AND timestamp < ? AND length(body) > 80
        ORDER BY RANDOM() LIMIT ?`
     )

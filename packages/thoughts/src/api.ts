@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
+import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -93,7 +93,6 @@ export async function postThought(
   parentId?: number,
   files?: File[],
   isPrivate?: boolean,
-  versionOf?: number,
 ): Promise<Thought> {
   const headers: Record<string, string> = {
     Authorization: `Bearer ${secret}`,
@@ -105,7 +104,6 @@ export async function postThought(
     const fd = new FormData();
     fd.append('body', body);
     if (parentId != null) fd.append('parent_id', String(parentId));
-    if (versionOf != null) fd.append('version_of', String(versionOf));
     if (isPrivate) fd.append('private', 'true');
     for (const file of files) fd.append('file', file);
     reqBody = fd;
@@ -113,7 +111,6 @@ export async function postThought(
     headers['Content-Type'] = 'application/json';
     const payload: Record<string, unknown> = { body };
     if (parentId != null) payload.parent_id = parentId;
-    if (versionOf != null) payload.version_of = versionOf;
     if (isPrivate) payload.private = true;
     reqBody = JSON.stringify(payload);
   }
@@ -125,6 +122,62 @@ export async function postThought(
   });
 
   if (r.status === 401) throw new Error('Unauthorized');
+  return r.json();
+}
+
+// Edit a thought in place (stable id). Body changes create a new version
+// server-side and snapshot the prior body into history.
+export async function editThought(
+  id: number,
+  updates: { body?: string; isPrivate?: boolean },
+  secret: string,
+  files?: File[],
+): Promise<Thought> {
+  const headers: Record<string, string> = { Authorization: `Bearer ${secret}` };
+  let reqBody: FormData | string;
+
+  if (files && files.length > 0) {
+    const fd = new FormData();
+    if (updates.body !== undefined) fd.append('body', updates.body);
+    if (updates.isPrivate !== undefined) fd.append('private', updates.isPrivate ? 'true' : 'false');
+    for (const file of files) fd.append('file', file);
+    reqBody = fd;
+  } else {
+    headers['Content-Type'] = 'application/json';
+    const payload: Record<string, unknown> = {};
+    if (updates.body !== undefined) payload.body = updates.body;
+    if (updates.isPrivate !== undefined) payload.private = updates.isPrivate;
+    reqBody = JSON.stringify(payload);
+  }
+
+  const r = await fetch(`${API}/thoughts/${id}`, { method: 'PATCH', headers, body: reqBody });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Edit failed');
+  return r.json();
+}
+
+export function getThoughtHistory(
+  id: number,
+  secret?: string,
+): Promise<{ versions: ThoughtHistoryVersion[] }> {
+  return fetch(`${API}/thoughts/${id}/history`, { headers: authHeaders(secret) }).then((r) => {
+    if (!r.ok) throw new Error('not found');
+    return r.json();
+  });
+}
+
+export async function revertThought(
+  id: number,
+  version: number,
+  secret: string,
+): Promise<Thought> {
+  const r = await fetch(`${API}/thoughts/${id}/revert`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ version }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Revert failed');
   return r.json();
 }
 

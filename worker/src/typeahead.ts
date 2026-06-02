@@ -78,7 +78,7 @@ async function searchThoughts(
   authed: boolean,
 ): Promise<TypeaheadResult[]> {
   const privateClause = authed ? "" : "private = 0";
-  const baseWhere = ["parent_id IS NULL", "superseded_by IS NULL"];
+  const baseWhere = ["parent_id IS NULL"];
   if (privateClause) baseWhere.push(privateClause);
   if (!q) {
     const where = baseWhere.join(" AND ");

@@ -7,24 +7,27 @@ export interface Attachment {
 export interface Thought {
   id: number;
   body: string;
-  timestamp: number;
+  timestamp: number;     // creation time (immutable)
+  updated_at: number;    // time the current body was written
+  version: number;       // 1 for an unedited thought; bumped on each edit
   parent_id: number | null;
-  version_of: number | null;
-  superseded_by: number | null;
   reply_count: number;
   attachments: Attachment[];
   color: string | null;
   private: boolean;
   duplicate_ids: number[];
-  // Present on replies returned from /thoughts/:id/replies — the version-root
-  // of this reply's direct parent. Used to group children under their parent's
-  // canonical chain rather than the literal parent_id, which may point at a
-  // superseded version after an edit.
-  parent_version_root?: number;
 }
 
+// Lightweight timeline entry from /thoughts/:id/replies (no body).
 export interface ThoughtVersion {
-  id: number;
+  version: number;
+  timestamp: number;
+}
+
+// Full version entry from /thoughts/:id/history (includes the body for diffing).
+export interface ThoughtHistoryVersion {
+  version: number;
+  body: string;
   timestamp: number;
 }
 

@@ -88,10 +88,10 @@ export function ThoughtCard({
               <span className="thought-private-dot" title="Private">&#9679;</span>
             </>
           )}
-          {thought.version_of != null && (
+          {thought.version > 1 && (
             <>
               <span className="thought-meta-sep">&middot;</span>
-              <span className="thought-revised-badge">revised</span>
+              <span className="thought-revised-badge">edited</span>
             </>
           )}
         </Link>
@@ -130,8 +130,9 @@ export function ThoughtCard({
       </div>
       {editing ? (
         <ComposeForm
-          versionOf={thought.id}
+          editId={thought.id}
           initialBody={thought.body}
+          defaultPrivate={!!thought.private}
           submitLabel="Save revision"
           onPosted={(t) => {
             setEditing(false);

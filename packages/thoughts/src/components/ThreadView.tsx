@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import type { Thought, ThoughtVersion } from '../types';
+import type { Thought } from '../types';
 import { AuthContext } from '../auth-context';
 import { useThread } from '../hooks/useCache';
 import { ThoughtCard } from './ThoughtCard';
@@ -8,20 +8,16 @@ import { ThreadThought } from './ThreadThought';
 import { ComposeForm } from './ComposeForm';
 import { RelatedPanel } from './RelatedPanel';
 import { AncestorChain } from './AncestorChain';
+import { VersionHistory } from './VersionHistory';
 
-// Group replies by their parent's version-root. The worker returns
-// `parent_version_root` on each reply so children attached to an older version
-// of a thought still group under the same key as children attached to the
-// latest version. Falls back to raw `parent_id` for callers (e.g. older worker
-// responses) that don't include the field.
+// Group replies by their (stable) parent id.
 function buildChildrenMap(replies: Thought[]): Map<number, Thought[]> {
   const map = new Map<number, Thought[]>();
   for (const r of replies) {
-    const key = r.parent_version_root ?? r.parent_id;
-    if (key == null) continue;
-    const list = map.get(key) || [];
+    if (r.parent_id == null) continue;
+    const list = map.get(r.parent_id) || [];
     list.push(r);
-    map.set(key, list);
+    map.set(r.parent_id, list);
   }
   return map;
 }
@@ -65,17 +61,16 @@ export function ThreadView({ id }: { id: number }) {
   }
 
   const childrenMap = buildChildrenMap(data.replies);
-  const parentRoot = data.parent.version_of ?? data.parent.id;
-  const rootChildren = childrenMap.get(parentRoot) || [];
+  const rootChildren = childrenMap.get(data.parent.id) || [];
   const replyCount = data.replies.length;
-  const versions: ThoughtVersion[] = data.versions || [];
 
   const handleParentDelete = () => {
     navigate({ to: '/' });
   };
 
+  // Edits keep the same id, so update the parent in place rather than navigating.
   const handleParentEdited = (t: Thought) => {
-    navigate({ to: '/t/$id', params: { id: t.id } });
+    mutate({ ...data, parent: { ...data.parent, ...t } }, false);
   };
 
   const handleReplyPosted = (t: Thought) => {
@@ -90,49 +85,20 @@ export function ThreadView({ id }: { id: number }) {
   };
 
   const handleReplyEdited = (t: Thought) => {
-    // Drop the version we just superseded and append the new one.
-    // A fresh refetch will return the same shape (worker filters
-    // superseded_by IS NULL), so this just keeps the UI consistent until then.
-    const supersededId = t.version_of;
+    // Edit is in place (same id) — swap the updated reply, preserving fields the
+    // edit response omits (e.g. reply_count) via spread order.
     mutate(
       {
         ...data,
-        replies: [
-          ...data.replies.filter(
-            (r) => r.id !== supersededId && r.version_of !== supersededId,
-          ),
-          t,
-        ],
+        replies: data.replies.map((r) => (r.id === t.id ? { ...r, ...t } : r)),
       },
       false,
     );
   };
 
-  const latestVersionId = versions.length > 0 ? versions[versions.length - 1].id : null;
-  const isSuperseded = data.parent.superseded_by != null;
-
   return (
     <>
       <BackLink />
-
-      {isSuperseded && latestVersionId != null && (
-        <div className="version-banner">
-          This thought has been revised.{' '}
-          <Link to="/t/$id" params={{ id: latestVersionId }}>View latest version</Link>
-        </div>
-      )}
-
-      {versions.length > 1 && (
-        <div className="version-history">
-          {versions.map((v, i) => (
-            v.id === id ? (
-              <span key={v.id} className="version-link version-link--current">v{i + 1}</span>
-            ) : (
-              <Link key={v.id} to="/t/$id" params={{ id: v.id }} className="version-link">v{i + 1}</Link>
-            )
-          ))}
-        </div>
-      )}
 
       {data.ancestors && data.ancestors.length > 0 && (
         <AncestorChain ancestors={data.ancestors} />
@@ -144,6 +110,8 @@ export function ThreadView({ id }: { id: number }) {
         onDelete={handleParentDelete}
         onEdited={secret ? handleParentEdited : undefined}
       />
+
+      <VersionHistory thought={data.parent} onReverted={handleParentEdited} />
 
       <RelatedPanel thoughtId={id} />
 

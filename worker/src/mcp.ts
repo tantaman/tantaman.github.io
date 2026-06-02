@@ -133,7 +133,7 @@ export function createMcpServer(env: Env) {
       const ids = thoughtMatches.map((m) => parseInt(m.id, 10));
       const placeholders = ids.map(() => "?").join(",");
       const rows = await env.DB.prepare(
-        `SELECT id, body, timestamp, parent_id FROM thought WHERE id IN (${placeholders}) AND superseded_by IS NULL`
+        `SELECT id, body, timestamp, parent_id FROM thought WHERE id IN (${placeholders})`
       ).bind(...ids).all();
 
       const bodyById = new Map<number, { body: string; timestamp: number; parent_id: number | null }>();
@@ -450,7 +450,7 @@ export function createMcpServer(env: Env) {
       offset: z.number().min(0).optional().default(0).describe("Offset for pagination (default 0)"),
     },
     async ({ startDate, endDate, sort, limit, offset }) => {
-      const conditions = ["superseded_by IS NULL", "private = 0", "parent_id IS NULL"];
+      const conditions = ["private = 0", "parent_id IS NULL"];
       const binds: (string | number)[] = [];
 
       if (startDate) {

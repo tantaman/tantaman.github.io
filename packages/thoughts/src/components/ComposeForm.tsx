@@ -10,7 +10,7 @@ import {
   type DragEvent,
   type ClipboardEvent,
 } from 'react';
-import { postThought } from '../api';
+import { postThought, editThought } from '../api';
 import { AuthContext } from '../auth-context';
 import { renderMarkdown } from '../markdown';
 import { useDictation } from '../hooks/useDictation';
@@ -23,7 +23,7 @@ function isImageType(type: string): boolean {
 
 export function ComposeForm({
   parentId,
-  versionOf,
+  editId,
   initialBody,
   placeholder,
   submitLabel,
@@ -32,7 +32,7 @@ export function ComposeForm({
   onCancel,
 }: {
   parentId?: number;
-  versionOf?: number;
+  editId?: number;
   initialBody?: string;
   placeholder?: string;
   submitLabel?: string;
@@ -65,7 +65,7 @@ export function ComposeForm({
     }, [text]),
   );
 
-  const label = submitLabel || (versionOf != null ? 'Save revision' : parentId != null ? 'Reply' : 'Post');
+  const label = submitLabel || (editId != null ? 'Save revision' : parentId != null ? 'Reply' : 'Post');
 
   // Revoke object URLs on cleanup
   useEffect(() => {
@@ -194,14 +194,20 @@ export function ComposeForm({
 
     setSubmitting(true);
     try {
-      const t = await postThought(
-        body,
-        secret,
-        parentId,
-        files.length > 0 ? files : undefined,
-        isPrivate || undefined,
-        versionOf,
-      );
+      const t = editId != null
+        ? await editThought(
+            editId,
+            { body, isPrivate },
+            secret,
+            files.length > 0 ? files : undefined,
+          )
+        : await postThought(
+            body,
+            secret,
+            parentId,
+            files.length > 0 ? files : undefined,
+            isPrivate || undefined,
+          );
       setText('');
       clearFiles();
       onPosted(t);
@@ -209,7 +215,7 @@ export function ComposeForm({
       if (e instanceof Error && e.message === 'Unauthorized') {
         updateSecret(null);
       } else {
-        alert(parentId != null ? 'Failed to post reply' : 'Failed to post thought');
+        alert(editId != null ? 'Failed to save revision' : parentId != null ? 'Failed to post reply' : 'Failed to post thought');
       }
     } finally {
       setSubmitting(false);

@@ -37,11 +37,10 @@ thoughtOg.get("/:id", async (c) => {
   if (isNaN(id)) return c.redirect("/thoughts/");
 
   const thought = await c.env.DB.prepare(
-    "SELECT id, body, private, superseded_by FROM thought WHERE id = ?"
-  ).bind(id).first<{ id: number; body: string; private: number; superseded_by: number | null }>();
+    "SELECT id, body, private FROM thought WHERE id = ?"
+  ).bind(id).first<{ id: number; body: string; private: number }>();
 
   if (!thought || thought.private) return c.redirect("/thoughts/");
-  if (thought.superseded_by != null) return c.redirect(`/thoughts/t/${thought.superseded_by}`);
 
   const attachment = await c.env.DB.prepare(
     "SELECT attachment_key, attachment_type FROM thought_attachment WHERE thought_id = ? AND attachment_type LIKE 'image/%' LIMIT 1"

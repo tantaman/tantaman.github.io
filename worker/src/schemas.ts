@@ -4,8 +4,19 @@ import { z } from "zod";
 export const CreateThoughtBody = z.object({
   body: z.string(),
   parent_id: z.number().int().optional(),
-  version_of: z.number().int().optional(),
   private: z.boolean().optional(),
+});
+
+// PATCH /thoughts/:id (JSON branch). Editing is an in-place update of the
+// stable row; the body trigger snapshots the prior version into thought_history.
+export const UpdateThoughtBody = z.object({
+  body: z.string().optional(),
+  private: z.boolean().optional(),
+});
+
+// POST /thoughts/:id/revert
+export const RevertThoughtBody = z.object({
+  version: z.number().int().positive(),
 });
 
 // PATCH /tasks/:id
