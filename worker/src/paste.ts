@@ -180,6 +180,24 @@ const PAGE_STYLE = `
   }
   input:focus { border-color: var(--border-heavy); }
 
+  .pw-wrap { position: relative; max-width: 320px; }
+  .pw-wrap input[type="password"], .pw-wrap input[type="text"] { padding-right: 3.5rem; }
+  .pw-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.4rem;
+    transform: translateY(-50%);
+    background: none;
+    color: var(--text-muted);
+    border: none;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    cursor: pointer;
+  }
+  .pw-toggle:hover { color: var(--text); opacity: 1; }
+
   .field { margin-bottom: 1.25rem; }
   label {
     display: block;
@@ -432,10 +450,27 @@ paste.get("/login", async (c) => {
     <form method="POST" action="/paste/login">
       <div class="field">
         <label for="token">Token</label>
-        <input type="password" id="token" name="token" required autofocus>
+        <div class="pw-wrap">
+          <input type="password" id="token" name="token" required autofocus autocomplete="current-password">
+          <button type="button" id="pw-toggle" class="pw-toggle" aria-label="Show token" aria-pressed="false">show</button>
+        </div>
       </div>
       <button type="submit">Continue</button>
-    </form>`,
+    </form>
+    <script>
+      (function () {
+        var btn = document.getElementById('pw-toggle');
+        var inp = document.getElementById('token');
+        btn.addEventListener('click', function () {
+          var show = inp.type === 'password';
+          inp.type = show ? 'text' : 'password';
+          btn.textContent = show ? 'hide' : 'show';
+          btn.setAttribute('aria-pressed', String(show));
+          btn.setAttribute('aria-label', show ? 'Hide token' : 'Show token');
+          inp.focus();
+        });
+      })();
+    </script>`,
     ""
   );
   return c.html(body);
