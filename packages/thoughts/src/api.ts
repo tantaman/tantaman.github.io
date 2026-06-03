@@ -122,6 +122,7 @@ export async function postThought(
   });
 
   if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Post failed');
   return r.json();
 }
 

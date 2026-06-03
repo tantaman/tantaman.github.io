@@ -115,7 +115,7 @@ async function applyThoughtBodyEdit(
   c: { env: Env; executionCtx: { waitUntil: (p: Promise<unknown>) => void } },
   existing: { id: number; timestamp: number; parent_id: number | null },
   newBody: string,
-): Promise<{ bodyHash: string; color: string | null; updatedAt: number }> {
+): Promise<{ bodyHash: string; updatedAt: number }> {
   const env = c.env;
   const updatedAt = Math.floor(Date.now() / 1000);
   const bodyHash = await hashBody(newBody);
@@ -124,14 +124,19 @@ async function applyThoughtBodyEdit(
   ).bind(newBody, bodyHash, updatedAt, existing.id).run();
   await syncThoughtTags(env.DB, existing.id, newBody);
   // Re-embed in place (same vector id) so search/graph reflect the new body and
-  // no stale version vectors accumulate. The vector keeps the original creation
-  // timestamp in its metadata.
-  const { color, vec } = await upsertThoughtEmbedding(env, existing.id, newBody, existing.timestamp, existing.parent_id);
-  if (vec) {
-    const title = newBody.split("\n")[0]?.slice(0, 80) ?? null;
-    scheduleBackground(c, assignClusters(env, "thought", existing.id, title, newBody.slice(0, 200), vec));
-  }
-  return { bodyHash, color, updatedAt };
+  // no stale version vectors accumulate. Run it after the response via waitUntil
+  // so a slow Workers AI call never blocks the edit — the row keeps its prior
+  // color until the new embedding lands. The vector keeps the original creation
+  // timestamp in its metadata. The PATCH/revert already bumped the cache version
+  // (write middleware), so the next revalidation surfaces the refreshed color.
+  scheduleBackground(c, (async () => {
+    const { vec } = await upsertThoughtEmbedding(env, existing.id, newBody, existing.timestamp, existing.parent_id);
+    if (vec) {
+      const title = newBody.split("\n")[0]?.slice(0, 80) ?? null;
+      await assignClusters(env, "thought", existing.id, title, newBody.slice(0, 200), vec);
+    }
+  })());
+  return { bodyHash, updatedAt };
 }
 
 // Build the canonical single-thought JSON (matching the feed/thread item shape)
@@ -913,6 +918,143 @@ api.get("/thoughts/:id/related", async (c) => {
   return c.json({ outbound, inbound, similar });
 });
 
+// Network-bound enrichment for a freshly-created thought: the embedding (which
+// also derives the card color) plus media/location/bookmark lookups that hit
+// external APIs. Run via `waitUntil` after the response so a slow or hung
+// upstream (Workers AI, Mapbox, TMDB, an unresponsive OG target, ...) never
+// blocks the POST. The thought row and its fast local extractions (tags, tasks,
+// events, questions, links, attachments) are already persisted synchronously
+// before this runs. Each group is isolated so one failure doesn't sink the rest.
+// The POST already bumped the cache version (write middleware), so the next feed
+// revalidation picks up the color + enrichment written here — no extra bump
+// needed (and a write here would leak past test storage isolation).
+async function enrichThoughtInBackground(
+  env: Env,
+  thoughtId: number,
+  body: string,
+  timestamp: number,
+  parentId: number | null,
+): Promise<void> {
+  // Embedding first: it powers semantic search, the graph, and the card color,
+  // so it's the enrichment most worth completing within the waitUntil window.
+  try {
+    const { vec } = await upsertThoughtEmbedding(env, thoughtId, body, timestamp, parentId);
+    if (vec) {
+      const title = body.split("\n")[0]?.slice(0, 80) ?? null;
+      const preview = body.slice(0, 200);
+      await assignClusters(env, "thought", thoughtId, title, preview, vec);
+    }
+  } catch (e) {
+    console.error("background embedding/clustering failed:", e);
+  }
+
+  try {
+    const locations = extractLocations(body);
+    for (const loc of locations) {
+      const geo = await geocodeLocation(loc.title, env.MAPBOX_TOKEN);
+      await env.DB.prepare(
+        "INSERT INTO location (thought_id, title, description, lat, lng, resolved_name, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
+      ).bind(thoughtId, loc.title, loc.description, geo?.lat ?? null, geo?.lng ?? null, geo?.resolvedName ?? null, timestamp).run();
+    }
+  } catch (e) {
+    console.error("background location enrichment failed:", e);
+  }
+
+  try {
+    const movies = extractMovies(body);
+    for (const movie of movies) {
+      const normalized = normalizeMovieTitle(movie.title);
+      const existing = await env.DB.prepare(
+        "SELECT id FROM movie WHERE normalized_title = ?"
+      ).bind(normalized).first<{ id: number }>();
+
+      let movieId: number;
+      if (existing) {
+        movieId = existing.id;
+      } else {
+        const meta = env.TMDB_API_KEY ? await lookupMovie(movie.title, env.TMDB_API_KEY) : null;
+        const result = await env.DB.prepare(
+          "INSERT INTO movie (title, normalized_title, description, poster_url, year, tmdb_id, vote_average, vote_count, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        ).bind(movie.title, normalized, movie.description, meta?.posterUrl ?? null, meta?.year ?? null, meta?.tmdbId ?? null, meta?.voteAverage ?? null, meta?.voteCount ?? null, timestamp).run();
+        movieId = result.meta.last_row_id as number;
+      }
+
+      await env.DB.prepare(
+        "INSERT OR IGNORE INTO thought_movie (thought_id, movie_id, description, created_at) VALUES (?, ?, ?, ?)"
+      ).bind(thoughtId, movieId, movie.description, timestamp).run();
+    }
+  } catch (e) {
+    console.error("background movie enrichment failed:", e);
+  }
+
+  try {
+    const books = extractBooks(body);
+    for (const book of books) {
+      const meta = await lookupBook(book.title);
+      await env.DB.prepare(
+        "INSERT INTO book (thought_id, title, description, cover_url, author, year, ol_key, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+      ).bind(thoughtId, book.title, book.description, meta?.coverUrl ?? null, meta?.author ?? null, meta?.year ?? null, meta?.olKey ?? null, timestamp).run();
+    }
+  } catch (e) {
+    console.error("background book enrichment failed:", e);
+  }
+
+  try {
+    const albums = extractAlbums(body);
+    for (const album of albums) {
+      const normalized = normalizeAlbumTitle(album.title);
+      const existing = await env.DB.prepare(
+        "SELECT id FROM album WHERE normalized_title = ?"
+      ).bind(normalized).first<{ id: number }>();
+
+      let albumId: number;
+      if (existing) {
+        albumId = existing.id;
+      } else {
+        const meta = await lookupAlbum(album.title);
+        const result = await env.DB.prepare(
+          "INSERT INTO album (title, normalized_title, artist, year, cover_url, itunes_id, genre, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        ).bind(album.title, normalized, meta?.artist ?? null, meta?.year ?? null, meta?.coverUrl ?? null, meta?.itunesId ?? null, meta?.genre ?? null, timestamp).run();
+        albumId = result.meta.last_row_id as number;
+      }
+
+      await env.DB.prepare(
+        "INSERT OR IGNORE INTO thought_album (thought_id, album_id, description, created_at) VALUES (?, ?, ?, ?)"
+      ).bind(thoughtId, albumId, album.description, timestamp).run();
+    }
+  } catch (e) {
+    console.error("background album enrichment failed:", e);
+  }
+
+  try {
+    const bookmarkDefs = extractBookmarks(body);
+    for (const bm of bookmarkDefs) {
+      await env.DB.prepare(
+        "INSERT OR IGNORE INTO bookmark (url, title, created_at) VALUES (?, ?, ?)"
+      ).bind(bm.url, bm.title, timestamp).run();
+      const row = await env.DB.prepare("SELECT id, image_url FROM bookmark WHERE url = ?").bind(bm.url).first<{ id: number; image_url: string | null }>();
+      if (row) {
+        if (bm.title) {
+          await env.DB.prepare("UPDATE bookmark SET title = ? WHERE id = ? AND title IS NULL").bind(bm.title, row.id).run();
+        }
+        if (!row.image_url) {
+          const og = await fetchOgMetadata(bm.url);
+          if (og) {
+            await env.DB.prepare(
+              "UPDATE bookmark SET image_url = ?, description = ?, site_name = ?, title = COALESCE(title, ?) WHERE id = ?"
+            ).bind(og.imageUrl, og.description, og.siteName, og.title, row.id).run();
+          }
+        }
+        await env.DB.prepare(
+          "INSERT OR IGNORE INTO thought_bookmark (thought_id, bookmark_id) VALUES (?, ?)"
+        ).bind(thoughtId, row.id).run();
+      }
+    }
+  } catch (e) {
+    console.error("background bookmark enrichment failed:", e);
+  }
+}
+
 api.post("/thoughts", async (c) => {
   const auth = c.req.header("Authorization");
   if (!auth || auth !== `Bearer ${c.env.THOUGHT_SECRET}`) {
@@ -983,97 +1125,11 @@ api.post("/thoughts", async (c) => {
     ).bind(thoughtId, event.title, event.description, event.dateText, event.dateEpoch, timestamp).run();
   }
 
-  const locations = extractLocations(trimmed);
-  for (const loc of locations) {
-    const geo = await geocodeLocation(loc.title, c.env.MAPBOX_TOKEN);
-    await c.env.DB.prepare(
-      "INSERT INTO location (thought_id, title, description, lat, lng, resolved_name, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
-    ).bind(thoughtId, loc.title, loc.description, geo?.lat ?? null, geo?.lng ?? null, geo?.resolvedName ?? null, timestamp).run();
-  }
-
-  const movies = extractMovies(trimmed);
-  for (const movie of movies) {
-    const normalized = normalizeMovieTitle(movie.title);
-    const existing = await c.env.DB.prepare(
-      "SELECT id FROM movie WHERE normalized_title = ?"
-    ).bind(normalized).first<{ id: number }>();
-
-    let movieId: number;
-    if (existing) {
-      movieId = existing.id;
-    } else {
-      const meta = c.env.TMDB_API_KEY ? await lookupMovie(movie.title, c.env.TMDB_API_KEY) : null;
-      const result = await c.env.DB.prepare(
-        "INSERT INTO movie (title, normalized_title, description, poster_url, year, tmdb_id, vote_average, vote_count, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-      ).bind(movie.title, normalized, movie.description, meta?.posterUrl ?? null, meta?.year ?? null, meta?.tmdbId ?? null, meta?.voteAverage ?? null, meta?.voteCount ?? null, timestamp).run();
-      movieId = result.meta.last_row_id as number;
-    }
-
-    await c.env.DB.prepare(
-      "INSERT OR IGNORE INTO thought_movie (thought_id, movie_id, description, created_at) VALUES (?, ?, ?, ?)"
-    ).bind(thoughtId, movieId, movie.description, timestamp).run();
-  }
-
-  const books = extractBooks(trimmed);
-  for (const book of books) {
-    const meta = await lookupBook(book.title);
-    await c.env.DB.prepare(
-      "INSERT INTO book (thought_id, title, description, cover_url, author, year, ol_key, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    ).bind(thoughtId, book.title, book.description, meta?.coverUrl ?? null, meta?.author ?? null, meta?.year ?? null, meta?.olKey ?? null, timestamp).run();
-  }
-
-  const albums = extractAlbums(trimmed);
-  for (const album of albums) {
-    const normalized = normalizeAlbumTitle(album.title);
-    const existing = await c.env.DB.prepare(
-      "SELECT id FROM album WHERE normalized_title = ?"
-    ).bind(normalized).first<{ id: number }>();
-
-    let albumId: number;
-    if (existing) {
-      albumId = existing.id;
-    } else {
-      const meta = await lookupAlbum(album.title);
-      const result = await c.env.DB.prepare(
-        "INSERT INTO album (title, normalized_title, artist, year, cover_url, itunes_id, genre, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-      ).bind(album.title, normalized, meta?.artist ?? null, meta?.year ?? null, meta?.coverUrl ?? null, meta?.itunesId ?? null, meta?.genre ?? null, timestamp).run();
-      albumId = result.meta.last_row_id as number;
-    }
-
-    await c.env.DB.prepare(
-      "INSERT OR IGNORE INTO thought_album (thought_id, album_id, description, created_at) VALUES (?, ?, ?, ?)"
-    ).bind(thoughtId, albumId, album.description, timestamp).run();
-  }
-
   const questions = extractQuestions(trimmed);
   for (const question of questions) {
     await c.env.DB.prepare(
       "INSERT INTO question (thought_id, title, description, created_at) VALUES (?, ?, ?, ?)"
     ).bind(thoughtId, question.title, question.description, timestamp).run();
-  }
-
-  const bookmarkDefs = extractBookmarks(trimmed);
-  for (const bm of bookmarkDefs) {
-    await c.env.DB.prepare(
-      "INSERT OR IGNORE INTO bookmark (url, title, created_at) VALUES (?, ?, ?)"
-    ).bind(bm.url, bm.title, timestamp).run();
-    const row = await c.env.DB.prepare("SELECT id, image_url FROM bookmark WHERE url = ?").bind(bm.url).first<{ id: number; image_url: string | null }>();
-    if (row) {
-      if (bm.title) {
-        await c.env.DB.prepare("UPDATE bookmark SET title = ? WHERE id = ? AND title IS NULL").bind(bm.title, row.id).run();
-      }
-      if (!row.image_url) {
-        const og = await fetchOgMetadata(bm.url);
-        if (og) {
-          await c.env.DB.prepare(
-            "UPDATE bookmark SET image_url = ?, description = ?, site_name = ?, title = COALESCE(title, ?) WHERE id = ?"
-          ).bind(og.imageUrl, og.description, og.siteName, og.title, row.id).run();
-        }
-      }
-      await c.env.DB.prepare(
-        "INSERT OR IGNORE INTO thought_bookmark (thought_id, bookmark_id) VALUES (?, ?)"
-      ).bind(thoughtId, row.id).run();
-    }
   }
 
   const linkedIds = extractThoughtLinks(trimmed);
@@ -1098,13 +1154,12 @@ api.post("/thoughts", async (c) => {
     attachments.push({ key, type: file.type, name: file.name });
   }
 
-  const { color, vec } = await upsertThoughtEmbedding(c.env, thoughtId, trimmed, timestamp, parentId);
-
-  if (vec) {
-    const title = trimmed.split("\n")[0]?.slice(0, 80) ?? null;
-    const preview = trimmed.slice(0, 200);
-    scheduleBackground(c, assignClusters(c.env, "thought", thoughtId, title, preview, vec));
-  }
+  // Embedding/color, media + bookmark lookups, and clustering all hit the network
+  // and previously gated the response — the classic "post hangs but a refresh
+  // shows it" bug. Defer them to after the response so the POST returns as soon as
+  // the thought + its local extractions + attachments are persisted. The color
+  // lands on a later revalidation (the background bumps the version when done).
+  scheduleBackground(c, enrichThoughtInBackground(c.env, thoughtId, trimmed, timestamp, parentId));
 
   const thought: Record<string, unknown> = {
     id: thoughtId,
@@ -1117,7 +1172,9 @@ api.post("/thoughts", async (c) => {
     parent_id: parentId,
     private: isPrivate ? 1 : 0,
     attachments,
-    color,
+    // Computed in the background (see enrichThoughtInBackground); appears on the
+    // next revalidation rather than blocking the post on a Workers AI call.
+    color: null,
   };
   await attachDuplicateIds(c.env.DB, [thought], true);
 

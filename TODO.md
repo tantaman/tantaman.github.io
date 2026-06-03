@@ -1,3 +1,7 @@
+1. etag query cache garbage. proper cache?
+2. quasar pulse port! OMG!
+3. include documents in digest
+
 A few candidates, ranked by usefulness for your actual
   workflow:
 
