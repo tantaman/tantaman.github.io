@@ -1,6 +1,12 @@
 1. etag query cache garbage. proper cache?
 2. quasar pulse port! OMG!
 3. include documents in digest
+4. proper logins and mcp oauth? like inventory app?
+5. cli tool for interfacing with site?
+6. remove all the static blog build stuff? Do fully as tanstack and db and strip assets build output from git and history?
+7. thought prevenance
+8. allow agents to summarize into and write thoughts
+9. 
 
 A few candidates, ranked by usefulness for your actual
   workflow:
