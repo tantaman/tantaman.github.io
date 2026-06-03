@@ -128,6 +128,64 @@ describe("GET /thoughts/:id/replies — attachments", () => {
   });
 });
 
+// ---------- GET /thoughts — feed page past D1's bound-param ceiling ----------
+
+describe("GET /thoughts — large page folds attachments via JOIN", () => {
+  test("a page well past D1's bound-param limit returns 200 with grouped attachments", async () => {
+    // More top-level thoughts than the old follow-up `WHERE thought_id IN (?,…)`
+    // (attachments) and `WHERE body_hash IN (?,…)` (attachDuplicateIds) could bind
+    // (~100). Real body_hash values are set so the duplicate-id pass actually runs.
+    // The largest timestamps (now++) keep them at the front of the feed, inside a
+    // single limit=200 page. ids[0]/ids[1] deliberately share a hash.
+    const count = 150;
+    const stmts = [];
+    for (let i = 0; i < count; i++) {
+      const hash = i < 2 ? "hash-bigfeed-dup" : `hash-bigfeed-${i}`;
+      stmts.push(
+        env.DB.prepare(
+          "INSERT INTO thought (body, body_hash, timestamp, private) VALUES (?, ?, ?, 0)"
+        ).bind(`bigfeed-${i}`, hash, now++)
+      );
+    }
+    const ids: number[] = [];
+    for (let i = 0; i < stmts.length; i += 100) {
+      const res = await env.DB.batch(stmts.slice(i, i + 100));
+      for (const r of res) ids.push(r.meta.last_row_id as number);
+    }
+
+    // Two attachments on the newest thought prove the join groups them per-thought.
+    const withAttach = ids[ids.length - 1];
+    await insertAttachment(withAttach, "big-a.png");
+    await insertAttachment(withAttach, "big-b.jpg", "image/jpeg", "b.jpg");
+
+    const res = await req("/api/thoughts?limit=200", { headers: AUTH });
+    // The old IN(...) attachment fetch threw "too many SQL variables" right here.
+    expect(res.status).toBe(200);
+    const data = (await res.json()) as any;
+    const thoughts = data.thoughts as any[];
+
+    const mine = thoughts.filter((t) => String(t.body).startsWith("bigfeed-"));
+    expect(mine.length).toBe(count);
+
+    const attached = thoughts.find((t) => t.id === withAttach);
+    expect(attached.attachments.map((a: any) => a.key).sort()).toEqual([
+      "big-a.png",
+      "big-b.jpg",
+    ]);
+
+    // A thought with no attachments still serializes an empty array (LEFT JOIN
+    // null-row folded away), and order stays newest-first.
+    const bare = thoughts.find((t) => t.id === ids[0]);
+    expect(bare.attachments).toEqual([]);
+    expect(mine[0].id).toBe(withAttach);
+
+    // The chunked duplicate-id pass found the shared-hash pair across the big page.
+    expect(thoughts.find((t) => t.id === ids[0]).duplicate_ids).toEqual([ids[1]]);
+    expect(thoughts.find((t) => t.id === ids[1]).duplicate_ids).toEqual([ids[0]]);
+    expect(attached.duplicate_ids).toEqual([]);
+  });
+});
+
 // ---------- DELETE /thoughts/:id — cascade with attachments ----------
 
 describe("DELETE /thoughts/:id — cascade cleanup", () => {

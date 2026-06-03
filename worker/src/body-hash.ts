@@ -30,17 +30,26 @@ export async function attachDuplicateIds(
     return;
   }
   const hashList = [...hashes];
-  const placeholders = hashList.map(() => "?").join(",");
   const privateFilter = authed ? "" : " AND private = 0";
-  const rows = await db.prepare(
-    `SELECT id, body_hash FROM thought WHERE body_hash IN (${placeholders})${privateFilter}`
-  ).bind(...hashList).all<{ id: number; body_hash: string }>();
 
+  // Match duplicates by hash across the whole table in batches, so the `IN (?,…)`
+  // never exceeds D1's bound-parameter ceiling — a feed page can carry more
+  // distinct hashes than D1 allows in one statement. (This is the counterpart to
+  // the feed's pages-first attachment join; since we're matching against the
+  // entire table by hash rather than paging, chunking is the right guard here.)
   const byHash = new Map<string, number[]>();
-  for (const r of rows.results) {
-    const list = byHash.get(r.body_hash) ?? [];
-    list.push(r.id);
-    byHash.set(r.body_hash, list);
+  const CHUNK = 90;
+  for (let i = 0; i < hashList.length; i += CHUNK) {
+    const batch = hashList.slice(i, i + CHUNK);
+    const placeholders = batch.map(() => "?").join(",");
+    const rows = await db.prepare(
+      `SELECT id, body_hash FROM thought WHERE body_hash IN (${placeholders})${privateFilter}`
+    ).bind(...batch).all<{ id: number; body_hash: string }>();
+    for (const r of rows.results) {
+      const list = byHash.get(r.body_hash) ?? [];
+      list.push(r.id);
+      byHash.set(r.body_hash, list);
+    }
   }
 
   for (const t of thoughts) {

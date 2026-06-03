@@ -633,39 +633,63 @@ api.get("/thoughts", async (c) => {
 
   binds.push(limitParam, offsetParam);
 
-  const results = await c.env.DB.prepare(
-    `SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.updated_at, t.version, t.color, t.private,
-       (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
-     FROM thought t
-     WHERE t.parent_id IS NULL${privateFilter}${extraWhere}
-     ORDER BY t.timestamp DESC LIMIT ? OFFSET ?`
-  ).bind(...binds).all();
+  // Page the top-level thoughts first (the `page` CTE), then LEFT JOIN their
+  // attachments. Pages-first means LIMIT/OFFSET count distinct thoughts rather
+  // than join-fanned rows, and the attachments come back without any per-id
+  // placeholders — so this can't hit D1's bound-parameter ceiling the way the old
+  // follow-up `WHERE thought_id IN (?,?,…)` did once a page held >~100 thoughts.
+  const rows = (await c.env.DB.prepare(
+    `WITH page AS (
+       SELECT t.id, t.body, t.body_hash, t.timestamp, t.created_at, t.updated_at, t.version, t.color, t.private,
+         (SELECT COUNT(*) FROM thought r WHERE r.parent_id = t.id${replyPrivateFilter}) AS reply_count
+       FROM thought t
+       WHERE t.parent_id IS NULL${privateFilter}${extraWhere}
+       ORDER BY t.timestamp DESC LIMIT ? OFFSET ?
+     )
+     SELECT page.id, page.body, page.body_hash, page.timestamp, page.created_at, page.updated_at, page.version, page.color, page.private, page.reply_count,
+       ta.attachment_key, ta.attachment_type, ta.attachment_name
+     FROM page
+     LEFT JOIN thought_attachment ta ON ta.thought_id = page.id
+     ORDER BY page.timestamp DESC, page.id DESC`
+  ).bind(...binds).all()).results as Record<string, unknown>[];
 
-  const hasMore = results.results.length === limitParam;
-
-  const thoughts = results.results as Record<string, unknown>[];
-  if (thoughts.length > 0) {
-    const ids = thoughts.map((t) => t.id);
-    const placeholders = ids.map(() => "?").join(",");
-    const attachments = await c.env.DB.prepare(
-      `SELECT thought_id, attachment_key, attachment_type, attachment_name FROM thought_attachment WHERE thought_id IN (${placeholders})`
-    ).bind(...ids).all();
-
-    const byThought = new Map<number, { key: string; type: string; name: string }[]>();
-    for (const a of attachments.results) {
-      const tid = a.thought_id as number;
-      if (!byThought.has(tid)) byThought.set(tid, []);
-      byThought.get(tid)!.push({
-        key: a.attachment_key as string,
-        type: a.attachment_type as string,
-        name: a.attachment_name as string,
+  // Fold the fanned-out join rows back into one thought each, preserving paged
+  // order: a Map keeps first-seen insertion order, and all rows for a thought are
+  // contiguous under the ORDER BY above. Thoughts with no attachments arrive as a
+  // single row whose attachment_* columns are NULL.
+  const byId = new Map<number, Record<string, unknown>>();
+  for (const row of rows) {
+    const id = row.id as number;
+    let t = byId.get(id);
+    if (!t) {
+      t = {
+        id: row.id,
+        body: row.body,
+        body_hash: row.body_hash,
+        timestamp: row.timestamp,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+        version: row.version,
+        color: row.color,
+        private: row.private,
+        reply_count: row.reply_count,
+        attachments: [] as { key: string; type: string; name: string }[],
+      };
+      byId.set(id, t);
+    }
+    if (row.attachment_key != null) {
+      (t.attachments as { key: string; type: string; name: string }[]).push({
+        key: row.attachment_key as string,
+        type: row.attachment_type as string,
+        name: row.attachment_name as string,
       });
     }
+  }
 
-    for (const t of thoughts) {
-      t.attachments = byThought.get(t.id as number) || [];
-    }
+  const thoughts = [...byId.values()];
+  const hasMore = thoughts.length === limitParam;
 
+  if (thoughts.length > 0) {
     await attachDuplicateIds(c.env.DB, thoughts, authed);
   }
 
