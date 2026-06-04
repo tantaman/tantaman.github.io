@@ -35,6 +35,10 @@ yarn-error.log*
 docs/audio/
 docs/audio_output/
 
+# Blog search index — hosted on Cloudflare R2, served by the worker at
+# /search.json. Generated locally for dev; uploaded via `pnpm search-index`.
+docs/search.json
+
 # IG carousel output (generated PNGs)
 ig-output/
 .font-cache/

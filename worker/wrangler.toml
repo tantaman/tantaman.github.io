@@ -8,6 +8,7 @@ routes = [
   { pattern = "tantaman.com/api/", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/api/*", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/audio/*", zone_name = "tantaman.com" },
+  { pattern = "tantaman.com/search.json", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/paste", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/paste/*", zone_name = "tantaman.com" },
   { pattern = "tantaman.com/now", zone_name = "tantaman.com" },
@@ -35,6 +36,12 @@ bucket_name = "thought-attachments"
 [[r2_buckets]]
 binding = "AUDIO_BUCKET"
 bucket_name = "tantaman-audio"
+
+# Generated, regenerable site assets kept out of the git repo (e.g. the blog
+# search index). Create once with: wrangler r2 bucket create tantaman-site
+[[r2_buckets]]
+binding = "SITE_BUCKET"
+bucket_name = "tantaman-site"
 
 [[vectorize]]
 binding = "VECTORIZE"

@@ -124,32 +124,18 @@ async function main() {
     date: node.date,
   }));
 
-  // Sort object keys for stable, diff-friendly output. The index is consumed
-  // by key lookup, so key order is cosmetic — sorting keeps diffs minimal and
-  // avoids spurious churn between runs.
-  const sortedIdf: Record<string, number> = {};
-  for (const term of Object.keys(idf).sort()) sortedIdf[term] = idf[term];
-
-  const sortedTfidf: Record<string, Record<string, number>> = {};
-  for (const id of Object.keys(tfidf).sort()) {
-    const vector = tfidf[id];
-    const sortedVector: Record<string, number> = {};
-    for (const term of Object.keys(vector).sort()) sortedVector[term] = vector[term];
-    sortedTfidf[id] = sortedVector;
-  }
-
   const searchIndex: SearchIndex = {
     version: '1.0',
     generatedAt: new Date().toISOString(),
     documents,
-    idf: sortedIdf,
-    tfidf: sortedTfidf,
+    idf,
+    tfidf,
   };
 
-  // Write output pretty-printed so changes produce small, reviewable diffs
-  // instead of rewriting the entire file as a single line.
+  // Write minified — this file is no longer committed to git; it is uploaded to
+  // R2 and served by the worker (tantaman.com/search.json), so keep it small.
   const outputPath = path.join(process.cwd(), OUTPUT_FILE);
-  await fs.writeFile(outputPath, JSON.stringify(searchIndex, null, 2));
+  await fs.writeFile(outputPath, JSON.stringify(searchIndex));
 
   const stats = await fs.stat(outputPath);
   console.log(`Written to ${OUTPUT_FILE} (${Math.round(stats.size / 1024)}KB)`);
