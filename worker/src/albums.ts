@@ -28,7 +28,7 @@ export function extractAlbums(body: string): AlbumDef[] {
       current = { title: match[1].trim(), description: null };
       descLines = [];
     } else if (current) {
-      if (line.match(EVENT_RE) || line.match(/^#[tlmbq]\s+/) || line.match(LOCATION_RE)) {
+      if (line.match(EVENT_RE) || line.match(/^#[tlmbqp]\s+/) || line.match(LOCATION_RE)) {
         current.description = descLines.join('\n').trim() || null;
         albums.push(current);
         current = null;

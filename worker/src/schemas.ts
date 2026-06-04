@@ -30,6 +30,20 @@ export const UpdateQuestionBody = z.object({
   answered: z.boolean().optional(),
 });
 
+// PATCH /projects/:id
+export const UpdateProjectBody = z.object({
+  title: z.string().optional(),
+  description: z.string().nullable().optional(),
+  status: z.enum(["active", "archived"]).optional(),
+  archived: z.boolean().optional(),
+});
+
+// POST /thoughts/:id/blockers — record that `blocker_id` must complete before
+// this thought's task (a `blocks` edge in thought_edge).
+export const AddBlockerBody = z.object({
+  blocker_id: z.number().int(),
+});
+
 // POST /framings
 export const CreateFramingBody = z.object({
   name: z.string().trim().min(1),

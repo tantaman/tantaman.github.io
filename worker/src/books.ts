@@ -24,7 +24,7 @@ export function extractBooks(body: string): BookDef[] {
       current = { title: match[1].trim(), description: null };
       descLines = [];
     } else if (current) {
-      if (line.match(EVENT_RE) || line.match(/^#[tlmqa]\s+/) || line.match(LOCATION_RE)) {
+      if (line.match(EVENT_RE) || line.match(/^#[tlmqap]\s+/) || line.match(LOCATION_RE)) {
         current.description = descLines.join('\n').trim() || null;
         books.push(current);
         current = null;

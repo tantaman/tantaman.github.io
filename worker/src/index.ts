@@ -12,6 +12,7 @@ import { lookupAlbum, fetchAlbumById } from "./itunes";
 import { extractAlbums, normalizeAlbumTitle } from "./albums";
 import { extractBooks } from "./books";
 import { extractQuestions } from "./questions";
+import { extractProjects } from "./projects";
 import { lookupBook, fetchBookByKey } from "./openlibrary";
 import { extractBookmarks } from "./bookmarks";
 import { fetchOgMetadata } from "./opengraph";
@@ -55,6 +56,8 @@ import {
   UpdateBookBody,
   UpdateAlbumBody,
   UpdateQuestionBody,
+  UpdateProjectBody,
+  AddBlockerBody,
   CreateCanvasBody,
   UpdateCanvasBody,
 } from "./schemas";
@@ -91,6 +94,36 @@ async function getVersion(db: D1Database): Promise<number> {
 
 async function bumpVersion(db: D1Database): Promise<void> {
   await db.prepare("UPDATE version SET counter = counter + 1 WHERE id = 1").run();
+}
+
+// Resolve which project a freshly-created thought's tasks belong to: a project
+// declared on the thought itself (a `#p` root with inline `#t` tasks), else the
+// nearest `#p` ancestor walked up the reply chain. Returns null when the task
+// lives outside any project. In the normal flow the project root is created
+// before its reply tasks, so this resolves to the enclosing project.
+async function resolveProjectIdForThought(
+  db: D1Database,
+  thoughtId: number | bigint,
+  parentId: number | null,
+): Promise<number | null> {
+  const own = await db.prepare(
+    "SELECT id FROM project WHERE thought_id = ? ORDER BY id LIMIT 1"
+  ).bind(thoughtId).first<{ id: number }>();
+  if (own) return own.id;
+
+  let cur: number | null = parentId;
+  let guard = 0;
+  while (cur != null && guard++ < 200) {
+    const proj = await db.prepare(
+      "SELECT id FROM project WHERE thought_id = ? ORDER BY id LIMIT 1"
+    ).bind(cur).first<{ id: number }>();
+    if (proj) return proj.id;
+    const row: { parent_id: number | null } | null = await db.prepare(
+      "SELECT parent_id FROM thought WHERE id = ?"
+    ).bind(cur).first<{ parent_id: number | null }>();
+    cur = row?.parent_id ?? null;
+  }
+  return null;
 }
 
 // Re-derive a thought's #hashtags from its body. Used on create and on edit so
@@ -877,12 +910,12 @@ api.get("/thoughts/:id/related", async (c) => {
     c.env.DB.prepare(
       `SELECT t.id, t.body, t.timestamp, t.color
        FROM thought_edge e JOIN thought t ON t.id = e.target_id
-       WHERE e.source_id = ?${privateFilter}`
+       WHERE e.source_id = ? AND e.kind = 'link'${privateFilter}`
     ).bind(id).all<{ id: number; body: string; timestamp: number; color: string | null }>(),
     c.env.DB.prepare(
       `SELECT t.id, t.body, t.timestamp, t.color
        FROM thought_edge e JOIN thought t ON t.id = e.source_id
-       WHERE e.target_id = ?${privateFilter}
+       WHERE e.target_id = ? AND e.kind = 'link'${privateFilter}
        ORDER BY t.timestamp DESC`
     ).bind(id).all<{ id: number; body: string; timestamp: number; color: string | null }>(),
   ]);
@@ -1156,11 +1189,28 @@ api.post("/thoughts", async (c) => {
     ).bind(thoughtId, question.title, question.description, timestamp).run();
   }
 
+  const projects = extractProjects(trimmed);
+  for (const project of projects) {
+    await c.env.DB.prepare(
+      "INSERT INTO project (thought_id, title, description, status, created_at) VALUES (?, ?, ?, 'active', ?)"
+    ).bind(thoughtId, project.title, project.description, timestamp).run();
+  }
+
+  // Stamp any tasks on this thought with their enclosing project (denormalized).
+  if (tasks.length > 0) {
+    const projectId = await resolveProjectIdForThought(c.env.DB, thoughtId, parentId);
+    if (projectId != null) {
+      await c.env.DB.prepare(
+        "UPDATE task SET project_id = ? WHERE thought_id = ? AND project_id IS NULL"
+      ).bind(projectId, thoughtId).run();
+    }
+  }
+
   const linkedIds = extractThoughtLinks(trimmed);
   for (const targetId of linkedIds) {
     await c.env.DB.prepare(
-      `INSERT OR IGNORE INTO thought_edge (source_id, target_id)
-       SELECT ?, ? WHERE EXISTS (SELECT 1 FROM thought WHERE id = ?)`
+      `INSERT OR IGNORE INTO thought_edge (source_id, target_id, kind)
+       SELECT ?, ?, 'link' WHERE EXISTS (SELECT 1 FROM thought WHERE id = ?)`
     ).bind(thoughtId, targetId, targetId).run();
   }
 
@@ -1550,6 +1600,133 @@ api.patch("/questions/:id", async (c) => {
   }
 
   return c.json(question);
+});
+
+// Projects — a `#p` root thought, its `#t` tasks (project_id), and the
+// dependency graph derived from the reply tree plus explicit `blocks` edges.
+api.get("/projects", async (c) => {
+  const status = c.req.query("status") || "active"; // active | archived | all
+  let where = "";
+  if (status === "active") where = "WHERE p.archived_at IS NULL";
+  else if (status === "archived") where = "WHERE p.archived_at IS NOT NULL";
+
+  const query = `
+    SELECT p.id, p.thought_id, p.title, p.description, p.status, p.created_at, p.archived_at,
+      (SELECT COUNT(*) FROM task tk WHERE tk.project_id = p.id) AS task_count,
+      (SELECT COUNT(*) FROM task tk WHERE tk.project_id = p.id AND tk.completed_at IS NOT NULL) AS completed_count
+    FROM project p ${where} ORDER BY p.created_at DESC`;
+  const res = await c.env.DB.prepare(query).all();
+  return c.json({ projects: res.results });
+});
+
+api.get("/projects/:id", async (c) => {
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  const project = await c.env.DB.prepare(
+    "SELECT id, thought_id, title, description, status, created_at, archived_at FROM project WHERE id = ?"
+  ).bind(id).first();
+  if (!project) return c.json({ error: "Not found" }, 404);
+
+  const tasksRes = await c.env.DB.prepare(
+    `SELECT tk.id, tk.thought_id, tk.title, tk.description, tk.created_at,
+            tk.completed_at, tk.deprioritized_at, tk.project_id,
+            t.parent_id AS thought_parent_id
+     FROM task tk JOIN thought t ON t.id = tk.thought_id
+     WHERE tk.project_id = ? ORDER BY tk.created_at ASC`
+  ).bind(id).all<{ thought_id: number; thought_parent_id: number | null }>();
+  const tasks = tasksRes.results;
+
+  // Dependencies live between task *thoughts*: the reply tree (parent task
+  // blocks its replies) plus explicit `blocks` edges among the project's tasks.
+  const thoughtIds = [...new Set(tasks.map((t) => t.thought_id))];
+  const thoughtIdSet = new Set(thoughtIds);
+  const deps: { blocker_thought_id: number; blocked_thought_id: number; kind: string }[] = [];
+  for (const t of tasks) {
+    if (t.thought_parent_id != null && thoughtIdSet.has(t.thought_parent_id)) {
+      deps.push({ blocker_thought_id: t.thought_parent_id, blocked_thought_id: t.thought_id, kind: "reply" });
+    }
+  }
+  if (thoughtIds.length > 0) {
+    const ph = thoughtIds.map(() => "?").join(",");
+    const edgeRes = await c.env.DB.prepare(
+      `SELECT source_id, target_id FROM thought_edge
+       WHERE kind = 'blocks' AND source_id IN (${ph}) AND target_id IN (${ph})`
+    ).bind(...thoughtIds, ...thoughtIds).all<{ source_id: number; target_id: number }>();
+    for (const e of edgeRes.results) {
+      deps.push({ blocker_thought_id: e.source_id, blocked_thought_id: e.target_id, kind: "blocks" });
+    }
+  }
+
+  return c.json({ project, tasks, deps });
+});
+
+api.patch("/projects/:id", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  const body = UpdateProjectBody.parse(await c.req.json());
+  const sets: string[] = [];
+  const binds: unknown[] = [];
+  if (body.title !== undefined) { sets.push("title = ?"); binds.push(body.title); }
+  if (body.description !== undefined) { sets.push("description = ?"); binds.push(body.description); }
+  // `archived` is a convenience toggle that drives both status and archived_at.
+  if (body.archived !== undefined) {
+    sets.push("status = ?", "archived_at = ?");
+    binds.push(body.archived ? "archived" : "active", body.archived ? Math.floor(Date.now() / 1000) : null);
+  } else if (body.status !== undefined) {
+    sets.push("status = ?", "archived_at = ?");
+    binds.push(body.status, body.status === "archived" ? Math.floor(Date.now() / 1000) : null);
+  }
+
+  if (sets.length > 0) {
+    binds.push(id);
+    await c.env.DB.prepare(`UPDATE project SET ${sets.join(", ")} WHERE id = ?`).bind(...binds).run();
+    await bumpVersion(c.env.DB);
+  }
+
+  const project = await c.env.DB.prepare(
+    "SELECT id, thought_id, title, description, status, created_at, archived_at FROM project WHERE id = ?"
+  ).bind(id).first();
+  if (!project) return c.json({ error: "Not found" }, 404);
+  return c.json(project);
+});
+
+// Dependency ("blocks") edges: blocker_id must complete before this thought.
+api.post("/thoughts/:id/blockers", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+  const { blocker_id } = AddBlockerBody.parse(await c.req.json());
+  if (blocker_id === id) return c.json({ error: "A thought cannot block itself" }, 400);
+
+  const res = await c.env.DB.prepare(
+    `INSERT OR IGNORE INTO thought_edge (source_id, target_id, kind)
+     SELECT ?, ?, 'blocks'
+     WHERE EXISTS (SELECT 1 FROM thought WHERE id = ?) AND EXISTS (SELECT 1 FROM thought WHERE id = ?)`
+  ).bind(blocker_id, id, blocker_id, id).run();
+  if (res.meta.changes === 0) {
+    // Either it already exists or one of the thoughts is missing.
+    const both = await c.env.DB.prepare(
+      "SELECT (SELECT COUNT(*) FROM thought WHERE id = ?) + (SELECT COUNT(*) FROM thought WHERE id = ?) AS n"
+    ).bind(blocker_id, id).first<{ n: number }>();
+    if ((both?.n ?? 0) < 2) return c.json({ error: "Thought not found" }, 404);
+  }
+  await bumpVersion(c.env.DB);
+  return c.json({ ok: true });
+});
+
+api.delete("/thoughts/:id/blockers/:blockerId", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  const blockerId = parseInt(c.req.param("blockerId"), 10);
+  if (!Number.isFinite(id) || !Number.isFinite(blockerId)) return c.json({ error: "Bad id" }, 400);
+  await c.env.DB.prepare(
+    "DELETE FROM thought_edge WHERE source_id = ? AND target_id = ? AND kind = 'blocks'"
+  ).bind(blockerId, id).run();
+  await bumpVersion(c.env.DB);
+  return c.json({ ok: true });
 });
 
 api.get("/events", async (c) => {
@@ -2181,13 +2358,13 @@ api.get("/framings/:id", async (c) => {
             CASE WHEN fn.node_type = 'thought'
               THEN (SELECT COUNT(*) FROM thought_edge te
                     JOIN thought lt ON lt.id = te.target_id
-                    WHERE te.source_id = t.id AND lt.private = 0)
+                    WHERE te.source_id = t.id AND te.kind = 'link' AND lt.private = 0)
               ELSE NULL
             END AS link_count,
             CASE WHEN fn.node_type = 'thought'
               THEN (SELECT COUNT(*) FROM thought_edge te
                     JOIN thought st ON st.id = te.source_id
-                    WHERE te.target_id = t.id AND st.private = 0)
+                    WHERE te.target_id = t.id AND te.kind = 'link' AND st.private = 0)
               ELSE NULL
             END AS backlink_count
      FROM framing_node fn

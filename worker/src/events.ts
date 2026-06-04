@@ -97,7 +97,7 @@ export function extractEvents(body: string, referenceEpoch: number): EventDef[] 
       };
       descLines = [];
     } else if (current) {
-      if (line.match(/^#[telmba]\s+/)) {
+      if (line.match(/^#[telmbap]\s+/)) {
         current.description = descLines.join('\n').trim() || null;
         events.push(current);
         current = null;
