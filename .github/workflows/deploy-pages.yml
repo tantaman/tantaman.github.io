@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+# Builds the five Vite apps (thoughts, wardrobe, lists, comments, dha-report-app)
+# and deploys the docs/ directory to GitHub Pages. The Vite app artifacts are no
+# longer committed to the repo — they are produced fresh here on every deploy.
+# The rest of docs/ (the compiled blog) is still committed and shipped as-is.
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# Allow the workflow to publish to GitHub Pages via OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one concurrent deployment; let an in-progress run finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.13.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Vite apps
+        run: >-
+          pnpm
+          --filter @tantaman/thoughts
+          --filter @tantaman/wardrobe
+          --filter @tantaman/lists
+          --filter @tantaman/comments
+          --filter report-app
+          build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

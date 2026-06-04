@@ -35,6 +35,14 @@ yarn-error.log*
 docs/audio/
 docs/audio_output/
 
+# Vite app build artifacts (built in CI, deployed to GitHub Pages — see
+# .github/workflows/deploy-pages.yml). Not committed.
+docs/thoughts/
+docs/wardrobe/
+docs/lists/
+docs/comments/
+docs/dha-report-app/
+
 # IG carousel output (generated PNGs)
 ig-output/
 .font-cache/

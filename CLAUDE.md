@@ -37,7 +37,15 @@ Not part of the repo, but useful from WSL:
 ## Git Hooks
 
 - `core.hooksPath` is set to `.githooks/` via the `prepare` script
-- **pre-push**: Builds the `packages/thoughts` Vite app and fails if `docs/thoughts/` has uncommitted changes after the build
+- No hooks are currently installed. The Vite app build outputs used to be committed and enforced by a `pre-push` hook; they are now built in CI instead (see Deployment below).
+
+## Deployment (GitHub Pages)
+
+The site is served from `docs/` on GitHub Pages via the **GitHub Actions** deployment source (`.github/workflows/deploy-pages.yml`), triggered on push to `master`.
+
+- The compiled blog (most of `docs/`) is committed to the repo and shipped as-is.
+- The five Vite apps — `thoughts`, `wardrobe`, `lists`, `comments`, `dha-report-app` — are **not** committed. Their build outputs (`docs/thoughts/`, `docs/wardrobe/`, `docs/lists/`, `docs/comments/`, `docs/dha-report-app/`) are gitignored and built fresh in CI on every deploy, then bundled with the rest of `docs/` into the Pages artifact.
+- Locally, `pnpm build` still builds these apps into `docs/` for dev/preview; the outputs just aren't committed.
 
 ## Repository Structure
 
@@ -53,7 +61,7 @@ Not part of the repo, but useful from WSL:
 ├── worker/               # Cloudflare Worker (D1, R2, KV, Vectorize, Workers AI, MCP)
 ├── scripts/              # AI generation (embeddings, summaries, theses, TTS, Substack import)
 ├── publishing/           # Pandoc-based book compilation (EPUB/PDF)
-└── .githooks/            # Git hooks (pre-push)
+└── .github/workflows/   # CI: build Vite apps + deploy docs/ to GitHub Pages
 ```
 
 ## Compiler Package (`packages/compiler`)
