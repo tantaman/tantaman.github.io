@@ -2595,6 +2595,27 @@ app.get("/search.json", async (c) => {
   return new Response(object.body, { headers });
 });
 
+// Serve the posts manifest from R2, same rationale as /search.json above. It is
+// consumed both by the client (tags/thoughts UIs) and by the worker itself
+// (now, digest, typeahead, mcp, ig-card), which fetch
+// https://tantaman.com/posts-manifest.json — that request loops back through
+// this route to R2, so those consumers need no changes.
+app.get("/posts-manifest.json", async (c) => {
+  const object = await c.env.SITE_BUCKET.get("posts-manifest.json");
+  if (!object) return c.notFound();
+
+  const etag = object.httpEtag;
+  if (c.req.header("If-None-Match") === etag) {
+    return new Response(null, { status: 304, headers: { ETag: etag } });
+  }
+
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json; charset=utf-8");
+  headers.set("Cache-Control", "public, max-age=300");
+  headers.set("ETag", etag);
+  return new Response(object.body, { headers });
+});
+
 // Mount paste routes (top-level, not under /api)
 app.route("/paste", paste);
 app.route("/now", now);

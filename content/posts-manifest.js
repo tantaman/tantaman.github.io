@@ -49,9 +49,9 @@ export default async function postsManifest() {
 
       posts.sort((a, b) => b.date.localeCompare(a.date));
 
-      // Pretty-print so changes produce small, reviewable diffs instead of
-      // rewriting the whole file as a single line.
-      return JSON.stringify(posts, null, 2);
+      // Minified — this file is no longer committed to git; it is uploaded to
+      // R2 and served by the worker (tantaman.com/posts-manifest.json).
+      return JSON.stringify(posts);
     },
     frontmatter: {},
     greymatter: {},
