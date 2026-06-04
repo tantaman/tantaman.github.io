@@ -4232,3 +4232,238 @@ a.movie-title:hover {
   color: var(--text-muted);
   opacity: 0.45;
 }
+
+/* ── Projects ─────────────────────────────────────────────────────────── */
+.projects-view,
+.project-detail {
+  padding: 0 0.25rem;
+}
+
+.projects-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.project-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.project-card:hover {
+  border-color: var(--text-muted);
+  background: var(--bg-soft);
+}
+
+.project-card--archived {
+  opacity: 0.6;
+}
+
+.project-card-link {
+  display: block;
+  padding: 0.85rem 1rem;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.project-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.project-card-desc {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-card-meta {
+  margin-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.project-progress {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.project-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.2s;
+}
+
+.project-card-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Detail */
+.project-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.project-back {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 0.25rem;
+}
+
+.project-back:hover {
+  color: var(--text);
+}
+
+.project-detail-desc {
+  margin: 0.4rem 0 0;
+  color: var(--text-muted);
+}
+
+.project-detail-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.project-archived-badge {
+  margin-left: 0.6rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  vertical-align: middle;
+}
+
+.project-group {
+  margin-top: 1.4rem;
+}
+
+.project-group-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 0 0 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.project-group-count {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.project-task {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-task:last-child {
+  border-bottom: none;
+}
+
+.project-task-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.4rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.project-task:hover .project-task-actions {
+  opacity: 1;
+}
+
+.project-task-action {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.15rem 0.45rem;
+  text-decoration: none;
+}
+
+.project-task-action:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.project-task-blockers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0 1.8rem;
+}
+
+.project-blocker-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+.project-blocker-chip--done {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.project-blocker-remove {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.project-blocker-picker {
+  margin: 0.4rem 0 0 1.8rem;
+}
+
+.project-blocker-picker select {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.4rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.project-subtask-add {
+  margin: 0.4rem 0 0 1.8rem;
+}

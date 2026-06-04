@@ -52,6 +52,7 @@ export function Sidebar() {
           <a href="/paste" className="thoughts-nav-link">Pastes</a>
           <Link to="/graph" activeProps={ACTIVE} inactiveProps={INACTIVE}>Graph</Link>
           <hr className="thoughts-nav-divider" />
+          <Link to="/projects" activeOptions={{ exact: false }} activeProps={ACTIVE} inactiveProps={INACTIVE}>Projects <span className="nav-tag-pill">#p</span></Link>
           <Link to="/tasks" activeProps={ACTIVE} inactiveProps={INACTIVE}>Tasks <span className="nav-tag-pill">#t</span></Link>
           <Link to="/questions" activeProps={ACTIVE} inactiveProps={INACTIVE}>Questions <span className="nav-tag-pill">#q</span></Link>
           <Link to="/events" activeProps={ACTIVE} inactiveProps={INACTIVE}>Events <span className="nav-tag-pill">#e</span></Link>

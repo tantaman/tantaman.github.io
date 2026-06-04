@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { getThread, getRelated, getTags, getTasks, getQuestions, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph, getDocuments, getDocument, getHighlights } from '../api';
+import { getThread, getRelated, getTags, getTasks, getQuestions, getProjects, getProject, getEvents, getLocations, getMovies, getBooks, getAlbums, getBookmarks, getAmplifications, searchThoughts, searchAll, getFramings, getFraming, getPostsManifest, getMedia, getThoughtGraph, getDocuments, getDocument, getHighlights } from '../api';
 import type { MediaItem } from '../types';
 
 export function useThread(id: number, secret?: string | null) {
@@ -34,6 +34,14 @@ export function useTasks(status: 'incomplete' | 'deprioritized' | 'all', tags: s
 export function useQuestions(status: 'open' | 'answered' | 'all', tags: string[]) {
   const key = `questions-${status}-${tags.join(',')}`;
   return useSWR(key, () => getQuestions(status, tags.length > 0 ? tags : undefined));
+}
+
+export function useProjects(status: 'active' | 'archived' | 'all' = 'active') {
+  return useSWR(`projects-${status}`, () => getProjects(status));
+}
+
+export function useProject(id: number) {
+  return useSWR(`project-${id}`, () => getProject(id));
 }
 
 export function useSearch(query: string, secret?: string | null) {

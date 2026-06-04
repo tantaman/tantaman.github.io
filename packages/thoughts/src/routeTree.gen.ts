@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as QuestionsRouteImport } from './routes/questions'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as MusicRouteImport } from './routes/music'
 import { Route as MoviesRouteImport } from './routes/movies'
 import { Route as MediaRouteImport } from './routes/media'
@@ -25,6 +26,7 @@ import { Route as AmplificationsRouteImport } from './routes/amplifications'
 import { Route as DocumentsRouteImport } from './routes/_documents'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TIdRouteImport } from './routes/t.$id'
+import { Route as ProjectsIdRouteImport } from './routes/projects_.$id'
 import { Route as FramingsIdRouteImport } from './routes/framings_.$id'
 import { Route as DocumentsDocumentsRouteImport } from './routes/_documents.documents'
 import { Route as DocumentsDocumentsNewRouteImport } from './routes/_documents.documents_.new'
@@ -38,6 +40,11 @@ const TasksRoute = TasksRouteImport.update({
 const QuestionsRoute = QuestionsRouteImport.update({
   id: '/questions',
   path: '/questions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MusicRoute = MusicRouteImport.update({
@@ -109,6 +116,11 @@ const TIdRoute = TIdRouteImport.update({
   path: '/t/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsIdRoute = ProjectsIdRouteImport.update({
+  id: '/projects_/$id',
+  path: '/projects/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FramingsIdRoute = FramingsIdRouteImport.update({
   id: '/framings_/$id',
   path: '/framings/$id',
@@ -143,10 +155,12 @@ export interface FileRoutesByFullPath {
   '/media': typeof MediaRoute
   '/movies': typeof MoviesRoute
   '/music': typeof MusicRoute
+  '/projects': typeof ProjectsRoute
   '/questions': typeof QuestionsRoute
   '/tasks': typeof TasksRoute
   '/documents': typeof DocumentsDocumentsRoute
   '/framings/$id': typeof FramingsIdRoute
+  '/projects/$id': typeof ProjectsIdRoute
   '/t/$id': typeof TIdRoute
   '/documents/$id': typeof DocumentsDocumentsIdRoute
   '/documents/new': typeof DocumentsDocumentsNewRoute
@@ -164,10 +178,12 @@ export interface FileRoutesByTo {
   '/media': typeof MediaRoute
   '/movies': typeof MoviesRoute
   '/music': typeof MusicRoute
+  '/projects': typeof ProjectsRoute
   '/questions': typeof QuestionsRoute
   '/tasks': typeof TasksRoute
   '/documents': typeof DocumentsDocumentsRoute
   '/framings/$id': typeof FramingsIdRoute
+  '/projects/$id': typeof ProjectsIdRoute
   '/t/$id': typeof TIdRoute
   '/documents/$id': typeof DocumentsDocumentsIdRoute
   '/documents/new': typeof DocumentsDocumentsNewRoute
@@ -187,10 +203,12 @@ export interface FileRoutesById {
   '/media': typeof MediaRoute
   '/movies': typeof MoviesRoute
   '/music': typeof MusicRoute
+  '/projects': typeof ProjectsRoute
   '/questions': typeof QuestionsRoute
   '/tasks': typeof TasksRoute
   '/_documents/documents': typeof DocumentsDocumentsRoute
   '/framings_/$id': typeof FramingsIdRoute
+  '/projects_/$id': typeof ProjectsIdRoute
   '/t/$id': typeof TIdRoute
   '/_documents/documents_/$id': typeof DocumentsDocumentsIdRoute
   '/_documents/documents_/new': typeof DocumentsDocumentsNewRoute
@@ -210,10 +228,12 @@ export interface FileRouteTypes {
     | '/media'
     | '/movies'
     | '/music'
+    | '/projects'
     | '/questions'
     | '/tasks'
     | '/documents'
     | '/framings/$id'
+    | '/projects/$id'
     | '/t/$id'
     | '/documents/$id'
     | '/documents/new'
@@ -231,10 +251,12 @@ export interface FileRouteTypes {
     | '/media'
     | '/movies'
     | '/music'
+    | '/projects'
     | '/questions'
     | '/tasks'
     | '/documents'
     | '/framings/$id'
+    | '/projects/$id'
     | '/t/$id'
     | '/documents/$id'
     | '/documents/new'
@@ -253,10 +275,12 @@ export interface FileRouteTypes {
     | '/media'
     | '/movies'
     | '/music'
+    | '/projects'
     | '/questions'
     | '/tasks'
     | '/_documents/documents'
     | '/framings_/$id'
+    | '/projects_/$id'
     | '/t/$id'
     | '/_documents/documents_/$id'
     | '/_documents/documents_/new'
@@ -276,9 +300,11 @@ export interface RootRouteChildren {
   MediaRoute: typeof MediaRoute
   MoviesRoute: typeof MoviesRoute
   MusicRoute: typeof MusicRoute
+  ProjectsRoute: typeof ProjectsRoute
   QuestionsRoute: typeof QuestionsRoute
   TasksRoute: typeof TasksRoute
   FramingsIdRoute: typeof FramingsIdRoute
+  ProjectsIdRoute: typeof ProjectsIdRoute
   TIdRoute: typeof TIdRoute
 }
 
@@ -296,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/questions'
       fullPath: '/questions'
       preLoaderRoute: typeof QuestionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/music': {
@@ -396,6 +429,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects_/$id': {
+      id: '/projects_/$id'
+      path: '/projects/$id'
+      fullPath: '/projects/$id'
+      preLoaderRoute: typeof ProjectsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/framings_/$id': {
       id: '/framings_/$id'
       path: '/framings/$id'
@@ -457,9 +497,11 @@ const rootRouteChildren: RootRouteChildren = {
   MediaRoute: MediaRoute,
   MoviesRoute: MoviesRoute,
   MusicRoute: MusicRoute,
+  ProjectsRoute: ProjectsRoute,
   QuestionsRoute: QuestionsRoute,
   TasksRoute: TasksRoute,
   FramingsIdRoute: FramingsIdRoute,
+  ProjectsIdRoute: ProjectsIdRoute,
   TIdRoute: TIdRoute,
 }
 export const routeTree = rootRouteImport

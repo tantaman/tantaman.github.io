@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
+import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, Project, ProjectDetail, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -246,6 +246,57 @@ export async function patchQuestion(
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Update failed');
   return r.json();
+}
+
+export function getProjects(
+  status: 'active' | 'archived' | 'all' = 'active',
+): Promise<{ projects: Project[] }> {
+  return fetch(`${API}/projects?status=${status}`).then((r) => r.json());
+}
+
+export function getProject(id: number): Promise<ProjectDetail> {
+  return fetch(`${API}/projects/${id}`).then((r) => r.json());
+}
+
+export async function patchProject(
+  id: number,
+  updates: { title?: string; description?: string | null; status?: 'active' | 'archived'; archived?: boolean },
+  secret: string,
+): Promise<Project> {
+  const r = await fetch(`${API}/projects/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify(updates),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Update failed');
+  return r.json();
+}
+
+// Record that `blockerId` must complete before `thoughtId` (a `blocks` edge).
+export async function addBlocker(thoughtId: number, blockerId: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/thoughts/${thoughtId}/blockers`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${secret}`,
+    },
+    body: JSON.stringify({ blocker_id: blockerId }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to add dependency');
+}
+
+export async function removeBlocker(thoughtId: number, blockerId: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/thoughts/${thoughtId}/blockers/${blockerId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to remove dependency');
 }
 
 export function getEvents(

@@ -72,6 +72,36 @@ export interface Task {
   deprioritized_at: number | null;
 }
 
+export interface Project {
+  id: number;
+  thought_id: number;
+  title: string;
+  description: string | null;
+  status: string;
+  created_at: number;
+  archived_at: number | null;
+  // Present on list responses.
+  task_count?: number;
+  completed_count?: number;
+}
+
+export interface ProjectTask extends Task {
+  project_id: number | null;
+  thought_parent_id: number | null;
+}
+
+export interface ProjectDependency {
+  blocker_thought_id: number;
+  blocked_thought_id: number;
+  kind: 'reply' | 'blocks';
+}
+
+export interface ProjectDetail {
+  project: Project;
+  tasks: ProjectTask[];
+  deps: ProjectDependency[];
+}
+
 export interface Event {
   id: number;
   thought_id: number;
