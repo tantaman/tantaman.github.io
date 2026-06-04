@@ -49,7 +49,9 @@ export default async function postsManifest() {
 
       posts.sort((a, b) => b.date.localeCompare(a.date));
 
-      return JSON.stringify(posts);
+      // Pretty-print so changes produce small, reviewable diffs instead of
+      // rewriting the whole file as a single line.
+      return JSON.stringify(posts, null, 2);
     },
     frontmatter: {},
     greymatter: {},
