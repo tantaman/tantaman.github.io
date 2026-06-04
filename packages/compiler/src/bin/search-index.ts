@@ -132,7 +132,8 @@ async function main() {
     tfidf,
   };
 
-  // Write output
+  // Write minified — this file is no longer committed to git; it is uploaded to
+  // R2 and served by the worker (tantaman.com/search.json), so keep it small.
   const outputPath = path.join(process.cwd(), OUTPUT_FILE);
   await fs.writeFile(outputPath, JSON.stringify(searchIndex));
 

@@ -65,6 +65,7 @@ export interface Env {
   DB: D1Database;
   BUCKET: R2Bucket;
   AUDIO_BUCKET: R2Bucket;
+  SITE_BUCKET: R2Bucket;
   VECTORIZE: Vectorize;
   THOUGHT_SECRET: string;
   DHA_SECRET: string;
@@ -2570,6 +2571,49 @@ app.get("/audio/*", async (c) => {
   c.header("Content-Type", contentType);
   c.header("Cache-Control", "public, max-age=31536000, immutable");
   return c.body(object.body);
+});
+
+// Serve the blog search index from R2. It is large (~MBs) and fully
+// regenerable, so it is kept out of the git repo / static origin and uploaded
+// to R2 via `pnpm search-index`. wrangler.toml routes `tantaman.com/search.json`
+// here so the client `fetch('/search.json')` is unchanged.
+app.get("/search.json", async (c) => {
+  const object = await c.env.SITE_BUCKET.get("search.json");
+  if (!object) return c.notFound();
+
+  const etag = object.httpEtag;
+  if (c.req.header("If-None-Match") === etag) {
+    return new Response(null, { status: 304, headers: { ETag: etag } });
+  }
+
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json; charset=utf-8");
+  // Short TTL + revalidation: the index changes when content is re-indexed,
+  // but a stale copy for a few minutes is harmless.
+  headers.set("Cache-Control", "public, max-age=300");
+  headers.set("ETag", etag);
+  return new Response(object.body, { headers });
+});
+
+// Serve the posts manifest from R2, same rationale as /search.json above. It is
+// consumed both by the client (tags/thoughts UIs) and by the worker itself
+// (now, digest, typeahead, mcp, ig-card), which fetch
+// https://tantaman.com/posts-manifest.json — that request loops back through
+// this route to R2, so those consumers need no changes.
+app.get("/posts-manifest.json", async (c) => {
+  const object = await c.env.SITE_BUCKET.get("posts-manifest.json");
+  if (!object) return c.notFound();
+
+  const etag = object.httpEtag;
+  if (c.req.header("If-None-Match") === etag) {
+    return new Response(null, { status: 304, headers: { ETag: etag } });
+  }
+
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json; charset=utf-8");
+  headers.set("Cache-Control", "public, max-age=300");
+  headers.set("ETag", etag);
+  return new Response(object.body, { headers });
 });
 
 // Mount paste routes (top-level, not under /api)

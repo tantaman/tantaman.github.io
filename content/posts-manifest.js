@@ -49,6 +49,8 @@ export default async function postsManifest() {
 
       posts.sort((a, b) => b.date.localeCompare(a.date));
 
+      // Minified — this file is no longer committed to git; it is uploaded to
+      // R2 and served by the worker (tantaman.com/posts-manifest.json).
       return JSON.stringify(posts);
     },
     frontmatter: {},
