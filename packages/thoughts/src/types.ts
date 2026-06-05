@@ -85,15 +85,15 @@ export interface Project {
   completed_count?: number;
 }
 
-export interface ProjectTask extends Task {
+export interface ProjectTask extends Omit<Task, 'thought_id'> {
+  thought_id: number | null;
   project_id: number | null;
-  thought_parent_id: number | null;
+  position: number | null;
 }
 
 export interface ProjectDependency {
-  blocker_thought_id: number;
-  blocked_thought_id: number;
-  kind: 'reply' | 'blocks';
+  blocker_task_id: number;
+  blocked_task_id: number;
 }
 
 export interface ProjectDetail {

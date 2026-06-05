@@ -235,6 +235,7 @@ A React 19 + Vite SPA (hash-routed, built to `docs/thoughts/`) for personal micr
 - `#m <title>` — Logs a movie (TMDB lookup for poster/year/rating)
 - `#b <title>` — Logs a book (OpenLibrary lookup for cover/author/year)
 - `#a <title>` — Logs an album (iTunes lookup for cover/artist/year/genre)
+- `#p <title>` — Bootstraps a **draft** project (Projects view); `#t` replies in its subtree accrete as tasks until "converted" to an active, thought-independent project
 - Markdown links and bare URLs — Auto-extracted as bookmarks (OG metadata fetched)
 
 ### Visualization
@@ -256,7 +257,8 @@ Cloudflare Worker with D1, R2, KV, Vectorize, and Workers AI.
 ### Thoughts API
 - CRUD with attachment upload to R2, auto-embedding via `@cf/baai/bge-base-en-v1.5`, color projection via frozen PCA basis
 - Reply threading, version chains (`supersede_by`), cascade delete with R2 cleanup
-- Tag/task/event/location/movie/book/bookmark extraction on create
+- Tag/task/event/location/movie/book/bookmark/project extraction on create
+- **Projects API** — `#p` extracts a draft project; tasks decouple from thoughts on convert. CRUD for projects, project-native tasks, and task-to-task dependencies (`task_dependency` DAG). Endpoints: `GET/POST /projects`, `GET/PATCH /projects/:id`, `POST /projects/:id/convert`, `POST /projects/:id/tasks`, `POST/DELETE /tasks/:id/blockers/...`
 - Thought graph endpoint (all thoughts with embeddings for UMAP)
 - Version counter + ETag caching (304 responses)
 

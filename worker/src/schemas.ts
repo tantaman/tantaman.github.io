@@ -23,11 +23,19 @@ export const RevertThoughtBody = z.object({
 export const UpdateTaskBody = z.object({
   completed: z.boolean().optional(),
   deprioritized: z.boolean().optional(),
+  title: z.string().min(1).optional(),
+  description: z.string().nullable().optional(),
 });
 
 // PATCH /questions/:id
 export const UpdateQuestionBody = z.object({
   answered: z.boolean().optional(),
+});
+
+// POST /projects — create a project directly (no thought).
+export const CreateProjectBody = z.object({
+  title: z.string().trim().min(1),
+  description: z.string().nullable().optional(),
 });
 
 // PATCH /projects/:id
@@ -38,10 +46,16 @@ export const UpdateProjectBody = z.object({
   archived: z.boolean().optional(),
 });
 
-// POST /thoughts/:id/blockers — record that `blocker_id` must complete before
-// this thought's task (a `blocks` edge in thought_edge).
+// POST /projects/:id/tasks — add a project-native task (no thought).
+export const CreateProjectTaskBody = z.object({
+  title: z.string().trim().min(1),
+  description: z.string().nullable().optional(),
+});
+
+// POST /tasks/:id/blockers — record that `blocker_task_id` must complete before
+// this task (a task_dependency edge).
 export const AddBlockerBody = z.object({
-  blocker_id: z.number().int(),
+  blocker_task_id: z.number().int(),
 });
 
 // POST /framings
