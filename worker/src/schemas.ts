@@ -76,6 +76,28 @@ export const UpdateProjectCommentBody = z.object({
   body: z.string().trim().min(1),
 });
 
+// POST /projects/:id/items — attach an existing item (the generic linking layer,
+// mirroring framing nodes). `item_id` is a string id/slug; `role` is optional.
+export const ProjectItemType = z.enum([
+  "document",
+  "thought",
+  "bookmark",
+  "framing",
+  "post",
+  "paste",
+]);
+export const CreateProjectItemBody = z.object({
+  item_type: ProjectItemType,
+  item_id: z.string().trim().min(1),
+  role: z.string().trim().min(1).nullable().optional(),
+});
+
+// PATCH /projects/:id/items/:itemId — adjust role or display position.
+export const UpdateProjectItemBody = z.object({
+  role: z.string().trim().min(1).nullable().optional(),
+  position: z.number().int().nullable().optional(),
+});
+
 // POST /framings
 export const CreateFramingBody = z.object({
   name: z.string().trim().min(1),

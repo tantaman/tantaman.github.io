@@ -174,7 +174,7 @@ async function searchFrames(
 }
 
 let postsManifestCache: PostsManifestEntry[] | null = null;
-async function loadPostsManifest(): Promise<PostsManifestEntry[]> {
+export async function loadPostsManifest(): Promise<PostsManifestEntry[]> {
   if (postsManifestCache) return postsManifestCache;
   const res = await fetch("https://tantaman.com/posts-manifest.json");
   if (!res.ok) return [];

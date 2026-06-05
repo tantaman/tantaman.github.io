@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, Project, ProjectTask, ProjectComment, ProjectDetail, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
+import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, Project, ProjectTask, ProjectComment, ProjectDetail, ProjectItem, ProjectItemType, ProjectAttachment, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -410,6 +410,67 @@ export async function deleteProjectComment(
   });
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Failed to delete comment');
+}
+
+// ── Project items (the generic linking layer: documents / references) ─────
+export async function addProjectItem(
+  projectId: number,
+  item: { item_type: ProjectItemType; item_id: string; role?: string | null },
+  secret: string,
+): Promise<ProjectItem> {
+  const r = await fetch(`${API}/projects/${projectId}/items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify(item),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (r.status === 409) throw new Error('Already linked to this project');
+  if (!r.ok) throw new Error('Failed to link item');
+  return r.json();
+}
+
+export async function removeProjectItem(
+  projectId: number,
+  itemId: number,
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/projects/${projectId}/items/${itemId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to unlink item');
+}
+
+// ── Project attachments (files uploaded straight to a project) ────────────
+export async function uploadProjectAttachments(
+  projectId: number,
+  files: File[],
+  secret: string,
+): Promise<{ attachments: ProjectAttachment[] }> {
+  const fd = new FormData();
+  for (const f of files) fd.append('file', f);
+  const r = await fetch(`${API}/projects/${projectId}/attachments`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${secret}` },
+    body: fd,
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to upload attachment');
+  return r.json();
+}
+
+export async function removeProjectAttachment(
+  projectId: number,
+  attachmentId: number,
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/projects/${projectId}/attachments/${attachmentId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to remove attachment');
 }
 
 export function getEvents(

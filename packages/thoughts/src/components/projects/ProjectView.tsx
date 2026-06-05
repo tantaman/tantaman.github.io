@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo, useState, type ReactElement } from 'react';
 import { Link } from '@tanstack/react-router';
 import {
   patchTask,
@@ -9,21 +9,40 @@ import {
   removeTaskBlocker,
   convertProject,
   reorderProjectTasks,
+  addProjectItem,
+  removeProjectItem,
+  uploadProjectAttachments,
+  removeProjectAttachment,
+  attachmentUrl,
+  createDocument,
 } from '../../api';
 import { AuthContext } from '../../auth-context';
 import { useProject } from '../../hooks/useCache';
-import type { ProjectDetail, ProjectTask } from '../../types';
+import type { ProjectAttachment, ProjectDetail, ProjectItem, ProjectItemType, ProjectTask } from '../../types';
 import { BlockerCombobox } from './BlockerCombobox';
+import { ItemLinkPicker } from './ItemLinkPicker';
 
 type Group = 'ready' | 'blocked' | 'completed';
 
 const nowSec = () => Math.floor(Date.now() / 1000);
+
+const ITEM_META: Record<ProjectItemType, { icon: string; noun: string }> = {
+  document: { icon: '📄', noun: 'document' },
+  thought: { icon: '💭', noun: 'thought' },
+  bookmark: { icon: '🔖', noun: 'bookmark' },
+  framing: { icon: '🕸', noun: 'framing' },
+  post: { icon: '📝', noun: 'post' },
+  paste: { icon: '📋', noun: 'paste' },
+};
 
 export function ProjectView({ id }: { id: number }) {
   const { secret } = useContext(AuthContext);
   const { data, mutate } = useProject(id);
 
   const [cmd, setCmd] = useState('');
+  const [linking, setLinking] = useState(false);
+  const [linkSeed, setLinkSeed] = useState('');
+  const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState('');
   const [subtaskFor, setSubtaskFor] = useState<number | null>(null);
   const [subtaskText, setSubtaskText] = useState('');
@@ -41,6 +60,12 @@ export function ProjectView({ id }: { id: number }) {
   const project = data?.project;
   const tasks = data?.tasks ?? [];
   const deps = data?.deps ?? [];
+  const items = data?.items ?? [];
+  const attachments = data?.attachments ?? [];
+
+  // Documents get their own section; everything else linkable is a "reference".
+  const documents = useMemo(() => items.filter((it) => it.item_type === 'document'), [items]);
+  const references = useMemo(() => items.filter((it) => it.item_type !== 'document'), [items]);
   const isDraft = project?.status === 'draft';
   const isArchived = project?.archived_at != null;
   const canEdit = !!secret && project?.status === 'active';
@@ -102,10 +127,26 @@ export function ProjectView({ id }: { id: number }) {
   const withTasks = (ts: ProjectTask[]): ProjectDetail => ({ ...data!, tasks: ts });
 
   // ── Tasks ──────────────────────────────────────────────────────────────
+  // The command bar is multi-verb: a bare URL links a bookmark, `/new doc`
+  // spins up and links a document, and everything else is a task (`#t` optional).
   const submitCmd = () => {
-    let title = cmd.trim();
-    if (!title || !canEdit) return;
-    title = title.replace(/^#t\s+/i, '').trim();
+    const raw = cmd.trim();
+    if (!raw || !canEdit) return;
+
+    if (/^https?:\/\/\S+$/i.test(raw)) {
+      setCmd('');
+      addItem('bookmark', raw, raw.replace(/^https?:\/\//, '').replace(/\/$/, ''));
+      return;
+    }
+
+    const newDoc = raw.match(/^\/new\s+doc\b\s*(.*)$/i);
+    if (newDoc) {
+      setCmd('');
+      createAndLinkDoc(newDoc[1].trim());
+      return;
+    }
+
+    const title = raw.replace(/^#t\s+/i, '').trim();
     if (!title) return;
     const temp: ProjectTask = {
       id: -Date.now(),
@@ -120,6 +161,16 @@ export function ProjectView({ id }: { id: number }) {
     };
     setCmd('');
     apply(withTasks([...tasks, temp]), () => createProjectTask(id, title, secret!));
+  };
+
+  const createAndLinkDoc = (docTitle: string) => {
+    if (!secret) return;
+    setErr('');
+    const title = docTitle || 'Untitled';
+    createDocument({ title, body: '', status: 'document' }, secret).then(
+      (doc) => addItem('document', String(doc.id), title),
+      (e: { message?: string }) => setErr(e?.message || 'Failed to create document'),
+    );
   };
 
   const toggleComplete = (t: ProjectTask) => {
@@ -232,6 +283,50 @@ export function ProjectView({ id }: { id: number }) {
     apply(withTasks(nextTasks), () => reorderProjectTasks(id, orderedIds, secret!));
   };
 
+  // ── Linked items ─────────────────────────────────────────────────────────
+  const addItem = (itemType: ProjectItemType, itemId: string, title: string) => {
+    setLinking(false);
+    setLinkSeed('');
+    if (!secret) return;
+    // Already linked? Bail quietly rather than show a 409 round-trip.
+    if (items.some((it) => it.item_type === itemType && it.item_id === itemId)) return;
+    const temp: ProjectItem = {
+      id: -Date.now(),
+      project_id: id,
+      item_type: itemType,
+      item_id: itemId,
+      role: null,
+      position: null,
+      added_at: nowSec(),
+      resolved: { title, snippet: null },
+    };
+    apply({ ...data!, items: [...items, temp] }, () => addProjectItem(id, { item_type: itemType, item_id: itemId }, secret!));
+  };
+
+  const removeItem = (it: ProjectItem) => {
+    apply({ ...data!, items: items.filter((x) => x.id !== it.id) }, () => removeProjectItem(id, it.id, secret!));
+  };
+
+  // ── Attachments ──────────────────────────────────────────────────────────
+  // Uploads aren't optimistic (no id/bytes until the server responds): show a
+  // spinner, then revalidate the hub to pull the real rows in.
+  const uploadFiles = (files: File[]) => {
+    if (!secret || !canEdit || files.length === 0) return;
+    setErr('');
+    setUploading(true);
+    uploadProjectAttachments(id, files, secret).then(
+      () => { setUploading(false); mutate(); },
+      (e: { message?: string }) => { setUploading(false); setErr(e?.message || 'Upload failed'); },
+    );
+  };
+
+  const removeAttachment = (att: ProjectAttachment) => {
+    apply(
+      { ...data!, attachments: attachments.filter((a) => a.id !== att.id) },
+      () => removeProjectAttachment(id, att.id, secret!),
+    );
+  };
+
   // ── Header ─────────────────────────────────────────────────────────────
   const saveTitle = () => {
     const v = titleText.trim();
@@ -265,6 +360,48 @@ export function ProjectView({ id }: { id: number }) {
 
   if (!data) return <div className="thought-loading">Loading…</div>;
   if (!project) return <div className="thought-loading">Project not found</div>;
+
+  const renderItem = (it: ProjectItem) => {
+    const meta = ITEM_META[it.item_type];
+    const pending = it.id < 0;
+    const r = it.resolved;
+    const title = r?.title ?? `(unavailable ${meta.noun})`;
+    const inner = (
+      <>
+        <span className="project-item-icon" aria-hidden="true">{meta.icon}</span>
+        <span className="project-item-body">
+          <span className="project-item-title">{title}</span>
+          {r?.snippet && <span className="project-item-snippet">{r.snippet}</span>}
+        </span>
+      </>
+    );
+    // Routed targets (document/thought/framing) use SPA links; external blog
+    // posts, pastes, and bookmarks are plain anchors. A missing target is inert.
+    let link: ReactElement;
+    if (!r) {
+      link = <span className="project-item-link project-item-link--dead">{inner}</span>;
+    } else if (it.item_type === 'document') {
+      link = <Link to="/documents/$id" params={{ id: Number(it.item_id) }} className="project-item-link">{inner}</Link>;
+    } else if (it.item_type === 'thought') {
+      link = <Link to="/t/$id" params={{ id: Number(it.item_id) }} className="project-item-link">{inner}</Link>;
+    } else if (it.item_type === 'framing') {
+      link = <Link to="/framings/$id" params={{ id: Number(it.item_id) }} className="project-item-link">{inner}</Link>;
+    } else if (it.item_type === 'post') {
+      link = <a className="project-item-link" href={`/${it.item_id}`}>{inner}</a>;
+    } else if (it.item_type === 'paste') {
+      link = <a className="project-item-link" href={`/paste/${it.item_id}`}>{inner}</a>;
+    } else {
+      link = <a className="project-item-link" href={r.url ?? '#'} target="_blank" rel="noreferrer">{inner}</a>;
+    }
+    return (
+      <li key={it.id} className={`project-item${pending ? ' project-item--pending' : ''}${r ? '' : ' project-item--dead'}`}>
+        {link}
+        {canEdit && !pending && (
+          <button className="project-item-remove" title="Unlink from project" onClick={() => removeItem(it)}>×</button>
+        )}
+      </li>
+    );
+  };
 
   const renderTask = (t: ProjectTask, draggable: boolean) => {
     const blockers = blockersByTask.get(t.id) ?? [];
@@ -399,7 +536,20 @@ export function ProjectView({ id }: { id: number }) {
   };
 
   return (
-    <div className="project-detail">
+    <div
+      className="project-detail"
+      // File drops/pastes anywhere on the project upload as attachments. Task
+      // reorder drags carry no files, so they pass through untouched.
+      onDragOver={canEdit ? (e) => { if (e.dataTransfer.types.includes('Files')) e.preventDefault(); } : undefined}
+      onDrop={canEdit ? (e) => {
+        const files = Array.from(e.dataTransfer.files);
+        if (files.length) { e.preventDefault(); uploadFiles(files); }
+      } : undefined}
+      onPaste={canEdit ? (e) => {
+        const files = Array.from(e.clipboardData.files);
+        if (files.length) uploadFiles(files);
+      } : undefined}
+    >
       <div className="project-header">
         <div className="project-header-main">
           {editingTitle && secret ? (
@@ -484,17 +634,37 @@ export function ProjectView({ id }: { id: number }) {
       {err && <div className="task-add-error">{err}</div>}
 
       {canEdit && (
-        <form className="project-command-bar" onSubmit={(e) => { e.preventDefault(); submitCmd(); }}>
-          <span className="project-command-glyph">⌨</span>
-          <input
-            type="text"
-            className="project-command-input"
-            placeholder="Add a task…   (type, or #t)"
-            value={cmd}
-            onChange={(e) => setCmd(e.target.value)}
-          />
-          <button type="submit" className="task-add-btn" disabled={!cmd.trim()}>Add</button>
-        </form>
+        <>
+          <form className="project-command-bar" onSubmit={(e) => { e.preventDefault(); submitCmd(); }}>
+            <span className="project-command-glyph">⌨</span>
+            <input
+              type="text"
+              className="project-command-input"
+              placeholder="Add a task, paste a URL, @ to link, /new doc…"
+              value={cmd}
+              onChange={(e) => {
+                const v = e.target.value;
+                // `@` flips into link mode, seeding the picker with the rest.
+                if (v.startsWith('@')) {
+                  setLinkSeed(v.slice(1));
+                  setLinking(true);
+                  setCmd('');
+                } else {
+                  setCmd(v);
+                }
+              }}
+            />
+            <button type="button" className="project-command-link-btn" title="Link an existing item" onClick={() => { setLinkSeed(''); setLinking(true); }}>🔗</button>
+            <button type="submit" className="task-add-btn" disabled={!cmd.trim()}>Add</button>
+          </form>
+          {linking && (
+            <ItemLinkPicker
+              initialQuery={linkSeed}
+              onPick={addItem}
+              onCancel={() => { setLinking(false); setLinkSeed(''); }}
+            />
+          )}
+        </>
       )}
 
       {tasks.length === 0 ? (
@@ -527,6 +697,62 @@ export function ProjectView({ id }: { id: number }) {
             </section>
           )}
         </>
+      )}
+
+      {documents.length > 0 && (
+        <section className="project-group project-linked-group">
+          <h3 className="project-group-title">Documents <span className="project-group-count">{documents.length}</span></h3>
+          <ul className="project-item-list">{documents.map(renderItem)}</ul>
+        </section>
+      )}
+      {references.length > 0 && (
+        <section className="project-group project-linked-group">
+          <h3 className="project-group-title">References <span className="project-group-count">{references.length}</span></h3>
+          <ul className="project-item-list">{references.map(renderItem)}</ul>
+        </section>
+      )}
+
+      {(canEdit || attachments.length > 0) && (
+        <section className="project-group project-linked-group">
+          <h3 className="project-group-title">
+            Attachments {attachments.length > 0 && <span className="project-group-count">{attachments.length}</span>}
+          </h3>
+          {attachments.length > 0 && (
+            <ul className="project-attachment-grid">
+              {attachments.map((a) => (
+                <li key={a.id} className="project-attachment">
+                  <a
+                    href={attachmentUrl(a.attachment_key)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-attachment-link"
+                    title={a.attachment_name}
+                  >
+                    {a.attachment_type.startsWith('image/') ? (
+                      <img src={attachmentUrl(a.attachment_key)} alt={a.attachment_name} loading="lazy" />
+                    ) : (
+                      <span className="project-attachment-file">{a.attachment_name}</span>
+                    )}
+                  </a>
+                  {canEdit && (
+                    <button className="project-attachment-remove" title="Remove attachment" onClick={() => removeAttachment(a)}>×</button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+          {canEdit && (
+            <label className={`project-dropzone${uploading ? ' project-dropzone--busy' : ''}`}>
+              <input
+                type="file"
+                multiple
+                hidden
+                onChange={(e) => { uploadFiles(Array.from(e.target.files ?? [])); e.target.value = ''; }}
+              />
+              {uploading ? 'Uploading…' : 'Drop files, paste, or click to upload'}
+            </label>
+          )}
+        </section>
       )}
     </div>
   );

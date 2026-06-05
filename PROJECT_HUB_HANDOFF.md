@@ -46,7 +46,7 @@ item_id)` pattern with a generic `project_item` table for all *linked* items
 | **M1a** | workbench shell + command bar (task verbs) + tasks overhaul (optimistic, drag-reorder, inline edit, searchable blocker combobox, editable title/desc, progress ring) | none | ✅ done |
 | **M1b** | `project_comment` + right-rail **Talk** pane (markdown, threaded, optimistic); `GET /projects/:id` grew to include `comments` | `0054` | ✅ done |
 | **M1c** | `project_activity` + **Activity** tab (auto-recorded server-side events) | `0055` | ✅ done — spec in §6 |
-| **M1d** | generic `project_item` + Documents/References/Attachments sections + command-bar `@`/URL/file/`/new` verbs | `0056` (+ maybe attachments) | ⏳ next — spec in §7 |
+| **M1d** | generic `project_item` + Documents/References/Attachments sections + command-bar `@`/URL/file/`/new` verbs | `0056`, `0057` | ✅ done — spec in §7 |
 
 Each milestone = one migration, additive, independently shippable. After each,
 run the adversarial review workflow (§8).
@@ -252,6 +252,26 @@ mutation already revalidates the hub, so activity appears on the next tick.
 ---
 
 ## 7. M1d spec — Linking layer (Documents / References / Attachments)
+
+> **Shipped (M1d).** Migrations `0056` (`project_item`) + `0057` (`project_attachment`).
+> Endpoints: `POST/PATCH/DELETE /projects/:id/items` (UNIQUE → 409) and multipart
+> `POST /projects/:id/attachments` + `DELETE …/:attachmentId` (R2 key
+> `projects/{id}/{ts}-{name}`, served via existing `/api/attachments/*`). The hub
+> grew `items` (server-resolved per type via `resolveProjectItems` — reuses
+> `loadPostsManifest`, now exported from `typeahead.ts`) and `attachments`.
+> Activity logs `item_attached/_detached` + `attachment_added/_removed`.
+> **Bookmarks are linked by URL** (item_id = the URL; resolution enriches from the
+> `bookmark` table when present, else falls back to the bare URL) — NOT by table id.
+> Frontend: `ProjectView` gained **Documents** (item_type document) + **References**
+> (everything else) + **Attachments** sections; the command bar is multi-verb —
+> `@` opens `ItemLinkPicker` (reuses `/typeahead` d/t/p/f/b), a bare URL links a
+> bookmark, `/new doc [title]` creates+links a document (stays in place, no nav),
+> and files drop/paste/click-upload anywhere on the project. Item links use SPA
+> `<Link>` for document/thought/framing and plain `<a>` for post/paste/bookmark; a
+> deleted/private target resolves to `null` → "(unavailable …)". Tests:
+> `projects.test.ts` `describe("projects: linked items" | "projects: attachments")`.
+> **Deploy: apply `0056` + `0057` to remote D1.** (M1e remains dropped.)
+
 
 **Goal:** attach existing docs/thoughts/bookmarks/framings (and files) to a
 project; render them as sections in `ProjectView`; add command-bar verbs.

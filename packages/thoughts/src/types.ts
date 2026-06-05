@@ -113,12 +113,49 @@ export interface ProjectActivity {
   created_at: number;
 }
 
+export type ProjectItemType = 'document' | 'thought' | 'bookmark' | 'framing' | 'post' | 'paste';
+
+// Server-resolved display payload for a linked item (null when the target was
+// deleted or is private to an anonymous viewer).
+export interface ResolvedItemFields {
+  title: string;
+  snippet: string | null;
+  private?: boolean;
+  status?: string;
+  url?: string | null;
+  image_url?: string | null;
+  site_name?: string | null;
+  color?: string | null;
+}
+
+export interface ProjectItem {
+  id: number;
+  project_id: number;
+  item_type: ProjectItemType;
+  item_id: string;
+  role: string | null;
+  position: number | null;
+  added_at: number;
+  resolved: ResolvedItemFields | null;
+}
+
+export interface ProjectAttachment {
+  id: number;
+  project_id: number;
+  attachment_key: string;
+  attachment_type: string;
+  attachment_name: string;
+  created_at: number;
+}
+
 export interface ProjectDetail {
   project: Project;
   tasks: ProjectTask[];
   deps: ProjectDependency[];
   comments: ProjectComment[];
   activity: ProjectActivity[];
+  items: ProjectItem[];
+  attachments: ProjectAttachment[];
 }
 
 export interface Event {

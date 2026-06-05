@@ -4875,6 +4875,253 @@ a.movie-title:hover {
   background: var(--bg-soft);
 }
 
+/* Command-bar "link an existing item" verb (M1d) */
+.project-command-link-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0.1rem 0.3rem;
+  opacity: 0.65;
+}
+.project-command-link-btn:hover {
+  opacity: 1;
+}
+
+.project-item-picker {
+  margin: -0.5rem 0 1.25rem;
+  padding: 0.5rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.project-item-picker-kinds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-item-kind {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.15rem 0.6rem;
+}
+.project-item-kind.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.project-item-picker-empty {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 0.4rem 0.45rem;
+}
+
+/* In the picker, results flow inline (not an absolute popover). */
+.project-item-picker .project-combobox-list {
+  position: static;
+  margin-top: 0.4rem;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: none;
+  max-height: 260px;
+}
+.project-item-picker .project-combobox-option {
+  white-space: normal;
+}
+.project-item-opt-title {
+  display: block;
+}
+.project-item-opt-snippet {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Linked items: Documents / References sections (M1d) */
+.project-linked-group {
+  margin-top: 1.5rem;
+}
+
+.project-item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.project-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.project-item-link {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--bg-soft);
+}
+a.project-item-link:hover {
+  border-color: var(--border-heavy);
+}
+.project-item-link--dead {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.project-item-icon {
+  flex: none;
+  font-size: 0.9rem;
+}
+
+.project-item-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.project-item-title {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-item-snippet {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-item--pending {
+  opacity: 0.55;
+}
+
+.project-item-remove {
+  flex: none;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.2rem 0.35rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.project-item:hover .project-item-remove {
+  opacity: 1;
+}
+
+/* Attachments section + dropzone (M1d) */
+.project-attachment-grid {
+  list-style: none;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.5rem;
+}
+
+.project-attachment {
+  position: relative;
+}
+
+.project-attachment-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-soft);
+  text-decoration: none;
+  color: var(--text);
+}
+.project-attachment-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.project-attachment-file {
+  padding: 0.4rem;
+  font-size: 0.74rem;
+  text-align: center;
+  word-break: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.project-attachment-remove {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  opacity: 0;
+  box-shadow: 0 1px 4px var(--shadow-color);
+  transition: opacity 0.15s;
+}
+.project-attachment:hover .project-attachment-remove {
+  opacity: 1;
+}
+
+.project-dropzone {
+  display: block;
+  padding: 0.7rem;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.project-dropzone:hover {
+  border-color: var(--border-heavy);
+  color: var(--text);
+}
+.project-dropzone--busy {
+  opacity: 0.7;
+  cursor: progress;
+}
+
 /* Right rail: Conversation / Activity (M1b) */
 .project-conversation {
   width: 300px;

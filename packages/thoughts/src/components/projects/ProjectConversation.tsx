@@ -30,6 +30,10 @@ function describeActivity(kind: string): { icon: string; label: string } {
     case 'task_deleted': return { icon: '✕', label: 'deleted task' };
     case 'dependency_added': return { icon: '⛓', label: 'linked' };
     case 'dependency_removed': return { icon: '⛓', label: 'unlinked' };
+    case 'item_attached': return { icon: '🔗', label: 'attached' };
+    case 'item_detached': return { icon: '🔗', label: 'detached' };
+    case 'attachment_added': return { icon: '📎', label: 'uploaded' };
+    case 'attachment_removed': return { icon: '📎', label: 'removed file' };
     default: return { icon: '·', label: kind.replace(/_/g, ' ') };
   }
 }

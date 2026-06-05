@@ -270,3 +270,189 @@ describe("projects: activity log", () => {
     expect(left?.n).toBe(0);
   });
 });
+
+describe("projects: linked items", () => {
+  test("attach heterogeneous items and resolve display fields in the hub", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const p = await (await json("/api/projects", { title: "Linking" })).json<any>();
+
+    const doc = await env.DB.prepare(
+      "INSERT INTO document (title, body, created_at, updated_at) VALUES ('Spec doc', 'The body of the spec.', ?, ?)"
+    ).bind(now, now).run();
+    const th = await env.DB.prepare(
+      "INSERT INTO thought (body, timestamp, color) VALUES (?, ?, '#abcdef')"
+    ).bind("A linked thought\nsecond line", now).run();
+    const fr = await env.DB.prepare(
+      "INSERT INTO framing (name, description, created_at, updated_at) VALUES ('A framing', 'canvas desc', ?, ?)"
+    ).bind(now, now).run();
+    await env.DB.prepare(
+      "INSERT INTO bookmark (url, title, created_at) VALUES ('https://example.com/x', 'Example', ?)"
+    ).bind(now).run();
+
+    const added = await (await json(`/api/projects/${p.id}/items`, {
+      item_type: "document", item_id: String(doc.meta.last_row_id), role: "spec",
+    })).json<any>();
+    expect(added.item_type).toBe("document");
+    expect(added.role).toBe("spec");
+    expect(added.resolved.title).toBe("Spec doc");
+    expect(added.resolved.status).toBe("document");
+
+    await json(`/api/projects/${p.id}/items`, { item_type: "thought", item_id: String(th.meta.last_row_id) });
+    await json(`/api/projects/${p.id}/items`, { item_type: "framing", item_id: String(fr.meta.last_row_id) });
+    // Bookmarks are linked by URL; OG metadata is pulled from the bookmark table.
+    await json(`/api/projects/${p.id}/items`, { item_type: "bookmark", item_id: "https://example.com/x" });
+
+    const hub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(hub.items).toHaveLength(4);
+    const byType = Object.fromEntries(hub.items.map((it: any) => [it.item_type, it.resolved]));
+    expect(byType.document.title).toBe("Spec doc");
+    expect(byType.thought.title).toBe("A linked thought"); // first line only
+    expect(byType.thought.color).toBe("#abcdef");
+    expect(byType.framing.title).toBe("A framing");
+    expect(byType.bookmark.title).toBe("Example");
+    expect(byType.bookmark.url).toBe("https://example.com/x");
+  });
+
+  test("a bookmark URL with no OG row resolves to the bare URL", async () => {
+    const p = await (await json("/api/projects", { title: "Raw URL" })).json<any>();
+    await json(`/api/projects/${p.id}/items`, { item_type: "bookmark", item_id: "https://fresh.example.org/page/" });
+    const hub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(hub.items[0].resolved.title).toBe("fresh.example.org/page");
+    expect(hub.items[0].resolved.url).toBe("https://fresh.example.org/page/");
+  });
+
+  test("rejects linking the same item twice (409)", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const p = await (await json("/api/projects", { title: "Dup" })).json<any>();
+    const doc = await env.DB.prepare(
+      "INSERT INTO document (title, body, created_at, updated_at) VALUES ('D', '', ?, ?)"
+    ).bind(now, now).run();
+    const first = await json(`/api/projects/${p.id}/items`, { item_type: "document", item_id: String(doc.meta.last_row_id) });
+    expect(first.status).toBe(201);
+    const dup = await json(`/api/projects/${p.id}/items`, { item_type: "document", item_id: String(doc.meta.last_row_id) });
+    expect(dup.status).toBe(409);
+  });
+
+  test("detach removes the item and is project-scoped", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const p1 = await (await json("/api/projects", { title: "Owner" })).json<any>();
+    const p2 = await (await json("/api/projects", { title: "Other" })).json<any>();
+    const doc = await env.DB.prepare(
+      "INSERT INTO document (title, body, created_at, updated_at) VALUES ('Shared', '', ?, ?)"
+    ).bind(now, now).run();
+    const item = await (await json(`/api/projects/${p1.id}/items`, { item_type: "document", item_id: String(doc.meta.last_row_id) })).json<any>();
+
+    // p2 cannot delete p1's item (project-scoped) → 404, item survives.
+    const wrong = await req(`/api/projects/${p2.id}/items/${item.id}`, { method: "DELETE", headers: AUTH });
+    expect(wrong.status).toBe(404);
+    let hub = await (await req(`/api/projects/${p1.id}`)).json<any>();
+    expect(hub.items).toHaveLength(1);
+
+    const del = await req(`/api/projects/${p1.id}/items/${item.id}`, { method: "DELETE", headers: AUTH });
+    expect(del.status).toBe(204);
+    hub = await (await req(`/api/projects/${p1.id}`)).json<any>();
+    expect(hub.items).toHaveLength(0);
+  });
+
+  test("a deleted target resolves to null (dangling reference)", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const p = await (await json("/api/projects", { title: "Dangle" })).json<any>();
+    const doc = await env.DB.prepare(
+      "INSERT INTO document (title, body, created_at, updated_at) VALUES ('Doomed', '', ?, ?)"
+    ).bind(now, now).run();
+    await json(`/api/projects/${p.id}/items`, { item_type: "document", item_id: String(doc.meta.last_row_id) });
+    await env.DB.prepare("DELETE FROM document WHERE id = ?").bind(doc.meta.last_row_id).run();
+
+    const hub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(hub.items).toHaveLength(1);
+    expect(hub.items[0].resolved).toBeNull();
+  });
+
+  test("anonymous viewers don't see private linked documents", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const p = await (await json("/api/projects", { title: "Private" })).json<any>();
+    const doc = await env.DB.prepare(
+      "INSERT INTO document (title, body, private, created_at, updated_at) VALUES ('Secret', '', 1, ?, ?)"
+    ).bind(now, now).run();
+    await json(`/api/projects/${p.id}/items`, { item_type: "document", item_id: String(doc.meta.last_row_id) });
+
+    // Authed sees it…
+    const authedHub = await (await req(`/api/projects/${p.id}`, { headers: AUTH })).json<any>();
+    expect(authedHub.items[0].resolved.title).toBe("Secret");
+    // …anonymous gets a null payload (row present, content hidden).
+    const anonHub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(anonHub.items[0].resolved).toBeNull();
+  });
+
+  test("item writes require auth and cascade on project delete", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const p = await (await json("/api/projects", { title: "AuthCascade" })).json<any>();
+    const doc = await env.DB.prepare(
+      "INSERT INTO document (title, body, created_at, updated_at) VALUES ('C', '', ?, ?)"
+    ).bind(now, now).run();
+
+    const noAuth = await req(`/api/projects/${p.id}/items`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ item_type: "document", item_id: String(doc.meta.last_row_id) }),
+    });
+    expect(noAuth.status).toBe(401);
+
+    await json(`/api/projects/${p.id}/items`, { item_type: "document", item_id: String(doc.meta.last_row_id) });
+    await env.DB.prepare("DELETE FROM project WHERE id = ?").bind(p.id).run();
+    const left = await env.DB.prepare(
+      "SELECT COUNT(*) AS n FROM project_item WHERE project_id = ?"
+    ).bind(p.id).first<{ n: number }>();
+    expect(left?.n).toBe(0);
+  });
+});
+
+describe("projects: attachments", () => {
+  function upload(projectId: number, name: string, type: string, bytes = "hello") {
+    const fd = new FormData();
+    fd.append("file", new File([bytes], name, { type }));
+    return req(`/api/projects/${projectId}/attachments`, { method: "POST", headers: AUTH, body: fd });
+  }
+
+  test("upload, list in hub, and delete", async () => {
+    const p = await (await json("/api/projects", { title: "Files" })).json<any>();
+    const up = await upload(p.id, "diagram.png", "image/png");
+    expect(up.status).toBe(201);
+    const body = await up.json<any>();
+    expect(body.attachments).toHaveLength(1);
+    const att = body.attachments[0];
+    expect(att.attachment_name).toBe("diagram.png");
+    expect(att.attachment_key).toContain(`projects/${p.id}/`);
+
+    const hub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(hub.attachments).toHaveLength(1);
+    expect(hub.attachments[0].id).toBe(att.id);
+
+    // The bytes are retrievable from the attachments route.
+    const served = await req(`/api/attachments/${att.attachment_key}`);
+    expect(served.status).toBe(200);
+
+    const del = await req(`/api/projects/${p.id}/attachments/${att.id}`, { method: "DELETE", headers: AUTH });
+    expect(del.status).toBe(204);
+    const hub2 = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(hub2.attachments).toHaveLength(0);
+    // R2 object was reclaimed on delete.
+    const gone = await req(`/api/attachments/${att.attachment_key}`);
+    expect(gone.status).toBe(404);
+  });
+
+  test("upload requires auth and cascades on project delete", async () => {
+    const p = await (await json("/api/projects", { title: "FileAuth" })).json<any>();
+    const fd = new FormData();
+    fd.append("file", new File(["x"], "a.txt", { type: "text/plain" }));
+    const noAuth = await req(`/api/projects/${p.id}/attachments`, { method: "POST", body: fd });
+    expect(noAuth.status).toBe(401);
+
+    await upload(p.id, "keep.txt", "text/plain");
+    await env.DB.prepare("DELETE FROM project WHERE id = ?").bind(p.id).run();
+    const left = await env.DB.prepare(
+      "SELECT COUNT(*) AS n FROM project_attachment WHERE project_id = ?"
+    ).bind(p.id).first<{ n: number }>();
+    expect(left?.n).toBe(0);
+  });
+});

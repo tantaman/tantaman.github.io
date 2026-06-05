@@ -34,7 +34,7 @@ import { thoughtOg } from "./thought-og";
 import { amplifications } from "./amplifications";
 import { wardrobe } from "./wardrobe";
 import { assignClusters, removeClusterMembership, scheduleBackground } from "./clusters";
-import { typeahead } from "./typeahead";
+import { typeahead, loadPostsManifest } from "./typeahead";
 import {
   CreateThoughtBody,
   UpdateThoughtBody,
@@ -63,6 +63,8 @@ import {
   AddBlockerBody,
   CreateProjectCommentBody,
   UpdateProjectCommentBody,
+  CreateProjectItemBody,
+  UpdateProjectItemBody,
   CreateCanvasBody,
   UpdateCanvasBody,
 } from "./schemas";
@@ -108,6 +110,145 @@ async function logActivity(db: D1Database, projectId: number, kind: string, deta
   await db.prepare(
     "INSERT INTO project_activity (project_id, kind, detail, created_at) VALUES (?, ?, ?, ?)"
   ).bind(projectId, kind, detail, Math.floor(Date.now() / 1000)).run();
+}
+
+// A linked-item row plus its server-resolved display payload (or null when the
+// referenced target no longer exists / is private to an anonymous viewer).
+interface ProjectItemRow {
+  id: number;
+  project_id: number;
+  item_type: string;
+  item_id: string;
+  role: string | null;
+  position: number | null;
+  added_at: number;
+}
+interface ResolvedItemFields {
+  title: string;
+  snippet: string | null;
+  private?: boolean;
+  status?: string;
+  url?: string | null;
+  image_url?: string | null;
+  site_name?: string | null;
+  color?: string | null;
+}
+
+function itemFirstLine(body: string): string {
+  return (body.split(/\n/)[0] || "").trim().slice(0, 80) || "untitled";
+}
+function itemSnippet(body: string, max = 140): string | null {
+  const t = body.replace(/\s+/g, " ").trim();
+  if (!t) return null;
+  return t.length > max ? t.slice(0, max) + "…" : t;
+}
+function sqlPlaceholders(n: number): string {
+  return Array(n).fill("?").join(",");
+}
+
+// Resolve heterogeneous project_item rows into display payloads — the items
+// counterpart to the framing GET's per-node-type resolution. Groups ids by type,
+// one query per present type, then re-attaches `resolved` to each row in order.
+// Private documents/thoughts resolve to null for anonymous viewers (no leak).
+async function resolveProjectItems(
+  db: D1Database,
+  items: ProjectItemRow[],
+  authed: boolean,
+): Promise<Array<ProjectItemRow & { resolved: ResolvedItemFields | null }>> {
+  const byType = new Map<string, string[]>();
+  for (const it of items) {
+    const arr = byType.get(it.item_type) ?? [];
+    arr.push(it.item_id);
+    byType.set(it.item_type, arr);
+  }
+
+  const resolved = new Map<string, ResolvedItemFields>();
+  const key = (type: string, id: string) => `${type}:${id}`;
+
+  const docIds = byType.get("document");
+  if (docIds?.length) {
+    const rows = await db.prepare(
+      `SELECT id, title, body, private, status FROM document WHERE id IN (${sqlPlaceholders(docIds.length)})`,
+    ).bind(...docIds).all<{ id: number; title: string; body: string; private: number; status: string }>();
+    for (const r of rows.results) {
+      if (!authed && r.private) continue;
+      resolved.set(key("document", String(r.id)), {
+        title: r.title || "untitled",
+        snippet: itemSnippet(r.body),
+        private: !!r.private,
+        status: r.status,
+      });
+    }
+  }
+
+  const thoughtIds = byType.get("thought");
+  if (thoughtIds?.length) {
+    const rows = await db.prepare(
+      `SELECT id, body, color, private FROM thought WHERE id IN (${sqlPlaceholders(thoughtIds.length)})`,
+    ).bind(...thoughtIds).all<{ id: number; body: string; color: string | null; private: number }>();
+    for (const r of rows.results) {
+      if (!authed && r.private) continue;
+      resolved.set(key("thought", String(r.id)), {
+        title: itemFirstLine(r.body),
+        snippet: itemSnippet(r.body),
+        color: r.color,
+      });
+    }
+  }
+
+  const framingIds = byType.get("framing");
+  if (framingIds?.length) {
+    const rows = await db.prepare(
+      `SELECT id, name, description FROM framing WHERE id IN (${sqlPlaceholders(framingIds.length)})`,
+    ).bind(...framingIds).all<{ id: number; name: string; description: string | null }>();
+    for (const r of rows.results) {
+      resolved.set(key("framing", String(r.id)), { title: r.name || "untitled", snippet: r.description });
+    }
+  }
+
+  // Bookmarks are linked by URL (item_id = the URL itself). Enrich from the
+  // bookmark table when OG metadata already exists for that URL (e.g. captured
+  // from a thought); otherwise fall back to the bare URL as the title — so a
+  // freshly-pasted link always resolves rather than reading as "unavailable".
+  const bookmarkUrls = byType.get("bookmark");
+  if (bookmarkUrls?.length) {
+    const rows = await db.prepare(
+      `SELECT url, title, image_url, site_name, description FROM bookmark WHERE url IN (${sqlPlaceholders(bookmarkUrls.length)})`,
+    ).bind(...bookmarkUrls).all<{ url: string; title: string | null; image_url: string | null; site_name: string | null; description: string | null }>();
+    const byUrl = new Map(rows.results.map((r) => [r.url, r]));
+    for (const url of bookmarkUrls) {
+      const r = byUrl.get(url);
+      resolved.set(key("bookmark", url), {
+        title: r?.title || url.replace(/^https?:\/\//, "").replace(/\/$/, ""),
+        snippet: r?.description ?? null,
+        url,
+        image_url: r?.image_url ?? null,
+        site_name: r?.site_name ?? null,
+      });
+    }
+  }
+
+  const pasteIds = byType.get("paste");
+  if (pasteIds?.length) {
+    const rows = await db.prepare(
+      `SELECT id, title FROM paste WHERE id IN (${sqlPlaceholders(pasteIds.length)})`,
+    ).bind(...pasteIds).all<{ id: string; title: string | null }>();
+    for (const r of rows.results) {
+      resolved.set(key("paste", r.id), { title: r.title || `paste ${r.id}`, snippet: null });
+    }
+  }
+
+  const postIds = byType.get("post");
+  if (postIds?.length) {
+    const manifest = await loadPostsManifest();
+    const bySlug = new Map(manifest.map((p) => [p.slug, p]));
+    for (const slug of postIds) {
+      const p = bySlug.get(slug);
+      if (p) resolved.set(key("post", slug), { title: p.title, snippet: p.description ?? null });
+    }
+  }
+
+  return items.map((it) => ({ ...it, resolved: resolved.get(key(it.item_type, it.item_id)) ?? null }));
 }
 
 // Resolve which project a freshly-created thought's tasks belong to: a project
@@ -1738,12 +1879,30 @@ api.get("/projects/:id", async (c) => {
      ORDER BY created_at DESC, id DESC LIMIT 50`
   ).bind(id).all();
 
+  // Linked items (documents/references), resolved to display payloads. Private
+  // targets are hidden from anonymous viewers inside resolveProjectItems.
+  const authed = c.req.header("Authorization") === `Bearer ${c.env.THOUGHT_SECRET}`;
+  const itemsRes = await c.env.DB.prepare(
+    `SELECT id, project_id, item_type, item_id, role, position, added_at
+     FROM project_item WHERE project_id = ?
+     ORDER BY COALESCE(position, added_at), added_at, id`
+  ).bind(id).all<ProjectItemRow>();
+  const items = await resolveProjectItems(c.env.DB, itemsRes.results, authed);
+
+  const attachmentsRes = await c.env.DB.prepare(
+    `SELECT id, project_id, attachment_key, attachment_type, attachment_name, created_at
+     FROM project_attachment WHERE project_id = ?
+     ORDER BY created_at, id`
+  ).bind(id).all();
+
   return c.json({
     project,
     tasks,
     deps: depsRes.results,
     comments: commentsRes.results,
     activity: activityRes.results,
+    items,
+    attachments: attachmentsRes.results,
   });
 });
 
@@ -1990,6 +2149,147 @@ api.delete("/projects/:id/comments/:commentId", async (c) => {
   ).bind(commentId, id).run();
   await bumpVersion(c.env.DB);
   return c.json({ ok: true });
+});
+
+// Project items — the generic linking layer (documents/references). Mirrors the
+// framing node endpoints: attach an existing item by (item_type, item_id), with
+// a UNIQUE guard so the same thing can't be linked twice.
+api.post("/projects/:id/items", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+  const { item_type, item_id, role } = CreateProjectItemBody.parse(await c.req.json());
+
+  const project = await c.env.DB.prepare("SELECT id FROM project WHERE id = ?").bind(id).first();
+  if (!project) return c.json({ error: "Project not found" }, 404);
+
+  const now = Math.floor(Date.now() / 1000);
+  const posRow = await c.env.DB.prepare(
+    "SELECT COALESCE(MAX(position), 0) + 1 AS pos FROM project_item WHERE project_id = ?"
+  ).bind(id).first<{ pos: number }>();
+
+  let res;
+  try {
+    res = await c.env.DB.prepare(
+      "INSERT INTO project_item (project_id, item_type, item_id, role, position, added_at) VALUES (?, ?, ?, ?, ?, ?)"
+    ).bind(id, item_type, item_id, role ?? null, posRow?.pos ?? 1, now).run();
+  } catch (e) {
+    if ((e as { message?: string }).message?.includes("UNIQUE constraint")) {
+      return c.json({ error: "Item already linked to this project" }, 409);
+    }
+    throw e;
+  }
+
+  const row = await c.env.DB.prepare(
+    "SELECT id, project_id, item_type, item_id, role, position, added_at FROM project_item WHERE id = ?"
+  ).bind(res.meta.last_row_id).first<ProjectItemRow>();
+  const [resolved] = await resolveProjectItems(c.env.DB, row ? [row] : [], true);
+  await logActivity(c.env.DB, id, "item_attached", resolved?.resolved?.title ?? item_type);
+  await bumpVersion(c.env.DB);
+  return c.json(resolved, 201);
+});
+
+api.patch("/projects/:id/items/:itemId", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  const itemId = parseInt(c.req.param("itemId"), 10);
+  if (!Number.isFinite(id) || !Number.isFinite(itemId)) return c.json({ error: "Bad id" }, 400);
+  const body = UpdateProjectItemBody.parse(await c.req.json());
+
+  const sets: string[] = [];
+  const binds: unknown[] = [];
+  if (body.role !== undefined) { sets.push("role = ?"); binds.push(body.role); }
+  if (body.position !== undefined) { sets.push("position = ?"); binds.push(body.position); }
+  if (sets.length === 0) return c.json({ error: "No fields to update" }, 400);
+
+  binds.push(itemId, id);
+  const upd = await c.env.DB.prepare(
+    `UPDATE project_item SET ${sets.join(", ")} WHERE id = ? AND project_id = ?`
+  ).bind(...binds).run();
+  if (!upd.meta.changes) return c.json({ error: "Not found" }, 404);
+  await bumpVersion(c.env.DB);
+
+  const row = await c.env.DB.prepare(
+    "SELECT id, project_id, item_type, item_id, role, position, added_at FROM project_item WHERE id = ? AND project_id = ?"
+  ).bind(itemId, id).first<ProjectItemRow>();
+  const [resolved] = await resolveProjectItems(c.env.DB, row ? [row] : [], true);
+  return c.json(resolved);
+});
+
+api.delete("/projects/:id/items/:itemId", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  const itemId = parseInt(c.req.param("itemId"), 10);
+  if (!Number.isFinite(id) || !Number.isFinite(itemId)) return c.json({ error: "Bad id" }, 400);
+
+  // Resolve the title before deletion so the activity detail is meaningful.
+  const row = await c.env.DB.prepare(
+    "SELECT id, project_id, item_type, item_id, role, position, added_at FROM project_item WHERE id = ? AND project_id = ?"
+  ).bind(itemId, id).first<ProjectItemRow>();
+  const del = await c.env.DB.prepare(
+    "DELETE FROM project_item WHERE id = ? AND project_id = ?"
+  ).bind(itemId, id).run();
+  if (!del.meta.changes) return c.json({ error: "Not found" }, 404);
+  if (row) {
+    const [resolved] = await resolveProjectItems(c.env.DB, [row], true);
+    await logActivity(c.env.DB, id, "item_detached", resolved?.resolved?.title ?? row.item_type);
+  }
+  await bumpVersion(c.env.DB);
+  return c.body(null, 204);
+});
+
+// Project attachments — multipart upload of files straight to a project (M1d).
+// Mirrors the thought attachment handler: stream each file to R2, index it here.
+api.post("/projects/:id/attachments", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+
+  const project = await c.env.DB.prepare("SELECT id FROM project WHERE id = ?").bind(id).first();
+  if (!project) return c.json({ error: "Project not found" }, 404);
+
+  const formData = await c.req.formData();
+  const files = (formData.getAll("file") as unknown as (string | File)[]).filter((f): f is File => typeof f !== "string");
+  if (files.length === 0) return c.json({ error: "No files" }, 400);
+
+  const now = Math.floor(Date.now() / 1000);
+  const saved: Array<{ id: number; project_id: number; attachment_key: string; attachment_type: string; attachment_name: string; created_at: number }> = [];
+  for (const file of files) {
+    // Disambiguate same-named uploads with a timestamp prefix (the thought path
+    // keys on a unique thought id; projects accrete files over time).
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const key = `projects/${id}/${now}-${safeName}`;
+    await c.env.BUCKET.put(key, file.stream(), { httpMetadata: { contentType: file.type } });
+    const res = await c.env.DB.prepare(
+      "INSERT INTO project_attachment (project_id, attachment_key, attachment_type, attachment_name, created_at) VALUES (?, ?, ?, ?, ?)"
+    ).bind(id, key, file.type, file.name, now).run();
+    saved.push({ id: Number(res.meta.last_row_id), project_id: id, attachment_key: key, attachment_type: file.type, attachment_name: file.name, created_at: now });
+    await logActivity(c.env.DB, id, "attachment_added", file.name);
+  }
+  await bumpVersion(c.env.DB);
+  return c.json({ attachments: saved }, 201);
+});
+
+api.delete("/projects/:id/attachments/:attachmentId", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  const attachmentId = parseInt(c.req.param("attachmentId"), 10);
+  if (!Number.isFinite(id) || !Number.isFinite(attachmentId)) return c.json({ error: "Bad id" }, 400);
+
+  const row = await c.env.DB.prepare(
+    "SELECT attachment_key, attachment_name FROM project_attachment WHERE id = ? AND project_id = ?"
+  ).bind(attachmentId, id).first<{ attachment_key: string; attachment_name: string }>();
+  if (!row) return c.json({ error: "Not found" }, 404);
+
+  await c.env.DB.prepare(
+    "DELETE FROM project_attachment WHERE id = ? AND project_id = ?"
+  ).bind(attachmentId, id).run();
+  // Best-effort R2 cleanup (unlike the project-cascade path, a single delete can
+  // reclaim its object immediately).
+  await c.env.BUCKET.delete(row.attachment_key);
+  await logActivity(c.env.DB, id, "attachment_removed", row.attachment_name);
+  await bumpVersion(c.env.DB);
+  return c.body(null, 204);
 });
 
 api.get("/events", async (c) => {
