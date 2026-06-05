@@ -5,6 +5,7 @@ import {
   useState,
   useCallback,
   useEffect,
+  useLayoutEffect,
   type FormEvent,
   type KeyboardEvent,
   type DragEvent,
@@ -66,6 +67,14 @@ export function ComposeForm({
   );
 
   const label = submitLabel || (editId != null ? 'Save revision' : parentId != null ? 'Reply' : 'Post');
+
+  // Auto-grow the textarea to fit its content so more of what's typed is visible
+  useLayoutEffect(() => {
+    const ta = textareaRef.current;
+    if (!ta || preview) return;
+    ta.style.height = 'auto';
+    ta.style.height = `${ta.scrollHeight}px`;
+  }, [text, preview]);
 
   // Revoke object URLs on cleanup
   useEffect(() => {
