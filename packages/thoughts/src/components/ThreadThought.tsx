@@ -67,6 +67,7 @@ export function ThreadThought({
               onReplyPosted(t);
               setShowReply(false);
             }}
+            onCancel={() => setShowReply(false)}
           />
         </div>
       )}
