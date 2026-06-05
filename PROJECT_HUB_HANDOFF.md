@@ -45,8 +45,8 @@ item_id)` pattern with a generic `project_item` table for all *linked* items
 |---|---|---|---|
 | **M1a** | workbench shell + command bar (task verbs) + tasks overhaul (optimistic, drag-reorder, inline edit, searchable blocker combobox, editable title/desc, progress ring) | none | ✅ done |
 | **M1b** | `project_comment` + right-rail **Talk** pane (markdown, threaded, optimistic); `GET /projects/:id` grew to include `comments` | `0054` | ✅ done |
-| **M1c** | `project_activity` + **Activity** tab (auto-recorded server-side events) | `0055` | ⏳ next — spec in §6 |
-| **M1d** | generic `project_item` + Documents/References/Attachments sections + command-bar `@`/URL/file/`/new` verbs | `0056` (+ maybe attachments) | ⏳ spec in §7 |
+| **M1c** | `project_activity` + **Activity** tab (auto-recorded server-side events) | `0055` | ✅ done — spec in §6 |
+| **M1d** | generic `project_item` + Documents/References/Attachments sections + command-bar `@`/URL/file/`/new` verbs | `0056` (+ maybe attachments) | ⏳ next — spec in §7 |
 
 Each milestone = one migration, additive, independently shippable. After each,
 run the adversarial review workflow (§8).
@@ -167,6 +167,18 @@ Client wrappers for all of these exist in `packages/thoughts/src/api.ts`.
 ---
 
 ## 6. M1c spec — Activity log
+
+> **Shipped (M1c).** Migration `0055`, `logActivity()` helper next to `bumpVersion`,
+> emit points exactly per the table below, `activity` added to the hub (newest-first,
+> `LIMIT 50`). Decisions taken: skipped reorder, comment, deprioritize, and
+> rename logging (noise). Dependency add/remove detail = `"<blocker> → <blocked>"`.
+> Task routes look up `project_id` from the task row and skip logging when null.
+> Frontend: `ProjectActivity` type + `activity` on `ProjectDetail`; the Activity tab
+> renders `data.activity` via a `describeActivity(kind)→{icon,label}` map (unknown
+> kinds degrade gracefully); no optimistic writes — refreshes on the next `mutate()`.
+> Tests in `projects.test.ts` `describe("projects: activity log")`. **Deploy still
+> needs `wrangler d1 migrations apply` on remote D1.**
+
 
 **Goal:** an auto-recorded, glanceable, reverse-chron event stream in the
 right-rail **Activity** tab (already stubbed in `ProjectConversation.tsx`:

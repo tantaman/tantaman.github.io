@@ -4930,6 +4930,54 @@ a.movie-title:hover {
   padding: 0.5rem 0.1rem;
 }
 
+.project-activity-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.project-activity-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.project-activity-icon {
+  flex: none;
+  width: 1.1rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.project-activity-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.project-activity-label {
+  color: var(--text-muted);
+}
+
+.project-activity-detail {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.project-activity-time {
+  flex: none;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .project-comment-list {
   display: flex;
   flex-direction: column;

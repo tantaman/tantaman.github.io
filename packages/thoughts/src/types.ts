@@ -105,11 +105,20 @@ export interface ProjectComment {
   updated_at: number | null;
 }
 
+export interface ProjectActivity {
+  id: number;
+  project_id: number;
+  kind: string;
+  detail: string | null;
+  created_at: number;
+}
+
 export interface ProjectDetail {
   project: Project;
   tasks: ProjectTask[];
   deps: ProjectDependency[];
   comments: ProjectComment[];
+  activity: ProjectActivity[];
 }
 
 export interface Event {

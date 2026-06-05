@@ -188,3 +188,85 @@ describe("projects: draft → convert", () => {
     expect(detail.deps).toEqual([{ blocker_task_id: ta.meta.last_row_id, blocked_task_id: tb.meta.last_row_id }]);
   });
 });
+
+describe("projects: activity log", () => {
+  test("records mutations newest-first in the hub", async () => {
+    const p = await (await json("/api/projects", { title: "Activity project" })).json<any>();
+    const t1 = await (await json(`/api/projects/${p.id}/tasks`, { title: "First task" })).json<any>();
+    const t2 = await (await json(`/api/projects/${p.id}/tasks`, { title: "Second task" })).json<any>();
+
+    // Complete then reopen.
+    await json(`/api/tasks/${t1.id}`, { completed: true }, "PATCH");
+    await json(`/api/tasks/${t1.id}`, { completed: false }, "PATCH");
+
+    // Dependency add/remove.
+    await json(`/api/tasks/${t2.id}/blockers`, { blocker_task_id: t1.id });
+    await req(`/api/tasks/${t2.id}/blockers/${t1.id}`, { method: "DELETE", headers: AUTH });
+
+    // Delete a task.
+    await req(`/api/tasks/${t2.id}`, { method: "DELETE", headers: AUTH });
+
+    const hub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    const kinds = hub.activity.map((a: any) => a.kind);
+    // Newest-first: the latest mutation (task_deleted) leads.
+    expect(kinds[0]).toBe("task_deleted");
+    // The full chain is present.
+    expect(kinds).toEqual([
+      "task_deleted",
+      "dependency_removed",
+      "dependency_added",
+      "task_reopened",
+      "task_completed",
+      "task_added",
+      "task_added",
+      "project_created",
+    ]);
+    // created_at is non-increasing (the newest-first ordering).
+    const times = hub.activity.map((a: any) => a.created_at);
+    for (let i = 1; i < times.length; i++) expect(times[i - 1]).toBeGreaterThanOrEqual(times[i]);
+    // Detail carries the title where relevant.
+    const created = hub.activity.find((a: any) => a.kind === "project_created");
+    expect(created.detail).toBe("Activity project");
+  });
+
+  test("convert and archive toggle are recorded", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const root = await env.DB.prepare("INSERT INTO thought (body, timestamp) VALUES ('#p Draft', ?)").bind(now).run();
+    const proj = await env.DB.prepare(
+      "INSERT INTO project (thought_id, title, status, created_at) VALUES (?, 'Draft', 'draft', ?)"
+    ).bind(root.meta.last_row_id, now).run();
+    const pid = proj.meta.last_row_id;
+
+    await req(`/api/projects/${pid}/convert`, { method: "POST", headers: AUTH });
+    await json(`/api/projects/${pid}`, { archived: true }, "PATCH");
+    await json(`/api/projects/${pid}`, { archived: false }, "PATCH");
+
+    const hub = await (await req(`/api/projects/${pid}`)).json<any>();
+    const kinds = hub.activity.map((a: any) => a.kind);
+    expect(kinds).toEqual(["project_unarchived", "project_archived", "project_activated"]);
+  });
+
+  test("renames are not logged (kept out as noise)", async () => {
+    const p = await (await json("/api/projects", { title: "Quiet" })).json<any>();
+    await json(`/api/projects/${p.id}`, { title: "Quieter" }, "PATCH");
+    const hub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(hub.activity.map((a: any) => a.kind)).toEqual(["project_created"]);
+  });
+
+  test("activity is project-scoped and cascades on project delete", async () => {
+    const p1 = await (await json("/api/projects", { title: "P1" })).json<any>();
+    const p2 = await (await json("/api/projects", { title: "P2" })).json<any>();
+    await json(`/api/projects/${p1.id}/tasks`, { title: "p1 task" });
+
+    // p2's activity does not bleed in from p1.
+    const hub2 = await (await req(`/api/projects/${p2.id}`)).json<any>();
+    expect(hub2.activity.map((a: any) => a.kind)).toEqual(["project_created"]);
+
+    // Deleting the project cascades its activity rows away.
+    await env.DB.prepare("DELETE FROM project WHERE id = ?").bind(p1.id).run();
+    const left = await env.DB.prepare(
+      "SELECT COUNT(*) AS n FROM project_activity WHERE project_id = ?"
+    ).bind(p1.id).first<{ n: number }>();
+    expect(left?.n).toBe(0);
+  });
+});

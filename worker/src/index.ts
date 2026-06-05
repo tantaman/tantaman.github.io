@@ -101,6 +101,15 @@ async function bumpVersion(db: D1Database): Promise<void> {
   await db.prepare("UPDATE version SET counter = counter + 1 WHERE id = 1").run();
 }
 
+// Append a row to a project's auto-recorded activity stream (M1c). Glanceable
+// log, not a diff/version system — `kind` is a short machine label rendered to
+// an icon+label client-side; `detail` is optional context (usually a title).
+async function logActivity(db: D1Database, projectId: number, kind: string, detail: string | null): Promise<void> {
+  await db.prepare(
+    "INSERT INTO project_activity (project_id, kind, detail, created_at) VALUES (?, ?, ?, ?)"
+  ).bind(projectId, kind, detail, Math.floor(Date.now() / 1000)).run();
+}
+
 // Resolve which project a freshly-created thought's tasks belong to: a project
 // declared on the thought itself (a `#p` root with inline `#t` tasks), else the
 // nearest `#p` ancestor walked up the reply chain. Returns null when the task
@@ -1557,10 +1566,16 @@ api.patch("/tasks/:id", async (c) => {
 
   const task = await c.env.DB.prepare(
     "SELECT id, thought_id, title, description, created_at, completed_at, deprioritized_at, project_id, position FROM task WHERE id = ?"
-  ).bind(id).first();
+  ).bind(id).first<{ title: string; project_id: number | null }>();
 
   if (!task) {
     return c.json({ error: "Not found" }, 404);
+  }
+
+  // Only the completed toggle is logged (title/description/deprioritize edits are
+  // intentionally too noisy). Task-route, so scope to the task's project, if any.
+  if (completed !== undefined && task.project_id != null) {
+    await logActivity(c.env.DB, task.project_id, completed ? "task_completed" : "task_reopened", task.title);
   }
 
   await bumpVersion(c.env.DB);
@@ -1571,9 +1586,16 @@ api.delete("/tasks/:id", async (c) => {
   if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
   const id = parseInt(c.req.param("id"), 10);
   if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+  // Read the title/project before the row vanishes so we can record the deletion.
+  const doomed = await c.env.DB.prepare(
+    "SELECT title, project_id FROM task WHERE id = ?"
+  ).bind(id).first<{ title: string; project_id: number | null }>();
   // Dependency edges fall away via ON DELETE CASCADE; the source thought (if
   // any) is left untouched — the task was owned by its project, not the thought.
   await c.env.DB.prepare("DELETE FROM task WHERE id = ?").bind(id).run();
+  if (doomed && doomed.project_id != null) {
+    await logActivity(c.env.DB, doomed.project_id, "task_deleted", doomed.title);
+  }
   await bumpVersion(c.env.DB);
   return c.body(null, 204);
 });
@@ -1670,6 +1692,7 @@ api.post("/projects", async (c) => {
   const res = await c.env.DB.prepare(
     "INSERT INTO project (thought_id, title, description, status, created_at) VALUES (NULL, ?, ?, 'active', ?)"
   ).bind(title, description ?? null, now).run();
+  await logActivity(c.env.DB, Number(res.meta.last_row_id), "project_created", title);
   await bumpVersion(c.env.DB);
   const project = await c.env.DB.prepare(
     "SELECT id, thought_id, title, description, status, created_at, archived_at FROM project WHERE id = ?"
@@ -1708,7 +1731,20 @@ api.get("/projects/:id", async (c) => {
      ORDER BY created_at, id`
   ).bind(id).all();
 
-  return c.json({ project, tasks, deps: depsRes.results, comments: commentsRes.results });
+  // Auto-recorded activity stream, newest-first (capped — it's a glance, not an audit).
+  const activityRes = await c.env.DB.prepare(
+    `SELECT id, project_id, kind, detail, created_at
+     FROM project_activity WHERE project_id = ?
+     ORDER BY created_at DESC, id DESC LIMIT 50`
+  ).bind(id).all();
+
+  return c.json({
+    project,
+    tasks,
+    deps: depsRes.results,
+    comments: commentsRes.results,
+    activity: activityRes.results,
+  });
 });
 
 api.patch("/projects/:id", async (c) => {
@@ -1733,6 +1769,11 @@ api.patch("/projects/:id", async (c) => {
   if (sets.length > 0) {
     binds.push(id);
     await c.env.DB.prepare(`UPDATE project SET ${sets.join(", ")} WHERE id = ?`).bind(...binds).run();
+    // Archive/unarchive is the one project-level edit worth logging; renames are
+    // intentionally too noisy to record (the Talk pane covers free-form notes).
+    if (body.archived !== undefined) {
+      await logActivity(c.env.DB, id, body.archived ? "project_archived" : "project_unarchived", null);
+    }
     await bumpVersion(c.env.DB);
   }
 
@@ -1768,6 +1809,7 @@ api.post("/projects/:id/convert", async (c) => {
   await c.env.DB.prepare(
     "UPDATE project SET status = 'active', archived_at = NULL WHERE id = ?"
   ).bind(id).run();
+  await logActivity(c.env.DB, id, "project_activated", null);
   await bumpVersion(c.env.DB);
 
   const project = await c.env.DB.prepare(
@@ -1794,6 +1836,7 @@ api.post("/projects/:id/tasks", async (c) => {
   const res = await c.env.DB.prepare(
     "INSERT INTO task (thought_id, title, description, created_at, project_id, position) VALUES (NULL, ?, ?, ?, ?, ?)"
   ).bind(title, description ?? null, now, id, posRow?.pos ?? 1).run();
+  await logActivity(c.env.DB, id, "task_added", title);
   await bumpVersion(c.env.DB);
 
   const task = await c.env.DB.prepare(
@@ -1829,8 +1872,8 @@ api.post("/tasks/:id/blockers", async (c) => {
   const { blocker_task_id } = AddBlockerBody.parse(await c.req.json());
   if (blocker_task_id === id) return c.json({ error: "A task cannot block itself" }, 400);
 
-  const blocked = await c.env.DB.prepare("SELECT id, project_id FROM task WHERE id = ?").bind(id).first<{ project_id: number | null }>();
-  const blocker = await c.env.DB.prepare("SELECT id, project_id FROM task WHERE id = ?").bind(blocker_task_id).first<{ project_id: number | null }>();
+  const blocked = await c.env.DB.prepare("SELECT id, title, project_id FROM task WHERE id = ?").bind(id).first<{ title: string; project_id: number | null }>();
+  const blocker = await c.env.DB.prepare("SELECT id, title, project_id FROM task WHERE id = ?").bind(blocker_task_id).first<{ title: string; project_id: number | null }>();
   if (!blocked || !blocker) return c.json({ error: "Task not found" }, 404);
 
   // Reject anything that would create a cycle (blocker already reachable from id
@@ -1860,6 +1903,9 @@ api.post("/tasks/:id/blockers", async (c) => {
   await c.env.DB.prepare(
     "INSERT OR IGNORE INTO task_dependency (blocker_task_id, blocked_task_id) VALUES (?, ?)"
   ).bind(blocker_task_id, id).run();
+  if (blocked.project_id != null) {
+    await logActivity(c.env.DB, blocked.project_id, "dependency_added", `${blocker.title} → ${blocked.title}`);
+  }
   await bumpVersion(c.env.DB);
   return c.json({ ok: true });
 });
@@ -1869,9 +1915,16 @@ api.delete("/tasks/:id/blockers/:blockerId", async (c) => {
   const id = parseInt(c.req.param("id"), 10);
   const blockerId = parseInt(c.req.param("blockerId"), 10);
   if (!Number.isFinite(id) || !Number.isFinite(blockerId)) return c.json({ error: "Bad id" }, 400);
+  // Capture titles/project before the edge is gone, for the activity detail.
+  const blocked = await c.env.DB.prepare("SELECT title, project_id FROM task WHERE id = ?").bind(id).first<{ title: string; project_id: number | null }>();
+  const blocker = await c.env.DB.prepare("SELECT title FROM task WHERE id = ?").bind(blockerId).first<{ title: string }>();
   await c.env.DB.prepare(
     "DELETE FROM task_dependency WHERE blocker_task_id = ? AND blocked_task_id = ?"
   ).bind(blockerId, id).run();
+  if (blocked && blocked.project_id != null) {
+    const detail = blocker ? `${blocker.title} → ${blocked.title}` : blocked.title;
+    await logActivity(c.env.DB, blocked.project_id, "dependency_removed", detail);
+  }
   await bumpVersion(c.env.DB);
   return c.json({ ok: true });
 });

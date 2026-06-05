@@ -16,6 +16,24 @@ function timeAgo(sec: number): string {
   return `${Math.floor(d / 604800)}w`;
 }
 
+// Map an activity `kind` to a glyph + verb for the Activity tab. Unknown kinds
+// degrade gracefully (the raw kind, dot icon) so new server events never break.
+function describeActivity(kind: string): { icon: string; label: string } {
+  switch (kind) {
+    case 'project_created': return { icon: '✦', label: 'created project' };
+    case 'project_activated': return { icon: '→', label: 'activated project' };
+    case 'project_archived': return { icon: '⊘', label: 'archived project' };
+    case 'project_unarchived': return { icon: '↩', label: 'unarchived project' };
+    case 'task_added': return { icon: '＋', label: 'added task' };
+    case 'task_completed': return { icon: '✓', label: 'completed' };
+    case 'task_reopened': return { icon: '↺', label: 'reopened' };
+    case 'task_deleted': return { icon: '✕', label: 'deleted task' };
+    case 'dependency_added': return { icon: '⛓', label: 'linked' };
+    case 'dependency_removed': return { icon: '⛓', label: 'unlinked' };
+    default: return { icon: '·', label: kind.replace(/_/g, ' ') };
+  }
+}
+
 type Tab = 'talk' | 'activity';
 
 export function ProjectConversation({ id }: { id: number }) {
@@ -32,6 +50,9 @@ export function ProjectConversation({ id }: { id: number }) {
   const [err, setErr] = useState('');
 
   const comments = data?.comments ?? [];
+  // Server returns activity newest-first; no optimistic writes — it refreshes
+  // when the hub revalidates after each mutation.
+  const activity = data?.activity ?? [];
 
   const childrenByParent = useMemo(() => {
     const m = new Map<number | null, ProjectComment[]>();
@@ -212,7 +233,25 @@ export function ProjectConversation({ id }: { id: number }) {
         </div>
       ) : (
         <div className="project-conversation-body">
-          <div className="project-conversation-empty">Activity log lands in the next step.</div>
+          {activity.length === 0 ? (
+            <div className="project-conversation-empty">No activity yet.</div>
+          ) : (
+            <ul className="project-activity-list">
+              {activity.map((a) => {
+                const { icon, label } = describeActivity(a.kind);
+                return (
+                  <li key={a.id} className="project-activity-item">
+                    <span className="project-activity-icon" aria-hidden="true">{icon}</span>
+                    <span className="project-activity-text">
+                      <span className="project-activity-label">{label}</span>
+                      {a.detail && <span className="project-activity-detail">{a.detail}</span>}
+                    </span>
+                    <span className="project-activity-time">{timeAgo(a.created_at)}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       )}
     </aside>
