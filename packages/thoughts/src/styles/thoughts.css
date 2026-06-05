@@ -239,6 +239,9 @@ input[type="checkbox"]:disabled {
 .compose-area textarea {
   width: 100%;
   resize: none;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-height: 5rem;
   font-family: inherit;
   font-size: 1.1rem;
   padding: 1rem 0;

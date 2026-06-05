@@ -1,1 +1,0 @@
-import{ah as o,j as m}from"./index-D2-JJX4u.js";import{D as r}from"./DocumentEditView-BmmkOp-R.js";import"./FramingDetailPane-BsZw62U9.js";import"./ThoughtCard-Bl0sUXA2.js";import"./VersionHistory-BTlUnKyz.js";function u(){const{id:t}=o.useParams();return m.jsx(r,{id:t},t)}export{u as component};
