@@ -1,10 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { ProjectsListView } from '../components/ProjectsListView';
+import { ProjectWorkbench } from '../components/projects/ProjectWorkbench';
 
 export const Route = createFileRoute('/projects')({
+  staticData: { bare: true },
   component: ProjectsRoute,
 });
 
 function ProjectsRoute() {
-  return <ProjectsListView />;
+  return <ProjectWorkbench projectId={null} />;
 }

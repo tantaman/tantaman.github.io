@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { ProjectView } from '../components/ProjectView';
+import { ProjectWorkbench } from '../components/projects/ProjectWorkbench';
 
 export const Route = createFileRoute('/projects_/$id')({
+  staticData: { bare: true },
   params: {
     parse: ({ id }) => ({ id: Number(id) }),
     stringify: ({ id }) => ({ id: String(id) }),
@@ -11,5 +12,5 @@ export const Route = createFileRoute('/projects_/$id')({
 
 function ProjectRoute() {
   const { id } = Route.useParams();
-  return <ProjectView id={id} />;
+  return <ProjectWorkbench projectId={id} />;
 }

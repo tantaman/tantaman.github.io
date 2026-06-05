@@ -67,6 +67,44 @@ describe("projects: direct (thoughtless) flow", () => {
     expect(detail.tasks.map((t: any) => t.id)).toEqual([b.id]);
     expect(detail.deps).toHaveLength(0);
   });
+
+  test("reorder sets explicit task order; unknown/foreign ids are no-ops", async () => {
+    const p = await (await json("/api/projects", { title: "Reorder test" })).json<any>();
+    const a = await (await json(`/api/projects/${p.id}/tasks`, { title: "A" })).json<any>();
+    const b = await (await json(`/api/projects/${p.id}/tasks`, { title: "B" })).json<any>();
+    const c = await (await json(`/api/projects/${p.id}/tasks`, { title: "C" })).json<any>();
+
+    // Tasks come back in creation order initially.
+    const before = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(before.tasks.map((t: any) => t.id)).toEqual([a.id, b.id, c.id]);
+
+    // Reorder to C, A, B — include a bogus id and a task from another project;
+    // both must be silently ignored without affecting the result.
+    const other = await (await json("/api/projects", { title: "Other" })).json<any>();
+    const x = await (await json(`/api/projects/${other.id}/tasks`, { title: "X" })).json<any>();
+    const res = await json(`/api/projects/${p.id}/tasks/reorder`, {
+      ids: [c.id, a.id, b.id, 999999, x.id],
+    });
+    expect(res.status).toBe(200);
+
+    const after = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(after.tasks.map((t: any) => t.id)).toEqual([c.id, a.id, b.id]);
+
+    // The foreign task's ordering is untouched.
+    const otherDetail = await (await req(`/api/projects/${other.id}`)).json<any>();
+    expect(otherDetail.tasks.map((t: any) => t.id)).toEqual([x.id]);
+  });
+
+  test("reorder requires auth", async () => {
+    const p = await (await json("/api/projects", { title: "Reorder auth" })).json<any>();
+    const a = await (await json(`/api/projects/${p.id}/tasks`, { title: "A" })).json<any>();
+    const res = await req(`/api/projects/${p.id}/tasks/reorder`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids: [a.id] }),
+    });
+    expect(res.status).toBe(401);
+  });
 });
 
 describe("projects: draft → convert", () => {

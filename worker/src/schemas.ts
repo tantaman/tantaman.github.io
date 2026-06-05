@@ -52,6 +52,12 @@ export const CreateProjectTaskBody = z.object({
   description: z.string().nullable().optional(),
 });
 
+// POST /projects/:id/tasks/reorder — set explicit task ordering. `ids` is the
+// desired order; each task's `position` becomes its index in the list.
+export const ReorderTasksBody = z.object({
+  ids: z.array(z.number().int()).min(1),
+});
+
 // POST /tasks/:id/blockers — record that `blocker_task_id` must complete before
 // this task (a task_dependency edge).
 export const AddBlockerBody = z.object({

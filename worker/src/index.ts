@@ -59,6 +59,7 @@ import {
   CreateProjectBody,
   UpdateProjectBody,
   CreateProjectTaskBody,
+  ReorderTasksBody,
   AddBlockerBody,
   CreateCanvasBody,
   UpdateCanvasBody,
@@ -1790,6 +1791,25 @@ api.post("/projects/:id/tasks", async (c) => {
     "SELECT id, thought_id, title, description, created_at, completed_at, deprioritized_at, project_id, position FROM task WHERE id = ?"
   ).bind(res.meta.last_row_id).first();
   return c.json(task, 201);
+});
+
+// Reorder a project's tasks. Body: { ids } in the desired display order; each
+// task's `position` becomes its 1-based index. Ids not belonging to the project
+// are ignored (the WHERE project_id guard makes the write a no-op for them).
+api.post("/projects/:id/tasks/reorder", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+  const { ids } = ReorderTasksBody.parse(await c.req.json());
+
+  const stmts = ids.map((taskId, i) =>
+    c.env.DB.prepare(
+      "UPDATE task SET position = ? WHERE id = ? AND project_id = ?"
+    ).bind(i + 1, taskId, id)
+  );
+  if (stmts.length > 0) await c.env.DB.batch(stmts);
+  await bumpVersion(c.env.DB);
+  return c.json({ ok: true });
 });
 
 // Task-to-task dependency: blocker_task_id must complete before this task.

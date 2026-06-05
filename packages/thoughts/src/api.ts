@@ -319,6 +319,21 @@ export async function createProjectTask(
   return r.json();
 }
 
+// Persist explicit task ordering for a project. `ids` is the full desired order.
+export async function reorderProjectTasks(
+  projectId: number,
+  ids: number[],
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/projects/${projectId}/tasks/reorder`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ ids }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to reorder tasks');
+}
+
 export async function deleteTask(id: number, secret: string): Promise<void> {
   const r = await fetch(`${API}/tasks/${id}`, {
     method: 'DELETE',
