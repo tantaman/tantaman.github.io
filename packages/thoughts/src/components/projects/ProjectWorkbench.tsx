@@ -1,10 +1,11 @@
 import { ProjectSwitcherRail } from './ProjectSwitcherRail';
 import { ProjectView } from './ProjectView';
+import { ProjectConversation } from './ProjectConversation';
 
-// The Projects workbench: a fast list/card layer (switcher rail + a single
-// project's tasks). The right rail (Conversation / Activity) lands in a later
-// milestone. Both `/projects` and `/projects/$id` render this; the center is an
-// empty prompt until a project is selected.
+// The Projects workbench: a fast list/card layer. Left = project switcher,
+// center = a single project's tasks, right = its Conversation / Activity rail.
+// Both `/projects` and `/projects/$id` render this; the center is an empty
+// prompt until a project is selected.
 export function ProjectWorkbench({ projectId }: { projectId: number | null }) {
   return (
     <div className="project-workbench">
@@ -21,6 +22,7 @@ export function ProjectWorkbench({ projectId }: { projectId: number | null }) {
           <ProjectView id={projectId} />
         )}
       </div>
+      {projectId != null && <ProjectConversation id={projectId} />}
     </div>
   );
 }

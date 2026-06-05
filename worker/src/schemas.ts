@@ -64,6 +64,18 @@ export const AddBlockerBody = z.object({
   blocker_task_id: z.number().int(),
 });
 
+// POST /projects/:id/comments — a discussion comment (markdown body), optionally
+// a reply to another comment in the same project.
+export const CreateProjectCommentBody = z.object({
+  body: z.string().trim().min(1),
+  parent_id: z.number().int().nullable().optional(),
+});
+
+// PATCH /projects/:id/comments/:commentId
+export const UpdateProjectCommentBody = z.object({
+  body: z.string().trim().min(1),
+});
+
 // POST /framings
 export const CreateFramingBody = z.object({
   name: z.string().trim().min(1),

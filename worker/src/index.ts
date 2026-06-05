@@ -61,6 +61,8 @@ import {
   CreateProjectTaskBody,
   ReorderTasksBody,
   AddBlockerBody,
+  CreateProjectCommentBody,
+  UpdateProjectCommentBody,
   CreateCanvasBody,
   UpdateCanvasBody,
 } from "./schemas";
@@ -1699,7 +1701,14 @@ api.get("/projects/:id", async (c) => {
      WHERE b.project_id = ?`
   ).bind(id).all<{ blocker_task_id: number; blocked_task_id: number }>();
 
-  return c.json({ project, tasks, deps: depsRes.results });
+  // The project hub bundles the discussion thread in the same round trip.
+  const commentsRes = await c.env.DB.prepare(
+    `SELECT id, project_id, parent_id, body, created_at, updated_at
+     FROM project_comment WHERE project_id = ?
+     ORDER BY created_at, id`
+  ).bind(id).all();
+
+  return c.json({ project, tasks, deps: depsRes.results, comments: commentsRes.results });
 });
 
 api.patch("/projects/:id", async (c) => {
@@ -1863,6 +1872,69 @@ api.delete("/tasks/:id/blockers/:blockerId", async (c) => {
   await c.env.DB.prepare(
     "DELETE FROM task_dependency WHERE blocker_task_id = ? AND blocked_task_id = ?"
   ).bind(blockerId, id).run();
+  await bumpVersion(c.env.DB);
+  return c.json({ ok: true });
+});
+
+// Project comments — the hub's discussion thread, decoupled from thoughts.
+// Bodies are markdown; replies nest via parent_id (same project only).
+api.post("/projects/:id/comments", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  if (!Number.isFinite(id)) return c.json({ error: "Bad id" }, 400);
+  const { body, parent_id } = CreateProjectCommentBody.parse(await c.req.json());
+
+  const project = await c.env.DB.prepare("SELECT id FROM project WHERE id = ?").bind(id).first();
+  if (!project) return c.json({ error: "Project not found" }, 404);
+
+  if (parent_id != null) {
+    const parent = await c.env.DB.prepare(
+      "SELECT id FROM project_comment WHERE id = ? AND project_id = ?"
+    ).bind(parent_id, id).first();
+    if (!parent) return c.json({ error: "Parent comment not found" }, 400);
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  const res = await c.env.DB.prepare(
+    "INSERT INTO project_comment (project_id, parent_id, body, created_at) VALUES (?, ?, ?, ?)"
+  ).bind(id, parent_id ?? null, body, now).run();
+  await bumpVersion(c.env.DB);
+
+  const comment = await c.env.DB.prepare(
+    "SELECT id, project_id, parent_id, body, created_at, updated_at FROM project_comment WHERE id = ?"
+  ).bind(res.meta.last_row_id).first();
+  return c.json(comment, 201);
+});
+
+api.patch("/projects/:id/comments/:commentId", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  const commentId = parseInt(c.req.param("commentId"), 10);
+  if (!Number.isFinite(id) || !Number.isFinite(commentId)) return c.json({ error: "Bad id" }, 400);
+  const { body } = UpdateProjectCommentBody.parse(await c.req.json());
+
+  const now = Math.floor(Date.now() / 1000);
+  const upd = await c.env.DB.prepare(
+    "UPDATE project_comment SET body = ?, updated_at = ? WHERE id = ? AND project_id = ?"
+  ).bind(body, now, commentId, id).run();
+  if (!upd.meta.changes) return c.json({ error: "Not found" }, 404);
+  await bumpVersion(c.env.DB);
+
+  const comment = await c.env.DB.prepare(
+    "SELECT id, project_id, parent_id, body, created_at, updated_at FROM project_comment WHERE id = ? AND project_id = ?"
+  ).bind(commentId, id).first();
+  return c.json(comment);
+});
+
+// Delete a comment; replies cascade via the parent_id foreign key.
+api.delete("/projects/:id/comments/:commentId", async (c) => {
+  if (!isAuthed(c)) return c.json({ error: "Unauthorized" }, 401);
+  const id = parseInt(c.req.param("id"), 10);
+  const commentId = parseInt(c.req.param("commentId"), 10);
+  if (!Number.isFinite(id) || !Number.isFinite(commentId)) return c.json({ error: "Bad id" }, 400);
+  await c.env.DB.prepare(
+    "DELETE FROM project_comment WHERE id = ? AND project_id = ?"
+  ).bind(commentId, id).run();
   await bumpVersion(c.env.DB);
   return c.json({ ok: true });
 });

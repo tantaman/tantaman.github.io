@@ -4875,9 +4875,183 @@ a.movie-title:hover {
   background: var(--bg-soft);
 }
 
+/* Right rail: Conversation / Activity (M1b) */
+.project-conversation {
+  width: 300px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.project-rail-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.project-rail-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.7rem 0.5rem;
+}
+
+.project-rail-tab:hover {
+  color: var(--text);
+}
+
+.project-rail-tab.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+.project-conversation-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-conversation-empty {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.1rem;
+}
+
+.project-comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.project-comment {
+  font-size: 0.9rem;
+}
+
+.project-comment-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 1.1rem;
+}
+
+.project-comment-time {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.project-comment-actions {
+  display: flex;
+  gap: 0.45rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.project-comment:hover > .project-comment-head > .project-comment-actions {
+  opacity: 1;
+}
+
+.project-comment-action {
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.project-comment-action:hover {
+  color: var(--text);
+}
+
+.project-comment-action--danger:hover {
+  color: #c0392b;
+}
+
+.project-comment-body {
+  color: var(--text);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.project-comment-body > :first-child {
+  margin-top: 0;
+}
+
+.project-comment-body > :last-child {
+  margin-bottom: 0;
+}
+
+.project-comment-body p {
+  margin: 0.3rem 0;
+}
+
+.project-comment-replies {
+  margin-top: 0.6rem;
+  padding-left: 0.7rem;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.project-comment-compose {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.project-comment-compose--new {
+  margin: 0 0 0.4rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-comment-input {
+  resize: vertical;
+  line-height: 1.45;
+  font-size: 0.88rem;
+}
+
+.project-comment-compose-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.project-comment-compose-actions .task-add-btn {
+  padding: 0.3rem 0.8rem;
+  font-size: 0.82rem;
+}
+
 @media (max-width: 768px) {
   .project-workbench {
     flex-direction: column;
+  }
+
+  .project-conversation {
+    width: 100%;
+    height: auto;
+    position: static;
+    max-height: 55vh;
+    border-left: none;
+    border-top: 1px solid var(--border);
   }
 
   .project-switcher-rail {

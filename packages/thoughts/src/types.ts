@@ -96,10 +96,20 @@ export interface ProjectDependency {
   blocked_task_id: number;
 }
 
+export interface ProjectComment {
+  id: number;
+  project_id: number;
+  parent_id: number | null;
+  body: string;
+  created_at: number;
+  updated_at: number | null;
+}
+
 export interface ProjectDetail {
   project: Project;
   tasks: ProjectTask[];
   deps: ProjectDependency[];
+  comments: ProjectComment[];
 }
 
 export interface Event {

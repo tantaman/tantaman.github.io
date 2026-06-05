@@ -107,6 +107,55 @@ describe("projects: direct (thoughtless) flow", () => {
   });
 });
 
+describe("projects: comments", () => {
+  test("create, reply, edit, and list via the hub", async () => {
+    const p = await (await json("/api/projects", { title: "Comment test" })).json<any>();
+    const top = await (await json(`/api/projects/${p.id}/comments`, { body: "First note" })).json<any>();
+    expect(top.parent_id).toBeNull();
+    expect(top.project_id).toBe(p.id);
+
+    const reply = await (await json(`/api/projects/${p.id}/comments`, { body: "A reply", parent_id: top.id })).json<any>();
+    expect(reply.parent_id).toBe(top.id);
+
+    // Comments ship inside the project hub fetch, oldest-first.
+    const hub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(hub.comments.map((c: any) => c.id)).toEqual([top.id, reply.id]);
+
+    const edited = await (await json(`/api/projects/${p.id}/comments/${top.id}`, { body: "First note (v2)" }, "PATCH")).json<any>();
+    expect(edited.body).toBe("First note (v2)");
+    expect(edited.updated_at).not.toBeNull();
+  });
+
+  test("rejects a reply whose parent is in another project", async () => {
+    const p1 = await (await json("/api/projects", { title: "P1" })).json<any>();
+    const p2 = await (await json("/api/projects", { title: "P2" })).json<any>();
+    const c1 = await (await json(`/api/projects/${p1.id}/comments`, { body: "in p1" })).json<any>();
+    const res = await json(`/api/projects/${p2.id}/comments`, { body: "wrong parent", parent_id: c1.id });
+    expect(res.status).toBe(400);
+  });
+
+  test("deleting a comment cascades to its replies", async () => {
+    const p = await (await json("/api/projects", { title: "Cascade" })).json<any>();
+    const parent = await (await json(`/api/projects/${p.id}/comments`, { body: "parent" })).json<any>();
+    await json(`/api/projects/${p.id}/comments`, { body: "child", parent_id: parent.id });
+
+    const del = await req(`/api/projects/${p.id}/comments/${parent.id}`, { method: "DELETE", headers: AUTH });
+    expect(del.status).toBe(200);
+    const hub = await (await req(`/api/projects/${p.id}`)).json<any>();
+    expect(hub.comments).toHaveLength(0);
+  });
+
+  test("comment writes require auth", async () => {
+    const p = await (await json("/api/projects", { title: "Auth" })).json<any>();
+    const res = await req(`/api/projects/${p.id}/comments`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ body: "nope" }),
+    });
+    expect(res.status).toBe(401);
+  });
+});
+
 describe("projects: draft → convert", () => {
   test("convert promotes a draft and reconciles reply-tree dependencies", async () => {
     const now = Math.floor(Date.now() / 1000);

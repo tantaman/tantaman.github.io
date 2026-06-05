@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, Project, ProjectTask, ProjectDetail, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
+import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, Project, ProjectTask, ProjectComment, ProjectDetail, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -364,6 +364,52 @@ export async function removeTaskBlocker(taskId: number, blockerTaskId: number, s
   });
   if (r.status === 401) throw new Error('Unauthorized');
   if (!r.ok) throw new Error('Failed to remove dependency');
+}
+
+// ── Project comments (the hub conversation thread) ───────────────────────
+export async function createProjectComment(
+  projectId: number,
+  body: string,
+  secret: string,
+  parentId?: number | null,
+): Promise<ProjectComment> {
+  const r = await fetch(`${API}/projects/${projectId}/comments`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ body, parent_id: parentId ?? null }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to add comment');
+  return r.json();
+}
+
+export async function patchProjectComment(
+  projectId: number,
+  commentId: number,
+  body: string,
+  secret: string,
+): Promise<ProjectComment> {
+  const r = await fetch(`${API}/projects/${projectId}/comments/${commentId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ body }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to edit comment');
+  return r.json();
+}
+
+export async function deleteProjectComment(
+  projectId: number,
+  commentId: number,
+  secret: string,
+): Promise<void> {
+  const r = await fetch(`${API}/projects/${projectId}/comments/${commentId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to delete comment');
 }
 
 export function getEvents(
