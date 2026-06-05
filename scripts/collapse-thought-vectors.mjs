@@ -26,13 +26,17 @@ const DELETE_BATCH = 100;
 const WORKER_DIR = new URL('../worker', import.meta.url).pathname;
 
 function wrangler(...args) {
-  // --env-file /dev/null prevents wrangler from loading worker/.env (which may
-  // contain a stale API token that overrides the OAuth session).
-  return execFileSync('npx', ['wrangler', ...args, '--env-file', '/dev/null'], {
+  // Use the globally-installed, `wrangler login`-authed CLI and ignore
+  // worker/.env (--env-file /dev/null) plus any inherited CLOUDFLARE_API_TOKEN,
+  // so the OAuth session is used rather than the under-permissioned .env token.
+  const env = { ...process.env };
+  delete env.CLOUDFLARE_API_TOKEN;
+  return execFileSync('wrangler', [...args, '--env-file', '/dev/null'], {
     encoding: 'utf-8',
     maxBuffer: 50 * 1024 * 1024,
     stdio: ['pipe', 'pipe', 'pipe'],
     cwd: WORKER_DIR,
+    env,
   });
 }
 

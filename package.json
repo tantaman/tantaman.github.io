@@ -23,6 +23,8 @@
     "sync-posts": "node scripts/sync-published-documents.mjs",
     "build:cloudflare": "cd worker",
     "deploy:cloudflare": "cd worker && wrangler publish",
+    "db:migrate:local": "cd worker && wrangler d1 migrations apply thought --local",
+    "db:migrate:remote": "cd worker && wrangler d1 migrations apply thought --remote",
     "dev": "sitecompiler-watch",
     "serve": "cd docs && serve",
     "fetch-chat": "fetch-chat",
