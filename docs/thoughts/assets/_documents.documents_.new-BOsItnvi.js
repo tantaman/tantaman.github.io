@@ -1,0 +1,1 @@
+import{j as o}from"./index-emoJTCzC.js";import{D as t}from"./DocumentEditView-Bzn0TkVR.js";import"./FramingDetailPane-CJQk7iW8.js";import"./ThoughtCard-7vethOQr.js";import"./VersionHistory-B3-lsiD5.js";function p(){return o.jsx(t,{},"new")}export{p as component};

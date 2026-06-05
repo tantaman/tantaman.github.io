@@ -1,9 +1,12 @@
 import { useContext, useMemo, useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { postThought, patchTask, patchProject, addBlocker, removeBlocker } from '../api';
+import {
+  patchTask, patchProject, createProjectTask, deleteTask,
+  addTaskBlocker, removeTaskBlocker, convertProject,
+} from '../api';
 import { AuthContext } from '../auth-context';
 import { useProject } from '../hooks/useCache';
-import type { ProjectTask, ProjectDependency } from '../types';
+import type { ProjectTask } from '../types';
 
 type Group = 'ready' | 'blocked' | 'completed';
 
@@ -11,45 +14,47 @@ export function ProjectView({ id }: { id: number }) {
   const { secret } = useContext(AuthContext);
   const { data, mutate } = useProject(id);
   const [newTask, setNewTask] = useState('');
-  const [adding, setAdding] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
-  const [replyTo, setReplyTo] = useState<number | null>(null);
-  const [replyText, setReplyText] = useState('');
+  const [subtaskFor, setSubtaskFor] = useState<number | null>(null);
+  const [subtaskText, setSubtaskText] = useState('');
   const [blockerFor, setBlockerFor] = useState<number | null>(null);
+  const [editId, setEditId] = useState<number | null>(null);
+  const [editText, setEditText] = useState('');
   const [showCompleted, setShowCompleted] = useState(false);
 
   const project = data?.project;
   const tasks = data?.tasks ?? [];
   const deps = data?.deps ?? [];
+  const isDraft = project?.status === 'draft';
+  const canEdit = !!secret && project?.status === 'active';
 
-  // thought_id → its task (tasks are 1:1 with reply thoughts in the project flow).
-  const taskByThought = useMemo(() => {
+  const taskById = useMemo(() => {
     const m = new Map<number, ProjectTask>();
-    for (const t of tasks) m.set(t.thought_id, t);
+    for (const t of tasks) m.set(t.id, t);
     return m;
   }, [tasks]);
 
-  // blocked_thought_id → blocker thought ids
-  const blockersByThought = useMemo(() => {
-    const m = new Map<number, ProjectDependency[]>();
+  // blocked_task_id → blocker task ids
+  const blockersByTask = useMemo(() => {
+    const m = new Map<number, number[]>();
     for (const d of deps) {
-      const arr = m.get(d.blocked_thought_id) ?? [];
-      arr.push(d);
-      m.set(d.blocked_thought_id, arr);
+      const arr = m.get(d.blocked_task_id) ?? [];
+      arr.push(d.blocker_task_id);
+      m.set(d.blocked_task_id, arr);
     }
     return m;
   }, [deps]);
 
-  const isComplete = (thoughtId: number) => {
-    const t = taskByThought.get(thoughtId);
-    return t ? t.completed_at !== null : true; // unknown blocker → treat as satisfied
+  const isComplete = (taskId: number) => {
+    const t = taskById.get(taskId);
+    return t ? t.completed_at !== null : true;
   };
 
   const groupOf = (t: ProjectTask): Group => {
     if (t.completed_at !== null) return 'completed';
-    const blockers = blockersByThought.get(t.thought_id) ?? [];
-    const open = blockers.some((b) => !isComplete(b.blocker_thought_id));
-    return open ? 'blocked' : 'ready';
+    const blockers = blockersByTask.get(t.id) ?? [];
+    return blockers.some((b) => !isComplete(b)) ? 'blocked' : 'ready';
   };
 
   const grouped = useMemo(() => {
@@ -59,83 +64,44 @@ export function ProjectView({ id }: { id: number }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks, deps]);
 
+  const wrap = async (fn: () => Promise<unknown>) => {
+    if (!secret) return;
+    setErr('');
+    try { await fn(); mutate(); }
+    catch (e: any) { setErr(e?.message || 'Something went wrong'); mutate(); }
+  };
+
   const addTask = async () => {
     const title = newTask.trim();
-    if (!title || !secret || adding || !project) return;
-    setAdding(true);
-    setErr('');
-    try {
-      // Reply to the project root → resolves into this project, becomes a top task.
-      await postThought(`#t ${title}`, secret, project.thought_id);
-      setNewTask('');
-      mutate();
-    } catch (e: any) {
-      setErr(e?.message || 'Failed to add task');
-    } finally {
-      setAdding(false);
-    }
+    if (!title || !canEdit || busy) return;
+    setBusy(true);
+    await wrap(async () => { await createProjectTask(id, title, secret!); setNewTask(''); });
+    setBusy(false);
   };
 
-  const addSubtask = async (parentThoughtId: number) => {
-    const title = replyText.trim();
+  const addSubtask = async (parentTaskId: number) => {
+    const title = subtaskText.trim();
     if (!title || !secret) return;
-    try {
-      // Reply to the task → child task, blocked-by the parent via the reply tree.
-      await postThought(`#t ${title}`, secret, parentThoughtId);
-      setReplyText('');
-      setReplyTo(null);
-      mutate();
-    } catch (e: any) {
-      setErr(e?.message || 'Failed to add subtask');
-    }
+    await wrap(async () => {
+      const child = await createProjectTask(id, title, secret);
+      await addTaskBlocker(child.id, parentTaskId, secret);
+      setSubtaskText('');
+      setSubtaskFor(null);
+    });
   };
 
-  const toggleComplete = async (t: ProjectTask) => {
-    if (!secret) return;
-    try {
-      await patchTask(t.id, { completed: t.completed_at === null }, secret);
-      mutate();
-    } catch { mutate(); }
-  };
-
-  const toggleDeprioritize = async (t: ProjectTask) => {
-    if (!secret) return;
-    try {
-      await patchTask(t.id, { deprioritized: t.deprioritized_at == null }, secret);
-      mutate();
-    } catch { mutate(); }
-  };
-
-  const onAddBlocker = async (blockedThoughtId: number, blockerThoughtId: number) => {
-    if (!secret) return;
-    setBlockerFor(null);
-    try {
-      await addBlocker(blockedThoughtId, blockerThoughtId, secret);
-      mutate();
-    } catch (e: any) { setErr(e?.message || 'Failed to add dependency'); }
-  };
-
-  const onRemoveBlocker = async (blockedThoughtId: number, blockerThoughtId: number) => {
-    if (!secret) return;
-    try {
-      await removeBlocker(blockedThoughtId, blockerThoughtId, secret);
-      mutate();
-    } catch (e: any) { setErr(e?.message || 'Failed to remove dependency'); }
-  };
-
-  const toggleArchive = async () => {
-    if (!secret || !project) return;
-    try {
-      await patchProject(project.id, { archived: project.archived_at == null }, secret);
-      mutate();
-    } catch (e: any) { setErr(e?.message || 'Failed to update project'); }
+  const saveEdit = async (t: ProjectTask) => {
+    const title = editText.trim();
+    setEditId(null);
+    if (!title || !secret || title === t.title) return;
+    await wrap(() => patchTask(t.id, { title }, secret));
   };
 
   if (!data) return <div className="thought-loading">Loading…</div>;
   if (!project) return <div className="thought-loading">Project not found</div>;
 
   const renderTask = (t: ProjectTask) => {
-    const blockers = (blockersByThought.get(t.thought_id) ?? []);
+    const blockers = blockersByTask.get(t.id) ?? [];
     return (
       <li key={t.id} className="project-task">
         <div className="task-row">
@@ -144,42 +110,66 @@ export function ProjectView({ id }: { id: number }) {
             className="task-checkbox"
             checked={t.completed_at !== null}
             disabled={!secret}
-            onChange={() => toggleComplete(t)}
+            onChange={() => wrap(() => patchTask(t.id, { completed: t.completed_at === null }, secret!))}
             title="Complete"
           />
           <button
             className={`task-deprioritize-btn${t.deprioritized_at != null ? ' task-deprioritize-btn--active' : ''}`}
             disabled={!secret}
-            onClick={() => toggleDeprioritize(t)}
+            onClick={() => wrap(() => patchTask(t.id, { deprioritized: t.deprioritized_at == null }, secret!))}
             title="De-prioritize"
           >
             −
           </button>
-          <Link
-            to="/t/$id"
-            params={{ id: t.thought_id }}
-            className={`task-title${t.completed_at !== null ? ' task-title--done' : ''}${t.deprioritized_at != null && t.completed_at === null ? ' task-title--deprioritized' : ''}`}
-          >
-            {t.title}
-          </Link>
-          {secret && (
+
+          {editId === t.id ? (
+            <input
+              type="text"
+              className="task-add-input project-task-edit"
+              value={editText}
+              autoFocus
+              onChange={(e) => setEditText(e.target.value)}
+              onBlur={() => saveEdit(t)}
+              onKeyDown={(e) => { if (e.key === 'Enter') saveEdit(t); if (e.key === 'Escape') setEditId(null); }}
+            />
+          ) : t.thought_id != null ? (
+            <Link
+              to="/t/$id"
+              params={{ id: t.thought_id }}
+              className={`task-title${t.completed_at !== null ? ' task-title--done' : ''}${t.deprioritized_at != null && t.completed_at === null ? ' task-title--deprioritized' : ''}`}
+              title="From a captured thought"
+            >
+              {t.title}
+            </Link>
+          ) : (
+            <span
+              className={`task-title${t.completed_at !== null ? ' task-title--done' : ''}${t.deprioritized_at != null && t.completed_at === null ? ' task-title--deprioritized' : ''}`}
+              onDoubleClick={() => { if (canEdit) { setEditId(t.id); setEditText(t.title); } }}
+            >
+              {t.title}
+            </span>
+          )}
+
+          {canEdit && editId !== t.id && (
             <div className="project-task-actions">
-              <button className="project-task-action" onClick={() => { setReplyTo(replyTo === t.thought_id ? null : t.thought_id); setReplyText(''); }} title="Add a dependent subtask">+ subtask</button>
-              <button className="project-task-action" onClick={() => setBlockerFor(blockerFor === t.thought_id ? null : t.thought_id)} title="Mark this task as blocked by another">+ blocker</button>
+              <button className="project-task-action" onClick={() => { setEditId(t.id); setEditText(t.title); }} title="Rename">✎</button>
+              <button className="project-task-action" onClick={() => { setSubtaskFor(subtaskFor === t.id ? null : t.id); setSubtaskText(''); }} title="Add a dependent subtask">+ subtask</button>
+              <button className="project-task-action" onClick={() => setBlockerFor(blockerFor === t.id ? null : t.id)} title="Mark this task as blocked by another">+ blocker</button>
+              <button className="project-task-action project-task-action--danger" onClick={() => wrap(() => deleteTask(t.id, secret!))} title="Delete task">🗑</button>
             </div>
           )}
         </div>
 
         {blockers.length > 0 && (
           <div className="project-task-blockers">
-            {blockers.map((b) => {
-              const bt = taskByThought.get(b.blocker_thought_id);
-              const done = isComplete(b.blocker_thought_id);
+            {blockers.map((bid) => {
+              const bt = taskById.get(bid);
+              const done = isComplete(bid);
               return (
-                <span key={`${b.blocker_thought_id}-${b.kind}`} className={`project-blocker-chip${done ? ' project-blocker-chip--done' : ''}`}>
-                  {b.kind === 'reply' ? '↳ ' : '⛔ '}{bt ? bt.title : `#${b.blocker_thought_id}`}
-                  {secret && b.kind === 'blocks' && (
-                    <button className="project-blocker-remove" title="Remove dependency" onClick={() => onRemoveBlocker(t.thought_id, b.blocker_thought_id)}>×</button>
+                <span key={bid} className={`project-blocker-chip${done ? ' project-blocker-chip--done' : ''}`}>
+                  ⛔ {bt ? bt.title : `#${bid}`}
+                  {canEdit && (
+                    <button className="project-blocker-remove" title="Remove dependency" onClick={() => wrap(() => removeTaskBlocker(t.id, bid, secret!))}>×</button>
                   )}
                 </span>
               );
@@ -187,31 +177,31 @@ export function ProjectView({ id }: { id: number }) {
           </div>
         )}
 
-        {blockerFor === t.thought_id && (
+        {blockerFor === t.id && canEdit && (
           <div className="project-blocker-picker">
             <select
               defaultValue=""
-              onChange={(e) => { const v = parseInt(e.target.value, 10); if (Number.isFinite(v)) onAddBlocker(t.thought_id, v); }}
+              onChange={(e) => { const v = parseInt(e.target.value, 10); if (Number.isFinite(v)) { setBlockerFor(null); wrap(() => addTaskBlocker(t.id, v, secret!)); } }}
             >
               <option value="" disabled>Blocked by…</option>
               {tasks
-                .filter((o) => o.thought_id !== t.thought_id && !blockers.some((b) => b.blocker_thought_id === o.thought_id))
-                .map((o) => <option key={o.id} value={o.thought_id}>{o.title}</option>)}
+                .filter((o) => o.id !== t.id && !blockers.includes(o.id))
+                .map((o) => <option key={o.id} value={o.id}>{o.title}</option>)}
             </select>
           </div>
         )}
 
-        {replyTo === t.thought_id && secret && (
-          <form className="task-add project-subtask-add" onSubmit={(e) => { e.preventDefault(); addSubtask(t.thought_id); }}>
+        {subtaskFor === t.id && canEdit && (
+          <form className="task-add project-subtask-add" onSubmit={(e) => { e.preventDefault(); addSubtask(t.id); }}>
             <input
               type="text"
               className="task-add-input"
               placeholder="Dependent subtask…"
-              value={replyText}
+              value={subtaskText}
               autoFocus
-              onChange={(e) => setReplyText(e.target.value)}
+              onChange={(e) => setSubtaskText(e.target.value)}
             />
-            <button type="submit" className="task-add-btn" disabled={!replyText.trim()}>Add</button>
+            <button type="submit" className="task-add-btn" disabled={!subtaskText.trim()}>Add</button>
           </form>
         )}
       </li>
@@ -225,23 +215,33 @@ export function ProjectView({ id }: { id: number }) {
           <Link to="/projects" className="project-back">← Projects</Link>
           <h2 className="tasks-title">
             {project.title}
+            {isDraft && <span className="project-archived-badge">draft</span>}
             {project.archived_at != null && <span className="project-archived-badge">archived</span>}
           </h2>
           {project.description && <p className="project-detail-desc">{project.description}</p>}
         </div>
         <div className="project-detail-controls">
-          <Link to="/t/$id" params={{ id: project.thought_id }} className="project-task-action">open thread</Link>
-          {secret && (
-            <button className="project-task-action" onClick={toggleArchive}>
+          {project.thought_id != null && (
+            <Link to="/t/$id" params={{ id: project.thought_id }} className="project-task-action">open thread</Link>
+          )}
+          {secret && !isDraft && (
+            <button className="project-task-action" onClick={() => wrap(() => patchProject(project.id, { archived: project.archived_at == null }, secret))}>
               {project.archived_at != null ? 'Unarchive' : 'Archive'}
             </button>
           )}
         </div>
       </div>
 
+      {isDraft && secret && (
+        <div className="project-draft-banner">
+          <span>This project is still a draft — captured from thoughts. Convert it to start editing tasks directly.</span>
+          <button className="task-add-btn" onClick={() => wrap(() => convertProject(project.id, secret))}>Convert to project</button>
+        </div>
+      )}
+
       {err && <div className="task-add-error">{err}</div>}
 
-      {secret && (
+      {canEdit && (
         <form className="task-add" onSubmit={(e) => { e.preventDefault(); addTask(); }}>
           <input
             type="text"
@@ -249,16 +249,18 @@ export function ProjectView({ id }: { id: number }) {
             placeholder="Add a task…"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
-            disabled={adding}
+            disabled={busy}
           />
-          <button type="submit" className="task-add-btn" disabled={adding || !newTask.trim()}>
-            {adding ? 'Adding…' : 'Add'}
+          <button type="submit" className="task-add-btn" disabled={busy || !newTask.trim()}>
+            {busy ? 'Adding…' : 'Add'}
           </button>
         </form>
       )}
 
       {tasks.length === 0 ? (
-        <div className="thought-loading">No tasks yet. Add one above, or reply to the project thread with <code>#t</code>.</div>
+        <div className="thought-loading">
+          No tasks yet.{isDraft ? ' Reply to the project thread with ' : ' Add one above, or reply to a thought with '}<code>#t</code>.
+        </div>
       ) : (
         <>
           {grouped.ready.length > 0 && (

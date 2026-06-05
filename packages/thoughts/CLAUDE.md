@@ -18,8 +18,27 @@ Thoughts are plain text with markdown support. Special tags at the start of a li
 | `#m` | Movie | `#m The Matrix` | Media gallery |
 | `#b` | Book | `#b Gödel Escher Bach` | Media gallery |
 | `#a` | Album | `#a Kid A` | iTunes lookup → cover/artist/year |
+| `#p` | Project | `#p Launch website` | Bootstraps a **draft** project; `#t` replies in its subtree accrete as tasks |
 
 Lines following a tag are captured as its description until the next tag or end of body.
+
+## Projects
+
+Projects are first-class structured records, a sibling to framings (a different
+view over the same thought substrate, not a graph canvas). A thought only
+*bootstraps* a project — once it exists, its tasks are edited directly and no
+thoughts are created.
+
+- **Capture** — `#p` creates a *draft* project; `#t` replies under it accrete as
+  tasks, and reply nesting seeds task dependencies. Drafts live in their own
+  section of `/projects` until converted.
+- **Convert** — "Convert to project" promotes a draft to active (adopting its
+  captured tasks in place) and seals it: new `#t` thoughts no longer flow in.
+- **Edit** — active-project edits (add/rename/delete task, add/remove
+  dependency) operate on task records directly; projects can also be created
+  from scratch in the UI with no thought. Dependencies are task-to-task (a real
+  DAG, stored in `task_dependency`); the view groups tasks into Ready / Blocked
+  / Completed.
 
 ## Search
 
@@ -37,6 +56,8 @@ File-based routing under `src/routes/` via TanStack Router. All paths are relati
 |------|------|--------|-------------|
 | `/` | Feed | chrome | Chronological thought stream with search and compose. `?prefill=...` pre-fills compose. |
 | `/t/$id` | Thread | chrome | Parent thought + replies. `id` typed as `number` via `parseParams`. |
+| `/projects` | Projects list | chrome | Active projects + a Drafts section (Convert to project) |
+| `/projects/$id` | Project | chrome | Tasks grouped Ready/Blocked/Completed; thought-free editing |
 | `/tasks` | Tasks | chrome | Filterable task list with complete/deprioritize toggles |
 | `/questions` | Questions | chrome | Filterable question list with answered toggle |
 | `/events` | Events | chrome | Calendar with event highlights |

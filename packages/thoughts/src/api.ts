@@ -1,4 +1,4 @@
-import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, Project, ProjectDetail, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
+import type { Thought, ThoughtVersion, ThoughtHistoryVersion, Tag, Task, Event, Location, Movie, Book, Album, Bookmark, Amplification, Question, Project, ProjectTask, ProjectDetail, SearchResult, UnifiedSearchResponse, Framing, FramingDetail, FramingNode, FramingEdge, PostSummary, MediaItem, GraphResponse, RelatedResponse, Ancestor, Document, DocumentSummary, DocumentStatus, DocumentFrontmatter } from './types';
 
 const API = 'https://tantaman.com/api';
 
@@ -205,7 +205,7 @@ export function getTasks(
 
 export async function patchTask(
   id: number,
-  action: { completed?: boolean; deprioritized?: boolean },
+  action: { completed?: boolean; deprioritized?: boolean; title?: string; description?: string | null },
   secret: string,
 ): Promise<Task> {
   const r = await fetch(`${API}/tasks/${id}`, {
@@ -249,13 +249,28 @@ export async function patchQuestion(
 }
 
 export function getProjects(
-  status: 'active' | 'archived' | 'all' = 'active',
+  status: 'active' | 'draft' | 'archived' | 'all' = 'active',
 ): Promise<{ projects: Project[] }> {
   return fetch(`${API}/projects?status=${status}`).then((r) => r.json());
 }
 
 export function getProject(id: number): Promise<ProjectDetail> {
   return fetch(`${API}/projects/${id}`).then((r) => r.json());
+}
+
+export async function createProject(
+  title: string,
+  secret: string,
+  description?: string,
+): Promise<Project> {
+  const r = await fetch(`${API}/projects`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ title, description }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to create project');
+  return r.json();
 }
 
 export async function patchProject(
@@ -276,22 +291,59 @@ export async function patchProject(
   return r.json();
 }
 
-// Record that `blockerId` must complete before `thoughtId` (a `blocks` edge).
-export async function addBlocker(thoughtId: number, blockerId: number, secret: string): Promise<void> {
-  const r = await fetch(`${API}/thoughts/${thoughtId}/blockers`, {
+// Promote a draft project to active (adopts captured tasks in place).
+export async function convertProject(id: number, secret: string): Promise<Project> {
+  const r = await fetch(`${API}/projects/${id}/convert`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${secret}`,
-    },
-    body: JSON.stringify({ blocker_id: blockerId }),
+    headers: { Authorization: `Bearer ${secret}` },
   });
   if (r.status === 401) throw new Error('Unauthorized');
-  if (!r.ok) throw new Error('Failed to add dependency');
+  if (!r.ok) throw new Error('Failed to convert project');
+  return r.json();
 }
 
-export async function removeBlocker(thoughtId: number, blockerId: number, secret: string): Promise<void> {
-  const r = await fetch(`${API}/thoughts/${thoughtId}/blockers/${blockerId}`, {
+// Add a task directly to a project — no thought created.
+export async function createProjectTask(
+  projectId: number,
+  title: string,
+  secret: string,
+  description?: string,
+): Promise<ProjectTask> {
+  const r = await fetch(`${API}/projects/${projectId}/tasks`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ title, description }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to add task');
+  return r.json();
+}
+
+export async function deleteTask(id: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/tasks/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${secret}` },
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) throw new Error('Failed to delete task');
+}
+
+// Task-to-task dependency: blockerTaskId must complete before taskId.
+export async function addTaskBlocker(taskId: number, blockerTaskId: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/tasks/${taskId}/blockers`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ blocker_task_id: blockerTaskId }),
+  });
+  if (r.status === 401) throw new Error('Unauthorized');
+  if (!r.ok) {
+    const msg = await r.json().then((j: any) => j?.error).catch(() => null);
+    throw new Error(msg || 'Failed to add dependency');
+  }
+}
+
+export async function removeTaskBlocker(taskId: number, blockerTaskId: number, secret: string): Promise<void> {
+  const r = await fetch(`${API}/tasks/${taskId}/blockers/${blockerTaskId}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${secret}` },
   });

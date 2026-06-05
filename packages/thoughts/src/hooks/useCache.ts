@@ -36,7 +36,7 @@ export function useQuestions(status: 'open' | 'answered' | 'all', tags: string[]
   return useSWR(key, () => getQuestions(status, tags.length > 0 ? tags : undefined));
 }
 
-export function useProjects(status: 'active' | 'archived' | 'all' = 'active') {
+export function useProjects(status: 'active' | 'draft' | 'archived' | 'all' = 'active') {
   return useSWR(`projects-${status}`, () => getProjects(status));
 }
 
