@@ -8,6 +8,6 @@
   "type": "module",
   "dependencies": {
     "@types/node": "^17.0.19",
-    "typescript": "^4.5.5"
+    "typescript": "^6.0.3"
   }
 }

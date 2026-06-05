@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "esbuild": "^0.14.38",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
