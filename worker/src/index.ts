@@ -78,6 +78,7 @@ export interface Env {
   VECTORIZE: Vectorize;
   THOUGHT_SECRET: string;
   DHA_SECRET: string;
+  DHA_ADMIN_SECRET: string;
   MAPBOX_TOKEN: string;
   TMDB_API_KEY: string;
   RESEND_API_KEY: string;

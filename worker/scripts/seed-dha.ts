@@ -2,17 +2,18 @@
  * One-time seed script to load existing JSON report files into the DHA API.
  *
  * Usage:
- *   DHA_SECRET=xxx npx tsx worker/scripts/seed-dha.ts [base_url]
+ *   DHA_ADMIN_SECRET=xxx npx tsx worker/scripts/seed-dha.ts [base_url]
  *
+ * Uploads require the admin secret (writes are admin-only).
  * base_url defaults to https://tantaman.com
  */
 
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 
-const secret = process.env.DHA_SECRET;
+const secret = process.env.DHA_ADMIN_SECRET;
 if (!secret) {
-  console.error("DHA_SECRET env var is required");
+  console.error("DHA_ADMIN_SECRET env var is required");
   process.exit(1);
 }
 

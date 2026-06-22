@@ -69,6 +69,7 @@ const Admin: React.FC<AdminProps> = ({ reportDates, onUploaded, onBack }) => {
   const defaultEnd = getLastMonthEnd();
   const [month, setMonth] = useState(getMonthValue(defaultEnd));
   const [jsonText, setJsonText] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
   const [success, setSuccess] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -114,16 +115,26 @@ const Admin: React.FC<AdminProps> = ({ reportDates, onUploaded, onBack }) => {
       return;
     }
 
+    if (!adminPassword) {
+      setErrors(["Admin password is required to upload."]);
+      return;
+    }
+
     setSubmitting(true);
     try {
-      const res = await uploadReport(reportDate, parsed);
+      const res = await uploadReport(reportDate, parsed, adminPassword);
       if (!res.ok) {
-        const body = await res.text();
-        setErrors([`Upload failed (${res.status}): ${body}`]);
+        if (res.status === 401 || res.status === 403) {
+          setErrors(["Incorrect admin password."]);
+        } else {
+          const body = await res.text();
+          setErrors([`Upload failed (${res.status}): ${body}`]);
+        }
         return;
       }
       setSuccess(`Report for ${reportDate} uploaded successfully.`);
       setJsonText("");
+      setAdminPassword("");
       if (fileRef.current) fileRef.current.value = "";
       setTimeout(onUploaded, 1000);
     } catch (e) {
@@ -204,6 +215,28 @@ const Admin: React.FC<AdminProps> = ({ reportDates, onUploaded, onBack }) => {
             />
           </div>
 
+          {/* Admin password */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Admin password
+            </label>
+            <input
+              type="password"
+              value={adminPassword}
+              onChange={(e) => {
+                setAdminPassword(e.target.value);
+                setErrors([]);
+                setSuccess("");
+              }}
+              placeholder="Required to upload"
+              autoComplete="off"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Separate from the viewing password — only required when uploading.
+            </p>
+          </div>
+
           {/* Errors */}
           {errors.length > 0 && (
             <div className="bg-red-50 border border-red-200 rounded-md p-3">
@@ -226,7 +259,7 @@ const Admin: React.FC<AdminProps> = ({ reportDates, onUploaded, onBack }) => {
           {/* Submit */}
           <button
             onClick={handleSubmit}
-            disabled={submitting || !jsonText.trim()}
+            disabled={submitting || !jsonText.trim() || !adminPassword}
             className="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? "Uploading..." : existingDate ? "Upload (Overwrite)" : "Upload Report"}

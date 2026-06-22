@@ -1,17 +1,33 @@
 import { Hono } from "hono";
+import type { MiddlewareHandler } from "hono";
 import type { Env } from "./index";
 import { CreateDhaReportBody } from "./schemas";
 
 export const dha = new Hono<{ Bindings: Env }>();
 
-// Auth middleware for all DHA routes
-dha.use("*", async (c, next) => {
+function bearer(c: { req: { header: (name: string) => string | undefined } }): string | null {
   const auth = c.req.header("Authorization");
-  if (!auth || auth !== `Bearer ${c.env.DHA_SECRET}`) {
+  return auth?.startsWith("Bearer ") ? auth.slice(7) : null;
+}
+
+// Auth middleware for all DHA routes: either the viewer or the admin secret
+// grants read access.
+dha.use("*", async (c, next) => {
+  const token = bearer(c);
+  if (!token || (token !== c.env.DHA_SECRET && token !== c.env.DHA_ADMIN_SECRET)) {
     return c.json({ error: "Unauthorized" }, 401);
   }
   return next();
 });
+
+// Write guard: mutations (upload/delete) require the admin secret specifically.
+// Fails closed — if DHA_ADMIN_SECRET is unset, no token matches and writes are denied.
+const requireAdmin: MiddlewareHandler<{ Bindings: Env }> = async (c, next) => {
+  if (bearer(c) !== c.env.DHA_ADMIN_SECRET) {
+    return c.json({ error: "Admin password required to modify reports" }, 403);
+  }
+  return next();
+};
 
 // List reports
 dha.get("/reports", async (c) => {
@@ -40,7 +56,7 @@ dha.get("/reports/:date", async (c) => {
 });
 
 // Upsert report
-dha.post("/reports", async (c) => {
+dha.post("/reports", requireAdmin, async (c) => {
   const body = CreateDhaReportBody.parse(await c.req.json());
   const now = Math.floor(Date.now() / 1000);
 
@@ -53,7 +69,7 @@ dha.post("/reports", async (c) => {
 });
 
 // Delete report
-dha.delete("/reports/:date", async (c) => {
+dha.delete("/reports/:date", requireAdmin, async (c) => {
   const date = c.req.param("date");
   const result = await c.env.DB.prepare(
     "DELETE FROM dha_report WHERE report_date = ?"

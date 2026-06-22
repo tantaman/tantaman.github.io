@@ -96,13 +96,20 @@ export interface ReportData {
   };
 }
 
+// Uploads require the admin password, which is entered at upload time rather
+// than reused from the stored viewer token. A failed upload must not clear the
+// viewer session, so this deliberately bypasses authedFetch.
 export async function uploadReport(
   reportDate: string,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
+  adminPassword: string
 ): Promise<Response> {
-  return authedFetch("/api/dha/reports", {
+  return fetch("/api/dha/reports", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${adminPassword}`,
+    },
     body: JSON.stringify({ report_date: reportDate, data }),
   });
 }
