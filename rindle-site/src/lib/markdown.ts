@@ -13,6 +13,22 @@ export function renderMarkdown(markdown: string): string {
   return marked.parse(withWikiLinks, { async: false }) as string;
 }
 
+const LEADING_TITLE = /^\s*#(?!#)\s+(.+?)\s*#*\s*(?:\r?\n|$)/;
+
+/** Legacy posts stored their title outside the Markdown body. The document editor treats the first
+ * H1 as the title, so prepend it only when importing one of those older bodies. */
+export function ensureTitleHeading(markdown: string, title: string): string {
+  return LEADING_TITLE.test(markdown)
+    ? markdown
+    : `# ${title.trim()}\n\n${markdown.trimStart()}`;
+}
+
+/** The post chrome already renders the inferred title; omit the editor's leading H1 from article
+ * HTML so the published page does not repeat it. The raw stored Markdown keeps the heading. */
+export function withoutTitleHeading(markdown: string): string {
+  return markdown.replace(LEADING_TITLE, "").trimStart();
+}
+
 /** Legacy-compatible card fallback: the first Markdown image URL in the post body. */
 export function firstMarkdownImage(markdown: string): string | null {
   const match = /!\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["'][^"']*["'])?\s*\)/m.exec(

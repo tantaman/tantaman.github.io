@@ -13,7 +13,11 @@ import { mutators, schema } from "../shared/app-def.ts";
 import { canPublish } from "../shared/auth.ts";
 import type { Identity } from "../shared/auth.ts";
 import { featuredPostsQuery, postsQuery } from "../src/components/PostCard.queries.ts";
-import { postEditorQuery } from "../src/components/PostEditor.queries.ts";
+import {
+  postEditorFacetOptionsQuery,
+  postEditorMetadataOptionsQuery,
+  postEditorQuery,
+} from "../src/components/PostEditor.queries.ts";
 import { postQuery } from "../src/components/PostView.queries.ts";
 
 /** The authority's principal is the verified identity (or undefined when anonymous). Public post
@@ -37,6 +41,8 @@ const apiQueries = registerQueries<User>([
   featuredPostsQuery,
   postQuery,
   postEditorQuery,
+  postEditorFacetOptionsQuery,
+  postEditorMetadataOptionsQuery,
 ]);
 
 function publisherPrincipal(ctx: MutationContext<User>) {
@@ -61,7 +67,7 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
     schema,
     queries: apiQueries,
     mutators: sharedApiMutators(mutators, publisherPrincipal),
-    authorizeQuery: ({ name, user }) => name !== "postEditor" || canPublish(user),
+    authorizeQuery: ({ name, user }) => !name.startsWith("postEditor") || canPublish(user),
     authorizeMutation: ({ user }) => {
       requirePublisher(user);
       return true;
