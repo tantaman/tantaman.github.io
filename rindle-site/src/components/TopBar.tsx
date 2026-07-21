@@ -1,6 +1,6 @@
-// The persistent top bar: the site wordmark + a light/dark toggle. The Rindle-demo identity control
-// (dev "signed in as / switch user") is gone — the blog is read-only until authoring lands, at which
-// point a real signed-in account replaces it.
+// The persistent top bar: the local wordmark, quiet links back into the broader Tantaman site, and
+// the light/dark toggle. CSS keeps the navigation subdued until the header is hovered or focused;
+// touch devices get the links outright because they have no reliable hover state.
 
 import { Link } from "@tanstack/react-router";
 
@@ -13,6 +13,11 @@ export function TopBar() {
         tantaman<span>lands</span>
       </Link>
       <div className="app-topbar-right">
+        <nav className="app-nav" aria-label="Primary navigation">
+          <a href="https://tantaman.com/tags.html">browse</a>
+          <a href="https://tantaman.com/thoughts/">thoughts</a>
+          <a href="https://tantaman.com/paste">paste</a>
+        </nav>
         <ThemeToggle />
       </div>
     </header>
