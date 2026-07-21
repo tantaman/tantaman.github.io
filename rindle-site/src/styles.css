@@ -301,6 +301,37 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.post-list-more {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  padding-top: 28px;
+}
+.load-more-button {
+  min-height: 42px;
+  padding: 9px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: var(--raise);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.load-more-button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.load-more-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.load-more-button:disabled {
+  color: var(--ink-3);
+  cursor: wait;
+}
 
 /* ---- taxonomy pills (subject / concern / form / kind) ---- */
 .pills {

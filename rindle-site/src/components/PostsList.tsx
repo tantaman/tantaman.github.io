@@ -16,12 +16,20 @@ import { PostCardFragment, postsQuery } from "./PostCard.queries.ts";
 
 /** Subscribe to the newest-first posts list (card fragment refs + a load status). Call ONCE, in the
  *  layout route, so there's a single continuously-mounted lease-holder. */
-export function usePostsListRoot() {
-  return useRoot(postsQuery, PostCardFragment);
+export function usePostsListRoot(limit: number) {
+  return useRoot(postsQuery, { limit }, PostCardFragment);
 }
 
-/** The `[refs, { status }]` tuple `usePostsListRoot()` returns — shared verbatim through context. */
-export type PostsListValue = ReturnType<typeof usePostsListRoot>;
+type PostsListRoot = ReturnType<typeof usePostsListRoot>;
+
+/** The shell owns the growing window so it survives list↔post navigation alongside the subscription. */
+export interface PostsListValue {
+  posts: PostsListRoot[0];
+  status: PostsListRoot[1]["status"];
+  limit: number;
+  hasMore: boolean;
+  loadMore: () => void;
+}
 
 const PostsListContext = createContext<PostsListValue | null>(null);
 
@@ -29,7 +37,7 @@ export function PostsListProvider({ value, children }: { value: PostsListValue; 
   return <PostsListContext.Provider value={value}>{children}</PostsListContext.Provider>;
 }
 
-/** Read the list the `_shell` layout keeps warm. Throws if used outside that layout (a wiring bug). */
+/** Read the list window the `_shell` layout keeps warm. Throws outside that layout (a wiring bug). */
 export function usePostsList(): PostsListValue {
   const value = useContext(PostsListContext);
   if (!value) throw new Error("usePostsList() must be used within the `_shell` blog layout route.");

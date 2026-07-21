@@ -8,6 +8,7 @@
 
 import { defineFragment, defineQuery } from "@rindle/client";
 import type { FragmentRef } from "@rindle/client";
+import { z } from "zod";
 
 import { post, q } from "../../shared/app-def.ts";
 
@@ -18,9 +19,16 @@ export const PostCardFragment = defineFragment(post, (p) =>
 );
 export type PostCardRef = FragmentRef<typeof PostCardFragment>;
 
-/** Every post, newest-first (`publishedAt` desc, id as the total-order tiebreak). A bounded window
- *  (rule 6: subscribe to windows, not whole tables) — 500 covers the whole ported corpus; add a `limit`
- *  arg + "load more" if the archive outgrows it. No args, so no validator. */
-export const postsQuery = defineQuery("posts", () =>
-  q.post.orderBy("publishedAt", "desc").orderBy("id", "asc").limit(500).include(PostCardFragment),
+export const POSTS_PAGE_SIZE = 50;
+export const POSTS_MAX_LIMIT = 1_000;
+
+const postsArgs = z.object({
+  limit: z.number().int().min(POSTS_PAGE_SIZE).max(POSTS_MAX_LIMIT),
+});
+
+/** Newest-first posts (`publishedAt` desc, id as the total-order tiebreak) in a bounded, ratcheting
+ *  window. The extra lookahead row lets the index tell whether another page exists without a second
+ *  count subscription; it is not rendered until the caller raises `limit`. */
+export const postsQuery = defineQuery("posts", (raw) => postsArgs.parse(raw), ({ limit }) =>
+  q.post.orderBy("publishedAt", "desc").orderBy("id", "asc").limit(limit + 1).include(PostCardFragment),
 );
