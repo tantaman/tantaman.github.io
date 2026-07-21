@@ -15,11 +15,16 @@ export function PostCard({ post }: { post: PostCardRef }) {
   if (!data) return null;
 
   const authors = parseList(data.author);
+  const semanticColor = data.color && /^#[0-9a-f]{6}$/i.test(data.color) ? data.color : undefined;
 
   return (
     <li className="post-card">
       <Link to="/$slug" params={{ slug: data.id }} className="post-card-link">
-        <span className="post-card-accent" aria-hidden="true" />
+        <span
+          className="post-card-accent"
+          aria-hidden="true"
+          style={semanticColor ? { backgroundColor: semanticColor } : undefined}
+        />
         {data.cardImage ? (
           <img
             className="post-card-image"

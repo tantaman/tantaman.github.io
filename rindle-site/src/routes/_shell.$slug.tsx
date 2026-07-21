@@ -67,20 +67,6 @@ function PostView() {
         <Pills tags={tags} concern={concern} form={renderedPost.form} kind={renderedPost.kind} />
       </header>
 
-      {/* Hero art now served from public/img (see scripts/sync-assets.mjs). A few legacy posts point at
-          /assets/... covers that never existed — hide the element if it 404s so the layout stays clean. */}
-      {renderedPost.image ? (
-        <img
-          className="post-hero"
-          src={renderedPost.image}
-          alt=""
-          loading="lazy"
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-        />
-      ) : null}
-
       {/* The body is pre-rendered HTML from the seed step (marked). MDX / live rendering / transclusion
           come later; for static markdown posts this is the server-rendered article. */}
       <div className="post-body" dangerouslySetInnerHTML={{ __html: renderedPost.html }} />

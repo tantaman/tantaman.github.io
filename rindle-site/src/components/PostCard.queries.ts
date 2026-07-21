@@ -27,6 +27,7 @@ export const PostCardFragment = defineFragment(post, (p) =>
     "form",
     "kind",
     "cardImage",
+    "color",
     "pinned",
     "readingMinutes",
   ),

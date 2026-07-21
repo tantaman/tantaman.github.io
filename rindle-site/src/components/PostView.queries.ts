@@ -10,7 +10,7 @@ import { z } from "zod";
 
 import { post, q } from "../../shared/app-def.ts";
 
-/** What the POST VIEW renders: the chrome (title, date, facets, hero image) plus the rendered `html`.
+/** What the POST VIEW renders: the chrome (title, date, facets) plus the rendered `html`.
  *  `tags`/`concern`/`author` are JSON strings (see the migration); the view parses them. */
 export const PostDetailFragment = defineFragment(post, (p) =>
   p.select(
@@ -24,7 +24,6 @@ export const PostDetailFragment = defineFragment(post, (p) =>
     "author",
     "form",
     "kind",
-    "image",
     "html",
   ),
 );
