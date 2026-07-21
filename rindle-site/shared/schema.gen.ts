@@ -43,6 +43,7 @@ export const post = table("post")
     colorRevision: string().nullable(),
     colorProjectionVersion: string().nullable(),
     colorStatus: string(),
+    thesis: string().nullable(),
   })
   .primaryKey("id");
 

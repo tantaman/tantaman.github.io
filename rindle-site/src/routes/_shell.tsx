@@ -10,7 +10,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 import { POSTS_MAX_LIMIT, POSTS_PAGE_SIZE } from "../components/PostCard.queries.ts";
-import { PostsListProvider, usePostsListRoot } from "../components/PostsList.tsx";
+import { PostsListProvider, useFeaturedPostsRoot, usePostsListRoot } from "../components/PostsList.tsx";
 
 export const Route = createFileRoute("/_shell")({
   component: BlogShell,
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/_shell")({
 function BlogShell() {
   const [limit, setLimit] = useState(POSTS_PAGE_SIZE);
   const [postsWithLookahead, { status }] = usePostsListRoot(limit);
+  const [featuredPosts, { status: featuredStatus }] = useFeaturedPostsRoot();
   const nextPosts = postsWithLookahead.slice(0, limit);
   const renderedPostsRef = useRef(nextPosts);
 
@@ -36,12 +37,14 @@ function BlogShell() {
   const postsList = useMemo(
     () => ({
       posts: renderedPostsRef.current,
+      featuredPosts,
       status,
+      featuredStatus,
       limit,
       hasMore: limit < POSTS_MAX_LIMIT && postsWithLookahead.length > limit,
       loadMore,
     }),
-    [limit, loadMore, postsWithLookahead, status],
+    [featuredPosts, featuredStatus, limit, loadMore, postsWithLookahead, status],
   );
 
   return (
