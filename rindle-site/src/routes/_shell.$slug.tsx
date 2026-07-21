@@ -6,6 +6,7 @@
 // It nests under `_shell`, so the blog list stays subscribed (warm) the whole time a post is open —
 // Back returns to `/` with synchronous rows and restored scroll.
 
+import { useRef } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 import type { DehydratedState } from "@rindle/client";
@@ -26,8 +27,18 @@ export const Route = createFileRoute("/_shell/$slug")({
 function PostView() {
   const { slug } = Route.useParams();
   const [post, { status }] = useRoot(postQuery, slug);
+  const renderedPostRef = useRef({ slug, post });
 
-  if (!post) {
+  // Keep the SSR row visible across the same-slug seed→live handoff. The normalized local view can
+  // be empty for one render after the seed retires but before its catch-up row lands; replacing the
+  // article with "Loading post…" in that gap causes a visible flash. Never carry a row to a different
+  // slug, and always accept a complete result (including a real deletion / not-found response).
+  if (renderedPostRef.current.slug !== slug || post || status === "complete") {
+    renderedPostRef.current = { slug, post };
+  }
+  const renderedPost = renderedPostRef.current.post;
+
+  if (!renderedPost) {
     return (
       <section className="app-page">
         <p className="app-empty">{status === "complete" ? "Post not found." : "Loading post…"}</p>
@@ -36,32 +47,32 @@ function PostView() {
     );
   }
 
-  const tags = parseList(post.tags);
-  const concern = parseList(post.concern);
-  const authors = parseList(post.author);
+  const tags = parseList(renderedPost.tags);
+  const concern = parseList(renderedPost.concern);
+  const authors = parseList(renderedPost.author);
 
   return (
     <article className="app-page post">
       <div className="app-breadcrumb">
-        <Link to="/">Writing</Link> <span aria-hidden="true">/</span> <span>{post.title}</span>
+        <Link to="/">Writing</Link> <span aria-hidden="true">/</span> <span>{renderedPost.title}</span>
       </div>
 
       <header className="post-head">
-        <h1 className="post-title">{post.title}</h1>
+        <h1 className="post-title">{renderedPost.title}</h1>
         <div className="post-meta">
-          {post.date ? <time dateTime={post.date}>{formatDate(post.date)}</time> : null}
+          {renderedPost.date ? <time dateTime={renderedPost.date}>{formatDate(renderedPost.date)}</time> : null}
           {authors.length > 0 ? <span className="post-authors">{authors.join(", ")}</span> : null}
-          {post.form ? <span className="post-form">{post.form}</span> : null}
+          {renderedPost.form ? <span className="post-form">{renderedPost.form}</span> : null}
         </div>
-        <Pills tags={tags} concern={concern} form={post.form} kind={post.kind} />
+        <Pills tags={tags} concern={concern} form={renderedPost.form} kind={renderedPost.kind} />
       </header>
 
       {/* Hero art now served from public/img (see scripts/sync-assets.mjs). A few legacy posts point at
           /assets/... covers that never existed — hide the element if it 404s so the layout stays clean. */}
-      {post.image ? (
+      {renderedPost.image ? (
         <img
           className="post-hero"
-          src={post.image}
+          src={renderedPost.image}
           alt=""
           loading="lazy"
           onError={(e) => {
@@ -72,7 +83,7 @@ function PostView() {
 
       {/* The body is pre-rendered HTML from the seed step (marked). MDX / live rendering / transclusion
           come later; for static markdown posts this is the server-rendered article. */}
-      <div className="post-body" dangerouslySetInnerHTML={{ __html: post.html }} />
+      <div className="post-body" dangerouslySetInnerHTML={{ __html: renderedPost.html }} />
 
       <footer className="post-foot">
         <Link to="/" className="app-link">← Back to all posts</Link>
