@@ -1,14 +1,14 @@
-// The home view (`/`): the list of rooms, each with a LIVE message count, plus a form to create a
-// room. Its loader seeds the rooms query for first paint (SSR); after hydration the wasm engine owns
-// the live read — post a message in any room and its count here updates with no polling.
+// The blog index (`/`): every ported post, newest-first. Its loader seeds the posts query for first
+// paint (SSR); after hydration the wasm engine owns the live read, so a newly seeded/edited post
+// appears with no reload. Fragment projection keeps this list off the big `html` column — the index
+// ships only card fields.
 
 import { createFileRoute } from "@tanstack/react-router";
 import { fragmentKey, useRoot } from "@rindle/react";
 import type { DehydratedState } from "@rindle/client";
 
-import { RoomCardFragment, roomsQuery } from "../components/RoomCard.queries.ts";
-import { RoomCard } from "../components/RoomCard.tsx";
-import { NewRoomForm } from "../components/NewRoomForm.tsx";
+import { PostCardFragment, postsQuery } from "../components/PostCard.queries.ts";
+import { PostCard } from "../components/PostCard.tsx";
 
 export const Route = createFileRoute("/")({
   loader: async (): Promise<{ rindle: DehydratedState }> => {
@@ -16,30 +16,29 @@ export const Route = createFileRoute("/")({
     // Dynamic import: ssr.ts is server-only (it builds the daemon client), so it must never enter the
     // client bundle. The static `import.meta.env.SSR` guard + this dynamic import keep it out.
     const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([roomsQuery()]) };
+    return { rindle: await preloadRindle([postsQuery()]) };
   },
   component: Home,
 });
 
 function Home() {
-  const [rooms, { status }] = useRoot(roomsQuery, RoomCardFragment);
-  const loading = status !== "complete" && rooms.length === 0;
+  const [posts, { status }] = useRoot(postsQuery, PostCardFragment);
+  const loading = status !== "complete" && posts.length === 0;
 
   return (
     <section className="app-page">
       <div className="app-page-head">
-        <p className="app-eyebrow">Rindle starter</p>
-        <h1>Rooms</h1>
+        <p className="app-eyebrow">Tantamanlands</p>
+        <h1>Writing</h1>
       </div>
-      <NewRoomForm />
       {loading ? (
-        <p className="app-empty">Loading rooms…</p>
-      ) : rooms.length === 0 ? (
-        <p className="app-empty">No rooms yet — create the first one above.</p>
+        <p className="app-empty">Loading posts…</p>
+      ) : posts.length === 0 ? (
+        <p className="app-empty">No posts yet — run `pnpm seed` to import them from ../content.</p>
       ) : (
-        <ul className="app-rooms">
-          {rooms.map((room) => (
-            <RoomCard key={fragmentKey(room)} room={room} />
+        <ul className="post-list">
+          {posts.map((post) => (
+            <PostCard key={fragmentKey(post)} post={post} />
           ))}
         </ul>
       )}

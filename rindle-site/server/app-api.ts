@@ -36,6 +36,8 @@ import {
 import type { Identity } from "../shared/auth.ts";
 import { roomsQuery } from "../src/components/RoomCard.queries.ts";
 import { roomDetailQuery } from "../src/components/RoomView.queries.ts";
+import { postsQuery } from "../src/components/PostCard.queries.ts";
+import { postQuery } from "../src/components/PostView.queries.ts";
 
 /** The authority's principal is the verified identity (or undefined when anonymous). */
 export type User = Identity | undefined;
@@ -43,7 +45,7 @@ export type User = Identity | undefined;
 // The authority's query surface is just the list of co-located client queries. Each `defineQuery`
 // re-runs its validator on the UNTRUSTED wire args before building the AST, so a malformed client
 // can't smuggle a garbage arg in.
-const apiQueries = registerQueries<User>([roomsQuery, roomDetailQuery]);
+const apiQueries = registerQueries<User>([roomsQuery, roomDetailQuery, postsQuery, postQuery]);
 
 // MUTATORS ARE ISOMORPHIC — defined once in shared/app-def.ts and auto-driven here by
 // `sharedApiMutators`: for each mutator it parses the untrusted wire args (the mutator's co-located

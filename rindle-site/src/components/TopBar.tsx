@@ -21,7 +21,7 @@ export function TopBar() {
   return (
     <header className="app-topbar">
       <Link to="/" className="app-wordmark">
-        rindle<span>starter</span>
+        tantaman<span>lands</span>
       </Link>
       <div className="app-topbar-right">
         <span className="app-whoami" title="Your dev identity">

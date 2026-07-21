@@ -21,6 +21,24 @@ export const message = table("message")
   })
   .primaryKey("id");
 
+export const post = table("post")
+  .columns({
+    id: string(),
+    title: string(),
+    date: string().nullable(),
+    publishedAt: number(),
+    description: string(),
+    tags: string(),
+    concern: string(),
+    author: string(),
+    form: string().nullable(),
+    kind: string().nullable(),
+    image: string().nullable(),
+    html: string(),
+    body: string(),
+  })
+  .primaryKey("id");
+
 export const room = table("room")
   .columns({
     id: string(),
@@ -29,4 +47,4 @@ export const room = table("room")
   })
   .primaryKey("id");
 
-export const schema = createSchema({ tables: [message, room] });
+export const schema = createSchema({ tables: [message, post, room] });
