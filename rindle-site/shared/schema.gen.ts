@@ -11,16 +11,6 @@
 
 import { createSchema, number, string, table } from "@rindle/client";
 
-export const message = table("message")
-  .columns({
-    id: string(),
-    roomId: string(),
-    author: string(),
-    body: string(),
-    createdAt: number(),
-  })
-  .primaryKey("id");
-
 export const post = table("post")
   .columns({
     id: string(),
@@ -39,12 +29,4 @@ export const post = table("post")
   })
   .primaryKey("id");
 
-export const room = table("room")
-  .columns({
-    id: string(),
-    name: string(),
-    createdAt: number(),
-  })
-  .primaryKey("id");
-
-export const schema = createSchema({ tables: [message, post, room] });
+export const schema = createSchema({ tables: [post] });
