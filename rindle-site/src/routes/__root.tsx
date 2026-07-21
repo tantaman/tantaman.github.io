@@ -48,7 +48,11 @@ function RootDocument() {
   }, [matches]);
 
   return (
-    <html lang="en">
+    // `suppressHydrationWarning`: THEME_SCRIPT sets `data-theme` on <html> before React hydrates, so
+    // the client element intentionally has an attribute the SSR output can't (the server has no way to
+    // know the user's stored/OS preference). This suppresses the warning for THIS element's own
+    // attributes only — content mismatches inside still surface.
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <HeadContent />
