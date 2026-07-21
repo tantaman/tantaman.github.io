@@ -12,7 +12,7 @@ import type { MutationEnvelope } from "@rindle/client";
 import wasmUrl from "rindle-wasm-bin?url";
 
 import { mutators, schema } from "../shared/app-def.ts";
-import { authClient } from "./auth-client.ts";
+import { ensureDevelopmentSession } from "./auth-client.ts";
 
 // The precise client type — including the typed `mutate.*` surface — is INFERRED from the concrete
 // `createRindleClient({ schema, mutators, … })` call in `bootClientInner`.
@@ -38,7 +38,7 @@ async function bootClientInner() {
   const [{ createRindleClient }, { initWasm }, sessionResult] = await Promise.all([
     import("@rindle/optimistic"),
     import("@rindle/wasm"),
-    authClient.getSession(),
+    ensureDevelopmentSession(),
   ]);
   await initWasm(wasmUrl);
   // No anonymous identity is minted. A sessionless reader uses the empty prediction principal; the

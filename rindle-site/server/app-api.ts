@@ -1,27 +1,27 @@
 // The app authority, runtime-AGNOSTIC. It resolves NAMED queries to ASTs (the daemon mints opaque
-// leases) and talks to the daemon over the private bearer-auth'd control plane. The blog is READ-ONLY
-// for now, so there are no mutators and reads are public; authoring will add a mutator registry + an
-// `authorizeMutation` policy here.
+// leases) and talks to the daemon over the private bearer-auth'd control plane. Reads are public;
+// authoring mutations require the server-verified Tantaman administrator.
 //
 // It is deliberately free of any host: server/rindle-http.ts adapts it to a Web Request for the Start
 // API routes (src/routes/api.rindle.*.tsx) the browser calls, and the SSR loader (src/ssr.ts) calls the
 // SAME factory in-process. The only per-host input is the unified Rindle connection.
 
-import { createRindleApiServer, registerQueries } from "@rindle/api-server";
-import type { RindleApiServer } from "@rindle/api-server";
+import { createRindleApiServer, registerQueries, sharedApiMutators } from "@rindle/api-server";
+import type { MutationContext, RindleApiServer } from "@rindle/api-server";
 
-import { schema } from "../shared/app-def.ts";
+import { mutators, schema } from "../shared/app-def.ts";
 import { canPublish } from "../shared/auth.ts";
 import type { Identity } from "../shared/auth.ts";
 import { featuredPostsQuery, postsQuery } from "../src/components/PostCard.queries.ts";
+import { postEditorQuery } from "../src/components/PostEditor.queries.ts";
 import { postQuery } from "../src/components/PostView.queries.ts";
 
-/** The authority's principal is the verified identity (or undefined when anonymous). Reads are public,
- *  so this is `undefined` today; it stays typed for when authoring adds authenticated writes. */
+/** The authority's principal is the verified identity (or undefined when anonymous). Public post
+ * reads accept either; private authoring reads and every mutation require the administrator. */
 export type User = Identity | undefined;
 
-/** Publishing is server-authority only. Every future publish/unpublish mutator must call this before
- *  yielding SQL; a browser's optimistic role or claimed username is never trusted. */
+/** Publishing is server-authority only. Authoring mutators pass this gate before yielding SQL; a
+ * browser's optimistic role or claimed username is never trusted. */
 export function requirePublisher(user: User): asserts user is Identity {
   if (canPublish(user)) return;
   const error = new Error("Only an administrator can publish posts.");
@@ -32,7 +32,17 @@ export function requirePublisher(user: User): asserts user is Identity {
 // The authority's query surface is just the list of co-located client queries. Each `defineQuery`
 // re-runs its validator on the UNTRUSTED wire args before building the AST, so a malformed client
 // can't smuggle a garbage arg in.
-const apiQueries = registerQueries<User>([postsQuery, featuredPostsQuery, postQuery]);
+const apiQueries = registerQueries<User>([
+  postsQuery,
+  featuredPostsQuery,
+  postQuery,
+  postEditorQuery,
+]);
+
+function publisherPrincipal(ctx: MutationContext<User>) {
+  requirePublisher(ctx.user);
+  return { user: ctx.user.subject };
+}
 
 /** The one application-facing Rindle connection. */
 export interface AppApiOptions {
@@ -44,14 +54,18 @@ export interface AppApiOptions {
   wsUrl?: string;
 }
 
-/** Build the configured API server. Stateless: safe to construct per-request or once per process.
- *  Reads are PUBLIC; there are no writes yet. */
+/** Build the configured API server. Stateless: safe to construct per-request or once per process. */
 export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
   return createRindleApiServer<User>({
     rindle: { url: opts.url, token: opts.token, wsUrl: opts.wsUrl },
     schema,
     queries: apiQueries,
-    authorizeQuery: () => true, // public reads
+    mutators: sharedApiMutators(mutators, publisherPrincipal),
+    authorizeQuery: ({ name, user }) => name !== "postEditor" || canPublish(user),
+    authorizeMutation: ({ user }) => {
+      requirePublisher(user);
+      return true;
+    },
   });
 }
 
