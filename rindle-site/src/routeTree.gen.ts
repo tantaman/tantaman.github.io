@@ -9,21 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as SlugRouteImport } from './routes/$slug'
+import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as ShellIndexRouteImport } from './routes/_shell.index'
+import { Route as ShellSlugRouteImport } from './routes/_shell.$slug'
 import { Route as ApiRindleMutateRouteImport } from './routes/api.rindle.mutate'
 import { Route as ApiRindleQueryRouteImport } from './routes/api.rindle.query'
 import { Route as ApiRindleReadRouteImport } from './routes/api.rindle.read'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ShellRoute = ShellRouteImport.update({
+  id: '/_shell',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SlugRoute = SlugRouteImport.update({
+const ShellIndexRoute = ShellIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellSlugRoute = ShellSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ShellRoute,
 } as any)
 const ApiRindleMutateRoute = ApiRindleMutateRouteImport.update({
   id: '/api/rindle/mutate',
@@ -42,23 +47,24 @@ const ApiRindleReadRoute = ApiRindleReadRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/$slug': typeof SlugRoute
+  '/': typeof ShellIndexRoute
+  '/$slug': typeof ShellSlugRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/$slug': typeof SlugRoute
+  '/$slug': typeof ShellSlugRoute
+  '/': typeof ShellIndexRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/$slug': typeof SlugRoute
+  '/_shell': typeof ShellRouteWithChildren
+  '/_shell/$slug': typeof ShellSlugRoute
+  '/_shell/': typeof ShellIndexRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
@@ -73,23 +79,23 @@ export interface FileRouteTypes {
     | '/api/rindle/read'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/$slug'
+    | '/'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
   id:
     | '__root__'
-    | '/'
-    | '/$slug'
+    | '/_shell'
+    | '/_shell/$slug'
+    | '/_shell/'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  SlugRoute: typeof SlugRoute
+  ShellRoute: typeof ShellRouteWithChildren
   ApiRindleMutateRoute: typeof ApiRindleMutateRoute
   ApiRindleQueryRoute: typeof ApiRindleQueryRoute
   ApiRindleReadRoute: typeof ApiRindleReadRoute
@@ -97,19 +103,26 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_shell': {
+      id: '/_shell'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof ShellRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$slug': {
-      id: '/$slug'
+    '/_shell/': {
+      id: '/_shell/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof ShellIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/$slug': {
+      id: '/_shell/$slug'
       path: '/$slug'
       fullPath: '/$slug'
-      preLoaderRoute: typeof SlugRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ShellSlugRouteImport
+      parentRoute: typeof ShellRoute
     }
     '/api/rindle/mutate': {
       id: '/api/rindle/mutate'
@@ -135,9 +148,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ShellRouteChildren {
+  ShellSlugRoute: typeof ShellSlugRoute
+  ShellIndexRoute: typeof ShellIndexRoute
+}
+
+const ShellRouteChildren: ShellRouteChildren = {
+  ShellSlugRoute: ShellSlugRoute,
+  ShellIndexRoute: ShellIndexRoute,
+}
+
+const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  SlugRoute: SlugRoute,
+  ShellRoute: ShellRouteWithChildren,
   ApiRindleMutateRoute: ApiRindleMutateRoute,
   ApiRindleQueryRoute: ApiRindleQueryRoute,
   ApiRindleReadRoute: ApiRindleReadRoute,
