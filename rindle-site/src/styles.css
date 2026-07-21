@@ -341,3 +341,217 @@ textarea:focus {
     flex-direction: column;
   }
 }
+
+/* ---- blog index (post list) ---- */
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.post-card {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.post-card:first-child {
+  padding-top: 6px;
+}
+.post-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+.post-card-title {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  transition: color 0.12s ease;
+}
+.post-card-link:hover .post-card-title {
+  color: var(--accent);
+}
+.post-card-meta,
+.post-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--ink-f);
+}
+.post-form {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10.5px;
+  color: var(--teal);
+  border: 1px solid color-mix(in srgb, var(--teal) 35%, var(--line2));
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+.post-card-desc {
+  margin: 9px 0 0;
+  color: var(--ink-d);
+  line-height: 1.55;
+  font-size: 15px;
+  max-width: 68ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.post-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 11px 0 0;
+  padding: 0;
+}
+.post-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-f);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+/* ---- post detail ---- */
+.post {
+  max-width: 720px;
+}
+.post-head {
+  margin: 6px 0 26px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.post-title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.post-authors {
+  color: var(--ink-d);
+}
+.post-hero {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  margin: 0 0 28px;
+}
+
+/* article typography — the rendered markdown body */
+.post-body {
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.7;
+}
+.post-body > *:first-child {
+  margin-top: 0;
+}
+.post-body h1,
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 1.8em 0 0.6em;
+  font-weight: 650;
+}
+.post-body h1 { font-size: 28px; }
+.post-body h2 { font-size: 23px; }
+.post-body h3 { font-size: 19px; }
+.post-body h4 { font-size: 16px; }
+.post-body p,
+.post-body ul,
+.post-body ol,
+.post-body blockquote,
+.post-body pre,
+.post-body table {
+  margin: 0 0 1.15em;
+}
+.post-body a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.post-body a:hover {
+  border-bottom-color: var(--accent);
+}
+.post-body ul,
+.post-body ol {
+  padding-left: 1.4em;
+}
+.post-body li {
+  margin: 0.3em 0;
+}
+.post-body blockquote {
+  margin-left: 0;
+  padding: 4px 0 4px 20px;
+  border-left: 3px solid var(--line2);
+  color: var(--ink-d);
+  font-style: italic;
+}
+.post-body hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2em 0;
+}
+.post-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.post-body code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+.post-body pre {
+  background: var(--ink);
+  color: #f4efe6;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  overflow-x: auto;
+}
+.post-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13.5px;
+  color: inherit;
+}
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.post-body th,
+.post-body td {
+  border: 1px solid var(--line);
+  padding: 7px 11px;
+  text-align: left;
+}
+.post-body th {
+  background: var(--panel);
+  font-weight: 600;
+}
+.post-foot {
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}

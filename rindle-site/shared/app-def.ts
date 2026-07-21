@@ -18,11 +18,11 @@ import { z } from "zod";
 // dev` regenerates it on every migration change, so the DDL is the single source of truth. We import
 // the tables + `schema` here and re-export them below, keeping this contract root the one import for
 // app code.
-import { message, room, schema } from "./schema.gen.ts";
+import { message, post, room, schema } from "./schema.gen.ts";
 
 // --------------------------------------------------------------------------- tables (generated)
 
-export { message, room, schema };
+export { message, post, room, schema };
 
 /** One schema-bound query builder, shared by every co-located `*.queries.ts`. Each `q.<table>` access
  *  mints a fresh builder, so sharing the single instance is safe. */
@@ -32,6 +32,7 @@ export const q = newQueryBuilder(schema);
 
 export type Room = Row<typeof room>;
 export type Message = Row<typeof message>;
+export type Post = Row<typeof post>;
 
 // --------------------------------------------------------------- relationships (joins, declared once)
 //
