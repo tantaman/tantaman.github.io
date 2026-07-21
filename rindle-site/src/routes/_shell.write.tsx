@@ -156,6 +156,8 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
   const [metadata, setMetadata] = useState<PostMetadata>(emptyMetadata);
   const [error, setError] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [deleteConfirming, setDeleteConfirming] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const loadedDocument = useRef<string | null>(null);
 
   const editor = useEditor({
@@ -189,7 +191,7 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
     if (loadedDocument.current === key) return;
 
     if (!editSlug) {
-      editor.commands.setContent(BLANK_DOCUMENT);
+      editor.chain().setContent(BLANK_DOCUMENT).focus("start").run();
       setMetadata(emptyMetadata());
       loadedDocument.current = key;
       return;
@@ -309,6 +311,19 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
       await navigate({ to: "/$slug", params: { slug } });
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Could not save the post.");
+    }
+  }
+
+  async function deleteCurrentPost() {
+    if (!editSlug || !deleteConfirming || deleting) return;
+    setError(null);
+    setDeleting(true);
+    try {
+      app.mutate.deletePost({ id: editSlug });
+      await navigate({ to: "/" });
+    } catch (cause) {
+      setDeleting(false);
+      setError(cause instanceof Error ? cause.message : "Could not delete the post.");
     }
   }
 
@@ -461,6 +476,43 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
                   <span>Pin to top</span>
                 </label>
               </section>
+
+              {editSlug ? (
+                <section className="author-panel author-delete-panel">
+                  <div className="author-panel-heading"><h2>Danger zone</h2></div>
+                  {deleteConfirming ? (
+                    <div className="author-delete-confirm" role="alert">
+                      <p>
+                        Delete <strong>“{derived.title || existing?.title || editSlug}”</strong>?
+                        This cannot be undone.
+                      </p>
+                      <div>
+                        <button
+                          autoFocus
+                          className="author-delete-confirm-button"
+                          type="button"
+                          disabled={deleting}
+                          onClick={() => void deleteCurrentPost()}
+                        >{deleting ? "Deleting…" : "Delete permanently"}</button>
+                        <button
+                          type="button"
+                          disabled={deleting}
+                          onClick={() => setDeleteConfirming(false)}
+                        >Keep post</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <p>Remove this post and its taxonomy from the site.</p>
+                      <button
+                        className="author-delete-trigger"
+                        type="button"
+                        onClick={() => setDeleteConfirming(true)}
+                      >Delete post…</button>
+                    </>
+                  )}
+                </section>
+              ) : null}
 
             </div>
           </aside>
