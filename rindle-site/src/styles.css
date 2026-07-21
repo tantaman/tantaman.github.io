@@ -233,6 +233,7 @@ body {
   flex: 0 0 4px;
   margin-bottom: 8px;
   border-radius: 2px 2px 0 0;
+  /* Positional fallbacks while a post's semantic color is pending enrichment. */
   background: #447f72;
 }
 .post-card:nth-child(3n + 2) .post-card-accent {
@@ -441,15 +442,6 @@ body {
 .post-authors {
   color: var(--ink-2);
 }
-.post-hero {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  margin: 0 0 30px;
-  display: block;
-}
-
 /* article typography — the rendered markdown body */
 .post-body {
   color: var(--ink);

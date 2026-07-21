@@ -11,6 +11,15 @@
 
 import { createSchema, number, string, table } from "@rindle/client";
 
+export const author = table("author")
+  .columns({
+    id: string(),
+    displayName: string(),
+    glyph: string().nullable(),
+    color: string().nullable(),
+  })
+  .primaryKey("id");
+
 export const post = table("post")
   .columns({
     id: string(),
@@ -29,7 +38,31 @@ export const post = table("post")
     cardImage: string().nullable(),
     pinned: number(),
     readingMinutes: number(),
+    color: string().nullable(),
+    contentRevision: string(),
+    colorRevision: string().nullable(),
+    colorProjectionVersion: string().nullable(),
+    colorStatus: string(),
   })
   .primaryKey("id");
 
-export const schema = createSchema({ tables: [post] });
+export const postAuthor = table("postAuthor")
+  .columns({
+    id: string(),
+    postId: string(),
+    authorId: string(),
+    position: number(),
+  })
+  .primaryKey("id");
+
+export const postFacet = table("postFacet")
+  .columns({
+    id: string(),
+    postId: string(),
+    facet: string(),
+    value: string(),
+    position: number(),
+  })
+  .primaryKey("id");
+
+export const schema = createSchema({ tables: [author, post, postAuthor, postFacet] });
