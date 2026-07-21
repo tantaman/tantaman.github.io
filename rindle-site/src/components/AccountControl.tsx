@@ -76,6 +76,11 @@ export function AccountControl() {
             <span>{user.email}</span>
             {user.role === "admin" ? <small>administrator</small> : null}
           </div>
+          {user.role === "admin" ? (
+            <Link role="menuitem" to="/write" onClick={() => setOpen(false)}>
+              new post
+            </Link>
+          ) : null}
           <button type="button" role="menuitem" onClick={() => void signOut()}>
             sign out
           </button>

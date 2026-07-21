@@ -13,7 +13,9 @@ import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ShellIndexRouteImport } from './routes/_shell.index'
 import { Route as ShellSlugRouteImport } from './routes/_shell.$slug'
+import { Route as ShellWriteRouteImport } from './routes/_shell.write'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
+import { Route as ApiAuthDevLoginRouteImport } from './routes/api.auth.dev-login'
 import { Route as ApiRindleMutateRouteImport } from './routes/api.rindle.mutate'
 import { Route as ApiRindleQueryRouteImport } from './routes/api.rindle.query'
 import { Route as ApiRindleReadRouteImport } from './routes/api.rindle.read'
@@ -37,9 +39,19 @@ const ShellSlugRoute = ShellSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellWriteRoute = ShellWriteRouteImport.update({
+  id: '/write',
+  path: '/write',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthDevLoginRoute = ApiAuthDevLoginRouteImport.update({
+  id: '/api/auth/dev-login',
+  path: '/api/auth/dev-login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRindleMutateRoute = ApiRindleMutateRouteImport.update({
@@ -62,7 +74,9 @@ export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
   '/login': typeof LoginRoute
   '/$slug': typeof ShellSlugRoute
+  '/write': typeof ShellWriteRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
@@ -70,8 +84,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/$slug': typeof ShellSlugRoute
+  '/write': typeof ShellWriteRoute
   '/': typeof ShellIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
@@ -81,8 +97,10 @@ export interface FileRoutesById {
   '/_shell': typeof ShellRouteWithChildren
   '/login': typeof LoginRoute
   '/_shell/$slug': typeof ShellSlugRoute
+  '/_shell/write': typeof ShellWriteRoute
   '/_shell/': typeof ShellIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
@@ -93,7 +111,9 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/$slug'
+    | '/write'
     | '/api/auth/$'
+    | '/api/auth/dev-login'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
@@ -101,8 +121,10 @@ export interface FileRouteTypes {
   to:
     | '/login'
     | '/$slug'
+    | '/write'
     | '/'
     | '/api/auth/$'
+    | '/api/auth/dev-login'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
@@ -111,8 +133,10 @@ export interface FileRouteTypes {
     | '/_shell'
     | '/login'
     | '/_shell/$slug'
+    | '/_shell/write'
     | '/_shell/'
     | '/api/auth/$'
+    | '/api/auth/dev-login'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
@@ -122,6 +146,7 @@ export interface RootRouteChildren {
   ShellRoute: typeof ShellRouteWithChildren
   LoginRoute: typeof LoginRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiAuthDevLoginRoute: typeof ApiAuthDevLoginRoute
   ApiRindleMutateRoute: typeof ApiRindleMutateRoute
   ApiRindleQueryRoute: typeof ApiRindleQueryRoute
   ApiRindleReadRoute: typeof ApiRindleReadRoute
@@ -157,11 +182,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellSlugRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/write': {
+      id: '/_shell/write'
+      path: '/write'
+      fullPath: '/write'
+      preLoaderRoute: typeof ShellWriteRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/dev-login': {
+      id: '/api/auth/dev-login'
+      path: '/api/auth/dev-login'
+      fullPath: '/api/auth/dev-login'
+      preLoaderRoute: typeof ApiAuthDevLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/rindle/mutate': {
@@ -190,11 +229,13 @@ declare module '@tanstack/react-router' {
 
 interface ShellRouteChildren {
   ShellSlugRoute: typeof ShellSlugRoute
+  ShellWriteRoute: typeof ShellWriteRoute
   ShellIndexRoute: typeof ShellIndexRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellSlugRoute: ShellSlugRoute,
+  ShellWriteRoute: ShellWriteRoute,
   ShellIndexRoute: ShellIndexRoute,
 }
 
@@ -204,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShellRoute: ShellRouteWithChildren,
   LoginRoute: LoginRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiAuthDevLoginRoute: ApiAuthDevLoginRoute,
   ApiRindleMutateRoute: ApiRindleMutateRoute,
   ApiRindleQueryRoute: ApiRindleQueryRoute,
   ApiRindleReadRoute: ApiRindleReadRoute,

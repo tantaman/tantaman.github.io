@@ -13,6 +13,7 @@ const DB_BINDING = "AUTH_DB";
 const LOCAL_AUTH_URL = "http://localhost:3000";
 const LOCAL_AUTH_SECRET = "rindle-site-local-auth-secret-not-for-production";
 const LOCAL_OWNER_EMAIL = "owner@tantaman.local";
+const LOCAL_OWNER_PASSWORD = "tantaman-local-development-only";
 
 type DbOption = NonNullable<BetterAuthOptions["database"]>;
 
@@ -21,7 +22,7 @@ interface LoadedDatabase {
   local: boolean;
 }
 
-let localDatabasePromise: Promise<DbOption> | undefined;
+let localDatabasePromise: Promise<import("better-sqlite3").Database> | undefined;
 
 async function loadDatabase(): Promise<LoadedDatabase> {
   try {
@@ -41,7 +42,7 @@ async function loadDatabase(): Promise<LoadedDatabase> {
   return { database: await localDatabasePromise, local: true };
 }
 
-async function loadLocalDatabase(): Promise<DbOption> {
+async function loadLocalDatabase(): Promise<import("better-sqlite3").Database> {
   const sqliteSpecifier = "better-sqlite3";
   const fsSpecifier = "node:fs";
   const pathSpecifier = "node:path";
@@ -57,6 +58,10 @@ async function loadLocalDatabase(): Promise<DbOption> {
   database.pragma("foreign_keys = ON");
   applyLocalMigrations(database, fs, path);
   return database;
+}
+
+function localDevelopmentEnabled(): boolean {
+  return process.env.NODE_ENV !== "production";
 }
 
 function applyLocalMigrations(
@@ -151,14 +156,19 @@ export async function getAuth(request?: Request) {
     basePath: "/api/auth",
     secret: localOrRequired("BETTER_AUTH_SECRET", loaded.local, LOCAL_AUTH_SECRET),
     trustedOrigins,
-    emailAndPassword: { enabled: false },
+    // The credential provider exists only for the private local-dev bootstrap below. Production
+    // remains OAuth-only, and the browser never learns the development password.
+    emailAndPassword: { enabled: loaded.local && localDevelopmentEnabled() },
     socialProviders: socialProviders(),
     user: { additionalFields: AUTH_USER_FIELDS },
     databaseHooks: {
       user: {
         create: {
           async before(user) {
-            const isOwner = user.emailVerified && user.email.trim().toLowerCase() === ownerEmail;
+            const email = user.email.trim().toLowerCase();
+            const isOwner =
+              (loaded.local && localDevelopmentEnabled() && email === LOCAL_OWNER_EMAIL) ||
+              (user.emailVerified && email === ownerEmail);
             return {
               data: {
                 ...user,
@@ -175,5 +185,45 @@ export async function getAuth(request?: Request) {
     },
     // Keep the TanStack cookie bridge last, per Better Auth's integration contract.
     plugins: [tanstackStartCookies()],
+  });
+}
+
+/** Create (or resume) the one development owner session. This is deliberately unavailable when the
+ * auth database is D1 or NODE_ENV is production, so the production authentication surface remains
+ * explicit OAuth only. The returned Better Auth response carries the normal signed HttpOnly cookie. */
+export async function createLocalOwnerSession(request: Request): Promise<Response> {
+  const loaded = await loadDatabase();
+  if (!loaded.local || !localDevelopmentEnabled()) {
+    return new Response("Not found", { status: 404 });
+  }
+
+  const credentials = {
+    email: LOCAL_OWNER_EMAIL,
+    password: LOCAL_OWNER_PASSWORD,
+    rememberMe: true,
+  };
+  const auth = await getAuth(request);
+
+  const signIn = await auth.api.signInEmail({
+    body: credentials,
+    headers: request.headers,
+    asResponse: true,
+  });
+  if (signIn.ok) return signIn;
+
+  // A fresh checkout has no auth row yet. Sign-up runs the server-owned user hook above, which
+  // assigns the reserved username and admin role before Better Auth creates the session.
+  const signUp = await auth.api.signUpEmail({
+    body: { ...credentials, name: "Tantaman" },
+    headers: request.headers,
+    asResponse: true,
+  });
+  if (signUp.ok) return signUp;
+
+  // Two tabs can race on the first request: the losing sign-up sees the now-existing user.
+  return auth.api.signInEmail({
+    body: credentials,
+    headers: request.headers,
+    asResponse: true,
   });
 }

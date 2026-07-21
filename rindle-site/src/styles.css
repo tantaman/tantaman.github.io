@@ -247,7 +247,9 @@ body {
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
-.account-menu > button {
+.account-menu > button,
+.account-menu > a {
+  display: block;
   width: 100%;
   margin-top: 6px;
   padding: 7px 9px;
@@ -258,10 +260,13 @@ body {
   font: inherit;
   font-size: 12.5px;
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
 }
 .account-menu > button:hover,
-.account-menu > button:focus-visible {
+.account-menu > button:focus-visible,
+.account-menu > a:hover,
+.account-menu > a:focus-visible {
   background: var(--panel);
   color: var(--ink);
 }
@@ -914,9 +919,203 @@ body {
   font-weight: 600;
 }
 .post-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   margin-top: 40px;
   padding-top: 22px;
   border-top: 1px solid var(--line);
+}
+
+/* ---- authoring ---- */
+.author-page {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.author-gate {
+  max-width: 620px;
+  padding-top: clamp(24px, 7vw, 80px);
+}
+.author-gate h1,
+.author-head h1 {
+  margin: 0;
+  font-size: clamp(28px, 4.5vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+.author-gate .app-link {
+  display: inline-block;
+  margin-top: 24px;
+}
+.author-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 34px;
+}
+.author-form {
+  display: grid;
+  gap: 24px;
+}
+.author-fields {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--panel) 58%, transparent);
+}
+.author-fields-primary {
+  border-top: 3px solid var(--accent);
+}
+.author-field-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+.author-field-row-thirds {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(130px, 0.55fr);
+}
+.author-form label,
+.author-preview {
+  display: grid;
+  gap: 7px;
+}
+.author-form label > span,
+.author-preview > span {
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.author-form label small {
+  color: var(--ink-3);
+  font: inherit;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.author-form input,
+.author-form textarea {
+  width: 100%;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--raise);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.author-form input {
+  min-height: 42px;
+  padding: 8px 11px;
+}
+.author-form textarea {
+  padding: 10px 12px;
+  resize: vertical;
+}
+.author-form input:focus,
+.author-form textarea:focus {
+  border-color: var(--accent);
+  outline: 2px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  outline-offset: 1px;
+}
+.author-form input[readonly] {
+  color: var(--ink-3);
+  cursor: not-allowed;
+}
+.author-form .author-check {
+  display: flex;
+  align-items: center;
+  align-self: end;
+  min-height: 42px;
+  padding: 8px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--raise);
+}
+.author-form .author-check input {
+  width: 16px;
+  min-height: 16px;
+  margin: 0 9px 0 0;
+  accent-color: var(--accent);
+}
+.author-form .author-check span {
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.author-editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  min-height: 640px;
+}
+.author-body-field textarea {
+  height: 100%;
+  min-height: 600px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  tab-size: 2;
+}
+.author-preview {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.author-preview .post-body {
+  min-height: 600px;
+  padding: clamp(20px, 3vw, 36px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--raise);
+  overflow-wrap: anywhere;
+}
+.author-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.author-actions button {
+  min-height: 46px;
+  padding: 10px 20px;
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  background: var(--accent);
+  color: white;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.author-actions button:hover,
+.author-actions button:focus-visible {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 760px) {
+  .author-head,
+  .author-field-row,
+  .author-field-row-thirds,
+  .author-editor-grid {
+    grid-template-columns: 1fr;
+  }
+  .author-head {
+    display: grid;
+    align-items: start;
+  }
+  .author-editor-grid {
+    min-height: 0;
+  }
+  .author-body-field textarea,
+  .author-preview .post-body {
+    min-height: 440px;
+  }
 }
 
 /* ---- toaster ---- */
