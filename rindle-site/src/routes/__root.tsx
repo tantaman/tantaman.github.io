@@ -21,22 +21,18 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { title: "rindle-site" },
-      { name: "theme-color", content: "#f2eee7" },
+      { title: "Tantamanlands" },
+      { name: "theme-color", content: "#e9e6ea" },
     ],
-    links: [
-      // Hanken Grotesk (UI) + DM Mono (counts, timestamps, labels). Swap for a self-hosted font to drop the CDN.
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap",
-      },
-      { rel: "stylesheet", href: appCss },
-    ],
+    // System-ui throughout (matching the original site) — no web-font CDN.
+    links: [{ rel: "stylesheet", href: appCss }],
   }),
   shellComponent: RootDocument,
 });
+
+// Set the theme BEFORE first paint so there's no light/dark flash: prefer the persisted choice, else
+// the OS preference. Kept tiny and inlined in <head>; the ThemeToggle keeps `data-theme` in sync after.
+const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){}})();`;
 
 function RootDocument() {
   // Merge the dehydrated first-paint cache from EVERY matched route, so a first visit to any route
@@ -54,6 +50,7 @@ function RootDocument() {
   return (
     <html lang="en">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <HeadContent />
       </head>
       <body>
