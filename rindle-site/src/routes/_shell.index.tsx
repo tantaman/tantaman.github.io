@@ -3,11 +3,12 @@
 // the subscription and keeps it warm across list↔post navigation. Fragment projection keeps this list
 // off the big `html` column — the index ships only card fields.
 
+import { useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { fragmentKey } from "@rindle/react";
 import type { DehydratedState } from "@rindle/client";
 
-import { postsQuery } from "../components/PostCard.queries.ts";
+import { POSTS_PAGE_SIZE, postsQuery } from "../components/PostCard.queries.ts";
 import { PostCard } from "../components/PostCard.tsx";
 import { usePostsList } from "../components/PostsList.tsx";
 
@@ -17,14 +18,29 @@ export const Route = createFileRoute("/_shell/")({
     // Dynamic import: ssr.ts is server-only (it builds the daemon client), so it must never enter the
     // client bundle. The static `import.meta.env.SSR` guard + this dynamic import keep it out.
     const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([postsQuery()]) };
+    return { rindle: await preloadRindle([postsQuery({ limit: POSTS_PAGE_SIZE })]) };
   },
   component: Home,
 });
 
 function Home() {
-  const [posts, { status }] = usePostsList();
+  const { posts, status, hasMore, loadMore } = usePostsList();
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const loading = status !== "complete" && posts.length === 0;
+
+  useEffect(() => {
+    const target = loadMoreRef.current;
+    if (!target || !hasMore || status !== "complete" || !("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) loadMore();
+      },
+      { rootMargin: "400px 0px" },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [hasMore, loadMore, status]);
 
   return (
     <>
@@ -45,11 +61,25 @@ function Home() {
       ) : posts.length === 0 ? (
         <p className="app-empty">No posts yet — run `pnpm seed` to import them from ../content.</p>
       ) : (
-        <ul className="post-list">
-          {posts.map((post) => (
-            <PostCard key={fragmentKey(post)} post={post} />
-          ))}
-        </ul>
+        <>
+          <ul className="post-list">
+            {posts.map((post) => (
+              <PostCard key={fragmentKey(post)} post={post} />
+            ))}
+          </ul>
+          {hasMore || status !== "complete" ? (
+            <div ref={loadMoreRef} className="post-list-more" aria-live="polite">
+              <button
+                type="button"
+                className="load-more-button"
+                onClick={loadMore}
+                disabled={status !== "complete"}
+              >
+                {status === "complete" ? "Load more posts" : "Loading more posts…"}
+              </button>
+            </div>
+          ) : null}
+        </>
       )}
     </>
   );
