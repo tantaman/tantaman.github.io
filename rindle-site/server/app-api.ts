@@ -11,6 +11,7 @@ import { createRindleApiServer, registerQueries } from "@rindle/api-server";
 import type { RindleApiServer } from "@rindle/api-server";
 
 import { schema } from "../shared/app-def.ts";
+import { canPublish } from "../shared/auth.ts";
 import type { Identity } from "../shared/auth.ts";
 import { featuredPostsQuery, postsQuery } from "../src/components/PostCard.queries.ts";
 import { postQuery } from "../src/components/PostView.queries.ts";
@@ -18,6 +19,15 @@ import { postQuery } from "../src/components/PostView.queries.ts";
 /** The authority's principal is the verified identity (or undefined when anonymous). Reads are public,
  *  so this is `undefined` today; it stays typed for when authoring adds authenticated writes. */
 export type User = Identity | undefined;
+
+/** Publishing is server-authority only. Every future publish/unpublish mutator must call this before
+ *  yielding SQL; a browser's optimistic role or claimed username is never trusted. */
+export function requirePublisher(user: User): asserts user is Identity {
+  if (canPublish(user)) return;
+  const error = new Error("Only an administrator can publish posts.");
+  Object.assign(error, { status: 403 });
+  throw error;
+}
 
 // The authority's query surface is just the list of co-located client queries. Each `defineQuery`
 // re-runs its validator on the UNTRUSTED wire args before building the AST, so a malformed client

@@ -11,33 +11,13 @@ import type { MutationEnvelope } from "@rindle/client";
 
 import wasmUrl from "rindle-wasm-bin?url";
 
-import { mutators, normalizeSubject, schema } from "../shared/app-def.ts";
+import { mutators, schema } from "../shared/app-def.ts";
+import { authClient } from "./auth-client.ts";
 
 // The precise client type — including the typed `mutate.*` surface — is INFERRED from the concrete
 // `createRindleClient({ schema, mutators, … })` call in `bootClientInner`.
 type RindleApp = Awaited<ReturnType<typeof bootClientInner>>;
 type RejectionHandler = (envelope: MutationEnvelope, reason: string) => void;
-
-/** The placeholder identity used before this browser's real persisted handle is known — i.e. during
- *  SSR (no `localStorage`) and the first hydration render (which must byte-match the server). */
-export const SSR_USER = "ssr";
-
-/** The dev "login": a handle persisted per browser. A real app puts a verified token in `api.headers`
- *  instead. SSR-safe: returns {@link SSR_USER} when there is no `localStorage` (the server render). */
-export function currentHandle(): string {
-  if (typeof localStorage === "undefined") return SSR_USER;
-  let handle = localStorage.getItem("rindle-user");
-  if (!handle) {
-    handle = `user-${Math.random().toString(36).slice(2, 7)}`;
-    localStorage.setItem("rindle-user", handle);
-  }
-  return handle;
-}
-
-export function setCurrentHandle(handle: string): void {
-  if (typeof localStorage === "undefined") return;
-  localStorage.setItem("rindle-user", handle);
-}
 
 let rejectionHandler: RejectionHandler = () => {};
 export function onRejection(handler: RejectionHandler): () => void {
@@ -55,23 +35,24 @@ export let app: RindleApp;
 /** Dynamically imports the wasm engine + optimistic glue (so the SSR/prerender shell never evaluates
  *  them) and constructs the optimistic client. */
 async function bootClientInner() {
-  const [{ createRindleClient }, { initWasm }] = await Promise.all([
+  const [{ createRindleClient }, { initWasm }, sessionResult] = await Promise.all([
     import("@rindle/optimistic"),
     import("@rindle/wasm"),
+    authClient.getSession(),
   ]);
   await initWasm(wasmUrl);
+  // No anonymous identity is minted. A sessionless reader uses the empty prediction principal; the
+  // authority independently verifies the cookie and rejects any authenticated mutation that needs it.
+  const sessionUserId = sessionResult.data?.user.id ?? "";
   return createRindleClient({
     schema,
     mutators,
     // The acting principal a mutator sees as ctx.user — the prediction's author. The server injects
     // its OWN verified identity for the authoritative run (server/app-api.ts sharedCtx).
-    user: () => normalizeSubject(currentHandle()),
+    user: () => sessionUserId,
     api: {
       url: "", // same-origin: /api/rindle/* is a Start server route on this same server
-      // Identity per request: the dev handle header. A real app sends a verified token instead.
-      headers: (): Record<string, string> => ({
-        "x-rindle-user": currentHandle(),
-      }),
+      // Browser fetch sends the same-origin Better Auth cookie. No client identity header exists.
     },
     // No browser topology config: the first query lease returns the public WebSocket endpoint plus
     // a fresh placement ticket, and the optimistic client opens the correctly pinned socket lazily.

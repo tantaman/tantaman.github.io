@@ -4,6 +4,7 @@
 
 import { Link } from "@tanstack/react-router";
 
+import { AccountControl } from "./AccountControl.tsx";
 import { ThemeToggle } from "./ThemeToggle.tsx";
 
 export function TopBar() {
@@ -18,6 +19,7 @@ export function TopBar() {
           <a href="https://tantaman.com/thoughts/">thoughts</a>
           <a href="https://tantaman.com/paste">paste</a>
         </nav>
+        <AccountControl />
         <ThemeToggle />
       </div>
     </header>

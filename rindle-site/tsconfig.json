@@ -13,5 +13,12 @@
     "erasableSyntaxOnly": true,
     "types": ["node", "vite/client"]
   },
-  "include": ["src", "shared", "server", "vite-env.d.ts", "vite.config.ts"]
+  "include": [
+    "src",
+    "shared",
+    "server",
+    "vite-env.d.ts",
+    "worker-configuration.d.ts",
+    "vite.config.ts"
+  ]
 }

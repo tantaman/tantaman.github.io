@@ -1,0 +1,14 @@
+# Cloudflare `pnpm preview:cf` runtime. Copy to .dev.vars; never commit the real values.
+BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_SECRET=replace-with-openssl-rand-base64-32
+TANTAMAN_OWNER_EMAIL=you@example.com
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+# The deployed Rindle application ingress. These remain server-only.
+RINDLE_URL=
+RINDLE_DATABASE_TOKEN=
+RINDLE_WS_URL=

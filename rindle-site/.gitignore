@@ -9,6 +9,13 @@ dist
 .rindled
 *.db
 *.db-*
+.wrangler
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.env
+.env.*
+!.env.example
 .DS_Store
 *.log
 
