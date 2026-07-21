@@ -155,6 +155,7 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
   const [metadataRows] = useRoot(postEditorMetadataOptionsQuery, {});
   const [metadata, setMetadata] = useState<PostMetadata>(emptyMetadata);
   const [error, setError] = useState<string | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const loadedDocument = useRef<string | null>(null);
 
   const editor = useEditor({
@@ -313,121 +314,154 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
 
   return (
     <section className="author-page">
-      <div className="app-breadcrumb">
-        <Link to="/">Writing</Link> <span aria-hidden="true">/</span>{" "}
-        <span>{editSlug ? "Edit post" : "New post"}</span>
-      </div>
-
-      <header className="author-head">
-        <div>
-          <p className="login-kicker">authoring as @tantaman</p>
-          <h1>{editSlug ? "Edit post" : "New post"}</h1>
+      <header className="author-commandbar">
+        <div className="author-commandbar-context">
+          <Link to="/">Writing</Link>
+          <span aria-hidden="true">/</span>
+          <span>{derived.title || (editSlug ? "Edit post" : "Untitled")}</span>
         </div>
-        {editSlug ? (
-          <Link className="app-link" to="/$slug" params={{ slug: editSlug }}>View post ↗</Link>
-        ) : null}
+        <div className="author-commandbar-actions">
+          {editSlug ? (
+            <Link className="app-link" to="/$slug" params={{ slug: editSlug }}>View post ↗</Link>
+          ) : null}
+          {editSlug ? (
+            <Link className="app-link" to="/$slug" params={{ slug: editSlug }}>Cancel</Link>
+          ) : (
+            <Link className="app-link" to="/">Cancel</Link>
+          )}
+          <button
+            className="author-commandbar-settings"
+            type="button"
+            aria-label="Open post settings"
+            aria-controls="post-settings"
+            aria-expanded={settingsOpen}
+            title="Post settings"
+            onClick={() => setSettingsOpen((open) => !open)}
+          >•••</button>
+          <button
+            className="author-commandbar-publish"
+            type="submit"
+            form="post-author-form"
+          >{editSlug ? "Save" : "Publish"}</button>
+        </div>
       </header>
 
-      <form className="author-form" onSubmit={(event) => void save(event)}>
+      {error ? <p className="author-error" role="alert">{error}</p> : null}
+
+      <form
+        className="author-form"
+        id="post-author-form"
+        onSubmit={(event) => void save(event)}
+      >
         <div className="author-workspace">
           <main className="author-document-shell">
             <EditorToolbar editor={editor} />
             {editor ? <EditorContent editor={editor} /> : <p className="app-empty">Starting editor…</p>}
-            <p className="author-shortcuts">
-              Markdown shortcuts work as you type: <kbd>#</kbd> title, <kbd>##</kbd> heading,
-              <kbd>-</kbd> list, <kbd>&gt;</kbd> quote, <kbd>```</kbd> code.
-            </p>
           </main>
 
-          <aside className="author-sidebar">
-            <section className="author-panel author-derived">
-              <div className="author-panel-heading">
-                <h2>Published as</h2>
-                <span>automatic</span>
-              </div>
-              <dl>
-                <div><dt>Date</dt><dd>{metadata.date}</dd></div>
-                <div><dt>URL</dt><dd>/{resolvedSlug || "waiting-for-title"}</dd></div>
+          <aside
+            className={`author-settings-drawer${settingsOpen ? " is-open" : ""}`}
+            aria-label="Post settings"
+          >
+            <button
+              className="author-settings-trigger"
+              type="button"
+              aria-controls="post-settings"
+              aria-expanded={settingsOpen}
+              onClick={() => setSettingsOpen((open) => !open)}
+            >
+              <span className="author-settings-trigger-mark" aria-hidden="true">•••</span>
+              <span>Post settings</span>
+            </button>
+
+            <div className="author-sidebar" id="post-settings">
+              <div className="author-sidebar-heading">
                 <div>
-                  <dt>Image</dt>
-                  <dd>{derived.image ? "first document image" : "none yet"}</dd>
+                  <p className="login-kicker">Post settings</p>
+                  <p>Everything outside the document.</p>
                 </div>
-              </dl>
-              {derived.image ? <img src={derived.image} alt="" /> : null}
-            </section>
+              </div>
 
-            <section className="author-panel">
-              <div className="author-panel-heading"><h2>Taxonomy</h2></div>
-              <MultiTypeahead
-                label="Tags"
-                values={metadata.tags}
-                options={tagOptions}
-                onChange={(tags) => setMetadata((current) => ({ ...current, tags }))}
-              />
-              <MultiTypeahead
-                label="Concerns"
-                values={metadata.concerns}
-                options={concernOptions}
-                onChange={(concerns) => setMetadata((current) => ({ ...current, concerns }))}
-              />
-              <TypeaheadField
-                label="Form"
-                value={metadata.form}
-                options={formOptions}
-                onChange={(form) => setMetadata((current) => ({ ...current, form }))}
-              />
-              <TypeaheadField
-                label="Kind"
-                value={metadata.kind}
-                options={kindOptions}
-                onChange={(kind) => setMetadata((current) => ({ ...current, kind }))}
-              />
-            </section>
+              <section className="author-panel author-derived">
+                <div className="author-panel-heading">
+                  <h2>Published as</h2>
+                  <span>automatic</span>
+                </div>
+                <dl>
+                  <div><dt>Date</dt><dd>{metadata.date}</dd></div>
+                  <div><dt>URL</dt><dd>/{resolvedSlug || "waiting-for-title"}</dd></div>
+                  <div>
+                    <dt>Image</dt>
+                    <dd>{derived.image ? "first document image" : "none yet"}</dd>
+                  </div>
+                </dl>
+                {derived.image ? <img src={derived.image} alt="" /> : null}
+              </section>
 
-            <section className="author-panel">
-              <div className="author-panel-heading"><h2>Presentation</h2></div>
-              <label className="author-text-field">
-                <span>Summary</span>
-                <textarea
-                  rows={3}
-                  maxLength={2_000}
-                  value={metadata.description}
-                  onChange={(event) =>
-                    setMetadata((current) => ({ ...current, description: event.target.value }))
-                  }
+              <section className="author-panel">
+                <div className="author-panel-heading"><h2>Taxonomy</h2></div>
+                <MultiTypeahead
+                  label="Tags"
+                  values={metadata.tags}
+                  options={tagOptions}
+                  onChange={(tags) => setMetadata((current) => ({ ...current, tags }))}
                 />
-              </label>
-              <label className="author-text-field">
-                <span>Featured thesis</span>
-                <textarea
-                  rows={3}
-                  maxLength={2_000}
-                  value={metadata.thesis}
-                  onChange={(event) =>
-                    setMetadata((current) => ({ ...current, thesis: event.target.value }))
-                  }
+                <MultiTypeahead
+                  label="Concerns"
+                  values={metadata.concerns}
+                  options={concernOptions}
+                  onChange={(concerns) => setMetadata((current) => ({ ...current, concerns }))}
                 />
-              </label>
-              <label className="author-check">
-                <input
-                  type="checkbox"
-                  checked={metadata.pinned}
-                  onChange={(event) =>
-                    setMetadata((current) => ({ ...current, pinned: event.target.checked }))
-                  }
+                <TypeaheadField
+                  label="Form"
+                  value={metadata.form}
+                  options={formOptions}
+                  onChange={(form) => setMetadata((current) => ({ ...current, form }))}
                 />
-                <span>Pin to top</span>
-              </label>
-            </section>
+                <TypeaheadField
+                  label="Kind"
+                  value={metadata.kind}
+                  options={kindOptions}
+                  onChange={(kind) => setMetadata((current) => ({ ...current, kind }))}
+                />
+              </section>
 
-            {error ? <p className="login-error">{error}</p> : null}
-            <div className="author-actions">
-              <button type="submit">{editSlug ? "Save revision" : "Publish post"}</button>
-              {editSlug ? (
-                <Link className="app-link" to="/$slug" params={{ slug: editSlug }}>Cancel</Link>
-              ) : (
-                <Link className="app-link" to="/">Cancel</Link>
-              )}
+              <section className="author-panel">
+                <div className="author-panel-heading"><h2>Presentation</h2></div>
+                <label className="author-text-field">
+                  <span>Summary</span>
+                  <textarea
+                    rows={3}
+                    maxLength={2_000}
+                    value={metadata.description}
+                    onChange={(event) =>
+                      setMetadata((current) => ({ ...current, description: event.target.value }))
+                    }
+                  />
+                </label>
+                <label className="author-text-field">
+                  <span>Featured thesis</span>
+                  <textarea
+                    rows={3}
+                    maxLength={2_000}
+                    value={metadata.thesis}
+                    onChange={(event) =>
+                      setMetadata((current) => ({ ...current, thesis: event.target.value }))
+                    }
+                  />
+                </label>
+                <label className="author-check">
+                  <input
+                    type="checkbox"
+                    checked={metadata.pinned}
+                    onChange={(event) =>
+                      setMetadata((current) => ({ ...current, pinned: event.target.checked }))
+                    }
+                  />
+                  <span>Pin to top</span>
+                </label>
+              </section>
+
             </div>
           </aside>
         </div>
