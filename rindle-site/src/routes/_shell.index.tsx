@@ -1,16 +1,17 @@
 // The blog index (`/`): every ported post, newest-first. Its loader seeds the posts query for first
-// paint (SSR); after hydration the wasm engine owns the live read, so a newly seeded/edited post
-// appears with no reload. Fragment projection keeps this list off the big `html` column — the index
-// ships only card fields.
+// paint (SSR); the LIST ITSELF is read from the `_shell` layout's context (`usePostsList`), which owns
+// the subscription and keeps it warm across list↔post navigation. Fragment projection keeps this list
+// off the big `html` column — the index ships only card fields.
 
 import { createFileRoute } from "@tanstack/react-router";
-import { fragmentKey, useRoot } from "@rindle/react";
+import { fragmentKey } from "@rindle/react";
 import type { DehydratedState } from "@rindle/client";
 
-import { PostCardFragment, postsQuery } from "../components/PostCard.queries.ts";
+import { postsQuery } from "../components/PostCard.queries.ts";
 import { PostCard } from "../components/PostCard.tsx";
+import { usePostsList } from "../components/PostsList.tsx";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_shell/")({
   loader: async (): Promise<{ rindle: DehydratedState }> => {
     if (!import.meta.env.SSR) return { rindle: {} };
     // Dynamic import: ssr.ts is server-only (it builds the daemon client), so it must never enter the
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const [posts, { status }] = useRoot(postsQuery, PostCardFragment);
+  const [posts, { status }] = usePostsList();
   const loading = status !== "complete" && posts.length === 0;
 
   return (

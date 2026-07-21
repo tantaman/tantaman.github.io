@@ -2,6 +2,9 @@
 // single detail query is seeded by the loader for first paint (SSR — this is what makes the post
 // server-rendered), then the wasm engine owns the live read after hydration. The slug matches the
 // original site's URL scheme (`/YYYY-MM-DD-title`), so in-body internal links keep working.
+//
+// It nests under `_shell`, so the blog list stays subscribed (warm) the whole time a post is open —
+// Back returns to `/` with synchronous rows and restored scroll.
 
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
@@ -11,7 +14,7 @@ import { postQuery } from "../components/PostView.queries.ts";
 import { Pills } from "../components/Pills.tsx";
 import { formatDate, parseList } from "../lib/format.ts";
 
-export const Route = createFileRoute("/$slug")({
+export const Route = createFileRoute("/_shell/$slug")({
   loader: async ({ params }): Promise<{ rindle: DehydratedState }> => {
     if (!import.meta.env.SSR) return { rindle: {} };
     const { preloadRindle } = await import("../ssr.ts");
@@ -53,8 +56,8 @@ function PostView() {
         <Pills tags={tags} concern={concern} form={post.form} kind={post.kind} />
       </header>
 
-      {/* Hero art: post `image` paths point at the legacy site's /img assets, not served in the app
-          yet — hide the element if it 404s so the layout stays clean until asset serving is wired up. */}
+      {/* Hero art now served from public/img (see scripts/sync-assets.mjs). A few legacy posts point at
+          /assets/... covers that never existed — hide the element if it 404s so the layout stays clean. */}
       {post.image ? (
         <img
           className="post-hero"
