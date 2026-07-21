@@ -21,6 +21,7 @@ export const PostCardFragment = defineFragment(post, (p) =>
     "date",
     "publishedAt",
     "description",
+    "thesis",
     "tags",
     "concern",
     "author",
@@ -36,6 +37,7 @@ export type PostCardRef = FragmentRef<typeof PostCardFragment>;
 
 export const POSTS_PAGE_SIZE = 50;
 export const POSTS_MAX_LIMIT = 1_000;
+export const FEATURED_POSTS_COUNT = 3;
 
 const postsArgs = z.object({
   limit: z.number().int().min(POSTS_PAGE_SIZE).max(POSTS_MAX_LIMIT),
@@ -51,4 +53,20 @@ export const postsQuery = defineQuery("posts", (raw) => postsArgs.parse(raw), ({
     .orderBy("id", "asc")
     .limit(limit + 1)
     .include(PostCardFragment),
+);
+
+const featuredPostsArgs = z.object({});
+
+/** The three newest non-pinned posts get the original site's full-width image treatment. Keeping
+ *  this as its own named, bounded query means a new post enters the featured window immediately. */
+export const featuredPostsQuery = defineQuery(
+  "featuredPosts",
+  (raw) => featuredPostsArgs.parse(raw),
+  () =>
+    q.post
+      .where.pinned(0)
+      .orderBy("publishedAt", "desc")
+      .orderBy("id", "asc")
+      .limit(FEATURED_POSTS_COUNT)
+      .include(PostCardFragment),
 );

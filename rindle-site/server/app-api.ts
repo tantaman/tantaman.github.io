@@ -12,7 +12,7 @@ import type { RindleApiServer } from "@rindle/api-server";
 
 import { schema } from "../shared/app-def.ts";
 import type { Identity } from "../shared/auth.ts";
-import { postsQuery } from "../src/components/PostCard.queries.ts";
+import { featuredPostsQuery, postsQuery } from "../src/components/PostCard.queries.ts";
 import { postQuery } from "../src/components/PostView.queries.ts";
 
 /** The authority's principal is the verified identity (or undefined when anonymous). Reads are public,
@@ -22,7 +22,7 @@ export type User = Identity | undefined;
 // The authority's query surface is just the list of co-located client queries. Each `defineQuery`
 // re-runs its validator on the UNTRUSTED wire args before building the AST, so a malformed client
 // can't smuggle a garbage arg in.
-const apiQueries = registerQueries<User>([postsQuery, postQuery]);
+const apiQueries = registerQueries<User>([postsQuery, featuredPostsQuery, postQuery]);
 
 /** The one application-facing Rindle connection. */
 export interface AppApiOptions {

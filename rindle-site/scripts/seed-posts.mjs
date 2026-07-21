@@ -24,19 +24,20 @@ import { createSqlClient } from "@rindle/sql-client";
 
 const CONTENT_DIR = fileURLToPath(new URL("../../content/", import.meta.url));
 const LEGACY_MANIFEST = fileURLToPath(new URL("../../docs/posts-manifest.json", import.meta.url));
+const LEGACY_MEME_CACHE = fileURLToPath(new URL("../../.meme-cache.json", import.meta.url));
 const SKIP_FILES = new Set(["README.md"]);
 const PINNED_SLUGS = new Set(["start-here"]);
 const BATCH_SIZE = 20;
 const LEGACY_COLOR_VERSION = "legacy-corpus-pca-v1";
 
 const UPSERT_POST = `INSERT INTO post
-  (id, title, date, publishedAt, description, tags, concern, author, form, kind, image, html, body,
+  (id, title, date, publishedAt, description, thesis, tags, concern, author, form, kind, image, html, body,
    cardImage, pinned, readingMinutes, color, contentRevision, colorRevision,
    colorProjectionVersion, colorStatus)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   ON CONFLICT(id) DO UPDATE SET
     title = excluded.title, date = excluded.date, publishedAt = excluded.publishedAt,
-    description = excluded.description, tags = excluded.tags, concern = excluded.concern,
+    description = excluded.description, thesis = excluded.thesis, tags = excluded.tags, concern = excluded.concern,
     author = excluded.author, form = excluded.form, kind = excluded.kind, image = excluded.image,
     html = excluded.html, body = excluded.body, cardImage = excluded.cardImage,
     pinned = excluded.pinned, readingMinutes = excluded.readingMinutes, color = excluded.color,
@@ -75,6 +76,25 @@ function legacyColors() {
 }
 
 const COLOR_BY_SLUG = legacyColors();
+
+/** Import the legacy homepage's concise overlay copy. It is keyed by title in the static build's
+ *  cache, then persisted on the post so the Rindle view has no runtime dependency on that file. */
+function legacyTheses() {
+  try {
+    const entries = JSON.parse(readFileSync(LEGACY_MEME_CACHE, "utf8"));
+    if (!entries || typeof entries !== "object" || Array.isArray(entries)) return new Map();
+    return new Map(
+      Object.entries(entries)
+        .filter(([title, thesis]) => title.trim() && typeof thesis === "string" && thesis.trim())
+        .map(([title, thesis]) => [title, thesis.trim()]),
+    );
+  } catch (err) {
+    console.warn(`Could not import legacy post theses: ${err instanceof Error ? err.message : err}`);
+    return new Map();
+  }
+}
+
+const THESIS_BY_TITLE = legacyTheses();
 
 /** Coerce a frontmatter value that may be a scalar or a list into a clean string[]. */
 function toStringArray(value) {
@@ -179,6 +199,7 @@ function toRow(filename) {
       date,
       publishedAt,
       data.description ? String(data.description) : "",
+      THESIS_BY_TITLE.get(title) ?? null,
       JSON.stringify(tags),
       JSON.stringify(concerns),
       JSON.stringify(toStringArray(data.author)),
@@ -233,7 +254,7 @@ async function main() {
   }
 
   console.log(
-    `Rendered ${rows.length} posts (${COLOR_BY_SLUG.size} legacy colors available, skipped ${skipped} undated), writing to ${url} …`,
+    `Rendered ${rows.length} posts (${COLOR_BY_SLUG.size} colors and ${THESIS_BY_TITLE.size} theses available, skipped ${skipped} undated), writing to ${url} …`,
   );
 
   const sql = createSqlClient({ url, authToken });

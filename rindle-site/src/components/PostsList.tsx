@@ -12,7 +12,7 @@ import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 import { useRoot } from "@rindle/react";
 
-import { PostCardFragment, postsQuery } from "./PostCard.queries.ts";
+import { PostCardFragment, featuredPostsQuery, postsQuery } from "./PostCard.queries.ts";
 
 /** Subscribe to the newest-first posts list (card fragment refs + a load status). Call ONCE, in the
  *  layout route, so there's a single continuously-mounted lease-holder. */
@@ -20,12 +20,19 @@ export function usePostsListRoot(limit: number) {
   return useRoot(postsQuery, { limit }, PostCardFragment);
 }
 
+/** Keep the fixed three-post featured window alongside the main list lease. */
+export function useFeaturedPostsRoot() {
+  return useRoot(featuredPostsQuery, {}, PostCardFragment);
+}
+
 type PostsListRoot = ReturnType<typeof usePostsListRoot>;
 
 /** The shell owns the growing window so it survives list↔post navigation alongside the subscription. */
 export interface PostsListValue {
   posts: PostsListRoot[0];
+  featuredPosts: PostsListRoot[0];
   status: PostsListRoot[1]["status"];
+  featuredStatus: PostsListRoot[1]["status"];
   limit: number;
   hasMore: boolean;
   loadMore: () => void;

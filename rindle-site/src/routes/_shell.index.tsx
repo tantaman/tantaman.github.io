@@ -8,7 +8,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { fragmentKey } from "@rindle/react";
 import type { DehydratedState } from "@rindle/client";
 
-import { POSTS_PAGE_SIZE, postsQuery } from "../components/PostCard.queries.ts";
+import { featuredPostsQuery, POSTS_PAGE_SIZE, postsQuery } from "../components/PostCard.queries.ts";
+import { FeaturedPostCard } from "../components/FeaturedPostCard.tsx";
 import { PostCard } from "../components/PostCard.tsx";
 import { usePostsList } from "../components/PostsList.tsx";
 
@@ -18,15 +19,25 @@ export const Route = createFileRoute("/_shell/")({
     // Dynamic import: ssr.ts is server-only (it builds the daemon client), so it must never enter the
     // client bundle. The static `import.meta.env.SSR` guard + this dynamic import keep it out.
     const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([postsQuery({ limit: POSTS_PAGE_SIZE })]) };
+    return {
+      rindle: await preloadRindle([
+        postsQuery({ limit: POSTS_PAGE_SIZE }),
+        featuredPostsQuery({}),
+      ]),
+    };
   },
   component: Home,
 });
 
 function Home() {
-  const { posts, status, hasMore, loadMore } = usePostsList();
+  const { posts, featuredPosts, status, featuredStatus, hasMore, loadMore } = usePostsList();
   const loadMoreRef = useRef<HTMLDivElement>(null);
-  const loading = status !== "complete" && posts.length === 0;
+  const loading =
+    posts.length === 0 &&
+    featuredPosts.length === 0 &&
+    (status !== "complete" || featuredStatus !== "complete");
+  const featuredKeys = new Set(featuredPosts.map((post) => fragmentKey(post)));
+  const regularPosts = posts.filter((post) => !featuredKeys.has(fragmentKey(post)));
 
   useEffect(() => {
     const target = loadMoreRef.current;
@@ -46,12 +57,19 @@ function Home() {
     <section className="home-page">
       {loading ? (
         <p className="app-empty">Loading posts…</p>
-      ) : posts.length === 0 ? (
+      ) : posts.length === 0 && featuredPosts.length === 0 ? (
         <p className="app-empty">No posts yet — run `pnpm seed` to import them from ../content.</p>
       ) : (
         <>
+          {featuredPosts.length > 0 ? (
+            <ul className="featured-post-list">
+              {featuredPosts.map((post, index) => (
+                <FeaturedPostCard key={fragmentKey(post)} post={post} priority={index === 0} />
+              ))}
+            </ul>
+          ) : null}
           <ul className="post-list">
-            {posts.map((post) => (
+            {regularPosts.map((post) => (
               <PostCard key={fragmentKey(post)} post={post} />
             ))}
           </ul>
