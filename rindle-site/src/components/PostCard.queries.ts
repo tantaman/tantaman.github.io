@@ -15,7 +15,21 @@ import { post, q } from "../../shared/app-def.ts";
 /** The blog-index card selection: enough to render a list entry — never the rendered `html`. `tags` is
  *  a JSON string (see the migration); the card parses it lazily. */
 export const PostCardFragment = defineFragment(post, (p) =>
-  p.select("id", "title", "date", "publishedAt", "description", "tags", "form", "kind"),
+  p.select(
+    "id",
+    "title",
+    "date",
+    "publishedAt",
+    "description",
+    "tags",
+    "concern",
+    "author",
+    "form",
+    "kind",
+    "cardImage",
+    "pinned",
+    "readingMinutes",
+  ),
 );
 export type PostCardRef = FragmentRef<typeof PostCardFragment>;
 
@@ -30,5 +44,10 @@ const postsArgs = z.object({
  *  window. The extra lookahead row lets the index tell whether another page exists without a second
  *  count subscription; it is not rendered until the caller raises `limit`. */
 export const postsQuery = defineQuery("posts", (raw) => postsArgs.parse(raw), ({ limit }) =>
-  q.post.orderBy("publishedAt", "desc").orderBy("id", "asc").limit(limit + 1).include(PostCardFragment),
+  q.post
+    .orderBy("pinned", "desc")
+    .orderBy("publishedAt", "desc")
+    .orderBy("id", "asc")
+    .limit(limit + 1)
+    .include(PostCardFragment),
 );

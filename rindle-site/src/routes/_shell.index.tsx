@@ -43,19 +43,7 @@ function Home() {
   }, [hasMore, loadMore, status]);
 
   return (
-    <>
-      <section className="home-hero">
-        <div className="hero-mark">
-          <img src="/zero-knight.png" alt="" width={800} height={600} />
-        </div>
-        <div className="hero-copy">
-          <p className="eyebrow">Tantamanlands</p>
-          <h1 className="hero-title">Writing</h1>
-          <p className="hero-sub">
-            Essays on power, formation, religion, software, and the ground beneath modern life.
-          </p>
-        </div>
-      </section>
+    <section className="home-page">
       {loading ? (
         <p className="app-empty">Loading posts…</p>
       ) : posts.length === 0 ? (
@@ -81,6 +69,6 @@ function Home() {
           ) : null}
         </>
       )}
-    </>
+    </section>
   );
 }

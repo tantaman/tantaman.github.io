@@ -201,84 +201,76 @@ body {
   color: var(--accent);
 }
 
-/* ---- home hero ---- */
-.home-hero {
-  display: flex;
-  align-items: center;
-  gap: clamp(18px, 4vw, 36px);
-  padding-bottom: 30px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--line);
-}
-.hero-mark {
-  flex: 0 0 auto;
-  width: 116px;
-  height: 116px;
-  display: grid;
-  place-items: center;
-  background: #eae7ea;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  overflow: hidden;
-}
-.hero-mark img {
-  width: 150%;
-  height: 150%;
-  object-fit: contain;
-  mix-blend-mode: multiply;
-}
-.eyebrow {
-  margin: 0 0 8px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--accent);
-}
-.hero-title {
-  margin: 0;
-  font-size: clamp(30px, 6vw, 46px);
-  font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-.hero-sub {
-  margin: 12px 0 0;
-  max-width: 52ch;
-  color: var(--ink-2);
-  font-size: 16px;
-  line-height: 1.55;
-}
-
 /* ---- post list (index) ---- */
+.home-page {
+  width: min(1400px, calc(100vw - 48px));
+  margin-inline: 50%;
+  transform: translateX(-50%);
+}
 .post-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  align-items: stretch;
 }
 .post-card {
-  padding: 26px 0;
-  border-bottom: 1px solid var(--line);
+  min-width: 0;
 }
 .post-card-link {
   text-decoration: none;
   color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.post-card-accent {
   display: block;
+  width: 100%;
+  height: 4px;
+  flex: 0 0 4px;
+  margin-bottom: 8px;
+  border-radius: 2px 2px 0 0;
+  background: #447f72;
+}
+.post-card:nth-child(3n + 2) .post-card-accent {
+  background: #376a7e;
+}
+.post-card:nth-child(3n) .post-card-accent {
+  background: #4f956e;
+}
+.post-card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  margin-bottom: 14px;
 }
 .post-card-title {
   margin: 0;
-  font-size: 22px;
+  font-size: clamp(19px, 1.7vw, 22px);
   font-weight: 700;
-  line-height: 1.22;
-  letter-spacing: -0.015em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--ink);
   transition: color 0.14s ease;
 }
 .post-card-link:hover .post-card-title {
   color: var(--accent);
 }
-.post-card-meta,
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
 .post-meta {
   display: flex;
   align-items: center;
@@ -290,22 +282,67 @@ body {
   letter-spacing: 0.02em;
   color: var(--ink-3);
 }
-.post-card-desc {
-  margin: 10px 0 0;
+.post-card-authors {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.post-card-author {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  font-size: 13px;
+  line-height: 1;
+}
+.post-card-author-tantaman {
+  width: auto;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
   color: var(--ink-2);
-  line-height: 1.55;
-  font-size: 15.5px;
-  max-width: 72ch;
+}
+.post-card-author-claude {
+  color: #d97757;
+}
+.post-card-desc {
+  margin: 8px 0 0;
+  color: var(--ink-2);
+  line-height: 1.5;
+  font-size: clamp(16px, 1.45vw, 19px);
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 13;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.post-card .pills {
+  margin-top: 8px;
+  gap: 5px;
+}
+.post-card .pill-concern {
+  background: var(--ink-2);
+  color: var(--paper);
+}
 .post-list-more {
+  grid-column: 1 / -1;
   display: grid;
   place-items: center;
   min-height: 120px;
   padding-top: 28px;
+}
+
+@media (max-width: 1024px) {
+  .post-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .home-page {
+    width: calc(100vw - 32px);
+  }
+  .post-list {
+    grid-template-columns: 1fr;
+  }
 }
 .load-more-button {
   min-height: 42px;
@@ -547,15 +584,6 @@ body {
 
 /* ---- responsive ---- */
 @media (max-width: 560px) {
-  .home-hero {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-  }
-  .hero-mark {
-    width: 92px;
-    height: 92px;
-  }
   .post-body {
     font-size: 16.5px;
   }

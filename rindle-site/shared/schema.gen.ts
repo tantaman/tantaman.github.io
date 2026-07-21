@@ -26,6 +26,9 @@ export const post = table("post")
     image: string().nullable(),
     html: string(),
     body: string(),
+    cardImage: string().nullable(),
+    pinned: number(),
+    readingMinutes: number(),
   })
   .primaryKey("id");
 

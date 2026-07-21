@@ -7,8 +7,8 @@
 //
 //     pnpm seed            # = rindle exec -- node scripts/seed-posts.mjs   (topology must be up)
 //
-// Scope (first port): STATIC markdown only. `.mdx` is skipped (comes later), and so is any file with no
-// determinable date (the handful of undated utility pages) — "blog posts" here means the dated archive.
+// Scope (first port): STATIC markdown only. `.mdx` is skipped (comes later), as are undated utility
+// pages other than the explicitly pinned `start-here.md` home card.
 // Transclusion (`![](./x.md)`) and syntax highlighting are not resolved yet; the raw markdown is kept in
 // `post.body` so posts can be re-rendered by a richer pipeline down the line.
 //
@@ -23,16 +23,19 @@ import { createSqlClient } from "@rindle/sql-client";
 
 const CONTENT_DIR = fileURLToPath(new URL("../../content/", import.meta.url));
 const SKIP_FILES = new Set(["README.md"]);
+const PINNED_SLUGS = new Set(["start-here"]);
 const BATCH_SIZE = 40;
 
 const UPSERT = `INSERT INTO post
-  (id, title, date, publishedAt, description, tags, concern, author, form, kind, image, html, body)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  (id, title, date, publishedAt, description, tags, concern, author, form, kind, image, html, body,
+   cardImage, pinned, readingMinutes)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   ON CONFLICT(id) DO UPDATE SET
     title = excluded.title, date = excluded.date, publishedAt = excluded.publishedAt,
     description = excluded.description, tags = excluded.tags, concern = excluded.concern,
     author = excluded.author, form = excluded.form, kind = excluded.kind, image = excluded.image,
-    html = excluded.html, body = excluded.body`;
+    html = excluded.html, body = excluded.body, cardImage = excluded.cardImage,
+    pinned = excluded.pinned, readingMinutes = excluded.readingMinutes`;
 
 /** Coerce a frontmatter value that may be a scalar or a list into a clean string[]. */
 function toStringArray(value) {
@@ -52,6 +55,23 @@ function resolveDate(filename, fmDate) {
     if (m) return m[1];
   }
   return null;
+}
+
+/** First Markdown image URL, matching the legacy homepage's card-thumbnail source. */
+function firstImage(markdown) {
+  const match = /!\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["'][^"']*["'])?\s*\)/m.exec(markdown);
+  return match ? match[1] || match[2] || null : null;
+}
+
+/** Legacy reading-time convention: body word count divided by 200, rounded, minimum one minute. */
+function readingMinutes(markdown) {
+  const text = markdown
+    .split("\n")
+    .filter((line) => !line.trim().startsWith("import "))
+    .join("\n")
+    .replace(/<[^>]*>/g, "")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1");
+  return Math.max(1, Math.round(text.split(/\s+/).filter(Boolean).length / 200));
 }
 
 /** A wiki target → the site's `/slug` link (lowercased, spaces → hyphens), matching remark-wiki-link. */
@@ -76,12 +96,14 @@ function toRow(filename) {
   const raw = readFileSync(new URL(filename, `file://${CONTENT_DIR}`), "utf8");
   const { data, content } = matter(raw);
 
-  const date = resolveDate(filename, data.date);
-  if (!date) return null; // undated utility page — out of scope for this first port
-
   const slug = String(data.slug || filename.replace(/\.md$/, ""));
+  const date = resolveDate(filename, data.date);
+  const pinned = PINNED_SLUGS.has(slug);
+  if (!date && !pinned) return null; // undated utility page — not part of the blog index
+
   const title = data.title ? String(data.title) : slug.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/-/g, " ");
-  const publishedAt = Date.parse(`${date}T00:00:00Z`);
+  const publishedAt = date ? Date.parse(`${date}T00:00:00Z`) : 0;
+  const image = data.image ? String(data.image) : null;
 
   return [
     slug,
@@ -92,11 +114,14 @@ function toRow(filename) {
     JSON.stringify(toStringArray(data.tags)),
     JSON.stringify(toStringArray(data.concern)),
     JSON.stringify(toStringArray(data.author)),
-    data.form ? String(data.form) : null,
+    data.form ? String(data.form) : "essay",
     data.kind ? String(data.kind) : null,
-    data.image ? String(data.image) : null,
+    image,
     renderMarkdown(content),
     content,
+    image || firstImage(content),
+    pinned ? 1 : 0,
+    readingMinutes(content),
   ];
 }
 
