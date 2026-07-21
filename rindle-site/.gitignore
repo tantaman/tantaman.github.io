@@ -1,5 +1,11 @@
 node_modules
 dist
+
+# Legacy static images bootstrapped from ../docs by `scripts/sync-assets.mjs` (predev/prebuild).
+# Not committed here — re-synced on demand; they still live in the parent repo. `zero-knight.png`
+# and any hand-added assets under public/ ARE committed.
+/public/img
+/public/blog-assets
 .rindled
 *.db
 *.db-*

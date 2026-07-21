@@ -8,8 +8,11 @@
     "node": ">=22.18"
   },
   "scripts": {
+    "sync-assets": "node scripts/sync-assets.mjs",
+    "predev": "node scripts/sync-assets.mjs",
     "dev": "rindle dev --migrate --gen shared/schema.gen.ts --dir migrations -- vite dev --port 3000",
     "generate-routes": "tsr generate",
+    "prebuild": "node scripts/sync-assets.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "migrate": "rindle migrate apply --dir migrations",
