@@ -8,6 +8,7 @@ import { useRoot } from "@rindle/react";
 import type { DehydratedState } from "@rindle/client";
 
 import { postQuery } from "../components/PostView.queries.ts";
+import { Pills } from "../components/Pills.tsx";
 import { formatDate, parseList } from "../lib/format.ts";
 
 export const Route = createFileRoute("/$slug")({
@@ -33,6 +34,7 @@ function PostView() {
   }
 
   const tags = parseList(post.tags);
+  const concern = parseList(post.concern);
   const authors = parseList(post.author);
 
   return (
@@ -48,18 +50,22 @@ function PostView() {
           {authors.length > 0 ? <span className="post-authors">{authors.join(", ")}</span> : null}
           {post.form ? <span className="post-form">{post.form}</span> : null}
         </div>
-        {tags.length > 0 ? (
-          <ul className="post-tags">
-            {tags.map((tag) => (
-              <li key={tag} className="post-tag">
-                {tag}
-              </li>
-            ))}
-          </ul>
-        ) : null}
+        <Pills tags={tags} concern={concern} form={post.form} kind={post.kind} />
       </header>
 
-      {post.image ? <img className="post-hero" src={post.image} alt="" /> : null}
+      {/* Hero art: post `image` paths point at the legacy site's /img assets, not served in the app
+          yet — hide the element if it 404s so the layout stays clean until asset serving is wired up. */}
+      {post.image ? (
+        <img
+          className="post-hero"
+          src={post.image}
+          alt=""
+          loading="lazy"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+      ) : null}
 
       {/* The body is pre-rendered HTML from the seed step (marked). MDX / live rendering / transclusion
           come later; for static markdown posts this is the server-rendered article. */}

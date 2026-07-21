@@ -1,35 +1,19 @@
-// The persistent top bar: the app wordmark + the dev identity control. "Who you are" is a handle
-// persisted per browser; "Switch user" rewrites it. A real app would show the signed-in account from
-// a verified token instead (see shared/auth.ts).
+// The persistent top bar: the site wordmark + a light/dark toggle. The Rindle-demo identity control
+// (dev "signed in as / switch user") is gone — the blog is read-only until authoring lands, at which
+// point a real signed-in account replaces it.
 
 import { Link } from "@tanstack/react-router";
 
-import { useCurrentHandle } from "../lib/use-handle.ts";
-import { currentHandle, setCurrentHandle } from "../rindle-client.ts";
+import { ThemeToggle } from "./ThemeToggle.tsx";
 
 export function TopBar() {
-  const me = useCurrentHandle();
-
-  function switchUser() {
-    const next = prompt("Switch dev user (handle):", currentHandle());
-    if (next && next.trim()) {
-      setCurrentHandle(next.trim());
-      location.reload();
-    }
-  }
-
   return (
     <header className="app-topbar">
       <Link to="/" className="app-wordmark">
         tantaman<span>lands</span>
       </Link>
       <div className="app-topbar-right">
-        <span className="app-whoami" title="Your dev identity">
-          signed in as <b>{me}</b>
-        </span>
-        <button type="button" className="app-btn app-btn-ghost" onClick={switchUser}>
-          Switch user
-        </button>
+        <ThemeToggle />
       </div>
     </header>
   );

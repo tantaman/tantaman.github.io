@@ -26,11 +26,19 @@ function Home() {
   const loading = status !== "complete" && posts.length === 0;
 
   return (
-    <section className="app-page">
-      <div className="app-page-head">
-        <p className="app-eyebrow">Tantamanlands</p>
-        <h1>Writing</h1>
-      </div>
+    <>
+      <section className="home-hero">
+        <div className="hero-mark">
+          <img src="/zero-knight.png" alt="" width={800} height={600} />
+        </div>
+        <div className="hero-copy">
+          <p className="eyebrow">Tantamanlands</p>
+          <h1 className="hero-title">Writing</h1>
+          <p className="hero-sub">
+            Essays on power, formation, religion, software, and the ground beneath modern life.
+          </p>
+        </div>
+      </section>
       {loading ? (
         <p className="app-empty">Loading posts…</p>
       ) : posts.length === 0 ? (
@@ -42,6 +50,6 @@ function Home() {
           ))}
         </ul>
       )}
-    </section>
+    </>
   );
 }
