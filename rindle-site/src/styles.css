@@ -1534,6 +1534,64 @@ body {
   margin: 0;
   accent-color: var(--accent);
 }
+.author-delete-panel {
+  border-color: color-mix(in srgb, #d05252 42%, var(--line));
+  background: color-mix(in srgb, #d05252 6%, var(--panel));
+}
+.author-delete-panel > p,
+.author-delete-confirm > p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.author-delete-confirm {
+  display: grid;
+  gap: 12px;
+}
+.author-delete-confirm > p strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+.author-delete-confirm > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.author-delete-trigger,
+.author-delete-confirm button {
+  width: max-content;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, #d05252 52%, var(--line-2));
+  border-radius: 7px;
+  background: transparent;
+  color: #cf6f6f;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.author-delete-confirm button:not(.author-delete-confirm-button) {
+  border-color: var(--line-2);
+  color: var(--ink-2);
+}
+.author-delete-confirm .author-delete-confirm-button {
+  background: #a53d47;
+  color: #fff;
+}
+.author-delete-trigger:hover,
+.author-delete-trigger:focus-visible,
+.author-delete-confirm button:hover,
+.author-delete-confirm button:focus-visible {
+  filter: brightness(1.1);
+  outline: 2px solid color-mix(in srgb, #d05252 24%, transparent);
+  outline-offset: 2px;
+}
+.author-delete-confirm button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
 @media (max-width: 760px) {
   .author-page {
     width: auto;

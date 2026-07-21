@@ -80,6 +80,10 @@ const savePostArgs = z.object({
   postAuthorId: z.string().min(1).max(100),
 });
 export type SavePostArgs = z.infer<typeof savePostArgs>;
+const deletePostArgs = z.object({
+  id: z.string().trim().min(1).max(200),
+});
+export type DeletePostArgs = z.infer<typeof deletePostArgs>;
 
 const { shared } = defineMutators(schema);
 
@@ -120,4 +124,24 @@ const savePost = shared(savePostArgs, function* (tx, args, ctx) {
   });
 });
 
-export const mutators = { savePost } satisfies ClientRegistry;
+/** Delete one post and every normalized edge owned by it. The edge primary keys are discovered
+ * through replayable shared queries so the same deterministic body runs in the optimistic client
+ * and at the server authority. The shared author profile is intentionally retained. */
+const deletePost = shared(deletePostArgs, function* (tx, args) {
+  const facets = (yield tx.query(q.postFacet.where.postId(args.id))) as unknown as Array<{
+    id?: unknown;
+  }>;
+  const authors = (yield tx.query(q.postAuthor.where.postId(args.id))) as unknown as Array<{
+    id?: unknown;
+  }>;
+
+  for (const row of facets) {
+    if (typeof row.id === "string") yield tx.delete("postFacet", { id: row.id });
+  }
+  for (const row of authors) {
+    if (typeof row.id === "string") yield tx.delete("postAuthor", { id: row.id });
+  }
+  yield tx.delete("post", { id: args.id });
+});
+
+export const mutators = { savePost, deletePost } satisfies ClientRegistry;
