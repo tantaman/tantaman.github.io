@@ -1,21 +1,33 @@
--- 0001_init — the app's two normalized tables.
+-- 0001_init — the blog `post` table (static markdown posts ported from ../content/*.md).
 --
--- This SQL is the SINGLE SOURCE OF TRUTH for the schema. It is applied to the daemon on demand through
--- the `/migrate` endpoint (run by `rindle migrate apply`, which `pnpm dev` drives for you), and the
--- @rindle/client TypeScript schema is GENERATED from the daemon's introspected result into
--- shared/schema.gen.ts — so the TS can't drift from the DDL.
+-- This SQL is the SINGLE SOURCE OF TRUTH for the schema. `rindle dev` / `rindle up --migrate --gen`
+-- applies it to the daemon and regenerates shared/schema.gen.ts from the daemon's introspected result,
+-- so the @rindle/client TypeScript can't drift from the DDL.
 --
--- To change the schema: add or edit a file in migrations/. `pnpm dev --watch` re-applies it and
--- regenerates shared/schema.gen.ts automatically; `pnpm migrate` does the same for a one-shot run.
+-- Rindle v1 migrations are ADDITIVE ONLY (no DROP) — change the schema by adding a new migrations/*.sql
+-- file (CREATE TABLE / ADD COLUMN / CREATE INDEX), never by editing an applied one.
 --
--- Column kinds map to the client schema like so: TEXT → string(), INTEGER/REAL → number(), a column
--- declared BOOLEAN/BOOL → boolean(), JSON → json(). Column ORDER matters — the IVM engine reads it
--- back with PRAGMA table_info. `IF NOT EXISTS` keeps re-runs safe.
+-- A post is a rendered static markdown file: frontmatter → the scalar/array columns, the markdown body
+-- → both `body` (the source, kept in the DB) and `html` (pre-rendered at seed time — MDX/live rendering
+-- come later). Array frontmatter (tags/concern/author) is stored as a JSON STRING in a TEXT column
+-- (parsed in app code) rather than a JSON column, keeping this off the less-exercised json() read path.
+-- Column ORDER matters — the IVM engine reads it back with PRAGMA table_info.
+--
+-- Columns:
+--   id          slug = URL path segment (frontmatter `slug` override, else filename sans date/ext)
+--   title       post title
+--   date        ISO date (YYYY-MM-DD) from filename or frontmatter; NULL when undated
+--   publishedAt epoch ms derived from `date` (0 when undated) — the total order the index uses
+--   description meta description (may be empty)
+--   tags        JSON-encoded string[]
+--   concern     JSON-encoded string[]
+--   author      JSON-encoded string[]
+--   form        essay | story | chat | interactive | meditation | prophecy (nullable)
+--   kind        original | survey (nullable)
+--   image       hero/card image path (nullable)
+--   html        rendered article HTML (pre-rendered at seed time)
+--   body        raw markdown source (kept so posts can be re-rendered later)
+CREATE TABLE IF NOT EXISTS post (id TEXT NOT NULL, title TEXT NOT NULL, date TEXT, publishedAt REAL NOT NULL, description TEXT NOT NULL DEFAULT '', tags TEXT NOT NULL DEFAULT '[]', concern TEXT NOT NULL DEFAULT '[]', author TEXT NOT NULL DEFAULT '[]', form TEXT, kind TEXT, image TEXT, html TEXT NOT NULL, body TEXT NOT NULL, PRIMARY KEY (id));
 
-CREATE TABLE IF NOT EXISTS room (id TEXT NOT NULL, name TEXT NOT NULL, createdAt REAL NOT NULL, PRIMARY KEY (id));
--- The room list orders newest-first.
-CREATE INDEX IF NOT EXISTS room_created ON room (createdAt DESC, id);
-
-CREATE TABLE IF NOT EXISTS message (id TEXT NOT NULL, roomId TEXT NOT NULL, author TEXT NOT NULL, body TEXT NOT NULL, createdAt REAL NOT NULL, PRIMARY KEY (id));
--- Forward (a room's messages, oldest-first) AND the reverse the live count uses when a message changes.
-CREATE INDEX IF NOT EXISTS message_room ON message (roomId, createdAt, id);
+-- The blog index orders newest-first over the whole table; the reverse tiebreak keeps it a total order.
+CREATE INDEX IF NOT EXISTS post_published ON post (publishedAt DESC, id);
