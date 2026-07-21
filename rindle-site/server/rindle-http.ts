@@ -8,7 +8,7 @@ import type { ApiContext } from "@rindle/api-server";
 
 import { createAppApi, httpErrorOf, resolveRindle } from "./app-api.ts";
 import type { User } from "./app-api.ts";
-import { devAuth } from "./auth-dev.ts";
+import { sessionAuth } from "./session.ts";
 
 /** Which Rindle endpoint a request targets. */
 export type RindleRouteKind = "query" | "read" | "mutate";
@@ -20,7 +20,7 @@ export async function handleRindleJson(kind: RindleRouteKind, request: Request):
     const api = createAppApi(resolveRindle(process.env));
     const body = await request.json().catch(() => ({}));
     const context: ApiContext<User> = {
-      user: (await devAuth.verify(request)) ?? undefined,
+      user: (await sessionAuth.verify(request)) ?? undefined,
       request,
     };
     const out =

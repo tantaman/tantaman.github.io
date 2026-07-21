@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rindle-site",
+  "main": "@tanstack/react-start/server-entry",
+  "compatibility_date": "2026-07-21",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true, "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  },
+
+  // Auth is deliberately separate from the Rindle content database. Omitting database_id lets
+  // Wrangler provision the D1 database on first deploy; it can be pinned here later if desired.
+  "d1_databases": [
+    {
+      "binding": "AUTH_DB",
+      "database_name": "rindle-site-auth",
+      "migrations_dir": "migrations-auth"
+    }
+  ]
+
+  // Server-only configuration is set with Wrangler secrets or dashboard variables, never committed:
+  //   BETTER_AUTH_URL, BETTER_AUTH_SECRET, TANTAMAN_OWNER_EMAIL
+  //   GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET and/or GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+  //   RINDLE_URL, RINDLE_DATABASE_TOKEN, optional RINDLE_WS_URL
+}

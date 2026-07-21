@@ -40,14 +40,6 @@ export type PostFacet = Row<typeof postFacet>;
 export type Author = Row<typeof author>;
 export type PostAuthor = Row<typeof postAuthor>;
 
-// --------------------------------------------------------------------------- principal
-
-/** A login handle reduced to a stable slug, so the client's predicted acting user matches the
- *  server's. Kept for when authoring lands; the read-only client still stamps a per-browser handle. */
-export function normalizeSubject(raw: string): string {
-  return raw.trim().replace(/\s+/g, "-").toLowerCase().slice(0, 40) || "anon";
-}
-
 // --------------------------------------------------------------------------- mutators
 //
 // None yet — the blog is read-only. When authoring is added, each mutator is ONE isomorphic generator
