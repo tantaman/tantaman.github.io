@@ -12,3 +12,7 @@ GOOGLE_CLIENT_SECRET=
 RINDLE_URL=
 RINDLE_DATABASE_TOKEN=
 RINDLE_WS_URL=
+
+# Optional structured-thought metadata providers.
+MAPBOX_TOKEN=
+TMDB_API_KEY=

@@ -47,6 +47,20 @@ function tagsFor(thought: ThoughtCardData): string[] {
   return [...names];
 }
 
+function enrichmentRoute(tag: string) {
+  switch (tag) {
+    case "p": return "/thoughts/projects" as const;
+    case "t": return "/thoughts/tasks" as const;
+    case "q": return "/thoughts/questions" as const;
+    case "e": return "/thoughts/events" as const;
+    case "l": return "/thoughts/locations" as const;
+    case "b": return "/thoughts/books" as const;
+    case "m": return "/thoughts/movies" as const;
+    case "a": return "/thoughts/music" as const;
+    default: return null;
+  }
+}
+
 export function ThoughtCard({ thought, isAdmin, variant = "feed", onDeleted }: ThoughtCardProps) {
   const [editing, setEditing] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -137,7 +151,12 @@ export function ThoughtCard({ thought, isAdmin, variant = "feed", onDeleted }: T
           <div className="thought-markdown" dangerouslySetInnerHTML={{ __html: html }} />
           {tags.length > 0 ? (
             <div className="thought-tags" aria-label="Tags">
-              {tags.map((tag) => <span key={tag}>#{tag}</span>)}
+              {tags.map((tag) => {
+                const to = enrichmentRoute(tag);
+                return to
+                  ? <Link key={tag} to={to}>#{tag}</Link>
+                  : <span key={tag}>#{tag}</span>;
+              })}
             </div>
           ) : null}
           {(thought.attachments?.length ?? 0) > 0 ? (

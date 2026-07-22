@@ -245,6 +245,7 @@ export const project = table("project")
     status: string(),
     createdAt: number(),
     archivedAt: number().nullable(),
+    private: number(),
   })
   .primaryKey("id");
 
@@ -324,6 +325,7 @@ export const task = table("task")
     completedAt: number().nullable(),
     deprioritizedAt: number().nullable(),
     position: number().nullable(),
+    private: number(),
   })
   .primaryKey("id");
 

@@ -17,6 +17,14 @@ import { Route as ShellSlugRouteImport } from './routes/_shell.$slug'
 import { Route as ShellWriteRouteImport } from './routes/_shell.write'
 import { Route as ThoughtsIndexRouteImport } from './routes/thoughts.index'
 import { Route as ThoughtsIdRouteImport } from './routes/thoughts.$id'
+import { Route as ThoughtsBooksRouteImport } from './routes/thoughts.books'
+import { Route as ThoughtsEventsRouteImport } from './routes/thoughts.events'
+import { Route as ThoughtsLocationsRouteImport } from './routes/thoughts.locations'
+import { Route as ThoughtsMoviesRouteImport } from './routes/thoughts.movies'
+import { Route as ThoughtsMusicRouteImport } from './routes/thoughts.music'
+import { Route as ThoughtsProjectsRouteImport } from './routes/thoughts.projects'
+import { Route as ThoughtsQuestionsRouteImport } from './routes/thoughts.questions'
+import { Route as ThoughtsTasksRouteImport } from './routes/thoughts.tasks'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAuthDevLoginRouteImport } from './routes/api.auth.dev-login'
 import { Route as ApiRindleMutateRouteImport } from './routes/api.rindle.mutate'
@@ -62,6 +70,46 @@ const ThoughtsIdRoute = ThoughtsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => ThoughtsRoute,
 } as any)
+const ThoughtsBooksRoute = ThoughtsBooksRouteImport.update({
+  id: '/books',
+  path: '/books',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsEventsRoute = ThoughtsEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsLocationsRoute = ThoughtsLocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsMoviesRoute = ThoughtsMoviesRouteImport.update({
+  id: '/movies',
+  path: '/movies',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsMusicRoute = ThoughtsMusicRouteImport.update({
+  id: '/music',
+  path: '/music',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsProjectsRoute = ThoughtsProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsQuestionsRoute = ThoughtsQuestionsRouteImport.update({
+  id: '/questions',
+  path: '/questions',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsTasksRoute = ThoughtsTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -95,6 +143,14 @@ export interface FileRoutesByFullPath {
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
+  '/thoughts/books': typeof ThoughtsBooksRoute
+  '/thoughts/events': typeof ThoughtsEventsRoute
+  '/thoughts/locations': typeof ThoughtsLocationsRoute
+  '/thoughts/movies': typeof ThoughtsMoviesRoute
+  '/thoughts/music': typeof ThoughtsMusicRoute
+  '/thoughts/projects': typeof ThoughtsProjectsRoute
+  '/thoughts/questions': typeof ThoughtsQuestionsRoute
+  '/thoughts/tasks': typeof ThoughtsTasksRoute
   '/thoughts/': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
@@ -107,6 +163,14 @@ export interface FileRoutesByTo {
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
+  '/thoughts/books': typeof ThoughtsBooksRoute
+  '/thoughts/events': typeof ThoughtsEventsRoute
+  '/thoughts/locations': typeof ThoughtsLocationsRoute
+  '/thoughts/movies': typeof ThoughtsMoviesRoute
+  '/thoughts/music': typeof ThoughtsMusicRoute
+  '/thoughts/projects': typeof ThoughtsProjectsRoute
+  '/thoughts/questions': typeof ThoughtsQuestionsRoute
+  '/thoughts/tasks': typeof ThoughtsTasksRoute
   '/': typeof ShellIndexRoute
   '/thoughts': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -123,6 +187,14 @@ export interface FileRoutesById {
   '/_shell/$slug': typeof ShellSlugRoute
   '/_shell/write': typeof ShellWriteRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
+  '/thoughts/books': typeof ThoughtsBooksRoute
+  '/thoughts/events': typeof ThoughtsEventsRoute
+  '/thoughts/locations': typeof ThoughtsLocationsRoute
+  '/thoughts/movies': typeof ThoughtsMoviesRoute
+  '/thoughts/music': typeof ThoughtsMusicRoute
+  '/thoughts/projects': typeof ThoughtsProjectsRoute
+  '/thoughts/questions': typeof ThoughtsQuestionsRoute
+  '/thoughts/tasks': typeof ThoughtsTasksRoute
   '/_shell/': typeof ShellIndexRoute
   '/thoughts/': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -140,6 +212,14 @@ export interface FileRouteTypes {
     | '/$slug'
     | '/write'
     | '/thoughts/$id'
+    | '/thoughts/books'
+    | '/thoughts/events'
+    | '/thoughts/locations'
+    | '/thoughts/movies'
+    | '/thoughts/music'
+    | '/thoughts/projects'
+    | '/thoughts/questions'
+    | '/thoughts/tasks'
     | '/thoughts/'
     | '/api/auth/$'
     | '/api/auth/dev-login'
@@ -152,6 +232,14 @@ export interface FileRouteTypes {
     | '/$slug'
     | '/write'
     | '/thoughts/$id'
+    | '/thoughts/books'
+    | '/thoughts/events'
+    | '/thoughts/locations'
+    | '/thoughts/movies'
+    | '/thoughts/music'
+    | '/thoughts/projects'
+    | '/thoughts/questions'
+    | '/thoughts/tasks'
     | '/'
     | '/thoughts'
     | '/api/auth/$'
@@ -167,6 +255,14 @@ export interface FileRouteTypes {
     | '/_shell/$slug'
     | '/_shell/write'
     | '/thoughts/$id'
+    | '/thoughts/books'
+    | '/thoughts/events'
+    | '/thoughts/locations'
+    | '/thoughts/movies'
+    | '/thoughts/music'
+    | '/thoughts/projects'
+    | '/thoughts/questions'
+    | '/thoughts/tasks'
     | '/_shell/'
     | '/thoughts/'
     | '/api/auth/$'
@@ -245,6 +341,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThoughtsIdRouteImport
       parentRoute: typeof ThoughtsRoute
     }
+    '/thoughts/books': {
+      id: '/thoughts/books'
+      path: '/books'
+      fullPath: '/thoughts/books'
+      preLoaderRoute: typeof ThoughtsBooksRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/events': {
+      id: '/thoughts/events'
+      path: '/events'
+      fullPath: '/thoughts/events'
+      preLoaderRoute: typeof ThoughtsEventsRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/locations': {
+      id: '/thoughts/locations'
+      path: '/locations'
+      fullPath: '/thoughts/locations'
+      preLoaderRoute: typeof ThoughtsLocationsRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/movies': {
+      id: '/thoughts/movies'
+      path: '/movies'
+      fullPath: '/thoughts/movies'
+      preLoaderRoute: typeof ThoughtsMoviesRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/music': {
+      id: '/thoughts/music'
+      path: '/music'
+      fullPath: '/thoughts/music'
+      preLoaderRoute: typeof ThoughtsMusicRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/projects': {
+      id: '/thoughts/projects'
+      path: '/projects'
+      fullPath: '/thoughts/projects'
+      preLoaderRoute: typeof ThoughtsProjectsRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/questions': {
+      id: '/thoughts/questions'
+      path: '/questions'
+      fullPath: '/thoughts/questions'
+      preLoaderRoute: typeof ThoughtsQuestionsRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/tasks': {
+      id: '/thoughts/tasks'
+      path: '/tasks'
+      fullPath: '/thoughts/tasks'
+      preLoaderRoute: typeof ThoughtsTasksRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -299,11 +451,27 @@ const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
 
 interface ThoughtsRouteChildren {
   ThoughtsIdRoute: typeof ThoughtsIdRoute
+  ThoughtsBooksRoute: typeof ThoughtsBooksRoute
+  ThoughtsEventsRoute: typeof ThoughtsEventsRoute
+  ThoughtsLocationsRoute: typeof ThoughtsLocationsRoute
+  ThoughtsMoviesRoute: typeof ThoughtsMoviesRoute
+  ThoughtsMusicRoute: typeof ThoughtsMusicRoute
+  ThoughtsProjectsRoute: typeof ThoughtsProjectsRoute
+  ThoughtsQuestionsRoute: typeof ThoughtsQuestionsRoute
+  ThoughtsTasksRoute: typeof ThoughtsTasksRoute
   ThoughtsIndexRoute: typeof ThoughtsIndexRoute
 }
 
 const ThoughtsRouteChildren: ThoughtsRouteChildren = {
   ThoughtsIdRoute: ThoughtsIdRoute,
+  ThoughtsBooksRoute: ThoughtsBooksRoute,
+  ThoughtsEventsRoute: ThoughtsEventsRoute,
+  ThoughtsLocationsRoute: ThoughtsLocationsRoute,
+  ThoughtsMoviesRoute: ThoughtsMoviesRoute,
+  ThoughtsMusicRoute: ThoughtsMusicRoute,
+  ThoughtsProjectsRoute: ThoughtsProjectsRoute,
+  ThoughtsQuestionsRoute: ThoughtsQuestionsRoute,
+  ThoughtsTasksRoute: ThoughtsTasksRoute,
   ThoughtsIndexRoute: ThoughtsIndexRoute,
 }
 

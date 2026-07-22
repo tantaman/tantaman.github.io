@@ -6,12 +6,22 @@
 // API routes (src/routes/api.rindle.*.tsx) the browser calls, and the SSR loader (src/ssr.ts) calls the
 // SAME factory in-process. The only per-host input is the unified Rindle connection.
 
-import { createRindleApiServer, registerQueries, sharedApiMutators } from "@rindle/api-server";
-import type { MutationContext, RindleApiServer } from "@rindle/api-server";
+import {
+  createRindleApiServer,
+  defineApiMutators,
+  registerQueries,
+  scoped,
+  sharedApiMutators,
+} from "@rindle/api-server";
+import type { ApiMutators, MutationContext, RindleApiServer } from "@rindle/api-server";
 
 import { mutators, schema } from "../shared/app-def.ts";
 import { canPublish } from "../shared/auth.ts";
 import type { Identity } from "../shared/auth.ts";
+import {
+  scheduleThoughtEnrichments,
+  type ThoughtEnrichmentConfig,
+} from "./thought-enrichment.ts";
 import { featuredPostsQuery, postsQuery } from "../src/components/PostCard.queries.ts";
 import {
   postEditorFacetOptionsQuery,
@@ -25,6 +35,7 @@ import {
   thoughtQuery,
   thoughtsQuery,
 } from "../src/components/ThoughtCard.queries.ts";
+import { thoughtEnrichmentQueries } from "../src/components/ThoughtEnrichment.queries.ts";
 
 /** The authority's principal is the verified identity (or undefined when anonymous). Public post
  * reads accept either; private authoring reads and every mutation require the administrator. */
@@ -53,6 +64,7 @@ const apiQueries = registerQueries<User>([
   thoughtQuery,
   thoughtAdminFeedQuery,
   thoughtAdminQuery,
+  ...thoughtEnrichmentQueries,
 ]);
 
 function publisherPrincipal(ctx: MutationContext<User>) {
@@ -68,15 +80,28 @@ export interface AppApiOptions {
   token: string;
   /** Optional distinct public WebSocket ingress; normally derived from {@link url}. */
   wsUrl?: string;
+  /** Optional server-only providers used by post-commit structured thought projections. */
+  thoughtEnrichment?: ThoughtEnrichmentConfig;
 }
 
 /** Build the configured API server. Stateless: safe to construct per-request or once per process. */
 export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
+  const sharedMutators = sharedApiMutators<User>(mutators, publisherPrincipal);
+  const apiMutators = defineApiMutators<User, ApiMutators<User>>({
+    ...sharedMutators,
+    // Local structured rows are written by the exact shared body the browser predicted. Network
+    // metadata is authority-only work, scheduled only after that transaction commits.
+    createThought: scoped<User, unknown>(async (scope, raw, ctx) => {
+      const args = mutators.createThought.args.parse(raw);
+      await scope.transact(mutators.createThought, args, publisherPrincipal(ctx));
+      await scheduleThoughtEnrichments(scope.sql, args.enrichments, opts.thoughtEnrichment ?? {});
+    }),
+  });
   return createRindleApiServer<User>({
     rindle: { url: opts.url, token: opts.token, wsUrl: opts.wsUrl },
     schema,
     queries: apiQueries,
-    mutators: sharedApiMutators(mutators, publisherPrincipal),
+    mutators: apiMutators,
     authorizeQuery: ({ name, user }) =>
       (!name.startsWith("postEditor") && !name.startsWith("thoughtAdmin")) || canPublish(user),
     authorizeMutation: ({ user }) => {
@@ -96,7 +121,16 @@ export function resolveRindle(env: Record<string, string | undefined>): AppApiOp
     );
   }
   const wsUrl = env.RINDLE_WS_URL;
-  return { url, token, ...(wsUrl ? { wsUrl } : {}) };
+  const mapboxToken = env.MAPBOX_TOKEN?.trim();
+  const tmdbApiKey = env.TMDB_API_KEY?.trim();
+  return {
+    url,
+    token,
+    ...(wsUrl ? { wsUrl } : {}),
+    ...((mapboxToken || tmdbApiKey)
+      ? { thoughtEnrichment: { ...(mapboxToken ? { mapboxToken } : {}), ...(tmdbApiKey ? { tmdbApiKey } : {}) } }
+      : {}),
+  };
 }
 
 /** Map an error thrown out of the API server (or body parsing) to an HTTP status + message. */

@@ -4,6 +4,7 @@ import {
   AdminThoughtsFeedProvider,
   PublicThoughtsFeedProvider,
 } from "../components/ThoughtsFeed.tsx";
+import { ThoughtsNav } from "../components/ThoughtsNav.tsx";
 import { authClient } from "../auth-client.ts";
 import { useHydrated } from "../lib/hydration.ts";
 
@@ -22,9 +23,16 @@ function ThoughtsLayout() {
   const hydrated = useHydrated();
   const isAdmin = hydrated && session?.user.role === "admin";
 
-  return isAdmin ? (
-    <AdminThoughtsFeedProvider><Outlet /></AdminThoughtsFeedProvider>
-  ) : (
-    <PublicThoughtsFeedProvider><Outlet /></PublicThoughtsFeedProvider>
+  return (
+    <div className="thoughts-shell">
+      <ThoughtsNav />
+      <div className="thoughts-shell-main">
+        {isAdmin ? (
+          <AdminThoughtsFeedProvider><Outlet /></AdminThoughtsFeedProvider>
+        ) : (
+          <PublicThoughtsFeedProvider><Outlet /></PublicThoughtsFeedProvider>
+        )}
+      </div>
+    </div>
   );
 }

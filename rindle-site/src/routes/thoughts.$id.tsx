@@ -117,6 +117,7 @@ function StableThoughtThread({
           <div className="thought-reply-composer">
             <ThoughtComposer
               parentId={rendered.id}
+              parentTaskIds={rendered.tasks.map((task) => task.id)}
               defaultPrivate={rendered.private === 1}
               placeholder="Continue the thread…"
               submitLabel="Add reply"
