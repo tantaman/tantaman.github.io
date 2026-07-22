@@ -11,7 +11,7 @@ export function TopBar() {
   return (
     <header className="app-topbar">
       <Link to="/" className="app-wordmark">
-        tantaman<span>lands</span>
+        tantaman
       </Link>
       <div className="app-topbar-right">
         <nav className="app-nav" aria-label="Primary navigation">

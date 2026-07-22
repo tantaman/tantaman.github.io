@@ -48,6 +48,7 @@ interface DerivedDocument {
 }
 
 const EMPTY_QUERY_SLUG = "__new-post__";
+const TITLE_CURSOR_POSITION = 1;
 const EMPTY_DERIVED: DerivedDocument = { markdown: "", title: "", image: null };
 const BLANK_DOCUMENT = {
   type: "doc",
@@ -163,6 +164,9 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
   const editor = useEditor({
     extensions: EDITOR_EXTENSIONS,
     content: BLANK_DOCUMENT,
+    // Let Tiptap apply focus after EditorContent has mounted. Focusing from the loading effect can
+    // target its detached editor view and leave a new draft's cursor in the body paragraph.
+    autofocus: editSlug ? false : TITLE_CURSOR_POSITION,
     immediatelyRender: false,
     editorProps: {
       attributes: {
@@ -191,7 +195,7 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
     if (loadedDocument.current === key) return;
 
     if (!editSlug) {
-      editor.chain().setContent(BLANK_DOCUMENT).focus("start").run();
+      editor.chain().setContent(BLANK_DOCUMENT).focus(TITLE_CURSOR_POSITION).run();
       setMetadata(emptyMetadata());
       loadedDocument.current = key;
       return;
@@ -213,6 +217,15 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
     });
     loadedDocument.current = key;
   }, [editSlug, editor, existing]);
+
+  useEffect(() => {
+    if (!settingsOpen) return;
+    const closeOnEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") setSettingsOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [settingsOpen]);
 
   const tagOptions = useMemo(
     () => unique(facetRows.filter((row) => row.facet === "tag").map((row) => row.value)),
@@ -331,6 +344,17 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
     <section className="author-page">
       <header className="author-commandbar">
         <div className="author-commandbar-context">
+          <button
+            className="author-commandbar-settings"
+            type="button"
+            aria-label={settingsOpen ? "Close post settings" : "Open post settings"}
+            aria-controls="post-settings"
+            aria-expanded={settingsOpen}
+            title="Post settings"
+            onClick={() => setSettingsOpen((open) => !open)}
+          >
+            <span className="author-sidebar-toggle-icon" aria-hidden="true" />
+          </button>
           <Link to="/">Writing</Link>
           <span aria-hidden="true">/</span>
           <span>{derived.title || (editSlug ? "Edit post" : "Untitled")}</span>
@@ -344,15 +368,6 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
           ) : (
             <Link className="app-link" to="/">Cancel</Link>
           )}
-          <button
-            className="author-commandbar-settings"
-            type="button"
-            aria-label="Open post settings"
-            aria-controls="post-settings"
-            aria-expanded={settingsOpen}
-            title="Post settings"
-            onClick={() => setSettingsOpen((open) => !open)}
-          >•••</button>
           <button
             className="author-commandbar-publish"
             type="submit"
@@ -368,33 +383,31 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
         id="post-author-form"
         onSubmit={(event) => void save(event)}
       >
-        <div className="author-workspace">
+        <div className={`author-workspace${settingsOpen ? " is-settings-open" : ""}`}>
           <main className="author-document-shell">
-            <EditorToolbar editor={editor} />
             {editor ? <EditorContent editor={editor} /> : <p className="app-empty">Starting editor…</p>}
           </main>
 
           <aside
             className={`author-settings-drawer${settingsOpen ? " is-open" : ""}`}
+            id="post-settings"
             aria-label="Post settings"
+            aria-hidden={!settingsOpen}
+            inert={!settingsOpen}
           >
-            <button
-              className="author-settings-trigger"
-              type="button"
-              aria-controls="post-settings"
-              aria-expanded={settingsOpen}
-              onClick={() => setSettingsOpen((open) => !open)}
-            >
-              <span className="author-settings-trigger-mark" aria-hidden="true">•••</span>
-              <span>Post settings</span>
-            </button>
-
-            <div className="author-sidebar" id="post-settings">
+            <div className="author-sidebar">
               <div className="author-sidebar-heading">
                 <div>
                   <p className="login-kicker">Post settings</p>
                   <p>Everything outside the document.</p>
                 </div>
+                <button
+                  className="author-sidebar-close"
+                  type="button"
+                  aria-label="Close post settings"
+                  title="Close post settings"
+                  onClick={() => setSettingsOpen(false)}
+                >»</button>
               </div>
 
               <section className="author-panel author-derived">
@@ -519,98 +532,6 @@ function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
         </div>
       </form>
     </section>
-  );
-}
-
-function EditorToolbar({ editor }: { editor: Editor | null }) {
-  const [showImage, setShowImage] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-  const active = useEditorState({
-    editor,
-    selector: ({ editor: current }) => ({
-      bold: current?.isActive("bold") ?? false,
-      italic: current?.isActive("italic") ?? false,
-      heading2: current?.isActive("heading", { level: 2 }) ?? false,
-      heading3: current?.isActive("heading", { level: 3 }) ?? false,
-      bullet: current?.isActive("bulletList") ?? false,
-      ordered: current?.isActive("orderedList") ?? false,
-      quote: current?.isActive("blockquote") ?? false,
-      code: current?.isActive("codeBlock") ?? false,
-    }),
-  });
-
-  function insertImage() {
-    const src = imageUrl.trim();
-    if (!editor || !src) return;
-    editor.chain().focus().setImage({ src }).run();
-    setImageUrl("");
-    setShowImage(false);
-  }
-
-  if (!editor) return <div className="tiptap-toolbar tiptap-toolbar-loading" />;
-
-  return (
-    <div className="tiptap-toolbar" aria-label="Formatting toolbar">
-      <ToolbarButton label="Undo" onClick={() => editor.chain().focus().undo().run()}>↶</ToolbarButton>
-      <ToolbarButton label="Redo" onClick={() => editor.chain().focus().redo().run()}>↷</ToolbarButton>
-      <span className="tiptap-divider" />
-      <ToolbarButton active={active?.bold} label="Bold" onClick={() => editor.chain().focus().toggleBold().run()}><strong>B</strong></ToolbarButton>
-      <ToolbarButton active={active?.italic} label="Italic" onClick={() => editor.chain().focus().toggleItalic().run()}><em>I</em></ToolbarButton>
-      <ToolbarButton active={active?.heading2} label="Heading" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</ToolbarButton>
-      <ToolbarButton active={active?.heading3} label="Subheading" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>H3</ToolbarButton>
-      <span className="tiptap-divider" />
-      <ToolbarButton active={active?.bullet} label="Bullet list" onClick={() => editor.chain().focus().toggleBulletList().run()}>• list</ToolbarButton>
-      <ToolbarButton active={active?.ordered} label="Numbered list" onClick={() => editor.chain().focus().toggleOrderedList().run()}>1. list</ToolbarButton>
-      <ToolbarButton active={active?.quote} label="Quote" onClick={() => editor.chain().focus().toggleBlockquote().run()}>“ ”</ToolbarButton>
-      <ToolbarButton active={active?.code} label="Code block" onClick={() => editor.chain().focus().toggleCodeBlock().run()}>&lt;/&gt;</ToolbarButton>
-      <ToolbarButton label="Divider" onClick={() => editor.chain().focus().setHorizontalRule().run()}>―</ToolbarButton>
-      <ToolbarButton active={showImage} label="Insert image" onClick={() => setShowImage((value) => !value)}>image</ToolbarButton>
-      {showImage ? (
-        <div className="tiptap-image-control">
-          <input
-            autoFocus
-            type="url"
-            value={imageUrl}
-            placeholder="Paste image URL"
-            aria-label="Image URL"
-            onChange={(event) => setImageUrl(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                event.preventDefault();
-                insertImage();
-              }
-              if (event.key === "Escape") setShowImage(false);
-            }}
-          />
-          <button type="button" onClick={insertImage}>Insert</button>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function ToolbarButton({
-  active = false,
-  children,
-  label,
-  onClick,
-}: {
-  active?: boolean;
-  children: React.ReactNode;
-  label: string;
-  onClick(): void;
-}) {
-  return (
-    <button
-      type="button"
-      className={active ? "is-active" : undefined}
-      aria-label={label}
-      title={label}
-      onMouseDown={(event) => event.preventDefault()}
-      onClick={onClick}
-    >
-      {children}
-    </button>
   );
 }
 

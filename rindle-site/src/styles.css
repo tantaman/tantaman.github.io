@@ -1,4 +1,4 @@
-/* Tantamanlands — re-skin.
+/* Tantaman — re-skin.
  *
  * Palette pulled from the kneeling "0" knight: a deep aubergine-black ink on a warm lavender-grey
  * paper, with a single deep-purple accent (the original site's "kind" pill). Editorial, monochrome-
@@ -102,9 +102,6 @@ body {
   letter-spacing: -0.02em;
   color: var(--ink);
   text-decoration: none;
-}
-.app-wordmark span {
-  color: var(--accent);
 }
 .app-topbar-right {
   display: flex;
@@ -982,7 +979,7 @@ body {
   color: var(--ink-2);
   text-decoration: none;
 }
-.author-commandbar-context span:last-child {
+.author-commandbar-context > span:last-child {
   max-width: min(42vw, 420px);
   color: var(--ink-2);
   overflow: hidden;
@@ -1007,12 +1004,18 @@ body {
   cursor: pointer;
 }
 .author-commandbar-settings {
-  min-width: 34px;
-  padding: 4px 8px;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   border: 1px solid transparent;
+  border-radius: 7px;
   background: transparent;
   color: var(--ink-2);
-  letter-spacing: 0.12em;
+  font: inherit;
+  cursor: pointer;
 }
 .author-commandbar-settings:hover,
 .author-commandbar-settings:focus-visible,
@@ -1021,6 +1024,21 @@ body {
   background: var(--raise);
   color: var(--ink);
   outline: none;
+}
+.author-sidebar-toggle-icon {
+  position: relative;
+  width: 16px;
+  height: 14px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+}
+.author-sidebar-toggle-icon::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  border-left: 1.5px solid currentColor;
+  content: "";
 }
 .author-commandbar-publish {
   padding: 4px 12px;
@@ -1048,7 +1066,13 @@ body {
   min-width: 0;
 }
 .author-workspace {
+  --author-sidebar-width: 332px;
   position: relative;
+  padding-left: 0;
+  transition: padding-left 180ms ease;
+}
+.author-workspace.is-settings-open {
+  padding-left: var(--author-sidebar-width);
 }
 .author-document-shell {
   position: relative;
@@ -1057,106 +1081,11 @@ body {
   border: 0;
   background: transparent;
 }
-.tiptap-toolbar {
-  position: fixed;
-  top: auto;
-  bottom: 22px;
-  left: 50%;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 3px;
-  width: max-content;
-  max-width: calc(100vw - 36px);
-  min-height: 48px;
-  padding: 7px 9px;
-  border: 1px solid var(--line-2);
-  border-radius: 11px;
-  background: color-mix(in srgb, var(--raise) 92%, transparent);
-  box-shadow: 0 18px 50px -20px color-mix(in srgb, var(--ink) 54%, transparent);
-  opacity: 0;
-  visibility: hidden;
-  backdrop-filter: blur(16px) saturate(1.2);
-  pointer-events: none;
-  transform: translate(-50%, 10px);
-  transition: opacity 140ms ease, transform 140ms ease, visibility 140ms ease;
-}
-.author-document-shell:focus-within .tiptap-toolbar {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translate(-50%, 0);
-}
-.tiptap-toolbar-loading {
-  height: 48px;
-}
-.tiptap-toolbar > button {
-  min-width: 32px;
-  min-height: 32px;
-  padding: 5px 8px;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
-  color: var(--ink-2);
-  font: inherit;
-  font-size: 12px;
-  cursor: pointer;
-}
-.tiptap-toolbar > button:hover,
-.tiptap-toolbar > button:focus-visible,
-.tiptap-toolbar > button.is-active {
-  background: var(--accent-soft);
-  color: var(--accent-ink);
-  outline: none;
-}
-.tiptap-divider {
-  width: 1px;
-  height: 21px;
-  margin: 0 3px;
-  background: var(--line-2);
-}
-.tiptap-image-control {
-  position: absolute;
-  top: auto;
-  right: 9px;
-  bottom: calc(100% + 7px);
-  display: flex;
-  width: min(430px, calc(100vw - 48px));
-  padding: 8px;
-  border: 1px solid var(--line-2);
-  border-radius: 10px;
-  background: var(--raise);
-  box-shadow: 0 18px 46px color-mix(in srgb, var(--ink) 18%, transparent);
-}
-.tiptap-image-control input {
-  flex: 1;
-  min-width: 0;
-  height: 36px;
-  padding: 6px 9px;
-  border: 1px solid var(--line-2);
-  border-radius: 7px 0 0 7px;
-  background: var(--panel);
-  color: var(--ink);
-  font: inherit;
-  font-size: 13px;
-}
-.tiptap-image-control button {
-  padding: 6px 12px;
-  border: 1px solid var(--accent);
-  border-radius: 0 7px 7px 0;
-  background: var(--accent);
-  color: white;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
 .tiptap-document {
   width: min(100%, 860px);
   min-height: calc(100vh - 150px);
   margin: 0 auto;
-  padding: clamp(38px, 5vw, 64px) clamp(28px, 5vw, 64px) 180px;
+  padding: clamp(38px, 5vw, 64px) clamp(28px, 5vw, 64px) 96px;
   color: var(--ink);
   font-size: 17px;
   line-height: 1.7;
@@ -1264,56 +1193,25 @@ body {
 }
 .author-settings-drawer {
   position: fixed;
-  top: 78px;
-  right: 14px;
-  bottom: 14px;
+  top: 66px;
+  bottom: 0;
+  left: 0;
   z-index: 30;
-  display: grid;
-  grid-template-columns: 48px minmax(0, 316px);
-  width: 48px;
-  border: 1px solid var(--line-2);
-  border-radius: 13px;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  box-shadow: 0 24px 70px -30px color-mix(in srgb, var(--ink) 52%, transparent);
-  backdrop-filter: blur(18px) saturate(1.2);
-  overflow: hidden;
-  transition: width 180ms ease, box-shadow 180ms ease;
-}
-.author-settings-drawer:hover,
-.author-settings-drawer:has(.author-sidebar :focus),
-.author-settings-drawer.is-open {
-  width: 364px;
-}
-.author-settings-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  width: 48px;
-  padding: 16px 0;
-  border: 0;
+  width: var(--author-sidebar-width);
   border-right: 1px solid var(--line);
-  background: color-mix(in srgb, var(--raise) 88%, transparent);
-  color: var(--ink-2);
-  font: inherit;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  writing-mode: vertical-rl;
+  background: color-mix(in srgb, var(--panel) 94%, var(--paper));
+  box-shadow: 18px 0 45px -34px color-mix(in srgb, var(--ink) 62%, transparent);
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 180ms ease, visibility 0s linear 180ms;
 }
-.author-settings-trigger:hover,
-.author-settings-trigger:focus-visible,
-.author-settings-drawer.is-open .author-settings-trigger {
-  background: var(--accent-soft);
-  color: var(--accent-ink);
-  outline: none;
-}
-.author-settings-trigger-mark {
-  color: var(--accent);
-  letter-spacing: 0.18em;
+.author-settings-drawer.is-open {
+  pointer-events: auto;
+  transform: translateX(0);
+  visibility: visible;
+  transition-delay: 0s;
 }
 .author-sidebar {
   display: grid;
@@ -1321,16 +1219,23 @@ body {
   gap: 12px;
   min-width: 0;
   min-height: 0;
+  height: 100%;
   padding: 16px;
   overflow-x: hidden;
   overflow-y: auto;
 }
 .author-sidebar-heading {
+  position: sticky;
+  top: -16px;
+  z-index: 2;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding: 2px 2px 6px;
+  margin: -16px -16px 0;
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 96%, var(--paper));
 }
 .author-sidebar-heading .login-kicker {
   margin-bottom: 2px;
@@ -1339,6 +1244,28 @@ body {
   margin: 0;
   color: var(--ink-3);
   font-size: 11px;
+}
+.author-sidebar-close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.author-sidebar-close:hover,
+.author-sidebar-close:focus-visible {
+  background: var(--raise);
+  color: var(--ink);
+  outline: none;
 }
 .author-panel {
   display: grid;
@@ -1602,43 +1529,28 @@ body {
   .author-commandbar {
     top: 58px;
   }
-  .author-commandbar-context span:last-child,
+  .author-commandbar-context > span:last-child,
   .author-commandbar-actions .app-link {
     display: none;
   }
-  .author-settings-drawer,
-  .author-settings-drawer:hover,
-  .author-settings-drawer:has(.author-sidebar :focus),
-  .author-settings-drawer.is-open {
-    position: static;
-    display: block;
-    width: 100%;
-    margin-top: 14px;
-    border-radius: 12px;
+  .author-workspace.is-settings-open {
+    padding-left: 0;
   }
-  .author-settings-trigger {
-    justify-content: center;
-    width: 100%;
-    min-height: 44px;
-    padding: 9px 14px;
-    border-right: 0;
-    writing-mode: horizontal-tb;
-  }
-  .author-settings-drawer:not(.is-open) .author-sidebar {
-    display: none;
+  .author-settings-drawer {
+    top: 58px;
+    width: min(88vw, var(--author-sidebar-width));
   }
   .author-sidebar {
-    max-height: none;
-    padding-top: 12px;
+    padding: 14px;
   }
   .tiptap-document {
     min-height: calc(100vh - 150px);
-    padding: 40px 18px 130px;
+    padding: 40px 18px 80px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tiptap-toolbar,
+  .author-workspace,
   .author-settings-drawer {
     transition: none;
   }
