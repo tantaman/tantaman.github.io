@@ -109,24 +109,10 @@ body {
   gap: 6px;
 }
 .app-nav {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
   margin-right: 6px;
-}
-.app-nav::after {
-  content: "···";
-  position: absolute;
-  inset: 50% 0 auto;
-  color: var(--ink-3);
-  font-size: 14px;
-  letter-spacing: 0.18em;
-  line-height: 1;
-  text-align: center;
-  transform: translateY(-58%);
-  pointer-events: none;
-  transition: opacity 0.16s ease, transform 0.16s ease;
 }
 .app-nav a {
   font-size: 13px;
@@ -135,10 +121,7 @@ body {
   text-decoration: none;
   padding: 6px 10px;
   border-radius: 8px;
-  opacity: 0;
-  transform: translateY(-3px);
-  pointer-events: none;
-  transition: color 0.14s ease, background 0.14s ease, opacity 0.18s ease, transform 0.18s ease;
+  transition: color 0.14s ease, background 0.14s ease;
 }
 .app-nav a:hover {
   color: var(--ink);
@@ -147,25 +130,6 @@ body {
 .app-nav a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-}
-.app-topbar:hover .app-nav a,
-.app-topbar:focus-within .app-nav a {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-.app-topbar:hover .app-nav::after,
-.app-topbar:focus-within .app-nav::after {
-  opacity: 0;
-  transform: translateY(-58%) scale(0.8);
-}
-.app-topbar:hover .app-nav a:nth-child(2),
-.app-topbar:focus-within .app-nav a:nth-child(2) {
-  transition-delay: 25ms;
-}
-.app-topbar:hover .app-nav a:nth-child(3),
-.app-topbar:focus-within .app-nav a:nth-child(3) {
-  transition-delay: 50ms;
 }
 
 /* account */
@@ -316,14 +280,6 @@ body {
 }
 
 @media (hover: none), (pointer: coarse) {
-  .app-nav::after {
-    display: none;
-  }
-  .app-nav a {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-  }
   .app-topbar .theme-toggle {
     opacity: 0.8;
   }
@@ -445,6 +401,10 @@ body {
 }
 .site-search-box input::placeholder {
   color: var(--ink-3);
+}
+.site-search-box input::-webkit-search-cancel-button,
+.site-search-box input::-webkit-search-decoration {
+  appearance: none;
 }
 .site-search-box button {
   width: 32px;
