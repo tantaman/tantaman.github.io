@@ -99,6 +99,25 @@ pnpm import:pastes
 The import is idempotent. Set `PASTE_IMPORT_FILE` to consume an offline Wrangler JSON export instead,
 and optionally set `PASTE_AUTHOR_ID` when legacy rows should carry a particular account subject.
 
+## Thought migration
+
+The thought importer moves the final legacy D1 thought model—not just the `thought` table. It
+includes stable-row history, tags, attachment metadata, edges, structured captures, projects,
+framings, and clusters, preserving numeric source ids as decimal text. Attachment object bytes stay
+in the existing R2 bucket; their storage keys and metadata move into Rindle.
+
+Run it after the Rindle migrations are applied, preferably with the Better Auth subject that should
+own and edit the imported content:
+
+```bash
+THOUGHT_AUTHOR_ID=<better-auth-subject> pnpm import:thoughts
+```
+
+The import is idempotent. With no author override it uses `legacy:tantaman` and prints a warning;
+re-running later with the real subject updates ownership. Set `THOUGHT_IMPORT_FILE` to a keyed JSON
+export for an offline or partial import, and `THOUGHT_IMPORT_DRY_RUN=1` to validate and count rows
+without writing Rindle.
+
 ## Devtools
 
 In development a floating **🌊 Rindle** devtools pane is mounted (`src/devtools.tsx`): a live view of the
@@ -123,5 +142,6 @@ of `vite build` and never ship to production.
 | `src/ssr.ts` | first-paint preload — calls the authority in-process |
 | `src/components/*.queries.ts` | co-located queries + fragments |
 | `scripts/import-pastes.mjs` | idempotent D1 → Rindle paste-row migration |
+| `scripts/import-thoughts.mjs` | idempotent D1 → Rindle thought-domain migration (R2 bytes stay put) |
 | `src/routes/*` | TanStack routes |
 | `src/devtools.tsx` | dev-only in-browser devtools pane (tree-shaken from prod) |
