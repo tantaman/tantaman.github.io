@@ -1,6 +1,6 @@
-// The persistent top bar: the local wordmark, quiet links back into the broader Tantaman site, and
-// the light/dark toggle. CSS keeps the navigation subdued until the header is hovered or focused;
-// touch devices get the links outright because they have no reliable hover state.
+// The persistent top bar: the local wordmark, primary app surfaces, and the light/dark toggle. CSS
+// keeps the navigation subdued until the header is hovered or focused; touch devices get the links
+// outright because they have no reliable hover state.
 
 import { Link } from "@tanstack/react-router";
 
@@ -15,7 +15,7 @@ export function TopBar() {
       </Link>
       <div className="app-topbar-right">
         <nav className="app-nav" aria-label="Primary navigation">
-          <a href="https://tantaman.com/tags.html">browse</a>
+          <Link to="/search">search</Link>
           <Link to="/thoughts">thoughts</Link>
           <Link to="/paste">paste</Link>
         </nav>
