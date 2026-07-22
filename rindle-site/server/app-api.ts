@@ -55,6 +55,11 @@ import {
   pasteQuery,
   pastesQuery,
 } from "../src/components/Paste.queries.ts";
+import {
+  searchPastesQuery,
+  searchPostsQuery,
+  searchThoughtsQuery,
+} from "../src/components/Search.queries.ts";
 
 /** The authority's principal is the verified identity (or undefined when anonymous). Public post
  * reads accept either; private authoring reads and every mutation require the administrator. */
@@ -107,6 +112,9 @@ const apiQueries = registerQueries<User>([
   pastesQuery,
   pasteAdminFeedQuery,
   pasteQuery,
+  searchPostsQuery,
+  searchThoughtsQuery,
+  searchPastesQuery,
 ]);
 
 function publisherPrincipal(ctx: MutationContext<User>) {

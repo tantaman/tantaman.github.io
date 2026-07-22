@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PasteRouteImport } from './routes/paste'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ThoughtsRouteImport } from './routes/thoughts'
 import { Route as ShellIndexRouteImport } from './routes/_shell.index'
 import { Route as ShellSlugRouteImport } from './routes/_shell.$slug'
@@ -54,6 +55,11 @@ const LoginRoute = LoginRouteImport.update({
 const PasteRoute = PasteRouteImport.update({
   id: '/paste',
   path: '/paste',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ThoughtsRoute = ThoughtsRouteImport.update({
@@ -206,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
   '/login': typeof LoginRoute
   '/paste': typeof PasteRouteWithChildren
+  '/search': typeof SearchRoute
   '/thoughts': typeof ThoughtsRouteWithChildren
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
@@ -237,6 +244,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/search': typeof SearchRoute
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
   '/paste/all': typeof PasteAllRoute
@@ -270,6 +278,7 @@ export interface FileRoutesById {
   '/_shell': typeof ShellRouteWithChildren
   '/login': typeof LoginRoute
   '/paste': typeof PasteRouteWithChildren
+  '/search': typeof SearchRoute
   '/thoughts': typeof ThoughtsRouteWithChildren
   '/_shell/$slug': typeof ShellSlugRoute
   '/_shell/write': typeof ShellWriteRoute
@@ -306,6 +315,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/paste'
+    | '/search'
     | '/thoughts'
     | '/$slug'
     | '/write'
@@ -337,6 +347,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
+    | '/search'
     | '/$slug'
     | '/write'
     | '/paste/all'
@@ -369,6 +380,7 @@ export interface FileRouteTypes {
     | '/_shell'
     | '/login'
     | '/paste'
+    | '/search'
     | '/thoughts'
     | '/_shell/$slug'
     | '/_shell/write'
@@ -404,6 +416,7 @@ export interface RootRouteChildren {
   ShellRoute: typeof ShellRouteWithChildren
   LoginRoute: typeof LoginRoute
   PasteRoute: typeof PasteRouteWithChildren
+  SearchRoute: typeof SearchRoute
   ThoughtsRoute: typeof ThoughtsRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiAuthDevLoginRoute: typeof ApiAuthDevLoginRoute
@@ -433,6 +446,13 @@ declare module '@tanstack/react-router' {
       path: '/paste'
       fullPath: '/paste'
       preLoaderRoute: typeof PasteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/thoughts': {
@@ -726,6 +746,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShellRoute: ShellRouteWithChildren,
   LoginRoute: LoginRoute,
   PasteRoute: PasteRouteWithChildren,
+  SearchRoute: SearchRoute,
   ThoughtsRoute: ThoughtsRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiAuthDevLoginRoute: ApiAuthDevLoginRoute,
