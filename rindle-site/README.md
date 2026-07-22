@@ -83,6 +83,22 @@ public WebSocket endpoint from that same URL, so there is no browser-side topolo
 the deployment has one follower or many. Set the server-only `RINDLE_WS_URL` override only when a
 host exposes WebSocket ingress at a different origin.
 
+## Paste migration
+
+The paste app lives at `/paste`. Paste text and its title/language/fork/share metadata are one
+atomic Rindle row; the legacy app stored that same row (including `body`) in D1. R2 was never the
+paste-text source of truth—it only cached derived binary artifacts such as splash cards and TTS
+audio.
+
+After applying the Rindle migrations, move the legacy rows from the sibling Worker's remote D1:
+
+```bash
+pnpm import:pastes
+```
+
+The import is idempotent. Set `PASTE_IMPORT_FILE` to consume an offline Wrangler JSON export instead,
+and optionally set `PASTE_AUTHOR_ID` when legacy rows should carry a particular account subject.
+
 ## Devtools
 
 In development a floating **🌊 Rindle** devtools pane is mounted (`src/devtools.tsx`): a live view of the
@@ -106,5 +122,6 @@ of `vite build` and never ship to production.
 | `src/routes/api.rindle.*.tsx` | the three API endpoints as Start server routes (the browser's API) |
 | `src/ssr.ts` | first-paint preload — calls the authority in-process |
 | `src/components/*.queries.ts` | co-located queries + fragments |
+| `scripts/import-pastes.mjs` | idempotent D1 → Rindle paste-row migration |
 | `src/routes/*` | TanStack routes |
 | `src/devtools.tsx` | dev-only in-browser devtools pane (tree-shaken from prod) |

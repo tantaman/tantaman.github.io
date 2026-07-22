@@ -189,6 +189,21 @@ export const movie = table("movie")
   })
   .primaryKey("id");
 
+export const paste = table("paste")
+  .columns({
+    id: string(),
+    authorId: string(),
+    body: string(),
+    language: string(),
+    title: string().nullable(),
+    createdAt: number(),
+    parentId: string().nullable(),
+    shared: number(),
+    sharedAt: number().nullable(),
+    excerpt: string(),
+  })
+  .primaryKey("id");
+
 export const post = table("post")
   .columns({
     id: string(),
@@ -442,4 +457,4 @@ export const thoughtTag = table("thoughtTag")
   })
   .primaryKey("id");
 
-export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, post, postAuthor, postComment, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });
+export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, paste, post, postAuthor, postComment, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });

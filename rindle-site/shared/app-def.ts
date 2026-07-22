@@ -25,6 +25,7 @@ import {
   framingNode,
   location,
   movie,
+  paste,
   post,
   postAuthor,
   postComment,
@@ -113,6 +114,8 @@ export const relationships = defineRelationships({
   thoughtEdgeTarget: rel(thoughtEdge, thought, { targetId: "id" }),
   thoughtEdgeSource: rel(thoughtEdge, thought, { sourceId: "id" }),
   clusterMembers: rel(cluster, clusterMembership, { id: "clusterId" }),
+  pasteChildren: rel(paste, paste, { id: "parentId" }),
+  pasteParent: rel(paste, paste, { parentId: "id" }),
 });
 
 /** One schema-bound query builder, shared by every co-located `*.queries.ts`. Each `q.<table>` access
@@ -135,6 +138,7 @@ export type ThoughtEdge = Row<typeof thoughtEdge>;
 export type Framing = Row<typeof framing>;
 export type FramingNode = Row<typeof framingNode>;
 export type FramingEdge = Row<typeof framingEdge>;
+export type Paste = Row<typeof paste>;
 
 // --------------------------------------------------------------------------- mutators
 
@@ -189,6 +193,52 @@ const stableId = z
 const revision = z.string().min(1).max(200);
 const timestamp = z.number().finite().nonnegative();
 const storedFlag = z.number().int().min(0).max(1);
+
+export const pasteLanguages = [
+  "markdown",
+  "plaintext",
+  "javascript",
+  "typescript",
+  "jsx",
+  "tsx",
+  "python",
+  "rust",
+  "html",
+  "css",
+  "json",
+  "sql",
+] as const;
+export type PasteLanguage = (typeof pasteLanguages)[number];
+
+const createPasteArgs = z.object({
+  paste: z.object({
+    id: stableId,
+    body: z.string().max(1_000_000).refine((value) => value.trim().length > 0, "Body is required."),
+    excerpt: z.string().max(500),
+    language: z.enum(pasteLanguages),
+    title: nullableText(300),
+    createdAt: timestamp,
+    parentId: stableId.nullable(),
+  }),
+});
+export type CreatePasteArgs = z.infer<typeof createPasteArgs>;
+
+const setPasteSharedArgs = z
+  .object({
+    id: stableId,
+    shared: storedFlag,
+    sharedAt: timestamp.nullable(),
+  })
+  .superRefine((args, ctx) => {
+    if ((args.shared === 1) !== (args.sharedAt !== null)) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["sharedAt"],
+        message: "A shared paste needs a sharing timestamp; an unshared paste must clear it.",
+      });
+    }
+  });
+export type SetPasteSharedArgs = z.infer<typeof setPasteSharedArgs>;
 
 const createPostCommentArgs = z.object({
   comment: z.object({
@@ -684,6 +734,34 @@ const deletePostComment = shared(deletePostCommentArgs, function* (tx, args, ctx
   if (comment.authorId !== authorId) throw new Error("Only the comment author can delete it.");
   if (comment.deletedAt !== null) return;
   yield tx.update("postComment", { id: args.id, body: "", deletedAt: args.deletedAt });
+});
+
+/** Create one immutable paste revision. The caller supplies its stable id, timestamp, inferred title,
+ * and optional parent because this body is replayed verbatim after every optimistic rebase. The
+ * authenticated author is injected independently by each tier and never crosses the wire as an arg. */
+const createPaste = shared(createPasteArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  if (args.paste.parentId !== null) {
+    const parent = (yield tx.row("paste", { id: args.paste.parentId })) as
+      | Record<string, unknown>
+      | undefined;
+    if (!parent) throw new Error("Parent paste not found.");
+  }
+  yield tx.insert("paste", {
+    ...args.paste,
+    authorId,
+    shared: 0,
+    sharedAt: null,
+  });
+});
+
+/** Publish or withdraw a paste from the shared feed. The visibility flag and its timestamp arrive
+ * together so an optimistic view never observes a half-written sharing state. */
+const setPasteShared = shared(setPasteSharedArgs, function* (tx, args, ctx) {
+  requireMutationUser(ctx.user);
+  const current = (yield tx.row("paste", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!current) throw new Error("Paste not found.");
+  yield tx.update("paste", args);
 });
 
 /** Insert one stable thought plus its deterministic local projections. Every id, timestamp, hash,
@@ -1348,6 +1426,8 @@ export const mutators = {
   deletePost,
   createPostComment,
   deletePostComment,
+  createPaste,
+  setPasteShared,
   createThought,
   editThought,
   updateTaskState,

@@ -11,10 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PasteRouteImport } from './routes/paste'
 import { Route as ThoughtsRouteImport } from './routes/thoughts'
 import { Route as ShellIndexRouteImport } from './routes/_shell.index'
 import { Route as ShellSlugRouteImport } from './routes/_shell.$slug'
 import { Route as ShellWriteRouteImport } from './routes/_shell.write'
+import { Route as PasteIndexRouteImport } from './routes/paste.index'
+import { Route as PasteIdRouteImport } from './routes/paste.$id'
+import { Route as PasteAllRouteImport } from './routes/paste.all'
 import { Route as ThoughtsIndexRouteImport } from './routes/thoughts.index'
 import { Route as ThoughtsIdRouteImport } from './routes/thoughts.$id'
 import { Route as ThoughtsBooksRouteImport } from './routes/thoughts.books'
@@ -30,6 +34,11 @@ import { Route as ApiAuthDevLoginRouteImport } from './routes/api.auth.dev-login
 import { Route as ApiRindleMutateRouteImport } from './routes/api.rindle.mutate'
 import { Route as ApiRindleQueryRouteImport } from './routes/api.rindle.query'
 import { Route as ApiRindleReadRouteImport } from './routes/api.rindle.read'
+import { Route as PasteIdIndexRouteImport } from './routes/paste.$id.index'
+import { Route as PasteIdDiffRouteImport } from './routes/paste.$id.diff'
+import { Route as PasteIdModuleRouteImport } from './routes/paste.$id.module'
+import { Route as PasteIdRawRouteImport } from './routes/paste.$id.raw'
+import { Route as PasteForkIdRouteImport } from './routes/paste.fork.$id'
 import { Route as ThoughtsFramingsIndexRouteImport } from './routes/thoughts.framings.index'
 import { Route as ThoughtsFramingsIdRouteImport } from './routes/thoughts.framings.$id'
 
@@ -40,6 +49,11 @@ const ShellRoute = ShellRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PasteRoute = PasteRouteImport.update({
+  id: '/paste',
+  path: '/paste',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ThoughtsRoute = ThoughtsRouteImport.update({
@@ -61,6 +75,21 @@ const ShellWriteRoute = ShellWriteRouteImport.update({
   id: '/write',
   path: '/write',
   getParentRoute: () => ShellRoute,
+} as any)
+const PasteIndexRoute = PasteIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PasteRoute,
+} as any)
+const PasteIdRoute = PasteIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PasteRoute,
+} as any)
+const PasteAllRoute = PasteAllRouteImport.update({
+  id: '/all',
+  path: '/all',
+  getParentRoute: () => PasteRoute,
 } as any)
 const ThoughtsIndexRoute = ThoughtsIndexRouteImport.update({
   id: '/',
@@ -137,6 +166,31 @@ const ApiRindleReadRoute = ApiRindleReadRouteImport.update({
   path: '/api/rindle/read',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PasteIdIndexRoute = PasteIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PasteIdRoute,
+} as any)
+const PasteIdDiffRoute = PasteIdDiffRouteImport.update({
+  id: '/diff',
+  path: '/diff',
+  getParentRoute: () => PasteIdRoute,
+} as any)
+const PasteIdModuleRoute = PasteIdModuleRouteImport.update({
+  id: '/module',
+  path: '/module',
+  getParentRoute: () => PasteIdRoute,
+} as any)
+const PasteIdRawRoute = PasteIdRawRouteImport.update({
+  id: '/raw',
+  path: '/raw',
+  getParentRoute: () => PasteIdRoute,
+} as any)
+const PasteForkIdRoute = PasteForkIdRouteImport.update({
+  id: '/fork/$id',
+  path: '/fork/$id',
+  getParentRoute: () => PasteRoute,
+} as any)
 const ThoughtsFramingsIndexRoute = ThoughtsFramingsIndexRouteImport.update({
   id: '/framings/',
   path: '/framings/',
@@ -151,9 +205,12 @@ const ThoughtsFramingsIdRoute = ThoughtsFramingsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
   '/login': typeof LoginRoute
+  '/paste': typeof PasteRouteWithChildren
   '/thoughts': typeof ThoughtsRouteWithChildren
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
+  '/paste/$id': typeof PasteIdRouteWithChildren
+  '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
   '/thoughts/books': typeof ThoughtsBooksRoute
   '/thoughts/events': typeof ThoughtsEventsRoute
@@ -163,19 +220,26 @@ export interface FileRoutesByFullPath {
   '/thoughts/projects': typeof ThoughtsProjectsRoute
   '/thoughts/questions': typeof ThoughtsQuestionsRoute
   '/thoughts/tasks': typeof ThoughtsTasksRoute
+  '/paste/': typeof PasteIndexRoute
   '/thoughts/': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
+  '/paste/$id/diff': typeof PasteIdDiffRoute
+  '/paste/$id/module': typeof PasteIdModuleRoute
+  '/paste/$id/raw': typeof PasteIdRawRoute
+  '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/paste/$id/': typeof PasteIdIndexRoute
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
+  '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
   '/thoughts/books': typeof ThoughtsBooksRoute
   '/thoughts/events': typeof ThoughtsEventsRoute
@@ -186,22 +250,31 @@ export interface FileRoutesByTo {
   '/thoughts/questions': typeof ThoughtsQuestionsRoute
   '/thoughts/tasks': typeof ThoughtsTasksRoute
   '/': typeof ShellIndexRoute
+  '/paste': typeof PasteIndexRoute
   '/thoughts': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
+  '/paste/$id/diff': typeof PasteIdDiffRoute
+  '/paste/$id/module': typeof PasteIdModuleRoute
+  '/paste/$id/raw': typeof PasteIdRawRoute
+  '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/paste/$id': typeof PasteIdIndexRoute
   '/thoughts/framings': typeof ThoughtsFramingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_shell': typeof ShellRouteWithChildren
   '/login': typeof LoginRoute
+  '/paste': typeof PasteRouteWithChildren
   '/thoughts': typeof ThoughtsRouteWithChildren
   '/_shell/$slug': typeof ShellSlugRoute
   '/_shell/write': typeof ShellWriteRoute
+  '/paste/$id': typeof PasteIdRouteWithChildren
+  '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
   '/thoughts/books': typeof ThoughtsBooksRoute
   '/thoughts/events': typeof ThoughtsEventsRoute
@@ -212,13 +285,19 @@ export interface FileRoutesById {
   '/thoughts/questions': typeof ThoughtsQuestionsRoute
   '/thoughts/tasks': typeof ThoughtsTasksRoute
   '/_shell/': typeof ShellIndexRoute
+  '/paste/': typeof PasteIndexRoute
   '/thoughts/': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
+  '/paste/$id/diff': typeof PasteIdDiffRoute
+  '/paste/$id/module': typeof PasteIdModuleRoute
+  '/paste/$id/raw': typeof PasteIdRawRoute
+  '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/paste/$id/': typeof PasteIdIndexRoute
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -226,9 +305,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/paste'
     | '/thoughts'
     | '/$slug'
     | '/write'
+    | '/paste/$id'
+    | '/paste/all'
     | '/thoughts/$id'
     | '/thoughts/books'
     | '/thoughts/events'
@@ -238,19 +320,26 @@ export interface FileRouteTypes {
     | '/thoughts/projects'
     | '/thoughts/questions'
     | '/thoughts/tasks'
+    | '/paste/'
     | '/thoughts/'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
+    | '/paste/$id/diff'
+    | '/paste/$id/module'
+    | '/paste/$id/raw'
+    | '/paste/fork/$id'
     | '/thoughts/framings/$id'
+    | '/paste/$id/'
     | '/thoughts/framings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/$slug'
     | '/write'
+    | '/paste/all'
     | '/thoughts/$id'
     | '/thoughts/books'
     | '/thoughts/events'
@@ -261,21 +350,30 @@ export interface FileRouteTypes {
     | '/thoughts/questions'
     | '/thoughts/tasks'
     | '/'
+    | '/paste'
     | '/thoughts'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
+    | '/paste/$id/diff'
+    | '/paste/$id/module'
+    | '/paste/$id/raw'
+    | '/paste/fork/$id'
     | '/thoughts/framings/$id'
+    | '/paste/$id'
     | '/thoughts/framings'
   id:
     | '__root__'
     | '/_shell'
     | '/login'
+    | '/paste'
     | '/thoughts'
     | '/_shell/$slug'
     | '/_shell/write'
+    | '/paste/$id'
+    | '/paste/all'
     | '/thoughts/$id'
     | '/thoughts/books'
     | '/thoughts/events'
@@ -286,19 +384,26 @@ export interface FileRouteTypes {
     | '/thoughts/questions'
     | '/thoughts/tasks'
     | '/_shell/'
+    | '/paste/'
     | '/thoughts/'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
+    | '/paste/$id/diff'
+    | '/paste/$id/module'
+    | '/paste/$id/raw'
+    | '/paste/fork/$id'
     | '/thoughts/framings/$id'
+    | '/paste/$id/'
     | '/thoughts/framings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   ShellRoute: typeof ShellRouteWithChildren
   LoginRoute: typeof LoginRoute
+  PasteRoute: typeof PasteRouteWithChildren
   ThoughtsRoute: typeof ThoughtsRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiAuthDevLoginRoute: typeof ApiAuthDevLoginRoute
@@ -321,6 +426,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paste': {
+      id: '/paste'
+      path: '/paste'
+      fullPath: '/paste'
+      preLoaderRoute: typeof PasteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/thoughts': {
@@ -350,6 +462,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/write'
       preLoaderRoute: typeof ShellWriteRouteImport
       parentRoute: typeof ShellRoute
+    }
+    '/paste/': {
+      id: '/paste/'
+      path: '/'
+      fullPath: '/paste/'
+      preLoaderRoute: typeof PasteIndexRouteImport
+      parentRoute: typeof PasteRoute
+    }
+    '/paste/$id': {
+      id: '/paste/$id'
+      path: '/$id'
+      fullPath: '/paste/$id'
+      preLoaderRoute: typeof PasteIdRouteImport
+      parentRoute: typeof PasteRoute
+    }
+    '/paste/all': {
+      id: '/paste/all'
+      path: '/all'
+      fullPath: '/paste/all'
+      preLoaderRoute: typeof PasteAllRouteImport
+      parentRoute: typeof PasteRoute
     }
     '/thoughts/': {
       id: '/thoughts/'
@@ -456,6 +589,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRindleReadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/paste/$id/': {
+      id: '/paste/$id/'
+      path: '/'
+      fullPath: '/paste/$id/'
+      preLoaderRoute: typeof PasteIdIndexRouteImport
+      parentRoute: typeof PasteIdRoute
+    }
+    '/paste/$id/diff': {
+      id: '/paste/$id/diff'
+      path: '/diff'
+      fullPath: '/paste/$id/diff'
+      preLoaderRoute: typeof PasteIdDiffRouteImport
+      parentRoute: typeof PasteIdRoute
+    }
+    '/paste/$id/module': {
+      id: '/paste/$id/module'
+      path: '/module'
+      fullPath: '/paste/$id/module'
+      preLoaderRoute: typeof PasteIdModuleRouteImport
+      parentRoute: typeof PasteIdRoute
+    }
+    '/paste/$id/raw': {
+      id: '/paste/$id/raw'
+      path: '/raw'
+      fullPath: '/paste/$id/raw'
+      preLoaderRoute: typeof PasteIdRawRouteImport
+      parentRoute: typeof PasteIdRoute
+    }
+    '/paste/fork/$id': {
+      id: '/paste/fork/$id'
+      path: '/fork/$id'
+      fullPath: '/paste/fork/$id'
+      preLoaderRoute: typeof PasteForkIdRouteImport
+      parentRoute: typeof PasteRoute
+    }
     '/thoughts/framings/': {
       id: '/thoughts/framings/'
       path: '/framings'
@@ -486,6 +654,39 @@ const ShellRouteChildren: ShellRouteChildren = {
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
+
+interface PasteIdRouteChildren {
+  PasteIdDiffRoute: typeof PasteIdDiffRoute
+  PasteIdModuleRoute: typeof PasteIdModuleRoute
+  PasteIdRawRoute: typeof PasteIdRawRoute
+  PasteIdIndexRoute: typeof PasteIdIndexRoute
+}
+
+const PasteIdRouteChildren: PasteIdRouteChildren = {
+  PasteIdDiffRoute: PasteIdDiffRoute,
+  PasteIdModuleRoute: PasteIdModuleRoute,
+  PasteIdRawRoute: PasteIdRawRoute,
+  PasteIdIndexRoute: PasteIdIndexRoute,
+}
+
+const PasteIdRouteWithChildren =
+  PasteIdRoute._addFileChildren(PasteIdRouteChildren)
+
+interface PasteRouteChildren {
+  PasteIdRoute: typeof PasteIdRouteWithChildren
+  PasteAllRoute: typeof PasteAllRoute
+  PasteIndexRoute: typeof PasteIndexRoute
+  PasteForkIdRoute: typeof PasteForkIdRoute
+}
+
+const PasteRouteChildren: PasteRouteChildren = {
+  PasteIdRoute: PasteIdRouteWithChildren,
+  PasteAllRoute: PasteAllRoute,
+  PasteIndexRoute: PasteIndexRoute,
+  PasteForkIdRoute: PasteForkIdRoute,
+}
+
+const PasteRouteWithChildren = PasteRoute._addFileChildren(PasteRouteChildren)
 
 interface ThoughtsRouteChildren {
   ThoughtsIdRoute: typeof ThoughtsIdRoute
@@ -524,6 +725,7 @@ const ThoughtsRouteWithChildren = ThoughtsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   ShellRoute: ShellRouteWithChildren,
   LoginRoute: LoginRoute,
+  PasteRoute: PasteRouteWithChildren,
   ThoughtsRoute: ThoughtsRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiAuthDevLoginRoute: ApiAuthDevLoginRoute,
