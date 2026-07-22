@@ -225,6 +225,19 @@ export const postAuthor = table("postAuthor")
   })
   .primaryKey("id");
 
+export const postComment = table("postComment")
+  .columns({
+    id: string(),
+    postId: string(),
+    authorId: string(),
+    authorName: string(),
+    parentId: string().nullable(),
+    body: string(),
+    createdAt: number(),
+    deletedAt: number().nullable(),
+  })
+  .primaryKey("id");
+
 export const postFacet = table("postFacet")
   .columns({
     id: string(),
@@ -429,4 +442,4 @@ export const thoughtTag = table("thoughtTag")
   })
   .primaryKey("id");
 
-export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, post, postAuthor, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });
+export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, post, postAuthor, postComment, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });

@@ -10,13 +10,14 @@ import {
   createRindleApiServer,
   defineApiMutators,
   registerQueries,
+  runSharedMutation,
   scoped,
   sharedApiMutators,
 } from "@rindle/api-server";
 import type { ApiMutators, MutationContext, RindleApiServer } from "@rindle/api-server";
 
 import { mutators, schema } from "../shared/app-def.ts";
-import { canPublish } from "../shared/auth.ts";
+import { canPublish, commentAuthorName } from "../shared/auth.ts";
 import type { Identity } from "../shared/auth.ts";
 import {
   scheduleThoughtEnrichments,
@@ -29,6 +30,7 @@ import {
   postEditorQuery,
 } from "../src/components/PostEditor.queries.ts";
 import { postQuery } from "../src/components/PostView.queries.ts";
+import { postCommentsQuery } from "../src/components/PostComments.queries.ts";
 import {
   thoughtAdminFeedQuery,
   thoughtAdminQuery,
@@ -50,6 +52,15 @@ export function requirePublisher(user: User): asserts user is Identity {
   throw error;
 }
 
+/** Comments are the account-level write surface: readers and administrators may participate, while
+ * every publishing/thought mutator continues through the stricter publisher gate below. */
+export function requireAccount(user: User): asserts user is Identity {
+  if (user) return;
+  const error = new Error("Sign in to comment.");
+  Object.assign(error, { status: 401 });
+  throw error;
+}
+
 // The authority's query surface is just the list of co-located client queries. Each `defineQuery`
 // re-runs its validator on the UNTRUSTED wire args before building the AST, so a malformed client
 // can't smuggle a garbage arg in.
@@ -57,6 +68,7 @@ const apiQueries = registerQueries<User>([
   postsQuery,
   featuredPostsQuery,
   postQuery,
+  postCommentsQuery,
   postEditorQuery,
   postEditorFacetOptionsQuery,
   postEditorMetadataOptionsQuery,
@@ -89,6 +101,34 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
   const sharedMutators = sharedApiMutators<User>(mutators, publisherPrincipal);
   const apiMutators = defineApiMutators<User, ApiMutators<User>>({
     ...sharedMutators,
+    // A comment's owner comes from ctx.user inside the shared body. The public byline is an arg so
+    // the browser can predict it, but the authority accepts it only when it matches the signed
+    // account session exactly.
+    createPostComment: async (tx, raw, ctx) => {
+      const args = mutators.createPostComment.args.parse(raw);
+      requireAccount(ctx.user);
+      if (args.comment.authorName !== commentAuthorName(ctx.user)) {
+        const error = new Error("Comment author does not match the signed-in account.");
+        Object.assign(error, { status: 403 });
+        throw error;
+      }
+      await runSharedMutation(
+        mutators.createPostComment,
+        args,
+        { user: ctx.user.subject },
+        tx,
+      );
+    },
+    deletePostComment: async (tx, raw, ctx) => {
+      const args = mutators.deletePostComment.args.parse(raw);
+      requireAccount(ctx.user);
+      await runSharedMutation(
+        mutators.deletePostComment,
+        args,
+        { user: ctx.user.subject },
+        tx,
+      );
+    },
     // Local structured rows are written by the exact shared body the browser predicted. Network
     // metadata is authority-only work, scheduled only after that transaction commits.
     createThought: scoped<User, unknown>(async (scope, raw, ctx) => {
@@ -105,7 +145,7 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
     authorizeQuery: ({ name, user }) =>
       (!name.startsWith("postEditor") && !name.startsWith("thoughtAdmin")) || canPublish(user),
     authorizeMutation: ({ user }) => {
-      requirePublisher(user);
+      requireAccount(user);
       return true;
     },
   });

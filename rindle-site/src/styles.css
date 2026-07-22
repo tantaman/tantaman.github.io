@@ -1298,6 +1298,242 @@ main.app-main:has(> .thoughts-shell) {
   border-top: 1px solid var(--line);
 }
 
+/* ---- post discussion ---- */
+.post-comments {
+  margin-top: clamp(56px, 10vw, 92px);
+  padding-top: clamp(24px, 5vw, 38px);
+  border-top: 2px solid var(--ink);
+}
+.post-comments-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+.post-comments-head p {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.post-comments-head h2 {
+  margin: 0;
+  font-size: clamp(25px, 4vw, 34px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.post-comments-head > span {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.post-comments-sign-in,
+.post-comments-empty {
+  margin: 0;
+  padding: 17px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--raise) 60%, transparent);
+  color: var(--ink-2);
+  font-size: 14px;
+}
+.post-comments-sign-in a {
+  color: var(--accent);
+  font-weight: 700;
+}
+.post-comment-composer {
+  overflow: hidden;
+  margin-bottom: 30px;
+  border: 1px solid var(--line-2);
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--raise) 72%, transparent);
+}
+.post-comment-composer.is-reply {
+  margin: 13px 0 6px;
+  border-radius: 8px;
+}
+.post-comment-composer > label {
+  display: block;
+  padding: 8px 13px 0;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+}
+.post-comment-composer textarea {
+  display: block;
+  width: 100%;
+  min-height: 106px;
+  padding: 11px 13px;
+  resize: vertical;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.post-comment-composer.is-reply textarea {
+  min-height: 78px;
+}
+.post-comment-composer:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--line-2));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 9%, transparent);
+}
+.post-comment-composer-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--line);
+}
+.post-comment-composer-foot > span {
+  margin-right: auto;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+}
+.post-comment-button,
+.post-comments-load-more {
+  padding: 6px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.post-comment-button.is-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.post-comment-button:disabled,
+.post-comments-load-more:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+.post-comment-thread,
+.post-comment-children {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.post-comment-thread {
+  margin-top: 30px;
+  border-top: 1px solid var(--line-2);
+}
+.post-comment {
+  position: relative;
+}
+.post-comment > article {
+  padding: 19px 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+.post-comment > article > header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 19px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+}
+.post-comment > article > header strong {
+  color: var(--ink-2);
+  font-size: 10.5px;
+}
+.post-comment-collapse {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+.post-comment-collapse:hover,
+.post-comment-collapse:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.post-comment-collapsed-count {
+  margin-left: 3px;
+  color: var(--accent);
+}
+.post-comment-body {
+  margin: 9px 0 7px 24px;
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.58;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.post-comment.is-deleted > article .post-comment-body {
+  color: var(--ink-3);
+  font-style: italic;
+}
+.post-comment-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 24px;
+}
+.post-comment-actions button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.post-comment-actions button:hover,
+.post-comment-actions button:focus-visible {
+  color: var(--accent);
+}
+.post-comment-actions button.is-danger {
+  color: #a83850;
+}
+.post-comment > article > .post-comment-composer,
+.post-comment > article > .post-comment-error {
+  margin-left: 24px;
+}
+.post-comment-children {
+  margin-left: 22px;
+  padding-left: 16px;
+  border-left: 1px solid var(--line-2);
+}
+.post-comment-error {
+  margin: 0;
+  padding: 7px 12px;
+  color: #a83850;
+  font-size: 11px;
+}
+:root[data-theme="dark"] .post-comment-error,
+:root[data-theme="dark"] .post-comment-actions button.is-danger {
+  color: #ef93a4;
+}
+.post-comments-load-more {
+  display: block;
+  margin: 24px auto 0;
+}
+
 /* ---- authoring ---- */
 .author-page {
   width: calc(100vw - clamp(24px, 3vw, 56px));
@@ -1953,6 +2189,22 @@ main.app-main:has(> .thoughts-shell) {
 @media (max-width: 560px) {
   .post-body {
     font-size: 16.5px;
+  }
+  .post-comment-composer-foot {
+    flex-wrap: wrap;
+  }
+  .post-comment-composer-foot > span {
+    width: 100%;
+  }
+  .post-comment-children {
+    margin-left: 8px;
+    padding-left: 10px;
+  }
+  .post-comment-body,
+  .post-comment-actions,
+  .post-comment > article > .post-comment-composer,
+  .post-comment > article > .post-comment-error {
+    margin-left: 18px;
   }
 }
 

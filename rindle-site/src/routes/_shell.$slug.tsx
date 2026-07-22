@@ -12,6 +12,11 @@ import { useRoot } from "@rindle/react";
 import type { DehydratedState } from "@rindle/client";
 
 import { postQuery } from "../components/PostView.queries.ts";
+import { PostComments } from "../components/PostComments.tsx";
+import {
+  POST_COMMENTS_PAGE_SIZE,
+  postCommentsQuery,
+} from "../components/PostComments.queries.ts";
 import { Pills } from "../components/Pills.tsx";
 import { authClient } from "../auth-client.ts";
 import { formatDate, parseList } from "../lib/format.ts";
@@ -21,7 +26,12 @@ export const Route = createFileRoute("/_shell/$slug")({
   loader: async ({ params }): Promise<{ rindle: DehydratedState }> => {
     if (!import.meta.env.SSR) return { rindle: {} };
     const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([postQuery(params.slug)]) };
+    return {
+      rindle: await preloadRindle([
+        postQuery(params.slug),
+        postCommentsQuery({ postId: params.slug, limit: POST_COMMENTS_PAGE_SIZE }),
+      ]),
+    };
   },
   component: PostView,
 });
@@ -74,6 +84,8 @@ function PostView() {
       {/* The body is pre-rendered HTML from the seed step (marked). MDX / live rendering / transclusion
           come later; for static markdown posts this is the server-rendered article. */}
       <div className="post-body" dangerouslySetInnerHTML={{ __html: renderedPost.html }} />
+
+      <PostComments postId={renderedPost.id} />
 
       <footer className="post-foot">
         <Link to="/" className="app-link">← Back to all posts</Link>
