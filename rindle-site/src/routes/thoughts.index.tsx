@@ -1,24 +1,46 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import type { DehydratedState } from "@rindle/client";
 
-import { ThoughtCard } from "../components/ThoughtCard.tsx";
-import { THOUGHTS_PAGE_SIZE, thoughtsQuery } from "../components/ThoughtCard.queries.ts";
+import {
+  THOUGHT_FEED_REPLIES_PAGE_SIZE,
+  THOUGHTS_PAGE_SIZE,
+  thoughtRepliesQuery,
+  thoughtsQuery,
+} from "../components/ThoughtCard.queries.ts";
 import { ThoughtComposer } from "../components/ThoughtComposer.tsx";
+import { buildThoughtForest, ThoughtFeedThread } from "../components/ThoughtReplyTree.tsx";
 import { useThoughtsFeed } from "../components/ThoughtsFeed.tsx";
 
 export const Route = createFileRoute("/thoughts/")({
   loader: async (): Promise<{ rindle: DehydratedState }> => {
     if (!import.meta.env.SSR) return { rindle: {} };
     const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([thoughtsQuery({ limit: THOUGHTS_PAGE_SIZE })]) };
+    return {
+      rindle: await preloadRindle([
+        thoughtsQuery({ limit: THOUGHTS_PAGE_SIZE }),
+        thoughtRepliesQuery({ limit: THOUGHT_FEED_REPLIES_PAGE_SIZE }),
+      ]),
+    };
   },
   component: ThoughtsIndex,
 });
 
 function ThoughtsIndex() {
-  const { thoughts, status, isAdmin, hasMore, loadMore } = useThoughtsFeed();
+  const {
+    thoughts,
+    replies,
+    status,
+    replyStatus,
+    isAdmin,
+    hasMore,
+    hasMoreReplies,
+    loadMore,
+    loadMoreReplies,
+    revealNewestReplies,
+  } = useThoughtsFeed();
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const threads = useMemo(() => buildThoughtForest(thoughts, replies), [replies, thoughts]);
 
   useEffect(() => {
     const target = loadMoreRef.current;
@@ -62,11 +84,29 @@ function ThoughtsIndex() {
         </div>
       ) : (
         <div className="thoughts-list">
-          {thoughts.map((thought) => (
-            <ThoughtCard key={thought.id} thought={thought} isAdmin={isAdmin} />
+          {threads.map((thread) => (
+            <ThoughtFeedThread
+              key={thread.thought.id}
+              node={thread}
+              isAdmin={isAdmin}
+              onSubmitted={revealNewestReplies}
+            />
           ))}
         </div>
       )}
+
+      {hasMoreReplies || (replies.length > 0 && replyStatus !== "complete") ? (
+        <div className="thought-replies-load-more" aria-live="polite">
+          <button
+            className="load-more-button"
+            type="button"
+            onClick={loadMoreReplies}
+            disabled={replyStatus !== "complete"}
+          >
+            {replyStatus === "complete" ? "Load more replies" : "Loading more replies…"}
+          </button>
+        </div>
+      ) : null}
 
       {hasMore || (thoughts.length > 0 && status !== "complete") ? (
         <div ref={loadMoreRef} className="thoughts-load-more" aria-live="polite">

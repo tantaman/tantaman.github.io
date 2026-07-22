@@ -2677,8 +2677,26 @@ main.app-main:has(> .thoughts-shell) {
 }
 .thought-card-footer {
   display: flex;
+  align-items: center;
+  gap: 12px;
   justify-content: flex-end;
   margin-top: 17px;
+}
+.thought-card-footer > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+}
+.thought-card-footer button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  cursor: pointer;
 }
 .thought-card-footer a,
 .thought-card-parent-link a {
@@ -2688,6 +2706,8 @@ main.app-main:has(> .thoughts-shell) {
   text-decoration: none;
 }
 .thought-card-footer a:hover,
+.thought-card-footer button:hover,
+.thought-card-footer button:focus-visible,
 .thought-card-parent-link a:hover {
   color: var(--accent);
 }
@@ -2885,6 +2905,37 @@ main.app-main:has(> .thoughts-shell) {
   margin-top: 24px;
   margin-left: 11px;
 }
+.thought-feed-thread {
+  position: relative;
+}
+.thought-inline-replies {
+  margin: 0 0 0 18px;
+  padding: 0 0 0 16px;
+  border-left: 1px solid var(--line-2);
+  list-style: none;
+}
+.thought-inline-replies > li {
+  margin: 0;
+  padding: 0;
+}
+.thought-inline-replies .thought-card {
+  margin-left: -1px;
+}
+.thought-inline-replies--detail {
+  margin-left: 11px;
+}
+.thought-inline-reply-composer {
+  margin: 12px 0 14px 27px;
+}
+.thought-inline-replies .thought-inline-reply-composer {
+  margin-left: 18px;
+}
+.thought-replies-load-more {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 4px;
+  border-top: 1px dashed var(--line);
+}
 
 @media (hover: none), (pointer: coarse) {
   .thought-card-actions {
@@ -2920,6 +2971,17 @@ main.app-main:has(> .thoughts-shell) {
   }
   .thought-card-actions button {
     padding: 5px;
+  }
+  .thought-card-footer {
+    flex-wrap: wrap;
+  }
+  .thought-inline-replies {
+    margin-left: 7px;
+    padding-left: 9px;
+  }
+  .thought-inline-reply-composer,
+  .thought-inline-replies .thought-inline-reply-composer {
+    margin-left: 10px;
   }
   .thought-markdown {
     font-size: 15px;
