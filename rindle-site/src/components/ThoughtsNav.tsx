@@ -11,6 +11,7 @@ const lanes = [
   ["Books", "#b", "/thoughts/books"],
   ["Movies", "#m", "/thoughts/movies"],
   ["Music", "#a", "/thoughts/music"],
+  ["Framings", "#f", "/thoughts/framings"],
 ] as const;
 
 export function ThoughtsNav() {
