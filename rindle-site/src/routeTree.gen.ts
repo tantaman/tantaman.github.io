@@ -11,9 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ThoughtsRouteImport } from './routes/thoughts'
 import { Route as ShellIndexRouteImport } from './routes/_shell.index'
 import { Route as ShellSlugRouteImport } from './routes/_shell.$slug'
 import { Route as ShellWriteRouteImport } from './routes/_shell.write'
+import { Route as ThoughtsIndexRouteImport } from './routes/thoughts.index'
+import { Route as ThoughtsIdRouteImport } from './routes/thoughts.$id'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAuthDevLoginRouteImport } from './routes/api.auth.dev-login'
 import { Route as ApiRindleMutateRouteImport } from './routes/api.rindle.mutate'
@@ -27,6 +30,11 @@ const ShellRoute = ShellRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThoughtsRoute = ThoughtsRouteImport.update({
+  id: '/thoughts',
+  path: '/thoughts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShellIndexRoute = ShellIndexRouteImport.update({
@@ -43,6 +51,16 @@ const ShellWriteRoute = ShellWriteRouteImport.update({
   id: '/write',
   path: '/write',
   getParentRoute: () => ShellRoute,
+} as any)
+const ThoughtsIndexRoute = ThoughtsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsIdRoute = ThoughtsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ThoughtsRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -73,8 +91,11 @@ const ApiRindleReadRoute = ApiRindleReadRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
   '/login': typeof LoginRoute
+  '/thoughts': typeof ThoughtsRouteWithChildren
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
+  '/thoughts/$id': typeof ThoughtsIdRoute
+  '/thoughts/': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
@@ -85,7 +106,9 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
+  '/thoughts/$id': typeof ThoughtsIdRoute
   '/': typeof ShellIndexRoute
+  '/thoughts': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
@@ -96,9 +119,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_shell': typeof ShellRouteWithChildren
   '/login': typeof LoginRoute
+  '/thoughts': typeof ThoughtsRouteWithChildren
   '/_shell/$slug': typeof ShellSlugRoute
   '/_shell/write': typeof ShellWriteRoute
+  '/thoughts/$id': typeof ThoughtsIdRoute
   '/_shell/': typeof ShellIndexRoute
+  '/thoughts/': typeof ThoughtsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
@@ -110,8 +136,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/thoughts'
     | '/$slug'
     | '/write'
+    | '/thoughts/$id'
+    | '/thoughts/'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
@@ -122,7 +151,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/$slug'
     | '/write'
+    | '/thoughts/$id'
     | '/'
+    | '/thoughts'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
@@ -132,9 +163,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_shell'
     | '/login'
+    | '/thoughts'
     | '/_shell/$slug'
     | '/_shell/write'
+    | '/thoughts/$id'
     | '/_shell/'
+    | '/thoughts/'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
@@ -145,6 +179,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   ShellRoute: typeof ShellRouteWithChildren
   LoginRoute: typeof LoginRoute
+  ThoughtsRoute: typeof ThoughtsRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiAuthDevLoginRoute: typeof ApiAuthDevLoginRoute
   ApiRindleMutateRoute: typeof ApiRindleMutateRoute
@@ -168,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thoughts': {
+      id: '/thoughts'
+      path: '/thoughts'
+      fullPath: '/thoughts'
+      preLoaderRoute: typeof ThoughtsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_shell/': {
       id: '/_shell/'
       path: '/'
@@ -188,6 +230,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/write'
       preLoaderRoute: typeof ShellWriteRouteImport
       parentRoute: typeof ShellRoute
+    }
+    '/thoughts/': {
+      id: '/thoughts/'
+      path: '/'
+      fullPath: '/thoughts/'
+      preLoaderRoute: typeof ThoughtsIndexRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/$id': {
+      id: '/thoughts/$id'
+      path: '/$id'
+      fullPath: '/thoughts/$id'
+      preLoaderRoute: typeof ThoughtsIdRouteImport
+      parentRoute: typeof ThoughtsRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -241,9 +297,24 @@ const ShellRouteChildren: ShellRouteChildren = {
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
 
+interface ThoughtsRouteChildren {
+  ThoughtsIdRoute: typeof ThoughtsIdRoute
+  ThoughtsIndexRoute: typeof ThoughtsIndexRoute
+}
+
+const ThoughtsRouteChildren: ThoughtsRouteChildren = {
+  ThoughtsIdRoute: ThoughtsIdRoute,
+  ThoughtsIndexRoute: ThoughtsIndexRoute,
+}
+
+const ThoughtsRouteWithChildren = ThoughtsRoute._addFileChildren(
+  ThoughtsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   ShellRoute: ShellRouteWithChildren,
   LoginRoute: LoginRoute,
+  ThoughtsRoute: ThoughtsRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiAuthDevLoginRoute: ApiAuthDevLoginRoute,
   ApiRindleMutateRoute: ApiRindleMutateRoute,
