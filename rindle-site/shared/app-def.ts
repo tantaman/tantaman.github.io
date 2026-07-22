@@ -27,6 +27,7 @@ import {
   movie,
   post,
   postAuthor,
+  postComment,
   postFacet,
   project,
   projectActivity,
@@ -59,6 +60,8 @@ export * from "./schema.gen.ts";
 export const relationships = defineRelationships({
   postFacets: rel(post, postFacet, { id: "postId" }),
   postAuthors: rel(post, postAuthor, { id: "postId" }),
+  postComments: rel(post, postComment, { id: "postId" }),
+  postCommentReplies: rel(postComment, postComment, { id: "parentId" }),
   authorPosts: rel(author, postAuthor, { id: "authorId" }),
   postAuthorProfile: rel(postAuthor, author, { authorId: "id" }),
   thoughtReplies: rel(thought, thought, { id: "parentId" }),
@@ -117,6 +120,7 @@ export type Post = Row<typeof post>;
 export type PostFacet = Row<typeof postFacet>;
 export type Author = Row<typeof author>;
 export type PostAuthor = Row<typeof postAuthor>;
+export type PostComment = Row<typeof postComment>;
 export type Thought = Row<typeof thought>;
 export type ThoughtHistory = Row<typeof thoughtHistory>;
 export type ThoughtAttachment = Row<typeof thoughtAttachment>;
@@ -177,6 +181,31 @@ const stableId = z
 const revision = z.string().min(1).max(200);
 const timestamp = z.number().finite().nonnegative();
 const storedFlag = z.number().int().min(0).max(1);
+
+const createPostCommentArgs = z.object({
+  comment: z.object({
+    id: stableId,
+    postId: z.string().trim().min(1).max(200),
+    authorName: z
+      .string()
+      .min(1)
+      .max(200)
+      .refine((value) => value === value.trim(), "Author name must not have surrounding whitespace."),
+    parentId: stableId.nullable(),
+    body: z
+      .string()
+      .max(10_000)
+      .refine((value) => value.trim().length > 0, "Comment body is required."),
+    createdAt: timestamp,
+  }),
+});
+export type CreatePostCommentArgs = z.infer<typeof createPostCommentArgs>;
+
+const deletePostCommentArgs = z.object({
+  id: stableId,
+  deletedAt: timestamp,
+});
+export type DeletePostCommentArgs = z.infer<typeof deletePostCommentArgs>;
 
 const thoughtTagArg = z.object({
   id: stableId,
@@ -477,6 +506,10 @@ const deletePost = shared(deletePostArgs, function* (tx, args) {
   const authors = (yield tx.query(q.postAuthor.where.postId(args.id))) as unknown as Array<{
     id?: unknown;
   }>;
+  const comments = rowIds(
+    (yield tx.query(q.postComment.where.postId(args.id).orderBy("id", "asc").limit(10_001))) as unknown,
+    "post comments",
+  );
 
   for (const row of facets) {
     if (typeof row.id === "string") yield tx.delete("postFacet", { id: row.id });
@@ -484,7 +517,47 @@ const deletePost = shared(deletePostArgs, function* (tx, args) {
   for (const row of authors) {
     if (typeof row.id === "string") yield tx.delete("postAuthor", { id: row.id });
   }
+  for (const id of comments) yield tx.delete("postComment", { id });
   yield tx.delete("post", { id: args.id });
+});
+
+/** Add a public post comment or reply. The callsite supplies stable ids, timestamps, and the account
+ * display label; the row's ownership always comes from the tier-injected authenticated principal.
+ * The authority separately verifies the display label against the signed account session. */
+const createPostComment = shared(createPostCommentArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const targetPost = (yield tx.row("post", { id: args.comment.postId })) as
+    | Record<string, unknown>
+    | undefined;
+  if (!targetPost) throw new Error("Post not found.");
+
+  if (args.comment.parentId !== null) {
+    const parent = (yield tx.row("postComment", { id: args.comment.parentId })) as
+      | Record<string, unknown>
+      | undefined;
+    if (!parent || parent.postId !== args.comment.postId) {
+      throw new Error("Parent comment not found in this post.");
+    }
+  }
+
+  yield tx.insert("postComment", {
+    ...args.comment,
+    authorId,
+    deletedAt: null,
+  });
+});
+
+/** Tombstone an author's comment instead of removing it, preserving the shape and readability of
+ * every reply below it. Ownership is checked inside the same replayed body on both tiers. */
+const deletePostComment = shared(deletePostCommentArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const comment = (yield tx.row("postComment", { id: args.id })) as
+    | Record<string, unknown>
+    | undefined;
+  if (!comment) throw new Error("Comment not found.");
+  if (comment.authorId !== authorId) throw new Error("Only the comment author can delete it.");
+  if (comment.deletedAt !== null) return;
+  yield tx.update("postComment", { id: args.id, body: "", deletedAt: args.deletedAt });
 });
 
 /** Insert one stable thought plus its deterministic local projections. Every id, timestamp, hash,
@@ -956,6 +1029,8 @@ const deleteThought = shared(deleteThoughtArgs, function* (tx, args, ctx) {
 export const mutators = {
   savePost,
   deletePost,
+  createPostComment,
+  deletePostComment,
   createThought,
   editThought,
   updateTaskState,

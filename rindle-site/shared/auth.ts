@@ -25,6 +25,7 @@ export const AUTH_USER_FIELDS = {
 export interface Identity {
   subject: string;
   username: string | null;
+  displayName: string;
   role: AccountRole;
 }
 
@@ -36,4 +37,15 @@ export interface AuthProvider {
 
 export function canPublish(identity: Identity | null | undefined): boolean {
   return identity?.role === "admin";
+}
+
+/** The public byline snapshot stored with a comment. Keep this shared so the browser's optimistic
+ * row and the server's signed-session check derive byte-for-byte the same value. */
+export function commentAuthorName(
+  identity: Pick<Identity, "username" | "displayName">,
+): string {
+  const username = identity.username?.trim();
+  if (username) return `@${username}`.slice(0, 200);
+  const displayName = identity.displayName.trim().replace(/\s+/g, " ");
+  return (displayName || "reader").slice(0, 200);
 }

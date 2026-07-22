@@ -13,6 +13,7 @@ export async function resolveSessionIdentity(request: Request): Promise<Identity
     return {
       subject: user.id,
       username: typeof user.username === "string" ? user.username : null,
+      displayName: typeof user.name === "string" ? user.name : "reader",
       role: user.role === "admin" ? "admin" : "reader",
     };
   } catch (error) {
