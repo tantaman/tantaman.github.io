@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import { authClient } from "../auth-client.ts";
+import { useHydrated } from "../lib/hydration.ts";
 
 function AccountIcon() {
   return (
@@ -20,6 +21,7 @@ function AccountIcon() {
 
 export function AccountControl() {
   const { data: session } = authClient.useSession();
+  const hydrated = useHydrated();
   const [open, setOpen] = useState(false);
   const container = useRef<HTMLDivElement>(null);
 
@@ -39,7 +41,7 @@ export function AccountControl() {
     };
   }, [open]);
 
-  const user = session?.user;
+  const user = hydrated ? session?.user : undefined;
   if (!user) {
     return (
       <Link className="account-trigger account-sign-in" to="/login" aria-label="Sign in">

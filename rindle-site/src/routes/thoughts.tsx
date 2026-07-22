@@ -5,6 +5,7 @@ import {
   PublicThoughtsFeedProvider,
 } from "../components/ThoughtsFeed.tsx";
 import { authClient } from "../auth-client.ts";
+import { useHydrated } from "../lib/hydration.ts";
 
 export const Route = createFileRoute("/thoughts")({
   head: () => ({
@@ -18,7 +19,8 @@ export const Route = createFileRoute("/thoughts")({
 
 function ThoughtsLayout() {
   const { data: session } = authClient.useSession();
-  const isAdmin = session?.user.role === "admin";
+  const hydrated = useHydrated();
+  const isAdmin = hydrated && session?.user.role === "admin";
 
   return isAdmin ? (
     <AdminThoughtsFeedProvider><Outlet /></AdminThoughtsFeedProvider>

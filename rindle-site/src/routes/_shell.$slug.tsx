@@ -15,6 +15,7 @@ import { postQuery } from "../components/PostView.queries.ts";
 import { Pills } from "../components/Pills.tsx";
 import { authClient } from "../auth-client.ts";
 import { formatDate, parseList } from "../lib/format.ts";
+import { useHydrated } from "../lib/hydration.ts";
 
 export const Route = createFileRoute("/_shell/$slug")({
   loader: async ({ params }): Promise<{ rindle: DehydratedState }> => {
@@ -28,6 +29,7 @@ export const Route = createFileRoute("/_shell/$slug")({
 function PostView() {
   const { slug } = Route.useParams();
   const { data: session } = authClient.useSession();
+  const hydrated = useHydrated();
   const [post, { status }] = useRoot(postQuery, slug);
   const renderedPostRef = useRef({ slug, post });
 
@@ -75,7 +77,7 @@ function PostView() {
 
       <footer className="post-foot">
         <Link to="/" className="app-link">← Back to all posts</Link>
-        {session?.user.role === "admin" ? (
+        {hydrated && session?.user.role === "admin" ? (
           <Link to="/write" search={{ post: slug }} className="app-link">Edit post →</Link>
         ) : null}
       </footer>
