@@ -1,6 +1,5 @@
-// The persistent top bar: the local wordmark, primary app surfaces, and the light/dark toggle. CSS
-// keeps the navigation subdued until the header is hovered or focused; touch devices get the links
-// outright because they have no reliable hover state.
+// The persistent top bar: the local wordmark, always-visible primary app surfaces, and the
+// light/dark toggle.
 
 import { Link } from "@tanstack/react-router";
 
