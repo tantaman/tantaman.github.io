@@ -11,12 +11,181 @@
 
 import { createSchema, number, string, table } from "@rindle/client";
 
+export const album = table("album")
+  .columns({
+    id: string(),
+    title: string(),
+    normalizedTitle: string(),
+    artist: string().nullable(),
+    year: string().nullable(),
+    coverUrl: string().nullable(),
+    itunesId: number().nullable(),
+    genre: string().nullable(),
+    metadataStatus: string(),
+    metadataProjectionVersion: string().nullable(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const amplification = table("amplification")
+  .columns({
+    id: string(),
+    url: string(),
+    source: string(),
+    note: string().nullable(),
+    title: string().nullable(),
+    imageUrl: string().nullable(),
+    description: string().nullable(),
+    siteName: string().nullable(),
+    metadataStatus: string(),
+    metadataProjectionVersion: string().nullable(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
 export const author = table("author")
   .columns({
     id: string(),
     displayName: string(),
     glyph: string().nullable(),
     color: string().nullable(),
+  })
+  .primaryKey("id");
+
+export const book = table("book")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    title: string(),
+    description: string().nullable(),
+    coverUrl: string().nullable(),
+    author: string().nullable(),
+    year: string().nullable(),
+    openLibraryKey: string().nullable(),
+    metadataStatus: string(),
+    metadataProjectionVersion: string().nullable(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const bookmark = table("bookmark")
+  .columns({
+    id: string(),
+    url: string(),
+    title: string().nullable(),
+    imageUrl: string().nullable(),
+    description: string().nullable(),
+    siteName: string().nullable(),
+    metadataStatus: string(),
+    metadataProjectionVersion: string().nullable(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const cluster = table("cluster")
+  .columns({
+    id: string(),
+    label: string(),
+    size: number(),
+    projectionVersion: string(),
+    createdAt: number(),
+    updatedAt: number(),
+  })
+  .primaryKey("id");
+
+export const clusterMembership = table("clusterMembership")
+  .columns({
+    id: string(),
+    itemKind: string(),
+    itemId: string(),
+    clusterId: string(),
+    rank: number(),
+    distance: number(),
+    title: string().nullable(),
+    preview: string().nullable(),
+    projectionVersion: string(),
+  })
+  .primaryKey("id");
+
+export const event = table("event")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    title: string(),
+    description: string().nullable(),
+    dateText: string(),
+    dateEpoch: number(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const framing = table("framing")
+  .columns({
+    id: string(),
+    authorId: string(),
+    name: string(),
+    description: string().nullable(),
+    createdAt: number(),
+    updatedAt: number(),
+  })
+  .primaryKey("id");
+
+export const framingEdge = table("framingEdge")
+  .columns({
+    id: string(),
+    framingId: string(),
+    sourceNodeId: string(),
+    targetNodeId: string(),
+    label: string().nullable(),
+    sourceHandle: string().nullable(),
+    targetHandle: string().nullable(),
+    kind: string().nullable(),
+  })
+  .primaryKey("id");
+
+export const framingNode = table("framingNode")
+  .columns({
+    id: string(),
+    framingId: string(),
+    itemType: string(),
+    itemId: string(),
+    x: number(),
+    y: number(),
+    width: number().nullable(),
+    height: number().nullable(),
+  })
+  .primaryKey("id");
+
+export const location = table("location")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    title: string(),
+    description: string().nullable(),
+    latitude: number().nullable(),
+    longitude: number().nullable(),
+    resolvedName: string().nullable(),
+    sourceRevision: string(),
+    resolutionRevision: string().nullable(),
+    resolutionStatus: string(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const movie = table("movie")
+  .columns({
+    id: string(),
+    title: string(),
+    normalizedTitle: string(),
+    description: string().nullable(),
+    posterUrl: string().nullable(),
+    year: string().nullable(),
+    tmdbId: number().nullable(),
+    voteAverage: number().nullable(),
+    voteCount: number().nullable(),
+    metadataStatus: string(),
+    metadataProjectionVersion: string().nullable(),
+    createdAt: number(),
   })
   .primaryKey("id");
 
@@ -66,4 +235,196 @@ export const postFacet = table("postFacet")
   })
   .primaryKey("id");
 
-export const schema = createSchema({ tables: [author, post, postAuthor, postFacet] });
+export const project = table("project")
+  .columns({
+    id: string(),
+    thoughtId: string().nullable(),
+    authorId: string(),
+    title: string(),
+    description: string().nullable(),
+    status: string(),
+    createdAt: number(),
+    archivedAt: number().nullable(),
+  })
+  .primaryKey("id");
+
+export const projectActivity = table("projectActivity")
+  .columns({
+    id: string(),
+    projectId: string(),
+    kind: string(),
+    detail: string().nullable(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const projectAttachment = table("projectAttachment")
+  .columns({
+    id: string(),
+    projectId: string(),
+    storageKey: string(),
+    mediaType: string(),
+    fileName: string(),
+    createdAt: number(),
+    position: number(),
+  })
+  .primaryKey("id");
+
+export const projectComment = table("projectComment")
+  .columns({
+    id: string(),
+    projectId: string(),
+    authorId: string(),
+    parentId: string().nullable(),
+    body: string(),
+    createdAt: number(),
+    updatedAt: number().nullable(),
+  })
+  .primaryKey("id");
+
+export const projectItem = table("projectItem")
+  .columns({
+    id: string(),
+    projectId: string(),
+    itemType: string(),
+    itemId: string(),
+    role: string().nullable(),
+    position: number().nullable(),
+    addedAt: number(),
+  })
+  .primaryKey("id");
+
+export const question = table("question")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    title: string(),
+    description: string().nullable(),
+    createdAt: number(),
+    answeredAt: number().nullable(),
+  })
+  .primaryKey("id");
+
+export const tag = table("tag")
+  .columns({
+    id: string(),
+    name: string(),
+    normalizedName: string(),
+  })
+  .primaryKey("id");
+
+export const task = table("task")
+  .columns({
+    id: string(),
+    thoughtId: string().nullable(),
+    projectId: string().nullable(),
+    title: string(),
+    description: string().nullable(),
+    createdAt: number(),
+    completedAt: number().nullable(),
+    deprioritizedAt: number().nullable(),
+    position: number().nullable(),
+  })
+  .primaryKey("id");
+
+export const taskDependency = table("taskDependency")
+  .columns({
+    id: string(),
+    blockerTaskId: string(),
+    blockedTaskId: string(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const thought = table("thought")
+  .columns({
+    id: string(),
+    authorId: string(),
+    body: string(),
+    bodyHash: string(),
+    createdAt: number(),
+    updatedAt: number(),
+    version: number(),
+    parentId: string().nullable(),
+    color: string().nullable(),
+    private: number(),
+    contentRevision: string(),
+    colorRevision: string().nullable(),
+    colorProjectionVersion: string().nullable(),
+    colorStatus: string(),
+  })
+  .primaryKey("id");
+
+export const thoughtAlbum = table("thoughtAlbum")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    albumId: string(),
+    description: string().nullable(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const thoughtAttachment = table("thoughtAttachment")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    storageKey: string(),
+    mediaType: string(),
+    fileName: string(),
+    createdAt: number(),
+    position: number(),
+  })
+  .primaryKey("id");
+
+export const thoughtBookmark = table("thoughtBookmark")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    bookmarkId: string(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const thoughtEdge = table("thoughtEdge")
+  .columns({
+    id: string(),
+    sourceId: string(),
+    targetId: string(),
+    kind: string(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const thoughtHistory = table("thoughtHistory")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    version: number(),
+    body: string(),
+    bodyHash: string(),
+    writtenAt: number(),
+    replacedAt: number(),
+  })
+  .primaryKey("id");
+
+export const thoughtMovie = table("thoughtMovie")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    movieId: string(),
+    description: string().nullable(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const thoughtTag = table("thoughtTag")
+  .columns({
+    id: string(),
+    thoughtId: string(),
+    tagId: string(),
+    position: number(),
+  })
+  .primaryKey("id");
+
+export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, post, postAuthor, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });
