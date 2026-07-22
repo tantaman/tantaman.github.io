@@ -2905,9 +2905,6 @@ main.app-main:has(> .thoughts-shell) {
   margin-top: 24px;
   margin-left: 11px;
 }
-.thought-feed-thread {
-  position: relative;
-}
 .thought-inline-replies {
   margin: 0 0 0 18px;
   padding: 0 0 0 16px;

@@ -1,13 +1,17 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 import type { DehydratedState, ResultType } from "@rindle/client";
 
 import { ThoughtCard, type ThoughtCardData } from "../components/ThoughtCard.tsx";
 import {
+  THOUGHT_FEED_REPLIES_MAX_LIMIT,
+  THOUGHT_FEED_REPLIES_PAGE_SIZE,
   THOUGHT_REPLIES_LIMIT,
   thoughtAdminQuery,
+  thoughtAdminRepliesQuery,
   thoughtQuery,
+  thoughtRepliesQuery,
   type ThoughtAdminDetailRow,
   type ThoughtDetailRow,
 } from "../components/ThoughtCard.queries.ts";
@@ -21,59 +25,70 @@ export const Route = createFileRoute("/thoughts/$id")({
   loader: async ({ params }): Promise<{ rindle: DehydratedState }> => {
     if (!import.meta.env.SSR) return { rindle: {} };
     const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([thoughtQuery(params.id)]) };
+    return {
+      rindle: await preloadRindle([
+        thoughtQuery(params.id),
+        thoughtRepliesQuery({ limit: THOUGHT_FEED_REPLIES_PAGE_SIZE }),
+      ]),
+    };
   },
   component: ThoughtThread,
 });
 
 function ThoughtThread() {
   const { id } = Route.useParams();
-  const { isAdmin, replies, revealNewestReplies } = useThoughtsFeed();
+  const { isAdmin } = useThoughtsFeed();
   return isAdmin
-    ? <AdminThoughtThread id={id} feedReplies={replies} onReplyAdded={revealNewestReplies} />
-    : <PublicThoughtThread id={id} feedReplies={replies} onReplyAdded={revealNewestReplies} />;
+    ? <AdminThoughtThread id={id} />
+    : <PublicThoughtThread id={id} />;
 }
 
-function PublicThoughtThread({
-  id,
-  feedReplies,
-  onReplyAdded,
-}: {
-  id: string;
-  feedReplies: readonly ThoughtCardData[];
-  onReplyAdded: () => void;
-}) {
+function PublicThoughtThread({ id }: { id: string }) {
+  const [replyLimit, setReplyLimit] = useState(THOUGHT_FEED_REPLIES_PAGE_SIZE);
   const [thought, { status }] = useRoot(thoughtQuery, id);
+  const [allReplies, { status: replyStatus }] = useRoot(thoughtRepliesQuery, { limit: replyLimit });
+  const visibleReplies = allReplies.slice(0, replyLimit);
+  const renderedRepliesRef = useRef(visibleReplies);
+  if (replyStatus === "complete" || visibleReplies.length > renderedRepliesRef.current.length) {
+    renderedRepliesRef.current = visibleReplies;
+  }
   return (
     <StableThoughtThread
       id={id}
       thought={thought}
       status={status}
       isAdmin={false}
-      feedReplies={feedReplies}
-      onReplyAdded={onReplyAdded}
+      flatReplies={renderedRepliesRef.current}
+      replyStatus={replyStatus}
+      hasMoreReplies={replyLimit < THOUGHT_FEED_REPLIES_MAX_LIMIT && allReplies.length > replyLimit}
+      loadMoreReplies={() => setReplyLimit((current) =>
+        Math.min(current + THOUGHT_FEED_REPLIES_PAGE_SIZE, THOUGHT_FEED_REPLIES_MAX_LIMIT))}
+      onReplyAdded={() => setReplyLimit(THOUGHT_FEED_REPLIES_MAX_LIMIT)}
     />
   );
 }
 
-function AdminThoughtThread({
-  id,
-  feedReplies,
-  onReplyAdded,
-}: {
-  id: string;
-  feedReplies: readonly ThoughtCardData[];
-  onReplyAdded: () => void;
-}) {
+function AdminThoughtThread({ id }: { id: string }) {
+  const [replyLimit, setReplyLimit] = useState(THOUGHT_FEED_REPLIES_PAGE_SIZE);
   const [thought, { status }] = useRoot(thoughtAdminQuery, id);
+  const [allReplies, { status: replyStatus }] = useRoot(thoughtAdminRepliesQuery, { limit: replyLimit });
+  const visibleReplies = allReplies.slice(0, replyLimit);
+  const renderedRepliesRef = useRef(visibleReplies);
+  if (replyStatus === "complete" || visibleReplies.length > renderedRepliesRef.current.length) {
+    renderedRepliesRef.current = visibleReplies;
+  }
   return (
     <StableThoughtThread
       id={id}
       thought={thought}
       status={status}
       isAdmin
-      feedReplies={feedReplies}
-      onReplyAdded={onReplyAdded}
+      flatReplies={renderedRepliesRef.current}
+      replyStatus={replyStatus}
+      hasMoreReplies={replyLimit < THOUGHT_FEED_REPLIES_MAX_LIMIT && allReplies.length > replyLimit}
+      loadMoreReplies={() => setReplyLimit((current) =>
+        Math.min(current + THOUGHT_FEED_REPLIES_PAGE_SIZE, THOUGHT_FEED_REPLIES_MAX_LIMIT))}
+      onReplyAdded={() => setReplyLimit(THOUGHT_FEED_REPLIES_MAX_LIMIT)}
     />
   );
 }
@@ -83,14 +98,20 @@ function StableThoughtThread({
   thought,
   status,
   isAdmin,
-  feedReplies,
+  flatReplies,
+  replyStatus,
+  hasMoreReplies,
+  loadMoreReplies,
   onReplyAdded,
 }: {
   id: string;
   thought: ThoughtDetailRow | ThoughtAdminDetailRow | null;
   status: ResultType;
   isAdmin: boolean;
-  feedReplies: readonly ThoughtCardData[];
+  flatReplies: readonly ThoughtCardData[];
+  replyStatus: ResultType;
+  hasMoreReplies: boolean;
+  loadMoreReplies: () => void;
   onReplyAdded: () => void;
 }) {
   const navigate = Route.useNavigate();
@@ -113,7 +134,7 @@ function StableThoughtThread({
     [rendered as ThoughtCardData],
     [
       ...rendered.replies.map((reply) => reply as ThoughtCardData),
-      ...feedReplies,
+      ...flatReplies,
     ],
   )[0];
   const directReplies = thread?.children ?? [];
@@ -156,6 +177,19 @@ function StableThoughtThread({
         </header>
 
         <ThoughtReplyBranches nodes={directReplies} isAdmin={isAdmin} onSubmitted={onReplyAdded} />
+
+        {hasMoreReplies || (flatReplies.length > 0 && replyStatus !== "complete") ? (
+          <div className="thought-replies-load-more" aria-live="polite">
+            <button
+              className="load-more-button"
+              type="button"
+              onClick={loadMoreReplies}
+              disabled={replyStatus !== "complete"}
+            >
+              {replyStatus === "complete" ? "Load more replies" : "Loading more replies…"}
+            </button>
+          </div>
+        ) : null}
 
         {isAdmin ? (
           <div className="thought-reply-composer">

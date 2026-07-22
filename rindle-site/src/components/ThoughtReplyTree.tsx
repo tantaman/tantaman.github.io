@@ -37,7 +37,6 @@ export function buildThoughtForest(
 interface ThoughtTreeNodeViewProps {
   node: ThoughtThreadNode;
   depth: number;
-  variant: "feed" | "reply";
   isAdmin: boolean;
   replyingTo: string | null;
   setReplyingTo: (id: string | null) => void;
@@ -47,7 +46,6 @@ interface ThoughtTreeNodeViewProps {
 function ThoughtTreeNodeView({
   node,
   depth,
-  variant,
   isAdmin,
   replyingTo,
   setReplyingTo,
@@ -61,7 +59,7 @@ function ThoughtTreeNodeView({
       <ThoughtCard
         thought={thought}
         isAdmin={isAdmin}
-        variant={variant}
+        variant="reply"
         inlineThread
         visibleReplyCount={children.length}
         repliesCollapsed={collapsed}
@@ -98,7 +96,6 @@ function ThoughtTreeNodeView({
               <ThoughtTreeNodeView
                 node={child}
                 depth={depth + 1}
-                variant="reply"
                 isAdmin={isAdmin}
                 replyingTo={replyingTo}
                 setReplyingTo={setReplyingTo}
@@ -109,31 +106,6 @@ function ThoughtTreeNodeView({
         </ul>
       ) : null}
     </>
-  );
-}
-
-export function ThoughtFeedThread({
-  node,
-  isAdmin,
-  onSubmitted,
-}: {
-  node: ThoughtThreadNode;
-  isAdmin: boolean;
-  onSubmitted: () => void;
-}) {
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
-  return (
-    <section className="thought-feed-thread" aria-label={`Thought ${node.thought.id} and replies`}>
-      <ThoughtTreeNodeView
-        node={node}
-        depth={0}
-        variant="feed"
-        isAdmin={isAdmin}
-        replyingTo={replyingTo}
-        setReplyingTo={setReplyingTo}
-        onSubmitted={onSubmitted}
-      />
-    </section>
   );
 }
 
@@ -155,7 +127,6 @@ export function ThoughtReplyBranches({
           <ThoughtTreeNodeView
             node={node}
             depth={1}
-            variant="reply"
             isAdmin={isAdmin}
             replyingTo={replyingTo}
             setReplyingTo={setReplyingTo}
