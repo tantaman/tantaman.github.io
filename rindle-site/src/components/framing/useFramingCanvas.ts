@@ -126,13 +126,14 @@ const EDGE_COLORS: Record<string, string> = {
   reply: "#7aa2f7",
   link: "#76a85d",
 };
+const DEFAULT_EDGE_COLOR = "#8b8394";
 
 function toFlowEdge(
   row: CanvasEdgeRow,
   editable: boolean,
   onLabelChange: (edgeId: string, label: string | null) => void,
 ): FramingFlowEdge {
-  const color = row.kind ? EDGE_COLORS[row.kind] : undefined;
+  const color = (row.kind && EDGE_COLORS[row.kind]) || DEFAULT_EDGE_COLOR;
   return {
     id: `edge:${row.id}`,
     source: row.sourceNodeId,
@@ -140,8 +141,15 @@ function toFlowEdge(
     sourceHandle: row.sourceHandle ?? undefined,
     targetHandle: row.targetHandle ?? undefined,
     type: "labeled",
-    markerEnd: { type: MarkerType.ArrowClosed, color },
-    style: color ? { stroke: color } : undefined,
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color,
+      width: 18,
+      height: 18,
+      markerUnits: "userSpaceOnUse",
+      strokeWidth: 1.2,
+    },
+    style: { stroke: color, strokeWidth: 1.8 },
     data: {
       label: row.label,
       edgeId: row.id,

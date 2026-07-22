@@ -179,7 +179,6 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
     missing,
   } = useFramingCanvas(id, isAdmin);
   const flowRef = useRef<ReactFlowInstance | null>(null);
-  const lastPaneClick = useRef<{ at: number; x: number; y: number } | null>(null);
   const [selectedThoughtId, setSelectedThoughtId] = useState<string | null>(null);
 
   const rename = useCallback((name: string) => {
@@ -197,17 +196,13 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
     addNode(itemType, itemId, position.x, position.y);
   }, [addNode, isAdmin]);
 
-  const onPaneClick = useCallback((event: ReactMouseEvent) => {
-    if (!isAdmin) return;
-    const now = Date.now();
-    const previous = lastPaneClick.current;
-    if (previous && now - previous.at < 300 && Math.abs(event.clientX - previous.x) < 5 && Math.abs(event.clientY - previous.y) < 5) {
-      lastPaneClick.current = null;
-      const position = flowRef.current?.screenToFlowPosition({ x: event.clientX, y: event.clientY });
-      if (position) startCompose(position.x, position.y);
-    } else {
-      lastPaneClick.current = { at: now, x: event.clientX, y: event.clientY };
-    }
+  const onPaneDoubleClick = useCallback((event: ReactMouseEvent<HTMLDivElement>) => {
+    if (!isAdmin || !flowRef.current) return;
+    const target = event.target;
+    if (!(target instanceof Element) || !target.classList.contains("react-flow__pane")) return;
+    event.preventDefault();
+    const position = flowRef.current.screenToFlowPosition({ x: event.clientX, y: event.clientY });
+    startCompose(position.x, position.y);
   }, [isAdmin, startCompose]);
 
   if (loading) return <div className="framing-route-status">Loading framing…</div>;
@@ -236,7 +231,7 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
           onInit={(instance) => { flowRef.current = instance; }}
           onDragOver={(event) => { if (isAdmin) { event.preventDefault(); event.dataTransfer.dropEffect = "copy"; } }}
           onDrop={onDrop}
-          onPaneClick={onPaneClick}
+          onDoubleClick={onPaneDoubleClick}
           onNodeClick={(_event, node) => {
             if (node.type === "thought") setSelectedThoughtId((node.data as ThoughtNodeData).thoughtId);
           }}
@@ -253,6 +248,7 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
           <Controls />
           <MiniMap />
           <div className="framing-toolbar">
+            {isAdmin ? <span className="framing-toolbar-hint">Double-click canvas to add a thought</span> : null}
             {isAdmin ? (
               <button type="button" className="framing-toolbar-btn" onClick={() => applyLayout(hierarchicalLayout(nodes, edges))}>
                 Layout
