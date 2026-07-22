@@ -3,7 +3,7 @@
 // than trusting a client-provided "include private" flag.
 
 import { defineFragment, defineQuery } from "@rindle/client";
-import type { FragmentRef } from "@rindle/client";
+import type { FragmentRef, QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
 import { q, relationships, thought } from "../../shared/app-def.ts";
@@ -38,6 +38,16 @@ export const thoughtsQuery = defineQuery("thoughts", (raw) => pageArgs.parse(raw
         .limit(100)
         .select("id", "thoughtId", "storageKey", "mediaType", "fileName", "position"),
     )
+    .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
+      link
+        .orderBy("position", "asc")
+        .orderBy("id", "asc")
+        .limit(200)
+        .select("id", "thoughtId", "tagId", "position")
+        .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
+          tagProfile.select("id", "name", "normalizedName").one(),
+        ),
+    )
     .include(ThoughtCardFragment),
 );
 
@@ -60,12 +70,22 @@ export const thoughtAdminFeedQuery = defineQuery(
           .limit(100)
           .select("id", "thoughtId", "storageKey", "mediaType", "fileName", "position"),
       )
+      .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
+        link
+          .orderBy("position", "asc")
+          .orderBy("id", "asc")
+          .limit(200)
+          .select("id", "thoughtId", "tagId", "position")
+          .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
+            tagProfile.select("id", "name", "normalizedName").one(),
+          ),
+      )
       .include(ThoughtCardFragment),
 );
 
 const thoughtIdArgs = z.string().min(1).max(500);
 
-/** A public thought, its direct reply window, attachments, normalized tags, and complete version
+/** A public thought, its direct reply window, attachments, normalized tags, and recent version
  * history. Filtering the root by privacy also gates the nested history rows. */
 export const thoughtQuery = defineQuery("thought", (raw) => thoughtIdArgs.parse(raw), (id) =>
   q.thought
@@ -80,10 +100,13 @@ export const thoughtQuery = defineQuery("thought", (raw) => thoughtIdArgs.parse(
         .orderBy("position", "asc")
         .orderBy("id", "asc")
         .limit(200)
-        .sub("tag", relationships.thoughtTagProfile, (tagProfile) => tagProfile.limit(1)),
+        .select("id", "thoughtId", "tagId", "position")
+        .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
+          tagProfile.select("id", "name", "normalizedName").one(),
+        ),
     )
     .sub("history", relationships.thoughtHistory, (history) =>
-      history.orderBy("version", "asc").orderBy("id", "asc").limit(500),
+      history.orderBy("version", "desc").orderBy("id", "asc").limit(500),
     )
     .sub("replies", relationships.thoughtReplies, (reply) =>
       reply
@@ -95,7 +118,17 @@ export const thoughtQuery = defineQuery("thought", (raw) => thoughtIdArgs.parse(
         .sub("attachments", relationships.thoughtAttachments, (attachment) =>
           attachment.orderBy("position", "asc").orderBy("id", "asc").limit(100),
         )
-        .include(ThoughtCardFragment),
+        .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
+          link
+            .orderBy("position", "asc")
+            .orderBy("id", "asc")
+            .limit(200)
+            .select("id", "thoughtId", "tagId", "position")
+            .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
+              tagProfile.select("id", "name", "normalizedName").one(),
+            ),
+        )
+        .select("id", "body", "createdAt", "updatedAt", "version", "parentId", "color", "private"),
     )
     .include(ThoughtCardFragment)
     .one(),
@@ -117,10 +150,13 @@ export const thoughtAdminQuery = defineQuery(
           .orderBy("position", "asc")
           .orderBy("id", "asc")
           .limit(200)
-          .sub("tag", relationships.thoughtTagProfile, (tagProfile) => tagProfile.limit(1)),
+          .select("id", "thoughtId", "tagId", "position")
+          .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
+            tagProfile.select("id", "name", "normalizedName").one(),
+          ),
       )
       .sub("history", relationships.thoughtHistory, (history) =>
-        history.orderBy("version", "asc").orderBy("id", "asc").limit(500),
+        history.orderBy("version", "desc").orderBy("id", "asc").limit(500),
       )
       .sub("replies", relationships.thoughtReplies, (reply) =>
         reply
@@ -131,8 +167,23 @@ export const thoughtAdminQuery = defineQuery(
           .sub("attachments", relationships.thoughtAttachments, (attachment) =>
             attachment.orderBy("position", "asc").orderBy("id", "asc").limit(100),
           )
-          .include(ThoughtCardFragment),
+          .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
+            link
+              .orderBy("position", "asc")
+              .orderBy("id", "asc")
+              .limit(200)
+              .select("id", "thoughtId", "tagId", "position")
+              .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
+                tagProfile.select("id", "name", "normalizedName").one(),
+              ),
+          )
+          .select("id", "body", "createdAt", "updatedAt", "version", "parentId", "color", "private"),
       )
       .include(ThoughtCardFragment)
       .one(),
 );
+
+export type ThoughtFeedRow = QueryLocalData<ReturnType<typeof thoughtsQuery>>[number];
+export type ThoughtAdminFeedRow = QueryLocalData<ReturnType<typeof thoughtAdminFeedQuery>>[number];
+export type ThoughtDetailRow = NonNullable<QueryLocalData<ReturnType<typeof thoughtQuery>>>;
+export type ThoughtAdminDetailRow = NonNullable<QueryLocalData<ReturnType<typeof thoughtAdminQuery>>>;

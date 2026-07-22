@@ -452,11 +452,19 @@ const editThought = shared(editThoughtArgs, function* (tx, args, ctx) {
       colorStatus: "pending",
     });
 
-    const oldTagIds = rowIds(
+    const oldTagRows = queryRows(
       (yield tx.query(q.thoughtTag.where.thoughtId(args.id).orderBy("id", "asc").limit(10_001))) as unknown,
       "thought tags",
     );
-    for (const id of oldTagIds) yield tx.delete("thoughtTag", { id });
+    if (oldTagRows.length > 10_000) throw new Error("thought tags exceeds the 10,000-row mutation safety limit.");
+    const oldTagProfileIds = new Set<string>();
+    for (const row of oldTagRows) {
+      if (typeof row.id !== "string" || typeof row.tagId !== "string") {
+        throw new Error("thought tags returned a row without text ids.");
+      }
+      oldTagProfileIds.add(row.tagId);
+      yield tx.delete("thoughtTag", { id: row.id });
+    }
     for (const input of args.tags) {
       yield tx.insertIgnore("tag", {
         id: input.tagId,
@@ -469,6 +477,15 @@ const editThought = shared(editThoughtArgs, function* (tx, args, ctx) {
         tagId: input.tagId,
         position: input.position,
       });
+    }
+    // Tags are shared profiles, but body extraction owns their lifecycle. Once all replacement links
+    // have landed, remove a prior profile only when no thought references it anymore.
+    for (const tagId of oldTagProfileIds) {
+      const remaining = queryRows(
+        (yield tx.query(q.thoughtTag.where.tagId(tagId).orderBy("id", "asc").limit(1))) as unknown,
+        "remaining thought tag links",
+      );
+      if (remaining.length === 0) yield tx.delete("tag", { id: tagId });
     }
   }
 
@@ -491,6 +508,7 @@ const deleteThought = shared(deleteThoughtArgs, function* (tx, args, ctx) {
   if (root.authorId !== authorId) throw new Error("Only the thought author can delete it.");
 
   const thoughtIds: string[] = [];
+  const possiblyOrphanedTagIds = new Set<string>();
   const seen = new Set<string>();
   const queue = [args.id];
   while (queue.length > 0) {
@@ -524,11 +542,18 @@ const deleteThought = shared(deleteThoughtArgs, function* (tx, args, ctx) {
     );
     for (const id of attachmentIds) yield tx.delete("thoughtAttachment", { id });
 
-    const tagLinkIds = rowIds(
+    const tagLinkRows = queryRows(
       (yield tx.query(q.thoughtTag.where.thoughtId(thoughtId).orderBy("id", "asc").limit(10_001))) as unknown,
       "thought tag links",
     );
-    for (const id of tagLinkIds) yield tx.delete("thoughtTag", { id });
+    if (tagLinkRows.length > 10_000) throw new Error("thought tag links exceeds the 10,000-row mutation safety limit.");
+    for (const row of tagLinkRows) {
+      if (typeof row.id !== "string" || typeof row.tagId !== "string") {
+        throw new Error("thought tag links returned a row without text ids.");
+      }
+      possiblyOrphanedTagIds.add(row.tagId);
+      yield tx.delete("thoughtTag", { id: row.id });
+    }
 
     const outboundEdgeIds = rowIds(
       (yield tx.query(q.thoughtEdge.where.sourceId(thoughtId).orderBy("id", "asc").limit(10_001))) as unknown,
@@ -592,6 +617,14 @@ const deleteThought = shared(deleteThoughtArgs, function* (tx, args, ctx) {
       for (const id of new Set([...outgoing, ...incoming])) yield tx.delete("framingEdge", { id });
       yield tx.delete("framingNode", { id: nodeId });
     }
+  }
+
+  for (const tagId of possiblyOrphanedTagIds) {
+    const remaining = queryRows(
+      (yield tx.query(q.thoughtTag.where.tagId(tagId).orderBy("id", "asc").limit(1))) as unknown,
+      "remaining thought tag links",
+    );
+    if (remaining.length === 0) yield tx.delete("tag", { id: tagId });
   }
 
   for (const id of thoughtIds.reverse()) yield tx.delete("thought", { id });
