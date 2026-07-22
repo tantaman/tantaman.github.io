@@ -283,10 +283,17 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
 
   useEffect(() => {
     if (!detail) {
-      if (status === "complete") { setNodes([]); setEdges([]); }
+      if (status === "complete") {
+        setNodes((current) => current.filter((node) => node.id === COMPOSE_NODE_ID));
+        setEdges([]);
+      }
       return;
     }
-    setNodes(detail.nodes.map(toFlowNode).filter((node): node is FramingFlowNode => node !== null));
+    const detailNodes = detail.nodes.map(toFlowNode).filter((node): node is FramingFlowNode => node !== null);
+    setNodes((current) => {
+      const composeNode = current.find((node) => node.id === COMPOSE_NODE_ID);
+      return composeNode ? [...detailNodes, composeNode] : detailNodes;
+    });
     setEdges(detail.edges.map((edge) => toFlowEdge(edge, isAdmin, updateEdgeLabel)));
   }, [detail, isAdmin, status, toFlowNode, updateEdgeLabel]);
 
@@ -431,7 +438,14 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
     if (isAdmin) setComposePosition({ x, y });
   }, [isAdmin]);
 
+  const cancelCompose = useCallback(() => {
+    setComposePosition(null);
+    setNodes((current) => current.filter((node) => node.id !== COMPOSE_NODE_ID));
+  }, []);
+
   const submitCompose = useCallback(async (body: string, isPrivate: boolean) => {
+    if (!composePosition) return;
+    setNodes((current) => current.filter((node) => node.id !== COMPOSE_NODE_ID));
     const now = Date.now();
     const thoughtId = ulid();
     const revision = ulid();
@@ -452,21 +466,21 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
       edges: [],
       enrichments: thoughtEnrichmentArgs(body, now, revision),
     });
-    if (composePosition) addNode("thought", thoughtId, composePosition.x, composePosition.y);
+    addNode("thought", thoughtId, composePosition.x, composePosition.y);
     setComposePosition(null);
   }, [addNode, composePosition]);
 
-  const renderedNodes = useMemo(() => {
-    if (!composePosition) return nodes;
+  useEffect(() => {
+    if (!composePosition) return;
     const composeNode: Node<ComposeNodeData, "compose"> = {
       id: COMPOSE_NODE_ID,
       type: "compose",
       position: composePosition,
-      data: { onSubmit: submitCompose, onCancel: () => setComposePosition(null) },
+      data: { onSubmit: submitCompose, onCancel: cancelCompose },
       draggable: false,
     };
-    return [...nodes, composeNode];
-  }, [composePosition, nodes, submitCompose]);
+    setNodes((current) => [...current.filter((node) => node.id !== COMPOSE_NODE_ID), composeNode]);
+  }, [cancelCompose, composePosition, submitCompose]);
 
   const applyLayout = useCallback((positions: Map<string, { x: number; y: number }>) => {
     if (!isAdmin || positions.size === 0) return;
@@ -484,7 +498,7 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
   const placedItemKeys = useMemo(() => new Set((detail?.nodes ?? []).map((node) => `${node.itemType}:${node.itemId}`)), [detail]);
 
   return {
-    nodes: renderedNodes,
+    nodes,
     edges,
     onNodesChange,
     onNodeDragStop,
