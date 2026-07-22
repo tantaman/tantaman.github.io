@@ -3381,6 +3381,16 @@ main.app-main:has(.framing-canvas-wrap) {
   display: flex;
   gap: 6px;
 }
+.framing-toolbar-hint {
+  align-self: center;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--raise) 88%, transparent);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  pointer-events: none;
+}
 .framing-toolbar-btn {
   padding: 6px 10px;
   opacity: 0.8;
