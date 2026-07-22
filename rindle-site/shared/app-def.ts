@@ -107,6 +107,11 @@ export const relationships = defineRelationships({
   framingEdges: rel(framing, framingEdge, { id: "framingId" }),
   framingNodeOutgoingEdges: rel(framingNode, framingEdge, { id: "sourceNodeId" }),
   framingNodeIncomingEdges: rel(framingNode, framingEdge, { id: "targetNodeId" }),
+  framingNodeThought: rel(framingNode, thought, { itemId: "id" }),
+  framingNodePost: rel(framingNode, post, { itemId: "id" }),
+  framingNodeFraming: rel(framingNode, framing, { itemId: "id" }),
+  thoughtEdgeTarget: rel(thoughtEdge, thought, { targetId: "id" }),
+  thoughtEdgeSource: rel(thoughtEdge, thought, { sourceId: "id" }),
   clusterMembers: rel(cluster, clusterMembership, { id: "clusterId" }),
 });
 
@@ -127,6 +132,9 @@ export type ThoughtAttachment = Row<typeof thoughtAttachment>;
 export type Tag = Row<typeof tag>;
 export type ThoughtTag = Row<typeof thoughtTag>;
 export type ThoughtEdge = Row<typeof thoughtEdge>;
+export type Framing = Row<typeof framing>;
+export type FramingNode = Row<typeof framingNode>;
+export type FramingEdge = Row<typeof framingEdge>;
 
 // --------------------------------------------------------------------------- mutators
 
@@ -436,6 +444,124 @@ const updateProjectStatusArgs = z.object({
   id: stableId,
   status: z.enum(["draft", "active", "archived"]),
   archivedAt: timestamp.nullable(),
+});
+
+const framingName = z
+  .string()
+  .min(1)
+  .max(300)
+  .refine((value) => value === value.trim(), "Framing names must not have surrounding whitespace.");
+const framingDescription = z.string().max(20_000).nullable();
+const framingItemType = z.enum(["thought", "post", "framing"]);
+const coordinate = z.number().finite().min(-10_000_000).max(10_000_000);
+const framingNodeArg = z.object({
+  id: stableId,
+  framingId: stableId,
+  itemType: framingItemType,
+  itemId: stableId,
+  x: coordinate,
+  y: coordinate,
+  width: coordinate.nonnegative().nullable(),
+  height: coordinate.nonnegative().nullable(),
+});
+const framingEdgeArg = z.object({
+  id: stableId,
+  framingId: stableId,
+  sourceNodeId: stableId,
+  targetNodeId: stableId,
+  label: nullableText(2_000),
+  sourceHandle: nullableText(100),
+  targetHandle: nullableText(100),
+  kind: nullableText(100),
+});
+const createFramingArgs = z.object({
+  framing: z.object({
+    id: stableId,
+    name: framingName,
+    description: framingDescription,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  }),
+}).refine(
+  ({ framing: value }) => value.updatedAt === value.createdAt,
+  { path: ["framing", "updatedAt"], message: "A new framing's timestamps must match." },
+);
+const updateFramingArgs = z.object({
+  id: stableId,
+  name: framingName.optional(),
+  description: framingDescription.optional(),
+  updatedAt: timestamp,
+}).refine(
+  (args) => args.name !== undefined || args.description !== undefined,
+  "At least one framing field is required.",
+);
+const deleteFramingArgs = z.object({ id: stableId });
+const addFramingNodeArgs = z.object({ node: framingNodeArg, updatedAt: timestamp });
+const removeFramingNodeArgs = z.object({ framingId: stableId, id: stableId, updatedAt: timestamp });
+const updateFramingNodesArgs = z.object({
+  framingId: stableId,
+  updatedAt: timestamp,
+  nodes: z.array(z.object({
+    id: stableId,
+    x: coordinate,
+    y: coordinate,
+    width: coordinate.nonnegative().nullable().optional(),
+    height: coordinate.nonnegative().nullable().optional(),
+  })).min(1).max(1_000),
+});
+const createFramingEdgeArgs = z.object({ edge: framingEdgeArg, updatedAt: timestamp });
+const updateFramingEdgeArgs = z.object({
+  framingId: stableId,
+  id: stableId,
+  label: nullableText(2_000),
+  updatedAt: timestamp,
+});
+const deleteFramingEdgeArgs = z.object({ framingId: stableId, id: stableId, updatedAt: timestamp });
+const importFramingArgs = z.object({
+  framing: z.object({
+    id: stableId,
+    name: framingName,
+    description: framingDescription,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  }),
+  nodes: z.array(framingNodeArg).max(1_000),
+  edges: z.array(framingEdgeArg).max(5_000),
+}).superRefine((args, ctx) => {
+  if (args.framing.createdAt !== args.framing.updatedAt) {
+    ctx.addIssue({ code: "custom", path: ["framing", "updatedAt"], message: "A new framing's timestamps must match." });
+  }
+  const nodeIds = new Set<string>();
+  const itemKeys = new Set<string>();
+  for (let index = 0; index < args.nodes.length; index++) {
+    const node = args.nodes[index];
+    if (node.framingId !== args.framing.id) {
+      ctx.addIssue({ code: "custom", path: ["nodes", index, "framingId"], message: "Imported nodes must belong to the imported framing." });
+    }
+    if (nodeIds.has(node.id)) {
+      ctx.addIssue({ code: "custom", path: ["nodes", index, "id"], message: "Imported node ids must be unique." });
+    }
+    nodeIds.add(node.id);
+    const itemKey = `${node.itemType}:${node.itemId}`;
+    if (itemKeys.has(itemKey)) {
+      ctx.addIssue({ code: "custom", path: ["nodes", index, "itemId"], message: "An item may occur only once in a framing." });
+    }
+    itemKeys.add(itemKey);
+  }
+  const edgeIds = new Set<string>();
+  for (let index = 0; index < args.edges.length; index++) {
+    const edge = args.edges[index];
+    if (edge.framingId !== args.framing.id) {
+      ctx.addIssue({ code: "custom", path: ["edges", index, "framingId"], message: "Imported edges must belong to the imported framing." });
+    }
+    if (edgeIds.has(edge.id)) {
+      ctx.addIssue({ code: "custom", path: ["edges", index, "id"], message: "Imported edge ids must be unique." });
+    }
+    edgeIds.add(edge.id);
+    if (!nodeIds.has(edge.sourceNodeId) || !nodeIds.has(edge.targetNodeId)) {
+      ctx.addIssue({ code: "custom", path: ["edges", index], message: "Imported edges must connect imported nodes." });
+    }
+  }
 });
 
 const { shared } = defineMutators(schema);
@@ -893,6 +1019,197 @@ const updateProjectStatus = shared(updateProjectStatusArgs, function* (tx, args,
   yield tx.update("project", args);
 });
 
+/** Framings are public spatial views, but every write remains owned by the authenticated author.
+ * Stable ids and timestamps come from the callsite so optimistic rebases replay the same body. */
+const createFraming = shared(createFramingArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  yield tx.insert("framing", { ...args.framing, authorId });
+});
+
+const updateFraming = shared(updateFramingArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const current = (yield tx.row("framing", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!current) throw new Error("Framing not found.");
+  if (current.authorId !== authorId) throw new Error("Only the framing author can update it.");
+  yield tx.update("framing", args);
+});
+
+/** Remove every owned canvas row explicitly. Rindle mutations never depend on SQLite-only foreign-key
+ * cascade behavior, so the browser prediction and authority perform the exact same logical writes. */
+const deleteFraming = shared(deleteFramingArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const current = (yield tx.row("framing", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!current) throw new Error("Framing not found.");
+  if (current.authorId !== authorId) throw new Error("Only the framing author can delete it.");
+
+  const edgeIds = rowIds(
+    (yield tx.query(q.framingEdge.where.framingId(args.id).orderBy("id", "asc").limit(5_001))) as unknown,
+    "framing edges",
+    5_000,
+  );
+  for (const id of edgeIds) yield tx.delete("framingEdge", { id });
+
+  const nodeIds = rowIds(
+    (yield tx.query(q.framingNode.where.framingId(args.id).orderBy("id", "asc").limit(1_001))) as unknown,
+    "framing nodes",
+    1_000,
+  );
+  for (const id of nodeIds) yield tx.delete("framingNode", { id });
+
+  // A framing can itself appear as a node in another canvas. Remove those now-dangling nodes and
+  // their incident edges just as the legacy D1 foreign-key cleanup did for owned graph rows.
+  const referenceIds = rowIds(
+    (yield tx.query(
+      q.framingNode
+        .where.itemType("framing")
+        .where.itemId(args.id)
+        .orderBy("id", "asc")
+        .limit(1_001),
+    )) as unknown,
+    "nested framing references",
+    1_000,
+  );
+  for (const nodeId of referenceIds) {
+    const outgoing = rowIds(
+      (yield tx.query(q.framingEdge.where.sourceNodeId(nodeId).orderBy("id", "asc").limit(5_001))) as unknown,
+      "nested framing outgoing edges",
+      5_000,
+    );
+    const incoming = rowIds(
+      (yield tx.query(q.framingEdge.where.targetNodeId(nodeId).orderBy("id", "asc").limit(5_001))) as unknown,
+      "nested framing incoming edges",
+      5_000,
+    );
+    for (const id of new Set([...outgoing, ...incoming])) yield tx.delete("framingEdge", { id });
+    yield tx.delete("framingNode", { id: nodeId });
+  }
+
+  yield tx.delete("framing", { id: args.id });
+});
+
+const addFramingNode = shared(addFramingNodeArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const frame = (yield tx.row("framing", { id: args.node.framingId })) as Record<string, unknown> | undefined;
+  if (!frame) throw new Error("Framing not found.");
+  if (frame.authorId !== authorId) throw new Error("Only the framing author can add nodes.");
+  if (args.node.itemType === "framing" && args.node.itemId === args.node.framingId) {
+    throw new Error("A framing cannot contain itself.");
+  }
+
+  let target: Record<string, unknown> | undefined;
+  if (args.node.itemType === "thought") {
+    target = (yield tx.row("thought", { id: args.node.itemId })) as Record<string, unknown> | undefined;
+  } else if (args.node.itemType === "post") {
+    target = (yield tx.row("post", { id: args.node.itemId })) as Record<string, unknown> | undefined;
+  } else {
+    target = (yield tx.row("framing", { id: args.node.itemId })) as Record<string, unknown> | undefined;
+  }
+  if (!target) throw new Error(`The ${args.node.itemType} being placed no longer exists.`);
+
+  const duplicate = queryRows(
+    (yield tx.query(
+      q.framingNode
+        .where.framingId(args.node.framingId)
+        .where.itemType(args.node.itemType)
+        .where.itemId(args.node.itemId)
+        .orderBy("id", "asc")
+        .limit(1),
+    )) as unknown,
+    "duplicate framing node",
+  );
+  if (duplicate.length > 0) throw new Error("This item is already in the framing.");
+
+  yield tx.insert("framingNode", args.node);
+  yield tx.update("framing", { id: args.node.framingId, updatedAt: args.updatedAt });
+});
+
+const removeFramingNode = shared(removeFramingNodeArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const frame = (yield tx.row("framing", { id: args.framingId })) as Record<string, unknown> | undefined;
+  if (!frame) throw new Error("Framing not found.");
+  if (frame.authorId !== authorId) throw new Error("Only the framing author can remove nodes.");
+  const node = (yield tx.row("framingNode", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!node || node.framingId !== args.framingId) throw new Error("Framing node not found.");
+
+  const outgoing = rowIds(
+    (yield tx.query(q.framingEdge.where.sourceNodeId(args.id).orderBy("id", "asc").limit(5_001))) as unknown,
+    "framing node outgoing edges",
+    5_000,
+  );
+  const incoming = rowIds(
+    (yield tx.query(q.framingEdge.where.targetNodeId(args.id).orderBy("id", "asc").limit(5_001))) as unknown,
+    "framing node incoming edges",
+    5_000,
+  );
+  for (const id of new Set([...outgoing, ...incoming])) yield tx.delete("framingEdge", { id });
+  yield tx.delete("framingNode", { id: args.id });
+  yield tx.update("framing", { id: args.framingId, updatedAt: args.updatedAt });
+});
+
+const updateFramingNodes = shared(updateFramingNodesArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const frame = (yield tx.row("framing", { id: args.framingId })) as Record<string, unknown> | undefined;
+  if (!frame) throw new Error("Framing not found.");
+  if (frame.authorId !== authorId) throw new Error("Only the framing author can move nodes.");
+  for (const node of args.nodes) {
+    const current = (yield tx.row("framingNode", { id: node.id })) as Record<string, unknown> | undefined;
+    if (!current || current.framingId !== args.framingId) throw new Error("Framing node not found.");
+    yield tx.update("framingNode", node);
+  }
+  yield tx.update("framing", { id: args.framingId, updatedAt: args.updatedAt });
+});
+
+const createFramingEdge = shared(createFramingEdgeArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const frame = (yield tx.row("framing", { id: args.edge.framingId })) as Record<string, unknown> | undefined;
+  if (!frame) throw new Error("Framing not found.");
+  if (frame.authorId !== authorId) throw new Error("Only the framing author can connect nodes.");
+  const source = (yield tx.row("framingNode", { id: args.edge.sourceNodeId })) as Record<string, unknown> | undefined;
+  const target = (yield tx.row("framingNode", { id: args.edge.targetNodeId })) as Record<string, unknown> | undefined;
+  if (!source || source.framingId !== args.edge.framingId || !target || target.framingId !== args.edge.framingId) {
+    throw new Error("Both edge endpoints must belong to this framing.");
+  }
+  yield tx.insert("framingEdge", args.edge);
+  yield tx.update("framing", { id: args.edge.framingId, updatedAt: args.updatedAt });
+});
+
+const updateFramingEdge = shared(updateFramingEdgeArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const frame = (yield tx.row("framing", { id: args.framingId })) as Record<string, unknown> | undefined;
+  if (!frame) throw new Error("Framing not found.");
+  if (frame.authorId !== authorId) throw new Error("Only the framing author can label edges.");
+  const edge = (yield tx.row("framingEdge", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!edge || edge.framingId !== args.framingId) throw new Error("Framing edge not found.");
+  yield tx.update("framingEdge", { id: args.id, label: args.label });
+  yield tx.update("framing", { id: args.framingId, updatedAt: args.updatedAt });
+});
+
+const deleteFramingEdge = shared(deleteFramingEdgeArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const frame = (yield tx.row("framing", { id: args.framingId })) as Record<string, unknown> | undefined;
+  if (!frame) throw new Error("Framing not found.");
+  if (frame.authorId !== authorId) throw new Error("Only the framing author can delete edges.");
+  const edge = (yield tx.row("framingEdge", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!edge || edge.framingId !== args.framingId) throw new Error("Framing edge not found.");
+  yield tx.delete("framingEdge", { id: args.id });
+  yield tx.update("framing", { id: args.framingId, updatedAt: args.updatedAt });
+});
+
+/** Import is one replayable transaction. The browser supplies fresh row ids after validating the
+ * JSON. Polymorphic targets intentionally remain loose: an export can be restored before all of its
+ * referenced content has been migrated, and the live query fills those nodes when targets appear. */
+const importFraming = shared(importFramingArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  for (const node of args.nodes) {
+    if (node.itemType === "framing" && node.itemId === args.framing.id) {
+      throw new Error("A framing cannot contain itself.");
+    }
+  }
+  yield tx.insert("framing", { ...args.framing, authorId });
+  for (const node of args.nodes) yield tx.insert("framingNode", node);
+  for (const edge of args.edges) yield tx.insert("framingEdge", edge);
+});
+
 /** Delete a thought and its reply subtree without relying on foreign-key cascades. Structured rows
  * that became independently editable in the legacy final model (tasks/projects) retain their row and
  * lose only thought provenance; derived child records are deleted. Loose project-item references are
@@ -1036,5 +1353,15 @@ export const mutators = {
   updateTaskState,
   updateQuestionState,
   updateProjectStatus,
+  createFraming,
+  updateFraming,
+  deleteFraming,
+  addFramingNode,
+  removeFramingNode,
+  updateFramingNodes,
+  createFramingEdge,
+  updateFramingEdge,
+  deleteFramingEdge,
+  importFraming,
   deleteThought,
 } satisfies ClientRegistry;

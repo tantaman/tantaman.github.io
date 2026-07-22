@@ -40,6 +40,16 @@ import {
   thoughtsQuery,
 } from "../src/components/ThoughtCard.queries.ts";
 import { thoughtEnrichmentQueries } from "../src/components/ThoughtEnrichment.queries.ts";
+import {
+  framingAdminQuery,
+  framingAdminThoughtConnectionsQuery,
+  framingAdminThoughtsQuery,
+  framingPostsQuery,
+  framingQuery,
+  framingThoughtConnectionsQuery,
+  framingThoughtsQuery,
+  framingsQuery,
+} from "../src/components/Framing.queries.ts";
 
 /** The authority's principal is the verified identity (or undefined when anonymous). Public post
  * reads accept either; private authoring reads and every mutation require the administrator. */
@@ -81,6 +91,14 @@ const apiQueries = registerQueries<User>([
   thoughtAdminRepliesQuery,
   thoughtAdminQuery,
   ...thoughtEnrichmentQueries,
+  framingsQuery,
+  framingQuery,
+  framingAdminQuery,
+  framingThoughtsQuery,
+  framingAdminThoughtsQuery,
+  framingPostsQuery,
+  framingThoughtConnectionsQuery,
+  framingAdminThoughtConnectionsQuery,
 ]);
 
 function publisherPrincipal(ctx: MutationContext<User>) {
@@ -147,7 +165,7 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
     queries: apiQueries,
     mutators: apiMutators,
     authorizeQuery: ({ name, user }) =>
-      (!name.startsWith("postEditor") && !name.startsWith("thoughtAdmin")) || canPublish(user),
+      (!name.startsWith("postEditor") && !name.startsWith("thoughtAdmin") && !name.startsWith("framingAdmin")) || canPublish(user),
     authorizeMutation: ({ user }) => {
       requireAccount(user);
       return true;

@@ -30,6 +30,8 @@ import { Route as ApiAuthDevLoginRouteImport } from './routes/api.auth.dev-login
 import { Route as ApiRindleMutateRouteImport } from './routes/api.rindle.mutate'
 import { Route as ApiRindleQueryRouteImport } from './routes/api.rindle.query'
 import { Route as ApiRindleReadRouteImport } from './routes/api.rindle.read'
+import { Route as ThoughtsFramingsIndexRouteImport } from './routes/thoughts.framings.index'
+import { Route as ThoughtsFramingsIdRouteImport } from './routes/thoughts.framings.$id'
 
 const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
@@ -135,6 +137,16 @@ const ApiRindleReadRoute = ApiRindleReadRouteImport.update({
   path: '/api/rindle/read',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThoughtsFramingsIndexRoute = ThoughtsFramingsIndexRouteImport.update({
+  id: '/framings/',
+  path: '/framings/',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
+const ThoughtsFramingsIdRoute = ThoughtsFramingsIdRouteImport.update({
+  id: '/framings/$id',
+  path: '/framings/$id',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
@@ -157,6 +169,8 @@ export interface FileRoutesByFullPath {
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
+  '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -178,6 +192,8 @@ export interface FileRoutesByTo {
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
+  '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/thoughts/framings': typeof ThoughtsFramingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -202,6 +218,8 @@ export interface FileRoutesById {
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
+  '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -226,6 +244,8 @@ export interface FileRouteTypes {
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
+    | '/thoughts/framings/$id'
+    | '/thoughts/framings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -247,6 +267,8 @@ export interface FileRouteTypes {
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
+    | '/thoughts/framings/$id'
+    | '/thoughts/framings'
   id:
     | '__root__'
     | '/_shell'
@@ -270,6 +292,8 @@ export interface FileRouteTypes {
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
+    | '/thoughts/framings/$id'
+    | '/thoughts/framings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -432,6 +456,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRindleReadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thoughts/framings/': {
+      id: '/thoughts/framings/'
+      path: '/framings'
+      fullPath: '/thoughts/framings/'
+      preLoaderRoute: typeof ThoughtsFramingsIndexRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
+    '/thoughts/framings/$id': {
+      id: '/thoughts/framings/$id'
+      path: '/framings/$id'
+      fullPath: '/thoughts/framings/$id'
+      preLoaderRoute: typeof ThoughtsFramingsIdRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
   }
 }
 
@@ -460,6 +498,8 @@ interface ThoughtsRouteChildren {
   ThoughtsQuestionsRoute: typeof ThoughtsQuestionsRoute
   ThoughtsTasksRoute: typeof ThoughtsTasksRoute
   ThoughtsIndexRoute: typeof ThoughtsIndexRoute
+  ThoughtsFramingsIdRoute: typeof ThoughtsFramingsIdRoute
+  ThoughtsFramingsIndexRoute: typeof ThoughtsFramingsIndexRoute
 }
 
 const ThoughtsRouteChildren: ThoughtsRouteChildren = {
@@ -473,6 +513,8 @@ const ThoughtsRouteChildren: ThoughtsRouteChildren = {
   ThoughtsQuestionsRoute: ThoughtsQuestionsRoute,
   ThoughtsTasksRoute: ThoughtsTasksRoute,
   ThoughtsIndexRoute: ThoughtsIndexRoute,
+  ThoughtsFramingsIdRoute: ThoughtsFramingsIdRoute,
+  ThoughtsFramingsIndexRoute: ThoughtsFramingsIndexRoute,
 }
 
 const ThoughtsRouteWithChildren = ThoughtsRoute._addFileChildren(
