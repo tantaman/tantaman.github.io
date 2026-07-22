@@ -165,21 +165,30 @@ function optionalText(value) {
   return value === null || value === undefined ? null : String(value);
 }
 
-function numberValue(value, label, fallback) {
-  if (value === null || value === undefined || value === "") {
-    if (fallback !== undefined) return fallback;
-    throw new Error(`${label} must be a finite number.`);
-  }
+function parsedNumber(value) {
+  if (value === null || value === undefined || value === "") return null;
   const number = Number(value);
   if (Number.isFinite(number)) return number;
+  if (typeof value === "string") {
+    // SQLite's type affinity is deliberately permissive. Several legacy INTEGER timestamp columns
+    // contain UTC values produced by datetime('now'), e.g. "2026-02-26 12:26:29". Normalize that
+    // exact SQLite form before Date.parse so the machine's local timezone cannot shift the import.
+    const sqliteUtc = /^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}(?:\.\d+)?)$/.exec(value.trim());
+    const epochMs = Date.parse(sqliteUtc ? `${sqliteUtc[1]}T${sqliteUtc[2]}Z` : value);
+    if (Number.isFinite(epochMs)) return epochMs / 1_000;
+  }
+  return null;
+}
+
+function numberValue(value, label, fallback) {
+  const number = parsedNumber(value);
+  if (number !== null) return number;
   if (fallback !== undefined) return fallback;
   throw new Error(`${label} must be a finite number.`);
 }
 
 function optionalNumber(value) {
-  if (value === null || value === undefined || value === "") return null;
-  const number = Number(value);
-  return Number.isFinite(number) ? number : null;
+  return parsedNumber(value);
 }
 
 function stableId(...parts) {
@@ -203,8 +212,8 @@ function metadataState(values) {
   return [ready ? "ready" : "pending", ready ? LEGACY_PROJECTION : null];
 }
 
-function uniqueEntities(rows, keyOf) {
-  const canonicalByKey = new Map();
+function uniqueEntities(rows, keyOf, existingByKey = new Map()) {
+  const canonicalByKey = new Map(existingByKey);
   const canonicalIdById = new Map();
   const canonicalRows = [];
   for (const input of rows) {
@@ -223,6 +232,50 @@ function uniqueEntities(rows, keyOf) {
   return { rows: canonicalRows, canonicalIdById };
 }
 
+function emptyExistingEntities() {
+  return {
+    tags: new Map(),
+    movies: new Map(),
+    albums: new Map(),
+    bookmarks: new Map(),
+    amplifications: new Map(),
+  };
+}
+
+function naturalIdMap(rows, keyColumn) {
+  const values = new Map();
+  for (const row of rows) {
+    if (!row || typeof row !== "object") continue;
+    const rowId = optionalId(row.id);
+    const key = optionalText(row[keyColumn])?.trim();
+    if (rowId && key) values.set(key, rowId);
+  }
+  return values;
+}
+
+function resultObjects(result) {
+  const columns = result.columns.map((column) => column.name);
+  return result.rows.map((values) => Object.fromEntries(columns.map((column, index) => [column, values[index]])));
+}
+
+async function loadExistingEntities(sql) {
+  const { results } = await sql.batch([
+    { sql: `SELECT "id", "normalizedName" FROM "tag"`, wantRows: true },
+    { sql: `SELECT "id", "normalizedTitle" FROM "movie"`, wantRows: true },
+    { sql: `SELECT "id", "normalizedTitle" FROM "album"`, wantRows: true },
+    { sql: `SELECT "id", "url" FROM "bookmark"`, wantRows: true },
+    { sql: `SELECT "id", "url" FROM "amplification"`, wantRows: true },
+  ], { consistency: "strong" });
+  const [tags, movies, albums, bookmarks, amplifications] = results.map(resultObjects);
+  return {
+    tags: naturalIdMap(tags, "normalizedName"),
+    movies: naturalIdMap(movies, "normalizedTitle"),
+    albums: naturalIdMap(albums, "normalizedTitle"),
+    bookmarks: naturalIdMap(bookmarks, "url"),
+    amplifications: naturalIdMap(amplifications, "url"),
+  };
+}
+
 function positions(rows, ownerKey) {
   const next = new Map();
   return rows.map((row) => {
@@ -233,7 +286,7 @@ function positions(rows, ownerKey) {
   });
 }
 
-function buildTables(source, authorId) {
+function buildTables(source, authorId, existing = emptyExistingEntities()) {
   const sourceThoughtById = new Map(
     source.thoughts.map((input) => {
       const row = rowObject(input, "thought");
@@ -261,9 +314,23 @@ function buildTables(source, authorId) {
     ]),
   );
 
-  const tagEntities = uniqueEntities(source.tags, (row) => textValue(row.name, "tag name").toLowerCase());
-  const movieEntities = uniqueEntities(source.movies, normalizedTitle);
-  const albumEntities = uniqueEntities(source.albums, normalizedTitle);
+  const tagEntities = uniqueEntities(
+    source.tags,
+    (row) => textValue(row.name, "tag name").trim().toLowerCase(),
+    existing.tags,
+  );
+  const movieEntities = uniqueEntities(source.movies, normalizedTitle, existing.movies);
+  const albumEntities = uniqueEntities(source.albums, normalizedTitle, existing.albums);
+  const bookmarkEntities = uniqueEntities(
+    source.bookmarks,
+    (row) => textValue(row.url, "bookmark url").trim(),
+    existing.bookmarks,
+  );
+  const amplificationEntities = uniqueEntities(
+    source.amplifications,
+    (row) => textValue(row.url, "amplification url").trim(),
+    existing.amplifications,
+  );
   const attachmentPositions = positions(source.thoughtAttachments, "thought_id");
   const tagPositions = positions(source.thoughtTags, "thought_id");
   const projectAttachmentPositions = positions(source.projectAttachments, "project_id");
@@ -340,7 +407,8 @@ function buildTables(source, authorId) {
   }));
 
   add("tag", ["id", "name", "normalizedName"], tagEntities.rows.map((row) => [
-    id(row.id, "tag"), textValue(row.name, "tag name"), textValue(row.name, "tag name").toLowerCase(),
+    tagEntities.canonicalIdById.get(id(row.id, "tag")) ?? id(row.id, "tag"),
+    textValue(row.name, "tag name"), textValue(row.name, "tag name").trim().toLowerCase(),
   ]));
 
   const seenThoughtTags = new Set();
@@ -461,7 +529,8 @@ function buildTables(source, authorId) {
   ], movieEntities.rows.map((row) => {
     const projection = metadataState([row.poster_url, row.year, row.tmdb_id, row.vote_average, row.vote_count]);
     return [
-      id(row.id, "movie"), textValue(row.title, "movie title"), normalizedTitle(row),
+      movieEntities.canonicalIdById.get(id(row.id, "movie")) ?? id(row.id, "movie"),
+      textValue(row.title, "movie title"), normalizedTitle(row),
       optionalText(row.description), optionalText(row.poster_url), optionalText(row.year),
       optionalNumber(row.tmdb_id), optionalNumber(row.vote_average), optionalNumber(row.vote_count),
       projection[0], projection[1], numberValue(row.created_at, "movie created_at"),
@@ -505,7 +574,8 @@ function buildTables(source, authorId) {
   ], albumEntities.rows.map((row) => {
     const projection = metadataState([row.artist, row.year, row.cover_url, row.itunes_id, row.genre]);
     return [
-      id(row.id, "album"), textValue(row.title, "album title"), normalizedTitle(row),
+      albumEntities.canonicalIdById.get(id(row.id, "album")) ?? id(row.id, "album"),
+      textValue(row.title, "album title"), normalizedTitle(row),
       optionalText(row.artist), optionalText(row.year), optionalText(row.cover_url),
       optionalNumber(row.itunes_id), optionalText(row.genre), projection[0], projection[1],
       numberValue(row.created_at, "album created_at"),
@@ -532,11 +602,11 @@ function buildTables(source, authorId) {
   add("bookmark", [
     "id", "url", "title", "imageUrl", "description", "siteName", "metadataStatus",
     "metadataProjectionVersion", "createdAt",
-  ], source.bookmarks.map((input) => {
-    const row = rowObject(input, "bookmark");
+  ], bookmarkEntities.rows.map((row) => {
     const projection = metadataState([row.title, row.image_url, row.description, row.site_name]);
     return [
-      id(row.id, "bookmark"), textValue(row.url, "bookmark url"), optionalText(row.title),
+      bookmarkEntities.canonicalIdById.get(id(row.id, "bookmark")) ?? id(row.id, "bookmark"),
+      textValue(row.url, "bookmark url"), optionalText(row.title),
       optionalText(row.image_url), optionalText(row.description), optionalText(row.site_name),
       projection[0], projection[1], numberValue(row.created_at, "bookmark created_at"),
     ];
@@ -547,7 +617,8 @@ function buildTables(source, authorId) {
   ], source.thoughtBookmarks.map((input) => {
     const row = rowObject(input, "thought bookmark");
     const thoughtId = id(row.thought_id, "thought bookmark thought");
-    const bookmarkId = id(row.bookmark_id, "thought bookmark bookmark");
+    const sourceBookmarkId = id(row.bookmark_id, "thought bookmark bookmark");
+    const bookmarkId = bookmarkEntities.canonicalIdById.get(sourceBookmarkId) ?? sourceBookmarkId;
     const thought = sourceThoughtById.get(thoughtId);
     return [
       stableId("thoughtBookmark", thoughtId, bookmarkId), thoughtId, bookmarkId,
@@ -558,11 +629,11 @@ function buildTables(source, authorId) {
   add("amplification", [
     "id", "url", "source", "note", "title", "imageUrl", "description", "siteName",
     "metadataStatus", "metadataProjectionVersion", "createdAt",
-  ], source.amplifications.map((input) => {
-    const row = rowObject(input, "amplification");
+  ], amplificationEntities.rows.map((row) => {
     const projection = metadataState([row.title, row.image_url, row.description, row.site_name]);
     return [
-      id(row.id, "amplification"), textValue(row.url, "amplification url"),
+      amplificationEntities.canonicalIdById.get(id(row.id, "amplification")) ?? id(row.id, "amplification"),
+      textValue(row.url, "amplification url"),
       textValue(row.source, "amplification source"), optionalText(row.note), optionalText(row.title),
       optionalText(row.image_url), optionalText(row.description), optionalText(row.site_name),
       projection[0], projection[1], numberValue(row.created_at, "amplification created_at"),
@@ -710,8 +781,8 @@ async function main() {
   }
 
   const source = await loadSource();
-  const tables = buildTables(source, authorId);
   if (process.env.THOUGHT_IMPORT_DRY_RUN === "1") {
+    const tables = buildTables(source, authorId);
     printSummary(tables, "Validated");
     return;
   }
@@ -725,6 +796,12 @@ async function main() {
   }
 
   const sql = createSqlClient({ url, authToken });
+  const existing = await loadExistingEntities(sql);
+  const tables = buildTables(source, authorId, existing);
+  const reused = Object.values(existing).reduce((count, rows) => count + rows.size, 0);
+  if (reused > 0) {
+    console.log(`Reconciled against ${reused} existing natural-key entities in Rindle.`);
+  }
   let written = 0;
   const total = tables.reduce((count, table) => count + table.rows.length, 0);
   for (const table of tables) {
