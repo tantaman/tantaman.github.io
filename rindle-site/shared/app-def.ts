@@ -70,21 +70,30 @@ export const relationships = defineRelationships({
   thoughtOutboundEdges: rel(thought, thoughtEdge, { id: "sourceId" }),
   thoughtInboundEdges: rel(thought, thoughtEdge, { id: "targetId" }),
   thoughtTasks: rel(thought, task, { id: "thoughtId" }),
+  taskThought: rel(task, thought, { thoughtId: "id" }),
   thoughtEvents: rel(thought, event, { id: "thoughtId" }),
+  eventThought: rel(event, thought, { thoughtId: "id" }),
   thoughtQuestions: rel(thought, question, { id: "thoughtId" }),
+  questionThought: rel(question, thought, { thoughtId: "id" }),
   thoughtLocations: rel(thought, location, { id: "thoughtId" }),
+  locationThought: rel(location, thought, { thoughtId: "id" }),
   thoughtBooks: rel(thought, book, { id: "thoughtId" }),
+  bookThought: rel(book, thought, { thoughtId: "id" }),
   thoughtMovieLinks: rel(thought, thoughtMovie, { id: "thoughtId" }),
+  thoughtMovieThought: rel(thoughtMovie, thought, { thoughtId: "id" }),
   movieThoughtLinks: rel(movie, thoughtMovie, { id: "movieId" }),
   thoughtMovieProfile: rel(thoughtMovie, movie, { movieId: "id" }),
   thoughtAlbumLinks: rel(thought, thoughtAlbum, { id: "thoughtId" }),
+  thoughtAlbumThought: rel(thoughtAlbum, thought, { thoughtId: "id" }),
   albumThoughtLinks: rel(album, thoughtAlbum, { id: "albumId" }),
   thoughtAlbumProfile: rel(thoughtAlbum, album, { albumId: "id" }),
   thoughtBookmarkLinks: rel(thought, thoughtBookmark, { id: "thoughtId" }),
   bookmarkThoughtLinks: rel(bookmark, thoughtBookmark, { id: "bookmarkId" }),
   thoughtBookmarkProfile: rel(thoughtBookmark, bookmark, { bookmarkId: "id" }),
   thoughtProjects: rel(thought, project, { id: "thoughtId" }),
+  projectThought: rel(project, thought, { thoughtId: "id" }),
   projectTasks: rel(project, task, { id: "projectId" }),
+  taskProject: rel(task, project, { projectId: "id" }),
   taskBlockedBy: rel(task, taskDependency, { id: "blockedTaskId" }),
   taskBlocks: rel(task, taskDependency, { id: "blockerTaskId" }),
   projectComments: rel(project, projectComment, { id: "projectId" }),
@@ -193,6 +202,43 @@ const thoughtEdgeArg = z.object({
   createdAt: timestamp,
 });
 
+const structuredTitle = z.string().trim().min(1).max(2_000);
+const structuredDescription = nullableText(100_000);
+const titledEnrichmentArg = z.object({
+  id: stableId,
+  title: structuredTitle,
+  description: structuredDescription,
+  createdAt: timestamp,
+});
+const eventEnrichmentArg = titledEnrichmentArg.extend({
+  dateText: z.string().trim().min(1).max(100),
+  dateEpoch: timestamp,
+});
+const locationEnrichmentArg = titledEnrichmentArg.extend({
+  sourceRevision: revision,
+});
+const normalizedMediaEnrichmentArg = titledEnrichmentArg.extend({
+  linkId: stableId,
+  normalizedTitle: z.string().trim().min(1).max(2_000),
+});
+const taskDependencyArg = z.object({
+  id: stableId,
+  blockerTaskId: stableId,
+  blockedTaskId: stableId,
+  createdAt: timestamp,
+});
+const thoughtEnrichmentArgs = z.object({
+  projects: z.array(titledEnrichmentArg).max(200),
+  tasks: z.array(titledEnrichmentArg).max(200),
+  taskDependencies: z.array(taskDependencyArg).max(10_000),
+  events: z.array(eventEnrichmentArg).max(200),
+  questions: z.array(titledEnrichmentArg).max(200),
+  locations: z.array(locationEnrichmentArg).max(200),
+  movies: z.array(normalizedMediaEnrichmentArg).max(200),
+  books: z.array(titledEnrichmentArg).max(200),
+  albums: z.array(normalizedMediaEnrichmentArg).max(200),
+});
+
 const createThoughtArgs = z
   .object({
     thought: z.object({
@@ -208,6 +254,7 @@ const createThoughtArgs = z
     tags: z.array(thoughtTagArg).max(200),
     attachments: z.array(thoughtAttachmentArg).max(100),
     edges: z.array(thoughtEdgeArg).max(500),
+    enrichments: thoughtEnrichmentArgs,
   })
   .superRefine((args, ctx) => {
     if (args.thought.updatedAt !== args.thought.createdAt) {
@@ -223,6 +270,23 @@ const createThoughtArgs = z
         const id = rows[index].id;
         if (ids.has(id)) ctx.addIssue({ code: "custom", path: [group, index, "id"], message: "Row ids must be unique within a thought mutation." });
         ids.add(id);
+      }
+    }
+    for (const [group, rows] of Object.entries(args.enrichments)) {
+      for (let index = 0; index < rows.length; index++) {
+        const row = rows[index] as { id: string; linkId?: string };
+        for (const field of ["id", "linkId"] as const) {
+          const id = field in row ? row[field] : undefined;
+          if (typeof id !== "string") continue;
+          if (ids.has(id)) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["enrichments", group, index, field],
+              message: "Row ids must be unique within a thought mutation.",
+            });
+          }
+          ids.add(id);
+        }
       }
     }
     const tagIds = new Set<string>();
@@ -243,6 +307,50 @@ const createThoughtArgs = z
       const key = `${input.targetId}\u0000${input.kind}`;
       if (edgeKeys.has(key)) ctx.addIssue({ code: "custom", path: ["edges", index], message: "Duplicate thought edge." });
       edgeKeys.add(key);
+    }
+    const taskIds = new Set(args.enrichments.tasks.map((row) => row.id));
+    const dependencyKeys = new Set<string>();
+    for (let index = 0; index < args.enrichments.taskDependencies.length; index++) {
+      const dependency = args.enrichments.taskDependencies[index];
+      if (!taskIds.has(dependency.blockedTaskId)) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["enrichments", "taskDependencies", index, "blockedTaskId"],
+          message: "A captured dependency must target a task in the same mutation.",
+        });
+      }
+      const key = `${dependency.blockerTaskId}\u0000${dependency.blockedTaskId}`;
+      if (dependencyKeys.has(key)) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["enrichments", "taskDependencies", index],
+          message: "Duplicate captured task dependency.",
+        });
+      }
+      dependencyKeys.add(key);
+    }
+    for (let index = 0; index < args.enrichments.locations.length; index++) {
+      if (args.enrichments.locations[index].sourceRevision !== args.thought.contentRevision) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["enrichments", "locations", index, "sourceRevision"],
+          message: "Location sourceRevision must match the thought content revision.",
+        });
+      }
+    }
+    for (const group of ["movies", "albums"] as const) {
+      const normalizedTitles = new Set<string>();
+      for (let index = 0; index < args.enrichments[group].length; index++) {
+        const normalizedTitle = args.enrichments[group][index].normalizedTitle;
+        if (normalizedTitles.has(normalizedTitle)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["enrichments", group, index, "normalizedTitle"],
+            message: "A normalized media title may occur only once per thought.",
+          });
+        }
+        normalizedTitles.add(normalizedTitle);
+      }
     }
   });
 export type CreateThoughtArgs = z.infer<typeof createThoughtArgs>;
@@ -283,6 +391,23 @@ export type EditThoughtArgs = z.infer<typeof editThoughtArgs>;
 
 const deleteThoughtArgs = z.object({ id: stableId });
 export type DeleteThoughtArgs = z.infer<typeof deleteThoughtArgs>;
+const updateTaskStateArgs = z.object({
+  id: stableId,
+  completedAt: timestamp.nullable().optional(),
+  deprioritizedAt: timestamp.nullable().optional(),
+}).refine(
+  (args) => args.completedAt !== undefined || args.deprioritizedAt !== undefined,
+  "At least one task state field is required.",
+);
+const updateQuestionStateArgs = z.object({
+  id: stableId,
+  answeredAt: timestamp.nullable(),
+});
+const updateProjectStatusArgs = z.object({
+  id: stableId,
+  status: z.enum(["draft", "active", "archived"]),
+  archivedAt: timestamp.nullable(),
+});
 
 const { shared } = defineMutators(schema);
 
@@ -380,6 +505,175 @@ const createThought = shared(createThoughtArgs, function* (tx, args, ctx) {
     colorProjectionVersion: null,
     colorStatus: "pending",
   });
+
+  // A `#p` capture starts as a draft. Projects are inserted before tasks so inline `#t` rows can
+  // join the new draft in the same optimistic/server transaction.
+  for (const input of args.enrichments.projects) {
+    yield tx.insert("project", {
+      ...input,
+      thoughtId: args.thought.id,
+      authorId,
+      status: "draft",
+      archivedAt: null,
+      private: args.thought.private,
+    });
+  }
+
+  // Drafts absorb task captures from their own root thought and from descendants. Converted
+  // projects are deliberately sealed. The ancestry walk is replay-safe and bounded; it uses only
+  // rows visible in the transaction, so server and optimistic rebases converge without a trigger.
+  let capturedProjectId = args.enrichments.projects[0]?.id ?? null;
+  let ancestorId = capturedProjectId === null ? args.thought.parentId : null;
+  let ancestorHops = 0;
+  while (capturedProjectId === null && ancestorId !== null && ancestorHops++ < 200) {
+    const draftRows = queryRows(
+      (yield tx.query(
+        q.project
+          .where.thoughtId(ancestorId)
+          .where.status("draft")
+          .orderBy("id", "asc")
+          .limit(1),
+      )) as unknown,
+      "ancestor draft projects",
+    );
+    const draftId = draftRows[0]?.id;
+    if (typeof draftId === "string") {
+      capturedProjectId = draftId;
+      break;
+    }
+    const ancestor = (yield tx.row("thought", { id: ancestorId })) as Record<string, unknown> | undefined;
+    ancestorId = typeof ancestor?.parentId === "string" ? ancestor.parentId : null;
+  }
+
+  for (const input of args.enrichments.tasks) {
+    yield tx.insert("task", {
+      ...input,
+      thoughtId: args.thought.id,
+      projectId: capturedProjectId,
+      completedAt: null,
+      deprioritizedAt: null,
+      position: null,
+      private: args.thought.private,
+    });
+  }
+
+  // The composer supplies ids for the exact parent-task × captured-task edges it saw. Re-check the
+  // provenance and project membership inside the mutation: a stale parent view simply omits an edge
+  // rather than rejecting the thought.
+  for (const input of args.enrichments.taskDependencies) {
+    const blocker = (yield tx.row("task", { id: input.blockerTaskId })) as Record<string, unknown> | undefined;
+    const blocked = (yield tx.row("task", { id: input.blockedTaskId })) as Record<string, unknown> | undefined;
+    if (
+      !blocker ||
+      !blocked ||
+      blocker.thoughtId !== args.thought.parentId ||
+      blocked.thoughtId !== args.thought.id ||
+      typeof blocker.projectId !== "string" ||
+      blocker.projectId !== blocked.projectId
+    ) {
+      continue;
+    }
+    yield tx.insertIgnore("taskDependency", input);
+  }
+
+  for (const input of args.enrichments.events) {
+    yield tx.insert("event", { ...input, thoughtId: args.thought.id });
+  }
+  for (const input of args.enrichments.questions) {
+    yield tx.insert("question", {
+      ...input,
+      thoughtId: args.thought.id,
+      answeredAt: null,
+    });
+  }
+  for (const input of args.enrichments.locations) {
+    yield tx.insert("location", {
+      ...input,
+      thoughtId: args.thought.id,
+      latitude: null,
+      longitude: null,
+      resolvedName: null,
+      resolutionRevision: null,
+      resolutionStatus: "pending",
+    });
+  }
+  for (const input of args.enrichments.movies) {
+    const existingRows = queryRows(
+      (yield tx.query(
+        q.movie.where.normalizedTitle(input.normalizedTitle).orderBy("id", "asc").limit(1),
+      )) as unknown,
+      "normalized movie",
+    );
+    const existingId = existingRows[0]?.id;
+    const movieId = typeof existingId === "string" ? existingId : input.id;
+    if (typeof existingId !== "string") {
+      yield tx.insert("movie", {
+        id: input.id,
+        title: input.title,
+        normalizedTitle: input.normalizedTitle,
+        description: input.description,
+        posterUrl: null,
+        year: null,
+        tmdbId: null,
+        voteAverage: null,
+        voteCount: null,
+        metadataStatus: "pending",
+        metadataProjectionVersion: null,
+        createdAt: input.createdAt,
+      });
+    }
+    yield tx.insert("thoughtMovie", {
+      id: input.linkId,
+      thoughtId: args.thought.id,
+      movieId,
+      description: input.description,
+      createdAt: input.createdAt,
+    });
+  }
+  for (const input of args.enrichments.books) {
+    yield tx.insert("book", {
+      ...input,
+      thoughtId: args.thought.id,
+      coverUrl: null,
+      author: null,
+      year: null,
+      openLibraryKey: null,
+      metadataStatus: "pending",
+      metadataProjectionVersion: null,
+    });
+  }
+  for (const input of args.enrichments.albums) {
+    const existingRows = queryRows(
+      (yield tx.query(
+        q.album.where.normalizedTitle(input.normalizedTitle).orderBy("id", "asc").limit(1),
+      )) as unknown,
+      "normalized album",
+    );
+    const existingId = existingRows[0]?.id;
+    const albumId = typeof existingId === "string" ? existingId : input.id;
+    if (typeof existingId !== "string") {
+      yield tx.insert("album", {
+        id: input.id,
+        title: input.title,
+        normalizedTitle: input.normalizedTitle,
+        artist: null,
+        year: null,
+        coverUrl: null,
+        itunesId: null,
+        genre: null,
+        metadataStatus: "pending",
+        metadataProjectionVersion: null,
+        createdAt: input.createdAt,
+      });
+    }
+    yield tx.insert("thoughtAlbum", {
+      id: input.linkId,
+      thoughtId: args.thought.id,
+      albumId,
+      description: input.description,
+      createdAt: input.createdAt,
+    });
+  }
 
   for (const input of args.tags) {
     yield tx.insertIgnore("tag", {
@@ -495,6 +789,35 @@ const editThought = shared(editThoughtArgs, function* (tx, args, ctx) {
   for (const input of args.attachments) {
     yield tx.insert("thoughtAttachment", { ...input, thoughtId: args.id });
   }
+});
+
+/** Structured records outlive body edits and are curated directly after capture. */
+const updateTaskState = shared(updateTaskStateArgs, function* (tx, args, ctx) {
+  requireMutationUser(ctx.user);
+  const current = (yield tx.row("task", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!current) throw new Error("Task not found.");
+  yield tx.update("task", {
+    id: args.id,
+    ...(args.completedAt !== undefined ? { completedAt: args.completedAt } : {}),
+    ...(args.deprioritizedAt !== undefined ? { deprioritizedAt: args.deprioritizedAt } : {}),
+  });
+});
+
+const updateQuestionState = shared(updateQuestionStateArgs, function* (tx, args, ctx) {
+  requireMutationUser(ctx.user);
+  const current = (yield tx.row("question", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!current) throw new Error("Question not found.");
+  yield tx.update("question", args);
+});
+
+const updateProjectStatus = shared(updateProjectStatusArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const current = (yield tx.row("project", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!current) throw new Error("Project not found.");
+  if (current.authorId !== authorId) throw new Error("Only the project author can update it.");
+  if (args.status === "archived" && args.archivedAt === null) throw new Error("Archived projects need an archive timestamp.");
+  if (args.status !== "archived" && args.archivedAt !== null) throw new Error("Only archived projects may have an archive timestamp.");
+  yield tx.update("project", args);
 });
 
 /** Delete a thought and its reply subtree without relying on foreign-key cascades. Structured rows
@@ -635,5 +958,8 @@ export const mutators = {
   deletePost,
   createThought,
   editThought,
+  updateTaskState,
+  updateQuestionState,
+  updateProjectStatus,
   deleteThought,
 } satisfies ClientRegistry;

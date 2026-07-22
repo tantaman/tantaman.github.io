@@ -14,6 +14,7 @@ import {
   extractThoughtTags,
   hashThoughtBody,
   renderThoughtMarkdown,
+  thoughtEnrichmentArgs,
   thoughtTagArgs,
 } from "../lib/thoughts.ts";
 import { app } from "../rindle-client.ts";
@@ -22,6 +23,7 @@ export type EditableThought = Pick<Thought, "id" | "body" | "version" | "private
 
 interface ThoughtComposerProps {
   parentId?: string;
+  parentTaskIds?: readonly string[];
   initial?: EditableThought;
   defaultPrivate?: boolean;
   placeholder?: string;
@@ -34,6 +36,7 @@ interface ThoughtComposerProps {
 
 export function ThoughtComposer({
   parentId,
+  parentTaskIds,
   initial,
   defaultPrivate = false,
   placeholder,
@@ -118,6 +121,9 @@ export function ThoughtComposer({
         tags: thoughtTagArgs(trimmed),
         attachments: [],
         edges: [],
+        enrichments: thoughtEnrichmentArgs(trimmed, now, contentRevision, {
+          taskIds: parentTaskIds ?? [],
+        }),
       });
       setBody("");
       setPreviewing(false);
@@ -173,7 +179,7 @@ export function ThoughtComposer({
           value={body}
           autoFocus={autoFocus}
           spellCheck
-          placeholder={placeholder ?? (parentId ? "Write a reply…" : "What are you thinking? Markdown and #tags work here.")}
+          placeholder={placeholder ?? (parentId ? "Write a reply…" : "What are you thinking? Try #t, #p, #q, #e, #l, #b, #m, or #a at the start of a line.")}
           aria-describedby={hintId}
           onChange={(event) => setBody(event.target.value)}
           onKeyDown={submitFromKeyboard}
@@ -187,7 +193,7 @@ export function ThoughtComposer({
       ) : null}
 
       <div className="thought-composer-footer">
-        <p id={hintId}>Markdown · Cmd/Ctrl + Enter to submit</p>
+        <p id={hintId}>Markdown · structured line tags · Cmd/Ctrl + Enter</p>
         <label className="thought-private-toggle">
           <input
             type="checkbox"

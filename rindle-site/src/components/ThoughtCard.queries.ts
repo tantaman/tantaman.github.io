@@ -108,6 +108,12 @@ export const thoughtQuery = defineQuery("thought", (raw) => thoughtIdArgs.parse(
     .sub("history", relationships.thoughtHistory, (history) =>
       history.orderBy("version", "desc").orderBy("id", "asc").limit(500),
     )
+    .sub("tasks", relationships.thoughtTasks, (task) =>
+      task.orderBy("id", "asc").limit(200).select("id", "projectId"),
+    )
+    .sub("projects", relationships.thoughtProjects, (project) =>
+      project.orderBy("id", "asc").limit(200).select("id", "status"),
+    )
     .sub("replies", relationships.thoughtReplies, (reply) =>
       reply
         .where.private(0)
@@ -157,6 +163,12 @@ export const thoughtAdminQuery = defineQuery(
       )
       .sub("history", relationships.thoughtHistory, (history) =>
         history.orderBy("version", "desc").orderBy("id", "asc").limit(500),
+      )
+      .sub("tasks", relationships.thoughtTasks, (task) =>
+        task.orderBy("id", "asc").limit(200).select("id", "projectId"),
+      )
+      .sub("projects", relationships.thoughtProjects, (project) =>
+        project.orderBy("id", "asc").limit(200).select("id", "status"),
       )
       .sub("replies", relationships.thoughtReplies, (reply) =>
         reply

@@ -1,6 +1,11 @@
 import { ulid } from "ulid";
 
 import type { CreateThoughtArgs } from "../../shared/app-def.ts";
+import {
+  extractThoughtEnrichments,
+  normalizeAlbumTitle,
+  normalizeMovieTitle,
+} from "../../shared/thought-enrichments.ts";
 import { renderMarkdown } from "./markdown.ts";
 
 const THOUGHT_TIME = new Intl.DateTimeFormat("en-US", {
@@ -51,6 +56,73 @@ export function thoughtTagArgs(body: string): CreateThoughtArgs["tags"] {
     normalizedName: name,
     position,
   }));
+}
+
+export interface ThoughtEnrichmentParent {
+  /** All task rows sourced by the direct parent thought. Used to mirror reply-task dependencies. */
+  taskIds: readonly string[];
+}
+
+/**
+ * Turn the eight structured hashtag lanes into mutation-ready rows. This runs at the UI event
+ * boundary—not inside the replayed mutator—so every generated id and timestamp is stable across
+ * optimistic rebases and the server authority's execution.
+ */
+export function thoughtEnrichmentArgs(
+  body: string,
+  createdAt: number,
+  contentRevision: string,
+  parent?: ThoughtEnrichmentParent,
+): CreateThoughtArgs["enrichments"] {
+  const extracted = extractThoughtEnrichments(body, createdAt);
+  const projects = extracted.projects.map((row) => ({ id: ulid(), ...row, createdAt }));
+  const tasks = extracted.tasks.map((row) => ({ id: ulid(), ...row, createdAt }));
+  const taskDependencies: CreateThoughtArgs["enrichments"]["taskDependencies"] = [];
+  for (const blockerTaskId of parent?.taskIds ?? []) {
+    for (const task of tasks) {
+      if (taskDependencies.length === 10_000) break;
+      taskDependencies.push({
+        id: ulid(),
+        blockerTaskId,
+        blockedTaskId: task.id,
+        createdAt,
+      });
+    }
+    if (taskDependencies.length === 10_000) break;
+  }
+
+  const seenMovies = new Set<string>();
+  const movies = extracted.movies.flatMap((row) => {
+    const normalizedTitle = normalizeMovieTitle(row.title);
+    if (seenMovies.has(normalizedTitle)) return [];
+    seenMovies.add(normalizedTitle);
+    return [{ id: ulid(), linkId: ulid(), normalizedTitle, ...row, createdAt }];
+  });
+
+  const seenAlbums = new Set<string>();
+  const albums = extracted.albums.flatMap((row) => {
+    const normalizedTitle = normalizeAlbumTitle(row.title);
+    if (seenAlbums.has(normalizedTitle)) return [];
+    seenAlbums.add(normalizedTitle);
+    return [{ id: ulid(), linkId: ulid(), normalizedTitle, ...row, createdAt }];
+  });
+
+  return {
+    projects,
+    tasks,
+    taskDependencies,
+    events: extracted.events.map((row) => ({ id: ulid(), ...row, createdAt })),
+    questions: extracted.questions.map((row) => ({ id: ulid(), ...row, createdAt })),
+    locations: extracted.locations.map((row) => ({
+      id: ulid(),
+      ...row,
+      sourceRevision: contentRevision,
+      createdAt,
+    })),
+    movies,
+    books: extracted.books.map((row) => ({ id: ulid(), ...row, createdAt })),
+    albums,
+  };
 }
 
 /** SHA-256 keeps the migrated body's content identity compatible with the legacy model. */
