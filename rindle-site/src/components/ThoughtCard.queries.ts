@@ -2,7 +2,7 @@
 // constrain `private = 0`; admin query names are separately authorized by server/app-api.ts rather
 // than trusting a client-provided "include private" flag.
 
-import { defineFragment, defineQuery, isNull } from "@rindle/client";
+import { defineFragment, defineQuery, isNotNull, isNull } from "@rindle/client";
 import type { FragmentRef, QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
@@ -16,9 +16,19 @@ export type ThoughtCardRef = FragmentRef<typeof ThoughtCardFragment>;
 export const THOUGHTS_PAGE_SIZE = 40;
 export const THOUGHTS_MAX_LIMIT = 1_000;
 export const THOUGHT_REPLIES_LIMIT = 500;
+export const THOUGHT_FEED_REPLIES_PAGE_SIZE = 500;
+export const THOUGHT_FEED_REPLIES_MAX_LIMIT = 5_000;
 
 const pageArgs = z.object({
   limit: z.number().int().min(THOUGHTS_PAGE_SIZE).max(THOUGHTS_MAX_LIMIT),
+});
+
+const replyPageArgs = z.object({
+  limit: z
+    .number()
+    .int()
+    .min(THOUGHT_FEED_REPLIES_PAGE_SIZE)
+    .max(THOUGHT_FEED_REPLIES_MAX_LIMIT),
 });
 
 /** Public root-thought feed. The lookahead row supports ratcheting "load more" without subscribing
@@ -47,6 +57,9 @@ export const thoughtsQuery = defineQuery("thoughts", (raw) => pageArgs.parse(raw
         .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
           tagProfile.select("id", "name", "normalizedName").one(),
         ),
+    )
+    .sub("tasks", relationships.thoughtTasks, (task) =>
+      task.orderBy("id", "asc").limit(200).select("id"),
     )
     .include(ThoughtCardFragment),
 );
@@ -79,6 +92,81 @@ export const thoughtAdminFeedQuery = defineQuery(
           .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
             tagProfile.select("id", "name", "normalizedName").one(),
           ),
+      )
+      .sub("tasks", relationships.thoughtTasks, (task) =>
+        task.orderBy("id", "asc").limit(200).select("id"),
+      )
+      .include(ThoughtCardFragment),
+);
+
+/** Public flat reply window. The UI joins these rows to the separately bounded root window and
+ * recursively assembles the hierarchy; a flat remote shape avoids fixing a maximum reply depth in
+ * the query AST. Oldest-first guarantees every loaded descendant follows its loaded parent. */
+export const thoughtRepliesQuery = defineQuery(
+  "thoughtReplies",
+  (raw) => replyPageArgs.parse(raw),
+  ({ limit }) =>
+    q.thought
+      .where.parentId(isNotNull())
+      .where.private(0)
+      .orderBy("createdAt", "asc")
+      .orderBy("id", "asc")
+      .limit(limit + 1)
+      .countAs("replyCount", relationships.thoughtReplies, (reply) => reply.where.private(0))
+      .sub("attachments", relationships.thoughtAttachments, (attachment) =>
+        attachment
+          .orderBy("position", "asc")
+          .orderBy("id", "asc")
+          .limit(100)
+          .select("id", "thoughtId", "storageKey", "mediaType", "fileName", "position"),
+      )
+      .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
+        link
+          .orderBy("position", "asc")
+          .orderBy("id", "asc")
+          .limit(200)
+          .select("id", "thoughtId", "tagId", "position")
+          .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
+            tagProfile.select("id", "name", "normalizedName").one(),
+          ),
+      )
+      .sub("tasks", relationships.thoughtTasks, (task) =>
+        task.orderBy("id", "asc").limit(200).select("id"),
+      )
+      .include(ThoughtCardFragment),
+);
+
+/** Admin twin of the reply window, including private rows. Query-name authorization keeps the
+ * visibility decision at the authority rather than accepting a client-controlled flag. */
+export const thoughtAdminRepliesQuery = defineQuery(
+  "thoughtAdminReplies",
+  (raw) => replyPageArgs.parse(raw),
+  ({ limit }) =>
+    q.thought
+      .where.parentId(isNotNull())
+      .orderBy("createdAt", "asc")
+      .orderBy("id", "asc")
+      .limit(limit + 1)
+      .countAs("replyCount", relationships.thoughtReplies)
+      .sub("attachments", relationships.thoughtAttachments, (attachment) =>
+        attachment
+          .orderBy("position", "asc")
+          .orderBy("id", "asc")
+          .limit(100)
+          .select("id", "thoughtId", "storageKey", "mediaType", "fileName", "position"),
+      )
+      .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
+        link
+          .orderBy("position", "asc")
+          .orderBy("id", "asc")
+          .limit(200)
+          .select("id", "thoughtId", "tagId", "position")
+          .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
+            tagProfile.select("id", "name", "normalizedName").one(),
+          ),
+      )
+      .sub("tasks", relationships.thoughtTasks, (task) =>
+        task.orderBy("id", "asc").limit(200).select("id"),
       )
       .include(ThoughtCardFragment),
 );
@@ -197,5 +285,7 @@ export const thoughtAdminQuery = defineQuery(
 
 export type ThoughtFeedRow = QueryLocalData<ReturnType<typeof thoughtsQuery>>[number];
 export type ThoughtAdminFeedRow = QueryLocalData<ReturnType<typeof thoughtAdminFeedQuery>>[number];
+export type ThoughtReplyRow = QueryLocalData<ReturnType<typeof thoughtRepliesQuery>>[number];
+export type ThoughtAdminReplyRow = QueryLocalData<ReturnType<typeof thoughtAdminRepliesQuery>>[number];
 export type ThoughtDetailRow = NonNullable<QueryLocalData<ReturnType<typeof thoughtQuery>>>;
 export type ThoughtAdminDetailRow = NonNullable<QueryLocalData<ReturnType<typeof thoughtAdminQuery>>>;

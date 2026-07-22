@@ -29,6 +29,7 @@ export interface ThoughtCardData extends EditableThought {
   replyCount?: number;
   tagLinks?: readonly ThoughtTagLinkData[];
   attachments?: readonly ThoughtAttachmentData[];
+  tasks?: readonly { id: string }[];
 }
 
 interface ThoughtCardProps {
@@ -36,6 +37,11 @@ interface ThoughtCardProps {
   isAdmin: boolean;
   variant?: "feed" | "parent" | "reply";
   onDeleted?: (thought: ThoughtCardData) => void;
+  onReply?: () => void;
+  onToggleReplies?: () => void;
+  repliesCollapsed?: boolean;
+  visibleReplyCount?: number;
+  inlineThread?: boolean;
 }
 
 function tagsFor(thought: ThoughtCardData): string[] {
@@ -61,7 +67,17 @@ function enrichmentRoute(tag: string) {
   }
 }
 
-export function ThoughtCard({ thought, isAdmin, variant = "feed", onDeleted }: ThoughtCardProps) {
+export function ThoughtCard({
+  thought,
+  isAdmin,
+  variant = "feed",
+  onDeleted,
+  onReply,
+  onToggleReplies,
+  repliesCollapsed = false,
+  visibleReplyCount = 0,
+  inlineThread = false,
+}: ThoughtCardProps) {
   const [editing, setEditing] = useState(false);
   const [copied, setCopied] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -171,8 +187,20 @@ export function ThoughtCard({ thought, isAdmin, variant = "feed", onDeleted }: T
 
       {!editing ? (
         <footer className="thought-card-footer">
+          {onReply || onToggleReplies ? (
+            <div>
+              {onReply ? <button type="button" onClick={onReply}>reply</button> : null}
+              {onToggleReplies ? (
+                <button type="button" onClick={onToggleReplies}>
+                  {repliesCollapsed ? "show" : "hide"} {visibleReplyCount} {visibleReplyCount === 1 ? "reply" : "replies"}
+                </button>
+              ) : null}
+            </div>
+          ) : null}
           <Link to="/thoughts/$id" params={{ id: thought.id }}>
-            {replyCount > 0
+            {inlineThread
+              ? "open thread"
+              : replyCount > 0
               ? `${replyCount} ${replyCount === 1 ? "reply" : "replies"}`
               : isAdmin ? "Reply" : "Open thought"}
             <span aria-hidden="true"> →</span>

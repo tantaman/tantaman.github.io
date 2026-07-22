@@ -34,7 +34,9 @@ import { postCommentsQuery } from "../src/components/PostComments.queries.ts";
 import {
   thoughtAdminFeedQuery,
   thoughtAdminQuery,
+  thoughtAdminRepliesQuery,
   thoughtQuery,
+  thoughtRepliesQuery,
   thoughtsQuery,
 } from "../src/components/ThoughtCard.queries.ts";
 import { thoughtEnrichmentQueries } from "../src/components/ThoughtEnrichment.queries.ts";
@@ -75,6 +77,8 @@ const apiQueries = registerQueries<User>([
   thoughtsQuery,
   thoughtQuery,
   thoughtAdminFeedQuery,
+  thoughtRepliesQuery,
+  thoughtAdminRepliesQuery,
   thoughtAdminQuery,
   ...thoughtEnrichmentQueries,
 ]);

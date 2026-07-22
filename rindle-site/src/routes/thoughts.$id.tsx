@@ -13,6 +13,7 @@ import {
 } from "../components/ThoughtCard.queries.ts";
 import { ThoughtComposer } from "../components/ThoughtComposer.tsx";
 import { ThoughtHistory } from "../components/ThoughtHistory.tsx";
+import { buildThoughtForest, ThoughtReplyBranches } from "../components/ThoughtReplyTree.tsx";
 import { useThoughtsFeed } from "../components/ThoughtsFeed.tsx";
 import { shortThoughtId } from "../lib/thoughts.ts";
 
@@ -27,18 +28,54 @@ export const Route = createFileRoute("/thoughts/$id")({
 
 function ThoughtThread() {
   const { id } = Route.useParams();
-  const { isAdmin } = useThoughtsFeed();
-  return isAdmin ? <AdminThoughtThread id={id} /> : <PublicThoughtThread id={id} />;
+  const { isAdmin, replies, revealNewestReplies } = useThoughtsFeed();
+  return isAdmin
+    ? <AdminThoughtThread id={id} feedReplies={replies} onReplyAdded={revealNewestReplies} />
+    : <PublicThoughtThread id={id} feedReplies={replies} onReplyAdded={revealNewestReplies} />;
 }
 
-function PublicThoughtThread({ id }: { id: string }) {
+function PublicThoughtThread({
+  id,
+  feedReplies,
+  onReplyAdded,
+}: {
+  id: string;
+  feedReplies: readonly ThoughtCardData[];
+  onReplyAdded: () => void;
+}) {
   const [thought, { status }] = useRoot(thoughtQuery, id);
-  return <StableThoughtThread id={id} thought={thought} status={status} isAdmin={false} />;
+  return (
+    <StableThoughtThread
+      id={id}
+      thought={thought}
+      status={status}
+      isAdmin={false}
+      feedReplies={feedReplies}
+      onReplyAdded={onReplyAdded}
+    />
+  );
 }
 
-function AdminThoughtThread({ id }: { id: string }) {
+function AdminThoughtThread({
+  id,
+  feedReplies,
+  onReplyAdded,
+}: {
+  id: string;
+  feedReplies: readonly ThoughtCardData[];
+  onReplyAdded: () => void;
+}) {
   const [thought, { status }] = useRoot(thoughtAdminQuery, id);
-  return <StableThoughtThread id={id} thought={thought} status={status} isAdmin />;
+  return (
+    <StableThoughtThread
+      id={id}
+      thought={thought}
+      status={status}
+      isAdmin
+      feedReplies={feedReplies}
+      onReplyAdded={onReplyAdded}
+    />
+  );
 }
 
 function StableThoughtThread({
@@ -46,11 +83,15 @@ function StableThoughtThread({
   thought,
   status,
   isAdmin,
+  feedReplies,
+  onReplyAdded,
 }: {
   id: string;
   thought: ThoughtDetailRow | ThoughtAdminDetailRow | null;
   status: ResultType;
   isAdmin: boolean;
+  feedReplies: readonly ThoughtCardData[];
+  onReplyAdded: () => void;
 }) {
   const navigate = Route.useNavigate();
   const renderedRef = useRef({ id, thought });
@@ -67,6 +108,15 @@ function StableThoughtThread({
       </section>
     );
   }
+
+  const thread = buildThoughtForest(
+    [rendered as ThoughtCardData],
+    [
+      ...rendered.replies.map((reply) => reply as ThoughtCardData),
+      ...feedReplies,
+    ],
+  )[0];
+  const directReplies = thread?.children ?? [];
 
   return (
     <section className="thought-thread-page">
@@ -95,23 +145,17 @@ function StableThoughtThread({
           <div>
             <p className="thoughts-kicker">thread</p>
             <h2 id="thought-replies-title">
-              {rendered.replyCount === 0
+              {directReplies.length === 0
                 ? "No replies yet"
-                : `${rendered.replyCount} ${rendered.replyCount === 1 ? "reply" : "replies"}`}
+                : `${directReplies.length} direct ${directReplies.length === 1 ? "reply" : "replies"}`}
             </h2>
           </div>
-          {rendered.replyCount > rendered.replies.length ? (
-            <p>Showing the first {THOUGHT_REPLIES_LIMIT} replies.</p>
+          {rendered.replyCount > directReplies.length ? (
+            <p>Showing the first {THOUGHT_REPLIES_LIMIT} direct replies.</p>
           ) : null}
         </header>
 
-        {rendered.replies.length > 0 ? (
-          <div className="thought-reply-list">
-            {rendered.replies.map((reply) => (
-              <ThoughtCard key={reply.id} thought={reply as ThoughtCardData} isAdmin={isAdmin} variant="reply" />
-            ))}
-          </div>
-        ) : null}
+        <ThoughtReplyBranches nodes={directReplies} isAdmin={isAdmin} onSubmitted={onReplyAdded} />
 
         {isAdmin ? (
           <div className="thought-reply-composer">
@@ -122,6 +166,7 @@ function StableThoughtThread({
               placeholder="Continue the thread…"
               submitLabel="Add reply"
               compact
+              onDone={onReplyAdded}
             />
           </div>
         ) : null}
