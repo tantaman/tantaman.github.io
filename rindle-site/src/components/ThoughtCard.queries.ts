@@ -2,7 +2,7 @@
 // constrain `private = 0`; admin query names are separately authorized by server/app-api.ts rather
 // than trusting a client-provided "include private" flag.
 
-import { defineFragment, defineQuery } from "@rindle/client";
+import { defineFragment, defineQuery, isNull } from "@rindle/client";
 import type { FragmentRef, QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
@@ -25,7 +25,7 @@ const pageArgs = z.object({
  * to the whole table. replyCount excludes private replies for anonymous readers. */
 export const thoughtsQuery = defineQuery("thoughts", (raw) => pageArgs.parse(raw), ({ limit }) =>
   q.thought
-    .where.parentId(null)
+    .where.parentId(isNull())
     .where.private(0)
     .orderBy("createdAt", "desc")
     .orderBy("id", "asc")
@@ -58,7 +58,7 @@ export const thoughtAdminFeedQuery = defineQuery(
   (raw) => pageArgs.parse(raw),
   ({ limit }) =>
     q.thought
-      .where.parentId(null)
+      .where.parentId(isNull())
       .orderBy("createdAt", "desc")
       .orderBy("id", "asc")
       .limit(limit + 1)

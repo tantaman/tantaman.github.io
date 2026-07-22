@@ -2,6 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { authClient } from "../auth-client.ts";
+import { useHydrated } from "../lib/hydration.ts";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -11,6 +12,7 @@ type Provider = "github" | "google";
 
 function LoginPage() {
   const { data: session } = authClient.useSession();
+  const hydrated = useHydrated();
   const [pending, setPending] = useState<Provider | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +31,7 @@ function LoginPage() {
     }
   }
 
-  if (session?.user) {
+  if (hydrated && session?.user) {
     const label = session.user.username ? `@${session.user.username}` : session.user.name;
     return (
       <section className="login-page" aria-labelledby="login-title">

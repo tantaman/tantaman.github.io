@@ -11,6 +11,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { ulid } from "ulid";
 
 import { authClient } from "../auth-client.ts";
+import { useHydrated } from "../lib/hydration.ts";
 import {
   postEditorFacetOptionsQuery,
   postEditorMetadataOptionsQuery,
@@ -123,8 +124,9 @@ function unique(values: Array<string | null | undefined>): string[] {
 function WritePost() {
   const { post: editSlug } = Route.useSearch();
   const { data: session, isPending } = authClient.useSession();
+  const hydrated = useHydrated();
 
-  if (isPending) return <p className="app-empty">Opening the authoring desk…</p>;
+  if (!hydrated || isPending) return <p className="app-empty">Opening the authoring desk…</p>;
 
   if (!session?.user) {
     return (
