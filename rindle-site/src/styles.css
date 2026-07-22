@@ -2208,6 +2208,345 @@ main.app-main:has(> .thoughts-shell) {
   }
 }
 
+/* ---- paste ---- */
+.paste-shell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+.paste-page-heading {
+  margin-bottom: 34px;
+}
+.paste-page-heading p,
+.paste-document-header p {
+  margin: 0 0 7px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+.paste-page-heading h1,
+.paste-document-header h1,
+.paste-gate h1,
+.paste-missing h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 42px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+.paste-landing > .paste-page-heading {
+  margin-bottom: 28px;
+}
+.paste-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.paste-list > li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 11px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.paste-list-main {
+  min-width: 0;
+  flex: 1;
+}
+.paste-list-line {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+}
+.paste-list-line a {
+  overflow: hidden;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.paste-list-line a:hover {
+  color: var(--accent-ink);
+}
+.paste-list-line span {
+  flex: 0 0 auto;
+  color: var(--ink-3);
+  font-size: 10px;
+}
+.paste-list time {
+  flex: 0 0 auto;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+.paste-list--expanded > li {
+  align-items: flex-start;
+  padding-block: 17px;
+}
+.paste-list-main > p {
+  display: -webkit-box;
+  margin: 5px 0 0;
+  overflow: hidden;
+  color: var(--ink-2);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.paste-empty,
+.paste-fork-note {
+  color: var(--ink-2);
+}
+.paste-empty {
+  padding-block: 18px;
+}
+.paste-fork-note {
+  margin: 0 0 20px;
+  font-size: 13px;
+}
+.paste-fork-note a,
+.paste-gate a,
+.paste-missing a {
+  color: var(--accent-ink);
+}
+.paste-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.paste-editor-toolbar,
+.paste-editor-actions,
+.paste-section-heading,
+.paste-actions {
+  display: flex;
+  align-items: center;
+}
+.paste-editor-toolbar {
+  gap: 10px;
+}
+.paste-editor-toolbar label {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.paste-editor-toolbar select {
+  padding: 7px 30px 7px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+}
+.paste-editor textarea {
+  width: 100%;
+  min-height: min(56vh, 600px);
+  padding: clamp(15px, 3vw, 22px);
+  resize: vertical;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  outline: 0;
+  background: color-mix(in srgb, var(--panel) 76%, transparent);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.65;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.paste-editor textarea:focus {
+  border-color: var(--accent);
+  background: var(--panel);
+}
+.paste-editor-actions {
+  justify-content: space-between;
+  gap: 16px;
+}
+.paste-editor-actions span {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.paste-button {
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.paste-button:disabled {
+  cursor: wait;
+  opacity: 0.5;
+}
+.paste-button--primary {
+  padding: 9px 22px;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.paste-button--quiet {
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink-2);
+}
+.paste-error {
+  margin: 0;
+  color: #b23f53;
+  font-size: 13px;
+}
+.paste-recents {
+  margin-top: 54px;
+}
+.paste-section-heading {
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.paste-section-heading h2 {
+  margin: 0;
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.paste-section-heading a {
+  color: var(--ink-3);
+  font-size: 12px;
+}
+.paste-load-more {
+  padding-top: 24px;
+  text-align: center;
+}
+.paste-document-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.paste-actions {
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 12px;
+}
+.paste-actions a,
+.paste-actions button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.paste-actions a:hover,
+.paste-actions button:hover {
+  color: var(--accent-ink);
+}
+.paste-revisions {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 12px;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+.paste-revisions a {
+  color: var(--ink-2);
+}
+.paste-rule {
+  height: 1px;
+  margin: 30px 0;
+  background: var(--line);
+}
+.paste-content {
+  --thought-color: var(--line-2);
+  margin-top: 0;
+  font-size: clamp(16px, 2.3vw, 19px);
+  line-height: 1.75;
+}
+.paste-code {
+  margin: 0;
+  padding: clamp(16px, 3vw, 24px);
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #1a1220;
+  color: #ece2f4;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.paste-runner {
+  display: block;
+  width: 100%;
+  min-height: 70vh;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: white;
+}
+.paste-document-footer {
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.paste-gate,
+.paste-missing {
+  padding-block: clamp(30px, 9vw, 100px);
+}
+.paste-gate p,
+.paste-missing p {
+  color: var(--ink-2);
+}
+.paste-diff-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.paste-diff-grid section {
+  min-width: 0;
+}
+.paste-diff-grid h2 {
+  margin: 0 0 8px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.paste-diff-grid pre {
+  min-height: 55vh;
+  margin: 0;
+  padding: 14px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 680px) {
+  .paste-document-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .paste-diff-grid {
+    grid-template-columns: 1fr;
+  }
+  .paste-diff-grid pre {
+    min-height: 35vh;
+  }
+}
+
 /* ---- thoughts ---- */
 .thoughts-page,
 .thought-thread-page {

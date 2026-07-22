@@ -24,6 +24,7 @@
     "auth:migrate:remote": "wrangler d1 migrations apply rindle-site-auth --remote",
     "migrate": "rindle migrate apply --dir migrations",
     "seed": "rindle exec -- node scripts/seed-posts.mjs",
+    "import:pastes": "rindle exec -- node scripts/import-pastes.mjs",
     "rindle:deploy": "rindle deploy",
     "rindle:migrate:remote": "rindle migrate apply --remote",
     "typecheck": "tsr generate && tsc --noEmit"
@@ -47,6 +48,7 @@
     "better-sqlite3": "^12.11.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "sucrase": "^3.35.1",
     "ulid": "^3.0.2",
     "zod": "^4.4.3"
   },

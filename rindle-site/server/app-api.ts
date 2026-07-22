@@ -50,6 +50,11 @@ import {
   framingThoughtsQuery,
   framingsQuery,
 } from "../src/components/Framing.queries.ts";
+import {
+  pasteAdminFeedQuery,
+  pasteQuery,
+  pastesQuery,
+} from "../src/components/Paste.queries.ts";
 
 /** The authority's principal is the verified identity (or undefined when anonymous). Public post
  * reads accept either; private authoring reads and every mutation require the administrator. */
@@ -99,6 +104,9 @@ const apiQueries = registerQueries<User>([
   framingPostsQuery,
   framingThoughtConnectionsQuery,
   framingAdminThoughtConnectionsQuery,
+  pastesQuery,
+  pasteAdminFeedQuery,
+  pasteQuery,
 ]);
 
 function publisherPrincipal(ctx: MutationContext<User>) {
@@ -165,7 +173,11 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
     queries: apiQueries,
     mutators: apiMutators,
     authorizeQuery: ({ name, user }) =>
-      (!name.startsWith("postEditor") && !name.startsWith("thoughtAdmin") && !name.startsWith("framingAdmin")) || canPublish(user),
+      (!name.startsWith("postEditor") &&
+        !name.startsWith("thoughtAdmin") &&
+        !name.startsWith("framingAdmin") &&
+        !name.startsWith("pasteAdmin")) ||
+      canPublish(user),
     authorizeMutation: ({ user }) => {
       requireAccount(user);
       return true;

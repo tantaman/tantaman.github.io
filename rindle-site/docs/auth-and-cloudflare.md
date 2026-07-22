@@ -2,7 +2,8 @@
 
 The app now has two deliberately separate data planes:
 
-- Rindle stores posts and future comments/reactions. Its database token is server-only.
+- Rindle stores posts, thoughts, paste bodies/metadata, comments, and the other live content views.
+  Its database token is server-only.
 - Cloudflare D1 (`AUTH_DB`) stores Better Auth users, sessions, linked OAuth accounts, usernames, and
   roles. Auth migrations live in `migrations-auth/`; never put them in Rindle's `migrations/`.
 

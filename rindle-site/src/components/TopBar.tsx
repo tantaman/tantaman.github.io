@@ -17,7 +17,7 @@ export function TopBar() {
         <nav className="app-nav" aria-label="Primary navigation">
           <a href="https://tantaman.com/tags.html">browse</a>
           <Link to="/thoughts">thoughts</Link>
-          <a href="https://tantaman.com/paste">paste</a>
+          <Link to="/paste">paste</Link>
         </nav>
         <AccountControl />
         <ThemeToggle />
