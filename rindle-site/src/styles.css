@@ -3159,12 +3159,19 @@ main.app-main:has(> .thoughts-shell) {
 .thought-attachments {
   margin-top: 16px;
 }
-.thought-attachments span {
+.thought-attachments a {
   padding: 4px 8px;
   border: 1px dashed var(--line-2);
   border-radius: 6px;
   color: var(--ink-2);
   font-size: 10.5px;
+  text-decoration: none;
+}
+.thought-attachments a:hover,
+.thought-attachments a:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  background: var(--panel);
 }
 .thought-card-footer {
   display: flex;

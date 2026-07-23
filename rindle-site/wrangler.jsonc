@@ -36,6 +36,12 @@
 			"migrations_dir": "./migrations-auth",
 			"database_id": "a2da5bad-550c-4cb1-a952-5755aa8f5baf"
 		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "ATTACHMENTS_BUCKET",
+			"bucket_name": "thought-attachments"
+		}
 	]
 	// Server-only configuration is set with Wrangler secrets or dashboard variables, never committed:
 	//   BETTER_AUTH_URL, BETTER_AUTH_SECRET, TANTAMAN_OWNER_EMAIL

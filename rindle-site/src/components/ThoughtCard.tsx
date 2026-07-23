@@ -7,6 +7,7 @@ import {
   shortThoughtId,
   thoughtDateTime,
 } from "../lib/thoughts.ts";
+import { attachmentUrl } from "../lib/attachments.ts";
 import { app } from "../rindle-client.ts";
 import { ThoughtComposer, type EditableThought } from "./ThoughtComposer.tsx";
 
@@ -178,7 +179,13 @@ export function ThoughtCard({
           {(thought.attachments?.length ?? 0) > 0 ? (
             <div className="thought-attachments" aria-label="Attachments">
               {thought.attachments?.map((attachment) => (
-                <span key={attachment.id} title={attachment.mediaType}>{attachment.fileName}</span>
+                <a
+                  key={attachment.id}
+                  href={attachmentUrl(attachment.storageKey)}
+                  title={`${attachment.fileName} (${attachment.mediaType})`}
+                >
+                  {attachment.fileName}
+                </a>
               ))}
             </div>
           ) : null}

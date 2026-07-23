@@ -30,6 +30,7 @@ import { Route as ThoughtsMusicRouteImport } from './routes/thoughts.music'
 import { Route as ThoughtsProjectsRouteImport } from './routes/thoughts.projects'
 import { Route as ThoughtsQuestionsRouteImport } from './routes/thoughts.questions'
 import { Route as ThoughtsTasksRouteImport } from './routes/thoughts.tasks'
+import { Route as ApiAttachmentsSplatRouteImport } from './routes/api.attachments.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAuthDevLoginRouteImport } from './routes/api.auth.dev-login'
 import { Route as ApiRindleMutateRouteImport } from './routes/api.rindle.mutate'
@@ -148,6 +149,11 @@ const ThoughtsTasksRoute = ThoughtsTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => ThoughtsRoute,
 } as any)
+const ApiAttachmentsSplatRoute = ApiAttachmentsSplatRouteImport.update({
+  id: '/api/attachments/$',
+  path: '/api/attachments/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -235,6 +241,7 @@ export interface FileRoutesByFullPath {
   '/thoughts/tasks': typeof ThoughtsTasksRoute
   '/paste/': typeof PasteIndexRoute
   '/thoughts/': typeof ThoughtsIndexRoute
+  '/api/attachments/$': typeof ApiAttachmentsSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
@@ -267,6 +274,7 @@ export interface FileRoutesByTo {
   '/': typeof ShellIndexRoute
   '/paste': typeof PasteIndexRoute
   '/thoughts': typeof ThoughtsIndexRoute
+  '/api/attachments/$': typeof ApiAttachmentsSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
@@ -304,6 +312,7 @@ export interface FileRoutesById {
   '/_shell/': typeof ShellIndexRoute
   '/paste/': typeof PasteIndexRoute
   '/thoughts/': typeof ThoughtsIndexRoute
+  '/api/attachments/$': typeof ApiAttachmentsSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
@@ -341,6 +350,7 @@ export interface FileRouteTypes {
     | '/thoughts/tasks'
     | '/paste/'
     | '/thoughts/'
+    | '/api/attachments/$'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
@@ -373,6 +383,7 @@ export interface FileRouteTypes {
     | '/'
     | '/paste'
     | '/thoughts'
+    | '/api/attachments/$'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
@@ -409,6 +420,7 @@ export interface FileRouteTypes {
     | '/_shell/'
     | '/paste/'
     | '/thoughts/'
+    | '/api/attachments/$'
     | '/api/auth/$'
     | '/api/auth/dev-login'
     | '/api/rindle/mutate'
@@ -430,6 +442,7 @@ export interface RootRouteChildren {
   PasteRoute: typeof PasteRouteWithChildren
   SearchRoute: typeof SearchRoute
   ThoughtsRoute: typeof ThoughtsRouteWithChildren
+  ApiAttachmentsSplatRoute: typeof ApiAttachmentsSplatRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiAuthDevLoginRoute: typeof ApiAuthDevLoginRoute
   ApiRindleMutateRoute: typeof ApiRindleMutateRoute
@@ -585,6 +598,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/thoughts/tasks'
       preLoaderRoute: typeof ThoughtsTasksRouteImport
       parentRoute: typeof ThoughtsRoute
+    }
+    '/api/attachments/$': {
+      id: '/api/attachments/$'
+      path: '/api/attachments/$'
+      fullPath: '/api/attachments/$'
+      preLoaderRoute: typeof ApiAttachmentsSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -769,6 +789,7 @@ const rootRouteChildren: RootRouteChildren = {
   PasteRoute: PasteRouteWithChildren,
   SearchRoute: SearchRoute,
   ThoughtsRoute: ThoughtsRouteWithChildren,
+  ApiAttachmentsSplatRoute: ApiAttachmentsSplatRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiAuthDevLoginRoute: ApiAuthDevLoginRoute,
   ApiRindleMutateRoute: ApiRindleMutateRoute,
