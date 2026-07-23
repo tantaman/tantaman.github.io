@@ -3155,11 +3155,39 @@ main.app-main:has(> .thoughts-shell) {
   background: transparent;
   color: inherit;
 }
-.thought-tags,
-.thought-attachments {
+.thought-tags {
   margin-top: 16px;
 }
-.thought-attachments a {
+.thought-attachments {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+.thought-attachment {
+  margin: 0;
+}
+.thought-attachment-preview {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+.thought-attachment-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: min(720px, 72vh);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.thought-attachment figcaption {
+  margin-top: 8px;
+}
+.thought-attachment-download {
+  display: inline-block;
   padding: 4px 8px;
   border: 1px dashed var(--line-2);
   border-radius: 6px;
@@ -3167,8 +3195,8 @@ main.app-main:has(> .thoughts-shell) {
   font-size: 10.5px;
   text-decoration: none;
 }
-.thought-attachments a:hover,
-.thought-attachments a:focus-visible {
+.thought-attachment-download:hover,
+.thought-attachment-download:focus-visible {
   border-color: var(--accent);
   color: var(--accent-ink);
   background: var(--panel);

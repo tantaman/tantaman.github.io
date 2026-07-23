@@ -7,7 +7,11 @@ import {
   shortThoughtId,
   thoughtDateTime,
 } from "../lib/thoughts.ts";
-import { attachmentUrl } from "../lib/attachments.ts";
+import {
+  attachmentPreviewUrl,
+  attachmentUrl,
+  isPreviewableImage,
+} from "../lib/attachments.ts";
 import { app } from "../rindle-client.ts";
 import { ThoughtComposer, type EditableThought } from "./ThoughtComposer.tsx";
 
@@ -178,15 +182,36 @@ export function ThoughtCard({
           ) : null}
           {(thought.attachments?.length ?? 0) > 0 ? (
             <div className="thought-attachments" aria-label="Attachments">
-              {thought.attachments?.map((attachment) => (
-                <a
-                  key={attachment.id}
-                  href={attachmentUrl(attachment.storageKey)}
-                  title={`${attachment.fileName} (${attachment.mediaType})`}
-                >
-                  {attachment.fileName}
-                </a>
-              ))}
+              {thought.attachments?.map((attachment) => {
+                const downloadUrl = attachmentUrl(attachment.storageKey);
+                return (
+                  <figure className="thought-attachment" key={attachment.id}>
+                    {isPreviewableImage(attachment.mediaType) ? (
+                      <a
+                        className="thought-attachment-preview"
+                        href={downloadUrl}
+                        title={`Download ${attachment.fileName}`}
+                      >
+                        <img
+                          src={attachmentPreviewUrl(attachment.storageKey)}
+                          alt={attachment.fileName}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </a>
+                    ) : null}
+                    <figcaption>
+                      <a
+                        className="thought-attachment-download"
+                        href={downloadUrl}
+                        title={`${attachment.fileName} (${attachment.mediaType})`}
+                      >
+                        {attachment.fileName}
+                      </a>
+                    </figcaption>
+                  </figure>
+                );
+              })}
             </div>
           ) : null}
         </>

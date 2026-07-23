@@ -13,6 +13,14 @@ interface AttachmentMetadata {
   private: boolean;
 }
 
+const SAFE_INLINE_MEDIA_TYPES = new Set([
+  "image/avif",
+  "image/gif",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+]);
+
 function textResponse(message: string, status: number): Response {
   return new Response(message, {
     status,
@@ -100,6 +108,9 @@ export async function handleAttachment(request: Request): Promise<Response> {
     const object = await bucket.get(key);
     if (!object) return textResponse("Not found", 404);
 
+    const preview = new URL(request.url).searchParams.get("preview") === "1"
+      && SAFE_INLINE_MEDIA_TYPES.has(metadata.mediaType.toLowerCase());
+
     const headers = new Headers();
     object.writeHttpMetadata(headers);
     headers.set(
@@ -108,7 +119,7 @@ export async function handleAttachment(request: Request): Promise<Response> {
     );
     headers.set(
       "Content-Disposition",
-      `attachment; filename*=UTF-8''${dispositionFileName(metadata.fileName)}`,
+      `${preview ? "inline" : "attachment"}; filename*=UTF-8''${dispositionFileName(metadata.fileName)}`,
     );
     headers.set("Content-Length", String(object.size));
     headers.set("Content-Type", metadata.mediaType || "application/octet-stream");
