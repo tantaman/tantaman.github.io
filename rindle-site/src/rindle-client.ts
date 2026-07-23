@@ -28,8 +28,8 @@ export function onRejection(handler: RejectionHandler): () => void {
 }
 
 /** The live optimistic client — assigned once {@link bootClient} resolves. Components import this and
- *  call `app.mutate.*` inside event handlers, by which point boot has completed (the provider in
- *  src/RindleApp.tsx gates the whole tree on it). */
+ *  call `app.mutate.*` inside event handlers, by which point the root `rindle.Provider` has completed
+ *  the lazy client boot. */
 export let app: RindleApp;
 
 /** Dynamically imports the wasm engine + optimistic glue (so the SSR/prerender shell never evaluates

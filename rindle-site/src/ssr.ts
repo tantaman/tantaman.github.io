@@ -3,12 +3,12 @@
 // (server/app-api.ts) — the SAME `createAppApi` factory the /api/rindle server route uses, called
 // IN-PROCESS (no HTTP hop) because SSR and the API now share one server. The authority resolves
 // `(name, args)` → AST itself; the loader never ships a raw AST. It returns the dehydrated snapshot
-// for the HTML, the browser hydrates it (src/RindleApp.tsx) for an instant correct first paint, then
-// the wasm engine boots and the live `subscribe` reconciles.
+// for the HTML, `rindle.Provider` hydrates it for an instant correct first paint, then the wasm engine
+// boots and the live `subscribe` reconciles.
 //
 // This is a STRICTLY server-side module: it builds the daemon client and reads `process.env`, so it is
-// imported ONLY from inside a loader's `import.meta.env.SSR` guard (a dynamic import), keeping it out
-// of the client bundle. It never imports the engine.
+// imported ONLY by the TanStack adapter's server-side preload callback (a dynamic import), keeping it
+// out of the client bundle. It never imports the engine.
 
 import { createServerStore, type DehydratedState, type OneShotQueryFn, type OneShotResult, type Query } from "@rindle/client";
 import type { ApiContext } from "@rindle/api-server";

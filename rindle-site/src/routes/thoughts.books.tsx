@@ -1,14 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { DehydratedState } from "@rindle/client";
 
 import { BooksEnrichmentView } from "../components/ThoughtEnrichmentViews.tsx";
 import { ENRICHMENT_PAGE_SIZE, thoughtBooksQuery } from "../components/ThoughtEnrichment.queries.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/thoughts/books")({
-  loader: async (): Promise<{ rindle: DehydratedState }> => {
-    if (!import.meta.env.SSR) return { rindle: {} };
-    const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([thoughtBooksQuery({ limit: ENRICHMENT_PAGE_SIZE })]) };
-  },
+  loader: rindle.loader({ ssr: () => thoughtBooksQuery({ limit: ENRICHMENT_PAGE_SIZE }) }),
   component: BooksEnrichmentView,
 });

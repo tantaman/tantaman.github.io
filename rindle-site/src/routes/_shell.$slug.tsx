@@ -9,8 +9,6 @@
 import { useRef } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
-import { rindleLoader } from "@rindle/client";
-import type { DehydratedState } from "@rindle/client";
 
 import { postQuery } from "../components/PostView.queries.ts";
 import { PostComments } from "../components/PostComments.tsx";
@@ -22,34 +20,19 @@ import { Pills } from "../components/Pills.tsx";
 import { authClient } from "../auth-client.ts";
 import { formatDate, parseList } from "../lib/format.ts";
 import { useHydrated } from "../lib/hydration.ts";
-import { bootClient } from "../rindle-client.ts";
-
-// One shared retain for intent preloads and click navigation. `present` means a row already supplied
-// by another query is enough to enter the route; Rindle keeps revalidating it in the background.
-const loadPost = rindleLoader(bootClient, postQuery, { until: "present" });
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/_shell/$slug")({
-  loader: {
-    handler: async ({ params }): Promise<{ rindle: DehydratedState }> => {
-      if (!import.meta.env.SSR) {
-        // TanStack's existing intent preload calls this on hover/touch. A cold click awaits the same
-        // deduped retain, so the old route stays rendered until the article row is locally readable.
-        // Comments remain non-critical and continue loading after the article mounts.
-        await loadPost(params.slug);
-        return { rindle: {} };
-      }
-      const { preloadRindle } = await import("../ssr.ts");
-      return {
-        rindle: await preloadRindle([
-          postQuery(params.slug),
-          postCommentsQuery({ postId: params.slug, limit: POST_COMMENTS_PAGE_SIZE }),
-        ]),
-      };
-    },
-    // A previously visited match is stale by default. Block its re-entry loader too; otherwise the
-    // router's default stale-while-revalidate path can commit the post before a released query warms.
-    staleReloadMode: "blocking",
-  },
+  loader: rindle.loader({
+    // TanStack intent preloads and click navigation share this retain. A locally present article can
+    // enter immediately; Rindle keeps its server-authority revalidation alive in the background.
+    query: ({ params }) => postQuery(params.slug),
+    // Comments belong in the server-rendered first paint, but do not block client navigation.
+    ssr: ({ params }) => [
+      postCommentsQuery({ postId: params.slug, limit: POST_COMMENTS_PAGE_SIZE }),
+    ],
+    until: "present",
+  }),
   component: PostView,
 });
 

@@ -40,6 +40,7 @@
     "@rindle/client": "0.7.8",
     "@rindle/optimistic": "0.7.8",
     "@rindle/react": "0.7.8",
+    "@rindle/tanstack": "0.7.8",
     "@rindle/wasm": "0.7.8",
     "@tanstack/react-router": "latest",
     "@tanstack/react-start": "latest",
