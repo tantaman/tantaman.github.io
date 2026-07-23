@@ -6,7 +6,7 @@
 // It nests under `_shell`, so the blog list stays subscribed (warm) the whole time a post is open —
 // Back returns to `/` with synchronous rows and restored scroll.
 
-import { useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 import type { DehydratedState } from "@rindle/client";
@@ -21,17 +21,29 @@ import { Pills } from "../components/Pills.tsx";
 import { authClient } from "../auth-client.ts";
 import { formatDate, parseList } from "../lib/format.ts";
 import { useHydrated } from "../lib/hydration.ts";
+import { ensureRindleQuery, handoffRindleQuery } from "../lib/rindle-prefetch.ts";
 
 export const Route = createFileRoute("/_shell/$slug")({
-  loader: async ({ params }): Promise<{ rindle: DehydratedState }> => {
-    if (!import.meta.env.SSR) return { rindle: {} };
-    const { preloadRindle } = await import("../ssr.ts");
-    return {
-      rindle: await preloadRindle([
-        postQuery(params.slug),
-        postCommentsQuery({ postId: params.slug, limit: POST_COMMENTS_PAGE_SIZE }),
-      ]),
-    };
+  loader: {
+    handler: async ({ params }): Promise<{ rindle: DehydratedState }> => {
+      if (!import.meta.env.SSR) {
+        // TanStack's existing intent preload calls this on hover/touch. A cold click awaits the same
+        // deduped promise, so the old route stays rendered until the article row is locally readable.
+        // Comments are non-critical and continue loading after the article mounts.
+        await ensureRindleQuery(postQuery(params.slug));
+        return { rindle: {} };
+      }
+      const { preloadRindle } = await import("../ssr.ts");
+      return {
+        rindle: await preloadRindle([
+          postQuery(params.slug),
+          postCommentsQuery({ postId: params.slug, limit: POST_COMMENTS_PAGE_SIZE }),
+        ]),
+      };
+    },
+    // A previously visited match is stale by default. Block its re-entry loader too; otherwise the
+    // router's default stale-while-revalidate path can commit the post before a released query warms.
+    staleReloadMode: "blocking",
   },
   component: PostView,
 });
@@ -41,7 +53,14 @@ function PostView() {
   const { data: session } = authClient.useSession();
   const hydrated = useHydrated();
   const [post, { status }] = useRoot(postQuery, slug);
+  const detailQuery = useMemo(() => postQuery(slug), [slug]);
   const renderedPostRef = useRef({ slug, post });
+
+  useEffect(() => {
+    // `useRoot` has taken its retain by the time effects run. Drop the loader's overlapping lease;
+    // direct SSR visits have no client-prefetch entry, so this is intentionally a no-op there.
+    handoffRindleQuery(detailQuery);
+  }, [detailQuery]);
 
   // Keep the SSR row visible across the same-slug seed→live handoff. The normalized local view can
   // be empty for one render after the seed retires but before its catch-up row lands; replacing the
