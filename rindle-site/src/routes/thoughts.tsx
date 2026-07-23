@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
 
-import {
-  AdminThoughtsFeedProvider,
-  PublicThoughtsFeedProvider,
-} from "../components/ThoughtsFeed.tsx";
+import { ThoughtsFeedProvider } from "../components/ThoughtsFeed.tsx";
 import { ThoughtsNav } from "../components/ThoughtsNav.tsx";
 import { authClient } from "../auth-client.ts";
 import { useHydrated } from "../lib/hydration.ts";
@@ -39,11 +36,7 @@ function ThoughtsLayout() {
     <div className="thoughts-shell">
       <ThoughtsNav />
       <div className="thoughts-shell-main">
-        {isAdmin ? (
-          <AdminThoughtsFeedProvider><Outlet /></AdminThoughtsFeedProvider>
-        ) : (
-          <PublicThoughtsFeedProvider><Outlet /></PublicThoughtsFeedProvider>
-        )}
+        <ThoughtsFeedProvider isAdmin={isAdmin}><Outlet /></ThoughtsFeedProvider>
       </div>
     </div>
   );

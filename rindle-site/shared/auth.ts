@@ -29,13 +29,22 @@ export interface Identity {
   role: AccountRole;
 }
 
+/** The only identity projection a named read needs. Query context never crosses the wire: the
+ * browser supplies this projection while building its local view and the API supplies its verified
+ * {@link Identity} while rebuilding the same named query authoritatively. */
+export type QueryPrincipal = Pick<Identity, "role">;
+
+export interface QueryContext {
+  user: QueryPrincipal | null | undefined;
+}
+
 /** Resolve the inbound request's credential to a verified identity, or null when anonymous. Reads are
  *  public; only mutations require a non-null identity (server/app-api.ts). */
 export interface AuthProvider {
   verify(req: Request): Promise<Identity | null>;
 }
 
-export function canPublish(identity: Identity | null | undefined): boolean {
+export function canPublish(identity: QueryPrincipal | null | undefined): boolean {
   return identity?.role === "admin";
 }
 

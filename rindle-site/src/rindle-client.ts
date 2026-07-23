@@ -12,6 +12,7 @@ import type { MutationEnvelope } from "@rindle/client";
 import wasmUrl from "rindle-wasm-bin?url";
 
 import { mutators, schema } from "../shared/app-def.ts";
+import type { QueryContext } from "../shared/auth.ts";
 import { ensureDevelopmentSession } from "./auth-client.ts";
 
 // The precise client type — including the typed `mutate.*` surface — is INFERRED from the concrete
@@ -31,12 +32,12 @@ export function onRejection(handler: RejectionHandler): () => void {
  *  call `app.mutate.*` inside event handlers, by which point the root `rindle.Provider` has completed
  *  the lazy client boot. */
 export let app: RindleApp;
-let bootedAsAdmin = false;
+let queryContext: QueryContext = { user: undefined };
 
-/** The role captured alongside the optimistic client's immutable acting principal. Auth changes
- * reload the document, so route loaders can synchronously choose the matching query family. */
-export function isAdminClient(): boolean {
-  return bootedAsAdmin;
+/** The principal projection used to build local context-scoped queries. It starts anonymous for SSR
+ * and hydration, then is replaced before the live client is exposed. Auth changes reload the page. */
+export function currentQueryContext(): QueryContext {
+  return queryContext;
 }
 
 /** Dynamically imports the wasm engine + optimistic glue (so the SSR/prerender shell never evaluates
@@ -51,7 +52,11 @@ async function bootClientInner() {
   // No anonymous identity is minted. A sessionless reader uses the empty prediction principal; the
   // authority independently verifies the cookie and rejects any authenticated mutation that needs it.
   const sessionUserId = sessionResult.data?.user.id ?? "";
-  bootedAsAdmin = sessionResult.data?.user.role === "admin";
+  queryContext = {
+    user: sessionResult.data?.user
+      ? { role: sessionResult.data.user.role }
+      : undefined,
+  };
   return createRindleClient({
     schema,
     mutators,

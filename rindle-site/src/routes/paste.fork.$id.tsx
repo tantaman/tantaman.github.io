@@ -4,19 +4,19 @@ import { useRoot } from "@rindle/react";
 import { authClient } from "../auth-client.ts";
 import {
   PASTES_RECENT_LIMIT,
-  pasteAdminFeedQuery,
   pasteQuery,
+  pastesQuery,
 } from "../components/Paste.queries.ts";
 import { PasteEditor } from "../components/PasteEditor.tsx";
 import { useHydrated } from "../lib/hydration.ts";
-import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
+import { currentQueryContext } from "../rindle-client.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/paste/fork/$id")({
-  loader: roleAwareRindleLoader({
-    public: ({ params }) => pasteQuery(params.id),
-    admin: ({ params }) => [
+  loader: rindle.loader({
+    query: ({ params }) => [
       pasteQuery(params.id),
-      pasteAdminFeedQuery({ limit: PASTES_RECENT_LIMIT }),
+      pastesQuery({ limit: PASTES_RECENT_LIMIT }, currentQueryContext()),
     ],
   }),
   component: ForkPaste,
@@ -40,7 +40,11 @@ function ForkPaste() {
 
 function ForkPasteEditor({ id }: { id: string }) {
   const [source, { status }] = useRoot(pasteQuery, id);
-  const [recent] = useRoot(pasteAdminFeedQuery, { limit: PASTES_RECENT_LIMIT });
+  const [recent] = useRoot(
+    pastesQuery,
+    { limit: PASTES_RECENT_LIMIT },
+    currentQueryContext(),
+  );
   if (!source) return <p className="paste-empty">{status === "complete" ? "Paste not found." : "Loading paste…"}</p>;
   return <PasteEditor source={source} recent={recent.slice(0, PASTES_RECENT_LIMIT)} />;
 }

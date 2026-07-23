@@ -4,17 +4,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ThoughtCard } from "../components/ThoughtCard.tsx";
 import {
   THOUGHTS_PAGE_SIZE,
-  thoughtAdminFeedQuery,
   thoughtsQuery,
 } from "../components/ThoughtCard.queries.ts";
 import { ThoughtComposer } from "../components/ThoughtComposer.tsx";
 import { useThoughtsFeed } from "../components/ThoughtsFeed.tsx";
-import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
+import { currentQueryContext } from "../rindle-client.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/thoughts/")({
-  loader: roleAwareRindleLoader({
-    public: () => thoughtsQuery({ limit: THOUGHTS_PAGE_SIZE }),
-    admin: () => thoughtAdminFeedQuery({ limit: THOUGHTS_PAGE_SIZE }),
+  loader: rindle.loader({
+    query: () => thoughtsQuery({ limit: THOUGHTS_PAGE_SIZE }, currentQueryContext()),
   }),
   component: ThoughtsIndex,
 });

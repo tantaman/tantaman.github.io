@@ -3,22 +3,21 @@ import { Link } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 
 import { renderThoughtMarkdown } from "../../lib/thoughts.ts";
+import { currentQueryContext } from "../../rindle-client.ts";
 import {
   FRAMINGS_LIMIT,
   FRAMING_PICKER_MAX_LIMIT,
   FRAMING_PICKER_PAGE_SIZE,
-  framingAdminThoughtsQuery,
   framingPostsQuery,
   framingThoughtsQuery,
   framingsQuery,
-  type FramingAdminThoughtPickerRow,
   type FramingPostPickerRow,
   type FramingThoughtPickerRow,
   type FramingsRow,
 } from "../Framing.queries.ts";
 
 type PickerTab = "thoughts" | "posts" | "framings";
-type ThoughtPickerRow = FramingThoughtPickerRow | FramingAdminThoughtPickerRow;
+type ThoughtPickerRow = FramingThoughtPickerRow;
 
 function truncate(value: string, max: number) {
   return value.length <= max ? value : `${value.slice(0, max)}…`;
@@ -106,8 +105,11 @@ export function FramingLeftPanel({
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const titleInputRef = useRef<HTMLInputElement>(null);
 
-  const thoughtPickerQuery = isAdmin ? framingAdminThoughtsQuery : framingThoughtsQuery;
-  const [thoughtRows, { status: thoughtStatus }] = useRoot(thoughtPickerQuery, { search: debouncedQuery, limit });
+  const [thoughtRows, { status: thoughtStatus }] = useRoot(
+    framingThoughtsQuery,
+    { search: debouncedQuery, limit },
+    currentQueryContext(),
+  );
   const [postRows, { status: postStatus }] = useRoot(framingPostsQuery, { search: debouncedQuery, limit });
   const [allFramings, { status: framingStatus }] = useRoot(framingsQuery, { limit: FRAMINGS_LIMIT });
   const thoughts = thoughtRows.slice(0, limit) as readonly ThoughtPickerRow[];

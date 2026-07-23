@@ -1,12 +1,13 @@
-// Named, React-free subscriptions for the short-form thought substrate. Public query names always
-// constrain `private = 0`; admin query names are separately authorized by server/app-api.ts rather
-// than trusting a client-provided "include private" flag.
+// Named, React-free subscriptions for the short-form thought substrate. Visibility comes from the
+// off-wire query context: the browser predicts with its session principal and the API rebuilds the
+// same named query with its independently verified principal.
 
 import { defineFragment, defineQuery, isNotNull, isNull } from "@rindle/client";
 import type { FragmentRef, QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
 import { q, relationships, thought } from "../../shared/app-def.ts";
+import { canPublish, type QueryContext } from "../../shared/auth.ts";
 
 export const ThoughtCardFragment = defineFragment(thought, (t) =>
   t.select("id", "body", "createdAt", "updatedAt", "version", "parentId", "color", "private"),
@@ -31,51 +32,22 @@ const replyPageArgs = z.object({
     .max(THOUGHT_FEED_REPLIES_MAX_LIMIT),
 });
 
-/** Public root-thought feed. The lookahead row supports ratcheting "load more" without subscribing
- * to the whole table. replyCount excludes private replies for anonymous readers. */
-export const thoughtsQuery = defineQuery("thoughts", (raw) => pageArgs.parse(raw), ({ limit }) =>
-  q.thought
-    .where.parentId(isNull())
-    .where.private(0)
-    .orderBy("createdAt", "desc")
-    .orderBy("id", "asc")
-    .limit(limit + 1)
-    .countAs("replyCount", relationships.thoughtReplies, (reply) => reply.where.private(0))
-    .sub("attachments", relationships.thoughtAttachments, (attachment) =>
-      attachment
-        .orderBy("position", "asc")
-        .orderBy("id", "asc")
-        .limit(100)
-        .select("id", "thoughtId", "storageKey", "mediaType", "fileName", "position"),
-    )
-    .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
-      link
-        .orderBy("position", "asc")
-        .orderBy("id", "asc")
-        .limit(200)
-        .select("id", "thoughtId", "tagId", "position")
-        .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
-          tagProfile.select("id", "name", "normalizedName").one(),
-        ),
-    )
-    .sub("tasks", relationships.thoughtTasks, (task) =>
-      task.orderBy("id", "asc").limit(200).select("id"),
-    )
-    .include(ThoughtCardFragment),
-);
-
-/** Private author feed. Authorization is by the query name, so its AST never depends on a spoofable
- * wire flag. */
-export const thoughtAdminFeedQuery = defineQuery(
-  "thoughtAdminFeed",
+/** Root-thought feed. The lookahead row supports ratcheting "load more" without subscribing to the
+ * whole table. Anonymous readers get public rows/counts; publishers get the widened author view. */
+export const thoughtsQuery = defineQuery(
+  "thoughts",
   (raw) => pageArgs.parse(raw),
-  ({ limit }) =>
-    q.thought
-      .where.parentId(isNull())
+  ({ limit }, ctx: QueryContext) => {
+    const admin = canPublish(ctx.user);
+    let query = q.thought.where.parentId(isNull());
+    if (!admin) query = query.where.private(0);
+    return query
       .orderBy("createdAt", "desc")
       .orderBy("id", "asc")
       .limit(limit + 1)
-      .countAs("replyCount", relationships.thoughtReplies)
+      .countAs("replyCount", relationships.thoughtReplies, (reply) =>
+        admin ? reply : reply.where.private(0),
+      )
       .sub("attachments", relationships.thoughtAttachments, (attachment) =>
         attachment
           .orderBy("position", "asc")
@@ -96,7 +68,8 @@ export const thoughtAdminFeedQuery = defineQuery(
       .sub("tasks", relationships.thoughtTasks, (task) =>
         task.orderBy("id", "asc").limit(200).select("id"),
       )
-      .include(ThoughtCardFragment),
+      .include(ThoughtCardFragment);
+  },
 );
 
 /** Public flat reply window. The UI joins these rows to the separately bounded root window and
@@ -105,14 +78,17 @@ export const thoughtAdminFeedQuery = defineQuery(
 export const thoughtRepliesQuery = defineQuery(
   "thoughtReplies",
   (raw) => replyPageArgs.parse(raw),
-  ({ limit }) =>
-    q.thought
-      .where.parentId(isNotNull())
-      .where.private(0)
+  ({ limit }, ctx: QueryContext) => {
+    const admin = canPublish(ctx.user);
+    let query = q.thought.where.parentId(isNotNull());
+    if (!admin) query = query.where.private(0);
+    return query
       .orderBy("createdAt", "asc")
       .orderBy("id", "asc")
       .limit(limit + 1)
-      .countAs("replyCount", relationships.thoughtReplies, (reply) => reply.where.private(0))
+      .countAs("replyCount", relationships.thoughtReplies, (reply) =>
+        admin ? reply : reply.where.private(0),
+      )
       .sub("attachments", relationships.thoughtAttachments, (attachment) =>
         attachment
           .orderBy("position", "asc")
@@ -133,109 +109,25 @@ export const thoughtRepliesQuery = defineQuery(
       .sub("tasks", relationships.thoughtTasks, (task) =>
         task.orderBy("id", "asc").limit(200).select("id"),
       )
-      .include(ThoughtCardFragment),
-);
-
-/** Admin twin of the reply window, including private rows. Query-name authorization keeps the
- * visibility decision at the authority rather than accepting a client-controlled flag. */
-export const thoughtAdminRepliesQuery = defineQuery(
-  "thoughtAdminReplies",
-  (raw) => replyPageArgs.parse(raw),
-  ({ limit }) =>
-    q.thought
-      .where.parentId(isNotNull())
-      .orderBy("createdAt", "asc")
-      .orderBy("id", "asc")
-      .limit(limit + 1)
-      .countAs("replyCount", relationships.thoughtReplies)
-      .sub("attachments", relationships.thoughtAttachments, (attachment) =>
-        attachment
-          .orderBy("position", "asc")
-          .orderBy("id", "asc")
-          .limit(100)
-          .select("id", "thoughtId", "storageKey", "mediaType", "fileName", "position"),
-      )
-      .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
-        link
-          .orderBy("position", "asc")
-          .orderBy("id", "asc")
-          .limit(200)
-          .select("id", "thoughtId", "tagId", "position")
-          .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
-            tagProfile.select("id", "name", "normalizedName").one(),
-          ),
-      )
-      .sub("tasks", relationships.thoughtTasks, (task) =>
-        task.orderBy("id", "asc").limit(200).select("id"),
-      )
-      .include(ThoughtCardFragment),
+      .include(ThoughtCardFragment);
+  },
 );
 
 const thoughtIdArgs = z.string().min(1).max(500);
 
-/** A public thought, its direct reply window, attachments, normalized tags, and recent version
- * history. Filtering the root by privacy also gates the nested history rows. */
-export const thoughtQuery = defineQuery("thought", (raw) => thoughtIdArgs.parse(raw), (id) =>
-  q.thought
-    .where.id(id)
-    .where.private(0)
-    .countAs("replyCount", relationships.thoughtReplies, (reply) => reply.where.private(0))
-    .sub("attachments", relationships.thoughtAttachments, (attachment) =>
-      attachment.orderBy("position", "asc").orderBy("id", "asc").limit(100),
-    )
-    .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
-      link
-        .orderBy("position", "asc")
-        .orderBy("id", "asc")
-        .limit(200)
-        .select("id", "thoughtId", "tagId", "position")
-        .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
-          tagProfile.select("id", "name", "normalizedName").one(),
-        ),
-    )
-    .sub("history", relationships.thoughtHistory, (history) =>
-      history.orderBy("version", "desc").orderBy("id", "asc").limit(500),
-    )
-    .sub("tasks", relationships.thoughtTasks, (task) =>
-      task.orderBy("id", "asc").limit(200).select("id", "projectId"),
-    )
-    .sub("projects", relationships.thoughtProjects, (project) =>
-      project.orderBy("id", "asc").limit(200).select("id", "status"),
-    )
-    .sub("replies", relationships.thoughtReplies, (reply) =>
-      reply
-        .where.private(0)
-        .orderBy("createdAt", "asc")
-        .orderBy("id", "asc")
-        .limit(THOUGHT_REPLIES_LIMIT)
-        .countAs("replyCount", relationships.thoughtReplies, (nestedReply) => nestedReply.where.private(0))
-        .sub("attachments", relationships.thoughtAttachments, (attachment) =>
-          attachment.orderBy("position", "asc").orderBy("id", "asc").limit(100),
-        )
-        .sub("tagLinks", relationships.thoughtTagLinks, (link) =>
-          link
-            .orderBy("position", "asc")
-            .orderBy("id", "asc")
-            .limit(200)
-            .select("id", "thoughtId", "tagId", "position")
-            .sub("tag", relationships.thoughtTagProfile, (tagProfile) =>
-              tagProfile.select("id", "name", "normalizedName").one(),
-            ),
-        )
-        .select("id", "body", "createdAt", "updatedAt", "version", "parentId", "color", "private"),
-    )
-    .include(ThoughtCardFragment)
-    .one(),
-);
-
-/** Admin detail twin: identical shape, without privacy filters. */
-export const thoughtAdminQuery = defineQuery(
-  "thoughtAdmin",
+/** One thought, its direct reply window, attachments, normalized tags, and recent version history.
+ * The authoritative principal decides whether private roots, replies, and counts enter the view. */
+export const thoughtQuery = defineQuery(
+  "thought",
   (raw) => thoughtIdArgs.parse(raw),
-  (id) =>
-    q.thought
-      .where.id(id)
-      .countAs("replyCount", relationships.thoughtReplies)
+  (id, ctx: QueryContext) => {
+    const admin = canPublish(ctx.user);
+    let query = q.thought.where.id(id);
+    if (!admin) query = query.where.private(0);
+    return query
+      .countAs("replyCount", relationships.thoughtReplies, (reply) =>
+        admin ? reply : reply.where.private(0),
+      )
       .sub("attachments", relationships.thoughtAttachments, (attachment) =>
         attachment.orderBy("position", "asc").orderBy("id", "asc").limit(100),
       )
@@ -258,12 +150,15 @@ export const thoughtAdminQuery = defineQuery(
       .sub("projects", relationships.thoughtProjects, (project) =>
         project.orderBy("id", "asc").limit(200).select("id", "status"),
       )
-      .sub("replies", relationships.thoughtReplies, (reply) =>
-        reply
+      .sub("replies", relationships.thoughtReplies, (reply) => {
+        const visible = admin ? reply : reply.where.private(0);
+        return visible
           .orderBy("createdAt", "asc")
           .orderBy("id", "asc")
           .limit(THOUGHT_REPLIES_LIMIT)
-          .countAs("replyCount", relationships.thoughtReplies)
+          .countAs("replyCount", relationships.thoughtReplies, (nestedReply) =>
+            admin ? nestedReply : nestedReply.where.private(0),
+          )
           .sub("attachments", relationships.thoughtAttachments, (attachment) =>
             attachment.orderBy("position", "asc").orderBy("id", "asc").limit(100),
           )
@@ -277,15 +172,13 @@ export const thoughtAdminQuery = defineQuery(
                 tagProfile.select("id", "name", "normalizedName").one(),
               ),
           )
-          .select("id", "body", "createdAt", "updatedAt", "version", "parentId", "color", "private"),
-      )
+          .select("id", "body", "createdAt", "updatedAt", "version", "parentId", "color", "private");
+      })
       .include(ThoughtCardFragment)
-      .one(),
+      .one();
+  },
 );
 
 export type ThoughtFeedRow = QueryLocalData<ReturnType<typeof thoughtsQuery>>[number];
-export type ThoughtAdminFeedRow = QueryLocalData<ReturnType<typeof thoughtAdminFeedQuery>>[number];
 export type ThoughtReplyRow = QueryLocalData<ReturnType<typeof thoughtRepliesQuery>>[number];
-export type ThoughtAdminReplyRow = QueryLocalData<ReturnType<typeof thoughtAdminRepliesQuery>>[number];
 export type ThoughtDetailRow = NonNullable<QueryLocalData<ReturnType<typeof thoughtQuery>>>;
-export type ThoughtAdminDetailRow = NonNullable<QueryLocalData<ReturnType<typeof thoughtAdminQuery>>>;

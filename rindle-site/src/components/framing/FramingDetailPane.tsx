@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 
+import { currentQueryContext } from "../../rindle-client.ts";
 import { ThoughtCard, type ThoughtCardData } from "../ThoughtCard.tsx";
-import { thoughtAdminQuery, thoughtQuery } from "../ThoughtCard.queries.ts";
+import { thoughtQuery } from "../ThoughtCard.queries.ts";
 
 export function FramingDetailPane({
   thoughtId,
@@ -14,8 +15,7 @@ export function FramingDetailPane({
   isAdmin: boolean;
   onClose: () => void;
 }) {
-  const query = isAdmin ? thoughtAdminQuery : thoughtQuery;
-  const [thought, { status }] = useRoot(query, thoughtId);
+  const [thought, { status }] = useRoot(thoughtQuery, thoughtId, currentQueryContext());
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {

@@ -25,8 +25,8 @@ import {
   withoutTitleHeading,
 } from "../lib/markdown.ts";
 import { parseList } from "../lib/format.ts";
-import { app } from "../rindle-client.ts";
-import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
+import { app, currentQueryContext } from "../rindle-client.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 interface WriteSearch {
   post?: string;
@@ -81,14 +81,14 @@ export const Route = createFileRoute("/_shell/write")({
     post: typeof search.post === "string" && search.post.length <= 200 ? search.post : undefined,
   }),
   loaderDeps: ({ search }) => ({ post: search.post }),
-  loader: roleAwareRindleLoader({
-    public: () => [],
-    admin: ({ deps }) => {
+  loader: rindle.loader({
+    query: ({ deps }) => {
       const post = typeof deps.post === "string" ? deps.post : undefined;
+      const context = currentQueryContext();
       return [
-        ...(post ? [postEditorQuery(post)] : []),
-        postEditorFacetOptionsQuery({}),
-        postEditorMetadataOptionsQuery({}),
+        ...(post ? [postEditorQuery(post, context)] : []),
+        postEditorFacetOptionsQuery({}, context),
+        postEditorMetadataOptionsQuery({}, context),
       ];
     },
     // The editor cannot safely initialize from a row that lacks its raw body or metadata options.
@@ -168,9 +168,10 @@ function WritePost() {
 
 function PostAuthoringDesk({ editSlug }: { editSlug?: string }) {
   const navigate = Route.useNavigate();
-  const [existing, { status }] = useRoot(postEditorQuery, editSlug ?? EMPTY_QUERY_SLUG);
-  const [facetRows] = useRoot(postEditorFacetOptionsQuery, {});
-  const [metadataRows] = useRoot(postEditorMetadataOptionsQuery, {});
+  const context = currentQueryContext();
+  const [existing, { status }] = useRoot(postEditorQuery, editSlug ?? EMPTY_QUERY_SLUG, context);
+  const [facetRows] = useRoot(postEditorFacetOptionsQuery, {}, context);
+  const [metadataRows] = useRoot(postEditorMetadataOptionsQuery, {}, context);
   const [metadata, setMetadata] = useState<PostMetadata>(emptyMetadata);
   const [error, setError] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
