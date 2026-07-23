@@ -9,20 +9,23 @@ importers:
   .:
     dependencies:
       '@rindle/api-server':
-        specifier: 0.7.8
-        version: 0.7.8
+        specifier: 0.7.10
+        version: 0.7.10
       '@rindle/client':
-        specifier: 0.7.8
-        version: 0.7.8
+        specifier: 0.7.10
+        version: 0.7.10
       '@rindle/optimistic':
-        specifier: 0.7.8
-        version: 0.7.8
+        specifier: 0.7.10
+        version: 0.7.10
       '@rindle/react':
-        specifier: 0.7.8
-        version: 0.7.8(react@19.2.7)
+        specifier: 0.7.10
+        version: 0.7.10(react@19.2.7)
+      '@rindle/tanstack':
+        specifier: 0.7.10
+        version: 0.7.10(@tanstack/react-router@1.170.18(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       '@rindle/wasm':
-        specifier: 0.7.8
-        version: 0.7.8
+        specifier: 0.7.10
+        version: 0.7.10
       '@tanstack/react-router':
         specifier: latest
         version: 1.170.18(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -79,17 +82,17 @@ importers:
         specifier: ^5.20260719.1
         version: 5.20260719.1
       '@rindle/cli':
-        specifier: 0.7.8
-        version: 0.7.8
+        specifier: 0.7.10
+        version: 0.7.10
       '@rindle/devtools':
-        specifier: 0.7.8
-        version: 0.7.8
+        specifier: 0.7.10
+        version: 0.7.10
       '@rindle/react-devtools':
-        specifier: 0.7.8
-        version: 0.7.8(react@19.2.7)
+        specifier: 0.7.10
+        version: 0.7.10(react@19.2.7)
       '@rindle/sql-client':
-        specifier: 0.7.8
-        version: 0.7.8
+        specifier: 0.7.10
+        version: 0.7.10
       '@tanstack/router-cli':
         specifier: ^1.167.17
         version: 1.167.21
@@ -728,98 +731,104 @@ packages:
   '@poppinss/exception@1.2.3':
     resolution: {integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==}
 
-  '@rindle/api-server@0.7.8':
-    resolution: {integrity: sha512-UlhvoKSg8BauqdXLum9oCio0ycVnhx8kbjVSpEMyQfDI+YsjQhnn47fEUT84qeCzAJF/wVi1HkB7beghBdZ4QQ==}
+  '@rindle/api-server@0.7.10':
+    resolution: {integrity: sha512-eMGSlU5aEQva82NodIiO/AypBZcn9Wz5osR1M/usRN6UDWHLmyaDRDo9Yz+T7oljRrMr7vGYl783gPjE5JA3Yg==}
 
-  '@rindle/cli-darwin-arm64@0.7.8':
-    resolution: {integrity: sha512-4GEgisZdY4KFCZYM73OVnPl0x7jNapYRQb1wmAvtb2CKrQ+GN3dx7L4iwidiBT9jREnwAVBOT2Whv5JO9pW0bQ==}
+  '@rindle/cli-darwin-arm64@0.7.10':
+    resolution: {integrity: sha512-lORzwBaJPsT/yjv+ovOjcPeB0uRnVao8jwGkW4wplDrH8Ilyja+Yq0eJKG472uYjS9NaRDJp6PUbpDkewRgIbg==}
     engines: {node: '>=22'}
     cpu: [arm64]
     os: [darwin]
 
-  '@rindle/cli-darwin-x64@0.7.8':
-    resolution: {integrity: sha512-MKnb86Q6RlOkub6ne495tUltSsDAKCmxEkYUJyV/YG2dTNbbda4NRRzQraCOEAm6ykIHj2AUgSZi7MistPPRJA==}
+  '@rindle/cli-darwin-x64@0.7.10':
+    resolution: {integrity: sha512-Xpl5G3eRZI+ToVZW/Yidu9UGqgqwHSM2QzHSwRnD5dAKgVUL6FT6nkAgIdQAR79dLYQsum+c6dfZ7TC/WXM0ig==}
     engines: {node: '>=22'}
     cpu: [x64]
     os: [darwin]
 
-  '@rindle/cli-linux-arm64-gnu@0.7.8':
-    resolution: {integrity: sha512-usPizLoWmDiy6hSpGf2Z0og+oIBjVuoxAdQ30d10gQwFFLZzqXfft4ZbeXjIIjY8+sEsXJUYSEjJy53YEHztKA==}
+  '@rindle/cli-linux-arm64-gnu@0.7.10':
+    resolution: {integrity: sha512-iWXri0UmWt7Wq4hSXFfUSBAyEzLtuxPWUwRaDA6oNIu3Q8H4QUyvxJytsIi1E/rOWpI86fjq5aaTcDV7t5amiA==}
     engines: {node: '>=22'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@rindle/cli-linux-arm64-musl@0.7.8':
-    resolution: {integrity: sha512-JR+MBGaABJGKOI9OwTTkJI1abmYH2Mpz/QFz62OIq0WUfaz0evMKHIImaFn7AO6sDclwFtUT+mVoDVSBox33Kg==}
+  '@rindle/cli-linux-arm64-musl@0.7.10':
+    resolution: {integrity: sha512-lXxGE9MSETyMeegNu60xkcxMQuKfmTALRx1yNDKcppoGdKyBQm+t3YmLLJRpd8gggYLW/qLiZVCtezVgTBCV1Q==}
     engines: {node: '>=22'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@rindle/cli-linux-x64-gnu@0.7.8':
-    resolution: {integrity: sha512-3H+0QzBf8DZEryPPtsivupJzU71OFG3BgbXb3yg388e+E1m86vHDMPFVHOWQPuRJy3xj+TcL2KDdeyV5IWVeZA==}
+  '@rindle/cli-linux-x64-gnu@0.7.10':
+    resolution: {integrity: sha512-rFoAGdNVFTNRwzqtDFZuDvzAotEVKs8E4iCYsDajzEAXFk40Wr7V9+3PEYBqIDuL6BwdbMtj1aDlM1p9oV5WRQ==}
     engines: {node: '>=22'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@rindle/cli-linux-x64-musl@0.7.8':
-    resolution: {integrity: sha512-NxoZI+Gap2SukA7bn2VkHtAmphvloA92khgAI0uKsDP3/2bR6ZWObY3mMROsHIj89KjKDslgTSuwWPRTDJHf8A==}
+  '@rindle/cli-linux-x64-musl@0.7.10':
+    resolution: {integrity: sha512-ZT5+GfgCFYo5aMj6AwHt1tPMAR2mjRbA8FwdqrjcUvjJmFA5Pz1tKzEFu5ktDAlT9tgAW++CBSVmCj1xzmux1Q==}
     engines: {node: '>=22'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@rindle/cli@0.7.8':
-    resolution: {integrity: sha512-GG1OntQY4/HLDgPosMrsIMwtP90Pnh3vKVbbclhsKdZKXSCcVQi0maZSz8W/a9Z13h5zzOtItNo5tHH65GaGxQ==}
+  '@rindle/cli@0.7.10':
+    resolution: {integrity: sha512-UzW0Wh3CLao0KUAIGIPzlsqa6i3ObqjXv6cVkUZEuqqKpN6VHzNqqXXlF+7DmdES+3q+vWG+1eTX3e2ECZ/JgQ==}
     engines: {node: '>=22'}
     hasBin: true
 
-  '@rindle/client@0.7.8':
-    resolution: {integrity: sha512-IRIaOORLZxRKcQ1PLB+pYoV353XaIkxaJwg9RgiABF3C0nZrEHzERsBQAIGrWaeYE87q/0rkibPH5drmK8xYOA==}
+  '@rindle/client@0.7.10':
+    resolution: {integrity: sha512-9pzTvr6ZE4SEVJ3J/haiQteYg2CcpBmRszgjyJzcpqowp/0rPwvAEfi93JM5eElCMLA1lOxB456EnF2nqL2F/Q==}
 
-  '@rindle/daemon-client@0.7.8':
-    resolution: {integrity: sha512-ouy7CZZnXPNqy3l/KibVL/M9Mhz3X3Z8jSgNJEvl/Icib42pRkV9RnYI1j2c53k0IpcwPoYURGefTpayXkuP5Q==}
+  '@rindle/daemon-client@0.7.10':
+    resolution: {integrity: sha512-gqLmXwt0ebUQYzZXetY4PTAsh57srWPtwFvDYAVDG6Pc0BuAr6mTTnHtMl6PbpdYYVfsQQl5cC5neJAWiqQxUA==}
 
-  '@rindle/devtools@0.7.8':
-    resolution: {integrity: sha512-An83CkYLQCkpoaViwm2piGu5mCknSta7Pt4BvTbZH40BOQpDI+rfwj6p9iRokA4m4UO0mNjQtmY+vmvPAZ4opg==}
+  '@rindle/devtools@0.7.10':
+    resolution: {integrity: sha512-V8h7IV3RngBZ3LSqyQQov6uksCqjNdfMIbT/67F1wz7cc/ADE/utOrcnFogkw0k1X/limh21Wdgz6r5bI15fQA==}
 
-  '@rindle/normalized@0.7.8':
-    resolution: {integrity: sha512-7VLsLaf5uBZfyzdxJyT8z+78tqg9egmgzxLkx6Y86bsTNxqrTD1thF2jeirpvuZrkVl/EVp66+ZwoXNEHmPIIA==}
+  '@rindle/normalized@0.7.10':
+    resolution: {integrity: sha512-n7xeKROSOkA0nffUmkrQCXOEhNomjAkRwMDK9RKALZl9lFkLoABvQjbYuVVb81TKQWmhGGDyLWBQ7x2lFQSoqw==}
 
-  '@rindle/optimistic@0.7.8':
-    resolution: {integrity: sha512-hjBvbUlMJBjVaXhPztv6ss38U6yWRLnMBXkNtSkU7q5qhBly6uo9rBXQAuXpI/ilm7X1p4r8131j+VCKl5eOZQ==}
+  '@rindle/optimistic@0.7.10':
+    resolution: {integrity: sha512-XtKPSQFh3noxjuJ+GeHdWuV4oWO9r/Tm3PnJFk8dwvcLIdnAAscTbldin6rAvWMK6XJqfKiv7PZav/VyGni5Wg==}
 
-  '@rindle/query-compiler@0.7.8':
-    resolution: {integrity: sha512-dhAi6yNBr1GBOZ2vdvUFsBfciDjClJDyKNM3ttagFWWVcKG5aRIrXehk1k+fWc81rrbTHnSUuXs+0bE9StDlmQ==}
+  '@rindle/query-compiler@0.7.10':
+    resolution: {integrity: sha512-5Rpd4sG3teAPaVJJCzrwOUrTQUf8mDmVZHENtqDyF7cqKDCUAEOzApn+ciVWQwjZ2rTvMcof6C7cz/tXZFFwKA==}
 
-  '@rindle/react-devtools@0.7.8':
-    resolution: {integrity: sha512-bLWM4nBiZz8MJZ/1sat/BfboJ7XueeQTkEzSWY7Dj61HsetJK6WpMZ+djrNl1fO678jhprYhoomZhjAtluYqbw==}
+  '@rindle/react-devtools@0.7.10':
+    resolution: {integrity: sha512-XdIW5ewBRJCTffAtDa0NJCdAO2ZTY6tGsK7ghj+Qz+N/nN7WBoWfkdl14zTJ7oiBFDrNNV6SWQdo5s3w/eUoFg==}
     peerDependencies:
       react: '>=18.0.0'
 
-  '@rindle/react@0.7.8':
-    resolution: {integrity: sha512-p/V0SgDaJJXbmXzRksLM3TW8mSAN1YmsuwnR1GIanz9Vx0B/ZyzXDGxP/i3kmshRFA5QbRzbcBJHan9VJYHf7Q==}
+  '@rindle/react@0.7.10':
+    resolution: {integrity: sha512-pQrAtFVDNnqz97B4D14IVf8WyyV3o/EFTrdQNtjqqReMTx1ZQ7LlfPIi2WlVOlqwJ448k4gdky5IX7s1bKbC0w==}
     peerDependencies:
       react: '>=18.0.0'
 
-  '@rindle/remote@0.7.8':
-    resolution: {integrity: sha512-QUrH72B0qFefYM60Mh21wYfvBWYmd/gcOjHe5keJy5ZFbXIT1k+Ks01VWlvRMF/1Sk6nSVM2ILbJjLRzB1Piuw==}
+  '@rindle/remote@0.7.10':
+    resolution: {integrity: sha512-vVLyZ2+8EnAzoNqo/t0ul6zZcchKBxaoMTj2Le79gXctRMDBX3lfpNv/UVNPDFMxDoTwqXtf9RqtgkYJbMOjYA==}
 
-  '@rindle/room@0.7.8':
-    resolution: {integrity: sha512-I61mJd9JOAhbdrALO3UnRul6ct2tavbYg9m9om1wBXdbisjyZ90CkjEAA/hUeiBzCiQZlBb9SHU9cgC+rDED3A==}
+  '@rindle/room@0.7.10':
+    resolution: {integrity: sha512-KZm/N+eqvlzAhHDHX9RcWaAA7h4HN3zvMvYYP4x6DSVm7jtxcWk2YyFsPnGdk13+C2urn+OS1VftkBzLWr23Eg==}
 
-  '@rindle/sql-client@0.7.8':
-    resolution: {integrity: sha512-RBZaZu3BYi+Bfe4LtKFUINPigO+9JIi5ZKY99PJ0VgchfSxBKDIIZHW5JMPFVJCAjdaLpB4+6WK8f3rTHET3LA==}
+  '@rindle/sql-client@0.7.10':
+    resolution: {integrity: sha512-T/nFSGGkWsm2X7QD82MCX2RbbY2E9dVjU6KVR+iqHNXwUEpnS2k4MLNWpC0zU9mCAekib9rzPWmid0UbPXq9ug==}
     peerDependencies:
       drizzle-orm: 0.44.7
     peerDependenciesMeta:
       drizzle-orm:
         optional: true
 
-  '@rindle/wasm@0.7.8':
-    resolution: {integrity: sha512-7eFfSMDTipvDDIgJ2RtPj/gfDxhJAh2I/ZS+PpQfI8zgvYyhg+atefKk64ptkDm4M6BXO2iX7+Vx029Z6+415g==}
+  '@rindle/tanstack@0.7.10':
+    resolution: {integrity: sha512-7UhWjshKZf+ec8NoYc+eU/z9umxWr1tdCRBWydQGXAvWd6vuNVxpE0BM2EX29W8gfFKA/n2neompmdhHpUpz4Q==}
+    peerDependencies:
+      '@tanstack/react-router': '>=1.167.0'
+      react: '>=18.0.0'
+
+  '@rindle/wasm@0.7.10':
+    resolution: {integrity: sha512-rVyoIXW3HxG1jfEAYIXhog/YN2D1k3uZZPvBDjmR2eRiVGa9f5fk3Fn0I6Yr/94hGNmYGc74PjAiaLEgZaBG3g==}
 
   '@rolldown/binding-android-arm64@1.1.5':
     resolution: {integrity: sha512-lZg8fqIv2v7FF237bwMgzGZEJvGL79/s5knJ/i6FmsGF4XXlzccZ4jb+TrFIxtSSxFtIpdsgrPZeMk1I9AFcyQ==}
@@ -2736,85 +2745,85 @@ snapshots:
 
   '@poppinss/exception@1.2.3': {}
 
-  '@rindle/api-server@0.7.8':
+  '@rindle/api-server@0.7.10':
     dependencies:
-      '@rindle/client': 0.7.8
-      '@rindle/daemon-client': 0.7.8
-      '@rindle/query-compiler': 0.7.8
-      '@rindle/sql-client': 0.7.8
+      '@rindle/client': 0.7.10
+      '@rindle/daemon-client': 0.7.10
+      '@rindle/query-compiler': 0.7.10
+      '@rindle/sql-client': 0.7.10
     optionalDependencies:
-      '@rindle/room': 0.7.8
+      '@rindle/room': 0.7.10
     transitivePeerDependencies:
       - bufferutil
       - drizzle-orm
       - utf-8-validate
 
-  '@rindle/cli-darwin-arm64@0.7.8':
+  '@rindle/cli-darwin-arm64@0.7.10':
     optional: true
 
-  '@rindle/cli-darwin-x64@0.7.8':
+  '@rindle/cli-darwin-x64@0.7.10':
     optional: true
 
-  '@rindle/cli-linux-arm64-gnu@0.7.8':
+  '@rindle/cli-linux-arm64-gnu@0.7.10':
     optional: true
 
-  '@rindle/cli-linux-arm64-musl@0.7.8':
+  '@rindle/cli-linux-arm64-musl@0.7.10':
     optional: true
 
-  '@rindle/cli-linux-x64-gnu@0.7.8':
+  '@rindle/cli-linux-x64-gnu@0.7.10':
     optional: true
 
-  '@rindle/cli-linux-x64-musl@0.7.8':
+  '@rindle/cli-linux-x64-musl@0.7.10':
     optional: true
 
-  '@rindle/cli@0.7.8':
+  '@rindle/cli@0.7.10':
     optionalDependencies:
-      '@rindle/cli-darwin-arm64': 0.7.8
-      '@rindle/cli-darwin-x64': 0.7.8
-      '@rindle/cli-linux-arm64-gnu': 0.7.8
-      '@rindle/cli-linux-arm64-musl': 0.7.8
-      '@rindle/cli-linux-x64-gnu': 0.7.8
-      '@rindle/cli-linux-x64-musl': 0.7.8
+      '@rindle/cli-darwin-arm64': 0.7.10
+      '@rindle/cli-darwin-x64': 0.7.10
+      '@rindle/cli-linux-arm64-gnu': 0.7.10
+      '@rindle/cli-linux-arm64-musl': 0.7.10
+      '@rindle/cli-linux-x64-gnu': 0.7.10
+      '@rindle/cli-linux-x64-musl': 0.7.10
 
-  '@rindle/client@0.7.8': {}
+  '@rindle/client@0.7.10': {}
 
-  '@rindle/daemon-client@0.7.8': {}
+  '@rindle/daemon-client@0.7.10': {}
 
-  '@rindle/devtools@0.7.8':
+  '@rindle/devtools@0.7.10':
     dependencies:
-      '@rindle/client': 0.7.8
+      '@rindle/client': 0.7.10
 
-  '@rindle/normalized@0.7.8':
+  '@rindle/normalized@0.7.10':
     dependencies:
-      '@rindle/client': 0.7.8
-      '@rindle/wasm': 0.7.8
+      '@rindle/client': 0.7.10
+      '@rindle/wasm': 0.7.10
 
-  '@rindle/optimistic@0.7.8':
+  '@rindle/optimistic@0.7.10':
     dependencies:
-      '@rindle/client': 0.7.8
-      '@rindle/normalized': 0.7.8
-      '@rindle/remote': 0.7.8
-      '@rindle/wasm': 0.7.8
+      '@rindle/client': 0.7.10
+      '@rindle/normalized': 0.7.10
+      '@rindle/remote': 0.7.10
+      '@rindle/wasm': 0.7.10
 
-  '@rindle/query-compiler@0.7.8':
+  '@rindle/query-compiler@0.7.10':
     dependencies:
-      '@rindle/client': 0.7.8
+      '@rindle/client': 0.7.10
 
-  '@rindle/react-devtools@0.7.8(react@19.2.7)':
+  '@rindle/react-devtools@0.7.10(react@19.2.7)':
     dependencies:
-      '@rindle/devtools': 0.7.8
+      '@rindle/devtools': 0.7.10
       react: 19.2.7
 
-  '@rindle/react@0.7.8(react@19.2.7)':
+  '@rindle/react@0.7.10(react@19.2.7)':
     dependencies:
-      '@rindle/client': 0.7.8
+      '@rindle/client': 0.7.10
       react: 19.2.7
 
-  '@rindle/remote@0.7.8':
+  '@rindle/remote@0.7.10':
     dependencies:
-      '@rindle/client': 0.7.8
+      '@rindle/client': 0.7.10
 
-  '@rindle/room@0.7.8':
+  '@rindle/room@0.7.10':
     dependencies:
       ws: 8.21.1
     transitivePeerDependencies:
@@ -2822,11 +2831,18 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  '@rindle/sql-client@0.7.8': {}
+  '@rindle/sql-client@0.7.10': {}
 
-  '@rindle/wasm@0.7.8':
+  '@rindle/tanstack@0.7.10(@tanstack/react-router@1.170.18(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@rindle/client': 0.7.8
+      '@rindle/client': 0.7.10
+      '@rindle/react': 0.7.10(react@19.2.7)
+      '@tanstack/react-router': 1.170.18(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react: 19.2.7
+
+  '@rindle/wasm@0.7.10':
+    dependencies:
+      '@rindle/client': 0.7.10
 
   '@rolldown/binding-android-arm64@1.1.5':
     optional: true
