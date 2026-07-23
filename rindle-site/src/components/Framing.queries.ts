@@ -6,6 +6,7 @@ import type { QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
 import { q, relationships } from "../../shared/app-def.ts";
+import { canPublish, type QueryContext } from "../../shared/auth.ts";
 
 export const FRAMINGS_LIMIT = 500;
 export const FRAMING_NODE_LIMIT = 1_000;
@@ -66,12 +67,8 @@ function framingDetail(id: string, admin: boolean) {
     .one();
 }
 
-export const framingQuery = defineQuery("framing", (raw) => framingIdArgs.parse(raw), (id) =>
-  framingDetail(id, false),
-);
-
-export const framingAdminQuery = defineQuery("framingAdmin", (raw) => framingIdArgs.parse(raw), (id) =>
-  framingDetail(id, true),
+export const framingQuery = defineQuery("framing", (raw) => framingIdArgs.parse(raw), (id, ctx: QueryContext) =>
+  framingDetail(id, canPublish(ctx.user)),
 );
 
 function thoughtPicker(args: z.infer<typeof pickerArgs>, admin: boolean) {
@@ -88,13 +85,7 @@ function thoughtPicker(args: z.infer<typeof pickerArgs>, admin: boolean) {
 export const framingThoughtsQuery = defineQuery(
   "framingThoughts",
   (raw) => pickerArgs.parse(raw),
-  (args) => thoughtPicker(args, false),
-);
-
-export const framingAdminThoughtsQuery = defineQuery(
-  "framingAdminThoughts",
-  (raw) => pickerArgs.parse(raw),
-  (args) => thoughtPicker(args, true),
+  (args, ctx: QueryContext) => thoughtPicker(args, canPublish(ctx.user)),
 );
 
 export const framingPostsQuery = defineQuery("framingPosts", (raw) => pickerArgs.parse(raw), (args) => {
@@ -155,20 +146,11 @@ function thoughtConnections(args: z.infer<typeof connectionArgs>, admin: boolean
 export const framingThoughtConnectionsQuery = defineQuery(
   "framingThoughtConnections",
   (raw) => connectionArgs.parse(raw),
-  (args) => thoughtConnections(args, false),
-);
-
-export const framingAdminThoughtConnectionsQuery = defineQuery(
-  "framingAdminThoughtConnections",
-  (raw) => connectionArgs.parse(raw),
-  (args) => thoughtConnections(args, true),
+  (args, ctx: QueryContext) => thoughtConnections(args, canPublish(ctx.user)),
 );
 
 export type FramingsRow = QueryLocalData<ReturnType<typeof framingsQuery>>[number];
 export type FramingDetailRow = NonNullable<QueryLocalData<ReturnType<typeof framingQuery>>>;
-export type FramingAdminDetailRow = NonNullable<QueryLocalData<ReturnType<typeof framingAdminQuery>>>;
 export type FramingThoughtPickerRow = QueryLocalData<ReturnType<typeof framingThoughtsQuery>>[number];
-export type FramingAdminThoughtPickerRow = QueryLocalData<ReturnType<typeof framingAdminThoughtsQuery>>[number];
 export type FramingPostPickerRow = QueryLocalData<ReturnType<typeof framingPostsQuery>>[number];
 export type FramingThoughtConnectionsRow = NonNullable<QueryLocalData<ReturnType<typeof framingThoughtConnectionsQuery>>>;
-export type FramingAdminThoughtConnectionsRow = NonNullable<QueryLocalData<ReturnType<typeof framingAdminThoughtConnectionsQuery>>>;

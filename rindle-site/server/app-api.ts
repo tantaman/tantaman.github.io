@@ -32,18 +32,12 @@ import {
 import { postQuery } from "../src/components/PostView.queries.ts";
 import { postCommentsQuery } from "../src/components/PostComments.queries.ts";
 import {
-  thoughtAdminFeedQuery,
-  thoughtAdminQuery,
-  thoughtAdminRepliesQuery,
   thoughtQuery,
   thoughtRepliesQuery,
   thoughtsQuery,
 } from "../src/components/ThoughtCard.queries.ts";
 import { thoughtEnrichmentQueries } from "../src/components/ThoughtEnrichment.queries.ts";
 import {
-  framingAdminQuery,
-  framingAdminThoughtConnectionsQuery,
-  framingAdminThoughtsQuery,
   framingPostsQuery,
   framingQuery,
   framingThoughtConnectionsQuery,
@@ -51,7 +45,6 @@ import {
   framingsQuery,
 } from "../src/components/Framing.queries.ts";
 import {
-  pasteAdminFeedQuery,
   pasteDiffQuery,
   pasteQuery,
   pastesQuery,
@@ -97,21 +90,14 @@ const apiQueries = registerQueries<User>([
   postEditorMetadataOptionsQuery,
   thoughtsQuery,
   thoughtQuery,
-  thoughtAdminFeedQuery,
   thoughtRepliesQuery,
-  thoughtAdminRepliesQuery,
-  thoughtAdminQuery,
   ...thoughtEnrichmentQueries,
   framingsQuery,
   framingQuery,
-  framingAdminQuery,
   framingThoughtsQuery,
-  framingAdminThoughtsQuery,
   framingPostsQuery,
   framingThoughtConnectionsQuery,
-  framingAdminThoughtConnectionsQuery,
   pastesQuery,
-  pasteAdminFeedQuery,
   pasteQuery,
   pasteDiffQuery,
   searchPostsQuery,
@@ -182,12 +168,6 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
     schema,
     queries: apiQueries,
     mutators: apiMutators,
-    authorizeQuery: ({ name, user }) =>
-      (!name.startsWith("postEditor") &&
-        !name.startsWith("thoughtAdmin") &&
-        !name.startsWith("framingAdmin") &&
-        !name.startsWith("pasteAdmin")) ||
-      canPublish(user),
     authorizeMutation: ({ user }) => {
       requireAccount(user);
       return true;

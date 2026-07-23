@@ -15,10 +15,10 @@ import type { ResultType } from "@rindle/react";
 import {
   THOUGHTS_MAX_LIMIT,
   THOUGHTS_PAGE_SIZE,
-  thoughtAdminFeedQuery,
   thoughtsQuery,
 } from "./ThoughtCard.queries.ts";
 import type { ThoughtCardData } from "./ThoughtCard.tsx";
+import { currentQueryContext } from "../rindle-client.ts";
 
 interface ThoughtsFeedValue {
   thoughts: readonly ThoughtCardData[];
@@ -30,21 +30,17 @@ interface ThoughtsFeedValue {
 
 const ThoughtsFeedContext = createContext<ThoughtsFeedValue | null>(null);
 
-export function PublicThoughtsFeedProvider({ children }: { children: ReactNode }) {
+export function ThoughtsFeedProvider({
+  children,
+  isAdmin,
+}: {
+  children: ReactNode;
+  isAdmin: boolean;
+}) {
   const [limit, setLimit] = useState(THOUGHTS_PAGE_SIZE);
-  const [rows, { status }] = useRoot(thoughtsQuery, { limit });
+  const [rows, { status }] = useRoot(thoughtsQuery, { limit }, currentQueryContext());
   return (
-    <ThoughtsFeedLease rows={rows} status={status} limit={limit} setLimit={setLimit} isAdmin={false}>
-      {children}
-    </ThoughtsFeedLease>
-  );
-}
-
-export function AdminThoughtsFeedProvider({ children }: { children: ReactNode }) {
-  const [limit, setLimit] = useState(THOUGHTS_PAGE_SIZE);
-  const [rows, { status }] = useRoot(thoughtAdminFeedQuery, { limit });
-  return (
-    <ThoughtsFeedLease rows={rows} status={status} limit={limit} setLimit={setLimit} isAdmin>
+    <ThoughtsFeedLease rows={rows} status={status} limit={limit} setLimit={setLimit} isAdmin={isAdmin}>
       {children}
     </ThoughtsFeedLease>
   );

@@ -6,18 +6,17 @@ import { authClient } from "../auth-client.ts";
 import {
   PASTES_MAX_LIMIT,
   PASTES_PAGE_SIZE,
-  pasteAdminFeedQuery,
   pastesQuery,
   type PasteListRow,
 } from "../components/Paste.queries.ts";
 import { PasteList } from "../components/PasteList.tsx";
 import { useHydrated } from "../lib/hydration.ts";
-import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
+import { currentQueryContext } from "../rindle-client.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/paste/all")({
-  loader: roleAwareRindleLoader({
-    public: () => pastesQuery({ limit: PASTES_PAGE_SIZE }),
-    admin: () => pasteAdminFeedQuery({ limit: PASTES_PAGE_SIZE }),
+  loader: rindle.loader({
+    query: () => pastesQuery({ limit: PASTES_PAGE_SIZE }, currentQueryContext()),
   }),
   component: AllPastes,
 });
@@ -32,19 +31,8 @@ function AllPastes() {
 
 function PasteWindow({ admin = false }: { admin?: boolean }) {
   const [limit, setLimit] = useState(PASTES_PAGE_SIZE);
-  return admin
-    ? <AdminPasteWindow limit={limit} setLimit={setLimit} />
-    : <PublicPasteWindow limit={limit} setLimit={setLimit} />;
-}
-
-function PublicPasteWindow({ limit, setLimit }: PasteWindowProps) {
-  const [rows, { status }] = useRoot(pastesQuery, { limit });
-  return <PasteWindowView rows={rows} status={status} limit={limit} setLimit={setLimit} />;
-}
-
-function AdminPasteWindow({ limit, setLimit }: PasteWindowProps) {
-  const [rows, { status }] = useRoot(pasteAdminFeedQuery, { limit });
-  return <PasteWindowView rows={rows} status={status} limit={limit} setLimit={setLimit} admin />;
+  const [rows, { status }] = useRoot(pastesQuery, { limit }, currentQueryContext());
+  return <PasteWindowView rows={rows} status={status} limit={limit} setLimit={setLimit} admin={admin} />;
 }
 
 interface PasteWindowProps {

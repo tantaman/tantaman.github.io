@@ -13,7 +13,7 @@ import {
 } from "@xyflow/react";
 import { ulid } from "ulid";
 
-import { app } from "../../rindle-client.ts";
+import { app, currentQueryContext } from "../../rindle-client.ts";
 import { parseList } from "../../lib/format.ts";
 import {
   hashThoughtBody,
@@ -22,8 +22,6 @@ import {
 } from "../../lib/thoughts.ts";
 import {
   FRAMING_CONNECTION_LIMIT,
-  framingAdminQuery,
-  framingAdminThoughtConnectionsQuery,
   framingQuery,
   framingThoughtConnectionsQuery,
 } from "../Framing.queries.ts";
@@ -161,15 +159,18 @@ function toFlowEdge(
 }
 
 export function useFramingCanvas(framingId: string, isAdmin: boolean) {
-  const detailQuery = isAdmin ? framingAdminQuery : framingQuery;
-  const connectionQuery = isAdmin ? framingAdminThoughtConnectionsQuery : framingThoughtConnectionsQuery;
-  const [rawDetail, { status }] = useRoot(detailQuery, framingId);
+  const context = currentQueryContext();
+  const [rawDetail, { status }] = useRoot(framingQuery, framingId, context);
   const detail = rawDetail as unknown as CanvasDetail | null;
   const [expansion, setExpansion] = useState<ExpansionRequest | null>(null);
-  const [rawConnections, { status: connectionStatus }] = useRoot(connectionQuery, {
-    id: expansion?.thoughtId ?? "",
-    limit: FRAMING_CONNECTION_LIMIT,
-  });
+  const [rawConnections, { status: connectionStatus }] = useRoot(
+    framingThoughtConnectionsQuery,
+    {
+      id: expansion?.thoughtId ?? "",
+      limit: FRAMING_CONNECTION_LIMIT,
+    },
+    context,
+  );
   const connections = rawConnections as unknown as ConnectionDetail | null;
 
   const [nodes, setNodes] = useState<Node[]>([]);

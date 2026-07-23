@@ -3,19 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 import type { ResultType } from "@rindle/react";
 
-import { app } from "../rindle-client.ts";
+import { app, currentQueryContext } from "../rindle-client.ts";
 import { useThoughtsFeed } from "./ThoughtsFeed.tsx";
 import {
   ENRICHMENT_MAX_LIMIT,
   ENRICHMENT_PAGE_SIZE,
-  thoughtAdminAlbumsQuery,
-  thoughtAdminBooksQuery,
-  thoughtAdminEventsQuery,
-  thoughtAdminLocationsQuery,
-  thoughtAdminMoviesQuery,
-  thoughtAdminProjectsQuery,
-  thoughtAdminQuestionsQuery,
-  thoughtAdminTasksQuery,
   thoughtAlbumsQuery,
   thoughtBooksQuery,
   thoughtEventsQuery,
@@ -106,8 +98,7 @@ function Description({ children }: { children: string | null }) {
 export function ProjectsEnrichmentView() {
   const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
-  const query = isAdmin ? thoughtAdminProjectsQuery : thoughtProjectsQuery;
-  const [allRows, { status }] = useRoot(query, { limit });
+  const [allRows, { status }] = useRoot(thoughtProjectsQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly ProjectEnrichmentRow[];
 
   function setStatus(row: ProjectEnrichmentRow, next: "active" | "archived") {
@@ -146,8 +137,7 @@ export function TasksEnrichmentView() {
   const { limit, loadMore } = useLimit();
   const [showCompleted, setShowCompleted] = useState(false);
   const [showDeprioritized, setShowDeprioritized] = useState(false);
-  const query = isAdmin ? thoughtAdminTasksQuery : thoughtTasksQuery;
-  const [allRows, { status }] = useRoot(query, { limit });
+  const [allRows, { status }] = useRoot(thoughtTasksQuery, { limit }, currentQueryContext());
   const windowRows = allRows.slice(0, limit) as readonly TaskEnrichmentRow[];
   const rows = windowRows.filter((row) =>
     (showCompleted || row.completedAt === null) &&
@@ -188,8 +178,7 @@ export function QuestionsEnrichmentView() {
   const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
   const [showAnswered, setShowAnswered] = useState(false);
-  const query = isAdmin ? thoughtAdminQuestionsQuery : thoughtQuestionsQuery;
-  const [allRows, { status }] = useRoot(query, { limit });
+  const [allRows, { status }] = useRoot(thoughtQuestionsQuery, { limit }, currentQueryContext());
   const windowRows = allRows.slice(0, limit) as readonly QuestionEnrichmentRow[];
   const rows = showAnswered ? windowRows : windowRows.filter((row) => row.answeredAt === null);
   return (
@@ -221,10 +210,8 @@ const EVENT_TIME = new Intl.DateTimeFormat("en-US", {
 });
 
 export function EventsEnrichmentView() {
-  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
-  const query = isAdmin ? thoughtAdminEventsQuery : thoughtEventsQuery;
-  const [allRows, { status }] = useRoot(query, { limit });
+  const [allRows, { status }] = useRoot(thoughtEventsQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly EventEnrichmentRow[];
   return (
     <LaneFrame code="#e" title="Events" description="Dates parsed at capture time from today, tomorrow, weekdays, or calendar dates." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
@@ -242,10 +229,8 @@ export function EventsEnrichmentView() {
 }
 
 export function LocationsEnrichmentView() {
-  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
-  const query = isAdmin ? thoughtAdminLocationsQuery : thoughtLocationsQuery;
-  const [allRows, { status }] = useRoot(query, { limit });
+  const [allRows, { status }] = useRoot(thoughtLocationsQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly LocationEnrichmentRow[];
   return (
     <LaneFrame code="#l" title="Locations" description="Place captures resolved by the server when Mapbox is configured; unresolved names remain useful and searchable." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
@@ -315,10 +300,8 @@ function firstMentionDescription(mentions: readonly unknown[]): string | null {
 }
 
 export function BooksEnrichmentView() {
-  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
-  const query = isAdmin ? thoughtAdminBooksQuery : thoughtBooksQuery;
-  const [allRows, { status }] = useRoot(query, { limit });
+  const [allRows, { status }] = useRoot(thoughtBooksQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly BookEnrichmentRow[];
   return (
     <LaneFrame code="#b" title="Books" description="Reading captures enriched through Open Library, while each mention retains its own notes." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
@@ -328,10 +311,8 @@ export function BooksEnrichmentView() {
 }
 
 export function MoviesEnrichmentView() {
-  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
-  const query = isAdmin ? thoughtAdminMoviesQuery : thoughtMoviesQuery;
-  const [allRows, { status }] = useRoot(query, { limit });
+  const [allRows, { status }] = useRoot(thoughtMoviesQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly MovieEnrichmentRow[];
   return (
     <LaneFrame code="#m" title="Movies" description="Deduplicated movie mentions with optional TMDB posters, release years, and ratings." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
@@ -341,10 +322,8 @@ export function MoviesEnrichmentView() {
 }
 
 export function AlbumsEnrichmentView() {
-  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
-  const query = isAdmin ? thoughtAdminAlbumsQuery : thoughtAlbumsQuery;
-  const [allRows, { status }] = useRoot(query, { limit });
+  const [allRows, { status }] = useRoot(thoughtAlbumsQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly AlbumEnrichmentRow[];
   return (
     <LaneFrame code="#a" title="Music" description="Deduplicated album captures enriched through Apple Music with artwork, artist, year, and genre." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>

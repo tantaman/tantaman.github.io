@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { framingAdminQuery, framingQuery } from "../components/Framing.queries.ts";
+import { framingQuery } from "../components/Framing.queries.ts";
 import { useThoughtsFeed } from "../components/ThoughtsFeed.tsx";
 import { FramingCanvasView } from "../components/framing/FramingCanvasView.tsx";
-import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
+import { currentQueryContext } from "../rindle-client.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/thoughts/framings/$id")({
-  loader: roleAwareRindleLoader({
-    public: ({ params }) => framingQuery(params.id),
-    admin: ({ params }) => framingAdminQuery(params.id),
+  loader: rindle.loader({
+    query: ({ params }) => framingQuery(params.id, currentQueryContext()),
   }),
   component: FramingRoute,
 });

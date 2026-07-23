@@ -4,20 +4,19 @@ import { useRoot } from "@rindle/react";
 import { authClient } from "../auth-client.ts";
 import {
   PASTES_RECENT_LIMIT,
-  pasteAdminFeedQuery,
   pastesQuery,
 } from "../components/Paste.queries.ts";
 import { PasteEditor } from "../components/PasteEditor.tsx";
 import { PasteList } from "../components/PasteList.tsx";
 import { useHydrated } from "../lib/hydration.ts";
-import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
+import { currentQueryContext } from "../rindle-client.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 const PUBLIC_LIMIT = 20;
 
 export const Route = createFileRoute("/paste/")({
-  loader: roleAwareRindleLoader({
-    public: () => pastesQuery({ limit: PUBLIC_LIMIT }),
-    admin: () => pasteAdminFeedQuery({ limit: PASTES_RECENT_LIMIT }),
+  loader: rindle.loader({
+    query: () => pastesQuery({ limit: PUBLIC_LIMIT }, currentQueryContext()),
   }),
   component: PasteHome,
 });
@@ -31,12 +30,16 @@ function PasteHome() {
 }
 
 function PasteAuthorHome() {
-  const [rows] = useRoot(pasteAdminFeedQuery, { limit: PASTES_RECENT_LIMIT });
+  const [rows] = useRoot(pastesQuery, { limit: PUBLIC_LIMIT }, currentQueryContext());
   return <PasteEditor recent={rows.slice(0, PASTES_RECENT_LIMIT)} />;
 }
 
 function PublicPasteHome() {
-  const [rows, { status }] = useRoot(pastesQuery, { limit: PUBLIC_LIMIT });
+  const [rows, { status }] = useRoot(
+    pastesQuery,
+    { limit: PUBLIC_LIMIT },
+    currentQueryContext(),
+  );
   const visible = rows.slice(0, PUBLIC_LIMIT);
   return (
     <section className="paste-landing">

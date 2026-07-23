@@ -1,12 +1,13 @@
-// Unified, public search candidates. Search is expressed as three bounded named Rindle views rather
-// than a generated site-wide JSON index: the daemon evaluates the text predicates and syncs only the
-// matching rows, while the browser merges and ranks the three result kinds.
+// Unified search candidates. Search is expressed as three bounded named Rindle views rather than a
+// generated site-wide JSON index: the daemon evaluates text and principal-scoped visibility, then
+// syncs only matching rows while the browser merges and ranks the three result kinds.
 
 import { defineQuery, ilike, notExists, or } from "@rindle/client";
 import type { QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
 import { paste, post, q, relationships, thought } from "../../shared/app-def.ts";
+import { canPublish, type QueryContext } from "../../shared/auth.ts";
 
 export const SEARCH_PAGE_SIZE = 24;
 export const SEARCH_MAX_LIMIT = 96;
@@ -56,9 +57,10 @@ export const searchPostsQuery = defineQuery(
 export const searchThoughtsQuery = defineQuery(
   "searchThoughts",
   (raw) => searchArgs.parse(raw),
-  ({ search, limit }) => {
+  ({ search, limit }, ctx: QueryContext) => {
     const needles = terms(search);
-    let root = q.thought.where.private(0);
+    let root = q.thought;
+    if (!canPublish(ctx.user)) root = root.where.private(0);
     if (needles.length === 0) root = root.where.id(EMPTY_SEARCH_ID);
     for (const needle of needles) root = root.where.body(ilike(likePattern(needle)));
     return root
@@ -72,9 +74,11 @@ export const searchThoughtsQuery = defineQuery(
 export const searchPastesQuery = defineQuery(
   "searchPastes",
   (raw) => searchArgs.parse(raw),
-  ({ search, limit }) => {
+  ({ search, limit }, ctx: QueryContext) => {
     const needles = terms(search);
-    let root = q.paste.where.shared(1).where(notExists(relationships.pasteChildren));
+    const admin = canPublish(ctx.user);
+    let root = q.paste.where(notExists(relationships.pasteChildren));
+    if (!admin) root = root.where.shared(1);
     if (needles.length === 0) root = root.where.id(EMPTY_SEARCH_ID);
     for (const needle of needles) {
       const pattern = ilike(likePattern(needle));
@@ -85,7 +89,7 @@ export const searchPastesQuery = defineQuery(
       ));
     }
     return root
-      .orderBy("sharedAt", "desc")
+      .orderBy(admin ? "createdAt" : "sharedAt", "desc")
       .orderBy("id", "asc")
       .limit(limit + 1)
       .select("id", "title", "body", "excerpt", "language", "createdAt", "sharedAt");

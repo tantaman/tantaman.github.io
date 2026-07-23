@@ -1,12 +1,12 @@
-// Named, bounded windows for the eight structured hashtag lanes. Public variants gate every row
-// through a public source thought; admin variants intentionally use distinct names so server auth
-// cannot be widened by a client argument.
+// Named, bounded windows for the eight structured hashtag lanes. Each definition derives privacy
+// from off-wire context; the API substitutes its verified principal before resolving the AST.
 
 import { defineQuery, exists, isNotNull } from "@rindle/client";
 import type { QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
 import { q, relationships } from "../../shared/app-def.ts";
+import { canPublish, type QueryContext } from "../../shared/auth.ts";
 
 export const ENRICHMENT_PAGE_SIZE = 80;
 export const ENRICHMENT_MAX_LIMIT = 1_000;
@@ -36,12 +36,7 @@ const buildProjects = (limit: number, admin: boolean) => {
 export const thoughtProjectsQuery = defineQuery(
   "thoughtProjects",
   (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildProjects(limit, false),
-);
-export const thoughtAdminProjectsQuery = defineQuery(
-  "thoughtAdminProjects",
-  (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildProjects(limit, true),
+  ({ limit }, ctx: QueryContext) => buildProjects(limit, canPublish(ctx.user)),
 );
 
 const buildTasks = (limit: number, admin: boolean) => {
@@ -62,12 +57,7 @@ const buildTasks = (limit: number, admin: boolean) => {
 export const thoughtTasksQuery = defineQuery(
   "thoughtTasks",
   (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildTasks(limit, false),
-);
-export const thoughtAdminTasksQuery = defineQuery(
-  "thoughtAdminTasks",
-  (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildTasks(limit, true),
+  ({ limit }, ctx: QueryContext) => buildTasks(limit, canPublish(ctx.user)),
 );
 
 const buildQuestions = (limit: number, admin: boolean) => {
@@ -85,12 +75,7 @@ const buildQuestions = (limit: number, admin: boolean) => {
 export const thoughtQuestionsQuery = defineQuery(
   "thoughtQuestions",
   (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildQuestions(limit, false),
-);
-export const thoughtAdminQuestionsQuery = defineQuery(
-  "thoughtAdminQuestions",
-  (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildQuestions(limit, true),
+  ({ limit }, ctx: QueryContext) => buildQuestions(limit, canPublish(ctx.user)),
 );
 
 const buildEvents = (limit: number, admin: boolean) => {
@@ -108,12 +93,7 @@ const buildEvents = (limit: number, admin: boolean) => {
 export const thoughtEventsQuery = defineQuery(
   "thoughtEvents",
   (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildEvents(limit, false),
-);
-export const thoughtAdminEventsQuery = defineQuery(
-  "thoughtAdminEvents",
-  (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildEvents(limit, true),
+  ({ limit }, ctx: QueryContext) => buildEvents(limit, canPublish(ctx.user)),
 );
 
 const buildLocations = (limit: number, admin: boolean) => {
@@ -131,12 +111,7 @@ const buildLocations = (limit: number, admin: boolean) => {
 export const thoughtLocationsQuery = defineQuery(
   "thoughtLocations",
   (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildLocations(limit, false),
-);
-export const thoughtAdminLocationsQuery = defineQuery(
-  "thoughtAdminLocations",
-  (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildLocations(limit, true),
+  ({ limit }, ctx: QueryContext) => buildLocations(limit, canPublish(ctx.user)),
 );
 
 const buildBooks = (limit: number, admin: boolean) => {
@@ -154,12 +129,7 @@ const buildBooks = (limit: number, admin: boolean) => {
 export const thoughtBooksQuery = defineQuery(
   "thoughtBooks",
   (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildBooks(limit, false),
-);
-export const thoughtAdminBooksQuery = defineQuery(
-  "thoughtAdminBooks",
-  (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildBooks(limit, true),
+  ({ limit }, ctx: QueryContext) => buildBooks(limit, canPublish(ctx.user)),
 );
 
 const buildMovies = (limit: number, admin: boolean) => {
@@ -200,12 +170,7 @@ const buildMovies = (limit: number, admin: boolean) => {
 export const thoughtMoviesQuery = defineQuery(
   "thoughtMovies",
   (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildMovies(limit, false),
-);
-export const thoughtAdminMoviesQuery = defineQuery(
-  "thoughtAdminMovies",
-  (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildMovies(limit, true),
+  ({ limit }, ctx: QueryContext) => buildMovies(limit, canPublish(ctx.user)),
 );
 
 const buildAlbums = (limit: number, admin: boolean) => {
@@ -230,31 +195,18 @@ const buildAlbums = (limit: number, admin: boolean) => {
 export const thoughtAlbumsQuery = defineQuery(
   "thoughtAlbums",
   (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildAlbums(limit, false),
-);
-export const thoughtAdminAlbumsQuery = defineQuery(
-  "thoughtAdminAlbums",
-  (raw) => windowArgs.parse(raw),
-  ({ limit }) => buildAlbums(limit, true),
+  ({ limit }, ctx: QueryContext) => buildAlbums(limit, canPublish(ctx.user)),
 );
 
 export const thoughtEnrichmentQueries = [
   thoughtProjectsQuery,
-  thoughtAdminProjectsQuery,
   thoughtTasksQuery,
-  thoughtAdminTasksQuery,
   thoughtQuestionsQuery,
-  thoughtAdminQuestionsQuery,
   thoughtEventsQuery,
-  thoughtAdminEventsQuery,
   thoughtLocationsQuery,
-  thoughtAdminLocationsQuery,
   thoughtBooksQuery,
-  thoughtAdminBooksQuery,
   thoughtMoviesQuery,
-  thoughtAdminMoviesQuery,
   thoughtAlbumsQuery,
-  thoughtAdminAlbumsQuery,
 ] as const;
 
 export type ProjectEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtProjectsQuery>>[number];

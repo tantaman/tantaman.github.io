@@ -1,13 +1,14 @@
 // Named, React-free paste subscriptions shared by the browser, API authority, and SSR loaders.
-// Public feed names contain only explicitly shared rows; the separately authorized admin feed is
-// the private authoring window. Detail reads preserve the legacy paste-bin contract: possession of
-// an unlisted paste URL is enough to read it, while only the author can mutate its sharing state.
+// Feed visibility comes from off-wire query context. Detail reads preserve the legacy paste-bin
+// contract: possession of an unlisted paste URL is enough to read it, while only the author can
+// mutate its sharing state.
 
 import { defineFragment, defineQuery, notExists } from "@rindle/client";
 import type { FragmentRef, QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
 import { paste, q, relationships } from "../../shared/app-def.ts";
+import { canPublish, type QueryContext } from "../../shared/auth.ts";
 
 export const PasteListFragment = defineFragment(paste, (p) =>
   p.select("id", "title", "excerpt", "language", "createdAt", "parentId", "shared", "sharedAt"),
@@ -23,30 +24,28 @@ const pageArgs = z.object({
   limit: z.number().int().min(1).max(PASTES_MAX_LIMIT),
 });
 
-/** Public newest-shared-first leaf window. A live NOT EXISTS removes a revision as soon as a fork
- * supersedes it, matching the legacy list without subscribing to the whole table. */
-export const pastesQuery = defineQuery("pastes", (raw) => pageArgs.parse(raw), ({ limit }) =>
-  q.paste
-    .where.shared(1)
-    .where(notExists(relationships.pasteChildren))
-    .orderBy("sharedAt", "desc")
-    .orderBy("id", "asc")
-    .limit(limit + 1)
-    .include(PasteListFragment),
-);
-
-/** Private authoring twin. Its name is authority-gated, so visibility never depends on a spoofable
- * `includePrivate` argument. */
-export const pasteAdminFeedQuery = defineQuery(
-  "pasteAdminFeed",
+/** Newest leaf window. Readers get explicitly shared rows ordered by share time; publishers get the
+ * complete authoring window ordered by creation time. A live NOT EXISTS removes superseded rows. */
+export const pastesQuery = defineQuery(
+  "pastes",
   (raw) => pageArgs.parse(raw),
-  ({ limit }) =>
-    q.paste
+  ({ limit }, ctx: QueryContext) => {
+    if (canPublish(ctx.user)) {
+      return q.paste
+        .where(notExists(relationships.pasteChildren))
+        .orderBy("createdAt", "desc")
+        .orderBy("id", "asc")
+        .limit(limit + 1)
+        .include(PasteListFragment);
+    }
+    return q.paste
+      .where.shared(1)
       .where(notExists(relationships.pasteChildren))
-      .orderBy("createdAt", "desc")
+      .orderBy("sharedAt", "desc")
       .orderBy("id", "asc")
       .limit(limit + 1)
-      .include(PasteListFragment),
+      .include(PasteListFragment);
+  },
 );
 
 const pasteIdArgs = z.string().min(1).max(500);

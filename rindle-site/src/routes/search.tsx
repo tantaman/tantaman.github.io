@@ -15,6 +15,7 @@ import {
 import { formatDate } from "../lib/format.ts";
 import { pasteDate } from "../lib/paste.ts";
 import { formatThoughtTime, thoughtEpochMs } from "../lib/thoughts.ts";
+import { currentQueryContext } from "../rindle-client.ts";
 import { rindle } from "../rindle-tanstack.ts";
 
 interface SearchParams {
@@ -31,7 +32,8 @@ export const Route = createFileRoute("/search")({
       const search = typeof deps.search === "string" ? deps.search.trim() : "";
       if (!search) return [];
       const args = { search, limit: SEARCH_PAGE_SIZE };
-      return [searchPostsQuery(args), searchThoughtsQuery(args), searchPastesQuery(args)];
+      const context = currentQueryContext();
+      return [searchPostsQuery(args), searchThoughtsQuery(args, context), searchPastesQuery(args, context)];
     },
   }),
   head: () => ({
@@ -187,8 +189,9 @@ function SearchPage() {
 
   const args = { search: debouncedQuery, limit };
   const [posts, postState] = useRoot(searchPostsQuery, args);
-  const [thoughts, thoughtState] = useRoot(searchThoughtsQuery, args);
-  const [pastes, pasteState] = useRoot(searchPastesQuery, args);
+  const context = currentQueryContext();
+  const [thoughts, thoughtState] = useRoot(searchThoughtsQuery, args, context);
+  const [pastes, pasteState] = useRoot(searchPastesQuery, args, context);
   const terms = useMemo(() => queryTerms(debouncedQuery), [debouncedQuery]);
   const results = useMemo(() => {
     if (terms.length === 0) return [];
