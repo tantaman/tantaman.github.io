@@ -9,10 +9,16 @@ import {
 } from "../components/Paste.queries.ts";
 import { PasteEditor } from "../components/PasteEditor.tsx";
 import { useHydrated } from "../lib/hydration.ts";
-import { rindle } from "../rindle-tanstack.ts";
+import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/paste/fork/$id")({
-  loader: rindle.loader({ ssr: ({ params }) => pasteQuery(params.id) }),
+  loader: roleAwareRindleLoader({
+    public: ({ params }) => pasteQuery(params.id),
+    admin: ({ params }) => [
+      pasteQuery(params.id),
+      pasteAdminFeedQuery({ limit: PASTES_RECENT_LIMIT }),
+    ],
+  }),
   component: ForkPaste,
 });
 

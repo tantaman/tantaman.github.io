@@ -10,6 +10,7 @@ import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-r
 import { TopBar } from "../components/TopBar.tsx";
 import { Toaster } from "../components/Toaster.tsx";
 import { PoweredByRindle } from "../components/PoweredByRindle.tsx";
+import { NavigationProgress } from "../components/NavigationProgress.tsx";
 import { DevTools } from "../devtools.tsx";
 import { rindle } from "../rindle-tanstack.ts";
 import appCss from "../styles.css?url";
@@ -45,6 +46,7 @@ function RootDocument() {
       </head>
       <body>
         <rindle.Provider>
+          <NavigationProgress />
           <TopBar />
           <main className="app-main">
             <Outlet />

@@ -10,12 +10,15 @@ import {
 import { PasteEditor } from "../components/PasteEditor.tsx";
 import { PasteList } from "../components/PasteList.tsx";
 import { useHydrated } from "../lib/hydration.ts";
-import { rindle } from "../rindle-tanstack.ts";
+import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
 
 const PUBLIC_LIMIT = 20;
 
 export const Route = createFileRoute("/paste/")({
-  loader: rindle.loader({ ssr: () => pastesQuery({ limit: PUBLIC_LIMIT }) }),
+  loader: roleAwareRindleLoader({
+    public: () => pastesQuery({ limit: PUBLIC_LIMIT }),
+    admin: () => pasteAdminFeedQuery({ limit: PASTES_RECENT_LIMIT }),
+  }),
   component: PasteHome,
 });
 

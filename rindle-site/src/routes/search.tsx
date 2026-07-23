@@ -15,6 +15,7 @@ import {
 import { formatDate } from "../lib/format.ts";
 import { pasteDate } from "../lib/paste.ts";
 import { formatThoughtTime, thoughtEpochMs } from "../lib/thoughts.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 interface SearchParams {
   q?: string;
@@ -23,6 +24,15 @@ interface SearchParams {
 export const Route = createFileRoute("/search")({
   validateSearch: (raw: Record<string, unknown>): SearchParams => ({
     q: typeof raw.q === "string" && raw.q.length <= 200 ? raw.q : undefined,
+  }),
+  loaderDeps: ({ search }) => ({ search: search.q ?? "" }),
+  loader: rindle.loader({
+    query: ({ deps }) => {
+      const search = typeof deps.search === "string" ? deps.search.trim() : "";
+      if (!search) return [];
+      const args = { search, limit: SEARCH_PAGE_SIZE };
+      return [searchPostsQuery(args), searchThoughtsQuery(args), searchPastesQuery(args)];
+    },
   }),
   head: () => ({
     meta: [

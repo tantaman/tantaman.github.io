@@ -70,5 +70,21 @@ export const pasteQuery = defineQuery("paste", (raw) => pasteIdArgs.parse(raw), 
     .one(),
 );
 
+/** The diff screen needs both complete bodies before it can paint. Keeping that dependency in one
+ * named view avoids committing the route after the child arrives only to flash while a second
+ * parent subscription warms. */
+export const pasteDiffQuery = defineQuery("pasteDiff", (raw) => pasteIdArgs.parse(raw), (id) =>
+  q.paste
+    .where.id(id)
+    .select("id", "body", "language", "title", "excerpt", "createdAt", "parentId", "shared", "sharedAt")
+    .sub("parent", relationships.pasteParent, (parent) =>
+      parent
+        .limit(1)
+        .select("id", "body", "language", "title", "excerpt", "createdAt", "parentId", "shared", "sharedAt"),
+    )
+    .one(),
+);
+
 export type PasteListRow = QueryLocalData<ReturnType<typeof pastesQuery>>[number];
 export type PasteDetailRow = NonNullable<QueryLocalData<ReturnType<typeof pasteQuery>>>;
+export type PasteDiffRow = NonNullable<QueryLocalData<ReturnType<typeof pasteDiffQuery>>>;

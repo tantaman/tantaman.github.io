@@ -12,10 +12,13 @@ import {
 } from "../components/Paste.queries.ts";
 import { PasteList } from "../components/PasteList.tsx";
 import { useHydrated } from "../lib/hydration.ts";
-import { rindle } from "../rindle-tanstack.ts";
+import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/paste/all")({
-  loader: rindle.loader({ ssr: () => pastesQuery({ limit: PASTES_PAGE_SIZE }) }),
+  loader: roleAwareRindleLoader({
+    public: () => pastesQuery({ limit: PASTES_PAGE_SIZE }),
+    admin: () => pasteAdminFeedQuery({ limit: PASTES_PAGE_SIZE }),
+  }),
   component: AllPastes,
 });
 

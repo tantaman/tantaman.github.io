@@ -6,7 +6,7 @@ import { useThoughtsFeed } from "../components/ThoughtsFeed.tsx";
 import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/thoughts/framings/")({
-  loader: rindle.loader({ ssr: () => framingsQuery({ limit: FRAMINGS_LIMIT }) }),
+  loader: rindle.loader({ query: () => framingsQuery({ limit: FRAMINGS_LIMIT }) }),
   component: FramingsRoute,
 });
 

@@ -1,10 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { EventsEnrichmentView } from "../components/ThoughtEnrichmentViews.tsx";
-import { ENRICHMENT_PAGE_SIZE, thoughtEventsQuery } from "../components/ThoughtEnrichment.queries.ts";
-import { rindle } from "../rindle-tanstack.ts";
+import {
+  ENRICHMENT_PAGE_SIZE,
+  thoughtAdminEventsQuery,
+  thoughtEventsQuery,
+} from "../components/ThoughtEnrichment.queries.ts";
+import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/thoughts/events")({
-  loader: rindle.loader({ ssr: () => thoughtEventsQuery({ limit: ENRICHMENT_PAGE_SIZE }) }),
+  loader: roleAwareRindleLoader({
+    public: () => thoughtEventsQuery({ limit: ENRICHMENT_PAGE_SIZE }),
+    admin: () => thoughtAdminEventsQuery({ limit: ENRICHMENT_PAGE_SIZE }),
+  }),
   component: EventsEnrichmentView,
 });
