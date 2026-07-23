@@ -6,26 +6,17 @@
 import { useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { fragmentKey } from "@rindle/react";
-import type { DehydratedState } from "@rindle/client";
 
 import { featuredPostsQuery, POSTS_PAGE_SIZE, postsQuery } from "../components/PostCard.queries.ts";
 import { FeaturedPostCard } from "../components/FeaturedPostCard.tsx";
 import { PostCard } from "../components/PostCard.tsx";
 import { usePostsList } from "../components/PostsList.tsx";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/_shell/")({
-  loader: async (): Promise<{ rindle: DehydratedState }> => {
-    if (!import.meta.env.SSR) return { rindle: {} };
-    // Dynamic import: ssr.ts is server-only (it builds the daemon client), so it must never enter the
-    // client bundle. The static `import.meta.env.SSR` guard + this dynamic import keep it out.
-    const { preloadRindle } = await import("../ssr.ts");
-    return {
-      rindle: await preloadRindle([
-        postsQuery({ limit: POSTS_PAGE_SIZE }),
-        featuredPostsQuery({}),
-      ]),
-    };
-  },
+  loader: rindle.loader({
+    ssr: () => [postsQuery({ limit: POSTS_PAGE_SIZE }), featuredPostsQuery({})],
+  }),
   component: Home,
 });
 

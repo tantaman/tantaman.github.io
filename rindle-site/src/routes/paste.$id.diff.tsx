@@ -1,15 +1,11 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
-import type { DehydratedState } from "@rindle/client";
 
 import { pasteQuery, type PasteDetailRow } from "../components/Paste.queries.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/paste/$id/diff")({
-  loader: async ({ params }): Promise<{ rindle: DehydratedState }> => {
-    if (!import.meta.env.SSR) return { rindle: {} };
-    const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([pasteQuery(params.id)]) };
-  },
+  loader: rindle.loader({ ssr: ({ params }) => pasteQuery(params.id) }),
   component: PasteDiff,
 });
 

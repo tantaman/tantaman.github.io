@@ -1,18 +1,14 @@
 import { useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import type { DehydratedState } from "@rindle/client";
 
 import { ThoughtCard } from "../components/ThoughtCard.tsx";
 import { THOUGHTS_PAGE_SIZE, thoughtsQuery } from "../components/ThoughtCard.queries.ts";
 import { ThoughtComposer } from "../components/ThoughtComposer.tsx";
 import { useThoughtsFeed } from "../components/ThoughtsFeed.tsx";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/thoughts/")({
-  loader: async (): Promise<{ rindle: DehydratedState }> => {
-    if (!import.meta.env.SSR) return { rindle: {} };
-    const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([thoughtsQuery({ limit: THOUGHTS_PAGE_SIZE })]) };
-  },
+  loader: rindle.loader({ ssr: () => thoughtsQuery({ limit: THOUGHTS_PAGE_SIZE }) }),
   component: ThoughtsIndex,
 });
 

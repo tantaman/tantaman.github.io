@@ -1,20 +1,17 @@
-// The root route: the HTML document + the app frame. Inside the document, <RindleApp> renders the
-// merged SSR seed on the server AND through hydration, then boots the in-browser wasm engine
-// (client-only) and swaps to the live store — the SSR→SPA handoff. <TopBar> + <Toaster> are the
-// persistent chrome around the matched view (`children`).
+// The root route: the HTML document + the app frame. Inside the document, `rindle.Provider` merges
+// matched loaders' SSR seeds, carries them through hydration, then swaps to the live browser engine.
+// <TopBar> + <Toaster> are the persistent chrome around the matched view (`children`).
 //
-// Each LEAF route owns its own first-paint preload (its loader returns `{ rindle }`); RootDocument
-// merges every matched route's slice, so a first visit to any route seeds exactly the queries it renders.
+// Each leaf route owns its first-paint preload through `rindle.loader`; the integration owns the
+// loader-data plumbing and seed→live handoff.
 
-import { useMemo } from "react";
-import { HeadContent, Outlet, Scripts, createRootRoute, useMatches } from "@tanstack/react-router";
-import type { DehydratedState } from "@rindle/client";
+import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
 
-import { RindleApp } from "../RindleApp.tsx";
 import { TopBar } from "../components/TopBar.tsx";
 import { Toaster } from "../components/Toaster.tsx";
 import { PoweredByRindle } from "../components/PoweredByRindle.tsx";
 import { DevTools } from "../devtools.tsx";
+import { rindle } from "../rindle-tanstack.ts";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -36,18 +33,6 @@ export const Route = createRootRoute({
 const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){}})();`;
 
 function RootDocument() {
-  // Merge the dehydrated first-paint cache from EVERY matched route, so a first visit to any route
-  // seeds exactly the queries it renders.
-  const matches = useMatches();
-  const ssrState = useMemo<DehydratedState>(() => {
-    const merged: DehydratedState = {};
-    for (const match of matches) {
-      const slice = (match.loaderData as { rindle?: DehydratedState } | undefined)?.rindle;
-      if (slice) Object.assign(merged, slice);
-    }
-    return merged;
-  }, [matches]);
-
   return (
     // `suppressHydrationWarning`: THEME_SCRIPT sets `data-theme` on <html> before React hydrates, so
     // the client element intentionally has an attribute the SSR output can't (the server has no way to
@@ -59,14 +44,14 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body>
-        <RindleApp ssrState={ssrState}>
+        <rindle.Provider>
           <TopBar />
           <main className="app-main">
             <Outlet />
           </main>
           <Toaster />
           <PoweredByRindle />
-        </RindleApp>
+        </rindle.Provider>
         {/* Dev-only floating devtools pane (tree-shaken out of production builds). */}
         <DevTools />
         <Scripts />

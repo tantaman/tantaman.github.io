@@ -1,21 +1,17 @@
 import { useMemo, useRef } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
-import type { DehydratedState } from "@rindle/client";
 
 import { authClient } from "../auth-client.ts";
 import { pasteQuery, type PasteDetailRow } from "../components/Paste.queries.ts";
 import { renderMarkdown } from "../lib/markdown.ts";
 import { pasteDate } from "../lib/paste.ts";
 import { app } from "../rindle-client.ts";
+import { rindle } from "../rindle-tanstack.ts";
 import { useHydrated } from "../lib/hydration.ts";
 
 export const Route = createFileRoute("/paste/$id/")({
-  loader: async ({ params }): Promise<{ rindle: DehydratedState }> => {
-    if (!import.meta.env.SSR) return { rindle: {} };
-    const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([pasteQuery(params.id)]) };
-  },
+  loader: rindle.loader({ ssr: ({ params }) => pasteQuery(params.id) }),
   component: PasteDetail,
 });
 

@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
-import type { DehydratedState } from "@rindle/client";
 
 import { authClient } from "../auth-client.ts";
 import {
@@ -13,13 +12,10 @@ import {
 } from "../components/Paste.queries.ts";
 import { PasteList } from "../components/PasteList.tsx";
 import { useHydrated } from "../lib/hydration.ts";
+import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/paste/all")({
-  loader: async (): Promise<{ rindle: DehydratedState }> => {
-    if (!import.meta.env.SSR) return { rindle: {} };
-    const { preloadRindle } = await import("../ssr.ts");
-    return { rindle: await preloadRindle([pastesQuery({ limit: PASTES_PAGE_SIZE })]) };
-  },
+  loader: rindle.loader({ ssr: () => pastesQuery({ limit: PASTES_PAGE_SIZE }) }),
   component: AllPastes,
 });
 
