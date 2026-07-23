@@ -1,20 +1,12 @@
-name = "tantamanlands"
+name = "tantamanlands-legacy"
 main = "src/index.ts"
 compatibility_date = "2025-03-03"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = false
 
-routes = [
-  { pattern = "tantaman.com/api", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/api/", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/api/*", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/audio/*", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/paste", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/paste/*", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/now", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/now*", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/thoughts/t/*", zone_name = "tantaman.com" },
-  { pattern = "tantaman.com/thoughts/*", zone_name = "tantaman.com" }
-]
+# Retired after the Rindle rewrite cutover. Keep the Worker deployable for rollback, but do not
+# expose it on workers.dev or re-attach production routes.
+routes = []
 
 [[kv_namespaces]]
 binding = "KV"
@@ -54,8 +46,7 @@ binding = "TTS_WORKFLOW"
 class_name = "TtsWorkflow"
 
 [triggers]
-# Weekly digest email — Mondays at 14:00 UTC (~6/7am PT)
-crons = ["0 14 * * 1"]
+crons = []
 
 [observability]
 [observability.logs]

@@ -1,4 +1,5 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
 
 import {
   AdminThoughtsFeedProvider,
@@ -22,6 +23,17 @@ function ThoughtsLayout() {
   const { data: session } = authClient.useSession();
   const hydrated = useHydrated();
   const isAdmin = hydrated && session?.user.role === "admin";
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const match = /^#thought-(.+)$/.exec(window.location.hash);
+    if (!match) return;
+    void navigate({
+      to: "/thoughts/$id",
+      params: { id: decodeURIComponent(match[1]) },
+      replace: true,
+    });
+  }, [navigate]);
 
   return (
     <div className="thoughts-shell">

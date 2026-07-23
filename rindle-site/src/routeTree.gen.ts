@@ -42,6 +42,7 @@ import { Route as PasteIdRawRouteImport } from './routes/paste.$id.raw'
 import { Route as PasteForkIdRouteImport } from './routes/paste.fork.$id'
 import { Route as ThoughtsFramingsIndexRouteImport } from './routes/thoughts.framings.index'
 import { Route as ThoughtsFramingsIdRouteImport } from './routes/thoughts.framings.$id'
+import { Route as ThoughtsTIdRouteImport } from './routes/thoughts.t.$id'
 
 const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
@@ -207,6 +208,11 @@ const ThoughtsFramingsIdRoute = ThoughtsFramingsIdRouteImport.update({
   path: '/framings/$id',
   getParentRoute: () => ThoughtsRoute,
 } as any)
+const ThoughtsTIdRoute = ThoughtsTIdRouteImport.update({
+  id: '/t/$id',
+  path: '/t/$id',
+  getParentRoute: () => ThoughtsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
@@ -239,6 +245,7 @@ export interface FileRoutesByFullPath {
   '/paste/$id/raw': typeof PasteIdRawRoute
   '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/thoughts/t/$id': typeof ThoughtsTIdRoute
   '/paste/$id/': typeof PasteIdIndexRoute
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
 }
@@ -270,6 +277,7 @@ export interface FileRoutesByTo {
   '/paste/$id/raw': typeof PasteIdRawRoute
   '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/thoughts/t/$id': typeof ThoughtsTIdRoute
   '/paste/$id': typeof PasteIdIndexRoute
   '/thoughts/framings': typeof ThoughtsFramingsIndexRoute
 }
@@ -306,6 +314,7 @@ export interface FileRoutesById {
   '/paste/$id/raw': typeof PasteIdRawRoute
   '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
+  '/thoughts/t/$id': typeof ThoughtsTIdRoute
   '/paste/$id/': typeof PasteIdIndexRoute
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
 }
@@ -342,6 +351,7 @@ export interface FileRouteTypes {
     | '/paste/$id/raw'
     | '/paste/fork/$id'
     | '/thoughts/framings/$id'
+    | '/thoughts/t/$id'
     | '/paste/$id/'
     | '/thoughts/framings/'
   fileRoutesByTo: FileRoutesByTo
@@ -373,6 +383,7 @@ export interface FileRouteTypes {
     | '/paste/$id/raw'
     | '/paste/fork/$id'
     | '/thoughts/framings/$id'
+    | '/thoughts/t/$id'
     | '/paste/$id'
     | '/thoughts/framings'
   id:
@@ -408,6 +419,7 @@ export interface FileRouteTypes {
     | '/paste/$id/raw'
     | '/paste/fork/$id'
     | '/thoughts/framings/$id'
+    | '/thoughts/t/$id'
     | '/paste/$id/'
     | '/thoughts/framings/'
   fileRoutesById: FileRoutesById
@@ -658,6 +670,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThoughtsFramingsIdRouteImport
       parentRoute: typeof ThoughtsRoute
     }
+    '/thoughts/t/$id': {
+      id: '/thoughts/t/$id'
+      path: '/t/$id'
+      fullPath: '/thoughts/t/$id'
+      preLoaderRoute: typeof ThoughtsTIdRouteImport
+      parentRoute: typeof ThoughtsRoute
+    }
   }
 }
 
@@ -720,6 +739,7 @@ interface ThoughtsRouteChildren {
   ThoughtsTasksRoute: typeof ThoughtsTasksRoute
   ThoughtsIndexRoute: typeof ThoughtsIndexRoute
   ThoughtsFramingsIdRoute: typeof ThoughtsFramingsIdRoute
+  ThoughtsTIdRoute: typeof ThoughtsTIdRoute
   ThoughtsFramingsIndexRoute: typeof ThoughtsFramingsIndexRoute
 }
 
@@ -735,6 +755,7 @@ const ThoughtsRouteChildren: ThoughtsRouteChildren = {
   ThoughtsTasksRoute: ThoughtsTasksRoute,
   ThoughtsIndexRoute: ThoughtsIndexRoute,
   ThoughtsFramingsIdRoute: ThoughtsFramingsIdRoute,
+  ThoughtsTIdRoute: ThoughtsTIdRoute,
   ThoughtsFramingsIndexRoute: ThoughtsFramingsIndexRoute,
 }
 
@@ -757,12 +778,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

@@ -1,11 +1,21 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "rindle-site",
+	"name": "tantamanlands",
 	"main": "@tanstack/react-start/server-entry",
 	"compatibility_date": "2026-07-21",
+	"workers_dev": true,
+	"routes": [
+		{
+			"pattern": "tantaman.com/*",
+			"zone_name": "tantaman.com"
+		}
+	],
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
+	"vars": {
+		"AUTH_TRUSTED_ORIGINS": "https://tantaman.com,https://tantamanlands.tantaman.workers.dev"
+	},
 	"observability": {
 		"enabled": true,
 		"logs": {
