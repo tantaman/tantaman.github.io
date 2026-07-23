@@ -23,7 +23,7 @@
 		{
 			"binding": "AUTH_DB",
 			"database_name": "rindle-site-auth",
-			"migrations_dir": "../../migrations-auth",
+			"migrations_dir": "./migrations-auth",
 			"database_id": "a2da5bad-550c-4cb1-a952-5755aa8f5baf"
 		}
 	]
