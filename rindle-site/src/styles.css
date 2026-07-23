@@ -4288,3 +4288,52 @@ main.app-main:has(.framing-canvas-wrap) {
     grid-row: auto;
   }
 }
+
+/* "Powered by rindle" credit — a quiet fixed bottom-right pill on every surface (rendered in __root).
+   Uses the site's own palette variables so it reads right in light + dark; the logo mark inside keeps
+   its fixed brand colours. See components/PoweredByRindle.tsx. */
+.powered-by {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: color-mix(in srgb, var(--raise) 78%, transparent);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 12px 5px 10px;
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--ink) 12%, transparent);
+  text-decoration: none;
+  opacity: 0.82;
+  transition: opacity 120ms ease;
+}
+.powered-by:hover {
+  opacity: 1;
+}
+.powered-by svg {
+  height: 16px;
+  width: 16px;
+  display: block;
+}
+.powered-by span {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+
+@media (max-width: 560px) {
+  /* On narrow screens shrink to just the mark so it doesn't crowd content or the composer. */
+  .powered-by {
+    bottom: 10px;
+    right: 10px;
+    padding: 6px;
+  }
+  .powered-by span {
+    display: none;
+  }
+}

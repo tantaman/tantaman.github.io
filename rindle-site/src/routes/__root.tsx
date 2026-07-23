@@ -13,6 +13,7 @@ import type { DehydratedState } from "@rindle/client";
 import { RindleApp } from "../RindleApp.tsx";
 import { TopBar } from "../components/TopBar.tsx";
 import { Toaster } from "../components/Toaster.tsx";
+import { PoweredByRindle } from "../components/PoweredByRindle.tsx";
 import { DevTools } from "../devtools.tsx";
 import appCss from "../styles.css?url";
 
@@ -64,6 +65,7 @@ function RootDocument() {
             <Outlet />
           </main>
           <Toaster />
+          <PoweredByRindle />
         </RindleApp>
         {/* Dev-only floating devtools pane (tree-shaken out of production builds). */}
         <DevTools />
