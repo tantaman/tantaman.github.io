@@ -1,10 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { ProjectsEnrichmentView } from "../components/ThoughtEnrichmentViews.tsx";
-import { ENRICHMENT_PAGE_SIZE, thoughtProjectsQuery } from "../components/ThoughtEnrichment.queries.ts";
-import { rindle } from "../rindle-tanstack.ts";
+import {
+  ENRICHMENT_PAGE_SIZE,
+  thoughtAdminProjectsQuery,
+  thoughtProjectsQuery,
+} from "../components/ThoughtEnrichment.queries.ts";
+import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/thoughts/projects")({
-  loader: rindle.loader({ ssr: () => thoughtProjectsQuery({ limit: ENRICHMENT_PAGE_SIZE }) }),
+  loader: roleAwareRindleLoader({
+    public: () => thoughtProjectsQuery({ limit: ENRICHMENT_PAGE_SIZE }),
+    admin: () => thoughtAdminProjectsQuery({ limit: ENRICHMENT_PAGE_SIZE }),
+  }),
   component: ProjectsEnrichmentView,
 });

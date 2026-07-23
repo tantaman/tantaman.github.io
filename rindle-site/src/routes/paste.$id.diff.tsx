@@ -1,17 +1,21 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 
-import { pasteQuery, type PasteDetailRow } from "../components/Paste.queries.ts";
+import { pasteDiffQuery, type PasteDiffRow } from "../components/Paste.queries.ts";
 import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/paste/$id/diff")({
-  loader: rindle.loader({ ssr: ({ params }) => pasteQuery(params.id) }),
+  loader: rindle.loader({
+    query: ({ params }) => pasteDiffQuery(params.id),
+    // `present` only promises a top-level row; a diff needs both complete bodies atomically.
+    until: "complete",
+  }),
   component: PasteDiff,
 });
 
 function PasteDiff() {
   const { id } = Route.useParams();
-  const [paste, { status }] = useRoot(pasteQuery, id);
+  const [paste, { status }] = useRoot(pasteDiffQuery, id);
   if (!paste) return <p className="paste-empty">{status === "complete" ? "Paste not found." : "Loading diff…"}</p>;
   if (!paste.parentId) {
     return (
@@ -22,12 +26,18 @@ function PasteDiff() {
       </section>
     );
   }
-  return <PasteDiffBodies paste={paste} parentId={paste.parentId} />;
+  const parent = paste.parent[0] ?? null;
+  if (!parent) return <p className="paste-empty">Parent paste not found.</p>;
+  return <PasteDiffBodies paste={paste} parent={parent} />;
 }
 
-function PasteDiffBodies({ paste, parentId }: { paste: PasteDetailRow; parentId: string }) {
-  const [parent, { status }] = useRoot(pasteQuery, parentId);
-  if (!parent) return <p className="paste-empty">{status === "complete" ? "Parent paste not found." : "Loading parent…"}</p>;
+function PasteDiffBodies({
+  paste,
+  parent,
+}: {
+  paste: PasteDiffRow;
+  parent: PasteDiffRow["parent"][number];
+}) {
 
   return (
     <section className="paste-diff-page">

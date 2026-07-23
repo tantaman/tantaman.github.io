@@ -20,14 +20,15 @@ import { ThoughtHistory } from "../components/ThoughtHistory.tsx";
 import { buildThoughtForest, ThoughtReplyBranches } from "../components/ThoughtReplyTree.tsx";
 import { useThoughtsFeed } from "../components/ThoughtsFeed.tsx";
 import { shortThoughtId } from "../lib/thoughts.ts";
-import { rindle } from "../rindle-tanstack.ts";
+import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/thoughts/$id")({
-  loader: rindle.loader({
-    ssr: ({ params }) => [
-      thoughtQuery(params.id),
-      thoughtRepliesQuery({ limit: THOUGHT_FEED_REPLIES_PAGE_SIZE }),
-    ],
+  loader: roleAwareRindleLoader({
+    public: ({ params }) => thoughtQuery(params.id),
+    admin: ({ params }) => thoughtAdminQuery(params.id),
+    // The thread itself gates route entry; its bounded reply window can fill after commit, like
+    // post comments, while still joining the server-rendered first paint on a direct request.
+    ssr: () => thoughtRepliesQuery({ limit: THOUGHT_FEED_REPLIES_PAGE_SIZE }),
   }),
   component: ThoughtThread,
 });

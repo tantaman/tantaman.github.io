@@ -15,7 +15,7 @@ import { rindle } from "../rindle-tanstack.ts";
 
 export const Route = createFileRoute("/_shell/")({
   loader: rindle.loader({
-    ssr: () => [postsQuery({ limit: POSTS_PAGE_SIZE }), featuredPostsQuery({})],
+    query: () => [postsQuery({ limit: POSTS_PAGE_SIZE }), featuredPostsQuery({})],
   }),
   component: Home,
 });

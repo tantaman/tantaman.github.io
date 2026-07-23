@@ -26,6 +26,7 @@ import {
 } from "../lib/markdown.ts";
 import { parseList } from "../lib/format.ts";
 import { app } from "../rindle-client.ts";
+import { roleAwareRindleLoader } from "../rindle-tanstack.ts";
 
 interface WriteSearch {
   post?: string;
@@ -78,6 +79,20 @@ const EDITOR_EXTENSIONS = [
 export const Route = createFileRoute("/_shell/write")({
   validateSearch: (search: Record<string, unknown>): WriteSearch => ({
     post: typeof search.post === "string" && search.post.length <= 200 ? search.post : undefined,
+  }),
+  loaderDeps: ({ search }) => ({ post: search.post }),
+  loader: roleAwareRindleLoader({
+    public: () => [],
+    admin: ({ deps }) => {
+      const post = typeof deps.post === "string" ? deps.post : undefined;
+      return [
+        ...(post ? [postEditorQuery(post)] : []),
+        postEditorFacetOptionsQuery({}),
+        postEditorMetadataOptionsQuery({}),
+      ];
+    },
+    // The editor cannot safely initialize from a row that lacks its raw body or metadata options.
+    until: "complete",
   }),
   component: WritePost,
 });

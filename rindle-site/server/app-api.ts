@@ -52,6 +52,7 @@ import {
 } from "../src/components/Framing.queries.ts";
 import {
   pasteAdminFeedQuery,
+  pasteDiffQuery,
   pasteQuery,
   pastesQuery,
 } from "../src/components/Paste.queries.ts";
@@ -112,6 +113,7 @@ const apiQueries = registerQueries<User>([
   pastesQuery,
   pasteAdminFeedQuery,
   pasteQuery,
+  pasteDiffQuery,
   searchPostsQuery,
   searchThoughtsQuery,
   searchPastesQuery,

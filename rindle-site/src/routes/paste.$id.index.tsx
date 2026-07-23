@@ -11,7 +11,7 @@ import { rindle } from "../rindle-tanstack.ts";
 import { useHydrated } from "../lib/hydration.ts";
 
 export const Route = createFileRoute("/paste/$id/")({
-  loader: rindle.loader({ ssr: ({ params }) => pasteQuery(params.id) }),
+  loader: rindle.loader({ query: ({ params }) => pasteQuery(params.id) }),
   component: PasteDetail,
 });
 
