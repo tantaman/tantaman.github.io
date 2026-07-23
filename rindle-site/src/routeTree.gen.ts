@@ -17,6 +17,7 @@ import { Route as ThoughtsRouteImport } from './routes/thoughts'
 import { Route as ShellIndexRouteImport } from './routes/_shell.index'
 import { Route as ShellSlugRouteImport } from './routes/_shell.$slug'
 import { Route as ShellWriteRouteImport } from './routes/_shell.write'
+import { Route as ApiDebugEnvRouteImport } from './routes/api.debug-env'
 import { Route as PasteIndexRouteImport } from './routes/paste.index'
 import { Route as PasteIdRouteImport } from './routes/paste.$id'
 import { Route as PasteAllRouteImport } from './routes/paste.all'
@@ -81,6 +82,11 @@ const ShellWriteRoute = ShellWriteRouteImport.update({
   id: '/write',
   path: '/write',
   getParentRoute: () => ShellRoute,
+} as any)
+const ApiDebugEnvRoute = ApiDebugEnvRouteImport.update({
+  id: '/api/debug-env',
+  path: '/api/debug-env',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PasteIndexRoute = PasteIndexRouteImport.update({
   id: '/',
@@ -216,6 +222,7 @@ export interface FileRoutesByFullPath {
   '/thoughts': typeof ThoughtsRouteWithChildren
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
+  '/api/debug-env': typeof ApiDebugEnvRoute
   '/paste/$id': typeof PasteIdRouteWithChildren
   '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
@@ -247,6 +254,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
+  '/api/debug-env': typeof ApiDebugEnvRoute
   '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
   '/thoughts/books': typeof ThoughtsBooksRoute
@@ -282,6 +290,7 @@ export interface FileRoutesById {
   '/thoughts': typeof ThoughtsRouteWithChildren
   '/_shell/$slug': typeof ShellSlugRoute
   '/_shell/write': typeof ShellWriteRoute
+  '/api/debug-env': typeof ApiDebugEnvRoute
   '/paste/$id': typeof PasteIdRouteWithChildren
   '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/thoughts'
     | '/$slug'
     | '/write'
+    | '/api/debug-env'
     | '/paste/$id'
     | '/paste/all'
     | '/thoughts/$id'
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/$slug'
     | '/write'
+    | '/api/debug-env'
     | '/paste/all'
     | '/thoughts/$id'
     | '/thoughts/books'
@@ -384,6 +395,7 @@ export interface FileRouteTypes {
     | '/thoughts'
     | '/_shell/$slug'
     | '/_shell/write'
+    | '/api/debug-env'
     | '/paste/$id'
     | '/paste/all'
     | '/thoughts/$id'
@@ -418,6 +430,7 @@ export interface RootRouteChildren {
   PasteRoute: typeof PasteRouteWithChildren
   SearchRoute: typeof SearchRoute
   ThoughtsRoute: typeof ThoughtsRouteWithChildren
+  ApiDebugEnvRoute: typeof ApiDebugEnvRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiAuthDevLoginRoute: typeof ApiAuthDevLoginRoute
   ApiRindleMutateRoute: typeof ApiRindleMutateRoute
@@ -482,6 +495,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/write'
       preLoaderRoute: typeof ShellWriteRouteImport
       parentRoute: typeof ShellRoute
+    }
+    '/api/debug-env': {
+      id: '/api/debug-env'
+      path: '/api/debug-env'
+      fullPath: '/api/debug-env'
+      preLoaderRoute: typeof ApiDebugEnvRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/paste/': {
       id: '/paste/'
@@ -748,6 +768,7 @@ const rootRouteChildren: RootRouteChildren = {
   PasteRoute: PasteRouteWithChildren,
   SearchRoute: SearchRoute,
   ThoughtsRoute: ThoughtsRouteWithChildren,
+  ApiDebugEnvRoute: ApiDebugEnvRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiAuthDevLoginRoute: ApiAuthDevLoginRoute,
   ApiRindleMutateRoute: ApiRindleMutateRoute,
