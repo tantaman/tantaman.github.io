@@ -26,6 +26,9 @@
     "seed": "rindle exec -- node scripts/seed-posts.mjs",
     "import:thoughts": "rindle exec -- node scripts/import-thoughts.mjs",
     "import:pastes": "rindle exec -- node scripts/import-pastes.mjs",
+    "seed:prod": "node --env-file=.env scripts/seed-posts.mjs",
+    "import:thoughts:prod": "node --env-file=.env scripts/import-thoughts.mjs",
+    "import:pastes:prod": "node --env-file=.env scripts/import-pastes.mjs",
     "rindle:deploy": "rindle deploy",
     "rindle:migrate:remote": "rindle migrate apply --remote",
     "typecheck": "tsr generate && tsc --noEmit"
