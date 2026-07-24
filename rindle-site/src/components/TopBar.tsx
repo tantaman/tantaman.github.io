@@ -14,6 +14,7 @@ export function TopBar() {
       </Link>
       <div className="app-topbar-right">
         <nav className="app-nav" aria-label="Primary navigation">
+          <Link to="/explore">explore</Link>
           <Link to="/search">search</Link>
           <Link to="/thoughts">thoughts</Link>
           <Link to="/paste">paste</Link>

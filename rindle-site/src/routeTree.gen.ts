@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PasteRouteImport } from './routes/paste'
 import { Route as SearchRouteImport } from './routes/search'
@@ -47,6 +48,11 @@ import { Route as ThoughtsTIdRouteImport } from './routes/thoughts.t.$id'
 
 const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -222,6 +228,7 @@ const ThoughtsTIdRoute = ThoughtsTIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
+  '/explore': typeof ExploreRoute
   '/login': typeof LoginRoute
   '/paste': typeof PasteRouteWithChildren
   '/search': typeof SearchRoute
@@ -257,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/explore': typeof ExploreRoute
   '/login': typeof LoginRoute
   '/search': typeof SearchRoute
   '/$slug': typeof ShellSlugRoute
@@ -292,6 +300,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_shell': typeof ShellRouteWithChildren
+  '/explore': typeof ExploreRoute
   '/login': typeof LoginRoute
   '/paste': typeof PasteRouteWithChildren
   '/search': typeof SearchRoute
@@ -331,6 +340,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/explore'
     | '/login'
     | '/paste'
     | '/search'
@@ -366,6 +376,7 @@ export interface FileRouteTypes {
     | '/thoughts/framings/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/explore'
     | '/login'
     | '/search'
     | '/$slug'
@@ -400,6 +411,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_shell'
+    | '/explore'
     | '/login'
     | '/paste'
     | '/search'
@@ -438,6 +450,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   ShellRoute: typeof ShellRouteWithChildren
+  ExploreRoute: typeof ExploreRoute
   LoginRoute: typeof LoginRoute
   PasteRoute: typeof PasteRouteWithChildren
   SearchRoute: typeof SearchRoute
@@ -457,6 +470,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof ShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -785,6 +805,7 @@ const ThoughtsRouteWithChildren = ThoughtsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   ShellRoute: ShellRouteWithChildren,
+  ExploreRoute: ExploreRoute,
   LoginRoute: LoginRoute,
   PasteRoute: PasteRouteWithChildren,
   SearchRoute: SearchRoute,
@@ -799,12 +820,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

@@ -11,9 +11,10 @@ import type { MutationEnvelope } from "@rindle/client";
 
 import wasmUrl from "rindle-wasm-bin?url";
 
-import { mutators, schema } from "../shared/app-def.ts";
+import { mutators } from "../shared/app-def.ts";
 import type { QueryContext } from "../shared/auth.ts";
 import { ensureDevelopmentSession } from "./auth-client.ts";
+import { clientSchema } from "./schema.local.ts";
 
 // The precise client type — including the typed `mutate.*` surface — is INFERRED from the concrete
 // `createRindleClient({ schema, mutators, … })` call in `bootClientInner`.
@@ -58,7 +59,7 @@ async function bootClientInner() {
       : undefined,
   };
   return createRindleClient({
-    schema,
+    schema: clientSchema,
     mutators,
     // The acting principal a mutator sees as ctx.user — the prediction's author. The server injects
     // its OWN verified identity for the authoritative run (server/app-api.ts sharedCtx).
@@ -70,6 +71,9 @@ async function bootClientInner() {
     // No browser topology config: the first query lease returns the public WebSocket endpoint plus
     // a fresh placement ticket, and the optimistic client opens the correctly pinned socket lazily.
     dev: { resetOnMutationGap: import.meta.env.DEV },
+    // Durable local Explore drafts are partitioned by authenticated account. Anonymous readers get
+    // their own origin-local workspace rather than sharing a signed-in user's IndexedDB database.
+    persistLocal: { user: sessionUserId || "anonymous" },
     onRejected: (envelope, reason) => rejectionHandler(envelope, reason),
   });
 }

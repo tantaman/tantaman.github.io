@@ -9,11 +9,13 @@ import {
   type RindleRouteLoaderOptions,
 } from "@rindle/tanstack";
 
-import { schema } from "../shared/app-def.ts";
 import { bootClient } from "./rindle-client.ts";
+import { clientSchema } from "./schema.local.ts";
 
 const integration = createRindleTanStack({
-  schema,
+  // The SSR seed simply leaves local tables empty; after hydration the live client restores their
+  // IndexedDB rows before it is exposed. Daemon-facing registries continue to use generated schema.
+  schema: clientSchema,
   boot: bootClient,
   preload: async (queries) => {
     // Keep the authority/daemon client out of the browser graph. This callback only runs from a

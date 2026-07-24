@@ -54,6 +54,18 @@ import {
   searchPostsQuery,
   searchThoughtsQuery,
 } from "../src/components/Search.queries.ts";
+import {
+  exploreClustersQuery,
+  exploreCuratedConnectionsQuery,
+  exploreNearbyPastesQuery,
+  exploreNearbyPostsQuery,
+  exploreNearbyThoughtsQuery,
+  explorePasteConnectionsQuery,
+  explorePastesByIdsQuery,
+  explorePostsByIdsQuery,
+  exploreThoughtConnectionsQuery,
+  exploreThoughtsByIdsQuery,
+} from "../src/components/Explore.queries.ts";
 
 /** The authority's principal is the verified identity (or undefined when anonymous). Public post
  * reads accept either; private authoring reads and every mutation require the administrator. */
@@ -103,6 +115,16 @@ const apiQueries = registerQueries<User>([
   searchPostsQuery,
   searchThoughtsQuery,
   searchPastesQuery,
+  exploreThoughtsByIdsQuery,
+  explorePostsByIdsQuery,
+  explorePastesByIdsQuery,
+  exploreThoughtConnectionsQuery,
+  explorePasteConnectionsQuery,
+  exploreNearbyThoughtsQuery,
+  exploreNearbyPostsQuery,
+  exploreNearbyPastesQuery,
+  exploreClustersQuery,
+  exploreCuratedConnectionsQuery,
 ]);
 
 function publisherPrincipal(ctx: MutationContext<User>) {
