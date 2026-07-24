@@ -11,6 +11,7 @@ export interface ExploreNodeData extends Record<string, unknown> {
   discoveredBy: string;
   onFocus: (id: string) => void;
   onTogglePinned: (id: string) => void;
+  onRemove: (id: string) => void;
   onExpandMixed: (id: string) => void;
   onCollapse: (id: string) => void;
 }
@@ -36,14 +37,24 @@ export const ExploreItemNode = memo(function ExploreItemNode({ data }: NodeProps
     >
       <header>
         <span className="explore-node-kind">{data.item.kind}</span>
-        <button
-          type="button"
-          className={`explore-node-pin nodrag${data.pinned ? " is-pinned" : ""}`}
-          onClick={(event) => { event.stopPropagation(); data.onTogglePinned(data.nodeId); }}
-          onMouseDown={stop}
-          title={data.pinned ? "Unpin from this trail" : "Pin in this trail"}
-          aria-label={data.pinned ? "Unpin node" : "Pin node"}
-        >{data.pinned ? "◆" : "◇"}</button>
+        <div className="explore-node-header-actions">
+          <button
+            type="button"
+            className={`explore-node-pin nodrag${data.pinned ? " is-pinned" : ""}`}
+            onClick={(event) => { event.stopPropagation(); data.onTogglePinned(data.nodeId); }}
+            onMouseDown={stop}
+            title={data.pinned ? "Unpin from this trail" : "Pin in this trail"}
+            aria-label={data.pinned ? "Unpin node" : "Pin node"}
+          >{data.pinned ? "◆" : "◇"}</button>
+          <button
+            type="button"
+            className="explore-node-remove nodrag"
+            onClick={(event) => { event.stopPropagation(); data.onRemove(data.nodeId); }}
+            onMouseDown={stop}
+            title="Remove node and its unpinned branch"
+            aria-label="Remove node"
+          >×</button>
+        </div>
       </header>
       <a className="explore-node-title nodrag" href={itemHref(data.item)} target="_blank" rel="noreferrer" onMouseDown={stop}>
         {data.item.title}

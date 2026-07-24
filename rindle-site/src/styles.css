@@ -623,7 +623,8 @@ main.app-main:has(> .explore-wrap) {
   text-transform: uppercase;
 }
 .explore-new-trail,
-.explore-collapse {
+.explore-collapse,
+.explore-remove-focused {
   border: 1px solid var(--line-2);
   border-radius: 7px;
   background: var(--raise);
@@ -899,11 +900,21 @@ main.app-main:has(> .explore-wrap) {
   color: var(--ink-3);
   font-family: var(--font-mono);
 }
-.explore-collapse {
-  width: 100%;
+.explore-prune-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
   margin-top: 7px;
+}
+.explore-collapse,
+.explore-remove-focused {
+  width: 100%;
   padding: 6px 8px;
   background: transparent;
+}
+.explore-remove-focused:hover {
+  border-color: color-mix(in srgb, #c74858 55%, var(--line-2));
+  color: #c74858;
 }
 .explore-status {
   min-height: 28px;
@@ -993,6 +1004,7 @@ main.app-main:has(> .explore-wrap) {
   gap: 8px;
 }
 .explore-node-pin,
+.explore-node-remove,
 .explore-node footer button {
   display: inline-grid;
   place-items: center;
@@ -1002,6 +1014,11 @@ main.app-main:has(> .explore-wrap) {
   font: inherit;
   cursor: pointer;
 }
+.explore-node-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
 .explore-node-pin {
   width: 21px;
   height: 21px;
@@ -1009,6 +1026,16 @@ main.app-main:has(> .explore-wrap) {
 }
 .explore-node-pin.is-pinned {
   color: var(--accent-ink);
+}
+.explore-node-remove {
+  width: 21px;
+  height: 21px;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.explore-node-remove:hover {
+  background: color-mix(in srgb, #c74858 12%, transparent);
+  color: #c74858;
 }
 .explore-node-title {
   display: -webkit-box;

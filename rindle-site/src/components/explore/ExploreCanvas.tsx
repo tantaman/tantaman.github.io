@@ -149,6 +149,16 @@ export function ExploreCanvas() {
     if (focusedNode?.id !== nodeId) void graph.focusNode(nodeId);
   }, [focusedNode?.id, graph.focusNode]);
 
+  const pruneNodes = useCallback((ids: readonly string[]) => {
+    void (async () => {
+      let removed = 0;
+      for (const id of ids) removed += await graph.removeNode(id);
+      setStatus(removed > 0
+        ? `Removed ${removed} ${removed === 1 ? "node" : "nodes"}; pinned descendants were kept.`
+        : "That node is no longer on this trail.");
+    })();
+  }, [graph.removeNode]);
+
   useEffect(() => {
     if (!pendingExpansion || focusedNode?.id !== pendingExpansion.nodeId) return;
     if (!discovery.ready[pendingExpansion.kind]) {
@@ -184,6 +194,7 @@ export function ExploreCanvas() {
         discoveredBy: row.discoveredBy,
         onFocus: (id: string) => { void graph.focusNode(id); },
         onTogglePinned: (id: string) => { void graph.togglePinned(id); },
+        onRemove: (id: string) => pruneNodes([id]),
         onExpandMixed: (id: string) => requestExpansion(id, "mixed"),
         onCollapse: (id: string) => {
           void graph.collapseBranch(id).then((removed) => setStatus(removed > 0
@@ -192,7 +203,7 @@ export function ExploreCanvas() {
         },
       },
     };
-  }), [focusedNode?.id, graph.collapseBranch, graph.focusNode, graph.nodes, graph.togglePinned, items, requestExpansion]);
+  }), [focusedNode?.id, graph.collapseBranch, graph.focusNode, graph.nodes, graph.togglePinned, items, pruneNodes, requestExpansion]);
 
   useEffect(() => setFlowNodes(derivedNodes), [derivedNodes]);
   useEffect(() => {
@@ -265,6 +276,7 @@ export function ExploreCanvas() {
         }}
         onExpand={(kind) => { if (focusedNode) requestExpansion(focusedNode.id, kind); }}
         onTogglePinned={(id) => { void graph.togglePinned(id); }}
+        onRemove={(id) => pruneNodes([id])}
         onCollapse={(id) => {
           void graph.collapseBranch(id).then((removed) => setStatus(removed > 0
             ? `Collapsed ${removed} unpinned ${removed === 1 ? "node" : "nodes"}.`
@@ -279,6 +291,7 @@ export function ExploreCanvas() {
           edges={flowEdges}
           nodeTypes={nodeTypes}
           onNodesChange={handleNodesChange}
+          onNodesDelete={(removed) => pruneNodes(removed.map((node) => node.id))}
           onNodeClick={(_event, node) => { void graph.focusNode(node.id); }}
           onNodeDragStop={(_event, node) => { void graph.moveNode(node.id, node.position.x, node.position.y); }}
           onMoveEnd={(_event, viewport) => { void graph.updateViewport(viewport); }}
@@ -291,6 +304,7 @@ export function ExploreCanvas() {
           nodesConnectable={false}
           nodesDraggable
           elementsSelectable
+          deleteKeyCode={["Backspace", "Delete"]}
           zoomOnDoubleClick={false}
           fitView={!graph.view && flowNodes.length > 0}
           minZoom={0.18}

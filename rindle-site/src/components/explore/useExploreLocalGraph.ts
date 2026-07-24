@@ -301,6 +301,58 @@ export function useExploreLocalGraph() {
     nodesRef.current = nodesRef.current.map((row) => row.id === next.id ? next : row);
   }, [store]);
 
+  const removeNode = useCallback(async (id: string) => {
+    const currentNodes = nodesRef.current;
+    const root = currentNodes.find((row) => row.id === id);
+    if (!root) return 0;
+
+    // Removing a node prunes the disposable branch grown from it. Pinned descendants are retained
+    // as new roots, so pruning never silently throws away something the user explicitly kept.
+    const removeIds = new Set<string>([id]);
+    const rerooted: Array<{ current: ExploreNodeRow; next: ExploreNodeRow }> = [];
+    const queue = [id];
+    while (queue.length > 0) {
+      const parentId = queue.shift()!;
+      for (const child of currentNodes) {
+        if (child.parentNodeId !== parentId || removeIds.has(child.id)) continue;
+        if (child.pinned === 1) {
+          rerooted.push({ current: child, next: { ...child, parentNodeId: null } });
+          continue;
+        }
+        removeIds.add(child.id);
+        queue.push(child.id);
+      }
+    }
+
+    const removedNodes = currentNodes.filter((row) => removeIds.has(row.id));
+    const removedEdges = edgesRef.current.filter((row) => removeIds.has(row.sourceNodeId) || removeIds.has(row.targetNodeId));
+    const session = sessionsRef.current.find((row) => row.id === root.sessionId);
+    const nextSession = session ? { ...session, updatedAt: Date.now() } : null;
+    await store.writeLocal((tx) => {
+      for (const edge of removedEdges) tx.remove("exploreEdge", edge);
+      for (const node of removedNodes) tx.remove("exploreNode", node);
+      for (const row of rerooted) tx.edit("exploreNode", row.current, row.next);
+      if (session && nextSession) tx.edit("exploreSession", session, nextSession);
+    });
+
+    const rerootedById = new Map(rerooted.map((row) => [row.next.id, row.next]));
+    nodesRef.current = nodesRef.current
+      .filter((row) => !removeIds.has(row.id))
+      .map((row) => rerootedById.get(row.id) ?? row);
+    const removedEdgeIds = new Set(removedEdges.map((row) => row.id));
+    edgesRef.current = edgesRef.current.filter((row) => !removedEdgeIds.has(row.id));
+    if (session && nextSession) {
+      sessionsRef.current = sessionsRef.current.map((row) => row.id === nextSession.id ? nextSession : row);
+    }
+
+    const currentView = viewRef.current;
+    if (currentView && (removeIds.has(currentView.focusedNodeId ?? "") || removeIds.has(currentView.selectedNodeId ?? ""))) {
+      const fallback = nodesRef.current.find((row) => row.pinned === 1) ?? nodesRef.current[0] ?? null;
+      await writeView(root.sessionId, { focusedNodeId: fallback?.id ?? null, selectedNodeId: fallback?.id ?? null });
+    }
+    return removedNodes.length;
+  }, [store, writeView]);
+
   const collapseBranch = useCallback(async (rootId: string) => {
     const currentNodes = nodesRef.current;
     const removeIds = new Set<string>();
@@ -355,6 +407,7 @@ export function useExploreLocalGraph() {
     addCandidates,
     togglePinned,
     moveNode,
+    removeNode,
     collapseBranch,
     focusNode,
     updateViewport,

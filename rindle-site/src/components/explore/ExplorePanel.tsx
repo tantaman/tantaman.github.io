@@ -55,6 +55,7 @@ export function ExplorePanel({
   onSeed,
   onExpand,
   onTogglePinned,
+  onRemove,
   onCollapse,
 }: {
   sessions: readonly ExploreSessionRow[];
@@ -74,6 +75,7 @@ export function ExplorePanel({
   onSeed: (item: ExploreItem, query: string) => void;
   onExpand: (kind: ExploreExpansionKind) => void;
   onTogglePinned: (id: string) => void;
+  onRemove: (id: string) => void;
   onCollapse: (id: string) => void;
 }) {
   const [query, setQuery] = useState("");
@@ -236,9 +238,14 @@ export function ExplorePanel({
                 </button>
               ))}
             </div>
-            <button type="button" className="explore-collapse" onClick={() => onCollapse(focusNode.id)}>
-              Collapse unpinned branch
-            </button>
+            <div className="explore-prune-actions">
+              <button type="button" className="explore-collapse" onClick={() => onCollapse(focusNode.id)}>
+                Collapse branch
+              </button>
+              <button type="button" className="explore-remove-focused" onClick={() => onRemove(focusNode.id)}>
+                Remove node
+              </button>
+            </div>
           </>
         ) : (
           <p className="explore-panel-empty">Select a node to inspect and fan out.</p>
