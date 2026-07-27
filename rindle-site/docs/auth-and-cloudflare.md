@@ -1,11 +1,13 @@
 # Auth and Cloudflare setup
 
-The app now has two deliberately separate data planes:
+The app now has three deliberately separate data planes:
 
 - Rindle stores posts, thoughts, paste bodies/metadata, comments, and the other live content views.
   Its database token is server-only.
 - Cloudflare D1 (`AUTH_DB`) stores Better Auth users, sessions, linked OAuth accounts, usernames, and
   roles. Auth migrations live in `migrations-auth/`; never put them in Rindle's `migrations/`.
+- Cloudflare D1 (`DHA_DB`) retains the existing Drumaldry HOA reports. The compatibility API only
+  reads and writes `dha_report`; its schema remains owned by the legacy Worker's migrations.
 
 Public readers do not receive a guest or anonymous identity. In production a Better Auth session is
 created only after an explicit GitHub or Google sign-in. The private Node development runtime is the
@@ -24,8 +26,14 @@ authoring desk is immediately usable.
    Rindle topology and migrations are unchanged. Email/password auth and the development bootstrap
    both fail closed when `NODE_ENV=production` or the auth database is D1.
 
-To exercise the actual Workers runtime and local D1 binding, copy `.dev.vars.example` to `.dev.vars`,
-run `pnpm auth:migrate`, then run `pnpm preview:cf`.
+To exercise the actual Workers runtime and local D1 bindings, copy `.dev.vars.example` to `.dev.vars`,
+run `pnpm auth:migrate`, then run `pnpm preview:cf`. A fresh local D1 store also needs the report
+table before testing `/api/dha/*`:
+
+```sh
+wrangler d1 execute thought --local \
+  --command "CREATE TABLE IF NOT EXISTS dha_report (report_date TEXT PRIMARY KEY, data TEXT NOT NULL, created_at INTEGER NOT NULL)"
+```
 
 ## Production
 
@@ -41,22 +49,23 @@ wrangler secret put GITHUB_CLIENT_SECRET
 wrangler secret put RINDLE_URL
 wrangler secret put RINDLE_DATABASE_TOKEN
 # optional: RINDLE_WS_URL
+wrangler secret put DHA_SECRET
+wrangler secret put DHA_ADMIN_SECRET
 ```
 
 `BETTER_AUTH_URL` is the deployed HTTPS origin. Register the matching
 `/api/auth/callback/github` and `/api/auth/callback/google` URLs with the providers.
 
-The D1 binding omits `database_id`, so Wrangler can provision `rindle-site-auth` during the first
-deploy. Then apply its schema and redeploy if the first deploy happened before the migration:
+`AUTH_DB` is pinned to the provisioned `rindle-site-auth` database. Apply its schema before deploying:
 
 ```sh
-pnpm deploy
 pnpm auth:migrate:remote
 pnpm deploy
 ```
 
-For an explicitly provisioned database, run `wrangler d1 create rindle-site-auth` and paste its ID
-into `wrangler.jsonc` before applying the remote migration.
+`DHA_DB` is pinned to the existing `thought` database and needs no migration for this move. Its
+`migrations_dir` is intentionally empty so Rindle or auth migrations can never be applied to it by
+accident.
 
 ## Roles and the owner account
 

@@ -6,6 +6,8 @@ dist
 # and any hand-added assets under public/ ARE committed.
 /public/img
 /public/blog-assets
+# Built from ../packages/dha-report-app by the predev/prebuild lifecycle.
+/public/dha-report-app
 .rindled
 *.db
 *.db-*

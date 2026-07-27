@@ -8,13 +8,14 @@
     "node": ">=22.18"
   },
   "scripts": {
+    "build:dha-report": "pnpm --dir .. --filter report-app build:rindle",
     "sync-assets": "node scripts/sync-assets.mjs",
-    "predev": "node scripts/sync-assets.mjs",
+    "predev": "pnpm build:dha-report && node scripts/sync-assets.mjs",
     "dev": "rindle dev --migrate --gen shared/schema.gen.ts --dir migrations -- vite dev --port 3000",
     "generate-routes": "tsr generate",
-    "prebuild": "node scripts/sync-assets.mjs",
+    "prebuild": "pnpm build:dha-report && node scripts/sync-assets.mjs",
     "build": "vite build",
-    "prebuild:cf": "node scripts/sync-assets.mjs",
+    "prebuild:cf": "pnpm build:dha-report && node scripts/sync-assets.mjs",
     "build:cf": "CF=1 vite build",
     "preview": "vite preview",
     "preview:cf": "CF=1 vite preview",

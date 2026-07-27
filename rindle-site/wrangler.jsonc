@@ -16,6 +16,14 @@
 	"vars": {
 		"AUTH_TRUSTED_ORIGINS": "https://tantaman.com,https://tantamanlands.tantaman.workers.dev"
 	},
+	"secrets": {
+		"required": [
+			"RINDLE_URL",
+			"RINDLE_DATABASE_TOKEN",
+			"DHA_SECRET",
+			"DHA_ADMIN_SECRET"
+		]
+	},
 	"observability": {
 		"enabled": true,
 		"logs": {
@@ -27,14 +35,21 @@
 			"head_sampling_rate": 0.01
 		}
 	},
-	// Auth is deliberately separate from the Rindle content database. Omitting database_id lets
-	// Wrangler provision the D1 database on first deploy; it can be pinned here later if desired.
+	// Auth and DHA report storage are deliberately separate from the Rindle content database.
 	"d1_databases": [
 		{
 			"binding": "AUTH_DB",
 			"database_name": "rindle-site-auth",
 			"migrations_dir": "./migrations-auth",
 			"database_id": "a2da5bad-550c-4cb1-a952-5755aa8f5baf"
+		},
+		{
+			// The report rows remain in the legacy database while the app is folded into this Worker.
+			"binding": "DHA_DB",
+			"database_name": "thought",
+			"database_id": "a1190a47-fe1e-4fdb-8d7a-06dd5714fc6b",
+			// Do not let this binding inherit the Rindle app's migrations directory.
+			"migrations_dir": "./migrations-dha"
 		}
 	],
 	"r2_buckets": [
@@ -47,5 +62,6 @@
 	//   BETTER_AUTH_URL, BETTER_AUTH_SECRET, TANTAMAN_OWNER_EMAIL
 	//   GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET and/or GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 	//   RINDLE_URL, RINDLE_DATABASE_TOKEN, optional RINDLE_WS_URL
+	//   DHA_SECRET, DHA_ADMIN_SECRET
 	//   optional MAPBOX_TOKEN, TMDB_API_KEY for structured thought metadata
 }

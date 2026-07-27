@@ -13,6 +13,10 @@ RINDLE_URL=
 RINDLE_DATABASE_TOKEN=
 RINDLE_WS_URL=
 
+# Drumaldry HOA report viewer/admin passwords. Production values are Wrangler secrets.
+DHA_SECRET=replace-with-viewer-password
+DHA_ADMIN_SECRET=replace-with-admin-password
+
 # Optional structured-thought metadata providers.
 MAPBOX_TOKEN=
 TMDB_API_KEY=

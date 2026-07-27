@@ -34,6 +34,7 @@ import { Route as ThoughtsTasksRouteImport } from './routes/thoughts.tasks'
 import { Route as ApiAttachmentsSplatRouteImport } from './routes/api.attachments.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAuthDevLoginRouteImport } from './routes/api.auth.dev-login'
+import { Route as ApiDhaReportsRouteImport } from './routes/api.dha.reports'
 import { Route as ApiRindleMutateRouteImport } from './routes/api.rindle.mutate'
 import { Route as ApiRindleQueryRouteImport } from './routes/api.rindle.query'
 import { Route as ApiRindleReadRouteImport } from './routes/api.rindle.read'
@@ -45,6 +46,7 @@ import { Route as PasteForkIdRouteImport } from './routes/paste.fork.$id'
 import { Route as ThoughtsFramingsIndexRouteImport } from './routes/thoughts.framings.index'
 import { Route as ThoughtsFramingsIdRouteImport } from './routes/thoughts.framings.$id'
 import { Route as ThoughtsTIdRouteImport } from './routes/thoughts.t.$id'
+import { Route as ApiDhaReportsDateRouteImport } from './routes/api.dha.reports.$date'
 
 const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
@@ -170,6 +172,11 @@ const ApiAuthDevLoginRoute = ApiAuthDevLoginRouteImport.update({
   path: '/api/auth/dev-login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiDhaReportsRoute = ApiDhaReportsRouteImport.update({
+  id: '/api/dha/reports',
+  path: '/api/dha/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiRindleMutateRoute = ApiRindleMutateRouteImport.update({
   id: '/api/rindle/mutate',
   path: '/api/rindle/mutate',
@@ -225,6 +232,11 @@ const ThoughtsTIdRoute = ThoughtsTIdRouteImport.update({
   path: '/t/$id',
   getParentRoute: () => ThoughtsRoute,
 } as any)
+const ApiDhaReportsDateRoute = ApiDhaReportsDateRouteImport.update({
+  id: '/$date',
+  path: '/$date',
+  getParentRoute: () => ApiDhaReportsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
@@ -251,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/api/attachments/$': typeof ApiAttachmentsSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
+  '/api/dha/reports': typeof ApiDhaReportsRouteWithChildren
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
@@ -262,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/thoughts/t/$id': typeof ThoughtsTIdRoute
   '/paste/$id/': typeof PasteIdIndexRoute
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
+  '/api/dha/reports/$date': typeof ApiDhaReportsDateRoute
 }
 export interface FileRoutesByTo {
   '/explore': typeof ExploreRoute
@@ -285,6 +299,7 @@ export interface FileRoutesByTo {
   '/api/attachments/$': typeof ApiAttachmentsSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
+  '/api/dha/reports': typeof ApiDhaReportsRouteWithChildren
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
@@ -296,6 +311,7 @@ export interface FileRoutesByTo {
   '/thoughts/t/$id': typeof ThoughtsTIdRoute
   '/paste/$id': typeof PasteIdIndexRoute
   '/thoughts/framings': typeof ThoughtsFramingsIndexRoute
+  '/api/dha/reports/$date': typeof ApiDhaReportsDateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -324,6 +340,7 @@ export interface FileRoutesById {
   '/api/attachments/$': typeof ApiAttachmentsSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/auth/dev-login': typeof ApiAuthDevLoginRoute
+  '/api/dha/reports': typeof ApiDhaReportsRouteWithChildren
   '/api/rindle/mutate': typeof ApiRindleMutateRoute
   '/api/rindle/query': typeof ApiRindleQueryRoute
   '/api/rindle/read': typeof ApiRindleReadRoute
@@ -335,6 +352,7 @@ export interface FileRoutesById {
   '/thoughts/t/$id': typeof ThoughtsTIdRoute
   '/paste/$id/': typeof PasteIdIndexRoute
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
+  '/api/dha/reports/$date': typeof ApiDhaReportsDateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -363,6 +381,7 @@ export interface FileRouteTypes {
     | '/api/attachments/$'
     | '/api/auth/$'
     | '/api/auth/dev-login'
+    | '/api/dha/reports'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
@@ -374,6 +393,7 @@ export interface FileRouteTypes {
     | '/thoughts/t/$id'
     | '/paste/$id/'
     | '/thoughts/framings/'
+    | '/api/dha/reports/$date'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/explore'
@@ -397,6 +417,7 @@ export interface FileRouteTypes {
     | '/api/attachments/$'
     | '/api/auth/$'
     | '/api/auth/dev-login'
+    | '/api/dha/reports'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
@@ -408,6 +429,7 @@ export interface FileRouteTypes {
     | '/thoughts/t/$id'
     | '/paste/$id'
     | '/thoughts/framings'
+    | '/api/dha/reports/$date'
   id:
     | '__root__'
     | '/_shell'
@@ -435,6 +457,7 @@ export interface FileRouteTypes {
     | '/api/attachments/$'
     | '/api/auth/$'
     | '/api/auth/dev-login'
+    | '/api/dha/reports'
     | '/api/rindle/mutate'
     | '/api/rindle/query'
     | '/api/rindle/read'
@@ -446,6 +469,7 @@ export interface FileRouteTypes {
     | '/thoughts/t/$id'
     | '/paste/$id/'
     | '/thoughts/framings/'
+    | '/api/dha/reports/$date'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -458,6 +482,7 @@ export interface RootRouteChildren {
   ApiAttachmentsSplatRoute: typeof ApiAttachmentsSplatRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiAuthDevLoginRoute: typeof ApiAuthDevLoginRoute
+  ApiDhaReportsRoute: typeof ApiDhaReportsRouteWithChildren
   ApiRindleMutateRoute: typeof ApiRindleMutateRoute
   ApiRindleQueryRoute: typeof ApiRindleQueryRoute
   ApiRindleReadRoute: typeof ApiRindleReadRoute
@@ -640,6 +665,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthDevLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/dha/reports': {
+      id: '/api/dha/reports'
+      path: '/api/dha/reports'
+      fullPath: '/api/dha/reports'
+      preLoaderRoute: typeof ApiDhaReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/rindle/mutate': {
       id: '/api/rindle/mutate'
       path: '/api/rindle/mutate'
@@ -716,6 +748,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/thoughts/t/$id'
       preLoaderRoute: typeof ThoughtsTIdRouteImport
       parentRoute: typeof ThoughtsRoute
+    }
+    '/api/dha/reports/$date': {
+      id: '/api/dha/reports/$date'
+      path: '/$date'
+      fullPath: '/api/dha/reports/$date'
+      preLoaderRoute: typeof ApiDhaReportsDateRouteImport
+      parentRoute: typeof ApiDhaReportsRoute
     }
   }
 }
@@ -803,6 +842,18 @@ const ThoughtsRouteWithChildren = ThoughtsRoute._addFileChildren(
   ThoughtsRouteChildren,
 )
 
+interface ApiDhaReportsRouteChildren {
+  ApiDhaReportsDateRoute: typeof ApiDhaReportsDateRoute
+}
+
+const ApiDhaReportsRouteChildren: ApiDhaReportsRouteChildren = {
+  ApiDhaReportsDateRoute: ApiDhaReportsDateRoute,
+}
+
+const ApiDhaReportsRouteWithChildren = ApiDhaReportsRoute._addFileChildren(
+  ApiDhaReportsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   ShellRoute: ShellRouteWithChildren,
   ExploreRoute: ExploreRoute,
@@ -813,6 +864,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAttachmentsSplatRoute: ApiAttachmentsSplatRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiAuthDevLoginRoute: ApiAuthDevLoginRoute,
+  ApiDhaReportsRoute: ApiDhaReportsRouteWithChildren,
   ApiRindleMutateRoute: ApiRindleMutateRoute,
   ApiRindleQueryRoute: ApiRindleQueryRoute,
   ApiRindleReadRoute: ApiRindleReadRoute,

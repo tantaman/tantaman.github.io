@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:rindle": "tsc -b && vite build --outDir ../../rindle-site/public/dha-report-app",
     "lint": "eslint .",
     "preview": "vite preview"
   },
