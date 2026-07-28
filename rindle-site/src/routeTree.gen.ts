@@ -18,6 +18,7 @@ import { Route as ThoughtsRouteImport } from './routes/thoughts'
 import { Route as ShellIndexRouteImport } from './routes/_shell.index'
 import { Route as ShellSlugRouteImport } from './routes/_shell.$slug'
 import { Route as ShellWriteRouteImport } from './routes/_shell.write'
+import { Route as ApiAttachmentsRouteImport } from './routes/api.attachments'
 import { Route as PasteIndexRouteImport } from './routes/paste.index'
 import { Route as PasteIdRouteImport } from './routes/paste.$id'
 import { Route as PasteAllRouteImport } from './routes/paste.all'
@@ -92,6 +93,11 @@ const ShellWriteRoute = ShellWriteRouteImport.update({
   path: '/write',
   getParentRoute: () => ShellRoute,
 } as any)
+const ApiAttachmentsRoute = ApiAttachmentsRouteImport.update({
+  id: '/api/attachments',
+  path: '/api/attachments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PasteIndexRoute = PasteIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -158,9 +164,9 @@ const ThoughtsTasksRoute = ThoughtsTasksRouteImport.update({
   getParentRoute: () => ThoughtsRoute,
 } as any)
 const ApiAttachmentsSplatRoute = ApiAttachmentsSplatRouteImport.update({
-  id: '/api/attachments/$',
-  path: '/api/attachments/$',
-  getParentRoute: () => rootRouteImport,
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => ApiAttachmentsRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -247,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/thoughts': typeof ThoughtsRouteWithChildren
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
+  '/api/attachments': typeof ApiAttachmentsRouteWithChildren
   '/paste/$id': typeof PasteIdRouteWithChildren
   '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
@@ -283,6 +290,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
+  '/api/attachments': typeof ApiAttachmentsRouteWithChildren
   '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
   '/thoughts/books': typeof ThoughtsBooksRoute
@@ -323,6 +331,7 @@ export interface FileRoutesById {
   '/thoughts': typeof ThoughtsRouteWithChildren
   '/_shell/$slug': typeof ShellSlugRoute
   '/_shell/write': typeof ShellWriteRoute
+  '/api/attachments': typeof ApiAttachmentsRouteWithChildren
   '/paste/$id': typeof PasteIdRouteWithChildren
   '/paste/all': typeof PasteAllRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
@@ -365,6 +374,7 @@ export interface FileRouteTypes {
     | '/thoughts'
     | '/$slug'
     | '/write'
+    | '/api/attachments'
     | '/paste/$id'
     | '/paste/all'
     | '/thoughts/$id'
@@ -401,6 +411,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/$slug'
     | '/write'
+    | '/api/attachments'
     | '/paste/all'
     | '/thoughts/$id'
     | '/thoughts/books'
@@ -440,6 +451,7 @@ export interface FileRouteTypes {
     | '/thoughts'
     | '/_shell/$slug'
     | '/_shell/write'
+    | '/api/attachments'
     | '/paste/$id'
     | '/paste/all'
     | '/thoughts/$id'
@@ -479,7 +491,7 @@ export interface RootRouteChildren {
   PasteRoute: typeof PasteRouteWithChildren
   SearchRoute: typeof SearchRoute
   ThoughtsRoute: typeof ThoughtsRouteWithChildren
-  ApiAttachmentsSplatRoute: typeof ApiAttachmentsSplatRoute
+  ApiAttachmentsRoute: typeof ApiAttachmentsRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiAuthDevLoginRoute: typeof ApiAuthDevLoginRoute
   ApiDhaReportsRoute: typeof ApiDhaReportsRouteWithChildren
@@ -552,6 +564,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/write'
       preLoaderRoute: typeof ShellWriteRouteImport
       parentRoute: typeof ShellRoute
+    }
+    '/api/attachments': {
+      id: '/api/attachments'
+      path: '/api/attachments'
+      fullPath: '/api/attachments'
+      preLoaderRoute: typeof ApiAttachmentsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/paste/': {
       id: '/paste/'
@@ -646,10 +665,10 @@ declare module '@tanstack/react-router' {
     }
     '/api/attachments/$': {
       id: '/api/attachments/$'
-      path: '/api/attachments/$'
+      path: '/$'
       fullPath: '/api/attachments/$'
       preLoaderRoute: typeof ApiAttachmentsSplatRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ApiAttachmentsRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -842,6 +861,18 @@ const ThoughtsRouteWithChildren = ThoughtsRoute._addFileChildren(
   ThoughtsRouteChildren,
 )
 
+interface ApiAttachmentsRouteChildren {
+  ApiAttachmentsSplatRoute: typeof ApiAttachmentsSplatRoute
+}
+
+const ApiAttachmentsRouteChildren: ApiAttachmentsRouteChildren = {
+  ApiAttachmentsSplatRoute: ApiAttachmentsSplatRoute,
+}
+
+const ApiAttachmentsRouteWithChildren = ApiAttachmentsRoute._addFileChildren(
+  ApiAttachmentsRouteChildren,
+)
+
 interface ApiDhaReportsRouteChildren {
   ApiDhaReportsDateRoute: typeof ApiDhaReportsDateRoute
 }
@@ -861,7 +892,7 @@ const rootRouteChildren: RootRouteChildren = {
   PasteRoute: PasteRouteWithChildren,
   SearchRoute: SearchRoute,
   ThoughtsRoute: ThoughtsRouteWithChildren,
-  ApiAttachmentsSplatRoute: ApiAttachmentsSplatRoute,
+  ApiAttachmentsRoute: ApiAttachmentsRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiAuthDevLoginRoute: ApiAuthDevLoginRoute,
   ApiDhaReportsRoute: ApiDhaReportsRouteWithChildren,

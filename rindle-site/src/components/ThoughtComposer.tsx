@@ -10,6 +10,7 @@ import {
 import { ulid } from "ulid";
 
 import type { Thought } from "../../shared/app-def.ts";
+import { uploadThoughtImages } from "../lib/attachments.ts";
 import {
   extractThoughtTags,
   hashThoughtBody,
@@ -18,6 +19,7 @@ import {
   thoughtTagArgs,
 } from "../lib/thoughts.ts";
 import { app } from "../rindle-client.ts";
+import { ThoughtImageDropzone, useThoughtImages } from "./ThoughtImageDropzone.tsx";
 
 export type EditableThought = Pick<Thought, "id" | "body" | "version" | "private">;
 
@@ -51,6 +53,7 @@ export function ThoughtComposer({
   const [previewing, setPreviewing] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const imageController = useThoughtImages();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const hintId = useId();
   const tags = useMemo(() => extractThoughtTags(body), [body]);
@@ -76,7 +79,10 @@ export function ThoughtComposer({
       return;
     }
 
-    const unchanged = initial && trimmed === initial.body && isPrivate === (initial.private === 1);
+    const unchanged = initial
+      && trimmed === initial.body
+      && isPrivate === (initial.private === 1)
+      && imageController.images.length === 0;
     if (unchanged) {
       onDone?.(initial.id);
       return;
@@ -85,7 +91,10 @@ export function ThoughtComposer({
     setSubmitting(true);
     setError(null);
     try {
-      const [bodyHash] = await Promise.all([hashThoughtBody(trimmed)]);
+      const [bodyHash, attachments] = await Promise.all([
+        hashThoughtBody(trimmed),
+        uploadThoughtImages(imageController.images),
+      ]);
       const now = Date.now();
       const contentRevision = ulid();
 
@@ -100,8 +109,9 @@ export function ThoughtComposer({
           contentRevision,
           private: isPrivate ? 1 : 0,
           tags: thoughtTagArgs(trimmed),
-          attachments: [],
+          attachments,
         });
+        imageController.reset();
         onDone?.(initial.id);
         return;
       }
@@ -119,7 +129,7 @@ export function ThoughtComposer({
           contentRevision,
         },
         tags: thoughtTagArgs(trimmed),
-        attachments: [],
+        attachments,
         edges: [],
         enrichments: thoughtEnrichmentArgs(trimmed, now, contentRevision, {
           taskIds: parentTaskIds ?? [],
@@ -127,6 +137,7 @@ export function ThoughtComposer({
       });
       setBody("");
       setPreviewing(false);
+      imageController.reset();
       onDone?.(thoughtId);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Could not save this thought.");
@@ -167,24 +178,26 @@ export function ThoughtComposer({
         </button>
       </div>
 
-      {previewing ? (
-        <div
-          className="thought-markdown thought-composer-preview"
-          dangerouslySetInnerHTML={{ __html: previewHtml }}
-        />
-      ) : (
-        <textarea
-          ref={textareaRef}
-          rows={compact ? 3 : 5}
-          value={body}
-          autoFocus={autoFocus}
-          spellCheck
-          placeholder={placeholder ?? (parentId ? "Write a reply…" : "What are you thinking? Try #t, #p, #q, #e, #l, #b, #m, or #a at the start of a line.")}
-          aria-describedby={hintId}
-          onChange={(event) => setBody(event.target.value)}
-          onKeyDown={submitFromKeyboard}
-        />
-      )}
+      <ThoughtImageDropzone controller={imageController} compact={compact}>
+        {previewing ? (
+          <div
+            className="thought-markdown thought-composer-preview"
+            dangerouslySetInnerHTML={{ __html: previewHtml }}
+          />
+        ) : (
+          <textarea
+            ref={textareaRef}
+            rows={compact ? 3 : 5}
+            value={body}
+            autoFocus={autoFocus}
+            spellCheck
+            placeholder={placeholder ?? (parentId ? "Write a reply…" : "What are you thinking? Try #t, #p, #q, #e, #l, #b, #m, or #a at the start of a line.")}
+            aria-describedby={hintId}
+            onChange={(event) => setBody(event.target.value)}
+            onKeyDown={submitFromKeyboard}
+          />
+        )}
+      </ThoughtImageDropzone>
 
       {tags.length > 0 ? (
         <div className="thought-composer-tags" aria-label="Detected tags">
@@ -212,7 +225,9 @@ export function ThoughtComposer({
           {submitting ? "Saving…" : label}
         </button>
       </div>
-      {error ? <p className="thought-composer-error" role="alert">{error}</p> : null}
+      {error || imageController.error ? (
+        <p className="thought-composer-error" role="alert">{error ?? imageController.error}</p>
+      ) : null}
     </form>
   );
 }

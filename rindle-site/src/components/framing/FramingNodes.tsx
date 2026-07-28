@@ -3,6 +3,8 @@ import { useNavigate } from "@tanstack/react-router";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 
 import { renderThoughtMarkdown } from "../../lib/thoughts.ts";
+import { attachmentPreviewUrl, isPreviewableImage } from "../../lib/attachments.ts";
+import { ThoughtComposer } from "../ThoughtComposer.tsx";
 
 export interface ThoughtNodeData extends Record<string, unknown> {
   body: string;
@@ -13,6 +15,12 @@ export interface ThoughtNodeData extends Record<string, unknown> {
   replyCount: number;
   linkCount: number;
   backlinkCount: number;
+  attachments: readonly {
+    id: string;
+    storageKey: string;
+    mediaType: string;
+    fileName: string;
+  }[];
   editable: boolean;
   onRemove?: (nodeId: string) => void;
   onExpandReplies?: (nodeId: string) => void;
@@ -41,7 +49,7 @@ export interface NestedFramingNodeData extends Record<string, unknown> {
 }
 
 export interface ComposeNodeData extends Record<string, unknown> {
-  onSubmit: (body: string, isPrivate: boolean) => Promise<void> | void;
+  onDone: (thoughtId: string) => void;
   onCancel: () => void;
 }
 
@@ -107,6 +115,19 @@ export const FramingThoughtNode = memo(function FramingThoughtNode({ data }: Nod
         >×</button>
       ) : null}
       <div className="thought-markdown framing-node-body" dangerouslySetInnerHTML={{ __html: html }} />
+      {!pucked && data.attachments.some((attachment) => isPreviewableImage(attachment.mediaType)) ? (
+        <div className="framing-node-images">
+          {data.attachments.filter((attachment) => isPreviewableImage(attachment.mediaType)).map((attachment) => (
+            <img
+              key={attachment.id}
+              src={attachmentPreviewUrl(attachment.storageKey)}
+              alt={attachment.fileName}
+              loading="lazy"
+              decoding="async"
+            />
+          ))}
+        </div>
+      ) : null}
       {!pucked && data.replyCount > 0 ? (
         <button
           type="button"
@@ -202,43 +223,16 @@ export const FramingNestedNode = memo(function FramingNestedNode({ data }: NodeP
 });
 
 export const FramingComposeNode = memo(function FramingComposeNode({ data }: NodeProps<ComposeFlowNode>) {
-  const [body, setBody] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [saving, setSaving] = useState(false);
-
-  async function submit() {
-    const value = body.trim();
-    if (!value || saving) return;
-    setSaving(true);
-    try {
-      await data.onSubmit(value, isPrivate);
-    } finally {
-      setSaving(false);
-    }
-  }
-
   return (
     <div className="framing-compose-node nodrag">
-      <textarea
-        className="framing-compose-textarea nowheel"
-        placeholder="Write a new thought…"
-        value={body}
-        onChange={(event) => setBody(event.target.value)}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) void submit();
-          if (event.key === "Escape") data.onCancel();
-        }}
+      <ThoughtComposer
+        compact
         autoFocus
+        placeholder="Write a new thought…"
+        submitLabel="Create"
+        onDone={data.onDone}
+        onCancel={data.onCancel}
       />
-      <label className="framing-compose-private">
-        <input type="checkbox" checked={isPrivate} onChange={(event) => setIsPrivate(event.target.checked)} /> private
-      </label>
-      <div className="framing-compose-actions">
-        <button type="button" className="framing-compose-cancel" onClick={data.onCancel}>Cancel</button>
-        <button type="button" className="framing-compose-submit" onClick={() => void submit()} disabled={saving || !body.trim()}>
-          {saving ? "Saving…" : "Create"}
-        </button>
-      </div>
     </div>
   );
 });

@@ -16,11 +16,6 @@ import { ulid } from "ulid";
 import { app, currentQueryContext } from "../../rindle-client.ts";
 import { parseList } from "../../lib/format.ts";
 import {
-  hashThoughtBody,
-  thoughtEnrichmentArgs,
-  thoughtTagArgs,
-} from "../../lib/thoughts.ts";
-import {
   FRAMING_CONNECTION_LIMIT,
   framingQuery,
   framingThoughtConnectionsQuery,
@@ -47,6 +42,14 @@ interface CanvasThought {
   color: string | null;
   private: number;
   replyCount?: number;
+  attachments?: readonly CanvasThoughtAttachment[];
+}
+
+interface CanvasThoughtAttachment {
+  id: string;
+  storageKey: string;
+  mediaType: string;
+  fileName: string;
 }
 
 interface CanvasPost {
@@ -235,6 +238,7 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
           replyCount: thought.replyCount ?? 0,
           linkCount: (thought as CanvasThought & { linkCount?: number }).linkCount ?? 0,
           backlinkCount: (thought as CanvasThought & { backlinkCount?: number }).backlinkCount ?? 0,
+          attachments: thought.attachments ?? [],
           editable: isAdmin,
           onRemove: removeNode,
           onExpandReplies: expandReplies,
@@ -444,29 +448,9 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
     setNodes((current) => current.filter((node) => node.id !== COMPOSE_NODE_ID));
   }, []);
 
-  const submitCompose = useCallback(async (body: string, isPrivate: boolean) => {
+  const finishCompose = useCallback((thoughtId: string) => {
     if (!composePosition) return;
     setNodes((current) => current.filter((node) => node.id !== COMPOSE_NODE_ID));
-    const now = Date.now();
-    const thoughtId = ulid();
-    const revision = ulid();
-    const bodyHash = await hashThoughtBody(body);
-    app.mutate.createThought({
-      thought: {
-        id: thoughtId,
-        body,
-        bodyHash,
-        createdAt: now,
-        updatedAt: now,
-        parentId: null,
-        private: isPrivate ? 1 : 0,
-        contentRevision: revision,
-      },
-      tags: thoughtTagArgs(body),
-      attachments: [],
-      edges: [],
-      enrichments: thoughtEnrichmentArgs(body, now, revision),
-    });
     addNode("thought", thoughtId, composePosition.x, composePosition.y);
     setComposePosition(null);
   }, [addNode, composePosition]);
@@ -477,11 +461,11 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
       id: COMPOSE_NODE_ID,
       type: "compose",
       position: composePosition,
-      data: { onSubmit: submitCompose, onCancel: cancelCompose },
+      data: { onDone: finishCompose, onCancel: cancelCompose },
       draggable: false,
     };
     setNodes((current) => [...current.filter((node) => node.id !== COMPOSE_NODE_ID), composeNode]);
-  }, [cancelCompose, composePosition, submitCompose]);
+  }, [cancelCompose, composePosition, finishCompose]);
 
   const applyLayout = useCallback((positions: Map<string, { x: number; y: number }>) => {
     if (!isAdmin || positions.size === 0) return;

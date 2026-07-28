@@ -3457,6 +3457,110 @@ main.app-main:has(> .thoughts-shell) {
 .thought-composer--compact .thought-composer-preview {
   min-height: 92px;
 }
+.thought-image-dropzone {
+  position: relative;
+}
+.thought-image-dropzone.is-dragging {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+.thought-image-staging {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 9px;
+  padding: 4px 16px 12px;
+}
+.thought-image-staging figure {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+}
+.thought-image-staging img {
+  display: block;
+  width: 100%;
+  height: 96px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  object-fit: cover;
+}
+.thought-image-staging button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, white 45%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, #1b1420 78%, transparent);
+  color: white;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+.thought-image-staging figcaption {
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.thought-image-prompt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px 10px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+}
+.thought-image-prompt button {
+  padding: 3px 7px;
+  border: 1px dashed var(--line-2);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--accent-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.thought-image-prompt button:hover,
+.thought-image-prompt button:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+}
+.thought-image-prompt input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.thought-image-drop-overlay {
+  position: absolute;
+  z-index: 4;
+  inset: 4px;
+  display: grid;
+  place-items: center;
+  border: 2px dashed var(--accent);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--raise) 88%, transparent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.thought-image-dropzone.is-compact .thought-image-staging {
+  grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+}
+.thought-image-dropzone.is-compact .thought-image-staging img {
+  height: 72px;
+}
 .thought-composer-tags,
 .thought-tags,
 .thought-attachments {
@@ -4600,6 +4704,21 @@ main.app-main:has(.framing-canvas-wrap) {
 .framing-node-body p:last-child {
   margin-bottom: 0;
 }
+.framing-node-images {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 8px;
+}
+.framing-node-images img {
+  display: block;
+  width: 100%;
+  height: 72px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+  object-fit: cover;
+}
 .framing-post-node-title {
   display: block;
   margin-bottom: 4px;
@@ -4795,9 +4914,25 @@ main.app-main:has(.framing-canvas-wrap) {
 }
 
 .framing-compose-node {
-  min-width: 270px;
-  padding: 11px;
+  min-width: 310px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.framing-compose-node .thought-composer {
   border: 2px solid var(--accent);
+  background: var(--raise);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--ink) 9%, transparent);
+}
+.framing-compose-node .thought-composer-footer > p {
+  display: none;
+}
+.framing-compose-node .thought-composer-footer {
+  padding-left: 10px;
+}
+.framing-compose-node .thought-image-prompt span {
+  display: none;
 }
 .framing-compose-textarea {
   width: 100%;

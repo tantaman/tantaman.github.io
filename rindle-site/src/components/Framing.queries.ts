@@ -49,6 +49,13 @@ function framingDetail(id: string, admin: boolean) {
             .countAs("replyCount", relationships.thoughtReplies, (reply) => admin ? reply : reply.where.private(0))
             .countAs("linkCount", relationships.thoughtOutboundEdges, (edge) => edge.where.kind("link"))
             .countAs("backlinkCount", relationships.thoughtInboundEdges, (edge) => edge.where.kind("link"))
+            .sub("attachments", relationships.thoughtAttachments, (attachment) =>
+              attachment
+                .orderBy("position", "asc")
+                .orderBy("id", "asc")
+                .limit(4)
+                .select("id", "storageKey", "mediaType", "fileName", "position"),
+            )
             .select("id", "body", "createdAt", "color", "private")
             .one();
         })
