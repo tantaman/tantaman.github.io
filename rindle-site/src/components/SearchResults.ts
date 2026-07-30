@@ -17,11 +17,22 @@ import { formatDate } from "../lib/format.ts";
 import { pasteDate } from "../lib/paste.ts";
 import { formatThoughtTime, thoughtEpochMs } from "../lib/thoughts.ts";
 import { currentQueryContext } from "../rindle-client.ts";
+import { q } from "../../shared/app-def.ts";
 
 export type SearchResult =
   | { kind: "post"; id: string; title: string; preview: string; date: string; timestamp: number; score: number }
   | { kind: "thought"; id: string; title: string; preview: string; date: string; timestamp: number; score: number }
   | { kind: "paste"; id: string; title: string; preview: string; date: string; timestamp: number; score: number; language: string };
+
+// Keep the hooks mounted while the input is empty without stamping a named query. These impossible
+// local-only views avoid opening three remote materializations before the user has searched.
+const EMPTY_SEARCH_ID = "\u0000search";
+const EMPTY_POSTS_QUERY = q.post.where.id(EMPTY_SEARCH_ID)
+  .select("id", "title", "date", "publishedAt", "description", "body", "tags", "concern", "color");
+const EMPTY_THOUGHTS_QUERY = q.thought.where.id(EMPTY_SEARCH_ID)
+  .select("id", "body", "createdAt", "updatedAt", "color");
+const EMPTY_PASTES_QUERY = q.paste.where.id(EMPTY_SEARCH_ID)
+  .select("id", "title", "body", "excerpt", "language", "createdAt", "sharedAt");
 
 function normalize(value: string): string {
   return value.toLocaleLowerCase().normalize("NFKD");
@@ -111,10 +122,14 @@ function pasteResult(row: SearchPasteRow, query: string, terms: readonly string[
 
 export function useSearchResults(query: string, limit: number) {
   const args = { search: query, limit };
-  const [posts, postState] = useRoot(searchPostsQuery, args);
   const context = currentQueryContext();
-  const [thoughts, thoughtState] = useRoot(searchThoughtsQuery, args, context);
-  const [pastes, pasteState] = useRoot(searchPastesQuery, args, context);
+  const active = query.trim().length > 0;
+  const postsQuery = active ? searchPostsQuery(args) : EMPTY_POSTS_QUERY;
+  const thoughtsQuery = active ? searchThoughtsQuery(args, context) : EMPTY_THOUGHTS_QUERY;
+  const pastesQuery = active ? searchPastesQuery(args, context) : EMPTY_PASTES_QUERY;
+  const [posts, postState] = useRoot(postsQuery);
+  const [thoughts, thoughtState] = useRoot(thoughtsQuery);
+  const [pastes, pasteState] = useRoot(pastesQuery);
   const terms = useMemo(() => queryTerms(query), [query]);
   const results = useMemo(() => {
     if (terms.length === 0) return [];

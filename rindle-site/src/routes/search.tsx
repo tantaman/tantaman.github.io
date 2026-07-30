@@ -8,6 +8,7 @@ import {
   searchPostsQuery,
   searchThoughtsQuery,
 } from "../components/Search.queries.ts";
+import { SearchQueryBoundary } from "../components/SearchQueryBoundary.tsx";
 import { useSearchResults, type SearchResult } from "../components/SearchResults.ts";
 import { currentQueryContext } from "../rindle-client.ts";
 import { rindle } from "../rindle-tanstack.ts";
@@ -36,8 +37,16 @@ export const Route = createFileRoute("/search")({
       { name: "description", content: "Search posts, thoughts, and shared pastes." },
     ],
   }),
-  component: SearchPage,
+  component: SearchRoute,
 });
+
+function SearchRoute() {
+  return (
+    <SearchQueryBoundary>
+      <SearchPage />
+    </SearchQueryBoundary>
+  );
+}
 
 function ResultLink({ result }: { result: SearchResult }) {
   const content = (

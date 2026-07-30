@@ -2,12 +2,21 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 
 import { useSearchResults, type SearchResult } from "./SearchResults.ts";
+import { SearchQueryBoundary } from "./SearchQueryBoundary.tsx";
 import "./SearchPalette.css";
 
 const PALETTE_QUERY_LIMIT = 12;
 const PALETTE_RESULT_LIMIT = 10;
 
-export default function SearchPalette({ onClose }: { onClose: () => void }) {
+export default function SearchPalette(props: { onClose: () => void }) {
+  return (
+    <SearchQueryBoundary>
+      <SearchPaletteContent {...props} />
+    </SearchQueryBoundary>
+  );
+}
+
+function SearchPaletteContent({ onClose }: { onClose: () => void }) {
   const navigate = useNavigate();
   const input = useRef<HTMLInputElement>(null);
   const fullSearchButton = useRef<HTMLButtonElement>(null);
