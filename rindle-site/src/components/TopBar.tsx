@@ -15,7 +15,11 @@ export function TopBar() {
       <div className="app-topbar-right">
         <nav className="app-nav" aria-label="Primary navigation">
           <Link to="/explore">explore</Link>
-          <Link to="/search">search</Link>
+          <Link
+            to="/search"
+            aria-keyshortcuts="Meta+K Control+K"
+            title="Search (⌘K / Ctrl+K)"
+          >search</Link>
           <Link to="/thoughts">thoughts</Link>
           <Link to="/paste">paste</Link>
         </nav>

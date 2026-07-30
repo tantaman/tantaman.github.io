@@ -8,6 +8,7 @@
 import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
 
 import { TopBar } from "../components/TopBar.tsx";
+import { GlobalSearch } from "../components/GlobalSearch.tsx";
 import { Toaster } from "../components/Toaster.tsx";
 import { PoweredByRindle } from "../components/PoweredByRindle.tsx";
 import { NavigationProgress } from "../components/NavigationProgress.tsx";
@@ -48,6 +49,7 @@ function RootDocument() {
         <rindle.Provider>
           <NavigationProgress />
           <TopBar />
+          <GlobalSearch />
           <main className="app-main">
             <Outlet />
           </main>
