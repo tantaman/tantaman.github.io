@@ -23,7 +23,9 @@ export const Route = createFileRoute("/search")({
   }),
   loaderDeps: ({ search }) => ({ search: search.q ?? "" }),
   loader: rindle.loader({
-    query: ({ deps }) => {
+    // Seed direct requests for first paint; live typeahead is retained by useSearchResults below.
+    // Keeping this SSR-only avoids client.ensure holding one route preload per debounced term.
+    ssr: ({ deps }) => {
       const search = typeof deps.search === "string" ? deps.search.trim() : "";
       if (!search) return [];
       const args = { search, limit: SEARCH_PAGE_SIZE };
