@@ -99,8 +99,6 @@ function SearchPage() {
     }, 220);
   }
 
-  const { terms, results, complete, hasMore } = useSearchResults(debouncedQuery, limit);
-
   return (
     <section className="site-search-page">
       <header>
@@ -122,15 +120,41 @@ function SearchPage() {
         {query ? <button type="button" onClick={() => updateQuery("")} aria-label="Clear search">×</button> : null}
       </div>
 
+      {debouncedQuery.trim() ? (
+        <ActiveSearchPageResults
+          query={debouncedQuery}
+          limit={limit}
+          onLoadMore={() => setLimit((value) => Math.min(value + SEARCH_PAGE_SIZE, SEARCH_MAX_LIMIT))}
+        />
+      ) : (
+        <div className="site-search-status" aria-live="polite">
+          Start typing to search the live corpus.
+        </div>
+      )}
+    </section>
+  );
+}
+
+function ActiveSearchPageResults({
+  query,
+  limit,
+  onLoadMore,
+}: {
+  query: string;
+  limit: number;
+  onLoadMore: () => void;
+}) {
+  const { results, complete, hasMore } = useSearchResults(query, limit);
+
+  return (
+    <>
       <div className="site-search-status" aria-live="polite">
-        {terms.length === 0
-          ? "Start typing to search the live corpus."
-          : !complete
-            ? "Searching…"
-            : `${results.length}${hasMore ? "+" : ""} match${results.length === 1 ? "" : "es"}`}
+        {!complete
+          ? "Searching…"
+          : `${results.length}${hasMore ? "+" : ""} match${results.length === 1 ? "" : "es"}`}
       </div>
 
-      {terms.length > 0 && results.length === 0 && complete ? (
+      {results.length === 0 && complete ? (
         <div className="site-search-empty">
           <span aria-hidden="true">∅</span>
           <p>No matching posts, thoughts, or pastes.</p>
@@ -149,10 +173,10 @@ function SearchPage() {
         <button
           type="button"
           className="site-search-more"
-          onClick={() => setLimit((value) => Math.min(value + SEARCH_PAGE_SIZE, SEARCH_MAX_LIMIT))}
+          onClick={onLoadMore}
           disabled={!complete}
         >{complete ? "Search deeper" : "Loading…"}</button>
       ) : null}
-    </section>
+    </>
   );
 }

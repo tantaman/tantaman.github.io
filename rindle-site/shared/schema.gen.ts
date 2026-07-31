@@ -9,7 +9,7 @@
 // ONCE in a hand-written module with refineTable(...) + refineSchema(...); they survive every regen
 // of this file.
 
-import { createSchema, number, string, table } from "@rindle/client";
+import { boolean, createSchema, number, string, table } from "@rindle/client";
 
 export const album = table("album")
   .columns({
@@ -79,6 +79,62 @@ export const bookmark = table("bookmark")
     metadataStatus: string(),
     metadataProjectionVersion: string().nullable(),
     createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const cg_canvas = table("cg_canvas")
+  .columns({
+    id: string(),
+    title: string(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const cg_line = table("cg_line")
+  .columns({
+    id: string(),
+    forkOfLineId: string(),
+    forkAtOrd: number(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const cg_message = table("cg_message")
+  .columns({
+    id: string(),
+    lineId: string(),
+    ord: number(),
+    role: string(),
+    author: string(),
+    body: string(),
+    seq: number(),
+    status: string(),
+    cancelRequested: boolean(),
+    error: string().nullable(),
+    createdAt: number(),
+  })
+  .primaryKey("id");
+
+export const cg_message_chunk = table("cg_message_chunk")
+  .columns({
+    id: string(),
+    streamId: string(),
+    seq: number(),
+    text: string(),
+  })
+  .primaryKey("id");
+
+export const cg_pane = table("cg_pane")
+  .columns({
+    id: string(),
+    lineId: string(),
+    startOrd: number(),
+    endOrd: number(),
+    title: string(),
+    x: number(),
+    y: number(),
+    createdAt: number(),
+    canvasId: string(),
   })
   .primaryKey("id");
 
@@ -457,4 +513,4 @@ export const thoughtTag = table("thoughtTag")
   })
   .primaryKey("id");
 
-export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, paste, post, postAuthor, postComment, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });
+export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cg_canvas, cg_line, cg_message, cg_message_chunk, cg_pane, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, paste, post, postAuthor, postComment, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });

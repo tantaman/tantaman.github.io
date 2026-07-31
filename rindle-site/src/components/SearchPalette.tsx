@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 
 import { useSearchResults, type SearchResult } from "./SearchResults.ts";
@@ -7,6 +7,7 @@ import "./SearchPalette.css";
 
 const PALETTE_QUERY_LIMIT = 12;
 const PALETTE_RESULT_LIMIT = 10;
+const NO_RESULTS: readonly SearchResult[] = Object.freeze([]);
 
 export default function SearchPalette(props: { onClose: () => void }) {
   return (
@@ -24,8 +25,8 @@ function SearchPaletteContent({ onClose }: { onClose: () => void }) {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
-  const { results, complete, hasMore } = useSearchResults(debouncedQuery, PALETTE_QUERY_LIMIT);
-  const visibleResults = useMemo(() => results.slice(0, PALETTE_RESULT_LIMIT), [results]);
+  const [visibleResultCount, setVisibleResultCount] = useState(0);
+  const visibleResultsRef = useRef<readonly SearchResult[]>(NO_RESULTS);
 
   useEffect(() => {
     input.current?.focus();
@@ -42,8 +43,12 @@ function SearchPaletteContent({ onClose }: { onClose: () => void }) {
   }, [debouncedQuery]);
 
   useEffect(() => {
-    setActiveIndex((current) => Math.min(current, Math.max(visibleResults.length - 1, 0)));
-  }, [visibleResults.length]);
+    setActiveIndex((current) => Math.min(current, Math.max(visibleResultCount - 1, 0)));
+  }, [visibleResultCount]);
+
+  useEffect(() => {
+    if (!debouncedQuery.trim()) setVisibleResultCount(0);
+  }, [debouncedQuery]);
 
   useEffect(() => {
     document.querySelector(`#site-search-option-${activeIndex}`)?.scrollIntoView({ block: "nearest" });
@@ -78,6 +83,7 @@ function SearchPaletteContent({ onClose }: { onClose: () => void }) {
   }
 
   function handleInputKeyDown(event: React.KeyboardEvent) {
+    const visibleResults = visibleResultsRef.current;
     if (event.key === "ArrowDown") {
       event.preventDefault();
       setActiveIndex((current) => visibleResults.length === 0 ? 0 : (current + 1) % visibleResults.length);
@@ -110,13 +116,7 @@ function SearchPaletteContent({ onClose }: { onClose: () => void }) {
   }
 
   const waitingForDebounce = query.trim() !== debouncedQuery;
-  const status = query.trim().length === 0
-    ? "Type to search posts, thoughts, and pastes."
-    : waitingForDebounce || (!complete && visibleResults.length === 0)
-      ? "Searching…"
-      : visibleResults.length === 0
-        ? "No matching posts, thoughts, or pastes."
-        : null;
+  if (!debouncedQuery.trim()) visibleResultsRef.current = NO_RESULTS;
 
   return (
     <div
@@ -143,7 +143,11 @@ function SearchPaletteContent({ onClose }: { onClose: () => void }) {
             aria-controls="site-search-palette-results"
             aria-expanded="true"
             aria-autocomplete="list"
-            aria-activedescendant={visibleResults.length > 0 ? `site-search-option-${activeIndex}` : undefined}
+            aria-activedescendant={
+              debouncedQuery.trim() && !waitingForDebounce && visibleResultCount > 0
+                ? `site-search-option-${activeIndex}`
+                : undefined
+            }
             autoComplete="off"
             spellCheck="false"
             maxLength={200}
@@ -155,50 +159,153 @@ function SearchPaletteContent({ onClose }: { onClose: () => void }) {
           <kbd>esc</kbd>
         </div>
 
-        <div
-          id="site-search-palette-results"
-          className="search-palette-results"
-          role="listbox"
-          aria-busy={waitingForDebounce || !complete}
-        >
-          {status ? (
-            <div className="search-palette-status" aria-live="polite">
-              {status === "Searching…" ? <span className="search-palette-spinner" aria-hidden="true" /> : null}
-              <p>{status}</p>
-            </div>
-          ) : visibleResults.map((result, index) => (
-            <button
-              key={`${result.kind}:${result.id}`}
-              id={`site-search-option-${index}`}
-              type="button"
-              role="option"
-              tabIndex={-1}
-              aria-selected={index === activeIndex}
-              className="search-palette-result"
-              data-active={index === activeIndex ? "" : undefined}
-              onMouseMove={() => setActiveIndex(index)}
-              onClick={() => openResult(result)}
-            >
-              <span className={`site-search-kind kind-${result.kind}`}>{result.kind}</span>
-              <span className="search-palette-result-copy">
-                <strong>{result.title}</strong>
-                <small>{result.preview}</small>
-              </span>
-              <span className="search-palette-result-meta">
-                {result.kind === "paste" ? result.language : result.date}
-              </span>
-            </button>
-          ))}
-        </div>
-
-        <footer className="search-palette-footer">
-          <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
-          <span><kbd>↵</kbd> open</span>
-          <button ref={fullSearchButton} type="button" onClick={openFullSearch}>
-            {hasMore || results.length > PALETTE_RESULT_LIMIT ? "View all results" : "Full search"}
-          </button>
-        </footer>
+        {debouncedQuery.trim() ? (
+          <ActivePaletteResults
+            query={debouncedQuery}
+            waitingForDebounce={waitingForDebounce}
+            activeIndex={activeIndex}
+            setActiveIndex={setActiveIndex}
+            visibleResultsRef={visibleResultsRef}
+            onVisibleResultCount={setVisibleResultCount}
+            onOpenResult={openResult}
+            onOpenFullSearch={openFullSearch}
+            fullSearchButton={fullSearchButton}
+          />
+        ) : (
+          <PaletteResultsPanel
+            status={query.trim() ? "Searching…" : "Type to search posts, thoughts, and pastes."}
+            busy={query.trim().length > 0}
+            visibleResults={NO_RESULTS}
+            activeIndex={activeIndex}
+            setActiveIndex={setActiveIndex}
+            onOpenResult={openResult}
+            onOpenFullSearch={openFullSearch}
+            fullSearchButton={fullSearchButton}
+            showViewAll={false}
+          />
+        )}
       </section>
     </div>
+  );
+}
+
+function ActivePaletteResults({
+  query,
+  waitingForDebounce,
+  activeIndex,
+  setActiveIndex,
+  visibleResultsRef,
+  onVisibleResultCount,
+  onOpenResult,
+  onOpenFullSearch,
+  fullSearchButton,
+}: {
+  query: string;
+  waitingForDebounce: boolean;
+  activeIndex: number;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  visibleResultsRef: { current: readonly SearchResult[] };
+  onVisibleResultCount: (count: number) => void;
+  onOpenResult: (result: SearchResult) => void;
+  onOpenFullSearch: () => void;
+  fullSearchButton: { current: HTMLButtonElement | null };
+}) {
+  const { results, complete, hasMore } = useSearchResults(query, PALETTE_QUERY_LIMIT);
+  const visibleResults = useMemo(() => results.slice(0, PALETTE_RESULT_LIMIT), [results]);
+  const interactiveResults = waitingForDebounce ? NO_RESULTS : visibleResults;
+
+  useLayoutEffect(() => {
+    visibleResultsRef.current = interactiveResults;
+    onVisibleResultCount(interactiveResults.length);
+  }, [interactiveResults, onVisibleResultCount, visibleResultsRef]);
+
+  const status = waitingForDebounce || (!complete && visibleResults.length === 0)
+    ? "Searching…"
+    : visibleResults.length === 0
+      ? "No matching posts, thoughts, or pastes."
+      : null;
+
+  return (
+    <PaletteResultsPanel
+      status={status}
+      busy={waitingForDebounce || !complete}
+      visibleResults={status ? [] : visibleResults}
+      activeIndex={activeIndex}
+      setActiveIndex={setActiveIndex}
+      onOpenResult={onOpenResult}
+      onOpenFullSearch={onOpenFullSearch}
+      fullSearchButton={fullSearchButton}
+      showViewAll={hasMore || results.length > PALETTE_RESULT_LIMIT}
+    />
+  );
+}
+
+function PaletteResultsPanel({
+  status,
+  busy,
+  visibleResults,
+  activeIndex,
+  setActiveIndex,
+  onOpenResult,
+  onOpenFullSearch,
+  fullSearchButton,
+  showViewAll,
+}: {
+  status: string | null;
+  busy: boolean;
+  visibleResults: readonly SearchResult[];
+  activeIndex: number;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  onOpenResult: (result: SearchResult) => void;
+  onOpenFullSearch: () => void;
+  fullSearchButton: { current: HTMLButtonElement | null };
+  showViewAll: boolean;
+}) {
+  return (
+    <>
+      <div
+        id="site-search-palette-results"
+        className="search-palette-results"
+        role="listbox"
+        aria-busy={busy}
+      >
+        {status ? (
+          <div className="search-palette-status" aria-live="polite">
+            {status === "Searching…" ? <span className="search-palette-spinner" aria-hidden="true" /> : null}
+            <p>{status}</p>
+          </div>
+        ) : visibleResults.map((result, index) => (
+          <button
+            key={`${result.kind}:${result.id}`}
+            id={`site-search-option-${index}`}
+            type="button"
+            role="option"
+            tabIndex={-1}
+            aria-selected={index === activeIndex}
+            className="search-palette-result"
+            data-active={index === activeIndex ? "" : undefined}
+            onMouseMove={() => setActiveIndex(index)}
+            onClick={() => onOpenResult(result)}
+          >
+            <span className={`site-search-kind kind-${result.kind}`}>{result.kind}</span>
+            <span className="search-palette-result-copy">
+              <strong>{result.title}</strong>
+              <small>{result.preview}</small>
+            </span>
+            <span className="search-palette-result-meta">
+              {result.kind === "paste" ? result.language : result.date}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <footer className="search-palette-footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+        <span><kbd>↵</kbd> open</span>
+        <button ref={fullSearchButton} type="button" onClick={onOpenFullSearch}>
+          {showViewAll ? "View all results" : "Full search"}
+        </button>
+      </footer>
+    </>
   );
 }
