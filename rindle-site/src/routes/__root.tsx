@@ -43,6 +43,11 @@ function RootDocument() {
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="f2e3a69c-3f8b-4eef-9619-75b2677c4ee6"
+        />
         <HeadContent />
       </head>
       <body>
