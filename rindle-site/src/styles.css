@@ -3239,6 +3239,12 @@ main.app-main:has(> .thoughts-shell) {
 .paste-actions button:hover {
   color: var(--accent-ink);
 }
+.paste-actions button.is-danger {
+  color: #a83850;
+}
+:root[data-theme="dark"] .paste-actions button.is-danger {
+  color: #ef93a4;
+}
 .paste-revisions {
   display: flex;
   flex-direction: column;

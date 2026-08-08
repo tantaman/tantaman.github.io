@@ -243,6 +243,9 @@ const setPasteSharedArgs = z
   });
 export type SetPasteSharedArgs = z.infer<typeof setPasteSharedArgs>;
 
+const deletePasteArgs = z.object({ id: stableId });
+export type DeletePasteArgs = z.infer<typeof deletePasteArgs>;
+
 const createPostCommentArgs = z.object({
   comment: z.object({
     id: stableId,
@@ -765,6 +768,27 @@ const setPasteShared = shared(setPasteSharedArgs, function* (tx, args, ctx) {
   const current = (yield tx.row("paste", { id: args.id })) as Record<string, unknown> | undefined;
   if (!current) throw new Error("Paste not found.");
   yield tx.update("paste", args);
+});
+
+/** Delete exactly one paste. Any direct forks are reconnected to the deleted paste's parent so the
+ * revision graph never retains dangling parent ids. The server authority admits this shared body
+ * only after its administrator gate has verified the signed session. */
+const deletePaste = shared(deletePasteArgs, function* (tx, args, ctx) {
+  requireMutationUser(ctx.user);
+  const current = (yield tx.row("paste", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!current) throw new Error("Paste not found.");
+  if (current.parentId !== null && typeof current.parentId !== "string") {
+    throw new Error("Paste has an invalid parent id.");
+  }
+
+  const childIds = rowIds(
+    (yield tx.query(q.paste.where.parentId(args.id).orderBy("id", "asc").limit(10_001))) as unknown,
+    "paste forks",
+  );
+  for (const id of childIds) {
+    yield tx.update("paste", { id, parentId: current.parentId });
+  }
+  yield tx.delete("paste", { id: args.id });
 });
 
 /** Insert one stable thought plus its deterministic local projections. Every id, timestamp, hash,
@@ -1431,6 +1455,7 @@ export const mutators = {
   deletePostComment,
   createPaste,
   setPasteShared,
+  deletePaste,
   createThought,
   editThought,
   updateTaskState,

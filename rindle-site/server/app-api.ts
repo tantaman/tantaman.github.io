@@ -75,7 +75,7 @@ export type User = Identity | undefined;
  * browser's optimistic role or claimed username is never trusted. */
 export function requirePublisher(user: User): asserts user is Identity {
   if (canPublish(user)) return;
-  const error = new Error("Only an administrator can manage posts.");
+  const error = new Error("Only an administrator can manage site content.");
   Object.assign(error, { status: 403 });
   throw error;
 }

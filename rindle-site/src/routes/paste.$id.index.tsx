@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 
@@ -36,6 +36,8 @@ function PasteDetail() {
 function PasteDocument({ paste }: { paste: PasteDetailRow }) {
   const { data: session } = authClient.useSession();
   const hydrated = useHydrated();
+  const navigate = Route.useNavigate();
+  const [actionError, setActionError] = useState<string | null>(null);
   const isAdmin = hydrated && session?.user.role === "admin";
   const title = paste.title || "Untitled";
   const parent = paste.parent[0] ?? null;
@@ -49,6 +51,26 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
     });
   }
 
+  async function deletePaste() {
+    const forkCount = paste.children.length;
+    const forkNotice = forkCount > 0
+      ? ` ${forkCount} ${forkCount === 1 ? "fork" : "forks"} will be reconnected to ${parent ? "this paste's parent" : "the root level"}.`
+      : "";
+    if (!window.confirm(`Delete “${title}” permanently?${forkNotice}`)) return;
+
+    setActionError(null);
+    try {
+      app.mutate.deletePaste({ id: paste.id });
+      if (parent) {
+        await navigate({ to: "/paste/$id", params: { id: parent.id } });
+      } else {
+        await navigate({ to: "/paste" });
+      }
+    } catch (cause) {
+      setActionError(cause instanceof Error ? cause.message : "Could not delete the paste.");
+    }
+  }
+
   return (
     <article className="paste-document">
       <header className="paste-document-header">
@@ -56,8 +78,15 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
           <p>{pasteDate(paste.createdAt)} · {paste.language}{paste.shared === 1 ? " · shared" : ""}</p>
           <h1>{title}</h1>
         </div>
-        <PasteActions paste={paste} isAdmin={isAdmin} onToggleShared={toggleShared} />
+        <PasteActions
+          paste={paste}
+          isAdmin={isAdmin}
+          onToggleShared={toggleShared}
+          onDelete={() => void deletePaste()}
+        />
       </header>
+
+      {actionError ? <p className="paste-error" role="alert">{actionError}</p> : null}
 
       {parent || paste.children.length > 0 ? (
         <nav className="paste-revisions" aria-label="Paste revisions">
@@ -82,7 +111,12 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
       <div className="paste-rule" />
       <PasteBody paste={paste} />
       <footer className="paste-document-footer">
-        <PasteActions paste={paste} isAdmin={isAdmin} onToggleShared={toggleShared} />
+        <PasteActions
+          paste={paste}
+          isAdmin={isAdmin}
+          onToggleShared={toggleShared}
+          onDelete={() => void deletePaste()}
+        />
       </footer>
     </article>
   );
@@ -92,17 +126,24 @@ function PasteActions({
   paste,
   isAdmin,
   onToggleShared,
+  onDelete,
 }: {
   paste: PasteDetailRow;
   isAdmin: boolean;
   onToggleShared: () => void;
+  onDelete: () => void;
 }) {
   return (
     <div className="paste-actions">
       <a href={`/paste/${encodeURIComponent(paste.id)}/raw`}>raw</a>
       <Link to="/paste/fork/$id" params={{ id: paste.id }}>fork</Link>
       {paste.parentId ? <Link to="/paste/$id/diff" params={{ id: paste.id }}>diff</Link> : null}
-      {isAdmin ? <button type="button" onClick={onToggleShared}>{paste.shared === 1 ? "unshare" : "share"}</button> : null}
+      {isAdmin ? (
+        <>
+          <button type="button" onClick={onToggleShared}>{paste.shared === 1 ? "unshare" : "share"}</button>
+          <button className="is-danger" type="button" onClick={onDelete}>delete</button>
+        </>
+      ) : null}
     </div>
   );
 }
