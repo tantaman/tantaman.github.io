@@ -4,7 +4,7 @@ import { useRoot } from "@rindle/react";
 import { ulid } from "ulid";
 import { z } from "zod";
 
-import { app } from "../rindle-client.ts";
+import { app, currentQueryContext } from "../rindle-client.ts";
 import { FRAMINGS_LIMIT, framingsQuery, type FramingsRow } from "./Framing.queries.ts";
 
 const importNode = z.object({
@@ -17,6 +17,9 @@ const importNode = z.object({
 });
 const importPayload = z.object({
   name: z.string().trim().min(1).max(300),
+  // Exports written before framings had their own visibility carry no flag; every framing was public
+  // then, so a missing field restores as public.
+  private: z.number().int().min(0).max(1).optional(),
   nodes: z.array(importNode).max(1_000),
   edges: z.array(z.object({
     source: z.union([z.string(), z.number()]),
@@ -29,9 +32,10 @@ const importPayload = z.object({
 });
 
 export function FramingsListView({ isAdmin }: { isAdmin: boolean }) {
-  const [rows, { status }] = useRoot(framingsQuery, { limit: FRAMINGS_LIMIT });
+  const [rows, { status }] = useRoot(framingsQuery, { limit: FRAMINGS_LIMIT }, currentQueryContext());
   const framings = rows.slice(0, FRAMINGS_LIMIT) as readonly FramingsRow[];
   const [name, setName] = useState("");
+  const [isPrivate, setIsPrivate] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -44,13 +48,28 @@ export function FramingsListView({ isAdmin }: { isAdmin: boolean }) {
     const id = ulid();
     try {
       app.mutate.createFraming({
-        framing: { id, name: nextName, description: null, createdAt: now, updatedAt: now },
+        framing: { id, name: nextName, description: null, private: isPrivate ? 1 : 0, createdAt: now, updatedAt: now },
       });
       setName("");
+      setIsPrivate(false);
       setError(null);
       void navigate({ to: "/thoughts/framings/$id", params: { id } });
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Could not create framing.");
+    }
+  }
+
+  function setPrivacy(framing: FramingsRow) {
+    if (!isAdmin) return;
+    try {
+      app.mutate.updateFraming({
+        id: framing.id,
+        private: framing.private === 1 ? 0 : 1,
+        updatedAt: Date.now(),
+      });
+      setError(null);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Could not change framing visibility.");
     }
   }
 
@@ -107,7 +126,14 @@ export function FramingsListView({ isAdmin }: { isAdmin: boolean }) {
         }];
       });
       app.mutate.importFraming({
-        framing: { id: framingId, name: parsed.name, description: null, createdAt: now, updatedAt: now },
+        framing: {
+          id: framingId,
+          name: parsed.name,
+          description: null,
+          private: parsed.private ?? 0,
+          createdAt: now,
+          updatedAt: now,
+        },
         nodes,
         edges,
       });
@@ -136,6 +162,15 @@ export function FramingsListView({ isAdmin }: { isAdmin: boolean }) {
             maxLength={300}
             onChange={(event) => setName(event.target.value)}
           />
+          <label className="thought-private-toggle">
+            <input
+              type="checkbox"
+              checked={isPrivate}
+              onChange={(event) => setIsPrivate(event.target.checked)}
+            />
+            <span aria-hidden="true" />
+            Private
+          </label>
           <button type="submit" className="framings-create-btn" disabled={!name.trim()}>Create</button>
           <button type="button" className="framings-create-btn" onClick={() => fileInputRef.current?.click()}>Import</button>
           <input ref={fileInputRef} type="file" accept="application/json,.json" hidden onChange={(event) => void importFile(event)} />
@@ -147,12 +182,21 @@ export function FramingsListView({ isAdmin }: { isAdmin: boolean }) {
       ) : (
         <ul className="framings-list">
           {framings.map((framing) => (
-            <li key={framing.id} className="framings-item">
+            <li key={framing.id} className={`framings-item${framing.private === 1 ? " is-private" : ""}`}>
               <Link to="/thoughts/framings/$id" params={{ id: framing.id }} className="framings-item-link">
                 <span className="framings-item-name">{framing.name}</span>
                 {framing.description ? <span className="framings-item-desc">{framing.description}</span> : null}
                 <time dateTime={new Date(framing.updatedAt).toISOString()}>{new Date(framing.updatedAt).toLocaleDateString()}</time>
               </Link>
+              {isAdmin ? (
+                <button
+                  type="button"
+                  className={`framings-privacy-btn${framing.private === 1 ? " is-private" : ""}`}
+                  onClick={() => setPrivacy(framing)}
+                  aria-label={framing.private === 1 ? `Make ${framing.name} public` : `Make ${framing.name} private`}
+                  title={framing.private === 1 ? "Private — click to publish" : "Public — click to make private"}
+                >{framing.private === 1 ? "private" : "public"}</button>
+              ) : null}
               {isAdmin ? (
                 <button type="button" className="framings-delete-btn" onClick={() => remove(framing.id)} aria-label={`Delete ${framing.name}`}>×</button>
               ) : null}

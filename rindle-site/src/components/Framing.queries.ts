@@ -28,17 +28,26 @@ const connectionArgs = z.object({
   limit: z.number().int().min(1).max(FRAMING_CONNECTION_LIMIT),
 });
 
-export const framingsQuery = defineQuery("framings", (raw) => framingListArgs.parse(raw), ({ limit }) =>
-  q.framing
-    .orderBy("updatedAt", "desc")
-    .orderBy("id", "asc")
-    .limit(limit + 1)
-    .select("id", "authorId", "name", "description", "createdAt", "updatedAt"),
+export const framingsQuery = defineQuery(
+  "framings",
+  (raw) => framingListArgs.parse(raw),
+  ({ limit }, ctx: QueryContext) => {
+    let framing = q.framing;
+    if (!canPublish(ctx.user)) framing = framing.where.private(0);
+    return framing
+      .orderBy("updatedAt", "desc")
+      .orderBy("id", "asc")
+      .limit(limit + 1)
+      .select("id", "authorId", "name", "description", "private", "createdAt", "updatedAt");
+  },
 );
 
 function framingDetail(id: string, admin: boolean) {
-  return q.framing
-    .where.id(id)
+  let root = q.framing.where.id(id);
+  // A private framing is withheld whole: the reader's root window is empty, so its nodes and edges
+  // never resolve either.
+  if (!admin) root = root.where.private(0);
+  return root
     .sub("nodes", relationships.framingNodes, (node) =>
       node
         .orderBy("id", "asc")
@@ -64,9 +73,10 @@ function framingDetail(id: string, admin: boolean) {
             .select("id", "title", "date", "description", "tags", "color")
             .one(),
         )
-        .sub("nestedFraming", relationships.framingNodeFraming, (nested) =>
-          nested.select("id", "name", "updatedAt").one(),
-        ),
+        .sub("nestedFraming", relationships.framingNodeFraming, (nested) => {
+          const visible = admin ? nested : nested.where.private(0);
+          return visible.select("id", "name", "private", "updatedAt").one();
+        }),
     )
     .sub("edges", relationships.framingEdges, (edge) =>
       edge.orderBy("id", "asc").limit(FRAMING_EDGE_LIMIT),

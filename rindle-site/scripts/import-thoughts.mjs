@@ -685,13 +685,15 @@ function buildTables(source, authorId, existing = emptyExistingEntities()) {
   }));
 
   add("framing", [
-    "id", "authorId", "name", "description", "createdAt", "updatedAt",
+    "id", "authorId", "name", "description", "createdAt", "updatedAt", "private",
   ], source.framings.map((input) => {
     const row = rowObject(input, "framing");
     return [
       id(row.id, "framing"), authorId, textValue(row.name, "framing name"),
       optionalText(row.description), numberValue(row.created_at, "framing created_at"),
       numberValue(row.updated_at, "framing updated_at"),
+      // The legacy D1 model had no framing-level visibility: every imported canvas was public.
+      0,
     ];
   }));
 

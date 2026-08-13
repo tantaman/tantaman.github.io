@@ -79,6 +79,7 @@ function FramingItem({ framing, placed, editable }: { framing: FramingsRow; plac
     >
       <span aria-hidden="true">⌘</span>
       <div className="framing-panel-framing-title">{framing.name || "Untitled"}</div>
+      {framing.private === 1 ? <span className="framing-privacy-badge">private</span> : null}
     </div>
   );
 }
@@ -86,15 +87,19 @@ function FramingItem({ framing, placed, editable }: { framing: FramingsRow; plac
 export function FramingLeftPanel({
   framingId,
   framingName,
+  framingPrivate,
   placedItemKeys,
   isAdmin,
   onRename,
+  onPrivacyChange,
 }: {
   framingId: string;
   framingName: string;
+  framingPrivate: boolean;
   placedItemKeys: Set<string>;
   isAdmin: boolean;
   onRename: (name: string) => void;
+  onPrivacyChange: (isPrivate: boolean) => void;
 }) {
   const [tab, setTab] = useState<PickerTab>("thoughts");
   const [query, setQuery] = useState("");
@@ -111,7 +116,11 @@ export function FramingLeftPanel({
     currentQueryContext(),
   );
   const [postRows, { status: postStatus }] = useRoot(framingPostsQuery, { search: debouncedQuery, limit });
-  const [allFramings, { status: framingStatus }] = useRoot(framingsQuery, { limit: FRAMINGS_LIMIT });
+  const [allFramings, { status: framingStatus }] = useRoot(
+    framingsQuery,
+    { limit: FRAMINGS_LIMIT },
+    currentQueryContext(),
+  );
   const thoughts = thoughtRows.slice(0, limit) as readonly ThoughtPickerRow[];
   const posts = postRows.slice(0, limit) as readonly FramingPostPickerRow[];
   const framings = useMemo(() => {
@@ -185,6 +194,17 @@ export function FramingLeftPanel({
             title={isAdmin ? "Double-click to rename" : undefined}
           >{framingName}</h1>
         )}
+        {isAdmin ? (
+          <label className="thought-private-toggle framing-panel-privacy">
+            <input
+              type="checkbox"
+              checked={framingPrivate}
+              onChange={(event) => onPrivacyChange(event.target.checked)}
+            />
+            <span aria-hidden="true" />
+            Private
+          </label>
+        ) : null}
       </div>
 
       <div className="framing-panel-tabs">

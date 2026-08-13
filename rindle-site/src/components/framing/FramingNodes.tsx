@@ -44,6 +44,7 @@ export interface NestedFramingNodeData extends Record<string, unknown> {
   nodeId: string;
   framingId: string;
   title: string | null;
+  private: boolean;
   editable: boolean;
   onRemove?: (nodeId: string) => void;
 }
@@ -216,6 +217,7 @@ export const FramingNestedNode = memo(function FramingNestedNode({ data }: NodeP
       >
         {data.title || "Untitled framing"}
       </a>
+      {data.private ? <span className="framing-privacy-badge">private</span> : null}
       <button type="button" className="framing-framing-node-enter nodrag" onClick={open} title="Enter framing">↗</button>
       <Ports />
     </div>

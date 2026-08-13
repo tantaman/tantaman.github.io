@@ -127,6 +127,7 @@ export const framing = table("framing")
     description: string().nullable(),
     createdAt: number(),
     updatedAt: number(),
+    private: number(),
   })
   .primaryKey("id");
 

@@ -114,7 +114,7 @@ function hierarchicalLayout(nodes: Node[], edges: Edge[]): Map<string, { x: numb
   return positions;
 }
 
-function exportFraming(name: string, nodes: Node[], edges: Edge[]) {
+function exportFraming(name: string, isPrivate: boolean, nodes: Node[], edges: Edge[]) {
   const identities = new Map<string, string>();
   const exportedNodes = nodes.flatMap((node) => {
     if (node.type === "thought") {
@@ -151,7 +151,14 @@ function exportFraming(name: string, nodes: Node[], edges: Edge[]) {
       target_handle: edge.targetHandle ?? null,
     }];
   });
-  const payload = { version: 1, name, exported_at: new Date().toISOString(), nodes: exportedNodes, edges: exportedEdges };
+  const payload = {
+    version: 1,
+    name,
+    private: isPrivate ? 1 : 0,
+    exported_at: new Date().toISOString(),
+    nodes: exportedNodes,
+    edges: exportedEdges,
+  };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
@@ -187,6 +194,11 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
     app.mutate.updateFraming({ id, name, updatedAt: Date.now() });
   }, [id, isAdmin]);
 
+  const setPrivacy = useCallback((isPrivate: boolean) => {
+    if (!isAdmin) return;
+    app.mutate.updateFraming({ id, private: isPrivate ? 1 : 0, updatedAt: Date.now() });
+  }, [id, isAdmin]);
+
   const onDrop = useCallback((event: React.DragEvent) => {
     event.preventDefault();
     if (!isAdmin || !flowRef.current) return;
@@ -218,9 +230,11 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
       <FramingLeftPanel
         framingId={id}
         framingName={framing.name}
+        framingPrivate={framing.private === 1}
         placedItemKeys={placedItemKeys}
         isAdmin={isAdmin}
         onRename={rename}
+        onPrivacyChange={setPrivacy}
       />
       <div className="framing-canvas" tabIndex={0} onKeyDown={(event) => {
         if (event.key !== "Backspace" && event.key !== "Delete") return;
@@ -259,7 +273,7 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
                 Layout
               </button>
             ) : null}
-            <button type="button" className="framing-toolbar-btn" onClick={() => exportFraming(framing.name, nodes, edges)}>
+            <button type="button" className="framing-toolbar-btn" onClick={() => exportFraming(framing.name, framing.private === 1, nodes, edges)}>
               Export
             </button>
           </div>

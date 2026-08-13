@@ -64,6 +64,7 @@ interface CanvasPost {
 interface CanvasNestedFraming {
   id: string;
   name: string;
+  private: number;
   updatedAt: number;
 }
 
@@ -96,6 +97,7 @@ interface CanvasDetail {
   id: string;
   name: string;
   description: string | null;
+  private: number;
   nodes: readonly CanvasNodeRow[];
   edges: readonly CanvasEdgeRow[];
 }
@@ -278,6 +280,7 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
           nodeId: row.id,
           framingId: nested.id,
           title: nested.name,
+          private: nested.private === 1,
           editable: isAdmin,
           onRemove: removeNode,
         },

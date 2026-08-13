@@ -535,6 +535,7 @@ const createFramingArgs = z.object({
     id: stableId,
     name: framingName,
     description: framingDescription,
+    private: storedFlag,
     createdAt: timestamp,
     updatedAt: timestamp,
   }),
@@ -546,9 +547,10 @@ const updateFramingArgs = z.object({
   id: stableId,
   name: framingName.optional(),
   description: framingDescription.optional(),
+  private: storedFlag.optional(),
   updatedAt: timestamp,
 }).refine(
-  (args) => args.name !== undefined || args.description !== undefined,
+  (args) => args.name !== undefined || args.description !== undefined || args.private !== undefined,
   "At least one framing field is required.",
 );
 const deleteFramingArgs = z.object({ id: stableId });
@@ -578,6 +580,7 @@ const importFramingArgs = z.object({
     id: stableId,
     name: framingName,
     description: framingDescription,
+    private: storedFlag,
     createdAt: timestamp,
     updatedAt: timestamp,
   }),
@@ -1124,8 +1127,10 @@ const updateProjectStatus = shared(updateProjectStatusArgs, function* (tx, args,
   yield tx.update("project", args);
 });
 
-/** Framings are public spatial views, but every write remains owned by the authenticated author.
- * Stable ids and timestamps come from the callsite so optimistic rebases replay the same body. */
+/** A framing carries its own visibility: `private = 1` withholds the whole canvas (and any node that
+ * nests it) from readers, independently of how private its members are. Every write remains owned by
+ * the authenticated author, and stable ids and timestamps come from the callsite so optimistic
+ * rebases replay the same body. */
 const createFraming = shared(createFramingArgs, function* (tx, args, ctx) {
   const authorId = requireMutationUser(ctx.user);
   yield tx.insert("framing", { ...args.framing, authorId });

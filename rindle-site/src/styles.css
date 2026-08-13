@@ -4387,6 +4387,30 @@ main.app-main:has(> .thoughts-shell) {
 .framings-item-link:hover .framings-item-name {
   color: var(--accent);
 }
+.framings-privacy-btn {
+  padding: 4px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.14s ease, background 0.14s ease, color 0.14s ease;
+}
+.framings-privacy-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.framings-privacy-btn.is-private {
+  border-color: transparent;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+.framings-item.is-private .framings-item-name {
+  color: var(--accent-ink);
+}
 .framings-delete-btn {
   padding: 8px;
   border: 0;
@@ -4458,6 +4482,9 @@ main.app-main:has(.framing-canvas-wrap) {
 }
 .framing-panel-title.editable {
   cursor: text;
+}
+.framing-panel-privacy {
+  margin-top: 7px;
 }
 .framing-panel-title-input {
   width: 100%;
@@ -4589,6 +4616,17 @@ main.app-main:has(.framing-canvas-wrap) {
   display: block;
   margin-top: 4px;
   color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+/* Inline variant for the flex rows: the framing picker card and the nested-framing canvas node. */
+.framing-privacy-badge {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
   font-family: var(--font-mono);
   font-size: 8px;
   text-transform: uppercase;
