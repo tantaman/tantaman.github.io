@@ -212,7 +212,18 @@ function metadataState(values) {
   return [ready ? "ready" : "pending", ready ? LEGACY_PROJECTION : null];
 }
 
-function uniqueEntities(rows, keyOf, existingByKey = new Map()) {
+/**
+ * Collapse legacy rows sharing a natural key onto ONE canonical id, and map every legacy id to it.
+ *
+ * `idOf` picks the identity a NEW entity adopts. It defaults to the legacy row id, which is right for
+ * the entities the app dereferences by an in-transaction lookup on their natural key (movie/album by
+ * normalizedTitle, bookmark/amplification by url) — those ids stay opaque. `tag` overrides it: the
+ * shared mutators require `tag.id == normalizedName` and write tags with `insertIgnore`, which
+ * renders `ON CONFLICT (<primary key>) DO NOTHING` and therefore suppresses an `id` collision ONLY.
+ * A legacy numeric id there does not collide on the primary key, so it raises on the
+ * `tag_normalized_name` unique index instead of being ignored — see 0016_tag_identity_backfill.sql.
+ */
+function uniqueEntities(rows, keyOf, existingByKey = new Map(), idOf = (_row, _key, rowId) => rowId) {
   const canonicalByKey = new Map(existingByKey);
   const canonicalIdById = new Map();
   const canonicalRows = [];
@@ -225,8 +236,9 @@ function uniqueEntities(rows, keyOf, existingByKey = new Map()) {
       canonicalIdById.set(rowId, canonical);
       continue;
     }
-    canonicalByKey.set(key, rowId);
-    canonicalIdById.set(rowId, rowId);
+    const canonicalId = idOf(row, key, rowId);
+    canonicalByKey.set(key, canonicalId);
+    canonicalIdById.set(rowId, canonicalId);
     canonicalRows.push(row);
   }
   return { rows: canonicalRows, canonicalIdById };
@@ -239,6 +251,7 @@ function emptyExistingEntities() {
     albums: new Map(),
     bookmarks: new Map(),
     amplifications: new Map(),
+    thoughtTags: new Map(),
   };
 }
 
@@ -258,6 +271,19 @@ function resultObjects(result) {
   return result.rows.map((values) => Object.fromEntries(columns.map((column, index) => [column, values[index]])));
 }
 
+/** Existing surrogate ids keyed by the pair a unique index actually constrains. */
+function compositeIdMap(rows, firstColumn, secondColumn) {
+  const values = new Map();
+  for (const row of rows) {
+    if (!row || typeof row !== "object") continue;
+    const rowId = optionalId(row.id);
+    const first = optionalText(row[firstColumn])?.trim();
+    const second = optionalText(row[secondColumn])?.trim();
+    if (rowId && first && second) values.set(`${first}\0${second}`, rowId);
+  }
+  return values;
+}
+
 async function loadExistingEntities(sql) {
   const { results } = await sql.batch([
     { sql: `SELECT "id", "normalizedName" FROM "tag"`, wantRows: true },
@@ -265,14 +291,16 @@ async function loadExistingEntities(sql) {
     { sql: `SELECT "id", "normalizedTitle" FROM "album"`, wantRows: true },
     { sql: `SELECT "id", "url" FROM "bookmark"`, wantRows: true },
     { sql: `SELECT "id", "url" FROM "amplification"`, wantRows: true },
+    { sql: `SELECT "id", "thoughtId", "tagId" FROM "thoughtTag"`, wantRows: true },
   ], { consistency: "strong" });
-  const [tags, movies, albums, bookmarks, amplifications] = results.map(resultObjects);
+  const [tags, movies, albums, bookmarks, amplifications, thoughtTags] = results.map(resultObjects);
   return {
     tags: naturalIdMap(tags, "normalizedName"),
     movies: naturalIdMap(movies, "normalizedTitle"),
     albums: naturalIdMap(albums, "normalizedTitle"),
     bookmarks: naturalIdMap(bookmarks, "url"),
     amplifications: naturalIdMap(amplifications, "url"),
+    thoughtTags: compositeIdMap(thoughtTags, "thoughtId", "tagId"),
   };
 }
 
@@ -318,6 +346,8 @@ function buildTables(source, authorId, existing = emptyExistingEntities()) {
     source.tags,
     (row) => textValue(row.name, "tag name").trim().toLowerCase(),
     existing.tags,
+    // A tag's identity IS its normalized name — the invariant createThought/editThought enforce.
+    (_row, key) => key,
   );
   const movieEntities = uniqueEntities(source.movies, normalizedTitle, existing.movies);
   const albumEntities = uniqueEntities(source.albums, normalizedTitle, existing.albums);
@@ -419,7 +449,12 @@ function buildTables(source, authorId, existing = emptyExistingEntities()) {
     const key = `${thoughtId}\0${tagId}`;
     if (seenThoughtTags.has(key)) return [];
     seenThoughtTags.add(key);
-    return [[stableId("thoughtTag", thoughtId, tagId), thoughtId, tagId, tagPositions[index]]];
+    // Prefer the id already stored for this (thoughtId, tagId). The derived id is a function of
+    // tagId, so re-deriving it after 0016_tag_identity_backfill.sql changed a tag's identity would
+    // insert a SECOND junction row for the pair and raise on `thought_tag_unique` — the upsert
+    // conflict target is the primary key only. Reusing the stored id keeps a re-run idempotent.
+    const rowId = existing.thoughtTags.get(key) ?? stableId("thoughtTag", thoughtId, tagId);
+    return [[rowId, thoughtId, tagId, tagPositions[index]]];
   }));
 
   add("thoughtEdge", ["id", "sourceId", "targetId", "kind", "createdAt"], source.thoughtEdges.map((input) => {
