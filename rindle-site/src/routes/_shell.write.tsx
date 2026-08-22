@@ -24,6 +24,7 @@ import {
   renderMarkdown,
   withoutTitleHeading,
 } from "../lib/markdown.ts";
+import { MarkdownPaste } from "../lib/markdown-paste.ts";
 import { parseList } from "../lib/format.ts";
 import { app, currentQueryContext } from "../rindle-client.ts";
 import { rindle } from "../rindle-tanstack.ts";
@@ -74,6 +75,7 @@ const EDITOR_EXTENSIONS = [
         : "Start writing…",
   }),
   Markdown.configure({ markedOptions: { gfm: true } }),
+  MarkdownPaste,
 ];
 
 export const Route = createFileRoute("/_shell/write")({
