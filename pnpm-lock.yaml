@@ -224,7 +224,7 @@ importers:
         specifier: ^0.12.3
         version: 0.12.10
       ws:
-        specifier: ^8.14.2
+        specifier: ^8.20.1
         version: 8.20.1
       yaml:
         specifier: ^2.8.0
