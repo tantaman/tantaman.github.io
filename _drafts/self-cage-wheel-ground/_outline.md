@@ -1,87 +1,27 @@
+# The Self, The Cage, The Wheel, The Ground
 
+The manuscript is complete in four movements and twelve chapters, with an introduction, a fictional epilogue, and further reading.
 
+Read the [continuous manuscript](../../publishing/self-cage-wheel-ground/combined-content.md), or use the chapter files below.
 
-Bars:
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-diagnosing-white-guilt.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-09-the-cage-and-the-argument-about-its.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-09-the-invisible-right-on-what-becomes.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2025-12-18-the-battlefield-of-attention.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-12-the-epistle-to-the-managed.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-27-what-would-marx-say-today.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-31-malcom-x-on-kendi-and-diangelo.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-the-epistemology-of-impotence-how.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-trauma-culture-white-guilt-checkmate.md
+- [Introduction: A Life That Does Not Need to Win](00-front-matter/00-introduction.md)
+- **Movement One: Self** — [1. Know Thyself](01-self/01-know-thyself.md); [2. The Modern Self](01-self/02-the-modern-self.md); [3. Why These?](01-self/03-why-these.md)
+- **Movement Two: Cage** — [4. The Inheritance](02-cage/04-the-inheritance.md); [5. The Bars](02-cage/05-the-bars.md); [6. How the Bars Are Installed](02-cage/06-how-bars-stay-up.md)
+- **Movement Three: Wheel** — [7. The Turn](03-wheel/07-the-turn.md); [8. The Engine](03-wheel/08-the-engine.md); [9. The Fuel](03-wheel/09-the-fuel.md)
+- **Movement Four: Ground** — [10. The Grammar Beneath Grammar](04-ground/10-the-grammar-beneath-grammar.md); [11. The Unearned](04-ground/11-the-unearned.md); [12. The Open Hand](04-ground/12-the-open-hand.md)
+- [Epilogue: The Next Morning](05-back-matter/13-the-next-morning.md)
+- [Sources and Further Reading](05-back-matter/14-sources-and-further-reading.md)
 
+The arc moves from inherited forms of selfhood through institutional reinforcement and recurring capture to narrative accountability, grace, and a communal life that can act without claiming to complete or possess its members.
 
---- Bars v2:
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-12-the-epistle-to-the-managed.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-09-the-invisible-right-on-what-becomes.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-the-epistemology-of-impotence-how.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-03-03-one-party-system-two-party-theatre.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-29-the-secret-every-political-philosophy.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-27-what-would-marx-say-today.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-09-trauma-culture-white-guilt-checkmate.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-09-the-cage-and-the-argument-about-its.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-07-tyler-durden-on-how-they-broke-you.md
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-01-31-malcom-x-on-kendi-and-diangelo.md
+## Working with the manuscript
 
-Exits:
-- https://tantaman.com/2026-01-31-education-cannot-save-us.html
-- Politics (maybe a crack with enough containments)
-  - remainder problem (for the whele)
-- Cracks...
+Edit the individual chapter files. [chapters.txt](chapters.txt) controls the reading order. Rebuild the continuous manuscript from the repository root:
 
-How bars are installed:
-- https://tantaman.com/2025-12-19-how-power-weaponizes-mass-education.html
-- https://github.com/tantaman/tantaman.github.io/blob/master/content/2026-03-02-data-doesnt-speak.md
-- Grammar
-- Grammar before Grammars
-- Mimetic desire
-- https://tantaman.com/2025-12-19-the-employable-subject.html
-- https://raw.githubusercontent.com/tantaman/tantaman.github.io/refs/heads/master/content/2026-02-07-tyler-durden-on-how-they-broke-you.md
+```sh
+bash publishing/self-cage-wheel-ground/combine-content.sh
+```
 
+An optional output filename is accepted. The assembler validates chapter files, relative source links, and footnotes. The existing Pandoc publishing configuration remains in [publishing/self-cage-wheel-ground](../../publishing/self-cage-wheel-ground/).
 
-- Start with what these selves feel like from the inside. 
-  - Exhaustion that cannot rest
-  - Optimization that does not end
-  - Victimhood mentality
-- Talk about organizing principles that keep the selves as they are?
-  - Market totality
-  - Trauma culture + white guilt (neutered epistemology)
-- Optimization as its own end
-  - There is no more telos for these selves. Optimization for optimizations sake
-- How the cage becomes invisible
-  - Grammar: Narrative knowing doesn't exist / education installs a grammar the eliminates others
-  - The Question Concerning Technology: Enframing. Everything is standing reserve.
-- How institutions serve the cage
-  - The three inversions (already covered in why):
-    - Economics: Oikonomia -> chrematistike
-    - Education: Bildung -> human capital / credentials
-    - Psychology: Optimize yourself
-- Political theory is a series of cages?
-- We don't want to overlap too much with "why these selves"
-
-# Movement 3: The Wheel
-
-Three internal movements:
-1. Turn
-Material:
-- Marx speaks today
-- Malcom X speaks today
-- Foucault stuff?
-
-2. Engine
-Material:
-
-3. Fuel
-Material:
-
-Grammar behind all grammars in the wheel?
-
-- Why "power" wins. Why "power" was in a position to select.
-- How power arises and concentrates
-  - attractor
-  - amplifier theory
-- The exploitation is not in the system but in the person
-- The perfect cage is still a cage
-- Why the wheel turns
+Original outlines and exploratory Wheel notes are preserved in [_planning](_planning/) and excluded from assembly. Chapter source notes retain links to the blog material; the original blog posts remain separate from the book.

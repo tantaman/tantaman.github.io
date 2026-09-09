@@ -1,107 +1,156 @@
 # Chapter Eight: The Engine
 
-*The wheel does not run on ignorance. It runs on the structure of what we are.*
+*The wheel does not run on ignorance alone.*
 
-> *All natural movements of the soul follow laws analogous to physical gravity. Only grace operates by a different logic.*
-> — Simone Weil, *Gravity and Grace*
+*In Simone Weil's account, gravity names the downward pull of the soul's ordinary reactions; grace names an interruption that those reactions cannot supply.*
+— A paraphrase of *Gravity and Grace*
 
 ---
 
-There is a temptation, having watched the wheel turn in Chapter Seven, to conclude that the problem was the people. Wrong ideology. Wrong class. Wrong institution. Wrong century. The socialist has made a career of this conclusion. Name the villain — capitalism, colonialism, the owning class, the patriarchy — and the argument follows cleanly: abolish the villain, inherit the liberation.
+Having watched the wheel turn, it is tempting to blame the people who inherited the victory. They were not serious enough. Not brave enough. They preferred salaries to sacrifice. Replace them with people who remember what the words meant, and the fire will burn again.
 
-It is a serious argument. It has produced serious people willing to die for it. It deserves a serious answer.
+Sometimes replacement is necessary. There are officials who should lose office, owners who should lose control, arrangements that deserve to be abolished. Naming the wheel does not make these differences disappear. A jailer and a prisoner do not become equivalent because both have interests.
 
-The answer is this: he has invented a villain young enough to be slain.
+But replacing the occupant leaves a question unanswered. What does the position ask of the next person? What must she obtain to keep acting? Whose recognition does she need? What happens when the means of serving the purpose become the conditions of her own survival?
 
-As if Alexander wept for new worlds to *invest* in. As if Rome's legions marched for shareholder value. As if the Aztec pyramid of skulls, the Tlingit slave economy, the potlatch chief destroying wealth to dominate rivals through the very act of abundance — as if these were capitalism wearing a different hat. The socialist locates the source of domination in an institution rather than in the nature of things. This permits his most cherished fantasy: that *he* would not dominate. That his hands are clean. That the will to power is a disease he has not contracted rather than the gravity he has not escaped.
+Chapter Seven followed a demand as it traveled through institutions. This chapter follows the pressures that can change its direction. They are strong enough to work through people who understand them. They are not strong enough to make every outcome inevitable.
 
-He has not escaped it. No one has.
+Call power the capacity to shape the conditions within which other people act. Ownership can confer it. So can office, expertise, control of information, the authority to decide whose account will be heard. Power can protect a person's freedom or make that freedom dependent on someone else's permission. Its presence alone does not tell us which.
 
-Chapter Seven traced what happens to a specific liberation — what becomes of the fire. This chapter has to go deeper than pattern. It has to name why the pattern is, in the strict sense, lawful. Not a sociological tendency. Not an institutional failure. A description of the physics of what we are.
+The engine begins when power becomes able to reproduce itself while making correction progressively harder.
 
-There are three laws. None requires bad actors. None requires conspiracy. None requires the wrong people to be in charge. Together they are sufficient to produce the wheel's rotation across any culture, any ideology, any century.
+Three mechanisms help it do so: gravity, the remainder, the mirror.
 
 ---
 
 ## I. Gravity
 
-Begin at the bottom. A living cell is a pocket of local order in a universe trending toward disorder. To persist, it must capture more energy than it expends. The surplus funds structure. The structure improves future capture. What captures more effectively persists. What does not, does not. This is not a metaphor for economics. It is the process economics later describes in a more specific context. The logic of surplus — capture more than you consume, reinvest the difference — is not a human innovation. It is what life *does*.
+Imagine two people negotiating. One must reach an agreement before the rent is due. The other can wait six months.
 
-What life does with surplus: it builds complexity. A spider's web. A beaver's dam. A granary. A city. Each is biological surplus converted into structure that improves future capture. The ratchet runs in one direction. Technology enables surplus. Surplus funds further technology. Further technology enables greater surplus. Life doesn't arrive at a satisfactory level of organization and rest. It escalates.
+They can speak with equal confidence, possess equal intelligence, understand the situation equally well. Waiting is still a resource one has and the other lacks. The person who can wait may obtain better terms. If those terms enlarge her reserve, the next negotiation begins from a greater difference.
 
-And once advantage exists, it compounds. The farmer with surplus grain can hire labor. The labor produces more surplus. The surplus buys tools. The tools lower the cost of production. The lower cost allows undercutting competitors. The competitors fail. Their land is acquired. Each cycle of advantage converts to further advantage. The mechanism appears in network science as preferential attachment — connected nodes attract more connections. In physics as gravitational accretion — mass attracts mass. In ecology as competitive exclusion — dominant species capture disproportionate resources. The specific domains differ. The attractor dynamics are the same.
+Advantage has become a means of acquiring advantage.
 
-Call it what it is: gravity. The state any system falls into once the preconditions for accumulation are met. Not the tendency of capitalism. Not the failure of democracy. The default condition of any agent with differential resources interacting in a shared environment. It precedes capitalism. It precedes feudalism. It precedes agriculture. It precedes humanity.
+This is the gravity that matters here. It requires no claim about what a cell wants or what thermodynamics commands a civilization to do. A body needs nourishment. That need does not contain an instruction to accumulate without limit. The social mechanism has to be located where it operates: in the arrangements that allow an advantage in one encounter to purchase influence over the next.
 
-Paul names it, though he calls it by a different term. Not principalities — those are the spiritual agencies *behind* institutions. Beneath the principalities are the *stoicheia*: the elemental forces, the basic constituents of the world-order itself. *"We were enslaved to the stoicheia of the world,"* he writes to the Galatians. Not enslaved to a tyrant. To the grammar. The elementary physics of the age beneath any particular expression of it.
+Money can buy time, legal assistance, access to decision makers. A respected position can bring invitations that make the position more influential. Control of a budget can determine which activities become possible, and those activities can produce the evidence that justifies the next budget. Where these conversions remain open, an initial difference can become a durable structure.
 
-Weil named it precisely. *All natural movements of the soul follow laws analogous to physical gravity.* She did not mean this as metaphor. She meant it as physics. The soul in a field of other souls will do what mass does in a field of other mass. It will concentrate. It will compound. It will draw toward itself more of what it has. The natural movement is always downward — toward domination, accumulation, force.
+The conversions are the machinery. Close one and the movement changes. Wealth cannot purchase a particular decision if that decision is effectively insulated from wealth. An office cannot become personal property if its holder can be replaced through a process she does not control. Expertise need not become a monopoly if knowledge is shared and other people acquire the capacity to question it.
 
-This is what the socialist cannot account for. He can abolish the capitalist. The ratchet finds the revolutionary committee. He can abolish the committee. The ratchet finds the party secretary. He can write constitutions, establish oversight bodies, install regulators. Every countermeasure becomes a new vector. The regulator accumulates the power to regulate. The progressive tax authority acquires budget and jurisdiction and institutional interests. It fights concentration in the economy while concentrating power in the state. This is not hypocrisy. It is gravity operating on the countermeasure.
+This is why rules matter. They help determine what one form of advantage can buy in another domain. The person with the largest fortune need not have the greatest authority in a classroom. The best teacher need not control the school budget. A society distributes power partly through the conversions it permits and partly through the ones it refuses.
 
-The Ju/'hoansi understood this, in their way. They did not eliminate gravity. They created conditions in which its expression through material accumulation was constantly frustrated — mobility, immediate consumption, the social norm of insulting the meat. A successful hunter is mocked for his kill. *"When a young man kills much meat, he comes to think of himself as a chief, and he thinks of the rest of us as his servants. We can't accept this."* The egalitarianism is not a natural state. It is an achievement. It is the outcome of continuous institutional labor against a force that never rests. The moment they settled, stored grain, built walls — the moment the dominant channel shifted — the ratchet found its familiar expression. They did not escape gravity. They channeled it. For a time.
+Now follow a small organization founded to distribute power differently.
 
-There is no Archimedean point outside the field from which to apply leverage without becoming a new center of gravity. Every reformer, every revolutionary, every monk who seeks poverty must organize a monastery, and the monastery acquires property. The prophet who denounces worldly power attracts followers, and followers are a form of power. The person who administers the Jubilee holds the authority to decide whose debts are cancelled. There is no outside.
+Someone must know the finances. Someone must know the donors. Someone must be trusted to act when everyone cannot be consulted. One person becomes useful in all three ways. Requests begin flowing through her because she can answer them. The more they flow through her, the more she knows. The more she knows, the more indispensable she becomes.
 
-The wheel does not require the wrong people. It requires the structure of any world in which life seeks to persist.
+Nobody voted to create a throne. They kept asking the person who could get things done.
+
+There is nothing corrupt about becoming useful. The turn comes when usefulness becomes the justification for making other people permanently dependent on it. Training a successor would slow the work. Sharing the contacts might confuse the donors. Opening a decision might put the funding at risk. Each explanation can be true in the immediate case. Together they can make the founder's authority impossible to question without appearing to threaten everyone she serves.
+
+The power to solve a problem has become the power to decide when the problem is solved.
+
+An audit, a rotating office, an independent appeal, or a second person trained to do the work can interrupt this sequence. Their success is real. A regulator that constrains an employer may increase the freedom of people who cannot bargain with that employer alone. Public authority has not merely moved domination into a different building. It may have reduced domination.
+
+Yet the counterweight needs its own supports. Who appoints the auditor? Who can challenge the regulator? Can the people being protected report that the protection is failing? These questions do not discredit oversight. They are part of doing it.
+
+Maintenance is not evidence of futility. A door that must be kept in repair is still a door. The danger is the promise of an arrangement so virtuous that maintenance can end: our people hold office now; our institution knows its purpose; our regulator has the right mandate. The declaration of arrival is permission to stop looking.
+
+Gravity names the movement that becomes easier when that looking stops. It is an analogy for cumulative advantage, not the weight of matter transferred into the soul. Its force must be traced through decisions, dependencies, and rules. Otherwise the critic has done the powerful an extraordinary favor: made their position sound as unavoidable as the fall of a stone.
 
 ---
 
 ## II. The Remainder
 
-There is a second law, and it is simpler. It is mathematical.
+The second mechanism begins with a necessity of administration. To act on behalf of many people, an institution needs some account of whom it serves and what it owes them. It cannot attend to everything about everyone at once.
 
-To define is to exclude. A set that contains everything is not a set — it is the universe, undifferentiated, inert. The moment you draw a boundary, something falls outside it. This is not a social observation. It is prior to society. It is geometry.
+A housing program needs criteria. A school needs a way to recognize learning. A movement needs to say what it is asking for. The account is selective because its work is specific. That selectivity can make action possible.
 
-A city wall protects those inside and marks those outside. A credential certifies those who have it and identifies those who don't. A liberation movement declares *we* who are oppressed and *they* who oppress — and in that declaration creates its own inside and outside, its own managed and excluded. The protected good is protected because someone lacks access to it. The moment everyone has access, a new line forms somewhere else. It cannot be otherwise. A movement with no boundary has no identity and therefore no force.
+It can also miss someone.
 
-This is why the liberation that wins does not eliminate the remainder. It redraws the line. The new inside requires a new outside to be an inside at all. The next revolution is already being built by the people the last one left behind.
+Imagine a housing program whose threshold measures annual income. A person just above the threshold faces circumstances the measure does not register: unstable work, obligations to someone elsewhere, a loss that occurred after the paperwork was filed. The rule may be reasonable. The need may also be real. Both can be true.
 
-Not conspiracy. Geometry.
+Call the part the account fails to register the remainder. It is a remainder of the account, not a lesser part of humanity.
+
+There is no mathematical theorem requiring every boundary to become oppression. A boundary can protect: confidentiality, a limit on an official's authority, a child's right to refuse an adult. Nor must a good become scarce in order to be shared. A public freedom does not lose its reality when more people possess it.
+
+The danger lies in what happens when a working description is promoted into a complete one.
+
+The program has defined need; therefore whoever fails its test does not need. The school has defined achievement; therefore whoever fails its assessment has not learned. The movement has defined the oppressed; therefore whoever cannot speak its account has no claim upon it. An instrument for noticing has become an authority for refusing to notice.
+
+The person has to shrink until the file can hold them.
+
+Add an appeal and the account can change. Listen to the people who fell outside it and its criteria can improve. A successful correction may remove an exclusion altogether. The remainder is not a mystical population that must be sacrificed for every social order to exist. It is the recurring possibility that a partial description has mistaken its limits for the limits of reality.
+
+What makes this politically dangerous is the account's relation to its administrators. Their competence is established through it. Their work is evaluated through it. A person whom it cannot recognize brings more than another demand on a scarce budget. She brings evidence that the institution's knowledge of its own work is incomplete.
+
+That evidence can be received as help. It can also be experienced as an attack.
+
+Here the first mechanism joins the second. The people whose authority has accumulated around the account become the people asked to admit that the account fails. If their position depends on preserving its sufficiency, the excluded person's persistence becomes the problem to be managed. They may offer her another appointment, another explanation, another form. Anything except the possibility that her account could change theirs.
+
+The wheel turns when the description survives by making the described person bear the cost of its errors.
 
 ---
 
 ## III. The Mirror
 
-The first two laws explain why any system fails eventually. They do not explain the wheel's specific tragedy: why the ones who see become the thing they saw. Why the fire becomes a lighting system. Why the liberated build the next cage.
+Gravity explains how authority can reinforce itself. The remainder explains how a limited account can become a shelter for that authority. The third mechanism concerns the people who rise against it.
 
-For this there is a third law. It is the most specifically human.
+An opponent can teach you what to want.
 
-René Girard spent his life naming it. Watch the children in a room full of toys. One child picks up toy 368. Immediately the other child wants toy 368. Not any of the three hundred other available toys. The one that someone has chosen. The desire does not precede the choosing. The desire follows the choosing. We learn what to want by watching what others want.
+René Girard gave this observation its unsettling reach. Desire often travels through a model. Another person's attention makes an object luminous; their possession of it can make it seem necessary to your own completion. When the model is also a competitor, admiration and obstruction arrive together. The person who shows you the prize stands between you and it.
 
-The rival who defines herself against her opponent has already absorbed her opponent's framework. She is playing his game on his board toward his definition of victory. The post-colonial state that replicates the extractive machinery of the colonial power is not betraying its founding ideals. It is succeeding within a field it did not choose, shaped by an opponent it can no longer see because the opponent has become interior. The revolutionary party that becomes the new vanguard is not failing its revolution. It is following the logic of desire formed in opposition.
+But imitation also carries learning, devotion, and generosity. Girard explicitly resisted treating all mimetic desire as destructive. Someone can teach you to love music without requiring you to defeat them at it. A person's care for a neighbor can make the neighbor's needs visible to you. The question is what the model teaches you to seek, and whether obtaining it requires another person's defeat.
 
-Girard called the result the monstrous double. Two parties increasingly identical, each convinced of their absolute difference, the resemblance invisible to them precisely because they are inside the rivalry. You cannot see the mirror when you are standing flush against it.
+The mirror forms around the rival who becomes the measure.
 
-Mimetic desire is not a distortion of some purer, original wanting. It *is* the wanting. There is no pre-mimetic self who could choose differently if she were careful enough. We do not want and then seek models. We want *through* models. The movement cannot liberate desire from mimesis without ceasing to desire. It can only choose different models — which, under pressure, in a field still structured by the opponent's grammar, it reliably does not.
+Consider two factions competing to lead an organization. At first, each has a proposal. Soon each studies the other's tactics more closely than the conditions it wanted to change. One recruits a loyal slate; the other must do the same. One withholds information; the other calls withholding prudent. One treats dissent as disloyalty; the other cannot afford division while such an opponent exists.
 
-The fire converts into a lighting system not because the people inside it sold out. Because wanting is always mimetic, and the model of what power looks like was demonstrated for a generation by the thing that held power. The warmth remained. The weight did not transfer.
+Each step is justified by what the other side has done. Each step brings them closer together.
 
-The mirror turns fast. Sometimes within a generation. Sometimes within the victory speech.
+This is the terrible convenience of an enemy. He gives you a reason for conduct you would otherwise have to defend on its own. The resemblance deepens while the experience of difference becomes more intense. You know you are unlike him because you know why you are using his methods.
+
+There is another route into the same resemblance. People can converge without copying an opponent at all. Pierre Bourdieu's account of social fields directs attention to the shared professional world: its habits, recognized achievements, rewards, and permitted questions. Two contenders can dislike each other and still be formed by the same account of what counts as success.
+
+The new director wants a different institution. She inherits the budget cycle, the reporting system, the measures her board understands. To remain director long enough to make changes, she learns to produce what those measures can recognize. Her predecessor becomes less relevant with every passing month. The shared conditions do the teaching now.
+
+The distinction matters. If resemblance comes partly from those conditions, an instruction to choose better models cannot by itself undo it. The board, budget, and distribution of authority also have to change. If resemblance comes partly from rivalry, redesigning the office will not by itself release the occupant from her need to defeat the person who held it before.
+
+The engine works across both registers. It makes certain ways of acting advantageous, then recruits the person's wanting to keep them in motion.
+
+Rivalry can harden into coercion or violence. It can also be interrupted by restraint, a changed relationship, a shared task, the discovery that the supposed prize was not worth the cost. We need to understand those interruptions as carefully as the escalation. Otherwise the mirror becomes another account incapable of seeing a person who refuses its prediction.
+
+Still, the pressure is severe. The movement can win the office while leaving its account of victory intact. The defeated ruler disappears. The kind of person the throne requires is still being formed.
 
 ---
 
 ## IV. What the Engine Requires
 
-Three laws. None of them requires malice. None of them requires the wrong people. None of them can be defeated by raising consciousness, improving analysis, or installing better intentions.
+Put the mechanisms together.
 
-Gravity operates on every agent with resources in a shared field, regardless of their ideology. The remainder is produced by definition itself — the more precise the liberation, the cleaner the line it draws around those it leaves behind. The mirror operates through the logic of desire formed in opposition, and desire does not consult the will before it forms.
+Authority accumulates around people who can turn present advantages into future ones. Those people administer descriptions on which their authority increasingly depends. Those left out challenge the descriptions and their administrators. The challengers enter a struggle whose prizes, methods, and measures can teach them to reproduce the position they opposed.
 
-The wheel would turn in a society of philosophers who had read this chapter.
+The sequence can break. Every point of connection is also a place where something can change. Resources can be distributed. Decisions can become contestable. A description can admit its incompleteness. An opponent can cease to be the measure of a life.
 
-This is the claim the next chapter has to reckon with: not that the engine is driven by ignorance, but that it is fueled by something prior to ignorance and immune to its cure. Something inside the person rather than outside her. Something that was moving before the cage was built and will be moving in whatever is built next.
+That is why the wheel is a problem requiring attention rather than a fate requiring surrender.
 
-Weil's sentence now earns its position at the head of this chapter.
+But a person can understand every sentence of this chapter and still want to be indispensable. Still fear what will happen if someone else controls the account. Still feel that the rival's success diminishes her own existence. The analysis can reach the mechanism without reaching what keeps her attached to it.
 
-*All natural movements of the soul follow laws analogous to physical gravity. Only grace operates by a different logic.*
+Here Weil's analogy becomes a question. She gives the name gravity to the apparently automatic movement by which pain, need, and wounded importance find their next expression. She names grace as an interruption of that movement. This is a moral and spiritual account, not a physical demonstration. We have not established it by describing organizations. We have reached the place where its question can be heard.
 
-The first sentence is what this chapter has been naming. Not tendency. Not pattern. Natural law. The soul in any field of other souls moves the way mass moves — toward accumulation, concentration, force. The remainder is the geometry of definition. The mirror is the physics of desire. These are not failures of the human project. They are the physics of what the project is made of.
+What would let a person relinquish an advantage without making relinquishment another claim to superiority? What would let her receive correction without experiencing it as the end of herself? What could she want that another person's possession would not take away?
 
-The second sentence is the question this book has been building toward.
+The engine shapes the conditions. It also finds something already moving in the person who enters them.
 
-The wheel turns. It has always turned. What, if anything, does not turn with it — that is the question the third movement exists to ask.
+Before we can speak of interruption, we have to follow that movement inward.
+
+We have named the engine. Now the fuel.
 
 ---
 
-*The sun also rises, and the sun goes down, and hastens to its place where it arose. The wind goes toward the south, and turns around to the north; the wind whirls about continually, and the wind returns again according to its circuits. All the rivers run into the sea, yet the sea is not full; to the place from which the rivers come, there they return again.*
-— Ecclesiastes 1:5–7
+### Sources and notes
+
+The chapter develops the institutional argument of [The Unengineerable Rupture](../../../content/2026-02-21-structural-wisdom-biblical-eschatology.mdx) and the connection between power and desire in [The Open Hand](../../../content/2026-02-21-desire-engine-table.mdx). Its three mechanisms are an interpretive synthesis, not laws deduced from physics or mathematics. The organizational examples are illustrative.
+
+The opening paraphrases Weil's [“La pesanteur et la grâce”](https://fr.wikisource.org/wiki/La_Pesanteur_et_la_Gr%C3%A2ce/01). Her comparison concerns moral and spiritual necessity; it does not establish a physical law of institutional behavior.
+
+Girard distinguishes destructive rivalry from other forms of imitation in his interview with Rebecca Adams, “Violence, Difference, Sacrifice,” *Religion & Literature* 25, no. 2 (1993), excerpted as [“The Goodness of Mimetic Desire”](https://1library.net/article/goodness-mimetic-desire-triangular-desire.z190mx8q). For Bourdieu's account of the shared assumptions and pressures of a professional field, see his [“Participant Objectivation”](https://rai.onlinelibrary.wiley.com/doi/10.1111/1467-9655.00150), *Journal of the Royal Anthropological Institute* 9, no. 2 (2003), 281–294.
