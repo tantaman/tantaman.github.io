@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 
@@ -149,14 +149,72 @@ function PasteActions({
 }
 
 function PasteBody({ paste }: { paste: PasteDetailRow }) {
+  const contentRef = useRef<HTMLDivElement>(null);
   const markdown = useMemo(() => {
     if (paste.language !== "markdown") return "";
     const withoutLeadingTitle = paste.body.trimStart().replace(/^#{1,6}\s+.+\r?\n?/, "");
     return renderMarkdown(withoutLeadingTitle);
   }, [paste.body, paste.language]);
 
+  useEffect(() => {
+    const content = contentRef.current;
+    if (paste.language !== "markdown" || !content) return;
+
+    const diagrams = [...content.querySelectorAll<HTMLElement>("pre > code.language-mermaid")]
+      .map((code) => {
+        const container = document.createElement("div");
+        container.className = "mermaid";
+        container.textContent = code.textContent ?? "";
+        code.parentElement?.replaceWith(container);
+        return container;
+      });
+    if (diagrams.length === 0) return;
+
+    let active = true;
+    const render = async () => {
+      for (const diagram of diagrams) {
+        diagram.removeAttribute("data-processed");
+        diagram.textContent = diagram.dataset.source ?? diagram.textContent;
+        diagram.dataset.source ??= diagram.textContent ?? "";
+      }
+
+      const mermaidUrl = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      const { default: mermaid } = await import(/* @vite-ignore */ mermaidUrl);
+      if (!active) return;
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: document.documentElement.dataset.theme === "dark" ? "dark" : "default",
+      });
+      await mermaid.run({ nodes: diagrams });
+    };
+
+    const renderDiagram = () => {
+      void render().catch(() => {
+        for (const diagram of diagrams) {
+          diagram.removeAttribute("data-processed");
+          diagram.textContent = diagram.dataset.source ?? "Diagram could not be rendered.";
+        }
+      });
+    };
+
+    renderDiagram();
+    const themeObserver = new MutationObserver(renderDiagram);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    return () => {
+      active = false;
+      themeObserver.disconnect();
+    };
+  }, [markdown, paste.language]);
+
   if (paste.language === "markdown") {
-    return <div className="paste-content thought-markdown" dangerouslySetInnerHTML={{ __html: markdown }} />;
+    return (
+      <div
+        ref={contentRef}
+        className="paste-content thought-markdown"
+        dangerouslySetInnerHTML={{ __html: markdown }}
+      />
+    );
   }
 
   if (paste.language === "html") {

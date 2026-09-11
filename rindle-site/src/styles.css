@@ -3267,6 +3267,40 @@ main.app-main:has(> .thoughts-shell) {
   font-size: clamp(16px, 2.3vw, 19px);
   line-height: 1.75;
 }
+.paste-content table {
+  display: block;
+  width: 100%;
+  margin: 0 0 1.15em;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.8em;
+  line-height: 1.45;
+}
+.paste-content th,
+.paste-content td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--line-2);
+  text-align: left;
+  vertical-align: top;
+}
+.paste-content th {
+  color: var(--ink);
+  font-weight: 700;
+}
+.paste-content td {
+  color: var(--ink-2);
+}
+.paste-content .mermaid {
+  margin: 1.4em 0;
+  overflow-x: auto;
+  text-align: center;
+}
+.paste-content .mermaid svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
 .paste-code {
   margin: 0;
   padding: clamp(16px, 3vw, 24px);
