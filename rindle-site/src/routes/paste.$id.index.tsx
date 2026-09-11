@@ -153,15 +153,34 @@ function PasteBody({ paste }: { paste: PasteDetailRow }) {
   const markdown = useMemo(() => {
     if (paste.language !== "markdown") return "";
     const withoutLeadingTitle = paste.body.trimStart().replace(/^#{1,6}\s+.+\r?\n?/, "");
-    return renderMarkdown(withoutLeadingTitle);
+    const rendered = renderMarkdown(withoutLeadingTitle);
+    return rendered.includes("language-mermaid")
+      ? `${rendered}<script type="module" data-mermaid-bootstrap>
+          const nodes = [...document.querySelectorAll('.paste-content pre > code.language-mermaid')];
+          for (const code of nodes) {
+            const diagram = document.createElement('div');
+            diagram.className = 'mermaid';
+            diagram.textContent = code.textContent || '';
+            diagram.dataset.source = diagram.textContent;
+            code.parentElement?.replaceWith(diagram);
+          }
+          if (nodes.length) {
+            import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs').then(({ default: mermaid }) => {
+              mermaid.initialize({ startOnLoad: false, theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default' });
+              return mermaid.run({ querySelector: '.paste-content .mermaid' });
+            }).catch(() => {});
+          }
+        </script>`
+      : rendered;
   }, [paste.body, paste.language]);
 
   useEffect(() => {
     const content = contentRef.current;
     if (paste.language !== "markdown" || !content) return;
 
-    const diagrams = [...content.querySelectorAll<HTMLElement>("pre > code.language-mermaid")]
+    const diagrams = [...content.querySelectorAll<HTMLElement>(".mermaid, pre > code.language-mermaid")]
       .map((code) => {
+        if (code.classList.contains("mermaid")) return code;
         const container = document.createElement("div");
         container.className = "mermaid";
         container.textContent = code.textContent ?? "";
