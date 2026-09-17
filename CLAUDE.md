@@ -269,6 +269,17 @@ Cloudflare Worker with D1, R2, KV, Vectorize, and Workers AI.
 - Markdown pastes render with `marked`; TTS "listen" button via Durable Workflow
 - Cookie-based web auth + Bearer token API auth
 - Raw content endpoint
+- **Attachments / file store** — a paste's body stays text; files hang off it in
+  `paste_attachment` (bytes in R2 under `pastes/{id}/{ts}-{name}`). A paste with
+  an empty body and files is a file drop, so there is no separate file-store
+  surface. Upload by drag & drop, clipboard paste, or file picker on the new/fork
+  forms, or `POST /paste/:id/files` (multipart, field `file`) afterwards. Files
+  are addressed by name — `/paste/:id/file/:name` (add `?download` for an
+  attachment disposition) — so the URL drops straight into markdown as
+  `![](/paste/:id/file/:name)`. `/paste/files` indexes every file (public sees
+  only files on shared pastes). Forking copies attachment rows, not bytes, so a
+  fork chain shares one R2 object; detaching deletes the object only when the
+  last row referencing it goes.
 
 ### TTS (Text-to-Speech)
 - Durable Workflow: chunks markdown into ~1900-char segments, generates MP3 via `@cf/deepgram/aura-2-en`, stores chunks in R2, concatenates final audio

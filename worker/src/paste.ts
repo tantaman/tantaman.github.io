@@ -6,7 +6,7 @@ import { transform } from "sucrase";
 import type { Env } from "./index";
 import { stripMarkdown, chunkText } from "./tts-utils.js";
 import { upsertPasteEmbedding, deletePasteEmbeddings } from "./embeddings.js";
-import { assignClusters, removeClusterMembership } from "./clusters.js";
+import { assignClusters, removeClusterMembership, scheduleBackground } from "./clusters.js";
 import { renderPasteCard } from "./paste-card.js";
 
 const SITE_URL = "https://tantaman.com";
@@ -309,6 +309,50 @@ const PAGE_STYLE = `
   .revision-bar a { color: var(--text-muted); text-decoration: underline; }
   .revision-bar a:hover { color: var(--text); }
   .revision-bar .current { font-weight: 500; color: var(--text); }
+
+  /* Files */
+  .files { margin-top: 2rem; }
+  .file-heading { margin-bottom: 0.75rem; }
+  .file-gallery { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .file-gallery img {
+    width: 160px; height: 120px; object-fit: cover;
+    border: 1px solid var(--border); border-radius: 3px; background: var(--bg-soft);
+    display: block;
+  }
+  .file-gallery a:hover img { border-color: var(--border-heavy); }
+  .file-list { list-style: none; padding: 0; margin: 0; }
+  .file-list li {
+    display: flex; align-items: baseline; gap: 0.75rem;
+    padding: 0.35rem 0; border-bottom: 1px solid var(--border);
+    font-size: 0.8125rem;
+  }
+  .file-list li:last-child { border-bottom: none; }
+  .file-list .file-meta { color: var(--text-muted); font-size: 0.75rem; margin-left: auto; white-space: nowrap; }
+  .file-manage { margin-top: 1rem; font-size: 0.8125rem; }
+  .file-manage summary { color: var(--text-muted); cursor: pointer; }
+  .file-manage summary:hover { color: var(--text); }
+  .file-manage-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-manage-name .file-meta { margin-left: 0.5rem; }
+  .file-embed {
+    font-family: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, monospace;
+    font-size: 0.7rem; color: var(--text-muted); background: var(--code-bg);
+    padding: 0.1rem 0.35rem; border-radius: 3px;
+    max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .file-manage form { display: inline; margin: 0; }
+  .file-add { margin-top: 0.75rem; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  button.linkish {
+    background: none; border: none; padding: 0; font: inherit;
+    color: var(--text-muted); text-decoration: underline; cursor: pointer;
+    letter-spacing: normal; text-transform: none;
+  }
+  button.linkish:hover { color: var(--text); }
+  .dropzone {
+    border: 1px dashed var(--border-heavy); border-radius: 3px;
+    padding: 0.75rem; background: var(--bg-soft);
+  }
+  .dropzone.over { border-color: var(--text); background: var(--code-bg); }
+  .dropzone input[type=file] { font-size: 0.8125rem; }
 `;
 
 const THEME_SCRIPT = `
@@ -362,6 +406,7 @@ function htmlPage(title: string, body: string, nav?: string, meta?: PasteMeta): 
   <header class="topbar">
     <span class="topbar-title"><a href="/paste">paste</a></span>
     <span class="topbar-nav">
+      <a href="/paste/files">files</a>
       <a href="/thoughts/">thoughts</a>
       ${navLinks}
       <button class="theme-toggle" aria-label="Toggle theme"></button>
@@ -400,6 +445,277 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+// ---------------------------------------------------------------------------
+// Attachments
+//
+// A paste stays text and files hang off it. That answers both halves of the
+// question — "a paste has attachments" and "a file store" — with one table: a
+// paste with an empty body and N files *is* a file-store entry, and
+// /paste/files indexes every file across every paste. Making paste.body a blob
+// instead would have broken embeddings, TTS, splash cards, diff and raw all at
+// once, for no gain the attachment table doesn't already give.
+// ---------------------------------------------------------------------------
+
+type PasteAttachment = {
+  id: number;
+  attachment_key: string;
+  attachment_type: string;
+  attachment_name: string;
+  size: number;
+  created_at: number;
+};
+
+const ATTACHMENT_COLUMNS =
+  "id, attachment_key, attachment_type, attachment_name, size, created_at";
+
+async function loadAttachments(db: D1Database, pasteId: string): Promise<PasteAttachment[]> {
+  const rows = await db
+    .prepare(`SELECT ${ATTACHMENT_COLUMNS} FROM paste_attachment WHERE paste_id = ? ORDER BY id ASC`)
+    .bind(pasteId)
+    .all<PasteAttachment>();
+  return rows.results;
+}
+
+// Drop every row for (paste, name) and reclaim the R2 object once nothing points
+// at it — a fork shares its parent's object, so the count has to be checked
+// rather than assumed. Shared by the delete route and by re-uploading a name.
+async function detachByName(env: Env, pasteId: string, name: string): Promise<number> {
+  const rows = await env.DB.prepare(
+    "SELECT attachment_key FROM paste_attachment WHERE paste_id = ? AND attachment_name = ?",
+  )
+    .bind(pasteId, name)
+    .all<{ attachment_key: string }>();
+
+  if (rows.results.length === 0) return 0;
+
+  await env.DB.prepare(
+    "DELETE FROM paste_attachment WHERE paste_id = ? AND attachment_name = ?",
+  )
+    .bind(pasteId, name)
+    .run();
+
+  for (const key of Array.from(new Set(rows.results.map((r) => r.attachment_key)))) {
+    const remaining = await env.DB.prepare(
+      "SELECT COUNT(*) AS n FROM paste_attachment WHERE attachment_key = ?",
+    )
+      .bind(key)
+      .first<{ n: number }>();
+    if (!remaining || remaining.n === 0) {
+      await env.BUCKET.delete(key);
+    }
+  }
+
+  return rows.results.length;
+}
+
+// Re-uploading a name replaces it: files are addressed by name, so a paste
+// holding two "notes.txt" would leave one of them unreachable. Keys still carry
+// a timestamp because a paste accretes files over time (POST /:id/files) and the
+// replaced copy may be what a *fork's* row still points at.
+async function storeFiles(
+  env: Env,
+  pasteId: string,
+  files: File[],
+  now: number,
+): Promise<PasteAttachment[]> {
+  const saved: PasteAttachment[] = [];
+  for (const file of files) {
+    // Before the put, never after: within one batch the replaced copy can share
+    // this exact key, and reclaiming it afterwards would delete what we wrote.
+    await detachByName(env, pasteId, file.name);
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_") || "file";
+    const key = `pastes/${pasteId}/${now}-${safeName}`;
+    const type = file.type || "application/octet-stream";
+    await env.BUCKET.put(key, file.stream(), { httpMetadata: { contentType: type } });
+    const res = await env.DB.prepare(
+      `INSERT INTO paste_attachment (paste_id, attachment_key, attachment_type, attachment_name, size, created_at)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+    )
+      .bind(pasteId, key, type, file.name, file.size, now)
+      .run();
+    saved.push({
+      id: Number(res.meta.last_row_id),
+      attachment_key: key,
+      attachment_type: type,
+      attachment_name: file.name,
+      size: file.size,
+      created_at: now,
+    });
+  }
+  return saved;
+}
+
+// A fork inherits its parent's files by copying index rows, not bytes — one R2
+// object backs the whole fork chain. See the migration for the delete caveat.
+async function copyAttachments(
+  db: D1Database,
+  fromId: string,
+  toId: string,
+  now: number,
+): Promise<void> {
+  await db
+    .prepare(
+      `INSERT INTO paste_attachment (paste_id, attachment_key, attachment_type, attachment_name, size, created_at)
+       SELECT ?, attachment_key, attachment_type, attachment_name, size, ?
+       FROM paste_attachment WHERE paste_id = ? ORDER BY id ASC`,
+    )
+    .bind(toId, now, fromId)
+    .run();
+}
+
+function filesFromForm(formData: FormData): File[] {
+  return (formData.getAll("file") as unknown as (string | File)[]).filter(
+    (f): f is File => typeof f !== "string" && f.size > 0,
+  );
+}
+
+function formatBytes(n: number): string {
+  if (!n) return "0 B";
+  const units = ["B", "KB", "MB", "GB"];
+  let v = n;
+  let i = 0;
+  while (v >= 1024 && i < units.length - 1) {
+    v /= 1024;
+    i++;
+  }
+  return `${i > 0 && v < 10 ? v.toFixed(1) : Math.round(v)} ${units[i]}`;
+}
+
+// Files are addressed by name, not row id, so they paste straight into markdown
+// as ![](/paste/{id}/file/{name}). Duplicate names resolve to the newest upload.
+function fileUrl(pasteId: string, name: string): string {
+  return `/paste/${encodeURIComponent(pasteId)}/file/${encodeURIComponent(name)}`;
+}
+
+function isImage(type: string): boolean {
+  return type.startsWith("image/");
+}
+
+function attachmentsHtml(
+  pasteId: string,
+  attachments: PasteAttachment[],
+  authed: boolean,
+): string {
+  if (attachments.length === 0 && !authed) return "";
+
+  const images = attachments.filter((a) => isImage(a.attachment_type));
+  const others = attachments.filter((a) => !isImage(a.attachment_type));
+
+  const gallery = images.length
+    ? `<div class="file-gallery">${images
+        .map((a) => {
+          const url = escapeHtml(fileUrl(pasteId, a.attachment_name));
+          return `<a href="${url}" title="${escapeHtml(a.attachment_name)}"><img src="${url}" alt="${escapeHtml(a.attachment_name)}" loading="lazy"></a>`;
+        })
+        .join("")}</div>`
+    : "";
+
+  const list = others.length
+    ? `<ul class="file-list">${others
+        .map((a) => {
+          const url = escapeHtml(fileUrl(pasteId, a.attachment_name));
+          return `<li><a href="${url}">${escapeHtml(a.attachment_name)}</a><span class="file-meta">${escapeHtml(a.attachment_type)} · ${formatBytes(a.size)}</span></li>`;
+        })
+        .join("")}</ul>`
+    : "";
+
+  const manageRows = attachments
+    .map((a) => {
+      const url = fileUrl(pasteId, a.attachment_name);
+      const embed = isImage(a.attachment_type)
+        ? `![${a.attachment_name}](${url})`
+        : `[${a.attachment_name}](${url})`;
+      return `<li>
+        <span class="file-manage-name">${escapeHtml(a.attachment_name)}<span class="file-meta">${formatBytes(a.size)}</span></span>
+        <code class="file-embed">${escapeHtml(embed)}</code>
+        <form method="POST" action="/paste/${escapeHtml(pasteId)}/file/${encodeURIComponent(a.attachment_name)}/delete" onsubmit="return confirm('Delete this file?')"><button type="submit" class="linkish">delete</button></form>
+      </li>`;
+    })
+    .join("");
+
+  const manage = authed
+    ? `<details class="file-manage">
+      <summary>${attachments.length ? "manage files" : "attach files"}</summary>
+      ${manageRows ? `<ul class="file-list">${manageRows}</ul>` : ""}
+      <form method="POST" action="/paste/${escapeHtml(pasteId)}/files" enctype="multipart/form-data" class="file-add">
+        <input type="file" name="file" multiple required>
+        <button type="submit">upload</button>
+      </form>
+    </details>`
+    : "";
+
+  const heading = attachments.length
+    ? `<h2 class="file-heading">${attachments.length} file${attachments.length === 1 ? "" : "s"}</h2>`
+    : "";
+
+  return `<div class="files">${heading}${gallery}${list}${manage}</div>`;
+}
+
+// Shared by the new-paste and fork forms: a drop zone that also accepts a
+// clipboard paste, feeding the same <input type="file" name="file" multiple>
+// the server reads.
+const FILE_FIELD_HTML = `<div class="field">
+        <label for="file">Files</label>
+        <div id="dropzone" class="dropzone">
+          <input type="file" id="file" name="file" multiple>
+          <p class="meta" style="margin:0.4rem 0 0">drop files here, or paste from the clipboard</p>
+          <ul id="file-preview" class="file-list"></ul>
+        </div>
+      </div>`;
+
+const FILE_FIELD_SCRIPT = `
+    (function () {
+      var input = document.getElementById('file');
+      var zone = document.getElementById('dropzone');
+      var preview = document.getElementById('file-preview');
+      if (!input || !zone || !preview) return;
+
+      function fmt(n) {
+        var units = ['B', 'KB', 'MB', 'GB'];
+        var i = 0;
+        while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+        return (i > 0 && n < 10 ? n.toFixed(1) : Math.round(n)) + ' ' + units[i];
+      }
+
+      function render() {
+        preview.innerHTML = '';
+        Array.prototype.forEach.call(input.files, function (f) {
+          var li = document.createElement('li');
+          li.textContent = f.name;
+          var meta = document.createElement('span');
+          meta.className = 'file-meta';
+          meta.textContent = fmt(f.size);
+          li.appendChild(meta);
+          preview.appendChild(li);
+        });
+      }
+
+      function add(incoming) {
+        var dt = new DataTransfer();
+        Array.prototype.forEach.call(input.files, function (f) { dt.items.add(f); });
+        Array.prototype.forEach.call(incoming, function (f) { dt.items.add(f); });
+        input.files = dt.files;
+        render();
+      }
+
+      input.addEventListener('change', render);
+      ['dragenter', 'dragover'].forEach(function (name) {
+        zone.addEventListener(name, function (e) { e.preventDefault(); zone.classList.add('over'); });
+      });
+      ['dragleave', 'drop'].forEach(function (name) {
+        zone.addEventListener(name, function (e) { e.preventDefault(); zone.classList.remove('over'); });
+      });
+      zone.addEventListener('drop', function (e) {
+        if (e.dataTransfer && e.dataTransfer.files.length) add(e.dataTransfer.files);
+      });
+      // A clipboard paste carrying files (a screenshot, a copied file) attaches
+      // it; a text paste has no files and falls through to the textarea.
+      document.addEventListener('paste', function (e) {
+        if (e.clipboardData && e.clipboardData.files && e.clipboardData.files.length) {
+          add(e.clipboardData.files);
+        }
+      });
+    })();`;
 
 const LANGUAGES: [string, string][] = [
   ["markdown", "Markdown"], ["plaintext", "Plain text"], ["javascript", "JavaScript"],
@@ -532,10 +848,20 @@ paste.get("/fork/:id", async (c) => {
     </ul>`;
   }
 
+  // The fork carries the parent's files forward (POST / copies the rows), so
+  // say so rather than letting them look lost.
+  const inherited = await loadAttachments(c.env.DB, forkSource.id);
+  const inheritedHtml = inherited.length
+    ? `<p class="meta" style="margin-bottom:1rem">carries over ${inherited.length} file${inherited.length === 1 ? "" : "s"}: ${inherited
+        .map((a) => escapeHtml(a.attachment_name))
+        .join(", ")}</p>`
+    : "";
+
   const body = htmlPage(
     "Fork Paste",
     `<p class="meta" style="margin-bottom:1rem">Forking <a href="/paste/${escapeHtml(forkSource.id)}">${escapeHtml(forkSource.title || "Untitled")}</a></p>
-    <form method="POST" action="/paste">
+    ${inheritedHtml}
+    <form method="POST" action="/paste" enctype="multipart/form-data">
       <input type="hidden" name="parent_id" value="${escapeHtml(forkSource.id)}">
       <div class="field" style="display:flex;align-items:baseline;gap:0.75rem;margin-bottom:1.5rem">
         <label for="language" style="margin:0">Lang</label>
@@ -545,10 +871,12 @@ paste.get("/fork/:id", async (c) => {
       </div>
       <div class="field">
         <div style="margin-bottom:0.5rem"><button type="button" onclick="document.getElementById('body').value='';document.getElementById('body').focus()" style="font-size:0.75rem;padding:0.2rem 0.5rem">Clear</button></div>
-        <textarea id="body" name="body" required placeholder="Write something..." autofocus>${escapeHtml(forkSource.body)}</textarea>
+        <textarea id="body" name="body" placeholder="Write something..." autofocus>${escapeHtml(forkSource.body)}</textarea>
       </div>
+      ${FILE_FIELD_HTML}
       <button type="submit">Save</button>
     </form>
+    <script>${FILE_FIELD_SCRIPT}</script>
     ${recentHtml}`
   );
   return c.html(body);
@@ -558,7 +886,7 @@ paste.get("/fork/:id", async (c) => {
 paste.get("/all", async (c) => {
   const authed = isAuthed(c);
 
-  const [rows, splashIds] = await Promise.all([
+  const [rows, splashIds, fileCounts] = await Promise.all([
     authed
       ? c.env.DB.prepare(
           "SELECT id, title, language, created_at, parent_id, shared FROM paste p WHERE NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY created_at DESC"
@@ -567,7 +895,12 @@ paste.get("/all", async (c) => {
           "SELECT id, title, language, created_at, parent_id, shared FROM paste p WHERE shared = 1 AND NOT EXISTS (SELECT 1 FROM paste c WHERE c.parent_id = p.id) ORDER BY shared_at DESC"
         ).all<{ id: string; title: string | null; language: string; created_at: number; parent_id: string | null; shared: number }>(),
     listSplashIds(c.env.BUCKET),
+    c.env.DB.prepare(
+      "SELECT paste_id, COUNT(*) AS n FROM paste_attachment GROUP BY paste_id"
+    ).all<{ paste_id: string; n: number }>(),
   ]);
+
+  const filesByPaste = new Map(fileCounts.results.map((r) => [r.paste_id, r.n]));
 
   const items = rows.results
     .map((r) => {
@@ -576,7 +909,9 @@ paste.get("/all", async (c) => {
       const fork = r.parent_id ? ` <a href="/paste/${escapeHtml(r.parent_id)}" style="color:var(--text-muted);font-size:0.7rem" title="forked from">↑</a>` : "";
       const shared = authed && r.shared ? ` <span style="color:var(--text-muted);font-size:0.7rem">●</span>` : "";
       const thumb = splashIds.has(r.id) ? thumbHtml(r.id) : "";
-      return `<li>${thumb}<span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a>${fork}${shared}</span><span class="paste-meta">${date}</span></li>`;
+      const fileCount = filesByPaste.get(r.id) || 0;
+      const files = fileCount ? ` <span style="color:var(--text-muted);font-size:0.7rem" title="${fileCount} file${fileCount === 1 ? "" : "s"}">\u{1F4CE}${fileCount}</span>` : "";
+      return `<li>${thumb}<span class="paste-title"><a href="/paste/${escapeHtml(r.id)}">${title}</a>${fork}${shared}${files}</span><span class="paste-meta">${date}</span></li>`;
     })
     .join("\n      ");
 
@@ -591,6 +926,60 @@ paste.get("/all", async (c) => {
       ${items}
     </ul>`,
     nav
+  );
+  return c.html(body);
+});
+
+// GET /files — the file store: every attachment across every paste.
+// Fork chains share one R2 object, so group by key to show each file once,
+// pointing at the newest revision that carries it. Public visitors see only
+// files on shared pastes, mirroring /all.
+paste.get("/files", async (c) => {
+  const authed = isAuthed(c);
+
+  const rows = await c.env.DB.prepare(
+    `SELECT a.paste_id, a.attachment_name, a.attachment_type, a.size, a.created_at, p.title, MAX(a.id) AS aid
+     FROM paste_attachment a
+     JOIN paste p ON p.id = a.paste_id
+     ${authed ? "" : "WHERE p.shared = 1"}
+     GROUP BY a.attachment_key
+     ORDER BY a.created_at DESC, aid DESC
+     LIMIT 500`,
+  ).all<{
+    paste_id: string;
+    attachment_name: string;
+    attachment_type: string;
+    size: number;
+    created_at: number;
+    title: string | null;
+  }>();
+
+  const items = rows.results
+    .map((r) => {
+      const url = escapeHtml(fileUrl(r.paste_id, r.attachment_name));
+      const date = new Date(r.created_at).toISOString().split("T")[0];
+      const thumb = isImage(r.attachment_type)
+        ? `<img src="${url}" alt="" loading="lazy" width="48" height="36" style="flex-shrink:0;width:48px;height:36px;object-fit:cover;border-radius:3px;border:1px solid var(--border);background:var(--bg-soft)">`
+        : "";
+      return `<li>
+        ${thumb}
+        <span class="paste-title"><a href="${url}">${escapeHtml(r.attachment_name)}</a>
+          <a href="/paste/${escapeHtml(r.paste_id)}" class="file-meta" style="margin-left:0.5rem;text-decoration:underline">${escapeHtml(r.title || "Untitled")}</a>
+        </span>
+        <span class="paste-meta">${formatBytes(r.size)} · ${date}</span>
+      </li>`;
+    })
+    .join("\n      ");
+
+  const heading = authed ? "Files" : "Shared files";
+  const nav = authed ? undefined : '<a href="/paste/login">log in</a>';
+
+  const body = htmlPage(
+    heading,
+    `<h1>${heading}</h1>
+    <p class="meta" style="margin-bottom:2rem">${rows.results.length} file${rows.results.length === 1 ? "" : "s"}${authed ? " · attach more from any paste, or start one with files and no text" : ""}</p>
+    ${rows.results.length > 0 ? `<ul class="paste-list">${items}</ul>` : `<p class="meta">no files yet.</p>`}`,
+    nav,
   );
   return c.html(body);
 });
@@ -655,7 +1044,7 @@ paste.get("/", async (c) => {
 
   const body = htmlPage(
     "New Paste",
-    `<form method="POST" action="/paste">
+    `<form method="POST" action="/paste" enctype="multipart/form-data">
       <div class="field" style="display:flex;align-items:baseline;gap:0.75rem;margin-bottom:1.5rem">
         <label for="language" style="margin:0">Lang</label>
         <select id="language" name="language">
@@ -663,16 +1052,22 @@ paste.get("/", async (c) => {
         </select>
       </div>
       <div class="field">
-        <textarea id="body" name="body" required placeholder="Write something..." autofocus></textarea>
+        <textarea id="body" name="body" placeholder="Write something..." autofocus></textarea>
       </div>
+      ${FILE_FIELD_HTML}
       <button type="submit">Save</button>
     </form>
+    <script>${FILE_FIELD_SCRIPT}</script>
     ${recentHtml}`
   );
   return c.html(body);
 });
 
 // POST / — create paste (JSON API or form submission)
+//
+// Three body shapes: JSON (API), multipart (the browser forms, which may carry
+// files), and urlencoded (older form posts / curl). A paste needs a body OR at
+// least one file — a file-only paste is the file-store case.
 paste.post("/", async (c) => {
   const contentType = c.req.header("Content-Type") || "";
   let body: string;
@@ -680,6 +1075,7 @@ paste.post("/", async (c) => {
   let language: string;
   let parentId: string | null = null;
   let isForm = false;
+  let files: File[] = [];
 
   if (contentType.includes("application/json")) {
     // JSON API — auth via Bearer token
@@ -691,6 +1087,17 @@ paste.post("/", async (c) => {
     title = json.title;
     language = json.language || "markdown";
     parentId = json.parent_id || null;
+  } else if (contentType.includes("multipart/form-data")) {
+    isForm = true;
+    if (!isAuthed(c)) {
+      return c.redirect("/paste/login");
+    }
+    const formData = await c.req.formData();
+    body = (formData.get("body") as string) || "";
+    title = (formData.get("title") as string) || undefined;
+    language = (formData.get("language") as string) || "markdown";
+    parentId = (formData.get("parent_id") as string) || null;
+    files = filesFromForm(formData);
   } else {
     // Form submission — auth via cookie
     isForm = true;
@@ -704,15 +1111,19 @@ paste.post("/", async (c) => {
     parentId = (form.parent_id as string) || null;
   }
 
-  if (!body) {
-    const msg = "Body is required";
+  if (!body && files.length === 0) {
+    const msg = "Body or at least one file is required";
     return isForm
-      ? c.html(htmlPage("Error", `<h1>Error</h1><p>${msg}</p>`), 400)
+      ? c.html(htmlPage("Error", `<h1>Error</h1><p>${msg}</p><p style="margin-top:1rem"><a href="/paste">back</a></p>`), 400)
       : c.json({ error: msg }, 400);
   }
 
+  body = body || "";
+
   if (!title) {
-    title = extractTitle(body, language);
+    // A file-only paste has no text to mine a title from; name it after its
+    // first file so it reads as something in the listings.
+    title = extractTitle(body, language) ?? files[0]?.name;
   }
 
   const id = nanoid(10);
@@ -724,19 +1135,28 @@ paste.post("/", async (c) => {
     .bind(id, body, language, title || null, now, parentId)
     .run();
 
+  // Inherit the parent's files first so they keep their upload order ahead of
+  // anything added in this revision.
+  if (parentId) {
+    await copyAttachments(c.env.DB, parentId, id, now);
+  }
+  const attachments = files.length > 0 ? await storeFiles(c.env, id, files, now) : [];
+
   // Only the latest leaf of a fork chain is indexed. Drop the parent's vectors, embed the new leaf.
   if (parentId) {
     const parent = await c.env.DB.prepare("SELECT title, body FROM paste WHERE id = ?")
       .bind(parentId)
       .first<{ title: string | null; body: string }>();
     if (parent) {
-      c.executionCtx.waitUntil(
+      scheduleBackground(
+        c,
         deletePasteEmbeddings(c.env, [{ id: parentId, title: parent.title, body: parent.body }]),
       );
     }
-    c.executionCtx.waitUntil(removeClusterMembership(c.env, "paste", parentId));
+    scheduleBackground(c, removeClusterMembership(c.env, "paste", parentId));
   }
-  c.executionCtx.waitUntil(
+  scheduleBackground(
+    c,
     (async () => {
       const { vec } = await upsertPasteEmbedding(c.env, id, title || null, body, now);
       if (vec) {
@@ -750,8 +1170,89 @@ paste.post("/", async (c) => {
     return c.redirect(`/paste/${id}`);
   }
 
-  return c.json({ id, url: `/paste/${id}` }, 201);
+  return c.json({ id, url: `/paste/${id}`, attachments }, 201);
 });
+
+// POST /:id/files — attach files to an existing paste (auth required).
+// Bearer callers get JSON; the browser form gets a redirect back to the paste.
+paste.post("/:id/files", async (c) => {
+  const id = c.req.param("id");
+  const wantsJson = (c.req.header("Authorization") || "").startsWith("Bearer ");
+
+  if (!isAuthed(c)) {
+    return wantsJson ? c.json({ error: "Unauthorized" }, 401) : c.redirect("/paste/login");
+  }
+
+  const row = await c.env.DB.prepare("SELECT id FROM paste WHERE id = ?").bind(id).first();
+  if (!row) {
+    return wantsJson
+      ? c.json({ error: "Not found" }, 404)
+      : c.html(htmlPage("Not Found", `<h1>Not found</h1><p class="meta" style="margin-top:1rem">This paste doesn't exist.</p>`), 404);
+  }
+
+  const formData = await c.req.formData();
+  const files = filesFromForm(formData);
+  if (files.length === 0) {
+    return wantsJson ? c.json({ error: "No files" }, 400) : c.redirect(`/paste/${id}`);
+  }
+
+  const attachments = await storeFiles(c.env, id, files, Date.now());
+  return wantsJson ? c.json({ attachments }, 201) : c.redirect(`/paste/${id}`);
+});
+
+// GET /:id/file/:name — serve an attachment (public, like the paste itself).
+// Addressed by name so the URL can be dropped straight into markdown; a
+// re-uploaded name resolves to the newest copy, hence the modest max-age.
+paste.get("/:id/file/:name", async (c) => {
+  const id = c.req.param("id");
+  // Hono decodes path params already — decoding again would throw URIError on a
+  // filename containing a literal %.
+  const name = c.req.param("name");
+
+  const row = await c.env.DB.prepare(
+    `SELECT ${ATTACHMENT_COLUMNS} FROM paste_attachment
+     WHERE paste_id = ? AND attachment_name = ? ORDER BY id DESC LIMIT 1`,
+  )
+    .bind(id, name)
+    .first<PasteAttachment>();
+
+  if (!row) return c.text("Not found", 404);
+
+  const object = await c.env.BUCKET.get(row.attachment_key);
+  if (!object) return c.text("Not found", 404);
+
+  const disposition = c.req.query("download") !== undefined ? "attachment" : "inline";
+  return new Response(object.body, {
+    headers: {
+      "Content-Type": row.attachment_type || "application/octet-stream",
+      "Content-Disposition": `${disposition}; filename*=UTF-8''${encodeURIComponent(row.attachment_name)}`,
+      "Cache-Control": "public, max-age=3600",
+      ETag: `"${row.id}"`,
+    },
+  });
+});
+
+// Detach a file. The bytes go only when nothing else points at them — forks
+// share one R2 object with the revision they were forked from.
+async function detachFile(c: Context<{ Bindings: Env }, "/:id/file/:name">) {
+  const id = c.req.param("id");
+  const name = c.req.param("name");
+  const wantsJson = (c.req.header("Authorization") || "").startsWith("Bearer ");
+
+  if (!isAuthed(c)) {
+    return wantsJson ? c.json({ error: "Unauthorized" }, 401) : c.redirect("/paste/login");
+  }
+
+  const removed = await detachByName(c.env, id, name);
+  if (removed === 0) {
+    return wantsJson ? c.json({ error: "Not found" }, 404) : c.redirect(`/paste/${id}`);
+  }
+
+  return wantsJson ? c.json({ ok: true }) : c.redirect(`/paste/${id}`);
+}
+
+paste.post("/:id/file/:name/delete", detachFile);
+paste.delete("/:id/file/:name", detachFile);
 
 // GET /:id/module — compiled JSX/TSX as ES module (public)
 paste.get("/:id/module", async (c) => {
@@ -993,8 +1494,8 @@ paste.get("/:id", async (c) => {
     ogUrl: `${SITE_URL}/paste/${row.id}`,
   };
 
-  // Fetch revision chain (ancestors + children)
-  const [ancestorRows, childRows] = await Promise.all([
+  // Fetch revision chain (ancestors + children) and this revision's files
+  const [ancestorRows, childRows, attachments] = await Promise.all([
     row.parent_id
       ? c.env.DB.prepare(`
           WITH RECURSIVE ancestors(id, title, parent_id, depth) AS (
@@ -1010,6 +1511,7 @@ paste.get("/:id", async (c) => {
     c.env.DB.prepare("SELECT id, title, created_at FROM paste WHERE parent_id = ? ORDER BY created_at ASC")
       .bind(id)
       .all<{ id: string; title: string | null; created_at: number }>(),
+    loadAttachments(c.env.DB, id),
   ]);
 
   const ancestors = ancestorRows.results;
@@ -1172,11 +1674,12 @@ paste.get("/:id", async (c) => {
     </div>
     <hr class="rule">
     ${rendered}
+    ${attachmentsHtml(row.id, attachments, authed)}
     <div class="actions">
       <a href="/paste/${escapeHtml(row.id)}/raw">raw</a>
       <a href="/paste/fork/${escapeHtml(row.id)}">fork</a>${diffLink ? `
       ${diffLink}` : ""}${shareToggle ? `
-      ${shareToggle}` : ""}${row.language === "markdown" ? `
+      ${shareToggle}` : ""}${row.language === "markdown" && row.body.trim() ? `
       <button id="play-btn" style="display:inline-block;vertical-align:middle;padding:0.35rem 1rem;font-size:0.75rem">listen</button>
       <audio id="audio-player" preload="none" style="display:none;height:2rem;vertical-align:middle"></audio>
       <span id="audio-status" class="meta" style="margin-left:0.5rem"></span>
