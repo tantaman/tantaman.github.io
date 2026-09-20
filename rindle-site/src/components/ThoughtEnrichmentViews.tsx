@@ -4,6 +4,7 @@ import { useRoot } from "@rindle/react";
 import type { ResultType } from "@rindle/react";
 
 import { app, currentQueryContext } from "../rindle-client.ts";
+import { normalizeMovieTitle } from "../../shared/thought-enrichments.ts";
 import { useThoughtsFeed } from "./ThoughtsFeed.tsx";
 import {
   ENRICHMENT_MAX_LIMIT,
@@ -311,13 +312,91 @@ export function BooksEnrichmentView() {
 }
 
 export function MoviesEnrichmentView() {
+  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
   const [allRows, { status }] = useRoot(thoughtMoviesQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly MovieEnrichmentRow[];
   return (
     <LaneFrame code="#m" title="Movies" description="Deduplicated movie mentions with optional TMDB posters, release years, and ratings." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
-      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.posterUrl} meta={[row.year ?? "", row.voteAverage ? `${row.voteAverage.toFixed(1)}/10` : ""]} description={firstMentionDescription(row.mentions)} externalUrl={row.tmdbId ? `https://www.themoviedb.org/movie/${row.tmdbId}` : null} source={firstMentionSource(row.mentions)} mentionCount={row.mentionCount} />)}</div>
+      <div className="thought-media-grid">{rows.map((row) => <MovieCard key={row.id} row={row} editable={isAdmin} />)}</div>
     </LaneFrame>
+  );
+}
+
+function tmdbIdFromUrl(value: string): number | null | undefined {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  try {
+    const url = new URL(trimmed);
+    if (url.hostname !== "www.themoviedb.org" && url.hostname !== "themoviedb.org") return undefined;
+    const match = url.pathname.match(/^\/movie\/(\d+)(?:-|\/|$)/);
+    if (!match) return undefined;
+    const id = Number(match[1]);
+    return Number.isSafeInteger(id) && id > 0 ? id : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function MovieCard({ row, editable }: { row: MovieEnrichmentRow; editable: boolean }) {
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState(row.title);
+  const [url, setUrl] = useState(row.tmdbId ? `https://www.themoviedb.org/movie/${row.tmdbId}` : "");
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const externalUrl = row.tmdbId ? `https://www.themoviedb.org/movie/${row.tmdbId}` : null;
+  const art = row.posterUrl
+    ? <img src={row.posterUrl} alt="" loading="lazy" />
+    : <span className="thought-media-placeholder" aria-hidden="true">{row.title.slice(0, 1).toUpperCase()}</span>;
+
+  function submitMovie(nextTitle: string, nextUrl: string) {
+    const cleanTitle = nextTitle.trim();
+    const tmdbId = tmdbIdFromUrl(nextUrl);
+    if (!cleanTitle) return setValidationError("Title is required.");
+    if (tmdbId === undefined) return setValidationError("Enter a TMDB movie URL, or leave it blank.");
+    setValidationError(null);
+    app.mutate.updateMovie({
+      id: row.id,
+      title: cleanTitle,
+      normalizedTitle: normalizeMovieTitle(cleanTitle),
+      tmdbId,
+    });
+    setEditing(false);
+  }
+
+  return (
+    <article className={`thought-media-card thought-movie-card${editing ? " is-editing" : ""}`}>
+      {editable && !editing ? (
+        <button className="thought-movie-edit" type="button" aria-label={`Edit ${row.title}`} title="Edit movie" onClick={() => setEditing(true)}>✎</button>
+      ) : null}
+      {externalUrl ? <a className="thought-media-art" href={externalUrl} target="_blank" rel="noreferrer">{art}</a> : <div className="thought-media-art">{art}</div>}
+      <div className="thought-media-info">
+        {editing ? (
+          <form className="thought-movie-form" onSubmit={(event) => { event.preventDefault(); submitMovie(title, url); }}>
+            <label>Title<input autoFocus value={title} onChange={(event) => setTitle(event.target.value)} /></label>
+            <label>TMDB URL<input inputMode="url" placeholder="https://www.themoviedb.org/movie/…" value={url} onChange={(event) => setUrl(event.target.value)} /></label>
+            {validationError ? <p className="thought-movie-error" role="alert">{validationError}</p> : null}
+            <div className="thought-movie-form-actions">
+              <button type="button" onClick={() => { setEditing(false); setTitle(row.title); setUrl(externalUrl ?? ""); setValidationError(null); }}>Cancel</button>
+              <button type="submit">Save &amp; enrich</button>
+            </div>
+          </form>
+        ) : (
+          <>
+            <h2>{row.title}{row.mentionCount > 1 ? <small> ×{row.mentionCount}</small> : null}</h2>
+            {[row.year ?? "", row.voteAverage ? `${row.voteAverage.toFixed(1)}/10` : ""].filter(Boolean).length > 0 ? <p className="thought-media-meta">{[row.year ?? "", row.voteAverage ? `${row.voteAverage.toFixed(1)}/10` : ""].filter(Boolean).join(" · ")}</p> : null}
+            {row.metadataStatus === "pending" ? <p className="thought-movie-status">Enriching…</p> : null}
+            {row.metadataStatus === "not-found" ? <p className="thought-movie-error">No TMDB match found.</p> : null}
+            {row.metadataStatus === "unavailable" ? <p className="thought-movie-error">TMDB enrichment is not configured.</p> : null}
+            {row.metadataStatus === "error" ? <p className="thought-movie-error">TMDB enrichment failed.</p> : null}
+            <Description>{firstMentionDescription(row.mentions)}</Description>
+            <div className="thought-movie-links">
+              <SourceLink source={firstMentionSource(row.mentions)} />
+              {editable ? <button type="button" onClick={() => submitMovie(row.title, externalUrl ?? "")}>Re-enrich</button> : null}
+            </div>
+          </>
+        )}
+      </div>
+    </article>
   );
 }
 

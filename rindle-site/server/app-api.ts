@@ -20,6 +20,7 @@ import { mutators, schema } from "../shared/app-def.ts";
 import { canPublish, commentAuthorName } from "../shared/auth.ts";
 import type { Identity } from "../shared/auth.ts";
 import {
+  scheduleMovieEnrichment,
   scheduleThoughtEnrichments,
   type ThoughtEnrichmentConfig,
 } from "./thought-enrichment.ts";
@@ -183,6 +184,11 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
       const args = mutators.createThought.args.parse(raw);
       await scope.transact(mutators.createThought, args, publisherPrincipal(ctx));
       await scheduleThoughtEnrichments(scope.sql, args.enrichments, opts.thoughtEnrichment ?? {});
+    }),
+    updateMovie: scoped<User, unknown>(async (scope, raw, ctx) => {
+      const args = mutators.updateMovie.args.parse(raw);
+      await scope.transact(mutators.updateMovie, args, publisherPrincipal(ctx));
+      await scheduleMovieEnrichment(scope.sql, args, opts.thoughtEnrichment?.tmdbApiKey);
     }),
   });
   return createRindleApiServer<User>({

@@ -314,6 +314,13 @@ const normalizedMediaEnrichmentArg = titledEnrichmentArg.extend({
   linkId: stableId,
   normalizedTitle: z.string().trim().min(1).max(2_000),
 });
+const updateMovieArgs = z.object({
+  id: stableId,
+  title: structuredTitle,
+  normalizedTitle: z.string().trim().min(1).max(2_000),
+  tmdbId: z.number().int().positive().nullable(),
+});
+export type UpdateMovieArgs = z.infer<typeof updateMovieArgs>;
 const taskDependencyArg = z.object({
   id: stableId,
   blockerTaskId: stableId,
@@ -1009,6 +1016,26 @@ const createThought = shared(createThoughtArgs, function* (tx, args, ctx) {
   }
 });
 
+/** Correct a normalized movie profile and mark it for authority-side metadata refresh. The TMDB URL
+ * is represented by its stable numeric id; the UI renders the canonical URL from this value. */
+const updateMovie = shared(updateMovieArgs, function* (tx, args, ctx) {
+  requireMutationUser(ctx.user);
+  const movie = (yield tx.row("movie", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!movie) throw new Error("Movie not found.");
+  yield tx.update("movie", {
+    id: args.id,
+    title: args.title,
+    normalizedTitle: args.normalizedTitle,
+    tmdbId: args.tmdbId,
+    posterUrl: null,
+    year: null,
+    voteAverage: null,
+    voteCount: null,
+    metadataStatus: "pending",
+    metadataProjectionVersion: null,
+  });
+});
+
 /** Edit a thought in place. The prior body is snapshotted explicitly before the update—the
  * trigger-free equivalent of the legacy thought_history_snapshot trigger. expectedVersion prevents
  * a stale editor from silently overwriting a newer body. */
@@ -1462,6 +1489,7 @@ export const mutators = {
   setPasteShared,
   deletePaste,
   createThought,
+  updateMovie,
   editThought,
   updateTaskState,
   updateQuestionState,

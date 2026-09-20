@@ -1,6 +1,7 @@
 import type { ServerSql } from "@rindle/api-server";
 
 import type { CreateThoughtArgs } from "../shared/app-def.ts";
+import type { UpdateMovieArgs } from "../shared/app-def.ts";
 
 type Enrichments = CreateThoughtArgs["enrichments"];
 
@@ -143,7 +144,48 @@ async function enrichMovie(
     return;
   }
 
-  const metadata = await lookupMovie(title, token);
+  await writeMovieMetadata(sql, stored.id, title, null, token);
+}
+
+export async function scheduleMovieEnrichment(
+  sql: ServerSql,
+  movie: UpdateMovieArgs,
+  token?: string,
+): Promise<void> {
+  const work = writeMovieMetadata(sql, movie.id, movie.title, movie.tmdbId, token).catch(async (error) => {
+    console.error("movie enrichment failed", error);
+    await sql.execute(
+      `UPDATE "movie" SET "metadataStatus" = 'error', "metadataProjectionVersion" = ? WHERE "id" = ?`,
+      [MOVIE_PROJECTION, movie.id],
+    );
+  });
+  try {
+    const specifier = "cloudflare:workers";
+    const workers = (await import(/* @vite-ignore */ specifier)) as {
+      waitUntil?: (promise: Promise<unknown>) => void;
+    };
+    workers.waitUntil?.(work);
+  } catch {
+    void work;
+  }
+}
+
+async function writeMovieMetadata(
+  sql: ServerSql,
+  id: string,
+  title: string,
+  tmdbId: number | null,
+  token?: string,
+): Promise<void> {
+  if (!token) {
+    await sql.execute(
+      `UPDATE "movie" SET "metadataStatus" = 'unavailable', "metadataProjectionVersion" = ? WHERE "id" = ?`,
+      [MOVIE_PROJECTION, id],
+    );
+    return;
+  }
+  const result = await lookupMovie(title, tmdbId, token);
+  const metadata = result.metadata;
   await sql.execute(
     `UPDATE "movie"
      SET "posterUrl" = ?, "year" = ?, "tmdbId" = ?, "voteAverage" = ?, "voteCount" = ?,
@@ -155,29 +197,40 @@ async function enrichMovie(
       metadata?.tmdbId ?? null,
       metadata?.voteAverage ?? null,
       metadata?.voteCount ?? null,
-      metadata ? "ready" : "not-found",
+      result.status,
       MOVIE_PROJECTION,
-      stored.id,
+      id,
     ],
   );
 }
 
-async function lookupMovie(title: string, token: string): Promise<{
-  posterUrl: string;
-  year: string;
-  tmdbId: number;
-  voteAverage: number;
-  voteCount: number;
-} | null> {
+async function lookupMovie(title: string, tmdbId: number | null, token: string): Promise<{
+  status: "ready" | "not-found" | "error";
+  metadata: {
+    posterUrl: string | null;
+    year: string;
+    tmdbId: number;
+    voteAverage: number;
+    voteCount: number;
+  } | null;
+}> {
   try {
-    const url = new URL("https://api.themoviedb.org/3/search/movie");
-    url.searchParams.set("query", title);
+    const url = tmdbId
+      ? new URL(`https://api.themoviedb.org/3/movie/${tmdbId}`)
+      : new URL("https://api.themoviedb.org/3/search/movie");
+    if (!tmdbId) url.searchParams.set("query", title);
     const response = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
-    if (!response.ok) return null;
+    if (response.status === 404) return { status: "not-found", metadata: null };
+    if (!response.ok) return { status: "error", metadata: null };
     const data = await response.json() as {
+      id?: number;
+      poster_path?: string | null;
+      release_date?: string;
+      vote_average?: number;
+      vote_count?: number;
       results?: Array<{
         id: number;
         poster_path?: string | null;
@@ -186,17 +239,20 @@ async function lookupMovie(title: string, token: string): Promise<{
         vote_count?: number;
       }>;
     };
-    const result = data.results?.[0];
-    if (!result?.poster_path) return null;
+    const result = tmdbId ? data : data.results?.[0];
+    if (!result?.id) return { status: "not-found", metadata: null };
     return {
-      posterUrl: `https://image.tmdb.org/t/p/w300${result.poster_path}`,
-      year: result.release_date?.slice(0, 4) ?? "",
-      tmdbId: result.id,
-      voteAverage: result.vote_average ?? 0,
-      voteCount: result.vote_count ?? 0,
+      status: "ready",
+      metadata: {
+        posterUrl: result.poster_path ? `https://image.tmdb.org/t/p/w300${result.poster_path}` : null,
+        year: result.release_date?.slice(0, 4) ?? "",
+        tmdbId: result.id,
+        voteAverage: result.vote_average ?? 0,
+        voteCount: result.vote_count ?? 0,
+      },
     };
   } catch {
-    return null;
+    return { status: "error", metadata: null };
   }
 }
 

@@ -160,6 +160,7 @@ function PasteBody({ paste }: { paste: PasteDetailRow }) {
           for (const code of nodes) {
             const diagram = document.createElement('div');
             diagram.className = 'mermaid';
+            diagram.dataset.mermaidBootstrap = '';
             diagram.textContent = code.textContent || '';
             diagram.dataset.source = diagram.textContent;
             code.parentElement?.replaceWith(diagram);
@@ -178,7 +179,10 @@ function PasteBody({ paste }: { paste: PasteDetailRow }) {
     const content = contentRef.current;
     if (paste.language !== "markdown" || !content) return;
 
-    const diagrams = [...content.querySelectorAll<HTMLElement>(".mermaid, pre > code.language-mermaid")]
+    // A direct request may already have upgraded these nodes through the SSR bootstrap. Only
+    // claim untouched fenced blocks here; otherwise the bootstrap and hydration can race Mermaid
+    // against itself and the error path would replace a valid SVG with source text.
+    const diagrams = [...content.querySelectorAll<HTMLElement>("pre > code.language-mermaid")]
       .map((code) => {
         if (code.classList.contains("mermaid")) return code;
         const container = document.createElement("div");

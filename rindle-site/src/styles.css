@@ -1784,7 +1784,38 @@ main.app-main:has(> .thoughts-shell) {
   gap: clamp(14px, 3vw, 24px);
 }
 .thought-media-card {
+  position: relative;
   min-width: 0;
+}
+.thought-movie-edit {
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, white 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--raise) 88%, transparent);
+  color: var(--ink);
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity 130ms ease, transform 130ms ease, background 130ms ease;
+}
+.thought-movie-card:hover .thought-movie-edit,
+.thought-movie-edit:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.thought-movie-edit:hover,
+.thought-movie-edit:focus-visible {
+  background: var(--raise);
+  color: var(--accent);
+  outline: none;
 }
 .thought-media-art {
   display: grid;
@@ -1823,6 +1854,77 @@ main.app-main:has(> .thoughts-shell) {
   display: inline-block;
   margin-top: 8px;
   padding-left: 0;
+}
+.thought-movie-form {
+  display: grid;
+  gap: 10px;
+}
+.thought-movie-form label {
+  display: grid;
+  gap: 4px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+}
+.thought-movie-form input {
+  min-width: 0;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  text-transform: none;
+}
+.thought-movie-form input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.thought-movie-form-actions,
+.thought-movie-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.thought-movie-form-actions {
+  justify-content: flex-end;
+}
+.thought-movie-form-actions button,
+.thought-movie-links button {
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  cursor: pointer;
+}
+.thought-movie-form-actions button:hover,
+.thought-movie-links button:hover {
+  color: var(--accent);
+}
+.thought-movie-links {
+  margin-top: 8px;
+}
+.thought-movie-links .thought-lane-source {
+  padding-left: 0;
+}
+.thought-movie-status,
+.thought-movie-error {
+  margin: 6px 0 0;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+}
+.thought-movie-status { color: var(--ink-3); }
+.thought-movie-error { color: #c65353; }
+
+@media (hover: none) {
+  .thought-movie-edit { opacity: 1; transform: none; }
 }
 
 @media (max-width: 900px) {
