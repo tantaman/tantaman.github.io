@@ -3599,24 +3599,24 @@ main.app-main:has(> .thoughts-shell) {
 .thought-composer--compact .thought-composer-preview {
   min-height: 92px;
 }
-.thought-image-dropzone {
+.thought-file-dropzone {
   position: relative;
 }
-.thought-image-dropzone.is-dragging {
+.thought-file-dropzone.is-dragging {
   background: color-mix(in srgb, var(--accent) 7%, transparent);
 }
-.thought-image-staging {
+.thought-file-staging {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
   gap: 9px;
   padding: 4px 16px 12px;
 }
-.thought-image-staging figure {
+.thought-file-staging figure {
   position: relative;
   min-width: 0;
   margin: 0;
 }
-.thought-image-staging img {
+.thought-file-staging img {
   display: block;
   width: 100%;
   height: 96px;
@@ -3625,7 +3625,27 @@ main.app-main:has(> .thoughts-shell) {
   background: var(--panel);
   object-fit: cover;
 }
-.thought-image-staging button {
+.thought-file-staging .thought-file-badge {
+  display: grid;
+  width: 100%;
+  height: 96px;
+  place-items: center;
+  border: 1px dashed var(--line-2);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.thought-file-staging .thought-file-badge span {
+  max-width: calc(100% - 16px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.thought-file-staging button {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -3643,7 +3663,7 @@ main.app-main:has(> .thoughts-shell) {
   line-height: 1;
   cursor: pointer;
 }
-.thought-image-staging figcaption {
+.thought-file-staging figcaption {
   margin-top: 4px;
   overflow: hidden;
   color: var(--ink-3);
@@ -3652,7 +3672,7 @@ main.app-main:has(> .thoughts-shell) {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.thought-image-prompt {
+.thought-file-prompt {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -3661,7 +3681,7 @@ main.app-main:has(> .thoughts-shell) {
   font-family: var(--font-mono);
   font-size: 9.5px;
 }
-.thought-image-prompt button {
+.thought-file-prompt button {
   padding: 3px 7px;
   border: 1px dashed var(--line-2);
   border-radius: 5px;
@@ -3670,19 +3690,19 @@ main.app-main:has(> .thoughts-shell) {
   font: inherit;
   cursor: pointer;
 }
-.thought-image-prompt button:hover,
-.thought-image-prompt button:focus-visible {
+.thought-file-prompt button:hover,
+.thought-file-prompt button:focus-visible {
   border-color: var(--accent);
   outline: none;
 }
-.thought-image-prompt input {
+.thought-file-prompt input {
   position: absolute;
   width: 1px;
   height: 1px;
   opacity: 0;
   pointer-events: none;
 }
-.thought-image-drop-overlay {
+.thought-file-drop-overlay {
   position: absolute;
   z-index: 4;
   inset: 4px;
@@ -3697,10 +3717,11 @@ main.app-main:has(> .thoughts-shell) {
   font-weight: 700;
   pointer-events: none;
 }
-.thought-image-dropzone.is-compact .thought-image-staging {
+.thought-file-dropzone.is-compact .thought-file-staging {
   grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
 }
-.thought-image-dropzone.is-compact .thought-image-staging img {
+.thought-file-dropzone.is-compact .thought-file-staging img,
+.thought-file-dropzone.is-compact .thought-file-staging .thought-file-badge {
   height: 72px;
 }
 .thought-composer-tags,
@@ -5111,7 +5132,7 @@ main.app-main:has(.framing-canvas-wrap) {
 .framing-compose-node .thought-composer-footer {
   padding-left: 10px;
 }
-.framing-compose-node .thought-image-prompt span {
+.framing-compose-node .thought-file-prompt span {
   display: none;
 }
 .framing-compose-textarea {

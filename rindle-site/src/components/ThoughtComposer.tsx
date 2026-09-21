@@ -10,7 +10,7 @@ import {
 import { ulid } from "ulid";
 
 import type { Thought } from "../../shared/app-def.ts";
-import { uploadThoughtImages } from "../lib/attachments.ts";
+import { uploadThoughtFiles } from "../lib/attachments.ts";
 import {
   extractThoughtTags,
   hashThoughtBody,
@@ -19,7 +19,7 @@ import {
   thoughtTagArgs,
 } from "../lib/thoughts.ts";
 import { app } from "../rindle-client.ts";
-import { ThoughtImageDropzone, useThoughtImages } from "./ThoughtImageDropzone.tsx";
+import { ThoughtFileDropzone, useThoughtFiles } from "./ThoughtFileDropzone.tsx";
 
 export type EditableThought = Pick<Thought, "id" | "body" | "version" | "private">;
 
@@ -53,7 +53,7 @@ export function ThoughtComposer({
   const [previewing, setPreviewing] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const imageController = useThoughtImages();
+  const fileController = useThoughtFiles();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const hintId = useId();
   const tags = useMemo(() => extractThoughtTags(body), [body]);
@@ -82,7 +82,7 @@ export function ThoughtComposer({
     const unchanged = initial
       && trimmed === initial.body
       && isPrivate === (initial.private === 1)
-      && imageController.images.length === 0;
+      && fileController.files.length === 0;
     if (unchanged) {
       onDone?.(initial.id);
       return;
@@ -93,7 +93,7 @@ export function ThoughtComposer({
     try {
       const [bodyHash, attachments] = await Promise.all([
         hashThoughtBody(trimmed),
-        uploadThoughtImages(imageController.images),
+        uploadThoughtFiles(fileController.files),
       ]);
       const now = Date.now();
       const contentRevision = ulid();
@@ -111,7 +111,7 @@ export function ThoughtComposer({
           tags: thoughtTagArgs(trimmed),
           attachments,
         });
-        imageController.reset();
+        fileController.reset();
         onDone?.(initial.id);
         return;
       }
@@ -137,7 +137,7 @@ export function ThoughtComposer({
       });
       setBody("");
       setPreviewing(false);
-      imageController.reset();
+      fileController.reset();
       onDone?.(thoughtId);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Could not save this thought.");
@@ -178,7 +178,7 @@ export function ThoughtComposer({
         </button>
       </div>
 
-      <ThoughtImageDropzone controller={imageController} compact={compact}>
+      <ThoughtFileDropzone controller={fileController} compact={compact}>
         {previewing ? (
           <div
             className="thought-markdown thought-composer-preview"
@@ -197,7 +197,7 @@ export function ThoughtComposer({
             onKeyDown={submitFromKeyboard}
           />
         )}
-      </ThoughtImageDropzone>
+      </ThoughtFileDropzone>
 
       {tags.length > 0 ? (
         <div className="thought-composer-tags" aria-label="Detected tags">
@@ -206,7 +206,7 @@ export function ThoughtComposer({
       ) : null}
 
       <div className="thought-composer-footer">
-        <p id={hintId}>Markdown · structured line tags · Cmd/Ctrl + Enter</p>
+        <p id={hintId}>Markdown · structured line tags · paste or drop files · Cmd/Ctrl + Enter</p>
         <label className="thought-private-toggle">
           <input
             type="checkbox"
@@ -225,8 +225,8 @@ export function ThoughtComposer({
           {submitting ? "Saving…" : label}
         </button>
       </div>
-      {error || imageController.error ? (
-        <p className="thought-composer-error" role="alert">{error ?? imageController.error}</p>
+      {error || fileController.error ? (
+        <p className="thought-composer-error" role="alert">{error ?? fileController.error}</p>
       ) : null}
     </form>
   );
