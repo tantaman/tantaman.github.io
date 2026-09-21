@@ -30,6 +30,10 @@ export interface ItemTargetOptions {
  *  note, no source thought — so placing one publishes the artwork and nothing behind it. */
 export function framingNodeItems(node: typeof q.framingNode, { admin, limit }: ItemTargetOptions) {
   return node
+    // One window serves both arrangements: the board reads the sequence directly, and the canvas
+    // ignores it because it positions by x/y. `(position, id)` is a total order even for framings
+    // whose nodes all predate the board and tie at position 0.
+    .orderBy("position", "asc")
     .orderBy("id", "asc")
     .limit(limit)
     .sub("thought", relationships.framingNodeThought, (row) => {

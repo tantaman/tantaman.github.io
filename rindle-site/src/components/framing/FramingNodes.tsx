@@ -243,7 +243,7 @@ export const FramingNestedNode = memo(function FramingNestedNode({ data }: NodeP
 
 export const FramingItemNode = memo(function FramingItemNode({ data }: NodeProps<ItemFlowNode>) {
   return (
-    <div className={`framing-item-node framing-item-node--${data.target.kind}`}>
+    <div className={`framing-item-node item-hue--${data.target.kind}`}>
       {data.editable && data.onRemove ? (
         <button
           type="button"

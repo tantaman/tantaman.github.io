@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 import { ulid } from "ulid";
@@ -40,15 +40,25 @@ export function FramingsListView({ isAdmin }: { isAdmin: boolean }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  function create(event: FormEvent) {
-    event.preventDefault();
+  /** Which arrangement a new framing opens in is chosen at creation, because the two are used
+   *  differently: a board is where you pile things quickly, a canvas is where you say how they
+   *  relate. Either can be flipped to the other later without moving a row. */
+  function create(defaultView: "board" | "canvas") {
     const nextName = name.trim();
     if (!isAdmin || !nextName) return;
     const now = Date.now();
     const id = ulid();
     try {
       app.mutate.createFraming({
-        framing: { id, name: nextName, description: null, private: isPrivate ? 1 : 0, createdAt: now, updatedAt: now },
+        framing: {
+          id,
+          name: nextName,
+          description: null,
+          private: isPrivate ? 1 : 0,
+          defaultView,
+          createdAt: now,
+          updatedAt: now,
+        },
       });
       setName("");
       setIsPrivate(false);
@@ -153,7 +163,7 @@ export function FramingsListView({ isAdmin }: { isAdmin: boolean }) {
         <p>Spatial arrangements of thoughts, essays, and other framings. Every canvas stays live as its Rindle views change.</p>
       </header>
       {isAdmin ? (
-        <form className="framings-create" onSubmit={create}>
+        <form className="framings-create" onSubmit={(event) => { event.preventDefault(); create("board"); }}>
           <input
             type="text"
             className="framings-name-input"
@@ -171,7 +181,13 @@ export function FramingsListView({ isAdmin }: { isAdmin: boolean }) {
             <span aria-hidden="true" />
             Private
           </label>
-          <button type="submit" className="framings-create-btn" disabled={!name.trim()}>Create</button>
+          <button type="submit" className="framings-create-btn" disabled={!name.trim()}>New board</button>
+          <button
+            type="button"
+            className="framings-create-btn"
+            disabled={!name.trim()}
+            onClick={() => create("canvas")}
+          >New canvas</button>
           <button type="button" className="framings-create-btn" onClick={() => fileInputRef.current?.click()}>Import</button>
           <input ref={fileInputRef} type="file" accept="application/json,.json" hidden onChange={(event) => void importFile(event)} />
         </form>
