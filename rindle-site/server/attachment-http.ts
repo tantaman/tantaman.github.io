@@ -1,6 +1,10 @@
-// Authorized access to thought attachments. Authored image bytes land in R2 before their metadata
+// Authorized access to thought attachments. Authored file bytes land in R2 before their metadata
 // enters the shared create/edit mutation; reads still require a visible Rindle metadata row. Keys
 // that exist in the bucket but are not referenced by a visible thought remain inaccessible.
+//
+// Any file type is accepted. Only the image types below are ever served inline (`?preview=1`);
+// everything else goes out as a download with `nosniff`, so a stored type can never turn an
+// attachment into a page on this origin.
 
 import { createSqlClient } from "@rindle/sql-client";
 
@@ -26,7 +30,22 @@ const SAFE_INLINE_MEDIA_TYPES = new Set([
   "image/png",
   "image/webp",
 ]);
-const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
+// Types a browser would run or render as a document if they were ever served inline. They are
+// stored as opaque bytes so a later change to the inline rules cannot make them executable.
+const ACTIVE_MEDIA_TYPES = new Set([
+  "application/ecmascript",
+  "application/javascript",
+  "application/x-javascript",
+  "application/xhtml+xml",
+  "application/xml",
+  "image/svg+xml",
+  "text/html",
+  "text/javascript",
+  "text/xml",
+]);
+const GENERIC_MEDIA_TYPE = "application/octet-stream";
+const MEDIA_TYPE = /^[a-z0-9][a-z0-9!#$&^_.+-]{0,126}\/[a-z0-9][a-z0-9!#$&^_.+-]{0,126}$/;
+const MAX_ATTACHMENT_BYTES = 15 * 1024 * 1024;
 const ATTACHMENT_ID = /^[0-9A-HJKMNP-TV-Z]{26}$/;
 const AUTHORED_STORAGE_KEY = /^authored\/thoughts\/[0-9A-HJKMNP-TV-Z]{26}$/;
 
@@ -187,6 +206,13 @@ function uploadFileName(request: Request): string | null {
   }
 }
 
+/** The media type an upload is stored under: the claimed one when it is well formed and inert. */
+function uploadMediaType(request: Request): string {
+  const claimed = (request.headers.get("Content-Type") ?? "").split(";", 1)[0].trim().toLowerCase();
+  if (!MEDIA_TYPE.test(claimed) || ACTIVE_MEDIA_TYPES.has(claimed)) return GENERIC_MEDIA_TYPE;
+  return claimed;
+}
+
 export async function handleAttachmentUpload(request: Request): Promise<Response> {
   try {
     const origin = request.headers.get("Origin");
@@ -196,19 +222,19 @@ export async function handleAttachmentUpload(request: Request): Promise<Response
 
     const id = request.headers.get("X-Attachment-Id") ?? "";
     const fileName = uploadFileName(request);
-    const mediaType = (request.headers.get("Content-Type") ?? "").split(";", 1)[0].toLowerCase();
-    if (!ATTACHMENT_ID.test(id) || !fileName || !SAFE_INLINE_MEDIA_TYPES.has(mediaType)) {
-      return textResponse("Invalid image upload", 400);
-    }
+    const mediaType = uploadMediaType(request);
+    if (!ATTACHMENT_ID.test(id) || !fileName) return textResponse("Invalid attachment upload", 400);
     const claimedLength = Number(request.headers.get("Content-Length"));
-    if (Number.isFinite(claimedLength) && claimedLength > MAX_IMAGE_BYTES) {
-      return textResponse("Images must be 15 MB or smaller", 413);
+    if (Number.isFinite(claimedLength) && claimedLength > MAX_ATTACHMENT_BYTES) {
+      return textResponse("Files must be 15 MB or smaller", 413);
     }
     const bytes = await request.arrayBuffer();
-    if (bytes.byteLength === 0 || bytes.byteLength > MAX_IMAGE_BYTES) {
-      return textResponse("Images must be between 1 byte and 15 MB", 413);
+    if (bytes.byteLength === 0 || bytes.byteLength > MAX_ATTACHMENT_BYTES) {
+      return textResponse("Files must be between 1 byte and 15 MB", 413);
     }
-    if (!imageSignatureMatches(mediaType, bytes)) {
+    // Only inline-served types get a signature check: a mislabelled "image" must not become a
+    // document rendered on this origin. Every other type is a download regardless of its bytes.
+    if (SAFE_INLINE_MEDIA_TYPES.has(mediaType) && !imageSignatureMatches(mediaType, bytes)) {
       return textResponse("The file contents do not match its image type", 415);
     }
 
@@ -226,7 +252,7 @@ export async function handleAttachmentUpload(request: Request): Promise<Response
         error: error instanceof Error ? error.message : String(error),
       }),
     );
-    return textResponse("Could not upload image", 500);
+    return textResponse("Could not upload attachment", 500);
   }
 }
 
@@ -268,7 +294,7 @@ export async function handleAttachment(request: Request): Promise<Response> {
       `${preview ? "inline" : "attachment"}; filename*=UTF-8''${dispositionFileName(metadata.fileName)}`,
     );
     headers.set("Content-Length", String(object?.size ?? localObject?.size ?? 0));
-    headers.set("Content-Type", metadata.mediaType || "application/octet-stream");
+    headers.set("Content-Type", metadata.mediaType || GENERIC_MEDIA_TYPE);
     headers.set("ETag", object?.httpEtag ?? localObject?.etag ?? "");
     headers.set("X-Content-Type-Options", "nosniff");
 
