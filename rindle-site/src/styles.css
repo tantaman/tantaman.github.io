@@ -5239,7 +5239,8 @@ main.app-main:has(.framing-canvas-wrap) {
     border-right: 0;
     border-bottom: 1px solid var(--line-2);
   }
-  .framing-canvas {
+  .framing-canvas,
+  .framing-board {
     min-height: 65vh;
   }
   .framing-detail-pane {
@@ -5398,15 +5399,16 @@ main.app-main:has(.framing-canvas-wrap) {
   border-color: var(--accent);
   border-left-color: var(--item-color, var(--accent));
 }
-.framing-item-node--project { --item-color: #ebcb8b; }
-.framing-item-node--task { --item-color: #76a85d; }
-.framing-item-node--question { --item-color: #b48ead; }
-.framing-item-node--event { --item-color: #7aa2f7; }
-.framing-item-node--location { --item-color: #d08770; }
-.framing-item-node--book { --item-color: #a3be8c; }
-.framing-item-node--movie { --item-color: #bf616a; }
-.framing-item-node--album { --item-color: #88c0d0; }
-.framing-item-node--bookmark { --item-color: #8b8394; }
+/* One hue per kind, carried by whichever surface draws it. */
+.item-hue--project { --item-color: #ebcb8b; }
+.item-hue--task { --item-color: #76a85d; }
+.item-hue--question { --item-color: #b48ead; }
+.item-hue--event { --item-color: #7aa2f7; }
+.item-hue--location { --item-color: #d08770; }
+.item-hue--book { --item-color: #a3be8c; }
+.item-hue--movie { --item-color: #bf616a; }
+.item-hue--album { --item-color: #88c0d0; }
+.item-hue--bookmark { --item-color: #8b8394; }
 
 .thought-item-card {
   min-width: 0;
@@ -5492,4 +5494,162 @@ main.app-main:has(.framing-canvas-wrap) {
   margin: 5px 0 0;
   font-size: 11px;
   line-height: 1.45;
+}
+
+/* ------------------------------------------------------------------ board view
+
+   The same framing rows as a sequence. Cards reuse the canvas node's visual language so flipping
+   between arrangements reads as one surface, not two apps. */
+
+.framing-panel-view {
+  display: flex;
+  gap: 2px;
+  margin-top: 8px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+}
+.framing-panel-view-btn {
+  flex: 1;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+.framing-panel-view-btn:hover {
+  color: var(--ink);
+}
+.framing-panel-view-btn.active {
+  background: var(--raise);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.framing-board {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  padding: 18px;
+}
+.framing-board-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.framing-board-card {
+  position: relative;
+  padding: 13px 15px;
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--item-color, var(--line-2));
+  border-radius: 9px;
+  background: var(--raise);
+  cursor: grab;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease, transform 0.14s ease;
+}
+.framing-board-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--ink) 9%, transparent);
+}
+.framing-board-card--post {
+  --item-color: var(--accent);
+}
+.framing-board-card--framing {
+  border-style: dashed;
+  border-color: var(--accent);
+}
+/* Where the dragged card will land. */
+.framing-board-card.is-drop-target {
+  border-left-color: var(--accent);
+  box-shadow: -4px 0 0 0 var(--accent);
+  transform: translateX(3px);
+}
+.framing-board-thought-body {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.framing-board-thought-body p {
+  margin: 0 0 4px;
+}
+.framing-board-thought-body p:last-child {
+  margin-bottom: 0;
+}
+.framing-board-images {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 8px;
+}
+.framing-board-images img {
+  display: block;
+  width: 100%;
+  height: 72px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+  object-fit: cover;
+}
+.framing-board-foot {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 9px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.framing-board-open {
+  color: var(--accent);
+  text-decoration: none;
+}
+.framing-board-open:hover {
+  text-decoration: underline;
+}
+.framing-board-post-title {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.framing-board-post-title:hover {
+  text-decoration: underline;
+}
+.framing-board-post-date {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.framing-board-post-summary {
+  margin-top: 5px;
+  color: var(--ink-2);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.framing-board-nested {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--accent);
+}
+.framing-board-nested-title {
+  flex: 1;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.framing-board-nested-title:hover {
+  color: var(--accent);
 }

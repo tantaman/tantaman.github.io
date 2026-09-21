@@ -16,7 +16,14 @@ import { ulid } from "ulid";
 import { app, currentQueryContext } from "../../rindle-client.ts";
 import { parseList } from "../../lib/format.ts";
 import { itemKey, type ItemKind } from "../../../shared/item-kinds.ts";
-import { resolveEnrichmentTarget, type EnrichmentItemRow } from "../ItemCard.tsx";
+import { resolveEnrichmentTarget } from "../ItemCard.tsx";
+import {
+  one,
+  type FramingDetail,
+  type FramingEdgeRow,
+  type FramingNodeRow,
+  type FramingThoughtRow,
+} from "./rows.ts";
 import {
   FRAMING_CONNECTION_LIMIT,
   framingQuery,
@@ -37,82 +44,13 @@ const NODE_HEIGHT = 150;
 const HORIZONTAL_GAP = 60;
 const VERTICAL_GAP = 80;
 
-interface CanvasThought {
-  id: string;
-  body: string;
-  createdAt: number;
-  color: string | null;
-  private: number;
-  replyCount?: number;
-  attachments?: readonly CanvasThoughtAttachment[];
-}
-
-interface CanvasThoughtAttachment {
-  id: string;
-  storageKey: string;
-  mediaType: string;
-  fileName: string;
-}
-
-interface CanvasPost {
-  id: string;
-  title: string;
-  date: string | null;
-  description: string;
-  tags: string;
-  color: string | null;
-}
-
-interface CanvasNestedFraming {
-  id: string;
-  name: string;
-  private: number;
-  updatedAt: number;
-}
-
-// The enrichment targets ride along through the shared fragment; the three bespoke kinds keep their
-// own fields because their canvas nodes need more than a card does.
-interface CanvasNodeRow extends EnrichmentItemRow {
-  id: string;
-  framingId: string;
-  itemType: string;
-  itemId: string;
-  x: number;
-  y: number;
-  width: number | null;
-  height: number | null;
-  thought?: CanvasThought | readonly CanvasThought[] | null;
-  post?: CanvasPost | readonly CanvasPost[] | null;
-  nestedFraming?: CanvasNestedFraming | readonly CanvasNestedFraming[] | null;
-}
-
-interface CanvasEdgeRow {
-  id: string;
-  framingId: string;
-  sourceNodeId: string;
-  targetNodeId: string;
-  label: string | null;
-  sourceHandle: string | null;
-  targetHandle: string | null;
-  kind: string | null;
-}
-
-interface CanvasDetail {
-  id: string;
-  name: string;
-  description: string | null;
-  private: number;
-  nodes: readonly CanvasNodeRow[];
-  edges: readonly CanvasEdgeRow[];
-}
-
 interface RelatedEdge {
-  thought?: CanvasThought | readonly CanvasThought[] | null;
+  thought?: FramingThoughtRow | readonly FramingThoughtRow[] | null;
 }
 
 interface ConnectionDetail {
   id: string;
-  replies: readonly CanvasThought[];
+  replies: readonly FramingThoughtRow[];
   outbound: readonly RelatedEdge[];
   inbound: readonly RelatedEdge[];
 }
@@ -124,11 +62,6 @@ interface ExpansionRequest {
   thoughtId: string;
 }
 
-function one<T>(value: T | readonly T[] | null | undefined): T | null {
-  if (Array.isArray(value)) return (value[0] ?? null) as T | null;
-  return (value ?? null) as T | null;
-}
-
 const EDGE_COLORS: Record<string, string> = {
   reply: "#7aa2f7",
   link: "#76a85d",
@@ -136,7 +69,7 @@ const EDGE_COLORS: Record<string, string> = {
 const DEFAULT_EDGE_COLOR = "#8b8394";
 
 function toFlowEdge(
-  row: CanvasEdgeRow,
+  row: FramingEdgeRow,
   editable: boolean,
   onLabelChange: (edgeId: string, label: string | null) => void,
 ): FramingFlowEdge {
@@ -170,7 +103,7 @@ function toFlowEdge(
 export function useFramingCanvas(framingId: string, isAdmin: boolean) {
   const context = currentQueryContext();
   const [rawDetail, { status }] = useRoot(framingQuery, framingId, context);
-  const detail = rawDetail as unknown as CanvasDetail | null;
+  const detail = rawDetail as unknown as FramingDetail | null;
   const [expansion, setExpansion] = useState<ExpansionRequest | null>(null);
   const [rawConnections, { status: connectionStatus }] = useRoot(
     framingThoughtConnectionsQuery,
@@ -227,7 +160,7 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
   const expandLinks = useCallback((nodeId: string) => requestExpansion("links", nodeId), [requestExpansion]);
   const expandBacklinks = useCallback((nodeId: string) => requestExpansion("backlinks", nodeId), [requestExpansion]);
 
-  const toFlowNode = useCallback((row: CanvasNodeRow): FramingFlowNode | null => {
+  const toFlowNode = useCallback((row: FramingNodeRow): FramingFlowNode | null => {
     if (row.itemType === "thought") {
       const thought = one(row.thought);
       if (!thought) return null;
@@ -242,8 +175,8 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
           createdAt: thought.createdAt,
           color: thought.color,
           replyCount: thought.replyCount ?? 0,
-          linkCount: (thought as CanvasThought & { linkCount?: number }).linkCount ?? 0,
-          backlinkCount: (thought as CanvasThought & { backlinkCount?: number }).backlinkCount ?? 0,
+          linkCount: thought.linkCount ?? 0,
+          backlinkCount: thought.backlinkCount ?? 0,
           attachments: thought.attachments ?? [],
           editable: isAdmin,
           onRemove: removeNode,
@@ -384,7 +317,7 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
     const parent = nodesRef.current.find((node) => node.id === expansion.parentNodeId);
     if (!parent) { setExpansion(null); return; }
 
-    let items: CanvasThought[] = [];
+    let items: FramingThoughtRow[] = [];
     if (expansion.kind === "replies") {
       items = [...connections.replies];
     } else {

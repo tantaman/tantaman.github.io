@@ -39,7 +39,7 @@ export const framingsQuery = defineQuery(
       .orderBy("updatedAt", "desc")
       .orderBy("id", "asc")
       .limit(limit + 1)
-      .select("id", "authorId", "name", "description", "private", "createdAt", "updatedAt");
+      .select("id", "authorId", "name", "description", "private", "defaultView", "createdAt", "updatedAt");
   },
 );
 

@@ -16,7 +16,7 @@ import { app } from "../../rindle-client.ts";
 import { isItemKind, itemKey } from "../../../shared/item-kinds.ts";
 import { FramingDetailPane } from "./FramingDetailPane.tsx";
 import { FramingLabeledEdge, type FramingEdgeData } from "./FramingEdge.tsx";
-import { FramingLeftPanel } from "./FramingLeftPanel.tsx";
+import { FramingLeftPanel, type FramingViewName } from "./FramingLeftPanel.tsx";
 import {
   FramingComposeNode,
   FramingItemNode,
@@ -178,7 +178,17 @@ function exportFraming(name: string, isPrivate: boolean, nodes: Node[], edges: E
   URL.revokeObjectURL(url);
 }
 
-export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolean }) {
+export function FramingCanvasView({
+  id,
+  isAdmin,
+  view,
+  onViewChange,
+}: {
+  id: string;
+  isAdmin: boolean;
+  view: FramingViewName;
+  onViewChange: (view: FramingViewName) => void;
+}) {
   const {
     nodes,
     edges,
@@ -243,6 +253,8 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
         framingPrivate={framing.private === 1}
         placedItemKeys={placedItemKeys}
         isAdmin={isAdmin}
+        view={view}
+        onViewChange={onViewChange}
         onRename={rename}
         onPrivacyChange={setPrivacy}
       />

@@ -530,11 +530,16 @@ const framingName = z
   .refine((value) => value === value.trim(), "Framing names must not have surrounding whitespace.");
 const framingDescription = z.string().max(20_000).nullable();
 const framingItemType = z.enum(ITEM_KINDS);
+/** The two arrangements of one framing: a drawn canvas, or an ordered board. */
+const framingView = z.enum(["canvas", "board"]);
 const coordinate = z.number().finite().min(-10_000_000).max(10_000_000);
 const framingNodeArg = z.object({
   id: stableId,
   framingId: stableId,
   itemType: framingItemType,
+  // Optional so an export written before the board still imports; the mutator body supplies the
+  // concrete fallback, because the browser's prediction cannot see a column DEFAULT.
+  position: coordinate.optional(),
   itemId: stableId,
   x: coordinate,
   y: coordinate,
@@ -557,6 +562,7 @@ const createFramingArgs = z.object({
     name: framingName,
     description: framingDescription,
     private: storedFlag,
+    defaultView: framingView.optional(),
     createdAt: timestamp,
     updatedAt: timestamp,
   }),
@@ -569,9 +575,13 @@ const updateFramingArgs = z.object({
   name: framingName.optional(),
   description: framingDescription.optional(),
   private: storedFlag.optional(),
+  defaultView: framingView.optional(),
   updatedAt: timestamp,
 }).refine(
-  (args) => args.name !== undefined || args.description !== undefined || args.private !== undefined,
+  (args) => args.name !== undefined
+    || args.description !== undefined
+    || args.private !== undefined
+    || args.defaultView !== undefined,
   "At least one framing field is required.",
 );
 const deleteFramingArgs = z.object({ id: stableId });
@@ -588,6 +598,16 @@ const updateFramingNodesArgs = z.object({
     height: coordinate.nonnegative().nullable().optional(),
   })).min(1).max(1_000),
 });
+/** A board reorder is its own contract: it carries only the sequence, never geometry, so a drag on
+ *  the board can never silently rewrite the canvas arrangement of the same nodes. */
+const reorderFramingNodesArgs = z.object({
+  framingId: stableId,
+  updatedAt: timestamp,
+  nodes: z.array(z.object({
+    id: stableId,
+    position: coordinate,
+  })).min(1).max(1_000),
+});
 const createFramingEdgeArgs = z.object({ edge: framingEdgeArg, updatedAt: timestamp });
 const updateFramingEdgeArgs = z.object({
   framingId: stableId,
@@ -602,6 +622,7 @@ const importFramingArgs = z.object({
     name: framingName,
     description: framingDescription,
     private: storedFlag,
+    defaultView: framingView.optional(),
     createdAt: timestamp,
     updatedAt: timestamp,
   }),
@@ -1174,7 +1195,11 @@ const updateProjectStatus = shared(updateProjectStatusArgs, function* (tx, args,
  * rebases replay the same body. */
 const createFraming = shared(createFramingArgs, function* (tx, args, ctx) {
   const authorId = requireMutationUser(ctx.user);
-  yield tx.insert("framing", { ...args.framing, authorId });
+  yield tx.insert("framing", {
+    ...args.framing,
+    authorId,
+    defaultView: args.framing.defaultView ?? "canvas",
+  });
 });
 
 const updateFraming = shared(updateFramingArgs, function* (tx, args, ctx) {
@@ -1268,7 +1293,7 @@ const addFramingNode = shared(addFramingNodeArgs, function* (tx, args, ctx) {
   );
   if (duplicate.length > 0) throw new Error("This item is already in the framing.");
 
-  yield tx.insert("framingNode", args.node);
+  yield tx.insert("framingNode", { ...args.node, position: args.node.position ?? 0 });
   yield tx.update("framing", { id: args.node.framingId, updatedAt: args.updatedAt });
 });
 
@@ -1304,6 +1329,27 @@ const updateFramingNodes = shared(updateFramingNodesArgs, function* (tx, args, c
     const current = (yield tx.row("framingNode", { id: node.id })) as Record<string, unknown> | undefined;
     if (!current || current.framingId !== args.framingId) throw new Error("Framing node not found.");
     yield tx.update("framingNode", node);
+  }
+  yield tx.update("framing", { id: args.framingId, updatedAt: args.updatedAt });
+});
+
+const reorderFramingNodes = shared(reorderFramingNodesArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const frame = (yield tx.row("framing", { id: args.framingId })) as Record<string, unknown> | undefined;
+  if (!frame) throw new Error("Framing not found.");
+  if (frame.authorId !== authorId) throw new Error("Only the framing author can reorder nodes.");
+  // Renumbering a whole board sends up to 1,000 rows, so ownership is established with one query
+  // rather than one row read per node.
+  const owned = new Set(rowIds(
+    (yield tx.query(
+      q.framingNode.where.framingId(args.framingId).orderBy("id", "asc").limit(1_001),
+    )) as unknown,
+    "framing nodes",
+    1_000,
+  ));
+  for (const node of args.nodes) {
+    if (!owned.has(node.id)) throw new Error("Framing node not found.");
+    yield tx.update("framingNode", { id: node.id, position: node.position });
   }
   yield tx.update("framing", { id: args.framingId, updatedAt: args.updatedAt });
 });
@@ -1354,8 +1400,15 @@ const importFraming = shared(importFramingArgs, function* (tx, args, ctx) {
       throw new Error("A framing cannot contain itself.");
     }
   }
-  yield tx.insert("framing", { ...args.framing, authorId });
-  for (const node of args.nodes) yield tx.insert("framingNode", node);
+  yield tx.insert("framing", {
+    ...args.framing,
+    authorId,
+    defaultView: args.framing.defaultView ?? "canvas",
+  });
+  for (let index = 0; index < args.nodes.length; index++) {
+    const node = args.nodes[index];
+    yield tx.insert("framingNode", { ...node, position: node.position ?? index });
+  }
   for (const edge of args.edges) yield tx.insert("framingEdge", edge);
 });
 
@@ -1512,6 +1565,7 @@ export const mutators = {
   addFramingNode,
   removeFramingNode,
   updateFramingNodes,
+  reorderFramingNodes,
   createFramingEdge,
   updateFramingEdge,
   deleteFramingEdge,

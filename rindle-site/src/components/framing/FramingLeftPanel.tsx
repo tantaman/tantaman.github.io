@@ -42,6 +42,9 @@ import {
   type TaskEnrichmentRow,
 } from "../ThoughtEnrichment.queries.ts";
 
+/** The two arrangements of one framing. Mirrors the `defaultView` column. */
+export type FramingViewName = "board" | "canvas";
+
 type ThoughtPickerRow = FramingThoughtPickerRow;
 
 function truncate(value: string, max: number) {
@@ -368,6 +371,8 @@ export function FramingLeftPanel({
   framingPrivate,
   placedItemKeys,
   isAdmin,
+  view,
+  onViewChange,
   onRename,
   onPrivacyChange,
 }: {
@@ -376,6 +381,8 @@ export function FramingLeftPanel({
   framingPrivate: boolean;
   placedItemKeys: Set<string>;
   isAdmin: boolean;
+  view: FramingViewName;
+  onViewChange: (view: FramingViewName) => void;
   onRename: (name: string) => void;
   onPrivacyChange: (isPrivate: boolean) => void;
 }) {
@@ -449,6 +456,18 @@ export function FramingLeftPanel({
             title={isAdmin ? "Double-click to rename" : undefined}
           >{framingName}</h1>
         )}
+        <div className="framing-panel-view" role="group" aria-label="Arrangement">
+          {(["board", "canvas"] as const).map((name) => (
+            <button
+              type="button"
+              key={name}
+              className={`framing-panel-view-btn${view === name ? " active" : ""}`}
+              aria-pressed={view === name}
+              onClick={() => onViewChange(name)}
+              title={name === "board" ? "Ordered board" : "Drawn canvas"}
+            >{name === "board" ? "Board" : "Canvas"}</button>
+          ))}
+        </div>
         {isAdmin ? (
           <label className="thought-private-toggle framing-panel-privacy">
             <input
