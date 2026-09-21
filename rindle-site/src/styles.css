@@ -4658,25 +4658,29 @@ main.app-main:has(.framing-canvas-wrap) {
 }
 .framing-panel-tabs {
   display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 7px 9px;
   border-bottom: 1px solid var(--line);
 }
 .framing-panel-tab {
-  flex: 1;
-  padding: 9px 4px 7px;
-  border: 0;
-  border-bottom: 2px solid transparent;
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
   background: transparent;
   color: var(--ink-3);
   font: inherit;
-  font-size: 11px;
+  font-size: 10px;
   cursor: pointer;
 }
 .framing-panel-tab:hover {
   color: var(--ink);
 }
 .framing-panel-tab.active {
-  border-bottom-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
 }
 .framing-panel-search {
   position: relative;
@@ -5311,4 +5315,181 @@ main.app-main:has(.framing-canvas-wrap) {
   .powered-by span {
     display: none;
   }
+}
+
+/* ------------------------------------------------------------------ item cards
+
+   One card per enrichment kind, drawn the same in the picker, on a canvas, and on any later board
+   view. The kind's hue is set once as --item-color and inherited by the sigil, so a node and its
+   card never disagree. */
+
+.framing-panel-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 7px;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--raise);
+  font-size: 11px;
+  cursor: grab;
+  transition: border-color 0.14s ease, opacity 0.14s ease;
+}
+.framing-panel-item:hover {
+  border-color: var(--accent);
+}
+.framing-panel-item.placed {
+  opacity: 0.38;
+  cursor: default;
+}
+.framing-panel-item-art {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  object-fit: cover;
+}
+.framing-panel-item-sigil {
+  display: grid;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.framing-panel-item-body {
+  min-width: 0;
+}
+.framing-panel-item-title {
+  overflow: hidden;
+  color: var(--ink);
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.framing-panel-item-meta {
+  margin-top: 2px;
+  overflow: hidden;
+  color: var(--ink-3);
+  font-size: 9.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.framing-item-node {
+  position: relative;
+  min-width: 190px;
+  max-width: 300px;
+  padding: 11px 13px;
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--item-color, var(--line-2));
+  border-radius: 9px;
+  background: var(--raise);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--ink) 9%, transparent);
+}
+.framing-item-node:hover {
+  border-color: var(--accent);
+  border-left-color: var(--item-color, var(--accent));
+}
+.framing-item-node--project { --item-color: #ebcb8b; }
+.framing-item-node--task { --item-color: #76a85d; }
+.framing-item-node--question { --item-color: #b48ead; }
+.framing-item-node--event { --item-color: #7aa2f7; }
+.framing-item-node--location { --item-color: #d08770; }
+.framing-item-node--book { --item-color: #a3be8c; }
+.framing-item-node--movie { --item-color: #bf616a; }
+.framing-item-node--album { --item-color: #88c0d0; }
+.framing-item-node--bookmark { --item-color: #8b8394; }
+
+.thought-item-card {
+  min-width: 0;
+}
+.thought-item-head {
+  display: flex;
+  gap: 7px;
+  align-items: baseline;
+}
+.thought-item-sigil {
+  flex: 0 0 auto;
+  color: var(--item-color, var(--ink-3));
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.thought-item-title {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+.thought-item-title a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.thought-item-title a:hover {
+  text-decoration: underline;
+}
+.thought-item-title-done {
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+.thought-item-meta {
+  margin: 4px 0 0;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.thought-item-description {
+  margin: 5px 0 0;
+  color: var(--ink-2);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.thought-item-banner {
+  display: block;
+  width: 100%;
+  height: 84px;
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  object-fit: cover;
+}
+
+/* The lane card at node scale: artwork shrinks to a thumbnail and the text sits beside it. */
+.thought-media-card--compact {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+.thought-media-card--compact .thought-media-art {
+  border-radius: 6px;
+}
+.thought-media-card--compact .thought-media-info {
+  padding: 0;
+}
+.thought-media-card--compact h2 {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+.thought-media-card--compact .thought-media-placeholder {
+  font-size: 20px;
+}
+.thought-media-card--compact .thought-media-meta {
+  margin: 3px 0 0;
+  font-size: 9.5px;
+}
+.thought-media-card--compact .thought-lane-description {
+  margin: 5px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
 }

@@ -4,6 +4,7 @@ import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 
 import { renderThoughtMarkdown } from "../../lib/thoughts.ts";
 import { attachmentPreviewUrl, isPreviewableImage } from "../../lib/attachments.ts";
+import { ItemCard, type EnrichmentItemTarget } from "../ItemCard.tsx";
 import { ThoughtComposer } from "../ThoughtComposer.tsx";
 
 export interface ThoughtNodeData extends Record<string, unknown> {
@@ -49,6 +50,16 @@ export interface NestedFramingNodeData extends Record<string, unknown> {
   onRemove?: (nodeId: string) => void;
 }
 
+/** Every enrichment kind shares one node: the card knows how to draw a movie, a task, or a bookmark,
+ *  so the canvas only owns the chrome around it (removal, ports). Thoughts, posts, and nested
+ *  framings keep bespoke nodes because they carry canvas behavior a card has no business owning. */
+export interface ItemNodeData extends Record<string, unknown> {
+  nodeId: string;
+  target: EnrichmentItemTarget;
+  editable: boolean;
+  onRemove?: (nodeId: string) => void;
+}
+
 export interface ComposeNodeData extends Record<string, unknown> {
   onDone: (thoughtId: string) => void;
   onCancel: () => void;
@@ -58,7 +69,13 @@ export type ThoughtFlowNode = Node<ThoughtNodeData, "thought">;
 export type PostFlowNode = Node<PostNodeData, "post">;
 export type NestedFramingFlowNode = Node<NestedFramingNodeData, "framing">;
 export type ComposeFlowNode = Node<ComposeNodeData, "compose">;
-export type FramingFlowNode = ThoughtFlowNode | PostFlowNode | NestedFramingFlowNode | ComposeFlowNode;
+export type ItemFlowNode = Node<ItemNodeData, "item">;
+export type FramingFlowNode =
+  | ThoughtFlowNode
+  | PostFlowNode
+  | NestedFramingFlowNode
+  | ItemFlowNode
+  | ComposeFlowNode;
 
 function Ports() {
   return (
@@ -219,6 +236,23 @@ export const FramingNestedNode = memo(function FramingNestedNode({ data }: NodeP
       </a>
       {data.private ? <span className="framing-privacy-badge">private</span> : null}
       <button type="button" className="framing-framing-node-enter nodrag" onClick={open} title="Enter framing">↗</button>
+      <Ports />
+    </div>
+  );
+});
+
+export const FramingItemNode = memo(function FramingItemNode({ data }: NodeProps<ItemFlowNode>) {
+  return (
+    <div className={`framing-item-node framing-item-node--${data.target.kind}`}>
+      {data.editable && data.onRemove ? (
+        <button
+          type="button"
+          className="framing-node-remove nodrag"
+          onClick={(event) => { event.stopPropagation(); data.onRemove?.(data.nodeId); }}
+          title="Remove from framing"
+        >×</button>
+      ) : null}
+      <ItemCard target={data.target} />
       <Ports />
     </div>
   );

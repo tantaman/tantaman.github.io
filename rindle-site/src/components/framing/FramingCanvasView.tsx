@@ -13,14 +13,17 @@ import {
 import "@xyflow/react/dist/style.css";
 
 import { app } from "../../rindle-client.ts";
+import { isItemKind, itemKey } from "../../../shared/item-kinds.ts";
 import { FramingDetailPane } from "./FramingDetailPane.tsx";
 import { FramingLabeledEdge, type FramingEdgeData } from "./FramingEdge.tsx";
 import { FramingLeftPanel } from "./FramingLeftPanel.tsx";
 import {
   FramingComposeNode,
+  FramingItemNode,
   FramingNestedNode,
   FramingPostNode,
   FramingThoughtNode,
+  type ItemNodeData,
   type NestedFramingNodeData,
   type PostNodeData,
   type ThoughtNodeData,
@@ -36,6 +39,7 @@ const nodeTypes = {
   thought: FramingThoughtNode,
   post: FramingPostNode,
   framing: FramingNestedNode,
+  item: FramingItemNode,
   compose: FramingComposeNode,
 } satisfies NodeTypes;
 
@@ -44,7 +48,7 @@ const edgeTypes = {
 } satisfies EdgeTypes;
 
 function hierarchicalLayout(nodes: Node[], edges: Edge[]): Map<string, { x: number; y: number }> {
-  const contentNodes = nodes.filter((node) => node.type === "thought" || node.type === "post" || node.type === "framing");
+  const contentNodes = nodes.filter((node) => node.type !== "compose");
   if (contentNodes.length === 0) return new Map();
   const ids = new Set(contentNodes.map((node) => node.id));
   const children = new Map<string, string[]>();
@@ -119,21 +123,27 @@ function exportFraming(name: string, isPrivate: boolean, nodes: Node[], edges: E
   const exportedNodes = nodes.flatMap((node) => {
     if (node.type === "thought") {
       const data = node.data as ThoughtNodeData;
-      const identity = `thought:${data.thoughtId}`;
+      const identity = itemKey("thought", data.thoughtId);
       identities.set(node.id, identity);
       return [{ id: identity, type: "thought", item_id: data.thoughtId, x: node.position.x, y: node.position.y }];
     }
     if (node.type === "post") {
       const data = node.data as PostNodeData;
-      const identity = `post:${data.slug}`;
+      const identity = itemKey("post", data.slug);
       identities.set(node.id, identity);
       return [{ id: identity, type: "post", item_id: data.slug, x: node.position.x, y: node.position.y }];
     }
     if (node.type === "framing") {
       const data = node.data as NestedFramingNodeData;
-      const identity = `framing:${data.framingId}`;
+      const identity = itemKey("framing", data.framingId);
       identities.set(node.id, identity);
       return [{ id: identity, type: "framing", item_id: data.framingId, x: node.position.x, y: node.position.y }];
+    }
+    if (node.type === "item") {
+      const data = node.data as ItemNodeData;
+      const identity = itemKey(data.target.kind, data.target.id);
+      identities.set(node.id, identity);
+      return [{ id: identity, type: data.target.kind, item_id: data.target.id, x: node.position.x, y: node.position.y }];
     }
     return [];
   });
@@ -204,7 +214,7 @@ export function FramingCanvasView({ id, isAdmin }: { id: string; isAdmin: boolea
     if (!isAdmin || !flowRef.current) return;
     const itemType = event.dataTransfer.getData("application/node-type");
     const itemId = event.dataTransfer.getData("application/item-id");
-    if (!itemId || (itemType !== "thought" && itemType !== "post" && itemType !== "framing")) return;
+    if (!itemId || !isItemKind(itemType)) return;
     const position = flowRef.current.screenToFlowPosition({ x: event.clientX, y: event.clientY });
     addNode(itemType, itemId, position.x, position.y);
   }, [addNode, isAdmin]);

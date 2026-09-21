@@ -5,6 +5,7 @@ import type { ResultType } from "@rindle/react";
 
 import { app, currentQueryContext } from "../rindle-client.ts";
 import { normalizeMovieTitle } from "../../shared/thought-enrichments.ts";
+import { MediaArt, MediaCard } from "./MediaCard.tsx";
 import { useThoughtsFeed } from "./ThoughtsFeed.tsx";
 import {
   ENRICHMENT_MAX_LIMIT,
@@ -253,39 +254,6 @@ export function LocationsEnrichmentView() {
   );
 }
 
-function MediaCard({
-  title,
-  image,
-  meta,
-  description,
-  externalUrl,
-  source,
-  mentionCount,
-}: {
-  title: string;
-  image: string | null;
-  meta: string[];
-  description: string | null;
-  externalUrl?: string | null;
-  source: unknown;
-  mentionCount?: number;
-}) {
-  const art = image
-    ? <img src={image} alt="" loading="lazy" />
-    : <span className="thought-media-placeholder" aria-hidden="true">{title.slice(0, 1).toUpperCase()}</span>;
-  return (
-    <article className="thought-media-card">
-      {externalUrl ? <a className="thought-media-art" href={externalUrl} target="_blank" rel="noreferrer">{art}</a> : <div className="thought-media-art">{art}</div>}
-      <div className="thought-media-info">
-        <h2>{title}{mentionCount && mentionCount > 1 ? <small> ×{mentionCount}</small> : null}</h2>
-        {meta.filter(Boolean).length > 0 ? <p className="thought-media-meta">{meta.filter(Boolean).join(" · ")}</p> : null}
-        <Description>{description}</Description>
-        <SourceLink source={source} />
-      </div>
-    </article>
-  );
-}
-
 function firstMentionSource(mentions: readonly unknown[]): unknown {
   const first = mentions[0];
   if (!first || typeof first !== "object") return null;
@@ -306,7 +274,7 @@ export function BooksEnrichmentView() {
   const rows = allRows.slice(0, limit) as readonly BookEnrichmentRow[];
   return (
     <LaneFrame code="#b" title="Books" description="Reading captures enriched through Open Library, while each mention retains its own notes." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
-      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.coverUrl} meta={[row.author ?? "", row.year ?? ""]} description={row.description} externalUrl={row.openLibraryKey ? `https://openlibrary.org${row.openLibraryKey}` : null} source={row.source} />)}</div>
+      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.coverUrl} meta={[row.author ?? "", row.year ?? ""]} description={row.description} externalUrl={row.openLibraryKey ? `https://openlibrary.org${row.openLibraryKey}` : null}><SourceLink source={row.source} /></MediaCard>)}</div>
     </LaneFrame>
   );
 }
@@ -344,9 +312,7 @@ function MovieCard({ row, editable }: { row: MovieEnrichmentRow; editable: boole
   const [url, setUrl] = useState(row.tmdbId ? `https://www.themoviedb.org/movie/${row.tmdbId}` : "");
   const [validationError, setValidationError] = useState<string | null>(null);
   const externalUrl = row.tmdbId ? `https://www.themoviedb.org/movie/${row.tmdbId}` : null;
-  const art = row.posterUrl
-    ? <img src={row.posterUrl} alt="" loading="lazy" />
-    : <span className="thought-media-placeholder" aria-hidden="true">{row.title.slice(0, 1).toUpperCase()}</span>;
+  const art = <MediaArt title={row.title} image={row.posterUrl} />;
 
   function submitMovie(nextTitle: string, nextUrl: string) {
     const cleanTitle = nextTitle.trim();
@@ -406,7 +372,7 @@ export function AlbumsEnrichmentView() {
   const rows = allRows.slice(0, limit) as readonly AlbumEnrichmentRow[];
   return (
     <LaneFrame code="#a" title="Music" description="Deduplicated album captures enriched through Apple Music with artwork, artist, year, and genre." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
-      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.coverUrl} meta={[row.artist ?? "", row.year ?? "", row.genre ?? ""]} description={firstMentionDescription(row.mentions)} externalUrl={row.itunesId ? `https://music.apple.com/album/${row.itunesId}` : null} source={firstMentionSource(row.mentions)} mentionCount={row.mentionCount} />)}</div>
+      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.coverUrl} meta={[row.artist ?? "", row.year ?? "", row.genre ?? ""]} description={firstMentionDescription(row.mentions)} externalUrl={row.itunesId ? `https://music.apple.com/album/${row.itunesId}` : null} mentionCount={row.mentionCount}><SourceLink source={firstMentionSource(row.mentions)} /></MediaCard>)}</div>
     </LaneFrame>
   );
 }
