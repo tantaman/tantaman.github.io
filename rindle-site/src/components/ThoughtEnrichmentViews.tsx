@@ -5,6 +5,7 @@ import type { ResultType } from "@rindle/react";
 
 import { app, currentQueryContext } from "../rindle-client.ts";
 import { normalizeMovieTitle } from "../../shared/thought-enrichments.ts";
+import { AddToCollection } from "./AddToCollection.tsx";
 import { MediaArt, MediaCard } from "./MediaCard.tsx";
 import { useThoughtsFeed } from "./ThoughtsFeed.tsx";
 import {
@@ -93,6 +94,14 @@ function SourceLink({ source }: { source: unknown }) {
   return id ? <Link className="thought-lane-source" to="/thoughts/$id" params={{ id }}>source thought →</Link> : null;
 }
 
+/** A capture derived from a private thought seeds a private collection, so filing something never
+ *  quietly publishes it. */
+function sourcePrivate(source: unknown): boolean {
+  const row = Array.isArray(source) ? source[0] : source;
+  if (!row || typeof row !== "object") return false;
+  return (row as { private?: unknown }).private === 1;
+}
+
 function Description({ children }: { children: string | null }) {
   return children ? <p className="thought-lane-description">{children}</p> : null;
 }
@@ -123,6 +132,7 @@ export function ProjectsEnrichmentView() {
               <p className="thought-project-progress">{row.completedCount} / {row.taskCount} tasks complete</p>
             </div>
             <div className="thought-lane-actions">
+              <AddToCollection kind="project" itemId={row.id} isAdmin={isAdmin} defaultPrivate={row.private === 1} />
               <SourceLink source={row.source} />
               {isAdmin && row.status === "draft" ? <button type="button" onClick={() => setStatus(row, "active")}>Activate</button> : null}
               {isAdmin && row.status === "active" ? <button type="button" onClick={() => setStatus(row, "archived")}>Archive</button> : null}
@@ -165,6 +175,7 @@ export function TasksEnrichmentView() {
               />
               <div><strong>{row.title}</strong><Description>{row.description}</Description>{relatedTitle(row.project) ? <span className="thought-lane-project">{relatedTitle(row.project)}</span> : null}</div>
               <div className="thought-lane-actions">
+                <AddToCollection kind="task" itemId={row.id} isAdmin={isAdmin} defaultPrivate={row.private === 1} />
                 {isAdmin ? <button type="button" className={row.deprioritizedAt !== null ? "is-active" : undefined} onClick={() => app.mutate.updateTaskState({ id: row.id, deprioritizedAt: row.deprioritizedAt === null ? Date.now() : null })}>later</button> : null}
                 <SourceLink source={row.source} />
               </div>
@@ -192,7 +203,10 @@ export function QuestionsEnrichmentView() {
             <li key={row.id} className={row.answeredAt !== null ? "is-done" : undefined}>
               <input type="checkbox" checked={row.answeredAt !== null} disabled={!isAdmin} aria-label={`Mark ${row.title} ${row.answeredAt === null ? "answered" : "open"}`} onChange={() => app.mutate.updateQuestionState({ id: row.id, answeredAt: row.answeredAt === null ? Date.now() : null })} />
               <div><strong>{row.title}</strong><Description>{row.description}</Description></div>
-              <SourceLink source={row.source} />
+              <div className="thought-lane-actions">
+                <AddToCollection kind="question" itemId={row.id} isAdmin={isAdmin} defaultPrivate={sourcePrivate(row.source)} />
+                <SourceLink source={row.source} />
+              </div>
             </li>
           ))}
         </ul>
@@ -212,6 +226,7 @@ const EVENT_TIME = new Intl.DateTimeFormat("en-US", {
 });
 
 export function EventsEnrichmentView() {
+  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
   const [allRows, { status }] = useRoot(thoughtEventsQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly EventEnrichmentRow[];
@@ -222,7 +237,10 @@ export function EventsEnrichmentView() {
           <article key={row.id}>
             <time dateTime={new Date(row.dateEpoch * 1_000).toISOString()}>{EVENT_TIME.format(new Date(row.dateEpoch * 1_000))}</time>
             <div><h2>{row.title}</h2><span className="thought-event-token">{row.dateText}</span><Description>{row.description}</Description></div>
-            <SourceLink source={row.source} />
+            <div className="thought-lane-actions">
+              <AddToCollection kind="event" itemId={row.id} isAdmin={isAdmin} defaultPrivate={sourcePrivate(row.source)} />
+              <SourceLink source={row.source} />
+            </div>
           </article>
         ))}
       </div>
@@ -231,6 +249,7 @@ export function EventsEnrichmentView() {
 }
 
 export function LocationsEnrichmentView() {
+  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
   const [allRows, { status }] = useRoot(thoughtLocationsQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly LocationEnrichmentRow[];
@@ -245,7 +264,10 @@ export function LocationsEnrichmentView() {
             <article key={row.id}>
               <span className="thought-location-pin" aria-hidden="true">⌖</span>
               <div><h2><a href={mapUrl} target="_blank" rel="noreferrer">{row.title}</a></h2>{row.resolvedName ? <p>{row.resolvedName}</p> : <span className="thought-lane-status">{row.resolutionStatus}</span>}<Description>{row.description}</Description></div>
-              <SourceLink source={row.source} />
+              <div className="thought-lane-actions">
+                <AddToCollection kind="location" itemId={row.id} isAdmin={isAdmin} defaultPrivate={sourcePrivate(row.source)} />
+                <SourceLink source={row.source} />
+              </div>
             </article>
           );
         })}
@@ -269,12 +291,13 @@ function firstMentionDescription(mentions: readonly unknown[]): string | null {
 }
 
 export function BooksEnrichmentView() {
+  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
   const [allRows, { status }] = useRoot(thoughtBooksQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly BookEnrichmentRow[];
   return (
     <LaneFrame code="#b" title="Books" description="Reading captures enriched through Open Library, while each mention retains its own notes." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
-      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.coverUrl} meta={[row.author ?? "", row.year ?? ""]} description={row.description} externalUrl={row.openLibraryKey ? `https://openlibrary.org${row.openLibraryKey}` : null}><SourceLink source={row.source} /></MediaCard>)}</div>
+      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.coverUrl} meta={[row.author ?? "", row.year ?? ""]} description={row.description} externalUrl={row.openLibraryKey ? `https://openlibrary.org${row.openLibraryKey}` : null}><SourceLink source={row.source} /><AddToCollection kind="book" itemId={row.id} isAdmin={isAdmin} defaultPrivate={sourcePrivate(row.source)} /></MediaCard>)}</div>
     </LaneFrame>
   );
 }
@@ -357,6 +380,7 @@ function MovieCard({ row, editable }: { row: MovieEnrichmentRow; editable: boole
             <Description>{firstMentionDescription(row.mentions)}</Description>
             <div className="thought-movie-links">
               <SourceLink source={firstMentionSource(row.mentions)} />
+              <AddToCollection kind="movie" itemId={row.id} isAdmin={editable} />
               {editable ? <button type="button" onClick={() => submitMovie(row.title, externalUrl ?? "")}>Re-enrich</button> : null}
             </div>
           </>
@@ -367,12 +391,13 @@ function MovieCard({ row, editable }: { row: MovieEnrichmentRow; editable: boole
 }
 
 export function AlbumsEnrichmentView() {
+  const { isAdmin } = useThoughtsFeed();
   const { limit, loadMore } = useLimit();
   const [allRows, { status }] = useRoot(thoughtAlbumsQuery, { limit }, currentQueryContext());
   const rows = allRows.slice(0, limit) as readonly AlbumEnrichmentRow[];
   return (
     <LaneFrame code="#a" title="Music" description="Deduplicated album captures enriched through Apple Music with artwork, artist, year, and genre." count={rows.length} status={status} hasMore={allRows.length > limit} loadMore={loadMore}>
-      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.coverUrl} meta={[row.artist ?? "", row.year ?? "", row.genre ?? ""]} description={firstMentionDescription(row.mentions)} externalUrl={row.itunesId ? `https://music.apple.com/album/${row.itunesId}` : null} mentionCount={row.mentionCount}><SourceLink source={firstMentionSource(row.mentions)} /></MediaCard>)}</div>
+      <div className="thought-media-grid">{rows.map((row) => <MediaCard key={row.id} title={row.title} image={row.coverUrl} meta={[row.artist ?? "", row.year ?? "", row.genre ?? ""]} description={firstMentionDescription(row.mentions)} externalUrl={row.itunesId ? `https://music.apple.com/album/${row.itunesId}` : null} mentionCount={row.mentionCount}><SourceLink source={firstMentionSource(row.mentions)} /><AddToCollection kind="album" itemId={row.id} isAdmin={isAdmin} /></MediaCard>)}</div>
     </LaneFrame>
   );
 }

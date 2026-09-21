@@ -1,10 +1,11 @@
 // Named Rindle views for the framing list, canvas, picker, and on-demand thought expansion. The
 // module stays React-free because the browser, API authority, and SSR loaders all import it.
 
-import { defineQuery, ilike } from "@rindle/client";
+import { defineQuery, exists, ilike } from "@rindle/client";
 import type { QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
+import { ITEM_KINDS } from "../../shared/item-kinds.ts";
 import { q, relationships } from "../../shared/app-def.ts";
 import { canPublish, type QueryContext } from "../../shared/auth.ts";
 import { framingNodeItems } from "./ItemCard.queries.ts";
@@ -142,6 +143,32 @@ export const framingThoughtConnectionsQuery = defineQuery(
   (args, ctx: QueryContext) => thoughtConnections(args, canPublish(ctx.user)),
 );
 
+/** The collections that already hold a given item. Small, bounded, and keyed exactly like the
+ *  `framing_node_by_target` index, so the "add to…" control can show membership without loading a
+ *  single collection's contents. A reader sees only public collections; the item itself is already
+ *  in front of whoever is asking. */
+const itemCollectionsArgs = z.object({
+  itemType: z.enum(ITEM_KINDS),
+  itemId: z.string().min(1).max(500),
+});
+
+export const itemCollectionsQuery = defineQuery(
+  "itemCollections",
+  (raw) => itemCollectionsArgs.parse(raw),
+  (args, ctx: QueryContext) => {
+    let node = q.framingNode.where.itemType(args.itemType).where.itemId(args.itemId);
+    if (!canPublish(ctx.user)) {
+      node = node.where(exists(relationships.framingNodeParentFraming, (frame) => frame.where.private(0)));
+    }
+    return node
+      .orderBy("framingId", "asc")
+      .orderBy("id", "asc")
+      .limit(FRAMINGS_LIMIT)
+      .select("id", "framingId");
+  },
+);
+
+export type ItemCollectionsRow = QueryLocalData<ReturnType<typeof itemCollectionsQuery>>[number];
 export type FramingsRow = QueryLocalData<ReturnType<typeof framingsQuery>>[number];
 export type FramingDetailRow = NonNullable<QueryLocalData<ReturnType<typeof framingQuery>>>;
 export type FramingThoughtPickerRow = QueryLocalData<ReturnType<typeof framingThoughtsQuery>>[number];

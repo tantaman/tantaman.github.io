@@ -13,6 +13,7 @@ import {
   isPreviewableImage,
 } from "../lib/attachments.ts";
 import { app } from "../rindle-client.ts";
+import { AddToCollection } from "./AddToCollection.tsx";
 import { ThoughtComposer, type EditableThought } from "./ThoughtComposer.tsx";
 
 interface ThoughtTagLinkData {
@@ -146,6 +147,12 @@ export function ThoughtCard({
             </button>
             {isAdmin ? (
               <>
+                <AddToCollection
+                  kind="thought"
+                  itemId={thought.id}
+                  isAdmin={isAdmin}
+                  defaultPrivate={thought.private === 1}
+                />
                 <button type="button" onClick={() => setEditing(true)}>edit</button>
                 <button className="is-danger" type="button" onClick={deleteThought}>delete</button>
               </>
