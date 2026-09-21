@@ -1,5 +1,8 @@
-// Named, bounded windows for the eight structured hashtag lanes. Each definition derives privacy
-// from off-wire context; the API substitutes its verified principal before resolving the AST.
+// Named, bounded windows for the structured capture lanes. Each definition derives privacy from
+// off-wire context; the API substitutes its verified principal before resolving the AST.
+//
+// Bookmarks have no lane page of their own, but they are an item a curation surface can hold, so
+// their window lives here with the rest of the enrichment corpus.
 
 import { defineQuery, exists, isNotNull } from "@rindle/client";
 import type { QueryLocalData } from "@rindle/client";
@@ -198,6 +201,26 @@ export const thoughtAlbumsQuery = defineQuery(
   ({ limit }, ctx: QueryContext) => buildAlbums(limit, canPublish(ctx.user)),
 );
 
+const buildBookmarks = (limit: number, admin: boolean) => {
+  let query = q.bookmark
+    .orderBy("createdAt", "desc")
+    .orderBy("id", "asc")
+    .limit(limit + 1)
+    .countAs("mentionCount", relationships.bookmarkThoughtLinks, (link) =>
+      admin ? link : link.where(exists(relationships.thoughtBookmarkThought, publicThought)),
+    );
+  // Same gate as the normalized media profiles: a bookmark is a corpus-wide entity, so its visibility
+  // is the visibility of the mentions that produced it.
+  if (!admin) query = query.having("mentionCount", ">", 0);
+  return query.select("id", "url", "title", "description", "imageUrl", "siteName", "metadataStatus");
+};
+
+export const thoughtBookmarksQuery = defineQuery(
+  "thoughtBookmarks",
+  (raw) => windowArgs.parse(raw),
+  ({ limit }, ctx: QueryContext) => buildBookmarks(limit, canPublish(ctx.user)),
+);
+
 export const thoughtEnrichmentQueries = [
   thoughtProjectsQuery,
   thoughtTasksQuery,
@@ -207,6 +230,7 @@ export const thoughtEnrichmentQueries = [
   thoughtBooksQuery,
   thoughtMoviesQuery,
   thoughtAlbumsQuery,
+  thoughtBookmarksQuery,
 ] as const;
 
 export type ProjectEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtProjectsQuery>>[number];
@@ -214,6 +238,7 @@ export type TaskEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtTasksQue
 export type QuestionEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtQuestionsQuery>>[number];
 export type EventEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtEventsQuery>>[number];
 export type LocationEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtLocationsQuery>>[number];
+export type BookmarkEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtBookmarksQuery>>[number];
 export type BookEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtBooksQuery>>[number];
 export type MovieEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtMoviesQuery>>[number];
 export type AlbumEnrichmentRow = QueryLocalData<ReturnType<typeof thoughtAlbumsQuery>>[number];

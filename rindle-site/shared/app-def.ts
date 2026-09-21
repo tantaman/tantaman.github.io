@@ -50,6 +50,10 @@ import {
   thoughtTag,
 } from "./schema.gen.ts";
 
+// The polymorphic item space shared by every curation surface. `framingNode.itemType` is validated
+// against it, so widening the registry widens what a canvas can hold.
+import { ITEM_KINDS, ITEM_KIND_PROFILES } from "./item-kinds.ts";
+
 // --------------------------------------------------------------------------- tables (generated)
 
 export * from "./schema.gen.ts";
@@ -94,6 +98,7 @@ export const relationships = defineRelationships({
   thoughtAlbumProfile: rel(thoughtAlbum, album, { albumId: "id" }),
   thoughtBookmarkLinks: rel(thought, thoughtBookmark, { id: "thoughtId" }),
   bookmarkThoughtLinks: rel(bookmark, thoughtBookmark, { id: "bookmarkId" }),
+  thoughtBookmarkThought: rel(thoughtBookmark, thought, { thoughtId: "id" }),
   thoughtBookmarkProfile: rel(thoughtBookmark, bookmark, { bookmarkId: "id" }),
   thoughtProjects: rel(thought, project, { id: "thoughtId" }),
   projectThought: rel(project, thought, { thoughtId: "id" }),
@@ -112,6 +117,15 @@ export const relationships = defineRelationships({
   framingNodeThought: rel(framingNode, thought, { itemId: "id" }),
   framingNodePost: rel(framingNode, post, { itemId: "id" }),
   framingNodeFraming: rel(framingNode, framing, { itemId: "id" }),
+  framingNodeProject: rel(framingNode, project, { itemId: "id" }),
+  framingNodeTask: rel(framingNode, task, { itemId: "id" }),
+  framingNodeQuestion: rel(framingNode, question, { itemId: "id" }),
+  framingNodeEvent: rel(framingNode, event, { itemId: "id" }),
+  framingNodeLocation: rel(framingNode, location, { itemId: "id" }),
+  framingNodeBook: rel(framingNode, book, { itemId: "id" }),
+  framingNodeMovie: rel(framingNode, movie, { itemId: "id" }),
+  framingNodeAlbum: rel(framingNode, album, { itemId: "id" }),
+  framingNodeBookmark: rel(framingNode, bookmark, { itemId: "id" }),
   framingNodeParentFraming: rel(framingNode, framing, { framingId: "id" }),
   thoughtEdgeTarget: rel(thoughtEdge, thought, { targetId: "id" }),
   thoughtEdgeSource: rel(thoughtEdge, thought, { sourceId: "id" }),
@@ -515,7 +529,7 @@ const framingName = z
   .max(300)
   .refine((value) => value === value.trim(), "Framing names must not have surrounding whitespace.");
 const framingDescription = z.string().max(20_000).nullable();
-const framingItemType = z.enum(["thought", "post", "framing"]);
+const framingItemType = z.enum(ITEM_KINDS);
 const coordinate = z.number().finite().min(-10_000_000).max(10_000_000);
 const framingNodeArg = z.object({
   id: stableId,
@@ -1233,14 +1247,12 @@ const addFramingNode = shared(addFramingNodeArgs, function* (tx, args, ctx) {
     throw new Error("A framing cannot contain itself.");
   }
 
-  let target: Record<string, unknown> | undefined;
-  if (args.node.itemType === "thought") {
-    target = (yield tx.row("thought", { id: args.node.itemId })) as Record<string, unknown> | undefined;
-  } else if (args.node.itemType === "post") {
-    target = (yield tx.row("post", { id: args.node.itemId })) as Record<string, unknown> | undefined;
-  } else {
-    target = (yield tx.row("framing", { id: args.node.itemId })) as Record<string, unknown> | undefined;
-  }
+  // Each kind resolves against its own table. The registry keeps this exact as the item space grows;
+  // the previous three-way chain would have resolved every new kind against `framing`.
+  const target = (yield tx.row(
+    ITEM_KIND_PROFILES[args.node.itemType].table,
+    { id: args.node.itemId },
+  )) as Record<string, unknown> | undefined;
   if (!target) throw new Error(`The ${args.node.itemType} being placed no longer exists.`);
 
   const duplicate = queryRows(

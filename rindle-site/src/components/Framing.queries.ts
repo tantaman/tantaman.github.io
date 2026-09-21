@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import { q, relationships } from "../../shared/app-def.ts";
 import { canPublish, type QueryContext } from "../../shared/auth.ts";
+import { framingNodeItems } from "./ItemCard.queries.ts";
 
 export const FRAMINGS_LIMIT = 500;
 export const FRAMING_NODE_LIMIT = 1_000;
@@ -48,35 +49,10 @@ function framingDetail(id: string, admin: boolean) {
   // never resolve either.
   if (!admin) root = root.where.private(0);
   return root
+    // Targets resolve through the shared item-space fragment, so the canvas and any future board
+    // view over the same rows agree on both the selections and the per-kind privacy gate.
     .sub("nodes", relationships.framingNodes, (node) =>
-      node
-        .orderBy("id", "asc")
-        .limit(FRAMING_NODE_LIMIT)
-        .sub("thought", relationships.framingNodeThought, (thought) => {
-          const visible = admin ? thought : thought.where.private(0);
-          return visible
-            .countAs("replyCount", relationships.thoughtReplies, (reply) => admin ? reply : reply.where.private(0))
-            .countAs("linkCount", relationships.thoughtOutboundEdges, (edge) => edge.where.kind("link"))
-            .countAs("backlinkCount", relationships.thoughtInboundEdges, (edge) => edge.where.kind("link"))
-            .sub("attachments", relationships.thoughtAttachments, (attachment) =>
-              attachment
-                .orderBy("position", "asc")
-                .orderBy("id", "asc")
-                .limit(4)
-                .select("id", "storageKey", "mediaType", "fileName", "position"),
-            )
-            .select("id", "body", "createdAt", "color", "private")
-            .one();
-        })
-        .sub("post", relationships.framingNodePost, (post) =>
-          post
-            .select("id", "title", "date", "description", "tags", "color")
-            .one(),
-        )
-        .sub("nestedFraming", relationships.framingNodeFraming, (nested) => {
-          const visible = admin ? nested : nested.where.private(0);
-          return visible.select("id", "name", "private", "updatedAt").one();
-        }),
+      framingNodeItems(node, { admin, limit: FRAMING_NODE_LIMIT }),
     )
     .sub("edges", relationships.framingEdges, (edge) =>
       edge.orderBy("id", "asc").limit(FRAMING_EDGE_LIMIT),

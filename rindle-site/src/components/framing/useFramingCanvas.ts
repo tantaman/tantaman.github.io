@@ -15,6 +15,8 @@ import { ulid } from "ulid";
 
 import { app, currentQueryContext } from "../../rindle-client.ts";
 import { parseList } from "../../lib/format.ts";
+import { itemKey, type ItemKind } from "../../../shared/item-kinds.ts";
+import { resolveEnrichmentTarget, type EnrichmentItemRow } from "../ItemCard.tsx";
 import {
   FRAMING_CONNECTION_LIMIT,
   framingQuery,
@@ -68,7 +70,9 @@ interface CanvasNestedFraming {
   updatedAt: number;
 }
 
-interface CanvasNodeRow {
+// The enrichment targets ride along through the shared fragment; the three bespoke kinds keep their
+// own fields because their canvas nodes need more than a card does.
+interface CanvasNodeRow extends EnrichmentItemRow {
   id: string;
   framingId: string;
   itemType: string;
@@ -286,6 +290,21 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
         },
       };
     }
+    // Every other kind is an enrichment target and shares one card node.
+    const target = resolveEnrichmentTarget(row.itemType, row);
+    if (target) {
+      return {
+        id: row.id,
+        type: "item",
+        position: { x: row.x, y: row.y },
+        data: {
+          nodeId: row.id,
+          target,
+          editable: isAdmin,
+          onRemove: removeNode,
+        },
+      };
+    }
     return null;
   }, [expandBacklinks, expandLinks, expandReplies, isAdmin, removeNode]);
 
@@ -343,7 +362,7 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
     });
   }, [framingId, isAdmin]);
 
-  const addNode = useCallback((itemType: "thought" | "post" | "framing", itemId: string, x: number, y: number) => {
+  const addNode = useCallback((itemType: ItemKind, itemId: string, x: number, y: number) => {
     if (!isAdmin || (itemType === "framing" && itemId === framingId)) return;
     app.mutate.addFramingNode({
       node: {
@@ -483,7 +502,7 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
     });
   }, [framingId, isAdmin]);
 
-  const placedItemKeys = useMemo(() => new Set((detail?.nodes ?? []).map((node) => `${node.itemType}:${node.itemId}`)), [detail]);
+  const placedItemKeys = useMemo(() => new Set((detail?.nodes ?? []).map((node) => itemKey(node.itemType, node.itemId))), [detail]);
 
   return {
     nodes,
