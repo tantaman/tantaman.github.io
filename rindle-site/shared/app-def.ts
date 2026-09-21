@@ -533,13 +533,17 @@ const framingItemType = z.enum(ITEM_KINDS);
 /** The two arrangements of one framing: a drawn canvas, or an ordered board. */
 const framingView = z.enum(["canvas", "board"]);
 const coordinate = z.number().finite().min(-10_000_000).max(10_000_000);
+/** A board's fractional index — an ORDER KEY, not a coordinate, so it does not share the canvas's
+ *  bounds. Appending from a surface that has not loaded the collection uses a millisecond timestamp:
+ *  it sorts last without reading the collection first, and midpoints keep bisecting between them. */
+const orderKey = z.number().finite().min(-1e15).max(1e15);
 const framingNodeArg = z.object({
   id: stableId,
   framingId: stableId,
   itemType: framingItemType,
   // Optional so an export written before the board still imports; the mutator body supplies the
   // concrete fallback, because the browser's prediction cannot see a column DEFAULT.
-  position: coordinate.optional(),
+  position: orderKey.optional(),
   itemId: stableId,
   x: coordinate,
   y: coordinate,
@@ -605,7 +609,7 @@ const reorderFramingNodesArgs = z.object({
   updatedAt: timestamp,
   nodes: z.array(z.object({
     id: stableId,
-    position: coordinate,
+    position: orderKey,
   })).min(1).max(1_000),
 });
 const createFramingEdgeArgs = z.object({ edge: framingEdgeArg, updatedAt: timestamp });

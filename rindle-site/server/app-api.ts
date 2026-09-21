@@ -44,6 +44,7 @@ import {
   framingThoughtConnectionsQuery,
   framingThoughtsQuery,
   framingsQuery,
+  itemCollectionsQuery,
 } from "../src/components/Framing.queries.ts";
 import {
   pasteDiffQuery,
@@ -107,6 +108,7 @@ const apiQueries = registerQueries<User>([
   ...thoughtEnrichmentQueries,
   framingsQuery,
   framingQuery,
+  itemCollectionsQuery,
   framingThoughtsQuery,
   framingPostsQuery,
   framingThoughtConnectionsQuery,

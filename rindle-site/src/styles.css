@@ -5653,3 +5653,110 @@ main.app-main:has(.framing-canvas-wrap) {
 .framing-board-nested-title:hover {
   color: var(--accent);
 }
+
+/* ------------------------------------------------------- add to collection
+
+   The control rides on whatever card you are already reading, so it deliberately inherits each
+   surface's own button styling: the baseline below is specific enough to stand alone in a media
+   card, and loose enough to lose to `.thought-card-actions button` and `.thought-lane-actions
+   button` where those exist. */
+
+.add-to {
+  display: inline-flex;
+  position: relative;
+}
+.add-to-trigger {
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+.add-to-trigger:hover,
+.add-to-trigger.is-open {
+  color: var(--accent);
+}
+/* The row of actions fades out unless the card is hovered; an open picker pins it. */
+.thought-card-actions:has(.add-to.is-open) {
+  opacity: 1;
+}
+.add-to-pop {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 6px);
+  right: 0;
+  overflow: hidden;
+  width: 250px;
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  background: var(--raise);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.add-to-search {
+  width: 100%;
+  padding: 9px 11px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+}
+.add-to-search:focus {
+  outline: none;
+}
+.add-to-list {
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 4px;
+}
+.add-to-row {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  width: 100%;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 11.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.add-to-row.is-active {
+  background: var(--panel);
+}
+.add-to-row.is-placed {
+  color: var(--ink-3);
+  cursor: default;
+}
+.add-to-row-name {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.add-to-row-mark {
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.add-to-row.is-placed .add-to-row-mark {
+  color: var(--ink-3);
+}
+.add-to-create .add-to-row-name {
+  color: var(--accent);
+}
+.add-to-empty {
+  padding: 12px 10px;
+  color: var(--ink-3);
+  font-size: 11px;
+  text-align: center;
+}
