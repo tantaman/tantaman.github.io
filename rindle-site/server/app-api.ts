@@ -32,6 +32,7 @@ import {
 } from "../src/components/PostEditor.queries.ts";
 import { postQuery } from "../src/components/PostView.queries.ts";
 import { postCommentsQuery } from "../src/components/PostComments.queries.ts";
+import { pasteCommentsQuery } from "../src/components/Paste.queries.ts";
 import {
   thoughtQuery,
   thoughtRepliesQuery,
@@ -99,6 +100,7 @@ const apiQueries = registerQueries<User>([
   featuredPostsQuery,
   postQuery,
   postCommentsQuery,
+  pasteCommentsQuery,
   postEditorQuery,
   postEditorFacetOptionsQuery,
   postEditorMetadataOptionsQuery,
@@ -179,6 +181,17 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
         { user: ctx.user.subject },
         tx,
       );
+    },
+    createPasteComment: async (tx, raw, ctx) => {
+      const args = mutators.createPasteComment.args.parse(raw);
+      requireAccount(ctx.user);
+      if (args.comment.authorName !== commentAuthorName(ctx.user)) throw new Error("Comment author does not match the signed-in account.");
+      await runSharedMutation(mutators.createPasteComment, args, { user: ctx.user.subject }, tx);
+    },
+    deletePasteComment: async (tx, raw, ctx) => {
+      const args = mutators.deletePasteComment.args.parse(raw);
+      requireAccount(ctx.user);
+      await runSharedMutation(mutators.deletePasteComment, args, { user: ctx.user.subject }, tx);
     },
     // Local structured rows are written by the exact shared body the browser predicted. Network
     // metadata is authority-only work, scheduled only after that transaction commits.

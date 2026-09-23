@@ -29,6 +29,7 @@ import {
   post,
   postAuthor,
   postComment,
+  pasteComment,
   postFacet,
   project,
   projectActivity,
@@ -67,6 +68,8 @@ export const relationships = defineRelationships({
   postAuthors: rel(post, postAuthor, { id: "postId" }),
   postComments: rel(post, postComment, { id: "postId" }),
   postCommentReplies: rel(postComment, postComment, { id: "parentId" }),
+  pasteComments: rel(paste, pasteComment, { id: "pasteId" }),
+  pasteCommentReplies: rel(pasteComment, pasteComment, { id: "parentId" }),
   authorPosts: rel(author, postAuthor, { id: "authorId" }),
   postAuthorProfile: rel(postAuthor, author, { authorId: "id" }),
   thoughtReplies: rel(thought, thought, { id: "parentId" }),
@@ -146,6 +149,7 @@ export type PostFacet = Row<typeof postFacet>;
 export type Author = Row<typeof author>;
 export type PostAuthor = Row<typeof postAuthor>;
 export type PostComment = Row<typeof postComment>;
+export type PasteComment = Row<typeof pasteComment>;
 export type Thought = Row<typeof thought>;
 export type ThoughtHistory = Row<typeof thoughtHistory>;
 export type ThoughtAttachment = Row<typeof thoughtAttachment>;
@@ -284,6 +288,18 @@ const deletePostCommentArgs = z.object({
   deletedAt: timestamp,
 });
 export type DeletePostCommentArgs = z.infer<typeof deletePostCommentArgs>;
+
+const createPasteCommentArgs = z.object({
+  comment: z.object({
+    id: stableId,
+    pasteId: z.string().trim().min(1).max(500),
+    authorName: z.string().min(1).max(200).refine((value) => value === value.trim()),
+    parentId: stableId.nullable(),
+    body: z.string().max(10_000).refine((value) => value.trim().length > 0),
+    createdAt: timestamp,
+  }),
+});
+export type CreatePasteCommentArgs = z.infer<typeof createPasteCommentArgs>;
 
 const thoughtTagArg = z.object({
   id: stableId,
@@ -789,6 +805,26 @@ const deletePostComment = shared(deletePostCommentArgs, function* (tx, args, ctx
   if (comment.authorId !== authorId) throw new Error("Only the comment author can delete it.");
   if (comment.deletedAt !== null) return;
   yield tx.update("postComment", { id: args.id, body: "", deletedAt: args.deletedAt });
+});
+
+const createPasteComment = shared(createPasteCommentArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const target = (yield tx.row("paste", { id: args.comment.pasteId })) as Record<string, unknown> | undefined;
+  if (!target) throw new Error("Paste not found.");
+  if (args.comment.parentId !== null) {
+    const parent = (yield tx.row("pasteComment", { id: args.comment.parentId })) as Record<string, unknown> | undefined;
+    if (!parent || parent.pasteId !== args.comment.pasteId) throw new Error("Parent reply not found in this paste.");
+  }
+  yield tx.insert("pasteComment", { ...args.comment, authorId, deletedAt: null });
+});
+
+const deletePasteComment = shared(deletePostCommentArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const comment = (yield tx.row("pasteComment", { id: args.id })) as Record<string, unknown> | undefined;
+  if (!comment) throw new Error("Reply not found.");
+  if (comment.authorId !== authorId) throw new Error("Only the reply author can delete it.");
+  if (comment.deletedAt !== null) return;
+  yield tx.update("pasteComment", { id: args.id, body: "", deletedAt: args.deletedAt });
 });
 
 /** Create one immutable paste revision. The caller supplies its stable id, timestamp, inferred title,
@@ -1554,6 +1590,8 @@ export const mutators = {
   deletePost,
   createPostComment,
   deletePostComment,
+  createPasteComment,
+  deletePasteComment,
   createPaste,
   setPasteShared,
   deletePaste,

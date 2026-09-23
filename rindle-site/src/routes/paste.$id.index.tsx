@@ -4,6 +4,7 @@ import { useRoot } from "@rindle/react";
 
 import { authClient } from "../auth-client.ts";
 import { pasteQuery, type PasteDetailRow } from "../components/Paste.queries.ts";
+import { PasteComments } from "../components/PasteComments.tsx";
 import { renderMarkdown } from "../lib/markdown.ts";
 import { pasteDate } from "../lib/paste.ts";
 import { app } from "../rindle-client.ts";
@@ -118,6 +119,7 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
           onDelete={() => void deletePaste()}
         />
       </footer>
+      <PasteComments pasteId={paste.id} />
     </article>
   );
 }

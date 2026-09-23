@@ -87,3 +87,16 @@ export const pasteDiffQuery = defineQuery("pasteDiff", (raw) => pasteIdArgs.pars
 export type PasteListRow = QueryLocalData<ReturnType<typeof pastesQuery>>[number];
 export type PasteDetailRow = NonNullable<QueryLocalData<ReturnType<typeof pasteQuery>>>;
 export type PasteDiffRow = NonNullable<QueryLocalData<ReturnType<typeof pasteDiffQuery>>>;
+
+export const PASTE_COMMENTS_PAGE_SIZE = 100;
+export const PASTE_COMMENTS_MAX_LIMIT = 2_000;
+const pasteCommentsArgs = z.object({ pasteId: pasteIdArgs, limit: z.number().int().min(PASTE_COMMENTS_PAGE_SIZE).max(PASTE_COMMENTS_MAX_LIMIT) });
+export const pasteCommentsQuery = defineQuery(
+  "pasteComments",
+  (raw) => pasteCommentsArgs.parse(raw),
+  ({ pasteId, limit }) => q.pasteComment.where.pasteId(pasteId)
+    .orderBy("createdAt", "asc").orderBy("id", "asc").limit(limit + 1)
+    .countAs("replyCount", relationships.pasteCommentReplies)
+    .select("id", "pasteId", "authorId", "authorName", "parentId", "body", "createdAt", "deletedAt"),
+);
+export type PasteCommentRow = QueryLocalData<ReturnType<typeof pasteCommentsQuery>>[number];
