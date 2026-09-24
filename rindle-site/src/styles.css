@@ -5020,8 +5020,28 @@ main.app-main:has(.framing-canvas-wrap) {
 .framing-thought-node:hover .framing-node-remove,
 .framing-thought-node:hover .framing-node-puck-toggle,
 .framing-post-node:hover .framing-node-remove,
-.framing-framing-node:hover .framing-node-remove {
+.framing-framing-node:hover .framing-node-remove,
+.framing-item-node:hover .framing-node-remove,
+.framing-item-node:hover .framing-node-maximize {
   opacity: 0.8;
+}
+.framing-node-maximize {
+  position: absolute;
+  z-index: 2;
+  top: 3px;
+  right: 22px;
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+.framing-node-maximize:hover {
+  color: var(--accent);
+  opacity: 1 !important;
 }
 .framing-node-remove:hover {
   color: #c74858;
@@ -5452,6 +5472,54 @@ main.app-main:has(.framing-canvas-wrap) {
 .item-hue--movie { --item-color: #bf616a; }
 .item-hue--album { --item-color: #88c0d0; }
 .item-hue--bookmark { --item-color: #8b8394; }
+.item-hue--paste { --item-color: #c9a0dc; }
+
+.framing-paste-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+.framing-paste-overlay-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 12px clamp(16px, 3vw, 28px);
+  border-bottom: 1px solid var(--line-2);
+  background: var(--panel);
+}
+.framing-paste-overlay-header > div {
+  flex: 1;
+  min-width: 0;
+}
+.framing-paste-overlay-header p {
+  margin: 0;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.framing-paste-overlay-header h2 {
+  margin: 2px 0 0;
+  overflow: hidden;
+  font-size: 18px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.framing-paste-overlay-body {
+  flex: 1;
+  overflow: auto;
+  padding: clamp(16px, 3vw, 32px);
+}
+.framing-paste-overlay-body > .paste-content {
+  max-width: 820px;
+  margin: 0 auto;
+}
+.framing-paste-overlay-body > .paste-runner {
+  height: 100%;
+  min-height: 0;
+}
 
 .thought-item-card {
   min-width: 0;

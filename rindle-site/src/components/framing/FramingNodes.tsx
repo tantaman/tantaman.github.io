@@ -11,6 +11,7 @@ import { renderThoughtMarkdown } from "../../lib/thoughts.ts";
 import { attachmentPreviewUrl, isPreviewableImage } from "../../lib/attachments.ts";
 import { ItemCard, type EnrichmentItemTarget } from "../ItemCard.tsx";
 import { ThoughtComposer } from "../ThoughtComposer.tsx";
+import { useMaximizePaste } from "./FramingPasteOverlay.tsx";
 
 export interface ThoughtNodeData extends Record<string, unknown> {
   body: string;
@@ -250,8 +251,22 @@ export const FramingNestedNode = memo(function FramingNestedNode({ data }: NodeP
 });
 
 export const FramingItemNode = memo(function FramingItemNode({ data }: NodeProps<ItemFlowNode>) {
+  const maximizePaste = useMaximizePaste();
+  const pasteId = data.target.kind === "paste" ? data.target.id : null;
   return (
-    <div className={`framing-item-node item-hue--${data.target.kind}`}>
+    <div
+      className={`framing-item-node item-hue--${data.target.kind}`}
+      onDoubleClick={pasteId && maximizePaste ? () => maximizePaste(pasteId) : undefined}
+    >
+      {pasteId && maximizePaste ? (
+        <button
+          type="button"
+          className="framing-node-maximize nodrag"
+          onClick={(event) => { event.stopPropagation(); maximizePaste(pasteId); }}
+          title="Maximize paste"
+          aria-label="Maximize paste"
+        >⤢</button>
+      ) : null}
       {data.editable && data.onRemove ? (
         <button
           type="button"

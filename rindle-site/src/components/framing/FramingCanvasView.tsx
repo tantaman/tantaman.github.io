@@ -15,6 +15,7 @@ import "@xyflow/react/dist/style.css";
 import { app } from "../../rindle-client.ts";
 import { isItemKind, itemKey } from "../../../shared/item-kinds.ts";
 import { FramingDetailPane } from "./FramingDetailPane.tsx";
+import { FramingPasteOverlay, MaximizePasteContext } from "./FramingPasteOverlay.tsx";
 import { FramingLabeledEdge, type FramingEdgeData } from "./FramingEdge.tsx";
 import { FramingLeftPanel, type FramingViewName } from "./FramingLeftPanel.tsx";
 import {
@@ -208,6 +209,8 @@ export function FramingCanvasView({
   const flowRef = useRef<ReactFlowInstance | null>(null);
   const lastPaneClick = useRef<{ at: number; x: number; y: number } | null>(null);
   const [selectedThoughtId, setSelectedThoughtId] = useState<string | null>(null);
+  const [maximizedPasteId, setMaximizedPasteId] = useState<string | null>(null);
+  const closeMaximizedPaste = useCallback(() => setMaximizedPasteId(null), []);
 
   const rename = useCallback((name: string) => {
     if (!isAdmin) return;
@@ -258,6 +261,7 @@ export function FramingCanvasView({
         onRename={rename}
         onPrivacyChange={setPrivacy}
       />
+      <MaximizePasteContext.Provider value={setMaximizedPasteId}>
       <div className="framing-canvas" tabIndex={0} onKeyDown={(event) => {
         if (event.key !== "Backspace" && event.key !== "Delete") return;
         for (const edge of edges) if (edge.selected) deleteEdge(edge.id);
@@ -289,7 +293,7 @@ export function FramingCanvasView({
           <Controls />
           <MiniMap />
           <div className="framing-toolbar">
-            {isAdmin ? <span className="framing-toolbar-hint">Double-click canvas to add a thought</span> : null}
+            {isAdmin ? <span className="framing-toolbar-hint">Double-click canvas to add a thought or paste</span> : null}
             {isAdmin ? (
               <button type="button" className="framing-toolbar-btn" onClick={() => applyLayout(hierarchicalLayout(nodes, edges))}>
                 Layout
@@ -301,6 +305,8 @@ export function FramingCanvasView({
           </div>
         </ReactFlow>
       </div>
+      </MaximizePasteContext.Provider>
+      {maximizedPasteId ? <FramingPasteOverlay pasteId={maximizedPasteId} onClose={closeMaximizedPaste} /> : null}
       {selectedThoughtId ? (
         <FramingDetailPane thoughtId={selectedThoughtId} isAdmin={isAdmin} onClose={() => setSelectedThoughtId(null)} />
       ) : null}
