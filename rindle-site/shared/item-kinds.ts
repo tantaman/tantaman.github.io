@@ -11,6 +11,7 @@
 export const ITEM_KINDS = [
   "thought",
   "post",
+  "paste",
   "framing",
   "project",
   "task",
@@ -36,8 +37,10 @@ export type ItemKind = (typeof ITEM_KINDS)[number];
  *    their mentions; a curation surface renders only the entity's own fields (title, artwork, year),
  *    never a mention note or a source-thought link, so placing one publishes exactly the title and
  *    artwork the author dragged and nothing behind it. Placing IS publishing for these kinds.
+ *  - `shared` — pastes. A reader sees one only once it is explicitly shared (`shared = 1`), the same
+ *    gate the public paste feed applies; placing an unlisted paste does not publish it.
  */
-export type ItemPrivacyModel = "own" | "thought" | "entity";
+export type ItemPrivacyModel = "own" | "thought" | "entity" | "shared";
 
 export interface ItemKindProfile {
   readonly kind: ItemKind;
@@ -55,6 +58,7 @@ export interface ItemKindProfile {
 export const ITEM_KIND_PROFILES = {
   thought: { kind: "thought", table: "thought", label: "Thought", plural: "Thoughts", code: null, privacy: "own" },
   post: { kind: "post", table: "post", label: "Post", plural: "Posts", code: null, privacy: "entity" },
+  paste: { kind: "paste", table: "paste", label: "Paste", plural: "Pastes", code: null, privacy: "shared" },
   framing: { kind: "framing", table: "framing", label: "Framing", plural: "Framings", code: "#f", privacy: "own" },
   project: { kind: "project", table: "project", label: "Project", plural: "Projects", code: "#p", privacy: "own" },
   task: { kind: "task", table: "task", label: "Task", plural: "Tasks", code: "#t", privacy: "own" },
@@ -71,6 +75,7 @@ export const ITEM_KIND_PROFILES = {
  *  posts, and framings keep their own canvas nodes: they carry surface-specific behavior (reply and
  *  link expansion, permalinks, double-click to enter) that a card has no business owning. */
 export const ENRICHMENT_ITEM_KINDS = [
+  "paste",
   "project",
   "task",
   "question",

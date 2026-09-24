@@ -92,6 +92,23 @@ export const framingPostsQuery = defineQuery("framingPosts", (raw) => pickerArgs
     .select("id", "title", "date", "description", "tags", "color");
 });
 
+/** Readers see shared pastes only, matching the public paste feed; the full body stays in the by-id
+ *  view, so a chip carries just the precomputed excerpt. */
+export const framingPastesQuery = defineQuery(
+  "framingPastes",
+  (raw) => pickerArgs.parse(raw),
+  (args, ctx: QueryContext) => {
+    let paste = q.paste;
+    if (!canPublish(ctx.user)) paste = paste.where.shared(1);
+    if (args.search.trim()) paste = paste.where.title(ilike(`%${args.search.trim()}%`));
+    return paste
+      .orderBy("createdAt", "desc")
+      .orderBy("id", "asc")
+      .limit(args.limit + 1)
+      .select("id", "title", "excerpt", "language", "createdAt", "shared");
+  },
+);
+
 function thoughtConnections(args: z.infer<typeof connectionArgs>, admin: boolean) {
   let root = q.thought.where.id(args.id);
   if (!admin) root = root.where.private(0);
@@ -173,4 +190,5 @@ export type FramingsRow = QueryLocalData<ReturnType<typeof framingsQuery>>[numbe
 export type FramingDetailRow = NonNullable<QueryLocalData<ReturnType<typeof framingQuery>>>;
 export type FramingThoughtPickerRow = QueryLocalData<ReturnType<typeof framingThoughtsQuery>>[number];
 export type FramingPostPickerRow = QueryLocalData<ReturnType<typeof framingPostsQuery>>[number];
+export type FramingPastePickerRow = QueryLocalData<ReturnType<typeof framingPastesQuery>>[number];
 export type FramingThoughtConnectionsRow = NonNullable<QueryLocalData<ReturnType<typeof framingThoughtConnectionsQuery>>>;

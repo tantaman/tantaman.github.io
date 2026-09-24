@@ -40,6 +40,7 @@ import {
 } from "../src/components/ThoughtCard.queries.ts";
 import { thoughtEnrichmentQueries } from "../src/components/ThoughtEnrichment.queries.ts";
 import {
+  framingPastesQuery,
   framingPostsQuery,
   framingQuery,
   framingThoughtConnectionsQuery,
@@ -113,6 +114,7 @@ const apiQueries = registerQueries<User>([
   itemCollectionsQuery,
   framingThoughtsQuery,
   framingPostsQuery,
+  framingPastesQuery,
   framingThoughtConnectionsQuery,
   pastesQuery,
   pasteQuery,

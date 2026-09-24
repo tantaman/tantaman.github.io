@@ -3,6 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 
 import { authClient } from "../auth-client.ts";
+import { AddToCollection } from "../components/AddToCollection.tsx";
 import { pasteQuery, type PasteDetailRow } from "../components/Paste.queries.ts";
 import { PasteComments } from "../components/PasteComments.tsx";
 import { renderMarkdown } from "../lib/markdown.ts";
@@ -142,6 +143,12 @@ function PasteActions({
       {paste.parentId ? <Link to="/paste/$id/diff" params={{ id: paste.id }}>diff</Link> : null}
       {isAdmin ? (
         <>
+          <AddToCollection
+            kind="paste"
+            itemId={paste.id}
+            isAdmin={isAdmin}
+            defaultPrivate={paste.shared !== 1}
+          />
           <button type="button" onClick={onToggleShared}>{paste.shared === 1 ? "unshare" : "share"}</button>
           <button className="is-danger" type="button" onClick={onDelete}>delete</button>
         </>
@@ -155,79 +162,61 @@ function PasteBody({ paste }: { paste: PasteDetailRow }) {
   const markdown = useMemo(() => {
     if (paste.language !== "markdown") return "";
     const withoutLeadingTitle = paste.body.trimStart().replace(/^#{1,6}\s+.+\r?\n?/, "");
-    const rendered = renderMarkdown(withoutLeadingTitle);
-    return rendered.includes("language-mermaid")
-      ? `${rendered}<script type="module" data-mermaid-bootstrap>
-          const nodes = [...document.querySelectorAll('.paste-content pre > code.language-mermaid')];
-          for (const code of nodes) {
-            const diagram = document.createElement('div');
-            diagram.className = 'mermaid';
-            diagram.dataset.mermaidBootstrap = '';
-            diagram.textContent = code.textContent || '';
-            diagram.dataset.source = diagram.textContent;
-            code.parentElement?.replaceWith(diagram);
-          }
-          if (nodes.length) {
-            import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs').then(({ default: mermaid }) => {
-              mermaid.initialize({ startOnLoad: false, theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default' });
-              return mermaid.run({ querySelector: '.paste-content .mermaid' });
-            }).catch(() => {});
-          }
-        </script>`
-      : rendered;
+    return renderMarkdown(withoutLeadingTitle);
   }, [paste.body, paste.language]);
 
   useEffect(() => {
     const content = contentRef.current;
     if (paste.language !== "markdown" || !content) return;
 
-    // A direct request may already have upgraded these nodes through the SSR bootstrap. Only
-    // claim untouched fenced blocks here; otherwise the bootstrap and hydration can race Mermaid
-    // against itself and the error path would replace a valid SVG with source text.
+    // This effect is the only owner of the diagrams. React may re-apply the markdown HTML at any
+    // time (a hydration mismatch elsewhere client-renders the whole tree), so every run starts from
+    // the fenced blocks it finds and renders into containers it created itself.
     const diagrams = [...content.querySelectorAll<HTMLElement>("pre > code.language-mermaid")]
       .map((code) => {
-        if (code.classList.contains("mermaid")) return code;
         const container = document.createElement("div");
         container.className = "mermaid";
-        container.textContent = code.textContent ?? "";
+        container.dataset.source = code.textContent ?? "";
+        container.textContent = container.dataset.source;
         code.parentElement?.replaceWith(container);
         return container;
       });
     if (diagrams.length === 0) return;
 
-    let active = true;
+    // A theme flip re-renders while an earlier pass may still be in flight; only the latest pass
+    // writes. Ids are unique per pass because Mermaid deletes any existing element with the id it
+    // is about to render, and its default ids are timestamps that can collide.
+    let generation = 0;
     const render = async () => {
-      for (const diagram of diagrams) {
-        diagram.removeAttribute("data-processed");
-        diagram.textContent = diagram.dataset.source ?? diagram.textContent;
-        diagram.dataset.source ??= diagram.textContent ?? "";
-      }
-
+      const pass = ++generation;
       const mermaidUrl = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
       const { default: mermaid } = await import(/* @vite-ignore */ mermaidUrl);
-      if (!active) return;
+      if (pass !== generation) return;
       mermaid.initialize({
         startOnLoad: false,
         theme: document.documentElement.dataset.theme === "dark" ? "dark" : "default",
       });
-      await mermaid.run({ nodes: diagrams });
-    };
-
-    const renderDiagram = () => {
-      void render().catch(() => {
-        for (const diagram of diagrams) {
-          diagram.removeAttribute("data-processed");
-          diagram.textContent = diagram.dataset.source ?? "Diagram could not be rendered.";
+      for (const [index, diagram] of diagrams.entries()) {
+        const source = diagram.dataset.source ?? "";
+        try {
+          const { svg, bindFunctions } = await mermaid.render(`paste-mermaid-${pass}-${index}`, source);
+          if (pass !== generation) return;
+          diagram.innerHTML = svg;
+          bindFunctions?.(diagram);
+        } catch {
+          if (pass !== generation) return;
+          diagram.textContent = source;
         }
-      });
+      }
     };
 
-    renderDiagram();
-    const themeObserver = new MutationObserver(renderDiagram);
+    const renderDiagrams = () => void render().catch(() => {});
+    renderDiagrams();
+    const themeObserver = new MutationObserver(renderDiagrams);
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     return () => {
-      active = false;
+      generation = -1;
       themeObserver.disconnect();
     };
   }, [markdown, paste.language]);

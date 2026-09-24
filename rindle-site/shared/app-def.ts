@@ -119,6 +119,7 @@ export const relationships = defineRelationships({
   framingNodeIncomingEdges: rel(framingNode, framingEdge, { id: "targetNodeId" }),
   framingNodeThought: rel(framingNode, thought, { itemId: "id" }),
   framingNodePost: rel(framingNode, post, { itemId: "id" }),
+  framingNodePaste: rel(framingNode, paste, { itemId: "id" }),
   framingNodeFraming: rel(framingNode, framing, { itemId: "id" }),
   framingNodeProject: rel(framingNode, project, { itemId: "id" }),
   framingNodeTask: rel(framingNode, task, { itemId: "id" }),
@@ -873,6 +874,35 @@ const deletePaste = shared(deletePasteArgs, function* (tx, args, ctx) {
   for (const id of childIds) {
     yield tx.update("paste", { id, parentId: current.parentId });
   }
+
+  // A paste can be placed in framings. Remove those now-dangling nodes and their incident edges,
+  // as deleting a framing does for its nested references.
+  const referenceIds = rowIds(
+    (yield tx.query(
+      q.framingNode
+        .where.itemType("paste")
+        .where.itemId(args.id)
+        .orderBy("id", "asc")
+        .limit(1_001),
+    )) as unknown,
+    "framing references",
+    1_000,
+  );
+  for (const nodeId of referenceIds) {
+    const outgoing = rowIds(
+      (yield tx.query(q.framingEdge.where.sourceNodeId(nodeId).orderBy("id", "asc").limit(5_001))) as unknown,
+      "framing reference outgoing edges",
+      5_000,
+    );
+    const incoming = rowIds(
+      (yield tx.query(q.framingEdge.where.targetNodeId(nodeId).orderBy("id", "asc").limit(5_001))) as unknown,
+      "framing reference incoming edges",
+      5_000,
+    );
+    for (const id of new Set([...outgoing, ...incoming])) yield tx.delete("framingEdge", { id });
+    yield tx.delete("framingNode", { id: nodeId });
+  }
+
   yield tx.delete("paste", { id: args.id });
 });
 

@@ -55,6 +55,10 @@ export function framingNodeItems(node: typeof q.framingNode, { admin, limit }: I
     .sub("post", relationships.framingNodePost, (row) =>
       row.select("id", "title", "date", "description", "tags", "color").one(),
     )
+    .sub("paste", relationships.framingNodePaste, (row) => {
+      const visible = admin ? row : row.where.shared(1);
+      return visible.select("id", "title", "excerpt", "language", "createdAt", "shared").one();
+    })
     .sub("nestedFraming", relationships.framingNodeFraming, (row) => {
       const visible = admin ? row : row.where.private(0);
       return visible.select("id", "name", "private", "updatedAt").one();

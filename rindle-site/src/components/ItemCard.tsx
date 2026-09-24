@@ -10,10 +10,19 @@
 import type { ReactNode } from "react";
 
 import { ITEM_KIND_PROFILES, isEnrichmentItemKind, type EnrichmentItemKind } from "../../shared/item-kinds.ts";
+import { pasteDate } from "../lib/paste.ts";
 import { MediaCard } from "./MediaCard.tsx";
 
 // --------------------------------------------------------------- resolved rows
 
+export interface PasteTargetRow {
+  id: string;
+  title: string | null;
+  excerpt: string;
+  language: string;
+  createdAt: number;
+  shared: number;
+}
 export interface ProjectTargetRow {
   id: string;
   title: string;
@@ -98,6 +107,7 @@ export interface BookmarkTargetRow {
  *  privacy gate excluded it. Only the enrichment kinds appear here: thoughts, posts, and framings are
  *  resolved by the surfaces that own their bespoke rendering. */
 export interface EnrichmentItemRow {
+  paste?: PasteTargetRow | readonly PasteTargetRow[] | null;
   project?: ProjectTargetRow | readonly ProjectTargetRow[] | null;
   task?: TaskTargetRow | readonly TaskTargetRow[] | null;
   question?: QuestionTargetRow | readonly QuestionTargetRow[] | null;
@@ -110,6 +120,7 @@ export interface EnrichmentItemRow {
 }
 
 export type EnrichmentItemTarget =
+  | { kind: "paste"; id: string; row: PasteTargetRow }
   | { kind: "project"; id: string; row: ProjectTargetRow }
   | { kind: "task"; id: string; row: TaskTargetRow }
   | { kind: "question"; id: string; row: QuestionTargetRow }
@@ -132,6 +143,7 @@ export function resolveEnrichmentTarget(itemType: string, row: EnrichmentItemRow
   if (!isEnrichmentItemKind(itemType)) return null;
   const kind: EnrichmentItemKind = itemType;
   switch (kind) {
+    case "paste": { const target = one(row.paste); return target ? { kind, id: target.id, row: target } : null; }
     case "project": { const target = one(row.project); return target ? { kind, id: target.id, row: target } : null; }
     case "task": { const target = one(row.task); return target ? { kind, id: target.id, row: target } : null; }
     case "question": { const target = one(row.question); return target ? { kind, id: target.id, row: target } : null; }
@@ -147,6 +159,7 @@ export function resolveEnrichmentTarget(itemType: string, row: EnrichmentItemRow
 /** The title a surface shows for a target — also what a picker chip and an accessible label use. */
 export function itemTargetTitle(target: EnrichmentItemTarget): string {
   if (target.kind === "bookmark") return target.row.title?.trim() || hostOf(target.row.url);
+  if (target.kind === "paste") return target.row.title?.trim() || "Untitled";
   return target.row.title;
 }
 
@@ -219,6 +232,15 @@ function ItemFrame({
 
 export function ItemCard({ target }: { target: EnrichmentItemTarget }) {
   switch (target.kind) {
+    case "paste":
+      return (
+        <ItemFrame
+          kind="paste"
+          title={<a href={`/paste/${encodeURIComponent(target.id)}`} className="nodrag">{itemTargetTitle(target)}</a>}
+          meta={[target.row.language, pasteDate(target.row.createdAt), target.row.shared === 1 ? null : "unlisted"]}
+          description={clamp(target.row.excerpt)}
+        />
+      );
     case "book":
       return (
         <MediaCard

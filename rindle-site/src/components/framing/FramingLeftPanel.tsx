@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent as Re
 import { Link } from "@tanstack/react-router";
 import { useRoot } from "@rindle/react";
 
+import { pasteDate } from "../../lib/paste.ts";
 import { renderThoughtMarkdown } from "../../lib/thoughts.ts";
 import { currentQueryContext } from "../../rindle-client.ts";
 import {
@@ -14,9 +15,11 @@ import {
   FRAMINGS_LIMIT,
   FRAMING_PICKER_MAX_LIMIT,
   FRAMING_PICKER_PAGE_SIZE,
+  framingPastesQuery,
   framingPostsQuery,
   framingThoughtsQuery,
   framingsQuery,
+  type FramingPastePickerRow,
   type FramingPostPickerRow,
   type FramingThoughtPickerRow,
   type FramingsRow,
@@ -191,6 +194,22 @@ function ChipList({
   );
 }
 
+/** Pastes search server-side by title, so the chip list's own filter only ever narrows further. */
+function PastePicker(props: PickerProps) {
+  const [rows, { status }] = useRoot(
+    framingPastesQuery,
+    { search: props.search, limit: props.limit },
+    currentQueryContext(),
+  );
+  const chips = (rows.slice(0, props.limit) as readonly FramingPastePickerRow[]).map((row) => ({
+    id: row.id,
+    title: row.title?.trim() || truncate(row.excerpt, 80) || "Untitled",
+    meta: [row.language, pasteDate(row.createdAt), row.shared === 1 ? null : "unlisted"].filter(Boolean).join(" · "),
+    image: null,
+  }));
+  return <ChipList kind="paste" chips={chips} total={rows.length} loading={status !== "complete"} props={props} />;
+}
+
 function ProjectPicker(props: PickerProps) {
   const [rows, { status }] = useRoot(thoughtProjectsQuery, { limit: props.limit }, currentQueryContext());
   const chips = (rows.slice(0, props.limit) as readonly ProjectEnrichmentRow[]).map((row) => ({
@@ -352,6 +371,7 @@ function ActivePicker({ kind, framingId, props }: { kind: ItemKind; framingId: s
   switch (kind) {
     case "thought": return <ThoughtPicker {...props} />;
     case "post": return <PostPicker {...props} />;
+    case "paste": return <PastePicker {...props} />;
     case "framing": return <FramingPicker framingId={framingId} {...props} />;
     case "project": return <ProjectPicker {...props} />;
     case "task": return <TaskPicker {...props} />;
