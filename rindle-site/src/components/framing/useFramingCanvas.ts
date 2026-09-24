@@ -30,6 +30,7 @@ import {
   framingThoughtConnectionsQuery,
 } from "../Framing.queries.ts";
 import type {
+  ComposeKind,
   ComposeNodeData,
   FramingFlowNode,
   NestedFramingNodeData,
@@ -403,10 +404,10 @@ export function useFramingCanvas(framingId: string, isAdmin: boolean) {
     setNodes((current) => current.filter((node) => node.id !== COMPOSE_NODE_ID));
   }, []);
 
-  const finishCompose = useCallback((thoughtId: string) => {
+  const finishCompose = useCallback((kind: ComposeKind, itemId: string) => {
     if (!composePosition) return;
     setNodes((current) => current.filter((node) => node.id !== COMPOSE_NODE_ID));
-    addNode("thought", thoughtId, composePosition.x, composePosition.y);
+    addNode(kind, itemId, composePosition.x, composePosition.y);
     setComposePosition(null);
   }, [addNode, composePosition]);
 

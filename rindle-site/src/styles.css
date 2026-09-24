@@ -5139,6 +5139,49 @@ main.app-main:has(.framing-canvas-wrap) {
 .framing-compose-node .thought-file-prompt span {
   display: none;
 }
+.framing-compose-kind {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 4px;
+}
+.framing-compose-kind button {
+  padding: 3px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+  background: var(--raise);
+  color: var(--ink-3);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.framing-compose-kind button.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.framing-compose-language {
+  margin: 9px 11px 0;
+  padding: 3px 6px;
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+  background: var(--panel);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 12px;
+}
+.framing-compose-paste textarea {
+  overflow-y: auto;
+  max-height: 360px;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.framing-compose-paste .thought-composer-footer {
+  justify-content: flex-end;
+}
 .framing-compose-textarea {
   width: 100%;
   min-height: 86px;

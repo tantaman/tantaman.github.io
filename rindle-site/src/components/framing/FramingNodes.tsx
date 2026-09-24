@@ -1,6 +1,11 @@
-import { memo, useState, type CSSProperties, type MouseEvent } from "react";
+import { memo, useState, type CSSProperties, type FormEvent, type KeyboardEvent, type MouseEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
+import { ulid } from "ulid";
+
+import type { PasteLanguage } from "../../../shared/app-def.ts";
+import { extractPasteTitle, PASTE_LANGUAGE_OPTIONS, pasteExcerpt } from "../../lib/paste.ts";
+import { app } from "../../rindle-client.ts";
 
 import { renderThoughtMarkdown } from "../../lib/thoughts.ts";
 import { attachmentPreviewUrl, isPreviewableImage } from "../../lib/attachments.ts";
@@ -60,8 +65,11 @@ export interface ItemNodeData extends Record<string, unknown> {
   onRemove?: (nodeId: string) => void;
 }
 
+/** What a double-click on the canvas can mint in place. */
+export type ComposeKind = "thought" | "paste";
+
 export interface ComposeNodeData extends Record<string, unknown> {
-  onDone: (thoughtId: string) => void;
+  onDone: (kind: ComposeKind, itemId: string) => void;
   onCancel: () => void;
 }
 
@@ -259,16 +267,103 @@ export const FramingItemNode = memo(function FramingItemNode({ data }: NodeProps
 });
 
 export const FramingComposeNode = memo(function FramingComposeNode({ data }: NodeProps<ComposeFlowNode>) {
+  const [kind, setKind] = useState<ComposeKind>("thought");
   return (
     <div className="framing-compose-node nodrag">
-      <ThoughtComposer
-        compact
-        autoFocus
-        placeholder="Write a new thought…"
-        submitLabel="Create"
-        onDone={data.onDone}
-        onCancel={data.onCancel}
-      />
+      <div className="framing-compose-kind" role="radiogroup" aria-label="Create a">
+        {(["thought", "paste"] as const).map((option) => (
+          <button
+            type="button"
+            key={option}
+            role="radio"
+            aria-checked={kind === option}
+            className={kind === option ? "is-active" : undefined}
+            onClick={() => setKind(option)}
+          >{option === "thought" ? "Thought" : "Paste"}</button>
+        ))}
+      </div>
+      {kind === "thought" ? (
+        <ThoughtComposer
+          compact
+          autoFocus
+          placeholder="Write a new thought…"
+          submitLabel="Create"
+          onDone={(thoughtId) => data.onDone("thought", thoughtId)}
+          onCancel={data.onCancel}
+        />
+      ) : (
+        <PasteComposer onDone={(pasteId) => data.onDone("paste", pasteId)} onCancel={data.onCancel} />
+      )}
     </div>
   );
 });
+
+/** The paste bin's editor, cut down to what fits on a canvas. The paste is created unlisted, as it
+ *  is from /paste; sharing stays on the paste's own page. */
+function PasteComposer({ onDone, onCancel }: { onDone: (pasteId: string) => void; onCancel: () => void }) {
+  const [body, setBody] = useState("");
+  const [language, setLanguage] = useState<PasteLanguage>("markdown");
+  const [error, setError] = useState<string | null>(null);
+
+  function save(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!body.trim()) return;
+    const id = ulid();
+    try {
+      app.mutate.createPaste({
+        paste: {
+          id,
+          body,
+          excerpt: pasteExcerpt(body),
+          language,
+          title: extractPasteTitle(body, language),
+          createdAt: Date.now(),
+          parentId: null,
+        },
+      });
+      onDone(id);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Could not save the paste.");
+    }
+  }
+
+  function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Escape") { event.preventDefault(); onCancel(); return; }
+    if (event.key !== "Enter" || (!event.metaKey && !event.ctrlKey)) return;
+    event.preventDefault();
+    event.currentTarget.form?.requestSubmit();
+  }
+
+  return (
+    <form className="thought-composer thought-composer--compact framing-compose-paste" onSubmit={save}>
+      <select
+        className="framing-compose-language"
+        aria-label="Language"
+        value={language}
+        onChange={(event) => setLanguage(event.target.value as PasteLanguage)}
+      >
+        {PASTE_LANGUAGE_OPTIONS.map((option) => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}
+      </select>
+      <textarea
+        rows={6}
+        value={body}
+        autoFocus
+        spellCheck={language === "markdown" || language === "plaintext"}
+        placeholder="Paste or write something…"
+        onChange={(event) => setBody(event.target.value)}
+        onKeyDown={onKeyDown}
+      />
+      <div className="thought-composer-footer">
+        <button className="thought-button thought-button--quiet" type="button" onClick={onCancel}>
+          Cancel
+        </button>
+        <button className="thought-button thought-button--primary" type="submit" disabled={!body.trim()}>
+          Create
+        </button>
+      </div>
+      {error ? <p className="paste-error" role="alert">{error}</p> : null}
+    </form>
+  );
+}
