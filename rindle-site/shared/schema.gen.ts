@@ -217,6 +217,10 @@ export const pasteComment = table("pasteComment")
     body: string(),
     createdAt: number(),
     deletedAt: number().nullable(),
+    anchorQuote: string().nullable(),
+    anchorPrefix: string().nullable(),
+    anchorSuffix: string().nullable(),
+    anchorStart: number().nullable(),
   })
   .primaryKey("id");
 

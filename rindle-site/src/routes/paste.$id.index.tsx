@@ -40,6 +40,7 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
   const hydrated = useHydrated();
   const navigate = Route.useNavigate();
   const [actionError, setActionError] = useState<string | null>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const isAdmin = hydrated && session?.user.role === "admin";
   const title = paste.title || "Untitled";
   const parent = paste.parent[0] ?? null;
@@ -111,7 +112,9 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
       ) : null}
 
       <div className="paste-rule" />
-      <PasteBody paste={paste} />
+      <div ref={bodyRef} className="paste-anchor-root">
+        <PasteBody paste={paste} />
+      </div>
       <footer className="paste-document-footer">
         <PasteActions
           paste={paste}
@@ -120,7 +123,11 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
           onDelete={() => void deletePaste()}
         />
       </footer>
-      <PasteComments pasteId={paste.id} />
+      <PasteComments
+        pasteId={paste.id}
+        contentRef={bodyRef}
+        anchorable={!["html", "jsx", "tsx"].includes(paste.language)}
+      />
     </article>
   );
 }

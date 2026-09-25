@@ -5871,3 +5871,114 @@ main.app-main:has(.framing-canvas-wrap) {
   font-size: 11px;
   text-align: center;
 }
+
+/* ---- inline paste comments ---- */
+/* Passages are painted with the CSS Custom Highlight API (see use-text-anchors.ts), so the rendered
+   body is never rewrapped. A translucent amber reads on the paper and on the dark code panel. */
+::highlight(paste-comment) {
+  background-color: rgba(232, 178, 58, 0.26);
+  text-decoration: underline 2px rgba(214, 150, 20, 0.75);
+  text-underline-offset: 3px;
+}
+::highlight(paste-comment-active) {
+  background-color: rgba(232, 178, 58, 0.55);
+  text-decoration: underline 2px rgb(214, 150, 20);
+  text-underline-offset: 3px;
+}
+.paste-anchor-root.is-over-anchor {
+  cursor: pointer;
+}
+.paste-inline-ui {
+  position: absolute;
+  z-index: 60;
+}
+.paste-inline-trigger button,
+.paste-inline-trigger a {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font: 600 12px/1.2 var(--font-sans);
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(20, 10, 30, 0.22);
+  cursor: pointer;
+}
+.paste-inline-popover {
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  padding: 12px 14px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  background: var(--raise);
+  box-shadow: 0 18px 44px rgba(20, 10, 30, 0.2);
+}
+.paste-inline-popover > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.paste-inline-popover .post-comment-thread {
+  margin: 0;
+}
+.paste-inline-popover .post-comment-composer {
+  margin: 0 0 6px;
+}
+.paste-inline-close {
+  flex: none;
+  margin-left: auto;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.paste-inline-close:hover {
+  color: var(--ink);
+}
+.paste-inline-quote {
+  display: block;
+  width: 100%;
+  margin: 0 0 6px;
+  padding: 2px 0 2px 10px;
+  border: 0;
+  border-left: 3px solid rgb(214, 150, 20);
+  background: transparent;
+  color: var(--ink-2);
+  font: italic 13px/1.5 var(--font-sans);
+  text-align: left;
+}
+button.paste-inline-quote {
+  cursor: pointer;
+}
+button.paste-inline-quote:hover {
+  color: var(--ink);
+}
+.paste-inline-quote.is-static {
+  flex: 1;
+  margin: 0;
+}
+.paste-inline-quote.is-missing {
+  border-left-color: var(--line-2);
+  text-decoration: line-through;
+}
+.paste-inline-quote-text {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  white-space: pre-wrap;
+}
+.paste-inline-hint {
+  margin: -6px 0 14px;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+.post-comment .paste-inline-quote {
+  width: calc(100% - 24px);
+  margin: 9px 0 0 24px;
+}

@@ -97,6 +97,9 @@ export const pasteCommentsQuery = defineQuery(
   ({ pasteId, limit }) => q.pasteComment.where.pasteId(pasteId)
     .orderBy("createdAt", "asc").orderBy("id", "asc").limit(limit + 1)
     .countAs("replyCount", relationships.pasteCommentReplies)
-    .select("id", "pasteId", "authorId", "authorName", "parentId", "body", "createdAt", "deletedAt"),
+    .select(
+      "id", "pasteId", "authorId", "authorName", "parentId", "body", "createdAt", "deletedAt",
+      "anchorQuote", "anchorPrefix", "anchorSuffix", "anchorStart",
+    ),
 );
 export type PasteCommentRow = QueryLocalData<ReturnType<typeof pasteCommentsQuery>>[number];

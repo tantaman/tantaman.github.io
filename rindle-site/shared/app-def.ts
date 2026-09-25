@@ -290,6 +290,16 @@ const deletePostCommentArgs = z.object({
 });
 export type DeletePostCommentArgs = z.infer<typeof deletePostCommentArgs>;
 
+/** A text-quote selector over a paste's rendered text: the quoted span, a little context on either
+ *  side to disambiguate repeats, and the offset it was taken at as a tie-breaking hint. */
+const pasteCommentAnchor = z.object({
+  quote: z.string().min(1).max(2_000).refine((value) => value.trim().length > 0),
+  prefix: z.string().max(64),
+  suffix: z.string().max(64),
+  start: z.number().int().min(0),
+});
+export type PasteCommentAnchor = z.infer<typeof pasteCommentAnchor>;
+
 const createPasteCommentArgs = z.object({
   comment: z.object({
     id: stableId,
@@ -298,6 +308,7 @@ const createPasteCommentArgs = z.object({
     parentId: stableId.nullable(),
     body: z.string().max(10_000).refine((value) => value.trim().length > 0),
     createdAt: timestamp,
+    anchor: pasteCommentAnchor.nullable().default(null),
   }),
 });
 export type CreatePasteCommentArgs = z.infer<typeof createPasteCommentArgs>;
@@ -816,7 +827,18 @@ const createPasteComment = shared(createPasteCommentArgs, function* (tx, args, c
     const parent = (yield tx.row("pasteComment", { id: args.comment.parentId })) as Record<string, unknown> | undefined;
     if (!parent || parent.pasteId !== args.comment.pasteId) throw new Error("Parent reply not found in this paste.");
   }
-  yield tx.insert("pasteComment", { ...args.comment, authorId, deletedAt: null });
+  // Only a thread's root carries an anchor; a reply inherits its root's place in the text.
+  const { anchor, ...comment } = args.comment;
+  if (anchor && comment.parentId !== null) throw new Error("Only a new thread can be anchored to text.");
+  yield tx.insert("pasteComment", {
+    ...comment,
+    authorId,
+    deletedAt: null,
+    anchorQuote: anchor?.quote ?? null,
+    anchorPrefix: anchor?.prefix ?? null,
+    anchorSuffix: anchor?.suffix ?? null,
+    anchorStart: anchor?.start ?? null,
+  });
 });
 
 const deletePasteComment = shared(deletePostCommentArgs, function* (tx, args, ctx) {
