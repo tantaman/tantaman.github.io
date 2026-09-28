@@ -39,6 +39,11 @@ editor.setBlock(BlockType.Heading2);
 editor.setLink('example.com');
 ```
 
+The demo pages are published with `rindle-site` at `/wasm-editor/` (DOM) and
+`/wasm-editor/canvas`. rindle-site's build runs `pnpm build:rindle` here, which
+builds them into `rindle-site/public/wasm-editor/`, so `pnpm deploy` in
+`rindle-site` ships them.
+
 `src/editor.wasm` and `src/canvas.wasm` are generated, so run `pnpm wasm` (or
 any of the scripts above) once after checkout before a consumer bundles this
 package.

@@ -332,7 +332,8 @@ A rich text editor hand-written in WebAssembly text. Keep it hand-written: edit 
 - Hosts for `canvas.wasm`: `src/canvas.ts` (browser, `createCanvasEditor`, demo `canvas.html`) and `desktop/` (Rust: Wasmtime + winit + softbuffer + arboard; embeds `src/canvas.wasm`, so assemble first).
 
 - `pnpm --filter @tantaman/wasm-editor test` — assemble + engine tests (incl. randomized undo/redo) + canvas tests (drive the module through a fake host, check pixels and damage)
-- `pnpm --filter @tantaman/wasm-editor dev` — demo pages `/` (DOM) and `/canvas.html` (not deployed to the site)
+- `pnpm --filter @tantaman/wasm-editor dev` — demo pages `/` (DOM) and `/canvas.html`
+- Deployed with `rindle-site` at `tantaman.com/wasm-editor/` (and `/wasm-editor/canvas`): rindle-site's `predev`/`prebuild`/`prebuild:cf` run `build:wasm-editor`, which runs this package's `build:rindle` into `rindle-site/public/wasm-editor/` (gitignored), the same way the DHA report app is embedded
 - `pnpm --filter @tantaman/wasm-editor desktop -- notes.md` — native window; `--screenshot out.png` renders headless. Needs Rust ≥ 1.94 (Wasmtime 47) and, on Linux/X11, `libxkbcommon-x11`
 - `CANVAS_SNAPSHOTS=dir` with the test command writes PNG snapshots of test frames
 

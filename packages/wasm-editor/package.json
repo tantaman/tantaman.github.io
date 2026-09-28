@@ -12,6 +12,7 @@
     "wasm": "node scripts/assemble.mjs",
     "dev": "node scripts/assemble.mjs && vite",
     "build": "node scripts/assemble.mjs && vite build",
+    "build:rindle": "node scripts/assemble.mjs && vite build --base /wasm-editor/ --outDir ../../rindle-site/public/wasm-editor --emptyOutDir",
     "test": "node scripts/assemble.mjs && node --test test/*.test.ts",
     "typecheck": "tsc -p .",
     "desktop": "node scripts/assemble.mjs && cargo run --release --manifest-path desktop/Cargo.toml --"
