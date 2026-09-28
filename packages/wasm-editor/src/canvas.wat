@@ -11,7 +11,8 @@
 ;;   host.open_url(ptr, len)    Mod-click on a link; UTF-16 at ptr
 ;;
 ;; and calls the exports in src/wat/ui-input.wat (init, resize, key_down,
-;; text_input, mouse_*, wheel, tick, clipboard and document functions).
+;; text_input, mouse_*, wheel, tick, clipboard and document functions) and
+;; src/wat/ui-touch.wat (touch_*).
 ;; The framebuffer is 4 bytes per pixel at fb_ptr(), W*4 bytes per row, in
 ;; RGBA byte order or, when the host asks for it at init, as 0x00RRGGBB words.
 
@@ -31,5 +32,6 @@
   ;; @include wat/ui-layout.wat
   ;; @include wat/ui-paint.wat
   ;; @include wat/ui-input.wat
+  ;; @include wat/ui-touch.wat
   ;; @font
 )

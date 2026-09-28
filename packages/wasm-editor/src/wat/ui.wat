@@ -12,6 +12,7 @@
 ;;   0x0C54000  PREEDIT  IME composition text, UTF-16
 ;;   0x0C55000  BTNS     toolbar buttons, 32 bytes each
 ;;   0x0C56000  BANDS    bands painted in the last frame, two lists of 1024
+;;   0x0C5E000  MENU     edit menu items, 16 bytes each (ui-touch.wat)
 ;;   0x0C60000  LINES    laid-out visual lines, 32 bytes each
 ;;   0x1060000  GTAB     glyph cache hash table, 16 bytes per slot
 ;;   0x1080000  GBMP     glyph cache coverage bitmaps
@@ -32,6 +33,7 @@
   (global $BTNS      i32 (i32.const 0x0C55000))
   (global $BANDS     i32 (i32.const 0x0C56000))
   (global $BAND_MAX  i32 (i32.const 1024))
+  (global $MENU      i32 (i32.const 0x0C5E000))
   (global $LINES     i32 (i32.const 0x0C60000))
   (global $LINE_MAX  i32 (i32.const 131072))
   (global $GTAB      i32 (i32.const 0x1060000))
@@ -122,15 +124,21 @@
   (global $c_active_fg (mut i32) (i32.const 0))
   (global $c_field (mut i32) (i32.const 0))
   (global $c_thumb (mut i32) (i32.const 0))
+  (global $c_menu (mut i32) (i32.const 0))
+  (global $c_menu_fg (mut i32) (i32.const 0))
+  (global $c_menu_rule (mut i32) (i32.const 0))
+  (global $c_menu_press (mut i32) (i32.const 0))
 
   ;; Interface strings. Byte 1 stands for U+2022 (bullet).
   ;;  0 B   1 I   2 U   3 S   4 Code   5 Link   6 H1   7 H2   8 H3   9 Quote
   ;; 10 "* List"  11 "1. List"  12 Todo  13 "{ }"  14 Undo  15 Redo
   ;; 16 Start writing   17 Link   18 Enter to apply, Esc to cancel
+  ;; 19 Cut  20 Copy  21 Paste  22 Select  23 Select All
   (data (i32.const 0x0C50000)
     "B\00I\00U\00S\00Code\00Link\00H1\00H2\00H3\00Quote\00"
     "\01 List\001. List\00Todo\00{ }\00Undo\00Redo\00"
-    "Start writing\00Link\00Enter to apply, Esc to cancel\00")
+    "Start writing\00Link\00Enter to apply, Esc to cancel\00"
+    "Cut\00Copy\00Paste\00Select\00Select All\00")
 
   ;; ---------------------------------------------------------------------
   ;; Colours
@@ -165,6 +173,10 @@
         (global.set $c_active_fg (call $rgb (i32.const 0xC0B6FF)))
         (global.set $c_field (call $rgb (i32.const 0x111317)))
         (global.set $c_thumb (call $rgb (i32.const 0x4A4F5A)))
+        (global.set $c_menu (call $rgb (i32.const 0x3A3E47)))
+        (global.set $c_menu_fg (call $rgb (i32.const 0xF1F2F5)))
+        (global.set $c_menu_rule (call $rgb (i32.const 0x575C68)))
+        (global.set $c_menu_press (call $rgb (i32.const 0x4D525D)))
         (global.set $emb (f32.const 0)))
       (else
         (global.set $c_bg (call $rgb (i32.const 0xFFFFFF)))
@@ -181,6 +193,10 @@
         (global.set $c_active_fg (call $rgb (i32.const 0x4631C9)))
         (global.set $c_field (call $rgb (i32.const 0xFFFFFF)))
         (global.set $c_thumb (call $rgb (i32.const 0xC4C8D0)))
+        (global.set $c_menu (call $rgb (i32.const 0x2B2E35)))
+        (global.set $c_menu_fg (call $rgb (i32.const 0xFFFFFF)))
+        (global.set $c_menu_rule (call $rgb (i32.const 0x4A4E57)))
+        (global.set $c_menu_press (call $rgb (i32.const 0x454952)))
         ;; dark text on white reads thin with linear coverage; thicken a little
         (global.set $emb (f32.const 0.12)))))
 

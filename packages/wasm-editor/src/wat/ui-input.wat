@@ -1,6 +1,7 @@
 ;; ui-input.wat -- the canvas module's exports: set-up, input events,
 ;; clipboard and document access. Every event export ends by painting, and
-;; painting tells the host which rectangles to present.
+;; painting tells the host which rectangles to present. Touch input is in
+;; ui-touch.wat.
 ;;
 ;; Keys arrive as codes independent of the host:
 ;;   1 Backspace  2 Delete  3 Enter  4 Tab  5 Escape  6 Left  7 Right
@@ -52,6 +53,7 @@
     (global.set $focused (i32.ne (local.get $focused) (i32.const 0)))
     (global.set $blink_t (local.get $now))
     (global.set $drag (i32.const 0))
+    (if (i32.eqz (global.get $focused)) (then (call $touch_off)))
     (call $paint))
 
   ;; Repaint everything (the host lost its copy of the pixels).
@@ -63,17 +65,19 @@
   (func (export "scroll_top") (result i32) (global.get $scroll))
   (func (export "out_ptr") (result i32) (global.get $OUT))
 
-  ;; Milliseconds until the next tick is needed (caret blink), or -1.
+  ;; Milliseconds until the next tick is needed (caret blink, or touch: a
+  ;; long press, momentum, scrolling at an edge), or -1.
   (func (export "tick") (param $now i32) (result i32)
-    (local $el i32)
+    (local $el i32) (local $wait i32)
     (global.set $now (local.get $now))
+    (local.set $wait (call $touch_tick))
     (call $paint)
-    (if (i32.eqz (global.get $focused)) (then (return (i32.const -1))))
+    (if (i32.eqz (global.get $focused)) (then (return (local.get $wait))))
     (if (i32.and (i32.ne (global.get $anchor) (global.get $focus)) (i32.eqz (global.get $link_open)))
-      (then (return (i32.const -1))))
+      (then (return (local.get $wait))))
     (local.set $el (i32.sub (local.get $now) (global.get $blink_t)))
-    (if (i32.lt_s (local.get $el) (i32.const 0)) (then (return (i32.const 530))))
-    (i32.sub (i32.const 530) (i32.rem_u (local.get $el) (i32.const 530))))
+    (if (i32.lt_s (local.get $el) (i32.const 0)) (then (return (call $sooner (local.get $wait) (i32.const 530)))))
+    (call $sooner (local.get $wait) (i32.sub (i32.const 530) (i32.rem_u (local.get $el) (i32.const 530)))))
 
   ;; ---------------------------------------------------------------------
   ;; Document
@@ -85,6 +89,8 @@
     (if (local.get $n) (then (drop (call $paste_markdown (local.get $n)))))
     (call $clear_history)
     (call $set_selection (i32.const 0) (i32.const 0))
+    (call $touch_off)
+    (global.set $fling (i32.const 0))
     (global.set $scroll (i32.const 0))
     (global.set $affinity (i32.const 0))
     (global.set $goal_x (f32.const -1))
@@ -110,6 +116,7 @@
 
   (func (export "cut") (param $now i32)
     (global.set $now (local.get $now))
+    (global.set $menu (i32.const 0))
     (if (i32.ne (global.get $anchor) (global.get $focus))
       (then (drop (call $delete_backward)) (call $edited)))
     (call $paint))
@@ -118,6 +125,7 @@
   ;; Markdown is parsed as Markdown.
   (func (export "paste") (param $n i32) (param $plain i32) (param $now i32)
     (global.set $now (local.get $now))
+    (global.set $menu (i32.const 0))
     (if (global.get $link_open)
       (then (call $link_append (local.get $n)) (call $paint) (return)))
     (global.set $pre_len (i32.const 0))
@@ -186,6 +194,7 @@
   ;; $n UTF-16 units of typed text at OUT (a keystroke or an IME commit).
   (func (export "text_input") (param $n i32) (param $now i32)
     (global.set $now (local.get $now))
+    (global.set $menu (i32.const 0))
     (if (global.get $link_open)
       (then (call $link_append (local.get $n)) (call $paint) (return)))
     (global.set $pre_len (i32.const 0))
@@ -201,6 +210,7 @@
     (memory.copy (global.get $PREEDIT) (global.get $OUT) (i32.shl (local.get $n) (i32.const 1)))
     (global.set $pre_len (local.get $n))
     (global.set $blink_t (local.get $now))
+    (if (local.get $n) (then (global.set $menu (i32.const 0))))
     (call $paint))
 
   ;; ---------------------------------------------------------------------
@@ -338,6 +348,7 @@
     (local.set $mod (i32.ne (i32.and (local.get $mods) (select (i32.const 8) (i32.const 2) (global.get $mac))) (i32.const 0)))
     ;; word-wise: Option on a Mac, Ctrl elsewhere
     (local.set $word (select (local.get $alt) (i32.ne (i32.and (local.get $mods) (i32.const 2)) (i32.const 0)) (global.get $mac)))
+    (global.set $menu (i32.const 0))
     (if (global.get $link_open)
       (then (return (call $link_key (local.get $key) (local.get $mods)))))
     (local.set $handled (i32.const 1))
@@ -658,6 +669,7 @@
     (local $b i32) (local $p i32) (local $id i32)
     (global.set $now (local.get $now))
     (global.set $focused (i32.const 1))
+    (call $touch_off)
     (if (i32.lt_s (local.get $y) (global.get $tb_h))
       (then
         (local.set $b (call $button_at (local.get $x) (local.get $y)))
