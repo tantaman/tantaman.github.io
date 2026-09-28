@@ -3,6 +3,7 @@ packages:
   - packages/compiler
   - packages/frontend
   - packages/editor
+  - packages/wasm-editor
   - packages/thoughts
   - packages/wardrobe
   - packages/lists

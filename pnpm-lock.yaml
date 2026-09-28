@@ -521,6 +521,21 @@ importers:
         specifier: ^6.3.5
         version: 6.4.2(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0)
 
+  packages/wasm-editor:
+    devDependencies:
+      '@types/node':
+        specifier: ^24.10.1
+        version: 24.12.4
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+      vite:
+        specifier: ^6.3.5
+        version: 6.4.2(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0)
+      wabt:
+        specifier: ^1.0.39
+        version: 1.0.39
+
   worker:
     dependencies:
       '@hono/mcp':
@@ -5602,6 +5617,10 @@ packages:
 
   w3c-keyname@2.2.8:
     resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==}
+
+  wabt@1.0.39:
+    resolution: {integrity: sha512-ba+dRL/75VQQY7RkU/CgriGbkoWAfS8TDyUlJfJhJ8KhtXgMl5dhNvoPNUcQ9IWRhW8u41glMSuZeTvsYq2rRg==}
+    hasBin: true
 
   web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
@@ -11388,6 +11407,8 @@ snapshots:
       - yaml
 
   w3c-keyname@2.2.8: {}
+
+  wabt@1.0.39: {}
 
   web-namespaces@2.0.1: {}
 

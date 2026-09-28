@@ -57,6 +57,7 @@ The site is served from `docs/` on GitHub Pages via the **GitHub Actions** deplo
 │   ├── compiler/         # Custom site compiler (@tantaman/sitecompiler)
 │   ├── frontend/         # Shared React components (charts, diagrams, figures)
 │   ├── thoughts/         # Vite React SPA — microblog, graph, framings, media curation
+│   ├── wasm-editor/      # Rich text editor whose engine is hand-written WebAssembly text (editor.wat)
 │   └── server/           # Server utilities (WhatsApp provider interface)
 ├── worker/               # Cloudflare Worker (D1, R2, KV, Vectorize, Workers AI, MCP)
 ├── scripts/              # AI generation (embeddings, summaries, theses, TTS, Substack import)
@@ -319,6 +320,14 @@ Pandoc-based book compilation to EPUB/PDF:
 - `epub3.template` — EPUB3 template with SVG cover support
 - `pagebreak.lua` — Lua filter for cross-format pagebreaks
 - Book projects: `religion-book/`, `self-cage-wheel-ground/`, `mirror-room-collection/`
+
+## WASM Editor (`packages/wasm-editor`)
+
+A rich text editor whose engine — gap-buffer document, editing commands, undo log, rendering, Markdown import/export — is hand-written WebAssembly text in `src/editor.wat`. Keep it hand-written: edit the WAT instructions directly; `scripts/assemble.mjs` only assembles them (wabt `wat2wasm`), it does not compile anything. `src/editor.wasm` is generated and gitignored. The TypeScript (`engine.ts`, `editor.ts`) is thin DOM glue.
+
+- `pnpm --filter @tantaman/wasm-editor test` — assemble + engine tests, including a randomized undo/redo test
+- `pnpm --filter @tantaman/wasm-editor dev` — demo page (not deployed to the site)
+- Memory map, cell layout and undo record format are documented at the top of `editor.wat`
 
 ## Frontend Components (`packages/frontend`)
 
