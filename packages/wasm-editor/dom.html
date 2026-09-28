@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hand-written WASM editor</title>
+  <meta name="description" content="A rich text editor whose engine is written by hand in WebAssembly text, instruction by instruction.">
+  <link rel="icon" href="data:,">
+  <script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(!t){t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})()</script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f6f6f4;
+      --text: #1a1a1a;
+      --text-muted: #6b6b6b;
+      --accent: #1a1a1a;
+      --border: #e5e5e5;
+      --border-heavy: #d0d0d0;
+      --code-bg: #f1f1ef;
+      --active: #1a1a1a;
+      --active-text: #fff;
+    }
+    [data-theme='dark'] {
+      --bg: #1a1a1a;
+      --bg-soft: #222;
+      --text: #e0e0e0;
+      --text-muted: #999;
+      --accent: #e0e0e0;
+      --border: #333;
+      --border-heavy: #444;
+      --code-bg: #262626;
+      --active: #e0e0e0;
+      --active-text: #1a1a1a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.6 Georgia, 'Times New Roman', serif;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 80px; }
+    header h1 { font-size: 1.4em; margin: 0 0 4px; }
+    header p { margin: 0 0 20px; color: var(--text-muted); font-size: 0.9em; }
+    header a { color: inherit; }
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 8px 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font: 13px/1 system-ui, sans-serif;
+    }
+    .toolbar .sep { width: 1px; background: var(--border); margin: 2px 4px; }
+    .toolbar button {
+      min-width: 32px;
+      height: 30px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+    }
+    .toolbar button:hover { border-color: var(--border-heavy); }
+    .toolbar button[aria-pressed='true'] { background: var(--active); color: var(--active-text); border-color: var(--active); }
+    .toolbar button:disabled { opacity: 0.4; cursor: default; }
+    #editor { min-height: 320px; padding: 20px 0; }
+    .panel { margin-top: 24px; border-top: 1px solid var(--border); font: 13px/1.5 system-ui, sans-serif; }
+    .tabs { display: flex; gap: 16px; padding: 10px 0; }
+    .tabs button { border: 0; background: none; color: var(--text-muted); font: inherit; cursor: pointer; padding: 0; }
+    .tabs button[aria-selected='true'] { color: var(--text); font-weight: 600; }
+    pre.out {
+      margin: 0;
+      padding: 12px;
+      background: var(--bg-soft);
+      border-radius: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      max-height: 360px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Rich text, in hand-written WebAssembly</h1>
+      <p>The document, editing commands, undo history, rendering and Markdown parsing all run in WebAssembly text written instruction by instruction. Here the browser draws the text; <a href="./">the main version</a> draws itself, with layout, glyphs and input handling in WASM too.</p>
+    </header>
+    <div class="toolbar" id="toolbar">
+      <button data-mark="1" title="Bold (Mod-B)"><b>B</b></button>
+      <button data-mark="2" title="Italic (Mod-I)"><i>I</i></button>
+      <button data-mark="4" title="Underline (Mod-U)"><u>U</u></button>
+      <button data-mark="8" title="Strikethrough (Mod-Shift-X)"><s>S</s></button>
+      <button data-mark="16" title="Code (Mod-E)">&lt;/&gt;</button>
+      <button data-cmd="link" title="Link (Mod-K)">Link</button>
+      <span class="sep"></span>
+      <button data-block="1" title="Heading 1 (Mod-Alt-1)">H1</button>
+      <button data-block="2" title="Heading 2 (Mod-Alt-2)">H2</button>
+      <button data-block="3" title="Heading 3 (Mod-Alt-3)">H3</button>
+      <button data-block="4" title="Quote">❝</button>
+      <button data-block="5" title="Bulleted list (Mod-Shift-8)">•</button>
+      <button data-block="6" title="Numbered list (Mod-Shift-7)">1.</button>
+      <button data-block="7" title="Checklist (Mod-Shift-9)">☐</button>
+      <button data-block="8" title="Code block">{ }</button>
+      <span class="sep"></span>
+      <button data-cmd="undo" title="Undo (Mod-Z)">↶</button>
+      <button data-cmd="redo" title="Redo (Mod-Shift-Z)">↷</button>
+      <button data-cmd="theme" title="Toggle theme">◐</button>
+    </div>
+    <div id="editor"></div>
+    <section class="panel">
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="markdown" aria-selected="true">Markdown</button>
+        <button role="tab" data-tab="html" aria-selected="false">HTML</button>
+        <button role="tab" data-tab="engine" aria-selected="false">Engine</button>
+      </div>
+      <pre class="out" id="output"></pre>
+    </section>
+  </main>
+  <script type="module" src="./src/demo.ts"></script>
+</body>
+</html>

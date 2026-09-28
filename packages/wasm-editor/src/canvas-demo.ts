@@ -1,5 +1,7 @@
 import { createCanvasEditor } from './canvas.ts';
 
+const mod = /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent) ? '⌘' : 'Ctrl';
+
 const SAMPLE = `# Drawn by WebAssembly
 
 There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection and the toolbar are painted into a framebuffer by hand-written WASM, and the page copies the rectangles that changed onto a canvas.
@@ -7,8 +9,9 @@ There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection 
 ## Try it
 
 - Type, select with the mouse or Shift+arrows, double-click a word
-- ${navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'}-B, I, U, E for code, K for a link
+- ${mod}-B, I, U, E for code, K for a link
 - Start a line with \`# \`, \`- \`, \`1. \`, \`> \` or \`[] \`
+- ${mod}-click a link to open it: the [source](https://github.com/tantaman/tantaman.github.io/tree/master/packages/wasm-editor), or the [DOM version](./dom.html), where the browser draws the text
 
 1. Hand-written
 2. Instruction by instruction

@@ -19,7 +19,7 @@ The same engine (`src/wat/engine.wat`) is assembled into two modules:
   [Graphical front end](#graphical-front-end).
 
 ```sh
-pnpm --filter @tantaman/wasm-editor dev      # demo pages: / (DOM) and /canvas.html
+pnpm --filter @tantaman/wasm-editor dev      # demo pages: / (canvas) and /dom.html
 pnpm --filter @tantaman/wasm-editor test     # assemble + engine and canvas tests (node:test)
 pnpm --filter @tantaman/wasm-editor build    # demo build in dist/
 pnpm --filter @tantaman/wasm-editor desktop -- notes.md   # native window (needs Rust)
@@ -39,8 +39,8 @@ editor.setBlock(BlockType.Heading2);
 editor.setLink('example.com');
 ```
 
-The demo pages are published with `rindle-site` at `/wasm-editor/` (DOM) and
-`/wasm-editor/canvas`. rindle-site's build runs `pnpm build:rindle` here, which
+The demo pages are published with `rindle-site` at `/wasm-editor/` (canvas) and
+`/wasm-editor/dom`. rindle-site's build runs `pnpm build:rindle` here, which
 builds them into `rindle-site/public/wasm-editor/`, so `pnpm deploy` in
 `rindle-site` ships them.
 
@@ -123,7 +123,7 @@ editor.destroy();
 It puts the framebuffer on a `<canvas>` with `putImageData` (only the
 presented rectangles), and keeps a hidden `<textarea>` at the caret
 (`ime_rect`) so typing, dead keys, IME composition and the system clipboard
-behave like any text field. Demo: `canvas.html`.
+behave like any text field. Demo: `index.html` (`dom.html` is the DOM version).
 
 **Desktop** (`desktop/`, Rust, 700 lines): Wasmtime runs the module, winit
 provides the window, keyboard, IME and mouse, softbuffer shows the
