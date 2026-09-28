@@ -6,8 +6,8 @@ streams instead.
 
 The exercise: redo this site with no React, no TanStack, no Rindle, no Better Auth, no ReactFlow and
 no Tiptap, keeping SQLite (§3–4). Then §5 removes SQLite, R2, D1 and Cloudflare too. The site has to
-stay just as live: every view updates on every
-write, writes are optimistic, and a rejected write snaps back.
+stay just as live: every view updates on every write, writes are optimistic, and a rejected write
+snaps back.
 
 ---
 
