@@ -86,6 +86,8 @@ export class CanvasEditor {
   private changeQueued = false;
   private composing = false;
   private plainPaste = false;
+  /** Focus came from a tap, so the on-screen keyboard is up. */
+  private tapFocused = false;
   private readonly cleanup: (() => void)[] = [];
   private readonly dark: MediaQueryList;
 
@@ -314,13 +316,15 @@ export class CanvasEditor {
       this.schedule();
     });
     this.on(input, 'blur', () => {
+      this.tapFocused = false;
       x.set_focus(0, now());
       this.schedule();
     });
 
     this.on(canvas, 'pointerdown', (e) => {
       e.preventDefault();
-      this.focus();
+      // touches focus on touchend, where they can bring up the keyboard
+      if (e.pointerType !== 'touch') this.focus();
       canvas.setPointerCapture(e.pointerId);
       const [px, py] = this.point(e);
       x.mouse_down(px, py, e.button, this.mods(e), now());
@@ -334,6 +338,24 @@ export class CanvasEditor {
       const [px, py] = this.point(e);
       x.mouse_up(px, py, e.button, this.mods(e), now());
     });
+    // After a tap, iOS sends mouse events, and a mousedown on the canvas,
+    // which can't take focus, blurs the textarea and drops the keyboard.
+    // Cancel them, and focus here: the keyboard only comes up when focus
+    // moves to the textarea during a gesture like this one.
+    this.on(
+      canvas,
+      'touchend',
+      (e) => {
+        e.preventDefault();
+        if (this.tapFocused) return;
+        // focused without a gesture (focus() on load), the keyboard stays
+        // down, and focusing again changes nothing
+        input.blur();
+        this.focus();
+        this.tapFocused = true;
+      },
+      { passive: false },
+    );
     this.on(
       canvas,
       'wheel',
