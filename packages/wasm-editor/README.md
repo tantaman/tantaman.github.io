@@ -106,7 +106,7 @@ a glyph or a selection.
 
 ### Hosts
 
-**Browser** (`src/canvas.ts`, 360 lines):
+**Browser** (`src/canvas.ts`, 500 lines):
 
 ```ts
 import { createCanvasEditor } from '@tantaman/wasm-editor';
@@ -123,7 +123,11 @@ editor.destroy();
 It puts the framebuffer on a `<canvas>` with `putImageData` (only the
 presented rectangles), and keeps a hidden `<textarea>` at the caret
 (`ime_rect`) so typing, dead keys, IME composition and the system clipboard
-behave like any text field. Demo: `canvas.html`.
+behave like any text field. Touches go to the module's `touch_*` exports,
+which work out the gesture; the host focuses the textarea from inside the
+`touchend` handler (on iOS the keyboard only comes up then) and carries out
+the edit menu's Cut, Copy and Paste with the async clipboard API. Demo:
+`canvas.html`.
 
 **Desktop** (`desktop/`, Rust, 700 lines): Wasmtime runs the module, winit
 provides the window, keyboard, IME and mouse, softbuffer shows the
@@ -167,6 +171,8 @@ Exports (all coordinates in device pixels, `now` in milliseconds):
 | `text_input(n, now)`, `ime_preedit(n, now)` | `n` UTF-16 units written at `out_ptr()`                           |
 | `mouse_down/up(x, y, button, mods, now)`    | button 0 primary                                                 |
 | `mouse_move(x, y, mods, now)`, `wheel(dx, dy)` |                                                                |
+| `touch_start/move(x, y, now)`, `touch_cancel(now)` | one finger; see [Touch](#touch)                             |
+| `touch_end(x, y, now) → action`             | 0 nothing, 1 focus the text input, 2 copy, 3 cut (copy, then `cut`), 4 paste |
 | `copy_text() → n`, `copy_html() → n`, `cut(now)` | selection, written at `out_ptr()`                            |
 | `paste(n, plain, now)`                      | text at `out_ptr()`; Markdown unless `plain`                      |
 | `load_markdown(n)`, `markdown() → n`        | whole document                                                   |
@@ -200,12 +206,30 @@ position) when a shortcut modifier is held. Modifiers: 1 Shift, 2 Ctrl,
   line (with a goal column and wrap affinity), page and document; click,
   double-click word, triple-click block, drag selection with autoscroll;
   toolbar buttons, checkboxes, a link bar for Mod-K, scrollbar dragging.
+- **Touch** (`ui-touch.wat`), see below.
+
+### Touch
+
+A finger works as in a native text view. A swipe scrolls, and a flick keeps
+scrolling with momentum (a touch stops it). A tap places the caret; a double
+tap selects a word, a third tap the paragraph; a long press selects the word
+under the finger, and dragging then extends the selection, scrolling at the
+top and bottom edges. A selection made by touch gets a handle at each end to
+drag, and an edit menu (Cut, Copy, Paste; for a caret Select, Select All,
+Paste), opened and closed by tapping the selection or the caret. The long
+press, momentum and edge scrolling run on `tick`.
+
+The handles and menu are overlays: each text band they cross mixes them into
+its key and draws them over its text, so only those bands repaint when they
+appear, move or go. The clipboard stays with the host: `touch_end` returns the
+command, and the host runs it inside its own touch handler, where browsers
+allow clipboard access.
 
 | Address     | Region  |                                                  |
 | ----------- | ------- | ------------------------------------------------ |
 | `0x0000000` | engine  | as above, up to OUT                              |
 | `0x0850000` | FONT    | font atlas                                       |
-| `0x0C50000` | UI      | strings, block styles, link bar, preedit, toolbar, bands |
+| `0x0C50000` | UI      | strings, block styles, link bar, preedit, toolbar, bands, edit menu |
 | `0x0C60000` | LINES   | laid-out visual lines, 32 bytes each             |
 | `0x1060000` | GTAB    | glyph cache hash table                           |
 | `0x1080000` | GBMP    | glyph cache bitmaps (cleared when full)          |

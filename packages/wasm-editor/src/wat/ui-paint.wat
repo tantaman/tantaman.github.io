@@ -5,7 +5,9 @@
 ;; its text, position, selection, caret, theme. Only bands whose key or
 ;; position changed since the last frame are repainted and presented, so
 ;; typing repaints a line and a caret blink repaints a line. The toolbar,
-;; link bar and scrollbar have keys of their own.
+;; link bar and scrollbar have keys of their own. The touch overlays (the
+;; selection handles and the edit menu, ui-touch.wat) are drawn over the
+;; bands they cross, and hashed into those bands' keys.
 
   (global $d0 (mut i32) (i32.const 0))  ;; damaged rows of the text area
   (global $d1 (mut i32) (i32.const 0))
@@ -335,7 +337,8 @@
         (if (i32.gt_s (local.get $bot) (global.get $H)) (then (local.set $bot (global.get $H))))
         (if (i32.gt_s (local.get $bot) (local.get $top))
           (then
-            (local.set $key (call $band_key (local.get $i) (local.get $top)))
+            (local.set $key (call $mix (call $band_key (local.get $i) (local.get $top))
+                                       (call $overlay_key (local.get $top) (local.get $bot))))
             ;; find this band in last frame's list (both are sorted by top)
             (block $f
               (loop $fl
@@ -431,7 +434,8 @@
                        (i32.trunc_sat_f32_s (f32.nearest (f32.mul (call $ascent (local.get $face)) (local.get $size)))))
               (select (call $px (f32.const 1.6)) (i32.const 1) (i32.gt_s (call $px (f32.const 1.6)) (i32.const 1)))
               (i32.trunc_sat_f32_s (f32.nearest (f32.mul (f32.add (call $ascent (local.get $face)) (call $descent (local.get $face))) (local.get $size))))
-              (global.get $c_text)))))))
+              (global.get $c_text))))))
+    (call $paint_overlays))
 
   ;; Bullet, number or checkbox in a list item's indent.
   (func $draw_marker (param $t i32) (param $flags i32) (param $ys i32) (param $base i32) (param $x0 i32) (param $size f32)
@@ -611,7 +615,7 @@
   ;; ---------------------------------------------------------------------
 
   (func $paint
-    (local $k i32) (local $a i32) (local $cy i32) (local $max i32) (local $margin i32)
+    (local $k i32) (local $a i32) (local $cy i32) (local $margin i32)
     (if (i32.eqz (global.get $ready)) (then (return)))
     (if (global.get $dirty) (then (call $relayout)))
     ;; scroll the caret into view when asked
@@ -628,9 +632,8 @@
           (then (global.set $scroll (i32.sub (i32.add (i32.add (local.get $cy) (i32.load offset=12 (local.get $a))) (local.get $margin))
                                              (global.get $view_h)))))
         (global.set $reveal (i32.const 0))))
-    (local.set $max (i32.sub (global.get $doc_h) (global.get $view_h)))
-    (if (i32.gt_s (global.get $scroll) (local.get $max)) (then (global.set $scroll (local.get $max))))
-    (if (i32.lt_s (global.get $scroll) (i32.const 0)) (then (global.set $scroll (i32.const 0))))
+    (call $clamp_scroll)
+    (call $touch_geom)
     (call $caret_geom (global.get $focus))
     (if (global.get $full)
       (then

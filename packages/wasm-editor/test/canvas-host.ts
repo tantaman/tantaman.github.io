@@ -36,10 +36,15 @@ export interface CanvasExports {
   mouse_move(x: number, y: number, mods: number, now: number): void;
   mouse_up(x: number, y: number, button: number, mods: number, now: number): void;
   wheel(dx: number, dy: number): void;
+  touch_start(x: number, y: number, now: number): void;
+  touch_move(x: number, y: number, now: number): void;
+  touch_end(x: number, y: number, now: number): number;
+  touch_cancel(now: number): void;
   scroll_top(): number;
   anchor(): number;
   focus(): number;
   length(): number;
+  set_selection(anchor: number, focus: number): void;
 }
 
 const wasm = new WebAssembly.Module(readFileSync(new URL('../src/canvas.wasm', import.meta.url)));
@@ -115,6 +120,38 @@ export class Host {
     const t = this.now(1000); // far enough from the last click not to count as a double
     this.x.mouse_down(x, y, 0, mods, t);
     this.x.mouse_up(x, y, 0, mods, t);
+  }
+
+  /**
+   * A finger down at (x, y), moved through `path`, then lifted `hold` ms
+   * after the last move. Returns what touch_end asks of the host.
+   */
+  touch(x: number, y: number, path: number[][] = [], { gap = 1000, step = 16, hold = 0 } = {}) {
+    this.x.touch_start(x, y, this.now(gap));
+    for (const [px, py] of path) this.x.touch_move((x = px), (y = py), this.now(step));
+    return this.x.touch_end(x, y, this.now(step + hold));
+  }
+
+  /** Where the caret for document position `p` is drawn: [x, y, w, h]. */
+  caretAt(p: number) {
+    this.x.set_selection(p, p);
+    this.x.repaint();
+    return this.caret;
+  }
+
+  /** Bounding box [x, y, w, h] of the pixels painted exactly `color`, or null. */
+  box(color: number) {
+    let x0 = this.w, y0 = this.h, x1 = -1, y1 = -1;
+    const px = new Uint32Array(this.x.memory.buffer, this.x.fb_ptr(), this.w * this.h);
+    for (let y = 0; y < this.h; y++)
+      for (let x = 0; x < this.w; x++)
+        if (px[y * this.w + x] === color) {
+          if (x < x0) x0 = x;
+          if (x > x1) x1 = x;
+          if (y < y0) y0 = y;
+          if (y > y1) y1 = y;
+        }
+    return x1 < 0 ? null : [x0, y0, x1 - x0 + 1, y1 - y0 + 1];
   }
 
   get selection() {

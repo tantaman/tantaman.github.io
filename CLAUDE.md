@@ -327,7 +327,7 @@ A rich text editor hand-written in WebAssembly text. Keep it hand-written: edit 
 
 - `src/wat/engine.wat` — the engine: gap-buffer document, editing commands, undo log, HTML rendering, Markdown import/export. Memory map, cell layout and undo record format are documented at its top.
 - `src/editor.wat` → `editor.wasm` — engine only. `engine.ts`/`editor.ts` are thin DOM glue (`createEditor`).
-- `src/canvas.wat` → `canvas.wasm` — engine plus a graphical front end (`src/wat/ui*.wat`: layout, SDF glyph rendering, band-based damage tracking, toolbar, keyboard/mouse/IME input) that paints into a framebuffer. The host interface (4 imports, the exports and key codes) is documented in `canvas.wat` and the package README.
+- `src/canvas.wat` → `canvas.wasm` — engine plus a graphical front end (`src/wat/ui*.wat`: layout, SDF glyph rendering, band-based damage tracking, toolbar, keyboard/mouse/IME input, touch gestures with selection handles and an edit menu in `ui-touch.wat`) that paints into a framebuffer. The host interface (4 imports, the exports and key codes) is documented in `canvas.wat` and the package README.
 - `scripts/font-atlas.mjs` — builds the signed-distance-field font atlas (Source Serif 4, IBM Plex Mono/Sans from `@fontsource`) baked into `canvas.wasm`; cached in `.cache/`.
 - Hosts for `canvas.wasm`: `src/canvas.ts` (browser, `createCanvasEditor`, demo `canvas.html`) and `desktop/` (Rust: Wasmtime + winit + softbuffer + arboard; embeds `src/canvas.wasm`, so assemble first).
 
