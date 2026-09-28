@@ -1,0 +1,17 @@
+[package]
+name = "wasm-editor-desktop"
+version = "0.1.0"
+edition = "2021"
+description = "Native window for canvas.wasm: the editor, its rendering and its input handling are all hand-written WebAssembly; this program only shows pixels and forwards events."
+publish = false
+
+[dependencies]
+anyhow = "1"
+arboard = "3"
+png = "0.17"
+softbuffer = "0.4"
+wasmtime = { version = "47", default-features = false, features = ["anyhow", "cranelift", "runtime", "std"] }
+winit = "0.30"
+
+[profile.release]
+strip = true

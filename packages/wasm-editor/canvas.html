@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hand-written WASM editor, drawn by itself</title>
+  <link rel="icon" href="data:,">
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { display: flex; flex-direction: column; background: #fff; font: 13px/1.4 system-ui, sans-serif; color: #5b6270; }
+    @media (prefers-color-scheme: dark) { body { background: #16181d; color: #979eab; } }
+    header { display: flex; gap: 16px; align-items: center; padding: 6px 12px; }
+    header a { color: inherit; }
+    #editor { flex: 1; min-height: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <span>Everything below, toolbar included, is drawn by <code>canvas.wasm</code> into a framebuffer.</span>
+    <a href="./index.html">DOM version</a>
+  </header>
+  <div id="editor"></div>
+  <script type="module" src="./src/canvas-demo.ts"></script>
+</body>
+</html>
