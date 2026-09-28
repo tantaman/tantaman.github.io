@@ -5,7 +5,8 @@ databases, UI frameworks) goes away. Apps get bespoke databases, exact queries a
 streams instead.
 
 The exercise: redo this site with no React, no TanStack, no Rindle, no Better Auth, no ReactFlow and
-no Tiptap. SQLite is still allowed. The site has to stay just as live: every view updates on every
+no Tiptap, keeping SQLite (§3–4). Then §5 removes SQLite, R2, D1 and Cloudflare too. The site has to
+stay just as live: every view updates on every
 write, writes are optimistic, and a rejected write snaps back.
 
 ---
@@ -371,7 +372,7 @@ oracle compares the prefix, not the length.
 
 | Thing | Why | Instead |
 |---|---|---|
-| SQLite | Accumulated validation (§1.1) | Kept, per the rules |
+| SQLite | Accumulated validation (§1.1) | Kept, per the rules. §5 goes below it by avoiding the problem SQLite solves |
 | Rich-text editor (Tiptap/ProseMirror) | Same: contenteditable is the SQLite of the UI | **Changed the product:** a markdown textarea with preview. For a markdown-native author this is arguably better, but it *is* a product change forced by the constraint |
 | Crypto | Same | WebCrypto (platform) |
 | Markdown, syntax highlighting, JSX transform for pastes | Leaf libraries, not frameworks: you call them, they don't own your control flow or data model | Kept `marked`, a highlighter, `sucrase` |
@@ -394,22 +395,182 @@ canvas, until it's been used for a while.
 
 ---
 
-## 5. Next iteration: no SQLite
 
-At this scale (~10⁴ rows, well under 100 MB), it's feasible, and it exposes the purest form of the
-thesis: **the event log *is* the database.** You'd append state events to durable storage, rebuild
-in-memory `Map`s plus the exact sorted indexes each view needs on boot, and write a small inverted
-index for search. Every "query" is then a function over those indexes.
+## 5. All the way down: a VPS, a custom store, one changelog
 
-What you'd actually lose from SQLite here:
+The next rung removes R2, D1, SQLite and Cloudflare. What's left is one Node process on one VPS,
+using only Node built-ins. Its database is an append-only changelog plus in-memory state, and that
+same changelog drives reactivity all the way to the client.
 
-1. Atomic commit of data + log + outbox. That becomes a single append, which is actually simpler.
-2. Recursive CTEs and JSON aggregation. These become a few loops, which is fine.
-3. FTS5 ranking. You'd write BM25, which is about 100 lines and fine.
-4. **Ad hoc SQL for debugging, migrations and one-off analysis.** This is the real loss. You'd end
-   up writing a tiny query language to poke at production, which means reinventing the thing you
-   removed.
+### 5.1 Is this consistent with keeping SQLite in §4?
 
-One wrinkle: on a SQLite-backed Durable Object, the KV storage API is itself stored in SQLite. So
-"no SQLite" on Cloudflare is cosmetic unless you also leave the platform. That's a nice
-demonstration of §1.1: the validated engine is still there, just further down the stack.
+Yes, and for the same reason bespoke beat the sync engine: **it avoids SQLite's hard problem
+instead of re-solving it.** SQLite's validation covers in-place updates to a B-tree that may be
+larger than RAM, with concurrent readers, staying crash-safe on every page write.
+
+This app has none of those constraints:
+
+- The data fits in RAM. It's around 10⁴ documents, well under 100 MB.
+- There's one writer process.
+- Nothing is updated in place. Changes are appended to a log, and snapshots are replaced by an
+  atomic rename.
+
+What's left of the crash-safety problem is four syscalls: append, `fdatasync`, checksum on read,
+and `rename`. That's a small, well-understood surface.
+
+The floor never goes away, though. You still stand on the filesystem, the kernel, TCP, and OpenSSL
+(through `node:tls`). **The thesis isn't "no infrastructure". It's that the floor you must adopt
+drops to the OS, the runtime and the standards, and everything above it can be sized to the app.**
+
+### 5.2 What replaces what
+
+| Was | Becomes | Size (rough) |
+|---|---|---|
+| SQLite (DO) + D1 (auth, DHA reports) | Append-only log + snapshot + in-memory documents with derived indexes | ~700 lines |
+| R2 | Content-addressed files, `blobs/<sha256[0:2]>/<sha256>`, served with `Range` and `immutable` headers | ~150 |
+| FTS5 | BM25 over an in-memory inverted index | ~150 |
+| Vectorize | Brute-force cosine similarity: 10⁴ × 768 floats ≈ 30 MB, a few ms per query | ~40 |
+| WebSocket + `since` | **SSE.** `EventSource` reconnects on its own and sends `Last-Event-ID`, so catch-up is built into the browser | ~80 |
+| Durable Object + Worker | `node:http2` with a hand-written router, run under systemd | ~400 |
+| Edge cache | Rendered anonymous pages cached in memory, keyed by `(url, seq)` | ~30 |
+| Cloudflare TLS | ACME client on `node:crypto`, or Caddy (see §5.6) | ~300 |
+| DO alarms | Job documents in the same store, drained by a timer | ~100 |
+
+That's about 2k lines of infrastructure with zero npm dependencies. The application layer from §3
+(views, mutations, templates, `live.js`, islands) carries over almost unchanged.
+
+The client gets simpler, because SSE provides reconnection and catch-up for free. HTTP/2 multiplexes
+every tab's stream over one connection, which removes the six-connections-per-origin limit that
+HTTP/1.1 SSE would hit.
+
+### 5.3 The store
+
+- **Documents are per aggregate, not per table.** A thought document contains its tags and
+  attachments inline, so one change to a thought is one change to its card. Version history lives
+  in separate `thoughtHistory:<id>:<v>` documents, because it grows without bound.
+- **Indexes are derived, never persisted.** Examples: `thought.byParent`,
+  `thought.rootsByCreated`, `tag → Set<id>`, the inverted index and the vector matrix. All of them
+  are rebuilt from documents on boot, which takes milliseconds at this size. An index can't be
+  corrupt on disk because it's never on disk.
+- **Queries are functions.**
+  - `feed(limit, aud)` is `rootsByCreated.slice(…)` plus a visibility filter.
+  - A reply tree is plain recursion.
+  - A card is the document plus derived fields; for example, `replyCount` is
+    `byParent.get(id).size`.
+
+  The SQL `VIEW`s from §3.2 become projection functions. `touch` and `flush` from §3.3 stay
+  exactly as they are.
+- **Transactions are an overlay.** The process is single-threaded and handlers are synchronous, so
+  a transaction is a `Map` of pending writes. Reads see their own writes. Isolation is serializable
+  for free.
+- **Log effects, not intents.** A log record stores the documents a mutation *produced*, not the
+  command it ran. Replay is then a plain `put`, so a code change can never reinterpret history.
+  Needing to replay intents is exactly what forced Rindle's determinism rules.
+
+```ts
+// db/log.ts — the whole durability story
+export function commit(rec: LogRecord) {   // { seq, mid, at, who, name, changes: [{ key, doc | null }] }
+  const body = Buffer.from(JSON.stringify(rec));
+  const head = Buffer.alloc(8);
+  head.writeUInt32LE(body.length, 0);
+  head.writeUInt32LE(zlib.crc32(body), 4);
+  fs.writeSync(logFd, Buffer.concat([head, body]));
+  fs.fdatasyncSync(logFd);                 // durable before anything observes it
+}
+
+export function recover(snap: Snapshot): LogRecord[] {
+  const buf = fs.readFileSync(LOG), out: LogRecord[] = [];
+  let off = 0;
+  while (off + 8 <= buf.length) {
+    const len = buf.readUInt32LE(off), body = buf.subarray(off + 8, off + 8 + len);
+    if (body.length < len || zlib.crc32(body) !== buf.readUInt32LE(off + 4)) break;   // torn tail
+    const rec = JSON.parse(body.toString());
+    if (rec.seq > snap.seq) out.push(rec);
+    off += 8 + len;
+  }
+  fs.truncateSync(LOG, off);               // the torn tail was never acknowledged, so dropping it is safe
+  return out;
+}
+```
+
+### 5.4 One changelog, three consumers
+
+```ts
+function mutate(name: string, mid: string, raw: unknown, who: Who) {
+  const seen = recentMids.get(mid);                    // rebuilt from the log on boot
+  if (seen) return seen;                               // so a retry across a restart is idempotent
+  const tx = store.begin();
+  mutations[name](tx, parse[name](raw), who);          // throw → nothing happened
+  const rec = { seq: store.seq + 1, mid, at: Date.now(), who: who.id, name, changes: tx.changes() };
+  log.commit(rec);                                     // 1. durable
+  store.apply(rec);                                    // 2. visible in memory; indexes updated
+  const events = project(rec);                         // 3. touch/flush → card rows per audience
+  stream.publish(rec.seq, events, rec);                // 4. SSE clients, replica, job runner
+  recentMids.set(mid, events);
+  return events;
+}
+```
+
+The same record feeds three consumers:
+
+1. **Clients** get the record projected into card rows and filtered by audience.
+2. **A replica** is a second small box running `GET /replicate?since=` with a token. It receives
+   raw records and appends them to its own log. It copies blobs by missing hash. That one
+   endpoint is the backup, the point-in-time recovery, and the failover target all at once.
+3. **The job runner** sees new `job:*` documents and drains them outside any transaction. It
+   commits results back through `mutate`.
+
+Deploys become `git pull && systemctl restart`. The restart takes a few hundred ms. SSE clients
+reconnect with `Last-Event-ID` and catch up. Any POSTs that were in flight get retried with the
+same `mid` and are deduplicated. **Restarts are invisible to users because of the log, not because
+of orchestration.**
+
+Schema changes are code. `upgrade[v](doc)` runs as documents load, then a fresh snapshot is
+written at the new version. Snapshots are written to a temp file, fsynced, renamed into place, and
+then the directory is fsynced.
+
+### 5.5 The tests that replace the vendors
+
+In §3.7 an oracle test replaced the sync engine. Here, two more tests replace the storage
+vendors:
+
+- **A crash torture test.** Spawn the server and run a write loop against it. At random points,
+  `SIGKILL` it, then restart. Assert that the recovered state equals exactly the acknowledged
+  prefix of writes: nothing that was acked is lost, and nothing unacked is visible. Run this
+  thousands of times.
+- **A restore drill.** On a schedule, boot a fresh process from the replica alone and diff it
+  against the primary. A backup that has never been restored doesn't count as a backup.
+
+### 5.6 Where it bites
+
+The code is not the risk. About 700 lines of store code is well within what an LLM writes
+correctly and a torture test verifies. **The risk is operations, which R2, D1 and Cloudflare were
+doing invisibly:**
+
+- **Durability is yours now, and its failures are silent until the worst day.** Some virtualized
+  disks acknowledge `fsync` without actually persisting the data. You can't test for that from
+  inside the VM. Only the off-box replica covers it.
+- **The edge is yours.** You have no DDoS absorption, one region, and TLS renewal that fails
+  quietly after 90 days. An ACME client is buildable, but this is the one place I'd accept a
+  foreign component (Caddy) or keep Cloudflare as a proxy. It isn't a framework; it's a protocol
+  endpoint, and cert expiry is the classic self-hosting outage.
+- **You're the operator.** That means OS patches, disk-full alerts, process supervision and log
+  rotation. An LLM can write every script, but someone is still on call.
+- **You lose the SQL shell.** The substitute is `node:repl` on a Unix socket attached to the live
+  process, with a read-only view such as `db.thought.values().filter(…)`. For a JS developer that's
+  arguably nicer. Writes must still go through `mutate`, or they bypass the log.
+
+**Exit criteria**, meaning the point where you go back up a layer:
+
+- The documents approach the RAM budget, at around 1–2 GB.
+- You need more than one writer process.
+- The write rate makes fsync-per-commit hurt. Group commit is the first fix, before anything
+  else.
+- You need multiple regions.
+
+The way back is cheap because the log is the source of truth. You can replay it into SQLite or
+Postgres whenever you like.
+
+**Verdict for this rung:** it holds for this app, with the same caveat as §3. What makes it safe
+isn't the code; it's the torture test, the replica and the restore drill. In the bespoke world,
+tests and operations are what's left of the vendors.
