@@ -1,0 +1,3 @@
+# Assembled from src/editor.wat by scripts/assemble.mjs
+src/editor.wasm
+dist/
