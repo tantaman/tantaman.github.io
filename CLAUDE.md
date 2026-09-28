@@ -57,7 +57,7 @@ The site is served from `docs/` on GitHub Pages via the **GitHub Actions** deplo
 │   ├── compiler/         # Custom site compiler (@tantaman/sitecompiler)
 │   ├── frontend/         # Shared React components (charts, diagrams, figures)
 │   ├── thoughts/         # Vite React SPA — microblog, graph, framings, media curation
-│   ├── wasm-editor/      # Rich text editor whose engine is hand-written WebAssembly text (editor.wat)
+│   ├── wasm-editor/      # Rich text editor hand-written in WebAssembly text (DOM + self-drawing canvas/desktop versions)
 │   └── server/           # Server utilities (WhatsApp provider interface)
 ├── worker/               # Cloudflare Worker (D1, R2, KV, Vectorize, Workers AI, MCP)
 ├── scripts/              # AI generation (embeddings, summaries, theses, TTS, Substack import)
@@ -323,11 +323,18 @@ Pandoc-based book compilation to EPUB/PDF:
 
 ## WASM Editor (`packages/wasm-editor`)
 
-A rich text editor whose engine — gap-buffer document, editing commands, undo log, rendering, Markdown import/export — is hand-written WebAssembly text in `src/editor.wat`. Keep it hand-written: edit the WAT instructions directly; `scripts/assemble.mjs` only assembles them (wabt `wat2wasm`), it does not compile anything. `src/editor.wasm` is generated and gitignored. The TypeScript (`engine.ts`, `editor.ts`) is thin DOM glue.
+A rich text editor hand-written in WebAssembly text. Keep it hand-written: edit the WAT instructions directly; `scripts/assemble.mjs` only assembles them (wabt `wat2wasm`), expanding `;; @include path` and `;; @font` directives textually. It does not compile anything. The `.wasm` outputs are generated and gitignored.
 
-- `pnpm --filter @tantaman/wasm-editor test` — assemble + engine tests, including a randomized undo/redo test
-- `pnpm --filter @tantaman/wasm-editor dev` — demo page (not deployed to the site)
-- Memory map, cell layout and undo record format are documented at the top of `editor.wat`
+- `src/wat/engine.wat` — the engine: gap-buffer document, editing commands, undo log, HTML rendering, Markdown import/export. Memory map, cell layout and undo record format are documented at its top.
+- `src/editor.wat` → `editor.wasm` — engine only. `engine.ts`/`editor.ts` are thin DOM glue (`createEditor`).
+- `src/canvas.wat` → `canvas.wasm` — engine plus a graphical front end (`src/wat/ui*.wat`: layout, SDF glyph rendering, band-based damage tracking, toolbar, keyboard/mouse/IME input) that paints into a framebuffer. The host interface (4 imports, the exports and key codes) is documented in `canvas.wat` and the package README.
+- `scripts/font-atlas.mjs` — builds the signed-distance-field font atlas (Source Serif 4, IBM Plex Mono/Sans from `@fontsource`) baked into `canvas.wasm`; cached in `.cache/`.
+- Hosts for `canvas.wasm`: `src/canvas.ts` (browser, `createCanvasEditor`, demo `canvas.html`) and `desktop/` (Rust: Wasmtime + winit + softbuffer + arboard; embeds `src/canvas.wasm`, so assemble first).
+
+- `pnpm --filter @tantaman/wasm-editor test` — assemble + engine tests (incl. randomized undo/redo) + canvas tests (drive the module through a fake host, check pixels and damage)
+- `pnpm --filter @tantaman/wasm-editor dev` — demo pages `/` (DOM) and `/canvas.html` (not deployed to the site)
+- `pnpm --filter @tantaman/wasm-editor desktop -- notes.md` — native window; `--screenshot out.png` renders headless. Needs Rust ≥ 1.94 (Wasmtime 47) and, on Linux/X11, `libxkbcommon-x11`
+- `CANVAS_SNAPSHOTS=dir` with the test command writes PNG snapshots of test frames
 
 ## Frontend Components (`packages/frontend`)
 

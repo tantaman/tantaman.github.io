@@ -1,3 +1,7 @@
-# Assembled from src/editor.wat by scripts/assemble.mjs
+# Assembled from src/*.wat by scripts/assemble.mjs
 src/editor.wasm
+src/canvas.wasm
+# font atlas cache (scripts/font-atlas.mjs)
+.cache/
 dist/
+desktop/target/

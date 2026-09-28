@@ -6,6 +6,8 @@ export type { EngineStats, RenderedBlock, WasmSource } from './engine.ts';
 export { RichTextEditor, normalizeUrl } from './editor.ts';
 export type { EditorOptions, EditorState } from './editor.ts';
 export { htmlToCells } from './html-import.ts';
+export { CanvasEditor, createCanvasEditor } from './canvas.ts';
+export type { CanvasEditorOptions } from './canvas.ts';
 
 let compiled: Promise<WebAssembly.Module> | null = null;
 
