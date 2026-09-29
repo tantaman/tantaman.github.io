@@ -70,6 +70,21 @@ interface Exports {
   undo_bytes(): number;
   undo_cursor(): number;
   link_count(): number;
+  read_cells(pos: number, n: number): number;
+  // collaboration (docs/COLLAB.md; src/collab/ drives these)
+  set_collab(on: number): void;
+  undo_ptr(): number;
+  journal_lost(): number;
+  undo_request(): number;
+  set_undo_state(bits: number): void;
+  doc_version(): number;
+  apply_insert(pos: number, n: number, who: number): number;
+  apply_delete(pos: number, n: number): number;
+  apply_format(pos: number, n: number, mask: number, value: number): number;
+  load_cells(n: number): void;
+  remote_ptr(): number;
+  remote_count(): number;
+  set_remote_count(n: number): void;
 }
 
 /** One rendered block: its HTML and where it sits in the document. */
