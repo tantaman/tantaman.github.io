@@ -12,10 +12,11 @@ The same engine (`src/wat/engine.wat`) is assembled into two modules:
   copies strings in and out of linear memory, and swaps in the HTML of blocks
   whose hash changed.
 - **`canvas.wasm`** (`src/canvas.wat`, 2.2 MB, 0.86 MB gzipped): the engine
-  plus a graphical front end that lays out text, paints every pixel (toolbar
-  included) into a framebuffer and interprets raw keyboard, mouse and IME
-  input. Hosts only show pixels and forward events, so the same file runs in
-  a browser and in a native window through Wasmtime. See
+  plus a graphical front end that lays out text, draws everything (toolbar
+  included) and interprets raw keyboard, mouse and IME input. It either paints
+  every pixel into a framebuffer or lists each frame as rectangles and glyphs
+  for a GPU. Hosts only show the result and forward events, so the same file
+  runs in a browser and in a native window through Wasmtime. See
   [Graphical front end](#graphical-front-end).
 
 ```sh
@@ -93,8 +94,8 @@ state seen before, and that undoing and redoing everything round-trips.
 ## Graphical front end
 
 `canvas.wasm` does everything an editor does between the input devices and
-the screen. The host copies pixels and forwards events; it never sees a line,
-a glyph or a selection.
+the screen. The host shows what the module drew and forwards events; it never
+sees a line or a selection.
 
 ```
           keys, text, IME, mouse, wheel, clipboard, resize, time
@@ -114,20 +115,24 @@ import { createCanvasEditor } from '@tantaman/wasm-editor';
 const editor = await createCanvasEditor(element, {
   markdown: '# Hello',
   theme: 'auto', // or 'light' / 'dark'
+  renderer: 'auto', // or 'webgpu' / 'cpu'
   onChange: (ed) => save(ed.getMarkdown()),
 });
+editor.renderer; // 'webgpu' or 'cpu', whichever it got
 editor.setMarkdown('...');
 editor.destroy();
 ```
 
-It puts the framebuffer on a `<canvas>` with `putImageData` (only the
-presented rectangles), and keeps a hidden `<textarea>` at the caret
-(`ime_rect`) so typing, dead keys, IME composition and the system clipboard
-behave like any text field. Touches go to the module's `touch_*` exports,
-which work out the gesture; the host focuses the textarea from inside the
-`touchend` handler (on iOS the keyboard only comes up then) and carries out
-the edit menu's Cut, Copy and Paste with the async clipboard API. Demo:
-`canvas.html`.
+Where the browser has WebGPU, the module runs with a display list and
+`src/gpu.ts` draws it, once per animation frame (see
+[On the GPU](#on-the-gpu)). Elsewhere, or with `renderer: 'cpu'`, it puts the
+framebuffer on a `<canvas>` with `putImageData` (only the presented
+rectangles). Either way a hidden `<textarea>` sits at the caret (`ime_rect`)
+so typing, dead keys, IME composition and the system clipboard behave like
+any text field. Touches go to the module's `touch_*` exports, which work out
+the gesture; the host focuses the textarea from inside the `touchend` handler
+(on iOS the keyboard only comes up then) and carries out the edit menu's Cut,
+Copy and Paste with the async clipboard API. Demo: `canvas.html`.
 
 **Desktop** (`desktop/`, Rust, 700 lines): Wasmtime runs the module, winit
 provides the window, keyboard, IME and mouse, softbuffer shows the
@@ -153,7 +158,7 @@ Imports (module `host`):
 
 | Function                  | Meaning                                                  |
 | ------------------------- | -------------------------------------------------------- |
-| `present(x, y, w, h)`     | the framebuffer changed inside this rectangle             |
+| `present(x, y, w, h)`     | the framebuffer changed inside this rectangle; with a display list, always the whole window: there is a new frame |
 | `set_cursor(kind)`        | 0 arrow, 1 text, 2 pointer                                |
 | `ime_rect(x, y, w, h)`    | where the caret is, for IME candidate windows              |
 | `open_url(ptr, len)`      | Mod-click on a link; `len` UTF-16 units at `ptr`           |
@@ -162,10 +167,12 @@ Exports (all coordinates in device pixels, `now` in milliseconds):
 
 | Function                                    | Meaning                                                          |
 | ------------------------------------------- | ---------------------------------------------------------------- |
-| `init(w, h, scale, flags)`                  | flags: 1 macOS bindings, 2 dark, 4 `0x00RRGGBB` framebuffer       |
+| `init(w, h, scale, flags)`                  | flags: 1 macOS bindings, 2 dark, 4 `0x00RRGGBB` framebuffer, 8 display list instead of a framebuffer |
 | `resize(w, h, scale)`, `set_theme(dark)`    |                                                                  |
 | `set_focus(focused, now)`, `repaint()`      |                                                                  |
 | `fb_ptr()`                                  | framebuffer: `w*h` pixels, 4 bytes each, rows `w*4` bytes apart   |
+| `list_ptr()`, `list_count()`                | display list: `list_count()` 64-byte records at `list_ptr()`      |
+| `font_ptr()`, `font_size()`                 | the font atlas the display list's glyphs point into               |
 | `tick(now) → ms`                            | advance the caret blink; call again in `ms` (−1: nothing pending) |
 | `key_down(key, mods, now) → handled`        | keys below; 0 means the host should handle it (e.g. clipboard)    |
 | `text_input(n, now)`, `ime_preedit(n, now)` | `n` UTF-16 units written at `out_ptr()`                           |
@@ -201,7 +208,9 @@ position) when a shortcut modifier is held. Modifiers: 1 Shift, 2 Ctrl,
   (toolbar, link bar, scrollbar, one per visual line). Each band gets a key
   hashed from everything that affects its pixels; only bands whose key
   changed are repainted and presented. Typing a character repaints one line;
-  a caret blink repaints a few hundred pixels.
+  a caret blink repaints a few hundred pixels. Scrolling moves every band,
+  though, so each scroll step repaints and presents the whole text area:
+  57 MB of pixels a frame on a 5K screen. That is what the GPU path is for.
 - **Input** (`ui-input.wat`): hit testing, caret movement by character, word,
   line (with a goal column and wrap affinity), page and document; click,
   double-click word, triple-click block, drag selection with autoscroll;
@@ -234,7 +243,47 @@ allow clipboard access.
 | `0x1060000` | GTAB    | glyph cache hash table                           |
 | `0x1080000` | GBMP    | glyph cache bitmaps (cleared when full)          |
 | `0x1880000` | OUT     | the engine's scratch, moved up here, 32 MiB cap  |
-| `0x3880000` | FB      | framebuffer, grows with the window               |
+| `0x3880000` | FB      | framebuffer, grows with the window; or the display list |
+
+### On the GPU
+
+With init flag 8 the module paints no pixels and allocates no framebuffer.
+Everything that draws goes through four primitives in `ui-draw.wat` (`$fill`,
+`$rrect`, `$line` and `$draw_cp`), and in this mode each call appends a
+64-byte record to a display list instead:
+
+| Offset | Field                                                                  |
+| ------ | ---------------------------------------------------------------------- |
+| 0      | `x, y, w, h` (i32): the quad, device px                                 |
+| 16     | clip rectangle: `x0 \| y0 << 16`, `x1 \| y1 << 16`                     |
+| 24     | colour, RGBA bytes                                                     |
+| 28     | kind: 0 rectangle, 1 rounded rectangle, 2 line segment, 3 glyph        |
+| 32     | eight parameters: the radius; the segment's ends and half width; or the glyph's distance field (offset and size in the atlas) and how to sample it |
+
+`src/gpu.ts` uploads the atlas once and the list every frame, and draws each
+record as one instanced quad. Its fragment shader computes each pixel's
+coverage with the same arithmetic as the pixel code: the distance to a
+rounded corner or a segment, or a bilinear sample of the glyph's signed
+distance field, which `$raster` would otherwise have baked into the glyph
+cache. So neither side keeps a glyph cache or packs a texture atlas, and
+frames match the CPU path to within 2/255 per channel (the GPU rounds where
+`$blend` truncates). `test/display-list.ts` is a software model of the
+shader that the tests hold to the framebuffer.
+
+The host redraws whole frames on the GPU, so the band keys now only decide
+whether there is a new frame: `$paint` first runs through the frame without
+listing anything, and lists all of it only when some key changed. Pointer
+moves that change nothing cost no frame.
+
+A scroll step on a 5K screen (5120×2880 at 2x, a page of wrapped text):
+
+|                  | wasm time | uploaded per frame | wasm memory |
+| ---------------- | --------- | ------------------ | ----------- |
+| framebuffer      | 5.4 ms    | 57 MB              | 114 MiB     |
+| display list     | 0.6 ms    | 143 KB (~2,200 records) | 58 MiB |
+
+The desktop host still uses the framebuffer; the same list and shader would
+run on wgpu.
 
 ### Limits of the canvas version
 

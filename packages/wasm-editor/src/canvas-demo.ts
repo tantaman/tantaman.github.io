@@ -2,7 +2,7 @@ import { createCanvasEditor } from './canvas.ts';
 
 const SAMPLE = `# Drawn by WebAssembly
 
-There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection and the toolbar are painted into a framebuffer by hand-written WASM, and the page copies the rectangles that changed onto a canvas.
+There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection and the toolbar are all worked out by hand-written WASM. With WebGPU it lists each frame as rectangles and glyphs for the GPU to draw; without, it paints the pixels into a framebuffer and the page copies the rectangles that changed onto a canvas.
 
 ## Try it
 
@@ -24,6 +24,7 @@ There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection 
 `;
 
 createCanvasEditor(document.getElementById('editor')!, { markdown: SAMPLE }).then((editor) => {
+  document.getElementById('renderer')!.textContent = editor.renderer === 'webgpu' ? 'drawn with WebGPU' : 'painted on the CPU';
   editor.focus();
   (window as unknown as { editor: unknown }).editor = editor;
 });

@@ -5,6 +5,9 @@
 ;; (one byte per pixel) in the glyph cache; drawing then only blends that
 ;; bitmap. The cache is a hash table keyed by face, glyph, size and synthetic
 ;; bold, and is simply emptied when it fills up.
+;;
+;; With init flag 8 no pixels are touched here: each primitive becomes a
+;; record in a display list that the host draws on the GPU (see below).
 
   ;; ---------------------------------------------------------------------
   ;; Pixels. All drawing is clipped to ($cx0, $cy0) - ($cx1, $cy1).
@@ -22,6 +25,8 @@
   ;; Solid rectangle: the first row is written word by word, the rest copied.
   (func $fill (param $x i32) (param $y i32) (param $w i32) (param $h i32) (param $c i32)
     (local $x0 i32) (local $y0 i32) (local $x1 i32) (local $y1 i32) (local $a i32) (local $end i32) (local $row i32) (local $n i32)
+    (if (global.get $gpu)
+      (then (drop (call $dl_add (i32.const 0) (local.get $x) (local.get $y) (local.get $w) (local.get $h) (local.get $c))) (return)))
     (local.set $x0 (select (local.get $x) (global.get $cx0) (i32.gt_s (local.get $x) (global.get $cx0))))
     (local.set $y0 (select (local.get $y) (global.get $cy0) (i32.gt_s (local.get $y) (global.get $cy0))))
     (local.set $x1 (i32.add (local.get $x) (local.get $w)))
@@ -74,10 +79,16 @@
   ;; Anti-aliased filled rectangle with corner radius $r.
   (func $rrect (param $x i32) (param $y i32) (param $w i32) (param $h i32) (param $r i32) (param $c i32)
     (local $i i32) (local $j i32) (local $px i32) (local $py i32) (local $cx f32) (local $cy f32) (local $d f32) (local $rf f32)
+    (local $a i32)
     (if (i32.gt_s (i32.shl (local.get $r) (i32.const 1)) (local.get $w)) (then (local.set $r (i32.shr_s (local.get $w) (i32.const 1)))))
     (if (i32.gt_s (i32.shl (local.get $r) (i32.const 1)) (local.get $h)) (then (local.set $r (i32.shr_s (local.get $h) (i32.const 1)))))
     (if (i32.le_s (local.get $r) (i32.const 0))
       (then (call $fill (local.get $x) (local.get $y) (local.get $w) (local.get $h) (local.get $c)) (return)))
+    (if (global.get $gpu)
+      (then
+        (local.set $a (call $dl_add (i32.const 1) (local.get $x) (local.get $y) (local.get $w) (local.get $h) (local.get $c)))
+        (if (local.get $a) (then (i32.store offset=32 (local.get $a) (local.get $r))))
+        (return)))
     ;; the cross between the corners
     (call $fill (i32.add (local.get $x) (local.get $r)) (local.get $y)
                 (i32.sub (local.get $w) (i32.shl (local.get $r) (i32.const 1))) (local.get $h) (local.get $c))
@@ -121,12 +132,24 @@
   (func $line (param $x0 f32) (param $y0 f32) (param $x1 f32) (param $y1 f32) (param $wd f32) (param $c i32)
     (local $bx0 i32) (local $by0 i32) (local $bx1 i32) (local $by1 i32) (local $x i32) (local $y i32)
     (local $dx f32) (local $dy f32) (local $len2 f32) (local $t f32) (local $px f32) (local $py f32) (local $ex f32) (local $ey f32)
-    (local $half f32)
+    (local $half f32) (local $a i32)
     (local.set $half (f32.mul (local.get $wd) (f32.const 0.5)))
     (local.set $bx0 (i32.trunc_sat_f32_s (f32.floor (f32.sub (f32.min (local.get $x0) (local.get $x1)) (f32.add (local.get $half) (f32.const 1))))))
     (local.set $by0 (i32.trunc_sat_f32_s (f32.floor (f32.sub (f32.min (local.get $y0) (local.get $y1)) (f32.add (local.get $half) (f32.const 1))))))
     (local.set $bx1 (i32.trunc_sat_f32_s (f32.ceil (f32.add (f32.max (local.get $x0) (local.get $x1)) (f32.add (local.get $half) (f32.const 1))))))
     (local.set $by1 (i32.trunc_sat_f32_s (f32.ceil (f32.add (f32.max (local.get $y0) (local.get $y1)) (f32.add (local.get $half) (f32.const 1))))))
+    (if (global.get $gpu)
+      (then
+        (local.set $a (call $dl_add (i32.const 2) (local.get $bx0) (local.get $by0)
+          (i32.sub (local.get $bx1) (local.get $bx0)) (i32.sub (local.get $by1) (local.get $by0)) (local.get $c)))
+        (if (local.get $a)
+          (then
+            (f32.store offset=32 (local.get $a) (local.get $x0))
+            (f32.store offset=36 (local.get $a) (local.get $y0))
+            (f32.store offset=40 (local.get $a) (local.get $x1))
+            (f32.store offset=44 (local.get $a) (local.get $y1))
+            (f32.store offset=48 (local.get $a) (local.get $half))))
+        (return)))
     (local.set $dx (f32.sub (local.get $x1) (local.get $x0)))
     (local.set $dy (f32.sub (local.get $y1) (local.get $y0)))
     (local.set $len2 (f32.max (f32.const 0.0001) (f32.add (f32.mul (local.get $dx) (local.get $dx)) (f32.mul (local.get $dy) (local.get $dy)))))
@@ -154,6 +177,80 @@
             (br $xl)))
         (local.set $y (i32.add (local.get $y) (i32.const 1)))
         (br $yl))))
+
+  ;; ---------------------------------------------------------------------
+  ;; Display list (init flag 8). Each primitive is one 64-byte record at FB
+  ;; saying which pixels it touches and how to work out their coverage, the
+  ;; same way the pixel code in this file does, so a GPU can draw the frame:
+  ;;   +0 x  +4 y  +8 w  +12 h     the quad, device px
+  ;;   +16 clip x0 | y0 << 16      +20 clip x1 | y1 << 16
+  ;;   +24 colour, RGBA bytes      +28 kind
+  ;;   +32 p0 .. +60 p7, by kind:
+  ;;     0 rectangle
+  ;;     1 rounded rectangle  p0 radius (i32)
+  ;;     2 line segment       p0 x0, p1 y0, p2 x1, p3 y1, p4 half width (f32)
+  ;;     3 glyph              p0 distance field offset in the atlas and
+  ;;                          p1 its w | h << 16 in texels (i32); p2 px per
+  ;;                          texel, p3 p4 the cell's fractional x and y,
+  ;;                          p5 coverage per field unit, p6 coverage bias (f32)
+  ;; Records are drawn in order, blending like $blend.
+  ;; ---------------------------------------------------------------------
+
+  ;; Append a record with the current clip. Returns its address, or 0 when
+  ;; it touches no pixels or paint is only checking what changed.
+  (func $dl_add (param $kind i32) (param $x i32) (param $y i32) (param $w i32) (param $h i32) (param $c i32) (result i32)
+    (local $a i32)
+    (if (i32.eqz (global.get $dl_on)) (then (return (i32.const 0))))
+    (if (i32.or
+          (i32.or (i32.le_s (local.get $w) (i32.const 0)) (i32.le_s (local.get $h) (i32.const 0)))
+          (i32.or
+            (i32.or (i32.ge_s (local.get $x) (global.get $cx1)) (i32.ge_s (local.get $y) (global.get $cy1)))
+            (i32.or (i32.le_s (i32.add (local.get $x) (local.get $w)) (global.get $cx0))
+                    (i32.le_s (i32.add (local.get $y) (local.get $h)) (global.get $cy0)))))
+      (then (return (i32.const 0))))
+    (local.set $a (i32.add (global.get $FB) (i32.shl (global.get $dl_n) (i32.const 6))))
+    (call $grow_to (i32.add (local.get $a) (i32.const 64)))
+    (i32.store (local.get $a) (local.get $x))
+    (i32.store offset=4 (local.get $a) (local.get $y))
+    (i32.store offset=8 (local.get $a) (local.get $w))
+    (i32.store offset=12 (local.get $a) (local.get $h))
+    (i32.store offset=16 (local.get $a) (i32.or (global.get $cx0) (i32.shl (global.get $cy0) (i32.const 16))))
+    (i32.store offset=20 (local.get $a) (i32.or (global.get $cx1) (i32.shl (global.get $cy1) (i32.const 16))))
+    (i32.store offset=24 (local.get $a) (local.get $c))
+    (i32.store offset=28 (local.get $a) (local.get $kind))
+    (global.set $dl_n (i32.add (global.get $dl_n) (i32.const 1)))
+    (local.get $a))
+
+  ;; A glyph with its pen at (x, y) as a record: the cell $raster would
+  ;; rasterize, placed where $blit would put it.
+  (func $dl_glyph (param $rec i32) (param $size f32) (param $bold i32) (param $x i32) (param $y i32) (param $c i32)
+    (local $tw i32) (local $th i32) (local $k f32) (local $fx0 f32) (local $fy0 f32) (local $ox i32) (local $oy i32)
+    (local $fx f32) (local $fy f32) (local $bias f32) (local $a i32)
+    (local.set $tw (i32.load16_u offset=8 (local.get $rec)))
+    (local.set $th (i32.load16_u offset=10 (local.get $rec)))
+    (if (i32.eqz (local.get $tw)) (then (return)))
+    (local.set $k (f32.div (local.get $size) (global.get $E)))
+    (local.set $fx0 (f32.mul (f32.convert_i32_s (i32.load16_s offset=4 (local.get $rec))) (local.get $k)))
+    (local.set $fy0 (f32.mul (f32.convert_i32_s (i32.load16_s offset=6 (local.get $rec))) (local.get $k)))
+    (local.set $ox (i32.trunc_sat_f32_s (f32.floor (local.get $fx0))))
+    (local.set $oy (i32.trunc_sat_f32_s (f32.floor (local.get $fy0))))
+    (local.set $fx (f32.sub (local.get $fx0) (f32.convert_i32_s (local.get $ox))))
+    (local.set $fy (f32.sub (local.get $fy0) (f32.convert_i32_s (local.get $oy))))
+    (local.set $bias (f32.add (f32.const 0.5) (global.get $emb)))
+    (if (local.get $bold) (then (local.set $bias (f32.add (local.get $bias) (f32.mul (local.get $size) (f32.const 0.03))))))
+    (local.set $a (call $dl_add (i32.const 3)
+      (i32.add (local.get $x) (local.get $ox)) (i32.add (local.get $y) (local.get $oy))
+      (i32.trunc_sat_f32_s (f32.ceil (f32.add (f32.mul (f32.convert_i32_u (local.get $tw)) (local.get $k)) (local.get $fx))))
+      (i32.trunc_sat_f32_s (f32.ceil (f32.add (f32.mul (f32.convert_i32_u (local.get $th)) (local.get $k)) (local.get $fy))))
+      (local.get $c)))
+    (if (i32.eqz (local.get $a)) (then (return)))
+    (i32.store offset=32 (local.get $a) (i32.load offset=12 (local.get $rec)))
+    (i32.store offset=36 (local.get $a) (i32.or (local.get $tw) (i32.shl (local.get $th) (i32.const 16))))
+    (f32.store offset=40 (local.get $a) (local.get $k))
+    (f32.store offset=44 (local.get $a) (local.get $fx))
+    (f32.store offset=48 (local.get $a) (local.get $fy))
+    (f32.store offset=52 (local.get $a) (f32.mul (f32.div (global.get $S) (f32.const 127)) (local.get $k)))
+    (f32.store offset=56 (local.get $a) (local.get $bias)))
 
   ;; ---------------------------------------------------------------------
   ;; Font atlas access
@@ -347,6 +444,12 @@
   ;; that have no real bold (code).
   (func $draw_cp (param $cp i32) (param $face i32) (param $size f32) (param $bold i32) (param $x i32) (param $y i32) (param $c i32)
     (local $e i32)
+    (if (global.get $gpu)
+      (then
+        (if (global.get $dl_on)
+          (then (call $dl_glyph (call $grec (local.get $face) (call $gid (local.get $cp)))
+                  (local.get $size) (local.get $bold) (local.get $x) (local.get $y) (local.get $c))))
+        (return)))
     (local.set $e (call $glyph (local.get $face) (call $gid (local.get $cp)) (local.get $size) (local.get $bold)))
     (if (local.get $e) (then (call $blit (local.get $e) (local.get $x) (local.get $y) (local.get $c)))))
 

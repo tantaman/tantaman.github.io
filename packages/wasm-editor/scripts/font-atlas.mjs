@@ -10,6 +10,7 @@
 //   0  u32 magic "SDF1"      4  u32 E, texels per em     8  u32 S, spread in texels
 //  12  u32 face count       16  u32 glyphs per face     20  u32 cmap offset
 //  24  u32 faces offset     28  u32 kern offset          32  u32 cmap size
+//  36  u32 atlas size in bytes, header included
 //  cmap   u16[cmap size]: code point -> glyph index (0 = the missing-glyph box)
 //  faces  32 bytes each: f32 ascent, f32 descent, f32 underline position,
 //         f32 underline thickness, f32 x-height, u32 glyph table offset, 2 pad
@@ -257,7 +258,7 @@ function build() {
   }
 
   // assemble
-  const HEADER = 36;
+  const HEADER = 40;
   const cmapOffset = HEADER;
   const facesOffset = cmapOffset + CMAP_SIZE * 2;
   const glyphsOffset = facesOffset + FACES.length * 32;
@@ -276,6 +277,7 @@ function build() {
   dv.setUint32(24, facesOffset, true);
   dv.setUint32(28, kernOffset, true);
   dv.setUint32(32, CMAP_SIZE, true);
+  dv.setUint32(36, total, true);
   codepoints.forEach((cp, i) => dv.setUint16(cmapOffset + cp * 2, i + 1, true));
   faceRecords.forEach((f, i) => {
     const o = facesOffset + i * 32;

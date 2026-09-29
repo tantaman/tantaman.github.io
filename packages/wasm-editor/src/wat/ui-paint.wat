@@ -8,6 +8,9 @@
 ;; link bar and scrollbar have keys of their own. The touch overlays (the
 ;; selection handles and the edit menu, ui-touch.wat) are drawn over the
 ;; bands they cross, and hashed into those bands' keys.
+;;
+;; With a display list (init flag 8) the host redraws whole frames on the
+;; GPU, so the keys only decide whether there is a new frame at all.
 
   (global $d0 (mut i32) (i32.const 0))  ;; damaged rows of the text area
   (global $d1 (mut i32) (i32.const 0))
@@ -615,7 +618,7 @@
   ;; ---------------------------------------------------------------------
 
   (func $paint
-    (local $k i32) (local $a i32) (local $cy i32) (local $margin i32)
+    (local $a i32) (local $cy i32) (local $margin i32)
     (if (i32.eqz (global.get $ready)) (then (return)))
     (if (global.get $dirty) (then (call $relayout)))
     ;; scroll the caret into view when asked
@@ -635,6 +638,38 @@
     (call $clamp_scroll)
     (call $touch_geom)
     (call $caret_geom (global.get $focus))
+    (if (global.get $gpu)
+      (then
+        ;; a dry run finds out whether anything changed; if so, list the
+        ;; whole frame
+        (global.set $damaged (i32.const 0))
+        (global.set $dl_on (i32.const 0))
+        (call $paint_frame)
+        (if (global.get $damaged)
+          (then
+            (global.set $dl_n (i32.const 0))
+            (global.set $dl_on (i32.const 1))
+            (global.set $full (i32.const 1))
+            (call $paint_frame)
+            (call $host_present (i32.const 0) (i32.const 0) (global.get $W) (global.get $H)))))
+      (else (call $paint_frame)))
+    ;; tell the host where the caret is, for IME windows
+    (local.set $a (call $line_addr (global.get $g_line)))
+    (call $host_ime_rect
+      (i32.add (global.get $col_x) (i32.trunc_sat_f32_s (global.get $g_x)))
+      (i32.add (global.get $view_top) (i32.sub (i32.load offset=8 (local.get $a)) (global.get $scroll)))
+      (call $px (f32.const 2))
+      (i32.load offset=12 (local.get $a))))
+
+  ;; The host may show what is inside this rectangle now. With a display
+  ;; list, only note that the frame changed.
+  (func $present (param $x i32) (param $y i32) (param $w i32) (param $h i32)
+    (if (global.get $gpu) (then (global.set $damaged (i32.const 1)) (return)))
+    (call $host_present (local.get $x) (local.get $y) (local.get $w) (local.get $h)))
+
+  ;; Paint what changed since the last frame, or everything when $full.
+  (func $paint_frame
+    (local $k i32)
     (if (global.get $full)
       (then
         (call $clip (i32.const 0) (i32.const 0) (global.get $W) (global.get $H))
@@ -645,7 +680,7 @@
       (then
         (global.set $tb_key (local.get $k))
         (call $paint_toolbar)
-        (if (i32.eqz (global.get $full)) (then (call $host_present (i32.const 0) (i32.const 0) (global.get $W) (global.get $tb_h))))))
+        (if (i32.eqz (global.get $full)) (then (call $present (i32.const 0) (i32.const 0) (global.get $W) (global.get $tb_h))))))
     ;; link bar
     (if (global.get $link_open)
       (then
@@ -655,11 +690,11 @@
             (global.set $lb_key (local.get $k))
             (call $paint_linkbar)
             (if (i32.eqz (global.get $full))
-              (then (call $host_present (i32.const 0) (global.get $tb_h) (global.get $W) (global.get $lb_h))))))))
+              (then (call $present (i32.const 0) (global.get $tb_h) (global.get $W) (global.get $lb_h))))))))
     ;; text
     (call $paint_bands)
     (if (i32.and (i32.eqz (global.get $full)) (i32.lt_s (global.get $d0) (global.get $d1)))
-      (then (call $host_present (i32.const 0) (global.get $d0) (i32.sub (global.get $W) (global.get $strip_w))
+      (then (call $present (i32.const 0) (global.get $d0) (i32.sub (global.get $W) (global.get $strip_w))
               (i32.sub (global.get $d1) (global.get $d0)))))
     ;; scrollbar
     (local.set $k (call $strip_key))
@@ -668,16 +703,9 @@
         (global.set $strip_key (local.get $k))
         (call $paint_strip)
         (if (i32.eqz (global.get $full))
-          (then (call $host_present (i32.sub (global.get $W) (global.get $strip_w)) (global.get $view_top)
+          (then (call $present (i32.sub (global.get $W) (global.get $strip_w)) (global.get $view_top)
                   (global.get $strip_w) (global.get $view_h))))))
     (if (global.get $full)
       (then
-        (call $host_present (i32.const 0) (i32.const 0) (global.get $W) (global.get $H))
-        (global.set $full (i32.const 0))))
-    ;; tell the host where the caret is, for IME windows
-    (local.set $a (call $line_addr (global.get $g_line)))
-    (call $host_ime_rect
-      (i32.add (global.get $col_x) (i32.trunc_sat_f32_s (global.get $g_x)))
-      (i32.add (global.get $view_top) (i32.sub (i32.load offset=8 (local.get $a)) (global.get $scroll)))
-      (call $px (f32.const 2))
-      (i32.load offset=12 (local.get $a))))
+        (call $present (i32.const 0) (i32.const 0) (global.get $W) (global.get $H))
+        (global.set $full (i32.const 0)))))

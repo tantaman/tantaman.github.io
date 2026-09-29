@@ -15,7 +15,8 @@
   ;; Set-up
   ;; ---------------------------------------------------------------------
 
-  ;; flags: 1 macOS shortcuts, 2 dark theme, 4 framebuffer as 0x00RRGGBB words
+  ;; flags: 1 macOS shortcuts, 2 dark theme, 4 framebuffer as 0x00RRGGBB words,
+  ;; 8 a display list for the GPU instead of a framebuffer (colours as RGBA bytes)
   (func (export "init") (param $w i32) (param $h i32) (param $scale f32) (param $flags i32)
     ;; the engine's scratch moves after the interface regions
     (global.set $OUT (global.get $UI_OUT))
@@ -26,7 +27,9 @@
     (call $init_buttons)
     (global.set $mac (i32.and (local.get $flags) (i32.const 1)))
     (global.set $dark (i32.and (i32.shr_u (local.get $flags) (i32.const 1)) (i32.const 1)))
-    (global.set $fmt (i32.and (i32.shr_u (local.get $flags) (i32.const 2)) (i32.const 1)))
+    (global.set $gpu (i32.and (i32.shr_u (local.get $flags) (i32.const 3)) (i32.const 1)))
+    (global.set $fmt (i32.and (i32.and (i32.shr_u (local.get $flags) (i32.const 2)) (i32.const 1))
+                              (i32.eqz (global.get $gpu))))
     (call $apply_theme)
     (call $resize (local.get $w) (local.get $h) (local.get $scale)))
 
@@ -34,7 +37,8 @@
     (global.set $W (select (local.get $w) (i32.const 1) (i32.gt_s (local.get $w) (i32.const 0))))
     (global.set $H (select (local.get $h) (i32.const 1) (i32.gt_s (local.get $h) (i32.const 0))))
     (global.set $scale (f32.max (f32.const 0.25) (local.get $scale)))
-    (call $grow_to (i32.add (global.get $FB) (i32.shl (i32.mul (global.get $W) (global.get $H)) (i32.const 2))))
+    (if (i32.eqz (global.get $gpu))
+      (then (call $grow_to (i32.add (global.get $FB) (i32.shl (i32.mul (global.get $W) (global.get $H)) (i32.const 2))))))
     (call $cache_clear)
     (call $layout_view)
     (global.set $ready (i32.const 1))
@@ -62,6 +66,12 @@
     (call $paint))
 
   (func (export "fb_ptr") (result i32) (global.get $FB))
+  ;; The display list of the last frame (flag 8): 64-byte records, see
+  ;; ui-draw.wat. Glyph records point into the font atlas.
+  (func (export "list_ptr") (result i32) (global.get $FB))
+  (func (export "list_count") (result i32) (global.get $dl_n))
+  (func (export "font_ptr") (result i32) (global.get $FONT))
+  (func (export "font_size") (result i32) (i32.load offset=36 (global.get $FONT)))
   (func (export "scroll_top") (result i32) (global.get $scroll))
   (func (export "out_ptr") (result i32) (global.get $OUT))
 
