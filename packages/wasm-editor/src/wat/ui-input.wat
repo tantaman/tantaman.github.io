@@ -150,8 +150,9 @@
     (if (global.get $link_open)
       (then (call $link_append (local.get $n)) (call $paint) (return)))
     (global.set $pre_len (i32.const 0))
+    ;; into code or an equation, text goes in as it is
     (if (i32.or (local.get $plain)
-          (i32.or (i32.eq (i32.and (call $sel_block) (i32.const 15)) (i32.const 8))
+          (i32.or (i32.ge_u (i32.and (call $sel_block) (i32.const 15)) (i32.const 8))
                   (i32.eqz (call $looks_like_markdown (local.get $n)))))
       (then (drop (call $insert_text (local.get $n))))
       (else (drop (call $paste_markdown (local.get $n)))))
@@ -314,6 +315,11 @@
     (call $caret_geom (global.get $focus))
     (if (f32.lt (global.get $goal_x) (f32.const 0)) (then (global.set $goal_x (global.get $g_x))))
     (local.set $j (i32.add (global.get $g_line) (local.get $dir)))
+    ;; past an equation's preview, which holds no positions
+    (if (i32.and (i32.ge_s (local.get $j) (i32.const 0)) (i32.lt_s (local.get $j) (global.get $nlines)))
+      (then
+        (if (i32.and (i32.load offset=24 (call $line_addr (local.get $j))) (i32.const 0x4000))
+          (then (local.set $j (i32.add (local.get $j) (local.get $dir)))))))
     (if (i32.lt_s (local.get $j) (i32.const 0))
       (then (global.set $affinity (i32.const 0)) (call $go (i32.const 0) (local.get $extend)) (return)))
     (if (i32.ge_s (local.get $j) (global.get $nlines))
@@ -645,6 +651,40 @@
       (then (return (i32.load (local.get $a)))))
     (i32.const -1))
 
+  ;; On a typeset inline formula, the position inside it where a click
+  ;; puts the caret (before its closing "$", which opens it); else -1.
+  (func $math_hit (param $x i32) (param $y i32) (result i32)
+    (local $a i32) (local $p i32) (local $end i32) (local $t i32) (local $cx f32) (local $fx f32) (local $w f32) (local $k i32)
+    (local $sp i32)
+    (if (i32.lt_s (local.get $y) (global.get $view_top)) (then (return (i32.const -1))))
+    (local.set $a (call $line_addr (call $line_at (i32.add (i32.sub (local.get $y) (global.get $view_top)) (global.get $scroll)))))
+    (if (i32.and (i32.load offset=24 (local.get $a)) (i32.const 0x6000)) (then (return (i32.const -1))))
+    (local.set $t (call $type_of_flags (i32.load offset=24 (local.get $a))))
+    (local.set $cx (f32.convert_i32_s (i32.load offset=20 (local.get $a))))
+    (local.set $fx (f32.convert_i32_s (i32.sub (local.get $x) (global.get $col_x))))
+    (local.set $p (i32.load (local.get $a)))
+    (local.set $end (i32.load offset=4 (local.get $a)))
+    (call $spans_at (local.get $p))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $p) (local.get $end)))
+        (local.set $w (call $adv_at (local.get $p) (local.get $t)))
+        (local.set $k (call $span_at (local.get $p)))
+        (if (i32.ge_s (local.get $k) (i32.const 0))
+          (then
+            (local.set $sp (call $span_addr (local.get $k)))
+            (if (i32.and (i32.eqz (call $span_open (local.get $sp))) (i32.eq (local.get $p) (i32.load (local.get $sp))))
+              (then
+                (if (i32.and (f32.ge (local.get $fx) (local.get $cx)) (f32.lt (local.get $fx) (f32.add (local.get $cx) (local.get $w))))
+                  (then (return (i32.sub (i32.load offset=4 (local.get $sp)) (i32.const 1)))))
+                (local.set $cx (f32.add (local.get $cx) (local.get $w)))
+                (local.set $p (i32.load offset=4 (local.get $sp)))
+                (br $l)))))
+        (local.set $cx (f32.add (local.get $cx) (local.get $w)))
+        (local.set $p (i32.add (local.get $p) (i32.const 1)))
+        (br $l)))
+    (i32.const -1))
+
   ;; Link id at a document position under the pointer, or 0.
   (func $link_under (param $p i32) (result i32)
     (local $c i32)
@@ -736,6 +776,11 @@
     (global.set $pre_len (i32.const 0))
     (if (i32.eq (global.get $clicks) (i32.const 1))
       (then
+        ;; a click on a formula opens it
+        (if (i32.eqz (i32.and (local.get $mods) (i32.const 1)))
+          (then
+            (local.set $id (call $math_hit (local.get $x) (local.get $y)))
+            (if (i32.ge_s (local.get $id) (i32.const 0)) (then (local.set $p (local.get $id))))))
         (call $set_selection
           (select (global.get $anchor) (local.get $p) (i32.and (local.get $mods) (i32.const 1)))
           (local.get $p))

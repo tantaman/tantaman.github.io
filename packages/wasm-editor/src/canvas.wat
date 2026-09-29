@@ -26,7 +26,7 @@
 
   ;; Covers the fixed regions up to OUT (see ui.wat); OUT and the
   ;; framebuffer are grown on demand.
-  (memory (export "memory") 392)
+  (memory (export "memory") 408)
 
   ;; @include wat/engine.wat
   ;; @include wat/ui.wat
@@ -35,5 +35,7 @@
   ;; @include wat/ui-paint.wat
   ;; @include wat/ui-input.wat
   ;; @include wat/ui-touch.wat
+  ;; @include wat/ui-math.wat
+  ;; @include wat/ui-code.wat
   ;; @font
 )

@@ -19,8 +19,16 @@
 ;;   0x1060000  GTAB     glyph cache hash table, 16 bytes per slot
 ;;   0x1080000  GBMP     glyph cache coverage bitmaps
 ;;   0x1840000  LSCR     lines being laid out again, 32 bytes each (ui-layout.wat)
-;;   0x1880000  OUT      the engine's scratch, capped at 32 MiB
-;;   0x3880000  FB       framebuffer, grows with the window; with init flag 8
+;;   0x1880000  MSPANS   inline math spans of the last layout, 32 bytes each
+;;   0x18C0000  MCACHE   typeset formula sizes by source, 32 bytes per slot
+;;   0x18E0000  MSTK     the typesetter's stack of atoms and table cells
+;;   0x18F0000  MSRC     the formula being typeset, UTF-16
+;;   0x18F8000  HLBUF    token classes of the code line being drawn
+;;   0x1900000  MITEMS   the typeset formula: glyphs, rules, strokes
+;;   0x1970000  MTAB     TeX commands and environments (ui-math.wat),
+;;                       languages and keywords (ui-code.wat)
+;;   0x1980000  OUT      the engine's scratch, capped at 32 MiB
+;;   0x3980000  FB       framebuffer, grows with the window; with init flag 8
 ;;                       the display list instead (see ui-draw.wat)
 ;;
 ;; Everything on screen is measured in device pixels. CSS-like sizes in
@@ -46,9 +54,21 @@
   (global $GBMP_END  i32 (i32.const 0x1840000))
   (global $LSCR      i32 (i32.const 0x1840000))
   (global $LSCR_MAX  i32 (i32.const 8192))
-  (global $UI_OUT    i32 (i32.const 0x1880000))
-  (global $UI_OUT_END i32 (i32.const 0x3880000))
-  (global $FB        i32 (i32.const 0x3880000))
+  (global $MSPANS    i32 (i32.const 0x1880000))
+  (global $MSPAN_MAX i32 (i32.const 8192))
+  (global $MCACHE    i32 (i32.const 0x18C0000))
+  (global $MSTK      i32 (i32.const 0x18E0000))
+  (global $MSTK_END  i32 (i32.const 0x18F0000))
+  (global $MSRC      i32 (i32.const 0x18F0000))
+  (global $MSRC_MAX  i32 (i32.const 16000))
+  (global $HLBUF     i32 (i32.const 0x18F8000))
+  (global $HL_MAX    i32 (i32.const 32768))
+  (global $MITEMS    i32 (i32.const 0x1900000))
+  (global $MI_MAX    i32 (i32.const 14336))
+  (global $MTAB      i32 (i32.const 0x1970000))
+  (global $UI_OUT    i32 (i32.const 0x1980000))
+  (global $UI_OUT_END i32 (i32.const 0x3980000))
+  (global $FB        i32 (i32.const 0x3980000))
 
   ;; font atlas, read from its header at init
   (global $E (mut f32) (f32.const 48))        ;; texels per em
@@ -142,17 +162,20 @@
   (global $c_menu_fg (mut i32) (i32.const 0))
   (global $c_menu_rule (mut i32) (i32.const 0))
   (global $c_menu_press (mut i32) (i32.const 0))
+  (global $c_err (mut i32) (i32.const 0))
 
-  ;; Interface strings. Byte 1 stands for U+2022 (bullet).
+  ;; Interface strings. Byte 1 stands for U+2022 (bullet), byte 2 for U+2211
+  ;; (the sum sign).
   ;;  0 B   1 I   2 U   3 S   4 Code   5 Link   6 H1   7 H2   8 H3   9 Quote
   ;; 10 "* List"  11 "1. List"  12 Todo  13 "{ }"  14 Undo  15 Redo
   ;; 16 Start writing   17 Link   18 Enter to apply, Esc to cancel
-  ;; 19 Cut  20 Copy  21 Paste  22 Select  23 Select All
+  ;; 19 Cut  20 Copy  21 Paste  22 Select  23 Select All  24 the sum sign
+  ;; 25 Empty equation
   (data (i32.const 0x0C50000)
     "B\00I\00U\00S\00Code\00Link\00H1\00H2\00H3\00Quote\00"
     "\01 List\001. List\00Todo\00{ }\00Undo\00Redo\00"
     "Start writing\00Link\00Enter to apply, Esc to cancel\00"
-    "Cut\00Copy\00Paste\00Select\00Select All\00")
+    "Cut\00Copy\00Paste\00Select\00Select All\00\02\00Empty equation\00")
 
   ;; ---------------------------------------------------------------------
   ;; Colours
@@ -191,6 +214,7 @@
         (global.set $c_menu_fg (call $rgb (i32.const 0xF1F2F5)))
         (global.set $c_menu_rule (call $rgb (i32.const 0x575C68)))
         (global.set $c_menu_press (call $rgb (i32.const 0x4D525D)))
+        (global.set $c_err (call $rgb (i32.const 0xFF7B72)))
         (global.set $emb (f32.const 0)))
       (else
         (global.set $c_bg (call $rgb (i32.const 0xFFFFFF)))
@@ -211,8 +235,10 @@
         (global.set $c_menu_fg (call $rgb (i32.const 0xFFFFFF)))
         (global.set $c_menu_rule (call $rgb (i32.const 0x4A4E57)))
         (global.set $c_menu_press (call $rgb (i32.const 0x454952)))
+        (global.set $c_err (call $rgb (i32.const 0xCF222E)))
         ;; dark text on white reads thin with linear coverage; thicken a little
-        (global.set $emb (f32.const 0.12)))))
+        (global.set $emb (f32.const 0.12))))
+    (call $hl_theme))
 
   ;; ---------------------------------------------------------------------
   ;; Block styles: 32 bytes per block type, sizes in CSS px
@@ -244,11 +270,13 @@
     (call $def_style (i32.const 5) (f32.const 18) (f32.const 1.6) (i32.const 0) (f32.const 28) (f32.const 0)  (f32.const 14) (i32.const 0) (f32.const 4))
     (call $def_style (i32.const 6) (f32.const 18) (f32.const 1.6) (i32.const 0) (f32.const 28) (f32.const 0)  (f32.const 14) (i32.const 0) (f32.const 4))
     (call $def_style (i32.const 7) (f32.const 18) (f32.const 1.6) (i32.const 0) (f32.const 30) (f32.const 0)  (f32.const 14) (i32.const 0) (f32.const 4))
-    (call $def_style (i32.const 8) (f32.const 15) (f32.const 1.55) (i32.const 4) (f32.const 18) (f32.const 0) (f32.const 14) (i32.const 0) (f32.const 0)))
+    (call $def_style (i32.const 8) (f32.const 15) (f32.const 1.55) (i32.const 4) (f32.const 18) (f32.const 0) (f32.const 14) (i32.const 0) (f32.const 0))
+    ;; the TeX source of an equation being edited, like code
+    (call $def_style (i32.const 9) (f32.const 15) (f32.const 1.55) (i32.const 4) (f32.const 18) (f32.const 0) (f32.const 14) (i32.const 0) (f32.const 0)))
 
   (func $style (param $t i32) (result i32)
     (i32.add (global.get $STYLES)
-      (i32.shl (select (local.get $t) (i32.const 0) (i32.le_u (local.get $t) (i32.const 8))) (i32.const 5))))
+      (i32.shl (select (local.get $t) (i32.const 0) (i32.le_u (local.get $t) (i32.const 9))) (i32.const 5))))
 
   ;; CSS px to device px
   (func $px (param $css f32) (result i32)
@@ -283,6 +311,7 @@
 
   ;; code point for an interface string byte
   (func $ui_cp (param $b i32) (result i32)
+    (if (i32.eq (local.get $b) (i32.const 2)) (then (return (i32.const 0x2211))))
     (select (i32.const 0x2022) (local.get $b) (i32.eq (local.get $b) (i32.const 1))))
 
   ;; ---------------------------------------------------------------------
@@ -320,6 +349,7 @@
     (call $def_btn (i32.const 2) (i32.const 6)  (i32.const 11) (i32.const 5) (i32.const 0) (i32.const 0))
     (call $def_btn (i32.const 2) (i32.const 7)  (i32.const 12) (i32.const 5) (i32.const 3) (i32.const 0))
     (call $def_btn (i32.const 2) (i32.const 8)  (i32.const 13) (i32.const 4) (i32.const 0) (i32.const 0))
+    (call $def_btn (i32.const 2) (i32.const 9)  (i32.const 24) (i32.const 8) (i32.const 0) (i32.const 0))
     (call $def_btn (i32.const 3) (i32.const 2)  (i32.const 14) (i32.const 5) (i32.const 0) (i32.const 1))
     (call $def_btn (i32.const 3) (i32.const 3)  (i32.const 15) (i32.const 5) (i32.const 0) (i32.const 0)))
 
@@ -346,11 +376,11 @@
           (i32.add
             (i32.trunc_sat_f32_s (f32.ceil
               (call $str_width (i32.load offset=24 (local.get $b)) (local.get $face) (call $btn_size (local.get $face)))))
-            (call $px (f32.const 18))))
+            (call $px (f32.const 16))))
         ;; room for the checkbox icon
         (if (i32.eq (i32.and (i32.shr_u (i32.load offset=28 (local.get $b)) (i32.const 8)) (i32.const 0xFF)) (i32.const 3))
           (then (local.set $w (i32.add (local.get $w) (call $px (f32.const 18))))))
-        (if (i32.lt_s (local.get $w) (call $px (f32.const 32))) (then (local.set $w (call $px (f32.const 32)))))
+        (if (i32.lt_s (local.get $w) (call $px (f32.const 30))) (then (local.set $w (call $px (f32.const 30)))))
         (if (i32.and (i32.ne (i32.and (i32.shr_u (i32.load offset=28 (local.get $b)) (i32.const 16)) (i32.const 1)) (i32.const 0))
                      (i32.gt_u (local.get $i) (i32.const 0)))
           (then (local.set $x (i32.add (local.get $x) (local.get $sep)))))

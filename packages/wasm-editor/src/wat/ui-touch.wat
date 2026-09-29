@@ -537,6 +537,9 @@
                 (local.set $toggled (i32.const 1))
                 (global.set $menu (i32.eqz (global.get $menu))))
               (else
+                ;; a tap on a formula opens it
+                (local.set $b (call $math_hit (local.get $x) (local.get $y)))
+                (if (i32.ge_s (local.get $b) (i32.const 0)) (then (local.set $p (local.get $b))))
                 (call $set_selection (local.get $p) (local.get $p))
                 (call $touch_off)))))))
     (if (i32.eq (global.get $taps) (i32.const 2))

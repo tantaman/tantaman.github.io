@@ -16,9 +16,16 @@
 ;;     bits 21..31  link id (0 = no link, see the link table)
 ;;   block terminators ("\n" cells) carry the format of the block they end:
 ;;     bits 16..19  block type: 0 paragraph, 1-3 heading, 4 quote,
-;;                  5 bullet, 6 ordered, 7 todo, 8 code
-;;     bit  20      todo is checked
+;;                  5 bullet, 6 ordered, 7 todo, 8 code, 9 math (TeX)
+;;     bit  20      todo is checked; math: the first line of an equation
+;;     bits 21..31  code: the language (```ts), an id in the link table,
+;;                  which interns fence info strings as well as URLs
 ;;
+;; Consecutive code lines of one language form a code block, consecutive
+;; math lines one display equation ($$ ... $$ in Markdown) unless one of
+;; them starts another. Inline math is
+;; plain text: "$x^2$" is kept as typed, and $math_end decides where a span
+;; is, the same way for Markdown import, export and the canvas.
 ;; The document always ends with a terminator, so an empty document is a
 ;; single empty paragraph. Positions are cell indices; a caret may sit at any
 ;; position except after the final terminator.
@@ -158,6 +165,8 @@
   ;; 48 "# "  49 "## "  50 "### "  51 "> "  52 "- "  53 "- [ ] "  54 "- [x] "
   ;; 55 ```   56 **   57 *   58 ~~   59 `   60 [   61 ](   62 )   63 ". "
   ;; 64 http  65 https  66 mailto  67 tel  68 http://  69 https://
+;; 70 <div class="rt-math">  71 <pre><code class="language-
+;; 72 <div class="math-display">$$  73 $$</div>  74 $$
   (data (i32.const 0x100)
     "<p>\00</p>\00<h1>\00</h1>\00<h2>\00</h2>\00<h3>\00</h3>\00"
     "<blockquote>\00</blockquote>\00"
@@ -174,7 +183,9 @@
     "<pre><code>\00</code></pre>\00"
     "# \00## \00### \00> \00- \00- [ ] \00- [x] \00"
     "```\00**\00*\00~~\00`\00[\00](\00)\00. \00"
-    "http\00https\00mailto\00tel\00http://\00https://\00")
+    "http\00https\00mailto\00tel\00http://\00https://\00"
+    "<div class=\"rt-math\">\00<pre><code class=\"language-\00"
+    "<div class=\"math-display\">$$\00$$</div>\00$$\00")
 
   ;; =====================================================================
   ;; Start-up
@@ -1123,20 +1134,61 @@
     (i32.const 1))
 
   ;; Markdown shortcuts: a space typed after "#", "##", "###", "-", "*", "1.",
-  ;; ">", "[]", "[ ]", "[x]" or "```" at the start of a paragraph turns it
-  ;; into that kind of block. This is its own undo step, so undo brings the
-  ;; typed characters back.
+  ;; ">", "[]", "[ ]", "[x]", "```", "```lang" or "$$" at the start of a
+  ;; paragraph turns it into that kind of block. This is its own undo step,
+  ;; so undo brings the typed characters back.
   (func $input_rules (param $sp i32)
-    (local $bs i32) (local $n i32) (local $c0 i32) (local $c1 i32) (local $c2 i32) (local $t i32)
+    (local $bs i32) (local $t i32)
     (local.set $bs (call $block_start (local.get $sp)))
-    (local.set $n (i32.sub (local.get $sp) (local.get $bs)))
-    (if (i32.or (i32.eqz (local.get $n)) (i32.gt_u (local.get $n) (i32.const 3))) (then (return)))
+    (if (i32.eq (local.get $sp) (local.get $bs)) (then (return)))
     (if (i32.shr_u (call $get (call $nl_after (local.get $sp))) (i32.const 16)) (then (return)))
-    (local.set $c0 (i32.and (call $get (local.get $bs)) (i32.const 0xFFFF)))
-    (if (i32.ge_u (local.get $n) (i32.const 2))
-      (then (local.set $c1 (i32.and (call $get (i32.add (local.get $bs) (i32.const 1))) (i32.const 0xFFFF)))))
-    (if (i32.eq (local.get $n) (i32.const 3))
-      (then (local.set $c2 (i32.and (call $get (i32.add (local.get $bs) (i32.const 2))) (i32.const 0xFFFF)))))
+    (local.set $t (call $block_rule (local.get $bs) (local.get $sp) (i32.const 0)))
+    (if (i32.lt_s (local.get $t) (i32.const 0)) (then (return)))
+    (call $begin)
+    (call $del_range (local.get $bs) (i32.add (local.get $sp) (i32.const 1)))
+    (call $set_cell (call $nl_after (local.get $bs)) (i32.or (i32.shl (local.get $t) (i32.const 16)) (i32.const 10)))
+    (call $collapse (local.get $bs))
+    (call $commit))
+
+  (func $ch_at (param $p i32) (result i32)
+    (i32.and (call $get (local.get $p)) (i32.const 0xFFFF)))
+
+  ;; The block a paragraph starting with the text [bs, e) turns into (its
+  ;; terminator attrs), or -1. With $enter, only fences and "$$" count: they
+  ;; also work with Enter, as in a Markdown file.
+  (func $block_rule (param $bs i32) (param $e i32) (param $enter i32) (result i32)
+    (local $n i32) (local $c0 i32) (local $c1 i32) (local $c2 i32) (local $t i32) (local $k i32) (local $c i32)
+    (local.set $n (i32.sub (local.get $e) (local.get $bs)))
+    (if (i32.eqz (local.get $n)) (then (return (i32.const -1))))
+    (local.set $c0 (call $ch_at (local.get $bs)))
+    (if (i32.ge_u (local.get $n) (i32.const 2)) (then (local.set $c1 (call $ch_at (i32.add (local.get $bs) (i32.const 1))))))
+    (if (i32.ge_u (local.get $n) (i32.const 3)) (then (local.set $c2 (call $ch_at (i32.add (local.get $bs) (i32.const 2))))))
+    (if (i32.and (i32.eq (local.get $n) (i32.const 2))
+                 (i32.and (i32.eq (local.get $c0) (i32.const 36)) (i32.eq (local.get $c1) (i32.const 36))))
+      (then (return (i32.const 25))))
+    ;; "```" and an optional language: code
+    (if (i32.and (i32.ge_u (local.get $n) (i32.const 3))
+                 (i32.and (i32.eq (local.get $c0) (i32.const 96))
+                          (i32.and (i32.eq (local.get $c1) (i32.const 96)) (i32.eq (local.get $c2) (i32.const 96)))))
+      (then
+        (if (i32.eq (local.get $n) (i32.const 3)) (then (return (i32.const 8))))
+        (if (i32.gt_u (local.get $n) (i32.const 35)) (then (return (i32.const -1))))
+        (local.set $k (i32.const 3))
+        (block $d
+          (loop $l
+            (br_if $d (i32.ge_u (local.get $k) (local.get $n)))
+            (local.set $c (call $ch_at (i32.add (local.get $bs) (local.get $k))))
+            (if (i32.eqz (i32.or (call $is_alnum (local.get $c))
+                                 (i32.or (i32.or (i32.eq (local.get $c) (i32.const 43)) (i32.eq (local.get $c) (i32.const 35)))
+                                         (i32.or (i32.eq (local.get $c) (i32.const 45))
+                                                 (i32.or (i32.eq (local.get $c) (i32.const 46)) (i32.eq (local.get $c) (i32.const 95)))))))
+              (then (return (i32.const -1))))
+            (i32.store16 (i32.add (global.get $TMP) (i32.shl (i32.sub (local.get $k) (i32.const 3)) (i32.const 1))) (local.get $c))
+            (local.set $k (i32.add (local.get $k) (i32.const 1)))
+            (br $l)))
+        (return (i32.or (i32.const 8)
+          (i32.shl (call $intern (global.get $TMP) (i32.sub (local.get $n) (i32.const 3))) (i32.const 5))))))
+    (if (i32.or (local.get $enter) (i32.gt_u (local.get $n) (i32.const 3))) (then (return (i32.const -1))))
     (local.set $t (i32.const -1))
     (if (i32.eq (local.get $n) (i32.const 1))
       (then
@@ -1158,25 +1210,33 @@
         (if (i32.and (i32.eq (local.get $c0) (i32.const 35))
                      (i32.and (i32.eq (local.get $c1) (i32.const 35)) (i32.eq (local.get $c2) (i32.const 35))))
           (then (local.set $t (i32.const 3))))
-        (if (i32.and (i32.eq (local.get $c0) (i32.const 96))
-                     (i32.and (i32.eq (local.get $c1) (i32.const 96)) (i32.eq (local.get $c2) (i32.const 96))))
-          (then (local.set $t (i32.const 8))))
         (if (i32.and (i32.eq (local.get $c0) (i32.const 91)) (i32.eq (local.get $c2) (i32.const 93)))
           (then
             (if (i32.eq (local.get $c1) (i32.const 32)) (then (local.set $t (i32.const 7))))
             ;; "[x]" is a checked todo: type 7 | checked 16
             (if (i32.eq (i32.or (local.get $c1) (i32.const 32)) (i32.const 120)) (then (local.set $t (i32.const 23))))))))
-    (if (i32.lt_s (local.get $t) (i32.const 0)) (then (return)))
-    (call $begin)
-    (call $del_range (local.get $bs) (i32.add (local.get $sp) (i32.const 1)))
-    (call $set_cell (call $nl_after (local.get $bs)) (i32.or (i32.shl (local.get $t) (i32.const 16)) (i32.const 10)))
-    (call $collapse (local.get $bs))
-    (call $commit))
+    (local.get $t))
 
   ;; Enter.
   (func $insert_paragraph (export "insert_paragraph") (result i32)
     (local $p i32) (local $q i32) (local $a i32) (local $t i32)
     (if (i32.eqz (call $room (i32.const 1))) (then (return (i32.const 0))))
+    ;; Enter at the end of "```ts" or "$$" opens a code block or an equation
+    (local.set $p (global.get $focus))
+    (local.set $q (call $nl_after (local.get $p)))
+    (if (i32.and (i32.and (i32.eq (global.get $anchor) (local.get $p)) (i32.eq (local.get $p) (local.get $q)))
+                 (i32.eqz (i32.shr_u (call $get (local.get $q)) (i32.const 16))))
+      (then
+        (local.set $a (call $block_start (local.get $p)))
+        (local.set $t (call $block_rule (local.get $a) (local.get $q) (i32.const 1)))
+        (if (i32.ge_s (local.get $t) (i32.const 0))
+          (then
+            (call $begin)
+            (call $del_range (local.get $a) (local.get $q))
+            (call $set_cell (local.get $a) (i32.or (i32.shl (local.get $t) (i32.const 16)) (i32.const 10)))
+            (call $collapse (local.get $a))
+            (call $commit)
+            (return (i32.const 1))))))
     (call $begin)
     (local.set $p (call $smin))
     (call $del_range (local.get $p) (call $smax))
@@ -1197,9 +1257,11 @@
     (if (i32.and (i32.eq (local.get $p) (local.get $q))
                  (i32.and (i32.ge_u (local.get $t) (i32.const 1)) (i32.le_u (local.get $t) (i32.const 3))))
       (then (call $set_cell (i32.add (local.get $q) (i32.const 1)) (i32.const 10))))
-    ;; a new todo starts unchecked
+    ;; a new todo starts unchecked, and a new line of an equation continues it
     (if (i32.eq (local.get $t) (i32.const 7))
       (then (call $set_cell (i32.add (local.get $q) (i32.const 1)) (i32.const 0x7000A))))
+    (if (i32.eq (local.get $t) (i32.const 9))
+      (then (call $set_cell (i32.add (local.get $q) (i32.const 1)) (i32.const 0x9000A))))
     (call $collapse (i32.add (local.get $p) (i32.const 1)))
     (call $commit)
     (i32.const 1))
@@ -1391,7 +1453,7 @@
   ;; already have that type, they go back to paragraphs.
   (func $set_block (export "set_block") (param $t i32) (result i32)
     (local $q i32) (local $e i32) (local $all i32) (local $v i32) (local $c i32)
-    (if (i32.gt_u (local.get $t) (i32.const 8)) (then (return (i32.const 0))))
+    (if (i32.gt_u (local.get $t) (i32.const 9)) (then (return (i32.const 0))))
     (local.set $e (call $nl_after (call $smax)))
     (local.set $all (i32.const 1))
     (local.set $q (call $nl_after (call $smin)))
@@ -1626,7 +1688,19 @@
   ;; (if >= 0) becomes the format of the final pasted block.
   (func $insert_cells_at (param $src i32) (param $n i32) (param $last i32) (result i32)
     (local $s i32) (local $q i32) (local $qa i32) (local $empty i32) (local $a i32) (local $end i32)
-    (if (i32.eqz (local.get $n)) (then (return (i32.const 0))))
+    (if (i32.eqz (local.get $n))
+      (then
+        ;; no text, only a format (an empty equation or code block): it
+        ;; applies to an empty block
+        (if (i32.le_s (local.get $last) (i32.const 0)) (then (return (i32.const 0))))
+        (local.set $s (call $smin))
+        (if (i32.or (i32.ne (local.get $s) (call $smax))
+                    (i32.ne (call $block_start (local.get $s)) (call $nl_after (local.get $s))))
+          (then (return (i32.const 0))))
+        (call $begin)
+        (call $set_cell (local.get $s) (i32.or (i32.shl (local.get $last) (i32.const 16)) (i32.const 10)))
+        (call $commit)
+        (return (i32.const 1))))
     (if (i32.eqz (call $room (local.get $n))) (then (return (i32.const 0))))
     (call $begin)
     (local.set $s (call $smin))
@@ -1791,16 +1865,20 @@
     (local.set $q (call $nl_after (local.get $p)))
     (local.set $c (call $get (local.get $q)))
     (local.set $t (call $type_of (local.get $c)))
-    (if (i32.gt_u (local.get $t) (i32.const 8)) (then (local.set $t (i32.const 0))))
-    (if (i32.and (i32.eq (local.get $t) (i32.const 7))
-                 (i32.ne (i32.and (local.get $c) (i32.const 0x100000)) (i32.const 0)))
-      (then (call $emit_str (i32.const 18)))
-      (else (call $emit_str (i32.shl (local.get $t) (i32.const 1)))))
+    (if (i32.gt_u (local.get $t) (i32.const 9)) (then (local.set $t (i32.const 0))))
+    (if (i32.eq (local.get $t) (i32.const 9))
+      (then (call $emit_str (i32.const 70)))
+      (else
+        (if (i32.and (i32.eq (local.get $t) (i32.const 7))
+                     (i32.ne (i32.and (local.get $c) (i32.const 0x100000)) (i32.const 0)))
+          (then (call $emit_str (i32.const 18)))
+          (else (call $emit_str (i32.shl (local.get $t) (i32.const 1)))))))
     ;; an empty block needs a <br> to have a line box for the caret
     (if (i32.eq (local.get $p) (local.get $q))
       (then (call $emit_str (i32.const 19)))
       (else (call $emit_runs (local.get $p) (local.get $q))))
-    (call $emit_str (i32.add (i32.shl (local.get $t) (i32.const 1)) (i32.const 1)))
+    (call $emit_str (select (i32.const 11) (i32.add (i32.shl (local.get $t) (i32.const 1)) (i32.const 1))
+                            (i32.eq (local.get $t) (i32.const 9))))
     (call $out_len))
 
   ;; =====================================================================
@@ -1839,9 +1917,21 @@
         (br $blocks)))
     (call $out_len))
 
-  ;; Blocks of types 4..8 group with their neighbours of the same type.
-  (func $group (param $t i32) (result i32)
+  ;; Blocks of types 4..9 group with their neighbours of the same type, code
+  ;; lines only with those of the same language. The group of block attrs
+  ;; $a (terminator bits 16 and up): 0, the type, or for code the type and
+  ;; language (8 | id << 5).
+  (func $group (param $a i32) (result i32)
+    (local $t i32)
+    (local.set $t (i32.and (local.get $a) (i32.const 15)))
+    (if (i32.gt_u (local.get $t) (i32.const 9)) (then (return (i32.const 0))))
+    (if (i32.eq (local.get $t) (i32.const 8)) (then (return (i32.and (local.get $a) (i32.const 0xFFEF)))))
     (select (local.get $t) (i32.const 0) (i32.ge_u (local.get $t) (i32.const 4))))
+
+  ;; Does a block with attrs $a (group $g) start a group after group $pg?
+  ;; Equations can follow each other directly: their first lines say so.
+  (func $new_group (param $a i32) (param $g i32) (param $pg i32) (result i32)
+    (i32.or (i32.ne (local.get $g) (local.get $pg)) (i32.eq (i32.and (local.get $a) (i32.const 31)) (i32.const 25))))
 
   (func $html_group (param $g i32) (param $close i32)
     (if (i32.eq (local.get $g) (i32.const 4)) (then (call $emit_str (i32.add (i32.const 8) (local.get $close)))))
@@ -1849,7 +1939,16 @@
     (if (i32.eq (local.get $g) (i32.const 6)) (then (call $emit_str (i32.add (i32.const 39) (local.get $close)))))
     (if (i32.eq (local.get $g) (i32.const 7))
       (then (call $emit_str (select (i32.const 38) (i32.const 43) (local.get $close)))))
-    (if (i32.eq (local.get $g) (i32.const 8)) (then (call $emit_str (i32.add (i32.const 46) (local.get $close))))))
+    (if (i32.eq (local.get $g) (i32.const 9)) (then (call $emit_str (i32.add (i32.const 72) (local.get $close)))))
+    (if (i32.eq (i32.and (local.get $g) (i32.const 15)) (i32.const 8))
+      (then
+        (if (i32.or (local.get $close) (i32.eqz (i32.shr_u (local.get $g) (i32.const 5))))
+          (then (call $emit_str (i32.add (i32.const 46) (local.get $close))))
+          (else
+            ;; <pre><code class="language-ts">
+            (call $emit_str (i32.const 71))
+            (call $emit_url (i32.shr_u (local.get $g) (i32.const 5)) (i32.const 0))
+            (call $emit_str (i32.const 31)))))))
 
   (func $export_html (export "export_html") (param $s i32) (param $e i32) (result i32)
     (local $p i32) (local $q i32) (local $a i32) (local $t i32) (local $g i32) (local $pg i32)
@@ -1864,18 +1963,18 @@
         (local.set $q (call $nl_after (local.get $p)))
         (local.set $a (i32.shr_u (call $get (local.get $q)) (i32.const 16)))
         (local.set $t (i32.and (local.get $a) (i32.const 15)))
-        (if (i32.gt_u (local.get $t) (i32.const 8)) (then (local.set $t (i32.const 0))))
-        (local.set $g (call $group (local.get $t)))
+        (if (i32.gt_u (local.get $t) (i32.const 9)) (then (local.set $t (i32.const 0))))
+        (local.set $g (call $group (local.get $a)))
         (local.set $cs (select (local.get $s) (local.get $p) (i32.gt_u (local.get $s) (local.get $p))))
         (local.set $ce (select (local.get $e) (local.get $q) (i32.lt_u (local.get $e) (local.get $q))))
-        (if (i32.ne (local.get $g) (local.get $pg))
+        (if (call $new_group (local.get $a) (local.get $g) (local.get $pg))
           (then
             (call $html_group (local.get $pg) (i32.const 1))
             (call $html_group (local.get $g) (i32.const 0))))
-        (if (i32.eq (local.get $g) (i32.const 8))
+        (if (i32.ge_u (local.get $t) (i32.const 8))
           (then
-            ;; code lines are joined with newlines inside one <pre><code>
-            (if (i32.eq (local.get $pg) (i32.const 8)) (then (call $emit (i32.const 10))))
+            ;; code and math lines are joined with newlines inside one element
+            (if (i32.eqz (call $new_group (local.get $a) (local.get $g) (local.get $pg))) (then (call $emit (i32.const 10))))
             (block $cd
               (loop $cl
                 (br_if $cd (i32.ge_u (local.get $cs) (local.get $ce)))
@@ -1916,18 +2015,107 @@
       (select (i32.and (local.get $x) (i32.const -32)) (i32.const 0)
               (i32.eq (i32.shr_u (local.get $x) (i32.const 5)) (i32.shr_u (local.get $y) (i32.const 5))))))
 
+  ;; --- Inline math ------------------------------------------------------
+  ;; "$...$" is math where the "$" is followed by a non-space and the next
+  ;; "$" is preceded by one and not followed by a digit (so "$5 and $10"
+  ;; stays text); "\$" is never a delimiter, and a span holds no backtick
+  ;; or code. The same rule reads Markdown source ($md_math_end) and cells.
+
+  (func $is_digit (param $c i32) (result i32)
+    (i32.lt_u (i32.sub (local.get $c) (i32.const 48)) (i32.const 10)))
+
+  ;; Is the cell at $p a "$" that can open a span (not code, not after "\")?
+  (func $math_opener (param $p i32) (param $bs i32) (result i32)
+    (local $c i32)
+    (local.set $c (call $get (local.get $p)))
+    (if (i32.ne (i32.and (local.get $c) (i32.const 0x10FFFF)) (i32.const 36)) (then (return (i32.const 0))))
+    (if (i32.le_u (local.get $p) (local.get $bs)) (then (return (i32.const 1))))
+    (i32.ne (i32.and (call $get (i32.sub (local.get $p) (i32.const 1))) (i32.const 0xFFFF)) (i32.const 92)))
+
+  ;; For an opener at $p in a block ending at $q: the position after the
+  ;; closing "$", or 0.
+  (func $math_end (param $p i32) (param $q i32) (result i32)
+    (local $k i32) (local $c i32) (local $ch i32)
+    (if (i32.ge_u (i32.add (local.get $p) (i32.const 2)) (local.get $q)) (then (return (i32.const 0))))
+    (local.set $c (call $get (i32.add (local.get $p) (i32.const 1))))
+    (local.set $ch (i32.and (local.get $c) (i32.const 0xFFFF)))
+    (if (i32.or (i32.or (call $is_space (local.get $ch)) (i32.eq (local.get $ch) (i32.const 36)))
+                (i32.and (local.get $c) (i32.const 0x100000)))
+      (then (return (i32.const 0))))
+    (local.set $k (i32.add (local.get $p) (i32.const 2)))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $k) (local.get $q)))
+        (local.set $c (call $get (local.get $k)))
+        (local.set $ch (i32.and (local.get $c) (i32.const 0xFFFF)))
+        (br_if $d (i32.or (i32.eq (local.get $ch) (i32.const 96)) (i32.and (local.get $c) (i32.const 0x100000))))
+        (if (i32.eq (local.get $ch) (i32.const 36))
+          (then
+            (local.set $c (i32.and (call $get (i32.sub (local.get $k) (i32.const 1))) (i32.const 0xFFFF)))
+            (if (i32.eqz (i32.or (call $is_space (local.get $c)) (i32.eq (local.get $c) (i32.const 92))))
+              (then
+                (if (i32.or (i32.ge_u (i32.add (local.get $k) (i32.const 1)) (local.get $q))
+                            (i32.eqz (call $is_digit (i32.and (call $get (i32.add (local.get $k) (i32.const 1))) (i32.const 0xFFFF)))))
+                  (then (return (i32.add (local.get $k) (i32.const 1)))))))))
+        (local.set $k (i32.add (local.get $k) (i32.const 1)))
+        (br $l)))
+    (i32.const 0))
+
+  ;; The math span of the block [bs, q) that contains $p or starts after it,
+  ;; looking from $k (the block start, or the end of an earlier span): sets
+  ;; $ms_a and $ms_b (both 0 if there is none).
+  (global $ms_a (mut i32) (i32.const 0))
+  (global $ms_b (mut i32) (i32.const 0))
+  (func $math_span_from (param $p i32) (param $k i32) (param $bs i32) (param $q i32)
+    (local $j i32)
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $k) (local.get $q)))
+        (if (call $math_opener (local.get $k) (local.get $bs))
+          (then
+            (local.set $j (call $math_end (local.get $k) (local.get $q)))
+            (if (local.get $j)
+              (then
+                (if (i32.gt_u (local.get $j) (local.get $p))
+                  (then
+                    (global.set $ms_a (local.get $k))
+                    (global.set $ms_b (local.get $j))
+                    (return)))
+                (local.set $k (local.get $j))
+                (br $l)))))
+        (local.set $k (i32.add (local.get $k) (i32.const 1)))
+        (br $l)))
+    (global.set $ms_a (i32.const 0))
+    (global.set $ms_b (i32.const 0)))
+
   ;; Emit [p, e) as Markdown. Spaces take only the marks shared by the
   ;; characters around them, so delimiters always hug non-space text
   ;; ("**bold** text", not "**bold **text", which is not bold in Markdown).
   ;; Spaces in code keep their marks: code spans have no flanking rules.
+  ;; Math spans are written as they are, with no escapes or marks inside.
   (func $md_runs (param $p i32) (param $e i32) (param $bs i32)
     (local $cur i32) (local $c i32) (local $ch i32) (local $eff i32) (local $prev i32) (local $hasprev i32)
-    (local $nx i32)
+    (local $nx i32) (local $q i32) (local $ma i32) (local $mb i32)
+    (local.set $q (call $nl_after (local.get $bs)))
+    (call $math_span_from (local.get $p) (local.get $bs) (local.get $bs) (local.get $q))
+    (local.set $ma (global.get $ms_a))
+    (local.set $mb (global.get $ms_b))
     (block $d
       (loop $l
         (br_if $d (i32.ge_u (local.get $p) (local.get $e)))
         (local.set $c (call $get (local.get $p)))
         (local.set $ch (i32.and (local.get $c) (i32.const 0xFFFF)))
+        ;; the next math span, once past this one
+        (if (i32.and (i32.ge_u (local.get $p) (local.get $mb)) (i32.ne (local.get $mb) (i32.const 0)))
+          (then
+            (call $math_span_from (local.get $p) (local.get $mb) (local.get $bs) (local.get $q))
+            (local.set $ma (global.get $ms_a))
+            (local.set $mb (global.get $ms_b))))
+        (if (i32.and (i32.gt_u (local.get $p) (local.get $ma)) (i32.lt_u (local.get $p) (local.get $mb)))
+          (then
+            (call $emit (local.get $ch))
+            (local.set $p (i32.add (local.get $p) (i32.const 1)))
+            (br $l)))
         (if (i32.and (call $is_space (local.get $ch))
                      (i32.eqz (i32.and (local.get $c) (i32.const 0x100000))))
           (then
@@ -1953,7 +2141,11 @@
           (then
             (call $transition (local.get $cur) (local.get $eff) (i32.const 1))
             (local.set $cur (local.get $eff))))
-        (if (i32.eqz (i32.and (local.get $cur) (i32.const 16)))
+        (if (i32.and (i32.eqz (i32.and (local.get $cur) (i32.const 16)))
+                     ;; "\$" is written as it is: an escaped dollar either way
+                     (i32.eqz (i32.and (i32.eq (local.get $ch) (i32.const 92))
+                                       (i32.eq (i32.and (call $get (i32.add (local.get $p) (i32.const 1))) (i32.const 0x10FFFF))
+                                               (i32.const 36)))))
           (then
             ;; escape characters that would read as markup
             (if (i32.or
@@ -1990,27 +2182,26 @@
         (local.set $q (call $nl_after (local.get $p)))
         (local.set $a (i32.shr_u (call $get (local.get $q)) (i32.const 16)))
         (local.set $t (i32.and (local.get $a) (i32.const 15)))
-        (if (i32.gt_u (local.get $t) (i32.const 8)) (then (local.set $t (i32.const 0))))
-        (local.set $g (call $group (local.get $t)))
+        (if (i32.gt_u (local.get $t) (i32.const 9)) (then (local.set $t (i32.const 0))))
+        (local.set $g (call $group (local.get $a)))
         (local.set $cs (select (local.get $s) (local.get $p) (i32.gt_u (local.get $s) (local.get $p))))
         (local.set $ce (select (local.get $e) (local.get $q) (i32.lt_u (local.get $e) (local.get $q))))
-        ;; separator: list items and code lines sit on consecutive lines,
-        ;; quote paragraphs are split by ">", everything else by a blank line
+        ;; separator: list items, code and math lines sit on consecutive
+        ;; lines, quote paragraphs are split by ">", everything else by a
+        ;; blank line
         (if (i32.eqz (local.get $first))
           (then
-            (if (i32.and (i32.eq (local.get $g) (local.get $pg)) (i32.ge_u (local.get $g) (i32.const 5)))
+            (if (i32.and (i32.eqz (call $new_group (local.get $a) (local.get $g) (local.get $pg))) (i32.ge_u (local.get $g) (i32.const 5)))
               (then (call $emit (i32.const 10)))
               (else
                 (if (i32.and (i32.eq (local.get $g) (local.get $pg)) (i32.eq (local.get $g) (i32.const 4)))
                   (then (call $emit (i32.const 10)) (call $emit (i32.const 62)) (call $emit (i32.const 10)))
                   (else
-                    (if (i32.eq (local.get $pg) (i32.const 8))
-                      (then (call $emit (i32.const 10)) (call $emit_str (i32.const 55))))
+                    (call $md_fence_out (local.get $pg) (i32.const 1))
                     (call $emit (i32.const 10))
                     (call $emit (i32.const 10))))))))
-        (if (i32.and (i32.eq (local.get $g) (i32.const 8))
-                     (i32.or (local.get $first) (i32.ne (local.get $pg) (i32.const 8))))
-          (then (call $emit_str (i32.const 55)) (call $emit (i32.const 10))))
+        (if (i32.or (local.get $first) (call $new_group (local.get $a) (local.get $g) (local.get $pg)))
+          (then (call $md_fence_out (local.get $g) (i32.const 0))))
         (if (i32.eq (local.get $t) (i32.const 6))
           (then
             (local.set $num
@@ -2025,7 +2216,7 @@
           (then (call $emit_num (local.get $num)) (call $emit_str (i32.const 63))))
         (if (i32.eq (local.get $t) (i32.const 7))
           (then (call $emit_str (select (i32.const 54) (i32.const 53) (i32.and (local.get $a) (i32.const 16))))))
-        (if (i32.eq (local.get $t) (i32.const 8))
+        (if (i32.ge_u (local.get $t) (i32.const 8))
           (then
             (block $cd
               (loop $cl
@@ -2039,9 +2230,24 @@
         (br_if $done (i32.le_u (local.get $e) (local.get $q)))
         (local.set $p (i32.add (local.get $q) (i32.const 1)))
         (br $blocks)))
-    (if (i32.eq (local.get $pg) (i32.const 8))
-      (then (call $emit (i32.const 10)) (call $emit_str (i32.const 55))))
+    (call $md_fence_out (local.get $pg) (i32.const 1))
     (call $out_len))
+
+  ;; The line that opens or closes a code block ("```ts") or an equation
+  ;; ("$$") of group $g, with the newline between it and the block.
+  (func $md_fence_out (param $g i32) (param $close i32)
+    (local $k i32)
+    (if (i32.eq (i32.and (local.get $g) (i32.const 15)) (i32.const 8))
+      (then (local.set $k (i32.const 55))))
+    (if (i32.eq (local.get $g) (i32.const 9)) (then (local.set $k (i32.const 74))))
+    (if (i32.eqz (local.get $k)) (then (return)))
+    (if (local.get $close) (then (call $emit (i32.const 10))))
+    (call $emit_str (local.get $k))
+    (if (i32.eqz (local.get $close))
+      (then
+        (if (i32.eq (local.get $k) (i32.const 55))
+          (then (call $emit_url (i32.shr_u (local.get $g) (i32.const 5)) (i32.const 1))))
+        (call $emit (i32.const 10)))))
 
   ;; =====================================================================
   ;; Markdown import
@@ -2066,13 +2272,66 @@
         (br $l)))
     (local.get $j))
 
+  ;; "```" or "~~~" at $j: the fence character, else 0.
   (func $md_fence (param $j i32) (param $le i32) (result i32)
+    (local $c i32)
     (if (i32.gt_u (i32.add (local.get $j) (i32.const 6)) (local.get $le)) (then (return (i32.const 0))))
-    (i32.and
-      (i32.eq (call $u (local.get $j)) (i32.const 96))
+    (local.set $c (call $u (local.get $j)))
+    (if (i32.eqz (i32.or (i32.eq (local.get $c) (i32.const 96)) (i32.eq (local.get $c) (i32.const 126))))
+      (then (return (i32.const 0))))
+    (select (local.get $c) (i32.const 0)
       (i32.and
-        (i32.eq (call $u (i32.add (local.get $j) (i32.const 2))) (i32.const 96))
-        (i32.eq (call $u (i32.add (local.get $j) (i32.const 4))) (i32.const 96)))))
+        (i32.eq (call $u (i32.add (local.get $j) (i32.const 2))) (local.get $c))
+        (i32.eq (call $u (i32.add (local.get $j) (i32.const 4))) (local.get $c)))))
+
+  ;; Block attrs for the code lines after the opening fence at $j: code, in
+  ;; the language its info string names ("```ts" -> ts).
+  (func $md_info (param $j i32) (param $le i32) (result i32)
+    (local $c i32) (local $e i32) (local $n i32)
+    (local.set $c (call $u (local.get $j)))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $j) (local.get $le)))
+        (br_if $d (i32.ne (call $u (local.get $j)) (local.get $c)))
+        (local.set $j (i32.add (local.get $j) (i32.const 2)))
+        (br $l)))
+    (local.set $j (call $skip_sp (local.get $j) (local.get $le)))
+    (local.set $e (local.get $j))
+    (block $d2
+      (loop $l2
+        (br_if $d2 (i32.ge_u (local.get $e) (local.get $le)))
+        (br_if $d2 (call $is_space (call $u (local.get $e))))
+        (local.set $e (i32.add (local.get $e) (i32.const 2)))
+        (br $l2)))
+    (local.set $n (i32.shr_u (i32.sub (local.get $e) (local.get $j)) (i32.const 1)))
+    (if (i32.or (i32.eqz (local.get $n)) (i32.gt_u (local.get $n) (i32.const 32))) (then (return (i32.const 8))))
+    (i32.or (i32.const 8) (i32.shl (call $intern (local.get $j) (local.get $n)) (i32.const 5))))
+
+  ;; "$$" at $j (and before $le)?
+  (func $md_dollars (param $j i32) (param $le i32) (result i32)
+    (if (i32.gt_u (i32.add (local.get $j) (i32.const 4)) (local.get $le)) (then (return (i32.const 0))))
+    (i32.and (i32.eq (call $u (local.get $j)) (i32.const 36))
+             (i32.eq (call $u (i32.add (local.get $j) (i32.const 2))) (i32.const 36))))
+
+  ;; Is there a "$$" anywhere in [j, le)?
+  (func $md_has_dollars (param $j i32) (param $le i32) (result i32)
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $j) (local.get $le)))
+        (if (call $md_dollars (local.get $j) (local.get $le)) (then (return (i32.const 1))))
+        (local.set $j (i32.add (local.get $j) (i32.const 2)))
+        (br $l)))
+    (i32.const 0))
+
+  ;; The end of [j, le) without trailing blanks.
+  (func $md_trim_end (param $j i32) (param $le i32) (result i32)
+    (block $d
+      (loop $l
+        (br_if $d (i32.le_u (local.get $le) (local.get $j)))
+        (br_if $d (i32.eqz (call $is_space (call $u (i32.sub (local.get $le) (i32.const 2))))))
+        (local.set $le (i32.sub (local.get $le) (i32.const 2)))
+        (br $l)))
+    (local.get $le))
 
   ;; "---", "***", "___" (spaces allowed between)
   (func $md_hr (param $j i32) (param $le i32) (result i32)
@@ -2121,7 +2380,7 @@
   ;; Phase 1 over source units [i, end).
   (func $md_blocks (param $i i32) (param $end i32)
     (local $ls i32) (local $le i32) (local $j i32) (local $k i32) (local $c i32) (local $t i32)
-    (local $code i32) (local $open i32) (local $otype i32)
+    (local $code i32) (local $open i32) (local $otype i32) (local $fch i32) (local $eq i32)
     (block $done
       (loop $lines
         (br_if $done (i32.ge_u (local.get $i) (local.get $end)))
@@ -2139,20 +2398,71 @@
             (if (i32.eq (call $u (i32.sub (local.get $le) (i32.const 2))) (i32.const 13))
               (then (local.set $le (i32.sub (local.get $le) (i32.const 2)))))))
         (local.set $j (call $skip_sp (local.get $ls) (local.get $le)))
-        ;; inside a fence every line is a code line
+        ;; inside a fence every line is a code line, inside "$$" a math
+        ;; line; $code holds their attrs
         (if (local.get $code)
           (then
-            (if (call $md_fence (local.get $j) (local.get $le))
-              (then (local.set $code (i32.const 0)))
+            (if (i32.eq (local.get $code) (i32.const 9))
+              (then
+                ;; the equation ends at a line ending in "$$"
+                (local.set $k (call $md_trim_end (local.get $j) (local.get $le)))
+                (if (i32.and (i32.ge_u (local.get $k) (i32.add (local.get $j) (i32.const 4)))
+                             (call $md_dollars (i32.sub (local.get $k) (i32.const 4)) (local.get $k)))
+                  (then
+                    (local.set $k (i32.sub (local.get $k) (i32.const 4)))
+                    ;; an equation with no lines still gets one
+                    (if (i32.or (local.get $eq) (i32.gt_u (call $md_trim_end (local.get $j) (local.get $k)) (local.get $j)))
+                      (then
+                        (call $md_block (select (i32.const 25) (i32.const 9) (local.get $eq)))
+                        (call $md_copy (local.get $ls) (local.get $k) (i32.const 1))))
+                    (local.set $code (i32.const 0)))
+                  (else
+                    (call $md_block (select (i32.const 25) (i32.const 9) (local.get $eq)))
+                    (call $md_copy (local.get $ls) (local.get $le) (i32.const 0))))
+                (local.set $eq (i32.const 0)))
               (else
-                (call $md_block (i32.const 8))
-                (call $md_copy (local.get $ls) (local.get $le) (i32.const 0))))
+                (if (i32.eq (call $md_fence (local.get $j) (local.get $le)) (local.get $fch))
+                  (then (local.set $code (i32.const 0)))
+                  (else
+                    (call $md_block (local.get $code))
+                    (call $md_copy (local.get $ls) (local.get $le) (i32.const 0))))))
             (local.set $open (i32.const 0))
             (br $lines)))
         (if (i32.eq (local.get $j) (local.get $le))
           (then (local.set $open (i32.const 0)) (br $lines)))
-        (if (call $md_fence (local.get $j) (local.get $le))
-          (then (local.set $code (i32.const 1)) (local.set $open (i32.const 0)) (br $lines)))
+        (local.set $fch (call $md_fence (local.get $j) (local.get $le)))
+        (if (local.get $fch)
+          (then
+            (local.set $code (call $md_info (local.get $j) (local.get $le)))
+            (local.set $open (i32.const 0))
+            (br $lines)))
+        ;; "$$" opens an equation, or holds one: "$$ e = mc^2 $$"
+        (if (call $md_dollars (local.get $j) (local.get $le))
+          (then
+            (local.set $k (call $md_trim_end (local.get $j) (local.get $le)))
+            (if (i32.and (i32.ge_u (local.get $k) (i32.add (local.get $j) (i32.const 8)))
+                         (call $md_dollars (i32.sub (local.get $k) (i32.const 4)) (local.get $k)))
+              (then
+                (if (i32.eqz (call $md_has_dollars (i32.add (local.get $j) (i32.const 4)) (i32.sub (local.get $k) (i32.const 4))))
+                  (then
+                    (call $md_block (i32.const 25))
+                    (call $md_copy (call $skip_sp (i32.add (local.get $j) (i32.const 4)) (local.get $k))
+                                   (i32.sub (local.get $k) (i32.const 4)) (i32.const 1))
+                    (local.set $open (i32.const 0))
+                    (br $lines))))
+              (else
+                (if (i32.eqz (call $md_has_dollars (i32.add (local.get $j) (i32.const 4)) (local.get $le)))
+                  (then
+                    (local.set $code (i32.const 9))
+                    (local.set $eq (i32.const 1))
+                    (local.set $k (call $skip_sp (i32.add (local.get $j) (i32.const 4)) (local.get $le)))
+                    (if (i32.lt_u (local.get $k) (local.get $le))
+                      (then
+                        (call $md_block (i32.const 25))
+                        (call $md_copy (local.get $k) (local.get $le) (i32.const 1))
+                        (local.set $eq (i32.const 0))))
+                    (local.set $open (i32.const 0))
+                    (br $lines)))))))
         (if (call $md_hr (local.get $j) (local.get $le))
           (then (local.set $open (i32.const 0)) (br $lines)))
         (local.set $c (call $u (local.get $j)))
@@ -2379,6 +2689,34 @@
         (br $l)))
     (local.get $after))
 
+  ;; $math_end for Markdown source: the "$" at $i opens a span that ends
+  ;; before $b (and before the end of an open link's text)? Returns the
+  ;; address after its closing "$", or 0.
+  (func $md_math_end (param $i i32) (param $b i32) (result i32)
+    (local $j i32) (local $x i32) (local $pv i32)
+    (if (global.get $ilend)
+      (then (if (i32.lt_u (global.get $ilend) (local.get $b)) (then (local.set $b (global.get $ilend))))))
+    (if (i32.ge_u (i32.add (local.get $i) (i32.const 4)) (local.get $b)) (then (return (i32.const 0))))
+    (local.set $x (call $u (i32.add (local.get $i) (i32.const 2))))
+    (if (i32.or (call $is_ws (local.get $x)) (i32.eq (local.get $x) (i32.const 36))) (then (return (i32.const 0))))
+    (local.set $j (i32.add (local.get $i) (i32.const 4)))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $j) (local.get $b)))
+        (local.set $x (call $u (local.get $j)))
+        (br_if $d (i32.eq (local.get $x) (i32.const 96)))
+        (if (i32.eq (local.get $x) (i32.const 36))
+          (then
+            (local.set $pv (call $u (i32.sub (local.get $j) (i32.const 2))))
+            (if (i32.eqz (i32.or (call $is_ws (local.get $pv)) (i32.eq (local.get $pv) (i32.const 92))))
+              (then
+                (if (i32.or (i32.ge_u (i32.add (local.get $j) (i32.const 2)) (local.get $b))
+                            (i32.eqz (call $is_digit (call $u (i32.add (local.get $j) (i32.const 2))))))
+                  (then (return (i32.add (local.get $j) (i32.const 2)))))))))
+        (local.set $j (i32.add (local.get $j) (i32.const 2)))
+        (br $l)))
+    (i32.const 0))
+
   ;; Start of the closing backtick run of exactly $n backticks, or 0.
   (func $md_code_end (param $j i32) (param $b i32) (param $n i32) (result i32)
     (local $r i32)
@@ -2507,13 +2845,29 @@
             (local.set $i (global.get $ilskip))
             (br $l)))
         (local.set $c (call $u (local.get $i)))
-        ;; backslash escape
+        ;; backslash escape; "\$" stays as it is, so it never reads as math
         (if (i32.and (i32.eq (local.get $c) (i32.const 92)) (i32.lt_u (i32.add (local.get $i) (i32.const 2)) (local.get $b)))
           (then
             (if (call $is_punct (call $u (i32.add (local.get $i) (i32.const 2))))
               (then
+                (if (i32.eq (call $u (i32.add (local.get $i) (i32.const 2))) (i32.const 36))
+                  (then (call $md_out (i32.const 92) (call $md_attrs))))
                 (call $md_out (call $u (i32.add (local.get $i) (i32.const 2))) (call $md_attrs))
                 (local.set $i (i32.add (local.get $i) (i32.const 4)))
+                (br $l)))))
+        ;; inline math, kept as it is
+        (if (i32.eq (local.get $c) (i32.const 36))
+          (then
+            (local.set $j (call $md_math_end (local.get $i) (local.get $b)))
+            (if (local.get $j)
+              (then
+                (local.set $at (call $md_attrs))
+                (block $md
+                  (loop $ml
+                    (br_if $md (i32.ge_u (local.get $i) (local.get $j)))
+                    (call $md_out (call $u (local.get $i)) (local.get $at))
+                    (local.set $i (i32.add (local.get $i) (i32.const 2)))
+                    (br $ml)))
                 (br $l)))))
         ;; code span
         (if (i32.eq (local.get $c) (i32.const 96))
@@ -2614,7 +2968,7 @@
         (local.set $e (i32.load offset=4 (local.get $r)))
         (local.set $attrs (i32.load offset=8 (local.get $r)))
         (global.set $last_attrs (local.get $attrs))
-        (if (i32.eq (local.get $attrs) (i32.const 8))
+        (if (i32.ge_u (i32.and (local.get $attrs) (i32.const 15)) (i32.const 8))
           (then
             (block $cd
               (loop $cl

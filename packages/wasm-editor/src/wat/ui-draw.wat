@@ -270,6 +270,28 @@
       (i32.add (global.get $FONT) (i32.load offset=20 (call $face_rec (local.get $face))))
       (i32.shl (local.get $gid) (i32.const 4))))
 
+  ;; Does $face have glyph $g? Missing glyphs share the face's box (glyph 0).
+  (func $has_glyph (param $face i32) (param $g i32) (result i32)
+    (i32.or (i32.eqz (local.get $g))
+      (i32.ne (i32.load offset=12 (call $grec (local.get $face) (local.get $g)))
+              (i32.load offset=12 (call $grec (local.get $face) (i32.const 0))))))
+
+  ;; The face that draws $cp in $face: a text face (0-5) without the glyph
+  ;; borrows it from the math faces, so Greek, arrows and operators work in
+  ;; running text too.
+  (func $face_of (param $face i32) (param $cp i32) (result i32)
+    (local $g i32)
+    (if (i32.gt_u (local.get $face) (i32.const 5)) (then (return (local.get $face))))
+    (local.set $g (call $gid (local.get $cp)))
+    (if (call $has_glyph (local.get $face) (local.get $g)) (then (return (local.get $face))))
+    (if (call $has_glyph (i32.const 7) (local.get $g)) (then (return (i32.const 7))))
+    (if (call $has_glyph (i32.const 6) (local.get $g)) (then (return (i32.const 6))))
+    (local.get $face))
+
+  ;; Advance of $cp in $face, in ems.
+  (func $cp_adv (param $face i32) (param $cp i32) (result f32)
+    (f32.load (call $grec (call $face_of (local.get $face) (local.get $cp)) (call $gid (local.get $cp)))))
+
   (func $ascent (param $face i32) (result f32) (f32.load (call $face_rec (local.get $face))))
   (func $descent (param $face i32) (result f32) (f32.load offset=4 (call $face_rec (local.get $face))))
 
@@ -306,7 +328,7 @@
     (if (i32.eqz (i32.load16_u offset=8 (local.get $rec))) (then (return (i32.const 0))))
     (local.set $key
       (i32.or
-        (i32.or (i32.add (local.get $face) (i32.const 1)) (i32.shl (local.get $gid) (i32.const 3)))
+        (i32.or (i32.add (local.get $face) (i32.const 1)) (i32.shl (local.get $gid) (i32.const 4)))
         (i32.or
           (i32.shl (i32.and (i32.trunc_sat_f32_u (f32.nearest (f32.mul (local.get $size) (f32.const 4)))) (i32.const 0x3FFF))
                    (i32.const 16))
@@ -441,9 +463,10 @@
         (br $jl))))
 
   ;; Draw code point $cp with its pen at (x, y). Faux bold only for faces
-  ;; that have no real bold (code).
+  ;; that have no real bold (code, and \mathbf's Greek).
   (func $draw_cp (param $cp i32) (param $face i32) (param $size f32) (param $bold i32) (param $x i32) (param $y i32) (param $c i32)
     (local $e i32)
+    (local.set $face (call $face_of (local.get $face) (local.get $cp)))
     (if (global.get $gpu)
       (then
         (if (global.get $dl_on)
@@ -458,9 +481,9 @@
   ;; ---------------------------------------------------------------------
 
   ;; Face for a character with marks $m in a block of type $t:
-  ;; 0 serif, 1 bold, 2 italic, 3 bold italic, 4 mono.
+  ;; 0 serif, 1 bold, 2 italic, 3 bold italic, 4 mono (code, and TeX).
   (func $face_for (param $t i32) (param $m i32) (result i32)
-    (if (i32.or (i32.eq (local.get $t) (i32.const 8)) (i32.ne (i32.and (local.get $m) (i32.const 16)) (i32.const 0)))
+    (if (i32.or (i32.ge_u (local.get $t) (i32.const 8)) (i32.ne (i32.and (local.get $m) (i32.const 16)) (i32.const 0)))
       (then (return (i32.const 4))))
     (i32.or
       (select (i32.const 1) (i32.const 0)
@@ -473,7 +496,7 @@
     (local $s f32)
     (local.set $s (f32.mul (f32.load (call $style (local.get $t))) (global.get $scale)))
     (if (result f32) (i32.and (i32.ne (i32.and (local.get $m) (i32.const 16)) (i32.const 0))
-                              (i32.ne (local.get $t) (i32.const 8)))
+                              (i32.lt_u (local.get $t) (i32.const 8)))
       (then (f32.mul (local.get $s) (f32.const 0.88)))
       (else (local.get $s))))
 
@@ -492,7 +515,7 @@
     (if (i32.eq (i32.and (local.get $ch) (i32.const 0xFC00)) (i32.const 0xDC00)) (then (return (f32.const 0))))
     (if (i32.eq (local.get $ch) (i32.const 9))
       (then (return (f32.mul (f32.mul (f32.load (call $grec (local.get $face) (call $gid (i32.const 32)))) (local.get $size)) (f32.const 4)))))
-    (local.set $a (f32.mul (f32.load (call $grec (local.get $face) (call $gid (local.get $ch)))) (local.get $size)))
+    (local.set $a (f32.mul (call $cp_adv (local.get $face) (local.get $ch)) (local.get $size)))
     ;; kerning only between characters in the same face
     (local.set $n (i32.and (local.get $next) (i32.const 0xFFFF)))
     (if (i32.and (i32.lt_u (local.get $ch) (i32.const 127)) (i32.lt_u (local.get $n) (i32.const 127)))

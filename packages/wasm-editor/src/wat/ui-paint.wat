@@ -40,7 +40,7 @@
         (br_if $d (i32.ge_u (local.get $i) (local.get $n)))
         (local.set $c (i32.load16_u (i32.add (local.get $ptr) (i32.shl (local.get $i) (i32.const 1)))))
         (local.set $w (f32.add (local.get $w)
-          (f32.mul (f32.load (call $grec (local.get $face) (call $gid (local.get $c)))) (local.get $size))))
+          (f32.mul (call $cp_adv (local.get $face) (local.get $c)) (local.get $size))))
         (local.set $i (i32.add (local.get $i) (i32.const 1)))
         (br $l)))
     (local.get $w))
@@ -54,7 +54,7 @@
         (call $draw_cp (local.get $c) (local.get $face) (local.get $size) (i32.const 0)
           (i32.trunc_sat_f32_s (f32.nearest (local.get $x))) (local.get $y) (local.get $col))
         (local.set $x (f32.add (local.get $x)
-          (f32.mul (f32.load (call $grec (local.get $face) (call $gid (local.get $c)))) (local.get $size))))
+          (f32.mul (call $cp_adv (local.get $face) (local.get $c)) (local.get $size))))
         (local.set $i (i32.add (local.get $i) (i32.const 1)))
         (br $l)))
     (local.get $x))
@@ -287,8 +287,10 @@
     (local.set $h (call $mix (local.get $h) (i32.load offset=16 (local.get $a))))
     (local.set $h (call $mix (local.get $h) (i32.load offset=20 (local.get $a))))
     (local.set $h (call $mix (local.get $h) (i32.load offset=24 (local.get $a))))
-    ;; text, terminator included
+    ;; text, terminator included; a preview shows its whole equation
     (local.set $k (local.get $p))
+    (if (i32.and (i32.load offset=24 (local.get $a)) (i32.const 0x4000))
+      (then (local.set $k (global.get $mact))))
     (block $d
       (loop $l
         (local.set $h (call $mix (local.get $h) (call $get (local.get $k))))
@@ -333,6 +335,10 @@
               (i32.load offset=8 (i32.add (global.get $REMOTE) (i32.shl (local.get $k) (i32.const 4))))))))
         (local.set $k (i32.add (local.get $k) (i32.const 1)))
         (br $rl)))
+    ;; math on this line showing its source or not
+    (if (i32.and (i32.ge_s (global.get $mact) (i32.const 0))
+          (i32.and (i32.le_u (local.get $p) (global.get $mact)) (i32.ge_u (i32.add (local.get $end) (i32.const 1)) (global.get $mact))))
+      (then (local.set $h (call $mix (local.get $h) (i32.sub (global.get $mact) (local.get $p))))))
     (local.set $h (call $mix (local.get $h) (global.get $focused)))
     (local.set $h (call $mix (local.get $h) (global.get $dark)))
     (local.set $h (call $mix (local.get $h) (global.get $col_x)))
@@ -414,9 +420,15 @@
     (local.set $x0 (i32.load offset=20 (local.get $a)))
     (local.set $size (call $size_for (local.get $t) (i32.const 0)))
     (local.set $face (call $face_for (local.get $t) (i32.const 0)))
+    ;; a typeset equation, or the preview under one being edited
+    (if (i32.and (local.get $flags) (i32.const 0x6000))
+      (then
+        (call $draw_equation (local.get $i) (local.get $ys))
+        (call $paint_overlays)
+        (return)))
     ;; code block background; only the group's ends are rounded, so the
     ;; rectangle runs past the band where the group continues
-    (if (i32.eq (local.get $t) (i32.const 8))
+    (if (i32.ge_u (local.get $t) (i32.const 8))
       (then
         (local.set $pad (call $px (f32.const 12)))
         (local.set $r (call $px (f32.const 6)))
@@ -425,7 +437,9 @@
         (local.set $y1 (i32.add (i32.add (local.get $ys) (local.get $h))
           (select (local.get $pad) (i32.shl (local.get $r) (i32.const 1)) (i32.and (local.get $flags) (i32.const 0x800)))))
         (call $rrect (global.get $col_x) (local.get $y0) (global.get $col_w) (i32.sub (local.get $y1) (local.get $y0))
-          (local.get $r) (global.get $c_code))))
+          (local.get $r) (global.get $c_code))
+        (if (i32.and (i32.eq (local.get $t) (i32.const 8)) (i32.ne (i32.and (local.get $flags) (i32.const 0x400)) (i32.const 0)))
+          (then (call $draw_lang_label (local.get $i) (local.get $ys) (local.get $base))))))
     ;; quote bar, continuous down a run of quote lines
     (if (i32.eq (local.get $t) (i32.const 4))
       (then
@@ -627,13 +641,16 @@
       (br_if $l (local.get $div)))
     (local.get $x))
 
-  ;; The text of line $i with its line box at screen y $ys: backgrounds
+;; The text of line $i with its line box at screen y $ys: backgrounds
   ;; (selection, inline code) in a first pass, glyphs and lines in a second.
+  ;; Code with a language is coloured by token; a typeset formula is drawn
+  ;; in one piece at its "$", and the source of the open one looks like code.
   (func $draw_text (param $i i32) (param $ys i32)
     (local $a i32) (local $p i32) (local $end i32) (local $flags i32) (local $t i32) (local $h i32) (local $base i32)
     (local $x f32) (local $x0 f32) (local $c i32) (local $next i32) (local $w f32) (local $m i32) (local $s i32) (local $e i32)
     (local $xi i32) (local $xj i32) (local $sel i32) (local $face i32) (local $size f32) (local $col i32) (local $done i32)
     (local $ch i32) (local $link i32) (local $by i32) (local $fr i32) (local $nr i32) (local $r i32) (local $ra i32)
+    (local $hl i32) (local $k i32) (local $sp i32) (local $open i32) (local $sb i32) (local $cls i32)
     (local.set $a (call $line_addr (local.get $i)))
     (local.set $p (i32.load (local.get $a)))
     (local.set $end (i32.load offset=4 (local.get $a)))
@@ -647,6 +664,13 @@
     (local.set $sel (select (global.get $c_sel) (global.get $c_sel_blur) (global.get $focused)))
     (local.set $done (i32.and (i32.eq (local.get $t) (i32.const 7)) (i32.ne (i32.and (local.get $flags) (i32.const 16)) (i32.const 0))))
     (local.set $nr (call $remote_ranges (local.get $p) (local.get $end)))
+    (call $spans_at (local.get $p))
+    ;; token classes of a code line
+    (if (i32.eq (local.get $t) (i32.const 8))
+      (then
+        (local.set $hl (call $hl_line (i32.and (i32.shr_u (local.get $flags) (i32.const 16)) (i32.const 0x7FF))
+          (call $block_start (local.get $p)) (call $nl_after (local.get $p)) (i32.shr_u (local.get $flags) (i32.const 27))
+          (local.get $p) (local.get $end)))))
     ;; pass 1: backgrounds
     (local.set $x (local.get $x0))
     (local.set $c (local.get $p))
@@ -654,10 +678,35 @@
       (loop $l1
         (br_if $d1 (i32.ge_u (local.get $c) (local.get $end)))
         (local.set $ch (call $get (local.get $c)))
-        (local.set $w (call $adv (local.get $ch) (call $get (i32.add (local.get $c) (i32.const 1))) (local.get $t)))
+        (local.set $w (call $adv_at (local.get $c) (local.get $t)))
         (local.set $xi (i32.trunc_sat_f32_s (f32.nearest (local.get $x))))
         (local.set $xj (i32.trunc_sat_f32_s (f32.nearest (f32.add (local.get $x) (local.get $w)))))
         (local.set $m (call $marks_of (local.get $ch)))
+        (local.set $k (call $span_at (local.get $c)))
+        (if (i32.ge_s (local.get $k) (i32.const 0))
+          (then
+            (local.set $sp (call $span_addr (local.get $k)))
+            (if (call $span_open (local.get $sp))
+              (then (local.set $m (i32.or (local.get $m) (i32.const 16))))
+              (else
+                ;; a formula is selected as a whole
+                (local.set $r (i32.const 0))
+                (block $rd
+                  (loop $rl
+                    (br_if $rd (i32.ge_u (local.get $r) (local.get $nr)))
+                    (local.set $ra (i32.add (global.get $REMLINE) (i32.mul (local.get $r) (i32.const 12))))
+                    (if (i32.and (i32.lt_u (i32.load (local.get $ra)) (i32.load offset=4 (local.get $sp)))
+                                 (i32.gt_u (i32.load offset=4 (local.get $ra)) (local.get $c)))
+                      (then (call $fill (local.get $xi) (local.get $ys) (i32.sub (local.get $xj) (local.get $xi)) (local.get $h)
+                              (i32.load offset=8 (local.get $ra)))))
+                    (local.set $r (i32.add (local.get $r) (i32.const 1)))
+                    (br $rl)))
+                (if (i32.and (i32.eq (local.get $c) (i32.load (local.get $sp)))
+                             (i32.and (i32.lt_u (local.get $s) (i32.load offset=4 (local.get $sp))) (i32.gt_u (local.get $e) (local.get $c))))
+                  (then (call $fill (local.get $xi) (local.get $ys) (i32.sub (local.get $xj) (local.get $xi)) (local.get $h) (local.get $sel))))
+                (local.set $x (f32.add (local.get $x) (local.get $w)))
+                (local.set $c (i32.load offset=4 (local.get $sp)))
+                (br $l1)))))
         (if (i32.and (i32.ne (i32.and (local.get $m) (i32.const 16)) (i32.const 0)) (i32.ne (local.get $t) (i32.const 8)))
           (then
             (local.set $size (call $size_for (local.get $t) (i32.const 0)))
@@ -694,17 +743,42 @@
         (br_if $d2 (i32.ge_u (local.get $c) (local.get $end)))
         (local.set $ch (call $get (local.get $c)))
         (local.set $next (call $get (i32.add (local.get $c) (i32.const 1))))
-        (local.set $w (call $adv (local.get $ch) (local.get $next) (local.get $t)))
+        (local.set $w (call $adv_at (local.get $c) (local.get $t)))
         (local.set $m (call $marks_of (local.get $ch)))
         (local.set $link (i32.shr_u (local.get $ch) (i32.const 21)))
-        (local.set $face (call $face_for (local.get $t) (local.get $m)))
-        (local.set $size (call $size_for (local.get $t) (local.get $m)))
         (local.set $col
           (if (result i32) (local.get $link)
             (then (global.get $c_accent))
             (else
               (select (global.get $c_muted) (global.get $c_text)
                 (i32.or (local.get $done) (i32.load offset=24 (call $style (local.get $t))))))))
+        (local.set $open (i32.const 0))
+        (local.set $k (call $span_at (local.get $c)))
+        (if (i32.ge_s (local.get $k) (i32.const 0))
+          (then
+            (local.set $sp (call $span_addr (local.get $k)))
+            (local.set $sb (i32.load offset=4 (local.get $sp)))
+            (if (i32.eqz (call $span_open (local.get $sp)))
+              (then
+                ;; a formula: typeset it again and draw it here
+                (call $math_layout
+                  (call $math_src (i32.add (local.get $c) (i32.const 1)) (i32.sub (local.get $sb) (i32.const 1)))
+                  (call $math_size (local.get $t)) (i32.const 0))
+                (call $math_draw (f32.nearest (local.get $x)) (f32.convert_i32_s (local.get $base)) (local.get $col) (global.get $c_err))
+                (local.set $x (f32.add (local.get $x) (local.get $w)))
+                (local.set $c (local.get $sb))
+                (br $l2)))
+            ;; the open one's source: code, with its dollars muted
+            (local.set $open (i32.const 1))
+            (local.set $m (i32.or (local.get $m) (i32.const 16)))
+            (if (i32.or (i32.eq (local.get $c) (i32.load (local.get $sp))) (i32.eq (i32.add (local.get $c) (i32.const 1)) (local.get $sb)))
+              (then (local.set $col (global.get $c_muted))))))
+        (if (local.get $hl)
+          (then
+            (local.set $cls (i32.load8_u (i32.add (global.get $HLBUF) (i32.sub (local.get $c) (local.get $p)))))
+            (if (local.get $cls) (then (local.set $col (call $hl_color (local.get $cls)))))))
+        (local.set $face (call $face_for (local.get $t) (local.get $m)))
+        (local.set $size (call $size_for (local.get $t) (local.get $m)))
         (local.set $xi (i32.trunc_sat_f32_s (f32.nearest (local.get $x))))
         (local.set $xj (i32.trunc_sat_f32_s (f32.nearest (f32.add (local.get $x) (local.get $w)))))
         (local.set $fr (i32.and (local.get $ch) (i32.const 0xFFFF)))
@@ -734,6 +808,53 @@
         (local.set $x (f32.add (local.get $x) (local.get $w)))
         (local.set $c (i32.add (local.get $c) (i32.const 1)))
         (br $l2))))
+
+  ;; A typeset equation (line $i at screen y $ys), or the preview under one
+  ;; being edited; the whole of it shows as selected when the selection
+  ;; touches it.
+  (func $draw_equation (param $i i32) (param $ys i32)
+    (local $a i32) (local $p i32) (local $end i32) (local $flags i32) (local $s i32) (local $e i32) (local $x i32)
+    (local.set $a (call $line_addr (local.get $i)))
+    (local.set $p (i32.load (local.get $a)))
+    (local.set $end (i32.load offset=4 (local.get $a)))
+    (local.set $flags (i32.load offset=24 (local.get $a)))
+    (local.set $x (i32.add (global.get $col_x) (i32.load offset=20 (local.get $a))))
+    (if (i32.and (local.get $flags) (i32.const 0x4000)) (then (local.set $p (global.get $mact))))
+    (local.set $s (call $smin))
+    (local.set $e (call $smax))
+    (if (i32.and (i32.ne (i32.and (local.get $flags) (i32.const 0x2000)) (i32.const 0))
+                 (i32.and (i32.lt_u (local.get $s) (i32.add (local.get $end) (i32.const 1))) (i32.gt_u (local.get $e) (local.get $p))))
+      (then
+        (call $rrect (i32.sub (global.get $col_x) (call $px (f32.const 4))) (local.get $ys)
+          (i32.add (global.get $col_w) (call $px (f32.const 8))) (i32.load offset=12 (local.get $a)) (call $px (f32.const 4))
+          (select (global.get $c_sel) (global.get $c_sel_blur) (global.get $focused)))))
+    (if (i32.and (local.get $flags) (i32.const 0x8000))
+      (then
+        (drop (call $draw_str (i32.const 25) (i32.const 2) (call $size_for (i32.const 0) (i32.const 0))
+          (f32.convert_i32_s (local.get $x)) (i32.add (local.get $ys) (i32.load offset=16 (local.get $a))) (global.get $c_muted)))
+        (return)))
+    (call $math_layout (call $math_src (local.get $p) (local.get $end)) (call $math_size (i32.const 9)) (i32.const 1))
+    (call $math_draw (f32.convert_i32_s (local.get $x)) (f32.convert_i32_s (i32.add (local.get $ys) (i32.load offset=16 (local.get $a))))
+      (global.get $c_text) (global.get $c_err)))
+
+  ;; The language of a code block, small at the right of its first line
+  ;; when the line leaves room for it.
+  (func $draw_lang_label (param $i i32) (param $ys i32) (param $base i32)
+    (local $a i32) (local $id i32) (local $n i32) (local $size f32) (local $w f32) (local $x f32)
+    (local.set $a (call $line_addr (local.get $i)))
+    (local.set $id (i32.and (i32.shr_u (i32.load offset=24 (local.get $a)) (i32.const 16)) (i32.const 0x7FF)))
+    (if (i32.eqz (local.get $id)) (then (return)))
+    (local.set $n (call $link_len (local.get $id)))
+    (local.set $size (f32.mul (global.get $scale) (f32.const 11.5)))
+    (local.set $w (call $units_width (call $link_ptr (local.get $id)) (local.get $n) (i32.const 5) (local.get $size)))
+    (local.set $x (f32.sub (f32.convert_i32_s (i32.sub (i32.add (global.get $col_x) (global.get $col_w)) (call $px (f32.const 12))))
+                           (local.get $w)))
+    (if (f32.lt (local.get $x)
+                (f32.add (f32.add (f32.convert_i32_s (global.get $col_x)) (call $x_in_line (local.get $i) (i32.load offset=4 (local.get $a))))
+                         (f32.convert_i32_s (call $px (f32.const 16)))))
+      (then (return)))
+    (drop (call $draw_units (call $link_ptr (local.get $id)) (local.get $n) (i32.const 5) (local.get $size) (local.get $x)
+      (i32.add (local.get $ys) (local.get $base)) (global.get $c_muted))))
 
   ;; ---------------------------------------------------------------------
   ;; The frame

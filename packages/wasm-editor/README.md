@@ -6,14 +6,15 @@ instruction to its opcode one-for-one.
 
 The same engine (`src/wat/engine.wat`) is assembled into two modules:
 
-- **`editor.wasm`** (`src/editor.wat`, 15 KB): the engine alone. It owns the
+- **`editor.wasm`** (`src/editor.wat`, 17 KB): the engine alone. It owns the
   document, every editing command, undo/redo, rendering to HTML, Markdown
   import/export and HTML export. The TypeScript side forwards DOM events,
   copies strings in and out of linear memory, and swaps in the HTML of blocks
   whose hash changed.
-- **`canvas.wasm`** (`src/canvas.wat`, 2.2 MB, 0.86 MB gzipped): the engine
-  plus a graphical front end that lays out text, draws everything (toolbar
-  included) and interprets raw keyboard, mouse and IME input. It either paints
+- **`canvas.wasm`** (`src/canvas.wat`, 3.6 MB, 1.3 MB gzipped): the engine
+  plus a graphical front end that lays out text, typesets TeX math,
+  highlights code, draws everything (toolbar included) and interprets raw
+  keyboard, mouse and IME input. It either paints
   every pixel into a framebuffer or lists each frame as rectangles and glyphs
   for a GPU. Hosts only show the result and forward events, so the same file
   runs in a browser and in a native window through Wasmtime. See
@@ -52,9 +53,13 @@ package.
 ## What it supports
 
 - Marks: bold, italic, underline, strikethrough, inline code, links
-- Blocks: paragraph, H1–H3, quote, bulleted, numbered and checklist items, code lines
+- Blocks: paragraph, H1–H3, quote, bulleted, numbered and checklist items, code
+  lines (with a language: ```` ```ts ````), math (a display equation in TeX)
+- Inline math: `$...$` in text. It stays text in the document and in Markdown;
+  the canvas editor typesets it (see [Math](#math)).
 - Markdown shortcuts while typing: `# `, `## `, `### `, `- `, `* `, `1. `, `> `,
-  `[] `, `[x] `, ```` ``` ````. Undo right after one restores the typed text.
+  `[] `, `[x] `, ```` ``` ```` and ```` ```lang ```` (code), `$$` (an equation);
+  the last three also with Enter. Undo right after one restores the typed text.
 - Undo/redo, with typing grouped by word
 - Keyboard: Mod-B/I/U/E, Mod-Shift-X (strike), Mod-K (link), Mod-Alt-0…3,
   Mod-Shift-7/8/9 (lists), Tab in code blocks, Mod-Z / Mod-Shift-Z / Mod-Y
@@ -64,7 +69,9 @@ package.
   DOM itself, the edited block is diffed against the model and re-rendered.
   (DOM version; the canvas version has IME but no spellcheck, see below.)
 - Markdown in/out: ATX headings, lists (nested ones are flattened), task
-  lists, quotes, fenced code, `**`/`__`, `*`/`_`, `~~`, `` ` ``, `<u>`,
+  lists, quotes, fenced code with its info string (```` ``` ```` or `~~~`),
+  `$$` equations (on one line or several), `$...$` inline math (kept as
+  written, no escapes inside), `**`/`__`, `*`/`_`, `~~`, `` ` ``, `<u>`,
   links, images (kept as links), autolinks and backslash escapes.
 - Links are limited to http(s), mailto, tel and relative URLs, checked in WASM.
 
@@ -74,7 +81,10 @@ Lists are flat (no nesting) and there are no tables or images.
 
 A document is a gap buffer of 32-bit cells: a UTF-16 code unit in the low 16
 bits, and marks + link id (text) or block type + checked flag (a `\n`
-terminator) in the high 16 bits. The block format lives on its terminator.
+terminator) in the high 16 bits. The block format lives on its terminator;
+a code line's also holds its language (an id in the link table, which interns
+fence info strings as well as URLs), and an equation's first line is flagged
+so two equations in a row stay two.
 
 | Address    | Region  |                                                |
 | ---------- | ------- | ---------------------------------------------- |
@@ -184,6 +194,7 @@ Exports (all coordinates in device pixels, `now` in milliseconds):
 | `paste(n, plain, now)`                      | text at `out_ptr()`; Markdown unless `plain`                      |
 | `load_markdown(n)`, `markdown() → n`        | whole document                                                   |
 | `refresh()`                                 | paint after the document or remote cursors were changed directly (collab) |
+| `math_debug(n, size, display, x, y) → items`, `math_box()` | for tests: typeset the TeX at `out_ptr()` and draw it at (x, y); its width, height and depth |
 
 To pass text in, call `scratch(bytes)` (grows OUT, returns its address) and
 write UTF-16 there. Key codes: 1 Backspace, 2 Delete, 3 Enter, 4 Tab,
@@ -201,7 +212,12 @@ position) when a shortcut modifier is held. Modifiers: 1 Shift, 2 Ctrl,
   any size the WASM samples the field bilinearly into a coverage bitmap and
   caches it in a glyph cache. The atlas covers the fonts' Latin subset (ASCII,
   Latin-1, typographic quotes, dashes, bullet, €, ™ and a few more); the
-  fonts are SIL OFL, via `@fontsource`.
+  fonts are SIL OFL, via `@fontsource`. For math it adds KaTeX's Computer
+  Modern faces (SIL OFL, from the `katex` package; only the fonts are used):
+  math italic, roman, the two sizes of large operators and delimiters, AMS
+  (blackboard bold and symbols), calligraphic and bold, each cut down to
+  the glyphs `ui-math.wat` draws. Running text borrows Greek, arrows and
+  operators from them too.
 - **Layout** (`ui-layout.wat`): each block type has a style (size, line
   height, face, indent, spacing); lines are wrapped greedily at spaces into
   32-byte line records, with collapsed margins and grouped code blocks.
@@ -213,6 +229,8 @@ position) when a shortcut modifier is held. Modifiers: 1 Shift, 2 Ctrl,
   characters takes about 0.1 ms instead of 30. When someone else's edit
   above the view changes its height, the view scrolls with the text, so
   what you are reading stays put.
+  Formulas are boxes in the line (the line grows around tall ones), and an
+  equation is a line of its own; see [Math](#math).
 - **Paint** (`ui-paint.wat`, `ui-draw.wat`): the view is split into bands
   (toolbar, link bar, scrollbar, one per visual line). Each band gets a key
   hashed from everything that affects its pixels; only bands whose key
@@ -225,6 +243,69 @@ position) when a shortcut modifier is held. Modifiers: 1 Shift, 2 Ctrl,
   double-click word, triple-click block, drag selection with autoscroll;
   toolbar buttons, checkboxes, a link bar for Mod-K, scrollbar dragging.
 - **Touch** (`ui-touch.wat`), see below.
+- **Math** (`ui-math.wat`) and **code** (`ui-code.wat`), below.
+
+### Math
+
+Math is TeX. An equation is a run of math blocks (the lines between `$$` in
+Markdown); an inline formula is `$...$` in running text, where the `$` is
+followed by a non-space and the closing one is preceded by one and not
+followed by a digit, so `$5 and $10` stays text; `\$` never delimits.
+Both stay in the document as their TeX source: the engine only needs to know
+where they are for Markdown, and the canvas typesets them as it lays out.
+
+A formula shows its source while the caret (and the whole selection) is in
+it. A click or tap on an inline formula puts the caret inside, arrow keys
+step into it, and it is typeset again as soon as the caret leaves; an
+equation being edited shows its TeX lines like code, with the typeset
+equation previewed under them. Commands it does not know are drawn by name
+in red.
+
+`ui-math.wat` is a typesetter in the manner of TeX's appendix G, written by
+hand like the rest: a recursive-descent reader that lays boxes out as it
+goes (no parse tree), into items (glyphs, rules, strokes) at MITEMS. Atoms
+get TeX's classes and inter-atom spacing (with binary operators demoted
+where they have no operands), scripts and limits follow rules 13a and 18,
+fractions rule 15, radicals rule 11, delimiters are sized as rule 19 asks.
+Metrics come from the glyphs' ink boxes in the atlas and cmsy10's
+parameters. Delimiters taller than the fonts' largest, and radical signs, are
+drawn as strokes, which the display list already has. It supports:
+
+- letters, digits, operators and punctuation with TeX's spacing; ^, _ and
+  primes; about 440 commands: Greek, relations and negations (`\ne`,
+  `\notin`, `\not`), arrows, binary operators, big operators (`\sum`,
+  `\int`, `\bigcup`...) with `\limits`/`\nolimits`, operator names (`\lim`,
+  `\sin`, `\operatorname`), accents (`\hat` ... `\vec`, `\widehat`)
+- `\frac`, `\dfrac`, `\tfrac`, `\binom`, `\sqrt[n]{}`, `\left \middle \right`,
+  `\big` to `\Bigg`, `\overline`, `\underline`, `\overrightarrow`,
+  `\overset`, `\underset`, `\stackrel`, `\boxed`, `\phantom`, `\substack`
+- fonts `\mathrm \mathbf \mathit \mathbb \mathcal \mathsf \mathtt
+  \boldsymbol`, and `\text` (in the document's own faces, with `$...$` inside)
+- spacing `\, \: \; \! \quad \qquad`, `\displaystyle` and the other styles
+- environments `matrix`, `pmatrix`, `bmatrix`, `Bmatrix`, `vmatrix`,
+  `Vmatrix`, `smallmatrix`, `cases`, `dcases`, `rcases`, `aligned`, `align`,
+  `split`, `gathered`, `gather`, `equation` and `array{lcr}`; an equation's
+  own lines split by `\\` (aligned at `&` when there are any)
+
+Layout measures every formula after each edit, so sizes are cached by source
+(MCACHE); drawing typesets the visible ones again. Nesting is bounded, and
+fuzzing with malformed TeX neither traps nor hangs.
+
+### Code
+
+A code block's language is its fence's info string (```` ```ts ````), and
+`ui-code.wat` colours its tokens: keywords, strings, numbers and constants,
+comments, types, calls, keys, decorators and directives, tags, variables,
+and diff lines. One tokenizer serves every language; a language is a few
+lines of text in its table (aliases, comment syntax, feature flags, keyword
+lists), about 45 of them: JavaScript, TypeScript, JSON, Python, Rust, Go,
+C/C++, Java, Kotlin, Swift, C#, Scala, Dart, Zig, shaders, PHP, Ruby,
+shells, PowerShell, SQL, the Lisps, WAT, HTML/XML, CSS, YAML, TOML/INI,
+Dockerfile, Make, Lua, Haskell, OCaml/F#, R, Perl, Elixir, Julia, GraphQL,
+Protobuf, Nix, MATLAB, assembly, TeX and diff. Block comments and multi-line
+strings carry over from line to line: layout records the tokenizer's state
+at each code line, so a line is coloured on its own when drawn. The language
+is shown at the top right of the block. Unknown languages stay plain.
 
 ### Touch
 
@@ -252,8 +333,15 @@ allow clipboard access.
 | `0x1060000` | GTAB    | glyph cache hash table                           |
 | `0x1080000` | GBMP    | glyph cache bitmaps (cleared when full)          |
 | `0x1840000` | LSCR    | lines being laid out again, 8,192 at most        |
-| `0x1880000` | OUT     | the engine's scratch, moved up here, 32 MiB cap  |
-| `0x3880000` | FB      | framebuffer, grows with the window; or the display list |
+| `0x1880000` | MSPANS  | inline formulas of the last layout, 32 bytes each |
+| `0x18C0000` | MCACHE  | typeset formula sizes, by source                 |
+| `0x18E0000` | MSTK    | the typesetter's stack of atoms and table cells  |
+| `0x18F0000` | MSRC    | the formula being typeset, UTF-16                |
+| `0x18F8000` | HLBUF   | token classes of the code line being drawn       |
+| `0x1900000` | MITEMS  | the typeset formula: glyphs, rules, strokes      |
+| `0x1970000` | MTAB    | TeX commands and environments; languages and keywords |
+| `0x1980000` | OUT     | the engine's scratch, moved up here, 32 MiB cap  |
+| `0x3980000` | FB      | framebuffer, grows with the window; or the display list |
 
 ### On the GPU
 
@@ -310,3 +398,9 @@ colours. `canvas.html?doc=<id>` does it on the demo page, served in memory by
 - No spellcheck, autocorrect or screen reader support: the text is pixels.
   The DOM version has all three.
 - Pasted HTML is read as its plain text (Markdown is still recognized).
+- Math is a subset of TeX: no macros (`\newcommand`), `\color`, `\tag`
+  numbers, extensible arrows (`\xrightarrow`) or `\over`-style infix
+  fractions, and metrics are the glyphs' ink boxes rather than TeX's font
+  tables, so spacing is close to TeX's, not identical.
+- Highlighting is by tokens, not grammars: JSX inside JavaScript, or a
+  language embedded in another (CSS in HTML), stays plain.

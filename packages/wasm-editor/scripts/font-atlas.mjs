@@ -3,8 +3,9 @@
 // glyph outlines are turned into signed distance fields here once, and the
 // hand-written WAT scales and rasterizes them at run time.
 //
-// Fonts (SIL Open Font License, from @fontsource): Source Serif 4 for text,
-// IBM Plex Mono for code, IBM Plex Sans for the toolbar.
+// Fonts (SIL Open Font License): Source Serif 4 for text, IBM Plex Mono for
+// code, IBM Plex Sans for the toolbar (from @fontsource), and KaTeX's
+// Computer Modern faces for math (from the katex package, fonts only).
 //
 // Layout at FONT_BASE (little-endian, offsets relative to FONT_BASE):
 //   0  u32 magic "SDF1"      4  u32 E, texels per em     8  u32 S, spread in texels
@@ -17,7 +18,8 @@
 //         (metrics in ems; descent and underline position are positive = below)
 //  glyphs 16 bytes each: f32 advance (em), i16 x, i16 y (cell top-left from the
 //         pen position in texels, y down), u16 width, u16 height, u32 bitmap offset
-//  kern   i8[95*95] per face, pairs of ASCII 32..126, thousandths of an em
+//  kern   i8[95*95] per text face (0-5), pairs of ASCII 32..126, thousandths
+//         of an em; the math faces have none
 //  bitmaps: one byte per texel, 128 + distance * 127 / S (inside positive)
 
 import { createHash } from 'node:crypto';
@@ -32,18 +34,72 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const FONT_BASE = 0x850000; // must match $FONT in src/wat/ui.wat
 const E = 48;
 const S = 6;
-const CMAP_SIZE = 0x2400;
+const CMAP_SIZE = 0x2b00; // through U+2AFF: arrows, math operators, ⟨ ⟩, ⨁
+const FONT_ROOM = 0x400000; // FONT to UISTR in src/wat/ui.wat
+const KERN_FACES = 6;
 
+const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+const LETTERS = [...range(0x41, 0x5a), ...range(0x61, 0x7a)];
+const DIGITS = range(0x30, 0x39);
+const GREEK_CAPS = [0x393, 0x394, 0x398, 0x39b, 0x39e, 0x3a0, 0x3a3, 0x3a5, 0x3a6, 0x3a8, 0x3a9];
+
+// The math faces keep only what src/wat/ui-math.wat draws with them; the
+// text faces keep their whole (Latin) subset. `remap` moves glyphs that the
+// KaTeX fonts keep in the Private Use Area to the code point the WAT uses.
 export const FACES = [
-  ['source-serif-4', 'source-serif-4-latin-400-normal.woff'], // 0 text
-  ['source-serif-4', 'source-serif-4-latin-700-normal.woff'], // 1 bold
-  ['source-serif-4', 'source-serif-4-latin-400-italic.woff'], // 2 italic
-  ['source-serif-4', 'source-serif-4-latin-700-italic.woff'], // 3 bold italic
-  ['ibm-plex-mono', 'ibm-plex-mono-latin-400-normal.woff'], // 4 code
-  ['ibm-plex-sans', 'ibm-plex-sans-latin-500-normal.woff'], // 5 interface
+  { pkg: 'source-serif-4', file: 'source-serif-4-latin-400-normal.woff' }, // 0 text
+  { pkg: 'source-serif-4', file: 'source-serif-4-latin-700-normal.woff' }, // 1 bold
+  { pkg: 'source-serif-4', file: 'source-serif-4-latin-400-italic.woff' }, // 2 italic
+  { pkg: 'source-serif-4', file: 'source-serif-4-latin-700-italic.woff' }, // 3 bold italic
+  { pkg: 'ibm-plex-mono', file: 'ibm-plex-mono-latin-400-normal.woff' }, // 4 code
+  { pkg: 'ibm-plex-sans', file: 'ibm-plex-sans-latin-500-normal.woff' }, // 5 interface
+  // 6 math italic: letters, Greek, dotless i and j
+  { katex: 'KaTeX_Math-Italic.ttf', keep: [...LETTERS, ...range(0x391, 0x3f5)], remap: { 0x131: 0xe131, 0x237: 0xe237 } },
+  // 7 math roman: digits, operators, relations, arrows, accents, upright
+  // letters and capital Greek; U+0338 is the negation slash of \not
+  // (not the Latin-1 letters and text symbols the text faces already have)
+  {
+    katex: 'KaTeX_Main-Regular.ttf',
+    keep: 'all',
+    drop: [0xa3, 0xa7, 0xb6, 0xc6, 0xd8, 0xdf, 0xe6, 0xf8, 0x152, 0x153, 0x2020, 0x2021, 0x23b0, 0x23b1, 0x27ee, 0x27ef],
+    remap: { 0x338: 0xe020 },
+  },
+  { katex: 'KaTeX_Size1-Regular.ttf', keep: 'all' }, // 8 big operators and delimiters, text style
+  { katex: 'KaTeX_Size2-Regular.ttf', keep: 'all' }, // 9 the same, display style
+  // 10 blackboard bold capitals and the AMS symbols ui-math.wat names
+  {
+    katex: 'KaTeX_AMS-Regular.ttf',
+    keep: [
+      ...range(0x41, 0x5a), 0x6b, 0xf0, 0x3dd, 0x3f0, 0x2127, 0x2201, 0x2204, 0x2216, 0x2221, 0x2224, 0x2226,
+      0x2234, 0x2235, 0x2241, 0x2251, 0x225c, 0x2266, 0x2267, 0x226e, 0x226f, 0x2270, 0x2271, 0x2272, 0x2273,
+      0x2288, 0x2289, 0x228a, 0x228b, 0x229e, 0x22a0, 0x22a9, 0x22b2, 0x22b3, 0x22b4, 0x22b5, 0x22b8, 0x22ba,
+      0x22bb, 0x22c9, 0x22ca, 0x21a0, 0x21a3, 0x21ba, 0x21bb, 0x21dd, 0x25a0, 0x25a1, 0x25ca, 0x2605, 0x2713,
+      0x2a7d, 0x2a7e,
+    ],
+  },
+  { katex: 'KaTeX_Caligraphic-Regular.ttf', keep: range(0x41, 0x5a) }, // 11 \mathcal
+  { katex: 'KaTeX_Main-Bold.ttf', keep: [...LETTERS, ...DIGITS, ...GREEK_CAPS] }, // 12 \mathbf
 ];
 
-const fontPath = ([pkg, file]) => path.join(root, 'node_modules/@fontsource', pkg, 'files', file);
+const fontPath = (f) =>
+  f.katex
+    ? path.join(root, 'node_modules/katex/dist/fonts', f.katex)
+    : path.join(root, 'node_modules/@fontsource', f.pkg, 'files', f.file);
+
+/** Code point in the atlas -> code point in the font, for one face. */
+function faceMap(face, font) {
+  const map = new Map();
+  const has = (cp) => cp >= 0x20 && cp < CMAP_SIZE && !(cp >= 0x7f && cp < 0xa0);
+  if (!face.katex) {
+    for (const cp of font.characterSet) if (has(cp)) map.set(cp, cp);
+    return map;
+  }
+  const keep = face.keep === 'all' ? font.characterSet : face.keep;
+  const drop = new Set(face.drop ?? []);
+  for (const cp of keep) if (has(cp) && !drop.has(cp) && font.hasGlyphForCodePoint(cp)) map.set(cp, cp);
+  for (const [to, from] of Object.entries(face.remap ?? {})) map.set(Number(to), from);
+  return map;
+}
 
 // --- outlines to line segments (texel space, y down) -------------------------
 
@@ -173,17 +229,35 @@ function tofuSegments(capEm) {
   return [...outer, ...inner];
 }
 
+/** Kerning between ASCII pairs, in thousandths of an em. */
+function kernTable(font) {
+  const upem = font.unitsPerEm;
+  const kern = new Int8Array(95 * 95);
+  const noLigatures = { liga: false, clig: false, dlig: false, rlig: false, calt: false };
+  for (let l = 32; l < 127; l++) {
+    for (let r = 32; r < 127; r++) {
+      let run;
+      try {
+        run = font.layout(String.fromCharCode(l, r), noLigatures);
+      } catch {
+        continue; // a stripped glyph (see above)
+      }
+      if (run.glyphs.length !== 2) continue;
+      const k = ((run.positions[0].xAdvance - run.glyphs[0].advanceWidth) / upem) * 1000;
+      kern[(l - 32) * 95 + (r - 32)] = Math.max(-128, Math.min(127, Math.round(k)));
+    }
+  }
+  return kern;
+}
+
 // --- the atlas -----------------------------------------------------------------
 
 function build() {
   const fonts = FACES.map((f) => fontkit.openSync(fontPath(f)));
+  const maps = FACES.map((f, i) => faceMap(f, fonts[i]));
   // One glyph list shared by every face: index 0 is the missing-glyph box.
   const points = new Set();
-  for (const font of fonts) {
-    for (const cp of font.characterSet) {
-      if (cp >= 0x20 && cp < CMAP_SIZE && !(cp >= 0x7f && cp < 0xa0)) points.add(cp);
-    }
-  }
+  for (const map of maps) for (const cp of map.keys()) points.add(cp);
   const codepoints = [...points].sort((a, b) => a - b);
   const nglyphs = codepoints.length + 1;
 
@@ -199,7 +273,8 @@ function build() {
     return offset;
   };
 
-  for (const font of fonts) {
+  fonts.forEach((font, fi) => {
+    const map = maps[fi];
     const upem = font.unitsPerEm;
     const scale = E / upem;
     const glyphs = [];
@@ -207,14 +282,14 @@ function build() {
     const tofuRecord = { adv: 0.6, field: tofu, offset: addBitmap(tofu) };
     glyphs.push(tofuRecord);
     for (const cp of codepoints) {
-      if (!font.hasGlyphForCodePoint(cp)) {
+      if (!map.has(cp)) {
         glyphs.push(tofuRecord);
         continue;
       }
       let adv;
       let commands;
       try {
-        const glyph = font.glyphForCodePoint(cp);
+        const glyph = font.glyphForCodePoint(map.get(cp));
         adv = glyph.advanceWidth / upem;
         commands = glyph.path.commands;
       } catch {
@@ -231,23 +306,7 @@ function build() {
     }
     glyphTables.push(glyphs);
 
-    const kern = new Int8Array(95 * 95);
-    const noLigatures = { liga: false, clig: false, dlig: false, rlig: false, calt: false };
-    for (let l = 32; l < 127; l++) {
-      for (let r = 32; r < 127; r++) {
-        let run;
-        try {
-          run = font.layout(String.fromCharCode(l, r), noLigatures);
-        } catch {
-          continue; // a stripped glyph (see above)
-        }
-        if (run.glyphs.length !== 2) continue;
-        const k = ((run.positions[0].xAdvance - run.glyphs[0].advanceWidth) / upem) * 1000;
-        kern[(l - 32) * 95 + (r - 32)] = Math.max(-128, Math.min(127, Math.round(k)));
-      }
-    }
-    kernTables.push(kern);
-
+    if (fi < KERN_FACES) kernTables.push(kernTable(font));
     faceRecords.push({
       ascent: font.ascent / upem,
       descent: -font.descent / upem,
@@ -255,7 +314,7 @@ function build() {
       underlineThickness: (font.underlineThickness || 0.05 * upem) / upem,
       xHeight: (font.xHeight || 0.5 * upem) / upem,
     });
-  }
+  });
 
   // assemble
   const HEADER = 40;
@@ -263,8 +322,9 @@ function build() {
   const facesOffset = cmapOffset + CMAP_SIZE * 2;
   const glyphsOffset = facesOffset + FACES.length * 32;
   const kernOffset = glyphsOffset + FACES.length * nglyphs * 16;
-  const bitmapOffset = kernOffset + FACES.length * 95 * 95;
+  const bitmapOffset = kernOffset + KERN_FACES * 95 * 95;
   const total = bitmapOffset + bitmapBytes;
+  if (total > FONT_ROOM) throw new Error(`font atlas is ${total} bytes, over the ${FONT_ROOM} reserved for it`);
   const out = new ArrayBuffer(total);
   const dv = new DataView(out);
   const bytes = new Uint8Array(out);
