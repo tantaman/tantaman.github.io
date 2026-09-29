@@ -1,3 +1,4 @@
+import type { CollabStatus, Peer } from './collab/client.ts';
 import { createCanvasEditor } from './canvas.ts';
 
 const SAMPLE = `# Drawn by WebAssembly
@@ -23,7 +24,36 @@ There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection 
 \`\`\`
 `;
 
-createCanvasEditor(document.getElementById('editor')!, { markdown: SAMPLE }).then((editor) => {
+// ?doc=<id> edits document <id> together with everyone else who has it open
+// (docs/COLLAB.md); the page's origin serves /api/collab/<id>.
+const doc = new URLSearchParams(location.search).get('doc');
+const status = document.getElementById('collab')!;
+
+function showCollab(state: string, peers: Peer[]) {
+  status.hidden = false;
+  status.replaceChildren(`${doc}: ${state}`);
+  for (const p of peers) {
+    const dot = document.createElement('span');
+    dot.className = 'peer';
+    dot.style.background = p.color;
+    dot.title = p.name;
+    status.append(dot, p.name);
+  }
+}
+
+let state = 'connecting';
+let peers: Peer[] = [];
+const collab = doc
+  ? {
+      url: `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/api/collab/${encodeURIComponent(doc)}`,
+      onStatus: (s: CollabStatus) => showCollab((state = s), peers),
+      onPeers: (p: Peer[]) => showCollab(state, (peers = p)),
+      onLost: () => alert('The document changed too much while you were away; your latest edits could not be kept.'),
+    }
+  : undefined;
+if (doc) showCollab(state, peers);
+
+createCanvasEditor(document.getElementById('editor')!, { markdown: SAMPLE, collab }).then((editor) => {
   document.getElementById('renderer')!.textContent = editor.renderer === 'webgpu' ? 'drawn with WebGPU' : 'painted on the CPU';
   editor.focus();
   (window as unknown as { editor: unknown }).editor = editor;

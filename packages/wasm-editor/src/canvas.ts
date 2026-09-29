@@ -10,6 +10,9 @@
 //     and the clipboard work like in any text field,
 //   - carries out the clipboard commands of the module's touch edit menu.
 
+import { CollabClient, type CollabStatus, type Peer } from './collab/client.ts';
+import type { CollabExports } from './collab/engine-doc.ts';
+import { CollabSocket, withAfter } from './collab/socket.ts';
 import { GpuRenderer, requestGpuDevice } from './gpu.ts';
 
 interface CanvasExports {
@@ -44,6 +47,11 @@ interface CanvasExports {
   touch_move(x: number, y: number, now: number): void;
   touch_end(x: number, y: number, now: number): number;
   touch_cancel(now: number): void;
+  refresh(): void;
+  length(): number;
+  set_selection(anchor: number, focus: number): void;
+  paste_markdown(n: number): number;
+  delete_backward(): number;
 }
 
 export interface CanvasEditorOptions {
@@ -59,6 +67,19 @@ export interface CanvasEditorOptions {
    * back to painting on the CPU; 'webgpu' fails without it.
    */
   renderer?: 'auto' | 'webgpu' | 'cpu';
+  /**
+   * Edit together with everyone else connected to the same document
+   * (docs/COLLAB.md). The document comes from the server, so `markdown` is
+   * ignored.
+   */
+  collab?: {
+    /** WebSocket URL of the document, e.g. wss://tantaman.com/api/collab/<id>. */
+    url: string | URL;
+    onStatus?(status: CollabStatus): void;
+    onPeers?(peers: Peer[]): void;
+    /** Local changes were dropped because the document had to be reloaded. */
+    onLost?(): void;
+  };
 }
 
 const KEYS: Record<string, number> = {
@@ -104,6 +125,9 @@ export class CanvasEditor {
   /** How frames reach the screen, fixed for the editor's lifetime. */
   readonly renderer: 'webgpu' | 'cpu';
   private readonly x: CanvasExports;
+  /** Set when editing together (options.collab). */
+  readonly collab: CollabClient | null = null;
+  private socket: CollabSocket | null = null;
   private readonly ctx: CanvasRenderingContext2D | null = null;
   private gpu: GpuRenderer | null = null;
   private context: GPUCanvasContext | null = null;
@@ -161,7 +185,29 @@ export class CanvasEditor {
         open_url: (ptr: number, n: number) => window.open(this.units(ptr, n), '_blank', 'noopener,noreferrer'),
       },
     });
-    this.x = instance.exports as unknown as CanvasExports;
+    const raw = instance.exports as unknown as CanvasExports;
+    this.x = raw;
+    if (options.collab) {
+      const { url, onStatus, onPeers, onLost } = options.collab;
+      const socket = new CollabSocket(url);
+      const client = new CollabClient(raw as unknown as CollabExports, {
+        send: (msg) => socket.send(msg),
+        onRemote: () => {
+          raw.refresh();
+          this.changed();
+        },
+        onStatus,
+        onPeers,
+        onLost,
+        setTimer: (fn, ms) => setTimeout(fn, ms),
+        clearTimer: (t) => clearTimeout(t as ReturnType<typeof setTimeout>),
+      });
+      this.collab = client;
+      this.socket = socket;
+      // every call into the module may have edited: let the client read the log
+      this.x = withAfter(raw, () => client.afterLocal());
+      socket.start({ open: () => client.open(), message: (m) => client.receive(m), close: () => client.close() });
+    }
     // a canvas takes one kind of context, so settle on WebGPU or 2D here
     this.context = device && (this.canvas.getContext('webgpu') as unknown as GPUCanvasContext | null);
     this.renderer = this.context ? 'webgpu' : 'cpu';
@@ -175,7 +221,7 @@ export class CanvasEditor {
     this.dark = matchMedia('(prefers-color-scheme: dark)');
     const size = this.measure();
     this.x.init(size.w, size.h, this.scale, (isMac ? 1 : 0) | (this.isDark() ? 2 : 0) | (this.gpu ? 8 : 0));
-    if (options.markdown) this.setMarkdown(options.markdown);
+    if (options.markdown && !options.collab) this.setMarkdown(options.markdown);
     this.listen();
     this.schedule();
   }
@@ -187,7 +233,13 @@ export class CanvasEditor {
   }
 
   setMarkdown(markdown: string): void {
-    this.x.load_markdown(this.write(markdown));
+    if (this.collab) {
+      // an ordinary edit, so everyone else gets it too
+      this.x.set_selection(0, this.x.length() - 1);
+      if (markdown) this.x.paste_markdown(this.write(markdown));
+      else this.x.delete_backward();
+      this.x.refresh();
+    } else this.x.load_markdown(this.write(markdown));
     this.changed();
   }
 
@@ -197,6 +249,8 @@ export class CanvasEditor {
 
   destroy(): void {
     this.destroyed = true;
+    this.socket?.stop();
+    this.collab?.destroy();
     clearTimeout(this.timer);
     cancelAnimationFrame(this.frame);
     cancelAnimationFrame(this.drawFrame);

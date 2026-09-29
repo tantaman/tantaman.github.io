@@ -304,6 +304,22 @@
                 (local.set $h (call $mix (local.get $h) (i32.load16_u (i32.add (global.get $PREEDIT) (i32.shl (local.get $k) (i32.const 1))))))
                 (local.set $k (i32.add (local.get $k) (i32.const 1)))
                 (br $pl)))))))
+    ;; other people's selections and carets touching the line
+    (local.set $k (i32.const 0))
+    (block $rd
+      (loop $rl
+        (br_if $rd (i32.ge_u (local.get $k) (global.get $nremote)))
+        (local.set $s (call $remote_at (local.get $k) (i32.const 0)))
+        (local.set $e (call $remote_at (local.get $k) (i32.const 4)))
+        (if (i32.and (i32.le_u (select (local.get $s) (local.get $e) (i32.lt_u (local.get $s) (local.get $e))) (local.get $end))
+                     (i32.ge_u (select (local.get $e) (local.get $s) (i32.lt_u (local.get $s) (local.get $e))) (local.get $p)))
+          (then
+            (local.set $h (call $mix (local.get $h) (i32.sub (local.get $s) (local.get $p))))
+            (local.set $h (call $mix (local.get $h) (i32.sub (local.get $e) (local.get $p))))
+            (local.set $h (call $mix (local.get $h)
+              (i32.load offset=8 (i32.add (global.get $REMOTE) (i32.shl (local.get $k) (i32.const 4))))))))
+        (local.set $k (i32.add (local.get $k) (i32.const 1)))
+        (br $rl)))
     (local.set $h (call $mix (local.get $h) (global.get $focused)))
     (local.set $h (call $mix (local.get $h) (global.get $dark)))
     (local.set $h (call $mix (local.get $h) (global.get $col_x)))
@@ -417,6 +433,7 @@
         (drop (call $draw_str (i32.const 16) (i32.const 2) (local.get $size)
           (f32.convert_i32_s (i32.add (global.get $col_x) (local.get $x0))) (i32.add (local.get $ys) (local.get $base))
           (global.get $c_muted)))))
+    (call $draw_remote_carets (local.get $i) (local.get $ys) (local.get $base) (local.get $face) (local.get $size))
     (if (i32.eq (global.get $g_line) (local.get $i))
       (then
         (local.set $cx (i32.add (global.get $col_x) (i32.trunc_sat_f32_s (f32.nearest (global.get $g_x)))))
@@ -439,6 +456,86 @@
               (i32.trunc_sat_f32_s (f32.nearest (f32.mul (f32.add (call $ascent (local.get $face)) (call $descent (local.get $face))) (local.get $size))))
               (global.get $c_text))))))
     (call $paint_overlays))
+
+  ;; ---------------------------------------------------------------------
+  ;; Other people's selections (the engine's REMOTE table, docs/COLLAB.md)
+  ;; ---------------------------------------------------------------------
+
+  ;; Anchor ($off 0) or focus ($off 4) of remote selection $k, inside the document.
+  (func $remote_at (param $k i32) (param $off i32) (result i32)
+    (call $clamp (i32.load (i32.add (i32.add (global.get $REMOTE) (i32.shl (local.get $k) (i32.const 4))) (local.get $off)))))
+
+  ;; 0xRRGGBB mixed into the page background, for a selection under text.
+  (func $tint (param $c i32) (result i32)
+    (local $bg i32) (local $a i32) (local $out i32) (local $sh i32) (local $b i32) (local $f i32)
+    (local.set $bg (select (i32.const 0x16181D) (i32.const 0xFFFFFF) (global.get $dark)))
+    (local.set $a (select (i32.const 110) (i32.const 72) (global.get $dark)))
+    (block $d
+      (loop $l
+        (local.set $b (i32.and (i32.shr_u (local.get $bg) (local.get $sh)) (i32.const 0xFF)))
+        (local.set $f (i32.and (i32.shr_u (local.get $c) (local.get $sh)) (i32.const 0xFF)))
+        (local.set $out (i32.or (local.get $out)
+          (i32.shl (i32.add (local.get $b) (i32.shr_s (i32.mul (i32.sub (local.get $f) (local.get $b)) (local.get $a)) (i32.const 8)))
+                   (local.get $sh))))
+        (local.set $sh (i32.add (local.get $sh) (i32.const 8)))
+        (br_if $l (i32.lt_u (local.get $sh) (i32.const 24)))))
+    (call $rgb (local.get $out)))
+
+  ;; List the remote selections crossing [p, end] at REMLINE as (start, end,
+  ;; tint); returns how many.
+  (func $remote_ranges (param $p i32) (param $end i32) (result i32)
+    (local $k i32) (local $n i32) (local $s i32) (local $e i32) (local $t i32) (local $o i32)
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $k) (global.get $nremote)))
+        (local.set $s (call $remote_at (local.get $k) (i32.const 0)))
+        (local.set $e (call $remote_at (local.get $k) (i32.const 4)))
+        (if (i32.gt_u (local.get $s) (local.get $e))
+          (then (local.set $t (local.get $s)) (local.set $s (local.get $e)) (local.set $e (local.get $t))))
+        (if (i32.and (i32.lt_u (local.get $s) (local.get $e))
+                     (i32.and (i32.le_u (local.get $s) (local.get $end)) (i32.gt_u (local.get $e) (local.get $p))))
+          (then
+            (local.set $o (i32.add (global.get $REMLINE) (i32.mul (local.get $n) (i32.const 12))))
+            (i32.store (local.get $o) (local.get $s))
+            (i32.store offset=4 (local.get $o) (local.get $e))
+            (i32.store offset=8 (local.get $o)
+              (call $tint (i32.load offset=8 (i32.add (global.get $REMOTE) (i32.shl (local.get $k) (i32.const 4))))))
+            (local.set $n (i32.add (local.get $n) (i32.const 1)))))
+        (local.set $k (i32.add (local.get $k) (i32.const 1)))
+        (br $l)))
+    (local.get $n))
+
+  ;; The line a remote caret at $pos is on (no sticking to a wrapped line's end).
+  (func $remote_line (param $pos i32) (result i32)
+    (local $aff i32) (local $i i32)
+    (local.set $aff (global.get $affinity))
+    (global.set $affinity (i32.const 0))
+    (local.set $i (call $line_of (local.get $pos)))
+    (global.set $affinity (local.get $aff))
+    (local.get $i))
+
+  ;; Remote carets on line $i: a bar in the person's colour with a tab at its top.
+  (func $draw_remote_carets (param $i i32) (param $ys i32) (param $base i32) (param $face i32) (param $size f32)
+    (local $k i32) (local $f i32) (local $cx i32) (local $top i32) (local $h i32) (local $col i32) (local $bw i32)
+    (if (i32.eqz (global.get $nremote)) (then (return)))
+    (local.set $top (i32.sub (i32.add (local.get $ys) (local.get $base))
+                             (i32.trunc_sat_f32_s (f32.nearest (f32.mul (call $ascent (local.get $face)) (local.get $size))))))
+    (local.set $h (i32.trunc_sat_f32_s (f32.nearest (f32.mul (f32.add (call $ascent (local.get $face)) (call $descent (local.get $face)))
+                                                             (local.get $size)))))
+    (local.set $bw (select (call $px (f32.const 2)) (i32.const 1) (i32.gt_s (call $px (f32.const 2)) (i32.const 1))))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $k) (global.get $nremote)))
+        (local.set $f (call $remote_at (local.get $k) (i32.const 4)))
+        (if (i32.eq (call $remote_line (local.get $f)) (local.get $i))
+          (then
+            (local.set $col (call $rgb (i32.load offset=8 (i32.add (global.get $REMOTE) (i32.shl (local.get $k) (i32.const 4))))))
+            (local.set $cx (i32.add (global.get $col_x) (i32.trunc_sat_f32_s (f32.nearest (call $x_in_line (local.get $i) (local.get $f))))))
+            (call $fill (i32.sub (local.get $cx) (i32.shr_s (local.get $bw) (i32.const 1))) (local.get $top) (local.get $bw) (local.get $h) (local.get $col))
+            (call $fill (i32.sub (local.get $cx) (i32.shr_s (local.get $bw) (i32.const 1))) (local.get $top)
+              (call $px (f32.const 6)) (call $px (f32.const 3)) (local.get $col))))
+        (local.set $k (i32.add (local.get $k) (i32.const 1)))
+        (br $l))))
 
   ;; Bullet, number or checkbox in a list item's indent.
   (func $draw_marker (param $t i32) (param $flags i32) (param $ys i32) (param $base i32) (param $x0 i32) (param $size f32)
@@ -523,7 +620,7 @@
     (local $a i32) (local $p i32) (local $end i32) (local $flags i32) (local $t i32) (local $h i32) (local $base i32)
     (local $x f32) (local $x0 f32) (local $c i32) (local $next i32) (local $w f32) (local $m i32) (local $s i32) (local $e i32)
     (local $xi i32) (local $xj i32) (local $sel i32) (local $face i32) (local $size f32) (local $col i32) (local $done i32)
-    (local $ch i32) (local $link i32) (local $by i32) (local $fr i32)
+    (local $ch i32) (local $link i32) (local $by i32) (local $fr i32) (local $nr i32) (local $r i32) (local $ra i32)
     (local.set $a (call $line_addr (local.get $i)))
     (local.set $p (i32.load (local.get $a)))
     (local.set $end (i32.load offset=4 (local.get $a)))
@@ -536,6 +633,7 @@
     (local.set $e (call $smax))
     (local.set $sel (select (global.get $c_sel) (global.get $c_sel_blur) (global.get $focused)))
     (local.set $done (i32.and (i32.eq (local.get $t) (i32.const 7)) (i32.ne (i32.and (local.get $flags) (i32.const 16)) (i32.const 0))))
+    (local.set $nr (call $remote_ranges (local.get $p) (local.get $end)))
     ;; pass 1: backgrounds
     (local.set $x (local.get $x0))
     (local.set $c (local.get $p))
@@ -555,6 +653,17 @@
               (i32.sub (local.get $xj) (local.get $xi))
               (i32.trunc_sat_f32_s (f32.nearest (f32.mul (local.get $size) (f32.const 1.16))))
               (global.get $c_code))))
+        (local.set $r (i32.const 0))
+        (block $rd
+          (loop $rl
+            (br_if $rd (i32.ge_u (local.get $r) (local.get $nr)))
+            (local.set $ra (i32.add (global.get $REMLINE) (i32.mul (local.get $r) (i32.const 12))))
+            (if (i32.and (i32.ge_u (local.get $c) (i32.load (local.get $ra)))
+                         (i32.lt_u (local.get $c) (i32.load offset=4 (local.get $ra))))
+              (then (call $fill (local.get $xi) (local.get $ys) (i32.sub (local.get $xj) (local.get $xi)) (local.get $h)
+                      (i32.load offset=8 (local.get $ra)))))
+            (local.set $r (i32.add (local.get $r) (i32.const 1)))
+            (br $rl)))
         (if (i32.and (i32.ge_u (local.get $c) (local.get $s)) (i32.lt_u (local.get $c) (local.get $e)))
           (then (call $fill (local.get $xi) (local.get $ys) (i32.sub (local.get $xj) (local.get $xi)) (local.get $h) (local.get $sel))))
         (local.set $x (f32.add (local.get $x) (local.get $w)))

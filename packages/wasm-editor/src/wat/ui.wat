@@ -13,6 +13,8 @@
 ;;   0x0C55000  BTNS     toolbar buttons, 32 bytes each
 ;;   0x0C56000  BANDS    bands painted in the last frame, two lists of 1024
 ;;   0x0C5E000  MENU     edit menu items, 16 bytes each (ui-touch.wat)
+;;   0x0C5F000  REMLINE  other people's selections on the line being drawn,
+;;                       12 bytes each (ui-paint.wat)
 ;;   0x0C60000  LINES    laid-out visual lines, 32 bytes each
 ;;   0x1060000  GTAB     glyph cache hash table, 16 bytes per slot
 ;;   0x1080000  GBMP     glyph cache coverage bitmaps
@@ -35,6 +37,7 @@
   (global $BANDS     i32 (i32.const 0x0C56000))
   (global $BAND_MAX  i32 (i32.const 1024))
   (global $MENU      i32 (i32.const 0x0C5E000))
+  (global $REMLINE   i32 (i32.const 0x0C5F000))
   (global $LINES     i32 (i32.const 0x0C60000))
   (global $LINE_MAX  i32 (i32.const 131072))
   (global $GTAB      i32 (i32.const 0x1060000))
