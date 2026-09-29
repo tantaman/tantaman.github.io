@@ -13,12 +13,15 @@
     header { display: flex; gap: 16px; align-items: center; padding: 6px 12px; }
     header a { color: inherit; }
     #editor { flex: 1; min-height: 0; }
+    #collab { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+    .peer { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 6px; }
   </style>
 </head>
 <body>
   <header>
     <span>Everything below, toolbar included, is drawn by <code>canvas.wasm</code> (<span id="renderer">loading</span>).</span>
     <a href="./index.html">DOM version</a>
+    <span id="collab" hidden></span>
   </header>
   <div id="editor"></div>
   <script type="module" src="./src/canvas-demo.ts"></script>

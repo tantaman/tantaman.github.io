@@ -50,6 +50,7 @@ test('the display list draws what the framebuffer shows', () => {
       h.x.mouse_move(20, 20, 0, h.now());
     }],
     ['IME preedit', 700, 500, 1, 0, (h) => h.x.ime_preedit(h.put('kana'), h.now())],
+    ["other people's selections, dark", 700, 500, 1, 2, (h) => h.remote([[5, 5, 0xe5484d], [20, 60, 0x0090ff]])],
     ['touch handles and edit menu, 2x', 700, 600, 2, 0, (h) => {
       // a double tap on a word in the second paragraph
       const [x, y, , ch] = h.caretAt(30);

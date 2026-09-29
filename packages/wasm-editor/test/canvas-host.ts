@@ -50,6 +50,10 @@ export interface CanvasExports {
   focus(): number;
   length(): number;
   set_selection(anchor: number, focus: number): void;
+  refresh(): void;
+  remote_ptr(): number;
+  set_remote_count(n: number): void;
+  apply_insert(pos: number, n: number, who: number): number;
 }
 
 const wasm = new WebAssembly.Module(readFileSync(new URL('../src/canvas.wasm', import.meta.url)));
@@ -135,6 +139,14 @@ export class Host {
     this.x.touch_start(x, y, this.now(gap));
     for (const [px, py] of path) this.x.touch_move((x = px), (y = py), this.now(step));
     return this.x.touch_end(x, y, this.now(step + hold));
+  }
+
+  /** Set other people's selections (anchor, focus, 0xRRGGBB) and repaint. */
+  remote(cursors: [number, number, number][]) {
+    const view = new Int32Array(this.x.memory.buffer, this.x.remote_ptr(), cursors.length * 4);
+    cursors.forEach(([a, f, c], i) => view.set([a, f, c, 0], i * 4));
+    this.x.set_remote_count(cursors.length);
+    this.x.refresh();
   }
 
   /** Where the caret for document position `p` is drawn: [x, y, w, h]. */

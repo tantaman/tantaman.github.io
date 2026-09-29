@@ -392,3 +392,61 @@ test('snapshots of every block type', () => {
   d.snapshot('sample-dark-2x');
   assert.ok(true);
 });
+
+// --- other people's selections (docs/COLLAB.md) ----------------------------
+
+/** 0xRRGGBB as the framebuffer word it paints (RGBA bytes). */
+const word = (c: number) => (0xff000000 | ((c & 0xff) << 16) | (c & 0xff00) | ((c >> 16) & 0xff)) >>> 0;
+/** The light theme's tint of a remote selection. */
+const tint = (c: number) => {
+  let out = 0;
+  for (let sh = 0; sh < 24; sh += 8) out |= (255 + ((((c >> sh) & 0xff) - 255) * 72 >> 8)) << sh;
+  return word(out);
+};
+
+test("other people's carets and selections are drawn in their colours", () => {
+  const h = new Host().load('first line\n\nsecond line\n\nthird line');
+  h.x.set_focus(0, h.now());
+  const red = 0xe5484d;
+  const blue = 0x0090ff;
+  h.remote([[3, 3, red], [12, 18, blue]]);
+  const caret = h.box(word(red));
+  assert.ok(caret, 'a red caret');
+  const [, , w, ht] = caret!;
+  assert.ok(w >= 2 && ht >= 12, `caret ${caret}`);
+  assert.ok(h.box(tint(blue)), 'a blue tint under the selection');
+  assert.ok(h.box(word(blue)), 'a blue caret at its focus');
+  // the local selection stays on top of a remote one
+  h.x.set_selection(12, 18);
+  h.x.refresh();
+  assert.equal(h.box(tint(blue)), null);
+});
+
+test('moving a remote caret repaints only the lines it left and entered', () => {
+  const h = new Host().load(Array.from({ length: 10 }, (_, i) => `line ${i}`).join('\n\n'));
+  h.x.set_focus(0, h.now());
+  h.remote([[2, 2, 0xe5484d]]);
+  h.presents.length = 0;
+  h.remote([[10, 10, 0xe5484d]]);
+  assert.ok(h.presents.length >= 1 && h.presents.length <= 2, JSON.stringify(h.presents));
+  for (const [, , , ph] of h.presents) assert.ok(ph < 120, `presented ${ph}px tall`);
+  h.presents.length = 0;
+  h.x.refresh();
+  assert.equal(h.presents.length, 0, 'nothing changed, nothing presented');
+});
+
+test("someone else's edit is laid out without scrolling to the caret", () => {
+  const h = new Host(800, 300).load(Array.from({ length: 40 }, (_, i) => `line ${i}`).join('\n\n'));
+  h.x.set_focus(0, h.now());
+  h.x.set_selection(0, 0);
+  h.x.wheel(0, 400);
+  const top = h.x.scroll_top();
+  assert.ok(top > 0);
+  const text = 'X'.repeat(30);
+  const ptr = h.x.scratch(text.length * 4);
+  new Uint32Array(h.x.memory.buffer, ptr, text.length).set(Array.from(text, (c) => c.charCodeAt(0)));
+  h.x.apply_insert(20, text.length, -1);
+  h.x.refresh();
+  assert.equal(h.x.scroll_top(), top);
+  assert.match(h.markdown(), /line 2XXXX/);
+});
