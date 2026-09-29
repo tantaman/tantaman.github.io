@@ -41,20 +41,42 @@ function showCollab(state: string, peers: Peer[]) {
   }
 }
 
+/** Signed in? A browser can't read why a WebSocket upgrade failed, so ask first. */
+async function mayJoin(path: string) {
+  try {
+    return (await fetch(path, { credentials: 'same-origin' })).status !== 401;
+  } catch {
+    return true;
+  }
+}
+
 let state = 'connecting';
 let peers: Peer[] = [];
-const collab = doc
-  ? {
-      url: `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/api/collab/${encodeURIComponent(doc)}`,
-      onStatus: (s: CollabStatus) => showCollab((state = s), peers),
-      onPeers: (p: Peer[]) => showCollab(state, (peers = p)),
-      onLost: () => alert('The document changed too much while you were away; your latest edits could not be kept.'),
-    }
-  : undefined;
-if (doc) showCollab(state, peers);
 
-createCanvasEditor(document.getElementById('editor')!, { markdown: SAMPLE, collab }).then((editor) => {
+async function main() {
+  const path = doc ? `/api/collab/${encodeURIComponent(doc)}` : '';
+  const allowed = doc ? await mayJoin(path) : false;
+  const collab = allowed
+    ? {
+        url: `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}${path}`,
+        onStatus: (s: CollabStatus) => showCollab((state = s), peers),
+        onPeers: (p: Peer[]) => showCollab(state, (peers = p)),
+        onLost: () => alert('The document changed too much while you were away; your latest edits could not be kept.'),
+      }
+    : undefined;
+  if (allowed) showCollab(state, peers);
+  else if (doc) {
+    status.hidden = false;
+    const login = document.createElement('a');
+    login.href = '/login';
+    login.textContent = 'Sign in';
+    status.replaceChildren(login, ` to edit ${doc} together.`);
+  }
+
+  const editor = await createCanvasEditor(document.getElementById('editor')!, { markdown: SAMPLE, collab });
   document.getElementById('renderer')!.textContent = editor.renderer === 'webgpu' ? 'drawn with WebGPU' : 'painted on the CPU';
   editor.focus();
   (window as unknown as { editor: unknown }).editor = editor;
-});
+}
+
+void main();

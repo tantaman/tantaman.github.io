@@ -183,6 +183,7 @@ Exports (all coordinates in device pixels, `now` in milliseconds):
 | `copy_text() → n`, `copy_html() → n`, `cut(now)` | selection, written at `out_ptr()`                            |
 | `paste(n, plain, now)`                      | text at `out_ptr()`; Markdown unless `plain`                      |
 | `load_markdown(n)`, `markdown() → n`        | whole document                                                   |
+| `refresh()`                                 | paint after the document or remote cursors were changed directly (collab) |
 
 To pass text in, call `scratch(bytes)` (grows OUT, returns its address) and
 write UTF-16 there. Key codes: 1 Backspace, 2 Delete, 3 Enter, 4 Tab,
@@ -284,6 +285,14 @@ A scroll step on a 5K screen (5120×2880 at 2x, a page of wrapped text):
 
 The desktop host still uses the framebuffer; the same list and shader would
 run on wgpu.
+
+### Editing together
+
+`createCanvasEditor(el, { collab: { url } })` edits a document with everyone
+else connected to it: a Durable Object per document sequences the edits,
+clients rebase their own, and other people's selections are drawn in their
+colours. `canvas.html?doc=<id>` does it on the demo page, served in memory by
+`pnpm dev`. See [docs/COLLAB.md](docs/COLLAB.md).
 
 ### Limits of the canvas version
 

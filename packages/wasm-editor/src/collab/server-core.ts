@@ -50,6 +50,8 @@ export interface SequencerOptions {
   window?: number;
   /** Operations since the snapshot that make compaction due. Default 2,000. */
   compactEvery?: number;
+  /** Longest document accepted, in cells; the engine holds about 1M. Default 1,000,000. */
+  maxLength?: number;
 }
 
 export type Received =
@@ -63,6 +65,7 @@ export class Sequencer {
   readonly store: Store;
   private readonly windowSize: number;
   private readonly compactEvery: number;
+  private readonly maxLength: number;
   /** The last windowSize commits, oldest first. */
   private window: Committed[] = [];
   private readonly recent = new Map<string, number>();
@@ -72,6 +75,7 @@ export class Sequencer {
     this.store = store;
     this.windowSize = opts.window ?? 1000;
     this.compactEvery = opts.compactEvery ?? 2000;
+    this.maxLength = opts.maxLength ?? 1_000_000;
     const head = store.head();
     if (head) {
       this.version = head.version;
@@ -107,6 +111,8 @@ export class Sequencer {
     for (const e of this.window) if (e.v > base) op = transform(op, e.op, false);
     const [inLen, outLen] = lengths(op);
     if (inLen !== this.length) return { kind: 'reset', reason: 'out of step' };
+    // every copy must be able to hold the result, or the copies diverge
+    if (outLen > this.maxLength && outLen > inLen) return { kind: 'reset', reason: 'document too large' };
     const entry: Committed = { v: this.version + 1, c: client, s: seq, op };
     this.store.append(entry, author, outLen);
     this.version = entry.v;

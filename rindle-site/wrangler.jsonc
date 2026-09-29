@@ -1,7 +1,8 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "tantamanlands",
-	"main": "@tanstack/react-start/server-entry",
+	// TanStack Start, plus the collaborative editor's Durable Objects (server/collab-doc.ts).
+	"main": "src/worker-entry.ts",
 	"compatibility_date": "2026-07-21",
 	"workers_dev": true,
 	"routes": [
@@ -57,7 +58,29 @@
 			"binding": "ATTACHMENTS_BUCKET",
 			"bucket_name": "thought-attachments"
 		}
+	],
+	// One sequencer per collaboratively edited document; its own SQLite holds the operations and
+	// the snapshot (packages/wasm-editor/docs/COLLAB.md).
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "COLLAB_DOCS",
+				"class_name": "EditorDoc"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1-collab-docs",
+			"new_sqlite_classes": ["EditorDoc"]
+		}
 	]
+	// Optional document index for listing and search. Create it, add it to d1_databases above, then
+	// apply migrations-collab/:
+	//   wrangler d1 create rindle-site-collab
+	//   { "binding": "COLLAB_DB", "database_name": "rindle-site-collab", "database_id": "…",
+	//     "migrations_dir": "./migrations-collab" }
+	//   wrangler d1 migrations apply rindle-site-collab --remote
 	// Server-only configuration is set with Wrangler secrets or dashboard variables, never committed:
 	//   BETTER_AUTH_URL, BETTER_AUTH_SECRET, TANTAMAN_OWNER_EMAIL
 	//   GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET and/or GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
