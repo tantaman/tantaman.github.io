@@ -71,11 +71,27 @@ test('the display list draws what the framebuffer shows', () => {
   }
 });
 
+test('the display list draws math and highlighted code like the framebuffer', () => {
+  const md = String.raw`Inline $\sqrt{x^2+1}$ and $\sum_{i=1}^n i$ math.
+
+$$
+\left( \int_0^1 \frac{dx}{\sqrt{1-x^2}} \right)^2 = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \oops
+$$
+
+` + '```rust\nfn main() { let x: u32 = 1; } // done\n```';
+  for (const [name, scale, flags] of [['math light', 1, 0], ['math dark 2x', 2, 2]] as const) {
+    const [cpu, list] = [new Host(700, 500, scale, flags), new Host(700, 500, scale, flags | LIST)].map((host) => host.load(md));
+    const d = maxDiff(cpu.frame(), list.frame());
+    assert.ok(d <= 2, `${name}: channels differ by up to ${d}`);
+    list.snapshot(`list-${name.replace(/\W+/g, '-')}`);
+  }
+});
+
 test('with a display list, whole frames are listed only when something changed', () => {
   const md = Array.from({ length: 200 }, (_, i) => `Paragraph ${i + 1} of a long document.`).join('\n\n');
   const h = new Host(5120, 2880, 2, LIST).load(md);
   // no framebuffer: memory stays far below the 59 MB a 5K frame would take
-  assert.ok(h.x.memory.buffer.byteLength < 0x3880000 + 8 * 2 ** 20, `${h.x.memory.buffer.byteLength} bytes of memory`);
+  assert.ok(h.x.memory.buffer.byteLength < 0x3980000 + 8 * 2 ** 20, `${h.x.memory.buffer.byteLength} bytes of memory`);
   const t = h.now(0);
   h.presents.length = 0;
   h.x.mouse_move(1000, 1500, 0, t);

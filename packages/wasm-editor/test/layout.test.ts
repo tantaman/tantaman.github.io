@@ -93,12 +93,18 @@ function localEdit(h: Host, r: Rng) {
   }
 }
 
-/** The whole document laid out from scratch, in a second editor of the same size. */
+/**
+ * The whole document laid out from scratch, in a second editor of the same
+ * size with the same selection (the math it is in shows its source).
+ */
 function fresh(h: Host, w: number, scale: number) {
   const f = new Host(w, 400, scale);
+  withLangs(f);
   const c = h.cells();
   new Uint32Array(f.x.memory.buffer, f.x.scratch(c.length * 4), c.length).set(c);
   f.x.load_cells(c.length);
+  const [anchor, focus] = h.selection;
+  f.x.set_selection(anchor, focus);
   f.x.refresh();
   return f.lines();
 }
@@ -122,6 +128,86 @@ test('laying out only what changed gives the same lines as laying out everything
       for (let i = 0; i < batch; i++) {
         if (kind === 3 || r.int(4)) remoteEdit(h, r, at);
         else localEdit(h, r);
+      }
+      h.x.refresh();
+      assert.deepEqual(h.lines(), fresh(h, w, scale), `seed ${seed} step ${step}`);
+    }
+  }
+});
+
+/** Languages for code blocks, interned in the same order in every editor so their ids agree. */
+const LANGS = ['ts', 'c', 'python'];
+function withLangs(h: Host) {
+  const x = h.x as unknown as { intern_link(n: number): number };
+  return LANGS.map((l) => x.intern_link(h.put(l)));
+}
+
+/** A paragraph, an equation's line or the first line of one, code in some language, or another block. */
+function mathTerm(r: Rng, langs: number[]) {
+  const k = r.int(5);
+  if (k === 0) return term(0);
+  if (k === 1) return term(9, r.int(3) ? 0 : 1);
+  if (k === 2) return NL | ((8 | (r.pick([0, ...langs]) << 5)) << 16);
+  return term(r.int(8));
+}
+
+/** Random cells with inline math, equations and code in several languages. */
+function mathCells(r: Rng, n: number, langs: number[]) {
+  const out: number[] = [];
+  const text = (t: string) => out.push(...Array.from(t, (c) => c.charCodeAt(0)));
+  while (out.length < n) {
+    const k = r.int(10);
+    if (k === 0) out.push(mathTerm(r, langs));
+    else if (k === 1) text(r.pick(['$x^2$', '$\\frac{a}{b}$', '$a', 'b$', '\\$', ' $ ', '$\\sqrt{x}$', '$$']));
+    else if (k === 2) text(r.pick(['/*', '*/', '"', '#', '//', 'int ', 'const ']));
+    else if (k === 3) text(' ');
+    else text('abcdefghij'.slice(0, 1 + r.int(9)) + (r.int(2) ? ' ' : ''));
+  }
+  return out.slice(0, n);
+}
+
+test('math and code are laid out again exactly where they changed, and where the caret went', () => {
+  for (let seed = 1; seed <= seeds; seed++) {
+    const r = rng(seed);
+    const w = 200 + r.int(600);
+    const scale = [1, 2][r.int(2)];
+    const h = new Host(w, 400, scale);
+    const langs = withLangs(h);
+    h.insertCells(0, mathCells(r, 50 + r.int(1500), langs));
+    h.x.refresh();
+    for (let step = 0; step < 40; step++) {
+      const batch = 1 + r.int(4);
+      for (let i = 0; i < batch; i++) {
+        const len = h.x.length();
+        const p = r.int(len);
+        switch (r.int(7)) {
+          case 0:
+            h.insertCells(p, mathCells(r, 1 + r.int(20), langs));
+            break;
+          case 1:
+            h.x.apply_delete(p, 1 + r.int(8));
+            break;
+          case 2: {
+            // an equation or code block becomes something else, or the other way round
+            const q = h.cells().indexOf(NL, p);
+            if (q >= 0) h.x.apply_format(q, 1, 0xffff0000, mathTerm(r, langs));
+            break;
+          }
+          case 3:
+            // the caret goes somewhere: into or out of math
+            h.x.set_selection(p, r.int(3) ? p : Math.min(len - 1, p + r.int(10)));
+            break;
+          case 4:
+            h.x.set_selection(p, p);
+            h.type(r.pick(['$', 'x', ' ', '*/', '/*']));
+            break;
+          case 5:
+            h.x.set_selection(p, p);
+            h.key(r.pick([Key.Enter, Key.Backspace, Key.Left, Key.Right, Key.Down, Key.Up]));
+            break;
+          default:
+            h.insertCells(p, [mathTerm(r, langs)]);
+        }
       }
       h.x.refresh();
       assert.deepEqual(h.lines(), fresh(h, w, scale), `seed ${seed} step ${step}`);

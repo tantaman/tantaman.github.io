@@ -21,6 +21,8 @@ export const BlockType = {
   Ordered: 6,
   Todo: 7,
   Code: 8,
+  /** A line of a display equation (TeX between `$$` in Markdown). */
+  Math: 9,
 } as const;
 export type BlockType = (typeof BlockType)[keyof typeof BlockType];
 

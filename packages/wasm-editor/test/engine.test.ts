@@ -716,3 +716,92 @@ test('read_cells copies a range', async () => {
   assert.equal(n, 3);
   assert.deepEqual(Array.from(new Uint32Array(e.wasm.memory.buffer, e.wasm.scratch(0), n)), [0x62, 0x63, 10]);
 });
+
+test('code fences keep their language', async () => {
+  const e = await make();
+  const md = '```ts\nconst x = 1;\n\nreturn x;\n```';
+  e.setMarkdown(md);
+  assert.equal(e.getMarkdown(), md);
+  assert.equal(e.getHTML(), '<pre><code class="language-ts">const x = 1;\n\nreturn x;</code></pre>');
+  // fences of different languages stay apart; ~~~ fences read the same
+  e.setMarkdown('```py\na\n```\n~~~rust\nb\n~~~\n```\nc\n```');
+  assert.equal(e.getMarkdown(), '```py\na\n```\n\n```rust\nb\n```\n\n```\nc\n```');
+  // Enter keeps the language on the new line
+  e.setMarkdown('```go\nfmt.Println()\n```');
+  e.setSelection(13);
+  type(e, '\nx');
+  assert.equal(e.getMarkdown(), '```go\nfmt.Println()\nx\n```');
+  // the language survives a cut and paste of whole lines
+  e.setSelection(0, e.length - 1);
+  const html = e.getHTML();
+  assert.ok(html.startsWith('<pre><code class="language-go">'), html);
+});
+
+test('typing ``` with a language, or $$, then a space or Enter', async () => {
+  for (const [typed, md] of [
+    ['```ts x', '```ts\nx\n```'],
+    ['```ts\nx', '```ts\nx\n```'],
+    ['```\nx', '```\nx\n```'],
+    ['```c++ int', '```c++\nint\n```'],
+    ['$$ x', '$$\nx\n$$'],
+    ['$$\nx\ny\n\nafter', '$$\nx\ny\n$$\n\nafter'],
+  ]) {
+    const e = await make();
+    type(e, typed);
+    assert.equal(e.getMarkdown(), md, typed);
+  }
+  // undo right after brings the typed characters back
+  const e = await make();
+  type(e, '```py\n');
+  assert.equal(e.getMarkdown(), '```py\n\n```');
+  e.undo();
+  assert.equal(e.getMarkdown(), '\\`\\`\\`py');
+  // a space elsewhere, or a language with spaces, is just text
+  e.reset();
+  type(e, 'a ```ts ');
+  assert.equal(e.getMarkdown(), 'a \\`\\`\\`ts ');
+});
+
+test('equations', async () => {
+  const e = await make();
+  e.setMarkdown('before\n\n$$\n\\int_0^1 x\\,dx\n= \\frac12\n$$\n\nafter');
+  assert.equal(e.getMarkdown(), 'before\n\n$$\n\\int_0^1 x\\,dx\n= \\frac12\n$$\n\nafter');
+  assert.deepEqual(html(e).slice(1, 3), ['<div class="rt-math">\\int_0^1 x\\,dx</div>', '<div class="rt-math">= \\frac12</div>']);
+  assert.equal(e.getHTML(), '<p>before</p><div class="math-display">$$\\int_0^1 x\\,dx\n= \\frac12$$</div><p>after</p>');
+  // one line, empty, and back to back
+  e.setMarkdown('$$ e = mc^2 $$');
+  assert.equal(e.getMarkdown(), '$$\ne = mc^2\n$$');
+  e.setMarkdown('$$\n$$');
+  assert.equal(e.getMarkdown(), '$$\n\n$$');
+  e.setMarkdown('$$\na\n$$\n$$\nb\n$$');
+  assert.equal(e.getMarkdown(), '$$\na\n$$\n\n$$\nb\n$$');
+  // Enter adds a line to the same equation
+  e.setSelection(1);
+  type(e, '\nc');
+  assert.equal(e.getMarkdown(), '$$\na\nc\n$$\n\n$$\nb\n$$');
+  // "$$x$$" inside a paragraph is not an equation
+  e.setMarkdown('see $$x$$ here');
+  assert.equal(e.getMarkdown(), 'see $$x$$ here');
+  assert.ok(e.setBlock(BlockType.Math));
+  assert.equal(e.getMarkdown(), '$$\nsee $$x$$ here\n$$');
+});
+
+test('inline math is kept as written', async () => {
+  const e = await make();
+  // no escapes or emphasis inside $...$
+  for (const md of ['$a_1 * b_2 = c^*$ and $[x]$', 'a $\\{x \\mid x < 1\\}$ b', 'price $5 and $10', 'code `$x$` stays code',
+                    'escaped \\$x\\$ dollars', '*$x$* and **$y$**']) {
+    e.setMarkdown(md);
+    assert.equal(e.getMarkdown(), md);
+  }
+  e.setMarkdown('$a_b$ *em*');
+  assert.equal(e.getText(), '$a_b$ em');
+  // typed math is exported as it was typed
+  e.reset();
+  type(e, 'let $x_1 = *y*$ be');
+  assert.equal(e.getMarkdown(), 'let $x_1 = *y*$ be');
+  // a dollar that cannot open math is text, and a lone one is too
+  e.reset();
+  type(e, 'a $ b $c_d');
+  assert.equal(e.getMarkdown(), 'a $ b $c\\_d');
+});

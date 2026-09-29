@@ -9,7 +9,14 @@ There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection 
 
 - Type, select with the mouse or Shift+arrows, double-click a word
 - ⌘ or Ctrl with B, I, U, E for code, K for a link
-- Start a line with \`# \`, \`- \`, \`1. \`, \`> \` or \`[] \`
+- Start a line with \`# \`, \`- \`, \`1. \`, \`> \`, \`[] \`, \`\` \`\`\`ts \`\` or \`$$\`
+- Click a formula to edit its TeX
+
+Math is typeset by the same WASM, TeX's rules and Computer Modern: $e^{i\\pi} + 1 = 0$, and $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$.
+
+$$
+\\int_{-\\infty}^{\\infty} e^{-x^2}\\,dx = \\sqrt{\\pi} \\qquad \\begin{pmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{pmatrix}
+$$
 
 1. Hand-written
 2. Instruction by instruction
@@ -19,7 +26,8 @@ There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection 
 
 > The same canvas.wasm runs outside the browser too, in a desktop host built on Wasmtime.
 
-\`\`\`
+\`\`\`wat
+;; code is highlighted by language
 (call $blit (local.get $e) (local.get $x) (local.get $y) (local.get $c))
 \`\`\`
 `;

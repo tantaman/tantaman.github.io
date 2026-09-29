@@ -23,6 +23,7 @@
     "@fontsource/source-serif-4": "^5.3.0",
     "@types/node": "^24.10.1",
     "fontkit": "^2.0.4",
+    "katex": "^0.16.46",
     "typescript": "^6.0.3",
     "vite": "^6.3.5",
     "wabt": "^1.0.39",

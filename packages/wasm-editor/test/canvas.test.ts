@@ -213,15 +213,15 @@ test('typing a Markdown shortcut and pressing Enter', () => {
 test('toolbar buttons', () => {
   const h = new Host().load('some words');
   const b = buttons(h);
-  assert.equal(b.length, 16);
+  assert.equal(b.length, 17);
   h.key('a', Mod.Ctrl);
   h.click(b[0], 22); // B
   assert.equal(h.markdown(), '**some words**');
   h.click(b[6], 22); // H1
   assert.equal(h.markdown(), '# **some words**');
-  h.click(b[14], 22); // Undo
+  h.click(b[15], 22); // Undo
   assert.equal(h.markdown(), '**some words**');
-  h.click(b[15], 22); // Redo
+  h.click(b[16], 22); // Redo
   assert.equal(h.markdown(), '# **some words**');
   h.click(b[12], 22); // Todo
   assert.equal(h.markdown(), '- [ ] **some words**');

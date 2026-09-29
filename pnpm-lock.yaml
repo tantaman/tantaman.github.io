@@ -538,6 +538,9 @@ importers:
       fontkit:
         specifier: ^2.0.4
         version: 2.0.4
+      katex:
+        specifier: ^0.16.46
+        version: 0.16.46
       typescript:
         specifier: ^6.0.3
         version: 6.0.3

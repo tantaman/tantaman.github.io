@@ -109,23 +109,28 @@
   text-decoration: line-through;
 }
 
-/* Consecutive code lines read as one block. */
-.rt-editor > .rt-code {
+/* Consecutive code lines read as one block, and so do the TeX lines of an
+   equation (shown as source here; the canvas editor typesets them). */
+.rt-editor > .rt-code,
+.rt-editor > .rt-math {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.9em;
   background: var(--rt-code-bg);
   padding: 0 0.9em;
   border-radius: 0;
 }
-.rt-editor > .rt-code:not(.rt-code + .rt-code) {
+.rt-editor > .rt-code:not(.rt-code + .rt-code),
+.rt-editor > .rt-math:not(.rt-math + .rt-math) {
   padding-top: 0.6em;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
-.rt-editor > .rt-code:has(+ .rt-code) {
+.rt-editor > .rt-code:has(+ .rt-code),
+.rt-editor > .rt-math:has(+ .rt-math) {
   margin-bottom: 0;
 }
-.rt-editor > .rt-code:not(:has(+ .rt-code)) {
+.rt-editor > .rt-code:not(:has(+ .rt-code)),
+.rt-editor > .rt-math:not(:has(+ .rt-math)) {
   padding-bottom: 0.6em;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
