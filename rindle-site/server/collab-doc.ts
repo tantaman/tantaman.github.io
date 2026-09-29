@@ -4,7 +4,8 @@
 // operations and the snapshot, so nothing on the editing path leaves the object; output gates hold
 // each broadcast until the commit it carries is durable. Presence lives in the WebSocket
 // attachments and is never stored. An optional D1 binding (COLLAB_DB, migrations-collab/) gets a
-// debounced index row per document for listing and search.
+// debounced index row per document for listing and search. The communal DEMO_DOC starts over once
+// it has been left alone for DEMO_RESET_MS: the next visitor finds it empty and seeds it again.
 //
 // The sequencing itself is packages/wasm-editor/src/collab/server-core.ts, which the tests and the
 // editor's dev server run too; this file is storage and sockets. Auth and routing are
@@ -35,11 +36,14 @@ const PART_CELLS = 256 * 1024;
 const INDEX_DELAY_MS = 10_000;
 /** Largest message accepted from a client. */
 const MAX_MESSAGE = 4 * 1024 * 1024;
+/** The document /wasm-editor/canvas opens, which anyone may edit (collab-http.ts). */
+export const DEMO_DOC = "demo";
+/** How long the demo stays as its last visitor left it. */
+const DEMO_RESET_MS = 30 * 60 * 1000;
 
 export class EditorDoc extends DurableObject<CollabEnv> {
   private room: Room | null = null;
   private readonly conns = new WeakMap<WebSocket, Conn>();
-  private alarmSet = false;
 
   constructor(ctx: DurableObjectState, env: CollabEnv) {
     super(ctx, env);
@@ -87,6 +91,8 @@ export class EditorDoc extends DurableObject<CollabEnv> {
     const doc = request.headers.get("x-collab-doc");
     if (!user || !doc) return new Response("bad request", { status: 400 });
     this.ctx.storage.sql.exec("INSERT OR IGNORE INTO meta (key, value) VALUES ('doc', ?)", doc);
+    // someone is here: the demo keeps what it has
+    this.ctx.storage.sql.exec("DELETE FROM meta WHERE key = 'reset_at'");
     const pair = new WebSocketPair();
     const [client, server] = [pair[0], pair[1]];
     this.ctx.acceptWebSocket(server);
@@ -109,7 +115,7 @@ export class EditorDoc extends DurableObject<CollabEnv> {
     const room = this.live;
     const before = room.seq.version;
     room.message(this.conn(ws), msg);
-    if (room.seq.version !== before) await this.scheduleAlarm();
+    if (room.seq.version !== before) await this.alarmBy(Date.now() + INDEX_DELAY_MS);
   }
 
   async webSocketClose(ws: WebSocket, code: number, reason: string): Promise<void> {
@@ -119,25 +125,61 @@ export class EditorDoc extends DurableObject<CollabEnv> {
     } catch {
       // already closed
     }
+    await this.leftAlone(ws);
   }
 
   async webSocketError(ws: WebSocket): Promise<void> {
     this.live.leave(this.conn(ws));
+    await this.leftAlone(ws);
   }
 
-  private async scheduleAlarm(): Promise<void> {
-    if (this.alarmSet) return;
-    this.alarmSet = true;
-    if ((await this.ctx.storage.getAlarm()) === null) await this.ctx.storage.setAlarm(Date.now() + INDEX_DELAY_MS);
+  /** `gone` left: if that was the demo's last visitor, start its reset clock. */
+  private async leftAlone(gone: WebSocket): Promise<void> {
+    if (this.docId() !== DEMO_DOC || this.present(gone)) return;
+    const at = Date.now() + DEMO_RESET_MS;
+    this.ctx.storage.sql.exec(
+      "INSERT INTO meta (key, value) VALUES ('reset_at', ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value",
+      String(at),
+    );
+    await this.alarmBy(at);
   }
 
-  /** Quiet for a while after edits: compact if due, and write the index row. */
+  /** Anyone connected besides `except`. */
+  private present(except?: WebSocket): boolean {
+    return this.ctx.getWebSockets().some((ws) => ws !== except && ws.readyState === WebSocket.OPEN);
+  }
+
+  private docId(): string | undefined {
+    return this.ctx.storage.sql.exec<{ value: string }>("SELECT value FROM meta WHERE key = 'doc'").toArray()[0]?.value;
+  }
+
+  /** Make sure the alarm goes off by `at`; one alarm serves the index and the demo's reset. */
+  private async alarmBy(at: number): Promise<void> {
+    const set = await this.ctx.storage.getAlarm();
+    if (set === null || at < set) await this.ctx.storage.setAlarm(at);
+  }
+
+  /** Forget everything but the document's id; the next visitor seeds it again. */
+  private reset(): void {
+    this.ctx.storage.transactionSync(() => {
+      this.ctx.storage.sql.exec("DELETE FROM op");
+      this.ctx.storage.sql.exec("DELETE FROM snapshot_part");
+      this.ctx.storage.sql.exec("DELETE FROM meta WHERE key <> 'doc'");
+    });
+    this.room = null;
+  }
+
+  /** Quiet for a while after edits: compact if due, and write the index row. Also the demo's reset. */
   async alarm(): Promise<void> {
-    this.alarmSet = false;
+    const resetAt = Number(
+      this.ctx.storage.sql.exec<{ value: string }>("SELECT value FROM meta WHERE key = 'reset_at'").toArray()[0]?.value ?? 0,
+    );
+    if (resetAt && resetAt <= Date.now() && !this.present()) this.reset();
+    else if (resetAt) await this.alarmBy(resetAt);
     const seq = this.live.seq;
     if (seq.compactionDue) seq.compact();
     const db = this.env.COLLAB_DB;
-    const id = this.ctx.storage.sql.exec<{ value: string }>("SELECT value FROM meta WHERE key = 'doc'").toArray()[0]?.value;
+    const id = this.docId();
     if (!db || !id) return;
     const text = plainText(seq.current());
     const title = text.split("\n").find((line) => line.trim())?.trim().slice(0, 120) ?? "";

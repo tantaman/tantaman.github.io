@@ -281,7 +281,9 @@ document. The sequencer commits it only if the document is still empty, as the
 operation of a client named `seed`, so it reaches every copy, the sender's
 included, as someone else's edit (nobody can undo it) and a second offer is
 ignored. The demo page seeds `demo` with its sample; emptied, `demo` is seeded
-again by the next visitor to arrive.
+again by the next visitor to arrive. Its Durable Object also forgets it once
+nobody has been connected for 30 minutes (`DEMO_RESET_MS` in
+`rindle-site/server/collab-doc.ts`), so the next visitor seeds it afresh.
 
 ## Limits
 
