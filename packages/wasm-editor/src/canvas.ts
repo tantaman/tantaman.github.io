@@ -1,12 +1,16 @@
 // Browser host for canvas.wasm, the editor that draws itself.
 //
-// The module lays out and paints everything into a framebuffer in its own
-// memory and handles raw input. This file only:
-//   - copies the rectangles the module presents onto a <canvas>,
+// The module lays out everything and handles raw input. With WebGPU it lists
+// each frame as primitives that src/gpu.ts draws; without, it paints into a
+// framebuffer in its own memory. This file only:
+//   - draws the display list, or copies the rectangles the module presents
+//     onto a <canvas>,
 //   - forwards keys, mouse, touches, wheel, focus and theme changes,
 //   - keeps a hidden <textarea> at the caret so typing, IME composition
 //     and the clipboard work like in any text field,
 //   - carries out the clipboard commands of the module's touch edit menu.
+
+import { GpuRenderer, requestGpuDevice } from './gpu.ts';
 
 interface CanvasExports {
   memory: WebAssembly.Memory;
@@ -16,6 +20,10 @@ interface CanvasExports {
   set_focus(focused: number, now: number): void;
   repaint(): void;
   fb_ptr(): number;
+  list_ptr(): number;
+  list_count(): number;
+  font_ptr(): number;
+  font_size(): number;
   out_ptr(): number;
   scratch(bytes: number): number;
   tick(now: number): number;
@@ -46,6 +54,11 @@ export interface CanvasEditorOptions {
   onChange?(editor: CanvasEditor): void;
   /** canvas.wasm bytes or module; defaults to the bundled file. */
   wasm?: BufferSource | WebAssembly.Module;
+  /**
+   * 'auto' (default) draws with WebGPU where the browser has it and falls
+   * back to painting on the CPU; 'webgpu' fails without it.
+   */
+  renderer?: 'auto' | 'webgpu' | 'cpu';
 }
 
 const KEYS: Record<string, number> = {
@@ -79,17 +92,26 @@ function bundledModule() {
 export async function createCanvasEditor(container: HTMLElement, options: CanvasEditorOptions = {}) {
   const source = options.wasm ?? (await bundledModule());
   const module = source instanceof WebAssembly.Module ? source : await WebAssembly.compile(source);
-  return new CanvasEditor(container, module, options);
+  const device = options.renderer === 'cpu' ? null : await requestGpuDevice();
+  if (!device && options.renderer === 'webgpu') throw new Error('WebGPU is not available');
+  return new CanvasEditor(container, module, options, device);
 }
 
 export class CanvasEditor {
   readonly container: HTMLElement;
   readonly canvas: HTMLCanvasElement;
   private readonly input: HTMLTextAreaElement;
+  /** How frames reach the screen, fixed for the editor's lifetime. */
+  readonly renderer: 'webgpu' | 'cpu';
   private readonly x: CanvasExports;
-  private readonly ctx: CanvasRenderingContext2D;
+  private readonly ctx: CanvasRenderingContext2D | null = null;
+  private gpu: GpuRenderer | null = null;
+  private context: GPUCanvasContext | null = null;
   private readonly options: CanvasEditorOptions;
   private image: ImageData | null = null;
+  /** A display list waits to be drawn in this animation frame. */
+  private drawFrame = 0;
+  private destroyed = false;
   private width = 0;
   private height = 0;
   private scale = 1;
@@ -107,7 +129,8 @@ export class CanvasEditor {
   private readonly cleanup: (() => void)[] = [];
   private readonly dark: MediaQueryList;
 
-  constructor(container: HTMLElement, module: WebAssembly.Module, options: CanvasEditorOptions = {}) {
+  /** With a GPU device, frames are drawn from the module's display list. */
+  constructor(container: HTMLElement, module: WebAssembly.Module, options: CanvasEditorOptions = {}, device: GPUDevice | null = null) {
     this.container = container;
     this.options = options;
     this.canvas = document.createElement('canvas');
@@ -125,7 +148,6 @@ export class CanvasEditor {
       'resize:none;overflow:hidden;white-space:pre;pointer-events:none;caret-color:transparent;font-size:16px;';
     if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
     container.append(this.canvas, this.input);
-    this.ctx = this.canvas.getContext('2d')!;
 
     const instance = new WebAssembly.Instance(module, {
       host: {
@@ -140,10 +162,19 @@ export class CanvasEditor {
       },
     });
     this.x = instance.exports as unknown as CanvasExports;
+    // a canvas takes one kind of context, so settle on WebGPU or 2D here
+    this.context = device && (this.canvas.getContext('webgpu') as unknown as GPUCanvasContext | null);
+    this.renderer = this.context ? 'webgpu' : 'cpu';
+    if (this.context) this.useDevice(device!);
+    else if (options.renderer === 'webgpu') throw new Error('WebGPU canvas context is not available');
+    else {
+      device?.destroy();
+      this.ctx = this.canvas.getContext('2d')!;
+    }
 
     this.dark = matchMedia('(prefers-color-scheme: dark)');
     const size = this.measure();
-    this.x.init(size.w, size.h, this.scale, (isMac ? 1 : 0) | (this.isDark() ? 2 : 0));
+    this.x.init(size.w, size.h, this.scale, (isMac ? 1 : 0) | (this.isDark() ? 2 : 0) | (this.gpu ? 8 : 0));
     if (options.markdown) this.setMarkdown(options.markdown);
     this.listen();
     this.schedule();
@@ -165,8 +196,14 @@ export class CanvasEditor {
   }
 
   destroy(): void {
+    this.destroyed = true;
     clearTimeout(this.timer);
     cancelAnimationFrame(this.frame);
+    cancelAnimationFrame(this.drawFrame);
+    this.context?.unconfigure();
+    this.gpu?.destroy();
+    this.gpu?.device.destroy();
+    this.gpu = null;
     for (const off of this.cleanup.splice(0)) off();
     this.canvas.remove();
     this.input.remove();
@@ -208,13 +245,45 @@ export class CanvasEditor {
   }
 
   private present(x: number, y: number, w: number, h: number) {
+    if (this.renderer === 'webgpu') {
+      // the display list stays in memory until the next paint, so draw the
+      // latest one once per animation frame
+      this.drawFrame ||= requestAnimationFrame(() => this.draw());
+      return;
+    }
     const buffer = this.x.memory.buffer;
     // the view over wasm memory is rebuilt when memory grows or the size changes
     if (!this.image || this.image.data.buffer !== buffer) {
       const bytes = new Uint8ClampedArray(buffer, this.x.fb_ptr(), this.width * this.height * 4);
       this.image = new ImageData(bytes, this.width, this.height);
     }
-    this.ctx.putImageData(this.image, 0, 0, x, y, w, h);
+    this.ctx!.putImageData(this.image, 0, 0, x, y, w, h);
+  }
+
+  /** Draw the waiting display list now, if there is one. */
+  private draw() {
+    if (!this.drawFrame) return;
+    cancelAnimationFrame(this.drawFrame);
+    this.drawFrame = 0;
+    if (!this.gpu || !this.context) return;
+    this.gpu.draw(this.context.getCurrentTexture(), this.x.memory.buffer, this.x.list_ptr(), this.x.list_count());
+  }
+
+  private useDevice(device: GPUDevice) {
+    const font = new Uint8Array(this.x.memory.buffer, this.x.font_ptr(), this.x.font_size());
+    const format = navigator.gpu.getPreferredCanvasFormat();
+    this.context!.configure({ device, format, alphaMode: 'opaque' });
+    this.gpu = new GpuRenderer(device, font, format);
+    // a lost device (driver reset, GPU process crash) is replaced and the
+    // last frame drawn again
+    device.lost.then(async () => {
+      if (this.destroyed) return;
+      this.gpu = null;
+      const next = await requestGpuDevice();
+      if (!next || this.destroyed) return console.error('canvas editor: lost the WebGPU device');
+      this.useDevice(next);
+      this.present(0, 0, this.width, this.height);
+    });
   }
 
   // --- events ----------------------------------------------------------
@@ -286,7 +355,13 @@ export class CanvasEditor {
     cancelAnimationFrame(this.frame);
     const wait = this.x.tick(now());
     if (wait < 0) return;
-    if (wait <= 16) this.frame = requestAnimationFrame(() => this.schedule());
+    // animating (momentum), the frame the tick lists is drawn right away
+    // rather than in the next animation frame
+    if (wait <= 16)
+      this.frame = requestAnimationFrame(() => {
+        this.schedule();
+        this.draw();
+      });
     else this.timer = window.setTimeout(() => this.schedule(), wait);
   }
 

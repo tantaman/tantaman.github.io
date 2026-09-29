@@ -17,7 +17,8 @@
 ;;   0x1060000  GTAB     glyph cache hash table, 16 bytes per slot
 ;;   0x1080000  GBMP     glyph cache coverage bitmaps
 ;;   0x1880000  OUT      the engine's scratch, capped at 32 MiB
-;;   0x3880000  FB       framebuffer, grows with the window
+;;   0x3880000  FB       framebuffer, grows with the window; with init flag 8
+;;                       the display list instead (see ui-draw.wat)
 ;;
 ;; Everything on screen is measured in device pixels. CSS-like sizes in
 ;; this file are multiplied by $scale (the host's device pixel ratio).
@@ -104,6 +105,12 @@
   (global $lb_key (mut i32) (i32.const 0))
   (global $strip_key (mut i32) (i32.const 0))
   (global $emb (mut f32) (f32.const 0))       ;; glyph emboldening, px
+
+  ;; display list (init flag 8), see ui-draw.wat
+  (global $gpu (mut i32) (i32.const 0))       ;; list primitives instead of painting pixels
+  (global $dl_on (mut i32) (i32.const 0))     ;; 0 during paint's dry run
+  (global $dl_n (mut i32) (i32.const 0))      ;; records in the list
+  (global $damaged (mut i32) (i32.const 0))   ;; the dry run found something to repaint
 
   ;; glyph cache
   (global $gtop (mut i32) (i32.const 0x1080000))

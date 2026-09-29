@@ -15,6 +15,8 @@
 ;; src/wat/ui-touch.wat (touch_*).
 ;; The framebuffer is 4 bytes per pixel at fb_ptr(), W*4 bytes per row, in
 ;; RGBA byte order or, when the host asks for it at init, as 0x00RRGGBB words.
+;; A host with a GPU can ask for a display list instead (init flag 8): each
+;; frame then lists what to draw as records at list_ptr(), for src/gpu.ts.
 
 (module
   (import "host" "present" (func $host_present (param i32 i32 i32 i32)))

@@ -5,6 +5,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { deflateSync } from 'node:zlib';
+import { drawList } from './display-list.ts';
 
 export const Key = {
   Backspace: 1, Delete: 2, Enter: 3, Tab: 4, Escape: 5, Left: 6, Right: 7, Up: 8, Down: 9,
@@ -20,6 +21,10 @@ export interface CanvasExports {
   set_focus(focused: number, now: number): void;
   repaint(): void;
   fb_ptr(): number;
+  list_ptr(): number;
+  list_count(): number;
+  font_ptr(): number;
+  font_size(): number;
   out_ptr(): number;
   scratch(bytes: number): number;
   tick(now: number): number;
@@ -167,6 +172,15 @@ export class Host {
     return this.ime[this.ime.length - 1];
   }
 
+  /** The last frame as RGBA bytes: the framebuffer, or the display list drawn. */
+  frame() {
+    const { x } = this;
+    if (this.flags & 8) return drawList(x.memory, x.list_ptr(), x.list_count(), x.font_ptr(), this.w, this.h);
+    const fb = new Uint8Array(x.memory.buffer, x.fb_ptr(), this.w * this.h * 4).slice();
+    if (this.flags & 4) for (let i = 0; i < fb.length; i += 4) [fb[i], fb[i + 2], fb[i + 3]] = [fb[i + 2], fb[i], 255];
+    return fb;
+  }
+
   pixel(px: number, py: number) {
     return new DataView(this.x.memory.buffer).getUint32(this.x.fb_ptr() + (py * this.w + px) * 4, true);
   }
@@ -182,9 +196,7 @@ export class Host {
     const dir = process.env.CANVAS_SNAPSHOTS;
     if (!dir) return;
     mkdirSync(dir, { recursive: true });
-    const fb = new Uint8Array(this.x.memory.buffer, this.x.fb_ptr(), this.w * this.h * 4).slice();
-    if (this.flags & 4) for (let i = 0; i < fb.length; i += 4) [fb[i], fb[i + 2], fb[i + 3]] = [fb[i + 2], fb[i], 255];
-    writeFileSync(path.join(dir, `${name}.png`), encodePNG(this.w, this.h, fb));
+    writeFileSync(path.join(dir, `${name}.png`), encodePNG(this.w, this.h, this.frame()));
   }
 }
 
