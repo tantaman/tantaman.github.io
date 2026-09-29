@@ -18,6 +18,7 @@
 ;;   0x0C60000  LINES    laid-out visual lines, 32 bytes each
 ;;   0x1060000  GTAB     glyph cache hash table, 16 bytes per slot
 ;;   0x1080000  GBMP     glyph cache coverage bitmaps
+;;   0x1840000  LSCR     lines being laid out again, 32 bytes each (ui-layout.wat)
 ;;   0x1880000  OUT      the engine's scratch, capped at 32 MiB
 ;;   0x3880000  FB       framebuffer, grows with the window; with init flag 8
 ;;                       the display list instead (see ui-draw.wat)
@@ -42,7 +43,9 @@
   (global $LINE_MAX  i32 (i32.const 131072))
   (global $GTAB      i32 (i32.const 0x1060000))
   (global $GBMP      i32 (i32.const 0x1080000))
-  (global $GBMP_END  i32 (i32.const 0x1880000))
+  (global $GBMP_END  i32 (i32.const 0x1840000))
+  (global $LSCR      i32 (i32.const 0x1840000))
+  (global $LSCR_MAX  i32 (i32.const 8192))
   (global $UI_OUT    i32 (i32.const 0x1880000))
   (global $UI_OUT_END i32 (i32.const 0x3880000))
   (global $FB        i32 (i32.const 0x3880000))
@@ -79,7 +82,7 @@
   (global $nlines (mut i32) (i32.const 0))
 
   ;; editing view state
-  (global $dirty (mut i32) (i32.const 1))     ;; lines need laying out
+  (global $dirty (mut i32) (i32.const 1))     ;; lay out the whole document (the column changed)
   (global $laid_v (mut i32) (i32.const -1))   ;; engine doc_version the lines were laid out for
   (global $full (mut i32) (i32.const 1))      ;; repaint everything
   (global $reveal (mut i32) (i32.const 0))    ;; scroll the caret into view

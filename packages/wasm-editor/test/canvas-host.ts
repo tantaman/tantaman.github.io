@@ -46,6 +46,9 @@ export interface CanvasExports {
   touch_end(x: number, y: number, now: number): number;
   touch_cancel(now: number): void;
   scroll_top(): number;
+  lines_ptr(): number;
+  line_count(): number;
+  doc_height(): number;
   anchor(): number;
   focus(): number;
   length(): number;
@@ -54,6 +57,10 @@ export interface CanvasExports {
   remote_ptr(): number;
   set_remote_count(n: number): void;
   apply_insert(pos: number, n: number, who: number): number;
+  apply_delete(pos: number, n: number): number;
+  apply_format(pos: number, n: number, mask: number, value: number): number;
+  cells(): number;
+  load_cells(n: number): void;
 }
 
 const wasm = new WebAssembly.Module(readFileSync(new URL('../src/canvas.wasm', import.meta.url)));
@@ -147,6 +154,26 @@ export class Host {
     cursors.forEach(([a, f, c], i) => view.set([a, f, c, 0], i * 4));
     this.x.set_remote_count(cursors.length);
     this.x.refresh();
+  }
+
+  /** Insert cells for someone else, as the collab client does (repaint with refresh). */
+  insertCells(pos: number, cells: number[], who = -1) {
+    new Uint32Array(this.x.memory.buffer, this.x.scratch(cells.length * 4), cells.length).set(cells);
+    return this.x.apply_insert(pos, cells.length, who);
+  }
+
+  /** The document's cells. */
+  cells() {
+    const n = this.x.cells();
+    return Array.from(new Uint32Array(this.x.memory.buffer, this.x.out_ptr(), n));
+  }
+
+  /** The laid-out lines as 8 numbers each (see ui-layout.wat), and the document height. */
+  lines() {
+    const words = new Int32Array(this.x.memory.buffer, this.x.lines_ptr(), this.x.line_count() * 8);
+    const out: number[][] = [];
+    for (let i = 0; i < words.length; i += 8) out.push(Array.from(words.subarray(i, i + 8)));
+    return { lines: out, height: this.x.doc_height() };
   }
 
   /** Where the caret for document position `p` is drawn: [x, y, w, h]. */
