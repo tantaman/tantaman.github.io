@@ -79,6 +79,11 @@
   (func (export "font_ptr") (result i32) (global.get $FONT))
   (func (export "font_size") (result i32) (i32.load offset=36 (global.get $FONT)))
   (func (export "scroll_top") (result i32) (global.get $scroll))
+  ;; The laid-out lines (32 bytes each, see ui-layout.wat) and the height of
+  ;; the document, as of the last frame.
+  (func (export "lines_ptr") (result i32) (global.get $LINES))
+  (func (export "line_count") (result i32) (global.get $nlines))
+  (func (export "doc_height") (result i32) (global.get $doc_h))
   (func (export "out_ptr") (result i32) (global.get $OUT))
 
   ;; Milliseconds until the next tick is needed (caret blink, or touch: a
@@ -188,7 +193,6 @@
   ;; ---------------------------------------------------------------------
 
   (func $edited
-    (global.set $dirty (i32.const 1))
     (global.set $reveal (i32.const 1))
     (global.set $blink_t (global.get $now))
     (global.set $goal_x (f32.const -1))
@@ -708,7 +712,7 @@
         (return)))
     (local.set $p (call $checkbox_at (local.get $x) (local.get $y)))
     (if (i32.ge_s (local.get $p) (i32.const 0))
-      (then (drop (call $toggle_check (local.get $p))) (global.set $dirty (i32.const 1)) (call $paint) (return)))
+      (then (drop (call $toggle_check (local.get $p))) (call $paint) (return)))
     (local.set $p (call $pos_at_point (local.get $x) (local.get $y)))
     (if (call $modkey (local.get $mods))
       (then

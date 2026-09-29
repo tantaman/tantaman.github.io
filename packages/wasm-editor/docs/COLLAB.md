@@ -257,6 +257,7 @@ a moving cursor repaints only the lines it touches.
 | `load_cells(n)` | replace the document with `n` cells at OUT, keeping the link table |
 | `read_cells(p, n)` | copy cells to OUT |
 | `doc_version()` | changes whenever the cells change; the canvas lays out again when it does |
+| (internal) DAMAGE | the ranges edits changed since the last layout, for incremental layout |
 | `remote_ptr()`, `remote_count()`, `set_remote_count(n)` | the remote cursor table |
 | `refresh()` (canvas) | paint after direct changes, without scrolling to the caret |
 
@@ -273,11 +274,16 @@ a moving cursor repaints only the lines it touches.
 - One document is at most the engine's 1M cells and 131,072 visual lines. The
   sequencer refuses an edit that would grow a document past 1,000,000 cells,
   since a copy that could not hold it would fall out of step.
-- Layout is still whole-document on every change (`$relayout`). Each batch of
-  remote operations lays out once, at the next paint, but a document near the
-  cell limit with constant remote edits will be slow until layout is
-  incremental. Remote edits above the viewport also move the text under it,
-  since scrolling is by pixels.
+- Layout is incremental (`ui-layout.wat`): a batch of remote operations is
+  laid out once, at the next paint, and only around the ranges it changed
+  (the engine keeps up to 64 per frame; an edit past that joins the nearer
+  range).
+  Each range still moves every line after it: about 0.1 ms a range in a
+  document of 50,000 lines, so a batch touching 64 far apart places costs
+  about 6 ms there. An edit that reflows a whole paragraph lays out that
+  paragraph. Remote edits above the view scroll it with the text, keeping
+  the first line in view (or the text after an edit that reaches into the
+  view) where it was on screen; at the top of the document, text flows down.
 - One Durable Object is single-threaded; Cloudflare documents a soft limit of
   about 1,000 requests a second per object. Each client sends at most one
   operation per round trip and presence at most five times a second, and the
@@ -306,6 +312,10 @@ a moving cursor repaints only the lines it touches.
   `COLLAB_SEEDS=2000` runs a longer hunt.
 - `test/engine.test.ts`, `test/canvas.test.ts` and `test/display-list.test.ts`
   cover the new exports and the drawing of remote selections.
+- `test/layout.test.ts`: random batches of remote and local edits, close
+  together and far apart, with the lines after each frame compared to laying
+  out the whole document (`LAYOUT_SEEDS=1000` for a longer run); and that a
+  remote edit above the view leaves the text in it where it was.
 - The Durable Object was checked by hand under `wrangler dev` with clients over
   real WebSockets: convergence, compaction on the alarm, and a new client
   loading the document after a restart.

@@ -30,6 +30,7 @@
 ;;   0x001000  STRTAB  string index built at start: (u16 addr, u16 len) per id
 ;;   0x002000  TMP     a few bytes of scratch for single-cell inserts
 ;;   0x003000  REMOTE  other people's selections, 16 bytes each (see below)
+;;   0x004000  DAMAGE  what changed since the canvas last laid out (see below)
 ;;   0x010000  DOC     gap buffer, 1M cells (4 MiB)
 ;;   0x410000  UNDO    undo/redo log (4 MiB)
 ;;   0x810000  LINKS   link table, (addr, len) per id, 2048 ids
@@ -63,6 +64,18 @@
 ;; apply_delete and apply_format make other people's edits without logging.
 ;; The REMOTE table holds other people's selections as (anchor, focus,
 ;; colour, spare) records; every edit moves them, like the local selection.
+;;
+;; ------------------------------------------------------------------------
+;; Damage
+;; ------------------------------------------------------------------------
+;; So that the canvas can lay out again only what changed (ui-layout.wat),
+;; every primitive edit is noted at DAMAGE as up to DMG_MAX disjoint ranges
+;; in document order, 16 bytes each: +0 s, +4 e, +8 d. Cells [s, e) of the
+;; document replace cells [s, e - d) of what it was with only the ranges
+;; before this one applied, so everything between two ranges is old cells
+;; moved by the d of the ranges before it. An edit merges with the ranges it
+;; touches; with no room left, with the nearer neighbour. $dmg_all says the
+;; document was replaced whole.
 
   ;; ---------------------------------------------------------------------
   ;; Constants
@@ -71,6 +84,8 @@
   (global $TMP       i32 (i32.const 0x2000))
   (global $REMOTE    i32 (i32.const 0x3000))
   (global $REMOTE_MAX i32 (i32.const 64))
+  (global $DAMAGE    i32 (i32.const 0x4000))
+  (global $DMG_MAX   i32 (i32.const 64))
   (global $DOC       i32 (i32.const 0x10000))
   (global $CAP       i32 (i32.const 0x100000))
   (global $UNDO      i32 (i32.const 0x410000))
@@ -103,6 +118,8 @@
   (global $mem_end (mut i32) (i32.const 0))     ;; bytes of linear memory
   (global $last_attrs (mut i32) (i32.const -1)) ;; attrs of the last block parsed from markdown
   (global $docv (mut i32) (i32.const 0))        ;; bumped by every change to the cells
+  (global $ndmg (mut i32) (i32.const 0))        ;; ranges at DAMAGE
+  (global $dmg_all (mut i32) (i32.const 1))     ;; the whole document was replaced
 
   ;; collaboration state
   (global $collab (mut i32) (i32.const 0))      ;; undo/redo belong to the host
@@ -196,6 +213,7 @@
     (global.set $atop (global.get $ARENA))
     (global.set $nremote (i32.const 0))
     (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (global.set $dmg_all (i32.const 1))
     (call $clear_history))
 
   (func $clear_history (export "clear_history")
@@ -713,6 +731,76 @@
   ;; themselves when a transaction is open.
   ;; =====================================================================
 
+  (func $dmg_rec (param $i i32) (result i32)
+    (i32.add (global.get $DAMAGE) (i32.shl (local.get $i) (i32.const 4))))
+
+  ;; Note that cells [p, p+del) became $ins cells (see Damage above).
+  (func $damage (param $p i32) (param $del i32) (param $ins i32)
+    (local $i i32) (local $j i32) (local $a i32) (local $s i32) (local $e i32) (local $d i32) (local $dd i32)
+    (local.set $dd (i32.sub (local.get $ins) (local.get $del)))
+    ;; the ranges from $i to $j touch [p, p+del]
+    (block $f
+      (loop $l
+        (br_if $f (i32.ge_u (local.get $i) (global.get $ndmg)))
+        (br_if $f (i32.ge_u (i32.load offset=4 (call $dmg_rec (local.get $i))) (local.get $p)))
+        (local.set $i (i32.add (local.get $i) (i32.const 1)))
+        (br $l)))
+    (local.set $j (local.get $i))
+    (block $f
+      (loop $l
+        (br_if $f (i32.ge_u (local.get $j) (global.get $ndmg)))
+        (br_if $f (i32.gt_u (i32.load (call $dmg_rec (local.get $j))) (i32.add (local.get $p) (local.get $del))))
+        (local.set $j (i32.add (local.get $j) (i32.const 1)))
+        (br $l)))
+    ;; no room for another range: take in the nearer neighbour
+    (if (i32.and (i32.eq (local.get $i) (local.get $j)) (i32.ge_u (global.get $ndmg) (global.get $DMG_MAX)))
+      (then
+        (if (if (result i32) (i32.eq (local.get $i) (global.get $ndmg))
+              (then (i32.const 1))
+              (else
+                (if (result i32) (i32.eqz (local.get $i))
+                  (then (i32.const 0))
+                  (else
+                    (i32.le_u (i32.sub (local.get $p) (i32.load offset=4 (call $dmg_rec (i32.sub (local.get $i) (i32.const 1)))))
+                              (i32.sub (i32.load (call $dmg_rec (local.get $i))) (i32.add (local.get $p) (local.get $del))))))))
+          (then (local.set $i (i32.sub (local.get $i) (i32.const 1))))
+          (else (local.set $j (i32.add (local.get $j) (i32.const 1)))))))
+    (local.set $s (local.get $p))
+    (local.set $e (i32.add (local.get $p) (local.get $del)))
+    (local.set $d (local.get $dd))
+    (local.set $a (local.get $i))
+    (block $f
+      (loop $l
+        (br_if $f (i32.ge_u (local.get $a) (local.get $j)))
+        (if (i32.lt_u (i32.load (call $dmg_rec (local.get $a))) (local.get $s))
+          (then (local.set $s (i32.load (call $dmg_rec (local.get $a))))))
+        (if (i32.gt_u (i32.load offset=4 (call $dmg_rec (local.get $a))) (local.get $e))
+          (then (local.set $e (i32.load offset=4 (call $dmg_rec (local.get $a))))))
+        (local.set $d (i32.add (local.get $d) (i32.load offset=8 (call $dmg_rec (local.get $a)))))
+        (local.set $a (i32.add (local.get $a) (i32.const 1)))
+        (br $l)))
+    ;; the ranges after it move
+    (local.set $a (local.get $j))
+    (block $f
+      (loop $l
+        (br_if $f (i32.ge_u (local.get $a) (global.get $ndmg)))
+        (i32.store (call $dmg_rec (local.get $a)) (i32.add (i32.load (call $dmg_rec (local.get $a))) (local.get $dd)))
+        (i32.store offset=4 (call $dmg_rec (local.get $a)) (i32.add (i32.load offset=4 (call $dmg_rec (local.get $a))) (local.get $dd)))
+        (local.set $a (i32.add (local.get $a) (i32.const 1)))
+        (br $l)))
+    ;; ranges [i, j) become the one at i
+    (memory.copy (call $dmg_rec (i32.add (local.get $i) (i32.const 1))) (call $dmg_rec (local.get $j))
+      (i32.shl (i32.sub (global.get $ndmg) (local.get $j)) (i32.const 4)))
+    (global.set $ndmg (i32.add (global.get $ndmg) (i32.sub (i32.add (local.get $i) (i32.const 1)) (local.get $j))))
+    (local.set $a (call $dmg_rec (local.get $i)))
+    (i32.store (local.get $a) (local.get $s))
+    (i32.store offset=4 (local.get $a) (i32.add (local.get $e) (local.get $dd)))
+    (i32.store offset=8 (local.get $a) (local.get $d)))
+
+  (func $damage_clear
+    (global.set $ndmg (i32.const 0))
+    (global.set $dmg_all (i32.const 0)))
+
   (func $raw_insert (param $p i32) (param $src i32) (param $n i32)
     (if (i32.eqz (local.get $n)) (then (return)))
     (if (i32.eqz (call $room (local.get $n))) (then unreachable))
@@ -723,6 +811,7 @@
       (i32.shl (local.get $n) (i32.const 2)))
     (global.set $gs (i32.add (global.get $gs) (local.get $n)))
     (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (call $damage (local.get $p) (i32.const 0) (local.get $n))
     (call $remote_insert (local.get $p) (local.get $n))
     (if (global.get $txn)
       (then
@@ -738,6 +827,7 @@
           (i32.add (global.get $DOC) (i32.shl (global.get $ge) (i32.const 2))))))
     (global.set $ge (i32.add (global.get $ge) (local.get $n)))
     (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (call $damage (local.get $p) (local.get $n) (i32.const 0))
     (call $remote_delete (local.get $p) (local.get $n)))
 
   ;; Rewriting cells in place is done in two halves: $set_begin makes
@@ -746,6 +836,7 @@
   (func $set_begin (param $p i32) (param $n i32) (result i32)
     (local $a i32) (local $words i32)
     (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (call $damage (local.get $p) (local.get $n) (local.get $n))
     (call $move_gap (local.get $p))
     (local.set $a (i32.add (global.get $DOC) (i32.shl (global.get $ge) (i32.const 2))))
     (global.set $slog (i32.const 0))
@@ -781,6 +872,7 @@
   ;; Overwrite [p, p+n) with cells from $src (undo/redo of SET).
   (func $restore (param $p i32) (param $src i32) (param $n i32)
     (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (call $damage (local.get $p) (local.get $n) (local.get $n))
     (call $move_gap (local.get $p))
     (memory.copy
       (i32.add (global.get $DOC) (i32.shl (global.get $ge) (i32.const 2)))
@@ -949,6 +1041,7 @@
         (i32.store (global.get $TMP) (i32.const 10))
         (call $raw_insert (call $len) (global.get $TMP) (i32.const 1))))
     (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (global.set $dmg_all (i32.const 1))
     (global.set $anchor (i32.const 0))
     (global.set $focus (i32.const 0))
     (global.set $stored (i32.const -1))

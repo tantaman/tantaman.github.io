@@ -504,7 +504,6 @@
       (then
         (global.set $menu (i32.const 0))
         (drop (call $toggle_check (local.get $p)))
-        (global.set $dirty (i32.const 1))
         (return (i32.const 0))))
     (local.set $p (call $pos_at_point (local.get $x) (local.get $y)))
     ;; count taps for double and triple taps; fingers land less exactly than a mouse

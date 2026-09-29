@@ -66,14 +66,27 @@
   (func $link_active (result i32)
     (i32.or (global.get $link_open) (i32.ne (call $link_at (global.get $focus)) (i32.const 0))))
 
+  ;; The selection's marks and the caret's block format, worked out once a
+  ;; frame; the format comes from the caret's line, not from walking a long
+  ;; block to its end.
+  (global $tb_marks (mut i32) (i32.const 0))
+  (global $tb_block (mut i32) (i32.const 0))
+
+  (func $toolbar_state
+    (global.set $tb_marks (call $sel_marks))
+    (global.set $tb_block
+      (if (result i32) (global.get $ltrunc)
+        (then (call $sel_block))
+        (else (i32.load offset=24 (call $line_addr (global.get $g_line)))))))
+
   (func $btn_active (param $b i32) (result i32)
     (local $kind i32) (local $v i32)
     (local.set $kind (i32.load offset=16 (local.get $b)))
     (local.set $v (i32.load offset=20 (local.get $b)))
     (if (i32.eq (local.get $kind) (i32.const 1))
-      (then (return (i32.ne (i32.and (call $sel_marks) (local.get $v)) (i32.const 0)))))
+      (then (return (i32.ne (i32.and (global.get $tb_marks) (local.get $v)) (i32.const 0)))))
     (if (i32.eq (local.get $kind) (i32.const 2))
-      (then (return (i32.eq (i32.and (call $sel_block) (i32.const 15)) (local.get $v)))))
+      (then (return (i32.eq (i32.and (global.get $tb_block) (i32.const 15)) (local.get $v)))))
     (if (i32.eq (local.get $v) (i32.const 1)) (then (return (call $link_active))))
     (i32.const 0))
 
@@ -729,9 +742,7 @@
   (func $paint
     (local $a i32) (local $cy i32) (local $margin i32)
     (if (i32.eqz (global.get $ready)) (then (return)))
-    ;; the cells changed without an edit command (someone else's edit)
-    (if (i32.ne (global.get $laid_v) (global.get $docv)) (then (global.set $dirty (i32.const 1))))
-    (if (global.get $dirty) (then (call $relayout)))
+    (call $update_layout)
     ;; scroll the caret into view when asked
     (global.set $g_line (call $line_of (global.get $focus)))
     (if (global.get $reveal)
@@ -749,6 +760,7 @@
     (call $clamp_scroll)
     (call $touch_geom)
     (call $caret_geom (global.get $focus))
+    (call $toolbar_state)
     (if (global.get $gpu)
       (then
         ;; a dry run finds out whether anything changed; if so, list the

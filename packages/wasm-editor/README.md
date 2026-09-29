@@ -205,6 +205,14 @@ position) when a shortcut modifier is held. Modifiers: 1 Shift, 2 Ctrl,
 - **Layout** (`ui-layout.wat`): each block type has a style (size, line
   height, face, indent, spacing); lines are wrapped greedily at spaces into
   32-byte line records, with collapsed margins and grouped code blocks.
+  After an edit only what it changed is laid out again: the engine notes
+  every edit as damaged ranges, and for each one layout restarts a line
+  before it and stops at the first line after it that starts where an old
+  line did, in the same block context; the old lines from there on are
+  moved and kept. A keystroke or someone else's edit in a document of 1M
+  characters takes about 0.1 ms instead of 30. When someone else's edit
+  above the view changes its height, the view scrolls with the text, so
+  what you are reading stays put.
 - **Paint** (`ui-paint.wat`, `ui-draw.wat`): the view is split into bands
   (toolbar, link bar, scrollbar, one per visual line). Each band gets a key
   hashed from everything that affects its pixels; only bands whose key
@@ -243,6 +251,7 @@ allow clipboard access.
 | `0x0C60000` | LINES   | laid-out visual lines, 32 bytes each             |
 | `0x1060000` | GTAB    | glyph cache hash table                           |
 | `0x1080000` | GBMP    | glyph cache bitmaps (cleared when full)          |
+| `0x1840000` | LSCR    | lines being laid out again, 8,192 at most        |
 | `0x1880000` | OUT     | the engine's scratch, moved up here, 32 MiB cap  |
 | `0x3880000` | FB      | framebuffer, grows with the window; or the display list |
 
