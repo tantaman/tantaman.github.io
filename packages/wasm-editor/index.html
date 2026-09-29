@@ -70,6 +70,15 @@
     .toolbar button:hover { border-color: var(--border-heavy); }
     .toolbar button[aria-pressed='true'] { background: var(--active); color: var(--active-text); border-color: var(--active); }
     .toolbar button:disabled { opacity: 0.4; cursor: default; }
+    .toolbar select {
+      height: 30px;
+      padding: 0 4px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--text);
+      font: inherit;
+    }
     #editor { min-height: 320px; padding: 20px 0; }
   </style>
 </head>
@@ -85,6 +94,16 @@
       <button data-mark="4" title="Underline (Mod-U)"><u>U</u></button>
       <button data-mark="8" title="Strikethrough (Mod-Shift-X)"><s>S</s></button>
       <button data-mark="16" title="Code (Mod-E)">&lt;/&gt;</button>
+      <select data-cmd="color" title="Text colour" aria-label="Text colour">
+        <option value="0">Colour</option>
+        <option value="1">Gray</option>
+        <option value="2">Red</option>
+        <option value="3">Orange</option>
+        <option value="4">Yellow</option>
+        <option value="5">Green</option>
+        <option value="6">Blue</option>
+        <option value="7">Purple</option>
+      </select>
       <button data-cmd="link" title="Link (Mod-K)">Link</button>
       <span class="sep"></span>
       <button data-block="1" title="Heading 1 (Mod-Alt-1)">H1</button>

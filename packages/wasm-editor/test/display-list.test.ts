@@ -7,7 +7,7 @@ const LIST = 8;
 
 const SAMPLE = `# Display list
 
-Text with **bold**, *italic*, \`code\`, <u>underline</u>, ~~strike~~ and a [link](https://webassembly.org).
+Text with **bold**, *italic*, \`code\`, <u>underline</u>, ~~strike~~ and a [link](https://webassembly.org). <span style="color: #cf222e">Red</span>, <span style="color: #0969da">a blue [link](/b)</span>.
 
 - A bullet long enough to wrap onto a second line, which keeps its hanging indent
 1. Numbered
@@ -59,6 +59,11 @@ test('the display list draws what the framebuffer shows', () => {
         h.x.touch_start(x, y + ch / 2, t + dt);
         h.x.touch_end(x, y + ch / 2, t + dt + 40);
       }
+    }],
+    ['colour palette, dark', 700, 500, 1, 2, (h) => {
+      h.x.set_selection(20, 30);
+      h.click(h.buttons()[5], 22);
+      h.x.mouse_move(h.buttons()[5] + 40, 70, 0, h.now());
     }],
   ];
   for (const [name, w, h, scale, flags, act] of cases) {

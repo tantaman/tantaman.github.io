@@ -57,7 +57,7 @@
     (global.set $focused (i32.ne (local.get $focused) (i32.const 0)))
     (global.set $blink_t (local.get $now))
     (global.set $drag (i32.const 0))
-    (if (i32.eqz (global.get $focused)) (then (call $touch_off)))
+    (if (i32.eqz (global.get $focused)) (then (call $touch_off) (global.set $pal_open (i32.const 0))))
     (call $paint))
 
   ;; Repaint everything (the host lost its copy of the pixels).
@@ -147,6 +147,7 @@
   (func (export "paste") (param $n i32) (param $plain i32) (param $now i32)
     (global.set $now (local.get $now))
     (global.set $menu (i32.const 0))
+    (global.set $pal_open (i32.const 0))
     (if (global.get $link_open)
       (then (call $link_append (local.get $n)) (call $paint) (return)))
     (global.set $pre_len (i32.const 0))
@@ -215,6 +216,7 @@
   (func (export "text_input") (param $n i32) (param $now i32)
     (global.set $now (local.get $now))
     (global.set $menu (i32.const 0))
+    (global.set $pal_open (i32.const 0))
     (if (global.get $link_open)
       (then (call $link_append (local.get $n)) (call $paint) (return)))
     (global.set $pre_len (i32.const 0))
@@ -371,6 +373,10 @@
     (global.set $menu (i32.const 0))
     (if (global.get $link_open)
       (then (return (call $link_key (local.get $key) (local.get $mods)))))
+    (if (global.get $pal_open)
+      (then
+        (if (call $palette_keys (local.get $key))
+          (then (call $paint) (return (i32.const 1))))))
     (local.set $handled (i32.const 1))
     (block $done
       ;; movement
@@ -487,6 +493,39 @@
     (local.get $handled))
 
   ;; ---------------------------------------------------------------------
+  ;; Colour palette (drawn in ui-paint.wat)
+  ;; ---------------------------------------------------------------------
+
+  (func $palette_toggle
+    (global.set $pal_open (i32.eqz (global.get $pal_open)))
+    (if (global.get $pal_open)
+      (then
+        (if (global.get $link_open) (then (call $link_close)))
+        ;; the arrow keys start from the selection's colour
+        (global.set $pal_hover (select (i32.const 0) (global.get $tb_color) (i32.lt_s (global.get $tb_color) (i32.const 0)))))))
+
+  (func $palette_pick (param $k i32)
+    (global.set $pal_open (i32.const 0))
+    (drop (call $set_color (local.get $k)))
+    (call $edited))
+
+  ;; Keys while the palette is open: Left and Right pick a swatch, Enter
+  ;; applies it, Escape closes. Any other key closes the palette and does
+  ;; what it would have done; returns 0 for those.
+  (func $palette_keys (param $key i32) (result i32)
+    (if (i32.eq (local.get $key) (i32.const 5)) (then (global.set $pal_open (i32.const 0)) (return (i32.const 1))))
+    (if (i32.eq (local.get $key) (i32.const 3)) (then (call $palette_pick (global.get $pal_hover)) (return (i32.const 1))))
+    (if (i32.or (i32.eq (local.get $key) (i32.const 6)) (i32.eq (local.get $key) (i32.const 7)))
+      (then
+        (global.set $pal_hover
+          (i32.and (i32.add (select (i32.const 0) (global.get $pal_hover) (i32.lt_s (global.get $pal_hover) (i32.const 0)))
+                            (select (i32.const 7) (i32.const 1) (i32.eq (local.get $key) (i32.const 6))))
+                   (i32.const 7)))
+        (return (i32.const 1))))
+    (global.set $pal_open (i32.const 0))
+    (i32.const 0))
+
+  ;; ---------------------------------------------------------------------
   ;; Link bar
   ;; ---------------------------------------------------------------------
 
@@ -501,6 +540,7 @@
         (memory.copy (global.get $LINKBUF) (call $link_ptr (local.get $id)) (i32.shl (local.get $n) (i32.const 1)))
         (global.set $link_len (local.get $n))))
     (global.set $link_open (i32.const 1))
+    (global.set $pal_open (i32.const 0))
     (global.set $blink_t (global.get $now))
     (call $layout_view))
 
@@ -619,6 +659,7 @@
     (if (call $btn_disabled (local.get $b)) (then (return)))
     (if (i32.eq (local.get $kind) (i32.const 1)) (then (drop (call $toggle_mark (local.get $v))) (call $edited) (return)))
     (if (i32.eq (local.get $kind) (i32.const 2)) (then (drop (call $set_block (local.get $v))) (call $edited) (return)))
+    (if (i32.eq (local.get $kind) (i32.const 4)) (then (call $palette_toggle) (return)))
     (if (i32.eq (local.get $v) (i32.const 1))
       (then
         (if (global.get $link_open) (then (call $link_close)) (else (call $link_open_bar)))
@@ -649,7 +690,7 @@
   (func $link_under (param $p i32) (result i32)
     (local $c i32)
     (local.set $c (call $get (local.get $p)))
-    (if (i32.eqz (call $is_nl (local.get $c))) (then (return (i32.shr_u (local.get $c) (i32.const 21)))))
+    (if (i32.eqz (call $is_nl (local.get $c))) (then (return (call $link_of (local.get $c)))))
     (i32.const 0))
 
   ;; scrollbar thumb geometry, shared with painting
@@ -690,6 +731,18 @@
     (global.set $now (local.get $now))
     (global.set $focused (i32.const 1))
     (call $touch_off)
+    ;; the palette takes clicks on it; a click anywhere else closes it (the
+    ;; colour button closes it itself) and goes on to do what it does
+    (if (global.get $pal_open)
+      (then
+        (local.set $b (call $pal_at (local.get $x) (local.get $y)))
+        (if (i32.ge_s (local.get $b) (i32.const 0))
+          (then
+            (if (i32.eqz (local.get $button)) (then (call $palette_pick (local.get $b))))
+            (call $paint)
+            (return)))
+        (if (i32.ne (call $button_at (local.get $x) (local.get $y)) (global.get $color_btn))
+          (then (global.set $pal_open (i32.const 0))))))
     (if (i32.lt_s (local.get $y) (global.get $tb_h))
       (then
         (local.set $b (call $button_at (local.get $x) (local.get $y)))
@@ -755,20 +808,23 @@
     (call $paint))
 
   (func (export "mouse_move") (param $x i32) (param $y i32) (param $mods i32) (param $now i32)
-    (local $cursor i32) (local $hover i32) (local $yy i32)
+    (local $cursor i32) (local $hover i32) (local $yy i32) (local $sw i32)
     (global.set $now (local.get $now))
     ;; hover and cursor shape
     (local.set $hover (i32.const -1))
-    (if (i32.lt_s (local.get $y) (global.get $tb_h))
+    (local.set $cursor (i32.const 1))
+    (local.set $sw (call $pal_at (local.get $x) (local.get $y)))
+    (if (i32.ge_s (local.get $sw) (i32.const 0))
       (then
-        (local.set $hover (call $button_at (local.get $x) (local.get $y)))
-        (local.set $cursor (select (i32.const 2) (i32.const 0) (i32.ge_s (local.get $hover) (i32.const 0)))))
+        (global.set $pal_hover (local.get $sw))
+        (local.set $cursor (i32.const 2)))
       (else
-        (if (i32.lt_s (local.get $y) (global.get $view_top))
-          (then (local.set $cursor (i32.const 1)))
+        (if (i32.lt_s (local.get $y) (global.get $tb_h))
+          (then
+            (local.set $hover (call $button_at (local.get $x) (local.get $y)))
+            (local.set $cursor (select (i32.const 2) (i32.const 0) (i32.ge_s (local.get $hover) (i32.const 0)))))
           (else
-            (local.set $cursor (i32.const 1))
-            (if (i32.eqz (global.get $drag))
+            (if (i32.and (i32.ge_s (local.get $y) (global.get $view_top)) (i32.eqz (global.get $drag)))
               (then
                 (if (i32.ge_s (call $checkbox_at (local.get $x) (local.get $y)) (i32.const 0))
                   (then (local.set $cursor (i32.const 2))))

@@ -5,6 +5,7 @@
 
 import {
   apply,
+  compactLinks,
   compose,
   decodeOp,
   emptyDoc,
@@ -151,7 +152,7 @@ export class Sequencer {
   /** Fold the operations into a new snapshot and forget those older than the window. */
   compact(): void {
     if (this.version === this.snapVersion) return;
-    this.store.writeSnapshot(this.version, this.current());
+    this.store.writeSnapshot(this.version, compactLinks(this.current()));
     this.snapVersion = this.version;
     this.store.dropThrough(this.version - this.windowSize);
   }

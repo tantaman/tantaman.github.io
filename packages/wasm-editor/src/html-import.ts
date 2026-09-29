@@ -14,9 +14,53 @@ const SKIP_TAGS = new Set(['HEAD', 'IFRAME', 'LINK', 'META', 'NOSCRIPT', 'OBJECT
 interface Context {
   marks: number;
   link: number;
+  /** Palette entry, see Color. */
+  color: number;
   /** Block attrs for text that starts a block here. */
   block: number;
   pre: boolean;
+}
+
+const NAMED: Record<string, number> = {
+  black: 0, white: 0, gray: 1, grey: 1, red: 2, orange: 3, yellow: 4, green: 5, blue: 6, purple: 7,
+};
+
+/**
+ * The palette entry for a CSS colour (hex, rgb() or one of a few names),
+ * or -1 when there is none. Like $color_index in engine.wat: by hue, gray
+ * for greys, the text colour for near black and near white.
+ */
+export function cssColorIndex(css: string): number {
+  const v = css.trim().toLowerCase();
+  if (!v) return -1;
+  if (v in NAMED) return NAMED[v];
+  let r: number, g: number, b: number;
+  let m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/.exec(v);
+  if (m) {
+    const hex = m[1].length === 3 ? m[1].replace(/./g, (d) => d + d) : m[1];
+    const n = parseInt(hex, 16);
+    [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  } else if ((m = /^rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)/.exec(v))) {
+    [r, g, b] = [Number(m[1]), Number(m[2]), Number(m[3])].map((x) => Math.min(255, x));
+  } else return -1;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const c = max - min;
+  if (c < 32) return max + min >= 128 && max + min <= 400 ? 1 : 0;
+  let h: number;
+  if (max === r) {
+    h = Math.trunc((60 * (g - b)) / c);
+    if (h < 0) h += 360;
+  }
+  else if (max === g) h = Math.trunc((60 * (b - r)) / c) + 120;
+  else h = Math.trunc((60 * (r - g)) / c) + 240;
+  if (h < 15) return 2;
+  if (h < 42) return 3;
+  if (h < 70) return 4;
+  if (h < 170) return 5;
+  if (h < 250) return 6;
+  if (h < 330) return 7;
+  return 2;
 }
 
 export interface ImportedCells {
@@ -53,7 +97,7 @@ export function htmlToCells(html: string, intern: (url: string) => number): Impo
   };
 
   const text = (data: string, ctx: Context) => {
-    const cellAttrs = (ctx.marks | (ctx.link << 5)) << 16;
+    const cellAttrs = ((ctx.marks | (ctx.link << 5) | (ctx.color << 13)) << 16) >>> 0;
     for (let i = 0; i < data.length; i++) {
       let c = data.charCodeAt(i);
       if (ctx.pre) {
@@ -68,7 +112,7 @@ export function htmlToCells(html: string, intern: (url: string) => number): Impo
         c = 32;
       }
       if (!open) startBlock(ctx.block);
-      cells.push(c | cellAttrs);
+      cells.push((c | cellAttrs) >>> 0);
       lastWasSpace = c === 32 && !ctx.pre;
     }
   };
@@ -138,6 +182,11 @@ export function htmlToCells(html: string, intern: (url: string) => number): Impo
     const decoration = `${style.textDecorationLine} ${style.textDecoration}`;
     if (decoration.includes('underline')) c.marks |= Mark.Underline;
     if (decoration.includes('line-through')) c.marks |= Mark.Strike;
+    // text colour: our own classes (copied from the editing surface), else
+    // any CSS colour, by hue
+    const own = /(?:^|\s)rt-c([0-7])(?:\s|$)/.exec(el.className || '');
+    const color = own ? Number(own[1]) : cssColorIndex(style.color || el.getAttribute('color') || '');
+    if (color >= 0) c.color = color;
 
     if (!BLOCK_TAGS.has(tag)) {
       for (const child of el.childNodes) walk(child, c);
@@ -167,6 +216,6 @@ export function htmlToCells(html: string, intern: (url: string) => number): Impo
     open = false;
   };
 
-  walk(doc.body, { marks: 0, link: 0, block: BlockType.Paragraph, pre: false });
+  walk(doc.body, { marks: 0, link: 0, color: 0, block: BlockType.Paragraph, pre: false });
   return { cells, last: sawBlock && started ? attrs : -1 };
 }

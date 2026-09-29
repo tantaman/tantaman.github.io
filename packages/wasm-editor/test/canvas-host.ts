@@ -132,6 +132,23 @@ export class Host {
     return this.x.key_down(typeof key === 'string' ? key.charCodeAt(0) : key, mods, this.now());
   }
 
+  /** Centres of the toolbar buttons in the row at `y`, found by hovering along it. */
+  buttons(y = 22) {
+    const spans: number[] = [];
+    let start = -1;
+    for (let x = 0; x < this.w; x++) {
+      this.x.mouse_move(x, y, 0, this.now(0));
+      const over = this.cursors[this.cursors.length - 1] === 2;
+      if (over && start < 0) start = x;
+      if (!over && start >= 0) {
+        spans.push((start + x) >> 1);
+        start = -1;
+      }
+    }
+    this.x.mouse_move(this.w / 2, this.h - 5, 0, this.now(0));
+    return spans;
+  }
+
   click(x: number, y: number, mods = 0) {
     const t = this.now(1000); // far enough from the last click not to count as a double
     this.x.mouse_down(x, y, 0, mods, t);
@@ -228,6 +245,13 @@ export class Host {
   ink(x0: number, y0: number, w: number, h: number, color: number) {
     let n = 0;
     for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (this.pixel(x, y) !== color) n++;
+    return n;
+  }
+
+  /** Count pixels in a rectangle painted exactly `color`. */
+  count(color: number, [x0, y0, w, h]: number[]) {
+    let n = 0;
+    for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (this.pixel(x, y) === color) n++;
     return n;
   }
 

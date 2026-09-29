@@ -27,6 +27,23 @@ export type BlockType = (typeof BlockType)[keyof typeof BlockType];
 /** Bit set on a todo block's attrs when it is checked. */
 export const CHECKED = 16;
 
+/**
+ * Text colours: palette entries, each with a shade for a light page and one
+ * for a dark page (the canvas draws the right one; the DOM editor gets
+ * `rt-c<n>` classes, see editor.css). 0 is the ordinary text colour.
+ */
+export const Color = {
+  Default: 0,
+  Gray: 1,
+  Red: 2,
+  Orange: 3,
+  Yellow: 4,
+  Green: 5,
+  Blue: 6,
+  Purple: 7,
+} as const;
+export type Color = (typeof Color)[keyof typeof Color];
+
 interface Exports {
   memory: WebAssembly.Memory;
   reset(): void;
@@ -39,6 +56,7 @@ interface Exports {
   focus(): number;
   set_selection(anchor: number, focus: number): void;
   sel_marks(): number;
+  sel_color(): number;
   sel_block(): number;
   insert_text(n: number): number;
   insert_cells(n: number, last: number): number;
@@ -48,6 +66,7 @@ interface Exports {
   delete_word_backward(): number;
   delete_word_forward(): number;
   toggle_mark(mask: number): number;
+  set_color(color: number): number;
   set_block(type: number): number;
   toggle_check(pos: number): number;
   intern_link(n: number): number;
@@ -204,6 +223,11 @@ export class Engine {
     return this.wasm.sel_marks();
   }
 
+  /** Colour of the whole selection (or of the next typed text); -1 when it is mixed. */
+  get color(): number {
+    return this.wasm.sel_color();
+  }
+
   /** Block attrs at the focus: `attrs & 15` is the type, `attrs & CHECKED` the todo state. */
   get blockAttrs(): number {
     return this.wasm.sel_block();
@@ -252,6 +276,11 @@ export class Engine {
 
   toggleMark(mark: number): boolean {
     return this.wasm.toggle_mark(mark) === 1;
+  }
+
+  /** Colour the selection, or the next typed text at a caret. */
+  setColor(color: Color): boolean {
+    return this.wasm.set_color(color) === 1;
   }
 
   setBlock(type: BlockType): boolean {

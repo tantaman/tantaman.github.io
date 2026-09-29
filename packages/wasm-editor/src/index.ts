@@ -1,7 +1,7 @@
 import { Engine, type WasmSource } from './engine.ts';
 import { RichTextEditor, type EditorOptions } from './editor.ts';
 
-export { BlockType, CHECKED, Engine, Mark } from './engine.ts';
+export { BlockType, CHECKED, Color, Engine, Mark } from './engine.ts';
 export type { EngineStats, RenderedBlock, WasmSource } from './engine.ts';
 export { RichTextEditor, normalizeUrl } from './editor.ts';
 export type { EditorOptions, EditorState } from './editor.ts';

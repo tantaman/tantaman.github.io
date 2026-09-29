@@ -7,6 +7,7 @@ import {
   LINK_SHIFT,
   LOW_MASK,
   apply,
+  linkOf,
   compose,
   decodeOp,
   docSource,
@@ -48,6 +49,7 @@ function randomCells(r: Rng, n: number, links: string[]): { cells: number[]; lin
   for (let j = 0; j < n; j++) {
     const ch = CHARS.charCodeAt(r.int(CHARS.length));
     let cell = ch | (r.int(32) << 16);
+    if (ch !== 10 && r.next() < 0.3) cell |= r.int(8) << 29;
     if (ch !== 10 && r.next() < 0.2) {
       const url = r.pick(URLS);
       let idx = links.indexOf(url) + 1;
@@ -82,8 +84,8 @@ function randomOp(r: Rng, len: number): Op {
       b.insert(cells, links);
     } else {
       const link = r.next() < 0.3;
-      const m = ((r.int(32) << 16) | (link ? LINK_MASK : 0)) >>> 0;
-      b.format(n, m, (r.int(32) << 16) & m, link ? r.pick([...URLS, '']) : undefined);
+      const m = ((r.int(32) << 16) | (r.int(8) << 29) | (link ? LINK_MASK : 0)) >>> 0;
+      b.format(n, m, ((r.int(32) << 16) | (r.int(8) << 29)) & m, link ? r.pick([...URLS, '']) : undefined);
       i += n;
     }
   }
@@ -99,7 +101,7 @@ function randomOp(r: Rng, len: number): Op {
 /** A document as (cell without link, URL) pairs, so link tables don't matter. */
 function resolved(doc: Doc): string[] {
   return doc.cells.map((c) => {
-    const id = c >>> LINK_SHIFT;
+    const id = linkOf(c);
     return `${(c & LOW_MASK).toString(16)}:${id ? doc.links[id - 1] : ''}`;
   });
 }

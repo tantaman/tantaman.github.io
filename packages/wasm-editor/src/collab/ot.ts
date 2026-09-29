@@ -1,9 +1,10 @@
 // Operations over the engine's cell sequence (docs/COLLAB.md).
 //
 // A cell is the engine's u32: a UTF-16 unit in bits 0-15, marks or block
-// format in bits 16-20, a link in bits 21-31. Link ids are local to each copy
-// of a document, so inside an operation a cell's link bits index the URL list
-// of the component carrying it (1-based, 0 = no link).
+// format in bits 16-20, a link in bits 21-28, a colour in bits 29-31. Link ids
+// are local to each copy of a document, so inside an operation a cell's link
+// bits index the URL list of the component carrying it (1-based, 0 = no link,
+// so at most LINK_MAX URLs per list). Marks and colour are plain bits.
 //
 // An operation walks the whole document, component by component:
 //   n                   retain n cells
@@ -14,11 +15,17 @@
 // Retains, deletes and formats add up to the length of the document the
 // operation applies to.
 
-export const ATTR_MASK = 0x001f0000;
-export const LINK_MASK = 0xffe00000;
+/** Marks (or block format) and colour: the bits a format sets as they are. */
+export const ATTR_MASK = 0xe01f0000;
+export const LINK_MASK = 0x1fe00000;
 export const LINK_SHIFT = 21;
+/** Most URLs one list can hold. */
+export const LINK_MAX = 255;
 /** A cell without its link. */
-export const LOW_MASK = 0x001fffff;
+export const LOW_MASK = 0xe01fffff;
+
+/** The link bits of a cell: a 1-based index into a URL list, or 0. */
+export const linkOf = (c: number) => (c & LINK_MASK) >>> LINK_SHIFT;
 
 export interface Insert {
   i: number[];
@@ -147,7 +154,7 @@ function relink(cells: number[], from: string[] | undefined, into: string[]): nu
   if (!from || !from.length) return cells.map((c) => u32(c & LOW_MASK));
   const map = new Map<number, number>();
   return cells.map((c) => {
-    const k = c >>> LINK_SHIFT;
+    const k = linkOf(c);
     if (!k) return u32(c & LOW_MASK);
     let j = map.get(k);
     if (j === undefined) {
@@ -159,9 +166,11 @@ function relink(cells: number[], from: string[] | undefined, into: string[]): nu
   });
 }
 
+/** 1-based index of `url` in `list`, added if new; 0 when the list is full. */
 function indexOfOrAdd(list: string[], url: string): number {
   const at = list.indexOf(url);
   if (at >= 0) return at + 1;
+  if (list.length >= LINK_MAX) return 0;
   list.push(url);
   return list.length;
 }
@@ -371,6 +380,14 @@ export function emptyDoc(): Doc {
 
 /** Apply `op` to `doc`, returning a new document. */
 export function apply(doc: Doc, op: Op): Doc {
+  // make room for the URLs the operation brings, if it could need it
+  let incoming = 0;
+  for (const c of op) {
+    if (typeof c !== 'object') continue;
+    if ('i' in c) incoming += c.l?.length ?? 0;
+    else if ('f' in c && c.l) incoming++;
+  }
+  if (doc.links.length + incoming > LINK_MAX) doc = compactLinks(doc);
   const links = doc.links.slice();
   const intern = (url: string | undefined) => (url ? indexOfOrAdd(links, url) : 0);
   const out: number[] = [];
@@ -387,7 +404,7 @@ export function apply(doc: Doc, op: Op): Doc {
     } else if (k === 'i') {
       const ins = c as Insert;
       for (const cell of ins.i) {
-        const idx = cell >>> LINK_SHIFT;
+        const idx = linkOf(cell);
         out.push(u32((cell & LOW_MASK) | (intern(idx ? ins.l?.[idx - 1] : undefined) << LINK_SHIFT)));
       }
     } else {
@@ -428,13 +445,19 @@ export function invert(op: Op, src: CellSource): Op {
       const old = src.read(i, f.f);
       for (let j = 0; j < f.f; j++) {
         const x = old[j];
-        const id = x >>> LINK_SHIFT;
+        const id = linkOf(x);
         out.format(1, f.m, x & f.m & ATTR_MASK, (f.m & LINK_MASK) !== 0 ? (id ? src.url(id) : '') : undefined);
       }
       i += f.f;
     }
   }
   return out.done();
+}
+
+/** `doc` with only the URLs its cells use. */
+export function compactLinks(doc: Doc): Doc {
+  const ins = withUrls(doc.cells, docSource(doc));
+  return { cells: ins.i, links: ins.l ?? [] };
 }
 
 /** Cells whose link bits are ids of `src`, re-indexed into their own URL list. */
@@ -444,7 +467,7 @@ export function withUrls(cells: ArrayLike<number>, src: Pick<CellSource, 'url'>)
   const out = new Array<number>(cells.length);
   for (let j = 0; j < cells.length; j++) {
     const x = cells[j];
-    const id = x >>> LINK_SHIFT;
+    const id = linkOf(x);
     let idx = 0;
     if (id) {
       const known = map.get(id);

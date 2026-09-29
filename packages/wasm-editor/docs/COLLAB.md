@@ -63,18 +63,26 @@ batches.
 The document is the engine's cell sequence (see the top of
 `src/wat/engine.wat`): a UTF-16 code unit in bits 0-15, marks in bits 16-20 of
 text cells, block format in bits 16-20 of `\n` terminators, a link id in bits
-21-31. Link ids are local to each copy of the document (the link table is
-append-only and not undone), so operations never carry them: a component
-carries the URLs, a cell's link bits index them, and each copy interns them.
+21-28 and a colour in bits 29-31 of text cells. Link ids are local to each copy
+of the document (each copy's link table interns URLs and reuses the entries
+nothing refers to), so operations never carry them: a component carries the
+URLs, a cell's link bits index them, and each copy interns them. Marks and
+colour are plain bits, so a bold and a concurrent colour on the same text
+both survive.
+
+Colour went into the top bits, which link ids used to share, so that stored
+operations and snapshots from before read the same: their link indices were
+all below 256. A URL list holds at most 255 URLs; `apply` drops the URLs no
+cell uses when a document's list would outgrow that, and so does compaction.
 
 An operation is a list of components that walks the whole document:
 
 | component | JSON | meaning |
 | --- | --- | --- |
 | retain | `n` (a positive number) | keep the next `n` cells |
-| insert | `{"i": cells, "l"?: urls}` | insert cells; a cell's bits 21-31 index `l` (1-based), 0 = no link |
+| insert | `{"i": cells, "l"?: urls}` | insert cells; a cell's bits 21-28 index `l` (1-based), 0 = no link |
 | delete | `{"d": n}` | delete the next `n` cells |
-| format | `{"f": n, "m": mask, "v": value, "l"?: url}` | on the next `n` cells, `cell = (cell & ~m) \| v` over bits 16-20; if `m` has the link bits, the cells link to `l` (`""` unlinks) |
+| format | `{"f": n, "m": mask, "v": value, "l"?: url}` | on the next `n` cells, `cell = (cell & ~m) \| v` over bits 16-20 and 29-31; if `m` has the link bits, the cells link to `l` (`""` unlinks) |
 
 Retains, deletes and formats add up to the length of the document the
 operation applies to. The final terminator is never deleted and nothing is
@@ -307,8 +315,8 @@ nobody has been connected for 30 minutes (`DEMO_RESET_MS` in
   under the limit on paper. That has not been measured.
 - An edit that inserts more than 100,000 cells is sent as several operations,
   one per round trip.
-- A link that cannot be interned (an unsafe URL, or the 2,047-entry link table
-  is full) arrives unlinked on that copy only.
+- A link that cannot be interned (an unsafe URL, or a copy's link table is
+  full of 255 links still in use) arrives unlinked on that copy only.
 - Any signed-in user who knows a document id can edit it. Per-document access
   is not built.
 - Until the first `init`, the editor shows an empty document; edits made then
