@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { CollabClient } from '../src/collab/client.ts';
 import { EngineDoc, type CollabExports } from '../src/collab/engine-doc.ts';
-import { LINK_SHIFT, LOW_MASK, type Doc } from '../src/collab/ot.ts';
+import { LOW_MASK, linkOf, type Doc } from '../src/collab/ot.ts';
 import type { ClientMsg, ServerMsg } from '../src/collab/protocol.ts';
 import { MemoryStore, Room, Sequencer, newConnState, type Conn, type ConnState } from '../src/collab/server-core.ts';
-import { BlockType, Engine, Mark } from '../src/engine.ts';
+import { BlockType, Color, Engine, Mark } from '../src/engine.ts';
 
 const module = new WebAssembly.Module(readFileSync(new URL('../src/editor.wasm', import.meta.url)));
 
@@ -26,7 +26,7 @@ type Rng = ReturnType<typeof rng>;
 
 /** Cells as (cell without link, URL), so link ids don't matter. */
 const resolved = (d: Doc) =>
-  d.cells.map((c) => `${(c & LOW_MASK).toString(16)}:${c >>> LINK_SHIFT ? d.links[(c >>> LINK_SHIFT) - 1] : ''}`);
+  d.cells.map((c) => `${(c & LOW_MASK).toString(16)}:${linkOf(c) ? d.links[linkOf(c) - 1] : ''}`);
 
 /** A sequencer and its clients on a network that delays, interleaves and drops messages. */
 class Sim {
@@ -169,12 +169,16 @@ class Peer {
     else if (roll < 0.68) e.deleteWordBackward();
     else if (roll < 0.74) {
       e.setSelection(pos(), pos());
-      e.toggleMark(r.pick([Mark.Bold, Mark.Italic, Mark.Code, Mark.Strike]));
+      if (r.next() < 0.4) e.setColor(r.pick([Color.Default, Color.Red, Color.Blue, Color.Gray]));
+      else e.toggleMark(r.pick([Mark.Bold, Mark.Italic, Mark.Code, Mark.Strike]));
     } else if (roll < 0.78) e.setBlock(r.pick([BlockType.Heading1, BlockType.Bullet, BlockType.Todo, BlockType.Quote]));
     else if (roll < 0.81) {
       e.setSelection(pos(), pos());
       e.setLink(r.pick(['https://a.example', 'https://b.example', null]));
-    } else if (roll < 0.83) e.insertMarkdown(r.pick(['**b** and [l](https://l.example)', '- one\n- two', '# T\n\nx']));
+    } else if (roll < 0.83)
+      e.insertMarkdown(
+        r.pick(['**b** and [l](https://l.example)', '- one\n- two', '# T\n\nx', '<span style="color: #1a7f37">g [l](/l)</span>']),
+      );
     else if (roll < 0.85) e.toggleCheck(pos());
     else if (roll < 0.93) e.undo();
     else e.redo();

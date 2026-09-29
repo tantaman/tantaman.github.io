@@ -66,14 +66,17 @@
   (func $link_active (result i32)
     (i32.or (global.get $link_open) (i32.ne (call $link_at (global.get $focus)) (i32.const 0))))
 
-  ;; The selection's marks and the caret's block format, worked out once a
-  ;; frame; the format comes from the caret's line, not from walking a long
-  ;; block to its end.
+  ;; The selection's marks and colour and the caret's block format, worked
+  ;; out once a frame; the format comes from the caret's line, not from
+  ;; walking a long block to its end.
   (global $tb_marks (mut i32) (i32.const 0))
+  (global $tb_color (mut i32) (i32.const 0))
   (global $tb_block (mut i32) (i32.const 0))
 
   (func $toolbar_state
-    (global.set $tb_marks (call $sel_marks))
+    (call $sel_attrs)
+    (global.set $tb_marks (global.get $sel_m))
+    (global.set $tb_color (global.get $sel_c))
     (global.set $tb_block
       (if (result i32) (global.get $ltrunc)
         (then (call $sel_block))
@@ -87,6 +90,7 @@
       (then (return (i32.ne (i32.and (global.get $tb_marks) (local.get $v)) (i32.const 0)))))
     (if (i32.eq (local.get $kind) (i32.const 2))
       (then (return (i32.eq (i32.and (global.get $tb_block) (i32.const 15)) (local.get $v)))))
+    (if (i32.eq (local.get $kind) (i32.const 4)) (then (return (global.get $pal_open))))
     (if (i32.eq (local.get $v) (i32.const 1)) (then (return (call $link_active))))
     (i32.const 0))
 
@@ -102,6 +106,7 @@
     (local.set $h (call $mix (local.get $h) (global.get $tb_h)))
     (local.set $h (call $mix (local.get $h) (global.get $dark)))
     (local.set $h (call $mix (local.get $h) (global.get $hover)))
+    (local.set $h (call $mix (local.get $h) (global.get $tb_color)))
     (block $d
       (loop $l
         (br_if $d (i32.ge_u (local.get $i) (global.get $nbtns)))
@@ -174,12 +179,118 @@
           (then (call $fill (i32.trunc_sat_f32_s (local.get $x))
                   (i32.sub (local.get $base) (i32.trunc_sat_f32_s (f32.nearest (f32.mul (local.get $size) (f32.const 0.3)))))
                   (i32.trunc_sat_f32_s (f32.ceil (local.get $tw))) (call $thin) (local.get $col))))
+        ;; the colour of the selection under the "A"; neutral when it is mixed
+        (if (i32.eq (local.get $deco) (i32.const 4))
+          (then (call $rrect (i32.sub (i32.trunc_sat_f32_s (local.get $x)) (call $px (f32.const 3)))
+                  (i32.add (local.get $base) (call $px (f32.const 2.5)))
+                  (i32.add (i32.trunc_sat_f32_s (f32.ceil (local.get $tw))) (call $px (f32.const 6)))
+                  (call $px (f32.const 3.5)) (call $px (f32.const 1))
+                  (if (result i32) (i32.lt_s (global.get $tb_color) (i32.const 0))
+                    (then (global.get $c_thumb))
+                    (else (call $ink (global.get $tb_color)))))))
         (local.set $i (i32.add (local.get $i) (i32.const 1)))
         (br $l))))
 
   ;; a hairline: one CSS pixel, at least one device pixel
   (func $thin (result i32)
     (select (call $px (f32.const 1.25)) (i32.const 1) (i32.gt_s (call $px (f32.const 1.25)) (i32.const 1))))
+
+  ;; ---------------------------------------------------------------------
+  ;; Colour palette: a row of swatches, an "A" in each colour, under the
+  ;; toolbar's colour button. It floats over the text like the touch edit
+  ;; menu, so the bands it crosses hash it and draw it (ui-touch.wat).
+  ;; ---------------------------------------------------------------------
+
+  ;; this frame's geometry, screen px; $pal_on while it is shown
+  (global $pal_on (mut i32) (i32.const 0))
+  (global $pal_x (mut i32) (i32.const 0))
+  (global $pal_y (mut i32) (i32.const 0))
+  (global $pal_w (mut i32) (i32.const 0))
+  (global $pal_h (mut i32) (i32.const 0))
+  (global $pal_pad (mut i32) (i32.const 0))
+  (global $pal_cell (mut i32) (i32.const 0))
+
+  (func $palette_geom
+    (local $b i32) (local $edge i32) (local $max i32)
+    (global.set $pal_on (i32.and (global.get $pal_open) (i32.eqz (global.get $link_open))))
+    (if (i32.eqz (global.get $pal_on)) (then (return)))
+    (global.set $pal_cell (call $px (f32.const 32)))
+    (global.set $pal_pad (call $px (f32.const 5)))
+    (global.set $pal_w (i32.add (i32.shl (global.get $pal_pad) (i32.const 1)) (i32.shl (global.get $pal_cell) (i32.const 3))))
+    (global.set $pal_h (i32.add (i32.shl (global.get $pal_pad) (i32.const 1)) (global.get $pal_cell)))
+    ;; the first swatch under the button, inside the window
+    (local.set $b (i32.add (global.get $BTNS) (i32.shl (global.get $color_btn) (i32.const 5))))
+    (local.set $edge (call $px (f32.const 8)))
+    (global.set $pal_x (i32.sub (i32.load (local.get $b)) (global.get $pal_pad)))
+    (local.set $max (i32.sub (i32.sub (i32.sub (global.get $W) (global.get $strip_w)) (local.get $edge)) (global.get $pal_w)))
+    (if (i32.gt_s (global.get $pal_x) (local.get $max)) (then (global.set $pal_x (local.get $max))))
+    (if (i32.lt_s (global.get $pal_x) (local.get $edge)) (then (global.set $pal_x (local.get $edge))))
+    (global.set $pal_y (i32.add (global.get $view_top) (call $px (f32.const 4)))))
+
+  ;; Swatch (colour) at (x, y), or -1 outside the palette.
+  (func $pal_at (param $x i32) (param $y i32) (result i32)
+    (local $i i32)
+    (if (i32.eqz (global.get $pal_on)) (then (return (i32.const -1))))
+    (if (i32.or
+          (i32.or (i32.lt_s (local.get $x) (global.get $pal_x))
+                  (i32.ge_s (local.get $x) (i32.add (global.get $pal_x) (global.get $pal_w))))
+          (i32.or (i32.lt_s (local.get $y) (global.get $pal_y))
+                  (i32.ge_s (local.get $y) (i32.add (global.get $pal_y) (global.get $pal_h)))))
+      (then (return (i32.const -1))))
+    (local.set $i (i32.div_s (i32.sub (i32.sub (local.get $x) (global.get $pal_x)) (global.get $pal_pad)) (global.get $pal_cell)))
+    (if (i32.lt_s (local.get $i) (i32.const 0)) (then (return (i32.const 0))))
+    (select (i32.const 7) (local.get $i) (i32.gt_s (local.get $i) (i32.const 7))))
+
+  ;; Hash of the palette where it crosses the band from $top to $bot.
+  (func $palette_key (param $top i32) (param $bot i32) (result i32)
+    (local $h i32)
+    (local.set $h (i32.const 0x811c9dc5))
+    (if (i32.and (global.get $pal_on)
+          (call $overlaps (global.get $pal_y) (i32.add (global.get $pal_y) (global.get $pal_h)) (local.get $top) (local.get $bot)))
+      (then
+        (local.set $h (call $mix (local.get $h) (i32.const 4)))
+        (local.set $h (call $mix (local.get $h) (global.get $pal_x)))
+        (local.set $h (call $mix (local.get $h) (global.get $pal_y)))
+        (local.set $h (call $mix (local.get $h) (global.get $pal_w)))
+        (local.set $h (call $mix (local.get $h) (global.get $pal_hover)))
+        (local.set $h (call $mix (local.get $h) (global.get $tb_color)))))
+    (local.get $h))
+
+  ;; Draw the palette, clipped to the band being painted. The selection's
+  ;; colour is marked like an active toolbar button.
+  (func $paint_palette
+    (local $i i32) (local $x i32) (local $y i32) (local $r i32) (local $t i32) (local $size f32) (local $tw f32)
+    (local $base i32) (local $bg i32)
+    (if (i32.eqz (global.get $pal_on)) (then (return)))
+    (if (i32.eqz (call $overlaps (global.get $pal_y) (i32.add (global.get $pal_y) (global.get $pal_h)) (global.get $cy0) (global.get $cy1)))
+      (then (return)))
+    (local.set $r (call $px (f32.const 8)))
+    (local.set $t (call $thin))
+    (call $rrect (global.get $pal_x) (global.get $pal_y) (global.get $pal_w) (global.get $pal_h) (local.get $r) (global.get $c_rule))
+    (call $rrect (i32.add (global.get $pal_x) (local.get $t)) (i32.add (global.get $pal_y) (local.get $t))
+      (i32.sub (global.get $pal_w) (i32.shl (local.get $t) (i32.const 1))) (i32.sub (global.get $pal_h) (i32.shl (local.get $t) (i32.const 1)))
+      (i32.sub (local.get $r) (local.get $t)) (global.get $c_bar))
+    (local.set $size (f32.mul (global.get $scale) (f32.const 17)))
+    (local.set $tw (call $str_width (i32.const 24) (i32.const 1) (local.get $size)))
+    (local.set $y (i32.add (global.get $pal_y) (global.get $pal_pad)))
+    (local.set $base (i32.add (local.get $y)
+      (i32.trunc_sat_f32_s (f32.nearest (f32.add (f32.mul (f32.convert_i32_s (global.get $pal_cell)) (f32.const 0.5))
+                                                 (f32.mul (local.get $size) (f32.const 0.3)))))))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $i) (i32.const 8)))
+        (local.set $x (i32.add (i32.add (global.get $pal_x) (global.get $pal_pad)) (i32.mul (local.get $i) (global.get $pal_cell))))
+        (local.set $bg (global.get $c_bar))
+        (if (i32.eq (local.get $i) (global.get $pal_hover)) (then (local.set $bg (global.get $c_hover))))
+        (if (i32.eq (local.get $i) (global.get $tb_color)) (then (local.set $bg (global.get $c_active))))
+        (if (i32.ne (local.get $bg) (global.get $c_bar))
+          (then (call $rrect (local.get $x) (local.get $y) (global.get $pal_cell) (global.get $pal_cell) (call $px (f32.const 6)) (local.get $bg))))
+        (drop (call $draw_str (i32.const 24) (i32.const 1) (local.get $size)
+          (f32.add (f32.convert_i32_s (local.get $x))
+                   (f32.mul (f32.sub (f32.convert_i32_s (global.get $pal_cell)) (local.get $tw)) (f32.const 0.5)))
+          (local.get $base) (call $ink (local.get $i))))
+        (local.set $i (i32.add (local.get $i) (i32.const 1)))
+        (br $l))))
 
   ;; ---------------------------------------------------------------------
   ;; Link bar: a one-line text field under the toolbar
@@ -696,15 +807,20 @@
         (local.set $next (call $get (i32.add (local.get $c) (i32.const 1))))
         (local.set $w (call $adv (local.get $ch) (local.get $next) (local.get $t)))
         (local.set $m (call $marks_of (local.get $ch)))
-        (local.set $link (i32.shr_u (local.get $ch) (i32.const 21)))
+        (local.set $link (call $link_of (local.get $ch)))
         (local.set $face (call $face_for (local.get $t) (local.get $m)))
         (local.set $size (call $size_for (local.get $t) (local.get $m)))
+        ;; a chosen colour wins over the link and block colours, but a done
+        ;; todo stays muted
         (local.set $col
-          (if (result i32) (local.get $link)
-            (then (global.get $c_accent))
+          (if (result i32) (i32.and (i32.ne (call $color_of (local.get $ch)) (i32.const 0)) (i32.eqz (local.get $done)))
+            (then (call $ink (call $color_of (local.get $ch))))
             (else
-              (select (global.get $c_muted) (global.get $c_text)
-                (i32.or (local.get $done) (i32.load offset=24 (call $style (local.get $t))))))))
+              (if (result i32) (local.get $link)
+                (then (global.get $c_accent))
+                (else
+                  (select (global.get $c_muted) (global.get $c_text)
+                    (i32.or (local.get $done) (i32.load offset=24 (call $style (local.get $t))))))))))
         (local.set $xi (i32.trunc_sat_f32_s (f32.nearest (local.get $x))))
         (local.set $xj (i32.trunc_sat_f32_s (f32.nearest (f32.add (local.get $x) (local.get $w)))))
         (local.set $fr (i32.and (local.get $ch) (i32.const 0xFFFF)))
@@ -759,6 +875,7 @@
         (global.set $reveal (i32.const 0))))
     (call $clamp_scroll)
     (call $touch_geom)
+    (call $palette_geom)
     (call $caret_geom (global.get $focus))
     (call $toolbar_state)
     (if (global.get $gpu)

@@ -9,7 +9,9 @@ import {
   LINK_MASK,
   LINK_SHIFT,
   LOW_MASK,
+  compactLinks,
   compose,
+  linkOf,
   withUrls,
   type CellSource,
   type Doc,
@@ -113,6 +115,7 @@ export class EngineDoc implements CellSource {
 
   /** Replace the document (history, selection and remote cursors too). */
   load(doc: Doc): void {
+    doc = compactLinks(doc);
     const ids = doc.links.map((u) => this.intern(u));
     const n = doc.cells.length;
     this.writeCells(doc.cells, ids);
@@ -147,7 +150,7 @@ export class EngineDoc implements CellSource {
     const view = new Uint32Array(this.x.memory.buffer, this.x.scratch(n * 4), n);
     for (let j = 0; j < n; j++) {
       const c = cells[j];
-      const k = c >>> LINK_SHIFT;
+      const k = linkOf(c);
       view[j] = ((c & LOW_MASK) | ((k ? (ids[k - 1] ?? 0) : 0) << LINK_SHIFT)) >>> 0;
     }
   }
@@ -253,8 +256,8 @@ export class EngineDoc implements CellSource {
       let m = d & ATTR_MASK;
       if ((d & LINK_MASK) !== 0) m = (m | LINK_MASK) >>> 0;
       const link = (m & LINK_MASK) !== 0;
-      fwd.format(1, m, c & m & ATTR_MASK, link ? this.url(c >>> LINK_SHIFT) : undefined);
-      back.format(1, m, o & m & ATTR_MASK, link ? this.url(o >>> LINK_SHIFT) : undefined);
+      fwd.format(1, m, c & m & ATTR_MASK, link ? this.url(linkOf(c)) : undefined);
+      back.format(1, m, o & m & ATTR_MASK, link ? this.url(linkOf(o)) : undefined);
     }
     return [fwd.retain(len - p - n).done(), back.retain(len - p - n).done(), len];
   }

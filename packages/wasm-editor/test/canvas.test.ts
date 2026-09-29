@@ -25,22 +25,7 @@ Everything here is **drawn by hand-written WASM**: layout, *glyphs*, the caret a
 
 ### The end`;
 
-/** Centres of the toolbar buttons, found by hovering along the toolbar. */
-function buttons(h: Host, y = 22) {
-  const spans: number[] = [];
-  let start = -1;
-  for (let x = 0; x < h.w; x++) {
-    h.x.mouse_move(x, y, 0, h.now(0));
-    const over = h.cursors[h.cursors.length - 1] === 2;
-    if (over && start < 0) start = x;
-    if (!over && start >= 0) {
-      spans.push((start + x) >> 1);
-      start = -1;
-    }
-  }
-  h.x.mouse_move(h.w / 2, h.h - 5, 0, h.now(0));
-  return spans;
-}
+const buttons = (h: Host, y = 22) => h.buttons(y);
 
 test('paints the first frame and presents all of it', () => {
   const h = new Host();
@@ -213,17 +198,17 @@ test('typing a Markdown shortcut and pressing Enter', () => {
 test('toolbar buttons', () => {
   const h = new Host().load('some words');
   const b = buttons(h);
-  assert.equal(b.length, 16);
+  assert.equal(b.length, 17);
   h.key('a', Mod.Ctrl);
   h.click(b[0], 22); // B
   assert.equal(h.markdown(), '**some words**');
-  h.click(b[6], 22); // H1
+  h.click(b[7], 22); // H1
   assert.equal(h.markdown(), '# **some words**');
-  h.click(b[14], 22); // Undo
+  h.click(b[15], 22); // Undo
   assert.equal(h.markdown(), '**some words**');
-  h.click(b[15], 22); // Redo
+  h.click(b[16], 22); // Redo
   assert.equal(h.markdown(), '# **some words**');
-  h.click(b[12], 22); // Todo
+  h.click(b[13], 22); // Todo
   assert.equal(h.markdown(), '- [ ] **some words**');
   // a caret toggles the mark for what is typed next
   h.key(Key.End);
@@ -234,6 +219,80 @@ test('toolbar buttons', () => {
   h.presents.length = 0;
   h.x.mouse_move(b[3], 22, 0, h.now());
   assert.ok(h.presents.every(([, y, , ph]) => y === 0 && ph < 60), JSON.stringify(h.presents));
+});
+
+// The palette's light and dark reds and light orange as RGBA bytes.
+const RED = 0xff2e22cf; // #cf222e
+const DARK_RED = 0xff727bff; // #ff7b72
+const ORANGE = 0xff004cbc; // #bc4c00
+
+test('the colour palette colours the selection', () => {
+  const h = new Host().load('some words\n\nmore\n\nand more\n\nand more again\n\nthe end');
+  const b = buttons(h);
+  h.x.set_selection(0, 10);
+  assert.equal(h.box(RED), null);
+  // the palette opens under the colour button, over the text; only the
+  // toolbar and the lines it crosses are repainted
+  h.presents.length = 0;
+  h.click(b[5], 22);
+  assert.ok(h.presents.every(([, y, , ph]) => y + ph < 200), JSON.stringify(h.presents));
+  const a = h.box(RED)!;
+  assert.ok(a, 'the red A is drawn');
+  const line = h.caretAt(0);
+  const [tbx, tby, , tbh] = line;
+  h.x.set_selection(0, 10);
+  assert.ok(a[1] > 45 && a[1] < tby + tbh && a[0] >= b[5] - 30, JSON.stringify([a, line]));
+  // hovering a swatch lights it and shows a pointer
+  h.x.mouse_move(a[0] + 2, a[1] + 2, 0, h.now());
+  assert.equal(h.cursors[h.cursors.length - 1], 2);
+  h.click(a[0] + a[2] / 2, a[1] + a[3] / 2);
+  assert.equal(h.markdown(), '<span style="color: #cf222e">some words</span>\n\nmore\n\nand more\n\nand more again\n\nthe end');
+  // it closed, and the text is red
+  assert.equal(h.count(RED, a), 0);
+  assert.ok(h.count(RED, [tbx, tby, 100, tbh]) > 10);
+  // from the keyboard: the arrows start at the selection's colour
+  h.click(b[5], 22);
+  h.key(Key.Right);
+  h.key(Key.Enter);
+  assert.match(h.markdown(), /^<span style="color: #bc4c00">some words<\/span>/);
+  assert.equal(h.box(RED), null);
+  assert.ok(h.box(ORANGE));
+  // Escape closes it; so does a click anywhere else, which still does what it does
+  h.click(b[5], 22);
+  assert.ok(h.count(RED, a) > 10);
+  assert.equal(h.key(Key.Escape), 1);
+  assert.equal(h.count(RED, a), 0);
+  assert.deepEqual(h.selection, [0, 10]);
+  h.click(b[5], 22);
+  h.click(tbx + 5, tby + tbh / 2);
+  assert.equal(h.count(RED, a), 0);
+  assert.equal(h.x.anchor(), h.x.focus());
+  // the colour button toggles it
+  h.click(b[5], 22);
+  h.click(b[5], 22);
+  assert.equal(h.count(RED, a), 0);
+  // a caret takes the colour for what is typed next
+  h.x.set_selection(12, 12);
+  h.click(b[5], 22);
+  h.click(a[0] + a[2] / 2, a[1] + a[3] / 2);
+  h.type('R');
+  assert.match(h.markdown(), /\n\nm<span style="color: #cf222e">R<\/span>ore\n/);
+  // undo
+  h.key('z', Mod.Ctrl);
+  h.key('z', Mod.Ctrl);
+  assert.match(h.markdown(), /^<span style="color: #cf222e">some words<\/span>\n\nmore\n/);
+});
+
+test('text colours have a dark shade', () => {
+  const h = new Host(800, 600, 1, 2).load('<span style="color: #cf222e">red</span> text');
+  const [x, y, , ch] = h.caretAt(0);
+  h.x.set_selection(5, 5);
+  h.x.repaint();
+  assert.equal(h.box(RED), null);
+  assert.ok(h.count(DARK_RED, [x, y, 40, ch]) > 10);
+  h.x.set_theme(0);
+  assert.equal(h.box(DARK_RED), null);
+  assert.ok(h.count(RED, [x, y, 40, ch]) > 10);
 });
 
 test('clicking a checkbox toggles the todo', () => {

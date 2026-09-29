@@ -1,5 +1,5 @@
 import './editor.css';
-import { BlockType, Mark, createEditor } from './index.ts';
+import { BlockType, Color, Mark, createEditor } from './index.ts';
 
 const SAMPLE = `# Hello from WebAssembly
 
@@ -27,6 +27,7 @@ Start a line with \`# \`, \`- \`, \`1. \`, \`> \`, \`[] \` or \`\`\`\` \`\`\` \`
 `;
 
 const toolbar = document.getElementById('toolbar')!;
+const colorSelect = toolbar.querySelector<HTMLSelectElement>('select[data-cmd="color"]')!;
 async function main() {
   const editor = await createEditor(document.getElementById('editor')!, {
     markdown: SAMPLE,
@@ -40,12 +41,21 @@ async function main() {
         if (cmd === 'undo') button.disabled = !state.canUndo;
         if (cmd === 'redo') button.disabled = !state.canRedo;
       }
+      // a mixed selection shows no colour
+      colorSelect.value = String(Math.max(0, state.color));
     },
   });
   editor.focus();
 
-  // Keep focus (and the selection) in the editor while clicking the toolbar.
-  toolbar.addEventListener('mousedown', (e) => e.preventDefault());
+  // Keep focus (and the selection) in the editor while clicking the toolbar
+  // (a select needs the mousedown to open, and keeps the selection anyway).
+  toolbar.addEventListener('mousedown', (e) => {
+    if (!(e.target as Element).closest('select')) e.preventDefault();
+  });
+  colorSelect.addEventListener('change', () => {
+    editor.setColor(Number(colorSelect.value) as Color);
+    editor.focus();
+  });
   toolbar.addEventListener('click', (e) => {
     const button = (e.target as Element).closest('button');
     if (!button) return;

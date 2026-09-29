@@ -248,7 +248,7 @@
                   (i32.load offset=8 (i32.add (global.get $MENU) (i32.shl (local.get $i) (i32.const 4))))))
                 (local.set $i (i32.add (local.get $i) (i32.const 1)))
                 (br $l)))))))
-    (local.get $h))
+    (call $mix (local.get $h) (call $palette_key (local.get $top) (local.get $bot))))
 
   ;; Draw the overlays, clipped to the band being painted.
   (func $paint_overlays
@@ -266,7 +266,8 @@
           (local.get $bw) (global.get $h1h) (global.get $c_accent))
         (call $rrect (i32.sub (global.get $h1x) (local.get $r)) (i32.add (global.get $h1y) (global.get $h1h))
           (i32.shl (local.get $r) (i32.const 1)) (i32.shl (local.get $r) (i32.const 1)) (local.get $r) (global.get $c_accent))))
-    (if (global.get $mon) (then (call $paint_menu))))
+    (if (global.get $mon) (then (call $paint_menu)))
+    (call $paint_palette))
 
   (func $paint_menu
     (local $i i32) (local $a i32) (local $r i32) (local $size f32) (local $base i32) (local $x0 i32) (local $x1 i32)
@@ -384,9 +385,11 @@
         (i32.add (global.get $h0y) (i32.shr_s (global.get $h0h) (i32.const 1)))
         (i32.eq (global.get $hgrab) (i32.const 1)))
       (local.get $y)))
-    ;; a toolbar button lights up while pressed
+    ;; a toolbar button or a colour swatch lights up while pressed
     (if (i32.lt_s (local.get $y) (global.get $tb_h))
       (then (global.set $hover (call $button_at (local.get $x) (local.get $y)))))
+    (local.set $k (call $pal_at (local.get $x) (local.get $y)))
+    (if (i32.ge_s (local.get $k) (i32.const 0)) (then (global.set $pal_hover (local.get $k))))
     (call $paint))
 
   (func (export "touch_move") (param $x i32) (param $y i32) (param $now i32)
@@ -399,7 +402,8 @@
         (if (i32.or (i32.gt_s (call $iabs (i32.sub (local.get $x) (global.get $tx0))) (local.get $slop))
                     (i32.gt_s (call $iabs (i32.sub (local.get $y) (global.get $ty0))) (local.get $slop)))
           (then
-            (if (i32.lt_s (global.get $ty0) (global.get $view_top))
+            (if (i32.or (i32.lt_s (global.get $ty0) (global.get $view_top))
+                        (i32.ge_s (call $pal_at (global.get $tx0) (global.get $ty0)) (i32.const 0)))
               (then
                 (global.set $tmode (i32.const 5))
                 (global.set $hover (i32.const -1)))
@@ -491,6 +495,14 @@
     (local $x i32) (local $y i32) (local $p i32) (local $b i32) (local $near i32) (local $toggled i32)
     (local.set $x (global.get $tx0))
     (local.set $y (global.get $ty0))
+    ;; the palette, as for a click (ui-input.wat)
+    (if (global.get $pal_open)
+      (then
+        (local.set $b (call $pal_at (local.get $x) (local.get $y)))
+        (if (i32.ge_s (local.get $b) (i32.const 0))
+          (then (global.set $menu (i32.const 0)) (call $palette_pick (local.get $b)) (return (i32.const 0))))
+        (if (i32.ne (call $button_at (local.get $x) (local.get $y)) (global.get $color_btn))
+          (then (global.set $pal_open (i32.const 0))))))
     (if (i32.lt_s (local.get $y) (global.get $tb_h))
       (then
         (local.set $b (call $button_at (local.get $x) (local.get $y)))

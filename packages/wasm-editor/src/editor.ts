@@ -3,12 +3,14 @@
 // maps DOM selections to document positions and back, and patches only the
 // blocks whose content hash changed.
 
-import { BlockType, CHECKED, Engine, Mark } from './engine.ts';
+import { BlockType, CHECKED, Color, Engine, Mark } from './engine.ts';
 import { htmlToCells } from './html-import.ts';
 
 export interface EditorState {
   /** Marks active across the selection, or for the next typed text. */
   marks: number;
+  /** Colour of the selection, or for the next typed text; -1 when mixed. */
+  color: number;
   block: BlockType;
   checked: boolean;
   link: string | null;
@@ -93,6 +95,7 @@ export class RichTextEditor {
     const attrs = e.blockAttrs;
     return {
       marks: e.marks,
+      color: e.color,
       block: (attrs & 15) as BlockType,
       checked: (attrs & CHECKED) !== 0,
       link: e.linkAt(e.focus),
@@ -108,6 +111,11 @@ export class RichTextEditor {
 
   toggleMark(mark: Mark): void {
     this.engine.toggleMark(mark);
+    this.changed(true);
+  }
+
+  setColor(color: Color): void {
+    this.engine.setColor(color);
     this.changed(true);
   }
 

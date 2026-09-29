@@ -100,6 +100,9 @@
   (global $link_len (mut i32) (i32.const 0))
   (global $pre_len (mut i32) (i32.const 0))
   (global $nbtns (mut i32) (i32.const 0))
+  (global $color_btn (mut i32) (i32.const 0)) ;; index of the text colour button
+  (global $pal_open (mut i32) (i32.const 0))  ;; the colour palette is open
+  (global $pal_hover (mut i32) (i32.const -1)) ;; swatch under the pointer or picked by arrow keys
 
   ;; painting
   (global $cx0 (mut i32) (i32.const 0))       ;; clip rectangle
@@ -147,16 +150,23 @@
   ;;  0 B   1 I   2 U   3 S   4 Code   5 Link   6 H1   7 H2   8 H3   9 Quote
   ;; 10 "* List"  11 "1. List"  12 Todo  13 "{ }"  14 Undo  15 Redo
   ;; 16 Start writing   17 Link   18 Enter to apply, Esc to cancel
-  ;; 19 Cut  20 Copy  21 Paste  22 Select  23 Select All
+  ;; 19 Cut  20 Copy  21 Paste  22 Select  23 Select All  24 A
   (data (i32.const 0x0C50000)
     "B\00I\00U\00S\00Code\00Link\00H1\00H2\00H3\00Quote\00"
     "\01 List\001. List\00Todo\00{ }\00Undo\00Redo\00"
     "Start writing\00Link\00Enter to apply, Esc to cancel\00"
-    "Cut\00Copy\00Paste\00Select\00Select All\00")
+    "Cut\00Copy\00Paste\00Select\00Select All\00A\00")
 
   ;; ---------------------------------------------------------------------
   ;; Colours
   ;; ---------------------------------------------------------------------
+
+  ;; Text colour $k (see the engine's PALETTE) as a framebuffer word, in the
+  ;; shade for the theme; 0 is the ordinary text colour.
+  (func $ink (param $k i32) (result i32)
+    (if (result i32) (local.get $k)
+      (then (call $rgb (call $palette (local.get $k) (global.get $dark))))
+      (else (global.get $c_text))))
 
   ;; 0xRRGGBB to a framebuffer word: RGBA bytes, or a 0x00RRGGBB word.
   (func $rgb (param $c i32) (result i32)
@@ -290,7 +300,8 @@
   ;;   +0 x  +4 y  +8 w  +12 h  +16 kind  +20 value  +24 label
   ;;   +28 face | decoration << 8 | starts a group << 16
   ;; kind 1 toggles marks, 2 sets a block type, 3 is a command
-  ;; (1 link, 2 undo, 3 redo). Decoration 1 underline, 2 strike, 3 checkbox.
+  ;; (1 link, 2 undo, 3 redo), 4 opens the colour palette. Decoration 1
+  ;; underline, 2 strike, 3 checkbox, 4 a bar in the selection's colour.
   ;; ---------------------------------------------------------------------
 
   (func $def_btn (param $kind i32) (param $value i32) (param $label i32) (param $face i32) (param $deco i32) (param $group i32)
@@ -311,6 +322,8 @@
     (call $def_btn (i32.const 1) (i32.const 4)  (i32.const 2)  (i32.const 5) (i32.const 1) (i32.const 0))
     (call $def_btn (i32.const 1) (i32.const 8)  (i32.const 3)  (i32.const 5) (i32.const 2) (i32.const 0))
     (call $def_btn (i32.const 1) (i32.const 16) (i32.const 4)  (i32.const 4) (i32.const 0) (i32.const 0))
+    (global.set $color_btn (global.get $nbtns))
+    (call $def_btn (i32.const 4) (i32.const 0)  (i32.const 24) (i32.const 1) (i32.const 4) (i32.const 0))
     (call $def_btn (i32.const 3) (i32.const 1)  (i32.const 5)  (i32.const 5) (i32.const 0) (i32.const 0))
     (call $def_btn (i32.const 2) (i32.const 1)  (i32.const 6)  (i32.const 5) (i32.const 0) (i32.const 1))
     (call $def_btn (i32.const 2) (i32.const 2)  (i32.const 7)  (i32.const 5) (i32.const 0) (i32.const 0))
@@ -346,7 +359,7 @@
           (i32.add
             (i32.trunc_sat_f32_s (f32.ceil
               (call $str_width (i32.load offset=24 (local.get $b)) (local.get $face) (call $btn_size (local.get $face)))))
-            (call $px (f32.const 18))))
+            (call $px (f32.const 14))))
         ;; room for the checkbox icon
         (if (i32.eq (i32.and (i32.shr_u (i32.load offset=28 (local.get $b)) (i32.const 8)) (i32.const 0xFF)) (i32.const 3))
           (then (local.set $w (i32.add (local.get $w) (call $px (f32.const 18))))))

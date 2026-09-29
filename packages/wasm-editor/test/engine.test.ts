@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { BlockType, CHECKED, Engine, Mark } from '../src/engine.ts';
+import { BlockType, CHECKED, Color, Engine, Mark } from '../src/engine.ts';
+import { cssColorIndex } from '../src/html-import.ts';
 
 const bytes = readFileSync(new URL('../src/editor.wasm', import.meta.url));
 const module = new WebAssembly.Module(bytes);
@@ -715,4 +716,232 @@ test('read_cells copies a range', async () => {
   const n = e.wasm.read_cells(1, 10);
   assert.equal(n, 3);
   assert.deepEqual(Array.from(new Uint32Array(e.wasm.memory.buffer, e.wasm.scratch(0), n)), [0x62, 0x63, 10]);
+});
+
+test('text colour: a selection, the next typed text, undo', async () => {
+  const e = await make();
+  type(e, 'one two three');
+  e.setSelection(4, 7);
+  assert.equal(e.color, Color.Default);
+  assert.ok(e.setColor(Color.Red));
+  assert.equal(e.color, Color.Red);
+  assert.equal(e.getMarkdown(), 'one <span style="color: #cf222e">two</span> three');
+  // colour sits beside the marks and nests outside them
+  e.toggleMark(Mark.Bold);
+  assert.deepEqual(html(e), ['<p>one <span class="rt-c2"><strong>two</strong></span> three</p>']);
+  e.setSelection(0, 13);
+  assert.equal(e.color, -1, 'mixed');
+  assert.equal(e.marks, 0);
+  // a caret picks the colour up for what is typed next, and typing continues it
+  e.setSelection(7);
+  type(e, 'X');
+  e.setSelection(e.length - 1);
+  e.setColor(Color.Blue);
+  assert.equal(e.color, Color.Blue);
+  type(e, '!');
+  assert.equal(
+    e.getMarkdown(),
+    'one <span style="color: #cf222e">**twoX**</span> three<span style="color: #0969da">!</span>',
+  );
+  e.undo();
+  e.undo();
+  assert.equal(e.getMarkdown(), 'one <span style="color: #cf222e">**two**</span> three');
+  e.undo();
+  e.undo();
+  assert.equal(e.getMarkdown(), 'one two three');
+  e.redo();
+  assert.equal(e.getMarkdown(), 'one <span style="color: #cf222e">two</span> three');
+  // setting the colour it already has is not an edit
+  e.setSelection(4, 7);
+  const before = e.wasm.undo_bytes();
+  e.setColor(Color.Red);
+  assert.equal(e.wasm.undo_bytes(), before);
+  assert.equal(e.setColor(8 as Color), false);
+  // Default takes it off
+  e.setColor(Color.Default);
+  assert.equal(e.getMarkdown(), 'one two three');
+});
+
+test('a coloured link keeps its colour and its URL', async () => {
+  const e = await make();
+  e.setMarkdown('see <span style="color: #1a7f37">the [docs](https://d.example) now</span>');
+  e.setSelection(8, 12);
+  assert.equal(e.color, Color.Green);
+  assert.equal(e.linkAt(9), 'https://d.example');
+  // relinking and unlinking leave the colour alone
+  e.setLink('https://e.example');
+  assert.equal(e.getMarkdown(), 'see <span style="color: #1a7f37">the [docs](https://e.example) now</span>');
+  e.setLink(null);
+  assert.equal(e.getMarkdown(), 'see <span style="color: #1a7f37">the docs now</span>');
+  // and colouring leaves the link alone
+  e.setMarkdown('a [link](/x) b');
+  e.setSelection(0, 8);
+  e.setColor(Color.Purple);
+  assert.equal(e.getMarkdown(), '<span style="color: #8250df">a [link](/x) b</span>');
+  assert.equal(
+    e.getHTML(),
+    '<p><span style="color: #8250df">a <a href="/x">link</a> b</span></p>',
+  );
+});
+
+test('colours read from Markdown: hex, names, by hue', async () => {
+  const e = await make();
+  const read = (md: string) => {
+    e.setMarkdown(md);
+    return e.getMarkdown();
+  };
+  const span = (hex: string, t: string) => `<span style="color: ${hex}">${t}</span>`;
+  assert.equal(read("<span style='color:RED;'>r</span>"), span('#cf222e', 'r'));
+  assert.equal(read('<span style="color: grey">g</span>'), span('#6e7781', 'g'));
+  assert.equal(read('<span style="color:#00f">b</span>'), span('#0969da', 'b'));
+  assert.equal(read('<span style="color: #FFA500">o</span>'), span('#bc4c00', 'o'));
+  assert.equal(read('<span style="color: #ffd700">y</span>'), span('#946f00', 'y'));
+  assert.equal(read('<span style="color: #800080">p</span>'), span('#8250df', 'p'));
+  assert.equal(read('<span style="color: #00aa00">g</span>'), span('#1a7f37', 'g'));
+  // every shade of the palette, light and dark, comes back as itself
+  for (const [k, light, dark] of [
+    [1, '#6e7781', '#8b949e'], [2, '#cf222e', '#ff7b72'], [3, '#bc4c00', '#ffa657'], [4, '#946f00', '#e3c341'],
+    [5, '#1a7f37', '#56d364'], [6, '#0969da', '#79c0ff'], [7, '#8250df', '#d2a8ff'],
+  ] as const) {
+    assert.equal(read(span(dark, 'x')), span(light, 'x'), `colour ${k}`);
+  }
+  // near black and near white are the ordinary text colour
+  assert.equal(read('<span style="color: #000000">t</span> <span style="color: #fafafa">u</span>'), 't u');
+  // anything else stays text, and so does a </span> with nothing open
+  assert.equal(read('<span style="color: inherit">x</span>'), '\\<span style="color: inherit">x\\</span>');
+  assert.equal(read('<span class="c">x</span>'), '\\<span class="c">x\\</span>');
+  // spans hold marks, links and code
+  const md = 'a <span style="color: #cf222e">**b** [c](/c) `d`</span> e';
+  assert.equal(read(md), md);
+  // spaces between two runs of one colour keep it; delimiters still hug text
+  e.setMarkdown('x');
+  e.setSelection(0, 1);
+  e.setColor(Color.Red);
+  e.setSelection(1);
+  e.setColor(Color.Default);
+  type(e, ' y ');
+  e.setColor(Color.Red);
+  type(e, 'z');
+  assert.equal(e.getMarkdown(), '<span style="color: #cf222e">x</span> y <span style="color: #cf222e">z</span>');
+});
+
+test('the link table reuses ids nothing refers to any more', async () => {
+  const e = await make();
+  // far more distinct URLs over time than a cell can index
+  for (let i = 0; i < 600; i++) {
+    e.setMarkdown(`[a](https://x.example/${i}) [b](https://y.example/${i})`);
+    assert.equal(e.linkAt(1), `https://x.example/${i}`, `round ${i}`);
+    assert.equal(e.linkAt(5), `https://y.example/${i}`, `round ${i}`);
+  }
+  // within one document: link, then unlink with no history left to need it
+  e.reset();
+  type(e, 'w');
+  for (let i = 0; i < 400; i++) {
+    e.setSelection(0, 1);
+    assert.ok(e.setLink(`https://z.example/${i}`), `link ${i}`);
+    e.clearHistory();
+  }
+  assert.equal(e.linkAt(0), 'https://z.example/399');
+  assert.ok(e.wasm.link_count() < 256);
+  // links still in the undo log are kept: undo brings back the right URL
+  e.reset();
+  type(e, 'abc');
+  const urls: string[] = [];
+  for (let i = 0; i < 300; i++) {
+    e.setSelection(0, 3);
+    urls.push(`https://u.example/${i}`);
+    assert.ok(e.setLink(urls[i]), `link ${i}`);
+  }
+  for (let i = 298; i >= 250; i--) {
+    e.undo();
+    assert.equal(e.linkAt(1), urls[i], `undo to ${i}`);
+  }
+});
+
+test('the link table is full only of links in use', async () => {
+  const e = await make();
+  // 255 different links in the document fill the table
+  e.setMarkdown(Array.from({ length: 255 }, (_, i) => `[${i}](/p${i})`).join(' '));
+  assert.equal(e.wasm.link_count(), 255);
+  e.setSelection(0, 1);
+  assert.equal(e.setLink('/one-more'), false);
+  assert.equal(e.linkAt(0), '/p0');
+  // ids interned before the document changes are not handed out twice, even
+  // when the table has to be collected in between (a host building cells)
+  e.setMarkdown('x');
+  const ids = Array.from({ length: 255 }, (_, i) => e.internLink(`/q${i}`));
+  assert.equal(new Set(ids).size, 255);
+  assert.ok(ids.every((id) => id > 0));
+  assert.equal(e.internLink('/q-extra'), 0);
+  e.setMarkdown('y');
+  assert.ok(e.internLink('/q-extra') > 0);
+});
+
+test('spaces between runs never leave a delimiter beside them', async () => {
+  const e = await make();
+  e.setMarkdown('**a [b](/u)**');
+  assert.equal(e.getMarkdown(), '**a** [**b**](/u)');
+  e.setMarkdown('**Hello <span style="color: #cf222e">colour</span>**');
+  assert.equal(e.getMarkdown(), '**Hello** <span style="color: #cf222e">**colour**</span>');
+  e.setMarkdown('***a*** *b*');
+  assert.equal(e.getMarkdown(), '***a*** *b*');
+});
+
+test('fuzz: coloured, linked, marked words survive Markdown', async () => {
+  const e = await make();
+  for (let seed = 1; seed <= 300; seed++) {
+    const rand = rng(seed);
+    const n = 1 + Math.floor(rand() * 8);
+    // words of letters; each word one set of attrs, spaces between them plain
+    const words: { text: string; marks: number; color: number; link: string | null }[] = [];
+    for (let i = 0; i < n; i++) {
+      words.push({
+        text: 'abcdefgh'.slice(0, 1 + Math.floor(rand() * 5)),
+        marks: rand() < 0.5 ? 0 : Math.floor(rand() * 16), // bold, italic, underline, strike
+        color: rand() < 0.5 ? 0 : Math.floor(rand() * 8),
+        link: rand() < 0.3 ? `/l${Math.floor(rand() * 3)}` : null,
+      });
+    }
+    e.reset();
+    let pos = 0;
+    for (const [i, w] of words.entries()) {
+      if (i) {
+        e.setSelection(pos);
+        e.setColor(Color.Default);
+        e.insertText(' ');
+        pos++;
+      }
+      e.insertText(w.text);
+      e.setSelection(pos, pos + w.text.length);
+      for (const m of [Mark.Bold, Mark.Italic, Mark.Underline, Mark.Strike]) {
+        if ((w.marks & m) !== (e.marks & m)) e.toggleMark(m);
+      }
+      e.setColor(w.color as Color);
+      e.setLink(w.link);
+      pos += w.text.length;
+    }
+    const nonSpace = () => Array.from(e.cells()).filter((c) => (c & 0xffff) !== 32);
+    const before = nonSpace().map((c) => [c & 0xffff, (c >>> 16) & 31, c >>> 29, e.linkUrl((c >>> 21) & 0xff)]);
+    const md = e.getMarkdown();
+    e.setMarkdown(md);
+    assert.equal(e.getMarkdown(), md, `seed ${seed}: ${md}`);
+    const after = nonSpace().map((c) => [c & 0xffff, (c >>> 16) & 31, c >>> 29, e.linkUrl((c >>> 21) & 0xff)]);
+    assert.deepEqual(after, before, `seed ${seed}: ${md}`);
+  }
+});
+
+test('pasted HTML maps colours to the palette as Markdown import does', async () => {
+  const e = await make();
+  const light = ['', '#6e7781', '#cf222e', '#bc4c00', '#946f00', '#1a7f37', '#0969da', '#8250df'];
+  const rand = rng(7);
+  for (let i = 0; i < 2000; i++) {
+    const hex = `#${Math.floor(rand() * 0x1000000).toString(16).padStart(6, '0')}`;
+    e.setMarkdown(`<span style="color: ${hex}">x</span>`);
+    const got = /#[0-9a-f]{6}/.exec(e.getMarkdown())?.[0] ?? '';
+    assert.equal(light[cssColorIndex(hex)], got, hex);
+  }
+  assert.equal(cssColorIndex('rgb(207, 34, 46)'), Color.Red);
+  assert.equal(cssColorIndex('rgba(0, 0, 0, 1)'), Color.Default);
+  assert.equal(cssColorIndex('Purple'), Color.Purple);
+  assert.equal(cssColorIndex('inherit'), -1);
 });

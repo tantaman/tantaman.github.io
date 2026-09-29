@@ -143,3 +143,46 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* Text colours (Color in engine.ts), light shades by default and dark ones
+   on a dark page: the same palette the canvas editor draws. */
+.rt-editor {
+  --rt-c1: #6e7781;
+  --rt-c2: #cf222e;
+  --rt-c3: #bc4c00;
+  --rt-c4: #946f00;
+  --rt-c5: #1a7f37;
+  --rt-c6: #0969da;
+  --rt-c7: #8250df;
+}
+[data-theme='dark'] .rt-editor {
+  --rt-c1: #8b949e;
+  --rt-c2: #ff7b72;
+  --rt-c3: #ffa657;
+  --rt-c4: #e3c341;
+  --rt-c5: #56d364;
+  --rt-c6: #79c0ff;
+  --rt-c7: #d2a8ff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .rt-editor {
+    --rt-c1: #8b949e;
+    --rt-c2: #ff7b72;
+    --rt-c3: #ffa657;
+    --rt-c4: #e3c341;
+    --rt-c5: #56d364;
+    --rt-c6: #79c0ff;
+    --rt-c7: #d2a8ff;
+  }
+}
+.rt-c1 { color: var(--rt-c1); }
+.rt-c2 { color: var(--rt-c2); }
+.rt-c3 { color: var(--rt-c3); }
+.rt-c4 { color: var(--rt-c4); }
+.rt-c5 { color: var(--rt-c5); }
+.rt-c6 { color: var(--rt-c6); }
+.rt-c7 { color: var(--rt-c7); }
+/* As on the canvas: a chosen colour wins over the link colour, and a done
+   todo stays muted. */
+.rt-editor :is(.rt-c1, .rt-c2, .rt-c3, .rt-c4, .rt-c5, .rt-c6, .rt-c7) a { color: inherit; }
+.rt-todo.rt-done :is(.rt-c1, .rt-c2, .rt-c3, .rt-c4, .rt-c5, .rt-c6, .rt-c7) { color: inherit; }

@@ -13,7 +13,9 @@
 ;;   bits  0..15  one UTF-16 code unit. 10 ("\n") terminates a block.
 ;;   text cells:
 ;;     bits 16..20  marks: 1 bold, 2 italic, 4 underline, 8 strike, 16 code
-;;     bits 21..31  link id (0 = no link, see the link table)
+;;     bits 21..28  link id (0 = no link, see the link table)
+;;     bits 29..31  colour: 0 the text colour, 1 gray, 2 red, 3 orange,
+;;                  4 yellow, 5 green, 6 blue, 7 purple (see PALETTE)
 ;;   block terminators ("\n" cells) carry the format of the block they end:
 ;;     bits 16..19  block type: 0 paragraph, 1-3 heading, 4 quote,
 ;;                  5 bullet, 6 ordered, 7 todo, 8 code
@@ -23,6 +25,19 @@
 ;; single empty paragraph. Positions are cell indices; a caret may sit at any
 ;; position except after the final terminator.
 ;;
+;; A cell's upper half is its "attrs": marks in bits 0-4, the link in bits
+;; 5-12, the colour in bits 13-15. The colour sits at the top so that cells
+;; saved when link ids had all of bits 21-31 read the same (links up to 255).
+;;
+;; Colours are a palette rather than RGB so that each has a shade for a light
+;; and for a dark page. Markdown and HTML carry them as <span
+;; style="color: #rrggbb"> with the light shade; reading them back, any colour
+;; goes to the palette entry of its hue (see $color_index).
+;;
+;; Link ids index a table of URLs (LINKS, ARENA). Only 255 fit in a cell, so
+;; when the table fills up, entries nothing refers to any more are reused
+;; ($collect_links).
+;;
 ;; ------------------------------------------------------------------------
 ;; Memory map
 ;; ------------------------------------------------------------------------
@@ -31,9 +46,11 @@
 ;;   0x002000  TMP     a few bytes of scratch for single-cell inserts
 ;;   0x003000  REMOTE  other people's selections, 16 bytes each (see below)
 ;;   0x004000  DAMAGE  what changed since the canvas last laid out (see below)
+;;   0x005000  PALETTE colours 0-7 as 0xRRGGBB words: 8 light shades, 8 dark
 ;;   0x010000  DOC     gap buffer, 1M cells (4 MiB)
 ;;   0x410000  UNDO    undo/redo log (4 MiB)
-;;   0x810000  LINKS   link table, (addr, len) per id, 2048 ids
+;;   0x810000  LINKS   link table, 256 ids of 16 bytes: +0 URL address (0 =
+;;                     free), +4 length, +8 $docv when last interned, +12 mark
 ;;   0x814000  ARENA   link URLs, UTF-16
 ;;   0x850000  OUT     scratch for host input and render/export output. In
 ;;                     editor.wat OUT is last and grows with memory.grow;
@@ -86,12 +103,13 @@
   (global $REMOTE_MAX i32 (i32.const 64))
   (global $DAMAGE    i32 (i32.const 0x4000))
   (global $DMG_MAX   i32 (i32.const 64))
+  (global $PALETTE   i32 (i32.const 0x5000))
   (global $DOC       i32 (i32.const 0x10000))
   (global $CAP       i32 (i32.const 0x100000))
   (global $UNDO      i32 (i32.const 0x410000))
   (global $UNDO_END  i32 (i32.const 0x810000))
   (global $LINKS     i32 (i32.const 0x810000))
-  (global $LINK_MAX  i32 (i32.const 2048))
+  (global $LINK_MAX  i32 (i32.const 256))
   (global $ARENA     i32 (i32.const 0x814000))
   (global $ARENA_END i32 (i32.const 0x850000))
   (global $OUT       (mut i32) (i32.const 0x850000))   ;; canvas.wat moves it
@@ -138,6 +156,8 @@
   (global $il (mut i32) (i32.const 0))          ;; inline: active link id
   (global $ilend (mut i32) (i32.const 0))       ;; inline: address of the "]" ending the link text
   (global $ilskip (mut i32) (i32.const 0))      ;; inline: where to resume after "](url)"
+  (global $ic (mut i32) (i32.const 0))          ;; inline: colour
+  (global $ispan (mut i32) (i32.const 0))       ;; inline: a colour <span> is open
 
   ;; ---------------------------------------------------------------------
   ;; Strings, by id. $init indexes them into STRTAB.
@@ -158,6 +178,10 @@
   ;; 48 "# "  49 "## "  50 "### "  51 "> "  52 "- "  53 "- [ ] "  54 "- [x] "
   ;; 55 ```   56 **   57 *   58 ~~   59 `   60 [   61 ](   62 )   63 ". "
   ;; 64 http  65 https  66 mailto  67 tel  68 http://  69 https://
+  ;; 70 <span class="rt-c   71 <span style="color: #   72 </span>
+  ;; 73 <span   74 style   75 color
+  ;; 76 black  77 gray  78 red  79 orange  80 yellow  81 green  82 blue
+  ;; 83 purple  84 grey  85 white
   (data (i32.const 0x100)
     "<p>\00</p>\00<h1>\00</h1>\00<h2>\00</h2>\00<h3>\00</h3>\00"
     "<blockquote>\00</blockquote>\00"
@@ -174,7 +198,20 @@
     "<pre><code>\00</code></pre>\00"
     "# \00## \00### \00> \00- \00- [ ] \00- [x] \00"
     "```\00**\00*\00~~\00`\00[\00](\00)\00. \00"
-    "http\00https\00mailto\00tel\00http://\00https://\00")
+    "http\00https\00mailto\00tel\00http://\00https://\00"
+    "<span class=\"rt-c\00<span style=\"color: #\00</span>\00"
+    "<span\00style\00color\00"
+    "black\00gray\00red\00orange\00yellow\00green\00blue\00purple\00grey\00white\00")
+
+  ;; The palette, 0xRRGGBB: light shades then dark ones. Entry 0 is the
+  ;; text colour; the page draws it in its own. Light: #000000, #6e7781,
+  ;; #cf222e, #bc4c00, #946f00, #1a7f37, #0969da, #8250df. Dark: #ffffff,
+  ;; #8b949e, #ff7b72, #ffa657, #e3c341, #56d364, #79c0ff, #d2a8ff.
+  (data (i32.const 0x5000)
+    "\00\00\00\00\81\77\6e\00\2e\22\cf\00\00\4c\bc\00"
+    "\00\6f\94\00\37\7f\1a\00\da\69\09\00\df\50\82\00"
+    "\ff\ff\ff\00\9e\94\8b\00\72\7b\ff\00\57\a6\ff\00"
+    "\41\c3\e3\00\64\d3\56\00\ff\c0\79\00\ff\a8\d2\00")
 
   ;; =====================================================================
   ;; Start-up
@@ -288,7 +325,7 @@
   ;; destination, with spaces and parentheses percent-encoded.
   (func $emit_url (param $id i32) (param $md i32)
     (local $a i32) (local $n i32) (local $c i32)
-    (local.set $a (i32.add (global.get $LINKS) (i32.shl (local.get $id) (i32.const 3))))
+    (local.set $a (call $lrec (local.get $id)))
     (local.set $n (i32.load offset=4 (local.get $a)))
     (local.set $a (i32.load (local.get $a)))
     (block $d
@@ -392,7 +429,17 @@
   (func (export "gap_end") (result i32) (global.get $ge))
   (func (export "undo_bytes") (result i32) (i32.sub (global.get $utop) (global.get $UNDO)))
   (func (export "undo_cursor") (result i32) (i32.sub (global.get $ucur) (global.get $UNDO)))
-  (func (export "link_count") (result i32) (i32.sub (global.get $nlinks) (i32.const 1)))
+  ;; Links in the table.
+  (func (export "link_count") (result i32)
+    (local $id i32) (local $n i32)
+    (local.set $id (i32.const 1))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $id) (global.get $nlinks)))
+        (if (i32.load (call $lrec (local.get $id))) (then (local.set $n (i32.add (local.get $n) (i32.const 1)))))
+        (local.set $id (i32.add (local.get $id) (i32.const 1)))
+        (br $l)))
+    (local.get $n))
 
   ;; =====================================================================
   ;; Cells and blocks
@@ -498,9 +545,17 @@
     (global.set $anchor (local.get $p))
     (global.set $focus (local.get $p)))
 
-  ;; Marks that text typed at caret $p picks up: the stored marks if any,
+  ;; Link id and colour of a cell.
+  (func $link_of (param $c i32) (result i32)
+    (i32.and (i32.shr_u (local.get $c) (i32.const 21)) (i32.const 0xFF)))
+
+  (func $color_of (param $c i32) (result i32)
+    (i32.shr_u (local.get $c) (i32.const 29)))
+
+  ;; Attrs that text typed at caret $p picks up: the stored ones if any,
   ;; else those of the character before (or after, at a block start). A link
-  ;; is only continued when the caret is inside it, not at its end.
+  ;; is only continued when the caret is inside it, not at its end; marks
+  ;; and colour always are.
   (func $marks_at (param $p i32) (result i32)
     (local $prev i32) (local $next i32) (local $m i32)
     (if (i32.ne (global.get $stored) (i32.const -1)) (then (return (global.get $stored))))
@@ -510,22 +565,30 @@
     (if (call $is_nl (local.get $prev))
       (then
         (if (call $is_nl (local.get $next)) (then (return (i32.const 0))))
-        (return (i32.and (i32.shr_u (local.get $next) (i32.const 16)) (i32.const 31)))))
+        (return (i32.and (i32.shr_u (local.get $next) (i32.const 16)) (i32.const 0xE01F)))))
     (local.set $m (i32.shr_u (local.get $prev) (i32.const 16)))
     (if (i32.or
           (call $is_nl (local.get $next))
-          (i32.ne (i32.shr_u (local.get $next) (i32.const 21)) (i32.shr_u (local.get $prev) (i32.const 21))))
-      (then (local.set $m (i32.and (local.get $m) (i32.const 31)))))
+          (i32.ne (call $link_of (local.get $next)) (call $link_of (local.get $prev))))
+      (then (local.set $m (i32.and (local.get $m) (i32.const 0xE01F)))))
     (local.get $m))
 
-  ;; Marks shared by the whole selection (for toolbar state).
-  (func $sel_marks (export "sel_marks") (result i32)
-    (local $p i32) (local $e i32) (local $m i32) (local $any i32) (local $c i32)
+  ;; What the selection has in common, for the toolbar: $sel_m the marks
+  ;; every character has, $sel_c their colour or -1 when it varies. With a
+  ;; caret, what typing would pick up.
+  (global $sel_m (mut i32) (i32.const 0))
+  (global $sel_c (mut i32) (i32.const 0))
+
+  (func $sel_attrs
+    (local $p i32) (local $e i32) (local $m i32) (local $any i32) (local $c i32) (local $col i32)
     (local.set $p (call $smin))
     (local.set $e (call $smax))
-    (if (i32.eq (local.get $p) (local.get $e))
-      (then (return (i32.and (call $marks_at (local.get $p)) (i32.const 31)))))
+    (local.set $m (call $marks_at (local.get $p)))
+    (global.set $sel_m (i32.and (local.get $m) (i32.const 31)))
+    (global.set $sel_c (i32.shr_u (local.get $m) (i32.const 13)))
+    (if (i32.eq (local.get $p) (local.get $e)) (then (return)))
     (local.set $m (i32.const 31))
+    (local.set $col (i32.const -1))
     (block $d
       (loop $l
         (br_if $d (i32.ge_u (local.get $p) (local.get $e)))
@@ -533,10 +596,27 @@
         (if (i32.eqz (call $is_nl (local.get $c)))
           (then
             (local.set $m (i32.and (local.get $m) (i32.shr_u (local.get $c) (i32.const 16))))
+            (if (i32.eqz (local.get $any))
+              (then (local.set $col (call $color_of (local.get $c))))
+              (else
+                (if (i32.ne (local.get $col) (call $color_of (local.get $c)))
+                  (then (local.set $col (i32.const -2))))))
             (local.set $any (i32.const 1))))
         (local.set $p (i32.add (local.get $p) (i32.const 1)))
         (br $l)))
-    (select (i32.and (local.get $m) (i32.const 31)) (i32.const 0) (local.get $any)))
+    (global.set $sel_m (select (i32.and (local.get $m) (i32.const 31)) (i32.const 0) (local.get $any)))
+    (if (local.get $any)
+      (then (global.set $sel_c (select (i32.const -1) (local.get $col) (i32.eq (local.get $col) (i32.const -2)))))))
+
+  ;; Marks shared by the whole selection (for toolbar state).
+  (func $sel_marks (export "sel_marks") (result i32)
+    (call $sel_attrs)
+    (global.get $sel_m))
+
+  ;; Colour (0-7) of the whole selection, or -1 when it is mixed.
+  (func (export "sel_color") (result i32)
+    (call $sel_attrs)
+    (global.get $sel_c))
 
   ;; Block attrs (type | checked) of the block holding the focus.
   (func $sel_block (export "sel_block") (result i32)
@@ -1387,6 +1467,46 @@
     (call $commit)
     (i32.const 1))
 
+  ;; Colour the selection with palette entry $k (0 = the text colour). With
+  ;; a caret, the colour applies to the next typed text instead.
+  (func $set_color (export "set_color") (param $k i32) (result i32)
+    (local $s i32) (local $e i32) (local $p i32) (local $a i32) (local $end i32) (local $c i32) (local $bits i32)
+    (if (i32.gt_u (local.get $k) (i32.const 7)) (then (return (i32.const 0))))
+    (local.set $s (call $smin))
+    (local.set $e (call $smax))
+    (if (i32.eq (local.get $s) (local.get $e))
+      (then
+        (global.set $stored (i32.or (i32.and (call $marks_at (local.get $s)) (i32.const 0x1FFF))
+                                    (i32.shl (local.get $k) (i32.const 13))))
+        (global.set $coalesce (i32.const -1))
+        (return (i32.const 1))))
+    (local.set $bits (i32.shl (local.get $k) (i32.const 29)))
+    ;; nothing to do if every character already has it
+    (local.set $p (local.get $s))
+    (block $found
+      (loop $l
+        (if (i32.ge_u (local.get $p) (local.get $e)) (then (return (i32.const 1))))
+        (local.set $c (call $get (local.get $p)))
+        (br_if $found (i32.and (i32.eqz (call $is_nl (local.get $c)))
+                               (i32.ne (i32.and (local.get $c) (i32.const 0xE0000000)) (local.get $bits))))
+        (local.set $p (i32.add (local.get $p) (i32.const 1)))
+        (br $l)))
+    (call $begin)
+    (local.set $a (call $set_begin (local.get $s) (i32.sub (local.get $e) (local.get $s))))
+    (local.set $end (i32.add (local.get $a) (i32.shl (i32.sub (local.get $e) (local.get $s)) (i32.const 2))))
+    (local.set $p (local.get $a))
+    (block $d
+      (loop $l2
+        (br_if $d (i32.ge_u (local.get $p) (local.get $end)))
+        (local.set $c (i32.load (local.get $p)))
+        (if (i32.eqz (call $is_nl (local.get $c)))
+          (then (i32.store (local.get $p) (i32.or (i32.and (local.get $c) (i32.const 0x1FFFFFFF)) (local.get $bits)))))
+        (local.set $p (i32.add (local.get $p) (i32.const 4)))
+        (br $l2)))
+    (call $set_end (local.get $a) (i32.sub (local.get $e) (local.get $s)))
+    (call $commit)
+    (i32.const 1))
+
   ;; Set the type of every block touched by the selection. If they all
   ;; already have that type, they go back to paragraphs.
   (func $set_block (export "set_block") (param $t i32) (result i32)
@@ -1484,33 +1604,186 @@
         (br $l)))
     (i32.const 1))
 
-  ;; Id for the URL at $src ($n units), adding it to the table if new.
-  ;; The table is append-only, so undo never has to track it. 0 when full.
+  (func $lrec (param $id i32) (result i32)
+    (i32.add (global.get $LINKS) (i32.shl (local.get $id) (i32.const 4))))
+
+  ;; Id for the URL at $src ($n units), adding it to the table if new. 0
+  ;; when the table is full of links still in use. Undo never has to track
+  ;; the table: entries are only reused once nothing refers to them.
   (func $intern (param $src i32) (param $n i32) (result i32)
     (local $id i32) (local $e i32)
+    (if (i32.eqz (local.get $n)) (then (return (i32.const 0))))
     (local.set $id (i32.const 1))
     (block $miss
       (loop $l
         (br_if $miss (i32.ge_u (local.get $id) (global.get $nlinks)))
-        (local.set $e (i32.add (global.get $LINKS) (i32.shl (local.get $id) (i32.const 3))))
-        (if (i32.eq (i32.load offset=4 (local.get $e)) (local.get $n))
+        (local.set $e (call $lrec (local.get $id)))
+        (if (i32.and (i32.ne (i32.load (local.get $e)) (i32.const 0))
+                     (i32.eq (i32.load offset=4 (local.get $e)) (local.get $n)))
           (then
             (if (call $memeq16 (i32.load (local.get $e)) (local.get $src) (local.get $n))
-              (then (return (local.get $id))))))
+              (then
+                (i32.store offset=8 (local.get $e) (global.get $docv))
+                (return (local.get $id))))))
         (local.set $id (i32.add (local.get $id) (i32.const 1)))
         (br $l)))
-    (if (i32.or
-          (i32.ge_u (global.get $nlinks) (global.get $LINK_MAX))
-          (i32.gt_u (i32.add (global.get $atop) (i32.shl (local.get $n) (i32.const 1))) (global.get $ARENA_END)))
-      (then (return (i32.const 0))))
-    (local.set $id (global.get $nlinks))
-    (local.set $e (i32.add (global.get $LINKS) (i32.shl (local.get $id) (i32.const 3))))
+    ;; full: collect, and if history is what holds the links, forget the
+    ;; older half of it and collect again
+    (local.set $id (call $link_slot (local.get $n)))
+    (block $got
+      (br_if $got (local.get $id))
+      (loop $retry
+        (call $collect_links)
+        (local.set $id (call $link_slot (local.get $n)))
+        (br_if $got (local.get $id))
+        (br_if $retry (call $drop_history)))
+      (return (i32.const 0)))
+    (if (i32.eq (local.get $id) (global.get $nlinks))
+      (then (global.set $nlinks (i32.add (local.get $id) (i32.const 1)))))
+    (local.set $e (call $lrec (local.get $id)))
     (i32.store (local.get $e) (global.get $atop))
     (i32.store offset=4 (local.get $e) (local.get $n))
+    (i32.store offset=8 (local.get $e) (global.get $docv))
     (memory.copy (global.get $atop) (local.get $src) (i32.shl (local.get $n) (i32.const 1)))
     (global.set $atop (i32.add (global.get $atop) (i32.shl (local.get $n) (i32.const 1))))
-    (global.set $nlinks (i32.add (local.get $id) (i32.const 1)))
     (local.get $id))
+
+  ;; A free id for a URL of $n units (a reused one, else the next), or 0 when
+  ;; there is none or the arena has no room for it.
+  (func $link_slot (param $n i32) (result i32)
+    (local $id i32)
+    (if (i32.gt_u (i32.add (global.get $atop) (i32.shl (local.get $n) (i32.const 1))) (global.get $ARENA_END))
+      (then (return (i32.const 0))))
+    (local.set $id (i32.const 1))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $id) (global.get $nlinks)))
+        (if (i32.eqz (i32.load (call $lrec (local.get $id)))) (then (return (local.get $id))))
+        (local.set $id (i32.add (local.get $id) (i32.const 1)))
+        (br $l)))
+    (select (local.get $id) (i32.const 0) (i32.lt_u (local.get $id) (global.get $LINK_MAX))))
+
+  ;; Forget the older half of the undo history: whole transactions, none
+  ;; that is open or can be redone. 0 when there is none to forget.
+  (func $drop_history (result i32)
+    (local $limit i32) (local $a i32) (local $end i32) (local $cut i32)
+    (local.set $limit (global.get $ucur))
+    (if (i32.and (i32.ne (global.get $txn) (i32.const 0)) (i32.lt_u (global.get $txn) (local.get $limit)))
+      (then (local.set $limit (global.get $txn))))
+    (local.set $a (global.get $UNDO))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $a) (local.get $limit)))
+        (local.set $end (i32.add (local.get $a) (i32.shl (i32.load (local.get $a)) (i32.const 2))))
+        (if (i32.eq (i32.load offset=4 (local.get $a)) (i32.const 2))
+          (then
+            (local.set $cut (i32.sub (local.get $end) (global.get $UNDO)))
+            (br_if $d (i32.ge_u (i32.shl (local.get $cut) (i32.const 1)) (i32.sub (local.get $limit) (global.get $UNDO))))))
+        (local.set $a (local.get $end))
+        (br $l)))
+    (if (i32.eqz (local.get $cut)) (then (return (i32.const 0))))
+    (memory.copy (global.get $UNDO) (i32.add (global.get $UNDO) (local.get $cut))
+      (i32.sub (global.get $utop) (i32.add (global.get $UNDO) (local.get $cut))))
+    (global.set $utop (i32.sub (global.get $utop) (local.get $cut)))
+    (global.set $ucur (i32.sub (global.get $ucur) (local.get $cut)))
+    (if (global.get $txn) (then (global.set $txn (i32.sub (global.get $txn) (local.get $cut)))))
+    (global.set $last_begin
+      (select (i32.sub (global.get $last_begin) (local.get $cut)) (global.get $UNDO)
+              (i32.ge_u (global.get $last_begin) (i32.add (global.get $UNDO) (local.get $cut)))))
+    (global.set $coalesce (i32.const -1))
+    (global.set $jlost (i32.const 1))
+    (i32.const 1))
+
+  ;; Mark the links of the cells in [a, end).
+  (func $mark_links (param $a i32) (param $end i32)
+    (local $id i32)
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $a) (local.get $end)))
+        (local.set $id (call $link_of (i32.load (local.get $a))))
+        (if (local.get $id) (then (i32.store offset=12 (call $lrec (local.get $id)) (i32.const 1))))
+        (local.set $a (i32.add (local.get $a) (i32.const 4)))
+        (br $l))))
+
+  ;; Free the entries nothing refers to: no cell of the document or of the
+  ;; undo log, nor the attrs stored for typing. An entry interned since the
+  ;; cells last changed ($docv) stays too, since whoever interned it may be
+  ;; about to write it into cells (a paste being parsed, a host building
+  ;; cells for insert_cells or apply_insert). Then pack the arena.
+  (func $collect_links
+    (local $id i32) (local $e i32) (local $a i32) (local $n i32) (local $last i32) (local $best i32) (local $top i32)
+    (local.set $id (i32.const 1))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $id) (global.get $nlinks)))
+        (i32.store offset=12 (call $lrec (local.get $id)) (i32.const 0))
+        (local.set $id (i32.add (local.get $id) (i32.const 1)))
+        (br $l)))
+    (call $mark_links (global.get $DOC) (i32.add (global.get $DOC) (i32.shl (global.get $gs) (i32.const 2))))
+    (call $mark_links (i32.add (global.get $DOC) (i32.shl (global.get $ge) (i32.const 2)))
+                      (i32.add (global.get $DOC) (i32.shl (global.get $CAP) (i32.const 2))))
+    ;; the cells of INSERT, DELETE and SET records (SET holds old and new)
+    (local.set $a (global.get $UNDO))
+    (block $ud
+      (loop $ul
+        (br_if $ud (i32.ge_u (local.get $a) (global.get $utop)))
+        (if (i32.ge_u (i32.load offset=4 (local.get $a)) (i32.const 3))
+          (then
+            (local.set $n (i32.load offset=12 (local.get $a)))
+            (if (i32.eq (i32.load offset=4 (local.get $a)) (i32.const 5))
+              (then (local.set $n (i32.shl (local.get $n) (i32.const 1)))))
+            (call $mark_links (i32.add (local.get $a) (i32.const 16))
+                              (i32.add (i32.add (local.get $a) (i32.const 16)) (i32.shl (local.get $n) (i32.const 2))))))
+        (local.set $a (i32.add (local.get $a) (i32.shl (i32.load (local.get $a)) (i32.const 2))))
+        (br $ul)))
+    (if (i32.ne (global.get $stored) (i32.const -1))
+      (then
+        (local.set $id (i32.and (i32.shr_u (global.get $stored) (i32.const 5)) (i32.const 0xFF)))
+        (if (local.get $id) (then (i32.store offset=12 (call $lrec (local.get $id)) (i32.const 1))))))
+    ;; sweep
+    (local.set $id (i32.const 1))
+    (block $sd
+      (loop $sl
+        (br_if $sd (i32.ge_u (local.get $id) (global.get $nlinks)))
+        (local.set $e (call $lrec (local.get $id)))
+        (if (i32.and (i32.eqz (i32.load offset=12 (local.get $e)))
+                     (i32.ne (i32.load offset=8 (local.get $e)) (global.get $docv)))
+          (then
+            (i32.store (local.get $e) (i32.const 0))
+            (i32.store offset=4 (local.get $e) (i32.const 0))))
+        (local.set $id (i32.add (local.get $id) (i32.const 1)))
+        (br $sl)))
+    (block $td
+      (loop $tl
+        (br_if $td (i32.le_u (global.get $nlinks) (i32.const 1)))
+        (br_if $td (i32.load (call $lrec (i32.sub (global.get $nlinks) (i32.const 1)))))
+        (global.set $nlinks (i32.sub (global.get $nlinks) (i32.const 1)))
+        (br $tl)))
+    ;; pack the URLs that are left to the bottom of the arena, lowest first
+    (local.set $top (global.get $ARENA))
+    (block $pd
+      (loop $pl
+        (local.set $best (i32.const 0))
+        (local.set $id (i32.const 1))
+        (block $fd
+          (loop $fl
+            (br_if $fd (i32.ge_u (local.get $id) (global.get $nlinks)))
+            (local.set $a (i32.load (call $lrec (local.get $id))))
+            (if (i32.and (i32.gt_u (local.get $a) (local.get $last))
+                         (i32.or (i32.eqz (local.get $best))
+                                 (i32.lt_u (local.get $a) (i32.load (call $lrec (local.get $best))))))
+              (then (local.set $best (local.get $id))))
+            (local.set $id (i32.add (local.get $id) (i32.const 1)))
+            (br $fl)))
+        (br_if $pd (i32.eqz (local.get $best)))
+        (local.set $e (call $lrec (local.get $best)))
+        (local.set $last (i32.load (local.get $e)))
+        (local.set $n (i32.shl (i32.load offset=4 (local.get $e)) (i32.const 1)))
+        (memory.copy (local.get $top) (local.get $last) (local.get $n))
+        (i32.store (local.get $e) (local.get $top))
+        (local.set $top (i32.add (local.get $top) (local.get $n)))
+        (br $pl)))
+    (global.set $atop (local.get $top)))
 
   (func $link_id (param $src i32) (param $n i32) (result i32)
     (if (call $url_ok (local.get $src) (local.get $n))
@@ -1522,10 +1795,10 @@
     (call $link_id (global.get $OUT) (local.get $n)))
 
   (func $link_ptr (export "link_ptr") (param $id i32) (result i32)
-    (i32.load (i32.add (global.get $LINKS) (i32.shl (local.get $id) (i32.const 3)))))
+    (i32.load (call $lrec (i32.and (local.get $id) (i32.const 0xFF)))))
 
   (func $link_len (export "link_len") (param $id i32) (result i32)
-    (i32.load offset=4 (i32.add (global.get $LINKS) (i32.shl (local.get $id) (i32.const 3)))))
+    (i32.load offset=4 (call $lrec (i32.and (local.get $id) (i32.const 0xFF)))))
 
   ;; Link id at position $p (the character after it, else before it).
   (func $link_at (export "link_at") (param $p i32) (result i32)
@@ -1534,13 +1807,13 @@
     (local.set $c (call $get (local.get $p)))
     (if (i32.eqz (call $is_nl (local.get $c)))
       (then
-        (if (i32.shr_u (local.get $c) (i32.const 21))
-          (then (return (i32.shr_u (local.get $c) (i32.const 21)))))))
+        (if (call $link_of (local.get $c))
+          (then (return (call $link_of (local.get $c)))))))
     (if (local.get $p)
       (then
         (local.set $c (call $get (i32.sub (local.get $p) (i32.const 1))))
         (if (i32.eqz (call $is_nl (local.get $c)))
-          (then (return (i32.shr_u (local.get $c) (i32.const 21)))))))
+          (then (return (call $link_of (local.get $c)))))))
     (i32.const 0))
 
   ;; Link the selection to the URL of $n units at OUT, or unlink it if $n is 0.
@@ -1566,21 +1839,21 @@
                 (br_if $d (i32.eqz (local.get $s)))
                 (local.set $c (call $get (i32.sub (local.get $s) (i32.const 1))))
                 (br_if $d (call $is_nl (local.get $c)))
-                (br_if $d (i32.ne (i32.shr_u (local.get $c) (i32.const 21)) (local.get $cur)))
+                (br_if $d (i32.ne (call $link_of (local.get $c)) (local.get $cur)))
                 (local.set $s (i32.sub (local.get $s) (i32.const 1)))
                 (br $l)))
             (block $d2
               (loop $l2
                 (local.set $c (call $get (local.get $e)))
                 (br_if $d2 (call $is_nl (local.get $c)))
-                (br_if $d2 (i32.ne (i32.shr_u (local.get $c) (i32.const 21)) (local.get $cur)))
+                (br_if $d2 (i32.ne (call $link_of (local.get $c)) (local.get $cur)))
                 (local.set $e (i32.add (local.get $e) (i32.const 1)))
                 (br $l2))))
           (else
             (if (i32.eqz (local.get $n)) (then (return (i32.const 0))))
             (if (i32.eqz (call $room (local.get $n))) (then (return (i32.const 0))))
             (call $begin)
-            (local.set $m (i32.or (i32.and (call $marks_at (local.get $s)) (i32.const 31))
+            (local.set $m (i32.or (i32.and (call $marks_at (local.get $s)) (i32.const 0xE01F))
                                   (i32.shl (local.get $id) (i32.const 5))))
             (local.set $a (i32.add (global.get $OUT)
                                    (i32.and (i32.add (i32.shl (local.get $n) (i32.const 1)) (i32.const 3)) (i32.const -4))))
@@ -1609,7 +1882,7 @@
         (if (i32.eqz (call $is_nl (local.get $c)))
           (then
             (i32.store (local.get $i)
-              (i32.or (i32.and (local.get $c) (i32.const 0x1FFFFF)) (i32.shl (local.get $id) (i32.const 21))))))
+              (i32.or (i32.and (local.get $c) (i32.const 0xE01FFFFF)) (i32.shl (local.get $id) (i32.const 21))))))
         (local.set $i (i32.add (local.get $i) (i32.const 4)))
         (br $l4)))
     (call $set_end (local.get $a) (i32.sub (local.get $e) (local.get $s)))
@@ -1662,89 +1935,124 @@
   ;; Rendering
   ;; =====================================================================
 
-  ;; Inline markup nests in a fixed order: link, bold, italic, underline,
-  ;; strike, code. Level 0 is the link; level l > 0 is mark bit l-1. Moving
-  ;; from one run's attrs to the next closes only the levels that change (and
-  ;; those inside them), so a bold word inside a link stays inside one <a>.
-  (func $has (param $a i32) (param $l i32) (result i32)
-    (if (result i32) (local.get $l)
-      (then (i32.ne (i32.and (local.get $a) (i32.shl (i32.const 1) (i32.sub (local.get $l) (i32.const 1)))) (i32.const 0)))
-      (else (i32.ne (i32.shr_u (local.get $a) (i32.const 5)) (i32.const 0)))))
+  ;; Inline markup nests in a fixed order: colour, link, bold, italic,
+  ;; underline, strike, code. Level 0 is the colour, level 1 the link, level
+  ;; l > 1 mark bit l-2. Moving from one run's attrs to the next closes only
+  ;; the levels that change (and those inside them), so a bold word inside a
+  ;; link stays inside one <a>, and a coloured sentence in one <span>.
+  ;; $mode is 0 for HTML for the editing surface (colours as classes, which
+  ;; the stylesheet can theme), 1 for Markdown, 2 for HTML to hand out
+  ;; (colours as inline styles).
 
-  ;; Open or close level $l of attrs $a, as HTML ($md = 0) or Markdown.
-  (func $delim (param $l i32) (param $closing i32) (param $a i32) (param $md i32)
-    (if (i32.eqz (local.get $md))
+  ;; Value of level $l of attrs $a: the colour, the link id, or the mark bit.
+  (func $level (param $a i32) (param $l i32) (result i32)
+    (if (i32.eqz (local.get $l)) (then (return (i32.shr_u (local.get $a) (i32.const 13)))))
+    (if (i32.eq (local.get $l) (i32.const 1))
+      (then (return (i32.and (i32.shr_u (local.get $a) (i32.const 5)) (i32.const 0xFF)))))
+    (i32.and (i32.shr_u (local.get $a) (i32.sub (local.get $l) (i32.const 2))) (i32.const 1)))
+
+  (func $emit_hex (param $v i32) (param $digits i32)
+    (local $d i32)
+    (block $done
+      (loop $l
+        (br_if $done (i32.eqz (local.get $digits)))
+        (local.set $digits (i32.sub (local.get $digits) (i32.const 1)))
+        (local.set $d (i32.and (i32.shr_u (local.get $v) (i32.shl (local.get $digits) (i32.const 2))) (i32.const 15)))
+        (call $emit (i32.add (local.get $d) (select (i32.const 87) (i32.const 48) (i32.gt_u (local.get $d) (i32.const 9)))))
+        (br $l))))
+
+  ;; Palette entry $k as 0xRRGGBB, the light shade or the dark one.
+  (func $palette (param $k i32) (param $dark i32) (result i32)
+    (i32.load (i32.add (global.get $PALETTE)
+      (i32.shl (i32.add (i32.and (local.get $k) (i32.const 7)) (i32.shl (local.get $dark) (i32.const 3))) (i32.const 2)))))
+
+  ;; Open or close level $l of attrs $a.
+  (func $delim (param $l i32) (param $closing i32) (param $a i32) (param $mode i32)
+    (local $m i32)
+    (if (i32.eqz (local.get $l))
       (then
-        (if (local.get $l)
+        (if (local.get $closing) (then (call $emit_str (i32.const 72)) (return)))
+        (if (i32.eqz (local.get $mode))
+          (then
+            (call $emit_str (i32.const 70))
+            (call $emit (i32.add (i32.const 48) (call $level (local.get $a) (i32.const 0))))
+            (call $emit_str (i32.const 31))
+            (return)))
+        (call $emit_str (i32.const 71))
+        (call $emit_hex (call $palette (call $level (local.get $a) (i32.const 0)) (i32.const 0)) (i32.const 6))
+        (call $emit_str (i32.const 31))
+        (return)))
+    (if (i32.ne (local.get $mode) (i32.const 1))
+      (then
+        (if (i32.gt_u (local.get $l) (i32.const 1))
           (then
             ;; <strong> <em> <u> <s> <code> and their closing tags
-            (call $emit_str (i32.add (i32.add (i32.const 18) (i32.shl (local.get $l) (i32.const 1))) (local.get $closing))))
+            (call $emit_str (i32.add (i32.add (i32.const 16) (i32.shl (local.get $l) (i32.const 1))) (local.get $closing))))
           (else
             (if (local.get $closing)
               (then (call $emit_str (i32.const 32)))
               (else
                 (call $emit_str (i32.const 30))
-                (call $emit_url (i32.shr_u (local.get $a) (i32.const 5)) (i32.const 0))
+                (call $emit_url (call $level (local.get $a) (i32.const 1)) (i32.const 0))
                 (call $emit_str (i32.const 31))))))
         (return)))
-    (if (i32.eqz (local.get $l))
+    (if (i32.eq (local.get $l) (i32.const 1))
       (then
         (if (local.get $closing)
           (then
             (call $emit_str (i32.const 61))
-            (call $emit_url (i32.shr_u (local.get $a) (i32.const 5)) (i32.const 1))
+            (call $emit_url (call $level (local.get $a) (i32.const 1)) (i32.const 1))
             (call $emit_str (i32.const 62)))
           (else (call $emit_str (i32.const 60))))
         (return)))
-    (if (i32.eq (local.get $l) (i32.const 1)) (then (call $emit_str (i32.const 56))))
-    (if (i32.eq (local.get $l) (i32.const 2)) (then (call $emit_str (i32.const 57))))
-    (if (i32.eq (local.get $l) (i32.const 3)) (then (call $emit_str (i32.add (i32.const 24) (local.get $closing)))))
-    (if (i32.eq (local.get $l) (i32.const 4)) (then (call $emit_str (i32.const 58))))
-    (if (i32.eq (local.get $l) (i32.const 5)) (then (call $emit_str (i32.const 59)))))
+    (local.set $m (i32.sub (local.get $l) (i32.const 1)))
+    (if (i32.eq (local.get $m) (i32.const 1)) (then (call $emit_str (i32.const 56))))
+    (if (i32.eq (local.get $m) (i32.const 2)) (then (call $emit_str (i32.const 57))))
+    (if (i32.eq (local.get $m) (i32.const 3)) (then (call $emit_str (i32.add (i32.const 24) (local.get $closing)))))
+    (if (i32.eq (local.get $m) (i32.const 4)) (then (call $emit_str (i32.const 58))))
+    (if (i32.eq (local.get $m) (i32.const 5)) (then (call $emit_str (i32.const 59)))))
 
   ;; Close the levels of $from that differ from $to (innermost first), then
   ;; open those of $to.
-  (func $transition (param $from i32) (param $to i32) (param $md i32)
+  (func $transition (param $from i32) (param $to i32) (param $mode i32)
     (local $k i32) (local $l i32)
     (if (i32.eq (local.get $from) (local.get $to)) (then (return)))
     (block $found
       (loop $scan
-        (br_if $found (i32.ne (call $has (local.get $from) (local.get $k)) (call $has (local.get $to) (local.get $k))))
-        (br_if $found (i32.and (i32.eqz (local.get $k))
-                               (i32.ne (i32.shr_u (local.get $from) (i32.const 5)) (i32.shr_u (local.get $to) (i32.const 5)))))
+        (br_if $found (i32.ne (call $level (local.get $from) (local.get $k)) (call $level (local.get $to) (local.get $k))))
         (local.set $k (i32.add (local.get $k) (i32.const 1)))
-        (br_if $scan (i32.lt_u (local.get $k) (i32.const 6)))))
-    (local.set $l (i32.const 6))
+        (br_if $scan (i32.lt_u (local.get $k) (i32.const 7)))))
+    (local.set $l (i32.const 7))
     (block $cd
       (loop $cl
         (br_if $cd (i32.le_u (local.get $l) (local.get $k)))
         (local.set $l (i32.sub (local.get $l) (i32.const 1)))
-        (if (call $has (local.get $from) (local.get $l))
-          (then (call $delim (local.get $l) (i32.const 1) (local.get $from) (local.get $md))))
+        (if (call $level (local.get $from) (local.get $l))
+          (then (call $delim (local.get $l) (i32.const 1) (local.get $from) (local.get $mode))))
         (br $cl)))
     (local.set $l (local.get $k))
     (block $od
       (loop $ol
-        (br_if $od (i32.ge_u (local.get $l) (i32.const 6)))
-        (if (call $has (local.get $to) (local.get $l))
-          (then (call $delim (local.get $l) (i32.const 0) (local.get $to) (local.get $md))))
+        (br_if $od (i32.ge_u (local.get $l) (i32.const 7)))
+        (if (call $level (local.get $to) (local.get $l))
+          (then (call $delim (local.get $l) (i32.const 0) (local.get $to) (local.get $mode))))
         (local.set $l (i32.add (local.get $l) (i32.const 1)))
         (br $ol))))
 
-  ;; Emit [p, e) as HTML.
-  (func $emit_runs (param $p i32) (param $e i32)
+  ;; Emit [p, e) as HTML ($mode 0 or 2).
+  (func $emit_runs (param $p i32) (param $e i32) (param $mode i32)
     (local $cur i32) (local $c i32) (local $a i32)
     (block $d
       (loop $l
         (br_if $d (i32.ge_u (local.get $p) (local.get $e)))
         (local.set $c (call $get (local.get $p)))
         (local.set $a (i32.shr_u (local.get $c) (i32.const 16)))
-        (call $transition (local.get $cur) (local.get $a) (i32.const 0))
+        (call $transition (local.get $cur) (local.get $a) (local.get $mode))
         (local.set $cur (local.get $a))
         (call $emit_esc (i32.and (local.get $c) (i32.const 0xFFFF)))
         (local.set $p (i32.add (local.get $p) (i32.const 1)))
         (br $l)))
-    (call $transition (local.get $cur) (i32.const 0) (i32.const 0)))
+    (call $transition (local.get $cur) (i32.const 0) (local.get $mode)))
 
   ;; Rendering is two calls. `layout` is one pass over the cells that writes
   ;; a row per block at OUT: [start, cells incl. terminator, FNV-1a hash].
@@ -1799,7 +2107,7 @@
     ;; an empty block needs a <br> to have a line box for the caret
     (if (i32.eq (local.get $p) (local.get $q))
       (then (call $emit_str (i32.const 19)))
-      (else (call $emit_runs (local.get $p) (local.get $q))))
+      (else (call $emit_runs (local.get $p) (local.get $q) (i32.const 0))))
     (call $emit_str (i32.add (i32.shl (local.get $t) (i32.const 1)) (i32.const 1)))
     (call $out_len))
 
@@ -1894,7 +2202,7 @@
                                             (i32.eq (local.get $g) (i32.const 4))))))))
             (if (i32.eq (local.get $p) (local.get $q))
               (then (call $emit_str (i32.const 19)))
-              (else (call $emit_runs (local.get $cs) (local.get $ce))))
+              (else (call $emit_runs (local.get $cs) (local.get $ce) (i32.const 2))))
             (if (i32.ge_u (local.get $g) (i32.const 5))
               (then (call $emit_str (i32.const 42)))
               (else
@@ -1909,15 +2217,25 @@
 
   ;; --- Markdown ---------------------------------------------------------
 
-  ;; Attributes common to $x and $y.
+  ;; The levels $x and $y share, from the outermost in, up to the first on
+  ;; which they differ: what a space between them can carry without a
+  ;; delimiter landing next to it (a level that changes closes the levels
+  ;; inside it too).
   (func $meet (param $x i32) (param $y i32) (result i32)
-    (i32.or
-      (i32.and (i32.and (local.get $x) (local.get $y)) (i32.const 31))
-      (select (i32.and (local.get $x) (i32.const -32)) (i32.const 0)
-              (i32.eq (i32.shr_u (local.get $x) (i32.const 5)) (i32.shr_u (local.get $y) (i32.const 5))))))
+    (local $k i32)
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $k) (i32.const 7)))
+        (br_if $d (i32.ne (call $level (local.get $x) (local.get $k)) (call $level (local.get $y) (local.get $k))))
+        (local.set $k (i32.add (local.get $k) (i32.const 1)))
+        (br $l)))
+    (if (i32.eqz (local.get $k)) (then (return (i32.const 0))))
+    (if (i32.eq (local.get $k) (i32.const 1)) (then (return (i32.and (local.get $x) (i32.const 0xE000)))))
+    (i32.and (local.get $x)
+      (i32.or (i32.const 0xFFE0) (i32.sub (i32.shl (i32.const 1) (i32.sub (local.get $k) (i32.const 2))) (i32.const 1)))))
 
-  ;; Emit [p, e) as Markdown. Spaces take only the marks shared by the
-  ;; characters around them, so delimiters always hug non-space text
+  ;; Emit [p, e) as Markdown. Spaces take only the attrs the characters
+  ;; around them share ($meet), so delimiters always hug non-space text
   ;; ("**bold** text", not "**bold **text", which is not bold in Markdown).
   ;; Spaces in code keep their marks: code spans have no flanking rules.
   (func $md_runs (param $p i32) (param $e i32) (param $bs i32)
@@ -2259,7 +2577,8 @@
     (global.set $mC (i32.add (global.get $mC) (i32.const 4))))
 
   (func $md_attrs (result i32)
-    (i32.or (global.get $im) (i32.shl (global.get $il) (i32.const 5))))
+    (i32.or (i32.or (global.get $im) (i32.shl (global.get $il) (i32.const 5)))
+            (i32.shl (global.get $ic) (i32.const 13))))
 
   (func $run (param $i i32) (param $b i32) (param $c i32) (result i32)
     (local $n i32)
@@ -2478,7 +2797,7 @@
             (local.set $e (i32.sub (local.get $e) (i32.const 2)))
             (br $tl)))
         (local.set $resume (local.get $e))))
-    (local.set $at (i32.or (global.get $im)
+    (local.set $at (i32.or (i32.or (global.get $im) (i32.shl (global.get $ic) (i32.const 13)))
                            (i32.shl (call $link_id (local.get $i) (i32.shr_u (i32.sub (local.get $e) (local.get $i)) (i32.const 1)))
                                     (i32.const 5))))
     (block $od
@@ -2489,11 +2808,136 @@
         (br $ol)))
     (local.get $resume))
 
+  ;; The palette entry for colour 0xRRGGBB: the one of its hue, gray for a
+  ;; grey, and 0 (the text colour) for near black and near white.
+  (func $color_index (param $rgb i32) (result i32)
+    (local $r i32) (local $g i32) (local $b i32) (local $max i32) (local $min i32) (local $c i32) (local $h i32)
+    (local.set $r (i32.and (i32.shr_u (local.get $rgb) (i32.const 16)) (i32.const 255)))
+    (local.set $g (i32.and (i32.shr_u (local.get $rgb) (i32.const 8)) (i32.const 255)))
+    (local.set $b (i32.and (local.get $rgb) (i32.const 255)))
+    (local.set $max (select (local.get $r) (local.get $g) (i32.gt_u (local.get $r) (local.get $g))))
+    (local.set $max (select (local.get $max) (local.get $b) (i32.gt_u (local.get $max) (local.get $b))))
+    (local.set $min (select (local.get $r) (local.get $g) (i32.lt_u (local.get $r) (local.get $g))))
+    (local.set $min (select (local.get $min) (local.get $b) (i32.lt_u (local.get $min) (local.get $b))))
+    (local.set $c (i32.sub (local.get $max) (local.get $min)))
+    (if (i32.lt_u (local.get $c) (i32.const 32))
+      (then
+        ;; max + min is twice the lightness
+        (local.set $h (i32.add (local.get $max) (local.get $min)))
+        (return (i32.and (i32.ge_u (local.get $h) (i32.const 128)) (i32.le_u (local.get $h) (i32.const 400))))))
+    ;; hue in degrees
+    (if (i32.eq (local.get $max) (local.get $r))
+      (then
+        (local.set $h (i32.div_s (i32.mul (i32.sub (local.get $g) (local.get $b)) (i32.const 60)) (local.get $c)))
+        (if (i32.lt_s (local.get $h) (i32.const 0)) (then (local.set $h (i32.add (local.get $h) (i32.const 360))))))
+      (else
+        (if (i32.eq (local.get $max) (local.get $g))
+          (then (local.set $h (i32.add (i32.div_s (i32.mul (i32.sub (local.get $b) (local.get $r)) (i32.const 60)) (local.get $c))
+                                       (i32.const 120))))
+          (else (local.set $h (i32.add (i32.div_s (i32.mul (i32.sub (local.get $r) (local.get $g)) (i32.const 60)) (local.get $c))
+                                       (i32.const 240)))))))
+    (if (i32.lt_s (local.get $h) (i32.const 15)) (then (return (i32.const 2))))
+    (if (i32.lt_s (local.get $h) (i32.const 42)) (then (return (i32.const 3))))
+    (if (i32.lt_s (local.get $h) (i32.const 70)) (then (return (i32.const 4))))
+    (if (i32.lt_s (local.get $h) (i32.const 170)) (then (return (i32.const 5))))
+    (if (i32.lt_s (local.get $h) (i32.const 250)) (then (return (i32.const 6))))
+    (if (i32.lt_s (local.get $h) (i32.const 330)) (then (return (i32.const 7))))
+    (i32.const 2))
+
+  ;; Value of hex digit $c, or -1.
+  (func $hexval (param $c i32) (result i32)
+    (if (i32.lt_u (i32.sub (local.get $c) (i32.const 48)) (i32.const 10)) (then (return (i32.sub (local.get $c) (i32.const 48)))))
+    (local.set $c (i32.or (local.get $c) (i32.const 32)))
+    (if (i32.lt_u (i32.sub (local.get $c) (i32.const 97)) (i32.const 6)) (then (return (i32.sub (local.get $c) (i32.const 87)))))
+    (i32.const -1))
+
+  ;; The palette entry for a CSS colour at [a, b): #rgb, #rrggbb or a
+  ;; palette name (and black, white). -1 for anything else.
+  (func $parse_color (param $a i32) (param $b i32) (result i32)
+    (local $n i32) (local $v i32) (local $d i32) (local $k i32)
+    (local.set $n (i32.shr_u (i32.sub (local.get $b) (local.get $a)) (i32.const 1)))
+    (if (i32.and (i32.gt_u (local.get $n) (i32.const 0)) (i32.eq (call $u (local.get $a)) (i32.const 35)))
+      (then
+        (if (i32.eqz (i32.or (i32.eq (local.get $n) (i32.const 4)) (i32.eq (local.get $n) (i32.const 7))))
+          (then (return (i32.const -1))))
+        (local.set $a (i32.add (local.get $a) (i32.const 2)))
+        (block $d
+          (loop $l
+            (br_if $d (i32.ge_u (local.get $a) (local.get $b)))
+            (local.set $d (call $hexval (call $u (local.get $a))))
+            (if (i32.lt_s (local.get $d) (i32.const 0)) (then (return (i32.const -1))))
+            (local.set $v (i32.or (i32.shl (local.get $v) (i32.const 4)) (local.get $d)))
+            ;; #rgb: every digit twice
+            (if (i32.eq (local.get $n) (i32.const 4))
+              (then (local.set $v (i32.or (i32.shl (local.get $v) (i32.const 4)) (local.get $d)))))
+            (local.set $a (i32.add (local.get $a) (i32.const 2)))
+            (br $l)))
+        (return (call $color_index (local.get $v)))))
+    (local.set $k (i32.const 76))
+    (block $d2
+      (loop $l2
+        (br_if $d2 (call $match_ci (local.get $a) (local.get $n) (local.get $k)))
+        (local.set $k (i32.add (local.get $k) (i32.const 1)))
+        (br_if $l2 (i32.le_u (local.get $k) (i32.const 85)))
+        (return (i32.const -1))))
+    (if (i32.eq (local.get $k) (i32.const 84)) (then (return (i32.const 1))))
+    (if (i32.eq (local.get $k) (i32.const 85)) (then (return (i32.const 0))))
+    (i32.sub (local.get $k) (i32.const 76)))
+
+  ;; '<span style="color: X">' at $i (X as $parse_color takes it; spaces
+  ;; and a trailing ";" allowed). Sets the colour and returns the address
+  ;; after it, or 0.
+  (func $md_span (param $i i32) (param $b i32) (result i32)
+    (local $j i32) (local $q i32) (local $vs i32) (local $ve i32) (local $x i32) (local $k i32)
+    (if (i32.eqz (call $match (local.get $i) (local.get $b) (i32.const 73))) (then (return (i32.const 0))))
+    (local.set $j (i32.add (local.get $i) (i32.const 10)))
+    (if (i32.ge_u (local.get $j) (local.get $b)) (then (return (i32.const 0))))
+    (if (i32.eqz (call $is_space (call $u (local.get $j)))) (then (return (i32.const 0))))
+    (local.set $j (call $skip_sp (local.get $j) (local.get $b)))
+    (if (i32.eqz (call $match (local.get $j) (local.get $b) (i32.const 74))) (then (return (i32.const 0))))
+    (local.set $j (call $skip_sp (i32.add (local.get $j) (i32.const 10)) (local.get $b)))
+    (if (i32.ge_u (local.get $j) (local.get $b)) (then (return (i32.const 0))))
+    (if (i32.ne (call $u (local.get $j)) (i32.const 61)) (then (return (i32.const 0))))
+    (local.set $j (call $skip_sp (i32.add (local.get $j) (i32.const 2)) (local.get $b)))
+    (if (i32.ge_u (local.get $j) (local.get $b)) (then (return (i32.const 0))))
+    (local.set $q (call $u (local.get $j)))
+    (if (i32.and (i32.ne (local.get $q) (i32.const 34)) (i32.ne (local.get $q) (i32.const 39))) (then (return (i32.const 0))))
+    (local.set $j (call $skip_sp (i32.add (local.get $j) (i32.const 2)) (local.get $b)))
+    (if (i32.eqz (call $match (local.get $j) (local.get $b) (i32.const 75))) (then (return (i32.const 0))))
+    (local.set $j (call $skip_sp (i32.add (local.get $j) (i32.const 10)) (local.get $b)))
+    (if (i32.ge_u (local.get $j) (local.get $b)) (then (return (i32.const 0))))
+    (if (i32.ne (call $u (local.get $j)) (i32.const 58)) (then (return (i32.const 0))))
+    (local.set $vs (call $skip_sp (i32.add (local.get $j) (i32.const 2)) (local.get $b)))
+    (local.set $ve (local.get $vs))
+    (block $vd
+      (loop $vl
+        (br_if $vd (i32.ge_u (local.get $ve) (local.get $b)))
+        (local.set $x (call $u (local.get $ve)))
+        (br_if $vd (i32.or (i32.or (i32.eq (local.get $x) (local.get $q)) (i32.eq (local.get $x) (i32.const 59)))
+                           (call $is_space (local.get $x))))
+        (local.set $ve (i32.add (local.get $ve) (i32.const 2)))
+        (br $vl)))
+    (local.set $j (call $skip_sp (local.get $ve) (local.get $b)))
+    (if (i32.and (i32.lt_u (local.get $j) (local.get $b)) (i32.eq (call $u (local.get $j)) (i32.const 59)))
+      (then (local.set $j (call $skip_sp (i32.add (local.get $j) (i32.const 2)) (local.get $b)))))
+    (if (i32.ge_u (local.get $j) (local.get $b)) (then (return (i32.const 0))))
+    (if (i32.ne (call $u (local.get $j)) (local.get $q)) (then (return (i32.const 0))))
+    (local.set $j (call $skip_sp (i32.add (local.get $j) (i32.const 2)) (local.get $b)))
+    (if (i32.ge_u (local.get $j) (local.get $b)) (then (return (i32.const 0))))
+    (if (i32.ne (call $u (local.get $j)) (i32.const 62)) (then (return (i32.const 0))))
+    (local.set $k (call $parse_color (local.get $vs) (local.get $ve)))
+    (if (i32.lt_s (local.get $k) (i32.const 0)) (then (return (i32.const 0))))
+    (global.set $ic (local.get $k))
+    (global.set $ispan (i32.const 1))
+    (i32.add (local.get $j) (i32.const 2)))
+
   ;; Phase 2 for one block: inline source [a, b) of T to cells.
   (func $md_inline (param $a i32) (param $b i32)
     (local $i i32) (local $c i32) (local $n i32) (local $j i32) (local $s i32) (local $e i32) (local $at i32)
     (global.set $im (i32.const 0))
     (global.set $il (i32.const 0))
+    (global.set $ic (i32.const 0))
+    (global.set $ispan (i32.const 0))
     (global.set $ilend (i32.const 0))
     (local.set $i (local.get $a))
     (block $done
@@ -2581,6 +3025,15 @@
               (then
                 (global.set $im (i32.and (global.get $im) (i32.const -5)))
                 (local.set $i (i32.add (local.get $i) (i32.const 8)))
+                (br $l)))
+            ;; a colour <span> and its end
+            (local.set $j (call $md_span (local.get $i) (local.get $b)))
+            (if (local.get $j) (then (local.set $i (local.get $j)) (br $l)))
+            (if (i32.and (global.get $ispan) (call $match (local.get $i) (local.get $b) (i32.const 72)))
+              (then
+                (global.set $ic (i32.const 0))
+                (global.set $ispan (i32.const 0))
+                (local.set $i (i32.add (local.get $i) (i32.const 14)))
                 (br $l)))
             (if (i32.eqz (global.get $il))
               (then

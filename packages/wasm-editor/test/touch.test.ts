@@ -104,6 +104,32 @@ test('toolbar buttons respond to taps, and light up while pressed', () => {
   assert.equal(h.markdown(), '**some words**');
 });
 
+test('the colour palette works by touch', () => {
+  const RED = 0xff2e22cf;
+  const h = new Host().load('some words\n\nmore');
+  const b = h.buttons();
+  h.x.set_selection(0, 4);
+  assert.equal(h.touch(b[5], 22), 0);
+  const a = h.box(RED)!;
+  assert.ok(a, 'the palette is open');
+  // dragging from it neither scrolls nor picks
+  h.x.wheel(0, 0);
+  assert.equal(h.touch(a[0] + a[2] / 2, a[1] + a[3] / 2, [[a[0], a[1] + 200]]), 0);
+  assert.equal(h.markdown(), 'some words\n\nmore');
+  assert.ok(h.box(RED));
+  // a tap on a swatch picks it and keeps the keyboard down
+  assert.equal(h.touch(a[0] + a[2] / 2, a[1] + a[3] / 2), 0);
+  assert.equal(h.markdown(), '<span style="color: #cf222e">some</span> words\n\nmore');
+  // a tap in the text closes it and places the caret
+  h.touch(b[5], 22);
+  assert.ok(h.box(RED));
+  const [x, y, , ch] = h.caretAt(14);
+  h.x.set_selection(0, 4);
+  h.touch(x + 2, y + ch / 2);
+  assert.deepEqual(h.selection, [14, 14]);
+  assert.equal(h.count(RED, a), 0);
+});
+
 test('a double tap selects a word and opens the edit menu', () => {
   const h = new Host().load('one\n\ntwo\n\nalpha beta gamma');
   const [x, y, , ch] = h.caretAt(16);

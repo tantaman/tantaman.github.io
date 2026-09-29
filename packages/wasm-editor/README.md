@@ -27,15 +27,16 @@ pnpm --filter @tantaman/wasm-editor desktop -- notes.md   # native window (needs
 ```
 
 ```ts
-import { createEditor, Mark, BlockType } from '@tantaman/wasm-editor';
+import { createEditor, Mark, BlockType, Color } from '@tantaman/wasm-editor';
 import '@tantaman/wasm-editor/editor.css';
 
 const editor = await createEditor(element, {
   markdown: '# Hello',
   onChange: (ed) => save(ed.getMarkdown()),
-  onStateChange: (state) => updateToolbar(state), // marks, block, link, canUndo, ...
+  onStateChange: (state) => updateToolbar(state), // marks, color, block, link, canUndo, ...
 });
 editor.toggleMark(Mark.Bold);
+editor.setColor(Color.Red);
 editor.setBlock(BlockType.Heading2);
 editor.setLink('example.com');
 ```
@@ -52,6 +53,11 @@ package.
 ## What it supports
 
 - Marks: bold, italic, underline, strikethrough, inline code, links
+- Text colour from a palette: gray, red, orange, yellow, green, blue, purple.
+  Each has a shade for light pages and one for dark ones, so coloured text
+  stays readable in either theme (the DOM version gets `rt-c1`…`rt-c7`
+  classes, themed in `editor.css`). A colour behaves like a mark: typing
+  continues it, and it applies to the next typed text at a caret.
 - Blocks: paragraph, H1–H3, quote, bulleted, numbered and checklist items, code lines
 - Markdown shortcuts while typing: `# `, `## `, `### `, `- `, `* `, `1. `, `> `,
   `[] `, `[x] `, ```` ``` ````. Undo right after one restores the typed text.
@@ -65,7 +71,11 @@ package.
   (DOM version; the canvas version has IME but no spellcheck, see below.)
 - Markdown in/out: ATX headings, lists (nested ones are flattened), task
   lists, quotes, fenced code, `**`/`__`, `*`/`_`, `~~`, `` ` ``, `<u>`,
-  links, images (kept as links), autolinks and backslash escapes.
+  links, images (kept as links), autolinks and backslash escapes. Colours
+  are written as `<span style="color: #cf222e">…</span>` with the light
+  shade; reading, any `#rgb`/`#rrggbb` colour or palette name goes to the
+  palette entry of its hue (near black and white to the text colour), and so
+  do colours in pasted HTML.
 - Links are limited to http(s), mailto, tel and relative URLs, checked in WASM.
 
 Lists are flat (no nesting) and there are no tables or images.
@@ -73,15 +83,24 @@ Lists are flat (no nesting) and there are no tables or images.
 ## Engine layout
 
 A document is a gap buffer of 32-bit cells: a UTF-16 code unit in the low 16
-bits, and marks + link id (text) or block type + checked flag (a `\n`
-terminator) in the high 16 bits. The block format lives on its terminator.
+bits, and marks + link id + colour (text) or block type + checked flag (a
+`\n` terminator) in the high 16 bits. The block format lives on its
+terminator.
+
+A cell has room for 255 link ids. The link table interns URLs, and when it
+is full it reuses the entries that nothing refers to any more: no cell of
+the document or of the undo history, and nothing interned since the
+document last changed (a host may be about to insert it). If the history is
+what holds them all, its older half is forgotten, as when the undo log
+fills up.
 
 | Address    | Region  |                                                |
 | ---------- | ------- | ---------------------------------------------- |
 | `0x000100` | strings | NUL-separated tags and Markdown tokens         |
 | `0x010000` | DOC     | gap buffer, 1M cells                           |
 | `0x410000` | UNDO    | undo log, 4 MiB; oldest steps drop when full   |
-| `0x810000` | LINKS   | link table and URL arena (append-only)         |
+| `0x005000` | PALETTE | the text colours, light and dark shades        |
+| `0x810000` | LINKS   | link table and URL arena, reused when full     |
 | `0x850000` | OUT     | scratch for host input and output; grows at will |
 
 Every edit is a transaction of three primitives (insert cells, delete cells,
@@ -223,7 +242,15 @@ position) when a shortcut modifier is held. Modifiers: 1 Shift, 2 Ctrl,
 - **Input** (`ui-input.wat`): hit testing, caret movement by character, word,
   line (with a goal column and wrap affinity), page and document; click,
   double-click word, triple-click block, drag selection with autoscroll;
-  toolbar buttons, checkboxes, a link bar for Mod-K, scrollbar dragging.
+  toolbar buttons, checkboxes, a link bar for Mod-K, the colour palette,
+  scrollbar dragging.
+- **Colour** (`ui-paint.wat`): the toolbar's "A" shows the selection's colour
+  underneath and opens a row of swatches, an "A" in each colour. A click (or
+  tap) on one colours the selection, or what is typed next at a caret;
+  Left/Right and Enter pick from the keyboard, Escape or a click elsewhere
+  closes it. The row floats over the text like the touch edit menu, so only
+  the lines it crosses repaint. Text is drawn in its colour's shade for the
+  theme, a coloured link in its colour; a done todo stays muted.
 - **Touch** (`ui-touch.wat`), see below.
 
 ### Touch
