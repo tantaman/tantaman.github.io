@@ -301,6 +301,15 @@ test('a late joiner loads the snapshot and the operations after it', async () =>
   assert.equal(b.engine.getText(), 'one two three four five six seven');
 });
 
+test('the sequencer refuses to grow a document past what an engine holds', () => {
+  const seq = new Sequencer(new MemoryStore(), { maxLength: 5 });
+  const grow = (n: number) => [{ i: { t: 'x'.repeat(n) } }, seq.length];
+  assert.equal(seq.receive('c', 1, 0, grow(3), 'u').kind, 'commit');
+  assert.deepEqual(seq.receive('c', 2, 1, grow(3), 'u'), { kind: 'reset', reason: 'document too large' });
+  // shrinking a document that is already too long is still allowed
+  assert.equal(seq.receive('c', 3, 1, [{ d: 2 }, 2], 'u').kind, 'commit');
+});
+
 // COLLAB_SEEDS=2000 for a longer hunt
 const SEEDS = Number(process.env.COLLAB_SEEDS ?? 60);
 
