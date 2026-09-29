@@ -8,7 +8,7 @@ There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection 
 ## Try it
 
 - Type, select with the mouse or Shift+arrows, double-click a word
-- ${navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'}-B, I, U, E for code, K for a link
+- ⌘ or Ctrl with B, I, U, E for code, K for a link
 - Start a line with \`# \`, \`- \`, \`1. \`, \`> \` or \`[] \`
 
 1. Hand-written
@@ -24,9 +24,10 @@ There is no HTML in this editor. **Layout**, *glyphs*, the caret, the selection 
 \`\`\`
 `;
 
-// ?doc=<id> edits document <id> together with everyone else who has it open
-// (docs/COLLAB.md); the page's origin serves /api/collab/<id>.
-const doc = new URLSearchParams(location.search).get('doc');
+// Everyone edits the communal document "demo" together, which starts out as
+// SAMPLE; ?doc=<id> edits document <id> instead (docs/COLLAB.md). The page's
+// origin serves /api/collab/<id>.
+const doc = new URLSearchParams(location.search).get('doc') || 'demo';
 const status = document.getElementById('collab')!;
 
 function showCollab(state: string, peers: Peer[]) {
@@ -54,18 +55,19 @@ let state = 'connecting';
 let peers: Peer[] = [];
 
 async function main() {
-  const path = doc ? `/api/collab/${encodeURIComponent(doc)}` : '';
-  const allowed = doc ? await mayJoin(path) : false;
+  const path = `/api/collab/${encodeURIComponent(doc)}`;
+  const allowed = await mayJoin(path);
   const collab = allowed
     ? {
         url: `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}${path}`,
         onStatus: (s: CollabStatus) => showCollab((state = s), peers),
         onPeers: (p: Peer[]) => showCollab(state, (peers = p)),
         onLost: () => alert('The document changed too much while you were away; your latest edits could not be kept.'),
+        seed: doc === 'demo' ? SAMPLE : undefined,
       }
     : undefined;
   if (allowed) showCollab(state, peers);
-  else if (doc) {
+  else {
     status.hidden = false;
     const login = document.createElement('a');
     login.href = '/login';

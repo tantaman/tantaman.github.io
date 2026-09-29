@@ -71,21 +71,6 @@
     .toolbar button[aria-pressed='true'] { background: var(--active); color: var(--active-text); border-color: var(--active); }
     .toolbar button:disabled { opacity: 0.4; cursor: default; }
     #editor { min-height: 320px; padding: 20px 0; }
-    .panel { margin-top: 24px; border-top: 1px solid var(--border); font: 13px/1.5 system-ui, sans-serif; }
-    .tabs { display: flex; gap: 16px; padding: 10px 0; }
-    .tabs button { border: 0; background: none; color: var(--text-muted); font: inherit; cursor: pointer; padding: 0; }
-    .tabs button[aria-selected='true'] { color: var(--text); font-weight: 600; }
-    pre.out {
-      margin: 0;
-      padding: 12px;
-      background: var(--bg-soft);
-      border-radius: 6px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      max-height: 360px;
-      overflow: auto;
-    }
   </style>
 </head>
 <body>
@@ -116,14 +101,6 @@
       <button data-cmd="theme" title="Toggle theme">◐</button>
     </div>
     <div id="editor"></div>
-    <section class="panel">
-      <div class="tabs" role="tablist">
-        <button role="tab" data-tab="markdown" aria-selected="true">Markdown</button>
-        <button role="tab" data-tab="html" aria-selected="false">HTML</button>
-        <button role="tab" data-tab="engine" aria-selected="false">Engine</button>
-      </div>
-      <pre class="out" id="output"></pre>
-    </section>
   </main>
   <script type="module" src="./src/demo.ts"></script>
 </body>

@@ -152,7 +152,9 @@ create it).
 
 `rindle-site/server/collab-http.ts` handles `/api/collab/<id>`. It refuses
 other origins (the session cookie rides a WebSocket upgrade from any page) and
-anonymous callers (401). A plain GET answers whether the caller may join,
+anonymous callers (401), except on `demo`, the communal document
+`/wasm-editor/canvas` opens by default, where a visitor without a session joins
+as a guest. A plain GET answers whether the caller may join,
 because a browser can't read why an upgrade failed. A WebSocket upgrade is
 forwarded to the document's object with the verified user.
 `rindle-site/src/worker-entry.ts` routes `/api/collab/*` there and everything
@@ -171,12 +173,13 @@ JSON over one WebSocket per tab.
 | client → | `{"t":"op","seq":s,"base":v,"op":…}` | one operation, based on version `v` |
 | ← server | `{"t":"ops","ops":[{"v","c","s","op"}]}` | committed operations in order; the client that sent one recognises its own `(c, s)` as the acknowledgement |
 | client → | `{"t":"presence","v":v,"a":anchor,"f":focus}` | my selection, in version `v`'s coordinates |
+| client → | `{"t":"seed","op":…}` | fill the document with `op` if it is still empty ("Seeding") |
 | ← server | `{"t":"presence","peers":[…]}` | changed peers: `{id, name, color, v, a, f}`, or `{id, gone: true}` |
 | ← server | `{"t":"reset","reason":…}` | reload from `hello` with version -1 |
 
 ## The client (`src/collab/client.ts`, `engine-doc.ts`)
 
-`createCanvasEditor(el, { collab: { url, onStatus, onPeers, onLost } })` sets
+`createCanvasEditor(el, { collab: { url, onStatus, onPeers, onLost, seed } })` sets
 it up (`src/canvas.ts`): a reconnecting WebSocket (`src/collab/socket.ts`), and
 the module's exports wrapped so that `afterLocal()` runs after every call into
 it.
@@ -263,11 +266,22 @@ a moving cursor repaints only the lines it touches.
 
 ## Running it
 
-- `pnpm --filter @tantaman/wasm-editor dev`, then `canvas.html?doc=anything` in
-  two tabs: the Vite plugin in `vite.config.ts` serves `/api/collab/<id>` from
-  an in-memory sequencer.
-- rindle-site: `pnpm preview:cf` or a deploy, signed in, then
+- `pnpm --filter @tantaman/wasm-editor dev`, then `canvas.html` in two tabs
+  (the document `demo`), or `canvas.html?doc=anything`: the Vite plugin in
+  `vite.config.ts` serves `/api/collab/<id>` from an in-memory sequencer.
+- rindle-site: `pnpm preview:cf` or a deploy, then `/wasm-editor/canvas` for
+  the communal `demo` that anyone may edit, or, signed in,
   `/wasm-editor/canvas.html?doc=<id>`.
+
+## Seeding
+
+A client created with `seed` (a document) sends `{"t": "seed", "op"}` when it
+joins and finds the document empty: one insert, made against the empty
+document. The sequencer commits it only if the document is still empty, as the
+operation of a client named `seed`, so it reaches every copy, the sender's
+included, as someone else's edit (nobody can undo it) and a second offer is
+ignored. The demo page seeds `demo` with its sample; emptied, `demo` is seeded
+again by the next visitor to arrive.
 
 ## Limits
 

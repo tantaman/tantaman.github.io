@@ -228,6 +228,7 @@ export class Room {
     if (m.t === 'hello') this.hello(conn, m.client, m.version);
     else if (m.t === 'op') this.op(conn, m.seq, m.base, m.op);
     else if (m.t === 'presence') this.presence(conn, m.v, m.a, m.f);
+    else if (m.t === 'seed') this.seed(conn, m.op);
   }
 
   private hello(conn: Conn, client: unknown, version: unknown): void {
@@ -270,6 +271,19 @@ export class Room {
     const r = this.seq.receive(client, seq, base, op, conn.state.user);
     if (r.kind === 'reset') conn.send({ t: 'reset', reason: r.reason });
     else if (r.kind === 'commit') {
+      this.pending.push(r.entry);
+      this.schedule();
+    }
+  }
+
+  /**
+   * Starting content for an empty document. It commits as nobody's operation, so every copy,
+   * the sender's too, applies it as a remote one; once one seed lands the rest are ignored.
+   */
+  private seed(conn: Conn, op: unknown): void {
+    if (!conn.state.client || this.seq.length !== 1) return;
+    const r = this.seq.receive('seed', this.seq.version + 1, this.seq.version, op, conn.state.user);
+    if (r.kind === 'commit') {
       this.pending.push(r.entry);
       this.schedule();
     }

@@ -22,7 +22,9 @@ export type ClientMsg =
   /** One operation made against version `base`. */
   | { t: 'op'; seq: number; base: number; op: WireOp }
   /** My selection, at version `v`. */
-  | { t: 'presence'; v: number; a: number; f: number };
+  | { t: 'presence'; v: number; a: number; f: number }
+  /** Fill the document with `op` (made against the empty document) if it is still empty. */
+  | { t: 'seed'; op: WireOp };
 
 /** A committed operation: version, client, that client's sequence number. */
 export interface WireCommitted {

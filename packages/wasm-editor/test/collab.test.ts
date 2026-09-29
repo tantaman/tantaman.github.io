@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { CollabClient } from '../src/collab/client.ts';
-import type { CollabExports } from '../src/collab/engine-doc.ts';
+import { EngineDoc, type CollabExports } from '../src/collab/engine-doc.ts';
 import { LINK_SHIFT, LOW_MASK, type Doc } from '../src/collab/ot.ts';
 import type { ClientMsg, ServerMsg } from '../src/collab/protocol.ts';
 import { MemoryStore, Room, Sequencer, newConnState, type Conn, type ConnState } from '../src/collab/server-core.ts';
@@ -45,9 +45,9 @@ class Sim {
     });
   }
 
-  async add(name: string): Promise<Peer> {
+  async add(name: string, seed?: Doc): Promise<Peer> {
     const engine = await Engine.load(module);
-    const peer = new Peer(this, engine, name);
+    const peer = new Peer(this, engine, name, seed);
     this.peers.push(peer);
     return peer;
   }
@@ -92,7 +92,7 @@ class Peer {
   link: Link | null = null;
   lost = 0;
 
-  constructor(sim: Sim, engine: Engine, name: string) {
+  constructor(sim: Sim, engine: Engine, name: string, seed?: Doc) {
     this.sim = sim;
     this.engine = engine;
     this.name = name;
@@ -104,6 +104,7 @@ class Peer {
       setTimer: (fn, ms) => sim.timers.push({ at: sim.now + ms, fn }),
       clearTimer: () => {},
       maxInsert: 40,
+      seed,
     });
   }
 
@@ -311,6 +312,47 @@ test('the sequencer refuses to grow a document past what an engine holds', () =>
 });
 
 // COLLAB_SEEDS=2000 for a longer hunt
+async function markdownDoc(markdown: string): Promise<Doc> {
+  const engine = await Engine.load(module);
+  engine.setMarkdown(markdown);
+  return new EngineDoc(engine.wasm as unknown as CollabExports).doc();
+}
+
+test('an empty document is seeded once, however many offer it', async () => {
+  const seed = await markdownDoc('# Demo\n\nSome **bold** text');
+  const sim = new Sim({ window: 1000, compactEvery: 2000 });
+  const a = await sim.add('a', seed);
+  const b = await sim.add('b', seed);
+  a.connect();
+  b.connect();
+  sim.settle();
+  assert.equal(a.engine.getMarkdown(), '# Demo\n\nSome **bold** text');
+  assert.equal(b.engine.getMarkdown(), a.engine.getMarkdown());
+  assert.equal(sim.seq.version, 1);
+  // the seed is nobody's edit to undo
+  a.engine.undo();
+  a.client.afterLocal();
+  sim.settle();
+  assert.equal(a.engine.getMarkdown(), '# Demo\n\nSome **bold** text');
+
+  // a document with anything in it is left alone
+  const c = await sim.add('c', seed);
+  c.connect();
+  sim.settle();
+  assert.equal(sim.seq.version, 1);
+
+  // emptied, the next joiner seeds it again
+  a.engine.setSelection(0, a.engine.length - 1);
+  a.engine.deleteBackward();
+  a.client.afterLocal();
+  sim.settle();
+  assert.equal(c.engine.getText(), '');
+  const d = await sim.add('d', seed);
+  d.connect();
+  sim.settle();
+  assert.equal(a.engine.getMarkdown(), '# Demo\n\nSome **bold** text');
+});
+
 const SEEDS = Number(process.env.COLLAB_SEEDS ?? 60);
 
 test('random editing by three people converges', async () => {

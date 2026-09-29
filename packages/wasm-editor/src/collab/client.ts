@@ -40,6 +40,8 @@ export interface CollabClientOptions {
   onPeers?(peers: Peer[]): void;
   /** Local changes were dropped because the document had to be reloaded. */
   onLost?(): void;
+  /** Content to offer the sequencer when the document turns out to be empty on joining. */
+  seed?: Doc;
   /** Inserted cells per operation sent; bigger edits go in several. Default 100,000. */
   maxInsert?: number;
   /** Minimum gap between presence messages. Default 200 ms. */
@@ -196,6 +198,7 @@ export class CollabClient {
     this.doc.remote = [];
     this.committedBatch(msg.ops);
     this.presenceIn(msg.peers);
+    this.offerSeed();
     // an operation sent on an earlier socket and not among these was never committed
     if (this.awaiting && this.awaiting.socket !== this.socket) this.sendOp(this.awaiting.seq, this.awaiting.op);
     else this.flush();
@@ -203,6 +206,18 @@ export class CollabClient {
     this.presence();
     this.updateStatus();
     this.opts.onRemote?.();
+  }
+
+  /** The seed comes back like anyone else's edit, so nothing here waits for it. */
+  private offerSeed(): void {
+    const seed = this.opts.seed;
+    if (!seed || seed.cells.length < 2 || this.doc.length !== 1 || this.awaiting || this.buffer) return;
+    const last = seed.cells[seed.cells.length - 1];
+    const op = new Builder()
+      .insert(seed.cells.slice(0, -1), seed.links)
+      .format(1, ATTR_MASK, last & ATTR_MASK)
+      .done();
+    this.opts.send({ t: 'seed', op: encodeOp(op) });
   }
 
   // --- committed operations ------------------------------------------------

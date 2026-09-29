@@ -11,8 +11,10 @@
 //   - carries out the clipboard commands of the module's touch edit menu.
 
 import { CollabClient, type CollabStatus, type Peer } from './collab/client.ts';
-import type { CollabExports } from './collab/engine-doc.ts';
+import { EngineDoc, type CollabExports } from './collab/engine-doc.ts';
+import type { Doc } from './collab/ot.ts';
 import { CollabSocket, withAfter } from './collab/socket.ts';
+import { Engine } from './engine.ts';
 import { GpuRenderer, requestGpuDevice } from './gpu.ts';
 
 interface CanvasExports {
@@ -79,6 +81,8 @@ export interface CanvasEditorOptions {
     onPeers?(peers: Peer[]): void;
     /** Local changes were dropped because the document had to be reloaded. */
     onLost?(): void;
+    /** Markdown to fill the document with when it is empty on joining. */
+    seed?: string;
   };
 }
 
@@ -115,7 +119,15 @@ export async function createCanvasEditor(container: HTMLElement, options: Canvas
   const module = source instanceof WebAssembly.Module ? source : await WebAssembly.compile(source);
   const device = options.renderer === 'cpu' ? null : await requestGpuDevice();
   if (!device && options.renderer === 'webgpu') throw new Error('WebGPU is not available');
-  return new CanvasEditor(container, module, options, device);
+  const seed = options.collab?.seed ? await markdownDoc(options.collab.seed) : undefined;
+  return new CanvasEditor(container, module, options, device, seed);
+}
+
+/** Markdown as cells, parsed by the engine alone (editor.wasm) rather than a second canvas. */
+async function markdownDoc(markdown: string): Promise<Doc> {
+  const engine = await Engine.load(fetch(new URL('./editor.wasm', import.meta.url)));
+  engine.setMarkdown(markdown);
+  return new EngineDoc(engine.wasm as unknown as CollabExports).doc();
 }
 
 export class CanvasEditor {
@@ -154,7 +166,13 @@ export class CanvasEditor {
   private readonly dark: MediaQueryList;
 
   /** With a GPU device, frames are drawn from the module's display list. */
-  constructor(container: HTMLElement, module: WebAssembly.Module, options: CanvasEditorOptions = {}, device: GPUDevice | null = null) {
+  constructor(
+    container: HTMLElement,
+    module: WebAssembly.Module,
+    options: CanvasEditorOptions = {},
+    device: GPUDevice | null = null,
+    seed?: Doc,
+  ) {
     this.container = container;
     this.options = options;
     this.canvas = document.createElement('canvas');
@@ -199,6 +217,7 @@ export class CanvasEditor {
         onStatus,
         onPeers,
         onLost,
+        seed,
         setTimer: (fn, ms) => setTimeout(fn, ms),
         clearTimer: (t) => clearTimeout(t as ReturnType<typeof setTimeout>),
       });

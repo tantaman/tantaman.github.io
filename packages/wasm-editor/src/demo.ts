@@ -1,5 +1,5 @@
 import './editor.css';
-import { BlockType, Mark, createEditor, type RichTextEditor } from './index.ts';
+import { BlockType, Mark, createEditor } from './index.ts';
 
 const SAMPLE = `# Hello from WebAssembly
 
@@ -27,31 +27,11 @@ Start a line with \`# \`, \`- \`, \`1. \`, \`> \`, \`[] \` or \`\`\`\` \`\`\` \`
 `;
 
 const toolbar = document.getElementById('toolbar')!;
-const output = document.getElementById('output')!;
-let tab = 'markdown';
-
-function showOutput(editor: RichTextEditor) {
-  if (tab === 'markdown') output.textContent = editor.getMarkdown();
-  else if (tab === 'html') output.textContent = editor.getHTML();
-  else {
-    const s = editor.engine.stats();
-    output.textContent = [
-      `document     ${s.length} cells in ${s.blocks} blocks`,
-      `gap          [${s.gapStart}, ${s.gapEnd})  (${s.gapEnd - s.gapStart} free cells)`,
-      `undo log     ${s.undoBytes} bytes, cursor at ${s.undoCursor}`,
-      `links        ${s.links}`,
-      `memory       ${(s.memoryBytes / 1048576).toFixed(2)} MiB`,
-      `selection    ${editor.engine.anchor} → ${editor.engine.focus}`,
-    ].join('\n');
-  }
-}
-
 async function main() {
   const editor = await createEditor(document.getElementById('editor')!, {
     markdown: SAMPLE,
     placeholder: 'Write something…',
-    onChange: showOutput,
-    onStateChange(state, ed) {
+    onStateChange(state) {
       for (const button of toolbar.querySelectorAll<HTMLButtonElement>('button')) {
         const { mark, block, cmd } = button.dataset;
         if (mark) button.setAttribute('aria-pressed', String((state.marks & Number(mark)) !== 0));
@@ -60,10 +40,8 @@ async function main() {
         if (cmd === 'undo') button.disabled = !state.canUndo;
         if (cmd === 'redo') button.disabled = !state.canRedo;
       }
-      if (tab === 'engine') showOutput(ed);
     },
   });
-  showOutput(editor);
   editor.focus();
 
   // Keep focus (and the selection) in the editor while clicking the toolbar.
@@ -91,16 +69,8 @@ async function main() {
       }
     }
   });
-
-  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-tab]')) {
-    button.addEventListener('click', () => {
-      tab = button.dataset.tab!;
-      for (const b of document.querySelectorAll('[data-tab]')) b.setAttribute('aria-selected', String(b === button));
-      showOutput(editor);
-    });
-  }
 }
 
 main().catch((err) => {
-  output.textContent = `Failed to start: ${err}`;
+  document.getElementById('editor')!.textContent = `Failed to start: ${err}`;
 });
