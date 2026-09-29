@@ -65,6 +65,12 @@
     (global.set $full (i32.const 1))
     (call $paint))
 
+  ;; Paint what changed after the host changed the document or the remote
+  ;; selections directly (apply_*, load_cells, the REMOTE table). Unlike an
+  ;; edit, this does not scroll to the caret.
+  (func (export "refresh")
+    (call $paint))
+
   (func (export "fb_ptr") (result i32) (global.get $FB))
   ;; The display list of the last frame (flag 8): 64-byte records, see
   ;; ui-draw.wat. Glyph records point into the font atlas.

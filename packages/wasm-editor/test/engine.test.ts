@@ -604,3 +604,115 @@ test('fuzz: undo/redo replay every edit exactly', async () => {
     assert.equal(snapshot(), tip, `seed ${seed}: full redo`);
   }
 });
+
+// --- collaboration seams (docs/COLLAB.md) ---------------------------------
+
+/** Write cells at OUT for apply_insert / load_cells. */
+function putCells(e: Engine, cells: number[]) {
+  const ptr = e.wasm.scratch(cells.length * 4);
+  new Uint32Array(e.wasm.memory.buffer, ptr, cells.length).set(cells);
+  return cells.length;
+}
+const text = (s: string) => Array.from(s, (c) => c.charCodeAt(0));
+
+test("someone else's edits move the selection and stay out of history", async () => {
+  const e = await make();
+  type(e, 'abcdef');
+  e.clearHistory();
+  e.setSelection(2, 4);
+  const v = e.wasm.doc_version();
+  e.wasm.apply_insert(1, putCells(e, text('XY')), -1);
+  assert.equal(e.getText(), 'aXYbcdef');
+  assert.deepEqual([e.anchor, e.focus], [4, 6]);
+  // an insert right at the caret leaves it before the new text
+  e.setSelection(4);
+  e.wasm.apply_insert(4, putCells(e, text('Z')), -1);
+  assert.equal(e.anchor, 4);
+  e.setSelection(3, 7);
+  e.wasm.apply_delete(2, 3);
+  assert.equal(e.getText(), 'aXcdef');
+  assert.deepEqual([e.anchor, e.focus], [2, 4]);
+  e.wasm.apply_format(0, 2, Mark.Bold << 16, Mark.Bold << 16);
+  assert.equal(e.cells()[0] >>> 16, Mark.Bold);
+  assert.notEqual(e.wasm.doc_version(), v);
+  assert.equal(e.canUndo, false);
+  assert.equal(e.wasm.undo_bytes(), 0);
+});
+
+test('the final terminator is never deleted and nothing goes after it', async () => {
+  const e = await make();
+  type(e, 'ab');
+  e.wasm.apply_delete(0, 99);
+  assert.equal(e.length, 1);
+  assert.equal(e.cells()[0], 10);
+  e.wasm.apply_insert(50, putCells(e, text('q')), -1);
+  assert.deepEqual(Array.from(e.cells()), [0x71, 10]);
+});
+
+test('collab mode turns undo and redo into requests', async () => {
+  const e = await make();
+  e.wasm.set_collab(1);
+  type(e, 'hi');
+  assert.ok(e.wasm.undo_bytes() > 0, 'edits are still logged, for the host to read');
+  assert.equal(e.canUndo, false, 'the host says what can be undone');
+  e.wasm.set_undo_state(3);
+  assert.equal(e.canUndo, true);
+  assert.equal(e.canRedo, true);
+  assert.equal(e.undo(), true);
+  assert.equal(e.getText(), 'hi', 'nothing was undone locally');
+  assert.equal(e.wasm.undo_request(), 1);
+  assert.equal(e.wasm.undo_request(), 0);
+  e.redo();
+  assert.equal(e.wasm.undo_request(), 2);
+  e.wasm.set_collab(0);
+  assert.equal(e.wasm.undo_bytes(), 0);
+});
+
+test('journal_lost reports a command too big for the log', async () => {
+  const e = await make();
+  e.wasm.set_collab(1);
+  e.insertText('z'.repeat(600_000));
+  e.clearHistory();
+  assert.equal(e.wasm.journal_lost(), 0);
+  e.setSelection(0, 600_000);
+  e.toggleMark(Mark.Bold);
+  assert.equal(e.wasm.journal_lost(), 1);
+  assert.equal(e.wasm.journal_lost(), 0);
+});
+
+test('load_cells replaces the document and keeps the link table', async () => {
+  const e = await make();
+  const id = e.internLink('https://x.example');
+  e.wasm.load_cells(putCells(e, [...text('ab'), 0x63 | (id << 21)]));
+  assert.deepEqual(Array.from(e.cells()), [0x61, 0x62, 0x63 | (id << 21), 10]);
+  assert.equal(e.linkAt(2), 'https://x.example');
+  e.wasm.load_cells(0);
+  assert.deepEqual(Array.from(e.cells()), [10]);
+});
+
+test('remote selections move with every edit', async () => {
+  const e = await make();
+  type(e, 'hello world');
+  const table = () => Array.from(new Int32Array(e.wasm.memory.buffer, e.wasm.remote_ptr(), 8));
+  const view = new Int32Array(e.wasm.memory.buffer, e.wasm.remote_ptr(), 8);
+  view.set([6, 11, 0xff0000, 0, 3, 3, 0x00ff00, 0]);
+  e.wasm.set_remote_count(2);
+  e.setSelection(0);
+  e.insertText('>> ');
+  assert.deepEqual(table(), [9, 14, 0xff0000, 0, 6, 6, 0x00ff00, 0]);
+  // the author of an insert at their own caret moves with it
+  e.wasm.apply_insert(6, putCells(e, text('--')), 1);
+  assert.deepEqual(table().slice(4, 6), [8, 8]);
+  e.wasm.apply_delete(0, 10);
+  assert.deepEqual(table().slice(0, 2), [1, 6]);
+  e.reset();
+  assert.equal(e.wasm.remote_count(), 0);
+});
+
+test('read_cells copies a range', async () => {
+  const e = await make();
+  type(e, 'abc');
+  const n = e.wasm.read_cells(1, 10);
+  assert.equal(n, 3);
+  assert.deepEqual(Array.from(new Uint32Array(e.wasm.memory.buffer, e.wasm.scratch(0), n)), [0x62, 0x63, 10]);
+});

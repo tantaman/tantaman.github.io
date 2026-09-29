@@ -29,6 +29,7 @@
 ;;   0x000100  STR     NUL-separated ASCII strings (the data segment below)
 ;;   0x001000  STRTAB  string index built at start: (u16 addr, u16 len) per id
 ;;   0x002000  TMP     a few bytes of scratch for single-cell inserts
+;;   0x003000  REMOTE  other people's selections, 16 bytes each (see below)
 ;;   0x010000  DOC     gap buffer, 1M cells (4 MiB)
 ;;   0x410000  UNDO    undo/redo log (4 MiB)
 ;;   0x810000  LINKS   link table, (addr, len) per id, 2048 ids
@@ -51,12 +52,25 @@
 ;; Every edit is a transaction BEGIN ... END. Undo walks back from $ucur
 ;; applying inverses; redo walks forward re-applying. When the log fills up
 ;; the oldest transactions are dropped.
+;;
+;; ------------------------------------------------------------------------
+;; Collaboration (docs/COLLAB.md)
+;; ------------------------------------------------------------------------
+;; In collab mode (set_collab) the host reads the undo log after every call
+;; and clears it: the log is how it learns what the local user changed. Undo
+;; and redo become requests the host answers (undo_request), because only the
+;; host can move its history through other people's edits. apply_insert,
+;; apply_delete and apply_format make other people's edits without logging.
+;; The REMOTE table holds other people's selections as (anchor, focus,
+;; colour, spare) records; every edit moves them, like the local selection.
 
   ;; ---------------------------------------------------------------------
   ;; Constants
   ;; ---------------------------------------------------------------------
   (global $STRTAB    i32 (i32.const 0x1000))
   (global $TMP       i32 (i32.const 0x2000))
+  (global $REMOTE    i32 (i32.const 0x3000))
+  (global $REMOTE_MAX i32 (i32.const 64))
   (global $DOC       i32 (i32.const 0x10000))
   (global $CAP       i32 (i32.const 0x100000))
   (global $UNDO      i32 (i32.const 0x410000))
@@ -88,6 +102,15 @@
   (global $op (mut i32) (i32.const 0))          ;; output write pointer
   (global $mem_end (mut i32) (i32.const 0))     ;; bytes of linear memory
   (global $last_attrs (mut i32) (i32.const -1)) ;; attrs of the last block parsed from markdown
+  (global $docv (mut i32) (i32.const 0))        ;; bumped by every change to the cells
+
+  ;; collaboration state
+  (global $collab (mut i32) (i32.const 0))      ;; undo/redo belong to the host
+  (global $jlost (mut i32) (i32.const 0))       ;; log records were dropped since the host looked
+  (global $ureq (mut i32) (i32.const 0))        ;; 1 undo, 2 redo requested
+  (global $ext_can (mut i32) (i32.const 0))     ;; host's history: 1 can undo, 2 can redo
+  (global $nremote (mut i32) (i32.const 0))     ;; records in REMOTE
+  (global $rassoc (mut i32) (i32.const -1))     ;; REMOTE record that follows an insert at its caret
 
   ;; markdown import state
   (global $mT (mut i32) (i32.const 0))          ;; block source text write pointer
@@ -171,6 +194,8 @@
     (global.set $stored (i32.const -1))
     (global.set $nlinks (i32.const 1))
     (global.set $atop (global.get $ARENA))
+    (global.set $nremote (i32.const 0))
+    (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
     (call $clear_history))
 
   (func $clear_history (export "clear_history")
@@ -326,6 +351,23 @@
       (i32.add (global.get $OUT) (i32.shl (global.get $gs) (i32.const 2)))
       (i32.add (global.get $DOC) (i32.shl (global.get $ge) (i32.const 2)))
       (i32.shl (i32.sub (global.get $CAP) (global.get $ge)) (i32.const 2)))
+    (local.get $n))
+
+  ;; Copy cells [p, p+n) to OUT; returns how many were copied.
+  (func (export "read_cells") (param $p i32) (param $n i32) (result i32)
+    (local $len i32) (local $i i32)
+    (local.set $len (call $len))
+    (if (i32.ge_u (local.get $p) (local.get $len)) (then (return (i32.const 0))))
+    (if (i32.gt_u (local.get $n) (i32.sub (local.get $len) (local.get $p)))
+      (then (local.set $n (i32.sub (local.get $len) (local.get $p)))))
+    (call $ensure (i32.add (global.get $OUT) (i32.shl (local.get $n) (i32.const 2))))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $i) (local.get $n)))
+        (i32.store (i32.add (global.get $OUT) (i32.shl (local.get $i) (i32.const 2)))
+                   (call $get (i32.add (local.get $p) (local.get $i))))
+        (local.set $i (i32.add (local.get $i) (i32.const 1)))
+        (br $l)))
     (local.get $n))
 
   (func (export "gap_start") (result i32) (global.get $gs))
@@ -515,6 +557,7 @@
             (global.set $utop (i32.sub (global.get $utop) (local.get $end)))
             (global.set $txn (i32.sub (global.get $txn) (local.get $end)))
             (global.set $last_begin (i32.sub (global.get $last_begin) (local.get $end)))
+            (global.set $jlost (i32.const 1))
             (return (i32.const 1))))
         (local.set $a (i32.add (local.get $a) (i32.shl (i32.load (local.get $a)) (i32.const 2))))
         (br $walk)))
@@ -522,6 +565,7 @@
     (global.set $ucur (global.get $UNDO))
     (global.set $txn (i32.const 0))
     (global.set $ulost (i32.const 1))
+    (global.set $jlost (i32.const 1))
     (i32.const 0))
 
   ;; Open a transaction. Anything that was undone can no longer be redone.
@@ -585,13 +629,20 @@
         (call $uw (i32.add (local.get $n) (i32.const 5))))))
 
   (func $can_undo (export "can_undo") (result i32)
+    (if (global.get $collab) (then (return (i32.and (global.get $ext_can) (i32.const 1)))))
     (i32.gt_u (global.get $ucur) (global.get $UNDO)))
 
   (func $can_redo (export "can_redo") (result i32)
+    (if (global.get $collab) (then (return (i32.shr_u (i32.and (global.get $ext_can) (i32.const 2)) (i32.const 1)))))
     (i32.lt_u (global.get $ucur) (global.get $utop)))
 
   (func $undo (export "undo") (result i32)
     (local $a i32) (local $k i32) (local $p i32) (local $n i32)
+    (if (global.get $collab)
+      (then
+        (global.set $coalesce (i32.const -1))
+        (global.set $ureq (i32.const 1))
+        (return (call $can_undo))))
     (if (i32.le_u (global.get $ucur) (global.get $UNDO)) (then (return (i32.const 0))))
     (global.set $coalesce (i32.const -1))
     (global.set $stored (i32.const -1))
@@ -622,6 +673,11 @@
 
   (func $redo (export "redo") (result i32)
     (local $a i32) (local $k i32) (local $p i32) (local $n i32)
+    (if (global.get $collab)
+      (then
+        (global.set $coalesce (i32.const -1))
+        (global.set $ureq (i32.const 2))
+        (return (call $can_redo))))
     (if (i32.ge_u (global.get $ucur) (global.get $utop)) (then (return (i32.const 0))))
     (global.set $coalesce (i32.const -1))
     (global.set $stored (i32.const -1))
@@ -666,6 +722,8 @@
       (local.get $src)
       (i32.shl (local.get $n) (i32.const 2)))
     (global.set $gs (i32.add (global.get $gs) (local.get $n)))
+    (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (call $remote_insert (local.get $p) (local.get $n))
     (if (global.get $txn)
       (then
         (call $log_cells (i32.const 3) (local.get $p) (local.get $n)
@@ -678,13 +736,16 @@
       (then
         (call $log_cells (i32.const 4) (local.get $p) (local.get $n)
           (i32.add (global.get $DOC) (i32.shl (global.get $ge) (i32.const 2))))))
-    (global.set $ge (i32.add (global.get $ge) (local.get $n))))
+    (global.set $ge (i32.add (global.get $ge) (local.get $n)))
+    (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (call $remote_delete (local.get $p) (local.get $n)))
 
   ;; Rewriting cells in place is done in two halves: $set_begin makes
   ;; [p, p+n) contiguous (just after the gap), logs the old cells and returns
   ;; their address; the caller edits them; $set_end logs the new cells.
   (func $set_begin (param $p i32) (param $n i32) (result i32)
     (local $a i32) (local $words i32)
+    (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
     (call $move_gap (local.get $p))
     (local.set $a (i32.add (global.get $DOC) (i32.shl (global.get $ge) (i32.const 2))))
     (global.set $slog (i32.const 0))
@@ -719,6 +780,7 @@
 
   ;; Overwrite [p, p+n) with cells from $src (undo/redo of SET).
   (func $restore (param $p i32) (param $src i32) (param $n i32)
+    (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
     (call $move_gap (local.get $p))
     (memory.copy
       (i32.add (global.get $DOC) (i32.shl (global.get $ge) (i32.const 2)))
@@ -738,6 +800,165 @@
         (call $set_cell (call $nl_after (local.get $s)) (local.get $c)))
       (else
         (call $raw_delete (local.get $s) (i32.sub (local.get $e) (local.get $s))))))
+
+  ;; =====================================================================
+  ;; Collaboration: other people's edits and selections (docs/COLLAB.md)
+  ;; =====================================================================
+
+  ;; Where position $x goes when $n cells are inserted at $p. A position at
+  ;; $p stays before the new cells unless $after.
+  (func $map_ins (param $x i32) (param $p i32) (param $n i32) (param $after i32) (result i32)
+    (if (i32.or (i32.gt_u (local.get $x) (local.get $p))
+                (i32.and (local.get $after) (i32.eq (local.get $x) (local.get $p))))
+      (then (return (i32.add (local.get $x) (local.get $n)))))
+    (local.get $x))
+
+  ;; Where position $x goes when [p, p+n) is deleted.
+  (func $map_del (param $x i32) (param $p i32) (param $n i32) (result i32)
+    (if (i32.ge_u (local.get $x) (i32.add (local.get $p) (local.get $n)))
+      (then (return (i32.sub (local.get $x) (local.get $n)))))
+    (if (i32.gt_u (local.get $x) (local.get $p)) (then (return (local.get $p))))
+    (local.get $x))
+
+  ;; Move the REMOTE selections past $n cells inserted at $p. The record
+  ;; $rassoc (the author of a remote insert) moves with its own text.
+  (func $remote_insert (param $p i32) (param $n i32)
+    (local $i i32) (local $r i32) (local $after i32)
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $i) (global.get $nremote)))
+        (local.set $r (i32.add (global.get $REMOTE) (i32.shl (local.get $i) (i32.const 4))))
+        (local.set $after (i32.eq (local.get $i) (global.get $rassoc)))
+        (i32.store (local.get $r)
+          (call $map_ins (i32.load (local.get $r)) (local.get $p) (local.get $n) (local.get $after)))
+        (i32.store offset=4 (local.get $r)
+          (call $map_ins (i32.load offset=4 (local.get $r)) (local.get $p) (local.get $n) (local.get $after)))
+        (local.set $i (i32.add (local.get $i) (i32.const 1)))
+        (br $l))))
+
+  (func $remote_delete (param $p i32) (param $n i32)
+    (local $i i32) (local $r i32)
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $i) (global.get $nremote)))
+        (local.set $r (i32.add (global.get $REMOTE) (i32.shl (local.get $i) (i32.const 4))))
+        (i32.store (local.get $r) (call $map_del (i32.load (local.get $r)) (local.get $p) (local.get $n)))
+        (i32.store offset=4 (local.get $r) (call $map_del (i32.load offset=4 (local.get $r)) (local.get $p) (local.get $n)))
+        (local.set $i (i32.add (local.get $i) (i32.const 1)))
+        (br $l))))
+
+  ;; Collab mode on or off. Either way the history starts empty.
+  (func (export "set_collab") (param $on i32)
+    (global.set $collab (i32.ne (local.get $on) (i32.const 0)))
+    (global.set $ureq (i32.const 0))
+    (global.set $ext_can (i32.const 0))
+    (global.set $jlost (i32.const 0))
+    (call $clear_history))
+
+  ;; The undo log starts here and holds undo_bytes bytes (format above).
+  (func (export "undo_ptr") (result i32) (global.get $UNDO))
+
+  ;; 1 if log records were dropped since the last call, so the log no longer
+  ;; tells the whole story of what changed.
+  (func (export "journal_lost") (result i32)
+    (local $v i32)
+    (local.set $v (global.get $jlost))
+    (global.set $jlost (i32.const 0))
+    (local.get $v))
+
+  ;; 0, or 1 undo / 2 redo asked for since the last call (collab mode).
+  (func (export "undo_request") (result i32)
+    (local $v i32)
+    (local.set $v (global.get $ureq))
+    (global.set $ureq (i32.const 0))
+    (local.get $v))
+
+  ;; What the host's history can do, for the toolbar: 1 undo, 2 redo.
+  (func (export "set_undo_state") (param $bits i32)
+    (global.set $ext_can (local.get $bits)))
+
+  ;; Changes whenever the cells change.
+  (func (export "doc_version") (result i32) (global.get $docv))
+
+  ;; Insert $n cells from OUT at $p for someone else. REMOTE record $who (or
+  ;; -1) is the author, whose selection moves along with the new text.
+  ;; Nothing goes after the final terminator.
+  (func (export "apply_insert") (param $p i32) (param $n i32) (param $who i32) (result i32)
+    (if (i32.eqz (local.get $n)) (then (return (i32.const 1))))
+    (if (i32.eqz (call $room (local.get $n))) (then (return (i32.const 0))))
+    (local.set $p (call $clamp (local.get $p)))
+    (global.set $rassoc (local.get $who))
+    (call $raw_insert (local.get $p) (global.get $OUT) (local.get $n))
+    (global.set $rassoc (i32.const -1))
+    (global.set $anchor (call $map_ins (global.get $anchor) (local.get $p) (local.get $n) (i32.const 0)))
+    (global.set $focus (call $map_ins (global.get $focus) (local.get $p) (local.get $n) (i32.const 0)))
+    (global.set $coalesce (i32.const -1))
+    (i32.const 1))
+
+  ;; Delete [p, p+n) for someone else. The final terminator stays.
+  (func (export "apply_delete") (param $p i32) (param $n i32) (result i32)
+    (local $max i32)
+    (local.set $max (i32.sub (call $len) (i32.const 1)))
+    (if (i32.ge_u (local.get $p) (local.get $max)) (then (return (i32.const 0))))
+    (if (i32.gt_u (local.get $n) (i32.sub (local.get $max) (local.get $p)))
+      (then (local.set $n (i32.sub (local.get $max) (local.get $p)))))
+    (if (i32.eqz (local.get $n)) (then (return (i32.const 1))))
+    (call $raw_delete (local.get $p) (local.get $n))
+    (global.set $anchor (call $map_del (global.get $anchor) (local.get $p) (local.get $n)))
+    (global.set $focus (call $map_del (global.get $focus) (local.get $p) (local.get $n)))
+    (global.set $coalesce (i32.const -1))
+    (i32.const 1))
+
+  ;; Rewrite bits $mask (within 16-31) of cells [p, p+n) to $v, for someone else.
+  (func (export "apply_format") (param $p i32) (param $n i32) (param $mask i32) (param $v i32) (result i32)
+    (local $len i32) (local $a i32) (local $end i32) (local $keep i32)
+    (local.set $len (call $len))
+    (if (i32.ge_u (local.get $p) (local.get $len)) (then (return (i32.const 0))))
+    (if (i32.gt_u (local.get $n) (i32.sub (local.get $len) (local.get $p)))
+      (then (local.set $n (i32.sub (local.get $len) (local.get $p)))))
+    (if (i32.eqz (local.get $n)) (then (return (i32.const 1))))
+    (local.set $mask (i32.and (local.get $mask) (i32.const 0xFFFF0000)))
+    (local.set $v (i32.and (local.get $v) (local.get $mask)))
+    (local.set $keep (i32.xor (local.get $mask) (i32.const -1)))
+    (local.set $a (call $set_begin (local.get $p) (local.get $n)))
+    (local.set $end (i32.add (local.get $a) (i32.shl (local.get $n) (i32.const 2))))
+    (block $d
+      (loop $l
+        (br_if $d (i32.ge_u (local.get $a) (local.get $end)))
+        (i32.store (local.get $a) (i32.or (i32.and (i32.load (local.get $a)) (local.get $keep)) (local.get $v)))
+        (local.set $a (i32.add (local.get $a) (i32.const 4)))
+        (br $l)))
+    (call $set_end (i32.sub (local.get $end) (i32.shl (local.get $n) (i32.const 2))) (local.get $n))
+    (global.set $coalesce (i32.const -1))
+    (i32.const 1))
+
+  ;; Replace the document with $n cells from OUT, keeping the link table (the
+  ;; host interns the cells' links first). A missing final terminator is
+  ;; added. History, the selection and REMOTE are cleared.
+  (func (export "load_cells") (param $n i32)
+    (if (i32.ge_u (local.get $n) (global.get $CAP))
+      (then (local.set $n (i32.sub (global.get $CAP) (i32.const 2)))))
+    (global.set $nremote (i32.const 0))
+    (global.set $gs (i32.const 0))
+    (global.set $ge (global.get $CAP))
+    (call $raw_insert (i32.const 0) (global.get $OUT) (local.get $n))
+    (if (if (result i32) (local.get $n)
+          (then (i32.eqz (call $is_nl (call $get (i32.sub (local.get $n) (i32.const 1))))))
+          (else (i32.const 1)))
+      (then
+        (i32.store (global.get $TMP) (i32.const 10))
+        (call $raw_insert (call $len) (global.get $TMP) (i32.const 1))))
+    (global.set $docv (i32.add (global.get $docv) (i32.const 1)))
+    (global.set $anchor (i32.const 0))
+    (global.set $focus (i32.const 0))
+    (global.set $stored (i32.const -1))
+    (call $clear_history))
+
+  (func (export "remote_ptr") (result i32) (global.get $REMOTE))
+  (func (export "remote_count") (result i32) (global.get $nremote))
+  (func (export "set_remote_count") (param $n i32)
+    (if (i32.gt_u (local.get $n) (global.get $REMOTE_MAX)) (then (local.set $n (global.get $REMOTE_MAX))))
+    (global.set $nremote (local.get $n)))
 
   ;; =====================================================================
   ;; Commands

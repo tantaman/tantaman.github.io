@@ -77,6 +77,7 @@
 
   ;; editing view state
   (global $dirty (mut i32) (i32.const 1))     ;; lines need laying out
+  (global $laid_v (mut i32) (i32.const -1))   ;; engine doc_version the lines were laid out for
   (global $full (mut i32) (i32.const 1))      ;; repaint everything
   (global $reveal (mut i32) (i32.const 0))    ;; scroll the caret into view
   (global $affinity (mut i32) (i32.const 0))  ;; 1: caret at the end of the previous visual line

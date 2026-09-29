@@ -620,6 +620,8 @@
   (func $paint
     (local $a i32) (local $cy i32) (local $margin i32)
     (if (i32.eqz (global.get $ready)) (then (return)))
+    ;; the cells changed without an edit command (someone else's edit)
+    (if (i32.ne (global.get $laid_v) (global.get $docv)) (then (global.set $dirty (i32.const 1))))
     (if (global.get $dirty) (then (call $relayout)))
     ;; scroll the caret into view when asked
     (global.set $g_line (call $line_of (global.get $focus)))

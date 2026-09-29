@@ -165,6 +165,7 @@
         (call $flag_line (i32.sub (local.get $n) (i32.const 1)) (i32.const 0x800))))
     (global.set $nlines (local.get $n))
     (global.set $doc_h (i32.add (local.get $y) (call $px (f32.const 60))))
+    (global.set $laid_v (global.get $docv))
     (global.set $dirty (i32.const 0)))
 
   ;; The line whose band contains document y.
