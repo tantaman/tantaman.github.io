@@ -12,7 +12,7 @@ export const THOUGHT_IMAGE_MEDIA_TYPES = [
   "image/webp",
 ] as const;
 
-export const MAX_THOUGHT_FILE_BYTES = 15 * 1024 * 1024;
+export { MAX_ATTACHMENT_BYTES as MAX_THOUGHT_FILE_BYTES } from "../../shared/attachment-limits.ts";
 
 export const GENERIC_MEDIA_TYPE = "application/octet-stream";
 
@@ -139,6 +139,7 @@ export async function uploadThoughtFiles(
       headers: {
         "Content-Type": attachmentMediaType(entry.file),
         "X-Attachment-Id": entry.id,
+        "X-File-Size": String(entry.file.size),
         "X-File-Name": encodeURIComponent(entry.file.name),
       },
       body: entry.file,

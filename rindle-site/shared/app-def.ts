@@ -232,7 +232,17 @@ export const pasteLanguages = [
 ] as const;
 export type PasteLanguage = (typeof pasteLanguages)[number];
 
+const pasteAttachmentArg = z.object({
+  id: stableId,
+  storageKey: z.string().regex(/^authored\/thoughts\/[0-9A-HJKMNP-TV-Z]{26}$/),
+  mediaType: z.string().min(1).max(500),
+  fileName: z.string().min(1).max(1_000),
+  createdAt: timestamp,
+  position: z.number().int().min(0),
+});
+
 const createPasteArgs = z.object({
+  attachments: z.array(pasteAttachmentArg).max(100).optional(),
   paste: z.object({
     id: stableId,
     body: z.string().max(1_000_000).refine((value) => value.trim().length > 0, "Body is required."),
@@ -867,6 +877,9 @@ const createPaste = shared(createPasteArgs, function* (tx, args, ctx) {
     shared: 0,
     sharedAt: null,
   });
+  for (const attachment of args.attachments ?? []) {
+    yield tx.insert("pasteAttachment", { ...attachment, pasteId: args.paste.id });
+  }
 });
 
 /** Publish or withdraw a paste from the shared feed. The visibility flag and its timestamp arrive

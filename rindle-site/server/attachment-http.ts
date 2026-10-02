@@ -1,15 +1,23 @@
-// Authorized access to thought attachments. Authored file bytes land in R2 before their metadata
+// Authorized access to thought and paste attachments. Authored file bytes land in R2 before their metadata
 // enters the shared create/edit mutation; reads still require a visible Rindle metadata row. Keys
-// that exist in the bucket but are not referenced by a visible thought remain inaccessible.
+// that exist in the bucket but are not referenced by a visible thought or paste remain inaccessible.
 //
-// Any file type is accepted. Only the image types below are ever served inline (`?preview=1`);
+// Any file type is accepted. Only verified images and videos are served inline (`?preview=1`);
 // everything else goes out as a download with `nosniff`, so a stored type can never turn an
 // attachment into a page on this origin.
 
 import { createSqlClient } from "@rindle/sql-client";
+import { MAX_ATTACHMENT_BYTES } from "../shared/attachment-limits.ts";
 
 import { resolveRindle } from "./app-api.ts";
 import { resolveSessionIdentity } from "./session.ts";
+import { attachmentRange } from "./attachment-range.ts";
+import {
+  AttachmentUploadError,
+  attachmentUploadLength,
+  putR2Attachment,
+  validatedAttachmentStream,
+} from "./attachment-upload.ts";
 
 interface AttachmentMetadata {
   mediaType: string;
@@ -24,6 +32,9 @@ interface LocalAttachment {
 }
 
 const SAFE_INLINE_MEDIA_TYPES = new Set([
+  "video/mp4",
+  "video/webm",
+  "video/ogg",
   "image/avif",
   "image/gif",
   "image/jpeg",
@@ -45,7 +56,6 @@ const ACTIVE_MEDIA_TYPES = new Set([
 ]);
 const GENERIC_MEDIA_TYPE = "application/octet-stream";
 const MEDIA_TYPE = /^[a-z0-9][a-z0-9!#$&^_.+-]{0,126}\/[a-z0-9][a-z0-9!#$&^_.+-]{0,126}$/;
-const MAX_ATTACHMENT_BYTES = 15 * 1024 * 1024;
 const ATTACHMENT_ID = /^[0-9A-HJKMNP-TV-Z]{26}$/;
 const AUTHORED_STORAGE_KEY = /^authored\/thoughts\/[0-9A-HJKMNP-TV-Z]{26}$/;
 
@@ -88,8 +98,13 @@ async function loadMetadata(storageKey: string): Promise<AttachmentMetadata | nu
               FROM "thoughtAttachment" AS attachment
               JOIN "thought" AS thought ON thought."id" = attachment."thoughtId"
               WHERE attachment."storageKey" = ?
+              UNION ALL
+              SELECT attachment."mediaType", attachment."fileName", 0
+              FROM "pasteAttachment" AS attachment
+              JOIN "paste" AS paste ON paste."id" = attachment."pasteId"
+              WHERE attachment."storageKey" = ?
               LIMIT 1`,
-        args: [storageKey],
+        args: [storageKey, storageKey],
         wantRows: true,
       },
     ],
@@ -132,28 +147,21 @@ async function localAttachmentPath(storageKey: string): Promise<string | null> {
 async function putAttachment(
   bucket: R2Bucket | null,
   storageKey: string,
-  bytes: ArrayBuffer,
+  body: ReadableStream<Uint8Array>,
+  length: number,
   mediaType: string,
 ): Promise<boolean> {
   if (bucket) {
-    await bucket.put(storageKey, bytes, {
-      onlyIf: new Headers({ "If-None-Match": "*" }),
-      httpMetadata: { contentType: mediaType },
-    });
+    await putR2Attachment(bucket, storageKey, body, length, mediaType);
     return true;
   }
   const file = await localAttachmentPath(storageKey);
-  if (!file) return false;
-  const fsSpecifier = "node:fs/promises";
-  const pathSpecifier = "node:path";
-  const fs = (await import(/* @vite-ignore */ fsSpecifier)) as typeof import("node:fs/promises");
-  const path = (await import(/* @vite-ignore */ pathSpecifier)) as typeof import("node:path");
-  await fs.mkdir(path.dirname(file), { recursive: true });
-  try {
-    await fs.writeFile(file, new Uint8Array(bytes), { flag: "wx" });
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+  if (!file) {
+    await body.cancel();
+    return false;
   }
+  const { putLocalAttachment } = await import("./local-attachment-upload.ts");
+  await putLocalAttachment(file, body);
   return true;
 }
 
@@ -175,24 +183,6 @@ async function loadLocalAttachment(storageKey: string): Promise<LocalAttachment 
   }
 }
 
-function imageSignatureMatches(mediaType: string, buffer: ArrayBuffer): boolean {
-  const bytes = new Uint8Array(buffer);
-  const ascii = (start: number, length: number) =>
-    String.fromCharCode(...bytes.slice(start, start + length));
-  if (mediaType === "image/jpeg") return bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
-  if (mediaType === "image/png") {
-    return bytes.length >= 8 && [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]
-      .every((value, index) => bytes[index] === value);
-  }
-  if (mediaType === "image/gif") return ascii(0, 6) === "GIF87a" || ascii(0, 6) === "GIF89a";
-  if (mediaType === "image/webp") return ascii(0, 4) === "RIFF" && ascii(8, 4) === "WEBP";
-  if (mediaType === "image/avif") {
-    if (ascii(4, 4) !== "ftyp") return false;
-    const brands = ascii(8, Math.min(32, Math.max(0, bytes.length - 8)));
-    return brands.includes("avif") || brands.includes("avis");
-  }
-  return false;
-}
 
 function uploadFileName(request: Request): string | null {
   const encoded = request.headers.get("X-File-Name");
@@ -224,28 +214,24 @@ export async function handleAttachmentUpload(request: Request): Promise<Response
     const fileName = uploadFileName(request);
     const mediaType = uploadMediaType(request);
     if (!ATTACHMENT_ID.test(id) || !fileName) return textResponse("Invalid attachment upload", 400);
-    const claimedLength = Number(request.headers.get("Content-Length"));
-    if (Number.isFinite(claimedLength) && claimedLength > MAX_ATTACHMENT_BYTES) {
-      return textResponse("Files must be 15 MB or smaller", 413);
-    }
-    const bytes = await request.arrayBuffer();
-    if (bytes.byteLength === 0 || bytes.byteLength > MAX_ATTACHMENT_BYTES) {
-      return textResponse("Files must be between 1 byte and 15 MB", 413);
-    }
-    // Only inline-served types get a signature check: a mislabelled "image" must not become a
-    // document rendered on this origin. Every other type is a download regardless of its bytes.
-    if (SAFE_INLINE_MEDIA_TYPES.has(mediaType) && !imageSignatureMatches(mediaType, bytes)) {
-      return textResponse("The file contents do not match its image type", 415);
-    }
-
+    const length = attachmentUploadLength(request.headers, MAX_ATTACHMENT_BYTES);
+    if (!request.body) return textResponse("Upload body is required", 400);
+    const body = validatedAttachmentStream(
+      request.body,
+      mediaType,
+      length,
+      MAX_ATTACHMENT_BYTES,
+      SAFE_INLINE_MEDIA_TYPES.has(mediaType),
+    );
     const storageKey = `authored/thoughts/${id}`;
-    const stored = await putAttachment(await loadBucket(), storageKey, bytes, mediaType);
+    const stored = await putAttachment(await loadBucket(), storageKey, body, length, mediaType);
     if (!stored) return textResponse("Attachment storage unavailable", 503);
     return Response.json(
       { storageKey, mediaType, fileName },
       { status: 201, headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
+    if (error instanceof AttachmentUploadError) return textResponse(error.message, error.status);
     console.error(
       JSON.stringify({
         message: "attachment upload failed",
@@ -270,9 +256,9 @@ export async function handleAttachment(request: Request): Promise<Response> {
     }
 
     const bucket = await loadBucket();
-    const object = bucket ? await bucket.get(key) : null;
-    const localObject = object ? null : await loadLocalAttachment(key);
-    if (!object && !localObject) {
+    const storedObject = bucket ? await bucket.head(key) : null;
+    const localObject = storedObject ? null : await loadLocalAttachment(key);
+    if (!storedObject && !localObject) {
       const storageAvailable = Boolean(bucket) || localStorageEnabled();
       return textResponse(
         storageAvailable ? "Not found" : "Attachment storage unavailable",
@@ -280,11 +266,26 @@ export async function handleAttachment(request: Request): Promise<Response> {
       );
     }
 
+    const size = storedObject?.size ?? localObject?.size ?? 0;
+    const etag = storedObject?.httpEtag ?? localObject?.etag ?? "";
+    const ifRange = request.headers.get("If-Range");
+    const range = attachmentRange(
+      request.method === "GET" && (!ifRange || ifRange === etag) ? request.headers.get("Range") : null,
+      size,
+    );
+    if (range === "unsatisfiable") {
+      return new Response(null, { status: 416, headers: { "Content-Range": `bytes */${size}` } });
+    }
+    const object = storedObject && bucket && request.method !== "HEAD"
+      ? await bucket.get(key, range ? { range } : undefined)
+      : null;
+    if (storedObject && request.method !== "HEAD" && !object) return textResponse("Not found", 404);
+
     const preview = new URL(request.url).searchParams.get("preview") === "1"
       && SAFE_INLINE_MEDIA_TYPES.has(metadata.mediaType.toLowerCase());
 
     const headers = new Headers();
-    object?.writeHttpMetadata(headers);
+    storedObject?.writeHttpMetadata(headers);
     headers.set(
       "Cache-Control",
       metadata.private ? "private, no-store" : "public, max-age=31536000, immutable",
@@ -293,13 +294,18 @@ export async function handleAttachment(request: Request): Promise<Response> {
       "Content-Disposition",
       `${preview ? "inline" : "attachment"}; filename*=UTF-8''${dispositionFileName(metadata.fileName)}`,
     );
-    headers.set("Content-Length", String(object?.size ?? localObject?.size ?? 0));
+    headers.set("Accept-Ranges", "bytes");
+    headers.set("Content-Length", String(range?.length ?? size));
+    if (range) headers.set("Content-Range", `bytes ${range.offset}-${range.offset + range.length - 1}/${size}`);
     headers.set("Content-Type", metadata.mediaType || GENERIC_MEDIA_TYPE);
-    headers.set("ETag", object?.httpEtag ?? localObject?.etag ?? "");
+    headers.set("ETag", etag);
     headers.set("X-Content-Type-Options", "nosniff");
 
-    const body = request.method === "HEAD" ? null : (object?.body ?? localObject?.body ?? null);
-    return new Response(body, { headers });
+    const localBody = localObject && range
+      ? localObject.body.slice(range.offset, range.offset + range.length)
+      : localObject?.body;
+    const body = request.method === "HEAD" ? null : (object?.body ?? localBody ?? null);
+    return new Response(body, { status: range ? 206 : 200, headers });
   } catch (error) {
     console.error(
       JSON.stringify({

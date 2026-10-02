@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { ulid } from "ulid";
+import { MAX_ATTACHMENT_MB } from "../../shared/attachment-limits.ts";
 
 import {
   MAX_THOUGHT_FILE_BYTES,
@@ -29,7 +30,7 @@ export interface ThoughtFileController {
   reset: () => void;
 }
 
-export function useThoughtFiles(): ThoughtFileController {
+export function useThoughtFiles(owner = "thought"): ThoughtFileController {
   const [files, setFiles] = useState<PendingThoughtFile[]>([]);
   const [error, setError] = useState<string | null>(null);
   const filesRef = useRef(files);
@@ -48,7 +49,7 @@ export function useThoughtFiles(): ThoughtFileController {
         continue;
       }
       if (file.size > MAX_THOUGHT_FILE_BYTES) {
-        nextError = `${file.name || "That file"} is larger than 15 MB.`;
+        nextError = `${file.name || "That file"} is larger than ${MAX_ATTACHMENT_MB} MB.`;
         continue;
       }
       accepted.push({
@@ -61,7 +62,7 @@ export function useThoughtFiles(): ThoughtFileController {
     const remaining = Math.max(0, MAX_THOUGHT_FILES - filesRef.current.length);
     const added = accepted.slice(0, remaining);
     for (const entry of accepted.slice(remaining)) if (entry.previewUrl) URL.revokeObjectURL(entry.previewUrl);
-    if (added.length < accepted.length) nextError = `A thought can have up to ${MAX_THOUGHT_FILES} files.`;
+    if (added.length < accepted.length) nextError = `A ${owner} can have up to ${MAX_THOUGHT_FILES} files.`;
     setFiles((current) => [...current, ...added]);
     setError(nextError);
   }
@@ -100,10 +101,12 @@ export function ThoughtFileDropzone({
   controller,
   children,
   compact = false,
+  disabled = false,
 }: {
   controller: ThoughtFileController;
   children: ReactNode;
   compact?: boolean;
+  disabled?: boolean;
 }) {
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -112,7 +115,7 @@ export function ThoughtFileDropzone({
     event.preventDefault();
     event.stopPropagation();
     setDragging(false);
-    if (event.dataTransfer.files.length > 0) controller.addFiles(event.dataTransfer.files);
+    if (!disabled && event.dataTransfer.files.length > 0) controller.addFiles(event.dataTransfer.files);
   }
 
   /**
@@ -121,6 +124,7 @@ export function ThoughtFileDropzone({
    * pasted files' own names, which is what a file copied from Finder or Explorer brings along.
    */
   function paste(event: ClipboardEvent<HTMLDivElement>) {
+    if (disabled) return;
     const files = filesFromPaste(event.clipboardData);
     if (files.length === 0) return;
     controller.addFiles(files);
@@ -165,6 +169,7 @@ export function ThoughtFileDropzone({
               )}
               <button
                 type="button"
+                disabled={disabled}
                 onClick={() => controller.remove(entry.id)}
                 aria-label={`Remove ${entry.file.name}`}
                 title={`Remove ${entry.file.name}`}
@@ -175,11 +180,12 @@ export function ThoughtFileDropzone({
         </div>
       ) : null}
       <div className="thought-file-prompt">
-        <button type="button" onClick={() => inputRef.current?.click()}>Add files</button>
+        <button type="button" disabled={disabled} onClick={() => inputRef.current?.click()}>Add files</button>
         <span>or paste / drop them here</span>
         <input
           ref={inputRef}
           type="file"
+          disabled={disabled}
           multiple
           tabIndex={-1}
           onChange={(event) => {

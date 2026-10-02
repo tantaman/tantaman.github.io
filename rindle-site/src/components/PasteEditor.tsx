@@ -10,6 +10,9 @@ import {
   pasteExcerpt,
 } from "../lib/paste.ts";
 import type { PasteListRow } from "./Paste.queries.ts";
+import { clipboardFiles, uploadThoughtFiles } from "../lib/attachments.ts";
+import { appendPasteAttachments, pasteSupportsAttachments } from "../lib/paste-attachments.ts";
+import { ThoughtFileDropzone, useThoughtFiles } from "./ThoughtFileDropzone.tsx";
 import { PasteList } from "./PasteList.tsx";
 
 interface ForkSource {
@@ -33,6 +36,7 @@ export function PasteEditor({
   source?: ForkSource;
 }) {
   const navigate = useNavigate();
+  const fileController = useThoughtFiles("paste");
   const [body, setBody] = useState(source?.body ?? "");
   const [language, setLanguage] = useState<PasteLanguage>(knownLanguage(source?.language ?? "markdown"));
   const [saving, setSaving] = useState(false);
@@ -40,18 +44,21 @@ export function PasteEditor({
 
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!body.trim() || saving) return;
+    if ((!body.trim() && fileController.files.length === 0) || saving) return;
     setSaving(true);
     setError(null);
     const id = ulid();
     try {
+      const attachments = await uploadThoughtFiles(fileController.files);
+      const savedBody = appendPasteAttachments(body, language, attachments);
       app.mutate.createPaste({
+        attachments,
         paste: {
           id,
-          body,
-          excerpt: pasteExcerpt(body),
+          body: savedBody,
+          excerpt: pasteExcerpt(savedBody),
           language,
-          title: extractPasteTitle(body, language),
+          title: extractPasteTitle(body, language) ?? attachments[0]?.fileName ?? null,
           createdAt: Date.now(),
           parentId: source?.id ?? null,
         },
@@ -69,6 +76,19 @@ export function PasteEditor({
     event.currentTarget.form?.requestSubmit();
   }
 
+  const textarea = (
+    <textarea
+      value={body}
+      disabled={saving}
+      required={fileController.files.length === 0}
+      autoFocus
+      spellCheck={language === "markdown" || language === "plaintext"}
+      placeholder="Write something…"
+      onChange={(event) => setBody(event.target.value)}
+      onKeyDown={submitFromKeyboard}
+    />
+  );
+
   return (
     <section className="paste-editor-page">
       {source ? (
@@ -77,40 +97,53 @@ export function PasteEditor({
         </p>
       ) : null}
 
-      <form className="paste-editor" onSubmit={(event) => void save(event)}>
+      <form
+        className="paste-editor"
+        onSubmit={(event) => void save(event)}
+        onDragOver={(event) => {
+          if (event.dataTransfer.types.includes("Files")) event.preventDefault();
+        }}
+        onDrop={(event) => {
+          if (!event.dataTransfer.types.includes("Files")) return;
+          event.preventDefault();
+          setError("Choose Markdown, HTML or Plain text to attach files.");
+        }}
+        onPaste={(event) => {
+          if (pasteSupportsAttachments(language) || clipboardFiles(event.clipboardData).length === 0) return;
+          event.preventDefault();
+          setError("Choose Markdown, HTML or Plain text to attach files.");
+        }}
+      >
         <div className="paste-editor-toolbar">
           <label htmlFor="paste-language">Language</label>
           <select
             id="paste-language"
+            disabled={saving}
             value={language}
             onChange={(event) => setLanguage(event.target.value as PasteLanguage)}
           >
             {PASTE_LANGUAGE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
+              <option key={option.value} value={option.value} disabled={fileController.files.length > 0 && !pasteSupportsAttachments(option.value)}>{option.label}</option>
             ))}
           </select>
           {source ? (
-            <button className="paste-button paste-button--quiet" type="button" onClick={() => setBody("")}>
+            <button className="paste-button paste-button--quiet" type="button" disabled={saving} onClick={() => { setBody(""); fileController.reset(); }}>
               Clear
             </button>
           ) : null}
         </div>
-        <textarea
-          value={body}
-          required
-          autoFocus
-          spellCheck={language === "markdown" || language === "plaintext"}
-          placeholder="Write something…"
-          onChange={(event) => setBody(event.target.value)}
-          onKeyDown={submitFromKeyboard}
-        />
+        {pasteSupportsAttachments(language) ? (
+          <ThoughtFileDropzone controller={fileController} disabled={saving}>
+            {textarea}
+          </ThoughtFileDropzone>
+        ) : textarea}
         <div className="paste-editor-actions">
-          <button className="paste-button paste-button--primary" type="submit" disabled={saving || !body.trim()}>
+          <button className="paste-button paste-button--primary" type="submit" disabled={saving || (!body.trim() && fileController.files.length === 0)}>
             {saving ? "Saving…" : "Save"}
           </button>
           <span>Cmd/Ctrl + Enter</span>
         </div>
-        {error ? <p className="paste-error" role="alert">{error}</p> : null}
+        {error || fileController.error ? <p className="paste-error" role="alert">{error ?? fileController.error}</p> : null}
       </form>
 
       <section className="paste-recents" aria-labelledby="paste-recents-heading">
