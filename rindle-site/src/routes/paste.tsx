@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/paste")({
   head: () => ({
@@ -11,5 +11,12 @@ export const Route = createFileRoute("/paste")({
 });
 
 function PasteLayout() {
-  return <div className="paste-shell"><Outlet /></div>;
+  return <div className="paste-shell">
+    <nav className="paste-subnav" aria-label="Paste navigation">
+      <Link to="/paste">new / recent</Link>
+      <Link to="/paste/all">all pastes</Link>
+      <Link to="/paste/files">files</Link>
+    </nav>
+    <Outlet />
+  </div>;
 }

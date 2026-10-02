@@ -31,6 +31,7 @@ export interface ThoughtAttachmentInput {
   fileName: string;
   createdAt: number;
   position: number;
+  size: number;
 }
 
 export function attachmentPreviewUrl(storageKey: string): string {
@@ -167,6 +168,7 @@ export async function uploadThoughtFiles(
       fileName: payload.fileName,
       createdAt: entry.createdAt,
       position,
+      size: entry.file.size,
     };
     await uploadNext();
   }

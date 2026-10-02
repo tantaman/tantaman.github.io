@@ -3,7 +3,7 @@
 // contract: possession of an unlisted paste URL is enough to read it, while only the author can
 // mutate its sharing state.
 
-import { defineFragment, defineQuery, notExists } from "@rindle/client";
+import { defineFragment, defineQuery, notExists, exists } from "@rindle/client";
 import type { FragmentRef, QueryLocalData } from "@rindle/client";
 import { z } from "zod";
 
@@ -56,6 +56,9 @@ export const pasteQuery = defineQuery("paste", (raw) => pasteIdArgs.parse(raw), 
   q.paste
     .where.id(id)
     .select("id", "body", "language", "title", "excerpt", "createdAt", "parentId", "shared", "sharedAt")
+    .sub("attachments", relationships.pasteAttachments, (files) => files
+      .orderBy("position", "asc").orderBy("id", "asc").limit(100)
+      .select("id", "pasteId", "storageKey", "fileName", "mediaType", "size", "createdAt", "position"))
     .sub("parent", relationships.pasteParent, (parent) =>
       parent.limit(1).select("id", "title", "createdAt", "parentId"),
     )
@@ -103,3 +106,22 @@ export const pasteCommentsQuery = defineQuery(
     ),
 );
 export type PasteCommentRow = QueryLocalData<ReturnType<typeof pasteCommentsQuery>>[number];
+
+
+/** One row per storage object, with the newest visible paste reference. */
+export const pasteFilesQuery = defineQuery(
+  "pasteFiles", (raw) => pageArgs.parse(raw), ({ limit }, ctx: QueryContext) => {
+    const visible = (refs: typeof q.pasteAttachment) => canPublish(ctx.user) ? refs : refs.where(
+      exists(relationships.pasteAttachmentPaste, (paste) => paste.where.shared(1)),
+    );
+    return q.pasteFile.where.state("active")
+      .where(exists(relationships.pasteFileReferences, visible))
+      .orderBy("createdAt", "desc").orderBy("id", "asc").limit(limit + 1)
+      .select("id", "fileName", "mediaType", "size", "createdAt")
+      .sub("references", relationships.pasteFileReferences, (refs) => visible(refs)
+        .orderBy("createdAt", "desc").orderBy("pasteId", "desc").orderBy("id", "desc").limit(1)
+        .select("pasteId", "fileName")
+        .sub("document", relationships.pasteAttachmentPaste, (paste) => paste.limit(1).select("id", "title")));
+  },
+);
+export type PasteFileRow = QueryLocalData<ReturnType<typeof pasteFilesQuery>>[number];

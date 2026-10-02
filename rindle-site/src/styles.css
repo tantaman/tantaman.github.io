@@ -5988,3 +5988,25 @@ button.paste-inline-quote:hover {
   width: calc(100% - 24px);
   margin: 9px 0 0 24px;
 }
+
+/* Paste attachments remain separate from the source text, across every language. */
+.paste-subnav { display: flex; gap: 18px; margin-bottom: 24px; font-size: 13px; }
+.paste-subnav a, .paste-file-list a { color: var(--accent-ink); }
+.paste-attachments { margin: 26px 0; padding-top: 20px; border-top: 1px solid var(--line-2); }
+.paste-attachments h2 { font-size: 16px; }
+.paste-file-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 18px; }
+.paste-file-gallery figure { margin: 0; min-width: 0; }
+.paste-file-gallery img, .paste-file-gallery video { display: block; width: 100%; max-height: 60vh; object-fit: contain; border-radius: 8px; }
+.paste-file-gallery figcaption { margin-top: 6px; font-size: 12px; overflow-wrap: anywhere; color: var(--ink-3); }
+.paste-file-list { list-style: none; padding: 0; }
+.paste-file-list li { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line-2); }
+.paste-file-info { flex: 1; min-width: 160px; overflow-wrap: anywhere; display: flex; flex-direction: column; gap: 5px; }
+.paste-file-info small { color: var(--ink-3); }
+.paste-file-info code { font-size: 11px; white-space: pre-wrap; }
+.paste-file-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12px; }
+.paste-file-actions button { cursor: pointer; background: none; border: none; color: var(--accent-ink); font: inherit; padding: 0; }
+.paste-file-manager { margin-top: 20px; }
+.paste-file-manager summary { cursor: pointer; }
+.paste-file-manager p, .paste-inherited-files p { font-size: 12px; color: var(--ink-3); }
+.paste-file-manager .paste-button { margin-top: 12px; }
+.paste-file-thumbnail { width: 70px; height: 55px; object-fit: cover; border-radius: 5px; }

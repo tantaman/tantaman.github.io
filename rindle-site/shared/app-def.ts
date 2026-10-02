@@ -6,7 +6,7 @@
 // those imports, keeps the contract graph acyclic.
 
 import { defineMutators, defineRelationships, newQueryBuilder, rel } from "@rindle/client";
-import type { Row } from "@rindle/client";
+import type { IsoTx, YieldEffect, Row } from "@rindle/client";
 import type { ClientRegistry } from "@rindle/optimistic";
 import { z } from "zod";
 
@@ -26,6 +26,8 @@ import {
   location,
   movie,
   paste,
+  pasteAttachment,
+  pasteFile,
   post,
   postAuthor,
   postComment,
@@ -69,6 +71,9 @@ export const relationships = defineRelationships({
   postComments: rel(post, postComment, { id: "postId" }),
   postCommentReplies: rel(postComment, postComment, { id: "parentId" }),
   pasteComments: rel(paste, pasteComment, { id: "pasteId" }),
+  pasteAttachments: rel(paste, pasteAttachment, { id: "pasteId" }),
+  pasteAttachmentPaste: rel(pasteAttachment, paste, { pasteId: "id" }),
+  pasteFileReferences: rel(pasteFile, pasteAttachment, { id: "storageKey" }),
   pasteCommentReplies: rel(pasteComment, pasteComment, { id: "parentId" }),
   authorPosts: rel(author, postAuthor, { id: "authorId" }),
   postAuthorProfile: rel(postAuthor, author, { authorId: "id" }),
@@ -232,20 +237,28 @@ export const pasteLanguages = [
 ] as const;
 export type PasteLanguage = (typeof pasteLanguages)[number];
 
+export type PasteAttachment = Row<typeof pasteAttachment>;
+
 const pasteAttachmentArg = z.object({
   id: stableId,
-  storageKey: z.string().regex(/^authored\/thoughts\/[0-9A-HJKMNP-TV-Z]{26}$/),
+  storageKey: z.string().max(2_000).regex(/^(?:authored\/(?:thoughts|pastes)\/[0-9A-HJKMNP-TV-Z]{26}|pastes\/[^/]+\/.+)$/),
   mediaType: z.string().min(1).max(500),
   fileName: z.string().min(1).max(1_000),
   createdAt: timestamp,
   position: z.number().int().min(0),
+  size: z.number().int().nonnegative(),
 });
+const addPasteAttachmentsArgs = z.object({
+  pasteId: stableId,
+  attachments: z.array(pasteAttachmentArg).min(1).max(100),
+});
+const removePasteAttachmentArgs = z.object({ pasteId: stableId, fileName: z.string().min(1).max(1_000) });
 
 const createPasteArgs = z.object({
   attachments: z.array(pasteAttachmentArg).max(100).optional(),
   paste: z.object({
     id: stableId,
-    body: z.string().max(1_000_000).refine((value) => value.trim().length > 0, "Body is required."),
+    body: z.string().max(1_000_000),
     excerpt: z.string().max(500),
     language: z.enum(pasteLanguages),
     title: nullableText(300),
@@ -860,26 +873,99 @@ const deletePasteComment = shared(deletePostCommentArgs, function* (tx, args, ct
   yield tx.update("pasteComment", { id: args.id, body: "", deletedAt: args.deletedAt });
 });
 
-/** Create one immutable paste revision. The caller supplies its stable id, timestamp, inferred title,
- * and optional parent because this body is replayed verbatim after every optimistic rebase. The
- * authenticated author is injected independently by each tier and never crosses the wire as an arg. */
+function pasteAttachmentRows(value: unknown): PasteAttachment[] {
+  return queryRows(value, "paste attachments") as unknown as PasteAttachment[];
+}
+
+function* retirePasteFile(tx: IsoTx, storageKey: string): Generator<YieldEffect, void, unknown> {
+  const references = queryRows(
+    yield tx.query(q.pasteAttachment.where.storageKey(storageKey).orderBy("id", "asc").limit(1)),
+    "file references",
+  );
+  if (references.length > 0) return;
+  // Older uploads used the same namespace as thoughts. Never reclaim a thought's bytes.
+  const thoughts = queryRows(
+    yield tx.query(q.thoughtAttachment.where.storageKey(storageKey).orderBy("id", "asc").limit(1)),
+    "thought file references",
+  );
+  if (thoughts.length === 0) yield tx.update("pasteFile", { id: storageKey, state: "deleted" });
+}
+
+function* attachPasteFiles(
+  tx: IsoTx,
+  pasteId: string,
+  inputs: readonly z.infer<typeof pasteAttachmentArg>[],
+): Generator<YieldEffect, void, unknown> {
+  const current = pasteAttachmentRows(yield tx.query(
+    q.pasteAttachment.where.pasteId(pasteId).orderBy("position", "asc").orderBy("id", "asc").limit(101),
+  ));
+  if (current.length > 100) throw new Error("A paste can have up to 100 files.");
+  let position = current.reduce((max, row) => Math.max(max, row.position + 1), 0);
+  const retired = new Set<string>();
+  for (const input of inputs) {
+    const file = (yield tx.row("pasteFile", { id: input.storageKey })) as Record<string, unknown> | undefined;
+    if (file && file.state !== "active") throw new Error("This file has been retired. Upload it again.");
+    if (file && (file.mediaType !== input.mediaType || (file.size !== 0 && file.size !== input.size))) {
+      throw new Error("File metadata does not match its stored object.");
+    }
+    if (!file) yield tx.insert("pasteFile", {
+      id: input.storageKey, fileName: input.fileName, mediaType: input.mediaType,
+      size: input.size, createdAt: input.createdAt, state: "active",
+    });
+    const existing = current.filter((row) => row.fileName === input.fileName);
+    for (const row of existing) {
+      yield tx.delete("pasteAttachment", { id: row.id });
+      retired.add(row.storageKey);
+    }
+    const remaining = current.filter((row) => row.fileName !== input.fileName);
+    if (remaining.length >= 100) throw new Error("A paste can have up to 100 files.");
+    const row = { ...input, pasteId, position: position++ };
+    yield tx.insert("pasteAttachment", row);
+    current.splice(0, current.length, ...remaining, row);
+  }
+  for (const key of retired) yield* retirePasteFile(tx, key);
+}
+
+/** Text and attachments commit together, including the parent's shared object references. */
 const createPaste = shared(createPasteArgs, function* (tx, args, ctx) {
   const authorId = requireMutationUser(ctx.user);
+  let inherited: PasteAttachment[] = [];
   if (args.paste.parentId !== null) {
-    const parent = (yield tx.row("paste", { id: args.paste.parentId })) as
-      | Record<string, unknown>
-      | undefined;
+    const parent = yield tx.row("paste", { id: args.paste.parentId });
     if (!parent) throw new Error("Parent paste not found.");
+    inherited = pasteAttachmentRows(yield tx.query(
+      q.pasteAttachment.where.pasteId(args.paste.parentId).orderBy("position", "asc").orderBy("id", "asc").limit(101),
+    ));
+    if (inherited.length > 100) throw new Error("A paste can have up to 100 files.");
+  }
+  if (!args.paste.body.trim() && inherited.length === 0 && !args.attachments?.length) {
+    throw new Error("Body or at least one file is required.");
   }
   yield tx.insert("paste", {
-    ...args.paste,
-    authorId,
-    shared: 0,
-    sharedAt: null,
+    ...args.paste, title: args.paste.title ?? inherited[0]?.fileName ?? args.attachments?.[0]?.fileName ?? null,
+    authorId, shared: 0, sharedAt: null,
   });
-  for (const attachment of args.attachments ?? []) {
-    yield tx.insert("pasteAttachment", { ...attachment, pasteId: args.paste.id });
+  for (const [position, attachment] of inherited.entries()) {
+    yield tx.insert("pasteAttachment", { ...attachment, id: `${args.paste.id}:inherited:${position}`, pasteId: args.paste.id, createdAt: args.paste.createdAt });
   }
+  yield* attachPasteFiles(tx, args.paste.id, args.attachments ?? []);
+});
+
+const addPasteAttachments = shared(addPasteAttachmentsArgs, function* (tx, args, ctx) {
+  requireMutationUser(ctx.user);
+  if (!(yield tx.row("paste", { id: args.pasteId }))) throw new Error("Paste not found.");
+  yield* attachPasteFiles(tx, args.pasteId, args.attachments);
+});
+
+const removePasteAttachment = shared(removePasteAttachmentArgs, function* (tx, args, ctx) {
+  requireMutationUser(ctx.user);
+  if (!(yield tx.row("paste", { id: args.pasteId }))) throw new Error("Paste not found.");
+  const rows = pasteAttachmentRows(yield tx.query(
+    q.pasteAttachment.where.pasteId(args.pasteId).where.fileName(args.fileName).orderBy("id", "asc").limit(101),
+  ));
+  if (rows.length === 0) throw new Error("File not found.");
+  for (const row of rows) yield tx.delete("pasteAttachment", { id: row.id });
+  for (const key of new Set(rows.map((row) => row.storageKey))) yield* retirePasteFile(tx, key);
 });
 
 /** Publish or withdraw a paste from the shared feed. The visibility flag and its timestamp arrive
@@ -938,6 +1024,12 @@ const deletePaste = shared(deletePasteArgs, function* (tx, args, ctx) {
     yield tx.delete("framingNode", { id: nodeId });
   }
 
+  const attachments = pasteAttachmentRows(yield tx.query(
+    q.pasteAttachment.where.pasteId(args.id).orderBy("id", "asc").limit(101),
+  ));
+  if (attachments.length > 100) throw new Error("Too many paste attachments to delete safely.");
+  for (const row of attachments) yield tx.delete("pasteAttachment", { id: row.id });
+  for (const key of new Set(attachments.map((row) => row.storageKey))) yield* retirePasteFile(tx, key);
   yield tx.delete("paste", { id: args.id });
 });
 
@@ -1658,6 +1750,8 @@ export const mutators = {
   createPasteComment,
   deletePasteComment,
   createPaste,
+  addPasteAttachments,
+  removePasteAttachment,
   setPasteShared,
   deletePaste,
   createThought,

@@ -73,6 +73,8 @@ export function PasteBody({ paste }: { paste: PasteBodyRow }) {
     };
   }, [markdown, paste.language]);
 
+  if (!paste.body.trim()) return null;
+
   if (paste.language === "markdown") {
     return (
       <div

@@ -10,8 +10,9 @@ import {
   pasteExcerpt,
 } from "../lib/paste.ts";
 import type { PasteListRow } from "./Paste.queries.ts";
-import { clipboardFiles, uploadThoughtFiles } from "../lib/attachments.ts";
-import { appendPasteAttachments, pasteSupportsAttachments } from "../lib/paste-attachments.ts";
+import { uploadThoughtFiles } from "../lib/attachments.ts";
+import { PasteAttachments } from "./PasteAttachments.tsx";
+import type { PasteAttachment } from "../../shared/app-def.ts";
 import { ThoughtFileDropzone, useThoughtFiles } from "./ThoughtFileDropzone.tsx";
 import { PasteList } from "./PasteList.tsx";
 
@@ -20,6 +21,7 @@ interface ForkSource {
   title: string | null;
   body: string;
   language: string;
+  attachments?: readonly PasteAttachment[];
 }
 
 function knownLanguage(value: string): PasteLanguage {
@@ -44,19 +46,18 @@ export function PasteEditor({
 
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if ((!body.trim() && fileController.files.length === 0) || saving) return;
+    if ((!body.trim() && fileController.files.length === 0 && !source?.attachments?.length) || saving) return;
     setSaving(true);
     setError(null);
     const id = ulid();
     try {
       const attachments = await uploadThoughtFiles(fileController.files);
-      const savedBody = appendPasteAttachments(body, language, attachments);
       app.mutate.createPaste({
         attachments,
         paste: {
           id,
-          body: savedBody,
-          excerpt: pasteExcerpt(savedBody),
+          body,
+          excerpt: pasteExcerpt(body),
           language,
           title: extractPasteTitle(body, language) ?? attachments[0]?.fileName ?? null,
           createdAt: Date.now(),
@@ -80,7 +81,7 @@ export function PasteEditor({
     <textarea
       value={body}
       disabled={saving}
-      required={fileController.files.length === 0}
+      required={fileController.files.length === 0 && !source?.attachments?.length}
       autoFocus
       spellCheck={language === "markdown" || language === "plaintext"}
       placeholder="Write something…"
@@ -97,23 +98,7 @@ export function PasteEditor({
         </p>
       ) : null}
 
-      <form
-        className="paste-editor"
-        onSubmit={(event) => void save(event)}
-        onDragOver={(event) => {
-          if (event.dataTransfer.types.includes("Files")) event.preventDefault();
-        }}
-        onDrop={(event) => {
-          if (!event.dataTransfer.types.includes("Files")) return;
-          event.preventDefault();
-          setError("Choose Markdown, HTML or Plain text to attach files.");
-        }}
-        onPaste={(event) => {
-          if (pasteSupportsAttachments(language) || clipboardFiles(event.clipboardData).length === 0) return;
-          event.preventDefault();
-          setError("Choose Markdown, HTML or Plain text to attach files.");
-        }}
-      >
+      <form className="paste-editor" onSubmit={(event) => void save(event)}>
         <div className="paste-editor-toolbar">
           <label htmlFor="paste-language">Language</label>
           <select
@@ -123,7 +108,7 @@ export function PasteEditor({
             onChange={(event) => setLanguage(event.target.value as PasteLanguage)}
           >
             {PASTE_LANGUAGE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value} disabled={fileController.files.length > 0 && !pasteSupportsAttachments(option.value)}>{option.label}</option>
+              <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>
           {source ? (
@@ -132,13 +117,17 @@ export function PasteEditor({
             </button>
           ) : null}
         </div>
-        {pasteSupportsAttachments(language) ? (
-          <ThoughtFileDropzone controller={fileController} disabled={saving}>
-            {textarea}
-          </ThoughtFileDropzone>
-        ) : textarea}
+        <ThoughtFileDropzone controller={fileController} disabled={saving}>
+          {textarea}
+        </ThoughtFileDropzone>
+        {source?.attachments?.length ? (
+          <div className="paste-inherited-files">
+            <p>Files inherited from the original. Upload the same filename to replace it in this fork.</p>
+            <PasteAttachments pasteId={source.id} files={source.attachments} />
+          </div>
+        ) : null}
         <div className="paste-editor-actions">
-          <button className="paste-button paste-button--primary" type="submit" disabled={saving || (!body.trim() && fileController.files.length === 0)}>
+          <button className="paste-button paste-button--primary" type="submit" disabled={saving || (!body.trim() && fileController.files.length === 0 && !source?.attachments?.length)}>
             {saving ? "Saving…" : "Save"}
           </button>
           <span>Cmd/Ctrl + Enter</span>

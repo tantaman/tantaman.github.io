@@ -5,6 +5,7 @@ import { useRoot } from "@rindle/react";
 import { authClient } from "../auth-client.ts";
 import { AddToCollection } from "../components/AddToCollection.tsx";
 import { pasteQuery, type PasteDetailRow } from "../components/Paste.queries.ts";
+import { PasteAttachments } from "../components/PasteAttachments.tsx";
 import { PasteBody } from "../components/PasteBody.tsx";
 import { PasteComments } from "../components/PasteComments.tsx";
 import { pasteDate } from "../lib/paste.ts";
@@ -115,6 +116,7 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
       <div ref={bodyRef} className="paste-anchor-root">
         <PasteBody paste={paste} />
       </div>
+      <PasteAttachments pasteId={paste.id} files={paste.attachments} manage={isAdmin} />
       <footer className="paste-document-footer">
         <PasteActions
           paste={paste}

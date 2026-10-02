@@ -12,6 +12,7 @@ import { MAX_ATTACHMENT_BYTES } from "../shared/attachment-limits.ts";
 import { resolveRindle } from "./app-api.ts";
 import { resolveSessionIdentity } from "./session.ts";
 import { attachmentRange } from "./attachment-range.ts";
+import { loadAttachmentBucket as loadBucket, localStorageEnabled, localAttachmentPath } from "./attachment-storage.ts";
 import {
   AttachmentUploadError,
   attachmentUploadLength,
@@ -57,7 +58,7 @@ const ACTIVE_MEDIA_TYPES = new Set([
 const GENERIC_MEDIA_TYPE = "application/octet-stream";
 const MEDIA_TYPE = /^[a-z0-9][a-z0-9!#$&^_.+-]{0,126}\/[a-z0-9][a-z0-9!#$&^_.+-]{0,126}$/;
 const ATTACHMENT_ID = /^[0-9A-HJKMNP-TV-Z]{26}$/;
-const AUTHORED_STORAGE_KEY = /^authored\/thoughts\/[0-9A-HJKMNP-TV-Z]{26}$/;
+
 
 function textResponse(message: string, status: number): Response {
   return new Response(message, {
@@ -119,31 +120,6 @@ async function loadMetadata(storageKey: string): Promise<AttachmentMetadata | nu
   };
 }
 
-async function loadBucket(): Promise<R2Bucket | null> {
-  try {
-    const specifier = "cloudflare:workers";
-    const workers: typeof import("cloudflare:workers") = await import(
-      /* @vite-ignore */ specifier
-    );
-    return workers.env.ATTACHMENTS_BUCKET;
-  } catch {
-    // Ordinary Node development has no Cloudflare binding. Production fails closed below if the
-    // generated config and deployed binding ever drift.
-    return null;
-  }
-}
-
-function localStorageEnabled(): boolean {
-  return process.env.NODE_ENV !== "production";
-}
-
-async function localAttachmentPath(storageKey: string): Promise<string | null> {
-  if (!localStorageEnabled() || !AUTHORED_STORAGE_KEY.test(storageKey)) return null;
-  const pathSpecifier = "node:path";
-  const path = (await import(/* @vite-ignore */ pathSpecifier)) as typeof import("node:path");
-  return path.join(process.cwd(), ".rindle", "attachments", ...storageKey.split("/"));
-}
-
 async function putAttachment(
   bucket: R2Bucket | null,
   storageKey: string,
@@ -182,7 +158,6 @@ async function loadLocalAttachment(storageKey: string): Promise<LocalAttachment 
     throw error;
   }
 }
-
 
 function uploadFileName(request: Request): string | null {
   const encoded = request.headers.get("X-File-Name");

@@ -16,6 +16,7 @@ import {
 } from "@rindle/api-server";
 import type { ApiMutators, MutationContext, RindleApiServer } from "@rindle/api-server";
 
+import { cleanupPasteFiles } from "./paste-file-cleanup.ts";
 import { mutators, schema } from "../shared/app-def.ts";
 import { canPublish, commentAuthorName } from "../shared/auth.ts";
 import type { Identity } from "../shared/auth.ts";
@@ -50,6 +51,7 @@ import {
 } from "../src/components/Framing.queries.ts";
 import {
   pasteDiffQuery,
+  pasteFilesQuery,
   pasteQuery,
   pastesQuery,
 } from "../src/components/Paste.queries.ts";
@@ -119,6 +121,7 @@ const apiQueries = registerQueries<User>([
   pastesQuery,
   pasteQuery,
   pasteDiffQuery,
+  pasteFilesQuery,
   searchPostsQuery,
   searchThoughtsQuery,
   searchPastesQuery,
@@ -156,6 +159,26 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
   const sharedMutators = sharedApiMutators<User>(mutators, publisherPrincipal);
   const apiMutators = defineApiMutators<User, ApiMutators<User>>({
     ...sharedMutators,
+    createPaste: scoped<User, unknown>(async (scope, raw, ctx) => {
+      const args = mutators.createPaste.args.parse(raw);
+      await scope.transact(mutators.createPaste, args, publisherPrincipal(ctx));
+      await cleanupPasteFiles(scope.sql);
+    }),
+    addPasteAttachments: scoped<User, unknown>(async (scope, raw, ctx) => {
+      const args = mutators.addPasteAttachments.args.parse(raw);
+      await scope.transact(mutators.addPasteAttachments, args, publisherPrincipal(ctx));
+      await cleanupPasteFiles(scope.sql);
+    }),
+    removePasteAttachment: scoped<User, unknown>(async (scope, raw, ctx) => {
+      const args = mutators.removePasteAttachment.args.parse(raw);
+      await scope.transact(mutators.removePasteAttachment, args, publisherPrincipal(ctx));
+      await cleanupPasteFiles(scope.sql);
+    }),
+    deletePaste: scoped<User, unknown>(async (scope, raw, ctx) => {
+      const args = mutators.deletePaste.args.parse(raw);
+      await scope.transact(mutators.deletePaste, args, publisherPrincipal(ctx));
+      await cleanupPasteFiles(scope.sql);
+    }),
     // A comment's owner comes from ctx.user inside the shared body. The public byline is an arg so
     // the browser can predict it, but the authority accepts it only when it matches the signed
     // account session exactly.

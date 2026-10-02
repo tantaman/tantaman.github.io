@@ -11,7 +11,7 @@
 
 import { execFile } from "node:child_process";
 import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 import { createSqlClient } from "@rindle/sql-client";
@@ -24,16 +24,7 @@ const SELECT_PASTES = `SELECT id, body, language, title, created_at, parent_id, 
 const UPSERT_PASTE = `INSERT INTO paste
   (id, authorId, body, language, title, createdAt, parentId, shared, sharedAt, excerpt)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  ON CONFLICT(id) DO UPDATE SET
-    authorId = excluded.authorId,
-    body = excluded.body,
-    language = excluded.language,
-    title = excluded.title,
-    createdAt = excluded.createdAt,
-    parentId = excluded.parentId,
-    shared = excluded.shared,
-    sharedAt = excluded.sharedAt,
-    excerpt = excluded.excerpt`;
+  ON CONFLICT(id) DO NOTHING`;
 
 function excerpt(body, maxLength = 300) {
   const plain = String(body)
@@ -51,6 +42,59 @@ function unwrapRows(value) {
   const rows = value.flatMap((result) => Array.isArray(result?.results) ? result.results : []);
   if (rows.length === 0) throw new Error("Wrangler JSON contained no result rows.");
   return rows;
+}
+
+const SELECT_ATTACHMENTS = `SELECT id, paste_id, attachment_key, attachment_type, attachment_name, size, created_at
+  FROM paste_attachment ORDER BY id ASC`;
+
+async function legacyAttachmentRows() {
+  const importFile = process.env.PASTE_ATTACHMENT_IMPORT_FILE?.trim();
+  if (importFile) return unwrapRows(JSON.parse(await readFile(importFile, "utf8")));
+  if (process.env.PASTE_IMPORT_FILE?.trim()) return [];
+  const { stdout } = await execFileAsync("pnpm", [
+    "--dir", LEGACY_WORKER, "exec", "wrangler", "d1", "execute", "thought", "--remote",
+    "--command", SELECT_ATTACHMENTS, "--json",
+  ], { maxBuffer: 100 * 1024 * 1024 });
+  return unwrapRows(JSON.parse(stdout));
+}
+
+export function normalizeAttachments(rows) {
+  const newest = new Map();
+  for (const row of rows) {
+    if (typeof row.paste_id !== "string" || typeof row.attachment_key !== "string" ||
+        typeof row.attachment_name !== "string" || !Number.isFinite(Number(row.id)) ||
+        !Number.isFinite(Number(row.size)) || Number(row.size) < 0) throw new Error("Invalid legacy attachment row.");
+    const nameKey = JSON.stringify([row.paste_id, row.attachment_name]);
+    const prior = newest.get(nameKey);
+    if (!prior || Number(row.id) > Number(prior.id)) newest.set(nameKey, row);
+  }
+  const positions = new Map();
+  return [...newest.values()].sort((a, b) => Number(a.id) - Number(b.id)).map((row) => {
+    const position = positions.get(row.paste_id) ?? 0;
+    positions.set(row.paste_id, position + 1);
+    return {
+      id: `legacy:paste-attachment:${row.id}`, pasteId: row.paste_id, storageKey: row.attachment_key,
+      mediaType: row.attachment_type || "application/octet-stream", fileName: row.attachment_name,
+      size: Number(row.size), createdAt: Number(row.created_at), position,
+    };
+  });
+}
+
+export function attachmentImportStatements(row) {
+  return [{
+    sql: `INSERT INTO pasteFile (id, fileName, mediaType, size, createdAt, state)
+          VALUES (?, ?, ?, ?, ?, 'active') ON CONFLICT(id) DO NOTHING`,
+    args: [row.storageKey, row.fileName, row.mediaType, row.size, row.createdAt],
+  }, {
+    sql: `INSERT INTO pasteAttachment (id, pasteId, storageKey, mediaType, fileName, size, createdAt, position)
+          SELECT ?, ?, ?, ?, ?, ?, ?, ?
+          WHERE EXISTS (SELECT 1 FROM paste WHERE id = ?)
+            AND EXISTS (SELECT 1 FROM pasteFile WHERE id = ? AND state = 'active')
+            AND NOT EXISTS (SELECT 1 FROM pasteAttachment WHERE pasteId = ? AND fileName = ?)
+          ON CONFLICT(id) DO NOTHING`,
+    args: [row.id, row.pasteId, row.storageKey, row.mediaType, row.fileName, row.size, row.createdAt,
+      row.position, row.pasteId, row.storageKey, row.pasteId, row.fileName],
+  }];
 }
 
 async function legacyRows() {
@@ -102,10 +146,15 @@ async function main() {
     process.stdout.write(`\r  upserted ${written}/${rows.length}`);
   }
   if (rows.length > 0) process.stdout.write("\n");
-  console.log(`Done — ${written} legacy pastes moved from D1 to Rindle (${authorId}).`);
+  const attachments = normalizeAttachments(await legacyAttachmentRows());
+  for (let index = 0; index < attachments.length; index += BATCH_SIZE) {
+    const statements = attachments.slice(index, index + BATCH_SIZE).flatMap(attachmentImportStatements);
+    await sql.withTransaction((tx) => tx.batch(statements));
+  }
+  console.log(`Done — ${written} pastes and ${attachments.length} attachment references imported (${authorId}). R2 keys preserved.`);
 }
 
-main().catch((error) => {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main().catch((error) => {
   console.error(error instanceof Error ? error.stack ?? error.message : error);
   process.exit(1);
 });

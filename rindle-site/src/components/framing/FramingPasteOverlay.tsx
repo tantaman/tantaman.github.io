@@ -8,6 +8,7 @@ import { useRoot } from "@rindle/react";
 
 import { pasteDate } from "../../lib/paste.ts";
 import { pasteQuery, type PasteDetailRow } from "../Paste.queries.ts";
+import { PasteAttachments } from "../PasteAttachments.tsx";
 import { PasteBody } from "../PasteBody.tsx";
 
 /** Handed down by the canvas so a card node can ask to maximize its paste without the node rows
@@ -42,7 +43,7 @@ export function FramingPasteOverlay({ pasteId, onClose }: { pasteId: string; onC
       </header>
       <div className="framing-paste-overlay-body">
         {row
-          ? <PasteBody paste={row} />
+          ? <><PasteBody paste={row} /><PasteAttachments pasteId={row.id} files={row.attachments} /></>
           : <p className="framing-detail-status">{status === "complete" ? "Paste not found." : "Loading…"}</p>}
       </div>
     </div>

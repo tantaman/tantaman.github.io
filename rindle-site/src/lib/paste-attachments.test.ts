@@ -1,39 +1,24 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { appendPasteAttachments } from "./paste-attachments.ts";
+import { pasteFileUrl, pasteFileEmbed, formatFileSize } from "./paste-attachments.ts";
 import { renderMarkdown } from "./markdown.ts";
-import type { ThoughtAttachmentInput } from "./attachments.ts";
 
-const file: ThoughtAttachmentInput = {
-  id: "01K00000000000000000000000",
-  storageKey: "authored/thoughts/01K00000000000000000000000",
-  mediaType: "image/png",
-  fileName: 'photo"><script>alert(1)</script>.png',
-  createdAt: 1,
-  position: 0,
-};
+test("name-addressed URLs encode awkward filenames exactly once", () => {
+  const name = "100% of my notes (v2).txt";
+  assert.equal(pasteFileUrl("id", name), `/paste/id/file/${encodeURIComponent(name)}`);
+  assert.equal(pasteFileUrl("id", name, true), `/paste/id/file/${encodeURIComponent(name)}?download`);
+});
 
-test("image-only pastes render and filenames cannot introduce HTML", () => {
-  const body = appendPasteAttachments("", "markdown", [file]);
-  const html = renderMarkdown(body);
-  assert.match(html, /<img src="\/api\/attachments\/authored\/thoughts\/.*\?preview=1"/);
+test("embeds escape filenames without introducing markup", () => {
+  const embed = pasteFileEmbed("id", 'photo"><script>alert(1)</script>[x].png', "image/png");
+  const html = renderMarkdown(embed);
+  assert.ok(html.includes("<img"));
   assert.ok(!html.includes("<script>"));
-  assert.match(html, /&lt;script&gt;/);
+  assert.ok(!pasteFileEmbed("id", "notes.pdf", "application/pdf").startsWith("!"));
 });
 
-test("videos embed with controls, while other files get download links", () => {
-  const body = appendPasteAttachments("# Media", "markdown", [
-    { ...file, mediaType: "video/mp4", fileName: "clip.mp4" },
-    { ...file, mediaType: "application/pdf", fileName: "notes.pdf" },
-  ]);
-  const html = renderMarkdown(body);
-  assert.match(html, /<video controls preload="metadata"/);
-  assert.match(html, /<a href=".*" download>notes.pdf<\/a>/);
-  assert.ok(body.startsWith("# Media\n\n"));
-});
-
-test("HTML attachments land inside a complete document's body", () => {
-  const body = appendPasteAttachments("<html><body>Hello</body></html>", "html", [file]);
-  assert.match(body, /Hello<img .*\n<\/body><\/html>$/);
-  assert.equal(appendPasteAttachments("untouched\n", "markdown", []), "untouched\n");
+test("file size formatting includes the 50 MB upload boundary", () => {
+  assert.equal(formatFileSize(50 * 1024 * 1024), "50 MB");
+  assert.equal(formatFileSize(512), "512 B");
+  assert.equal(formatFileSize(0), "size unknown");
 });
