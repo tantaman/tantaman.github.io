@@ -8,9 +8,20 @@ import {
   clipboardFiles,
   pasteTextIsFileNames,
   pastedFileName,
+  uploadThoughtFiles,
 } from "./attachments.ts";
 
 const AT = new Date(2026, 8, 21, 14, 30, 5);
+
+test("uploads report a routed HTML response clearly and preserve server errors", async (t) => {
+  const pending = [{ id: "test", file: new File(["hello"], "notes.txt", { type: "text/plain" }), previewUrl: null, createdAt: 1 }];
+  const mock = t.mock.method(globalThis, "fetch", async () => new Response("<!DOCTYPE html><html></html>", { headers: { "Content-Type": "text/html" } }));
+  await assert.rejects(uploadThoughtFiles(pending), /notes\.txt: the upload endpoint returned a web page/);
+  mock.mock.mockImplementation(async () => new Response("Forbidden", { status: 403, headers: { "Content-Type": "text/plain" } }));
+  await assert.rejects(uploadThoughtFiles(pending), /^Error: Forbidden$/);
+  mock.mock.mockImplementation(async () => Response.json({ storageKey: "authored/thoughts/test", mediaType: "text/plain", fileName: "notes.txt" }, { status: 201 }));
+  assert.deepEqual(await uploadThoughtFiles(pending), [{ id: "test", storageKey: "authored/thoughts/test", mediaType: "text/plain", fileName: "notes.txt", createdAt: 1, position: 0, size: 5 }]);
+});
 
 test("attachmentMediaType keeps well-formed browser types and normalises the rest", () => {
   assert.equal(attachmentMediaType({ type: "image/png" }), "image/png");

@@ -33,6 +33,7 @@ import { Route as ThoughtsMusicRouteImport } from './routes/thoughts.music'
 import { Route as ThoughtsProjectsRouteImport } from './routes/thoughts.projects'
 import { Route as ThoughtsQuestionsRouteImport } from './routes/thoughts.questions'
 import { Route as ThoughtsTasksRouteImport } from './routes/thoughts.tasks'
+import { Route as ApiAttachmentsIndexRouteImport } from './routes/api.attachments.index'
 import { Route as ApiAttachmentsSplatRouteImport } from './routes/api.attachments.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 import { Route as ApiAuthDevLoginRouteImport } from './routes/api.auth.dev-login'
@@ -51,6 +52,7 @@ import { Route as ThoughtsFramingsIdRouteImport } from './routes/thoughts.framin
 import { Route as ThoughtsTIdRouteImport } from './routes/thoughts.t.$id'
 import { Route as ApiDhaReportsDateRouteImport } from './routes/api.dha.reports.$date'
 import { Route as PasteIdFileNameRouteImport } from './routes/paste.$id.file.$name'
+import { Route as PasteIdFileNameDeleteRouteImport } from './routes/paste.$id.file.$name.delete'
 
 const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
@@ -171,6 +173,11 @@ const ThoughtsTasksRoute = ThoughtsTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => ThoughtsRoute,
 } as any)
+const ApiAttachmentsIndexRoute = ApiAttachmentsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ApiAttachmentsRoute,
+} as any)
 const ApiAttachmentsSplatRoute = ApiAttachmentsSplatRouteImport.update({
   id: '/$',
   path: '/$',
@@ -261,6 +268,11 @@ const PasteIdFileNameRoute = PasteIdFileNameRouteImport.update({
   path: '/file/$name',
   getParentRoute: () => PasteIdRoute,
 } as any)
+const PasteIdFileNameDeleteRoute = PasteIdFileNameDeleteRouteImport.update({
+  id: '/delete',
+  path: '/delete',
+  getParentRoute: () => PasteIdFileNameRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof ShellIndexRoute
@@ -300,10 +312,12 @@ export interface FileRoutesByFullPath {
   '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
   '/thoughts/t/$id': typeof ThoughtsTIdRoute
+  '/api/attachments/': typeof ApiAttachmentsIndexRoute
   '/paste/$id/': typeof PasteIdIndexRoute
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
   '/api/dha/reports/$date': typeof ApiDhaReportsDateRoute
-  '/paste/$id/file/$name': typeof PasteIdFileNameRoute
+  '/paste/$id/file/$name': typeof PasteIdFileNameRouteWithChildren
+  '/paste/$id/file/$name/delete': typeof PasteIdFileNameDeleteRoute
 }
 export interface FileRoutesByTo {
   '/explore': typeof ExploreRoute
@@ -311,7 +325,6 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/$slug': typeof ShellSlugRoute
   '/write': typeof ShellWriteRoute
-  '/api/attachments': typeof ApiAttachmentsRouteWithChildren
   '/paste/all': typeof PasteAllRoute
   '/paste/files': typeof PasteFilesRoute
   '/thoughts/$id': typeof ThoughtsIdRoute
@@ -340,10 +353,12 @@ export interface FileRoutesByTo {
   '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
   '/thoughts/t/$id': typeof ThoughtsTIdRoute
+  '/api/attachments': typeof ApiAttachmentsIndexRoute
   '/paste/$id': typeof PasteIdIndexRoute
   '/thoughts/framings': typeof ThoughtsFramingsIndexRoute
   '/api/dha/reports/$date': typeof ApiDhaReportsDateRoute
-  '/paste/$id/file/$name': typeof PasteIdFileNameRoute
+  '/paste/$id/file/$name': typeof PasteIdFileNameRouteWithChildren
+  '/paste/$id/file/$name/delete': typeof PasteIdFileNameDeleteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -385,10 +400,12 @@ export interface FileRoutesById {
   '/paste/fork/$id': typeof PasteForkIdRoute
   '/thoughts/framings/$id': typeof ThoughtsFramingsIdRoute
   '/thoughts/t/$id': typeof ThoughtsTIdRoute
+  '/api/attachments/': typeof ApiAttachmentsIndexRoute
   '/paste/$id/': typeof PasteIdIndexRoute
   '/thoughts/framings/': typeof ThoughtsFramingsIndexRoute
   '/api/dha/reports/$date': typeof ApiDhaReportsDateRoute
-  '/paste/$id/file/$name': typeof PasteIdFileNameRoute
+  '/paste/$id/file/$name': typeof PasteIdFileNameRouteWithChildren
+  '/paste/$id/file/$name/delete': typeof PasteIdFileNameDeleteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -430,10 +447,12 @@ export interface FileRouteTypes {
     | '/paste/fork/$id'
     | '/thoughts/framings/$id'
     | '/thoughts/t/$id'
+    | '/api/attachments/'
     | '/paste/$id/'
     | '/thoughts/framings/'
     | '/api/dha/reports/$date'
     | '/paste/$id/file/$name'
+    | '/paste/$id/file/$name/delete'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/explore'
@@ -441,7 +460,6 @@ export interface FileRouteTypes {
     | '/search'
     | '/$slug'
     | '/write'
-    | '/api/attachments'
     | '/paste/all'
     | '/paste/files'
     | '/thoughts/$id'
@@ -470,10 +488,12 @@ export interface FileRouteTypes {
     | '/paste/fork/$id'
     | '/thoughts/framings/$id'
     | '/thoughts/t/$id'
+    | '/api/attachments'
     | '/paste/$id'
     | '/thoughts/framings'
     | '/api/dha/reports/$date'
     | '/paste/$id/file/$name'
+    | '/paste/$id/file/$name/delete'
   id:
     | '__root__'
     | '/_shell'
@@ -514,10 +534,12 @@ export interface FileRouteTypes {
     | '/paste/fork/$id'
     | '/thoughts/framings/$id'
     | '/thoughts/t/$id'
+    | '/api/attachments/'
     | '/paste/$id/'
     | '/thoughts/framings/'
     | '/api/dha/reports/$date'
     | '/paste/$id/file/$name'
+    | '/paste/$id/file/$name/delete'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -706,6 +728,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThoughtsTasksRouteImport
       parentRoute: typeof ThoughtsRoute
     }
+    '/api/attachments/': {
+      id: '/api/attachments/'
+      path: '/'
+      fullPath: '/api/attachments/'
+      preLoaderRoute: typeof ApiAttachmentsIndexRouteImport
+      parentRoute: typeof ApiAttachmentsRoute
+    }
     '/api/attachments/$': {
       id: '/api/attachments/$'
       path: '/$'
@@ -832,6 +861,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PasteIdFileNameRouteImport
       parentRoute: typeof PasteIdRoute
     }
+    '/paste/$id/file/$name/delete': {
+      id: '/paste/$id/file/$name/delete'
+      path: '/delete'
+      fullPath: '/paste/$id/file/$name/delete'
+      preLoaderRoute: typeof PasteIdFileNameDeleteRouteImport
+      parentRoute: typeof PasteIdFileNameRoute
+    }
   }
 }
 
@@ -849,13 +885,25 @@ const ShellRouteChildren: ShellRouteChildren = {
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
 
+interface PasteIdFileNameRouteChildren {
+  PasteIdFileNameDeleteRoute: typeof PasteIdFileNameDeleteRoute
+}
+
+const PasteIdFileNameRouteChildren: PasteIdFileNameRouteChildren = {
+  PasteIdFileNameDeleteRoute: PasteIdFileNameDeleteRoute,
+}
+
+const PasteIdFileNameRouteWithChildren = PasteIdFileNameRoute._addFileChildren(
+  PasteIdFileNameRouteChildren,
+)
+
 interface PasteIdRouteChildren {
   PasteIdDiffRoute: typeof PasteIdDiffRoute
   PasteIdFilesRoute: typeof PasteIdFilesRoute
   PasteIdModuleRoute: typeof PasteIdModuleRoute
   PasteIdRawRoute: typeof PasteIdRawRoute
   PasteIdIndexRoute: typeof PasteIdIndexRoute
-  PasteIdFileNameRoute: typeof PasteIdFileNameRoute
+  PasteIdFileNameRoute: typeof PasteIdFileNameRouteWithChildren
 }
 
 const PasteIdRouteChildren: PasteIdRouteChildren = {
@@ -864,7 +912,7 @@ const PasteIdRouteChildren: PasteIdRouteChildren = {
   PasteIdModuleRoute: PasteIdModuleRoute,
   PasteIdRawRoute: PasteIdRawRoute,
   PasteIdIndexRoute: PasteIdIndexRoute,
-  PasteIdFileNameRoute: PasteIdFileNameRoute,
+  PasteIdFileNameRoute: PasteIdFileNameRouteWithChildren,
 }
 
 const PasteIdRouteWithChildren =
@@ -926,10 +974,12 @@ const ThoughtsRouteWithChildren = ThoughtsRoute._addFileChildren(
 
 interface ApiAttachmentsRouteChildren {
   ApiAttachmentsSplatRoute: typeof ApiAttachmentsSplatRoute
+  ApiAttachmentsIndexRoute: typeof ApiAttachmentsIndexRoute
 }
 
 const ApiAttachmentsRouteChildren: ApiAttachmentsRouteChildren = {
   ApiAttachmentsSplatRoute: ApiAttachmentsSplatRoute,
+  ApiAttachmentsIndexRoute: ApiAttachmentsIndexRoute,
 }
 
 const ApiAttachmentsRouteWithChildren = ApiAttachmentsRoute._addFileChildren(

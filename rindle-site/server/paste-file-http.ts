@@ -58,13 +58,17 @@ export async function handlePasteFileUpload(request: Request, pasteId: string): 
     const id = ulid();
     const headers = new Headers(request.headers);
     headers.set("X-Attachment-Id", id);
-    const response = await handleAttachmentUpload(new Request(request, { headers }));
+    const response = await handleAttachmentUpload(new Request(request.url, {
+      method: request.method, headers, body: request.body, duplex: "half",
+    } as RequestInit));
     if (!response.ok) return response;
     const attachment = await response.json() as { storageKey: string; mediaType: string; fileName: string };
-    return await mutateFile(request, "addPasteAttachments", { pasteId, attachments: [{
+    const input = {
       ...attachment, id, size: Number(headers.get("X-File-Size") ?? headers.get("Content-Length")),
       createdAt: Date.now(), position: 0,
-    }] });
+    };
+    const result = await mutateFile(request, "addPasteAttachments", { pasteId, attachments: [input] });
+    return result.ok ? Response.json({ attachments: [input] }, { status: 201 }) : result;
   } catch (error) {
     const { status, message } = httpErrorOf(error);
     return new Response(message, { status });

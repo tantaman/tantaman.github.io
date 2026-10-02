@@ -145,6 +145,13 @@ export async function uploadThoughtFiles(
       },
       body: entry.file,
     });
+    if (!response.headers.get("Content-Type")?.toLowerCase().includes("application/json")) {
+      const message = (await response.text()).trim();
+      if (response.headers.get("Content-Type")?.toLowerCase().includes("text/html")) {
+        throw new Error(`Could not upload ${entry.file.name}: the upload endpoint returned a web page. Please try again after the site is updated.`);
+      }
+      throw new Error(message || `Could not upload ${entry.file.name} (HTTP ${response.status}).`);
+    }
     if (!response.ok) {
       const message = (await response.text()).trim();
       throw new Error(message || `Could not upload ${entry.file.name}.`);
