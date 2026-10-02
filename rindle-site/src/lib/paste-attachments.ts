@@ -16,5 +16,9 @@ export function pasteFileEmbed(pasteId: string, fileName: string, mediaType: str
   const label = fileName.replace(/[&<>"']/g, (character) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
   })[character]!).replace(/[\\`*_\[\]]/g, "\\$&");
-  return `${mediaType.startsWith("image/") ? "!" : ""}[${label}](${pasteFileUrl(pasteId, fileName)})`;
+  return `${mediaType.startsWith("image/") || mediaType.startsWith("video/") ? "!" : ""}[${label}](${pasteFileUrl(pasteId, fileName)})`;
+}
+
+export function pasteLocalEmbed(fileName: string, mediaType: string): string {
+  return pasteFileEmbed("local", fileName, mediaType).replace(pasteFileUrl("local", fileName), encodeURIComponent(fileName).replace(/[()]/g, (value) => value === "(" ? "%28" : "%29"));
 }

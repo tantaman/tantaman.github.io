@@ -21,12 +21,10 @@ import { clientSchema } from "./schema.local.ts";
 type RindleApp = Awaited<ReturnType<typeof bootClientInner>>;
 type RejectionHandler = (envelope: MutationEnvelope, reason: string) => void;
 
-let rejectionHandler: RejectionHandler = () => {};
+const rejectionHandlers = new Set<RejectionHandler>();
 export function onRejection(handler: RejectionHandler): () => void {
-  rejectionHandler = handler;
-  return () => {
-    if (rejectionHandler === handler) rejectionHandler = () => {};
-  };
+  rejectionHandlers.add(handler);
+  return () => { rejectionHandlers.delete(handler); };
 }
 
 /** The live optimistic client — assigned once {@link bootClient} resolves. Components import this and
@@ -74,7 +72,7 @@ async function bootClientInner() {
     // Durable local Explore drafts are partitioned by authenticated account. Anonymous readers get
     // their own origin-local workspace rather than sharing a signed-in user's IndexedDB database.
     persistLocal: { user: sessionUserId || "anonymous" },
-    onRejected: (envelope, reason) => rejectionHandler(envelope, reason),
+    onRejected: (envelope, reason) => { for (const handler of rejectionHandlers) handler(envelope, reason); },
   });
 }
 

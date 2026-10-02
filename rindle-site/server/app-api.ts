@@ -52,6 +52,8 @@ import {
 import {
   pasteDiffQuery,
   pasteFilesQuery,
+  pasteHistoryQuery,
+  pasteRevisionQuery,
   pasteQuery,
   pastesQuery,
 } from "../src/components/Paste.queries.ts";
@@ -122,6 +124,8 @@ const apiQueries = registerQueries<User>([
   pasteQuery,
   pasteDiffQuery,
   pasteFilesQuery,
+  pasteHistoryQuery,
+  pasteRevisionQuery,
   searchPostsQuery,
   searchThoughtsQuery,
   searchPastesQuery,
@@ -167,6 +171,11 @@ export function createAppApi(opts: AppApiOptions): RindleApiServer<User> {
     addPasteAttachments: scoped<User, unknown>(async (scope, raw, ctx) => {
       const args = mutators.addPasteAttachments.args.parse(raw);
       await scope.transact(mutators.addPasteAttachments, args, publisherPrincipal(ctx));
+      await cleanupPasteFiles(scope.sql);
+    }),
+    editPaste: scoped<User, unknown>(async (scope, raw, ctx) => {
+      const args = mutators.editPaste.args.parse(raw);
+      await scope.transact(mutators.editPaste, args, publisherPrincipal(ctx));
       await cleanupPasteFiles(scope.sql);
     }),
     removePasteAttachment: scoped<User, unknown>(async (scope, raw, ctx) => {

@@ -55,7 +55,7 @@ export async function handlePasteRaw(request: Request, id: string): Promise<Resp
     return new Response(paste.body, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
-        "Cache-Control": "public, max-age=300",
+        "Cache-Control": "public, max-age=0, must-revalidate",
       },
     });
   } catch (error) {
@@ -80,7 +80,7 @@ export async function handlePasteModule(request: Request, id: string): Promise<R
     return new Response(module, {
       headers: {
         "Content-Type": "application/javascript; charset=utf-8",
-        "Cache-Control": "public, max-age=300",
+        "Cache-Control": "public, max-age=0, must-revalidate",
       },
     });
   } catch (error) {

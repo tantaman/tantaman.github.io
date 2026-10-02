@@ -1,16 +1,16 @@
-import { marked } from "marked";
+import { Marked, marked } from "marked";
 
 const wikiSlug = (target: string) => "/" + target.trim().toLowerCase().replace(/\s+/g, "-");
 
 /** Render the live editor's markdown with the same wiki-link convention as the legacy seed path. */
-export function renderMarkdown(markdown: string): string {
+export function renderMarkdown(markdown: string, renderer?: Marked): string {
   const withWikiLinks = markdown.replace(/\[\[([^\]]+)\]\]/g, (_all, inner: string) => {
     const divider = inner.search(/[:|]/);
     const target = (divider === -1 ? inner : inner.slice(0, divider)).trim();
     const label = (divider === -1 ? inner : inner.slice(divider + 1)).trim() || target;
     return `[${label}](${wikiSlug(target)})`;
   });
-  return marked.parse(withWikiLinks, { async: false }) as string;
+  return (renderer ?? marked).parse(withWikiLinks, { async: false }) as string;
 }
 
 const LEADING_TITLE = /^\s*#(?!#)\s+(.+?)\s*#*\s*(?:\r?\n|$)/;

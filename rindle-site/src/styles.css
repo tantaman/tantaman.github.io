@@ -5998,6 +5998,12 @@ button.paste-inline-quote:hover {
 .paste-file-gallery figure { margin: 0; min-width: 0; }
 .paste-file-gallery img, .paste-file-gallery video { display: block; width: 100%; max-height: 60vh; object-fit: contain; border-radius: 8px; }
 .paste-file-gallery figcaption { margin-top: 6px; font-size: 12px; overflow-wrap: anywhere; color: var(--ink-3); }
+.paste-content video { display: block; width: 100%; max-height: 75vh; margin: 24px auto; border-radius: 8px; }
+.paste-inline-files { margin: 16px 0; color: var(--ink-3); font-size: 13px; }
+.paste-inline-files button { margin: 0 8px 8px 0; }
+.paste-history ul { padding-left: 20px; }
+.paste-history li { margin: 10px 0; }
+.paste-history .paste-document { margin-top: 32px; }
 .paste-file-list { list-style: none; padding: 0; }
 .paste-file-list li { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line-2); }
 .paste-file-info { flex: 1; min-width: 160px; overflow-wrap: anywhere; display: flex; flex-direction: column; gap: 5px; }

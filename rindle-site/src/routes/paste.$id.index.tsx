@@ -79,7 +79,7 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
     <article className="paste-document">
       <header className="paste-document-header">
         <div>
-          <p>{pasteDate(paste.createdAt)} · {paste.language}{paste.shared === 1 ? " · shared" : ""}</p>
+          <p>{pasteDate(paste.createdAt)}{paste.updatedAt ? ` · edited ${pasteDate(paste.updatedAt)}` : ""} · {paste.language}{paste.shared === 1 ? " · shared" : ""}</p>
           <h1>{title}</h1>
         </div>
         <PasteActions
@@ -116,7 +116,7 @@ function PasteDocument({ paste }: { paste: PasteDetailRow }) {
       <div ref={bodyRef} className="paste-anchor-root">
         <PasteBody paste={paste} />
       </div>
-      <PasteAttachments pasteId={paste.id} files={paste.attachments} manage={isAdmin} />
+      <PasteAttachments pasteId={paste.id} files={paste.attachments} manage={isAdmin} markdownBody={paste.language === "markdown" ? paste.body : undefined} />
       <footer className="paste-document-footer">
         <PasteActions
           paste={paste}
@@ -152,6 +152,8 @@ function PasteActions({
       {paste.parentId ? <Link to="/paste/$id/diff" params={{ id: paste.id }}>diff</Link> : null}
       {isAdmin ? (
         <>
+          <Link to="/paste/$id/edit" params={{ id: paste.id }}>edit</Link>
+          <Link to="/paste/$id/history" params={{ id: paste.id }}>history</Link>
           <AddToCollection
             kind="paste"
             itemId={paste.id}

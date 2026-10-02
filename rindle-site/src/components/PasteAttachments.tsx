@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { PasteAttachment } from "../../shared/app-def.ts";
 import { isPreviewableImage, uploadThoughtFiles } from "../lib/attachments.ts";
-import { formatFileSize, pasteFileEmbed, pasteFileUrl } from "../lib/paste-attachments.ts";
+import { formatFileSize, pasteLocalEmbed, pasteFileUrl } from "../lib/paste-attachments.ts";
 import { app } from "../rindle-client.ts";
 import { ThoughtFileDropzone, useThoughtFiles } from "./ThoughtFileDropzone.tsx";
+import { renderPasteMarkdown } from "../lib/paste-markdown.ts";
 
-export function PasteAttachments({ pasteId, files, manage = false }: {
+export function PasteAttachments({ pasteId, files, manage = false, markdownBody }: {
   pasteId: string;
   files: readonly PasteAttachment[];
   manage?: boolean;
+  markdownBody?: string;
 }) {
   const controller = useThoughtFiles("paste");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const inlineFiles = useMemo(() => {
+    const names = new Set<string>();
+    if (markdownBody) renderPasteMarkdown(markdownBody, pasteId, files, names);
+    return names;
+  }, [markdownBody, pasteId, files]);
 
   async function upload() {
     if (saving || !controller.files.length) return;
@@ -30,7 +37,7 @@ export function PasteAttachments({ pasteId, files, manage = false }: {
 
   async function copy(file: PasteAttachment) {
     try {
-      await navigator.clipboard.writeText(pasteFileEmbed(pasteId, file.fileName, file.mediaType));
+      await navigator.clipboard.writeText(pasteLocalEmbed(file.fileName, file.mediaType));
       setCopied(file.id);
     } catch { setError("Could not copy the embed. Select and copy the snippet below."); }
   }
@@ -46,7 +53,7 @@ export function PasteAttachments({ pasteId, files, manage = false }: {
     <section className="paste-attachments" aria-label="Paste files">
       {files.length ? <h2>{files.length} file{files.length === 1 ? "" : "s"}</h2> : null}
       <div className="paste-file-gallery">
-        {files.filter((file) => isPreviewableImage(file.mediaType) || file.mediaType.startsWith("video/")).map((file) => {
+        {files.filter((file) => !inlineFiles.has(file.fileName) && (isPreviewableImage(file.mediaType) || file.mediaType.startsWith("video/"))).map((file) => {
           const url = pasteFileUrl(pasteId, file.fileName);
           return <figure key={file.id}>
             {isPreviewableImage(file.mediaType)
@@ -62,7 +69,7 @@ export function PasteAttachments({ pasteId, files, manage = false }: {
           <div className="paste-file-info">
             <a href={pasteFileUrl(pasteId, file.fileName)}>{file.fileName}</a>
             <small>{file.mediaType} · {formatFileSize(file.size)}</small>
-            {manage ? <code>{pasteFileEmbed(pasteId, file.fileName, file.mediaType)}</code> : null}
+            {manage ? <code>{pasteLocalEmbed(file.fileName, file.mediaType)}</code> : null}
           </div>
           <div className="paste-file-actions">
             <a href={pasteFileUrl(pasteId, file.fileName, true)}>download</a>

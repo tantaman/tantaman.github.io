@@ -204,6 +204,8 @@ export const paste = table("paste")
     shared: number(),
     sharedAt: number().nullable(),
     excerpt: string(),
+    contentRevision: string(),
+    updatedAt: number().nullable(),
   })
   .primaryKey("id");
 
@@ -245,6 +247,19 @@ export const pasteFile = table("pasteFile")
     size: number(),
     createdAt: number(),
     state: string(),
+  })
+  .primaryKey("id");
+
+export const pasteRevision = table("pasteRevision")
+  .columns({
+    id: string(),
+    pasteId: string(),
+    body: string(),
+    language: string(),
+    title: string().nullable(),
+    excerpt: string(),
+    savedAt: number(),
+    authorId: string(),
   })
   .primaryKey("id");
 
@@ -501,4 +516,4 @@ export const thoughtTag = table("thoughtTag")
   })
   .primaryKey("id");
 
-export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, paste, pasteAttachment, pasteComment, pasteFile, post, postAuthor, postComment, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });
+export const schema = createSchema({ tables: [album, amplification, author, book, bookmark, cluster, clusterMembership, event, framing, framingEdge, framingNode, location, movie, paste, pasteAttachment, pasteComment, pasteFile, pasteRevision, post, postAuthor, postComment, postFacet, project, projectActivity, projectAttachment, projectComment, projectItem, question, tag, task, taskDependency, thought, thoughtAlbum, thoughtAttachment, thoughtBookmark, thoughtEdge, thoughtHistory, thoughtMovie, thoughtTag] });

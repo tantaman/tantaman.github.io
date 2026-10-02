@@ -268,6 +268,18 @@ const createPasteArgs = z.object({
 });
 export type CreatePasteArgs = z.infer<typeof createPasteArgs>;
 
+const editPasteArgs = z.object({
+  id: stableId,
+  revisionId: stableId,
+  expectedRevision: z.string().max(500),
+  updatedAt: timestamp,
+  body: z.string().max(1_000_000),
+  excerpt: z.string().max(500),
+  language: z.enum(pasteLanguages),
+  title: nullableText(300),
+  attachments: z.array(pasteAttachmentArg).max(100),
+});
+
 const setPasteSharedArgs = z
   .object({
     id: stableId,
@@ -943,7 +955,7 @@ const createPaste = shared(createPasteArgs, function* (tx, args, ctx) {
   }
   yield tx.insert("paste", {
     ...args.paste, title: args.paste.title ?? inherited[0]?.fileName ?? args.attachments?.[0]?.fileName ?? null,
-    authorId, shared: 0, sharedAt: null,
+    authorId, shared: 0, sharedAt: null, contentRevision: "", updatedAt: null,
   });
   for (const [position, attachment] of inherited.entries()) {
     yield tx.insert("pasteAttachment", { ...attachment, id: `${args.paste.id}:inherited:${position}`, pasteId: args.paste.id, createdAt: args.paste.createdAt });
@@ -955,6 +967,25 @@ const addPasteAttachments = shared(addPasteAttachmentsArgs, function* (tx, args,
   requireMutationUser(ctx.user);
   if (!(yield tx.row("paste", { id: args.pasteId }))) throw new Error("Paste not found.");
   yield* attachPasteFiles(tx, args.pasteId, args.attachments);
+});
+
+const editPaste = shared(editPasteArgs, function* (tx, args, ctx) {
+  const authorId = requireMutationUser(ctx.user);
+  const current = (yield tx.row("paste", { id: args.id })) as Row<typeof paste> | undefined;
+  if (!current) throw new Error("Paste not found.");
+  if (current.contentRevision !== args.expectedRevision) throw new Error("This paste changed since you opened it. Reload before saving.");
+  if (yield tx.row("pasteRevision", { id: args.revisionId })) throw new Error("Revision already exists.");
+  yield* attachPasteFiles(tx, args.id, args.attachments);
+  const files = pasteAttachmentRows(yield tx.query(q.pasteAttachment.where.pasteId(args.id).orderBy("position", "asc").orderBy("id", "asc").limit(1)));
+  if (!args.body.trim() && !files.length) throw new Error("Body or at least one file is required.");
+  yield tx.insert("pasteRevision", {
+    id: args.revisionId, pasteId: args.id, body: current.body, language: current.language,
+    title: current.title, excerpt: current.excerpt, savedAt: args.updatedAt, authorId,
+  });
+  yield tx.update("paste", {
+    id: args.id, body: args.body, excerpt: args.excerpt, language: args.language,
+    title: args.title ?? files[0]?.fileName ?? null, contentRevision: args.revisionId, updatedAt: args.updatedAt,
+  });
 });
 
 const removePasteAttachment = shared(removePasteAttachmentArgs, function* (tx, args, ctx) {
@@ -1030,6 +1061,11 @@ const deletePaste = shared(deletePasteArgs, function* (tx, args, ctx) {
   if (attachments.length > 100) throw new Error("Too many paste attachments to delete safely.");
   for (const row of attachments) yield tx.delete("pasteAttachment", { id: row.id });
   for (const key of new Set(attachments.map((row) => row.storageKey))) yield* retirePasteFile(tx, key);
+  while (true) {
+    const revisions = rowIds(yield tx.query(q.pasteRevision.where.pasteId(args.id).orderBy("id", "asc").limit(1_000)), "paste revisions");
+    if (!revisions.length) break;
+    for (const id of revisions) yield tx.delete("pasteRevision", { id });
+  }
   yield tx.delete("paste", { id: args.id });
 });
 
@@ -1751,6 +1787,7 @@ export const mutators = {
   deletePasteComment,
   createPaste,
   addPasteAttachments,
+  editPaste,
   removePasteAttachment,
   setPasteShared,
   deletePaste,

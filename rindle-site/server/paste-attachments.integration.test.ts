@@ -126,6 +126,39 @@ test("paste attachment parity against the live Rindle authority and named views"
       assert.equal(result.accepted, false);
       assert.equal((await db("SELECT id FROM pasteAttachment WHERE pasteId = ? AND fileName = 'old.txt'", [parent])).length, 1);
     });
+    await t.test("edits preserve identity, files, sharing and forks, snapshot text, and reject stale or anonymous saves", async () => {
+      const attachment = await file("edit-notes.txt", "attached bytes");
+      const id = await create("Original body", [attachment]);
+      const fork = await create("Independent fork", [], id);
+      await mutate("setPasteShared", { id, shared: 1, sharedAt: 42 });
+      const revisionId = ulid();
+      const added = await file("added-during-edit.txt", "new attachment");
+      const args = { id, revisionId, expectedRevision: "", updatedAt: 100, body: "Updated body", excerpt: "Updated body", title: "Updated", language: "markdown", attachments: [added] };
+      await mutate("editPaste", args);
+      assert.deepEqual(await db("SELECT body, title, shared, sharedAt, contentRevision, updatedAt FROM paste WHERE id = ?", [id]), [["Updated body", "Updated", 1, 42, revisionId, 100]]);
+      assert.deepEqual(await db("SELECT body FROM paste WHERE id = ?", [fork]), [["Independent fork"]]);
+      assert.deepEqual(await db("SELECT storageKey FROM pasteAttachment WHERE pasteId = ? ORDER BY fileName", [id]), [[added.storageKey], [attachment.storageKey]]);
+      assert.deepEqual(await db("SELECT storageKey FROM pasteAttachment WHERE pasteId = ?", [fork]), [[attachment.storageKey]]);
+      const history = await rows("pasteHistory", { pasteId: id, limit: 40 });
+      assert.equal(history.length, 1);
+      assert.equal(history[0].id, revisionId);
+      assert.equal((await rows("pasteRevision", { pasteId: id, id: revisionId }))[0].body, "Original body");
+      assert.equal((await rows("pasteHistory", { pasteId: id, limit: 40 }, true)).length, 0);
+      assert.equal((await rows("pasteRevision", { pasteId: id, id: revisionId }, true)).length, 0);
+      await mutate("editPaste", { ...args, revisionId: ulid(), body: "Stale overwrite" }, false);
+      assert.deepEqual(await db("SELECT body FROM paste WHERE id = ?", [id]), [["Updated body"]]);
+      assert.equal((await rows("pasteHistory", { pasteId: id, limit: 40 })).length, 1);
+      const anonymous = await api.pushMutation({ user: undefined, envelope: { clientID: `anonymous-edit:${ulid()}`, mid: 1, name: "editPaste", args: { ...args, revisionId: ulid(), expectedRevision: revisionId } } });
+      assert.equal(anonymous.accepted, false);
+      await mutate("editPaste", { ...args, revisionId: ulid(), expectedRevision: revisionId, body: "", language: "json", title: null, attachments: [] });
+      assert.equal((await rows("pasteHistory", { pasteId: id, limit: 40 })).length, 2);
+      const empty = await create("Nonempty", []);
+      await mutate("editPaste", { ...args, id: empty, revisionId: ulid(), expectedRevision: "", body: "", attachments: [] }, false);
+      assert.equal((await rows("pasteHistory", { pasteId: empty, limit: 40 })).length, 0);
+      await mutate("deletePaste", { id });
+      pastes.delete(id);
+      assert.equal((await db("SELECT id FROM pasteRevision WHERE pasteId = ?", [id])).length, 0);
+    });
   } finally {
     for (const id of pastes) await mutate("deletePaste", { id });
     // Legacy object test used metadata only; leave its tombstone to model a deferred R2 cleanup.

@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef } from "react";
 
-import { renderMarkdown } from "../lib/markdown.ts";
+import { renderPasteMarkdown } from "../lib/paste-markdown.ts";
+import type { PasteAttachment } from "../../shared/app-def.ts";
 import type { PasteDetailRow } from "./Paste.queries.ts";
 
 /** The fields a paste needs to render. A narrow view (a framing's full-size overlay) can pass a
  *  row from any query that selects them. */
-export type PasteBodyRow = Pick<PasteDetailRow, "id" | "body" | "language" | "title">;
+export type PasteBodyRow = Pick<PasteDetailRow, "id" | "body" | "language" | "title"> & { attachments?: readonly PasteAttachment[]; contentRevision?: string };
 
 /** A paste's rendered body: markdown (with Mermaid diagrams), a sandboxed HTML or JSX/TSX runner,
  *  or highlighted source. Shared by the paste page and a framing's maximized paste. */
@@ -14,8 +15,8 @@ export function PasteBody({ paste }: { paste: PasteBodyRow }) {
   const markdown = useMemo(() => {
     if (paste.language !== "markdown") return "";
     const withoutLeadingTitle = paste.body.trimStart().replace(/^#{1,6}\s+.+\r?\n?/, "");
-    return renderMarkdown(withoutLeadingTitle);
-  }, [paste.body, paste.language]);
+    return renderPasteMarkdown(withoutLeadingTitle, paste.id, paste.attachments);
+  }, [paste.body, paste.language, paste.id, paste.attachments]);
 
   useEffect(() => {
     const content = contentRef.current;
@@ -97,10 +98,11 @@ export function PasteBody({ paste }: { paste: PasteBodyRow }) {
   }
 
   if (paste.language === "jsx" || paste.language === "tsx") {
-    const moduleUrl = `/paste/${encodeURIComponent(paste.id)}/module`;
+    const moduleUrl = `/paste/${encodeURIComponent(paste.id)}/module?v=${encodeURIComponent(paste.contentRevision ?? "")}`;
     const srcDoc = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><div id="root"></div><pre id="error" style="white-space:pre-wrap"></pre><script type="module">try{const mod=await import(${JSON.stringify(moduleUrl)});if(mod.default&&typeof mod.default==='function'){const [{createRoot},{createElement}]=await Promise.all([import('https://esm.sh/react-dom/client'),import('https://esm.sh/react')]);createRoot(document.getElementById('root')).render(createElement(mod.default));}}catch(error){document.getElementById('error').textContent=error?.stack||String(error);}</script></body></html>`;
     return (
       <iframe
+        key={paste.body}
         className="paste-runner"
         title={paste.title || `${paste.language.toUpperCase()} paste`}
         srcDoc={srcDoc}

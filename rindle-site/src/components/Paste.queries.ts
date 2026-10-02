@@ -55,7 +55,7 @@ const pasteIdArgs = z.string().min(1).max(500);
 export const pasteQuery = defineQuery("paste", (raw) => pasteIdArgs.parse(raw), (id) =>
   q.paste
     .where.id(id)
-    .select("id", "body", "language", "title", "excerpt", "createdAt", "parentId", "shared", "sharedAt")
+    .select("id", "body", "language", "title", "excerpt", "createdAt", "parentId", "shared", "sharedAt", "contentRevision", "updatedAt")
     .sub("attachments", relationships.pasteAttachments, (files) => files
       .orderBy("position", "asc").orderBy("id", "asc").limit(100)
       .select("id", "pasteId", "storageKey", "fileName", "mediaType", "size", "createdAt", "position"))
@@ -125,3 +125,10 @@ export const pasteFilesQuery = defineQuery(
   },
 );
 export type PasteFileRow = QueryLocalData<ReturnType<typeof pasteFilesQuery>>[number];
+
+export const pasteHistoryQuery = defineQuery("pasteHistory", (raw) => z.object({ pasteId: pasteIdArgs, limit: z.number().int().min(1).max(1_000) }).parse(raw),
+  ({ pasteId, limit }, ctx: QueryContext) => q.pasteRevision.where.pasteId(canPublish(ctx.user) ? pasteId : "")
+    .orderBy("savedAt", "desc").orderBy("id", "asc").limit(limit + 1).select("id", "pasteId", "title", "language", "savedAt"));
+export const pasteRevisionQuery = defineQuery("pasteRevision", (raw) => z.object({ pasteId: pasteIdArgs, id: pasteIdArgs }).parse(raw),
+  ({ pasteId, id }, ctx: QueryContext) => q.pasteRevision.where.pasteId(canPublish(ctx.user) ? pasteId : "").where.id(id)
+    .select("id", "pasteId", "title", "language", "body", "savedAt").one());
