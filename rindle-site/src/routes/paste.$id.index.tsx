@@ -147,6 +147,9 @@ function PasteActions({
 }) {
   return (
     <div className="paste-actions">
+      {["html", "jsx", "tsx"].includes(paste.language) ? (
+        <a href={`/paste/${encodeURIComponent(paste.id)}/full`} title="Open just the artifact. Share this URL for a full-bleed view.">full bleed</a>
+      ) : null}
       <a href={`/paste/${encodeURIComponent(paste.id)}/raw`}>raw</a>
       <Link to="/paste/fork/$id" params={{ id: paste.id }}>fork</Link>
       {paste.parentId ? <Link to="/paste/$id/diff" params={{ id: paste.id }}>diff</Link> : null}

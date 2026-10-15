@@ -45,6 +45,7 @@ import { Route as PasteIdIndexRouteImport } from './routes/paste.$id.index'
 import { Route as PasteIdDiffRouteImport } from './routes/paste.$id.diff'
 import { Route as PasteIdEditRouteImport } from './routes/paste.$id.edit'
 import { Route as PasteIdFilesRouteImport } from './routes/paste.$id.files'
+import { Route as PasteIdFullRouteImport } from './routes/paste.$id.full'
 import { Route as PasteIdHistoryRouteImport } from './routes/paste.$id.history'
 import { Route as PasteIdModuleRouteImport } from './routes/paste.$id.module'
 import { Route as PasteIdRawRouteImport } from './routes/paste.$id.raw'
@@ -235,6 +236,11 @@ const PasteIdFilesRoute = PasteIdFilesRouteImport.update({
   path: '/files',
   getParentRoute: () => PasteIdRoute,
 } as any)
+const PasteIdFullRoute = PasteIdFullRouteImport.update({
+  id: '/full',
+  path: '/full',
+  getParentRoute: () => PasteIdRoute,
+} as any)
 const PasteIdHistoryRoute = PasteIdHistoryRouteImport.update({
   id: '/history',
   path: '/history',
@@ -320,6 +326,7 @@ export interface FileRoutesByFullPath {
   '/paste/$id/diff': typeof PasteIdDiffRoute
   '/paste/$id/edit': typeof PasteIdEditRoute
   '/paste/$id/files': typeof PasteIdFilesRoute
+  '/paste/$id/full': typeof PasteIdFullRoute
   '/paste/$id/history': typeof PasteIdHistoryRoute
   '/paste/$id/module': typeof PasteIdModuleRoute
   '/paste/$id/raw': typeof PasteIdRawRoute
@@ -363,6 +370,7 @@ export interface FileRoutesByTo {
   '/paste/$id/diff': typeof PasteIdDiffRoute
   '/paste/$id/edit': typeof PasteIdEditRoute
   '/paste/$id/files': typeof PasteIdFilesRoute
+  '/paste/$id/full': typeof PasteIdFullRoute
   '/paste/$id/history': typeof PasteIdHistoryRoute
   '/paste/$id/module': typeof PasteIdModuleRoute
   '/paste/$id/raw': typeof PasteIdRawRoute
@@ -412,6 +420,7 @@ export interface FileRoutesById {
   '/paste/$id/diff': typeof PasteIdDiffRoute
   '/paste/$id/edit': typeof PasteIdEditRoute
   '/paste/$id/files': typeof PasteIdFilesRoute
+  '/paste/$id/full': typeof PasteIdFullRoute
   '/paste/$id/history': typeof PasteIdHistoryRoute
   '/paste/$id/module': typeof PasteIdModuleRoute
   '/paste/$id/raw': typeof PasteIdRawRoute
@@ -461,6 +470,7 @@ export interface FileRouteTypes {
     | '/paste/$id/diff'
     | '/paste/$id/edit'
     | '/paste/$id/files'
+    | '/paste/$id/full'
     | '/paste/$id/history'
     | '/paste/$id/module'
     | '/paste/$id/raw'
@@ -504,6 +514,7 @@ export interface FileRouteTypes {
     | '/paste/$id/diff'
     | '/paste/$id/edit'
     | '/paste/$id/files'
+    | '/paste/$id/full'
     | '/paste/$id/history'
     | '/paste/$id/module'
     | '/paste/$id/raw'
@@ -552,6 +563,7 @@ export interface FileRouteTypes {
     | '/paste/$id/diff'
     | '/paste/$id/edit'
     | '/paste/$id/files'
+    | '/paste/$id/full'
     | '/paste/$id/history'
     | '/paste/$id/module'
     | '/paste/$id/raw'
@@ -836,6 +848,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PasteIdFilesRouteImport
       parentRoute: typeof PasteIdRoute
     }
+    '/paste/$id/full': {
+      id: '/paste/$id/full'
+      path: '/full'
+      fullPath: '/paste/$id/full'
+      preLoaderRoute: typeof PasteIdFullRouteImport
+      parentRoute: typeof PasteIdRoute
+    }
     '/paste/$id/history': {
       id: '/paste/$id/history'
       path: '/history'
@@ -939,6 +958,7 @@ interface PasteIdRouteChildren {
   PasteIdDiffRoute: typeof PasteIdDiffRoute
   PasteIdEditRoute: typeof PasteIdEditRoute
   PasteIdFilesRoute: typeof PasteIdFilesRoute
+  PasteIdFullRoute: typeof PasteIdFullRoute
   PasteIdHistoryRoute: typeof PasteIdHistoryRoute
   PasteIdModuleRoute: typeof PasteIdModuleRoute
   PasteIdRawRoute: typeof PasteIdRawRoute
@@ -950,6 +970,7 @@ const PasteIdRouteChildren: PasteIdRouteChildren = {
   PasteIdDiffRoute: PasteIdDiffRoute,
   PasteIdEditRoute: PasteIdEditRoute,
   PasteIdFilesRoute: PasteIdFilesRoute,
+  PasteIdFullRoute: PasteIdFullRoute,
   PasteIdHistoryRoute: PasteIdHistoryRoute,
   PasteIdModuleRoute: PasteIdModuleRoute,
   PasteIdRawRoute: PasteIdRawRoute,

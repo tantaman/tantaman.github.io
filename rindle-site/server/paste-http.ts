@@ -1,15 +1,17 @@
-// Server-only compatibility endpoints for the paste app. Raw and JSX/TSX module reads resolve the
+// Server-only endpoints for the paste app. Raw, full-bleed, and JSX/TSX module reads resolve the
 // same registered named query as the SPA; no route reaches into D1 or accepts a client-supplied AST.
 
 import type { ApiContext } from "@rindle/api-server";
 import { transform } from "sucrase";
 
 import { createAppApi, httpErrorOf, resolveRindle, type User } from "./app-api.ts";
+import { pasteJsxDocument } from "../src/lib/paste-runner.ts";
 
 interface PasteReadRow {
   id: string;
   body: string;
   language: string;
+  contentRevision: string;
 }
 
 async function readPaste(id: string, request: Request): Promise<PasteReadRow | null> {
@@ -21,7 +23,7 @@ async function readPaste(id: string, request: Request): Promise<PasteReadRow | n
     if (!cols || typeof cols.id !== "string" || typeof cols.body !== "string" || typeof cols.language !== "string") {
       return null;
     }
-    return { id: cols.id, body: cols.body, language: cols.language };
+    return { id: cols.id, body: cols.body, language: cols.language, contentRevision: typeof cols.contentRevision === "string" ? cols.contentRevision : "" };
   } finally {
     api.close();
   }
@@ -55,6 +57,28 @@ export async function handlePasteRaw(request: Request, id: string): Promise<Resp
     return new Response(paste.body, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "public, max-age=0, must-revalidate",
+      },
+    });
+  } catch (error) {
+    const { status, message } = httpErrorOf(error);
+    return new Response(message, { status });
+  }
+}
+
+/** A shareable artifact document, served directly so no application chrome or styles surround it. */
+export async function handlePasteFull(request: Request, id: string): Promise<Response> {
+  try {
+    const paste = await readPaste(id, request);
+    if (!paste || !["html", "jsx", "tsx"].includes(paste.language)) {
+      return new Response("Not found", { status: 404 });
+    }
+    const document = paste.language === "html"
+      ? paste.body
+      : pasteJsxDocument(paste.id, paste.contentRevision);
+    return new Response(document, {
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
         "Cache-Control": "public, max-age=0, must-revalidate",
       },
     });
