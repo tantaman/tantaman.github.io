@@ -1271,7 +1271,16 @@ const createThought = shared(createThoughtArgs, function* (tx, args, ctx) {
     });
   }
   for (const input of args.attachments) {
-    yield tx.insert("thoughtAttachment", { ...input, thoughtId: args.thought.id });
+    // Uploads include paste-only metadata (size); the browser skips the server's arg parsing.
+    yield tx.insert("thoughtAttachment", {
+      id: input.id,
+      thoughtId: args.thought.id,
+      storageKey: input.storageKey,
+      mediaType: input.mediaType,
+      fileName: input.fileName,
+      createdAt: input.createdAt,
+      position: input.position,
+    });
   }
   for (const input of args.edges) {
     yield tx.insert("thoughtEdge", {
@@ -1389,7 +1398,15 @@ const editThought = shared(editThoughtArgs, function* (tx, args, ctx) {
     yield tx.update("thought", { id: args.id, private: args.private });
   }
   for (const input of args.attachments) {
-    yield tx.insert("thoughtAttachment", { ...input, thoughtId: args.id });
+    yield tx.insert("thoughtAttachment", {
+      id: input.id,
+      thoughtId: args.id,
+      storageKey: input.storageKey,
+      mediaType: input.mediaType,
+      fileName: input.fileName,
+      createdAt: input.createdAt,
+      position: input.position,
+    });
   }
 });
 
