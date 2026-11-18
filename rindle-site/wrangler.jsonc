@@ -15,7 +15,22 @@
 		"nodejs_compat"
 	],
 	"vars": {
-		"AUTH_TRUSTED_ORIGINS": "https://tantaman.com,https://tantamanlands.tantaman.workers.dev"
+		"AUTH_TRUSTED_ORIGINS": "https://tantaman.com,https://tantamanlands.tantaman.workers.dev",
+		// TEMPORARY: the site serves only the "returning shortly" page (server/maintenance.ts). Remove
+		// this var and the "assets" block below to bring it back.
+		"MAINTENANCE": "1"
+	},
+	// With maintenance on, the Worker must see every request — otherwise the static asset server
+	// answers /assets/* itself and hands out the client bundle (rindle_bg-*.wasm included) behind the
+	// holding page. Remove this block together with MAINTENANCE: assets are faster served directly.
+	// The negative rules are the exception: /dha-report-app/* goes straight to the asset server, so the
+	// HOA report app stays up while the site is dark (its API is exempted in server/maintenance.ts).
+	"assets": {
+		"run_worker_first": [
+			"/*",
+			"!/dha-report-app",
+			"!/dha-report-app/*"
+		]
 	},
 	"secrets": {
 		"required": [

@@ -33,6 +33,7 @@
     "import:thoughts:prod": "node --env-file=.env scripts/import-thoughts.mjs",
     "import:pastes:prod": "node --env-file=.env scripts/import-pastes.mjs",
     "import:comments:prod": "node --env-file=.env scripts/import-comments.mjs",
+    "db:pull": "node --env-file=.env scripts/pull-cloud-db.mjs",
     "rindle:deploy": "rindle deploy",
     "rindle:migrate:remote": "rindle migrate apply --remote",
     "typecheck": "tsr generate && tsc --noEmit"
